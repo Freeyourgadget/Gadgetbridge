@@ -48,12 +48,12 @@
 
     <string name="title_activity_fw_app_insaller">FW/App 安装器</string>
     <string name="fw_upgrade_notice">您即将安装固件 %s ，代替当前在Mi Band上的固件。</string>
-    <string name="fw_upgrade_notice_amazfitbip">您即将在您的华米手表青春版(Amazfit Bip)上安装固件 %s 。
-\n
-\n请确保安装.gps固件，然后安装.res文件，最后安装.fw文件。 安装.fw文件后，手表将重新启动。
-\n
-\n注意：如果这些文件与之前安装的完全一样，则不必安装.res和.gps文件。
-\n
+    <string name="fw_upgrade_notice_amazfitbip">您即将在您的米动手表青春版(Amazfit Bip)上安装固件 %s 。 
+\n 
+\n请确保安装.gps固件，然后安装.res文件，最后安装.fw文件。 安装.fw文件后，手表将重新启动。 
+\n 
+\n注意：如果这些文件与之前安装的完全一样，则不必安装.res和.gps文件。 
+\n 
 \n***继续需要您自担风险！</string>
     <string name="fw_upgrade_notice_amazfitcor">您即将在您的米动手环(Amazfit Cor)上安装固件 %s。
 \n
@@ -90,7 +90,7 @@
     <string name="pref_title_language">语言</string>
 
     <string name="pref_title_minimize_priority">隐藏 Gadgetbridge 通知</string>
-    <string name="pref_summary_minimize_priority_off">状态栏中的图标和锁定屏幕中的通知已开启</string>
+    <string name="pref_summary_minimize_priority_off">状态栏中的图标和锁定屏幕中的通知已被开启</string>
     <string name="pref_summary_minimize_priority_on">状态栏中的图标和锁定屏幕中的通知已被隐藏</string>
 
     <string name="pref_header_notifications">通知</string>
@@ -231,7 +231,7 @@
     <string name="message_cannot_pair_no_mac">没有 MAC 地址通过, 不能配对。</string>
     <string name="preferences_category_device_specific_settings">设备特定设置</string>
     <string name="preferences_miband_settings">小米手环/Amazfit手表设置</string>
-    <string name="preferences_amazfitbip_settings">华米手表青春版设置</string>
+    <string name="preferences_amazfitbip_settings">米动手表青春版设置</string>
     <string name="male">男</string>
     <string name="female">女</string>
     <string name="other">其它</string>
@@ -475,7 +475,7 @@
     <string name="StringUtils_sender">(%1$s)</string>
     <string name="find_device_you_found_it">找到了!</string>
     <string name="miband2_prefs_timeformat">小米手环2：时间格式</string>
-    <string name="mi2_fw_installhandler_fw53_hint">您需要安装版本号为%1$s的固件在安装此固件前。</string>
+    <string name="mi2_fw_installhandler_fw53_hint">您需要安装版本号为%1$s的固件在安装此固件前！</string>
     <string name="mi2_enable_text_notifications">文本通知</string>
     <string name="mi2_enable_text_notifications_summary">需要已安装固件1.0.1.28 和 Mili_pro. ft * 。</string>
     <string name="off">关</string>
@@ -504,6 +504,9 @@
     <string name="devicetype_unknown">未知设备</string>
     <string name="devicetype_miband">小米手环</string>
     <string name="devicetype_miband2">小米手环2</string>
-    <string name="devicetype_amazfit_bip">华米手表青春版</string>
+    <string name="devicetype_amazfit_bip">米动手表青春版</string>
     <string name="devicetype_amazfit_cor">米动手环</string>
+    <string name="pref_title_weather">天气</string>
+    <string name="vibration_profile_waterdrop">水滴</string>
+    <string name="devicetype_test">测试设备</string>
     </resources>
