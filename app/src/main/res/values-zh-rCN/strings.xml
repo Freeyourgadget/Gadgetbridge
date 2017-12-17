@@ -509,4 +509,5 @@
     <string name="pref_title_weather">天气</string>
     <string name="vibration_profile_waterdrop">水滴</string>
     <string name="devicetype_test">测试设备</string>
+    <string name="pref_title_pebble_forcele">总是优先使用低功耗蓝牙</string>
     </resources>
