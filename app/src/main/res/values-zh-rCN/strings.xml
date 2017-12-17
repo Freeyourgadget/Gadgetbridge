@@ -117,7 +117,7 @@
     <string name="pref_call_privacy_mode_number">显示号码但隐藏姓名</string>
     <string name="pref_call_privacy_mode_complete">隐藏姓名和号码</string>
 
-    <string name="pref_title_weather_location">天气位置</string>
+    <string name="pref_title_weather_location">天气位置(CM/LOS)</string>
 
     <string name="pref_blacklist">黑名单应用</string>
     <string name="pref_blacklist_calendars">黑名单列表</string>
@@ -273,7 +273,7 @@
     <string name="interval_five_minutes">每5分钟一次</string>
     <string name="interval_ten_minutes">每10分钟一次</string>
     <string name="interval_thirty_minutes">每30分钟一次</string>
-    <string name="interval_one_hour">每一小时一次</string>
+    <string name="interval_one_hour">每小时一次</string>
 
     <string name="stats_title">速度</string>
     <string name="stats_x_axis_label">总分钟</string>
@@ -335,13 +335,13 @@
     <string name="distance">距离</string>
     <string name="clock">时钟</string>
     <string name="heart_rate">心率</string>
-    <string name="battery">电池</string>
+    <string name="battery">电量</string>
     <string name="liveactivity_live_activity">实时活动数据</string>
     <string name="weeksteps_today_steps_description">今天的步数, 目标：%1$s</string>
     <string name="pref_title_dont_ack_transfer">不要发送活动数据</string>
     <string name="pref_summary_dont_ack_transfers">如果活动数据未传输到设备，则不会被清除。 GB与其他应用程序一起使用时很有用。</string>
     <string name="pref_summary_keep_data_on_device">即使在同步之后, 也会将活动数据保留在 Mi Band上。如果 GB 与其他应用程序一起使用, 这将非常有用。</string>
-    <string name="pref_title_low_latency_fw_update">使用低延迟模式(low-latency mode)进行固件更新</string>
+    <string name="pref_title_low_latency_fw_update">使用低延迟模式进行固件更新</string>
     <string name="pref_summary_low_latency_fw_update">这可能对更新固件失败的设备有帮助</string>
 
     <string name="live_activity_steps_history">步数历史</string>
@@ -410,7 +410,7 @@
 
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">添加小部件</string>
-    <string name="activity_prefs_sleep_duration">期望的睡眠时间</string>
+    <string name="activity_prefs_sleep_duration">睡眠时间目标</string>
     <string name="appwidget_alarms_set">已设置一个闹钟为 %1$02d:%2$02d</string>
     <string name="device_hw">硬件版本:%1$s</string>
     <string name="device_fw">固件版本:%1$s</string>
