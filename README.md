@@ -22,14 +22,14 @@ vendor's servers.
 [List of changes](https://github.com/Freeyourgadget/Gadgetbridge/blob/master/CHANGELOG.md)
 
 ## Supported Devices
-* Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki section about this device](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble)
-* Pebble 2 (add the device from within Gadgetbridge!) [Wiki section about pebble](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble), most parts apply to Pebble 2 as well
-* Mi Band, Mi Band 1A, Mi Band 1S [Wiki section about this device](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band)
-* Mi Band 2 [Wiki section about mi band](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band), some parts apply to mi band 2 as well
-* Amazfit Bip [Wiki section about the Amazfit Bip](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
-* Amazfit Cor (no maintainer) [Wiki section about the Amazfit Cor](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor)
-* HPlus Devices (e.g. ZeBand) [Wiki section about this device](https://github.com/Freeyourgadget/Gadgetbridge/wiki/HPlus)
-* Teclast H30 (WIP)
+* Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble)
+* Pebble 2 (add the device from within Gadgetbridge!) [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble), most parts apply to Pebble 2 as well
+* Mi Band, Mi Band 1A, Mi Band 1S [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band)
+* Mi Band 2 [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2), some parts apply to mi band 2 as well
+* Amazfit Bip [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
+* Amazfit Cor (no maintainer) [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor)
+* HPlus Devices (e.g. ZeBand) [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/HPlus)
+* Teclast H10, H30 (WIP)
 * NO.1 F1 (WIP)
 * Liveview
 * Vibratissimo (experimental)
