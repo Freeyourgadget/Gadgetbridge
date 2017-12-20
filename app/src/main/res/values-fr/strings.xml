@@ -462,4 +462,30 @@ NOTE: la base de données sera bien évidement plus grande !</string>
     <string name="interval_thirty_minutes">Toutes les 30 minutes</string>
     <string name="interval_one_hour">Une fois par heure</string>
 
-    </resources>
+    <string name="pref_title_weather">Météo</string>
+    <string name="pref_title_weather_location">Emplacement météo (CM/LOS)</string>
+
+    <string name="kind_firmware">Micrologiciel</string>
+    <string name="kind_invalid">Données non valides</string>
+    <string name="kind_font">Police</string>
+    <string name="kind_gps">Micrologiciel GPS</string>
+    <string name="kind_gps_almanac">Almanach GPS</string>
+    <string name="kind_gps_cep">Correction d\'erreurs GPS</string>
+    <string name="kind_resources">Ressources</string>
+    <string name="kind_watchface">Watchface</string>
+
+    <string name="devicetype_unknown">Appareil inconnu</string>
+    <string name="devicetype_test">Appareil de test</string>
+    <string name="devicetype_pebble">Pebble</string>
+    <string name="devicetype_miband">Mi Band</string>
+    <string name="devicetype_miband2">Mi Band 2</string>
+    <string name="devicetype_amazfit_bip">Amazfit Bip</string>
+    <string name="devicetype_amazfit_cor">Amazfit Cor</string>
+    <string name="devicetype_vibratissimo">Vibratissimo</string>
+    <string name="devicetype_liveview">LiveView</string>
+    <string name="devicetype_hplus">HPlus</string>
+    <string name="devicetype_makibes_f68">Makibes F68</string>
+    <string name="devicetype_exrizu_k8">Exrizu K8</string>
+    <string name="devicetype_no1_f1">No.1 F1</string>
+    <string name="devicetype_teclast_h30">Teclast H30</string>
+</resources>
