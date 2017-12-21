@@ -1,5 +1,9 @@
 ### Changelog
 
+#### Version 0.23.1 (next)
+* Initial support for Omnijaws weather service
+* Amazfit Cor: Fixes for installing newer firmware versions
+
 #### Version 0.23.0
 * Initial support for LineageOS/CyanogenMod weather provider
 * Amazfit Bip/Cor: Support for current weather temperature
