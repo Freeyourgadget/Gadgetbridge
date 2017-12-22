@@ -48,7 +48,7 @@
 
     <string name="title_activity_fw_app_insaller">FW/App 安装器</string>
     <string name="fw_upgrade_notice">您即将安装固件 %s ，代替当前在Mi Band上的固件。</string>
-    <string name="fw_upgrade_notice_amazfitbip">您即将在您的米动手表青春版(Amazfit Bip)上安装固件 %s 。 
+    <string name="fw_upgrade_notice_amazfitbip">即将在您的米动手表青春版(Amazfit Bip)上安装固件 %s 。 
 \n 
 \n请确保安装.gps固件，然后安装.res文件，最后安装.fw文件。 安装.fw文件后，手表将重新启动。 
 \n 
@@ -67,7 +67,7 @@
     <string name="miband_firmware_unknown_warning">此固件未经测试，可能与Gadgetbridge不兼容。
 \n
 \n不建议把它安装到你的Mi Band！</string>
-    <string name="miband_firmware_suggest_whitelist">如果您仍想继续并且此固件在之后能够正常工作，请告知Gadgetbridge开发者将固件版本列入白名单： %s</string>
+    <string name="miband_firmware_suggest_whitelist">如果您仍想继续并且此固件在安装之后能够正常工作，请告知Gadgetbridge开发者将此固件列入白名单：%s</string>
 
     <string name="title_activity_settings">设置</string>
 
@@ -174,7 +174,7 @@
     <string name="pref_summary_pebble_enable_applogs">应用程序日志将保存在Gadgetbridge中（需要重新连接）</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">这将导致发送到外部第三方应用程序的消息始终立即得到确认</string>
     <string name="pref_title_pebble_enable_bgjs">启用后台JS</string>
-    <string name="pref_summary_pebble_enable_bgjs">启用后，允许表盘显示天气，电池等信息。</string>
+    <string name="pref_summary_pebble_enable_bgjs">启用后，将允许表盘显示天气，电池等信息。</string>
 
     <string name="pref_title_pebble_reconnect_attempts">尝试重新连接</string>
 
@@ -424,8 +424,8 @@
     <string name="pref_summary_pebble_health_store_raw">如果选中该复选框，则数据保持原样，并且稍后可以处理。注意：在这种情况下，数据将占用更多的空间！</string>
     <string name="action_db_management">数据库管理</string>
     <string name="title_activity_db_management">数据库管理</string>
-    <string name="activity_db_management_import_export_explanation">在您的设备上使用此路径进行数据库操作。
-\n它可用于其他Android应用程序和您的计算机。
+    <string name="activity_db_management_import_export_explanation">数据库操作会使用此路径在您的设备上进行。 
+\n此路径可用于其它Android应用程序和您的计算机。 
 \n您可以在这里找到导出的数据库（或放置您要导入的数据库）：</string>
     <string name="activity_db_management_merge_old_title">删除旧版数据库</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">无法访问导出路径。请与开发者联系。</string>
@@ -510,4 +510,6 @@
     <string name="vibration_profile_waterdrop">水滴</string>
     <string name="devicetype_test">测试设备</string>
     <string name="pref_title_pebble_forcele">总是优先使用低功耗蓝牙</string>
+    <string name="kind_watchface">表盘</string>
+
     </resources>
