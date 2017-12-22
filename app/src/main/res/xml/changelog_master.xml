@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.23.1" versioncode="115">
+        <change>Initial support for Omnijaws weather service</change>
+        <change>Amazfit Bip: Allow installation of latest gps firmware</change>
+        <change>Amazfit Cor: Fixes for installing newer firmware versions</change>
+    </release>
     <release version="0.23.0" versioncode="114">
         <change>Initial support for LineageOS/CyanogenMod weather provider</change>
         <change>Amazfit Bip/Cor: Support for current weather temperature</change>

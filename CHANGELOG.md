@@ -1,7 +1,8 @@
 ### Changelog
 
-#### Version 0.23.1 (next)
+#### Version 0.23.1
 * Initial support for Omnijaws weather service
+* Amazfit Bip: Allow installation of latest gps firmware
 * Amazfit Cor: Fixes for installing newer firmware versions
 
 #### Version 0.23.0

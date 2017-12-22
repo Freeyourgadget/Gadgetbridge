@@ -1,0 +1,3 @@
+* Initial support for Omnijaws weather service
+* Amazfit Bip: Allow installation of latest gps firmware
+* Amazfit Cor: Fixes for installing newer firmware versions
