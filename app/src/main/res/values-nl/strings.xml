@@ -42,13 +42,13 @@
     <string name="title_activity_appblacklist">Notificatie zwarte lijst</string>
 
     <string name="fw_upgrade_notice">U staat op het punt om firmware% s te installeren in plaats van die nu op uw Mi Band staat.</string>
-    <string name="fw_upgrade_notice_amazfitbip">U staat op het punt om firmware% s te installeren in plaats van die nu op uw Amazfit Bip staat.
-\n
-\nZorg ervoor dat u de .gps firmware installeert, dan het .res-bestand en tenslotte het .fw-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand.
-\n
-\nOpmerking: u hoeft geen .res en .gps te installeren als deze bestanden exact hetzelfde zijn als die welke eerder zijn geïnstalleerd.
-\n
-\nEXPERIMENTEEL, PROCEDURE OP JE EIGEN RISICO</string>
+    <string name="fw_upgrade_notice_amazfitbip">U staat op het punt om firmware% s te installeren op uw Amazfit Bip. 
+\n 
+\nZorg ervoor dat u de .gps firmware installeert, dan het .res-bestand en tenslotte het .fw-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand. 
+\n 
+\nOpmerking: u hoeft geen .res en .gps te installeren als deze bestanden exact hetzelfde zijn als die welke eerder zijn geïnstalleerd. 
+\n 
+\nGA VERDER OP EIGEN RISICO</string>
     <string name="fw_multi_upgrade_notice">U staat op het punt om firmwares %1$s en %2$s te installeren in plaats van die momenteel op uw Mi Band staat.</string>
     <string name="miband_firmware_known">Deze firmware is getest en is compatibel met Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">Deze firmware is niet getest en is mogelijk niet compatibel met Gadgetbridge.
@@ -163,4 +163,16 @@
     <string name="controlcenter_navigation_drawer_open">Open het navigatie scherm</string>
     <string name="controlcenter_navigation_drawer_close">Sluit het navigatie scherm</string>
     <string name="appmanager_weather_deactivate">Deactiveer de systeemweer-app</string>
+    <string name="title_activity_calblacklist">Kalenders op de zwarte lijst</string>
+
+    <string name="title_activity_fw_app_insaller">Firmware/Apps installeren</string>
+    <string name="fw_upgrade_notice_amazfitcor">U staat op het punt om firmware %s te installeren op uw Amazfit Cor.
+\n
+\nZorg ervoor dat u het .res-bestand installeert en daarna het .fw-bestand. Uw horloge zal herstarten na de installatie van het .fw-bestand.
+\n
+\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd.
+\n
+\nNOG NIET GETEST, KAN UW TOESTEL ONBRUIKBAAR MAKEN, GA VERDER OP EIGEN RISICO!</string>
+    <string name="pref_title_charts_swipe">Activeer links/rechts vegen in de grafiek activiteit</string>
+
     </resources>
