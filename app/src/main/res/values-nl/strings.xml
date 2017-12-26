@@ -173,6 +173,6 @@
 \nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd.
 \n
 \nNOG NIET GETEST, KAN UW TOESTEL ONBRUIKBAAR MAKEN, GA VERDER OP EIGEN RISICO!</string>
-    <string name="pref_title_charts_swipe">Activeer links/rechts vegen in de grafiek activiteit</string>
+    <string name="pref_title_charts_swipe">Activeer links/rechts vegen in grafiek schermen</string>
 
     </resources>
