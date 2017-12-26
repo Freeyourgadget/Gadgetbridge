@@ -124,7 +124,7 @@
     <string name="pref_title_pebble_sync_morpheuz">Sync Morpheuz</string>
 
     <string name="pref_title_enable_outgoing_call">Ondersteun uitgaande oproepen</string>
-    <string name="pref_summary_enable_outgoing_call">Als u dit uitschakelt, wordt ook de Pebble 2/LE gestopt om voor uitgaande gesprekken te trillen</string>
+    <string name="pref_summary_enable_outgoing_call">Als u dit uitschakelt, zal de Pebble 2/LE ook stoppen met trillen bij uitgaande gesprekken</string>
 
     <string name="pref_title_enable_pebblekit">Toegang tot de Android App van 3de partij toestaan</string>
     <string name="pref_summary_enable_pebblekit">De experimentele ondersteuning voor Android Apps inschakelen met PebbleKit</string>
@@ -178,4 +178,8 @@
     <string name="pref_title_weather">Weer</string>
     <string name="pref_title_weather_location">Weer locatie (CM/LOS)</string>
 
+    <string name="pref_title_autoremove_notifications">Verwijder automatisch verworpen meldingen</string>
+    <string name="pref_summary_autoremove_notifications">Meldingen worden automatisch verwijderd op de Pebble als ze verworpen worden op het Android toestel</string>
+
+    <string name="pref_pebble_privacy_mode_content">Schuif de meldingstekst van het scherm</string>
     </resources>
