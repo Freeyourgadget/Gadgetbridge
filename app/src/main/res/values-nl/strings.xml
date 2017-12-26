@@ -104,7 +104,7 @@
     <string name="pref_call_privacy_mode_complete">Verberg naam en nummer</string>
 
 
-    <string name="pref_blacklist">Blacklist Apps</string>
+    <string name="pref_blacklist">Apps op de zwarte lijst plaatsen</string>
     <string name="pref_blacklist_calendars">Blacklist Kalenders</string>
 
     <string name="pref_title_canned_replies">Antwoorden</string>
@@ -117,8 +117,8 @@
 
     <string name="pref_title_pebble_settings">Pebble instellingen</string>
 
-    <string name="pref_header_activitytrackers">Activity trackers</string>
-    <string name="pref_title_pebble_activitytracker">Gewenste activiteit tracker</string>
+    <string name="pref_header_activitytrackers">"Activiteit trackers "</string>
+    <string name="pref_title_pebble_activitytracker">Voorkeurs-activiteit tracker</string>
     <string name="pref_title_pebble_sync_health">Synchroniseer Pebble Health</string>
     <string name="pref_title_pebble_sync_misfit">Sync Misfit</string>
     <string name="pref_title_pebble_sync_morpheuz">Sync Morpheuz</string>
@@ -174,5 +174,8 @@
 \n
 \nNOG NIET GETEST, KAN UW TOESTEL ONBRUIKBAAR MAKEN, GA VERDER OP EIGEN RISICO!</string>
     <string name="pref_title_charts_swipe">Activeer links/rechts vegen in grafiek schermen</string>
+
+    <string name="pref_title_weather">Weer</string>
+    <string name="pref_title_weather_location">Weer locatie (CM/LOS)</string>
 
     </resources>
