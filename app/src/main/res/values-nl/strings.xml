@@ -162,4 +162,5 @@
 <string name="controlcenter_connect">Verbinden</string>
     <string name="controlcenter_navigation_drawer_open">Open het navigatie scherm</string>
     <string name="controlcenter_navigation_drawer_close">Sluit het navigatie scherm</string>
+    <string name="appmanager_weather_deactivate">Deactiveer de systeemweer-app</string>
     </resources>
