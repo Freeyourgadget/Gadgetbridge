@@ -22,7 +22,7 @@
 
     <string name="title_activity_debug">Debug</string>
 
-    <string name="title_activity_appmanager"/>
+    <string name="title_activity_appmanager">Applicatie Beheer</string>
     <string name="appmanager_cached_watchapps_watchfaces">Apps in de cache</string>
     <string name="appmanager_installed_watchapps">Geïnstalleerde apps</string>
     <string name="appmanager_installed_watchfaces">Geïnstalleerde wijzerplaten</string>
@@ -34,7 +34,7 @@
     <string name="appmanager_health_deactivate">deactiveren</string>
     <string name="appmanager_hrm_activate">Activeer HRM</string>
     <string name="appmanager_hrm_deactivate">Deactiveer HRM</string>
-    <string name="appmanager_weather_activate">Activeer het systeem weer app</string>
+    <string name="appmanager_weather_activate">Activeer de systeemweer-app</string>
     <string name="appmanager_weather_install_provider">Installeer de app voor weerbericht</string>
     <string name="app_configure">Configureren</string>
     <string name="app_move_to_top">Verplaats naar de top</string>
@@ -159,4 +159,7 @@
     <string name="_pebble_watch_mute">Dempen</string>
     <string name="_pebble_watch_reply">Antwoord</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
-</resources>
+<string name="controlcenter_connect">Verbinden</string>
+    <string name="controlcenter_navigation_drawer_open">Open het navigatie scherm</string>
+    <string name="controlcenter_navigation_drawer_close">Sluit het navigatie scherm</string>
+    </resources>
