@@ -60,7 +60,6 @@ public class HuamiIcon {
     public static final byte WEATHER = 35;
     public static final byte HR_WARNING_36 = 36;
 
-
     public static byte mapToIconId(NotificationType type) {
         switch (type) {
             case UNKNOWN:
@@ -104,6 +103,8 @@ public class HuamiIcon {
                 return SNAPCHAT;
             case TELEGRAM:
                 return TELEGRAM;
+            case THREEMA:
+                return CHAT_BLUE_13;
             case VIBER:
                 return VIBER;
             case WECHAT:

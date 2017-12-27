@@ -46,6 +46,7 @@ public class NotificationUtils {
             case SKYPE:
             case SNAPCHAT:
             case TELEGRAM:
+            case THREEMA:
             case TWITTER:
             case WHATSAPP:
             case VIBER:
