@@ -62,6 +62,7 @@ public class MiBandFWHelper extends AbstractMiBandFWHelper {
             68094986, // 4.15.12.10 tested by developer
             68158215, // 4.16.3.7 tested by developer
             68158486, // 4.16.4.22 tested by developer and user
+            68160271, // 4.16.11.15 tested by developer
             84870926, // 5.15.7.14 tested by developer
     };
 
