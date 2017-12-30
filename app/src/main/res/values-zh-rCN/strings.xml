@@ -519,4 +519,5 @@
 
     <string name="vibration_profile_ring">响铃</string>
     <string name="mi2_prefs_button_press_broadcast">要发送的广播消息</string>
+    <string name="devicetype_pebble">Pebble</string>
     </resources>
