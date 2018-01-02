@@ -901,6 +901,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         in.setAction(requiredButtonPressMessage);
         in.putExtra("button_id", currentButtonActionId);
         LOG.info("Sending " + requiredButtonPressMessage + " with button_id " + currentButtonActionId);
+        GB.toast(getContext(), "Sending " + requiredButtonPressMessage + " with button_id " + currentButtonActionId, Toast.LENGTH_LONG, GB.INFO);
         this.getContext().getApplicationContext().sendBroadcast(in);
         if (prefs.getBoolean(MiBandConst.PREF_MIBAND_BUTTON_ACTION_VIBRATE, false)) {
             performPreferredNotification(null, null, null, MiBand2Service.ALERT_LEVEL_VIBRATE_ONLY, null);
