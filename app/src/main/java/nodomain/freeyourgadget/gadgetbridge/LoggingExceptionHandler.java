@@ -20,6 +20,8 @@ package nodomain.freeyourgadget.gadgetbridge;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ch.qos.logback.classic.LoggerContext;
+
 /**
  * Catches otherwise uncaught exceptions, logs them and terminates the app.
  */
@@ -34,6 +36,10 @@ public class LoggingExceptionHandler implements Thread.UncaughtExceptionHandler 
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
         LOG.error("Uncaught exception: " + ex.getMessage(), ex);
+        // flush the log buffers and stop logging
+        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+        loggerContext.stop();
+
         if (mDelegate != null) {
             mDelegate.uncaughtException(thread, ex);
         } else {
