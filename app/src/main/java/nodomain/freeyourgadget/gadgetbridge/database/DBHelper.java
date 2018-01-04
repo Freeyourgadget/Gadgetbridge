@@ -21,6 +21,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -29,6 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -113,6 +115,16 @@ public class DBHelper {
 
             FileUtils.copyFile(sourceFile, destFile);
             return destFile;
+        } finally {
+            dbHandler.openDb();
+        }
+    }
+
+    public void exportDB(DBHandler dbHandler, OutputStream dest) throws IOException {
+        String dbPath = getClosedDBPath(dbHandler);
+        try {
+            File source = new File(dbPath);
+            FileUtils.copyFileToStream(source, dest);
         } finally {
             dbHandler.openDb();
         }

@@ -18,11 +18,13 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.icu.util.Output;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -32,6 +34,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -82,6 +85,16 @@ public class FileUtils {
         }
     }
 
+    public static void copyFileToStream(File src, OutputStream dst) throws IOException {
+        try (FileInputStream in = new FileInputStream(src)) {
+            byte[] buf = new byte[4096];
+            while(in.available() > 0) {
+                int bytes = in.read(buf);
+                dst.write(buf, 0, bytes);
+            }
+        }
+    }
+
     public static void copyURItoFile(Context ctx, Uri uri, File destFile) throws IOException {
         if (uri.getPath().equals(destFile.getPath())) {
             return;
@@ -95,6 +108,17 @@ public class FileUtils {
         try (InputStream fin = new BufferedInputStream(in)) {
             copyStreamToFile(fin, destFile);
             fin.close();
+        }
+    }
+
+    public static void copyFileToURI(Context context, File src, Uri dst) throws IOException {
+        OutputStream out = context.getContentResolver().openOutputStream(dst);
+        if (out == null) {
+            throw new IOException("Unable to open output stream for " + dst.toString());
+        }
+        try (OutputStream bufOut = new BufferedOutputStream(out)) {
+            copyFileToStream(src, bufOut);
+            bufOut.close();
         }
     }
 

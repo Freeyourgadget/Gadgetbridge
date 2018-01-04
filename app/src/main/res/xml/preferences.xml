@@ -101,6 +101,13 @@
             android:defaultValue="true"
             android:key="charts_allow_swipe"
             android:title="@string/pref_title_charts_swipe" />
+        <ListPreference
+            android:defaultValue="metric"
+            android:entries="@array/pref_entries_unit_system"
+            android:entryValues="@array/pref_values_unit_system"
+            android:key="measurement_system"
+            android:summary="%s"
+            android:title="@string/pref_title_unit_system" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_key_datetime"
@@ -496,6 +503,25 @@
         </PreferenceScreen>
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:key="database"
+        android:title="Database settings">
+        <Preference
+            android:key="export_location"
+            android:title="Database export location"
+            android:summary="%s" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="auto_export_enabled"
+            android:title="Enable periodic export" />
+        <EditTextPreference
+            android:inputType="number"
+            android:key="auto_export_period"
+            android:defaultValue="3"
+            android:maxLength="3"
+            android:title="Export every n hours"
+            android:summary="%n"/>
+    </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_key_development"
         android:title="@string/pref_header_development">

@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:grid="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,8 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:grid="http://schemas.android.com/apk/res-auto"
+        <android.support.v7.widget.GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/activity_vertical_margin"
@@ -29,8 +29,8 @@
             <Button
                 android:id="@+id/importDBButton"
                 android:text="Import DB"
-                grid:layout_gravity="center"
-                grid:layout_column="1" />
+                grid:layout_column="1"
+                grid:layout_gravity="center" />
 
 
             <TextView
@@ -49,6 +49,13 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 grid:layout_columnSpan="2"
                 grid:layout_columnWeight="1" />
+
+            <Button
+                android:id="@+id/chooseDirectory"
+                android:text="Choose Directory"
+                grid:layout_columnSpan="2"
+                grid:layout_columnWeight="1"
+                grid:layout_gravity="center" />
 
 
             <TextView
