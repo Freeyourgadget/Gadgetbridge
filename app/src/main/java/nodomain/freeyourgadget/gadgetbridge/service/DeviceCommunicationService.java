@@ -30,6 +30,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -53,6 +54,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothPairingReque
 import nodomain.freeyourgadget.gadgetbridge.externalevents.CMWeatherReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.OmniJawsObserver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PebbleReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PhoneCallReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.SMSReceiver;
@@ -175,6 +177,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private AlarmReceiver mAlarmReceiver = null;
     private CalendarReceiver mCalendarReceiver = null;
     private CMWeatherReceiver mCMWeatherReceiver = null;
+    private OmniJawsObserver mOmniJawsObserver = null;
     private Random mRandom = new Random();
 
     private final String[] mMusicActions = {
@@ -588,7 +591,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         LOG.info("Setting broadcast receivers to: " + enable);
 
         if (enable && initialized && coordinator != null && coordinator.supportsCalendarEvents()) {
-            if (mCalendarReceiver == null  && getPrefs().getBoolean("enable_calendar_sync", true)) {
+            if (mCalendarReceiver == null && getPrefs().getBoolean("enable_calendar_sync", true)) {
                 if (!(GBApplication.isRunningMarshmallowOrLater() && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED)) {
                     IntentFilter calendarIntentFilter = new IntentFilter();
                     calendarIntentFilter.addAction("android.intent.action.PROVIDER_CHANGED");
@@ -632,7 +635,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if (mMusicPlaybackReceiver == null) {
                 mMusicPlaybackReceiver = new MusicPlaybackReceiver();
                 IntentFilter filter = new IntentFilter();
-                for (String action : mMusicActions){
+                for (String action : mMusicActions) {
                     filter.addAction(action);
                 }
                 registerReceiver(mMusicPlaybackReceiver, filter);
@@ -662,6 +665,14 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if (mCMWeatherReceiver == null && coordinator != null && coordinator.supportsWeather()) {
                 mCMWeatherReceiver = new CMWeatherReceiver();
                 registerReceiver(mCMWeatherReceiver, new IntentFilter("GB_UPDATE_WEATHER"));
+            }
+            if (mOmniJawsObserver == null && coordinator != null && coordinator.supportsWeather()) {
+                try {
+                    mOmniJawsObserver = new OmniJawsObserver(new Handler());
+                    getContentResolver().registerContentObserver(mOmniJawsObserver.WEATHER_URI, true, mOmniJawsObserver);
+                } catch (PackageManager.NameNotFoundException e) {
+                    //Nothing wrong, it just means we're not running on omnirom.
+                }
             }
         } else {
             if (mPhoneCallReceiver != null) {
@@ -700,6 +711,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if (mCMWeatherReceiver != null) {
                 unregisterReceiver(mCMWeatherReceiver);
                 mCMWeatherReceiver = null;
+            }
+            if (mOmniJawsObserver != null) {
+                getContentResolver().unregisterContentObserver(mOmniJawsObserver);
             }
         }
     }

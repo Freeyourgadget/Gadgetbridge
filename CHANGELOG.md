@@ -1,5 +1,14 @@
 ### Changelog
 
+#### Version 0.23.2
+* Mi Band 1S: Fix sync problem with firmware 4.16.11.15 (probably also Mi Band 1.0.15.0 and Mi Band 1A 5.16.11.15)
+* Amazfit Cor: Fix problem with firmware >=1.0.6.27 being detected as Mi Band 2
+
+#### Version 0.23.1
+* Initial support for Omnijaws weather service
+* Amazfit Bip: Allow installation of latest gps firmware
+* Amazfit Cor: Fixes for installing newer firmware versions
+
 #### Version 0.23.0
 * Initial support for LineageOS/CyanogenMod weather provider
 * Amazfit Bip/Cor: Support for current weather temperature

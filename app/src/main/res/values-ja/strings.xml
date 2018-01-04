@@ -456,4 +456,30 @@
     <string name="traditional_chinese">繁体中国語</string>
     <string name="english">英語</string>
 
-    </resources>
+    <string name="pref_title_weather">天気</string>
+    <string name="pref_title_weather_location">天気の場所 (CM/ロサンゼルス)</string>
+
+    <string name="kind_firmware">ファームウェア</string>
+    <string name="kind_invalid">無効なデータ</string>
+    <string name="kind_font">フォント</string>
+    <string name="kind_gps">GPS ファームウェア</string>
+    <string name="kind_gps_almanac">GPS 年鑑</string>
+    <string name="kind_gps_cep">GPS エラー訂正</string>
+    <string name="kind_resources">リソース</string>
+    <string name="kind_watchface">ウォッチフェイス</string>
+
+    <string name="devicetype_unknown">不明なデバイス</string>
+    <string name="devicetype_test">テスト デバイス</string>
+    <string name="devicetype_pebble">Pebble</string>
+    <string name="devicetype_miband">Mi Band</string>
+    <string name="devicetype_miband2">Mi Band 2</string>
+    <string name="devicetype_amazfit_bip">Amazfit Bip</string>
+    <string name="devicetype_amazfit_cor">Amazfit Cor</string>
+    <string name="devicetype_vibratissimo">Vibratissimo</string>
+    <string name="devicetype_liveview">LiveView</string>
+    <string name="devicetype_hplus">HPlus</string>
+    <string name="devicetype_makibes_f68">Makibes F68</string>
+    <string name="devicetype_exrizu_k8">Exrizu K8</string>
+    <string name="devicetype_no1_f1">No.1 F1</string>
+    <string name="devicetype_teclast_h30">Teclast H30</string>
+</resources>

@@ -26,8 +26,8 @@ android {
         targetSdkVersion 25
 
         // note: always bump BOTH versionCode and versionName!
-        versionName "0.23.0"
-        versionCode 114
+        versionName "0.23.2"
+        versionCode 116
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -75,7 +75,7 @@ dependencies {
         exclude group: 'com.google.android', module: 'android'
     }
     compile 'org.slf4j:slf4j-api:1.7.12'
-    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    compile 'com.github.Freeyourgadget:MPAndroidChart:40c924deab89945a2c7820f51c2fed8b1b803cb4'
     compile 'com.github.pfichtner:durationformatter:0.1.1'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
     compile 'net.e175.klaus:solarpositioning:0.0.9'

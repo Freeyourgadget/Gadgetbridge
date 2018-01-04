@@ -48,12 +48,12 @@
 
     <string name="title_activity_fw_app_insaller">FW/App 安装器</string>
     <string name="fw_upgrade_notice">您即将安装固件 %s ，代替当前在Mi Band上的固件。</string>
-    <string name="fw_upgrade_notice_amazfitbip">您即将在您的华米手表青春版(Amazfit Bip)上安装固件 %s 。
-\n
-\n请确保安装.gps固件，然后安装.res文件，最后安装.fw文件。 安装.fw文件后，手表将重新启动。
-\n
-\n注意：如果这些文件与之前安装的完全一样，则不必安装.res和.gps文件。
-\n
+    <string name="fw_upgrade_notice_amazfitbip">即将在您的米动手表青春版(Amazfit Bip)上安装固件 %s 。 
+\n 
+\n请确保安装.gps固件，然后安装.res文件，最后安装.fw文件。 安装.fw文件后，手表将重新启动。 
+\n 
+\n注意：如果这些文件与之前安装的完全一样，则不必安装.res和.gps文件。 
+\n 
 \n***继续需要您自担风险！</string>
     <string name="fw_upgrade_notice_amazfitcor">您即将在您的米动手环(Amazfit Cor)上安装固件 %s。
 \n
@@ -67,7 +67,7 @@
     <string name="miband_firmware_unknown_warning">此固件未经测试，可能与Gadgetbridge不兼容。
 \n
 \n不建议把它安装到你的Mi Band！</string>
-    <string name="miband_firmware_suggest_whitelist">如果您仍想继续并且此固件在之后能够正常工作，请告知Gadgetbridge开发者将固件版本列入白名单： %s</string>
+    <string name="miband_firmware_suggest_whitelist">如果您仍想继续并且此固件在安装之后能够正常工作，请告知Gadgetbridge开发者将此固件列入白名单：%s</string>
 
     <string name="title_activity_settings">设置</string>
 
@@ -90,7 +90,7 @@
     <string name="pref_title_language">语言</string>
 
     <string name="pref_title_minimize_priority">隐藏 Gadgetbridge 通知</string>
-    <string name="pref_summary_minimize_priority_off">状态栏中的图标和锁定屏幕中的通知已开启</string>
+    <string name="pref_summary_minimize_priority_off">状态栏中的图标和锁定屏幕中的通知已被开启</string>
     <string name="pref_summary_minimize_priority_on">状态栏中的图标和锁定屏幕中的通知已被隐藏</string>
 
     <string name="pref_header_notifications">通知</string>
@@ -117,7 +117,7 @@
     <string name="pref_call_privacy_mode_number">显示号码但隐藏姓名</string>
     <string name="pref_call_privacy_mode_complete">隐藏姓名和号码</string>
 
-    <string name="pref_title_weather_location">天气位置</string>
+    <string name="pref_title_weather_location">天气位置(CM/LOS)</string>
 
     <string name="pref_blacklist">黑名单应用</string>
     <string name="pref_blacklist_calendars">黑名单列表</string>
@@ -174,7 +174,7 @@
     <string name="pref_summary_pebble_enable_applogs">应用程序日志将保存在Gadgetbridge中（需要重新连接）</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">这将导致发送到外部第三方应用程序的消息始终立即得到确认</string>
     <string name="pref_title_pebble_enable_bgjs">启用后台JS</string>
-    <string name="pref_summary_pebble_enable_bgjs">启用后，允许表盘显示天气，电池等信息。</string>
+    <string name="pref_summary_pebble_enable_bgjs">启用后，将允许表盘显示天气，电池等信息。</string>
 
     <string name="pref_title_pebble_reconnect_attempts">尝试重新连接</string>
 
@@ -231,7 +231,7 @@
     <string name="message_cannot_pair_no_mac">没有 MAC 地址通过, 不能配对。</string>
     <string name="preferences_category_device_specific_settings">设备特定设置</string>
     <string name="preferences_miband_settings">小米手环/Amazfit手表设置</string>
-    <string name="preferences_amazfitbip_settings">华米手表青春版设置</string>
+    <string name="preferences_amazfitbip_settings">米动手表青春版设置</string>
     <string name="male">男</string>
     <string name="female">女</string>
     <string name="other">其它</string>
@@ -273,7 +273,7 @@
     <string name="interval_five_minutes">每5分钟一次</string>
     <string name="interval_ten_minutes">每10分钟一次</string>
     <string name="interval_thirty_minutes">每30分钟一次</string>
-    <string name="interval_one_hour">每一小时一次</string>
+    <string name="interval_one_hour">每小时一次</string>
 
     <string name="stats_title">速度</string>
     <string name="stats_x_axis_label">总分钟</string>
@@ -335,13 +335,13 @@
     <string name="distance">距离</string>
     <string name="clock">时钟</string>
     <string name="heart_rate">心率</string>
-    <string name="battery">电池</string>
+    <string name="battery">电量</string>
     <string name="liveactivity_live_activity">实时活动数据</string>
     <string name="weeksteps_today_steps_description">今天的步数, 目标：%1$s</string>
     <string name="pref_title_dont_ack_transfer">不要发送活动数据</string>
     <string name="pref_summary_dont_ack_transfers">如果活动数据未传输到设备，则不会被清除。 GB与其他应用程序一起使用时很有用。</string>
     <string name="pref_summary_keep_data_on_device">即使在同步之后, 也会将活动数据保留在 Mi Band上。如果 GB 与其他应用程序一起使用, 这将非常有用。</string>
-    <string name="pref_title_low_latency_fw_update">使用低延迟模式(low-latency mode)进行固件更新</string>
+    <string name="pref_title_low_latency_fw_update">使用低延迟模式进行固件更新</string>
     <string name="pref_summary_low_latency_fw_update">这可能对更新固件失败的设备有帮助</string>
 
     <string name="live_activity_steps_history">步数历史</string>
@@ -410,7 +410,7 @@
 
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">添加小部件</string>
-    <string name="activity_prefs_sleep_duration">期望的睡眠时间</string>
+    <string name="activity_prefs_sleep_duration">睡眠时间目标</string>
     <string name="appwidget_alarms_set">已设置一个闹钟为 %1$02d:%2$02d</string>
     <string name="device_hw">硬件版本:%1$s</string>
     <string name="device_fw">固件版本:%1$s</string>
@@ -424,8 +424,8 @@
     <string name="pref_summary_pebble_health_store_raw">如果选中该复选框，则数据保持原样，并且稍后可以处理。注意：在这种情况下，数据将占用更多的空间！</string>
     <string name="action_db_management">数据库管理</string>
     <string name="title_activity_db_management">数据库管理</string>
-    <string name="activity_db_management_import_export_explanation">在您的设备上使用此路径进行数据库操作。
-\n它可用于其他Android应用程序和您的计算机。
+    <string name="activity_db_management_import_export_explanation">数据库操作会使用此路径在您的设备上进行。 
+\n此路径可用于其它Android应用程序和您的计算机。 
 \n您可以在这里找到导出的数据库（或放置您要导入的数据库）：</string>
     <string name="activity_db_management_merge_old_title">删除旧版数据库</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">无法访问导出路径。请与开发者联系。</string>
@@ -475,7 +475,7 @@
     <string name="StringUtils_sender">(%1$s)</string>
     <string name="find_device_you_found_it">找到了!</string>
     <string name="miband2_prefs_timeformat">小米手环2：时间格式</string>
-    <string name="mi2_fw_installhandler_fw53_hint">您需要安装版本号为%1$s的固件在安装此固件前。</string>
+    <string name="mi2_fw_installhandler_fw53_hint">您需要安装版本号为%1$s的固件在安装此固件前！</string>
     <string name="mi2_enable_text_notifications">文本通知</string>
     <string name="mi2_enable_text_notifications_summary">需要已安装固件1.0.1.28 和 Mili_pro. ft * 。</string>
     <string name="off">关</string>
@@ -504,6 +504,20 @@
     <string name="devicetype_unknown">未知设备</string>
     <string name="devicetype_miband">小米手环</string>
     <string name="devicetype_miband2">小米手环2</string>
-    <string name="devicetype_amazfit_bip">华米手表青春版</string>
+    <string name="devicetype_amazfit_bip">米动手表青春版</string>
     <string name="devicetype_amazfit_cor">米动手环</string>
+    <string name="pref_title_weather">天气</string>
+    <string name="vibration_profile_waterdrop">水滴</string>
+    <string name="devicetype_test">测试设备</string>
+    <string name="pref_title_pebble_forcele">总是优先使用低功耗蓝牙</string>
+    <string name="kind_watchface">表盘</string>
+
+    <string name="appmanager_cached_watchapps_watchfaces">在内存缓冲区中的应用程序</string>
+    <string name="pref_title_canned_messages_set">在Pebble上升级</string>
+
+    <string name="pref_screen_vibration_profile">振动配置</string>
+
+    <string name="vibration_profile_ring">响铃</string>
+    <string name="mi2_prefs_button_press_broadcast">要发送的广播消息</string>
+    <string name="devicetype_pebble">Pebble</string>
     </resources>

@@ -458,4 +458,30 @@
     <string name="interval_thirty_minutes">Cada 30 minutos</string>
     <string name="interval_one_hour">Cada hora</string>
 
-    </resources>
+    <string name="pref_title_weather">Tiempo</string>
+    <string name="pref_title_weather_location">Ubicación para el tiempo (CM/LOS)</string>
+
+    <string name="kind_firmware">Firmware</string>
+    <string name="kind_invalid">Datos no válidos</string>
+    <string name="kind_font">Fuente</string>
+    <string name="kind_gps">Firmware del GPS</string>
+    <string name="kind_gps_almanac">Almanaque GPS</string>
+    <string name="kind_gps_cep">Corrección de error del GPS</string>
+    <string name="kind_resources">Recursos</string>
+    <string name="kind_watchface">Watchface</string>
+
+    <string name="devicetype_unknown">Dispositivo desconocido</string>
+    <string name="devicetype_test">Dispositivo de prueba</string>
+    <string name="devicetype_pebble">Pebble</string>
+    <string name="devicetype_miband">Mi Band</string>
+    <string name="devicetype_miband2">Mi Band 2</string>
+    <string name="devicetype_amazfit_bip">Amazfit Bip</string>
+    <string name="devicetype_amazfit_cor">Amazfit Cor</string>
+    <string name="devicetype_vibratissimo">Vibratissimo</string>
+    <string name="devicetype_liveview">LiveView</string>
+    <string name="devicetype_hplus">HPlus</string>
+    <string name="devicetype_makibes_f68">Makibes F68</string>
+    <string name="devicetype_exrizu_k8">Exrizu K8</string>
+    <string name="devicetype_no1_f1">No.1 F1</string>
+    <string name="devicetype_teclast_h30">Teclast H30</string>
+</resources>

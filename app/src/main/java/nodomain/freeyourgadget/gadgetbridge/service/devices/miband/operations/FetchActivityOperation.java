@@ -67,11 +67,11 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
 
     private final int activityMetadataLength = 11;
 
-    //temporary buffer, size is a multiple of 60 because we want to store complete minutes (1 minute = 3 or 4 bytes)
-    private final int activityDataHolderSize;
     private final boolean hasExtendedActivityData;
+    private final boolean hasPacketCounter;
 
-    private static class ActivityStruct {
+    private class ActivityStruct {
+        private int maxDataPacketLength = 20;
         private int lastNotifiedProgress;
         private final byte[] activityDataHolder;
         private final int activityDataHolderSize;
@@ -86,21 +86,22 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
         //same as above, but remains untouched for the ack message
         private GregorianCalendar activityDataTimestampToAck = null;
 
-        ActivityStruct(int activityDataHolderSize) {
+        ActivityStruct(int activityDataHolderSize, int maxDataPacketLength) {
             this.activityDataHolderSize = activityDataHolderSize;
+            this.maxDataPacketLength = maxDataPacketLength;
             activityDataHolder = new byte[activityDataHolderSize];
         }
 
-        public boolean hasRoomFor(byte[] value) {
+        boolean hasRoomFor(byte[] value) {
             return activityDataRemainingBytes >= value.length;
         }
 
-        public boolean isValidData(byte[] value) {
+        boolean isValidData(byte[] value) {
             //I don't like this clause, but until we figure out why we get different data sometimes this should work
-            return value.length == 20 || value.length == activityDataRemainingBytes;
+            return value.length == maxDataPacketLength || value.length == activityDataRemainingBytes;
         }
 
-        public boolean isBufferFull() {
+        boolean isBufferFull() {
             return activityDataHolderSize == activityDataHolderProgress;
         }
 
@@ -116,11 +117,11 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
             GB.assertThat(activityDataRemainingBytes >= 0, "Illegal state, remaining bytes is negative");
         }
 
-        public boolean isFirstChunk() {
+        boolean isFirstChunk() {
             return activityDataTimestampProgress == null;
         }
 
-        public void startNewBlock(GregorianCalendar timestamp, int dataUntilNextHeader) {
+        void startNewBlock(GregorianCalendar timestamp, int dataUntilNextHeader) {
             GB.assertThat(timestamp != null, "Timestamp must not be null");
 
             if (isFirstChunk()) {
@@ -140,11 +141,11 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
             validate();
         }
 
-        public boolean isBlockFinished() {
+        boolean isBlockFinished() {
             return activityDataRemainingBytes == 0;
         }
 
-        public void bufferFlushed(int minutes) {
+        void bufferFlushed(int minutes) {
             activityDataTimestampProgress.add(Calendar.MINUTE, minutes);
             activityDataHolderProgress = 0;
             lastNotifiedProgress = 0;
@@ -156,8 +157,11 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
     public FetchActivityOperation(MiBandSupport support) {
         super(support);
         hasExtendedActivityData = support.getDeviceInfo().supportsHeartrate();
-        activityDataHolderSize = getBytesPerMinuteOfActivityData() * 60 * 4; // 4h
-        activityStruct = new ActivityStruct(activityDataHolderSize);
+        hasPacketCounter = support.getDeviceInfo().getProfileVersion() >= 0x02000700;
+        //temporary buffer, size is a multiple of 60 because we want to store complete minutes (1 minute = 3 or 4 bytes)
+        int activityDataHolderSize = getBytesPerMinuteOfActivityData() * 60 * 4;
+        int maxDataPacketLength = hasPacketCounter ? (hasExtendedActivityData ? 16 : 18) : 20;
+        activityStruct = new ActivityStruct(activityDataHolderSize, maxDataPacketLength);
     }
 
     @Override
@@ -216,7 +220,13 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
         if (value.length == activityMetadataLength) {
             handleActivityMetadata(value);
         } else {
-            bufferActivityData(value);
+            if (hasPacketCounter) {
+                byte[] valueChopped = new byte[value.length - 1];
+                System.arraycopy(value, 1, valueChopped, 0, value.length - 1);
+                bufferActivityData(valueChopped);
+            } else {
+                bufferActivityData(value);
+            }
         }
         if (LOG.isDebugEnabled()) {
             LOG.debug("activity data: length: " + value.length + ", remaining bytes: " + activityStruct.activityDataRemainingBytes);

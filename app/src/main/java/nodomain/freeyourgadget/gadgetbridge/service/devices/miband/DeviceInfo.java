@@ -95,6 +95,10 @@ public class DeviceInfo extends AbstractInfo {
         return fw2Version;
     }
 
+    public int getProfileVersion() {
+        return profileVersion;
+    }
+
     public void setTest1AHRMode(boolean enableTestMode) {
         test1AHRMode = enableTestMode;
     }

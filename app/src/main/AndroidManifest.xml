@@ -21,6 +21,7 @@
 
     <uses-permission android:name="cyanogenmod.permission.ACCESS_WEATHER_MANAGER" />
     <uses-permission android:name="cyanogenmod.permission.READ_WEATHER" />
+    <uses-permission android:name="org.omnirom.omnijaws.READ_WEATHER" />
 
     <uses-feature
         android:name="android.hardware.bluetooth"

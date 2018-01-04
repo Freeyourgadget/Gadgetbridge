@@ -26,7 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareT
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
 public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
-    // total crap maybe
+    // gps detection is totally bogus, just the first 16 bytes
     private static final byte[] GPS_HEADER = new byte[]{
             (byte) 0xcb, 0x51, (byte) 0xc1, 0x30, 0x41, (byte) 0x9e, 0x5e, (byte) 0xd3,
             0x51, 0x35, (byte) 0xdf, 0x66, (byte) 0xed, (byte) 0xd9, 0x5f, (byte) 0xa7
@@ -34,6 +34,10 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
     private static final byte[] GPS_HEADER2 = new byte[]{
             0x10, 0x50, 0x26, 0x76, (byte) 0x8f, 0x4a, (byte) 0xa1, 0x49,
             (byte) 0xa7, 0x26, (byte) 0xd0, (byte) 0xe6, 0x4a, 0x21, (byte) 0x88, (byte) 0xd4
+    };
+    private static final byte[] GPS_HEADER3 = new byte[]{
+            (byte) 0xeb, (byte) 0xfa, (byte) 0xc5, (byte) 0x89, (byte) 0xf0, 0x5c, 0x2e, (byte) 0xcc,
+            (byte) 0xfa, (byte) 0xf3, 0x62, (byte) 0xeb, (byte) 0x92, (byte) 0xc6, (byte) 0xa1, (byte) 0xbb
     };
 
     // guessed - at least it is the same across versions from 0.0.7.x to 0.0.9.x
@@ -76,6 +80,8 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(26714, "0.1.0.11");
         crcToVersion.put(64160, "0.1.0.17");
         crcToVersion.put(43028, "0.1.0.27");
+        crcToVersion.put(59462, "0.1.0.33");
+        crcToVersion.put(55277, "0.1.0.39");
 
         // resources
         crcToVersion.put(12586, "0.0.8.74");
@@ -85,11 +91,14 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(22051, "0.0.9.40");
         crcToVersion.put(46233, "0.0.9.49-0.1.0.11");
         crcToVersion.put(12098, "0.1.0.17");
-        crcToVersion.put(28696, "0.1.0.27");
+        crcToVersion.put(28696, "0.1.0.26-0.1.0.27");
+        crcToVersion.put(5650,  "0.1.0.33");
+        crcToVersion.put(16117, "0.1.0.39");
 
         // gps
         crcToVersion.put(61520, "9367,8f79a91,0,0,");
         crcToVersion.put(8784,  "9565,dfbd8fa,0,0,");
+        crcToVersion.put(16716, "9565,dfbd8faf42,0");
     }
 
     public AmazfitBipFirmwareInfo(byte[] bytes) {
@@ -104,7 +113,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
             }
             return HuamiFirmwareType.RES;
         }
-        if (ArrayUtils.startsWith(bytes, GPS_HEADER) || ArrayUtils.startsWith(bytes, GPS_HEADER2)) {
+        if (ArrayUtils.startsWith(bytes, GPS_HEADER) || ArrayUtils.startsWith(bytes, GPS_HEADER2) || ArrayUtils.startsWith(bytes, GPS_HEADER3)) {
             return HuamiFirmwareType.GPS;
         }
         if (ArrayUtils.startsWith(bytes, GPS_ALMANAC_HEADER)) {

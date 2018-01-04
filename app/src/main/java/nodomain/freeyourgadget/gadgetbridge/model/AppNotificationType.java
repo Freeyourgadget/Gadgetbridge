@@ -69,6 +69,9 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
         // Telegram
         put("org.telegram.messenger", NotificationType.TELEGRAM);
 
+        // Threema
+        put("ch.threema.app", NotificationType.THREEMA);
+
         // Twitter
         put("org.mariotaku.twidere", NotificationType.TWITTER);
         put("com.twitter.android", NotificationType.TWITTER);
@@ -139,6 +142,9 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
 
         // Transit
         put("com.thetransitapp.droid", NotificationType.TRANSIT);
+
+        // Etar
+        put("ws.xsoh.etar", NotificationType.GENERIC_CALENDAR);
     }
 
 }

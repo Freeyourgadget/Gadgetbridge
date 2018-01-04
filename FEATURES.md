@@ -4,7 +4,7 @@
 |-----------------------------------| ----------|---------------|---------|-----------|-------------|
 |Calls Notification                 | YES       | YES           | YES     | YES       | YES         |
 |Reject Calls                       | YES       | YES           | NO      | NO        | YES         |
-|Accept Calls                       | NO(2)     | NO(2)         | NO      | NO        | NO(3)       |
+|Accept Calls                       | NO(2)     | NO(2)         | NO      | NO        | NO          |
 |Generic Notification               | YES       | YES           | YES     | YES       | YES         |
 |Dismiss Notifications on Phone     | YES       | YES           | NO      | NO        | NO          |
 |Predefined Replies                 | YES       | YES           | NO      | NO        | NO          |
@@ -18,7 +18,7 @@
 |HR Tracking                        | N/A       | YES           | YES     | YES       | YES         |
 |Realtime Activity Tracking         | NO        | NO            | YES     | YES       | YES         |
 |Music Control                      | YES       | YES           | NO      | NO        | NO          |
-|Watchapp/face Installation         | YES       | YES           | NO      | NO        | NO          |
+|Watchapp/face Installation         | YES       | YES           | NO      | NO        | YES         |
 |Firmware Installaton               | YES       | YES           | YES     | YES       | YES         |
 |Taking Screenshots                 | YES       | YES           | NO      | NO        | NO          |
 |Support Android Companion Apps     | YES       | YES           | NO      | NO        | NO          |

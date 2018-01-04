@@ -17,7 +17,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 @Ignore("Disabled for travis -- needs vm parameter -DMiFirmwareDir=/path/to/firmware/directory/")
 public class FirmwareTest {
 
-    private static final long MAX_FILE_SIZE_BYTES = 1024 * 1024; // 1MB
+    private static final long MAX_FILE_SIZE_BYTES = 1024 * 1536; // 1.5MB
     private static final int MI_FW_VERSION = 0; // FIXME
     private static final int MI1A_FW_VERSION = 0; // FIXME
     private static final int MI1S_FW1_VERSION = 0;
