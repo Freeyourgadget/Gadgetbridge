@@ -345,6 +345,12 @@
                 <action android:name="nodomain.freeyourgadget.gadgetbridge.callcontrol" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:enabled="true"
+            android:name="nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter"
+            android:exported="false">
+
+        </receiver>
 
         <!--
             forcing the DebugActivity to portrait mode avoids crashes with the progress

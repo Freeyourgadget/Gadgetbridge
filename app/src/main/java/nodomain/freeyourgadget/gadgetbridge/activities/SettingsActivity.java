@@ -22,15 +22,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
+import android.preference.PreferenceManager;
+import android.provider.DocumentsContract;
+import android.provider.OpenableColumns;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
@@ -46,6 +51,7 @@ import java.util.Locale;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
@@ -63,6 +69,8 @@ public class SettingsActivity extends AbstractSettingsActivity {
     private static final Logger LOG = LoggerFactory.getLogger(SettingsActivity.class);
 
     public static final String PREF_MEASUREMENT_SYSTEM = "measurement_system";
+
+    private static final int FILE_REQUEST_CODE = 4711;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -262,17 +270,47 @@ public class SettingsActivity extends AbstractSettingsActivity {
 
         pref = findPreference("weather_city");
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                // reset city id and force a new lookup
-                GBApplication.getPrefs().getPreferences().edit().putString("weather_cityid",null).apply();
-                preference.setSummary(newVal.toString());
-                Intent intent = new Intent("GB_UPDATE_WEATHER");
-                intent.setPackage(BuildConfig.APPLICATION_ID);
-                sendBroadcast(intent);
+           @Override
+           public boolean onPreferenceChange(Preference preference, Object newVal) {
+               // reset city id and force a new lookup
+               GBApplication.getPrefs().getPreferences().edit().putString("weather_cityid", null).apply();
+               preference.setSummary(newVal.toString());
+               Intent intent = new Intent("GB_UPDATE_WEATHER");
+               intent.setPackage(BuildConfig.APPLICATION_ID);
+               sendBroadcast(intent);
+               return true;
+           }
+        });
+
+        pref = findPreference("export_location");
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                Intent i = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                i.setType("application/x-sqlite3");
+                i.addCategory(Intent.CATEGORY_OPENABLE);
+                startActivityForResult(Intent.createChooser(i, "Choose directory"), FILE_REQUEST_CODE);
                 return true;
             }
+        });
 
+        pref = findPreference("auto_export_period");
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object auto_export_period) {
+                preference.setSummary(auto_export_period.toString());
+                boolean auto_export_enabled = GBApplication.getPrefs().getBoolean("auto_export_enabled", false);
+                PeriodicExporter.sheduleAlarm(getApplicationContext(), (int) auto_export_period, auto_export_enabled);
+                return true;
+            }
+        });
+
+        findPreference("auto_export_enabled").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object autoExportEnabled) {
+                int auto_export_period = GBApplication.getPrefs().getInt("auto_export_period", 0);
+                PeriodicExporter.sheduleAlarm(getApplicationContext(), auto_export_period, (boolean) autoExportEnabled);
+                return true;
+            }
         });
 
         // Get all receivers of Media Buttons
@@ -299,6 +337,36 @@ public class SettingsActivity extends AbstractSettingsActivity {
         audioPlayer.setEntries(newEntries);
         audioPlayer.setEntryValues(newValues);
         audioPlayer.setDefaultValue(newValues[0]);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == FILE_REQUEST_CODE && data != null) {
+            Uri uri = data.getData();
+            PreferenceManager
+                   .getDefaultSharedPreferences(this)
+                   .edit()
+                   .putString("export_location", uri.toString())
+                   .apply();
+
+            Cursor cursor = getContentResolver().query(
+                    uri,
+                    new String[] { DocumentsContract.Document.COLUMN_DISPLAY_NAME, DocumentsContract.Document.COLUMN_SUMMARY },
+                    null, null, null, null
+            );
+            if (cursor == null || ! cursor.moveToFirst()) {
+                return;
+            }
+            String displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+            String summary = cursor.getString(cursor.getColumnIndex(DocumentsContract.Document.COLUMN_SUMMARY));
+            LOG.info(displayName + " " + summary);
+            findPreference("export_location").setSummary(displayName);
+            boolean autoExportEnabled = GBApplication
+                    .getPrefs().getBoolean("auto_export_enabled", false);
+            int autoExportPeriod = GBApplication
+                    .getPrefs().getInt("auto_export_period", 0);
+            PeriodicExporter.sheduleAlarm(getApplicationContext(), autoExportPeriod, autoExportEnabled);
+        }
     }
 
     /*
