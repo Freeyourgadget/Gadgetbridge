@@ -28,5 +28,6 @@ public class GBDeviceEventCallControl extends GBDeviceEvent {
         OUTGOING,
         REJECT,
         START,
+        IGNORE,
     }
 }

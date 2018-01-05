@@ -19,7 +19,11 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.CountDownTimer;
+import android.os.Looper;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,33 +33,47 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Locale;
 import java.util.SimpleTimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiWeatherConditions;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.operations.AmazfitBipFetchLogsOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiIcon;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
+import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBCallControlReceiver;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public class AmazfitBipSupport extends MiBand2Support {
 
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitBipSupport.class);
+
+    private boolean buttonActionConfirmationReceived = false;
+    private boolean buttonActionApproved = false;
 
     public AmazfitBipSupport() {
         super(LOG);
@@ -115,6 +133,99 @@ public class AmazfitBipSupport extends MiBand2Support {
         callSpec.command = start ? CallSpec.CALL_INCOMING : CallSpec.CALL_END;
         callSpec.name = "Gadgetbridge";
         onSetCallState(callSpec);
+    }
+
+    @Override
+    public void handleButtonEvent() {
+        super.handleButtonEvent();
+    }
+
+    @Override
+    public void runButtonAction() {
+        final Prefs prefs = GBApplication.getPrefs();
+
+        if (currentButtonTimerActivationTime != currentButtonPressTime) {
+            return;
+        }
+
+        final String requiredButtonPressMessage = prefs.getString(MiBandConst.PREF_MIBAND_BUTTON_PRESS_BROADCAST,
+                this.getContext().getString(R.string.mi2_prefs_button_press_broadcast_default_value));
+
+        //TODO: based on a new preference
+        if (true) {
+
+            buttonActionConfirmationReceived = false;
+            buttonActionApproved = false;
+            LOG.info("ButtonAction - Ringing the device");
+            //ringing the device
+            onFindDevice(true);
+            LOG.info("ButtonAction - timer started");
+            //wating for accept or reject
+            final Timer buttonActionAckTimer = new Timer("Mi Band Button Action Timer");
+            buttonActionAckTimer.scheduleAtFixedRate(new TimerTask() {
+
+                int j = 0;
+                @Override
+                public void run() {
+                    j++;
+                    if (buttonActionConfirmationReceived) {
+                        LOG.info("ButtonAction - timer processActionConfirmation received");
+                        if (buttonActionApproved) {
+                            executeButtonAction(requiredButtonPressMessage, prefs.getBoolean(MiBandConst.PREF_MIBAND_BUTTON_ACTION_VIBRATE, false));
+                        }
+
+                        //TODO: send a proper notification to the device
+/*
+                        NotificationSpec notificationSpec = new NotificationSpec();
+                        notificationSpec.type = NotificationType.VIBER;
+                        notificationSpec.sender = "ButtonAction1";
+                        notificationSpec.sender = "ButtonAction2";
+                        notificationSpec.subject = "ButtonAction3";
+                        notificationSpec.body = buttonActionApproved ? "Button Action approved" : "Button Action rejected";
+                        AmazfitBipSupport.super.onNotification(notificationSpec);
+*/
+                        buttonActionAckTimer.cancel();
+                    } else if (j > 20) {
+                        LOG.info("ButtonAction - buttonActionAckTimer expired");
+                        buttonActionAckTimer.cancel();
+                        //stop ringing
+                        onFindDevice(false);
+                    } else {
+                    }
+                }
+            }, 0, 500);
+        } else {
+            executeButtonAction(requiredButtonPressMessage, prefs.getBoolean(MiBandConst.PREF_MIBAND_BUTTON_ACTION_VIBRATE, false));
+        }
+
+        currentButtonActionId = 0;
+
+        currentButtonPressCount = 0;
+        currentButtonPressTime = System.currentTimeMillis();
+
+    }
+
+    @Override
+    public void processActionConfirmation(GBDeviceEventCallControl callEvent) {
+        // Not supported for MiBand2, but needed for BIP
+        LOG.info("ButtonAction - processActionConfirmation received: " + callEvent.event);
+        buttonActionConfirmationReceived = true;
+        if ((callEvent.event == GBDeviceEventCallControl.Event.IGNORE) || (callEvent.event == GBDeviceEventCallControl.Event.ACCEPT)) {
+            buttonActionApproved = true;
+        }
+    }
+
+    private void executeButtonAction(String requiredButtonPressMessage, boolean vibrate) {
+        LOG.info("ButtonAction - fire intent");
+        Intent in = new Intent();
+        in.setAction(requiredButtonPressMessage);
+        in.putExtra("button_id", currentButtonActionId);
+        LOG.info("Sending " + requiredButtonPressMessage + " with button_id " + currentButtonActionId);
+        this.getContext().getApplicationContext().sendBroadcast(in);
+        if (vibrate) {
+            performPreferredNotification(null, null, null, MiBand2Service.ALERT_LEVEL_VIBRATE_ONLY, null);
+        }
+
     }
 
     @Override

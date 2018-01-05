@@ -131,10 +131,10 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ge
 public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     // We introduce key press counter for notification purposes
-    private static int currentButtonActionId = 0;
-    private static int currentButtonPressCount = 0;
-    private static long currentButtonPressTime = 0;
-    private static long currentButtonTimerActivationTime = 0;
+    protected static int currentButtonActionId = 0;
+    protected static int currentButtonPressCount = 0;
+    protected static long currentButtonPressTime = 0;
+    protected static long currentButtonTimerActivationTime = 0;
 
     private static final Logger LOG = LoggerFactory.getLogger(MiBand2Support.class);
     private final DeviceInfoProfile<MiBand2Support> deviceInfoProfile;
@@ -901,7 +901,6 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         in.setAction(requiredButtonPressMessage);
         in.putExtra("button_id", currentButtonActionId);
         LOG.info("Sending " + requiredButtonPressMessage + " with button_id " + currentButtonActionId);
-        GB.toast(getContext(), "Sending " + requiredButtonPressMessage + " with button_id " + currentButtonActionId, Toast.LENGTH_LONG, GB.INFO);
         this.getContext().getApplicationContext().sendBroadcast(in);
         if (prefs.getBoolean(MiBandConst.PREF_MIBAND_BUTTON_ACTION_VIBRATE, false)) {
             performPreferredNotification(null, null, null, MiBand2Service.ALERT_LEVEL_VIBRATE_ONLY, null);
@@ -923,11 +922,15 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             case HuamiDeviceEvent.CALL_REJECT:
                 callCmd.event = GBDeviceEventCallControl.Event.REJECT;
                 evaluateGBDeviceEvent(callCmd);
+                // this event will be used to process button action confirmation
+                processActionConfirmation(callCmd);
                 break;
             case HuamiDeviceEvent.CALL_IGNORE:
                 LOG.info("ignore call (not yet supported)");
-                //callCmd.event = GBDeviceEventCallControl.Event.IGNORE;
+                callCmd.event = GBDeviceEventCallControl.Event.IGNORE;
                 //evaluateGBDeviceEvent(callCmd);
+                // this event will be used to process button action confirmation
+                processActionConfirmation(callCmd);
                 break;
             case HuamiDeviceEvent.BUTTON_PRESSED:
                 LOG.info("button pressed");
@@ -963,6 +966,10 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             default:
                 LOG.warn("unhandled event " + value[0]);
         }
+    }
+
+    public void processActionConfirmation(GBDeviceEventCallControl callEvent) {
+        // Not supported for MiBand2, but needed for BIP
     }
 
     public void handleButtonEvent() {
