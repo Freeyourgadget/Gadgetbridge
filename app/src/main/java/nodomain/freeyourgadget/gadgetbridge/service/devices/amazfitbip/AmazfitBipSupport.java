@@ -151,15 +151,13 @@ public class AmazfitBipSupport extends MiBand2Support {
         final String requiredButtonPressMessage = prefs.getString(MiBandConst.PREF_MIBAND_BUTTON_PRESS_BROADCAST,
                 this.getContext().getString(R.string.mi2_prefs_button_press_broadcast_default_value));
 
-        //TODO: based on a new preference
-        if (true) {
+        if (prefs.getBoolean("require_button_action_confirmazion", false)) {
 
             buttonActionConfirmationReceived = false;
             buttonActionApproved = false;
-            LOG.info("ButtonAction - Ringing the device");
+            LOG.debug("ButtonAction - Ringing the device");
             //ringing the device
             onFindDevice(true);
-            LOG.info("ButtonAction - timer started");
             //wating for accept or reject
             final Timer buttonActionAckTimer = new Timer("Mi Band Button Action Timer");
             buttonActionAckTimer.scheduleAtFixedRate(new TimerTask() {
@@ -169,7 +167,6 @@ public class AmazfitBipSupport extends MiBand2Support {
                 public void run() {
                     j++;
                     if (buttonActionConfirmationReceived) {
-                        LOG.info("ButtonAction - timer processActionConfirmation received");
                         if (buttonActionApproved) {
                             executeButtonAction(requiredButtonPressMessage, prefs.getBoolean(MiBandConst.PREF_MIBAND_BUTTON_ACTION_VIBRATE, false));
                         }
@@ -186,7 +183,6 @@ public class AmazfitBipSupport extends MiBand2Support {
 */
                         buttonActionAckTimer.cancel();
                     } else if (j > 20) {
-                        LOG.info("ButtonAction - buttonActionAckTimer expired");
                         buttonActionAckTimer.cancel();
                         //stop ringing
                         onFindDevice(false);
@@ -207,7 +203,6 @@ public class AmazfitBipSupport extends MiBand2Support {
 
     @Override
     public void processActionConfirmation(GBDeviceEventCallControl callEvent) {
-        // Not supported for MiBand2, but needed for BIP
         LOG.info("ButtonAction - processActionConfirmation received: " + callEvent.event);
         buttonActionConfirmationReceived = true;
         if ((callEvent.event == GBDeviceEventCallControl.Event.IGNORE) || (callEvent.event == GBDeviceEventCallControl.Event.ACCEPT)) {
