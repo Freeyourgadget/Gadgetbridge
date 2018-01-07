@@ -85,6 +85,12 @@ public class FileUtils {
         }
     }
 
+    /**
+     * Copies the contents of the given file to the destination output stream.
+     * @param src the file from which to read.
+     * @param dst the output stream that is written to. Note: the caller has to close the output stream!
+     * @throws IOException
+     */
     public static void copyFileToStream(File src, OutputStream dst) throws IOException {
         try (FileInputStream in = new FileInputStream(src)) {
             byte[] buf = new byte[4096];
@@ -111,6 +117,14 @@ public class FileUtils {
         }
     }
 
+    /**
+     * Copies the content of a file to an uri,
+     * which for example was retrieved using the storage access framework.
+     * @param context the application context.
+     * @param src the file from which the content should be copied.
+     * @param dst the destination uri.
+     * @throws IOException
+     */
     public static void copyFileToURI(Context context, File src, Uri dst) throws IOException {
         OutputStream out = context.getContentResolver().openOutputStream(dst);
         if (out == null) {
@@ -118,8 +132,8 @@ public class FileUtils {
         }
         try (OutputStream bufOut = new BufferedOutputStream(out)) {
             copyFileToStream(src, bufOut);
-            bufOut.close();
         }
+        out.close();
     }
 
     /**
