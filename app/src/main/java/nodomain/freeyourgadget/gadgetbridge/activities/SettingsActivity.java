@@ -57,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActi
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_HEIGHT_CM;
@@ -351,15 +352,14 @@ public class SettingsActivity extends AbstractSettingsActivity {
 
             Cursor cursor = getContentResolver().query(
                     uri,
-                    new String[] { DocumentsContract.Document.COLUMN_DISPLAY_NAME, DocumentsContract.Document.COLUMN_SUMMARY },
+                    new String[] { DocumentsContract.Document.COLUMN_DISPLAY_NAME },
                     null, null, null, null
             );
             if (cursor == null || ! cursor.moveToFirst()) {
+                LOG.warn("Unable to fetch information on URI " + uri.toString());
                 return;
             }
             String displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-            String summary = cursor.getString(cursor.getColumnIndex(DocumentsContract.Document.COLUMN_SUMMARY));
-            LOG.info(displayName + " " + summary);
             findPreference("export_location").setSummary(displayName);
             boolean autoExportEnabled = GBApplication
                     .getPrefs().getBoolean("auto_export_enabled", false);

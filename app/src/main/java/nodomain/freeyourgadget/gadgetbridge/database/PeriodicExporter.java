@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import java.io.OutputStream;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
  * Created by maufl on 1/4/18.
@@ -31,7 +33,7 @@ public class PeriodicExporter extends BroadcastReceiver {
         if (!autoExportEnabled) {
             return;
         }
-        int exportPeriod = autoExportPeriod * 1000;// * 60 * 60 * 1000;
+        int exportPeriod = autoExportPeriod * 60 * 60 * 1000;
         if (exportPeriod == 0) {
             return;
         }
@@ -51,13 +53,14 @@ public class PeriodicExporter extends BroadcastReceiver {
             DBHelper helper = new DBHelper(context);
             String dst = GBApplication.getPrefs().getString("export_location", null);
             if (dst == null) {
-                LOG.info("Unable to export DB, export locatio not set");
+                LOG.info("Unable to export DB, export location not set");
                 return;
             }
             Uri dstUri = Uri.parse(dst);
             OutputStream out = context.getContentResolver().openOutputStream(dstUri);
             helper.exportDB(dbHandler, out);
         } catch (Exception ex) {
+            GB.updateExportFailedNotification(context.getString(R.string.notif_export_failed_title), context);
             LOG.info("Exception while exporting DB: ", ex);
         }
     }
