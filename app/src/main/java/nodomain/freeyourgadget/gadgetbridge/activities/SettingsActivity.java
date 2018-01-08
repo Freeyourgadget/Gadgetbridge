@@ -293,6 +293,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 Intent i = new Intent(Intent.ACTION_CREATE_DOCUMENT);
                 i.setType("application/x-sqlite3");
                 i.addCategory(Intent.CATEGORY_OPENABLE);
+                i.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 String title = getApplicationContext().getString(R.string.choose_auto_export_location);
                 startActivityForResult(Intent.createChooser(i, title), FILE_REQUEST_CODE);
                 return true;
@@ -355,9 +356,10 @@ public class SettingsActivity extends AbstractSettingsActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == FILE_REQUEST_CODE && data != null) {
-            Uri uri = data.getData();
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == FILE_REQUEST_CODE && intent != null) {
+            Uri uri = intent.getData();
+            getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             PreferenceManager
                     .getDefaultSharedPreferences(this)
                     .edit()
