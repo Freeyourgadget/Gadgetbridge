@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
 
 public class AutoStartReceiver extends BroadcastReceiver {
     private static final String TAG = AutoStartReceiver.class.getName();
@@ -31,6 +32,7 @@ public class AutoStartReceiver extends BroadcastReceiver {
         if (GBApplication.getGBPrefs().getAutoStart() && Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             Log.i(TAG, "Boot completed, starting Gadgetbridge");
             GBApplication.deviceService().start();
+            PeriodicExporter.enablePeriodicExport(context);
         }
     }
 }
