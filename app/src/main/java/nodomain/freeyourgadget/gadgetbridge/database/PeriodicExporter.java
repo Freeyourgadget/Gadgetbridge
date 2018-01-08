@@ -17,6 +17,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 /**
  * Created by maufl on 1/4/18.
@@ -25,8 +26,14 @@ import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 public class PeriodicExporter extends BroadcastReceiver {
     private static final Logger LOG = LoggerFactory.getLogger(PeriodicExporter.class);
 
+    public static void enablePeriodicExport(Context context) {
+        Prefs prefs = GBApplication.getPrefs();
+        boolean autoExportEnabled = prefs.getBoolean(GBPrefs.AUTO_EXPORT_ENABLED, false);
+        Integer autoExportInterval = prefs.getInt(GBPrefs.AUTO_EXPORT_INTERVAL, 0);
+        sheduleAlarm(context, autoExportInterval, autoExportEnabled);
+    }
 
-    public static void sheduleAlarm(Context context, Integer autoExportPeriod, boolean autoExportEnabled) {
+    public static void sheduleAlarm(Context context, Integer autoExportInterval, boolean autoExportEnabled) {
         Intent i = new Intent(context, PeriodicExporter.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0 , i, 0);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -34,7 +41,7 @@ public class PeriodicExporter extends BroadcastReceiver {
         if (!autoExportEnabled) {
             return;
         }
-        int exportPeriod = autoExportPeriod * 60 * 60 * 1000;
+        int exportPeriod = autoExportInterval * 60 * 60 * 1000;
         if (exportPeriod == 0) {
             return;
         }
