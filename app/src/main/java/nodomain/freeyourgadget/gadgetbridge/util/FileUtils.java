@@ -133,7 +133,6 @@ public class FileUtils {
         try (OutputStream bufOut = new BufferedOutputStream(out)) {
             copyFileToStream(src, bufOut);
         }
-        out.close();
     }
 
     /**

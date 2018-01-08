@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 
 /**
  * Created by maufl on 1/4/18.
@@ -51,7 +52,7 @@ public class PeriodicExporter extends BroadcastReceiver {
         LOG.info("Exporting DB");
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             DBHelper helper = new DBHelper(context);
-            String dst = GBApplication.getPrefs().getString("export_location", null);
+            String dst = GBApplication.getPrefs().getString(GBPrefs.AUTO_EXPORT_LOCATION, null);
             if (dst == null) {
                 LOG.info("Unable to export DB, export location not set");
                 return;

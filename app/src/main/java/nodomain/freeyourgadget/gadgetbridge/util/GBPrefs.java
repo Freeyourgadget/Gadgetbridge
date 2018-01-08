@@ -24,6 +24,9 @@ public class GBPrefs {
     public static final String CALENDAR_BLACKLIST = "calendar_blacklist";
     public static final String AUTO_RECONNECT = "general_autocreconnect";
     private static final String AUTO_START = "general_autostartonboot";
+    public static final String AUTO_EXPORT_ENABLED = "auto_export_enabled";
+    public static final String AUTO_EXPORT_LOCATION = "auto_export_location";
+    public static final String AUTO_EXPORT_INTERVAL = "auto_export_interval";
     private static final boolean AUTO_START_DEFAULT = true;
     public static boolean AUTO_RECONNECT_DEFAULT = true;
 

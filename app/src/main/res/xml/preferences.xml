@@ -504,23 +504,22 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="database"
-        android:title="Database settings">
-        <Preference
-            android:key="export_location"
-            android:title="Database export location"
-            android:summary="%s" />
+        android:title="@string/pref_header_auto_export">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="auto_export_enabled"
-            android:title="Enable periodic export" />
+            android:title="@string/pref_title_auto_export_enabled" />
+        <Preference
+            android:key="auto_export_location"
+            android:title="@string/pref_title_auto_export_location"
+            android:summary="%s" />
         <EditTextPreference
             android:inputType="number"
-            android:key="auto_export_period"
+            android:key="auto_export_interval"
             android:defaultValue="3"
             android:maxLength="3"
-            android:title="Export every n hours"
-            android:summary="%n"/>
+            android:title="@string/pref_title_auto_export_interval"
+            android:summary="@string/pref_summary_auto_export_interval"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_key_development"
