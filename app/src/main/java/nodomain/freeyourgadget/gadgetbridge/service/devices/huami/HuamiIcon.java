@@ -78,6 +78,7 @@ public class HuamiIcon {
             case GENERIC_SMS:
                 return WECHAT;
             case GENERIC_CALENDAR:
+            case BUSINESS_CALENDAR:
                 return CALENDAR;
             case FACEBOOK:
                 return FACEBOOK;

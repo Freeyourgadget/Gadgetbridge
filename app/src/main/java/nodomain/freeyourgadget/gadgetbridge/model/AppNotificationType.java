@@ -125,6 +125,9 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
         // Microsoft Outlook
         put("com.microsoft.office.outlook", NotificationType.OUTLOOK);
 
+        // Business Calendar
+        put("com.appgenix.bizcal", NotificationType.BUSINESS_CALENDAR);
+
         // Yahoo Mail
         put("com.yahoo.mobile.client.android.mail", NotificationType.YAHOO_MAIL);
 
