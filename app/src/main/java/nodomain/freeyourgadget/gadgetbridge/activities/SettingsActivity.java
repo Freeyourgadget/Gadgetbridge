@@ -18,6 +18,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.Manifest;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -28,14 +29,16 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
-import android.provider.OpenableColumns;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
@@ -44,6 +47,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -283,33 +287,43 @@ public class SettingsActivity extends AbstractSettingsActivity {
            }
         });
 
-        pref = findPreference("export_location");
+        pref = findPreference(GBPrefs.AUTO_EXPORT_LOCATION);
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
                 Intent i = new Intent(Intent.ACTION_CREATE_DOCUMENT);
                 i.setType("application/x-sqlite3");
                 i.addCategory(Intent.CATEGORY_OPENABLE);
-                startActivityForResult(Intent.createChooser(i, "Choose directory"), FILE_REQUEST_CODE);
+                String title = getApplicationContext().getString(R.string.choose_auto_export_location);
+                startActivityForResult(Intent.createChooser(i, title), FILE_REQUEST_CODE);
                 return true;
             }
         });
+        pref.setSummary(getAutoExportLocationSummary());
 
-        pref = findPreference("auto_export_period");
+        pref = findPreference(GBPrefs.AUTO_EXPORT_INTERVAL);
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object auto_export_period) {
-                preference.setSummary(auto_export_period.toString());
-                boolean auto_export_enabled = GBApplication.getPrefs().getBoolean("auto_export_enabled", false);
-                PeriodicExporter.sheduleAlarm(getApplicationContext(), (int) auto_export_period, auto_export_enabled);
+            public boolean onPreferenceChange(Preference preference, Object autoExportInterval) {
+                String summary = String.format(
+                        getApplicationContext().getString(R.string.pref_summary_auto_export_interval),
+                        (int) autoExportInterval);
+                preference.setSummary(summary);
+                boolean auto_export_enabled = GBApplication.getPrefs().getBoolean(GBPrefs.AUTO_EXPORT_ENABLED, false);
+                PeriodicExporter.sheduleAlarm(getApplicationContext(), (int) autoExportInterval, auto_export_enabled);
                 return true;
             }
         });
+        int autoExportInterval = GBApplication.getPrefs().getInt(GBPrefs.AUTO_EXPORT_INTERVAL, 0);
+        String summary = String.format(
+                getApplicationContext().getString(R.string.pref_summary_auto_export_interval),
+                (int) autoExportInterval);
+        pref.setSummary(summary);
 
-        findPreference("auto_export_enabled").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        findPreference(GBPrefs.AUTO_EXPORT_ENABLED).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object autoExportEnabled) {
-                int auto_export_period = GBApplication.getPrefs().getInt("auto_export_period", 0);
-                PeriodicExporter.sheduleAlarm(getApplicationContext(), auto_export_period, (boolean) autoExportEnabled);
+                int autoExportInterval = GBApplication.getPrefs().getInt(GBPrefs.AUTO_EXPORT_INTERVAL, 0);
+                PeriodicExporter.sheduleAlarm(getApplicationContext(), autoExportInterval, (boolean) autoExportEnabled);
                 return true;
             }
         });
@@ -345,29 +359,102 @@ public class SettingsActivity extends AbstractSettingsActivity {
         if (requestCode == FILE_REQUEST_CODE && data != null) {
             Uri uri = data.getData();
             PreferenceManager
-                   .getDefaultSharedPreferences(this)
-                   .edit()
-                   .putString("export_location", uri.toString())
-                   .apply();
-
-            Cursor cursor = getContentResolver().query(
-                    uri,
-                    new String[] { DocumentsContract.Document.COLUMN_DISPLAY_NAME },
-                    null, null, null, null
-            );
-            if (cursor == null || ! cursor.moveToFirst()) {
-                LOG.warn("Unable to fetch information on URI " + uri.toString());
-                return;
-            }
-            String displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-            findPreference("export_location").setSummary(displayName);
+                    .getDefaultSharedPreferences(this)
+                    .edit()
+                    .putString(GBPrefs.AUTO_EXPORT_LOCATION, uri.toString())
+                    .apply();
+            String summary = getAutoExportLocationSummary();
+            findPreference(GBPrefs.AUTO_EXPORT_LOCATION).setSummary(summary);
             boolean autoExportEnabled = GBApplication
-                    .getPrefs().getBoolean("auto_export_enabled", false);
+                    .getPrefs().getBoolean(GBPrefs.AUTO_EXPORT_ENABLED, false);
             int autoExportPeriod = GBApplication
-                    .getPrefs().getInt("auto_export_period", 0);
+                    .getPrefs().getInt(GBPrefs.AUTO_EXPORT_INTERVAL, 0);
             PeriodicExporter.sheduleAlarm(getApplicationContext(), autoExportPeriod, autoExportEnabled);
         }
     }
+
+    /*
+    Either returns the file path of the selected document, or the display name
+     */
+    private String getAutoExportLocationSummary() {
+        String autoExportLocation = GBApplication.getPrefs().getString(GBPrefs.AUTO_EXPORT_LOCATION, null);
+        if (autoExportLocation == null) {
+            return "";
+        }
+        Uri uri = Uri.parse(autoExportLocation);
+        try {
+            String filePath = getFilePath(getApplicationContext(), uri);
+            if (filePath != null) {
+                return filePath;
+            }
+        } catch (URISyntaxException e) {
+            return "";
+        }
+        Cursor cursor = getContentResolver().query(
+                uri,
+                new String[] { DocumentsContract.Document.COLUMN_DISPLAY_NAME },
+        null, null, null, null
+        );
+        if (cursor != null && cursor.moveToFirst()) {
+            return cursor.getString(cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DISPLAY_NAME));
+        }
+        return "";
+    }
+
+    /*
+    As seen on stackoverflow https://stackoverflow.com/a/36714242/1207186
+    Try to find the file path of a document uri
+     */
+    private String getFilePath(Context context, Uri uri) throws URISyntaxException {
+        String selection = null;
+        String[] selectionArgs = null;
+        // Uri is different in versions after KITKAT (Android 4.4), we need to
+        if (Build.VERSION.SDK_INT >= 19 && DocumentsContract.isDocumentUri(context.getApplicationContext(), uri)) {
+            if ("com.android.externalstorage.documents".equals(uri.getAuthority())) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                return Environment.getExternalStorageDirectory() + "/" + split[1];
+            } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
+                final String id = DocumentsContract.getDocumentId(uri);
+                uri = ContentUris.withAppendedId(
+                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+            } else if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+                if ("image".equals(type)) {
+                    uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video".equals(type)) {
+                    uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio".equals(type)) {
+                    uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                }
+                selection = "_id=?";
+                selectionArgs = new String[]{
+                        split[1]
+                };
+            }
+        }
+        if ("content".equalsIgnoreCase(uri.getScheme())) {
+            String[] projection = {
+                    MediaStore.Images.Media.DATA
+            };
+            Cursor cursor = null;
+            try {
+                cursor = context.getContentResolver()
+                        .query(uri, projection, selection, selectionArgs, null);
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                if (cursor.moveToFirst()) {
+                    return cursor.getString(column_index);
+                }
+            } catch (Exception e) {
+            }
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+        return null;
+    }
+
 
     /*
      * delayed execution so that the preferences are applied first
