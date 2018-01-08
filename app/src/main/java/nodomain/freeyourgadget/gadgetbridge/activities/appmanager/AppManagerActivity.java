@@ -69,7 +69,8 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mGBDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
-        } else {
+        }
+        if (mGBDevice == null) {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
 

@@ -169,7 +169,7 @@
     <string name="toast_enable_networklocationprovider">Παρακαλώ ενεργοποιήστε τις υπηρεσίες τοποθεσίας</string>
     <string name="toast_aqurired_networklocation">Η τοποθεσία βρέθηκε</string>
 
-    <string name="pref_title_pebble_forceprotocol">Υποχρεωτικό πρωτόκολλο ειδοποιήσεων</string>
+    <string name="pref_title_pebble_forceprotocol">Πρωτόκολλο υποχρεωτικών ειδοποιήσεων</string>
     <string name="pref_summary_pebble_forceprotocol">Αυτή η επιλογή υποχρεώνει την χρήση του πιο πρόσφατου πρωτοκόλλου ειδοποιήσεων ανάλογα με την έκδοση του λογισμικού. ΕΝΕΡΓΟΠΟΙΗΣΤΕ ΜΟΝΟ ΑΝ ΞΕΡΕΤΕ ΤΙ ΚΑΝΕΤΕ!</string>
     <string name="pref_title_pebble_forceuntested">Να επιτρέπονται τα μη δοκιμασμένα χαρακτηριστικά</string>
     <string name="pref_summary_pebble_forceuntested">Χρήση μη δοκιμασμένων χαρακτηριστικών. ΕΝΕΡΓΟΠΟΙΗΣΤΕ ΜΟΝΟ ΑΝ ΞΕΡΕΤΕ ΤΙ ΚΑΝΕΤΕ!</string>
@@ -277,7 +277,7 @@
     <string name="pref_header_vibration_settings">Ρυθμίσεις δόνησης</string>
     <string name="pref_screen_notification_profile_generic">Γενικές ειδοποιήσεις</string>
     <string name="pref_screen_notification_profile_email">Ειδοποιήσεις email</string>
-    <string name="pref_title_weather_location">Τοποθεσία καιρού</string>
+    <string name="pref_title_weather_location">Τοποθεσία καιρού (για τις ROM Cyanogenmod ή LineageOS)</string>
 
     <string name="pref_screen_notification_profile_incoming_call">Ειδοποιήσεις εισερχομένων κλήσεων</string>
     <string name="pref_screen_notification_profile_generic_chat">Συζήτηση</string>
@@ -542,4 +542,5 @@
     <string name="devicetype_exrizu_k8">Exrizu K8</string>
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
-</resources>
+<string name="pref_title_weather">Καιρός</string>
+    </resources>

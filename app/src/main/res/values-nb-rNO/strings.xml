@@ -298,7 +298,7 @@
     <string name="user_feedback_miband_set_alarms_failed">Feil ved setting av alarm, prøv igjen.</string>
     <string name="user_feedback_miband_set_alarms_ok">Alarmer sendt til enhet.</string>
     <string name="chart_no_data_synchronize">Ingen data. Synkroniser enhet?</string>
-    <string name="user_feedback_miband_activity_data_transfer">I ferd med å overføre %1$d med data fra %2$s</string>
+    <string name="user_feedback_miband_activity_data_transfer">I ferd med å overføre %1$s med data fra %2$s</string>
     <string name="miband_prefs_fitness_goal">Stegmål</string>
     <string name="dbaccess_error_executing">Feil under kjøring av \"%1$s\"</string>
     <string name="controlcenter_start_activitymonitor">Din aktivitet (alfa)</string>
