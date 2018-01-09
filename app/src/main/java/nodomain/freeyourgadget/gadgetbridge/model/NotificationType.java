@@ -51,6 +51,7 @@ public enum NotificationType {
     LINKEDIN(PebbleIconID.NOTIFICATION_LINKEDIN, PebbleColor.CobaltBlue),
     MAILBOX(PebbleIconID.NOTIFICATION_MAILBOX, PebbleColor.VividCerulean),
     OUTLOOK(PebbleIconID.NOTIFICATION_OUTLOOK, PebbleColor.BlueMoon),
+    BUSINESS_CALENDAR(PebbleIconID.TIMELINE_CALENDAR, PebbleColor.BlueMoon),
     RIOT(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.LavenderIndigo),
     SIGNAL(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.BlueMoon),
     SKYPE(PebbleIconID.NOTIFICATION_SKYPE, PebbleColor.VividCerulean),
