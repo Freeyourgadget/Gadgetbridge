@@ -488,4 +488,12 @@
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
 <string name="pref_title_weather">מזג אוויר</string>
-    </resources>
+    <string name="pref_header_auto_export">ייצוא אוטומטי</string>
+    <string name="pref_title_auto_export_enabled">ייצוא אוטומטי מופעל</string>
+    <string name="pref_title_auto_export_location">מיקום לייצוא</string>
+    <string name="pref_title_auto_export_interval">הפרשים בין ייצוא לייצוא</string>
+    <string name="pref_summary_auto_export_interval">לייצא בכל %d שעות</string>
+
+    <string name="notif_export_failed_title">ייצוא מסד הנתונים נכשל! נא לבדוק את ההגדרות שלך.</string>
+    <string name="choose_auto_export_location">נא לבחור את מיקום הייצוא</string>
+</resources>
