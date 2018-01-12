@@ -455,4 +455,23 @@
     <string name="automatic">automatisch</string>
     <string name="activity_web_view">Web View Aktivität</string>
 
+    <string name="pref_title_weather">Wetter</string>
+    <string name="kind_firmware">Firmware</string>
+    <string name="kind_invalid">Ungültige Daten</string>
+    <string name="kind_gps">GPS Firmware</string>
+    <string name="devicetype_unknown">Unbekanntes Gerät</string>
+    <string name="devicetype_test">Testgerät</string>
+    <string name="devicetype_pebble">Pebble</string>
+    <string name="devicetype_miband">Mi Band</string>
+    <string name="devicetype_miband2">Mi Band 2</string>
+    <string name="devicetype_amazfit_bip">Amazfit Bip</string>
+    <string name="devicetype_amazfit_cor">Amazfit Cor</string>
+    <string name="devicetype_vibratissimo">Vibratissimo</string>
+    <string name="devicetype_liveview">LiveView</string>
+    <string name="devicetype_hplus">HPlus</string>
+    <string name="devicetype_makibes_f68">Makibes F68</string>
+    <string name="devicetype_exrizu_k8">Exrizu K8</string>
+    <string name="devicetype_no1_f1">No.1 F1</string>
+    <string name="devicetype_teclast_h30">Teclast H30</string>
+
     </resources>
