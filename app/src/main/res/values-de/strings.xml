@@ -156,7 +156,7 @@
   <string name="test_notification">Test Benachrichtigung</string>
   <string name="this_is_a_test_notification_from_gadgetbridge">Dies ist eine Testbenachrichtigung von Gadgetbridge</string>
   <string name="bluetooth_is_not_supported_">Bluetooth wird nicht unterstützt.</string>
-  <string name="bluetooth_is_disabled_">Bluetooth ist abgeschaltet.</string>
+  <string name="bluetooth_is_disabled_">Bluetooth ist deaktiviert</string>
   <string name="tap_connected_device_for_app_mananger">Tippe auf das verbundene Gerät, um den App-Manager zu starten</string>
   <string name="tap_connected_device_for_activity">Tippe auf das verbundene Gerät, um die Aktivitätsdaten anzuzeigen</string>
   <string name="tap_connected_device_for_vibration">Tippe auf das verbundene Gerät, um es vibrieren zu lassen</string>
