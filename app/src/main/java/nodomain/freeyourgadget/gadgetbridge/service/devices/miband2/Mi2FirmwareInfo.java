@@ -47,7 +47,7 @@ public class Mi2FirmwareInfo extends HuamiFirmwareInfo {
 
     private static final int FW_HEADER_OFFSET = 0x150;
 
-    protected static Map<Integer, String> crcToVersion = new HashMap<>();
+    private static Map<Integer, String> crcToVersion = new HashMap<>();
 
     static {
         // firmware
@@ -57,6 +57,9 @@ public class Mi2FirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(51770, "1.0.1.34");
         crcToVersion.put(3929, "1.0.1.39");
         crcToVersion.put(47364, "1.0.1.54");
+        crcToVersion.put(44776, "1.0.1.59");
+        crcToVersion.put(27318, "1.0.1.67");
+        crcToVersion.put(54702, "1.0.1.69");
 
         // fonts
         crcToVersion.put(45624, "Font");
