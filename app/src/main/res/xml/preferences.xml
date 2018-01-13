@@ -9,6 +9,10 @@
             android:title="@string/pref_title_general_autostartonboot" />
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="general_enablebluetoothonconnect"
+            android:title="@string/pref_title_general_enablebluetoothonconnect" />
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="general_autoconnectonbluetooth"
             android:title="@string/pref_title_general_autoconnectonbluetooth" />
         <CheckBoxPreference

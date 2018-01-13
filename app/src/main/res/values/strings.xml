@@ -67,6 +67,7 @@
     <string name="pref_title_general_autoconnectonbluetooth">Connect to device when Bluetooth turned on</string>
     <string name="pref_title_general_autostartonboot">Start automatically</string>
     <string name="pref_title_general_autocreonnect">Reconnect automatically</string>
+    <string name="pref_title_general_enablebluetoothonconnect">Try to enable Bluetooth on connect</string>
     <string name="pref_title_audo_player">Preferred Audioplayer</string>
     <string name="pref_default">Default</string>
     <string name="pref_title_charts_swipe">Enable left/right swipe in the charts activity</string>

@@ -22,6 +22,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -283,10 +284,37 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         Prefs prefs = getPrefs();
         switch (action) {
             case ACTION_START:
+                boolean autoReconnect = getGBPrefs().getAutoReconnect();
+                BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+                if ((mBluetoothAdapter.isEnabled())&&(autoReconnect == true)) {
+                    intent.setAction(ACTION_CONNECT);        // if bt is enabled go to connect so after reboot we autoconnect wihout prompts
+                    onStartCommand(intent,flags,startId);
+                    break;
+                }
                 start();
                 break;
             case ACTION_CONNECT:
                 start(); // ensure started
+                mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+                boolean enableBtOnConnect = GBPrefs.ENABLEBLUETOOTH_ONCONNECT_DEFAULT;
+                if (prefs != null && prefs.getPreferences() != null) {
+                    enableBtOnConnect = getGBPrefs().getEnableBtOnConnect();
+                }
+                if (enableBtOnConnect) {  //try to enable bt if user prefs allow it
+
+                    if (!mBluetoothAdapter.isEnabled()) {
+                        mBluetoothAdapter.enable();  // try to enable bt
+                        try {
+                            Thread.sleep(3000);  // wait for bt adapter to really start
+                        } catch (Exception e) {
+                            break;
+                        }
+                    }
+                }
+
+                if (!mBluetoothAdapter.isEnabled()) break;  // if still not enabled no point connecting in any case
+
                 GBDevice gbDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                 String btDeviceAddress = null;
                 if (gbDevice == null) {
@@ -300,7 +328,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     btDeviceAddress = gbDevice.getAddress();
                 }
 
-                boolean autoReconnect = GBPrefs.AUTO_RECONNECT_DEFAULT;
+                autoReconnect = GBPrefs.AUTO_RECONNECT_DEFAULT;
                 if (prefs != null && prefs.getPreferences() != null) {
                     prefs.getPreferences().edit().putString("last_device_address", btDeviceAddress).apply();
                     autoReconnect = getGBPrefs().getAutoReconnect();

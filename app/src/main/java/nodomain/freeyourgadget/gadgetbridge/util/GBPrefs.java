@@ -23,6 +23,8 @@ public class GBPrefs {
     public static final String PACKAGE_BLACKLIST = "package_blacklist";
     public static final String CALENDAR_BLACKLIST = "calendar_blacklist";
     public static final String AUTO_RECONNECT = "general_autocreconnect";
+    public static final String ENABLEBLUETOOTH_ONCONNECT = "general_enablebluetoothonconnect";
+    public static final boolean ENABLEBLUETOOTH_ONCONNECT_DEFAULT = false;
     private static final String AUTO_START = "general_autostartonboot";
     public static final String AUTO_EXPORT_ENABLED = "auto_export_enabled";
     public static final String AUTO_EXPORT_LOCATION = "auto_export_location";
@@ -48,6 +50,7 @@ public class GBPrefs {
         return mPrefs.getBoolean(AUTO_START, AUTO_START_DEFAULT);
     }
 
+    public boolean getEnableBtOnConnect() { return mPrefs.getBoolean(ENABLEBLUETOOTH_ONCONNECT, ENABLEBLUETOOTH_ONCONNECT_DEFAULT); }
     public String getUserName() {
         return mPrefs.getString(USER_NAME, USER_NAME_DEFAULT);
     }
