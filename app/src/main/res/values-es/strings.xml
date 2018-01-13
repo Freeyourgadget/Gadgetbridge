@@ -29,7 +29,7 @@
   <string name="appmananger_app_delete">Borrar</string>
   <string name="appmananger_app_delete_cache">Borrar y quitar de la caché</string>
   <string name="appmananger_app_reinstall">Reinstalar</string>
-  <string name="appmanager_app_openinstore">Buscar en la Appstore de Pebble</string>
+  <string name="appmanager_app_openinstore">Buscar en la appstore de Pebble</string>
   <string name="appmanager_health_activate">Activar</string>
   <string name="appmanager_health_deactivate">Desactivar</string>
   <string name="appmanager_hrm_activate">Activar Monitor de Ritmo Cardíaco</string>
@@ -403,7 +403,13 @@
   <string name="discovery_pair_question">Selecciona Emparejar para emparejar tus dispositivos. Si esto falla, prueba de nuevo sin emparejar.</string>
   <string name="discovery_yes_pair">Emparejar</string>
   <string name="discovery_dont_pair">No emparejar</string>
-<string name="fw_upgrade_notice_amazfitbip">Estás a punto de instalar el firmware %s en tu Amazfit Bip. 
+<string name="fw_upgrade_notice_amazfitbip">Estás a punto de instalar el firmware %s en tu Amazfit Bip.
+\n
+\nPor favor, asegúrate de instalar el firmware .gps, luego el archivo .res, y finalmente el .fw. Tu reloj se reiniciará después de instalar el archivo .fw.
+\n
+\nNota: no tienes que instalar los .res y .gps si ya están instalados en su última versión.
+\n
+\n¡PROCEDE BAJO TU RESPONSABILIDAD!
 \n 
 \nPor favor, asegúrate de instalar el firmware .gps, luego el archivo .res, y finalmente el binario .fw. Tu reloj reiniciará después de instalar el archivo .fw. 
 \n 
