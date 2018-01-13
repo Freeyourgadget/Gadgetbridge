@@ -1,5 +1,14 @@
 ### Changelog
 
+#### Version (next)
+* Fix logs sometimes not containing stacktraces
+* Support periodic database export
+* Support transliteration for Arabic and Farsi
+* Try to make alarm details scrollable (for small devices)
+* Amazfit Bip: Implement find phone feature
+* Amazfit Bip: Support flashing latest GPS firmware
+* Amazfit Cor: Support flashing latest firmware
+
 #### Version 0.23.2
 * Mi Band 1S: Fix sync problem with firmware 4.16.11.15 (probably also Mi Band 1.0.15.0 and Mi Band 1A 5.16.11.15)
 * Amazfit Cor: Fix problem with firmware >=1.0.6.27 being detected as Mi Band 2
