@@ -48,6 +48,7 @@ import java.util.concurrent.TimeUnit;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.FindPhoneActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -57,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInf
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2FWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.DateTimeDisplay;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.DoNotDisturb;
@@ -954,13 +956,30 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 LOG.info("Tick 30 min (?)");
                 break;
             case HuamiDeviceEvent.FIND_PHONE_START:
-                LOG.info("find phone started (not yet supported)");
+                LOG.info("find phone started");
+                // FIXME: premature
+                acknowledgeFindPhone();
+                Intent startIntent = new Intent(getContext(), FindPhoneActivity.class);
+                getContext().startActivity(startIntent);
                 break;
             case HuamiDeviceEvent.FIND_PHONE_STOP:
-                LOG.info("find phone stopped (not yet supported)");
+                LOG.info("find phone stopped");
+                Intent intent = new Intent(FindPhoneActivity.ACTION_FOUND);
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
                 break;
             default:
                 LOG.warn("unhandled event " + value[0]);
+        }
+    }
+
+    private void acknowledgeFindPhone() {
+        try {
+            TransactionBuilder builder = performInitialized("acknowledge find phone");
+
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), AmazfitBipService.COMMAND_ACK_FIND_PHONE_IN_PROGRESS);
+            builder.queue(getQueue());
+        } catch (Exception ex) {
+            LOG.error("Error sending current weather", ex);
         }
     }
 

@@ -398,6 +398,9 @@
             android:name=".activities.VibrationActivity"
             android:label="@string/title_activity_vibration"
             android:parentActivityName=".activities.ControlCenterv2" />
+        <activity
+            android:name=".activities.FindPhoneActivity"
+            android:label="Find Phone" />
 
         <provider
             android:name=".contentprovider.PebbleContentProvider"
