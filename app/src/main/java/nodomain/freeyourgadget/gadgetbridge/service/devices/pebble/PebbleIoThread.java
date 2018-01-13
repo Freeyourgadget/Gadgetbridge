@@ -198,7 +198,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                     mOutStream = mBtSocket.getOutputStream();
                 }
             }
-            if (prefs.getBoolean("pebble_enable_background_javascript", false)) {
+            if (GBApplication.getGBPrefs().isBackgroundJsEnabled()) {
                 Intent startIntent = new Intent(getContext(), ExternalPebbleJSActivity.class);
                 startIntent.putExtra(ExternalPebbleJSActivity.START_BG_WEBVIEW, true);
                 getContext().startActivity(startIntent);
@@ -422,7 +422,7 @@ class PebbleIoThread extends GBDeviceIoThread {
             gbDevice.setState(GBDevice.State.WAITING_FOR_RECONNECT);
         }
 
-        if (prefs.getBoolean("pebble_enable_background_javascript", false)) {
+        if (GBApplication.getGBPrefs().isBackgroundJsEnabled()) {
             WebViewSingleton.disposeWebView();
         }
 
@@ -550,7 +550,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                     break;
                 case START:
                     LOG.info("got GBDeviceEventAppManagement START event for uuid: " + appMgmt.uuid);
-                    if (prefs.getBoolean("pebble_enable_background_javascript", false)) {
+                    if (GBApplication.getGBPrefs().isBackgroundJsEnabled()) {
                         if (mPebbleProtocol.hasAppMessageHandler(appMgmt.uuid)) {
                             WebViewSingleton.stopJavascriptInterface();
                         } else {
@@ -568,7 +568,7 @@ class PebbleIoThread extends GBDeviceIoThread {
             setInstallSlot(appInfoEvent.freeSlot);
             return false;
         } else if (deviceEvent instanceof GBDeviceEventAppMessage) {
-            if (GBApplication.getPrefs().getBoolean("pebble_enable_background_javascript", false)) {
+            if (GBApplication.getGBPrefs().isBackgroundJsEnabled()) {
                 sendAppMessageJS((GBDeviceEventAppMessage) deviceEvent);
             }
             if (mEnablePebblekit) {

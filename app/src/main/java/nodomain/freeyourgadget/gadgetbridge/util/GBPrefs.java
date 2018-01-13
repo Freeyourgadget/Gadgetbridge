@@ -28,6 +28,8 @@ public class GBPrefs {
     public static final String AUTO_EXPORT_LOCATION = "auto_export_location";
     public static final String AUTO_EXPORT_INTERVAL = "auto_export_interval";
     private static final boolean AUTO_START_DEFAULT = true;
+    private static final String BG_JS_ENABLED = "pebble_enable_background_javascript";
+    private static final boolean BG_JS_ENABLED_DEFAULT = false;
     public static boolean AUTO_RECONNECT_DEFAULT = true;
 
     public static final String USER_NAME = "mi_user_alias";
@@ -46,6 +48,10 @@ public class GBPrefs {
 
     public boolean getAutoStart() {
         return mPrefs.getBoolean(AUTO_START, AUTO_START_DEFAULT);
+    }
+
+    public boolean isBackgroundJsEnabled() {
+        return mPrefs.getBoolean(BG_JS_ENABLED, BG_JS_ENABLED_DEFAULT);
     }
 
     public String getUserName() {
