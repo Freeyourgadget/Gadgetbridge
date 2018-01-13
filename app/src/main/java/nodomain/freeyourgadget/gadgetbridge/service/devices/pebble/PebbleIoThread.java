@@ -25,6 +25,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.ParcelUuid;
 import android.support.v4.content.LocalBroadcastManager;
+import android.webkit.ValueCallback;
+import android.webkit.WebView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +61,6 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.ble.PebbleLESupport;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
-import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -100,10 +101,43 @@ class PebbleIoThread extends GBDeviceIoThread {
     private int mBytesWritten = -1;
 
     private void sendAppMessageJS(GBDeviceEventAppMessage appMessage) {
-        WebViewSingleton.appMessage(appMessage);
+        sendAppMessage(appMessage);
         if (appMessage.type == GBDeviceEventAppMessage.TYPE_APPMESSAGE) {
             write(mPebbleProtocol.encodeApplicationMessageAck(appMessage.appUUID, (byte) appMessage.id));
         }
+    }
+
+    public static void sendAppMessage(GBDeviceEventAppMessage message) {
+        final String jsEvent;
+        try {
+            WebViewSingleton.checkAppRunning(message.appUUID);
+        } catch (IllegalStateException ex) {
+            LOG.warn("Unable to send app message: " + message, ex);
+            return;
+        }
+
+        // TODO: handle ACK and NACK types with ids
+        if (message.type != GBDeviceEventAppMessage.TYPE_APPMESSAGE) {
+            jsEvent = (GBDeviceEventAppMessage.TYPE_NACK == GBDeviceEventAppMessage.TYPE_APPMESSAGE) ? "NACK" + message.id : "ACK" + message.id;
+            LOG.debug("WEBVIEW received ACK/NACK:" + message.message + " for uuid: " + message.appUUID + " ID: " + message.id);
+        } else {
+            jsEvent = "appmessage";
+        }
+
+        final String appMessage = PebbleUtils.parseIncomingAppMessage(message.message, message.appUUID);
+        LOG.debug("to WEBVIEW: event: " + jsEvent + " message: " + appMessage);
+        WebViewSingleton.invokeWebview(new WebViewSingleton.WebViewRunnable() {
+            @Override
+            public void invoke(WebView webView) {
+                webView.evaluateJavascript("Pebble.evaluate('" + jsEvent + "',[" + appMessage + "]);", new ValueCallback<String>() {
+                    @Override
+                    public void onReceiveValue(String s) {
+                        //TODO: the message should be acked here instead of in PebbleIoThread
+                        LOG.debug("Callback from appmessage: " + s);
+                    }
+                });
+            }
+        });
     }
 
     PebbleIoThread(PebbleSupport pebbleSupport, GBDevice gbDevice, GBDeviceProtocol gbDeviceProtocol, BluetoothAdapter btAdapter, Context context) {

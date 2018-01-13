@@ -17,11 +17,22 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.graphics.Color;
+import android.util.SparseArray;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.UUID;
 
 public class PebbleUtils {
+    private static final Logger LOG = LoggerFactory.getLogger(PebbleUtils.class);
+
     public static String getPlatformName(String hwRev) {
         String platformName;
         if (hwRev.startsWith("snowy")) {
@@ -101,5 +112,66 @@ public class PebbleUtils {
      */
     public static File getPbwCacheDir() throws IOException {
         return new File(FileUtils.getExternalFilesDir(), "pbw-cache");
+    }
+
+    public static JSONObject getAppConfigurationKeys(UUID uuid) {
+        try {
+            File destDir = getPbwCacheDir();
+            File configurationFile = new File(destDir, uuid.toString() + ".json");
+            if (configurationFile.exists()) {
+                String jsonString = FileUtils.getStringFromFile(configurationFile);
+                JSONObject json = new JSONObject(jsonString);
+                return json.getJSONObject("appKeys");
+            }
+        } catch (IOException | JSONException e) {
+            LOG.warn("Unable to parse configuration JSON file", e);
+        }
+        return null;
+    }
+
+    public static String parseIncomingAppMessage(String msg, UUID uuid) {
+        JSONObject jsAppMessage = new JSONObject();
+
+        JSONObject knownKeys = PebbleUtils.getAppConfigurationKeys(uuid);
+        SparseArray<String> appKeysMap = new SparseArray<>();
+
+        if (knownKeys == null || msg == null) {
+            return "{}";
+        }
+
+        String inKey, outKey;
+        //knownKeys contains "name"->"index", we need to reverse that
+        for (Iterator<String> key = knownKeys.keys(); key.hasNext(); ) {
+            inKey = key.next();
+            appKeysMap.put(knownKeys.optInt(inKey), inKey);
+        }
+
+        try {
+            JSONArray incoming = new JSONArray(msg);
+            JSONObject outgoing = new JSONObject();
+            for (int i = 0; i < incoming.length(); i++) {
+                JSONObject in = incoming.getJSONObject(i);
+                outKey = null;
+                Object outValue = null;
+                for (Iterator<String> key = in.keys(); key.hasNext(); ) {
+                    inKey = key.next();
+                    switch (inKey) {
+                        case "key":
+                            outKey = appKeysMap.get(in.optInt(inKey));
+                            break;
+                        case "value":
+                            outValue = in.get(inKey);
+                    }
+                }
+                if (outKey != null && outValue != null) {
+                    outgoing.put(outKey, outValue);
+                }
+            }
+            jsAppMessage.put("payload", outgoing);
+
+        } catch (Exception e) {
+            LOG.warn("Unable to parse incoming app message", e);
+        }
+        return jsAppMessage.toString();
     }
 }

@@ -42,7 +42,6 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton;
 
 public class JSInterface {
 
@@ -73,7 +72,7 @@ public class JSInterface {
     public String sendAppMessage(String msg, String needsTransactionMsg) {
         boolean needsTransaction = "true".equals(needsTransactionMsg);
         LOG.debug("from WEBVIEW: " + msg + " needs a transaction: " + needsTransaction);
-        JSONObject knownKeys = WebViewSingleton.getAppConfigurationKeys(this.mUuid);
+        JSONObject knownKeys = PebbleUtils.getAppConfigurationKeys(this.mUuid);
         if (knownKeys == null) {
             LOG.warn("No app configuration keys for: " + mUuid);
             return null;

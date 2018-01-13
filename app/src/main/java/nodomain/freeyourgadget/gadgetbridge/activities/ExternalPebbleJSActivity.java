@@ -17,7 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -90,7 +89,7 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
             }
             myWebView.setWillNotDraw(false);
             myWebView.removeJavascriptInterface("GBActivity");
-            myWebView.addJavascriptInterface(new ActivityJSInterface(ExternalPebbleJSActivity.this), "GBActivity");
+            myWebView.addJavascriptInterface(new ActivityJSInterface(), "GBActivity");
             FrameLayout fl = (FrameLayout) findViewById(R.id.webview_placeholder);
             fl.addView(myWebView);
 
@@ -122,7 +121,7 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
 
             JSInterface gbJSInterface = new JSInterface(currentDevice, currentUUID);
             myWebView.addJavascriptInterface(gbJSInterface, "GBjs");
-            myWebView.addJavascriptInterface(new ActivityJSInterface(ExternalPebbleJSActivity.this), "GBActivity");
+            myWebView.addJavascriptInterface(new ActivityJSInterface(), "GBActivity");
 
             myWebView.loadUrl("file:///android_asset/app_config/configure.html");
 
@@ -163,16 +162,9 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
 
     private class ActivityJSInterface {
 
-        Context mContext;
-
-        ActivityJSInterface(Context c) {
-            mContext = c;
-        }
-
         @JavascriptInterface
         public void closeActivity() {
-            NavUtils.navigateUpFromSameTask((ExternalPebbleJSActivity) mContext);
+            NavUtils.navigateUpFromSameTask(ExternalPebbleJSActivity.this);
         }
     }
-
 }

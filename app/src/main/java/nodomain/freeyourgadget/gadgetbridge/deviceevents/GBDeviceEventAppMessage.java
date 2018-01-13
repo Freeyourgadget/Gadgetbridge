@@ -27,4 +27,14 @@ public class GBDeviceEventAppMessage extends GBDeviceEvent {
     public UUID appUUID;
     public int id;
     public String message;
+
+    @Override
+    public String toString() {
+        return "GBDeviceEventAppMessage{" +
+                "type=" + type +
+                ", appUUID=" + appUUID +
+                ", message='" + message + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }
