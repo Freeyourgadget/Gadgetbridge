@@ -18,6 +18,9 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.graphics.Color;
 
+import java.io.File;
+import java.io.IOException;
+
 public class PebbleUtils {
     public static String getPlatformName(String hwRev) {
         String platformName;
@@ -89,5 +92,14 @@ public class PebbleUtils {
      */
     public static byte getPebbleColor(String colorHex) {
         return getPebbleColor(Color.parseColor(colorHex));
+    }
+
+
+    /**
+     * Returns the directory containing the .pbw cache.
+     * @throws IOException when the external files directory cannot be accessed
+     */
+    public static File getPbwCacheDir() throws IOException {
+        return new File(FileUtils.getExternalFilesDir(), "pbw-cache");
     }
 }

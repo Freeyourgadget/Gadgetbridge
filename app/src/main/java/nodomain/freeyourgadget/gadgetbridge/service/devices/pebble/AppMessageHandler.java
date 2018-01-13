@@ -34,6 +34,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 
 class AppMessageHandler {
     final PebbleProtocol mPebbleProtocol;
@@ -73,7 +74,7 @@ class AppMessageHandler {
     }
 
     JSONObject getAppKeys() throws IOException, JSONException {
-        File destDir = new File(FileUtils.getExternalFilesDir() + "/pbw-cache");
+        File destDir = PebbleUtils.getPbwCacheDir();
         File configurationFile = new File(destDir, mUUID.toString() + ".json");
         if (configurationFile.exists()) {
             String jsonstring = FileUtils.getStringFromFile(configurationFile);

@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview;
 
+import android.support.annotation.NonNull;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
@@ -51,7 +52,7 @@ public class JSInterface {
 
     private static final Logger LOG = LoggerFactory.getLogger(JSInterface.class);
 
-    public JSInterface(GBDevice device, UUID mUuid) {
+    public JSInterface(@NonNull GBDevice device, @NonNull UUID mUuid) {
         LOG.debug("Creating JS interface for UUID: " + mUuid.toString());
         this.device = device;
         this.mUuid = mUuid;
@@ -73,6 +74,10 @@ public class JSInterface {
         boolean needsTransaction = "true".equals(needsTransactionMsg);
         LOG.debug("from WEBVIEW: " + msg + " needs a transaction: " + needsTransaction);
         JSONObject knownKeys = WebViewSingleton.getAppConfigurationKeys(this.mUuid);
+        if (knownKeys == null) {
+            LOG.warn("No app configuration keys for: " + mUuid);
+            return null;
+        }
 
         try {
             JSONObject in = new JSONObject(msg);
@@ -139,7 +144,7 @@ public class JSInterface {
     public String getAppConfigurationFile() {
         LOG.debug("WEBVIEW loading config file of " + this.mUuid.toString());
         try {
-            File destDir = new File(FileUtils.getExternalFilesDir() + "/pbw-cache");
+            File destDir = PebbleUtils.getPbwCacheDir();
             File configurationFile = new File(destDir, this.mUuid.toString() + "_config.js");
             if (configurationFile.exists()) {
                 return "file:///" + configurationFile.getAbsolutePath();
@@ -153,7 +158,7 @@ public class JSInterface {
     @JavascriptInterface
     public String getAppStoredPreset() {
         try {
-            File destDir = new File(FileUtils.getExternalFilesDir() + "/pbw-cache");
+            File destDir = PebbleUtils.getPbwCacheDir();
             File configurationFile = new File(destDir, this.mUuid.toString() + "_preset.json");
             if (configurationFile.exists()) {
                 return FileUtils.getStringFromFile(configurationFile);
@@ -170,7 +175,7 @@ public class JSInterface {
         Writer writer;
 
         try {
-            File destDir = new File(FileUtils.getExternalFilesDir() + "/pbw-cache");
+            File destDir = PebbleUtils.getPbwCacheDir();
             File presetsFile = new File(destDir, this.mUuid.toString() + "_preset.json");
             writer = new BufferedWriter(new FileWriter(presetsFile));
             writer.write(msg);

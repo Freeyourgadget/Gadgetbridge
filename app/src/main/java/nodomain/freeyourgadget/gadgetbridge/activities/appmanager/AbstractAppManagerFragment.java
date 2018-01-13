@@ -147,7 +147,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         List<GBDeviceApp> cachedAppList = new ArrayList<>();
         File cachePath;
         try {
-            cachePath = new File(FileUtils.getExternalFilesDir().getPath() + "/pbw-cache");
+            cachePath = PebbleUtils.getPbwCacheDir();
         } catch (IOException e) {
             LOG.warn("could not get external dir while reading pbw cache.");
             return cachedAppList;
@@ -362,18 +362,18 @@ public abstract class AbstractAppManagerFragment extends Fragment {
     private boolean onContextItemSelected(MenuItem item, GBDeviceApp selectedApp) {
         switch (item.getItemId()) {
             case R.id.appmanager_app_delete_cache:
-                String baseName;
+                File pbwCacheDir;
                 try {
-                    baseName = FileUtils.getExternalFilesDir().getPath() + "/pbw-cache/" + selectedApp.getUUID();
+                    pbwCacheDir = PebbleUtils.getPbwCacheDir();
                 } catch (IOException e) {
                     LOG.warn("could not get external dir while trying to access pbw cache.");
                     return true;
                 }
-
+                String baseName = selectedApp.getUUID().toString();
                 String[] suffixToDelete = new String[]{".pbw", ".json", "_config.js", "_preset.json"};
 
                 for (String suffix : suffixToDelete) {
-                    File fileToDelete = new File(baseName + suffix);
+                    File fileToDelete = new File(pbwCacheDir,baseName + suffix);
                     if (!fileToDelete.delete()) {
                         LOG.warn("could not delete file from pbw cache: " + fileToDelete.toString());
                     } else {
@@ -394,7 +394,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             case R.id.appmanager_app_reinstall:
                 File cachePath;
                 try {
-                    cachePath = new File(FileUtils.getExternalFilesDir().getPath() + "/pbw-cache/" + selectedApp.getUUID() + ".pbw");
+                    cachePath = new File(PebbleUtils.getPbwCacheDir(), selectedApp.getUUID() + ".pbw");
                 } catch (IOException e) {
                     LOG.warn("could not get external dir while trying to access pbw cache.");
                     return true;

@@ -154,7 +154,7 @@ public class PBWInstallHandler implements InstallHandler {
         File destDir;
         GBDeviceApp app = mPBWReader.getGBDeviceApp();
         try {
-            destDir = new File(FileUtils.getExternalFilesDir() + "/pbw-cache");
+            destDir = PebbleUtils.getPbwCacheDir();
             destDir.mkdirs();
             FileUtils.copyURItoFile(mContext, mUri, new File(destDir, app.getUUID().toString() + ".pbw"));
 

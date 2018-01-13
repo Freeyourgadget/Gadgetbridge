@@ -149,10 +149,7 @@ public class WebViewSingleton {
         return webViewSingleton.instance;
     }
 
-    public static void runJavascriptInterface(GBDevice device, UUID uuid) {
-        if (uuid == null && device == null) {
-            throw new RuntimeException("Javascript interface started without device and uuid");
-        }
+    public static void runJavascriptInterface(@NonNull GBDevice device, @NonNull UUID uuid) {
         if (uuid.equals(currentRunningUUID)) {
             LOG.debug("WEBVIEW uuid not changed keeping the old context");
         } else {
@@ -256,7 +253,7 @@ public class WebViewSingleton {
 
     public static JSONObject getAppConfigurationKeys(UUID uuid) {
         try {
-            File destDir = new File(FileUtils.getExternalFilesDir() + "/pbw-cache");
+            File destDir = PebbleUtils.getPbwCacheDir();
             File configurationFile = new File(destDir, uuid.toString() + ".json");
             if (configurationFile.exists()) {
                 String jsonString = FileUtils.getStringFromFile(configurationFile);

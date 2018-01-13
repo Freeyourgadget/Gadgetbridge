@@ -34,6 +34,7 @@ import android.widget.Toast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -58,12 +59,15 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        GBDevice currentDevice;
-        UUID currentUUID;
+        GBDevice currentDevice = null;
+        UUID currentUUID = null;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             currentDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
             currentUUID = (UUID) extras.getSerializable(DeviceService.EXTRA_APP_UUID);
+
+            Objects.requireNonNull(currentDevice, "Must provide a device when invoking this activity");
+            Objects.requireNonNull(currentUUID, "Must provide a uuid when invoking this activity");
 
             if (GBApplication.getPrefs().getBoolean("pebble_enable_background_javascript", false)) {
                 if (extras.getBoolean(SHOW_CONFIG, false)) {
@@ -75,9 +79,8 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
                 }
             }
         } else {
-            throw new IllegalArgumentException("Must provide a device when invoking this activity");
+            throw new IllegalArgumentException("Must provide device and uuid in extras when invoking this activity");
         }
-
 
         if (GBApplication.getPrefs().getBoolean("pebble_enable_background_javascript", false)) {
             setContentView(R.layout.activity_external_pebble_js);
