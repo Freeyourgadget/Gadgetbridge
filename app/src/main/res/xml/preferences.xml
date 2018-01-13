@@ -193,6 +193,11 @@
                 android:key="amazfitbip_language"
                 android:summary="%s"
                 android:title="@string/pref_title_language" />
+            <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="require_button_action_confirmazion"
+                    android:summary="@string/pref_summary_require_button_action_confirmazion"
+                    android:title="@string/pref_title_require_button_action_confirmazion" />
         </PreferenceScreen>
         <PreferenceScreen
             android:icon="@drawable/ic_device_pebble"
