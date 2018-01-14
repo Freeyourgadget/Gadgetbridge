@@ -44,7 +44,7 @@ public class MiBand2HRXCoordinator extends HuamiCoordinator {
         try {
             BluetoothDevice device = candidate.getDevice();
             String name = device.getName();
-            if (name != null && name.equalsIgnoreCase("Mi Band HRX")) {
+            if (name != null && (name.equalsIgnoreCase("Mi Band HRX") || name.equalsIgnoreCase("Mi Band 2i"))) {
                 return DeviceType.MIBAND2;
             }
         } catch (Exception ex) {
