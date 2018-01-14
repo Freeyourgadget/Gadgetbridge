@@ -8,6 +8,7 @@
       <change>Amazfit Bip: Implement find phone feature</change>
       <change>Amazfit Bip: Support flashing latest GPS firmware</change>
       <change>Amazfit Cor: Support flashing latest firmware</change>
+      <change>Pebble: Fix crash with experimental background javascript</change>
     </release>
     <release version="0.23.2" versioncode="116">
         <change>Mi Band 1S: Fix sync problem with firmware 4.16.11.15 (probably also Mi Band 1.0.15.0 and Mi Band 1A 5.16.11.15)</change>
