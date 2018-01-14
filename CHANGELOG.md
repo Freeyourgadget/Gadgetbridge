@@ -9,6 +9,7 @@
 * Amazfit Bip: Support flashing latest GPS firmware
 * Amazfit Cor: Support flashing latest firmware
 * Pebble: Fix crash with experimental background javascript
+* Charts: Several fixes to the MPAndroidChart library
 
 #### Version 0.23.2
 * Mi Band 1S: Fix sync problem with firmware 4.16.11.15 (probably also Mi Band 1.0.15.0 and Mi Band 1A 5.16.11.15)

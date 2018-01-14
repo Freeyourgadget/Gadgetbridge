@@ -6,3 +6,4 @@
 * Amazfit Bip: Support flashing latest GPS firmware
 * Amazfit Cor: Support flashing latest firmware
 * Pebble: Fix crash with experimental background javascript
+* Charts: Several fixes to the MPAndroidChart library
