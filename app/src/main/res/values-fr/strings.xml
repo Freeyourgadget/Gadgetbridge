@@ -434,7 +434,7 @@ NOTE : la base de données sera bien évidement plus grande !</string>
     <string name="_pebble_watch_mute">Silencieux</string>
     <string name="_pebble_watch_reply">Répondre</string>
 <string name="pref_title_pebble_enable_bgjs">Activer tâche de fond JS</string>
-    <string name="pref_summary_pebble_enable_bgjs">Si activé, autorise l\'affichage de la météo, niveau de batterie, etc</string>
+    <string name="pref_summary_pebble_enable_bgjs">Si activé, autorise l\'affichage de la météo, niveau de batterie, etc.</string>
 
     <string name="activity_web_view">Activité Web View</string>
 
