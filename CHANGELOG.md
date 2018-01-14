@@ -1,6 +1,6 @@
 ### Changelog
 
-#### Version (next)
+#### Version 0.24.0
 * Fix logs sometimes not containing stacktraces
 * Support periodic database export
 * Support transliteration for Arabic and Farsi
