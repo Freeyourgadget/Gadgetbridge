@@ -200,6 +200,7 @@ class PebbleIoThread extends GBDeviceIoThread {
             }
             if (GBApplication.getGBPrefs().isBackgroundJsEnabled()) {
                 Intent startIntent = new Intent(getContext(), ExternalPebbleJSActivity.class);
+                startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startIntent.putExtra(ExternalPebbleJSActivity.START_BG_WEBVIEW, true);
                 getContext().startActivity(startIntent);
             } else {
