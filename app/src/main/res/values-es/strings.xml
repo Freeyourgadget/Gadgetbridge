@@ -389,7 +389,7 @@
   <string name="miband2_prefs_timeformat">Mi2: formato de hora</string>
   <string name="mi2_fw_installhandler_fw53_hint">¡Debes instalar la versión %1$s antes de instalar este firmware!</string>
   <string name="mi2_enable_text_notifications">Notificaciones textuales</string>
-  <string name="mi2_enable_text_notifications_summary">Requiere firmware &gt;= 1.0.1.28 e instalar Mili_pro.ft*</string>
+  <string name="mi2_enable_text_notifications_summary">Requiere firmware &gt;= 1.0.1.28 y tener Mili_pro.ft* instalado.</string>
   <string name="off">Apagado</string>
   <string name="mi2_dnd_off">Apagado</string>
   <string name="mi2_dnd_automatic">Automático (detección de sueño)</string>
