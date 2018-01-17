@@ -210,7 +210,7 @@
     <string name="gadgetbridge_running">Το Gadgetbridge εκτελείται</string>
     <string name="installing_binary_d_d">Γίνεται εγκατάσταση των βιβλιοθηκών %1$d/%2$d</string>
     <string name="installation_failed_">Η εγκατάσταση απέτυχε</string>
-    <string name="installation_successful">Η εγκατάσταση έγινε επιτυχώς</string>
+    <string name="installation_successful">Εγκατεστημένο</string>
     <string name="firmware_install_warning">ΠΡΟΣΠΑΘΕΙΤΕ ΝΑ ΕΓΚΑΤΑΣΤΗΣΕΤΕ ΛΟΓΙΣΜΙΚΟ, ΠΡΟΧΩΡΗΣΤΕ ΜΕ ΔΙΚΗ ΣΑΣ ΕΥΘΥΝΗ. 
 \n 
 \n 
@@ -438,7 +438,7 @@
     <string name="device_fw">Έκδοση λογισμικού: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Σφάλμα κατά τη δημιουργία φακέλου για τα αρχεία καταγραφής: %1$s</string>
     <string name="DEVINFO_HR_VER">"HR: "</string>
-    <string name="updatefirmwareoperation_update_in_progress">Αναβάθμιση του λογισμικού σε εξέλιξη</string>
+    <string name="updatefirmwareoperation_update_in_progress">Αναβάθμιση του λογισμικού</string>
     <string name="updatefirmwareoperation_firmware_not_sent">Το λογισμικό δεν απεστάλη στη συσκευή</string>
     <string name="charts_legend_heartrate">Σφυγμοί</string>
     <string name="live_activity_heart_rate">Σφυγμοί</string>
@@ -462,11 +462,11 @@
     <string name="dbmanagementactivity_error_importing_shared">Σφάλμα ρυθμίσεων εισαγωγής της βάσης δεδομένων: %1$s</string>
     <string name="dbmanagementactivity_delete_activity_data_title">Διαγραφή των δεδομένων της δραστηριότητάς σας;</string>
     <string name="dbmanagementactivity_really_delete_entire_db">Θέλετε πραγματικά να σβήσετε όλη τη βάση δεδομένων; Όλα τα δεδομένα της δραστηριότητάς σας και οι πληροφορίες για την συσκευή σας θα χαθούν.</string>
-    <string name="dbmanagementactivity_database_successfully_deleted">Τα δεδομένα διαγράφηκαν επιτυχώς.</string>
+    <string name="dbmanagementactivity_database_successfully_deleted">Τα δεδομένα διαγράφηκαν.</string>
     <string name="dbmanagementactivity_db_deletion_failed">Η διαγραφή της βάσης δεδομένων απέτυχε.</string>
     <string name="dbmanagementactivity_delete_old_activity_db">Διαγραφή της παλιάς βάσης δεδομένων;</string>
     <string name="dbmanagementactivity_delete_old_activitydb_confirmation">Θέλετε πραγματικά να διαγραφεί η παλιά βάση δεδομένων; Τα δεδομένα της δραστηριότητάς σας που δεν έχουν εισαχθεί θα χαθούν.</string>
-    <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Τα παλιά δεδομένα της δραστηριότητάς σας διαγράφηκαν επιτυχώς.</string>
+    <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Τα παλιά δεδομένα της δραστηριότητάς σας διαγράφηκαν.</string>
     <string name="dbmanagementactivity_old_activity_db_deletion_failed">Η διαγραφή της παλιάς βάσης δεδομένων απέτυχε.</string>
     <string name="dbmanagementactivity_overwrite">Αντικατάσταση</string>
     <string name="Cancel">Ακύρωση</string>
@@ -475,7 +475,7 @@
     <string name="title_activity_vibration">Δόνηση</string>
 
     <string name="title_activity_pebble_pairing">Σύζευξη Pebble</string>
-    <string name="pebble_pairing_hint">Ένα παράθυρο σύζευξης θα εμφανιστεί στο κινητό σας. Αν αυτό δεν συμβεί, δείτε στη περιοχή ειδοποιήσεων και δεχθείτε την σύζευξη. Μετά δεχθείτε την σύζευξη και στο Pebble σας</string>
+    <string name="pebble_pairing_hint">Ένα παράθυρο σύζευξης θα εμφανιστεί στην Abdroid συσκευή σας. Αν αυτό δεν συμβεί, δείτε στη περιοχή ειδοποιήσεων και δεχθείτε την σύζευξη. Επίσης μετά δεχθείτε την σύζευξη και στο Pebble σας</string>
 
     <string name="weather_notification_label">Βεβαιωθείτε ότι αυτό το θέμα είναι ενεργοποιημένο στην εφαρμογή του καιρού ώστε να λάβει τις πληροφορίες το Pebble.
 \n
@@ -543,4 +543,12 @@
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
 <string name="pref_title_weather">Καιρός</string>
-    </resources>
+    <string name="pref_header_auto_export">Αυτόματη εξαγωγή ρυθμίσεων</string>
+    <string name="pref_title_auto_export_enabled">Η αυτόματη εξαγωγή είναι ενεργοποιημένη</string>
+    <string name="pref_title_auto_export_location">Διαδρομή εξαγωγής</string>
+    <string name="pref_title_auto_export_interval">Κάθε πότε θα γίνεται η εξαγωγή</string>
+    <string name="pref_summary_auto_export_interval">Εξαγωγή κάθε %d ώρες</string>
+
+    <string name="notif_export_failed_title">Η εξαγωγή της βάσης δεδομένων απέτυχε! Παρακαλώ ελέγξτε τις ρυθμίσεις σας.</string>
+    <string name="choose_auto_export_location">Διαλέξτε διαδρομή εξαγωγής</string>
+</resources>
