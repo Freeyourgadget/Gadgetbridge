@@ -67,7 +67,7 @@
     <string name="miband_firmware_unknown_warning">此固件未经测试，可能与Gadgetbridge不兼容。
 \n
 \n不建议把它安装到你的Mi Band！</string>
-    <string name="miband_firmware_suggest_whitelist">如果您仍想继续并且此固件在安装之后能够正常工作，请告知Gadgetbridge开发者将此固件列入白名单：%s</string>
+    <string name="miband_firmware_suggest_whitelist">如果您仍想继续并且此固件在安装之后能够正常工作，请告知Gadgetbridge开发者将固件%s列入白名单</string>
 
     <string name="title_activity_settings">设置</string>
 
@@ -81,7 +81,7 @@
 
     <string name="pref_header_datetime">日期和时间</string>
     <string name="pref_title_datetime_syctimeonconnect">同步时间</string>
-    <string name="pref_summary_datetime_syctimeonconnect">连接设备或手机时区变更时同步时间到设备</string>
+    <string name="pref_summary_datetime_syctimeonconnect">设备或手机时区变更时同步变更到设备</string>
 
     <string name="pref_title_theme">主题</string>
     <string name="pref_theme_light">亮色</string>
@@ -338,11 +338,11 @@
     <string name="battery">电量</string>
     <string name="liveactivity_live_activity">实时活动数据</string>
     <string name="weeksteps_today_steps_description">今天的步数, 目标：%1$s</string>
-    <string name="pref_title_dont_ack_transfer">不要发送活动数据</string>
+    <string name="pref_title_dont_ack_transfer">不发送活动数据</string>
     <string name="pref_summary_dont_ack_transfers">如果活动数据未传输到设备，则不会被清除。 GB与其他应用程序一起使用时很有用。</string>
     <string name="pref_summary_keep_data_on_device">即使在同步之后, 也会将活动数据保留在 Mi Band上。如果 GB 与其他应用程序一起使用, 这将非常有用。</string>
     <string name="pref_title_low_latency_fw_update">使用低延迟模式进行固件更新</string>
-    <string name="pref_summary_low_latency_fw_update">这可能对更新固件失败的设备有帮助</string>
+    <string name="pref_summary_low_latency_fw_update">这可能对固件失败的设备有帮助</string>
 
     <string name="live_activity_steps_history">步数历史</string>
     <string name="live_activity_current_steps_per_minute">当前每分钟步数</string>
@@ -439,11 +439,11 @@
     <string name="dbmanagementactivity_error_importing_shared">导入首选项时出错:%1$s</string>
     <string name="dbmanagementactivity_delete_activity_data_title">删除活动数据？</string>
     <string name="dbmanagementactivity_really_delete_entire_db">确定删除整个数据库？您的所有活动数据和有关设备的信息都将丢失。</string>
-    <string name="dbmanagementactivity_database_successfully_deleted">数据已成功删除。</string>
+    <string name="dbmanagementactivity_database_successfully_deleted">数据已删除。</string>
     <string name="dbmanagementactivity_db_deletion_failed">数据库删除失败。</string>
     <string name="dbmanagementactivity_delete_old_activity_db">删除旧的活动数据库？</string>
     <string name="dbmanagementactivity_delete_old_activitydb_confirmation">是否真的删除旧的活动数据库？未导入的活动数据将丢失。</string>
-    <string name="dbmanagementactivity_old_activity_db_successfully_deleted">已成功删除旧的活动数据。</string>
+    <string name="dbmanagementactivity_old_activity_db_successfully_deleted">已删除旧的活动数据。</string>
     <string name="dbmanagementactivity_old_activity_db_deletion_failed">旧的活动数据库删除失败。</string>
     <string name="dbmanagementactivity_overwrite">覆盖</string>
     <string name="Cancel">取消</string>
@@ -520,4 +520,22 @@
     <string name="vibration_profile_ring">响铃</string>
     <string name="mi2_prefs_button_press_broadcast">要发送的广播消息</string>
     <string name="devicetype_pebble">Pebble</string>
-    </resources>
+    <string name="pref_summary_pebble_forcele">使用实验性Pebble LE以支持所有Pebble，代替BT经典连接。 这首先需要以非LE配对，然后以Pebble LE连接</string>
+    <string name="pref_summary_pebble_mtu_limit">如果您的Pebble 2 / Pebble LE无法正常工作，请尝试使用此设置来限制MTU（有效范围20-512）</string>
+    <string name="pref_header_auto_export">自动导出</string>
+    <string name="pref_title_auto_export_enabled">自动导出已启用</string>
+    <string name="pref_title_auto_export_location">导出位置</string>
+    <string name="pref_title_auto_export_interval">导出间隔</string>
+    <string name="pref_summary_auto_export_interval">每%d小时导出一次</string>
+
+    <string name="tap_connected_device_for_app_mananger">点按为已连接的设备管理应用</string>
+    <string name="notif_export_failed_title">导出数据库失败！ 请检查您的设置。</string>
+    <string name="miband_prefs_reserve_alarm_calendar">预警未来事件</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">在指定按键次数后发送消息</string>
+    <string name="DEVINFO_HR_VER">"设备版本： "</string>
+    <string name="timeformat_am_pm">AM/PM</string>
+
+    <string name="devicetype_vibratissimo">Vibratissimo</string>
+    <string name="devicetype_hplus">HPlus</string>
+    <string name="choose_auto_export_location">选择导出位置</string>
+</resources>
