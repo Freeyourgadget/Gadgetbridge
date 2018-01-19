@@ -48,12 +48,12 @@ import java.util.concurrent.TimeUnit;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.FindPhoneActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
@@ -159,6 +159,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
+    private final GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
+
     private RealtimeSamplesSupport realtimeSamplesSupport;
     private boolean alarmClockRinging;
 
@@ -957,15 +959,14 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 break;
             case HuamiDeviceEvent.FIND_PHONE_START:
                 LOG.info("find phone started");
-                // FIXME: premature
-                acknowledgeFindPhone();
-                Intent startIntent = new Intent(getContext(), FindPhoneActivity.class);
-                getContext().startActivity(startIntent);
+                acknowledgeFindPhone(); // FIXME: premature
+                findPhoneEvent.event = GBDeviceEventFindPhone.Event.START;
+                evaluateGBDeviceEvent(findPhoneEvent);
                 break;
             case HuamiDeviceEvent.FIND_PHONE_STOP:
                 LOG.info("find phone stopped");
-                Intent intent = new Intent(FindPhoneActivity.ACTION_FOUND);
-                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+                findPhoneEvent.event = GBDeviceEventFindPhone.Event.STOP;
+                evaluateGBDeviceEvent(findPhoneEvent);
                 break;
             default:
                 LOG.warn("unhandled event " + value[0]);
