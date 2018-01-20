@@ -443,7 +443,7 @@ public class NotificationListener extends NotificationListenerService {
 
         NotificationType type = AppNotificationType.getInstance().get(source);
         //ignore notifications marked as LocalOnly https://developer.android.com/reference/android/app/Notification.html#FLAG_LOCAL_ONLY
-        //some Apps always mark their notifcations as read-only
+        //some Apps always mark their notifications as read-only
         if (NotificationCompat.getLocalOnly(notification) &&
                 type != NotificationType.WECHAT &&
                 type != NotificationType.OUTLOOK) {
