@@ -1,5 +1,9 @@
 ### Changelog
 
+#### Version 0.24.1
+* Amazfit Bip: prevent menu icons from vanishing when using firmware 0.1.0.51
+* Pebble: "find phone" feature for upcoming pebble helper app
+
 #### Version 0.24.0
 * Fix logs sometimes not containing stacktraces
 * Support periodic database export

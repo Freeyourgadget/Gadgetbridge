@@ -1,0 +1,2 @@
+* Amazfit Bip: prevent menu icons from vanishing when using firmware 0.1.0.51
+* Pebble: "find phone" feature for upcoming pebble helper app

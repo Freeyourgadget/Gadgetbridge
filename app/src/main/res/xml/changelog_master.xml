@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release
+        version="0.24.1"
+        versioncode="118">
+        <change>Amazfit Bip: prevent menu icons from vanishing when using firmware 0.1.0.51</change>
+        <change>Pebble: "find phone" feature for upcoming pebble helper app</change>
+    </release>
     <release version="0.24.0" versioncode="117">
       <change>Fix logs sometimes not containing stacktraces</change>
       <change>Support periodic database export</change>
