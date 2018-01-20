@@ -1428,7 +1428,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    private MiBand2Support setDisplayItems(TransactionBuilder builder) {
+    protected MiBand2Support setDisplayItems(TransactionBuilder builder) {
         Set<String> pages = HuamiCoordinator.getDisplayItems();
         LOG.info("Setting display items to " + (pages == null ? "none" : pages));
 
