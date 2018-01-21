@@ -86,7 +86,7 @@ public class GB {
         Boolean connected = device.isInitialized();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setContentTitle(deviceName)
-                .setTicker(deviceName + text)
+                .setTicker(deviceName + " - " + text)
                 .setContentText(text)
                 .setSmallIcon(connected ? R.drawable.ic_notification : R.drawable.ic_notification_disconnected)
                 .setContentIntent(getContentIntent(context))
