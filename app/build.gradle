@@ -30,10 +30,20 @@ android {
         versionCode 118
         vectorDrawables.useSupportLibrary = true
     }
+
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile("proguard-android.txt"),
+                    "proguard-rules.pro"
+            resValue "string", "pebble_content_provider", "com.getpebble.android.provider"
+        }
+
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+            resValue "string", "pebble_content_provider", "com.getpebble.android.debug.provider"
         }
     }
 

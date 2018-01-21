@@ -404,7 +404,7 @@
 
         <provider
             android:name=".contentprovider.PebbleContentProvider"
-            android:authorities="com.getpebble.android.provider"
+            android:authorities="@string/pebble_content_provider"
             android:exported="true" />
 
         <provider
