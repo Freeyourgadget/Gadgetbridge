@@ -482,4 +482,12 @@
     <string name="devicetype_exrizu_k8">Exrizu K8</string>
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
+<string name="pref_header_auto_export">自動エクスポート</string>
+    <string name="pref_title_auto_export_enabled">自動エクスポートは有効です</string>
+    <string name="pref_title_auto_export_location">エクスポートの場所</string>
+    <string name="pref_title_auto_export_interval">エクスポート間隔</string>
+    <string name="pref_summary_auto_export_interval">%d 時間ごとにエクスポート</string>
+
+    <string name="notif_export_failed_title">データベースのエクスポートが失敗しました! 設定を確認してください。</string>
+    <string name="choose_auto_export_location">エクスポート先を選択</string>
 </resources>

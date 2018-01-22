@@ -533,4 +533,21 @@
     <string name="devicetype_amazfit_bip">Amazfit Bip</string>
     <string name="devicetype_amazfit_cor">Amazfit Cor</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
+<string name="pref_title_weather">Meteoroloxía</string>
+    <string name="pref_header_auto_export">Autoexportación</string>
+    <string name="pref_title_auto_export_enabled">Autoexportación habilitada</string>
+    <string name="pref_title_auto_export_location">Exportar localización</string>
+    <string name="pref_title_auto_export_interval">Exportar intervalo</string>
+    <string name="pref_summary_auto_export_interval">Exportar cada %d horas</string>
+
+    <string name="notif_export_failed_title">Fallou a exportación da base de datos! Por favor, comproba os teus axustes.</string>
+    <string name="kind_watchface">Watchface</string>
+
+    <string name="devicetype_vibratissimo">Vibratissimo</string>
+    <string name="devicetype_liveview">Vista en Vivo</string>
+    <string name="devicetype_hplus">HPlus</string>
+    <string name="devicetype_makibes_f68">Makibes F68</string>
+    <string name="devicetype_exrizu_k8">Exrizu K8</string>
+    <string name="devicetype_no1_f1">No.1 F1</string>
+    <string name="choose_auto_export_location">Escolle lugar para exportar</string>
 </resources>

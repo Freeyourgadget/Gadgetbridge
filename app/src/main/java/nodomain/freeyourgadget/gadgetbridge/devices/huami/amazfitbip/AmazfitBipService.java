@@ -35,4 +35,6 @@ public class AmazfitBipService {
 
     public static final byte COMMAND_ACTIVITY_DATA_TYPE_SPORTS_SUMMARIES = 0x05;
     public static final byte COMMAND_ACTIVITY_DATA_TYPE_SPORTS_DETAILS = 0x06;
+
+    public static final byte[] COMMAND_ACK_FIND_PHONE_IN_PROGRESS = new byte[]{ENDPOINT_DISPLAY, 0x14, 0x00, 0x00};
 }

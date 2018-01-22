@@ -44,6 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
@@ -54,6 +55,7 @@ public class GB {
     public static final int NOTIFICATION_ID_INSTALL = 2;
     public static final int NOTIFICATION_ID_LOW_BATTERY = 3;
     public static final int NOTIFICATION_ID_TRANSFER = 4;
+    public static final int NOTIFICATION_ID_EXPORT_FAILED = 5;
 
     private static final Logger LOG = LoggerFactory.getLogger(GB.class);
     public static final int INFO = 1;
@@ -419,6 +421,37 @@ public class GB {
     public static void removeBatteryNotification(Context context) {
         removeNotification(NOTIFICATION_ID_LOW_BATTERY, context);
     }
+
+    public static Notification createExportFailedNotification(String text, Context context) {
+        Intent notificationIntent = new Intent(context, SettingsActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
+                notificationIntent, 0);
+
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(context)
+                .setContentTitle(context.getString(R.string.notif_export_failed_title))
+                .setContentText(text)
+                .setContentIntent(pendingIntent)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setPriority(Notification.PRIORITY_HIGH)
+                .setOngoing(false);
+
+        return nb.build();
+    }
+
+    public static void updateExportFailedNotification(String text, Context context) {
+        if (GBEnvironment.env().isLocalTest()) {
+            return;
+        }
+        Notification notification = createExportFailedNotification(text, context);
+        updateNotification(notification, NOTIFICATION_ID_EXPORT_FAILED, context);
+    }
+
+    public static void removeExportFailedNotification(Context context) {
+        removeNotification(NOTIFICATION_ID_EXPORT_FAILED, context);
+    }
+
 
     public static void assertThat(boolean condition, String errorMessage) {
         if (!condition) {

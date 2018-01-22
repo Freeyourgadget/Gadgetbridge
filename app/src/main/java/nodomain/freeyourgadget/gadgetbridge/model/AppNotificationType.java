@@ -37,6 +37,7 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
         put("com.fsck.k9.material", NotificationType.GENERIC_EMAIL);
         put("com.imaeses.squeaky", NotificationType.GENERIC_EMAIL);
         put("com.android.email", NotificationType.GENERIC_EMAIL);
+        put("ch.protonmail.android", NotificationType.GENERIC_EMAIL);
 
         // Generic SMS
         put("com.moez.QKSMS", NotificationType.GENERIC_SMS);
@@ -68,6 +69,9 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
 
         // Telegram
         put("org.telegram.messenger", NotificationType.TELEGRAM);
+        put("org.telegram.messenger.beta", NotificationType.TELEGRAM);
+        put("org.telegram.plus", NotificationType.TELEGRAM); // "Plus Messenger"
+        put("org.thunderdog.challegram", NotificationType.TELEGRAM);
 
         // Threema
         put("ch.threema.app", NotificationType.THREEMA);
@@ -124,6 +128,9 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
 
         // Microsoft Outlook
         put("com.microsoft.office.outlook", NotificationType.OUTLOOK);
+
+        // Business Calendar
+        put("com.appgenix.bizcal", NotificationType.BUSINESS_CALENDAR);
 
         // Yahoo Mail
         put("com.yahoo.mobile.client.android.mail", NotificationType.YAHOO_MAIL);

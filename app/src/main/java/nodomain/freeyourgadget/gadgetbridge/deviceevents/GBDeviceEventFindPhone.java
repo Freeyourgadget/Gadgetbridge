@@ -14,27 +14,15 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+
 package nodomain.freeyourgadget.gadgetbridge.deviceevents;
 
-import java.util.UUID;
+public class GBDeviceEventFindPhone extends GBDeviceEvent {
+    public Event event = Event.UNKNOWN;
 
-public class GBDeviceEventAppMessage extends GBDeviceEvent {
-    public static int TYPE_APPMESSAGE = 0;
-    public static int TYPE_ACK = 1;
-    public static int TYPE_NACK = 2;
-
-    public int type;
-    public UUID appUUID;
-    public int id;
-    public String message;
-
-    @Override
-    public String toString() {
-        return "GBDeviceEventAppMessage{" +
-                "type=" + type +
-                ", appUUID=" + appUUID +
-                ", message='" + message + '\'' +
-                ", id=" + id +
-                '}';
+    public enum Event {
+        UNKNOWN,
+        START,
+        STOP
     }
 }

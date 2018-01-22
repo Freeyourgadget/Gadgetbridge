@@ -156,7 +156,7 @@
   <string name="test_notification">Test Benachrichtigung</string>
   <string name="this_is_a_test_notification_from_gadgetbridge">Dies ist eine Testbenachrichtigung von Gadgetbridge</string>
   <string name="bluetooth_is_not_supported_">Bluetooth wird nicht unterstützt.</string>
-  <string name="bluetooth_is_disabled_">Bluetooth ist abgeschaltet.</string>
+  <string name="bluetooth_is_disabled_">Bluetooth ist deaktiviert.</string>
   <string name="tap_connected_device_for_app_mananger">Tippe auf das verbundene Gerät, um den App-Manager zu starten</string>
   <string name="tap_connected_device_for_activity">Tippe auf das verbundene Gerät, um die Aktivitätsdaten anzuzeigen</string>
   <string name="tap_connected_device_for_vibration">Tippe auf das verbundene Gerät, um es vibrieren zu lassen</string>
@@ -454,5 +454,24 @@
 
     <string name="automatic">automatisch</string>
     <string name="activity_web_view">Web View Aktivität</string>
+
+    <string name="pref_title_weather">Wetter</string>
+    <string name="kind_firmware">Firmware</string>
+    <string name="kind_invalid">Ungültige Daten</string>
+    <string name="kind_gps">GPS Firmware</string>
+    <string name="devicetype_unknown">Unbekanntes Gerät</string>
+    <string name="devicetype_test">Testgerät</string>
+    <string name="devicetype_pebble">Pebble</string>
+    <string name="devicetype_miband">Mi Band</string>
+    <string name="devicetype_miband2">Mi Band 2</string>
+    <string name="devicetype_amazfit_bip">Amazfit Bip</string>
+    <string name="devicetype_amazfit_cor">Amazfit Cor</string>
+    <string name="devicetype_vibratissimo">Vibratissimo</string>
+    <string name="devicetype_liveview">LiveView</string>
+    <string name="devicetype_hplus">HPlus</string>
+    <string name="devicetype_makibes_f68">Makibes F68</string>
+    <string name="devicetype_exrizu_k8">Exrizu K8</string>
+    <string name="devicetype_no1_f1">No.1 F1</string>
+    <string name="devicetype_teclast_h30">Teclast H30</string>
 
     </resources>

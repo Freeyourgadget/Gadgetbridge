@@ -349,6 +349,12 @@
                 <action android:name="nodomain.freeyourgadget.gadgetbridge.callcontrol" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:enabled="true"
+            android:name="nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter"
+            android:exported="false">
+
+        </receiver>
 
         <!--
             forcing the DebugActivity to portrait mode avoids crashes with the progress
@@ -396,6 +402,9 @@
             android:name=".activities.VibrationActivity"
             android:label="@string/title_activity_vibration"
             android:parentActivityName=".activities.ControlCenterv2" />
+        <activity
+            android:name=".activities.FindPhoneActivity"
+            android:label="Find Phone" />
 
         <provider
             android:name=".contentprovider.PebbleContentProvider"

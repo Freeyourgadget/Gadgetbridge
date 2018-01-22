@@ -31,29 +31,20 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
 import android.support.annotation.NonNull;
-import android.util.SparseArray;
-import android.webkit.ValueCallback;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppMessage;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.GBChromeClient;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.GBWebClient;
@@ -149,23 +140,34 @@ public class WebViewSingleton {
         return webViewSingleton.instance;
     }
 
-    public static void runJavascriptInterface(GBDevice device, UUID uuid) {
-        if (uuid == null && device == null) {
-            throw new RuntimeException("Javascript interface started without device and uuid");
+    /**
+     * Checks that the webview is up and the given app is running.
+     * @param uuid the uuid of the application expected to be running
+     * @throws IllegalStateException when the webview is not active or the app is not running
+     */
+    public static void checkAppRunning(@NonNull UUID uuid) {
+        if (webViewSingleton.instance == null) {
+            throw new IllegalStateException("webViewSingleton.instance is null!");
         }
+        if (!uuid.equals(currentRunningUUID)) {
+            throw new IllegalStateException("Expected app " + uuid + " is not running, but " + currentRunningUUID + " is.");
+        }
+    }
+
+    public static void runJavascriptInterface(@NonNull GBDevice device, @NonNull UUID uuid) {
         if (uuid.equals(currentRunningUUID)) {
             LOG.debug("WEBVIEW uuid not changed keeping the old context");
         } else {
             final JSInterface jsInterface = new JSInterface(device, uuid);
             LOG.debug("WEBVIEW uuid changed, restarting");
             currentRunningUUID = uuid;
-            new Handler(webViewSingleton.mainLooper).post(new Runnable() {
+            invokeWebview(new WebViewRunnable() {
                 @Override
-                public void run() {
-                    webViewSingleton.instance.onResume();
-                    webViewSingleton.instance.removeJavascriptInterface("GBjs");
-                    webViewSingleton.instance.addJavascriptInterface(jsInterface, "GBjs");
-                    webViewSingleton.instance.loadUrl("file:///android_asset/app_config/configure.html?rand=" + Math.random() * 500);
+                public void invoke(WebView webView) {
+                    webView.onResume();
+                    webView.removeJavascriptInterface("GBjs");
+                    webView.addJavascriptInterface(jsInterface, "GBjs");
+                    webView.loadUrl("file:///android_asset/app_config/configure.html?rand=" + Math.random() * 500);
                 }
             });
             if (!internetHelperBound) {
@@ -177,51 +179,12 @@ public class WebViewSingleton {
 
     }
 
-    public static void appMessage(GBDeviceEventAppMessage message) {
-
-        final String jsEvent;
-        if (webViewSingleton.instance == null) {
-            LOG.warn("WEBVIEW is not initialized, cannot send appMessages to it");
-            return;
-        }
-
-        if (!message.appUUID.equals(currentRunningUUID)) {
-            LOG.info("WEBVIEW ignoring message for app that is not currently running: " + message.appUUID + " message: " + message.message + " type: " + message.type);
-            return;
-        }
-
-        // TODO: handle ACK and NACK types with ids
-        if (message.type != GBDeviceEventAppMessage.TYPE_APPMESSAGE) {
-            jsEvent = (GBDeviceEventAppMessage.TYPE_NACK == GBDeviceEventAppMessage.TYPE_APPMESSAGE) ? "NACK" + message.id : "ACK" + message.id;
-            LOG.debug("WEBVIEW received ACK/NACK:" + message.message + " for uuid: " + message.appUUID + " ID: " + message.id);
-        } else {
-            jsEvent = "appmessage";
-        }
-
-        final String appMessage = parseIncomingAppMessage(message.message, message.appUUID);
-        LOG.debug("to WEBVIEW: event: " + jsEvent + " message: " + appMessage);
-        new Handler(webViewSingleton.mainLooper).post(new Runnable() {
-            @Override
-            public void run() {
-                webViewSingleton.instance.evaluateJavascript("Pebble.evaluate('" + jsEvent + "',[" + appMessage + "]);", new ValueCallback<String>() {
-                    @Override
-                    public void onReceiveValue(String s) {
-                        //TODO: the message should be acked here instead of in PebbleIoThread
-                        LOG.debug("Callback from appmessage: " + s);
-                    }
-                });
-            }
-        });
-    }
-
     public static void stopJavascriptInterface() {
-        new Handler(webViewSingleton.mainLooper).post(new Runnable() {
+        invokeWebview(new WebViewRunnable() {
             @Override
-            public void run() {
-                if (webViewSingleton.instance != null) {
-                    webViewSingleton.instance.removeJavascriptInterface("GBjs");
-                    webViewSingleton.instance.loadUrl("about:blank");
-                }
+            public void invoke(WebView webView) {
+                webView.removeJavascriptInterface("GBjs");
+                webView.loadUrl("about:blank");
             }
         });
     }
@@ -233,86 +196,47 @@ public class WebViewSingleton {
             internetHelperBound = false;
         }
         currentRunningUUID = null;
-        new Handler(webViewSingleton.mainLooper).post(new Runnable() {
+        invokeWebview(new WebViewRunnable() {
             @Override
-            public void run() {
-                if (webViewSingleton.instance != null) {
-                    webViewSingleton.instance.removeJavascriptInterface("GBjs");
-//                    webViewSingleton.instance.setWebChromeClient(null);
-//                    webViewSingleton.instance.setWebViewClient(null);
-                    webViewSingleton.instance.clearHistory();
-                    webViewSingleton.instance.clearCache(true);
-                    webViewSingleton.instance.loadUrl("about:blank");
-//                    webViewSingleton.instance.freeMemory();
-                    webViewSingleton.instance.pauseTimers();
+            public void invoke(WebView webView) {
+                webView.removeJavascriptInterface("GBjs");
+//                    webView.setWebChromeClient(null);
+//                    webView.setWebViewClient(null);
+                webView.clearHistory();
+                webView.clearCache(true);
+                webView.loadUrl("about:blank");
+//                    webView.freeMemory();
+                webView.pauseTimers();
 //                    instance.destroy();
 //                    instance = null;
 //                    contextWrapper = null;
 //                    jsInterface = null;
-                }
             }
         });
     }
 
-    public static JSONObject getAppConfigurationKeys(UUID uuid) {
-        try {
-            File destDir = new File(FileUtils.getExternalFilesDir() + "/pbw-cache");
-            File configurationFile = new File(destDir, uuid.toString() + ".json");
-            if (configurationFile.exists()) {
-                String jsonString = FileUtils.getStringFromFile(configurationFile);
-                JSONObject json = new JSONObject(jsonString);
-                return json.getJSONObject("appKeys");
-            }
-        } catch (IOException | JSONException e) {
-            LOG.warn("Unable to parse configuration JSON file", e);
+    public static void invokeWebview(final WebViewRunnable runnable) {
+        if (webViewSingleton.instance == null || webViewSingleton.mainLooper == null) {
+            LOG.warn("Webview already disposed, ignoring runnable");
+            return;
         }
-        return null;
+        new Handler(webViewSingleton.mainLooper).post(new Runnable() {
+            @Override
+            public void run() {
+                if (webViewSingleton.instance == null) {
+                    LOG.warn("Webview already disposed, cannot invoke runnable");
+                    return;
+                }
+                runnable.invoke(webViewSingleton.instance);
+            }
+        });
     }
 
-    private static String parseIncomingAppMessage(String msg, UUID uuid) {
-        JSONObject jsAppMessage = new JSONObject();
-
-        JSONObject knownKeys = getAppConfigurationKeys(uuid);
-        SparseArray<String> appKeysMap = new SparseArray<>();
-
-        if (knownKeys == null || msg == null) {
-            return "{}";
-        }
-
-        String inKey, outKey;
-        //knownKeys contains "name"->"index", we need to reverse that
-        for (Iterator<String> key = knownKeys.keys(); key.hasNext(); ) {
-            inKey = key.next();
-            appKeysMap.put(knownKeys.optInt(inKey), inKey);
-        }
-
-        try {
-            JSONArray incoming = new JSONArray(msg);
-            JSONObject outgoing = new JSONObject();
-            for (int i = 0; i < incoming.length(); i++) {
-                JSONObject in = incoming.getJSONObject(i);
-                outKey = null;
-                Object outValue = null;
-                for (Iterator<String> key = in.keys(); key.hasNext(); ) {
-                    inKey = key.next();
-                    switch (inKey) {
-                        case "key":
-                            outKey = appKeysMap.get(in.optInt(inKey));
-                            break;
-                        case "value":
-                            outValue = in.get(inKey);
-                    }
-                }
-                if (outKey != null && outValue != null) {
-                    outgoing.put(outKey, outValue);
-                }
-            }
-            jsAppMessage.put("payload", outgoing);
-
-        } catch (Exception e) {
-            LOG.warn("Unable to parse incoming app message", e);
-        }
-        return jsAppMessage.toString();
+    public interface WebViewRunnable {
+        /**
+         * Called in the main thread with a non-null webView instance
+         * @param webView the webview, never null
+         */
+        void invoke(WebView webView);
     }
-
 }

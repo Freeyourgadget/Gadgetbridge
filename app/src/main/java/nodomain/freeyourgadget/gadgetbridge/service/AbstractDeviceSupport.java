@@ -44,6 +44,7 @@ import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.FindPhoneActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AbstractAppManagerFragment;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsHost;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
@@ -51,6 +52,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
@@ -153,6 +155,25 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             handleGBDeviceEvent((GBDeviceEventNotificationControl) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventBatteryInfo) {
             handleGBDeviceEvent((GBDeviceEventBatteryInfo) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventFindPhone) {
+            handleGBDeviceEvent((GBDeviceEventFindPhone) deviceEvent);
+        }
+    }
+
+    private void handleGBDeviceEvent(GBDeviceEventFindPhone deviceEvent) {
+        Context context = getContext();
+        LOG.info("Got GBDeviceEventFindPhone");
+        switch (deviceEvent.event) {
+            case START:
+                Intent startIntent = new Intent(getContext(), FindPhoneActivity.class);
+                context.startActivity(startIntent);
+                break;
+            case STOP:
+                Intent intent = new Intent(FindPhoneActivity.ACTION_FOUND);
+                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                break;
+            default:
+                LOG.warn("unknown GBDeviceEventFindPhone");
         }
     }
 

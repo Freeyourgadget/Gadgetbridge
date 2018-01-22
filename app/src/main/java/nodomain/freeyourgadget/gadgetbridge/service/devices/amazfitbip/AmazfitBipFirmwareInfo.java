@@ -40,6 +40,11 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
             (byte) 0xfa, (byte) 0xf3, 0x62, (byte) 0xeb, (byte) 0x92, (byte) 0xc6, (byte) 0xa1, (byte) 0xbb
     };
 
+    private static final byte[] GPS_HEADER4 = new byte[]{
+            0x0b, 0x61, 0x53, (byte) 0xed, (byte) 0x83, (byte) 0xac, 0x07, 0x21,
+            (byte) 0x8c, 0x36, 0x2e, (byte) 0x8c, (byte) 0x9c, 0x08, 0x54, (byte) 0xa6
+    };
+
     // guessed - at least it is the same across versions from 0.0.7.x to 0.0.9.x
     // and different from other devices
     private static final byte[] FW_HEADER = new byte[]{
@@ -79,9 +84,12 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(28586, "0.1.0.08");
         crcToVersion.put(26714, "0.1.0.11");
         crcToVersion.put(64160, "0.1.0.17");
+        crcToVersion.put(21992, "0.1.0.26");
         crcToVersion.put(43028, "0.1.0.27");
         crcToVersion.put(59462, "0.1.0.33");
         crcToVersion.put(55277, "0.1.0.39");
+        crcToVersion.put(47685, "0.1.0.43");
+        crcToVersion.put(30229, "0.1.0.45");
 
         // resources
         crcToVersion.put(12586, "0.0.8.74");
@@ -93,12 +101,13 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(12098, "0.1.0.17");
         crcToVersion.put(28696, "0.1.0.26-0.1.0.27");
         crcToVersion.put(5650,  "0.1.0.33");
-        crcToVersion.put(16117, "0.1.0.39");
+        crcToVersion.put(16117, "0.1.0.39-0.1.0.45");
 
         // gps
         crcToVersion.put(61520, "9367,8f79a91,0,0,");
         crcToVersion.put(8784,  "9565,dfbd8fa,0,0,");
         crcToVersion.put(16716, "9565,dfbd8faf42,0");
+        crcToVersion.put(54154, "9567,8b05506,0,0,");
     }
 
     public AmazfitBipFirmwareInfo(byte[] bytes) {
@@ -113,7 +122,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
             }
             return HuamiFirmwareType.RES;
         }
-        if (ArrayUtils.startsWith(bytes, GPS_HEADER) || ArrayUtils.startsWith(bytes, GPS_HEADER2) || ArrayUtils.startsWith(bytes, GPS_HEADER3)) {
+        if (ArrayUtils.startsWith(bytes, GPS_HEADER) || ArrayUtils.startsWith(bytes, GPS_HEADER2) || ArrayUtils.startsWith(bytes, GPS_HEADER3) || ArrayUtils.startsWith(bytes, GPS_HEADER4)) {
             return HuamiFirmwareType.GPS;
         }
         if (ArrayUtils.startsWith(bytes, GPS_ALMANAC_HEADER)) {

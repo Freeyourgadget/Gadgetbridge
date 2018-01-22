@@ -429,4 +429,5 @@
 \n
 \nEXPERIMENTÁLNÍ PROCES, DĚLÁTE NA VAŠE VLASTNÍ RIZIKO</string>
     <string name="amazfitbip_firmware">"Firmware Amazfit Bipu  %1$s"</string>
-</resources>
+<string name="controlcenter_connect">Připojit</string>
+    </resources>

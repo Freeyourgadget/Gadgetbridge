@@ -407,7 +407,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         super(device);
         mAppMessageHandlers.put(UUID_MORPHEUZ, new AppMessageHandlerMorpheuz(UUID_MORPHEUZ, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_MISFIT, new AppMessageHandlerMisfit(UUID_MISFIT, PebbleProtocol.this));
-        if (!(GBApplication.getPrefs().getBoolean("pebble_enable_background_javascript", false))) {
+        if (!GBApplication.getGBPrefs().isBackgroundJsEnabled()) {
             mAppMessageHandlers.put(UUID_PEBBLE_TIMESTYLE, new AppMessageHandlerTimeStylePebble(UUID_PEBBLE_TIMESTYLE, PebbleProtocol.this));
             mAppMessageHandlers.put(UUID_PEBSTYLE, new AppMessageHandlerPebStyle(UUID_PEBSTYLE, PebbleProtocol.this));
             mAppMessageHandlers.put(UUID_MARIOTIME, new AppMessageHandlerMarioTime(UUID_MARIOTIME, PebbleProtocol.this));
@@ -418,6 +418,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             mAppMessageHandlers.put(UUID_ZALEWSZCZAK_FANCY, new AppMessageHandlerZalewszczak(UUID_ZALEWSZCZAK_FANCY, PebbleProtocol.this));
             mAppMessageHandlers.put(UUID_ZALEWSZCZAK_TALLY, new AppMessageHandlerZalewszczak(UUID_ZALEWSZCZAK_TALLY, PebbleProtocol.this));
             mAppMessageHandlers.put(UUID_OBSIDIAN, new AppMessageHandlerObsidian(UUID_OBSIDIAN, PebbleProtocol.this));
+            mAppMessageHandlers.put(UUID_GBPEBBLE, new AppMessageHandlerGBPebble(UUID_GBPEBBLE, PebbleProtocol.this));
         }
     }
 

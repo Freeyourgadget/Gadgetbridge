@@ -53,6 +53,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.F
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service.ENDPOINT_DISPLAY_ITEMS;
+
 public class AmazfitBipSupport extends MiBand2Support {
 
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitBipSupport.class);
@@ -120,6 +122,19 @@ public class AmazfitBipSupport extends MiBand2Support {
     @Override
     public void handleButtonEvent() {
         // ignore
+    }
+
+    @Override
+    protected AmazfitBipSupport setDisplayItems(TransactionBuilder builder) {
+        /*
+        LOG.info("Enabling all display items");
+
+        // This will brick the watch, don't enable it!
+        byte[] data = new byte[]{ENDPOINT_DISPLAY_ITEMS, (byte) 0xff, 0x01, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
+
+        builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), data);
+        */
+        return this;
     }
 
     @Override
@@ -320,6 +335,7 @@ public class AmazfitBipSupport extends MiBand2Support {
         builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
         return this;
     }
+
 
     @Override
     public void phase2Initialize(TransactionBuilder builder) {
