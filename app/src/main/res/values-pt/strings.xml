@@ -385,4 +385,5 @@
   <string name="discovery_pair_title">Emparelhar com %1$s?</string>
   <string name="discovery_yes_pair">Emparelhar</string>
   <string name="discovery_dont_pair">Não emparelhar</string>
-</resources>
+<string name="action_donate">Doar</string>
+    </resources>
