@@ -92,7 +92,7 @@
   <string name="pref_title_canned_reply_suffix">Sufixo comum</string>
   <string name="pref_title_canned_messages_dismisscall">Chamadas recusadas</string>
   <string name="pref_title_canned_messages_set">Atualizar no Pebble</string>
-  <string name="pref_header_development">Opções do programador</string>
+  <string name="pref_header_development">Opções de programador</string>
   <string name="pref_title_development_miaddr">Endereço do Mi Band</string>
   <string name="pref_title_pebble_settings">Configurações Pebble</string>
   <string name="pref_header_activitytrackers">Ativar monitores</string>
