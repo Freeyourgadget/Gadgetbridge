@@ -68,7 +68,7 @@
 \n 
 \nΔΕΝ συνίσταται η εγκατάσταση του στο Mi Band σας!</string>
     <string name="title_activity_appmanager">Διαχειριστής εφαρμογών</string>
-    <string name="miband_firmware_suggest_whitelist">Αν ακόμη θέλετε να προχωρήσετε και μετά όλα λειτουργούν κανονικά, παρακαλούμε ενημερώστε τους δημιουργούς του Gadgetbridge σχετικά με την έκδοση: %s</string>
+    <string name="miband_firmware_suggest_whitelist">Αν ακόμη θέλετε να προχωρήσετε και μετά όλα λειτουργούν κανονικά, παρακαλούμε ενημερώστε τους δημιουργούς του Gadgetbridge σχετικά με την %s έκδοση</string>
 
     <string name="title_activity_settings">Ρυθμίσεις</string>
 
@@ -174,7 +174,7 @@
     <string name="pref_title_pebble_forceuntested">Να επιτρέπονται τα μη δοκιμασμένα χαρακτηριστικά</string>
     <string name="pref_summary_pebble_forceuntested">Χρήση μη δοκιμασμένων χαρακτηριστικών. ΕΝΕΡΓΟΠΟΙΗΣΤΕ ΜΟΝΟ ΑΝ ΞΕΡΕΤΕ ΤΙ ΚΑΝΕΤΕ!</string>
     <string name="pref_title_pebble_forcele">Πάντα να προτιμάται το Bluetooth χαμηλής ενέργειας (BLE)</string>
-    <string name="pref_summary_pebble_forcele">Χρήση της δοκιμαστικής υποστήριξης του Pebble LE για όλα τα Pebble αντί της κλασικής υποστήριξης BT, απαιτεί τη σύζευξη Pebble LE μετά από σύνδεση μίας μη LE</string>
+    <string name="pref_summary_pebble_forcele">Χρήση της δοκιμαστικής υποστήριξης του Pebble LE για όλα τα Pebble αντί της κλασικής υποστήριξης BT. Αυτό απαιτεί τη σύζευξη μη LE πρώτα και μετά σύνδεση Pebble LE</string>
     <string name="pref_title_pebble_mtu_limit">Όριο Pebble 2/LE GATT MTU</string>
     <string name="pref_summary_pebble_mtu_limit">Αν το Pebble 2/Pebble LE δεν λειτουργεί αναμενόμενα, προσπαθήστε να βάλετε όριο στο MTU (από 20 έως 512)</string>
     <string name="pref_title_pebble_enable_applogs">Να επιτρέπεται η καταγραφή δεδομένων</string>
@@ -313,7 +313,7 @@
     <string name="user_feedback_miband_set_alarms_ok">Τα ξυπνητήρια στάλθηκαν στη συσκευή!</string>
     <string name="chart_no_data_synchronize">Χωρίς δεδομένα. Συγχρονισμός με τη συσκευή;</string>
     <string name="user_feedback_miband_activity_data_transfer">"Θα γίνει μεταφορά %1$s  δεδομένων ξεκινώντας από %2$s"</string>
-    <string name="miband_prefs_fitness_goal">Επιθυμητός αριθμός βημάτων ανά μέρα</string>
+    <string name="miband_prefs_fitness_goal">Στόχος βημάτων ανά μέρα</string>
     <string name="dbaccess_error_executing">Σφάλμα κατά την εκτέλεση \"%1$s\"</string>
     <string name="controlcenter_start_activitymonitor">Η δραστηριότητά σας (ΥΠΟ ΔΟΚΙΜΗ)</string>
     <string name="cannot_connect">Δεν μπορεί να συνδεθεί: %1$s</string>
@@ -327,7 +327,7 @@
 \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Αριθμός φορτίσεων: %s</string>
     <string name="sleepchart_your_sleep">Ο ύπνος σας</string>
-    <string name="weeksleepchart_sleep_a_week">Ύπνος την εβδομάδα</string>
+    <string name="weeksleepchart_sleep_a_week">Ύπνος ανά εβδομάδα</string>
     <string name="weeksleepchart_today_sleep_description">Ύπνος σήμερα, στόχος: %1$s</string>
     <string name="weekstepschart_steps_a_week">Βήματα την εβδομάδα</string>
     <string name="activity_sleepchart_activity_and_sleep">Η δραστηριότητα και ο ύπνος σας</string>
