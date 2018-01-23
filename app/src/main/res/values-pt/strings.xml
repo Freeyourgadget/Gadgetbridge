@@ -170,11 +170,11 @@
   <string name="title_activity_android_pairing">Emparelhar dispositivo</string>
   <string name="android_pairing_hint">Use o diálogo do sistema Android para emparelhar com o dispositivo</string>
   <string name="title_activity_mi_band_pairing">Emparelhar com a sua Mi Band</string>
-  <string name="pairing">A emparelhar com %s...</string>
+  <string name="pairing">A emparelhar com %s…</string>
   <string name="pairing_creating_bond_with">A criar ligação com %1$s (%2$s)</string>
   <string name="pairing_unable_to_pair_with">Não foi possível emparelhar com %1$s (%2$s)</string>
   <string name="pairing_in_progress">Associação em progresso: %1$s (%2$s)</string>
-  <string name="pairing_already_bonded">Já associado com %1$s (%2$s), a ligar...</string>
+  <string name="pairing_already_bonded">Já associado com %1$s (%2$s), a ligar…</string>
   <string name="message_cannot_pair_no_mac">Nenhum endereço MAC fornecido, não é possível emparelhar.</string>
   <string name="preferences_category_device_specific_settings">Configurações Específicas do Dispositivo</string>
   <string name="preferences_miband_settings">Configurações Mi Band</string>
@@ -183,7 +183,7 @@
   <string name="other">outro</string>
   <string name="left">esquerda</string>
   <string name="right">direita</string>
-  <string name="miband_pairing_using_dummy_userdata">Sem dados de utilizador. Por enquanto serão usados dados fictícios</string>
+  <string name="miband_pairing_using_dummy_userdata">Sem dados de utilizador. Por enquanto serão usados dados fictícios.</string>
   <string name="miband_pairing_tap_hint">Quando a sia Mi Band vibrar e piscar, dê-lhe alguns toques seguidos.</string>
   <string name="appinstaller_install">Instalar</string>
   <string name="discovery_connected_devices_hint">Torne o seu dispositivo visível.  É improvável que os dispositivos atualmente ligados sejam apresentados. Ative a localização (i.e, GPS) no Android 6+. Desative também a Proteção de Privacidade para o Gadgetbridge, pois esta poderá bloquear e levar ao reinício do seu telefone. Se depois de alguns minutos não for encontrado qualquer dispositivo, tente outra vez após reiniciar o telefone.</string>
