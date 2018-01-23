@@ -82,11 +82,11 @@
   <string name="never">nunca</string>
   <string name="pref_header_privacy">Privacidade</string>
   <string name="pref_title_call_privacy_mode">Modo de chamada privada</string>
-  <string name="pref_call_privacy_mode_off">Exibir nome e número</string>
-  <string name="pref_call_privacy_mode_name">Ocultar nome e exibir número</string>
-  <string name="pref_call_privacy_mode_number">Ocular o número e exibir o nome</string>
+  <string name="pref_call_privacy_mode_off">Mostrar nome e número</string>
+  <string name="pref_call_privacy_mode_name">Ocultar nome e mostrar número</string>
+  <string name="pref_call_privacy_mode_number">Ocultar número e mostrar nome</string>
   <string name="pref_call_privacy_mode_complete">Ocultar nome e número</string>
-  <string name="pref_blacklist">Aplicações ignoradas</string>
+  <string name="pref_blacklist">Bloquear Aplicações</string>
   <string name="pref_header_cannned_messages">Histórico de mensagens</string>
   <string name="pref_title_canned_replies">Respostas</string>
   <string name="pref_title_canned_reply_suffix">Sufixo comum</string>
@@ -404,5 +404,10 @@
 \n
 \nNÃO FOI TESTADO, PODERÁ DANIFICAR O SEU DISPOSITIVO.CONTINUE A SEU PRÓPRIO RISCO!</string>
     <string name="pref_title_charts_swipe">"Ativar deslizar para esquerda/direita nos  gráficos de atividade"</string>
+
+    <string name="pref_title_weather">Meteorologia</string>
+    <string name="pref_title_weather_location">Localização para meteorologia (CM/LOS)</string>
+
+    <string name="pref_blacklist_calendars">Bloquear Calendários</string>
 
     </resources>
