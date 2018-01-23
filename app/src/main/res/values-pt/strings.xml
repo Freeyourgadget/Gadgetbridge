@@ -21,7 +21,7 @@
   <string name="controlcenter_snackbar_requested_screenshot">Capturar o ecrã do dispositivo</string>
   <string name="title_activity_debug">Depurar</string>
   <!--Strings related to AppManager-->
-  <string name="title_activity_appmanager">Administrador de App</string>
+  <string name="title_activity_appmanager">Gestor de Aplicações</string>
   <string name="appmanager_cached_watchapps_watchfaces">Apps em cache</string>
   <string name="appmanager_installed_watchapps">Aplicações instaladas</string>
   <string name="appmanager_installed_watchfaces">Temas instalados</string>
