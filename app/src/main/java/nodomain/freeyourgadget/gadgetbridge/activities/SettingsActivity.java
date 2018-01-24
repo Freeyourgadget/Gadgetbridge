@@ -308,10 +308,10 @@ public class SettingsActivity extends AbstractSettingsActivity {
             public boolean onPreferenceChange(Preference preference, Object autoExportInterval) {
                 String summary = String.format(
                         getApplicationContext().getString(R.string.pref_summary_auto_export_interval),
-                        (int) autoExportInterval);
+                        Integer.valueOf((String) autoExportInterval));
                 preference.setSummary(summary);
                 boolean auto_export_enabled = GBApplication.getPrefs().getBoolean(GBPrefs.AUTO_EXPORT_ENABLED, false);
-                PeriodicExporter.sheduleAlarm(getApplicationContext(), (int) autoExportInterval, auto_export_enabled);
+                PeriodicExporter.sheduleAlarm(getApplicationContext(), Integer.valueOf((String) autoExportInterval), auto_export_enabled);
                 return true;
             }
         });
