@@ -541,4 +541,12 @@
     <string name="devicetype_exrizu_k8">Exrizu K8</string>
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
+<string name="pref_header_auto_export">Automatisk eksport</string>
+    <string name="pref_title_auto_export_enabled">Automatisk eksport mislyktes</string>
+    <string name="pref_title_auto_export_location">Eksporteringsplassering</string>
+    <string name="pref_title_auto_export_interval">Eksporteringsintervall</string>
+    <string name="pref_summary_auto_export_interval">Eksporter hver %d time</string>
+
+    <string name="notif_export_failed_title">Eksport av database mislyktes. Sjekk innstillingene dine.</string>
+    <string name="choose_auto_export_location">Velg eksportplassering</string>
 </resources>
