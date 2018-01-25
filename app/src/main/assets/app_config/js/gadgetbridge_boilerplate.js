@@ -221,7 +221,7 @@ function gbPebble() {
             }
         }
         catch (e) {
-            GBjs.gbLog("sendAppMessage failed");
+            GBjs.gbLog("sendAppMessage failed" + e);
         }
     }
 
