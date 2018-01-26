@@ -85,21 +85,21 @@ function hideSteps() {
 function gbPebble() {
     this.configurationURL = null;
     this.configurationValues = null;
+
+    this.appMessageCallbackACK = {};
+    this.appMessageCallbackNACK = {};
+
     var self = this;
 
-    appMessageCallbackACK = {};
-    appMessageCallbackNACK = {};
-
-    function appMessageCallbackProcessed(transactionId) {
-    if (appMessageCallbackACK[transactionId]) {
-        self.removeEventListener("ACK"+transactionId, self.appMessageCallbackACK[transactionId]);
-        appMessageCallbackACK[transactionId] = undefined;
-    }
-    if (appMessageCallbackNACK[transactionId]) {
-        self.removeEventListener("NACK"+transactionId, self.appMessageCallbackNACK[transactionId]);
-        appMessageCallbackNACK[transactionId] = undefined;
-    }
-
+    self.appMessageCallbackProcessed = function (transactionId) {
+        if (self.appMessageCallbackACK[transactionId]) {
+            self.removeEventListener("ACK"+transactionId, self.appMessageCallbackACK[transactionId]);
+            self.appMessageCallbackACK[transactionId] = undefined;
+        }
+        if (self.appMessageCallbackNACK[transactionId]) {
+            self.removeEventListener("NACK"+transactionId, self.appMessageCallbackNACK[transactionId]);
+            self.appMessageCallbackNACK[transactionId] = undefined;
+        }
     }
     self.events = {};
     //events processing: see http://stackoverflow.com/questions/10978311/implementing-events-in-my-own-object
@@ -198,7 +198,7 @@ function gbPebble() {
                 }
                 var transactionId = GBjs.sendAppMessage(JSON.stringify(dict), needsTransaction);
                 if (needsTransaction) {
-                    if (callbackAck != undefined) {
+                    if (typeof callbackAck != "undefined") {
                         self.appMessageCallbackACK[transactionId] = function(e) {
 //                            console.log("ACK FOR " + JSON.stringify(e));
                             callbackAck(e);
@@ -208,7 +208,7 @@ function gbPebble() {
                         this.addEventListener("ACK"+transactionId, self.appMessageCallbackACK[transactionId]);
 
                     }
-                    if (callbackNack != undefined) {
+                    if (typeof callbackNack != "undefined") {
                         self.appMessageCallbackNACK[transactionId] = function(e) {
 //                            console.log("NACK FOR " + JSON.stringify(e));
                             callbackNack(e);
@@ -221,7 +221,7 @@ function gbPebble() {
             }
         }
         catch (e) {
-            GBjs.gbLog("sendAppMessage failed");
+            GBjs.gbLog("sendAppMessage failed: " + e);
         }
     }
 

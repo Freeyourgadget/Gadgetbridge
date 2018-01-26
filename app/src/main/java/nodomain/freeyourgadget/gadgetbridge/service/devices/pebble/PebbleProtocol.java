@@ -2238,18 +2238,23 @@ public class PebbleProtocol extends GBDeviceProtocol {
         switch (command) {
             case APPRUNSTATE_START:
                 LOG.info(ENDPOINT_NAME + ": started " + uuid);
-                currentRunningApp = uuid;
+
                 AppMessageHandler handler = mAppMessageHandlers.get(uuid);
                 if (handler != null) {
+                    currentRunningApp = uuid;
                     return handler.onAppStart();
                 }
                 else {
-                    GBDeviceEventAppManagement gbDeviceEventAppManagement = new GBDeviceEventAppManagement();
-                    gbDeviceEventAppManagement.uuid = uuid;
-                    gbDeviceEventAppManagement.type = GBDeviceEventAppManagement.EventType.START;
-                    gbDeviceEventAppManagement.event = GBDeviceEventAppManagement.Event.SUCCESS;
-                    return new GBDeviceEvent[] {gbDeviceEventAppManagement};
+                    if (!uuid.equals(currentRunningApp)) {
+                        currentRunningApp = uuid;
+                        GBDeviceEventAppManagement gbDeviceEventAppManagement = new GBDeviceEventAppManagement();
+                        gbDeviceEventAppManagement.uuid = uuid;
+                        gbDeviceEventAppManagement.type = GBDeviceEventAppManagement.EventType.START;
+                        gbDeviceEventAppManagement.event = GBDeviceEventAppManagement.Event.SUCCESS;
+                        return new GBDeviceEvent[]{gbDeviceEventAppManagement};
+                    }
                 }
+                break;
             case APPRUNSTATE_STOP:
                 LOG.info(ENDPOINT_NAME + ": stopped " + uuid);
                 break;
@@ -2603,13 +2608,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         LOG.info((endpoint == ENDPOINT_LAUNCHER ? "got LAUNCHER PUSH from UUID : " : "got APPLICATIONMESSAGE PUSH from UUID : ")  + uuid);
                         AppMessageHandler handler = mAppMessageHandlers.get(uuid);
                         if (handler != null) {
+                            currentRunningApp = uuid;
                             if (handler.isEnabled()) {
                                 if (endpoint == ENDPOINT_APPLICATIONMESSAGE) {
                                     ArrayList<Pair<Integer, Object>> dict = decodeDict(buf);
                                     devEvts = handler.handleMessage(dict);
                                 }
                                 else {
-                                    currentRunningApp = uuid;
                                     devEvts = handler.onAppStart();
                                 }
                             } else {
@@ -2617,22 +2622,26 @@ public class PebbleProtocol extends GBDeviceProtocol {
                             }
                         } else {
                             try {
-                                if (endpoint == ENDPOINT_APPLICATIONMESSAGE) {
-                                    devEvts = decodeDictToJSONAppMessage(uuid, buf);
-                                }
-                                else {
-                                    currentRunningApp = uuid;
-                                    GBDeviceEventAppManagement gbDeviceEventAppManagement = new GBDeviceEventAppManagement();
-                                    gbDeviceEventAppManagement.uuid = uuid;
-                                    gbDeviceEventAppManagement.type = GBDeviceEventAppManagement.EventType.START;
-                                    gbDeviceEventAppManagement.event = GBDeviceEventAppManagement.Event.SUCCESS;
-                                    devEvts = new GBDeviceEvent[] {gbDeviceEventAppManagement};
-                                }
+                                devEvts = decodeDictToJSONAppMessage(uuid, buf);
                             } catch (JSONException e) {
                                 LOG.error(e.getMessage());
-                                return null;
+                            }
+                            if (!uuid.equals(currentRunningApp)) {
+                                GBDeviceEventAppManagement gbDeviceEventAppManagement = new GBDeviceEventAppManagement();
+                                gbDeviceEventAppManagement.uuid = uuid;
+                                gbDeviceEventAppManagement.type = GBDeviceEventAppManagement.EventType.START;
+                                gbDeviceEventAppManagement.event = GBDeviceEventAppManagement.Event.SUCCESS;
+
+                                // prepend the
+                                GBDeviceEvent concatEvents[] = new GBDeviceEvent[(devEvts != null ? devEvts.length : 0) + 1];
+                                concatEvents[0] = gbDeviceEventAppManagement;
+                                if (devEvts != null) {
+                                    System.arraycopy(devEvts, 0, concatEvents, 1, devEvts.length);
+                                }
+                                devEvts = concatEvents;
                             }
                         }
+                        currentRunningApp = uuid;
                         break;
                     case APPLICATIONMESSAGE_ACK:
                     case APPLICATIONMESSAGE_NACK:
