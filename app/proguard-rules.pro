@@ -18,3 +18,6 @@
 
 # https://github.com/tony19/logback-android/issues/29
 -dontwarn javax.mail.**, javax.naming.Context, javax.naming.InitialContext
+
+-keepnames class nodomain.freeyourgadget.gadgetbridge.*
+-keep class nodomain.freeyourgadget.gadgetbridge.entities.**{*;}
