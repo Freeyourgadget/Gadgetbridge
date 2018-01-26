@@ -172,7 +172,11 @@ public class GBApplication extends Application {
         if (isRunningMarshmallowOrLater()) {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             //the following will ensure the notification manager is kept alive
-            startService(new Intent(this, NotificationCollectorMonitorService.class));
+            if(!isRunningOreoOrLater()) {
+                startService(new Intent(this, NotificationCollectorMonitorService.class));
+            } else {
+                startForegroundService(new Intent(this, NotificationCollectorMonitorService.class));
+            }
         }
     }
 
@@ -288,6 +292,10 @@ public class GBApplication extends Application {
 
     public static boolean isRunningMarshmallowOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.M;
+    }
+
+    public static boolean isRunningOreoOrLater(){
+        return VERSION.SDK_INT >= Build.VERSION_CODES.O;
     }
 
     private static boolean isPrioritySender(int prioritySenders, String number) {
