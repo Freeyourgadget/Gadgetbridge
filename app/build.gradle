@@ -46,6 +46,14 @@ android {
         }
     }
 
+    android {
+        testOptions {
+            unitTests {
+                includeAndroidResources = true
+            }
+        }
+    }
+
     lintOptions {
         abortOnError ABORT_ON_CHECK_FAILURE
         lintConfig file("${project.rootDir}/config/lint/lint.xml")
