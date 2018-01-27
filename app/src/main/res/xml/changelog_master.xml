@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release
-        version="0.24.1"
-        versioncode="118">
+    <release version="0.24.2" versioncode="119">
+        <change>Fix crash when changing the periodic database export interval</change>
+        <change>Amazfit Bip: Allow fonts and new res format to be flashed</change>
+        <change>Amazfit Cor: Allow new res format to be flashed</change>
+        <change>Pebble: Background js fixes</change>
+    </release>
+    <release version="0.24.1" versioncode="118">
         <change>Amazfit Bip: prevent menu icons from vanishing when using firmware 0.1.0.51</change>
         <change>Pebble: "find phone" feature for upcoming pebble helper app</change>
     </release>
