@@ -37,7 +37,7 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
     private static final int FW_HEADER_OFFSET_2 = 0x9340;
     private static final int FW_HEADER_OFFSET_3 = 0x9288;
 
-    private static final int NEW_RES_HEADER_OFFSET = 0x9;
+    private static final int COMPRESSED_RES_HEADER_OFFSET = 0x9;
 
     private static Map<Integer, String> crcToVersion = new HashMap<>();
 
@@ -63,8 +63,8 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
                 return HuamiFirmwareType.INVALID;
             }
             return HuamiFirmwareType.RES;
-        } else if (ArrayUtils.equals(bytes, RES_HEADER, NEW_RES_HEADER_OFFSET)) {
-            return HuamiFirmwareType.RES_NEW;
+        } else if (ArrayUtils.equals(bytes, RES_HEADER, COMPRESSED_RES_HEADER_OFFSET) || ArrayUtils.equals(bytes, NEWRES_HEADER, COMPRESSED_RES_HEADER_OFFSET)) {
+            return HuamiFirmwareType.RES_COMPRESSED;
         } else if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET) || ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET_2) || ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET_3)) {
             // TODO: this is certainly not a correct validation, but it works for now
             return HuamiFirmwareType.FIRMWARE;

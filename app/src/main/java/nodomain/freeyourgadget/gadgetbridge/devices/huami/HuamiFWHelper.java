@@ -27,7 +27,6 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 
 public abstract class HuamiFWHelper extends AbstractMiBandFWHelper {
     protected HuamiFirmwareInfo firmwareInfo;
@@ -60,9 +59,7 @@ public abstract class HuamiFWHelper extends AbstractMiBandFWHelper {
                 resId = R.string.kind_gps_cep;
                 break;
             case RES:
-                resId = R.string.kind_resources;
-                break;
-            case RES_NEW:
+            case RES_COMPRESSED:
                 resId = R.string.kind_resources;
                 break;
             case FIRMWARE:

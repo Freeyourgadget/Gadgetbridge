@@ -60,7 +60,7 @@ public abstract class HuamiFirmwareInfo {
                 case RES:
                     version = "RES " + Integer.toString(bytes[5]);
                     break;
-                case RES_NEW:
+                case RES_COMPRESSED:
                     version = "RES " + Integer.toString(bytes[14]);
                     break;
                 case FONT:
