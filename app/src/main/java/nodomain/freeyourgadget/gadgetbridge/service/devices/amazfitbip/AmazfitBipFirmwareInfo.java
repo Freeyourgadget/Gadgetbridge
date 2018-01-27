@@ -89,6 +89,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(59462, "0.1.0.33");
         crcToVersion.put(55277, "0.1.0.39");
         crcToVersion.put(47685, "0.1.0.43");
+        crcToVersion.put(2839,  "0.1.0.44");
         crcToVersion.put(30229, "0.1.0.45");
 
         // resources
