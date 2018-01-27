@@ -25,6 +25,7 @@ public enum HuamiFirmwareType {
     GPS_CEP((byte) 4),
     GPS_ALMANAC((byte)5),
     WATCHFACE((byte)8),
+    FONT_LATIN((byte)11),
     INVALID(Byte.MIN_VALUE);
 
     private final byte value;

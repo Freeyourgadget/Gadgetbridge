@@ -47,6 +47,7 @@ public abstract class HuamiFWHelper extends AbstractMiBandFWHelper {
         int resId = R.string.kind_invalid;
         switch (getFirmwareInfo().getFirmwareType()) {
             case FONT:
+            case FONT_LATIN:
                 resId = R.string.kind_font;
                 break;
             case GPS:

@@ -32,6 +32,10 @@ public abstract class HuamiFirmwareInfo {
             0x48, 0x4d, 0x52, 0x45, 0x53
     };
 
+    protected static final byte[] NEWRES_HEADER = new byte[]{ // NERES resources file (*.res)
+            0x4e, 0x45, 0x52, 0x45, 0x53
+    };
+
     protected static final byte[] WATCHFACE_HEADER = new byte[]{
             0x48, 0x4d, 0x44, 0x49, 0x41, 0x4c
     };
@@ -40,19 +44,31 @@ public abstract class HuamiFirmwareInfo {
             0x48, 0x4d, 0x5a, 0x4b
     };
 
+    protected static final byte[] NEWFT_HEADER = new byte[]{ // NEZK font file (*.ft, *.ft.xx)
+            0x4e, 0x45, 0x5a, 0x4b
+    };
+
     private HuamiFirmwareType firmwareType = HuamiFirmwareType.FIRMWARE;
 
     public String toVersion(int crc16) {
         String version = getCrcMap().get(crc16);
         if (version == null) {
-            if (firmwareType == HuamiFirmwareType.FIRMWARE) {
-                version = searchFirmwareVersion(bytes);
-            }
-            else if (firmwareType == HuamiFirmwareType.RES) {
-                version = "RES " + Integer.toString(bytes[5]);
-            }
-            else if (firmwareType == HuamiFirmwareType.RES_NEW) {
-                version = "RES " + Integer.toString(bytes[14]);
+            switch (firmwareType) {
+                case FIRMWARE:
+                    version = searchFirmwareVersion(bytes);
+                    break;
+                case RES:
+                    version = "RES " + Integer.toString(bytes[5]);
+                    break;
+                case RES_NEW:
+                    version = "RES " + Integer.toString(bytes[14]);
+                    break;
+                case FONT:
+                    version = "FONT " + Integer.toString(bytes[4]);
+                    break;
+                case FONT_LATIN:
+                    version = "FONT LATIN " + Integer.toString(bytes[4]);
+                    break;
             }
         }
         if (version == null) {
@@ -61,6 +77,7 @@ public abstract class HuamiFirmwareInfo {
                     version = "(unknown)";
                     break;
                 case FONT:
+                case FONT_LATIN:
                     version = "(unknown font)";
                     break;
                 case GPS:

@@ -116,7 +116,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
 
     @Override
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
-        if (ArrayUtils.startsWith(bytes, RES_HEADER)) {
+        if (ArrayUtils.startsWith(bytes, RES_HEADER) || ArrayUtils.startsWith(bytes, NEWRES_HEADER)) {
             if (bytes.length > 500000) { // dont know how to distinguish from Cor .res
                 return HuamiFirmwareType.INVALID;
             }
@@ -137,6 +137,12 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         }
         if (ArrayUtils.startsWith(bytes, WATCHFACE_HEADER)) {
             return HuamiFirmwareType.WATCHFACE;
+        }
+        if (ArrayUtils.startsWith(bytes, NEWFT_HEADER)) {
+            if (bytes.length > 800000) {
+                return HuamiFirmwareType.FONT;
+            }
+            return HuamiFirmwareType.FONT_LATIN;
         }
         return HuamiFirmwareType.INVALID;
     }
