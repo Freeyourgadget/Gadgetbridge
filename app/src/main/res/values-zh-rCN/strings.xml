@@ -240,7 +240,7 @@
     <string name="miband_pairing_using_dummy_userdata">没有提供有效的用户数据, 现在使用虚拟用户数据。</string>
     <string name="miband_pairing_tap_hint">当您的Mi Band振动并闪烁时，请连续点击几下。</string>
     <string name="appinstaller_install">安装</string>
-    <string name="discovery_connected_devices_hint">请设置并使您的设备可被发现。 目前连接的设备可能不会被发现。 对于Android 6及更高版本，您需要启用位置信息。 若禁用权限，Gadgetbridge可能会崩溃并重新启动。 如果几分钟后没有找到设备，请重新启动移动设备后重试。</string>
+    <string name="discovery_connected_devices_hint">请设置并使您的设备可被发现。 当前连接的设备可能不会被发现。 对于Android 6及更高版本，您需要启用位置信息（如GPS）。 若禁用权限，Gadgetbridge可能会崩溃并重新启动。 如果几分钟后没有找到设备，请重新启动您的移动设备后再试。</string>
     <string name="discovery_note">注意:</string>
     <string name="candidate_item_device_image">设备图像</string>
     <string name="miband_prefs_alias">名称/别名</string>
@@ -529,7 +529,7 @@
     <string name="pref_summary_auto_export_interval">每%d小时导出一次</string>
 
     <string name="tap_connected_device_for_app_mananger">点按为已连接的设备管理应用</string>
-    <string name="notif_export_failed_title">导出数据库失败！ 请检查您的设置。</string>
+    <string name="notif_export_failed_title">数据库导出失败！ 请检查您的设置。</string>
     <string name="miband_prefs_reserve_alarm_calendar">预警未来事件</string>
     <string name="mi2_prefs_button_press_broadcast_summary">在指定按键次数后发送消息</string>
     <string name="DEVINFO_HR_VER">"设备版本： "</string>
