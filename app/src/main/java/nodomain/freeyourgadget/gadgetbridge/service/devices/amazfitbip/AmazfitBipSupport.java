@@ -319,6 +319,14 @@ public class AmazfitBipSupport extends MiBand2Support {
             case 2:
                 command = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
                 break;
+            case 3:
+                Version version = new Version(gbDevice.getFirmwareVersion());
+                if (version.compareTo(new Version("0.1.0.66")) >= 0) {
+                    command = AmazfitBipService.COMMAND_SET_LANGUAGE_SPANISH;
+                } else {
+                    command = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                }
+                break;
             default:
                 if (language.equals("zh")) {
                     if (country.equals("TW") || country.equals("HK") || country.equals("MO")) { // Taiwan, Hong Kong,  Macao
