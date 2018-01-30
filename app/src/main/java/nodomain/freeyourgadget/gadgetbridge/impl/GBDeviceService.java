@@ -181,7 +181,6 @@ public class GBDeviceService implements DeviceService {
             if (callSpec.name != null && !callSpec.name.equals(callSpec.number)) {
                 callSpec.number = null;
             }
-            
         } else {
             callSpec.name = coalesce(callSpec.name, getContactDisplayNameByNumber(callSpec.number));
         }
