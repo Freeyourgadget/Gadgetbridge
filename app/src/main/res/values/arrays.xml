@@ -198,7 +198,7 @@
     <string-array name="pref_call_privacy_mode_values">
         <item>@string/p_call_privacy_mode_off</item>
         <item>@string/p_call_privacy_mode_name</item>
-        <item>@string/pref_call_privacy_mode_number</item>
+        <item>@string/p_call_privacy_mode_number</item>
         <item>@string/p_call_privacy_mode_complete</item>
     </string-array>
 

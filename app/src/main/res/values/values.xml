@@ -35,5 +35,6 @@
 
     <item name="p_call_privacy_mode_off" type="string">off</item>
     <item name="p_call_privacy_mode_name" type="string">name</item>
+    <item name="p_call_privacy_mode_number" type="string">number</item>
     <item name="p_call_privacy_mode_complete" type="string">complete</item>
 </resources>

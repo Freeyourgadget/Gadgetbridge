@@ -171,12 +171,12 @@ public class GBDeviceService implements DeviceService {
     public void onSetCallState(CallSpec callSpec) {
         Context context = GBApplication.getContext();
         String currentPrivacyMode = GBApplication.getPrefs().getString("pref_call_privacy_mode", GBApplication.getContext().getString(R.string.p_call_privacy_mode_off));
-        if (context.getString(R.string.p_call_privacy_mode_name).equals(currentPrivacyMode)) {
+        if (currentPrivacyMode.equals(context.getString(R.string.p_call_privacy_mode_name))) {
             callSpec.name = callSpec.number;
-        } else if (context.getString(R.string.p_call_privacy_mode_complete).equals(currentPrivacyMode)) {
+        } else if (currentPrivacyMode.equals(context.getString(R.string.p_call_privacy_mode_complete))) {
             callSpec.number = null;
             callSpec.name = null;
-        } else if (context.getString(R.string.pref_call_privacy_mode_number).equals(currentPrivacyMode)) {
+        } else if (currentPrivacyMode.equals(context.getString(R.string.p_call_privacy_mode_number))){
             callSpec.name = coalesce(callSpec.name, getContactDisplayNameByNumber(callSpec.number));
             if (callSpec.name != null && !callSpec.name.equals(callSpec.number)) {
                 callSpec.number = null;
