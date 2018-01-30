@@ -140,10 +140,11 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
             return HuamiFirmwareType.WATCHFACE;
         }
         if (ArrayUtils.startsWith(bytes, NEWFT_HEADER)) {
-            if (bytes.length > 800000) {
+            if (bytes[10] == 0x01) {
                 return HuamiFirmwareType.FONT;
+            } else if (bytes[10] == 0x02) {
+                return HuamiFirmwareType.FONT_LATIN;
             }
-            return HuamiFirmwareType.FONT_LATIN;
         }
         return HuamiFirmwareType.INVALID;
     }
