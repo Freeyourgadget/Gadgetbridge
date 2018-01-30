@@ -169,7 +169,7 @@
     <PreferenceCategory
         android:title="@string/pref_header_privacy">
     <ListPreference
-        android:defaultValue="off"
+        android:defaultValue="@string/p_call_privacy_mode_off"
         android:key="pref_call_privacy_mode"
         android:title="@string/pref_title_call_privacy_mode"
         android:entries="@array/pref_call_privacy_mode"
