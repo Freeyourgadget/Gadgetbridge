@@ -496,4 +496,6 @@
 
     <string name="notif_export_failed_title">ייצוא מסד הנתונים נכשל! נא לבדוק את ההגדרות שלך.</string>
     <string name="choose_auto_export_location">נא לבחור את מיקום הייצוא</string>
-</resources>
+<string name="spanish">ספרדית</string>
+
+    </resources>
