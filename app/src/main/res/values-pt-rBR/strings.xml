@@ -375,4 +375,44 @@
     <string name="pref_call_privacy_mode_number">Ocultar número e exibir nome</string>
     <string name="pref_blacklist_calendars">Calendários na Blacklist</string>
 
+    <string name="pref_title_weather">Clima</string>
+    <string name="pref_title_weather_location">Localização climática (CM/LOS)</string>
+
+    <string name="pref_title_enable_calendar_sync">Sincronizar calendário</string>
+    <string name="pref_title_pebble_enable_bgjs">Habilitar JS em segundo plano</string>
+    <string name="pref_summary_pebble_enable_bgjs">Quando habilitado, permite que as Watchfaces mostrem o clima, informações da bateria, etc.</string>
+
+    <string name="pref_header_auto_export">Exportar preferências automaticamente</string>
+    <string name="pref_title_auto_export_enabled">Exportação automática habilitada</string>
+    <string name="pref_title_auto_export_location">Exportar localização</string>
+    <string name="pref_title_auto_export_interval">Intervalo de exportação</string>
+    <string name="pref_summary_auto_export_interval">Exportar a cada %d hora(s)</string>
+
+    <string name="preferences_amazfitbip_settings">Ajustes do Amazfit Bit</string>
+    <string name="discovery_connected_devices_hint">Permita que seu dispositivo seja detectado. Os dispositivos já pareados não serão detectados. Para o Android 6 ou superior, é necessário habilitar a localização de GPS. Desative o Privacy Guard para o Gadgetbridge, pois o telefone poderá travar ou reiniciar caso esteja ativo. Se nenhum dispositivo for encontrado após alguns minutos, tente novamente após reiniciar seu aparelho telefônico.</string>
+    <string name="prefs_title_heartrate_measurement_interval">Medição diária dos batimentos cardíacos</string>
+    <string name="interval_one_minute">A cada minuto</string>
+    <string name="interval_five_minutes">A cada 5 minutos</string>
+    <string name="interval_ten_minutes">A cada 10 minutos</string>
+    <string name="interval_thirty_minutes">A cada 30 minutos</string>
+    <string name="interval_one_hour">A cada hora</string>
+
+    <string name="stats_title">Áreas de velocidade</string>
+    <string name="stats_x_axis_label">Minutos totais</string>
+    <string name="stats_y_axis_label">Passos por minuto</string>
+
+    <string name="notif_export_failed_title">A exportação do banco de dados falhou! Por favor, verifique suas configurações.</string>
+    <string name="weeksleepchart_sleep_a_week">Sono por semana</string>
+    <string name="weeksleepchart_today_sleep_description">Sono hoje, meta: %1$s</string>
+    <string name="calories">Calorias</string>
+    <string name="distance">Distância</string>
+    <string name="clock">Relógio</string>
+    <string name="heart_rate">Ritmo cardíaco</string>
+    <string name="battery">Bateria</string>
+    <string name="mi2_prefs_button_actions">Ações do botão</string>
+    <string name="mi2_prefs_button_actions_summary">Especifica as ações quando pressionado o botão da Mi Band 2</string>
+    <string name="mi2_prefs_button_press_count">Contagem de acionamento do botão</string>
+    <string name="mi2_prefs_button_press_count_summary">Número de toques no botão para enviar a mensagem</string>
+    <string name="mi2_prefs_button_press_broadcast">Mensagem para enviar</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Enviar mensagem após um número definido de toques no botão</string>
     </resources>
