@@ -68,6 +68,8 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
         } else if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET) || ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET_2) || ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET_3)) {
             // TODO: this is certainly not a correct validation, but it works for now
             return HuamiFirmwareType.FIRMWARE;
+        } else if (ArrayUtils.startsWith(bytes, WATCHFACE_HEADER)) {
+            return HuamiFirmwareType.WATCHFACE;
         }
         return HuamiFirmwareType.INVALID;
     }
