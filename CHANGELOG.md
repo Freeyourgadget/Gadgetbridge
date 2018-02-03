@@ -1,5 +1,12 @@
 ### Changelog
 
+#### Version 0.24.3
+* Charts: Try to fix another crash
+* Pebble: Fix weather for some watchfaces when using background JS
+* Amazfit Cor: Allow watchfaces to be flashed (untested)
+* Amazfit Bip: Better detection for flashable font types
+* Fix number only privacy option
+
 #### Version 0.24.2
 * Fix crash when changing the periodic database export interval
 * Amazfit Bip: Allow fonts and new res format to be flashed

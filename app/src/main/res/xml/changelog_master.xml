@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.24.3" versioncode="120">
+        <change>Charts: Try to fix another crash</change>
+        <change>Pebble: Fix weather for some watchfaces when using background JS</change>
+        <change>Amazfit Cor: Allow watchfaces to be flashed (untested)</change>
+        <change>Amazfit Bip: Better detection for flashable font types</change>
+        <change>Fix number only privacy option</change>
+    </release>
     <release version="0.24.2" versioncode="119">
         <change>Fix crash when changing the periodic database export interval</change>
         <change>Amazfit Bip: Allow fonts and new res format to be flashed</change>
