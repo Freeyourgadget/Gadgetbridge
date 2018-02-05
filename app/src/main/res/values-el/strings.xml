@@ -551,4 +551,6 @@
 
     <string name="notif_export_failed_title">Η εξαγωγή της βάσης δεδομένων απέτυχε! Παρακαλώ ελέγξτε τις ρυθμίσεις σας.</string>
     <string name="choose_auto_export_location">Διαλέξτε διαδρομή εξαγωγής</string>
-</resources>
+<string name="spanish">Ισπανικά</string>
+
+    </resources>
