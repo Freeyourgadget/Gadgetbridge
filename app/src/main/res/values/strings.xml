@@ -530,6 +530,7 @@
     <string name="devicetype_exrizu_k8">Exrizu K8</string>
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
+    <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
 
     <string name="choose_auto_export_location">Choose export location</string>
 </resources>
