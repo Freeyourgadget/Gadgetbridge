@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.24.4" versioncode="121">
+        <change>Amazfit Bip: Fix language setting on new firmwares</change>
+    </release>
     <release version="0.24.3" versioncode="120">
         <change>Charts: Try to fix another crash</change>
         <change>Pebble: Fix weather for some watchfaces when using background JS</change>

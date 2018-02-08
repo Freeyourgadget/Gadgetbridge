@@ -1,5 +1,8 @@
 ### Changelog
 
+#### Version 0.24.4
+* Amazfit Bip: Fix language setting on new firmwares
+
 #### Version 0.24.3
 * Charts: Try to fix another crash
 * Pebble: Fix weather for some watchfaces when using background JS
