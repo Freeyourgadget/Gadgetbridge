@@ -48,9 +48,9 @@
   <string name="fw_upgrade_notice">Estás a punto de instalar el firmware %s en lugar del que está en tu MiBand.</string>
   <string name="fw_multi_upgrade_notice">Estás a punto de instalar los firmware %1$s y %2$s en lugar de los que están en tu MiBand</string>
   <string name="miband_firmware_known">Este firmware ha sido probado y se sabe que es compatible con Gadgetbridge.</string>
-  <string name="miband_firmware_unknown_warning">Este firmware no ha sido probado y puede que no sea compatible con Gadgetbridge.
-\n
-\n¡NO se recomienda la instalación en tu MiBand!</string>
+  <string name="miband_firmware_unknown_warning">Este firmware no ha sido probado y puede que no sea compatible con Gadgetbridge. 
+\n 
+\n¡NO se recomienda la instalación en tu Mi Band!</string>
   <string name="miband_firmware_suggest_whitelist">Si aun así quieres seguir y las cosas continúan funcionando correctamente, por favor indícales a los desarrolladores de Gadgetbridge que la versión %s del firmware funciona bien</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Ajustes</string>
