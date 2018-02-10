@@ -45,10 +45,12 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
         // firmware
         crcToVersion.put(39948, "1.0.5.60");
         crcToVersion.put(62147, "1.0.5.78");
+        crcToVersion.put(54213, "1.0.6.76");
 
         // resources
         crcToVersion.put(46341, "RES 1.0.5.60");
         crcToVersion.put(21770, "RES 1.0.5.78");
+        crcToVersion.put(64977, "RES 1.0.6.76");
 
     }
 
