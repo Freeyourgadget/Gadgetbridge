@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="next">
+        <change>Fix notification deletion regression</change>
+    </release>
     <release version="0.24.4" versioncode="121">
         <change>Amazfit Bip: Fix language setting on new firmwares</change>
     </release>

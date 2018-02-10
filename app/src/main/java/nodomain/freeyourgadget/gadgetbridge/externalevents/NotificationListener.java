@@ -367,7 +367,7 @@ public class NotificationListener extends NotificationListenerService {
         Prefs prefs = GBApplication.getPrefs();
         if (prefs.getBoolean("autoremove_notifications", false)) {
             LOG.info("notification removed, will ask device to delete it");
-            GBApplication.deviceService().onDeleteNotification(sbn.getPackageName().hashCode() * 31 + sbn.getId());
+            GBApplication.deviceService().onDeleteNotification((int) sbn.getPostTime());
         }
     }
 

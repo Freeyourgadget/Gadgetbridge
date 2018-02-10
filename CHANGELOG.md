@@ -1,5 +1,8 @@
 ### Changelog
 
+#### Version next
+* Fix notification deletion regression
+
 #### Version 0.24.4
 * Amazfit Bip: Fix language setting on new firmwares
 
