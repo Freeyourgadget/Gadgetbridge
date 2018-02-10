@@ -55,12 +55,12 @@
 \n注意：如果这些文件与之前安装的完全一样，则不必安装.res和.gps文件。 
 \n 
 \n***继续需要您自担风险！</string>
-    <string name="fw_upgrade_notice_amazfitcor">您即将在您的米动手环(Amazfit Cor)上安装固件 %s。
-\n
-\n请确保安装.res文件，然后.fw文件。 安装.fw文件后，手表将重新启动。
-\n
-\n注意：如果这些文件与之前安装的完全一样，则不必安装.res。
-\n
+    <string name="fw_upgrade_notice_amazfitcor">您即将在您的米动手环(Amazfit Cor)上安装固件 %s。 
+\n 
+\n请确保安装了.fw文件，然后安装.rec文件。 安装.fw文件后，手表将重新启动。 
+\n 
+\n注意：如果这些文件与之前安装的完全一样，则不必安装.res。 
+\n 
 \n***未经测试的固件，可能会使您的设备发生故障，由您自行承担风险！</string>
     <string name="fw_multi_upgrade_notice">您即将安装固件 %1$s 和 %2$s，代替当前在Mi Band上的固件。</string>
     <string name="miband_firmware_known">该固件已经过测试，并且已知与Gadgetbridge兼容。</string>
