@@ -377,7 +377,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
     }
 
     /*
-    Either returns the file path of the selected document, or the display name
+    Either returns the file path of the selected document, or the display name, or an empty string
      */
     private String getAutoExportLocationSummary() {
         String autoExportLocation = GBApplication.getPrefs().getString(GBPrefs.AUTO_EXPORT_LOCATION, null);
@@ -386,20 +386,16 @@ public class SettingsActivity extends AbstractSettingsActivity {
         }
         Uri uri = Uri.parse(autoExportLocation);
         try {
-            String filePath = AndroidUtils.getFilePath(getApplicationContext(), uri);
-            if (filePath != null) {
-                return filePath;
+            return AndroidUtils.getFilePath(getApplicationContext(), uri);
+        } catch (IllegalArgumentException e) {
+            Cursor cursor = getContentResolver().query(
+                    uri,
+                    new String[] { DocumentsContract.Document.COLUMN_DISPLAY_NAME },
+                    null, null, null, null
+            );
+            if (cursor != null && cursor.moveToFirst()) {
+                return cursor.getString(cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DISPLAY_NAME));
             }
-        } catch (URISyntaxException e) {
-            return "";
-        }
-        Cursor cursor = getContentResolver().query(
-                uri,
-                new String[] { DocumentsContract.Document.COLUMN_DISPLAY_NAME },
-        null, null, null, null
-        );
-        if (cursor != null && cursor.moveToFirst()) {
-            return cursor.getString(cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DISPLAY_NAME));
         }
         return "";
     }

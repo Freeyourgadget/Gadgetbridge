@@ -30,7 +30,10 @@ import android.os.ParcelUuid;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 
 import java.net.URISyntaxException;
 import java.util.Locale;
@@ -127,11 +130,34 @@ public class AndroidUtils {
      * @param context the application context
      * @param uri the Uri for which the path should be resolved
      * @return the path corresponding to the Uri as a String
+     * @throws IllegalArgumentException on any problem decoding the uri to a path
+     */
+    public static @NonNull String getFilePath(@NonNull Context context, @NonNull Uri uri) throws IllegalArgumentException {
+        try {
+            String path = internalGetFilePath(context, uri);
+            if (TextUtils.isEmpty(path)) {
+                throw new IllegalArgumentException("Unable to decode the given uri to a file path: " + uri);
+            }
+            return path;
+        } catch (IllegalArgumentException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Unable to decode the given uri to a file path: " + uri, ex);
+        }
+    }
+
+    /**
+     * As seen on stackoverflow https://stackoverflow.com/a/36714242/1207186
+     * Try to find the file path of a document uri
+     * @param context the application context
+     * @param uri the Uri for which the path should be resolved
+     * @return the path corresponding to the Uri as a String
      * @throws URISyntaxException
     */
-    public static String getFilePath(Context context, Uri uri) throws URISyntaxException {
+    private static @Nullable String internalGetFilePath(@NonNull Context context, @NonNull Uri uri) throws URISyntaxException {
         String selection = null;
         String[] selectionArgs = null;
+
         // Uri is different in versions after KITKAT (Android 4.4), we need to
         if (Build.VERSION.SDK_INT >= 19 && DocumentsContract.isDocumentUri(context.getApplicationContext(), uri)) {
             if ("com.android.externalstorage.documents".equals(uri.getAuthority())) {
@@ -140,8 +166,13 @@ public class AndroidUtils {
                 return Environment.getExternalStorageDirectory() + "/" + split[1];
             } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
                 final String id = DocumentsContract.getDocumentId(uri);
-                uri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+                if (!TextUtils.isEmpty(id)) {
+                    if (id.startsWith("raw:")) {
+                        return id.replaceFirst("raw:", "");
+                    }
+                    uri = ContentUris.withAppendedId(
+                            Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+                }
             } else if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
                 final String docId = DocumentsContract.getDocumentId(uri);
                 final String[] split = docId.split(":");
@@ -164,18 +195,15 @@ public class AndroidUtils {
                     MediaStore.Images.Media.DATA
             };
             Cursor cursor = null;
-            try {
-                cursor = context.getContentResolver()
-                        .query(uri, projection, selection, selectionArgs, null);
-                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                if (cursor.moveToFirst()) {
-                    return cursor.getString(column_index);
-                }
-            } catch (Exception e) {
+            cursor = context.getContentResolver()
+                    .query(uri, projection, selection, selectionArgs, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            if (cursor.moveToFirst()) {
+                return cursor.getString(column_index);
             }
         } else if ("file".equalsIgnoreCase(uri.getScheme())) {
             return uri.getPath();
         }
-        return null;
+        throw new IllegalArgumentException("Unable to decode the given uri to a file path: " + uri);
     }
 }
