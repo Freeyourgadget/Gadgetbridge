@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="next">
+    <release version="0.24.5" versioncode="122">
+        <change>Fix crash in settings activity with export location</change>
         <change>Fix notification deletion regression</change>
-    </release>
+        <change>Add 'Ł' and 'ł' to transliteration map</change>
+        <change>Omnijaws Weather: correctly pick todays' min and max temperature</change>
+        <change>Fix alarm details activity on small screen</change>
+        <change>Pebble: minic online check of TrekVolle when using background js</change>
     <release version="0.24.4" versioncode="121">
         <change>Amazfit Bip: Fix language setting on new firmwares</change>
     </release>

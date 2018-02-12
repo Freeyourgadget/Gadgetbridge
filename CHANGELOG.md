@@ -1,7 +1,12 @@
 ### Changelog
 
-#### Version next
+#### Version 0.24.5
+* Fix crash in settings activity with export location
 * Fix notification deletion regression
+* Add 'Ł' and 'ł' to transliteration map
+* Omnijaws Weather: correctly pick todays' min and max temperature
+* Fix alarm details activity on small screen
+* Pebble: minic online check of TrekVolle when using background js
 
 #### Version 0.24.4
 * Amazfit Bip: Fix language setting on new firmwares
