@@ -29,7 +29,7 @@
   <string name="appmananger_app_delete">削除</string>
   <string name="appmananger_app_delete_cache">キャッシュから削除</string>
   <string name="appmananger_app_reinstall">再インストール</string>
-  <string name="appmanager_app_openinstore">Pebble Appstore で検索</string>
+  <string name="appmanager_app_openinstore">Pebble アプリストアで検索</string>
   <string name="appmanager_health_activate">アクティベート</string>
   <string name="appmanager_health_deactivate">非アクティベート</string>
   <string name="appmanager_hrm_activate">HRM をアクティベート</string>
@@ -40,7 +40,7 @@
   <string name="app_configure">設定</string>
   <string name="app_move_to_top">先頭に移動</string>
   <!--Strings related to AppBlacklist-->
-  <string name="title_activity_appblacklist">ステータス通知ブラックリスト</string>
+  <string name="title_activity_appblacklist">通知ブラックリスト</string>
   <!--Strings related to CalBlacklist-->
   <string name="title_activity_calblacklist">ブラックリストにしたカレンダー</string>
   <!--Strings related to FwAppInstaller-->
@@ -48,11 +48,13 @@
   <string name="fw_upgrade_notice">お使いのMi Bandに、現在のファームウェアの代わりに%sをインストールしようとしています。</string>
   <string name="fw_multi_upgrade_notice">お使いのMi Bandに、現在のファームウェアの代わりに %1$s および %2$s をインストールしようとしています。</string>
   <string name="miband_firmware_known">このファームウェアはテスト済で、ガジェットブリッジと互換性があることがわかっています。</string>
-  <string name="miband_firmware_unknown_warning">このファームウェアは未テストで、ガジェットブリッジと互換性がない可能性があります。\n\nお使いのMi Bandにフラッシュすることは奨励されていません!</string>
-  <string name="miband_firmware_suggest_whitelist">それでも続行して、その後正しく作業を続ける場合は、ガジェットブリッジ開発者にホワイトリスト ファームウェア バージョンを教えてください: %s</string>
+  <string name="miband_firmware_unknown_warning">このファームウェアは未テストで、Gadgetbridge と互換性がない可能性があります。
+\n
+\nお使いのMi Bandにフラッシュすることは推奨されません!</string>
+  <string name="miband_firmware_suggest_whitelist">それでも続行して、正しく動作した場合は、Gadgetbridge開発者にホワイトリストの %s ファームウェア バージョンを教えてください</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">設定</string>
-  <string name="pref_header_general">一般設定</string>
+  <string name="pref_header_general">全般設定</string>
   <string name="pref_title_general_autoconnectonbluetooth">Bluetoothがオンになったときにデバイスに接続</string>
   <string name="pref_title_general_autostartonboot">自動的に開始</string>
   <string name="pref_title_general_autocreonnect">自動的に再接続</string>
@@ -60,7 +62,7 @@
   <string name="pref_default">デフォルト</string>
   <string name="pref_header_datetime">日付と時刻</string>
   <string name="pref_title_datetime_syctimeonconnect">時間を合わせる</string>
-  <string name="pref_summary_datetime_syctimeonconnect">接続したとき、Androidで時間またはタイムゾーンを変更したときに、デバイスに時間を同期</string>
+  <string name="pref_summary_datetime_syctimeonconnect">デバイスを接続したとき、Androidで時間またはタイムゾーンを変更したときに、デバイスに時間を同期します</string>
   <string name="pref_title_theme">テーマ</string>
   <string name="pref_theme_light">ライト</string>
   <string name="pref_theme_dark">ダーク</string>
@@ -75,9 +77,9 @@
   <string name="pref_title_notifications_pebblemsg">Pebbleメッセージ</string>
   <string name="pref_summary_notifications_pebblemsg">PebbleKit経由でPebbleに通知を送信するアプリケーションをサポートします。</string>
   <string name="pref_title_notifications_generic">一般ステータス通知対応</string>
-  <string name="pref_title_whenscreenon">… スクリーンがオンのときにも</string>
+  <string name="pref_title_whenscreenon">…スクリーンがオンのときにも</string>
   <string name="pref_title_notification_filter">サイレント</string>
-  <string name="pref_summary_notification_filter">サイレントモードに基づいて、送信される不要な通知を停止します。</string>
+  <string name="pref_summary_notification_filter">サイレントモードで、送信される不要な通知を停止します</string>
   <string name="pref_title_transliteration">音訳</string>
   <string name="pref_summary_transliteration">お使いのデバイスがあなたの言語のフォントをサポートしていない場合、これを有効にしてください</string>
   <string name="always">いつも</string>
@@ -98,7 +100,7 @@
   <string name="pref_title_canned_messages_set">Pebble で更新</string>
   <string name="pref_header_development">開発者用設定</string>
   <string name="pref_title_development_miaddr">Mi Bandのアドレス</string>
-  <string name="pref_title_pebble_settings">Pebbleの設定</string>
+  <string name="pref_title_pebble_settings">Pebble設定</string>
   <string name="pref_header_activitytrackers">アクティビティ トラッカー</string>
   <string name="pref_title_pebble_activitytracker">お好みのアクティビティ トラッカー</string>
   <string name="pref_title_pebble_sync_health">Pebble Health 同期</string>
@@ -106,7 +108,7 @@
   <string name="pref_title_pebble_sync_morpheuz">Morpheuz 同期</string>
   <string name="pref_title_enable_outgoing_call">発信のサポート</string>
   <string name="pref_summary_enable_outgoing_call">これを無効にすると、Pebble 2/LE は発信時に振動しなくなります</string>
-  <string name="pref_title_enable_pebblekit">第三者のアンドロイドアップにアクセス権利を与える</string>
+  <string name="pref_title_enable_pebblekit">サードパーティ製 Android アプリのアクセスを許可</string>
   <string name="pref_summary_enable_pebblekit">PebbleKitを使用してAndroidアプリ用の実験的なサポートを有効にします</string>
   <string name="pref_header_pebble_timeline">Pebbleタイムライン</string>
   <string name="pref_title_sunrise_sunset">日の出と日の入り</string>
@@ -401,13 +403,13 @@
   <string name="discovery_pair_question">お使いのデバイスとペアにする相手を選択します。 これに失敗した場合は、ペア設定をせずに再試行してください。</string>
   <string name="discovery_yes_pair">ペア</string>
   <string name="discovery_dont_pair">ペアにしない</string>
-<string name="fw_upgrade_notice_amazfitbip">Amazfit Bip の現在の代わりに %s のファームウェアをインストールしようとしています。
-\n
-\n.gps ファームウェア、その後 .res ファイル、そして最終的に .fw ファイルをインストールすることを確認してください。お使いのウォッチは、.fw ファイルをインストールした後に再起動します。
-\n
-\n注: これらのファイルが以前インストールされているのものと完全に同じ場合、.res と .gps をインストールする必要はありません。
-\n
-\n実験的です。あなた自身の責任で行ってください</string>
+<string name="fw_upgrade_notice_amazfitbip">Amazfit Bip に %s のファームウェアをインストールしようとしています。 
+\n 
+\n.fw ファイル、その後 .res ファイル、最後に .gps ファイルをインストールしてください。お使いのウォッチは、.fw ファイルをインストールした後に再起動します。 
+\n 
+\n注: これらのファイルが以前インストールされているのものと完全に同じ場合、.res と .gps をインストールする必要はありません。 
+\n 
+\nご自身の責任で行ってください!</string>
     <string name="amazfitbip_firmware">Amazfit Bip ファームウェア%1$s</string>
     <string name="mi2_prefs_button_actions">ボタンの動作</string>
     <string name="mi2_prefs_button_actions_summary">Mi Band 2 ボタンを押した動作を指定します</string>
@@ -428,12 +430,12 @@
     <string name="_pebble_watch_mute">ミュート</string>
     <string name="_pebble_watch_reply">返信</string>
 <string name="controlcenter_connect">接続</string>
-    <string name="fw_upgrade_notice_amazfitcor">Amazfit Cor にファームウェア %s をインストールしようとしています。
-\n
-\n.res ファイルをインストールし、、その後 .fw ファイルをインストールしてください。お使いのウォッチは、.fw ファイルをインストールした後に再起動します。
-\n
-\n注: 以前にインストールされたものと同じ場合は、.res をインストールする必要はありません。
-\n
+    <string name="fw_upgrade_notice_amazfitcor">Amazfit Cor に %s のファームウェアをインストールしようとしています。 
+\n 
+\n.fw ファイルをインストールし、その後 .res ファイルをインストールしください。お使いのウォッチは、.fw ファイルをインストールした後に再起動します。 
+\n 
+\n注: 以前にインストールされたものと同じ場合は、.res をインストールする必要はありません。 
+\n 
 \nテストされていません。デバイスが文鎮化する可能性があります。ご自身の責任で行って下さい!</string>
     <string name="pref_title_pebble_enable_bgjs">バックグラウンド JS を有効にします</string>
     <string name="pref_summary_pebble_enable_bgjs">有効にすると、ウォッチフェースに天気、バッテリー情報等を表示することができます。</string>
@@ -490,4 +492,6 @@
 
     <string name="notif_export_failed_title">データベースのエクスポートが失敗しました! 設定を確認してください。</string>
     <string name="choose_auto_export_location">エクスポート先を選択</string>
-</resources>
+<string name="spanish">スペイン語</string>
+
+    </resources>
