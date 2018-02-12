@@ -172,7 +172,11 @@ public class GBApplication extends Application {
         if (isRunningMarshmallowOrLater()) {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             //the following will ensure the notification manager is kept alive
-            startService(new Intent(this, NotificationCollectorMonitorService.class));
+            if(!isRunningOreoOrLater()) {
+                startService(new Intent(this, NotificationCollectorMonitorService.class));
+            } else {
+                startForegroundService(new Intent(this, NotificationCollectorMonitorService.class));
+            }
         }
     }
 
@@ -288,6 +292,10 @@ public class GBApplication extends Application {
 
     public static boolean isRunningMarshmallowOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.M;
+    }
+
+    public static boolean isRunningOreoOrLater(){
+        return VERSION.SDK_INT >= Build.VERSION_CODES.O;
     }
 
     private static boolean isPrioritySender(int prioritySenders, String number) {
@@ -490,7 +498,7 @@ public class GBApplication extends Application {
             case 0:
                 String legacyGender = sharedPrefs.getString("mi_user_gender", null);
                 String legacyHeight = sharedPrefs.getString("mi_user_height_cm", null);
-                String legacyWeigth = sharedPrefs.getString("mi_user_weight_kg", null);
+                String legacyWeight = sharedPrefs.getString("mi_user_weight_kg", null);
                 String legacyYOB = sharedPrefs.getString("mi_user_year_of_birth", null);
                 if (legacyGender != null) {
                     int gender = "male".equals(legacyGender) ? 1 : "female".equals(legacyGender) ? 0 : 2;
@@ -501,8 +509,8 @@ public class GBApplication extends Application {
                     editor.putString(ActivityUser.PREF_USER_HEIGHT_CM, legacyHeight);
                     editor.remove("mi_user_height_cm");
                 }
-                if (legacyWeigth != null) {
-                    editor.putString(ActivityUser.PREF_USER_WEIGHT_KG, legacyWeigth);
+                if (legacyWeight != null) {
+                    editor.putString(ActivityUser.PREF_USER_WEIGHT_KG, legacyWeight);
                     editor.remove("mi_user_weight_kg");
                 }
                 if (legacyYOB != null) {

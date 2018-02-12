@@ -532,4 +532,5 @@
     <string name="devicetype_teclast_h30">Teclast H30</string>
 
     <string name="choose_auto_export_location">Choose export location</string>
+    <string name="notification_channel_name">Gadgetbridge notifications</string>
 </resources>

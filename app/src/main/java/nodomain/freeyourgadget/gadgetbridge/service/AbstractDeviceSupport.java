@@ -66,6 +66,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBMusicControlRece
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
+import static nodomain.freeyourgadget.gadgetbridge.service.NotificationCollectorMonitorService.NOTIFICATION_CHANNEL_ID;
+
 // TODO: support option for a single reminder notification when notifications could not be delivered?
 // conditions: app was running and received notifications, but device was not connected.
 // maybe need to check for "unread notifications" on device for that.
@@ -257,7 +259,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
 
             NotificationCompat.Action action = new NotificationCompat.Action.Builder(android.R.drawable.ic_menu_share, "share", pendingShareIntent).build();
 
-            Notification notif = new NotificationCompat.Builder(context)
+            Notification notif = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                     .setContentTitle("Screenshot taken")
                     .setTicker("Screenshot taken")
                     .setContentText(filename)

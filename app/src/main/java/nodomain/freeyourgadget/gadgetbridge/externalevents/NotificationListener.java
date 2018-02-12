@@ -44,7 +44,7 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.graphics.Palette;
 
 import org.slf4j.Logger;
@@ -66,6 +66,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+
+import static android.support.v4.media.app.NotificationCompat.MediaStyle.getMediaSession;
 
 public class NotificationListener extends NotificationListenerService {
 
@@ -203,7 +205,7 @@ public class NotificationListener extends NotificationListenerService {
         String source = sbn.getPackageName().toLowerCase();
         Notification notification = sbn.getNotification();
         NotificationSpec notificationSpec = new NotificationSpec();
-        notificationSpec.id = (int) sbn.getPostTime(); //FIMXE: a truly unique id would be better
+        notificationSpec.id = (int) sbn.getPostTime(); //FIXME: a truly unique id would be better
 
         // determinate Source App Name ("Label")
         PackageManager pm = getPackageManager();
@@ -434,14 +436,14 @@ public class NotificationListener extends NotificationListenerService {
 
     private boolean shouldIgnoreNotification(Notification notification, String source) {
 
-        MediaSessionCompat.Token mediaSession = NotificationCompat.getMediaSession(notification);
+        MediaSessionCompat.Token mediaSession = getMediaSession(notification);
         //try to handle media session notifications
         if (mediaSession != null && handleMediaSessionNotification(mediaSession))
             return true;
 
         NotificationType type = AppNotificationType.getInstance().get(source);
         //ignore notifications marked as LocalOnly https://developer.android.com/reference/android/app/Notification.html#FLAG_LOCAL_ONLY
-        //some Apps always mark their notifcations as read-only
+        //some Apps always mark their notifications as read-only
         if (NotificationCompat.getLocalOnly(notification) &&
                 type != NotificationType.WECHAT &&
                 type != NotificationType.OUTLOOK) {
