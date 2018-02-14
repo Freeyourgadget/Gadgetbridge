@@ -23,6 +23,8 @@ import android.util.Pair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -44,6 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 
 public class PebbleSupport extends AbstractSerialDeviceSupport {
+    private static final Logger LOG = LoggerFactory.getLogger(PebbleSupport.class);
 
     @Override
     public boolean connect() {
@@ -113,12 +116,14 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
                     object = byteArray;
                 } else if (object instanceof Boolean) {
                     object = (short) (((Boolean) object) ? 1 : 0);
+                } else if (object instanceof Double) {
+                    object = ((Double) object).intValue();
                 }
                 pairs.add(new Pair<>(Integer.parseInt(keyStr), object));
             }
             getDeviceIOThread().write(((PebbleProtocol) getDeviceProtocol()).encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, uuid, pairs, id));
         } catch (JSONException e) {
-            e.printStackTrace();
+            LOG.error("Error while parsing JSON", e);
         }
     }
 
