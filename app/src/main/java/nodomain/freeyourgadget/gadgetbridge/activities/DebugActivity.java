@@ -52,6 +52,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
+import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
+
 
 public class DebugActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(DebugActivity.class);
@@ -266,7 +268,7 @@ public class DebugActivity extends AbstractGBActivity {
 
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender().addAction(action);
 
-        NotificationCompat.Builder ncomp = new NotificationCompat.Builder(this)
+        NotificationCompat.Builder ncomp = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(getString(R.string.test_notification))
                 .setContentText(getString(R.string.this_is_a_test_notification_from_gadgetbridge))
                 .setTicker(getString(R.string.this_is_a_test_notification_from_gadgetbridge))
