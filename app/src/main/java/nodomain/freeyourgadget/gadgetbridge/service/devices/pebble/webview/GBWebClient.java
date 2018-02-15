@@ -31,6 +31,7 @@ import android.webkit.WebViewClient;
 import net.e175.klaus.solarpositioning.DeltaT;
 import net.e175.klaus.solarpositioning.SPA;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -55,6 +56,7 @@ public class GBWebClient extends WebViewClient {
 
     private String[] AllowedDomains = new String[]{
             "openweathermap.org",   //for weather :)
+            "rawgit.com",           //for trekvolle
             "tagesschau.de"         //for internal watchapp tests
     };
     private static final Logger LOG = LoggerFactory.getLogger(GBWebClient.class);
@@ -82,7 +84,7 @@ public class GBWebClient extends WebViewClient {
 
 
     private WebResourceResponse mimicReply(Uri requestedUri) {
-        if (requestedUri.getHost() != null && (org.apache.commons.lang3.StringUtils.indexOfAny(requestedUri.getHost(), AllowedDomains) != -1)) {
+        if (requestedUri.getHost() != null && (StringUtils.indexOfAny(requestedUri.getHost(), AllowedDomains) != -1)) {
             if (internetHelperBound) {
                 LOG.debug("WEBVIEW forwarding request to the internet helper");
                 Bundle bundle = new Bundle();
@@ -101,8 +103,15 @@ public class GBWebClient extends WebViewClient {
                 }
 
             } else {
-                LOG.debug("WEBVIEW request to openweathermap.org detected of type: " + requestedUri.getPath() + " params: " + requestedUri.getQuery());
-                return mimicOpenWeatherMapResponse(requestedUri.getPath(), requestedUri.getQueryParameter("units"));
+                if (StringUtils.endsWith(requestedUri.getHost(), "openweathermap.org")){
+                    LOG.debug("WEBVIEW request to openweathermap.org detected of type: " + requestedUri.getPath() + " params: " + requestedUri.getQuery());
+                    return mimicOpenWeatherMapResponse(requestedUri.getPath(), requestedUri.getQueryParameter("units"));
+                } else if (StringUtils.endsWith(requestedUri.getHost(), "rawgit.com")) {
+                    LOG.debug("WEBVIEW request to rawgit.com detected of type: " + requestedUri.getPath() + " params: " + requestedUri.getQuery());
+                    return mimicRawGitResponse(requestedUri.getPath());
+                } else {
+                    LOG.debug("WEBVIEW request to allowed domain detected but not intercepted: " + requestedUri.toString());
+                }
             }
         } else {
             LOG.debug("WEBVIEW request:" + requestedUri.toString() + " not intercepted");
@@ -130,7 +139,24 @@ public class GBWebClient extends WebViewClient {
         return true;
     }
 
-    private static WebResourceResponse mimicOpenWeatherMapResponse(String type, String units) {
+    private WebResourceResponse mimicRawGitResponse(String path) {
+        if("/aHcVolle/TrekVolle/master/online.html".equals(path)) { //TrekVolle online check
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Access-Control-Allow-Origin", "*");
+                return new WebResourceResponse("text/html", "utf-8", 200, "OK",
+                        headers,
+                        new ByteArrayInputStream("1".toString().getBytes())
+                );
+            } else {
+                return new WebResourceResponse("text/html", "utf-8", new ByteArrayInputStream("1".toString().getBytes()));
+            }
+        }
+
+        return null;
+    }
+
+    private WebResourceResponse mimicOpenWeatherMapResponse(String type, String units) {
 
         if (Weather.getInstance() == null) {
             LOG.warn("WEBVIEW - Weather instance is null, cannot update weather");

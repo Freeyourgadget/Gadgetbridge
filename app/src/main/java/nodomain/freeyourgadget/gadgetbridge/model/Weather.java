@@ -49,6 +49,7 @@ public class Weather {
         try {
             condition.put("id", weatherSpec.currentConditionCode);
             condition.put("main", weatherSpec.currentCondition);
+            condition.put("description", weatherSpec.currentCondition);
             condition.put("icon", Weather.mapToOpenWeatherMapIcon(weatherSpec.currentConditionCode));
             weather.put(condition);
 

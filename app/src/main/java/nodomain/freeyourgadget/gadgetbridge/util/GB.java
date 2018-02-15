@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.app.Activity;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -29,6 +28,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -51,6 +51,9 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 public class GB {
+
+    public static final String NOTIFICATION_CHANNEL_ID = "gadgetbridge";
+
     public static final int NOTIFICATION_ID = 1;
     public static final int NOTIFICATION_ID_INSTALL = 2;
     public static final int NOTIFICATION_ID_LOW_BATTERY = 3;
@@ -84,9 +87,9 @@ public class GB {
         }
 
         Boolean connected = device.isInitialized();
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
         builder.setContentTitle(deviceName)
-                .setTicker(deviceName + text)
+                .setTicker(deviceName + " - " + text)
                 .setContentText(text)
                 .setSmallIcon(connected ? R.drawable.ic_notification : R.drawable.ic_notification_disconnected)
                 .setContentIntent(getContentIntent(context))
@@ -119,7 +122,7 @@ public class GB {
     }
 
     public static Notification createNotification(String text, Context context) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
         builder.setTicker(text)
                 .setContentText(text)
                 .setSmallIcon(R.drawable.ic_notification_disconnected)
@@ -150,12 +153,16 @@ public class GB {
         if (notification == null) {
             return;
         }
-        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+//      TODO: I believe it's better do always use the NMC instead of the old call, but old code works
+        NotificationManagerCompat nm = NotificationManagerCompat.from(context);
+//        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(id, notification);
     }
 
     private static void removeNotification(int id, Context context) {
-        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+//      TODO: I believe it's better do always use the NMC instead of the old call, but old code works
+        NotificationManagerCompat nm = NotificationManagerCompat.from(context);
+//        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         nm.cancel(id);
     }
 
@@ -324,7 +331,7 @@ public class GB {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
                 notificationIntent, 0);
 
-        NotificationCompat.Builder nb = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentTitle(context.getString(R.string.app_name))
                 .setContentText(text)
@@ -365,7 +372,7 @@ public class GB {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
                 notificationIntent, 0);
 
-        NotificationCompat.Builder nb = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(context.getString(R.string.app_name))
                 .setContentText(text)
                 .setTicker(text)
@@ -395,7 +402,7 @@ public class GB {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
                 notificationIntent, 0);
 
-        NotificationCompat.Builder nb = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(context.getString(R.string.notif_battery_low_title))
                 .setContentText(text)
                 .setContentIntent(pendingIntent)
@@ -429,7 +436,7 @@ public class GB {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
                 notificationIntent, 0);
 
-        NotificationCompat.Builder nb = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(context.getString(R.string.notif_export_failed_title))
                 .setContentText(text)
                 .setContentIntent(pendingIntent)

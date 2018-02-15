@@ -1,5 +1,33 @@
 ### Changelog
 
+#### Version 0.24.5
+* Fix crash in settings activity with export location
+* Fix notification deletion regression
+* Add 'Ł' and 'ł' to transliteration map
+* Omnijaws Weather: correctly pick todays' min and max temperature
+* Fix alarm details activity on small screen
+* Pebble: minic online check of TrekVolle when using background js
+
+#### Version 0.24.4
+* Amazfit Bip: Fix language setting on new firmwares
+
+#### Version 0.24.3
+* Charts: Try to fix another crash
+* Pebble: Fix weather for some watchfaces when using background JS
+* Amazfit Cor: Allow watchfaces to be flashed (untested)
+* Amazfit Bip: Better detection for flashable font types
+* Fix number only privacy option
+
+#### Version 0.24.2
+* Fix crash when changing the periodic database export interval
+* Amazfit Bip: Allow fonts and new res format to be flashed
+* Amazfit Cor: Allow new res format to be flashed
+* Pebble: Background js fixes
+
+#### Version 0.24.1
+* Amazfit Bip: prevent menu icons from vanishing when using firmware 0.1.0.51
+* Pebble: "find phone" feature for upcoming pebble helper app
+
 #### Version 0.24.0
 * Fix logs sometimes not containing stacktraces
 * Support periodic database export

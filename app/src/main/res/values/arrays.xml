@@ -198,7 +198,7 @@
     <string-array name="pref_call_privacy_mode_values">
         <item>@string/p_call_privacy_mode_off</item>
         <item>@string/p_call_privacy_mode_name</item>
-        <item>@string/pref_call_privacy_mode_number</item>
+        <item>@string/p_call_privacy_mode_number</item>
         <item>@string/p_call_privacy_mode_complete</item>
     </string-array>
 
@@ -207,6 +207,7 @@
         <item name="0">@string/simplified_chinese</item>
         <item name="1">@string/traditional_chinese</item>
         <item name="2">@string/english</item>
+        <item name="3">@string/spanish</item>
     </string-array>
 
     <string-array name="pref_amazfitbip_language_values">
@@ -214,6 +215,7 @@
         <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
 
     <string-array name="prefs_heartrate_measurement_interval">

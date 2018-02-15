@@ -19,9 +19,10 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 
 import org.apache.commons.lang3.text.WordUtils;
 
+import java.text.Normalizer;
 import java.util.HashMap;
 import java.util.Map;
-import java.text.Normalizer;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class LanguageUtils {
@@ -73,6 +74,9 @@ public class LanguageUtils {
             // Farsi
             put('پ', "p"); put('چ', "ch"); put('ڜ', "ch"); put('ڤ', "v"); put('ڥ', "v");
             put('ڨ', "g"); put('گ', "g"); put('ݣ', "g");
+
+            // Polish
+            put('Ł', "L"); put('ł', "l");
 
             //TODO: these must be configurable. If someone wants to transliterate cyrillic it does not mean his device has no German umlauts
             //all or nothing is really bad here

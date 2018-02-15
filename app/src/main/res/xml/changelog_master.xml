@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.24.5" versioncode="122">
+        <change>Fix crash in settings activity with export location</change>
+        <change>Fix notification deletion regression</change>
+        <change>Add 'Ł' and 'ł' to transliteration map</change>
+        <change>Omnijaws Weather: correctly pick todays' min and max temperature</change>
+        <change>Fix alarm details activity on small screen</change>
+        <change>Pebble: minic online check of TrekVolle when using background js</change>
+    </release>
+    <release version="0.24.4" versioncode="121">
+        <change>Amazfit Bip: Fix language setting on new firmwares</change>
+    </release>
+    <release version="0.24.3" versioncode="120">
+        <change>Charts: Try to fix another crash</change>
+        <change>Pebble: Fix weather for some watchfaces when using background JS</change>
+        <change>Amazfit Cor: Allow watchfaces to be flashed (untested)</change>
+        <change>Amazfit Bip: Better detection for flashable font types</change>
+        <change>Fix number only privacy option</change>
+    </release>
+    <release version="0.24.2" versioncode="119">
+        <change>Fix crash when changing the periodic database export interval</change>
+        <change>Amazfit Bip: Allow fonts and new res format to be flashed</change>
+        <change>Amazfit Cor: Allow new res format to be flashed</change>
+        <change>Pebble: Background js fixes</change>
+    </release>
+    <release version="0.24.1" versioncode="118">
+        <change>Amazfit Bip: prevent menu icons from vanishing when using firmware 0.1.0.51</change>
+        <change>Pebble: "find phone" feature for upcoming pebble helper app</change>
+    </release>
     <release version="0.24.0" versioncode="117">
       <change>Fix logs sometimes not containing stacktraces</change>
       <change>Support periodic database export</change>

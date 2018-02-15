@@ -89,7 +89,10 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(59462, "0.1.0.33");
         crcToVersion.put(55277, "0.1.0.39");
         crcToVersion.put(47685, "0.1.0.43");
+        crcToVersion.put(2839,  "0.1.0.44");
         crcToVersion.put(30229, "0.1.0.45");
+        crcToVersion.put(24302, "0.1.0.70");
+        crcToVersion.put(1333,  "0.1.0.80");
 
         // resources
         crcToVersion.put(12586, "0.0.8.74");
@@ -102,12 +105,19 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(28696, "0.1.0.26-0.1.0.27");
         crcToVersion.put(5650,  "0.1.0.33");
         crcToVersion.put(16117, "0.1.0.39-0.1.0.45");
+        crcToVersion.put(22506, "0.1.0.66-0.1.0.70");
+        crcToVersion.put(22506, "0.1.0.66-0.1.0.70");
+        crcToVersion.put(42264, "0.1.0.77-0.1.0.80");
 
         // gps
         crcToVersion.put(61520, "9367,8f79a91,0,0,");
         crcToVersion.put(8784,  "9565,dfbd8fa,0,0,");
         crcToVersion.put(16716, "9565,dfbd8faf42,0");
         crcToVersion.put(54154, "9567,8b05506,0,0,");
+
+        // font
+        crcToVersion.put(61054, "8");
+        crcToVersion.put(62291, "9 (Latin)");
     }
 
     public AmazfitBipFirmwareInfo(byte[] bytes) {
@@ -116,7 +126,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
 
     @Override
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
-        if (ArrayUtils.startsWith(bytes, RES_HEADER)) {
+        if (ArrayUtils.startsWith(bytes, RES_HEADER) || ArrayUtils.startsWith(bytes, NEWRES_HEADER)) {
             if (bytes.length > 500000) { // dont know how to distinguish from Cor .res
                 return HuamiFirmwareType.INVALID;
             }
@@ -137,6 +147,13 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         }
         if (ArrayUtils.startsWith(bytes, WATCHFACE_HEADER)) {
             return HuamiFirmwareType.WATCHFACE;
+        }
+        if (ArrayUtils.startsWith(bytes, NEWFT_HEADER)) {
+            if (bytes[10] == 0x01) {
+                return HuamiFirmwareType.FONT;
+            } else if (bytes[10] == 0x02) {
+                return HuamiFirmwareType.FONT_LATIN;
+            }
         }
         return HuamiFirmwareType.INVALID;
     }

@@ -129,7 +129,7 @@ class PebbleIoThread extends GBDeviceIoThread {
         WebViewSingleton.invokeWebview(new WebViewSingleton.WebViewRunnable() {
             @Override
             public void invoke(WebView webView) {
-                webView.evaluateJavascript("Pebble.evaluate('" + jsEvent + "',[" + appMessage + "]);", new ValueCallback<String>() {
+                webView.evaluateJavascript("if (typeof Pebble == 'object') Pebble.evaluate('" + jsEvent + "',[" + appMessage + "]);", new ValueCallback<String>() {
                     @Override
                     public void onReceiveValue(String s) {
                         //TODO: the message should be acked here instead of in PebbleIoThread

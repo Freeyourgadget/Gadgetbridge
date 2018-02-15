@@ -38,11 +38,13 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipF
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ConditionalWriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
@@ -52,8 +54,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Suppo
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.FetchSportsSummaryOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
-
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service.ENDPOINT_DISPLAY_ITEMS;
 
 public class AmazfitBipSupport extends MiBand2Support {
 
@@ -304,35 +304,68 @@ public class AmazfitBipSupport extends MiBand2Support {
     }
 
     private AmazfitBipSupport setLanguage(TransactionBuilder builder) {
+
         String language = Locale.getDefault().getLanguage();
         String country = Locale.getDefault().getCountry();
 
         LOG.info("Setting watch language, phone language = " + language + " country = " + country);
 
-        byte[] command;
+        final byte[] command_new;
+        final byte[] command_old;
+        String localeString;
+
         switch (GBApplication.getPrefs().getInt("amazfitbip_language", -1)) {
             case 0:
-                command = AmazfitBipService.COMMAND_SET_LANGUAGE_SIMPLIFIED_CHINESE;
+                command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_SIMPLIFIED_CHINESE;
+                localeString = "zh_CN";
                 break;
             case 1:
-                command = AmazfitBipService.COMMAND_SET_LANGUAGE_TRADITIONAL_CHINESE;
+                command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_TRADITIONAL_CHINESE;
+                localeString = "zh_TW";
                 break;
             case 2:
-                command = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                localeString = "en_US";
+                break;
+            case 3:
+                command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_SPANISH;
+                localeString = "es_ES";
                 break;
             default:
-                if (language.equals("zh")) {
-                    if (country.equals("TW") || country.equals("HK") || country.equals("MO")) { // Taiwan, Hong Kong,  Macao
-                        command = AmazfitBipService.COMMAND_SET_LANGUAGE_TRADITIONAL_CHINESE;
-                    } else {
-                        command = AmazfitBipService.COMMAND_SET_LANGUAGE_SIMPLIFIED_CHINESE;
-                    }
-                } else {
-                    command = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                switch (language) {
+                    case "zh":
+                        if (country.equals("TW") || country.equals("HK") || country.equals("MO")) { // Taiwan, Hong Kong,  Macao
+                            command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_TRADITIONAL_CHINESE;
+                            localeString = "zh_TW";
+                        } else {
+                            command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_SIMPLIFIED_CHINESE;
+                            localeString = "zh_CN";
+                        }
+                        break;
+                    case "es":
+                        command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_SPANISH;
+                        localeString = "es_ES";
+                        break;
+                    default:
+                        command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                        localeString = "en_US";
+                        break;
                 }
         }
+        command_new = AmazfitBipService.COMMAND_SET_LANGUAGE_NEW_TEMPLATE;
+        System.arraycopy(localeString.getBytes(), 0, command_new, 3, localeString.getBytes().length);
 
-        builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
+        builder.add(new ConditionalWriteAction(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION)) {
+            @Override
+            protected byte[] checkCondition() {
+                if (gbDevice.getType() == DeviceType.AMAZFITBIP && new Version(gbDevice.getFirmwareVersion()).compareTo(new Version("0.1.0.77")) >= 0) {
+                    return command_new;
+                } else {
+                    return command_old;
+                }
+            }
+        });
+
         return this;
     }
 

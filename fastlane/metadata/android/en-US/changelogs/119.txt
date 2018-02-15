@@ -1,0 +1,4 @@
+* Fix crash when changing the periodic database export interval
+* Amazfit Bip: Allow fonts and new res format to be flashed
+* Amazfit Cor: Allow new res format to be flashed
+* Pebble: Background js fixes

@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="app_name">Gadgetbridge</string>
+
+    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="action_settings">Seaded</string>
+    <string name="action_debug">Silumine</string>
+    <string name="action_quit">Välju</string>
+    <string name="action_donate">Annetamine</string>
+    <string name="controlcenter_fetch_activity_data">Sünkrooni</string>
+    <string name="controlcenter_find_device">Leia kadunud seade</string>
+    <string name="controlcenter_take_screenshot">Tee ekraanipilt</string>
+    <string name="controlcenter_connect">Ühenda</string>
+    <string name="controlcenter_disconnect">Ühenda lahti</string>
+    <string name="controlcenter_delete_device">Kustuta seade</string>
+    <string name="controlcenter_delete_device_name">Kustuta %1$s</string>
+    <string name="controlcenter_delete_device_dialogmessage">See kustutab seadme ja kõik sellega kaasnevad andmed!</string>
+    <string name="controlcenter_navigation_drawer_open">Ava navigatsioonisahtel</string>
+    <string name="controlcenter_navigation_drawer_close">Sulge navigatsioonisahtel</string>
+    <string name="controlcenter_snackbar_need_longpress">Pikk puudutus selleks et lahti ühendada</string>
+    <string name="controlcenter_snackbar_disconnecting">Ühendan lahti</string>
+    <string name="controlcenter_snackbar_connecting">Ühendan</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Teen seadme ekraanist pilti</string>
+
+
+    <string name="title_activity_debug">Silumine</string>
+
+    <string name="title_activity_appmanager">Rakendustehaldur</string>
+    <string name="appmanager_cached_watchapps_watchfaces">Rakendused vahemälus</string>
+    <string name="appmanager_installed_watchapps">Paigaldatud rakendused</string>
+    <string name="appmanager_installed_watchfaces">Paigaldatud kella stiilid</string>
+    <string name="appmananger_app_delete">Kustuta</string>
+    <string name="appmananger_app_delete_cache">Kustuta ja eemalda vahemälust</string>
+    <string name="appmananger_app_reinstall">Taasinstalli</string>
+    <string name="appmanager_app_openinstore">Otsi Pebble\'i poest</string>
+    <string name="appmanager_health_activate">Aktiveeri</string>
+    <string name="appmanager_health_deactivate">Deaktiveeri</string>
+    <string name="appmanager_hrm_activate">Aktiveeri HRM</string>
+    <string name="appmanager_hrm_deactivate">Deaktiveeri HRM</string>
+    <string name="appmanager_weather_activate">Aktiveeri süsteemi ilmarakendus</string>
+    <string name="appmanager_weather_deactivate">Deaktiveeri süsteemi ilmarakendus</string>
+    <string name="appmanager_weather_install_provider">Paigalda ilmateavituste rakendus</string>
+    <string name="app_configure">Seadista</string>
+    <string name="app_move_to_top">Liiguta kõige üles</string>
+
+    <string name="title_activity_appblacklist">Teavituste must nimekiri</string>
+
+    <string name="title_activity_calblacklist">Kalendrite must nimekiri</string>
+
+    <string name="title_activity_fw_app_insaller">Püsivara/rakenduse paigaldaja</string>
+    <string name="fw_upgrade_notice">Olete installeerimas püsivara %s selle asemel, mis praegu teie Mi Bandil on.</string>
+    <string name="fw_upgrade_notice_amazfitbip">Olete installimas %s püsivara enda Amazfit Bip\'ile.
+\n
+\nPalun kindlasti installeeriga .gps püsivara, siis .res fail ja viimasena .fw fail. Teie kell taaskäivitub pärast .fw faili paigaldust.
+\n
+\nNote: .res ja .gps faili ei pea installima kui tegu on samade failidega mis eelmisel uuendusel.
+\n
+\nJÄTKATE OMAL RIISIKOL!</string>
+    <string name="fw_upgrade_notice_amazfitcor">Olete paigaldamas %s püsivara enda Amazfit Cor\'ile.
+\n
+\nPalun veenduge, et enne paigaldate .res faili ja pärast seda .fw faili. Teie kell taaskäivitub pärast .fw faili paigaldust.
+\n
+\nNote: .res faili ei pea paigaldama kui tegu on sama failiga mis eelmisel uuendusel.
+\n
+\nTESTIMATA, VÕIB TEIE SEADME PABERIRASKUSEKS MUUTA, JÄTKATE OMAL RIISIKOL!</string>
+    <string name="fw_multi_upgrade_notice">Olete installimas %1$s ja %2$s püsivara selle asemel, mis praegu teie Mi Band\'il on.</string>
+    <string name="miband_firmware_known">See püsivara on testitud ja on teadaolevalt sobiv koos Gadgetbridge\'iga kasutamiseks.</string>
+    <string name="miband_firmware_unknown_warning">See püsivara on testimata ja ei pruugi olla Gadgetbridge\'iga ühilduv.
+\n
+\nSoovitame mitte seda teie Mi Bandile paigaldada!</string>
+    <string name="title_activity_settings">Seaded</string>
+
+    <string name="pref_header_general">Üldised seaded</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Ühendu seadmega kui Bluetooth lülitatakse sisse</string>
+    <string name="pref_title_general_autostartonboot">Käivitu automaatselt</string>
+    <string name="pref_title_general_autocreonnect">Taasühendu automaatselt</string>
+    <string name="pref_title_audo_player">Eelistatud heli mängija</string>
+    <string name="pref_default">Vaikeväärtus</string>
+    <string name="pref_header_datetime">Kuupäev ja kellaaeg</string>
+    <string name="pref_title_datetime_syctimeonconnect">Sünkrooni aega</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Sünkrooni aeg seadmega ühendumise ajal ja kui aeg või ajatsoon muutub Androidis</string>
+
+    </resources>

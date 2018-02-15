@@ -17,17 +17,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
-    compileSdkVersion 25
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 27
 
         // note: always bump BOTH versionCode and versionName!
-        versionName "0.24.0"
-        versionCode 117
+        versionName "0.24.5"
+        versionCode 122
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -64,18 +64,18 @@ dependencies {
     testCompile "org.robolectric:robolectric:3.5.1"
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.4.0'
-    compile 'com.android.support:cardview-v7:25.4.0'
-    compile 'com.android.support:recyclerview-v7:25.4.0'
-    compile 'com.android.support:support-v4:25.4.0'
-    compile 'com.android.support:gridlayout-v7:25.4.0'
-    compile 'com.android.support:design:25.4.0'
-    compile 'com.android.support:palette-v7:25.4.0'
+    compile 'com.android.support:appcompat-v7:27.0.2'
+    compile 'com.android.support:cardview-v7:27.0.2'
+    compile 'com.android.support:recyclerview-v7:27.0.2'
+    compile 'com.android.support:support-v4:27.0.2'
+    compile 'com.android.support:gridlayout-v7:27.0.2'
+    compile 'com.android.support:design:27.0.2'
+    compile 'com.android.support:palette-v7:27.0.2'
     compile('com.github.tony19:logback-android-classic:1.1.1-6') {
         exclude group: 'com.google.android', module: 'android'
     }
     compile 'org.slf4j:slf4j-api:1.7.12'
-    compile 'com.github.Freeyourgadget:MPAndroidChart:40c924deab89945a2c7820f51c2fed8b1b803cb4'
+    compile 'com.github.Freeyourgadget:MPAndroidChart:5e5bd6c1d3e95c515d4853647ae554e48ee1d593'
     compile 'com.github.pfichtner:durationformatter:0.1.1'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
     compile 'net.e175.klaus:solarpositioning:0.0.9'

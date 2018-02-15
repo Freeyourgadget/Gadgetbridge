@@ -7,12 +7,12 @@
   <string name="action_quit">Sair</string>
   <string name="controlcenter_fetch_activity_data">Sincronizar</string>
   <string name="controlcenter_start_sleepmonitor">Monitor de sono (ALPHA)</string>
-  <string name="controlcenter_find_device">Procurando dispositivo perdido...</string>
+  <string name="controlcenter_find_device">Procurar dispositivo perdido</string>
   <string name="controlcenter_take_screenshot">Captura de ecrã</string>
   <string name="controlcenter_disconnect">Desligar</string>
   <string name="controlcenter_delete_device">Apagar dispositivo</string>
   <string name="controlcenter_delete_device_name">Apagar %1$s</string>
-  <string name="controlcenter_delete_device_dialogmessage">Isto irá apagar o dispositivo e apagar os dados associados!</string>
+  <string name="controlcenter_delete_device_dialogmessage">Isto irá apagar o dispositivo e apagar todos os dados associados!</string>
   <string name="controlcenter_navigation_drawer_open">Abrir gaveta de navegação</string>
   <string name="controlcenter_navigation_drawer_close">Fechar gaveta de navegação</string>
   <string name="controlcenter_snackbar_need_longpress">Pressione o cartão longamente para desligar</string>
@@ -21,50 +21,50 @@
   <string name="controlcenter_snackbar_requested_screenshot">Capturar o ecrã do dispositivo</string>
   <string name="title_activity_debug">Depurar</string>
   <!--Strings related to AppManager-->
-  <string name="title_activity_appmanager">Administrador de App</string>
+  <string name="title_activity_appmanager">Gestor de Aplicações</string>
   <string name="appmanager_cached_watchapps_watchfaces">Apps em cache</string>
-  <string name="appmanager_installed_watchapps">Apps instalados</string>
-  <string name="appmanager_installed_watchfaces">Visores instalados</string>
+  <string name="appmanager_installed_watchapps">Aplicações instaladas</string>
+  <string name="appmanager_installed_watchfaces">Temas instalados</string>
   <string name="appmananger_app_delete">Apagar</string>
   <string name="appmananger_app_delete_cache">Apagar e remover do cache</string>
   <string name="appmananger_app_reinstall">Reinstalar</string>
-  <string name="appmanager_app_openinstore">Buscar na loja Pebble</string>
+  <string name="appmanager_app_openinstore">Procurar na loja Pebble</string>
   <string name="appmanager_health_activate">Ativar</string>
   <string name="appmanager_health_deactivate">Desativar</string>
   <string name="appmanager_hrm_activate">Ativar Mon. Ritmo Cardíaco</string>
   <string name="appmanager_hrm_deactivate">Desativar Mon. Ritmo Cardíaco</string>
-  <string name="appmanager_weather_activate">Ativas app de clima do sistema</string>
-  <string name="appmanager_weather_deactivate">Desativar app de clima do sistema</string>
-  <string name="appmanager_weather_install_provider">Instalar notificações do app de clima</string>
+  <string name="appmanager_weather_activate">Ativar aplicação de tempo do sistema</string>
+  <string name="appmanager_weather_deactivate">Desativar aplicação de tempo do sistema</string>
+  <string name="appmanager_weather_install_provider">Instalar notificações da aplicação de tempo</string>
   <string name="app_configure">Configurar</string>
   <string name="app_move_to_top">Mover para o topo</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Bloqueio de notificações</string>
   <!--Strings related to FwAppInstaller-->
-  <string name="title_activity_fw_app_insaller">Instalador FW/App</string>
+  <string name="title_activity_fw_app_insaller">Instalador de FW/Aplicação</string>
   <string name="fw_upgrade_notice">Está prestes a instalar o firmware %s no lugar do atual na sua Mi Band.</string>
   <string name="fw_multi_upgrade_notice">Estás prestes a instalar os firmwares %1$s e %2$s em vez dos que estão atualmente na sua Mi Band.</string>
   <string name="miband_firmware_known">O firmware foi testado e é compatível com o Gadgetbridge.</string>
   <string name="miband_firmware_unknown_warning">Este firmware não foi testado e pode não ser compatível com o Gadgetbridge.\n\nÉ preferível que NÃO o instale na sua Mi Band!</string>
-  <string name="miband_firmware_suggest_whitelist">Se ainda assim quiser continuar e tudo continuar a funcionar normalmente, por favor diga aos programadores do Gadgetbridge para permitir o firmware versão: %s</string>
+  <string name="miband_firmware_suggest_whitelist">Se ainda assim quiser continuar e tudo funcionar corretamente, por favor diga aos programadores do Gadgetbridge para permitir o firmware versão: %s</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Configurações</string>
   <string name="pref_header_general">Configurações Gerais</string>
-  <string name="pref_title_general_autoconnectonbluetooth">Ligar ao dispositivo ao ativar o Bluetooth</string>
+  <string name="pref_title_general_autoconnectonbluetooth">Ligar ao dispositivo quando ativar o Bluetooth</string>
   <string name="pref_title_general_autostartonboot">Iniciar automaticamente</string>
   <string name="pref_title_general_autocreonnect">Religar automaticamente</string>
-  <string name="pref_title_audo_player">Aplicação de música preferencial</string>
+  <string name="pref_title_audo_player">Aplicação de música preferida</string>
   <string name="pref_default">Padrão</string>
   <string name="pref_header_datetime">Data e Hora</string>
   <string name="pref_title_datetime_syctimeonconnect">Sincronizar hora</string>
-  <string name="pref_summary_datetime_syctimeonconnect">Sincronizar a hora para o dispositivo a quando da ligação e quando a hora ou fuso horário se alterarem no Android</string>
+  <string name="pref_summary_datetime_syctimeonconnect">Sincronizar a hora quando o dispositivo conecta e quando a hora ou fuso horário se alterarem no Android</string>
   <string name="pref_title_theme">Tema</string>
   <string name="pref_theme_light">Claro</string>
   <string name="pref_theme_dark">Escuro</string>
   <string name="pref_title_language">Idioma</string>
   <string name="pref_title_minimize_priority">Ocultar notificações do Gadgetbridge</string>
-  <string name="pref_summary_minimize_priority_off">Exibir ícone na barra de status e nas notificações no ecrã inicial</string>
-  <string name="pref_summary_minimize_priority_on">Ocultar ícone na barra de status e nas notificações no ecrã inicial</string>
+  <string name="pref_summary_minimize_priority_off">Exibir ícone na barra de estados e nas notificações do ecrã de bloqueio</string>
+  <string name="pref_summary_minimize_priority_on">Ocultar ícone na barra de estados e nas notificações do ecrã de bloqueio</string>
   <string name="pref_header_notifications">Notificações</string>
   <string name="pref_title_notifications_repetitions">Repetições</string>
   <string name="pref_title_notifications_call">Chamadas telefónicas</string>
@@ -82,17 +82,17 @@
   <string name="never">nunca</string>
   <string name="pref_header_privacy">Privacidade</string>
   <string name="pref_title_call_privacy_mode">Modo de chamada privada</string>
-  <string name="pref_call_privacy_mode_off">Exibir nome e número</string>
-  <string name="pref_call_privacy_mode_name">Ocultar nome e exibir número</string>
-  <string name="pref_call_privacy_mode_number">Ocular o número e exibir o nome</string>
+  <string name="pref_call_privacy_mode_off">Mostrar nome e número</string>
+  <string name="pref_call_privacy_mode_name">Ocultar nome e mostrar número</string>
+  <string name="pref_call_privacy_mode_number">Ocultar número e mostrar nome</string>
   <string name="pref_call_privacy_mode_complete">Ocultar nome e número</string>
-  <string name="pref_blacklist">Aplicações ignoradas</string>
+  <string name="pref_blacklist">Bloquear Aplicações</string>
   <string name="pref_header_cannned_messages">Histórico de mensagens</string>
   <string name="pref_title_canned_replies">Respostas</string>
   <string name="pref_title_canned_reply_suffix">Sufixo comum</string>
   <string name="pref_title_canned_messages_dismisscall">Chamadas recusadas</string>
   <string name="pref_title_canned_messages_set">Atualizar no Pebble</string>
-  <string name="pref_header_development">Opções do programador</string>
+  <string name="pref_header_development">Opções de programador</string>
   <string name="pref_title_development_miaddr">Endereço do Mi Band</string>
   <string name="pref_title_pebble_settings">Configurações Pebble</string>
   <string name="pref_header_activitytrackers">Ativar monitores</string>
@@ -146,8 +146,8 @@
   <string name="test">Teste</string>
   <string name="test_notification">Teste de notificação</string>
   <string name="this_is_a_test_notification_from_gadgetbridge">Isto é uma notificação de teste do Gadgetbridge</string>
-  <string name="bluetooth_is_not_supported_">Bluetooth não suportado</string>
-  <string name="bluetooth_is_disabled_">Bluetooth desligado</string>
+  <string name="bluetooth_is_not_supported_">Bluetooth não suportado.</string>
+  <string name="bluetooth_is_disabled_">O Bluetooth está desligado.</string>
   <string name="tap_connected_device_for_app_mananger">Toque num dispositivo ligado para Gerir Aplicações</string>
   <string name="tap_connected_device_for_activity">Toque num dispositivo ligado para ver a Atividade</string>
   <string name="tap_connected_device_for_vibration">Toque num dispositivo ligado para o fazer Vibrar</string>
@@ -170,11 +170,11 @@
   <string name="title_activity_android_pairing">Emparelhar dispositivo</string>
   <string name="android_pairing_hint">Use o diálogo do sistema Android para emparelhar com o dispositivo</string>
   <string name="title_activity_mi_band_pairing">Emparelhar com a sua Mi Band</string>
-  <string name="pairing">A emparelhar com %s...</string>
+  <string name="pairing">A emparelhar com %s…</string>
   <string name="pairing_creating_bond_with">A criar ligação com %1$s (%2$s)</string>
   <string name="pairing_unable_to_pair_with">Não foi possível emparelhar com %1$s (%2$s)</string>
   <string name="pairing_in_progress">Associação em progresso: %1$s (%2$s)</string>
-  <string name="pairing_already_bonded">Já associado com %1$s (%2$s), a ligar...</string>
+  <string name="pairing_already_bonded">Já associado com %1$s (%2$s), a ligar…</string>
   <string name="message_cannot_pair_no_mac">Nenhum endereço MAC fornecido, não é possível emparelhar.</string>
   <string name="preferences_category_device_specific_settings">Configurações Específicas do Dispositivo</string>
   <string name="preferences_miband_settings">Configurações Mi Band</string>
@@ -183,7 +183,7 @@
   <string name="other">outro</string>
   <string name="left">esquerda</string>
   <string name="right">direita</string>
-  <string name="miband_pairing_using_dummy_userdata">Sem dados de utilizador. Por enquanto serão usados dados fictícios</string>
+  <string name="miband_pairing_using_dummy_userdata">Sem dados de utilizador. Por enquanto serão usados dados fictícios.</string>
   <string name="miband_pairing_tap_hint">Quando a sia Mi Band vibrar e piscar, dê-lhe alguns toques seguidos.</string>
   <string name="appinstaller_install">Instalar</string>
   <string name="discovery_connected_devices_hint">Torne o seu dispositivo visível.  É improvável que os dispositivos atualmente ligados sejam apresentados. Ative a localização (i.e, GPS) no Android 6+. Desative também a Proteção de Privacidade para o Gadgetbridge, pois esta poderá bloquear e levar ao reinício do seu telefone. Se depois de alguns minutos não for encontrado qualquer dispositivo, tente outra vez após reiniciar o telefone.</string>
@@ -385,4 +385,29 @@
   <string name="discovery_pair_title">Emparelhar com %1$s?</string>
   <string name="discovery_yes_pair">Emparelhar</string>
   <string name="discovery_dont_pair">Não emparelhar</string>
-</resources>
+<string name="action_donate">Doar</string>
+    <string name="controlcenter_connect">Ligar</string>
+    <string name="title_activity_calblacklist">Calendários Bloqueados</string>
+
+    <string name="fw_upgrade_notice_amazfitbip">Está prestes a instalar o firmware %s na sua Amazfit Bip.
+\n
+\nPor favor garanta que instala o firmware .gps, o ficheiro .res e finalmente o ficheiro .fw. O seu relógio vai reiniciar depois de instalar o ficheiro .fw
+\n
+\nNota: Não necessita de instalar .res e .gps se os ficheiros forem os mesmos da última instalação.
+\n
+\nCONTINUE A SEU PRÓPRIO RISCO!</string>
+    <string name="fw_upgrade_notice_amazfitcor">Está prestes a instalar o firmware %s na sua Amazfit Cor.
+\n
+\nPor favor garanta que instala o ficheiro .res e depois o ficheiro .fw. O seu relógio vai reiniciar depois de instalar o ficheiro .fw
+\n
+\nNota: Não necessita de instalar .res se os ficheiro for o mesmo da última instalação.
+\n
+\nNÃO FOI TESTADO, PODERÁ DANIFICAR O SEU DISPOSITIVO.CONTINUE A SEU PRÓPRIO RISCO!</string>
+    <string name="pref_title_charts_swipe">"Ativar deslizar para esquerda/direita nos  gráficos de atividade"</string>
+
+    <string name="pref_title_weather">Meteorologia</string>
+    <string name="pref_title_weather_location">Localização para meteorologia (CM/LOS)</string>
+
+    <string name="pref_blacklist_calendars">Bloquear Calendários</string>
+
+    </resources>

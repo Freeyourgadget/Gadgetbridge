@@ -100,9 +100,10 @@ public class OmniJawsObserver extends ContentObserver {
 
                             weatherSpec.currentTemp = toKelvin(c.getFloat(3));
                             weatherSpec.currentHumidity = (int) c.getFloat(4);
+                            weatherSpec.timestamp = (int) (Long.valueOf(c.getString(9)) / 1000);
+                        } else if (i == 1) {
                             weatherSpec.todayMinTemp = toKelvin(c.getFloat(5));
                             weatherSpec.todayMaxTemp = toKelvin(c.getFloat(6));
-                            weatherSpec.timestamp = (int) (Long.valueOf(c.getString(9)) / 1000);
                         } else {
 
                             WeatherSpec.Forecast gbForecast = new WeatherSpec.Forecast();
