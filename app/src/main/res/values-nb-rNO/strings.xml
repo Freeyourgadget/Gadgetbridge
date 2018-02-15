@@ -551,4 +551,5 @@
     <string name="choose_auto_export_location">Velg eksportplassering</string>
 <string name="spanish">Spansk</string>
 
-    </resources>
+    <string name="notification_channel_name">Gadgetbridge-merknader</string>
+</resources>
