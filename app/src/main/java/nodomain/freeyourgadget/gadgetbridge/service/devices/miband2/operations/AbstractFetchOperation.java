@@ -57,6 +57,7 @@ public abstract class AbstractFetchOperation extends AbstractMiBand2Operation {
     protected BluetoothGattCharacteristic characteristicActivityData;
     protected BluetoothGattCharacteristic characteristicFetch;
     protected Calendar startTimestamp;
+    protected int expectedDataLength;
 
     public AbstractFetchOperation(MiBand2Support support) {
         super(support);
@@ -66,7 +67,8 @@ public abstract class AbstractFetchOperation extends AbstractMiBand2Operation {
     protected void enableNeededNotifications(TransactionBuilder builder, boolean enable) {
         if (!enable) {
             // dynamically enabled, but always disabled on finish
-            builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_5_ACTIVITY_DATA), enable);
+            builder.notify(characteristicFetch, enable);
+            builder.notify(characteristicActivityData, enable);
         }
     }
 
@@ -78,7 +80,7 @@ public abstract class AbstractFetchOperation extends AbstractMiBand2Operation {
     protected void startFetching() throws IOException {
         lastPacketCounter = -1;
 
-        TransactionBuilder builder = performInitialized("fetching activity data");
+        TransactionBuilder builder = performInitialized(getName());
         getSupport().setLowLatency(builder);
         if (fetchCount == 0) {
             builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
@@ -115,7 +117,7 @@ public abstract class AbstractFetchOperation extends AbstractMiBand2Operation {
     }
 
     @CallSuper
-    protected void handleActivityFetchFinish() {
+    protected void handleActivityFetchFinish(boolean success) {
         operationFinished();
         unsetBusy();
     }
@@ -139,7 +141,8 @@ public abstract class AbstractFetchOperation extends AbstractMiBand2Operation {
             // first two bytes are whether our request was accepted
             if (ArrayUtils.equals(value, MiBand2Service.RESPONSE_ACTIVITY_DATA_START_DATE_SUCCESS, 0)) {
                 // the third byte (0x01 on success) = ?
-                // the 4th - 7th bytes probably somehow represent the number of bytes/packets to expect
+                // the 4th - 7th bytes epresent the number of bytes/packets to expect, excluding the counter bytes
+                expectedDataLength = BLETypeConversions.toUint32(Arrays.copyOfRange(value, 3, 7));
 
                 // last 8 bytes are the start date
                 Calendar startTimestamp = getSupport().fromTimeBytes(Arrays.copyOfRange(value, 7, value.length));
@@ -149,18 +152,18 @@ public abstract class AbstractFetchOperation extends AbstractMiBand2Operation {
                         DateFormat.getDateTimeInstance().format(startTimestamp.getTime())), Toast.LENGTH_LONG, GB.INFO);
             } else {
                 LOG.warn("Unexpected activity metadata: " + Logging.formatBytes(value));
-                handleActivityFetchFinish();
+                handleActivityFetchFinish(false);
             }
         } else if (value.length == 3) {
             if (Arrays.equals(MiBand2Service.RESPONSE_FINISH_SUCCESS, value)) {
-                handleActivityFetchFinish();
+                handleActivityFetchFinish(true);
             } else {
                 LOG.warn("Unexpected activity metadata: " + Logging.formatBytes(value));
-                handleActivityFetchFinish();
+                handleActivityFetchFinish(false);
             }
         } else {
             LOG.warn("Unexpected activity metadata: " + Logging.formatBytes(value));
-            handleActivityFetchFinish();
+            handleActivityFetchFinish(false);
         }
     }
 
@@ -183,7 +186,7 @@ public abstract class AbstractFetchOperation extends AbstractMiBand2Operation {
             return calendar;
         }
         GregorianCalendar calendar = BLETypeConversions.createCalendar();
-        calendar.add(Calendar.DAY_OF_MONTH, -10);
+        calendar.add(Calendar.DAY_OF_MONTH, - 100);
         return calendar;
     }
 }

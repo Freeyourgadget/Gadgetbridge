@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -32,9 +33,12 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Locale;
 
@@ -42,6 +46,12 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class AndroidUtils {
+    /**
+     * Creates a new {@link ParcelUuid} array with the contents of the given uuids.
+     * The given array is expected to contain only {@link ParcelUuid} elements.
+     * @param uuids an array of {@link ParcelUuid} elements
+     * @return a {@link ParcelUuid} array instance with the same contents
+     */
     public static ParcelUuid[] toParcelUUids(Parcelable[] uuids) {
         if (uuids == null) {
             return null;
@@ -205,5 +215,16 @@ public class AndroidUtils {
             return uri.getPath();
         }
         throw new IllegalArgumentException("Unable to decode the given uri to a file path: " + uri);
+    }
+
+    public static void viewFile(String path, String action, Context context) throws IOException {
+        Intent intent = new Intent(action);
+        File file = new File(path);
+
+        Uri contentUri = FileProvider.getUriForFile(context,
+                context.getApplicationContext().getPackageName() + ".screenshot_provider", file);
+        intent.setFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setData(contentUri);
+        context.startActivity(intent);
     }
 }

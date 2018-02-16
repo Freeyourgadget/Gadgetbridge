@@ -231,12 +231,27 @@
                 card_view:srcCompat="@drawable/ic_activity_graphs" />
 
             <ImageView
-                android:id="@+id/device_action_find"
+                android:id="@+id/device_action_show_activity_tracks"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_below="@id/device_image"
                 android:layout_margin="4dp"
                 android:layout_toEndOf="@id/device_action_show_activity_graphs"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:contentDescription="@string/controlcenter_start_activity_tracks"
+                android:padding="4dp"
+                android:scaleType="fitXY"
+                android:tint="@color/secondarytext"
+                card_view:srcCompat="@drawable/ic_activity_tracks" />
+
+            <ImageView
+                android:id="@+id/device_action_find"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/device_image"
+                android:layout_margin="4dp"
+                android:layout_toEndOf="@id/device_action_show_activity_tracks"
                 android:clickable="true"
                 android:contentDescription="@string/controlcenter_find_device"
                 android:padding="4dp"

@@ -48,10 +48,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ConditionalWrit
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.operations.AmazfitBipFetchLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiIcon;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.FetchSportsSummaryOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
@@ -263,7 +263,8 @@ public class AmazfitBipSupport extends MiBand2Support {
     @Override
     public void onTestNewFunction() {
         try {
-            new AmazfitBipFetchLogsOperation(this).perform();
+//            new AmazfitBipFetchLogsOperation(this).perform();
+            new FetchSportsSummaryOperation(this).perform();
         } catch (IOException ex) {
             LOG.error("Unable to fetch logs", ex);
         }

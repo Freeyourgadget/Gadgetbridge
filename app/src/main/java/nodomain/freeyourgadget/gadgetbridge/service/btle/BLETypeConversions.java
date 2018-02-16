@@ -29,6 +29,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotificat
  * Provides methods to convert standard BLE units to byte sequences and vice versa.
  */
 public class BLETypeConversions {
+    public static final int TZ_FLAG_NONE = 0;
+    public static final int TZ_FLAG_INCLUDE_DST_IN_TZ = 1;
+
     /**
      * Converts a timestamp to the byte sequence to be sent to the current time characteristic
      *
@@ -163,8 +166,31 @@ public class BLETypeConversions {
         return createCalendar();
     }
 
+    public static long toUnsigned(int unsignedInt) {
+        return ((long) unsignedInt) & 0xffffffffL;
+    }
+    public static int toUnsigned(short value) {
+        return value & 0xffff;
+    }
+
+    public static int toUnsigned(byte value) {
+        return value & 0xff;
+    }
+
+    public static int toUint16(byte value) {
+        return toUnsigned(value);
+    }
+
     public static int toUint16(byte... bytes) {
         return (bytes[0] & 0xff) | ((bytes[1] & 0xff) << 8);
+    }
+
+    public static int toInt16(byte... bytes) {
+        return (short) (bytes[0] & 0xff | ((bytes[1] & 0xff) << 8));
+    }
+
+    public static int toUint32(byte... bytes) {
+        return (bytes[0] & 0xff) | ((bytes[1] & 0xff) << 8) | ((bytes[2] & 0xff) << 16) | ((bytes[3] & 0xff) << 24);
     }
 
     public static byte[] fromUint16(int value) {
@@ -229,7 +255,20 @@ public class BLETypeConversions {
      * @return sint8 value from -48..+56
      */
     public static byte mapTimeZone(TimeZone timeZone) {
-        int utcOffsetInHours =  (timeZone.getRawOffset() / (1000 * 60 * 60));
+        return mapTimeZone(timeZone, TZ_FLAG_NONE);
+    }
+
+    /**
+     * https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.characteristic.time_zone.xml
+     * @param timeZone
+     * @return sint8 value from -48..+56
+     */
+    public static byte mapTimeZone(TimeZone timeZone, int timezoneFlags) {
+        int offsetMillis = timeZone.getRawOffset();
+        if (false && timezoneFlags == TZ_FLAG_INCLUDE_DST_IN_TZ) {
+            offsetMillis += timeZone.getDSTSavings();
+        }
+        int utcOffsetInHours =  (offsetMillis / (1000 * 60 * 60));
         return (byte) (utcOffsetInHours * 4);
     }
 

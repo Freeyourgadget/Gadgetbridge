@@ -23,12 +23,30 @@ import android.widget.Toast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.concurrent.TimeUnit;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
+import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.User;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.BipActivityType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -39,29 +57,30 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class FetchSportsSummaryOperation extends AbstractFetchOperation {
     private static final Logger LOG = LoggerFactory.getLogger(FetchSportsSummaryOperation.class);
 
-//    private List<MiBandActivitySample> samples = new ArrayList<>(60*24); // 1day per default
-
-    private byte lastPacketCounter;
+    private ByteArrayOutputStream buffer = new ByteArrayOutputStream(140);
 
     public FetchSportsSummaryOperation(MiBand2Support support) {
         super(support);
+        setName("fetching sport summaries");
     }
 
     @Override
     protected void startFetching(TransactionBuilder builder) {
+        LOG.info("start" + getName());
         GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
-//        builder.write(characteristicFetch, BLETypeConversions.join(new byte[] {
-//                MiBand2Service.COMMAND_ACTIVITY_DATA_START_DATE,
-//                AmazfitBipService.COMMAND_ACTIVITY_DATA_TYPE_SPORTS_SUMMARIES},
-//                getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES)));
-//        builder.add(new WaitAction(1000)); // TODO: actually wait for the success-reply
-//        builder.notify(characteristicActivityData, true);
-//        builder.write(characteristicFetch, new byte[] { MiBand2Service.COMMAND_FETCH_DATA });
+        builder.write(characteristicFetch, BLETypeConversions.join(new byte[] {
+                MiBand2Service.COMMAND_ACTIVITY_DATA_START_DATE,
+                AmazfitBipService.COMMAND_ACTIVITY_DATA_TYPE_SPORTS_SUMMARIES},
+                getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES)));
+        builder.add(new WaitAction(1000)); // TODO: actually wait for the success-reply
+        builder.notify(characteristicActivityData, true);
+        builder.write(characteristicFetch, new byte[] { MiBand2Service.COMMAND_FETCH_DATA });
     }
 
     @Override
-    protected void handleActivityFetchFinish() {
-        LOG.info("Fetching activity data has finished round " + fetchCount);
+    protected void handleActivityFetchFinish(boolean success) {
+        LOG.info(getName() + " has finished round " + fetchCount);
+
 //        GregorianCalendar lastSyncTimestamp = saveSamples();
 //        if (lastSyncTimestamp != null && needsAnotherFetch(lastSyncTimestamp)) {
 //            try {
@@ -72,7 +91,31 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
 //            }
 //        }
 
-        super.handleActivityFetchFinish();
+        BaseActivitySummary summary = null;
+        if (success) {
+            summary = parseSummary(buffer);
+            try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                DaoSession session = dbHandler.getDaoSession();
+                Device device = DBHelper.getDevice(getDevice(), session);
+                User user = DBHelper.getUser(session);
+                summary.setDevice(device);
+                summary.setUser(user);
+                session.getBaseActivitySummaryDao().insertOrReplace(summary);
+            } catch (Exception ex) {
+                GB.toast(getContext(), "Error saving activity summary", Toast.LENGTH_LONG, GB.ERROR, ex);
+            }
+        }
+
+        super.handleActivityFetchFinish(success);
+
+        if (summary != null) {
+            FetchSportsDetailsOperation nextOperation = new FetchSportsDetailsOperation(summary, getSupport(), getLastSyncTimeKey());
+            try {
+                nextOperation.perform();
+            } catch (IOException ex) {
+                GB.toast(getContext(), "Unable to fetch activity details: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+            }
+        }
     }
 
     @Override
@@ -93,7 +136,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
      */
     @Override
     protected void handleActivityNotif(byte[] value) {
-        LOG.warn("sports data: " + Logging.formatBytes(value));
+        LOG.warn("sports summary data: " + Logging.formatBytes(value));
 
         if (!isOperationRunning()) {
             LOG.error("ignoring activity data notification because operation is not running. Data length: " + value.length);
@@ -101,48 +144,99 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
             return;
         }
 
-        if ((value.length % 4) == 1) {
-            if ((byte) (lastPacketCounter + 1) == value[0] ) {
-                lastPacketCounter++;
-                bufferActivityData(value);
-            } else {
-                GB.toast("Error fetching activity data, invalid package counter: " + value[0], Toast.LENGTH_LONG, GB.ERROR);
-                handleActivityFetchFinish();
-                return;
-            }
+        if (value.length < 2) {
+            LOG.error("unexpected sports summary data length: " + value.length);
+            getSupport().logMessageContent(value);
+            return;
+        }
+
+        if ((byte) (lastPacketCounter + 1) == value[0] ) {
+            lastPacketCounter++;
+            bufferActivityData(value);
         } else {
-            GB.toast("Error fetching activity data, unexpected package length: " + value.length, Toast.LENGTH_LONG, GB.ERROR);
-            LOG.warn("Unexpected activity data: " + Logging.formatBytes(value));
+            GB.toast("Error " + getName() + ", invalid package counter: " + value[0] + ", last was: " + lastPacketCounter, Toast.LENGTH_LONG, GB.ERROR);
+            handleActivityFetchFinish(false);
+            return;
         }
     }
 
     /**
-     * Creates samples from the given 17-length array
+     * Buffers the given activity summary data. If the total size is reached,
+     * it is converted to an object and saved in the database.
      * @param value
      */
     @Override
     protected void bufferActivityData(byte[] value) {
-        // TODO: implement
-//        int len = value.length;
+        buffer.write(value, 1, value.length - 1); // skip the counter
+    }
+
+    private BaseActivitySummary parseSummary(ByteArrayOutputStream stream) {
+        BaseActivitySummary summary = new BaseActivitySummary();
+        ByteBuffer buffer = ByteBuffer.wrap(stream.toByteArray()).order(ByteOrder.LITTLE_ENDIAN);
+//        summary.setVersion(BLETypeConversions.toUnsigned(buffer.getShort()));
+        buffer.getShort(); // version
+        int activityKind = ActivityKind.TYPE_UNKNOWN;
+        try {
+            int rawKind = BLETypeConversions.toUnsigned(buffer.getShort());
+            BipActivityType activityType = BipActivityType.fromCode(rawKind);
+            activityKind = activityType.toActivityKind();
+        } catch (Exception ex) {
+            LOG.error("Error mapping acivity kind: " + ex.getMessage(), ex);
+        }
+        summary.setActivityKind(activityKind);
+        // FIXME: should save timezone etc.
+        summary.setStartTime(new Date(BLETypeConversions.toUnsigned(buffer.getInt()) * 1000));
+        summary.setEndTime(new Date(BLETypeConversions.toUnsigned(buffer.getInt()) * 1000));
+        int baseLongitude = buffer.getInt();
+        int baseLatitude = buffer.getInt();
+        int baseAltitude = buffer.getInt();
+        summary.setBaseLongitude(baseLongitude);
+        summary.setBaseLatitude(baseLatitude);
+        summary.setBaseAltitude(baseAltitude);
+//        summary.setBaseCoordinate(new GPSCoordinate(baseLatitude, baseLongitude, baseAltitude));
+
+//        summary.setDistanceMeters(Float.intBitsToFloat(buffer.getInt()));
+//        summary.setAscentMeters(Float.intBitsToFloat(buffer.getInt()));
+//        summary.setDescentMeters(Float.intBitsToFloat(buffer.getInt()));
 //
-//        if (len % 4 != 1) {
-//            throw new AssertionError("Unexpected activity array size: " + len);
-//        }
+//        summary.setMinAltitude(Float.intBitsToFloat(buffer.getInt()));
+//        summary.setMaxAltitude(Float.intBitsToFloat(buffer.getInt()));
+//        summary.setMinLatitude(buffer.getInt());
+//        summary.setMaxLatitude(buffer.getInt());
+//        summary.setMinLongitude(buffer.getInt());
+//        summary.setMaxLongitude(buffer.getInt());
 //
-//        for (int i = 1; i < len; i+=4) {
-//        }
+//        summary.setSteps(BLETypeConversions.toUnsigned(buffer.getInt()));
+//        summary.setActiveTimeSeconds(BLETypeConversions.toUnsigned(buffer.getInt()));
+//
+//        summary.setCaloriesBurnt(Float.intBitsToFloat(buffer.get()));
+//        summary.setMaxSpeed(Float.intBitsToFloat(buffer.get()));
+//        summary.setMinPace(Float.intBitsToFloat(buffer.get()));
+//        summary.setMaxPace(Float.intBitsToFloat(buffer.get()));
+//        summary.setTotalStride(Float.intBitsToFloat(buffer.get()));
+
+        buffer.getInt(); //
+        buffer.getInt(); //
+        buffer.getInt(); //
+
+//        summary.setTimeAscent(BLETypeConversions.toUnsigned(buffer.getInt()));
+//        buffer.getInt(); //
+//        summary.setTimeDescent(BLETypeConversions.toUnsigned(buffer.getInt()));
+//        buffer.getInt(); //
+//        summary.setTimeFlat(BLETypeConversions.toUnsigned(buffer.getInt()));
+//
+//        summary.setAverageHR(BLETypeConversions.toUnsigned(buffer.getShort()));
+//
+//        summary.setAveragePace(BLETypeConversions.toUnsigned(buffer.getShort()));
+//        summary.setAverageStride(BLETypeConversions.toUnsigned(buffer.getShort()));
+
+        buffer.getShort(); //
+
+        return summary;
     }
 
     @Override
     protected String getLastSyncTimeKey() {
-        return getDevice().getAddress() + "_" + "lastSportsSyncTimeMillis";
-    }
-
-
-    protected GregorianCalendar getLastSuccessfulSyncTime() {
-        // FIXME: remove this!
-        GregorianCalendar calendar = BLETypeConversions.createCalendar();
-        calendar.add(Calendar.DAY_OF_MONTH, -1);
-        return calendar;
+        return getDevice().getAddress() + "_" + "lastSportsActivityTimeMillis";
     }
 }

@@ -124,4 +124,9 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     public int getBondingStyle(GBDevice device) {
         return BONDING_STYLE_ASK;
     }
+
+    @Override
+    public boolean supportsActivityTracks() {
+        return false;
+    }
 }
