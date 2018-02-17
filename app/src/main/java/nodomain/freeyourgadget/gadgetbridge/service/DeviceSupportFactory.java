@@ -1,6 +1,6 @@
-/*  Copyright (C) 2015-2017 0nse, Andreas Shimokawa, Carsten Pfeiffer,
+/*  Copyright (C) 2015-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer,
     Daniele Gobbetti, João Paulo Barraca, protomors, Quallenauge, Sami Alaoui,
-    Sergey Trofimov
+    Sergey Trofimov, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -30,6 +30,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitcor.AmazfitCorSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.itag.iTagSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.liveview.LiveviewSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.AmazfitBipSupport;
@@ -107,6 +108,9 @@ public class DeviceSupportFactory {
                 switch (gbDevice.getType()) {
                     case PEBBLE:
                         deviceSupport = new ServiceDeviceSupport(new PebbleSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
+                    case ITAG:
+                        deviceSupport = new ServiceDeviceSupport(new iTagSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
                     case MIBAND:
                         deviceSupport = new ServiceDeviceSupport(new MiBandSupport(), EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING));

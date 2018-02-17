@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2017 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti, João Paulo Barraca, protomors, Quallenauge, Sami Alaoui
+/*  Copyright (C) 2015-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer,
+    Daniele Gobbetti, João Paulo Barraca, protomors, Quallenauge, Sami Alaoui, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -46,6 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipC
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor.AmazfitCorCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2HRXCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.itag.iTagCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.jyou.TeclastH30Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.liveview.LiveviewCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
@@ -203,7 +204,7 @@ public class DeviceHelper {
         result.add(new MakibesF68Coordinator());
         result.add(new EXRIZUK8Coordinator());
         result.add(new TeclastH30Coordinator());
-
+        result.add(new iTagCoordinator());
         return result;
     }
 
