@@ -289,6 +289,7 @@ public class BLETypeConversions {
             case SNAPCHAT:
             case TELEGRAM:
             case THREEMA:
+            case KONTALK:
             case TWITTER:
             case WHATSAPP:
             case VIBER:
