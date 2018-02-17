@@ -1,7 +1,7 @@
 ### Changelog
 
 #### Version next
-* Display the chat icon for notifications coming from the Kontalk app
+* Display the chat icon for notifications coming from Kontalk and Antox
 
 #### Version 0.24.5
 * Fix crash in settings activity with export location

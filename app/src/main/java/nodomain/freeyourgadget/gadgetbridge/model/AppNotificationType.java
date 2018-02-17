@@ -79,6 +79,9 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
         // Kontalk
         put("org.kontalk", NotificationType.KONTALK);
 
+        // Antox
+        put("chat.tox.antox", NotificationType.ANTOX);
+
         // Twitter
         put("org.mariotaku.twidere", NotificationType.TWITTER);
         put("com.twitter.android", NotificationType.TWITTER);

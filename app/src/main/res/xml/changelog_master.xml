@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release version="next">
-        <change>Display the chat icon for notifications coming from the Kontalk app</change>
+        <change>Display the chat icon for notifications coming from Kontalk and Antox</change>
     </release>
     <release version="0.24.5" versioncode="122">
         <change>Fix crash in settings activity with export location</change>
