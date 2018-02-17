@@ -228,7 +228,7 @@ public class DeviceHelper {
         result.add(new CasioGB6900DeviceCoordinator());
         result.add(new BFH16DeviceCoordinator());
         result.add(new MijiaLywsd02Coordinator());
-
+        result.add(new iTagCoordinator());
         return result;
     }
 
