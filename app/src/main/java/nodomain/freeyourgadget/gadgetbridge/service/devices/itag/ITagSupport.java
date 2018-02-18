@@ -32,8 +32,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
-import nodomain.freeyourgadget.gadgetbridge.devices.itag.iTagConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.itag.ITagConstants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -50,12 +49,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 
-public class iTagSupport extends AbstractBTLEDeviceSupport {
+public class ITagSupport extends AbstractBTLEDeviceSupport {
 
-    private static final Logger LOG = LoggerFactory.getLogger(iTagSupport.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ITagSupport.class);
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
-    private final DeviceInfoProfile<iTagSupport> deviceInfoProfile;
-    private final BatteryInfoProfile<iTagSupport> batteryInfoProfile;
+    private final DeviceInfoProfile<ITagSupport> deviceInfoProfile;
+    private final BatteryInfoProfile<ITagSupport> batteryInfoProfile;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -68,19 +67,19 @@ public class iTagSupport extends AbstractBTLEDeviceSupport {
                     handleBatteryInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfo) intent.getParcelableExtra(BatteryInfoProfile.EXTRA_BATTERY_INFO));
                 }
             } else{
-                LOG.warn("iTagSupport", "Error reading intent action");
+                LOG.warn("ITagSupport", "Error reading intent action");
             }
         }
     };
 
-    public iTagSupport() {
+    public ITagSupport() {
         super(LOG);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
         //addSupportedService(GattService.UUID_SERVICE_GENERIC_ATTRIBUTE); //TODO: Might not exist!
         addSupportedService(GattService.UUID_SERVICE_BATTERY_SERVICE);
 
         addSupportedService(GattService.UUID_SERVICE_IMMEDIATE_ALERT);
-        addSupportedService(iTagConstants.UUID_SERVICE_BUTTON);
+        addSupportedService(ITagConstants.UUID_SERVICE_BUTTON);
 
 
 
