@@ -219,6 +219,7 @@ public class DeviceHelper {
         result.add(new Q8Coordinator());
         result.add(new EXRIZUK8Coordinator());
         result.add(new TeclastH30Coordinator());
+        result.add(new ITagCoordinator());
         result.add(new XWatchCoordinator());
         result.add(new ZeTimeCoordinator());
         result.add(new ID115Coordinator());
@@ -228,7 +229,6 @@ public class DeviceHelper {
         result.add(new CasioGB6900DeviceCoordinator());
         result.add(new BFH16DeviceCoordinator());
         result.add(new MijiaLywsd02Coordinator());
-        result.add(new iTagCoordinator());
         return result;
     }
 

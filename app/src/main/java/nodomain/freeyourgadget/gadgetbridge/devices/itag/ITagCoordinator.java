@@ -32,7 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-public class iTagCoordinator extends AbstractDeviceCoordinator {
+public class ITagCoordinator extends AbstractDeviceCoordinator {
     @Override
     @NonNull
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {

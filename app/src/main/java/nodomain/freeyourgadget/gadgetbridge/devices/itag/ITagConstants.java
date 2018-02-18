@@ -18,6 +18,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.itag;
 
 import java.util.UUID;
 
-public final class iTagConstants {
+public final class ITagConstants {
     public static final UUID UUID_SERVICE_BUTTON = UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb"); // Contains information about the button state
 }
