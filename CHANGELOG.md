@@ -1,5 +1,8 @@
 ### Changelog
 
+#### Version next
+* Move the connected device to top in control center
+
 #### Version 0.24.6
 * Display the chat icon for notifications coming from Kontalk and Antox
 * Pebble: Fix for background js which try to send floats (e.g. TrekVolle)

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="next">
+        <change>Move the connected device to top in control center</change>
+    </release>
     <release version="0.24.6" versioncode="123">
         <change>Display the chat icon for notifications coming from Kontalk and Antox</change>
         <change>Pebble: Fix for background js which try to send floats (e.g. TrekVolle)</change>
