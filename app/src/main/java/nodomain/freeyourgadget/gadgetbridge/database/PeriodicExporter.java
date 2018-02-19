@@ -65,8 +65,9 @@ public class PeriodicExporter extends BroadcastReceiver {
                 return;
             }
             Uri dstUri = Uri.parse(dst);
-            OutputStream out = context.getContentResolver().openOutputStream(dstUri);
-            helper.exportDB(dbHandler, out);
+            try (OutputStream out = context.getContentResolver().openOutputStream(dstUri)) {
+                helper.exportDB(dbHandler, out);
+            }
         } catch (Exception ex) {
             GB.updateExportFailedNotification(context.getString(R.string.notif_export_failed_title), context);
             LOG.info("Exception while exporting DB: ", ex);
