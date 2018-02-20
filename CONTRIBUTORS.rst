@@ -58,8 +58,7 @@
 * Kasha <kasha_malaga@hotmail.com>
 * Ivan <ivan_tizhanin@mail.ru>
 * Hasan Ammar <ammarh@gmail.com>
-* Gilles MOREL <contact@gilles-morel.fr>
-* Gilles Émilien MOREL <Almtesh@users.noreply.github.com>
+* Gilles Émilien MOREL <contact@gilles-morel.fr>
 * Daniel Hauck <maill@dhauck.eu>
 * Chris Perelstein <chris.perelstein@gmail.com>
 * Carlos Ferreira <calbertoferreira@gmail.com>
