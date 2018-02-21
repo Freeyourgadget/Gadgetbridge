@@ -50,7 +50,7 @@
     <string name="fw_upgrade_notice">您即将安装固件 %s ，代替当前在Mi Band上的固件。</string>
     <string name="fw_upgrade_notice_amazfitbip">即将在您的米动手表青春版(Amazfit Bip)上安装固件 %s 。 
 \n 
-\n请确保安装.gps固件，然后安装.res文件，最后安装.fw文件。 安装.fw文件后，手表将重新启动。 
+\n请确保安装.fw文件，然后安装.res文件，最后安装.gps文件。 安装.fw文件后，手表将重新启动。 
 \n 
 \n注意：如果这些文件与之前安装的完全一样，则不必安装.res和.gps文件。 
 \n 
@@ -538,4 +538,5 @@
     <string name="devicetype_vibratissimo">Vibratissimo</string>
     <string name="devicetype_hplus">HPlus</string>
     <string name="choose_auto_export_location">选择导出位置</string>
+<string name="notification_channel_name">Gadgetbridge 通知</string>
 </resources>
