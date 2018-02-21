@@ -49,20 +49,20 @@
 
     <string name="title_activity_fw_app_insaller">Instal·lador de FW/App</string>
     <string name="fw_upgrade_notice">Estàs a punt d\'instal·lar el firmware %s en lloc del que està a la teva MiBand.</string>
-    <string name="fw_upgrade_notice_amazfitbip">Estàs a punt d\'instal·lar el firmware %s en el teu Amazfit Bip.
+    <string name="fw_upgrade_notice_amazfitbip">Esteu a punt d\'instal·lar el firmware %s en el vostre Amazfit Bip. 
+\n 
+\nSi us plau, assegure-vos d\'instal·lar el fitxer .fw, el fitxer .res i, finalment, el fitxer .gps. El vostre rellotge reiniciarà després d\'instal·lar l\'arxiu .fw. 
+\n 
+\nNota: no heu d\'instal·lar .res i .gps si aquests fitxers són els mateixos que els prèviament instal·lats. 
+\n 
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="fw_upgrade_notice_amazfitcor">Esteu a punt d\'instal·lar el firmware %s en el vostre Amazfit Cor.
 \n
-\nSi us plau, assegura\'t d\'instal·lar el firmware .gps, després l\'arxiu .res, i finalment el binari .fw. El teu rellotge reiniciarà després d\'instal·lar l\'arxiu .fw.
+\nSi us plau, assegure-vos d\'instal·lar el fitxer .fw i el fitxer .res. El vostre rellotge reiniciarà després d\'instal·lar l\'arxiu .fw.
 \n
-\nNota: no has d\'instal·lar .res i .gps si aquests arxius són els mateixos que els prèviament instal·lats.
+\nNota: no heu d\'instal·lar .res si aquest fitxer és el mateix que el prèviament instal·lat.
 \n
-\nPROCEDEIX SOTA LA TEVA PRÒPIA RESPONSABILITAT!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Estàs a punt d\'instal·lar el firmware %s en el teu Amazfit Cor.
-\n
-\nSi us plau, assegura\'t d\'instal·lar el firmware .gps, després l\'arxiu .res, i finalment el binari .fw. El teu rellotge reiniciarà després d\'instal·lar l\'arxiu .fw.
-\n
-\nNota: no has d\'instal·lar .res i .gps si aquests arxius són els mateixos que els prèviament instal·lats.
-\n
-\nNO PROBAT, PODEU TRENCAR EL VOSTRE DISPOSITIU. PROCEDEIX SOTA LA TEVA PRÒPIA RESPONSABILITAT!</string>
+\nNO TESTAT. POT ESTAVELLAR EL VOSTRE DISPOSITIU. PROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
     <string name="fw_multi_upgrade_notice">Estàs a punt d\'instal·lar els firmwares %1$s i %2$s en lloc dels de la vostra MiBand.</string>
     <string name="miband_firmware_known">Aquest firmware ha estat provat i se sap que és compatible amb Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">Aquest firmware no ha estat provat i pot ser que no sigui compatible amb Gadgetbridge.
@@ -211,4 +211,228 @@
     <string name="installing_binary_d_d">Instal·lat binari $1$d/%2$d</string>
     <string name="installation_failed_">La instal·lació ha fallat</string>
     <string name="installation_successful">Instal·lació correcta</string>
+    <string name="pref_title_weather">El temps</string>
+    <string name="pref_title_weather_location">Ubicació del temps (CM/LOS)</string>
+
+    <string name="pref_header_auto_export">Exportació automàtica</string>
+    <string name="pref_title_auto_export_enabled">Exportació automàtica activada</string>
+    <string name="pref_title_auto_export_location">Ubicació de l\'exportació</string>
+    <string name="pref_title_auto_export_interval">Interval de l\'exportació</string>
+    <string name="pref_summary_auto_export_interval">Exporta cada %d hores</string>
+
+    <string name="app_install_info">Esteu a punt d\'instal·lar la següent aplicació:
+\n
+\n
+\n%1$s Versió %2$s per %3$s</string>
+    <string name="n_a">NO DISPONIBLE</string>
+    <string name="initialized">inicialitzat</string>
+    <string name="appversion_by_creator">%1$s per %2$s</string>
+    <string name="title_activity_discovery">Detecció de dispositius</string>
+
+    <string name="discovery_stop_scanning">Atura l\'escaneig</string>
+    <string name="discovery_start_scanning">Inicia la detecció</string>
+    <string name="action_discover">Connecteu un dispositiu nou</string>
+    <string name="device_with_rssi">%1$s (%2$s)</string>
+    <string name="title_activity_android_pairing">Emparelleu el dispositiu</string>
+    <string name="android_pairing_hint">Utilitza el diàleg d\'emparellament Android Bluetooth per emparellar el dispositiu.</string>
+    <string name="title_activity_mi_band_pairing">Emparelleu Mi Band</string>
+    <string name="pairing">Emparellant amb %s…</string>
+    <string name="pairing_creating_bond_with">Creant vincle amb %1$*s (%2$*s)</string>
+    <string name="pairing_unable_to_pair_with">No s\'ha pogut emparellar amb %1$s (%2$s)</string>
+    <string name="pairing_in_progress">Emparellament en curs: %1$s (%2$s)</string>
+    <string name="pairing_already_bonded">Ja emparellat amb %1$s (%2$s), connectant…</string>
+    <string name="message_cannot_pair_no_mac">No s\'ha obtingut cap adreça MAC. No es pot emparellar.</string>
+    <string name="preferences_category_device_specific_settings">Configuració específica del dispositiu</string>
+    <string name="preferences_miband_settings">Configuració de Mi Band / Amazfit</string>
+    <string name="preferences_amazfitbip_settings">Configuració d\'Amazfit Bip</string>
+    <string name="male">Home</string>
+    <string name="female">Dona</string>
+    <string name="other">Altre</string>
+    <string name="left">Esquerra</string>
+    <string name="right">Dreta</string>
+    <string name="appinstaller_install">Instal·la</string>
+    <string name="discovery_note">Nota:</string>
+    <string name="candidate_item_device_image">Imatge de dispositiu</string>
+    <string name="miband_prefs_alias">Nom/Àlies</string>
+    <string name="pref_header_vibration_count">Recompte de vibracions</string>
+
+    <string name="title_activity_sleepmonitor">Monitor de son</string>
+    <string name="pref_write_logfiles">Escriu fitxers de registre</string>
+    <string name="initializing">S\'està inicialitzant</string>
+    <string name="busy_task_fetch_activity_data">S\'està obtenint les dades d\'activitat</string>
+    <string name="sleep_activity_date_range">Des de %1$s a %2$s</string>
+    <string name="miband_prefs_wearside">Rellotge a l\'esquerra o la dreta?</string>
+    <string name="pref_screen_vibration_profile">Perfil de vibració</string>
+
+    <string name="vibration_profile_staccato">Molt curt</string>
+    <string name="vibration_profile_short">Curt</string>
+    <string name="vibration_profile_medium">Mitjà</string>
+    <string name="vibration_profile_long">Llarg</string>
+    <string name="vibration_profile_waterdrop">Molt llarg</string>
+    <string name="vibration_profile_ring">Timbre</string>
+    <string name="vibration_profile_alarm_clock">Alarma</string>
+    <string name="miband_prefs_vibration">Vibració</string>
+
+    <string name="vibration_try">Proveu-ho</string>
+    <string name="pref_screen_notification_profile_sms">Notificació de SMS</string>
+    <string name="pref_header_vibration_settings">Configuració de vibració</string>
+    <string name="pref_screen_notification_profile_generic">Notificació genèrica</string>
+    <string name="pref_screen_notification_profile_email">Notificació de correu electrònic</string>
+    <string name="pref_screen_notification_profile_incoming_call">Notificació de trucada entrant</string>
+    <string name="pref_screen_notification_profile_generic_chat">Xat</string>
+    <string name="pref_screen_notification_profile_generic_navigation">Navegació</string>
+    <string name="pref_screen_notification_profile_generic_social">Xarxa social</string>
+
+    <string name="prefs_title_heartrate_measurement_interval">Mesura del ritme cardíac tot el dia</string>
+    <string name="interval_one_minute">cada minut</string>
+    <string name="interval_five_minutes">Cada 5 minuts</string>
+    <string name="interval_ten_minutes">Cada 10 minuts</string>
+    <string name="interval_thirty_minutes">Cada 30 minuts</string>
+    <string name="interval_one_hour">Cada hora</string>
+
+    <string name="stats_title">Zones de velocitat</string>
+    <string name="stats_x_axis_label">Minuts totals</string>
+    <string name="stats_y_axis_label">Passos per minut</string>
+
+    <string name="control_center_find_lost_device">Troba el dispositiu perdut</string>
+    <string name="control_center_cancel_to_stop_vibration">Cancel·leu per aturar la vibració.</string>
+    <string name="title_activity_charts">La vostra activitat</string>
+    <string name="title_activity_set_alarm">Configureu les alarmes</string>
+    <string name="controlcenter_start_configure_alarms">Configureu les alarmes</string>
+    <string name="title_activity_alarm_details">Detalls d\'alarma</string>
+    <string name="alarm_sun_short">Dg.</string>
+    <string name="alarm_mon_short">Dl.</string>
+    <string name="alarm_tue_short">Dt.</string>
+    <string name="alarm_wed_short">Dc.</string>
+    <string name="alarm_thu_short">Dj.</string>
+    <string name="alarm_fri_short">Dv.</string>
+    <string name="alarm_sat_short">Ds.</string>
+    <string name="alarm_smart_wakeup">Alarma intel·ligent</string>
+    <string name="user_feedback_miband_set_alarms_failed">Hi ha hagut un error en posar les alarmes. Si us plau, intenteu-ho de nou!</string>
+    <string name="user_feedback_miband_set_alarms_ok">Les alarmes han sigut enviades al dispositiu!</string>
+    <string name="chart_no_data_synchronize">No hi ha dades. Sincronitzo el dispositiu?</string>
+    <string name="user_feedback_miband_activity_data_transfer">A punt de transferir %1$s de dades des de %2$s</string>
+    <string name="miband_prefs_fitness_goal">Objectiu de passos diaris</string>
+    <string name="dbaccess_error_executing">Error en executar \'%1$s\'</string>
+    <string name="controlcenter_start_activitymonitor">La vostra activitat (ALPHA)</string>
+    <string name="cannot_connect">No es pot connectar: %1$s</string>
+    <string name="installer_activity_unable_to_find_handler">No s\'ha trobar un controlador per instal·lar el fitxer.</string>
+    <string name="pbw_install_handler_unable_to_install">No s\'ha pogut instal·lar el fitxer: %1$s</string>
+    <string name="pbw_install_handler_hw_revision_mismatch">No s\'ha pogut instal·lar el microprogramari: no coincideix amb revisió del maquinari de Peeble.</string>
+    <string name="installer_activity_wait_while_determining_status">Si us plau, espereu mentre que es determina l\'estat de la instal·lació…</string>
+    <string name="notif_battery_low_title">Bateria del gadget baixa!</string>
+    <string name="notif_battery_low_percent">A %1$s li roman: %2$s%% de bateria</string>
+    <string name="notif_battery_low_bigtext_last_charge_time">Darrera càrrega: %s</string>
+    <string name="notif_battery_low_bigtext_number_of_charges">Nombre de càrregues: %s</string>
+    <string name="notif_export_failed_title">L\'exportació de la base de dades ha fallat! Si us plau, comproveu la configuració.</string>
+    <string name="sleepchart_your_sleep">El vostre son</string>
+    <string name="weeksleepchart_sleep_a_week">Son per setmana</string>
+    <string name="weeksleepchart_today_sleep_description">Son avui, objectiu: %1$s</string>
+    <string name="weekstepschart_steps_a_week">Passos per setmana</string>
+    <string name="activity_sleepchart_activity_and_sleep">La vostra activitat i son</string>
+    <string name="updating_firmware">El microprogramari s\'està actualitzant…</string>
+    <string name="fwapp_install_device_not_ready">No es pot instal·lar el fitxer. El dispositiu no està preparat.</string>
+    <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
+    <string name="miband_fwinstaller_compatible_version">Versió compatible</string>
+    <string name="miband_fwinstaller_untested_version">Versió no provada!</string>
+    <string name="fwappinstaller_connection_state">Connexió a dispositiu: %1$s</string>
+    <string name="pbw_installhandler_pebble_firmware">Microprogramari Pebble %1$s</string>
+    <string name="pbwinstallhandler_correct_hw_revision">Revisió del maquinari correcta</string>
+    <string name="pbwinstallhandler_incorrect_hw_revision">La revisió del maquinari no coincideix!</string>
+    <string name="pbwinstallhandler_app_item">%1$s (%2$s)</string>
+    <string name="updatefirmwareoperation_updateproblem_do_not_reboot">Hi ha hagut un problema amb la transferència del microprogramari. NO REINICIEU Mi Band!</string>
+    <string name="updatefirmwareoperation_metadata_updateproblem">Hi ha hagut un problema amb la transferència de metadades del microprogramari</string>
+    <string name="updatefirmwareoperation_update_complete">S\'ha completat la instal·lació del microprogramari</string>
+    <string name="updatefirmwareoperation_update_complete_rebooting">S\'ha completat la instal·lació del microprogramari. Es va a reiniciar el dispositiu…</string>
+    <string name="updatefirmwareoperation_write_failed">La instal·lació del microprogramari ha fallat</string>
+    <string name="chart_steps">Passos</string>
+    <string name="calories">Calories</string>
+    <string name="distance">Distància</string>
+    <string name="clock">Rellotge</string>
+    <string name="heart_rate">Freqüència cardíaca</string>
+    <string name="battery">Bateria</string>
+    <string name="liveactivity_live_activity">Activitat en directe</string>
+    <string name="weeksteps_today_steps_description">Passos avui, objectiu: %1$s</string>
+    <string name="pref_title_low_latency_fw_update">Utilitza el mode de baixa latència per actualitzar el microprogramari</string>
+    <string name="pref_summary_low_latency_fw_update">Això podria ajudar en dispositius on l\'actualització del microprogramari falla</string>
+
+    <string name="live_activity_steps_history">Historial de passos</string>
+    <string name="live_activity_current_steps_per_minute">Passos actuals / min</string>
+    <string name="live_activity_total_steps">Passos totals</string>
+    <string name="live_activity_steps_per_minute_history">Historial de passos per minut</string>
+    <string name="live_activity_start_your_activity">Inicieu la vostra activitat</string>
+    <string name="abstract_chart_fragment_kind_activity">Activitat</string>
+    <string name="abstract_chart_fragment_kind_light_sleep">Son lleuger</string>
+    <string name="abstract_chart_fragment_kind_deep_sleep">Son profund</string>
+    <string name="abstract_chart_fragment_kind_not_worn">No portat</string>
+    <string name="device_not_connected">No connectat.</string>
+    <string name="user_feedback_all_alarms_disabled">Totes les alarmes són desactivades</string>
+    <string name="pref_title_keep_data_on_device">Manté les dades d\'activitat al dispositiu</string>
+    <string name="miband_fwinstaller_incompatible_version">Microprogramari incompatible</string>
+    <string name="fwinstaller_firmware_not_compatible_to_device">Aquest microprogramari no és compatible amb el dispositiu</string>
+    <string name="miband_prefs_reserve_alarm_calendar">Alarmes de reserva per als propers esdeveniments</string>
+    <string name="miband_prefs_hr_sleep_detection">Utilitza el sensor de ritme cardíac per millorar la detecció del son</string>
+	<string name="miband_prefs_device_time_offset_hours">Temps de desplaçament en hores del dispositiu (per detectar el son de treballadors/es de torns)</string>
+    <string name="miband2_prefs_dateformat">Mi2: format de data</string>
+    <string name="dateformat_time">Temps</string>
+    <string name="dateformat_date_time">Hora i data</string>
+    <string name="mi2_prefs_button_actions">Accions dels botó</string>
+    <string name="mi2_prefs_button_actions_summary">Especifiqueu les accions en prémer el botó del Mi Band 2</string>
+    <string name="mi2_prefs_button_press_count">Compte de pulsacions del botó</string>
+    <string name="mi2_prefs_button_press_count_summary">Nombre de pulsacions del botó per activar la difusió de missatge</string>
+    <string name="mi2_prefs_button_press_broadcast">Missatge de difusió a enviar</string>
+    <string name="mi2_prefs_button_action">Activa el botó d\'acció</string>
+    <string name="mi2_prefs_button_action_summary">Activa l\'acció en fer el nombre de pulsacions especificades del botó</string>
+    <string name="mi2_prefs_button_action_vibrate">Activa la vibració de la pulsera</string>
+    <string name="mi2_prefs_button_action_vibrate_summary">Activa la vibració de la pulsera en prémer el botó d\'acció</string>
+    <string name="mi2_prefs_button_press_count_max_delay">Retard màxim entre pulsacions</string>
+    <string name="mi2_prefs_button_press_count_max_delay_summary">Retard màxim entre pulsacions del botó en mil·lisegons</string>
+    <string name="mi2_prefs_button_press_count_match_delay">Retard després de l\'acció de botó</string>
+    <string name="mi2_prefs_goal_notification">Notificació d\'objectiu</string>
+    <string name="mi2_prefs_goal_notification_summary">La banda vibrarà quan l\'objectiu diari de passos siga assolit</string>
+    <string name="mi2_prefs_display_items">Elements a mostrar</string>
+    <string name="mi2_prefs_display_items_summary">Escolliu els elements a mostrar en la pantalla del rellotge</string>
+    <string name="mi2_prefs_activate_display_on_lift">Activa la pantalla en alçar-la</string>
+    <string name="mi2_prefs_rotate_wrist_to_switch_info">Gira el canell per canviar la informació</string>
+    <string name="mi2_prefs_do_not_disturb">No molestis</string>
+    <string name="mi2_prefs_do_not_disturb_summary">La pulsera no rebrà notificacions mentre siga activa</string>
+    <string name="mi2_prefs_inactivity_warnings">Avisos d\'inactivitat</string>
+    <string name="mi2_prefs_inactivity_warnings_summary">La banda vibrarà quan hàgiu estat inactius durant una estona</string>
+    <string name="mi2_prefs_inactivity_warnings_threshold">Llindar d\'inactivitat (en minuts)</string>
+    <string name="mi2_prefs_inactivity_warnings_dnd_summary">Desactiva els avisos d\'inactivitat durant un interval de temps</string>
+    <string name="mi2_prefs_do_not_disturb_start">Hora d\'inici</string>
+    <string name="mi2_prefs_do_not_disturb_end">Hora de finalització</string>
+
+    <string name="automatic">Automàtic</string>
+    <string name="simplified_chinese">Xinès simplificat</string>
+    <string name="traditional_chinese">Xinès tradicional</string>
+    <string name="english">Anglès</string>
+    <string name="spanish">Espanyol</string>
+
+    <string name="FetchActivityOperation_about_to_transfer_since">A punt de transferir dades des de %1$s</string>
+
+    <string name="waiting_for_reconnect">Esperant a reconectar</string>
+
+    <string name="activity_prefs_about_you">Quant a tu</string>
+    <string name="activity_prefs_year_birth">Any de naixement</string>
+    <string name="activity_prefs_gender">Sexe</string>
+    <string name="activity_prefs_height_cm">Alçada en cm</string>
+    <string name="activity_prefs_weight_kg">Pes en kg</string>
+
+    <string name="authenticating">S\'està autenticant</string>
+    <string name="authentication_required">Es requereix autenticació</string>
+
+    <string name="appwidget_text">Zzz</string>
+    <string name="add_widget">Afegeix un giny</string>
+    <string name="activity_prefs_sleep_duration">Duració preferida del son en hores</string>
+    <string name="appwidget_alarms_set">S\'ha creat una alarma a les %1$02d:%2$02d</string>
+    <string name="device_hw">Revisió del maquinari: %1$s</string>
+    <string name="device_fw">Versió del microprogramari: %1$s</string>
+    <string name="error_creating_directory_for_logfiles">S\'ha produït un error al crear un directori per als fitxers de registre: %1$s</string>
+    <string name="DEVINFO_HR_VER">Activitat cardiaca</string>
+    <string name="updatefirmwareoperation_update_in_progress">S\'està actualitzant el programari</string>
+    <string name="updatefirmwareoperation_firmware_not_sent">No s\'ha enviat el microprogramari</string>
+    <string name="charts_legend_heartrate">Freqüència cardíaca</string>
+    <string name="live_activity_heart_rate">Freqüència cardíaca</string>
+
     </resources>
