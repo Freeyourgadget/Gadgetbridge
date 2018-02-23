@@ -409,7 +409,7 @@ NOTE : la base de données sera bien évidement plus grande !</string>
   <string name="discovery_dont_pair">Ne pas appairer</string>
 <string name="fw_upgrade_notice_amazfitbip">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Bip. 
 \n 
-\nVeuillez installer le micrologiciel .gps, ensuite le fichier .res, puis le fichier .fw. Votre montre redémarrera après installation du .fw. 
+\nVeuillez installer le fichier .fw, puis le fichier .res, puis le fichier.gps.. Votre montre redémarrera après installation du .fw. 
 \n 
 \nNote : vous ne devez pas installer .res et .gps si ceux-ci sont identiques à ceux installés précédemment. 
 \n 
@@ -441,7 +441,7 @@ NOTE : la base de données sera bien évidement plus grande !</string>
     <string name="controlcenter_connect">Connecter</string>
     <string name="fw_upgrade_notice_amazfitcor">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Cor. 
 \n 
-\nVeuillez installer le micrologiciel .gps, ensuite le fichier .res, puis le fichier .fw. Votre montre redémarrera après installation du .fw. 
+\nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après installation du .fw. 
 \n 
 \nNote : vous ne devez pas installer .res si celui-ci est identique à celui installé précédemment. 
 \n 
@@ -496,4 +496,7 @@ NOTE : la base de données sera bien évidement plus grande !</string>
 
     <string name="notif_export_failed_title">L\'exportation de la base de données a échoué ! Veuillez vérifier vos paramètres.</string>
     <string name="choose_auto_export_location">Choisissez l\'emplacement d\'exportation</string>
+<string name="spanish">Espagnol</string>
+
+    <string name="notification_channel_name">Notifications de Gadgetbridge</string>
 </resources>
