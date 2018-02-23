@@ -241,7 +241,7 @@
   <string name="alarm_smart_wakeup">Sveglia intelligente</string>
   <string name="user_feedback_miband_set_alarms_failed">Errore nell\'impostazione delle sveglie, riprova di nuovo!</string>
   <string name="user_feedback_miband_set_alarms_ok">Sveglie sincronizzate con il dispositivo!</string>
-  <string name="chart_no_data_synchronize">Non ci sono dati. Effettua una sincronizzazione con il tuo device.</string>
+  <string name="chart_no_data_synchronize">Non ci sono dati. Hai effettuato la sincronizzazione con il device?</string>
   <string name="user_feedback_miband_activity_data_transfer">Vengono trasferiti %1$s a partire dal %2$s</string>
   <string name="miband_prefs_fitness_goal">Traguardo giornaliero di passi</string>
   <string name="dbaccess_error_executing">Errore eseguendo \'%1$s\'</string>
@@ -411,7 +411,7 @@
 \nNOTA: Non è necessario installare il file .res se risulta essere uguale a quello precedentemente installato.
 \n
 \nNON TESTATO: PROCEDI A TUO RISCHIO E PERICOLO!</string>
-    <string name="pref_title_charts_swipe">Abilità swipe sinitra/destra nel grafico dell\'attività</string>
+    <string name="pref_title_charts_swipe">Abilità swipe sinistra/destra nel grafico dell\'attività</string>
 
     <string name="pref_title_weather">Meteo</string>
     <string name="pref_title_weather_location">Posizione meteo (CM/LOS)</string>
