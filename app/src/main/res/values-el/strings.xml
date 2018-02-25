@@ -558,4 +558,6 @@
 <string name="spanish">Ισπανικά</string>
 
     <string name="notification_channel_name">Ειδοποιήσεις Gadgetbridge</string>
-</resources>
+<string name="devicetype_xwatch">XWatch</string>
+
+    </resources>
