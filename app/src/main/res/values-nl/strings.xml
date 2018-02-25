@@ -196,7 +196,7 @@
     <string name="pref_title_pebble_always_ack_pebblekit">Vroegtijdige ACK PebbleKit</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Zorgt ervoor dat berichten die door apps van derden worden verzonden, altijd en onmiddellijk herkend zullen worden</string>
     <string name="pref_title_pebble_enable_bgjs">Schakel achtergrond JS in</string>
-    <string name="pref_summary_pebble_enable_bgjs">Wanneer ingeschakeld, kunnen horloges het weer, batterijinformatie enz weergeven</string>
+    <string name="pref_summary_pebble_enable_bgjs">Wanneer ingeschakeld, kunnen horloges het weer, batterijinformatie enz. weergeven</string>
 
     <string name="pref_title_pebble_reconnect_attempts">Pogingen tot opnieuw verbinden</string>
 
