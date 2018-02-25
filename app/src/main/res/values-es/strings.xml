@@ -501,4 +501,6 @@
 <string name="spanish">Español</string>
 
     <string name="notification_channel_name">Notificaciones de Gadgetbridge</string>
-</resources>
+<string name="devicetype_xwatch">XWatch</string>
+
+    </resources>
