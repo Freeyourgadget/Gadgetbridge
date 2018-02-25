@@ -46,7 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipC
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor.AmazfitCorCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2HRXCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.itag.iTagCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.itag.ITagCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.jyou.TeclastH30Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.liveview.LiveviewCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
@@ -206,8 +206,7 @@ public class DeviceHelper {
         result.add(new EXRIZUK8Coordinator());
         result.add(new TeclastH30Coordinator());
         result.add(new XWatchCoordinator());
-        result.add(new iTagCoordinator());
-
+        result.add(new ITagCoordinator());
         return result;
     }
 
