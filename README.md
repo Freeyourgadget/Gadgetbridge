@@ -33,6 +33,7 @@ vendor's servers.
 * NO.1 F1 (WIP)
 * Liveview
 * Vibratissimo (experimental)
+* XWatch (Affordable Chinese Casio-like smartwatches)
 
 ## Features
 
