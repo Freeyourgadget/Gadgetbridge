@@ -499,4 +499,6 @@ NOTE : la base de données sera bien évidement plus grande !</string>
 <string name="spanish">Espagnol</string>
 
     <string name="notification_channel_name">Notifications de Gadgetbridge</string>
-</resources>
+<string name="devicetype_xwatch">XWatch</string>
+
+    </resources>
