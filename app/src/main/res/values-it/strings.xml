@@ -498,4 +498,6 @@
 
     <string name="choose_auto_export_location">Seleziona percorso di esportazione</string>
     <string name="notification_channel_name">Notifiche Gadgetbridge</string>
-</resources>
+<string name="devicetype_xwatch">XWatch</string>
+
+    </resources>
