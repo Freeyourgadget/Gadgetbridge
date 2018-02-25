@@ -149,7 +149,7 @@
     <string name="toast_enable_networklocationprovider">Activeer de netwerk locatie</string>
     <string name="toast_aqurired_networklocation">locatie gevonden</string>
 
-    <string name="discovery_successfully_bonded">Succesvol gekoppeld met %1$s.</string>
+    <string name="discovery_successfully_bonded">Gekoppeld met %1$s.</string>
     <string name="discovery_pair_title">Koppel met %1$s?</string>
     <string name="discovery_pair_question">Selecteer koppelen om uw apparaten te koppelen. Als dit mislukt, probeer het opnieuw zonder koppelen.</string>
     <string name="discovery_yes_pair">Koppel</string>
@@ -368,8 +368,8 @@
     <string name="pref_title_dont_ack_transfer">Bevestig de activiteitsdata transfer niet</string>
     <string name="pref_summary_dont_ack_transfers">Als de activiteitsdata niet geacked wordt naar de armband, zal deze niet gewist worden. Dit is nuttig als GB gebruikt wordt samen met andere apps.</string>
     <string name="pref_summary_keep_data_on_device">Wij zullen activiteitsdata op de Mi Band houden zelfs na synchronisatie. Dit is nuttig als GB gebruikt wordt samen met andere apps.</string>
-    <string name="pref_title_low_latency_fw_update">Gebruik lage vertragingstijd modus voor Firmware flashing</string>
-    <string name="pref_summary_low_latency_fw_update">Dit kan helpen op toestellen waar firmware updates falen</string>
+    <string name="pref_title_low_latency_fw_update">Gebruik lage vertragingstijd modus voor Firmware flashen</string>
+    <string name="pref_summary_low_latency_fw_update">Dit kan helpen op toestellen waar firmware flashen faalt</string>
 
     <string name="live_activity_steps_history">Stappen geschiedenis</string>
     <string name="live_activity_current_steps_per_minute">Huidige stappen/min</string>
@@ -446,7 +446,7 @@
     <string name="device_fw">Firmware versie: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Fout tijdens het aanmaken van map voor logbestanden: %1$s</string>
     <string name="DEVINFO_HR_VER">"HR: "</string>
-    <string name="updatefirmwareoperation_update_in_progress">Firmware-update wordt uitgevoerd</string>
+    <string name="updatefirmwareoperation_update_in_progress">Flashen firmware</string>
     <string name="updatefirmwareoperation_firmware_not_sent">Firmware niet verzonden</string>
     <string name="charts_legend_heartrate">Hartslag</string>
     <string name="live_activity_heart_rate">Hartslag</string>
@@ -465,16 +465,16 @@
     <string name="dbmanagementactivity_error_exporting_shared">Fout bij het exporteren voorkeur: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Data importeren?</string>
     <string name="dbmanagementactivity_overwrite_database_confirmation">Weet u zeker dat u de huidige database wil overschrijven? Al uw huidige activiteitsgegevens (indien aanwezig) zullen verloren gaan.</string>
-    <string name="dbmanagementactivity_import_successful">Importeren succesvol.</string>
+    <string name="dbmanagementactivity_import_successful">Geïmporteerd.</string>
     <string name="dbmanagementactivity_error_importing_db">Fout bij het importeren DB: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Fout bij het importeren voorkeur: %1$s</string>
     <string name="dbmanagementactivity_delete_activity_data_title">Verwijder activeitsgegevens?</string>
     <string name="dbmanagementactivity_really_delete_entire_db">Weet u zeker dat u de volledige database wil verwijderen? Al uw activiteitsgegevens en informatie over uw toestellen zullen verloren gaan.</string>
-    <string name="dbmanagementactivity_database_successfully_deleted">Gegevens succesvol verwijderd.</string>
+    <string name="dbmanagementactivity_database_successfully_deleted">Gegevens verwijderd.</string>
     <string name="dbmanagementactivity_db_deletion_failed">Verwijderen database mislukt.</string>
     <string name="dbmanagementactivity_delete_old_activity_db">Oude activiteitsdatabase verwijderen?</string>
     <string name="dbmanagementactivity_delete_old_activitydb_confirmation">Weet u zeker dat u de oude activiteitsdatabase wil verwijderen? Activiteitsgegevens die niet geïmporteerd zijn zullen verloren gaan.</string>
-    <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Oude activiteitsgegevens succesvol verwijderd.</string>
+    <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Oude activiteitsgegevens verwijderd.</string>
     <string name="dbmanagementactivity_old_activity_db_deletion_failed">Oude activiteitsdatabase verwijderen mislukt.</string>
     <string name="dbmanagementactivity_overwrite">Overschrijven</string>
     <string name="Cancel">Annuleren</string>
@@ -483,7 +483,7 @@
     <string name="title_activity_vibration">Vibratie</string>
 
     <string name="title_activity_pebble_pairing">Pebble koppelen</string>
-    <string name="pebble_pairing_hint">Waarschijnlijk verschijnt er een koppelingsdialoogvenster op uw Android-apparaat. Als dat niet gebeurt, kijk dan tussen uw notificaties en accepteer het koppelingsverzoek. Accepteer daarna het koppelingsverzoek op uw Pebble</string>
+    <string name="pebble_pairing_hint">Er zal een koppelingsdialoogvenster verschijnen op uw Android-apparaat. Als dat niet gebeurt, kijk dan tussen uw notificaties en accepteer het koppelingsverzoek. Accepteer het daarna ook op uw Pebble</string>
 
     <string name="weather_notification_label">Zorg ervoor dat deze skin is ingeschakeld in de Weermeldingen app om informatie over het weer op uw Pebble te krijgen.
 \n
@@ -549,4 +549,8 @@
     <string name="pref_summary_auto_export_interval">Exporteer iedere %d uur</string>
 
     <string name="notif_export_failed_title">Database exporteren mislukt! Controleer uw instellingen.</string>
-    </resources>
+    <string name="spanish">Spaans</string>
+
+    <string name="choose_auto_export_location">Kies export locatie</string>
+    <string name="notification_channel_name">Gadgetbridge meldingen</string>
+</resources>
