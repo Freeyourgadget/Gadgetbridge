@@ -411,7 +411,7 @@
 \nNOTA: Non è necessario installare il file .res se risulta essere uguale a quello precedentemente installato.
 \n
 \nNON TESTATO: PROCEDI A TUO RISCHIO E PERICOLO!</string>
-    <string name="pref_title_charts_swipe">Abilità swipe sinistra/destra nel grafico dell\'attività</string>
+    <string name="pref_title_charts_swipe">Abilit swipe Sinistra/Destra nel grafico delle attività</string>
 
     <string name="pref_title_weather">Meteo</string>
     <string name="pref_title_weather_location">Posizione meteo (CM/LOS)</string>
