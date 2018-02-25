@@ -552,4 +552,6 @@
 <string name="spanish">Spansk</string>
 
     <string name="notification_channel_name">Gadgetbridge-merknader</string>
-</resources>
+<string name="devicetype_xwatch">XWatch</string>
+
+    </resources>
