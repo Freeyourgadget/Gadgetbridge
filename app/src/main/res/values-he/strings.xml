@@ -497,4 +497,5 @@
     <string name="choose_auto_export_location">נא לבחור את מיקום הייצוא</string>
 <string name="spanish">ספרדית</string>
 
-    </resources>
+    <string name="notification_channel_name">הודעות של Gadgetbridge</string>
+</resources>

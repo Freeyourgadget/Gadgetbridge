@@ -59,6 +59,8 @@ public enum NotificationType {
     SNAPCHAT(PebbleIconID.NOTIFICATION_SNAPCHAT, PebbleColor.Icterine),
     TELEGRAM(PebbleIconID.NOTIFICATION_TELEGRAM, PebbleColor.VividCerulean),
     THREEMA(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.JaegerGreen),
+    KONTALK(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.JaegerGreen),
+    ANTOX(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.JaegerGreen),
     TRANSIT(PebbleIconID.LOCATION, PebbleColor.JaegerGreen),
     TWITTER(PebbleIconID.NOTIFICATION_TWITTER, PebbleColor.BlueMoon),
     VIBER(PebbleIconID.NOTIFICATION_VIBER, PebbleColor.VividViolet),
@@ -104,6 +106,8 @@ public enum NotificationType {
             case SIGNAL:
             case TELEGRAM:
             case THREEMA:
+            case KONTALK:
+            case ANTOX:
             case WHATSAPP:
             case GOOGLE_MESSENGER:
             case GOOGLE_HANGOUTS:

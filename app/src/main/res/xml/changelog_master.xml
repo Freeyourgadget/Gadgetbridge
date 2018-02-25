@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="next">
+        <change>Move the connected device to top in control center</change>
+    </release>
+    <release version="0.24.6" versioncode="123">
+        <change>Display the chat icon for notifications coming from Kontalk and Antox</change>
+        <change>Pebble: Fix for background js which try to send floats (e.g. TrekVolle)</change>
+        <change>Mi Band 2: Change the way vibration patterns work, also fixes problems with missing text on newer firmwares</change>
+    </release>
     <release version="0.24.5" versioncode="122">
         <change>Fix crash in settings activity with export location</change>
         <change>Fix notification deletion regression</change>

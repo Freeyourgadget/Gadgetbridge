@@ -1,5 +1,13 @@
 ### Changelog
 
+#### Version next
+* Move the connected device to top in control center
+
+#### Version 0.24.6
+* Display the chat icon for notifications coming from Kontalk and Antox
+* Pebble: Fix for background js which try to send floats (e.g. TrekVolle)
+* Mi Band 2: Change the way vibration patterns work, also fixes problems with missing text on newer firmwares
+
 #### Version 0.24.5
 * Fix crash in settings activity with export location
 * Fix notification deletion regression

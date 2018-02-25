@@ -557,4 +557,5 @@
     <string name="choose_auto_export_location">Διαλέξτε διαδρομή εξαγωγής</string>
 <string name="spanish">Ισπανικά</string>
 
-    </resources>
+    <string name="notification_channel_name">Ειδοποιήσεις Gadgetbridge</string>
+</resources>

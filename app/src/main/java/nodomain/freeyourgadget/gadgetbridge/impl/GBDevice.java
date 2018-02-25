@@ -252,6 +252,10 @@ public class GBDevice implements Parcelable {
         return mState;
     }
 
+    public int getStateOrdinal() {
+        return mState.ordinal();
+    }
+
     public void setState(State state) {
         mState = state;
         if (state.ordinal() <= State.CONNECTED.ordinal()) {

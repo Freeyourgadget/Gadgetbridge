@@ -67,6 +67,8 @@ public class HuamiIcon {
             case CONVERSATIONS:
             case RIOT:
             case HIPCHAT:
+            case KONTALK:
+            case ANTOX:
                 return WECHAT;
             case GENERIC_EMAIL:
             case GMAIL:
