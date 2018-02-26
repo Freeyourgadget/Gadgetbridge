@@ -1,5 +1,4 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+/*  Copyright (C) 2017-2018 ladbsoft, protomors
 
     This file is part of Gadgetbridge.
 

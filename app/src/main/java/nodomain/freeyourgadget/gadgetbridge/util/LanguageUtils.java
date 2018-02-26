@@ -1,5 +1,5 @@
-/*  Copyright (C) 2017 Andreas Shimokawa, ivanovlev, lazarosfs, McSym28,
-    Yaron Shahrabani
+/*  Copyright (C) 2017-2018 Andreas Shimokawa, Daniele Gobbetti, ivanovlev,
+    lazarosfs, McSym28, Ted Stein, Yaron Shahrabani
 
     This file is part of Gadgetbridge.
 

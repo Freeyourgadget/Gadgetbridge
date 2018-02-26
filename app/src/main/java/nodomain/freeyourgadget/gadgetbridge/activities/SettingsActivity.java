@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2017 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti, Normano64
+/*  Copyright (C) 2015-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer,
+    Daniele Gobbetti, Felix Konstantin Maurer, Normano64
 
     This file is part of Gadgetbridge.
 
