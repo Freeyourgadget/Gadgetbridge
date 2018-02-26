@@ -39,7 +39,12 @@ public class LanguageUtilsTest extends TestBase {
         String pangram = "نص حكيم له سر قاطع وذو شأن عظيم مكتوب على ثوب أخضر ومغلف بجلد أزرق";
         String pangramExpected = "n9 7kym lh sr qa63 wthw sh2n 36'ym mktwb 3la thwb 259'r wm3'lf bjld 2zrq";
         String pangramActual = LanguageUtils.transliterate(pangram);
-        assertEquals("Arabic pangram transliteration failed", pangramExpected, pangramActual);
+        assertEquals("pangram transliteration failed", pangramExpected, pangramActual);
+
+        String taMarbutah = "ﺓ";
+        String taMarbutahExpected = "";
+        String taMarbutahActual = LanguageUtils.transliterate(taMarbutah);
+        assertEquals("ta marbutah transliteration failed", taMarbutahExpected, taMarbutahActual);
 
         String hamza = "ءأؤإئآ";
         String hamzaExpected = "222222";
