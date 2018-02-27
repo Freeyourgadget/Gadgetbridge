@@ -523,7 +523,7 @@
     <string name="pref_summary_pebble_forcele">使用实验性Pebble LE以支持所有Pebble，代替BT经典连接。 这首先需要以非LE配对，然后以Pebble LE连接</string>
     <string name="pref_summary_pebble_mtu_limit">如果您的Pebble 2 / Pebble LE无法正常工作，请尝试使用此设置来限制MTU（有效范围20-512）</string>
     <string name="pref_header_auto_export">自动导出</string>
-    <string name="pref_title_auto_export_enabled">自动导出已启用</string>
+    <string name="pref_title_auto_export_enabled">启用自动导出</string>
     <string name="pref_title_auto_export_location">导出位置</string>
     <string name="pref_title_auto_export_interval">导出间隔</string>
     <string name="pref_summary_auto_export_interval">每%d小时导出一次</string>
