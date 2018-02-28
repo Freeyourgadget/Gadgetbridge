@@ -130,14 +130,14 @@ public class PebbleUtils {
         return null;
     }
 
-    public static String parseIncomingAppMessage(String msg, UUID uuid) {
+    public static String parseIncomingAppMessage(String msg, UUID uuid, int transactionId) {
         JSONObject jsAppMessage = new JSONObject();
 
         JSONObject knownKeys = PebbleUtils.getAppConfigurationKeys(uuid);
         SparseArray<String> appKeysMap = new SparseArray<>();
 
         if (knownKeys == null || msg == null) {
-            return "{}";
+            msg = "[]";
         }
 
         String inKey, outKey;
@@ -169,6 +169,9 @@ public class PebbleUtils {
                 }
             }
             jsAppMessage.put("payload", outgoing);
+            JSONObject data = new JSONObject();
+            data.put("transactionId", transactionId);
+            jsAppMessage.put("data", data);
 
         } catch (Exception e) {
             LOG.warn("Unable to parse incoming app message", e);

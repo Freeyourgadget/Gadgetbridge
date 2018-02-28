@@ -124,7 +124,7 @@ class PebbleIoThread extends GBDeviceIoThread {
             jsEvent = "appmessage";
         }
 
-        final String appMessage = PebbleUtils.parseIncomingAppMessage(message.message, message.appUUID);
+        final String appMessage = PebbleUtils.parseIncomingAppMessage(message.message, message.appUUID, message.id);
         LOG.debug("to WEBVIEW: event: " + jsEvent + " message: " + appMessage);
         WebViewSingleton.invokeWebview(new WebViewSingleton.WebViewRunnable() {
             @Override
