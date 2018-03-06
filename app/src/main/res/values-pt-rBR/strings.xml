@@ -142,8 +142,8 @@
   <string name="test">Teste</string>
   <string name="test_notification">Teste de notificação</string>
   <string name="this_is_a_test_notification_from_gadgetbridge">Esta é uma Notificação de Teste de Gadgetbridge</string>
-  <string name="bluetooth_is_not_supported_">Bluetooth não suportado</string>
-  <string name="bluetooth_is_disabled_">Bluetooth desabilitado</string>
+  <string name="bluetooth_is_not_supported_">Bluetooth não suportado.</string>
+  <string name="bluetooth_is_disabled_">Bluetooth desabilitado.</string>
   <string name="tap_connected_device_for_app_mananger">Toque no dispositivo conectado</string>
   <string name="tap_connected_device_for_activity">Toque no dispositivo conectado</string>
   <string name="tap_connected_device_for_vibration">Toque no dispositivo conectado para Vibração</string>
@@ -303,7 +303,7 @@
   <string name="device_hw">HW: %1$s</string>
   <string name="device_fw">FW: %1$s</string>
   <string name="error_creating_directory_for_logfiles">Erro ao criar o diretório para arquivos de log: %1$s</string>
-  <string name="DEVINFO_HR_VER">FC:</string>
+  <string name="DEVINFO_HR_VER">"FC: "</string>
   <string name="updatefirmwareoperation_update_in_progress">Atualização de Firmware em progresso</string>
   <string name="updatefirmwareoperation_firmware_not_sent">Firmware não enviado</string>
   <string name="charts_legend_heartrate">Frequência cardíaca</string>
