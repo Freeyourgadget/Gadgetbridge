@@ -356,12 +356,12 @@
 
     <string name="title_activity_calblacklist">Blacklist do Calendário</string>
 
-    <string name="fw_upgrade_notice_amazfitbip">Você está prestes a instalar o firmware% s no Amazip Bip.
-\n
-\nCertifique-se de instalar o firmware .gps, depois o arquivo .res e, finalmente, o arquivo .fw. Seu relógio será reiniciado após a instalação do arquivo .fw.
-\n
-\nNota: você não precisa instalar .res e .gps se esses arquivos forem exatamente os mesmos que os instalados anteriormente.
-\n
+    <string name="fw_upgrade_notice_amazfitbip">Você está prestes a instalar o firmware %s no Amazip Bip. 
+\n 
+\nCertifique-se de instalar o firmware .gps, depois o arquivo .res e, finalmente, o arquivo .fw. Seu relógio será reiniciado após a instalação do arquivo .fw. 
+\n 
+\nNota: você não precisa instalar .res e .gps se esses arquivos forem exatamente os mesmos que os instalados anteriormente. 
+\n 
 \nPROSSIGA POR SUA CONTA E RISCO!</string>
     <string name="fw_upgrade_notice_amazfitcor">Você está prestes a instalar o firmware %s no seu Amazfit Cor.
 \n
