@@ -7,7 +7,7 @@
   <string name="action_quit">Sair</string>
   <string name="controlcenter_fetch_activity_data">Sincronizar</string>
   <string name="controlcenter_start_sleepmonitor">Monitor de sono (ALPHA)</string>
-  <string name="controlcenter_find_device">Buscando dispositivo perdido...</string>
+  <string name="controlcenter_find_device">Buscando dispositivo desconectado</string>
   <string name="controlcenter_take_screenshot">Print da tela</string>
   <string name="controlcenter_disconnect">Desconectar</string>
   <string name="controlcenter_delete_device">Apagar dispositivo</string>
