@@ -1,5 +1,18 @@
 ### Changelog
 
+#### Version 0.25.0
+* Inital suport for Xwatch
+* Move the connected device to top in control center
+* Add adaptive launcher icon for Android 8.x
+* No longer plot heart rate graph when device was detected as not worn
+* Pebble: Small fixes for background js (e.g. Pebble-Casio-WV58DE)
+* Pebble: native (non bg js) support for weather in Simply Light watchface
+
+#### Version 0.24.6
+* Display the chat icon for notifications coming from Kontalk and Antox
+* Pebble: Fix for background js which try to send floats (e.g. TrekVolle)
+* Mi Band 2: Change the way vibration patterns work, also fixes problems with missing text on newer firmwares
+
 #### Version 0.24.5
 * Fix crash in settings activity with export location
 * Fix notification deletion regression

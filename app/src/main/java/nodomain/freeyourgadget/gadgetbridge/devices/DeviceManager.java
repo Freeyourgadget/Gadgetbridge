@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -163,7 +164,10 @@ public class DeviceManager {
         Collections.sort(deviceList, new Comparator<GBDevice>() {
             @Override
             public int compare(GBDevice lhs, GBDevice rhs) {
-                return Collator.getInstance().compare(lhs.getName(), rhs.getName());
+                if (rhs.getStateOrdinal() - lhs.getStateOrdinal() == 0) {
+                    return Collator.getInstance().compare(lhs.getName(), rhs.getName());
+                }
+                return (rhs.getStateOrdinal() - lhs.getStateOrdinal());
             }
         });
         notifyDevicesChanged();

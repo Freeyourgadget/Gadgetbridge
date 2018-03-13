@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017 Daniele Gobbetti
+/*  Copyright (C) 2017-2018 Andreas Shimokawa, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -85,7 +85,7 @@ public class GBWebClient extends WebViewClient {
 
     private WebResourceResponse mimicReply(Uri requestedUri) {
         if (requestedUri.getHost() != null && (StringUtils.indexOfAny(requestedUri.getHost(), AllowedDomains) != -1)) {
-            if (internetHelperBound) {
+            if (GBApplication.getGBPrefs().isBackgroundJsEnabled() && internetHelperBound) {
                 LOG.debug("WEBVIEW forwarding request to the internet helper");
                 Bundle bundle = new Bundle();
                 bundle.putString("URL", requestedUri.toString());

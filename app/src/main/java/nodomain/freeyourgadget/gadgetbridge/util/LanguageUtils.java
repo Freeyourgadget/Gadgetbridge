@@ -1,5 +1,5 @@
-/*  Copyright (C) 2017 Andreas Shimokawa, ivanovlev, lazarosfs, McSym28,
-    Yaron Shahrabani
+/*  Copyright (C) 2017-2018 Andreas Shimokawa, Daniele Gobbetti, ivanovlev,
+    lazarosfs, McSym28, Ted Stein, Yaron Shahrabani
 
     This file is part of Gadgetbridge.
 
@@ -68,7 +68,7 @@ public class LanguageUtils {
             put('د', "d"); put('ذ', "th"); put('ر', "r"); put('ز', "z"); put('س', "s"); put('ش', "sh"); put('ص', "9");
             put('ض', "9'"); put('ط', "6"); put('ظ', "6'"); put('ع', "3"); put('غ', "3'"); put('ف', "f");
             put('ق', "q"); put('ك', "k"); put('ل', "l"); put('م', "m"); put('ن', "n"); put('ه', "h");
-            put('و', "w"); put('ي', "y"); put('ى', "a");
+            put('و', "w"); put('ي', "y"); put('ى', "a"); put('ﺓ', "");
             put('آ', "2"); put('ئ', "2"); put('إ', "2"); put('ؤ', "2"); put('أ', "2"); put('ء', "2");
 
             // Farsi

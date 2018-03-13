@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Uwe Hermann
 
     This file is part of Gadgetbridge.
@@ -250,6 +250,10 @@ public class GBDevice implements Parcelable {
 
     public State getState() {
         return mState;
+    }
+
+    public int getStateOrdinal() {
+        return mState.ordinal();
     }
 
     public void setState(State state) {

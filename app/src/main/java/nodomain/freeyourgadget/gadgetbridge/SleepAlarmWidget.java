@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 0nse, Carsten Pfeiffer
+/*  Copyright (C) 2016-2018 0nse, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 

@@ -551,4 +551,7 @@
     <string name="choose_auto_export_location">Velg eksportplassering</string>
 <string name="spanish">Spansk</string>
 
+    <string name="notification_channel_name">Gadgetbridge-merknader</string>
+<string name="devicetype_xwatch">XWatch</string>
+
     </resources>

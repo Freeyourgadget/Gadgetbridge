@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Julien Pivotto, Uwe Hermann
 
     This file is part of Gadgetbridge.
@@ -124,7 +124,7 @@ class PebbleIoThread extends GBDeviceIoThread {
             jsEvent = "appmessage";
         }
 
-        final String appMessage = PebbleUtils.parseIncomingAppMessage(message.message, message.appUUID);
+        final String appMessage = PebbleUtils.parseIncomingAppMessage(message.message, message.appUUID, message.id);
         LOG.debug("to WEBVIEW: event: " + jsEvent + " message: " + appMessage);
         WebViewSingleton.invokeWebview(new WebViewSingleton.WebViewRunnable() {
             @Override

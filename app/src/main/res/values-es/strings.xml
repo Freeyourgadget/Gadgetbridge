@@ -46,7 +46,7 @@
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">Instalador de FW/App</string>
   <string name="fw_upgrade_notice">Estás a punto de instalar el firmware %s en lugar del que está en tu MiBand.</string>
-  <string name="fw_multi_upgrade_notice">Estás a punto de instalar los firmware %1$s y %2$s en lugar de los que están en tu MiBand</string>
+  <string name="fw_multi_upgrade_notice">Estás a punto de instalar los firmware %1$s y %2$s en lugar de los que están en tu MiBand.</string>
   <string name="miband_firmware_known">Este firmware ha sido probado y se sabe que es compatible con Gadgetbridge.</string>
   <string name="miband_firmware_unknown_warning">Este firmware no ha sido probado y puede que no sea compatible con Gadgetbridge. 
 \n 
@@ -395,7 +395,7 @@
   <string name="mi2_dnd_automatic">Automático (detección de sueño)</string>
   <string name="mi2_dnd_scheduled">Programado (intervalo de tiempo)</string>
   <string name="discovery_attempting_to_pair">Intento de emparejamiento con %1$s</string>
-  <string name="discovery_bonding_failed_immediately">El enlace con %1$s ha fallado</string>
+  <string name="discovery_bonding_failed_immediately">El enlace con %1$s ha fallado.</string>
   <string name="discovery_trying_to_connect_to">Intentando conectar con: %1$s</string>
   <string name="discovery_enable_bluetooth">Activa el Bluetooth para encontrar dispositivos.</string>
   <string name="discovery_successfully_bonded">Enlazado con %1$s.</string>
@@ -403,13 +403,13 @@
   <string name="discovery_pair_question">Selecciona Emparejar para emparejar tus dispositivos. Si esto falla, prueba de nuevo sin emparejar.</string>
   <string name="discovery_yes_pair">Emparejar</string>
   <string name="discovery_dont_pair">No emparejar</string>
-<string name="fw_upgrade_notice_amazfitbip">Estás a punto de instalar el firmware %s en tu Amazfit Bip.
-\n
-\nPor favor, asegúrate de instalar el firmware .gps, luego el archivo .res, y finalmente el .fw. Tu reloj se reiniciará después de instalar el archivo .fw.
-\n
-\nNota: no tienes que instalar los .res y .gps si ya están instalados en su última versión.
-\n
-\n¡PROCEDE BAJO TU RESPONSABILIDAD!
+<string name="fw_upgrade_notice_amazfitbip">Estás a punto de instalar el firmware %s en tu Amazfit Bip. 
+\n 
+\nPor favor, asegúrate de instalar el archivo .fw, entonces el archivo .res, y finalmente el archivo .gps. Tu reloj se reiniciará después de instalar el archivo .fw. 
+\n 
+\nNota: no tienes que instalar los .res y .gps si ya están instalados en su última versión. 
+\n 
+\n¡PROCEDE BAJO TU RESPONSABILIDAD! 
 \n 
 \nPor favor, asegúrate de instalar el firmware .gps, luego el archivo .res, y finalmente el binario .fw. Tu reloj reiniciará después de instalar el archivo .fw. 
 \n 
@@ -443,7 +443,7 @@
     <string name="controlcenter_connect">Conectar</string>
     <string name="fw_upgrade_notice_amazfitcor">Estás a punto de instalar el firmware %s en tu Amazfit Cor. 
 \n 
-\nPor favor, asegúrate de instalar el firmware .gps, luego el archivo .res, y finalmente el binario .fw. Tu reloj reiniciará después de instalar el archivo .fw. 
+\nPor favor, asegúrate de instalar el archivo .fw, y finalmente el archivo .res. Tu reloj reiniciará después de instalar el archivo .fw. 
 \n 
 \nNota: no tienes que instalar .res si este archivo es el mismo que el previamente instalado. 
 \n 
@@ -498,4 +498,9 @@
 
     <string name="notif_export_failed_title">¡La exportación de la base de datos ha fallado! Por favor, revisa los ajustes.</string>
     <string name="choose_auto_export_location">Elije la ubicación para exportación</string>
-</resources>
+<string name="spanish">Español</string>
+
+    <string name="notification_channel_name">Notificaciones de Gadgetbridge</string>
+<string name="devicetype_xwatch">XWatch</string>
+
+    </resources>

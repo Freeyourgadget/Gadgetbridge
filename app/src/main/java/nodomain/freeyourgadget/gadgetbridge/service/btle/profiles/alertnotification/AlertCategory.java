@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer, Uwe Hermann
+/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Uwe Hermann
 
     This file is part of Gadgetbridge.
 

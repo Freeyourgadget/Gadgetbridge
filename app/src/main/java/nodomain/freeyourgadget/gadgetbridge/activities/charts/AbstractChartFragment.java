@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2017 0nse, Andreas Shimokawa, Carsten Pfeiffer,
+/*  Copyright (C) 2015-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer,
     Daniele Gobbetti, walkjivefly
 
     This file is part of Gadgetbridge.
@@ -510,7 +510,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                         }
                         activityEntries.add(createLineEntry(value, ts));
                 }
-                if (hr && HeartRateUtils.isValidHeartRateValue(sample.getHeartRate())) {
+                if (hr && sample.getKind() != ActivityKind.TYPE_NOT_WORN && isValidHeartRateValue(sample.getHeartRate())) {
                     if (lastHrSampleIndex > -1 && ts - lastHrSampleIndex > 1800*HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
                         heartrateEntries.add(createLineEntry(0, lastHrSampleIndex + 1));
                         heartrateEntries.add(createLineEntry(0, ts - 1));

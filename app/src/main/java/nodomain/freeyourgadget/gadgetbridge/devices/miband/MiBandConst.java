@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Christian
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Christian
     Fischer, Daniele Gobbetti, José Rebelo, Michal Novotny, Szymon Tomasz Stefanek
 
     This file is part of Gadgetbridge.

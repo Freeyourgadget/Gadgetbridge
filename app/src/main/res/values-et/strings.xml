@@ -79,4 +79,38 @@
     <string name="pref_title_datetime_syctimeonconnect">Sünkrooni aega</string>
     <string name="pref_summary_datetime_syctimeonconnect">Sünkrooni aeg seadmega ühendumise ajal ja kui aeg või ajatsoon muutub Androidis</string>
 
+    <string name="miband_firmware_suggest_whitelist">Kui te siiski soovite jätkata ja seade jätkab tööd ka hiljem palun andke Gadgetbridge\'i arendajatele teada, et nad lisaksid %s versiooni toetatud püsivarade nimekirja</string>
+
+    <string name="pref_title_charts_swipe">Luba viiped vasakule/paremale graafikute vaates</string>
+
+    <string name="pref_title_theme">Teema</string>
+    <string name="pref_theme_light">Hele</string>
+    <string name="pref_theme_dark">Tume</string>
+
+    <string name="pref_title_language">Keel</string>
+
+    <string name="pref_title_minimize_priority">Peida Gadgetbridge\'i teavitus</string>
+    <string name="pref_header_notifications">Teavitused</string>
+    <string name="pref_title_notifications_repetitions">Korduseid</string>
+    <string name="pref_title_notifications_call">Telefonikõned</string>
+    <string name="pref_title_notifications_sms">SMS</string>
+    <string name="pref_title_notifications_pebblemsg">Pebble\'i sõnumid</string>
+    <string name="pref_title_notifications_generic">Üldine teavituste tugi</string>
+    <string name="pref_title_notification_filter">Ära sega</string>
+    <string name="pref_title_transliteration">Transliteratsioon</string>
+    <string name="always">Alati</string>
+    <string name="when_screen_off">Kui ekraan on väljalülitatud</string>
+    <string name="never">Mitte kunagi</string>
+
+    <string name="pref_header_privacy">Privaatsus</string>
+    <string name="pref_call_privacy_mode_off">Kuva nimi ja number</string>
+    <string name="pref_call_privacy_mode_number">Peida number kuid kuva nimi</string>
+    <string name="pref_call_privacy_mode_complete">Peida nimi ja number</string>
+
+    <string name="pref_title_weather">Ilm</string>
+    <string name="pref_title_weather_location">Ilma asukohta (CM/LOS)</string>
+
+    <string name="pref_blacklist">Rakenduste must nimekiri</string>
+    <string name="pref_blacklist_calendars">Kalendrite must nimekiri</string>
+
     </resources>
