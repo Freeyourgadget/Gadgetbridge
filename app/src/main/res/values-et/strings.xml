@@ -126,4 +126,7 @@
     <string name="pref_header_cannned_messages">Talletatud sõnumid</string>
     <string name="pref_title_canned_replies">Vastused</string>
     <string name="pref_title_canned_reply_suffix">Ühine järelliide</string>
+    <string name="pref_header_development">Arendajate seaded</string>
+    <string name="pref_title_development_miaddr">Mi Band\'i aadress</string>
+
     </resources>
