@@ -61,17 +61,17 @@
 \nPoznámka: Nemusíte inštalovať súbor .res, ak je rovnaký ako nainštalovaný predtým.
 \n
 \nNETESTOVANÉ, MÔŽE UMŔTVIŤ VAŠE ZARIADENIE, ROBÍTE TO NA VLASTNÉ RIZIKO!</string>
-    <string name="fw_multi_upgrade_notice">Nainštaluje firmware %1$s a %2$s do Mi Band miesto existujúceho.</string>
+    <string name="fw_multi_upgrade_notice">Nainštaluje firmvér %1$s a %2$s do Mi Band miesto existujúceho.</string>
     <string name="miband_firmware_known">Tento firmware bol testovaný a je kompatibilný s Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">Tento firmware nebol testovaný a nemusí byť kompatibilný s Gadgetbridge.
 \n
 \nNedoporučujeme ho nahrávať do Mi Band!</string>
-    <string name="miband_firmware_suggest_whitelist">Ak budete prokračovať a všetko bude dobre fungovať aj potom, upozornite vývojárov Gadgetbridge, aby označili tento firmvér: %s ako vyskúšaný</string>
+    <string name="miband_firmware_suggest_whitelist">Ak budete pokračovať a všetko bude dobre fungovať aj potom, upozornite vývojárov Gadgetbridge, aby označili tento firmvér: %s ako vyskúšaný</string>
 
     <string name="title_activity_settings">Nastavenia</string>
 
     <string name="pref_header_general">Základné nastavenia</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Pripojiť zariadenie ak je zapnutý BT</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Pripojiť zariadenie ak je BT zapnutý</string>
     <string name="pref_title_general_autostartonboot">Spúšťať automaticky</string>
     <string name="pref_title_general_autocreonnect">Automatické opätovné pripojenie</string>
     <string name="pref_title_audo_player">Preferovaný prehrávač zvukov</string>
@@ -82,7 +82,7 @@
     <string name="pref_title_datetime_syctimeonconnect">Nastaviť čas</string>
     <string name="pref_summary_datetime_syctimeonconnect">Nastaviť čas počas pripojenia a pri zmene času v Androide</string>
 
-    <string name="pref_title_theme">Téma</string>
+    <string name="pref_title_theme">Téma aplikácie</string>
     <string name="pref_theme_light">Svetlá</string>
     <string name="pref_theme_dark">Tmavá</string>
 
@@ -98,8 +98,8 @@
     <string name="pref_title_notifications_sms">SMS</string>
     <string name="pref_title_notifications_pebblemsg">Správy Pebble</string>
     <string name="pref_summary_notifications_pebblemsg">Podpora pre aplikácie, ktoré posielajú upozornenia do Pebble cez PebbleKit.</string>
-    <string name="pref_title_notifications_generic">Všeobecná podpora upozornení</string>
-    <string name="pref_title_whenscreenon">...aj keď je displej zapnutý</string>
+    <string name="pref_title_notifications_generic">Prístup k upozorneniam</string>
+    <string name="pref_title_whenscreenon">Upozornenia aj pri zapnutej obrazovke</string>
     <string name="pref_title_notification_filter">Nerušiť</string>
     <string name="pref_summary_notification_filter">Neposielať nechcené upozornenia v režime Nerušiť</string>
     <string name="pref_title_transliteration">Náhrada diakritiky</string>
@@ -110,7 +110,7 @@
     <string name="never">Nikdy</string>
 
     <string name="pref_header_privacy">Súkromie</string>
-    <string name="pref_title_call_privacy_mode">Režim súkromého hovoru</string>
+    <string name="pref_title_call_privacy_mode">Ochrana súkromia pri hovore</string>
     <string name="pref_call_privacy_mode_off">Zobraziť meno a číslo</string>
     <string name="pref_call_privacy_mode_name">Skryť meno, ale zobraziť číslo</string>
     <string name="pref_call_privacy_mode_number">Skryť číslo, ale zobraziť meno</string>
@@ -119,7 +119,7 @@
     <string name="pref_title_weather">Počasie</string>
     <string name="pref_title_weather_location">Poloha pre počasie (CM/LOS)</string>
 
-    <string name="pref_blacklist">Zakázané aplikácie</string>
+    <string name="pref_blacklist">Zakázané aplikácie (bez upozornení)</string>
     <string name="pref_blacklist_calendars">Zakázané kalendáre</string>
 
     <string name="pref_header_cannned_messages">Potlačené správy</string>
@@ -186,7 +186,7 @@
 
     <string name="pref_title_pebble_reconnect_attempts">Pokusov o znovupripojenie</string>
 
-    <string name="pref_title_unit_system">Jednotky</string>
+    <string name="pref_title_unit_system">Merné jednotky</string>
     <string name="pref_title_timeformat">Formát času</string>
     <string name="pref_title_screentime">Čas zapnutia obrazovky</string>
     <string name="prefs_title_all_day_heart_rate">Celodenné meranie tepu</string>
@@ -336,7 +336,7 @@
     <string name="weeksleepchart_today_sleep_description">Spánok dnes, cieľ: %1$s</string>
     <string name="weekstepschart_steps_a_week">Kroky za týždeň</string>
     <string name="activity_sleepchart_activity_and_sleep">Vaša aktivita a spánok</string>
-    <string name="updating_firmware">Nahrávám firmvér…</string>
+    <string name="updating_firmware">Nahrávam firmvér…</string>
     <string name="fwapp_install_device_not_ready">Súbor sa nedá nainštalovať, zariadenie nie je pripravené.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
     <string name="miband_fwinstaller_compatible_version">Kompatibilná verzia</string>
@@ -424,7 +424,7 @@
 
     <string name="waiting_for_reconnect">Čakanie na opätovné pripojenie</string>
 
-    <string name="activity_prefs_about_you">O vás</string>
+    <string name="activity_prefs_about_you">Vaše údaje</string>
     <string name="activity_prefs_year_birth">Rok narodenia</string>
     <string name="activity_prefs_gender">Pohlavie</string>
     <string name="activity_prefs_height_cm">Výška v cm</string>
@@ -442,7 +442,7 @@
     <string name="error_creating_directory_for_logfiles">Chyba pri vytváraní adresára pre logy: %1$s</string>
     <string name="DEVINFO_HR_VER">"Tep: "</string>
     <string name="updatefirmwareoperation_update_in_progress">Prebieha aktualizácia firmvéru</string>
-    <string name="updatefirmwareoperation_firmware_not_sent">Firmvér neodoslaný</string>
+    <string name="updatefirmwareoperation_firmware_not_sent">Firmvér nebol odoslaný</string>
     <string name="charts_legend_heartrate">Tep srdca</string>
     <string name="live_activity_heart_rate">Tep srdca</string>
 
@@ -505,7 +505,7 @@
     <string name="miband2_prefs_timeformat">Formát času Mi2</string>
     <string name="mi2_fw_installhandler_fw53_hint">Pred inštaláciou tohto firmvéru musíte nainštalovať verziu %1$s!</string>
     <string name="mi2_enable_text_notifications">Textové upozornenia</string>
-    <string name="mi2_enable_text_notifications_summary">Vyžaduje firmvér &gt;= 1.0.1.28 and Mili_pro.ft* installed.</string>
+    <string name="mi2_enable_text_notifications_summary">Vyžaduje nainštalovaný súbor fontu &gt;= 1.0.1.28 and Mili_pro.ft*.</string>
     <string name="off">Vyp.</string>
     <string name="mi2_dnd_off">Vyp.</string>
     <string name="mi2_dnd_automatic">Automaticky (detekcia spánku)</string>
