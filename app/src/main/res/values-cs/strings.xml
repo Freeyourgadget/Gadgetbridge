@@ -126,7 +126,7 @@
   <string name="pref_summary_pebble_forceuntested">Povolí funkce, které nebyl testovány. POVOLTE, JEN POKUD VÍTE, CO DĚLÁTE!</string>
   <string name="pref_title_pebble_forcele">Vždy preferovat BLE</string>
   <string name="pref_summary_pebble_forcele">Použít experimentální podporu Pebble LE pro všechny Pebble místo BT classic, vyžaduje spárování \"Pebble LE\" po připojení bez LE</string>
-  <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU limit</string>
+  <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU ohraničení</string>
   <string name="pref_summary_pebble_mtu_limit">Pokud vaše Pebble 2/Pebble LE nepracuje jak má, zkuste toto nastavení pro omezení MTU (povolený rozsah 20-512)</string>
   <string name="pref_title_pebble_enable_applogs">Zapnout logování Watch App</string>
   <string name="pref_summary_pebble_enable_applogs">Logy od watch app budou logovány v Gadgetbridge (vyžaduje znovupřipojení)</string>
@@ -261,7 +261,7 @@
   <string name="miband_fwinstaller_compatible_version">Kompatibilní verze</string>
   <string name="miband_fwinstaller_untested_version">Netestovaná verze!</string>
   <string name="fwappinstaller_connection_state">Připojení k zařízení: %1$s</string>
-  <string name="pbw_installhandler_pebble_firmware">Pebble Firmware %1$s</string>
+  <string name="pbw_installhandler_pebble_firmware">Pebble Firmvér %1$s</string>
   <string name="pbwinstallhandler_correct_hw_revision">Správná revize HW</string>
   <string name="pbwinstallhandler_incorrect_hw_revision">Revize HW není správná!</string>
   <string name="pbwinstallhandler_app_item">%1$s (%2$s)</string>
@@ -269,7 +269,7 @@
   <string name="updatefirmwareoperation_metadata_updateproblem">Problém při přenosu matadat firmware</string>
   <string name="updatefirmwareoperation_update_complete">Instalace firmware je kompletní</string>
   <string name="updatefirmwareoperation_update_complete_rebooting">Instalace firmware je kompletní, restartuji zařízení…</string>
-  <string name="updatefirmwareoperation_write_failed">Zápis firmware selhal</string>
+  <string name="updatefirmwareoperation_write_failed">Zápis firmvéru selhal</string>
   <string name="chart_steps">Kroků</string>
   <string name="liveactivity_live_activity">Současná aktivita</string>
   <string name="weeksteps_today_steps_description">Kroků dnes, cíl: %1$s</string>
@@ -297,7 +297,7 @@
   <string name="miband_prefs_device_time_offset_hours">Časový posun zařízení v hodinách (pro zjišťování spánku směnařů)</string>
   <string name="miband2_prefs_dateformat">Mi2: formát data</string>
   <string name="dateformat_time">Čas</string>
-  <string name="dateformat_date_time">Time &amp; date</string>
+  <string name="dateformat_date_time">Čas a dátum</string>
   <string name="mi2_prefs_activate_display_on_lift">Zapnout displej při zvednutí</string>
   <string name="FetchActivityOperation_about_to_transfer_since">Přenáším data od %1$s</string>
   <string name="waiting_for_reconnect">Čekání na znovupřipojení</string>
@@ -316,7 +316,7 @@
   <string name="device_fw">Verze FW: %1$s</string>
   <string name="error_creating_directory_for_logfiles">Chyba při vytváření adresáře pro logy: %1$s</string>
   <string name="DEVINFO_HR_VER">"Tep: "</string>
-  <string name="updatefirmwareoperation_update_in_progress">Probíhá aktualizace firmware</string>
+  <string name="updatefirmwareoperation_update_in_progress">Aktualizace firmware</string>
   <string name="updatefirmwareoperation_firmware_not_sent">Firmware neodeslán</string>
   <string name="charts_legend_heartrate">Srdeční tep</string>
   <string name="live_activity_heart_rate">Srdeční tep</string>
@@ -331,11 +331,11 @@
   <string name="dbmanagementactivity_error_exporting_db">Chyba při exportu DB: %1$s</string>
   <string name="dbmanagementactivity_import_data_title">Importovat data?</string>
   <string name="dbmanagementactivity_overwrite_database_confirmation">Opravdu chcete přepsat aktuální databázi? Všechna uložená data o aktivitě se ztratí.</string>
-  <string name="dbmanagementactivity_import_successful">Import byl úspěšný.</string>
+  <string name="dbmanagementactivity_import_successful">Importováno.</string>
   <string name="dbmanagementactivity_error_importing_db">Chyba při importu DB: %1$s</string>
   <string name="dbmanagementactivity_delete_activity_data_title">Smazat data o aktivitách?</string>
   <string name="dbmanagementactivity_really_delete_entire_db">Opravdu chcete smazat celou databázi? Všechna data o aktivitách a informace o zařízeních se ztratí.</string>
-  <string name="dbmanagementactivity_database_successfully_deleted">Data úspěšně smazána.</string>
+  <string name="dbmanagementactivity_database_successfully_deleted">Data smazána.</string>
   <string name="dbmanagementactivity_db_deletion_failed">Mazání dat se nezdařilo.</string>
   <string name="dbmanagementactivity_delete_old_activity_db">Smazat původní databázi?</string>
   <string name="dbmanagementactivity_delete_old_activitydb_confirmation">Opravdu chcete smazat původní databázi? Data o aktivitách, která nebyla importována budou ztracena.</string>
@@ -396,7 +396,7 @@
     <string name="dbmanagementactivity_error_importing_shared">Chyba při importu preferencí: %1$s</string>
     <string name="mi2_fw_installhandler_fw53_hint">Před instalací tohoto firmwaru musíte nainstalovat verzi %1$s!</string>
     <string name="mi2_enable_text_notifications">Textové upozornění</string>
-    <string name="mi2_enable_text_notifications_summary">Needs firmware &gt;= 1.0.1.28 and Mili_pro.ft* installed.</string>
+    <string name="mi2_enable_text_notifications_summary">Vyžaduje aby byl nainstalován font &gt;= 1.0.1.28 and Mili_pro.ft*.</string>
     <string name="off">Vyp.</string>
     <string name="mi2_dnd_off">Vyp.</string>
     <string name="mi2_dnd_automatic">Automaticky (detekce spánku)</string>
