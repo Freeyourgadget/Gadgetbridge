@@ -35,7 +35,7 @@
     <string name="appmanager_health_activate">Aktiveeri</string>
     <string name="appmanager_health_deactivate">Deaktiveeri</string>
     <string name="appmanager_hrm_activate">Aktiveeri HRM</string>
-    <string name="appmanager_hrm_deactivate">Deaktiveeri HRM</string>
+    <string name="appmanager_hrm_deactivate">Inaktiveeri HRM</string>
     <string name="appmanager_weather_activate">Aktiveeri süsteemi ilmarakendus</string>
     <string name="appmanager_weather_deactivate">Deaktiveeri süsteemi ilmarakendus</string>
     <string name="appmanager_weather_install_provider">Paigalda ilmateavituste rakendus</string>
@@ -113,4 +113,17 @@
     <string name="pref_blacklist">Rakenduste must nimekiri</string>
     <string name="pref_blacklist_calendars">Kalendrite must nimekiri</string>
 
+    <string name="pref_summary_minimize_priority_off">Olekuriba ikooni ja lukustusekraani märguandeid kuvatakse</string>
+    <string name="pref_summary_minimize_priority_on">Olekuriba ikoon ja lukustuserkaani märguanded on peidetud</string>
+
+    <string name="pref_summary_notifications_pebblemsg">Tugi rakendustele, mis saadavad PebbleKit kaudu märguandeid Pebblele.</string>
+    <string name="pref_title_whenscreenon">...ka sisse lülitatud ekraaniga</string>
+    <string name="pref_summary_notification_filter">Peata soovimatute märguannete saatmine \"Ära sega\" režiimis</string>
+    <string name="pref_summary_transliteration">Luba see, kui su seadmel puudub su keele fondi tugi</string>
+
+    <string name="pref_title_call_privacy_mode">Kõne privaatrežiim</string>
+    <string name="pref_call_privacy_mode_name">Peida nimi, kuva ainult number</string>
+    <string name="pref_header_cannned_messages">Talletatud sõnumid</string>
+    <string name="pref_title_canned_replies">Vastused</string>
+    <string name="pref_title_canned_reply_suffix">Ühine järelliide</string>
     </resources>
