@@ -175,7 +175,7 @@
     <string name="pref_summary_pebble_forceuntested">Povolí funkcie, ktoré neboli testované. ZAPNITE IBA AK VIETE, ČO ROBÍTE!</string>
     <string name="pref_title_pebble_forcele">Vždy preferovať BLE</string>
     <string name="pref_summary_pebble_forcele">"Použiť experimentálnu podporu Pebble LE pre všetky Pebble zariadenia namiesto klasického BT. Vyžaduje spárovanie  Pebble LE \" po pripojení bez LE"</string>
-    <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU limit</string>
+    <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU ohraničenie</string>
     <string name="pref_summary_pebble_mtu_limit">Ak vaše Pebble 2/Pebble LE nepracuje správne, skúste toto nastavenie pre omezenie MTU (povolený rozsah 20-512)</string>
     <string name="pref_title_pebble_enable_applogs">Zapnúť logovanie Watch App</string>
     <string name="pref_summary_pebble_enable_applogs">Spôsobí, že logy z aplikácií v hodinkách budú zaznamenávané aplikáciou Gadgetbridge (vyžaduje opätovné pripojenie)</string>
@@ -266,7 +266,7 @@
     <string name="initializing">Spúšťanie</string>
     <string name="busy_task_fetch_activity_data">Načítavanie údajov o aktivite</string>
     <string name="sleep_activity_date_range">Od %1$s do %2$s</string>
-    <string name="miband_prefs_wearside">Na ktorej ruke nosíte</string>
+    <string name="miband_prefs_wearside">Na ktorej ruke nosíte?</string>
     <string name="pref_screen_vibration_profile">Profil vibrácií</string>
 
     <string name="vibration_profile_staccato">Staccato</string>
@@ -384,7 +384,7 @@
 	<string name="miband_prefs_device_time_offset_hours">Časový posun zariadenia v hodinách (pre zisťovanie spánku v pracujúcich na smeny)</string>
     <string name="miband2_prefs_dateformat">Mi2: formát datumu</string>
     <string name="dateformat_time">Čas</string>
-    <string name="dateformat_date_time">Time &amp; date</string>
+    <string name="dateformat_date_time">Čas a dátum</string>
     <string name="mi2_prefs_button_actions">Akcie tlačidla</string>
     <string name="mi2_prefs_button_actions_summary">Nastavenie akcií po stlačení tlačidla Mi Band 2</string>
     <string name="mi2_prefs_button_press_count">Počet stlačení tlačidla</string>
@@ -505,7 +505,7 @@
     <string name="miband2_prefs_timeformat">Formát času Mi2</string>
     <string name="mi2_fw_installhandler_fw53_hint">Pred inštaláciou tohto firmvéru musíte nainštalovať verziu %1$s!</string>
     <string name="mi2_enable_text_notifications">Textové upozornenia</string>
-    <string name="mi2_enable_text_notifications_summary">Needs firmware &gt;= 1.0.1.28 and Mili_pro.ft* installed.</string>
+    <string name="mi2_enable_text_notifications_summary">Vyžaduje firmvér &gt;= 1.0.1.28 and Mili_pro.ft* installed.</string>
     <string name="off">Vyp.</string>
     <string name="mi2_dnd_off">Vyp.</string>
     <string name="mi2_dnd_automatic">Automaticky (detekcia spánku)</string>
@@ -551,4 +551,5 @@
 
     <string name="choose_auto_export_location">Vyberte umiestnenie exportu</string>
     <string name="notification_channel_name">Gadgetbridge upozornenia</string>
-</resources>
+<string name="controlcenter_connect">Pripojiť</string>
+    </resources>
