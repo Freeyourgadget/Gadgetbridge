@@ -156,6 +156,13 @@ public class WebViewSingleton {
         }
     }
 
+    public static void runJavascriptInterface(@NonNull Activity context, @NonNull GBDevice device, @NonNull UUID uuid) {
+        if (webViewSingleton.instance == null || webViewSingleton.contextWrapper == null) {
+            ensureCreated(context);
+        }
+        runJavascriptInterface(device, uuid);
+    }
+
     public static void runJavascriptInterface(@NonNull GBDevice device, @NonNull UUID uuid) {
         if (uuid.equals(currentRunningUUID)) {
             LOG.debug("WEBVIEW uuid not changed keeping the old context");

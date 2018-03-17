@@ -34,18 +34,25 @@ import android.widget.Toast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.GBChromeClient;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.GBWebClient;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.JSInterface;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton;
+
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
 
 public class ExternalPebbleJSActivity extends AbstractGBActivity {
 
@@ -64,24 +71,69 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
+
+        boolean showConfig = false;
+
+        UUID currentUUID = null;
+        GBDevice currentDevice = null;
+
         if (extras == null) {
-            throw new IllegalArgumentException("Must provide device and uuid in extras when invoking this activity");
-        }
+            confUri = getIntent().getData();
+            if(confUri.getScheme().equals("gadgetbridge")) {
+                try {
+                    currentUUID = UUID.fromString(confUri.getHost());
+                } catch (IllegalArgumentException e) {
+                    LOG.error("UUID in incoming configuration is not a valid UUID: " +confUri.toString());
+                }
 
-        if (extras.getBoolean(START_BG_WEBVIEW, false)) {
-            startBackgroundWebViewAndFinish();
-            return;
-        }
+                //first check if we are still connected to a pebble
+                DeviceManager deviceManager = ((GBApplication) getApplication()).getDeviceManager();
+                List<GBDevice> deviceList = deviceManager.getDevices();
+                for (GBDevice device : deviceList) {
+                    if (device.getState() == GBDevice.State.INITIALIZED) {
+                        if (device.getType().equals(DeviceType.PEBBLE)) {
+                            currentDevice = device;
+                            break;
+                        } else {
+                            LOG.error("attempting to load pebble configuration but a different device type is connected!!!");
+                            finish();
+                            return;
+                        }
+                    }
+                }
+                if (currentDevice == null) {
+                    //then try to reconnect to last connected device
+                    String btDeviceAddress = GBApplication.getPrefs().getPreferences().getString("last_device_address", null);
+                    if (btDeviceAddress != null) {
+                        GBDevice candidate = DeviceHelper.getInstance().findAvailableDevice(btDeviceAddress, this);
+                        if(!candidate.isConnected() && candidate.getType() == DeviceType.PEBBLE){
+                            Intent intent = new Intent(this, DeviceCommunicationService.class)
+                                    .setAction(ACTION_CONNECT)
+                                    .putExtra(GBDevice.EXTRA_DEVICE, currentDevice);
+                            this.startService(intent);
+                            currentDevice = candidate;
+                        }
+                    }
+                }
 
-        GBDevice currentDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
-        UUID currentUUID = (UUID) extras.getSerializable(DeviceService.EXTRA_APP_UUID);
+                showConfig = true; //we are getting incoming configuration data
+            }
+        } else {
+            currentDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
+            currentUUID = (UUID) extras.getSerializable(DeviceService.EXTRA_APP_UUID);
+
+            if (extras.getBoolean(START_BG_WEBVIEW, false)) {
+                startBackgroundWebViewAndFinish();
+                return;
+            }
+            showConfig = extras.getBoolean(SHOW_CONFIG, false);
+        }
 
         if (GBApplication.getGBPrefs().isBackgroundJsEnabled()) {
-            if (extras.getBoolean(SHOW_CONFIG, false)) {
+            if (showConfig) {
                 Objects.requireNonNull(currentDevice, "Must provide a device when invoking this activity");
                 Objects.requireNonNull(currentUUID, "Must provide a uuid when invoking this activity");
-
-                WebViewSingleton.runJavascriptInterface(currentDevice, currentUUID);
+                WebViewSingleton.runJavascriptInterface(this, currentDevice, currentUUID);
             }
 
             // FIXME: is this really supposed to be outside the check for SHOW_CONFIG?
@@ -161,6 +213,7 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
             } catch (IllegalArgumentException e) {
                 GB.toast("returned uri: " + confUri.toString(), Toast.LENGTH_LONG, GB.ERROR);
             }
+            myWebView.stopLoading();
             myWebView.loadUrl("file:///android_asset/app_config/configure.html?" + queryString);
         }
     }
