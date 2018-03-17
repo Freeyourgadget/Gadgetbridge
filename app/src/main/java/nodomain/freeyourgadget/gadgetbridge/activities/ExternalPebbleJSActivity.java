@@ -133,7 +133,7 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
             if (showConfig) {
                 Objects.requireNonNull(currentDevice, "Must provide a device when invoking this activity");
                 Objects.requireNonNull(currentUUID, "Must provide a uuid when invoking this activity");
-                WebViewSingleton.runJavascriptInterface(this, currentDevice, currentUUID);
+                WebViewSingleton.getInstance().runJavascriptInterface(this, currentDevice, currentUUID);
             }
 
             // FIXME: is this really supposed to be outside the check for SHOW_CONFIG?
@@ -156,7 +156,7 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
 
     private void setupBGWebView() {
         setContentView(R.layout.activity_external_pebble_js);
-        myWebView = WebViewSingleton.getWebView(this);
+        myWebView = WebViewSingleton.getInstance().getWebView(this);
         if (myWebView.getParent() != null) {
             ((ViewGroup) myWebView.getParent()).removeView(myWebView);
         }

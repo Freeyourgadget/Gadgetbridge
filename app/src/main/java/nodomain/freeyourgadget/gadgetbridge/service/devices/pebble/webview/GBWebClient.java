@@ -41,16 +41,10 @@ import java.io.ByteArrayInputStream;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
-
-import static nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton.internetHelper;
-import static nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton.internetHelperBound;
-import static nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton.internetHelperListener;
-import static nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton.internetResponse;
-import static nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton.latch;
+import nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton;
 
 public class GBWebClient extends WebViewClient {
 
@@ -85,19 +79,14 @@ public class GBWebClient extends WebViewClient {
 
     private WebResourceResponse mimicReply(Uri requestedUri) {
         if (requestedUri.getHost() != null && (StringUtils.indexOfAny(requestedUri.getHost(), AllowedDomains) != -1)) {
-            if (GBApplication.getGBPrefs().isBackgroundJsEnabled() && internetHelperBound) {
+            if (GBApplication.getGBPrefs().isBackgroundJsEnabled() && WebViewSingleton.getInstance().internetHelperBound) {
                 LOG.debug("WEBVIEW forwarding request to the internet helper");
                 Bundle bundle = new Bundle();
                 bundle.putString("URL", requestedUri.toString());
                 Message webRequest = Message.obtain();
-                webRequest.replyTo = internetHelperListener;
                 webRequest.setData(bundle);
                 try {
-                    latch = new CountDownLatch(1); //the messenger should run on a single thread, hence we don't need to be worried about concurrency. This approach however is certainly not ideal.
-                    internetHelper.send(webRequest);
-                    latch.await();
-                    return internetResponse;
-
+                    return WebViewSingleton.getInstance().send(webRequest);
                 } catch (RemoteException | InterruptedException e) {
                     LOG.warn("Error downloading data from " + requestedUri, e);
                 }
