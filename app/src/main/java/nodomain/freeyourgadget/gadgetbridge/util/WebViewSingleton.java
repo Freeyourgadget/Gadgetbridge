@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.MutableContextWrapper;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -63,7 +64,8 @@ public class WebViewSingleton {
     public static boolean internetHelperBound;
     public static CountDownLatch latch;
     public static WebResourceResponse internetResponse;
-    public final static Messenger internetHelperListener = new Messenger(new IncomingHandler());
+    public static Messenger internetHelperListener;
+    private static boolean internetHelperInstalled;
 
     private WebViewSingleton() {
     }
@@ -71,7 +73,7 @@ public class WebViewSingleton {
     public static synchronized void ensureCreated(Activity context) {
         if (webViewSingleton.instance == null) {
             webViewSingleton.contextWrapper = new MutableContextWrapper(context);
-            webViewSingleton.mainLooper = context.getMainLooper();
+            webViewSingleton.mainLooper = webViewSingleton.contextWrapper.getMainLooper();
             webViewSingleton.instance = new WebView(webViewSingleton.contextWrapper);
             WebView.setWebContentsDebuggingEnabled(true);
             webViewSingleton.instance.setWillNotDraw(true);
@@ -170,10 +172,21 @@ public class WebViewSingleton {
                     webView.loadUrl("file:///android_asset/app_config/configure.html?rand=" + Math.random() * 500);
                 }
             });
-            if (!internetHelperBound) {
-                Intent intent = new Intent();
-                intent.setComponent(new ComponentName("nodomain.freeyourgadget.internethelper", "nodomain.freeyourgadget.internethelper.MyService"));
-                webViewSingleton.contextWrapper.getApplicationContext().bindService(intent, internetHelperConnection, Context.BIND_AUTO_CREATE);
+            if (!internetHelperBound && !internetHelperInstalled) {
+                String internetHelperPkg = "nodomain.freeyourgadget.internethelper";
+                String internetHelperCls = internetHelperPkg + ".MyService";
+                try {
+                    webViewSingleton.contextWrapper.getPackageManager().getApplicationInfo(internetHelperPkg, 0);
+                    Intent intent = new Intent();
+                    intent.setComponent(new ComponentName(internetHelperPkg, internetHelperCls));
+                    webViewSingleton.contextWrapper.getApplicationContext().bindService(intent, internetHelperConnection, Context.BIND_AUTO_CREATE);
+                    internetHelperListener = new Messenger(new IncomingHandler());
+                    internetHelperInstalled = true;
+                }
+                catch (PackageManager.NameNotFoundException e) {
+                    internetHelperInstalled = false;
+                    LOG.info("WEBVIEW: Internet helper not installed, only mimicked HTTP requests will work.");
+                }
             }
         }
 
