@@ -135,16 +135,19 @@ public class PebbleUtils {
 
         JSONObject knownKeys = PebbleUtils.getAppConfigurationKeys(uuid);
         SparseArray<String> appKeysMap = new SparseArray<>();
+        String inKey, outKey;
 
+//      TODO: The fact that knownKeys is null for the passed UUID means that the
+//      watchapp was installed by some other app, hence we cannot communicate with it.
+//      The user could be warned somehow.
         if (knownKeys == null || msg == null) {
             msg = "[]";
-        }
-
-        String inKey, outKey;
-        //knownKeys contains "name"->"index", we need to reverse that
-        for (Iterator<String> key = knownKeys.keys(); key.hasNext(); ) {
-            inKey = key.next();
-            appKeysMap.put(knownKeys.optInt(inKey), inKey);
+        } else {
+            //knownKeys contains "name"->"index", we need to reverse that
+            for (Iterator<String> key = knownKeys.keys(); key.hasNext(); ) {
+                inKey = key.next();
+                appKeysMap.put(knownKeys.optInt(inKey), inKey);
+            }
         }
 
         try {
