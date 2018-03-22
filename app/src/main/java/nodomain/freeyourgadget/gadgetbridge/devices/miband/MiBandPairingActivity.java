@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+    Gobbetti, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -254,7 +254,7 @@ public class MiBandPairingActivity extends AbstractGBActivity {
     }
 
     private void performApplicationLevelPair() {
-        GBApplication.deviceService().disconnect(); // just to make sure...
+        //GBApplication.deviceService().disconnect(); // just to make sure... //TODO: FIXME
         GBDevice device = DeviceHelper.getInstance().toSupportedDevice(deviceCandidate);
         if (device != null) {
             GBApplication.deviceService().connect(device, true);

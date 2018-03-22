@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -48,9 +48,9 @@ public class BluetoothStateChangeReceiver extends BroadcastReceiver {
                 }
 
                 LOG.info("Bluetooth turned on => connecting...");
-                GBApplication.deviceService().connect();
+                //GBApplication.deviceService().connect(); TODO: FIX ME!
             } else if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
-                GBApplication.deviceService().disconnect();
+                //GBApplication.deviceService().disconnect();TODO: FIX ME!
             }
         }
     }

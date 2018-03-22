@@ -1,5 +1,6 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Frank Slezak,
-    ivanovlev, JohnnySun, Julien Pivotto, Kasha, Steffen Liebergeld
+    ivanovlev, JohnnySun, Julien Pivotto, Kasha, Steffen Liebergeld,
+    Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -16,8 +17,6 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
-
-import android.support.annotation.Nullable;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -128,16 +127,15 @@ public interface DeviceService extends EventHandler {
 
     void start();
 
-    void connect();
+    void connect(GBDevice device);
 
-    void connect(@Nullable GBDevice device);
+    void connect(GBDevice device, boolean performPair);
 
-    void connect(@Nullable GBDevice device, boolean performPair);
-
-    void disconnect();
+    void disconnect(GBDevice device);
 
     void quit();
 
+    void setGBDevice(GBDevice device);
     /**
      * Requests information from the {@link DeviceCommunicationService} about the connection state,
      * firmware info, etc.
@@ -145,5 +143,5 @@ public interface DeviceService extends EventHandler {
      * Note that this will not need a connection to the device -- only the cached information
      * from the service will be reported.
      */
-    void requestDeviceInfo();
+    void requestDeviceInfo(GBDevice device);
 }

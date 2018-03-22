@@ -29,6 +29,7 @@ public class DeviceInfo implements Parcelable{
     private String systemId;
     private String regulatoryCertificationDataList;
     private String pnpId;
+    private String address;
 
     public DeviceInfo() {
     }
@@ -160,5 +161,13 @@ public class DeviceInfo implements Parcelable{
                 ", regulatoryCertificationDataList='" + regulatoryCertificationDataList + '\'' +
                 ", pnpId='" + pnpId + '\'' +
                 '}';
+    }
+
+    public String getAddress(){
+        return this.address;
+    }
+
+    public void setAddress(String address){
+        this.address = address;
     }
 }

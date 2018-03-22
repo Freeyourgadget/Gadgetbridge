@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+    Gobbetti, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -226,14 +226,14 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
 
     private void handleGBDeviceEvent(GBDeviceEventSleepMonitorResult sleepMonitorResult) {
         Context context = getContext();
-        LOG.info("Got event for SLEEP_MONIOR_RES");
-        Intent sleepMontiorIntent = new Intent(ChartsHost.REFRESH);
-        sleepMontiorIntent.putExtra("smartalarm_from", sleepMonitorResult.smartalarm_from);
-        sleepMontiorIntent.putExtra("smartalarm_to", sleepMonitorResult.smartalarm_to);
-        sleepMontiorIntent.putExtra("recording_base_timestamp", sleepMonitorResult.recording_base_timestamp);
-        sleepMontiorIntent.putExtra("alarm_gone_off", sleepMonitorResult.alarm_gone_off);
+        LOG.info("Got event for SLEEP_MONITOR_RES");
+        Intent sleepMonitorIntent = new Intent(ChartsHost.REFRESH);
+        sleepMonitorIntent.putExtra("smartalarm_from", sleepMonitorResult.smartalarm_from);
+        sleepMonitorIntent.putExtra("smartalarm_to", sleepMonitorResult.smartalarm_to);
+        sleepMonitorIntent.putExtra("recording_base_timestamp", sleepMonitorResult.recording_base_timestamp);
+        sleepMonitorIntent.putExtra("alarm_gone_off", sleepMonitorResult.alarm_gone_off);
 
-        LocalBroadcastManager.getInstance(context).sendBroadcast(sleepMontiorIntent);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(sleepMonitorIntent);
     }
 
     private void handleGBDeviceEvent(GBDeviceEventScreenshot screenshot) {
@@ -259,7 +259,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
 
             NotificationCompat.Action action = new NotificationCompat.Action.Builder(android.R.drawable.ic_menu_share, "share", pendingShareIntent).build();
 
-            Notification notif = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
+            Notification notification = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                     .setContentTitle("Screenshot taken")
                     .setTicker("Screenshot taken")
                     .setContentText(filename)
@@ -272,7 +272,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                     .build();
 
             NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            nm.notify(NOTIFICATION_ID_SCREENSHOT, notif);
+            nm.notify(NOTIFICATION_ID_SCREENSHOT, notification);
         } catch (IOException ex) {
             LOG.error("Error writing screenshot", ex);
         }
@@ -300,10 +300,10 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                     deviceEvent.phoneNumber = (String) GBApplication.getIDSenderLookup().lookup(deviceEvent.handle);
                 }
                 if (deviceEvent.phoneNumber != null) {
-                    LOG.info("got notfication reply for SMS from " + deviceEvent.phoneNumber + " : " + deviceEvent.reply);
+                    LOG.info("got notification reply for SMS from " + deviceEvent.phoneNumber + " : " + deviceEvent.reply);
                     SmsManager.getDefault().sendTextMessage(deviceEvent.phoneNumber, null, deviceEvent.reply, null, null);
                 } else {
-                    LOG.info("got notfication reply for notification id " + deviceEvent.handle + " : " + deviceEvent.reply);
+                    LOG.info("got notification reply for notification id " + deviceEvent.handle + " : " + deviceEvent.reply);
                     action = NotificationListener.ACTION_REPLY;
                 }
                 break;
@@ -326,6 +326,9 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     protected void handleGBDeviceEvent(GBDeviceEventBatteryInfo deviceEvent) {
         Context context = getContext();
         LOG.info("Got BATTERY_INFO device event");
+        if(!deviceEvent.getAddress().equals(gbDevice.getAddress())){ // Event is not meant for us
+            return;
+        }
         gbDevice.setBatteryLevel(deviceEvent.level);
         gbDevice.setBatteryState(deviceEvent.state);
 

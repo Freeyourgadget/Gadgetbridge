@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa
+/*  Copyright (C) 2016-2018 Andreas Shimokawa, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -24,9 +24,11 @@ import android.content.Intent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceContainer;
 
 public class BluetoothConnectReceiver extends BroadcastReceiver {
 
@@ -41,19 +43,36 @@ public class BluetoothConnectReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
+        if(action == null){
+            LOG.error("Invalid intent, ignoring!");
+            return;
+        }
+
         if (!action.equals(BluetoothDevice.ACTION_ACL_CONNECTED) || !intent.hasExtra(BluetoothDevice.EXTRA_DEVICE)) {
             return;
         }
 
         BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-        LOG.info("connection attempt detected from or to " + device.getAddress() + "(" + device.getName() + ")");
+        LOG.info("Connection attempt detected from or to " + device.getAddress() + "(" + device.getName() + ")");
 
-        GBDevice gbDevice = service.getGBDevice();
-        if (gbDevice != null) {
-            if (device.getAddress().equals(gbDevice.getAddress()) && gbDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
-                LOG.info("Will re-connect to " + gbDevice.getAddress() + "(" + gbDevice.getName() + ")");
-                GBApplication.deviceService().connect();
+        ArrayList<DeviceContainer> devices = service.getGBDevices();
+        DeviceContainer currentContainer = null;
+        for(DeviceContainer container : devices){
+            if(container.getGBDevice().getAddress().equals(device.getAddress())){
+                currentContainer = container;
             }
+        }
+
+        if(currentContainer != null){
+            LOG.info("Will re-connect to " +
+                    currentContainer.getGBDevice().getAddress() +
+                    "(" +
+                    currentContainer.getGBDevice().getName() +
+                    ")");
+
+            GBApplication.deviceService().connect(currentContainer.getGBDevice());
+        } else{
+            LOG.error("Received intent for unknown device!");
         }
     }
 }

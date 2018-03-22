@@ -19,9 +19,10 @@ package nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class BatteryInfo implements Parcelable{
+public class BatteryInfo implements Parcelable {
 
     private int percentCharged;
+    private String address;
 
     public BatteryInfo() {
     }
@@ -58,5 +59,13 @@ public class BatteryInfo implements Parcelable{
 
     public void setPercentCharged(int percentCharged) {
         this.percentCharged = percentCharged;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

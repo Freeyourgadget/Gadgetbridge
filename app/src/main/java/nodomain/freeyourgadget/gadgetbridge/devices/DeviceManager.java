@@ -1,5 +1,5 @@
 /*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+    Gobbetti, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -142,11 +142,10 @@ public class DeviceManager {
             if (selectedDevice.equals(dev)) {
                 selectedDevice = dev; // equality vs identity!
             } else {
-                if (selectedDevice.isConnected() && dev.isConnected()) {
-                    LOG.warn("multiple connected devices -- this is currently not really supported");
-                    selectedDevice = dev; // use the last one that changed
-                } else if (!selectedDevice.isConnected()) {
-                    selectedDevice = dev; // use the last one that changed
+                for (GBDevice device : deviceList) {
+                    if (device.getAddress().equals(dev.getAddress())) {
+                        selectedDevice = device;
+                    }
                 }
             }
         }

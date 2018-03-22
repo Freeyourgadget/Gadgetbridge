@@ -66,7 +66,7 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ge
 
 public class MiBandPreferencesActivity extends AbstractSettingsActivity {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) { //TODO: Set device before configuration
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.miband_preferences);

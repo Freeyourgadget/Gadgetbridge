@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+    Gobbetti, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -208,7 +208,7 @@ public class PebblePairingActivity extends AbstractGBActivity {
         }
 
         GB.toast(this, getString(R.string.pairing_creating_bond_with, mBtDevice.getName(), macAddress), Toast.LENGTH_LONG, GB.INFO);
-        GBApplication.deviceService().disconnect(); // just to make sure...
+        GBApplication.deviceService().disconnect(gbDevice); // just to make sure...
 
         if (isLEPebble) {
             performConnect(gbDevice);

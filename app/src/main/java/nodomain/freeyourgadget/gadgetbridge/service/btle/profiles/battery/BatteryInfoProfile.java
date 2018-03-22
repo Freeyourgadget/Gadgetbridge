@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -76,6 +76,7 @@ public class BatteryInfoProfile<T extends AbstractBTLEDeviceSupport> extends Abs
     private void handleBatteryLevel(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
         int percent = ValueDecoder.decodePercent(characteristic);
         batteryInfo.setPercentCharged(percent);
+        batteryInfo.setAddress(gatt.getDevice().getAddress());
 
         notify(createIntent(batteryInfo));
     }

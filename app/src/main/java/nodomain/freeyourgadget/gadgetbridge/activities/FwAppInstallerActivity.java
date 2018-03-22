@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Lem Dulfo
+    Gobbetti, Lem Dulfo, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -161,6 +161,7 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
             public void onClick(View v) {
                 setInstallEnabled(false);
                 installHandler.onStartInstall(device);
+                GBApplication.deviceService().setGBDevice(device);
                 GBApplication.deviceService().onInstallApp(uri);
             }
         });
@@ -179,7 +180,7 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
             if (device == null || !device.isConnected()) {
                 connect();
             } else {
-                GBApplication.deviceService().requestDeviceInfo();
+                GBApplication.deviceService().requestDeviceInfo(device);
             }
         }
     }

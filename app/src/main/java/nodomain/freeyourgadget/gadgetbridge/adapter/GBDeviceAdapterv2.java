@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Lem Dulfo
+    Gobbetti, Lem Dulfo, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -100,11 +100,12 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             public boolean onLongClick(View v) {
                 if (device.getState() != GBDevice.State.NOT_CONNECTED) {
                     showTransientSnackbar(R.string.controlcenter_snackbar_disconnecting);
-                    GBApplication.deviceService().disconnect();
+                    GBApplication.deviceService().disconnect(device);
                 }
                 return true;
             }
         });
+
         holder.deviceImageView.setImageResource(R.drawable.level_list_device);
         //level-list does not allow negative values, hence we always add 100 to the key.
         holder.deviceImageView.setImageLevel(device.getType().getKey() + 100 + (device.isInitialized() ? 100 : 0));
@@ -143,6 +144,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                                         @Override
                                                         public void onClick(View v) {
                                                             showTransientSnackbar(R.string.busy_task_fetch_activity_data);
+                                                            GBApplication.deviceService().setGBDevice(device);
                                                             GBApplication.deviceService().onFetchActivityData();
                                                         }
                                                     }
@@ -157,6 +159,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                                          @Override
                                                          public void onClick(View v) {
                                                              showTransientSnackbar(R.string.controlcenter_snackbar_requested_screenshot);
+                                                             GBApplication.deviceService().setGBDevice(device);
                                                              GBApplication.deviceService().onScreenshotReq();
                                                          }
                                                      }
@@ -245,6 +248,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                                          context.startActivity(startIntent);
                                                          return;
                                                      }
+                                                     GBApplication.deviceService().setGBDevice(device);
                                                      GBApplication.deviceService().onFindDevice(true);
                                                      //TODO: extract string resource if we like this solution.
                                                      Snackbar.make(parent, R.string.control_center_find_lost_device, Snackbar.LENGTH_INDEFINITE).setAction("Found it!", new View.OnClickListener() {
@@ -255,6 +259,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                                      }).setCallback(new Snackbar.Callback() {
                                                          @Override
                                                          public void onDismissed(Snackbar snackbar, int event) {
+
                                                              GBApplication.deviceService().onFindDevice(false);
                                                              super.onDismissed(snackbar, event);
                                                          }

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Carsten Pfeiffer, Daniele Gobbetti
+/*  Copyright (C) 2015-2018 Carsten Pfeiffer, Daniele Gobbetti, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -66,7 +66,7 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     public void deleteDevice(final GBDevice gbDevice) throws GBException {
         LOG.info("will try to delete device: " + gbDevice.getName());
         if (gbDevice.isConnected() || gbDevice.isConnecting()) {
-            GBApplication.deviceService().disconnect();
+            GBApplication.deviceService().disconnect(gbDevice);
         }
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             DaoSession session = dbHandler.getDaoSession();

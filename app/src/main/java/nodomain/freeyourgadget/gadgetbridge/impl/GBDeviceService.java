@@ -1,5 +1,6 @@
 /*  Copyright (C) 2015-2018 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
-    criogenic, Frank Slezak, ivanovlev, Julien Pivotto, Kasha, Steffen Liebergeld
+    criogenic, Frank Slezak, ivanovlev, Julien Pivotto, Kasha, Steffen Liebergeld,
+    Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -23,7 +24,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
-import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -62,10 +62,16 @@ public class GBDeviceService implements DeviceService {
             EXTRA_CALENDAREVENT_TITLE,
             EXTRA_CALENDAREVENT_DESCRIPTION
     };
+    private GBDevice mGBDevice;
 
     public GBDeviceService(Context context) {
         mContext = context;
         mServiceClass = DeviceCommunicationService.class;
+    }
+
+    @Override
+    public void setGBDevice(GBDevice device){
+        this.mGBDevice = device;
     }
 
     protected Intent createIntent() {
@@ -95,17 +101,14 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void connect() {
-        connect(null, false);
-    }
-
-    @Override
-    public void connect(@Nullable GBDevice device) {
+    public void connect(GBDevice device) {
+        this.mGBDevice = device;
         connect(device, false);
     }
 
     @Override
-    public void connect(@Nullable GBDevice device, boolean firstTime) {
+    public void connect(GBDevice device, boolean firstTime) {
+        this.mGBDevice = device;
         Intent intent = createIntent().setAction(ACTION_CONNECT)
                 .putExtra(GBDevice.EXTRA_DEVICE, device)
                 .putExtra(EXTRA_CONNECT_FIRST_TIME, firstTime);
@@ -113,8 +116,10 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void disconnect() {
-        Intent intent = createIntent().setAction(ACTION_DISCONNECT);
+    public void disconnect(GBDevice device) {
+        this.mGBDevice = device;
+        Intent intent = createIntent().setAction(ACTION_DISCONNECT)
+                .putExtra(GBDevice.EXTRA_DEVICE, device);
         invokeService(intent);
     }
 
@@ -125,14 +130,17 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void requestDeviceInfo() {
-        Intent intent = createIntent().setAction(ACTION_REQUEST_DEVICEINFO);
+    public void requestDeviceInfo(GBDevice device) {
+        this.mGBDevice = device;
+        Intent intent = createIntent().setAction(ACTION_REQUEST_DEVICEINFO)
+                .putExtra(GBDevice.EXTRA_DEVICE, device);
         invokeService(intent);
     }
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
         Intent intent = createIntent().setAction(ACTION_NOTIFICATION)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_NOTIFICATION_FLAGS, notificationSpec.flags)
                 .putExtra(EXTRA_NOTIFICATION_PHONENUMBER, notificationSpec.phoneNumber)
                 .putExtra(EXTRA_NOTIFICATION_SENDER, coalesce(notificationSpec.sender, getContactDisplayNameByNumber(notificationSpec.phoneNumber)))
@@ -149,6 +157,7 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onDeleteNotification(int id) {
         Intent intent = createIntent().setAction(ACTION_DELETE_NOTIFICATION)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_NOTIFICATION_ID, id);
         invokeService(intent);
 
@@ -156,13 +165,15 @@ public class GBDeviceService implements DeviceService {
 
     @Override
     public void onSetTime() {
-        Intent intent = createIntent().setAction(ACTION_SETTIME);
+        Intent intent = createIntent().setAction(ACTION_SETTIME)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
         invokeService(intent);
     }
 
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         Intent intent = createIntent().setAction(ACTION_SET_ALARMS)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putParcelableArrayListExtra(EXTRA_ALARMS, alarms);
         invokeService(intent);
     }
@@ -187,6 +198,7 @@ public class GBDeviceService implements DeviceService {
 
         Intent intent = createIntent().setAction(ACTION_CALLSTATE)
                 .putExtra(EXTRA_CALL_PHONENUMBER, callSpec.number)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_CALL_DISPLAYNAME, callSpec.name)
                 .putExtra(EXTRA_CALL_COMMAND, callSpec.command);
         invokeService(intent);
@@ -196,6 +208,7 @@ public class GBDeviceService implements DeviceService {
     public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
         Intent intent = createIntent().setAction(ACTION_SETCANNEDMESSAGES)
                 .putExtra(EXTRA_CANNEDMESSAGES_TYPE, cannedMessagesSpec.type)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_CANNEDMESSAGES, cannedMessagesSpec.cannedMessages);
         invokeService(intent);
     }
@@ -203,6 +216,7 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onSetMusicState(MusicStateSpec stateSpec) {
         Intent intent = createIntent().setAction(ACTION_SETMUSICSTATE)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_MUSIC_REPEAT, stateSpec.repeat)
                 .putExtra(EXTRA_MUSIC_RATE, stateSpec.playRate)
                 .putExtra(EXTRA_MUSIC_STATE, stateSpec.state)
@@ -214,6 +228,7 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onSetMusicInfo(MusicSpec musicSpec) {
         Intent intent = createIntent().setAction(ACTION_SETMUSICINFO)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_MUSIC_ARTIST, musicSpec.artist)
                 .putExtra(EXTRA_MUSIC_ALBUM, musicSpec.album)
                 .putExtra(EXTRA_MUSIC_TRACK, musicSpec.track)
@@ -226,19 +241,22 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onInstallApp(Uri uri) {
         Intent intent = createIntent().setAction(ACTION_INSTALL)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_URI, uri);
         invokeService(intent);
     }
 
     @Override
     public void onAppInfoReq() {
-        Intent intent = createIntent().setAction(ACTION_REQUEST_APPINFO);
+        Intent intent = createIntent().setAction(ACTION_REQUEST_APPINFO)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
         invokeService(intent);
     }
 
     @Override
     public void onAppStart(UUID uuid, boolean start) {
         Intent intent = createIntent().setAction(ACTION_STARTAPP)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_APP_UUID, uuid)
                 .putExtra(EXTRA_APP_START, start);
         invokeService(intent);
@@ -247,6 +265,7 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onAppDelete(UUID uuid) {
         Intent intent = createIntent().setAction(ACTION_DELETEAPP)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_APP_UUID, uuid);
         invokeService(intent);
     }
@@ -254,6 +273,7 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onAppConfiguration(UUID uuid, String config, Integer id) {
         Intent intent = createIntent().setAction(ACTION_APP_CONFIGURE)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_APP_UUID, uuid)
                 .putExtra(EXTRA_APP_CONFIG, config);
 
@@ -266,31 +286,36 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onAppReorder(UUID[] uuids) {
         Intent intent = createIntent().setAction(ACTION_APP_REORDER)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_APP_UUID, uuids);
         invokeService(intent);
     }
 
     @Override
     public void onFetchActivityData() {
-        Intent intent = createIntent().setAction(ACTION_FETCH_ACTIVITY_DATA);
+        Intent intent = createIntent().setAction(ACTION_FETCH_ACTIVITY_DATA)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
         invokeService(intent);
     }
 
     @Override
     public void onReboot() {
-        Intent intent = createIntent().setAction(ACTION_REBOOT);
+        Intent intent = createIntent().setAction(ACTION_REBOOT)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
         invokeService(intent);
     }
 
     @Override
     public void onHeartRateTest() {
-        Intent intent = createIntent().setAction(ACTION_HEARTRATE_TEST);
+        Intent intent = createIntent().setAction(ACTION_HEARTRATE_TEST)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
         invokeService(intent);
     }
 
     @Override
     public void onFindDevice(boolean start) {
         Intent intent = createIntent().setAction(ACTION_FIND_DEVICE)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_FIND_START, start);
         invokeService(intent);
     }
@@ -298,19 +323,22 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onSetConstantVibration(int intensity) {
         Intent intent = createIntent().setAction(ACTION_SET_CONSTANT_VIBRATION)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_VIBRATION_INTENSITY, intensity);
         invokeService(intent);
     }
 
     @Override
     public void onScreenshotReq() {
-        Intent intent = createIntent().setAction(ACTION_REQUEST_SCREENSHOT);
+        Intent intent = createIntent().setAction(ACTION_REQUEST_SCREENSHOT)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
         invokeService(intent);
     }
 
     @Override
     public void onEnableRealtimeSteps(boolean enable) {
         Intent intent = createIntent().setAction(ACTION_ENABLE_REALTIME_STEPS)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_BOOLEAN_ENABLE, enable);
         invokeService(intent);
     }
@@ -318,6 +346,7 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onEnableHeartRateSleepSupport(boolean enable) {
         Intent intent = createIntent().setAction(ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_BOOLEAN_ENABLE, enable);
         invokeService(intent);
     }
@@ -325,6 +354,7 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onSetHeartRateMeasurementInterval(int seconds) {
         Intent intent = createIntent().setAction(ACTION_SET_HEARTRATE_MEASUREMENT_INTERVAL)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_INTERVAL_SECONDS, seconds);
         invokeService(intent);
     }
@@ -332,6 +362,7 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
         Intent intent = createIntent().setAction(ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_BOOLEAN_ENABLE, enable);
         invokeService(intent);
     }
@@ -339,6 +370,7 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
         Intent intent = createIntent().setAction(ACTION_ADD_CALENDAREVENT)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_CALENDAREVENT_ID, calendarEventSpec.id)
                 .putExtra(EXTRA_CALENDAREVENT_TYPE, calendarEventSpec.type)
                 .putExtra(EXTRA_CALENDAREVENT_TIMESTAMP, calendarEventSpec.timestamp)
@@ -352,6 +384,7 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onDeleteCalendarEvent(byte type, long id) {
         Intent intent = createIntent().setAction(ACTION_DELETE_CALENDAREVENT)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_CALENDAREVENT_TYPE, type)
                 .putExtra(EXTRA_CALENDAREVENT_ID, id);
         invokeService(intent);
@@ -360,19 +393,22 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onSendConfiguration(String config) {
         Intent intent = createIntent().setAction(ACTION_SEND_CONFIGURATION)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_CONFIG, config);
         invokeService(intent);
     }
 
     @Override
     public void onTestNewFunction() {
-        Intent intent = createIntent().setAction(ACTION_TEST_NEW_FUNCTION);
+        Intent intent = createIntent().setAction(ACTION_TEST_NEW_FUNCTION)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
         invokeService(intent);
     }
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
         Intent intent = createIntent().setAction(ACTION_SEND_WEATHER)
+                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_WEATHER, weatherSpec);
         invokeService(intent);
     }
