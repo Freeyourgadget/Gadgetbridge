@@ -40,13 +40,16 @@ public class Mi2NotificationStrategy extends V2NotificationStrategy<MiBand2Suppo
         startNotify(builder, vibrationProfile.getAlertLevel(), simpleNotification);
         BluetoothGattCharacteristic alert = getSupport().getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL);
         byte repeat = (byte) (vibrationProfile.getRepeat() * (vibrationProfile.getOnOffSequence().length / 2));
+        int waitDuration = 0;
         if (repeat > 0) {
             short vibration = (short) vibrationProfile.getOnOffSequence()[0];
             short pause = (short) vibrationProfile.getOnOffSequence()[1];
-            int duration = (vibration + pause) * repeat;
+            waitDuration = (vibration + pause) * repeat;
             builder.write(alert, new byte[]{-1, (byte) (vibration & 255), (byte) (vibration >> 8 & 255), (byte) (pause & 255), (byte) (pause >> 8 & 255), repeat});
-            builder.wait(duration);
         }
+
+        waitDuration = Math.max(waitDuration, 4000);
+        builder.wait(waitDuration);
 
         if (extraAction != null) {
             builder.add(extraAction);
