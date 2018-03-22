@@ -38,6 +38,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
@@ -467,10 +468,7 @@ public final class BtLEQueue {
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
             if (LOG.isDebugEnabled()) {
-                String content = "";
-                for (byte b : characteristic.getValue()) {
-                    content += String.format(" 0x%1x", b);
-                }
+                String content = Logging.formatBytes(characteristic.getValue());
                 LOG.debug("characteristic changed: " + characteristic.getUuid() + " value: " + content);
             }
             if (!checkCorrectGattInstance(gatt, "characteristic changed")) {
