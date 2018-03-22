@@ -498,4 +498,6 @@
 <string name="spanish">ספרדית</string>
 
     <string name="notification_channel_name">הודעות של Gadgetbridge</string>
-</resources>
+<string name="devicetype_xwatch">XWatch</string>
+
+    </resources>

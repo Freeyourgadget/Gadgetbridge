@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Lukas Veneziano
 
     This file is part of Gadgetbridge.
 

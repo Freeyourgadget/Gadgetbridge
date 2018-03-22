@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa, Daniele Gobbetti, Uwe Hermann
+/*  Copyright (C) 2016-2018 Andreas Shimokawa, Daniele Gobbetti, Uwe Hermann
 
     This file is part of Gadgetbridge.
 

@@ -1,5 +1,6 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, AnthonyDiGirolamo, Carsten
-    Pfeiffer, Frank Slezak, Julien Pivotto, Kaz Wolfe, Kevin Richter
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, AnthonyDiGirolamo, Carsten
+    Pfeiffer, Daniele Gobbetti, Frank Slezak, Julien Pivotto, Kaz Wolfe, Kevin
+    Richter, Lukas Veneziano
 
     This file is part of Gadgetbridge.
 

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Lem Dulfo
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Lem Dulfo
 
     This file is part of Gadgetbridge.
 

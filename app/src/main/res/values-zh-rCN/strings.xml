@@ -50,7 +50,7 @@
     <string name="fw_upgrade_notice">您即将安装固件 %s ，代替当前在Mi Band上的固件。</string>
     <string name="fw_upgrade_notice_amazfitbip">即将在您的米动手表青春版(Amazfit Bip)上安装固件 %s 。 
 \n 
-\n请确保安装.gps固件，然后安装.res文件，最后安装.fw文件。 安装.fw文件后，手表将重新启动。 
+\n请确保安装.fw文件，然后安装.res文件，最后安装.gps文件。 安装.fw文件后，手表将重新启动。 
 \n 
 \n注意：如果这些文件与之前安装的完全一样，则不必安装.res和.gps文件。 
 \n 
@@ -523,7 +523,7 @@
     <string name="pref_summary_pebble_forcele">使用实验性Pebble LE以支持所有Pebble，代替BT经典连接。 这首先需要以非LE配对，然后以Pebble LE连接</string>
     <string name="pref_summary_pebble_mtu_limit">如果您的Pebble 2 / Pebble LE无法正常工作，请尝试使用此设置来限制MTU（有效范围20-512）</string>
     <string name="pref_header_auto_export">自动导出</string>
-    <string name="pref_title_auto_export_enabled">自动导出已启用</string>
+    <string name="pref_title_auto_export_enabled">启用自动导出</string>
     <string name="pref_title_auto_export_location">导出位置</string>
     <string name="pref_title_auto_export_interval">导出间隔</string>
     <string name="pref_summary_auto_export_interval">每%d小时导出一次</string>
@@ -532,10 +532,11 @@
     <string name="notif_export_failed_title">数据库导出失败！ 请检查您的设置。</string>
     <string name="miband_prefs_reserve_alarm_calendar">预警未来事件</string>
     <string name="mi2_prefs_button_press_broadcast_summary">在指定按键次数后发送消息</string>
-    <string name="DEVINFO_HR_VER">"设备版本： "</string>
+    <string name="DEVINFO_HR_VER">"心率： "</string>
     <string name="timeformat_am_pm">AM/PM</string>
 
     <string name="devicetype_vibratissimo">Vibratissimo</string>
     <string name="devicetype_hplus">HPlus</string>
     <string name="choose_auto_export_location">选择导出位置</string>
+<string name="notification_channel_name">Gadgetbridge 通知</string>
 </resources>
