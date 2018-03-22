@@ -31,6 +31,7 @@ public class GPXExporter implements ActivityTrackExporter {
 
     private String creator;
     private boolean includeHeartRate = true;
+    private boolean includeHeartRateByTime = true;
 
     @NonNull
     @Override
@@ -87,7 +88,7 @@ public class GPXExporter implements ActivityTrackExporter {
         List<ActivityPoint> trackPoints = track.getTrackPoints();
         String source = getSource(track);
         for (ActivityPoint point : trackPoints) {
-            exportTrackPoint(ser, point, source);
+            exportTrackPoint(ser, point, source, trackPoints);
         }
 
         ser.endTag(NS_DEFAULT, "trkseg");
@@ -98,7 +99,7 @@ public class GPXExporter implements ActivityTrackExporter {
         return track.getDevice().getName();
     }
 
-    private void exportTrackPoint(XmlSerializer ser, ActivityPoint point, String source) throws IOException {
+    private void exportTrackPoint(XmlSerializer ser, ActivityPoint point, String source, List<ActivityPoint> trackPoints) throws IOException {
         GPSCoordinate location = point.getLocation();
         if (location == null) {
             return; // skip invalid points, that just contain hr data, for example
@@ -114,19 +115,42 @@ public class GPXExporter implements ActivityTrackExporter {
         }
         ser.startTag(NS_DEFAULT, "src").text(source).endTag(NS_DEFAULT, "src");
 
-        exportTrackpointExtensions(ser, point);
+        exportTrackpointExtensions(ser, point, trackPoints);
 
         ser.endTag(NS_DEFAULT, "trkpt");
     }
 
-    private void exportTrackpointExtensions(XmlSerializer ser, ActivityPoint point) throws IOException {
+    private void exportTrackpointExtensions(XmlSerializer ser, ActivityPoint point, List<ActivityPoint> trackPoints) throws IOException {
         if (!includeHeartRate) {
             return;
         }
 
         int hr = point.getHeartRate();
         if (!HeartRateUtils.isValidHeartRateValue(hr)) {
-            return;
+            if(!includeHeartRateByTime) { return; }
+
+            Date time = point.getTime();
+            ActivityPoint closestPointItem = null;
+            long lowestDifference = Long.MAX_VALUE;
+            for (ActivityPoint pointItem : trackPoints) {
+                int hrItem = pointItem.getHeartRate();
+                if(HeartRateUtils.isValidHeartRateValue(hrItem)) {
+                    Date timeItem = pointItem.getTime();
+                    if (timeItem.after(time) || timeItem.equals(time)) continue;
+
+                    long difference = time.getTime() - timeItem.getTime();
+                    if (difference < lowestDifference) {
+                        lowestDifference = difference;
+                        closestPointItem = pointItem;
+                    }
+                }
+            }
+            if(closestPointItem != null) {
+                hr = closestPointItem.getHeartRate();
+                if (!HeartRateUtils.isValidHeartRateValue(hr)) {
+                    return;
+                }
+            }
         }
         ser.startTag(NS_DEFAULT, "extensions");
 
