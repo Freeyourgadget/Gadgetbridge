@@ -13,6 +13,7 @@
 
     <string-array name="pref_language_options">
         <item name="default">System Default</item>
+        <item name="cz">Čeština</item>
         <item name="de">Deutsch</item>
         <item name="en">English</item>
         <item name="es">Español</item>
@@ -25,10 +26,12 @@
         <item name="ko">한국어</item>
         <item name="ja">日本語</item>
         <item name="hu">Magyar</item>
+        <item name="sk">Slovenčina</item>
     </string-array>
 
     <string-array name="pref_language_values">
         <item>default</item>
+        <item>cz</item>
         <item>de</item>
         <item>en</item>
         <item>es</item>
@@ -41,6 +44,7 @@
         <item>ko</item>
         <item>ja</item>
         <item>hu</item>
+        <item>sk</item>
     </string-array>
 
     <string-array name="notification_mode">
@@ -198,7 +202,7 @@
     <string-array name="pref_call_privacy_mode_values">
         <item>@string/p_call_privacy_mode_off</item>
         <item>@string/p_call_privacy_mode_name</item>
-        <item>@string/pref_call_privacy_mode_number</item>
+        <item>@string/p_call_privacy_mode_number</item>
         <item>@string/p_call_privacy_mode_complete</item>
     </string-array>
 
@@ -207,6 +211,7 @@
         <item name="0">@string/simplified_chinese</item>
         <item name="1">@string/traditional_chinese</item>
         <item name="2">@string/english</item>
+        <item name="3">@string/spanish</item>
     </string-array>
 
     <string-array name="pref_amazfitbip_language_values">
@@ -214,6 +219,7 @@
         <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
 
     <string-array name="prefs_heartrate_measurement_interval">
@@ -233,5 +239,4 @@
         <item>1800</item>
         <item>3600</item>
     </string-array>
-
 </resources>

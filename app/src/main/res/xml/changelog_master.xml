@@ -1,8 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release
-        version="0.24.1"
-        versioncode="118">
+    <release version="0.25.0" versioncode="124">
+        <change>Inital suport for Xwatch</change>
+        <change>Move the connected device to top in control center</change>
+        <change>Add adaptive launcher icon for Android 8.x</change>
+        <change>No longer plot heart rate graph when device was detected as not worn</change>
+        <change>Pebble: Small fixes for background js (e.g. Pebble-Casio-WV58DE)</change>
+        <change>Pebble: native (non bg js) support for weather in Simply Light watchface</change>
+    </release>
+    <release version="0.24.6" versioncode="123">
+        <change>Display the chat icon for notifications coming from Kontalk and Antox</change>
+        <change>Pebble: Fix for background js which try to send floats (e.g. TrekVolle)</change>
+        <change>Mi Band 2: Change the way vibration patterns work, also fixes problems with missing text on newer firmwares</change>
+    </release>
+    <release version="0.24.5" versioncode="122">
+        <change>Fix crash in settings activity with export location</change>
+        <change>Fix notification deletion regression</change>
+        <change>Add 'Ł' and 'ł' to transliteration map</change>
+        <change>Omnijaws Weather: correctly pick todays' min and max temperature</change>
+        <change>Fix alarm details activity on small screen</change>
+        <change>Pebble: minic online check of TrekVolle when using background js</change>
+    </release>
+    <release version="0.24.4" versioncode="121">
+        <change>Amazfit Bip: Fix language setting on new firmwares</change>
+    </release>
+    <release version="0.24.3" versioncode="120">
+        <change>Charts: Try to fix another crash</change>
+        <change>Pebble: Fix weather for some watchfaces when using background JS</change>
+        <change>Amazfit Cor: Allow watchfaces to be flashed (untested)</change>
+        <change>Amazfit Bip: Better detection for flashable font types</change>
+        <change>Fix number only privacy option</change>
+    </release>
+    <release version="0.24.2" versioncode="119">
+        <change>Fix crash when changing the periodic database export interval</change>
+        <change>Amazfit Bip: Allow fonts and new res format to be flashed</change>
+        <change>Amazfit Cor: Allow new res format to be flashed</change>
+        <change>Pebble: Background js fixes</change>
+    </release>
+    <release version="0.24.1" versioncode="118">
         <change>Amazfit Bip: prevent menu icons from vanishing when using firmware 0.1.0.51</change>
         <change>Pebble: "find phone" feature for upcoming pebble helper app</change>
     </release>

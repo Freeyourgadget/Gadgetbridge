@@ -1,5 +1,42 @@
 ### Changelog
 
+#### Version 0.25.0
+* Inital suport for Xwatch
+* Move the connected device to top in control center
+* Add adaptive launcher icon for Android 8.x
+* No longer plot heart rate graph when device was detected as not worn
+* Pebble: Small fixes for background js (e.g. Pebble-Casio-WV58DE)
+* Pebble: native (non bg js) support for weather in Simply Light watchface
+
+#### Version 0.24.6
+* Display the chat icon for notifications coming from Kontalk and Antox
+* Pebble: Fix for background js which try to send floats (e.g. TrekVolle)
+* Mi Band 2: Change the way vibration patterns work, also fixes problems with missing text on newer firmwares
+
+#### Version 0.24.5
+* Fix crash in settings activity with export location
+* Fix notification deletion regression
+* Add 'Ł' and 'ł' to transliteration map
+* Omnijaws Weather: correctly pick todays' min and max temperature
+* Fix alarm details activity on small screen
+* Pebble: minic online check of TrekVolle when using background js
+
+#### Version 0.24.4
+* Amazfit Bip: Fix language setting on new firmwares
+
+#### Version 0.24.3
+* Charts: Try to fix another crash
+* Pebble: Fix weather for some watchfaces when using background JS
+* Amazfit Cor: Allow watchfaces to be flashed (untested)
+* Amazfit Bip: Better detection for flashable font types
+* Fix number only privacy option
+
+#### Version 0.24.2
+* Fix crash when changing the periodic database export interval
+* Amazfit Bip: Allow fonts and new res format to be flashed
+* Amazfit Cor: Allow new res format to be flashed
+* Pebble: Background js fixes
+
 #### Version 0.24.1
 * Amazfit Bip: prevent menu icons from vanishing when using firmware 0.1.0.51
 * Pebble: "find phone" feature for upcoming pebble helper app

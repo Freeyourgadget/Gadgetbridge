@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, JohnnySun
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Felix
+    Konstantin Maurer, JohnnySun
 
     This file is part of Gadgetbridge.
 

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa, Daniele Gobbetti
+/*  Copyright (C) 2016-2018 Andreas Shimokawa, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -49,6 +49,7 @@ public class Weather {
         try {
             condition.put("id", weatherSpec.currentConditionCode);
             condition.put("main", weatherSpec.currentCondition);
+            condition.put("description", weatherSpec.currentCondition);
             condition.put("icon", Weather.mapToOpenWeatherMapIcon(weatherSpec.currentConditionCode));
             weather.put(condition);
 

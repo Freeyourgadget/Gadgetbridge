@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Normano64
 
     This file is part of Gadgetbridge.
@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge;
 
 import android.annotation.TargetApi;
 import android.app.Application;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.NotificationManager.Policy;
 import android.content.Context;
@@ -63,6 +64,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+
+import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
 
 /**
  * Main Application class that initializes and provides access to certain things like
@@ -172,6 +175,15 @@ public class GBApplication extends Application {
         if (isRunningMarshmallowOrLater()) {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             //the following will ensure the notification manager is kept alive
+            if(isRunningOreoOrLater()) {
+                NotificationChannel channel = notificationManager.getNotificationChannel(NOTIFICATION_CHANNEL_ID);
+                if(channel == null) {
+                    channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
+                            getString(R.string.notification_channel_name),
+                            NotificationManager.IMPORTANCE_LOW);
+                    notificationManager.createNotificationChannel(channel);
+                }
+            }
             startService(new Intent(this, NotificationCollectorMonitorService.class));
         }
     }
@@ -288,6 +300,10 @@ public class GBApplication extends Application {
 
     public static boolean isRunningMarshmallowOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.M;
+    }
+
+    public static boolean isRunningOreoOrLater(){
+        return VERSION.SDK_INT >= Build.VERSION_CODES.O;
     }
 
     private static boolean isPrioritySender(int prioritySenders, String number) {

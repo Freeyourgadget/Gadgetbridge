@@ -48,10 +48,10 @@
   <string name="fw_upgrade_notice">Vous êtes sur le point d\'installer le micrologiciel %s à la place de celui qui est actuellement sur votre Mi Band.</string>
   <string name="fw_multi_upgrade_notice">Vous êtes sur le point d\'installer les micrologiciels %1$s et %2$s à la place de ceux qui sont actuellement sur votre Mi Band.</string>
   <string name="miband_firmware_known">Ce micrologiciel a été testé et est connu pour être compatible avec Gadgetbridge.</string>
-  <string name="miband_firmware_unknown_warning">Ce micrologiciel n\'a pas été testé et peut ne pas être compatible avec Gadgetbridge.
-\n
-\nIl n\'est pas conseillé de le flasher sur votre Mi Band !</string>
-  <string name="miband_firmware_suggest_whitelist">Si vous désirez continuer et que tout fonctionne correctement par la suite, veuillez en informer les développeurs de Gadgetbridge pour demander l\'ajout de ce micrologiciel à leur liste : %s</string>
+  <string name="miband_firmware_unknown_warning">Ce micrologiciel n\'a pas été testé et peut ne pas être compatible avec Gadgetbridge. 
+\n 
+\nIl n\'est PAS conseillé de le flasher sur votre Mi Band !</string>
+  <string name="miband_firmware_suggest_whitelist">Si vous désirez continuer et que tout fonctionne correctement par la suite, veuillez en informer les développeurs de Gadgetbridge pour demander l\'ajout du micrologiciel %s à leur liste</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Paramètres</string>
   <string name="pref_header_general">Paramètres généraux</string>
@@ -134,7 +134,7 @@
   <string name="pref_title_pebble_forceuntested">Activer les fonctionnalités non-testées</string>
   <string name="pref_summary_pebble_forceuntested">Activer les fonctionnalités non-testées. ACTIVEZ UNIQUEMENT SI VOUS SAVEZ CE QUE VOUS FAITES !</string>
   <string name="pref_title_pebble_forcele">Toujours préférer le BLE</string>
-  <string name="pref_summary_pebble_forcele">Utiliser le support expérimental du LE pour toutes les Pebble au lieu du Bluetooth classique ; cela requiert le jumelage d\'une \"Pebble LE\" après qu’une non-LE ait déjà été connectée</string>
+  <string name="pref_summary_pebble_forcele">Utiliser le support expérimental du LE pour toutes les Pebble au lieu du Bluetooth classique. Cela requiert le jumelage d\'une Pebble non LE, puis d\'une Pebble LE</string>
   <string name="pref_title_pebble_mtu_limit">Limite du GATT MTU de Pebble 2/LE</string>
   <string name="pref_summary_pebble_mtu_limit">Si votre Pebble 2/LE ne fonctionne pas correctement, essayez d\'activer cette option pour limiter le MTU (plage valide 20-512)</string>
   <string name="pref_title_pebble_enable_applogs">Activer les logs des Watch App</string>
@@ -165,7 +165,7 @@
   <string name="gadgetbridge_running">Gadgetbridge est en fonctionnement</string>
   <string name="installing_binary_d_d">Installation du binaire %1$d/%2$d</string>
   <string name="installation_failed_">Échec de l\'installation</string>
-  <string name="installation_successful">Installation réalisée avec succès</string>
+  <string name="installation_successful">Installé</string>
   <string name="firmware_install_warning">VOUS TENTEZ D\'INSTALLER UN MICROLOGICIEL, PROCÉDEZ À VOS RISQUES ET PÉRILS.\n\n\nCe micrologiciel est pour la version de matériel : %s</string>
   <string name="app_install_info">Vous êtes sur le point d\'installer l\'application suivante :\n\n\n%1$s Version %2$s par %3$s\n</string>
   <string name="n_a">N.D.</string>
@@ -258,11 +258,11 @@
   <string name="notif_battery_low_bigtext_last_charge_time">Dernière charge : %s \n</string>
   <string name="notif_battery_low_bigtext_number_of_charges">Nombre de charges : %s</string>
   <string name="sleepchart_your_sleep">Votre sommeil</string>
-  <string name="weeksleepchart_sleep_a_week">Sommeil cette semaine</string>
+  <string name="weeksleepchart_sleep_a_week">Sommeil de la semaine</string>
   <string name="weeksleepchart_today_sleep_description">Sommeil aujourd\'hui, objectif : %1$s</string>
   <string name="weekstepschart_steps_a_week">Pas de la semaine</string>
   <string name="activity_sleepchart_activity_and_sleep">Votre activité et sommeil</string>
-  <string name="updating_firmware">Mise à jour du micrologiciel…</string>
+  <string name="updating_firmware">Installation du micrologiciel…</string>
   <string name="fwapp_install_device_not_ready">Le fichier ne peut pas être installé, l\'appareil n\'est pas prêt.</string>
   <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
   <string name="miband_fwinstaller_compatible_version">Version compatible</string>
@@ -276,7 +276,7 @@
   <string name="updatefirmwareoperation_metadata_updateproblem">Problème avec le transfert de métadonnées du micrologiciel</string>
   <string name="updatefirmwareoperation_update_complete">Installation complète du micrologiciel</string>
   <string name="updatefirmwareoperation_update_complete_rebooting">Installation complète du micrologiciel, redémarrage de l\'appareil…</string>
-  <string name="updatefirmwareoperation_write_failed">Échec lors de l\'écriture du micrologiciel</string>
+  <string name="updatefirmwareoperation_write_failed">Échec lors de l\'installation du micrologiciel</string>
   <string name="chart_steps">Pas</string>
   <string name="calories">Calories</string>
   <string name="distance">Distance</string>
@@ -288,8 +288,8 @@
   <string name="pref_title_dont_ack_transfer">Ne pas confirmer le transfert de données d\'activités</string>
   <string name="pref_summary_dont_ack_transfers">Les données d\'activités ne seront pas effacées du bracelet si elles ne sont pas confirmées. Utile si GB est utilisé avec d\'autres applications.</string>
   <string name="pref_summary_keep_data_on_device">Les données d\'activités seront conservées sur le Mi Band après la synchronisation. Utile si GB est utilisé avec d\'autres applications.</string>
-  <string name="pref_title_low_latency_fw_update">Utilisez le mode basse latence pour les mises à jour du micrologiciel</string>
-  <string name="pref_summary_low_latency_fw_update">Cela peut aider sur les appareils où les mises à jour du micrologiciel échouent</string>
+  <string name="pref_title_low_latency_fw_update">Utilisez le mode basse latence pour installer un micrologiciel</string>
+  <string name="pref_summary_low_latency_fw_update">Cela peut aider sur les appareils où les installation de micrologiciel échouent</string>
   <string name="live_activity_steps_history">Historique de pas</string>
   <string name="live_activity_current_steps_per_minute">Pas/minute actuel</string>
   <string name="live_activity_total_steps">Nombre total de pas</string>
@@ -342,7 +342,7 @@ Temps de sommeil péféré en heures</string>
   <string name="device_fw">Version du micrologiciel : %1$s</string>
   <string name="error_creating_directory_for_logfiles">Erreur à la création de votre fichier log : %1$s</string>
   <string name="DEVINFO_HR_VER">"Révision matérielle : "</string>
-  <string name="updatefirmwareoperation_update_in_progress">Le micrologiciel se met à jour</string>
+  <string name="updatefirmwareoperation_update_in_progress">Installation du micrologiciel</string>
   <string name="updatefirmwareoperation_firmware_not_sent">Échec lors de l\'écriture du micrologiciel</string>
   <string name="charts_legend_heartrate">Fréquence cardiaque</string>
   <string name="live_activity_heart_rate">Fréquence cardiaque</string>
@@ -361,7 +361,7 @@ NOTE : la base de données sera bien évidement plus grande !</string>
   <string name="dbmanagementactivity_error_exporting_shared">Erreur d\'exportation des préférences : %1$s</string>
   <string name="dbmanagementactivity_import_data_title">Importer des données ?</string>
   <string name="dbmanagementactivity_overwrite_database_confirmation">Voulez-vous vraiment effacer la base de données actuelle ? Toutes vos données (si vous en avez) seront perdues.</string>
-  <string name="dbmanagementactivity_import_successful">Importation réussie.</string>
+  <string name="dbmanagementactivity_import_successful">Importé.</string>
   <string name="dbmanagementactivity_error_importing_db">Erreur lors de l\'importation de la base de données : %1$s</string>
   <string name="dbmanagementactivity_error_importing_shared">Erreur d\'importation des préférences : %1$s</string>
   <string name="dbmanagementactivity_delete_activity_data_title">Détruire les anciennes données ?</string>
@@ -370,7 +370,7 @@ NOTE : la base de données sera bien évidement plus grande !</string>
   <string name="dbmanagementactivity_db_deletion_failed">Échec de la destruction de la base de données.</string>
   <string name="dbmanagementactivity_delete_old_activity_db">Voulez-vous détruire les anciennes activités de la base de données ?</string>
   <string name="dbmanagementactivity_delete_old_activitydb_confirmation">Voulez-vous vraiment détruire entièrement la base de données ? Toutes vos données non importées seront perdues.</string>
-  <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Les anciennes données d\'activité ont été correctement effacées.</string>
+  <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Les anciennes données d\'activité ont été effacées.</string>
   <string name="dbmanagementactivity_old_activity_db_deletion_failed">Échec de la destruction de l\'ancienne base de données.</string>
   <string name="dbmanagementactivity_overwrite">Écraser</string>
   <string name="Cancel">Annuler</string>
@@ -379,7 +379,7 @@ NOTE : la base de données sera bien évidement plus grande !</string>
   <string name="title_activity_vibration">Vibration</string>
   <!--Strings related to Pebble Pairing Activity-->
   <string name="title_activity_pebble_pairing">Jumelage avec une Pebble</string>
-  <string name="pebble_pairing_hint">Une fenêtre de jumelage va s’afficher sur votre téléphone. Si cela ne se produit pas, regardez dans vos notifications et acceptez-la. Acceptez ensuite la demande de jumelage sur votre Pebble.</string>
+  <string name="pebble_pairing_hint">Une fenêtre de jumelage va s’afficher sur votre téléphone. Si cela ne se produit pas, regardez dans vos notifications et acceptez-la. Acceptez ensuite la demande de jumelage sur votre Pebble</string>
   <string name="weather_notification_label">Assurez vous que ce thème soit activé dans l\'application de notification de la météo pour recevoir les informations sur votre Pebble.\n\nAucune configuration n\'est requise.\n\nVous pouvez activer l\'application météo système de votre Pebble depuis la configuration de l\'application.\n\nLes watchfaces supportées afficheront la météo automatiquement.</string>
   <string name="pref_title_setup_bt_pairing">Activer le jumelage Bluetooth</string>
   <string name="pref_summary_setup_bt_pairing">Désactivez ceci si vous avez des problèmes de connexion</string>
@@ -402,14 +402,14 @@ NOTE : la base de données sera bien évidement plus grande !</string>
   <string name="discovery_bonding_failed_immediately">Le lien avec %1$s a échoué instantanément.</string>
   <string name="discovery_trying_to_connect_to">Tentative de connexion à : %1$s</string>
   <string name="discovery_enable_bluetooth">Activez le Bluetooth pour trouver des dispositifs.</string>
-  <string name="discovery_successfully_bonded">Correctement lié à %1$s.</string>
+  <string name="discovery_successfully_bonded">Lié à %1$s.</string>
   <string name="discovery_pair_title">Appairer avec %1$s ?</string>
   <string name="discovery_pair_question">Sélectionnez Jumeler pour associer vos dispositifs. Si cela échoue, essayez à nouveau sans jumelage.</string>
   <string name="discovery_yes_pair">Jumelage</string>
   <string name="discovery_dont_pair">Ne pas appairer</string>
 <string name="fw_upgrade_notice_amazfitbip">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Bip. 
 \n 
-\nVeuillez installer le micrologiciel .gps, ensuite le fichier .res, puis le fichier .fw. Votre montre redémarrera après installation du .fw. 
+\nVeuillez installer le fichier .fw, puis le fichier .res, puis le fichier.gps.. Votre montre redémarrera après installation du .fw. 
 \n 
 \nNote : vous ne devez pas installer .res et .gps si ceux-ci sont identiques à ceux installés précédemment. 
 \n 
@@ -434,14 +434,14 @@ NOTE : la base de données sera bien évidement plus grande !</string>
     <string name="_pebble_watch_mute">Silencieux</string>
     <string name="_pebble_watch_reply">Répondre</string>
 <string name="pref_title_pebble_enable_bgjs">Activer tâche de fond JS</string>
-    <string name="pref_summary_pebble_enable_bgjs">Si activé, permet aux watchfaces d\'afficher la météo, les informations de batterie, etc.</string>
+    <string name="pref_summary_pebble_enable_bgjs">Si activé, autorise l\'affichage de la météo, niveau de batterie, etc.</string>
 
     <string name="activity_web_view">Activité Web View</string>
 
     <string name="controlcenter_connect">Connecter</string>
     <string name="fw_upgrade_notice_amazfitcor">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Cor. 
 \n 
-\nVeuillez installer le micrologiciel .gps, ensuite le fichier .res, puis le fichier .fw. Votre montre redémarrera après installation du .fw. 
+\nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après installation du .fw. 
 \n 
 \nNote : vous ne devez pas installer .res si celui-ci est identique à celui installé précédemment. 
 \n 
@@ -488,4 +488,17 @@ NOTE : la base de données sera bien évidement plus grande !</string>
     <string name="devicetype_exrizu_k8">Exrizu K8</string>
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
-</resources>
+<string name="pref_header_auto_export">Exporter automatiquement</string>
+    <string name="pref_title_auto_export_enabled">Exportation automatique activée</string>
+    <string name="pref_title_auto_export_location">Emplacement de l\'exportation</string>
+    <string name="pref_title_auto_export_interval">Intervalle d\'exportation</string>
+    <string name="pref_summary_auto_export_interval">Exporter toutes les %d heures</string>
+
+    <string name="notif_export_failed_title">L\'exportation de la base de données a échoué ! Veuillez vérifier vos paramètres.</string>
+    <string name="choose_auto_export_location">Choisissez l\'emplacement d\'exportation</string>
+<string name="spanish">Espagnol</string>
+
+    <string name="notification_channel_name">Notifications de Gadgetbridge</string>
+<string name="devicetype_xwatch">XWatch</string>
+
+    </resources>

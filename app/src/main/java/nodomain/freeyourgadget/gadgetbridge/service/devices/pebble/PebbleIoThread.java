@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Julien Pivotto, Uwe Hermann
 
     This file is part of Gadgetbridge.
@@ -110,7 +110,7 @@ class PebbleIoThread extends GBDeviceIoThread {
     public static void sendAppMessage(GBDeviceEventAppMessage message) {
         final String jsEvent;
         try {
-            WebViewSingleton.checkAppRunning(message.appUUID);
+            WebViewSingleton.getInstance().checkAppRunning(message.appUUID);
         } catch (IllegalStateException ex) {
             LOG.warn("Unable to send app message: " + message, ex);
             return;
@@ -124,12 +124,12 @@ class PebbleIoThread extends GBDeviceIoThread {
             jsEvent = "appmessage";
         }
 
-        final String appMessage = PebbleUtils.parseIncomingAppMessage(message.message, message.appUUID);
+        final String appMessage = PebbleUtils.parseIncomingAppMessage(message.message, message.appUUID, message.id);
         LOG.debug("to WEBVIEW: event: " + jsEvent + " message: " + appMessage);
-        WebViewSingleton.invokeWebview(new WebViewSingleton.WebViewRunnable() {
+        WebViewSingleton.getInstance().invokeWebview(new WebViewSingleton.WebViewRunnable() {
             @Override
             public void invoke(WebView webView) {
-                webView.evaluateJavascript("Pebble.evaluate('" + jsEvent + "',[" + appMessage + "]);", new ValueCallback<String>() {
+                webView.evaluateJavascript("if (typeof Pebble == 'object') Pebble.evaluate('" + jsEvent + "',[" + appMessage + "]);", new ValueCallback<String>() {
                     @Override
                     public void onReceiveValue(String s) {
                         //TODO: the message should be acked here instead of in PebbleIoThread
@@ -424,7 +424,7 @@ class PebbleIoThread extends GBDeviceIoThread {
         }
 
         if (GBApplication.getGBPrefs().isBackgroundJsEnabled()) {
-            WebViewSingleton.disposeWebView();
+            WebViewSingleton.getInstance().disposeWebView();
         }
 
         gbDevice.sendDeviceUpdateIntent(getContext());
@@ -553,9 +553,9 @@ class PebbleIoThread extends GBDeviceIoThread {
                     LOG.info("got GBDeviceEventAppManagement START event for uuid: " + appMgmt.uuid);
                     if (GBApplication.getGBPrefs().isBackgroundJsEnabled()) {
                         if (mPebbleProtocol.hasAppMessageHandler(appMgmt.uuid)) {
-                            WebViewSingleton.stopJavascriptInterface();
+                            WebViewSingleton.getInstance().stopJavascriptInterface();
                         } else {
-                            WebViewSingleton.runJavascriptInterface(gbDevice, appMgmt.uuid);
+                            WebViewSingleton.getInstance().runJavascriptInterface(gbDevice, appMgmt.uuid);
                         }
                     }
                     break;

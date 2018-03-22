@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -27,7 +27,6 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 
 public abstract class HuamiFWHelper extends AbstractMiBandFWHelper {
     protected HuamiFirmwareInfo firmwareInfo;
@@ -47,6 +46,7 @@ public abstract class HuamiFWHelper extends AbstractMiBandFWHelper {
         int resId = R.string.kind_invalid;
         switch (getFirmwareInfo().getFirmwareType()) {
             case FONT:
+            case FONT_LATIN:
                 resId = R.string.kind_font;
                 break;
             case GPS:
@@ -59,9 +59,7 @@ public abstract class HuamiFWHelper extends AbstractMiBandFWHelper {
                 resId = R.string.kind_gps_cep;
                 break;
             case RES:
-                resId = R.string.kind_resources;
-                break;
-            case RES_NEW:
+            case RES_COMPRESSED:
                 resId = R.string.kind_resources;
                 break;
             case FIRMWARE:

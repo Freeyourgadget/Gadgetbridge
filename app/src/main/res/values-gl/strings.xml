@@ -31,7 +31,7 @@
     <string name="appmananger_app_delete">Borrar</string>
     <string name="appmananger_app_delete_cache">Borrar e retirar da caché</string>
     <string name="appmananger_app_reinstall">Reinstalar</string>
-    <string name="appmanager_app_openinstore">Buscar na Appstore de Pebble</string>
+    <string name="appmanager_app_openinstore">Buscar na appstore de Pebble</string>
     <string name="appmanager_health_activate">Activar</string>
     <string name="appmanager_health_deactivate">Desactivar</string>
     <string name="appmanager_hrm_activate">Activar Monitor de Ritmo Cardíaco</string>
@@ -48,12 +48,12 @@
 
     <string name="title_activity_fw_app_insaller">Instalador de FW/App</string>
     <string name="fw_upgrade_notice">Está a piques de instalar o firmware %s no lugar do actual na súa Mi Band.</string>
-    <string name="fw_multi_upgrade_notice">Está a piques de instalar os firmwares %1$s e %2$s no lugar dos que están actualmente na súa Mi Band.</string>
+    <string name="fw_multi_upgrade_notice">Está a piques de instalar os firmwares %1$s e %2$s no canto dos que están actualmente na súa Mi Band.</string>
     <string name="miband_firmware_known">Este firmware foi probado e é compatíbel co Gadgetbridge.</string>
-    <string name="miband_firmware_unknown_warning">Este firmware non foi probado e pode non ser compatíbel co Gadgetbridge.
-\n
-\nÉ preferíbel que NON o instale na súa Mi Band!</string>
-    <string name="miband_firmware_suggest_whitelist">Se aínda así quere proceder e todo continúa a funcionar normalmente, por favor avise aos programadores do Gadgetbridge para permitir o firmware versión: %s</string>
+    <string name="miband_firmware_unknown_warning">Este firmware non foi probado e pode non ser compatíbel co Gadgetbridge. 
+\n 
+\nRECOMENDASE QUE NON o instale na súa Mi Band!</string>
+    <string name="miband_firmware_suggest_whitelist">Se aínda así quere proceder e todo continúa a funcionar normalmente, por favor avise aos programadores do Gadgetbridge para que permitan a versión %s do firmware</string>
 
     <string name="title_activity_settings">Axustes</string>
 
@@ -66,7 +66,7 @@
 
     <string name="pref_header_datetime">Data e Hora</string>
     <string name="pref_title_datetime_syctimeonconnect">Sincronizar hora</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Sincronizar hora ao conectar ou ao cambiar o fuso horario no android</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Sincronizar hora ao conectar e ao cambiar o fuso horario no android</string>
 
     <string name="pref_title_theme">Tema</string>
     <string name="pref_theme_light">Claro</string>
@@ -87,7 +87,7 @@
     <string name="pref_title_notifications_generic">Soporte para notificacións xenéricas</string>
     <string name="pref_title_whenscreenon">... tamén coa pantalla acesa</string>
     <string name="pref_title_notification_filter">Non Molestar</string>
-    <string name="pref_summary_notification_filter">Parar notificacións indesexadas baseándose no modo Non Molestar</string>
+    <string name="pref_summary_notification_filter">Parar notificacións indesexadas no modo Non Molestar</string>
     <string name="pref_title_transliteration">Transliteración</string>
     <string name="pref_summary_transliteration">Activar isto se o dispositivo non ten soporte para o seu idioma</string>
 
@@ -173,7 +173,7 @@
     <string name="gadgetbridge_running">Gadgetbridge en execución</string>
     <string name="installing_binary_d_d">Instalando binario %1$d/%2$d</string>
     <string name="installation_failed_">Fallou a instalación</string>
-    <string name="installation_successful">Instalación correcta</string>
+    <string name="installation_successful">Instalado</string>
     <string name="initialized">inicializado</string>
     <string name="appversion_by_creator">%1$s de %2$s</string>
     <string name="title_activity_discovery">Descubrir dispositivos</string>
@@ -288,7 +288,7 @@
     <string name="cannot_connect">Imposíbel conectar: %1$s</string>
     <string name="installer_activity_unable_to_find_handler">Non foi posíbel atopar un controlador para instalar o arquivo.</string>
     <string name="pbw_install_handler_unable_to_install">Imposíbel instalar o arquivo fornecido: %1$s</string>
-    <string name="pbw_install_handler_hw_revision_mismatch">Non é posíbel instalar o firmware fornecido: non corresponde coa versión do hardware do seu Pebble.</string>
+    <string name="pbw_install_handler_hw_revision_mismatch">Non é posíbel instalar o firmware fornecido: Non corresponde coa versión do hardware do seu Pebble.</string>
     <string name="installer_activity_wait_while_determining_status">Por favor, agarda mentres se determina o estado da instalación…</string>
     <string name="notif_battery_low_title">Dispositivo con batería baixa!</string>
     <string name="notif_battery_low_percent">%1$s bateria restante: %2$s%%</string>
@@ -296,9 +296,9 @@
 \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Número de cargas: %s</string>
     <string name="sleepchart_your_sleep">O teu sono</string>
-    <string name="weeksleepchart_sleep_a_week">Sono na semana</string>
+    <string name="weeksleepchart_sleep_a_week">Sono por semana</string>
     <string name="weeksleepchart_today_sleep_description">Sono hoxe, obxectivo: %1$s</string>
-    <string name="weekstepschart_steps_a_week">Pasos na semana</string>
+    <string name="weekstepschart_steps_a_week">Pasos por semana</string>
     <string name="activity_sleepchart_activity_and_sleep">A túa actividade e sono</string>
     <string name="updating_firmware">Anovando Firmware…</string>
     <string name="fwapp_install_device_not_ready">O arquivo non pode ser instalado, o dispositivo non está preparado.</string>
@@ -414,16 +414,16 @@
     <string name="dbmanagementactivity_error_exporting_shared">Erro exportando as preferencias: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Importar datos?</string>
     <string name="dbmanagementactivity_overwrite_database_confirmation">Quere sobreescribir a base de datos actual? Perderanse todos os datos actuais de actividade (de habelos).</string>
-    <string name="dbmanagementactivity_import_successful">Importado con éxito.</string>
+    <string name="dbmanagementactivity_import_successful">Importado.</string>
     <string name="dbmanagementactivity_error_importing_db">Erro ao importar a base de datos: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Erro importando preferencia: %1$s</string>
     <string name="dbmanagementactivity_delete_activity_data_title">Borrar datos de actividade?</string>
     <string name="dbmanagementactivity_really_delete_entire_db">Realmente quere borrar toda a base de datos? Perderanse todos os seus datos de actividade e a información sobre os seus dispositivos.</string>
-    <string name="dbmanagementactivity_database_successfully_deleted">Datos eliminados con éxito.</string>
+    <string name="dbmanagementactivity_database_successfully_deleted">Datos eliminados.</string>
     <string name="dbmanagementactivity_db_deletion_failed">Fallou o borrado da base de datos.</string>
     <string name="dbmanagementactivity_delete_old_activity_db">Borrar a antiga base de datos de actividade?</string>
     <string name="dbmanagementactivity_delete_old_activitydb_confirmation">Está seguro de querer borrar a antiga base de datos de actividade? Perderanse os datos de actividade que non foran importados.</string>
-    <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Datos antigos de actividade borrados con éxito.</string>
+    <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Datos antigos de actividade borrados.</string>
     <string name="dbmanagementactivity_old_activity_db_deletion_failed">Fallou o borrado da base de datos de actividades antigas.</string>
     <string name="dbmanagementactivity_overwrite">Sobreescribir</string>
     <string name="Cancel">Cancelar</string>
@@ -455,7 +455,7 @@
     <string name="discovery_bonding_failed_immediately">O enlace con %1$s fallou de inmediato.</string>
     <string name="discovery_trying_to_connect_to">Intentando conectar con: %1$s</string>
     <string name="discovery_enable_bluetooth">Active o Bluetooth para achar dispositivos.</string>
-    <string name="discovery_successfully_bonded">Correctamente enlazado con %1$s.</string>
+    <string name="discovery_successfully_bonded">Enlazado con %1$s.</string>
     <string name="discovery_pair_title">Emparellar con %1$s?</string>
     <string name="discovery_yes_pair">Emparellar</string>
     <string name="discovery_dont_pair">Non emparellar</string>
@@ -463,21 +463,21 @@
     <string name="_pebble_watch_open_on_phone">Abrir no teléfono</string>
     <string name="_pebble_watch_mute">Silenciar</string>
     <string name="_pebble_watch_reply">Responder</string>
-<string name="fw_upgrade_notice_amazfitbip">Estás a piques de instalar o firmware %s no teu Amazfit Bip. 
+<string name="fw_upgrade_notice_amazfitbip">Estás a piques de instalar firmware no teu Amazfit Bip. 
 \n 
-\nPor favor, asegúrate de instalar o firmware .gps, despois o arquivo .res, e finalmente o binario .fw. O teu reloxo reiniciará despois de instalar o arquivo .fw. 
+\nPor favor, asegúrate de instalar o ficheiro .fw, despois o arquivo .res, e finalmente o ficheiro .gps . O teu reloxo reiniciará despois de instalar o arquivo .fw. 
 \n 
 \nNota: non tes que instalar .res e .gps se estes arquivos son os mesmos que os previamente instalados. 
 \n 
 \nPROCEDE BAIXO A TÚA PROPIA RESPONSABILIDADE!</string>
-    <string name="pref_summary_pebble_forcele">Use soporte experimental do Pebble LE nas veces do Bluetooth clásico, require emparellar un \"Pebble LE\" despois de que nengún LE teña sido conectado</string>
+    <string name="pref_summary_pebble_forcele">Use soporte experimental do Pebble LE para todos os Pebble nas veces do Bluetooth clásico. Isto require vincular primeiro con Pebble non LE, e despois Pebble LE</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Isto fará que as mensaxes enviadas para apps de terceiros sexan recoñecidas sempre e inmediatamente</string>
 
     <string name="miband_prefs_device_time_offset_hours">Compensación da hora do dispositivo en horas (para detectar o sono de traballadores a turnos)</string>
     <string name="mi2_prefs_button_press_broadcast_summary">Enviar mensaxe despois dun número definido de pulsacións</string>
     <string name="mi2_prefs_button_press_count_match_delay_summary">Retardo despois dunha acción do botón (o número está en button_id intent extra) ou ben 0 para efecto inmediato</string>
     <string name="pref_summary_pebble_health_store_raw">Se marcado, os datos son almacenados no seu formato orixinal ficando disponíbeis para posterior interpretación. Nota: A base de datos será máis grande!</string>
-    <string name="pebble_pairing_hint">É esperado que vexa unha notificación de emparellamento no seu dispositivo Android. Se iso non acontece, acceda ás notificacións e acepte a solicitude de emparellamento. Despois acepte igualmente a solicitude de emparellamento no seu Pebble</string>
+    <string name="pebble_pairing_hint">Verá unha notificación de emparellamento no seu dispositivo Android. Se non, acceda ás notificacións e acepte a solicitude de emparellamento. posteriormente a solicitude de emparellamento no seu Pebble</string>
 
     <string name="weather_notification_label">Asegúrate de que este tema esté activado na aplicación de notificación do clima para obter a información no teu Pebble.
 \n
@@ -488,9 +488,9 @@
 \nAs \"watchfaces\" soportadas amosarán a información do clima automáticamente.</string>
     <string name="discovery_pair_question">Selecciona Emparellar para emparellar os teus dispositivos. Se isto falla, proba de novo sen emparellar.</string>
     <string name="controlcenter_connect">Conectar</string>
-    <string name="fw_upgrade_notice_amazfitcor">Estás a piques de instalar o firmware %s no teu Amazfit Cor. 
+    <string name="fw_upgrade_notice_amazfitcor">Estás a piques de instalar firmware no teu Amazfit Cor. 
 \n 
-\nPor favor, asegúrate de instalar o ficheiro .res, e despois diso o binario .fw. O teu reloxo reiniciará despois de instalar o arquivo .fw. 
+\nPor favor, asegúrate de instalar o ficheiro .fw, e despois diso o ficheiro .res. O teu reloxo reiniciará despois de instalar o arquivo .fw. 
 \n 
 \nNota: non tes que instalar .res se este arquivo é exactamente o mesmo que o previamente instalado. 
 \n 
@@ -509,7 +509,7 @@
     <string name="traditional_chinese">Chinés tradicional</string>
     <string name="english">Inglés</string>
 
-    <string name="pref_title_weather_location">Localización para Méteo</string>
+    <string name="pref_title_weather_location">Localización para Méteoroloxía (CM/LOS)</string>
 
     <string name="prefs_title_heartrate_measurement_interval">Medición de pulso todo o día</string>
     <string name="interval_one_minute">cada minuto</string>
@@ -550,4 +550,9 @@
     <string name="devicetype_exrizu_k8">Exrizu K8</string>
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="choose_auto_export_location">Escolle lugar para exportar</string>
+<string name="spanish">Castelán</string>
+
+    <string name="devicetype_xwatch">XWatch</string>
+
+    <string name="notification_channel_name">Notificacións do Gadgetbridge</string>
 </resources>

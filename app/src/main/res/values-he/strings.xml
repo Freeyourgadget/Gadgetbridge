@@ -41,7 +41,7 @@
   <string name="fw_multi_upgrade_notice">הקושחות המועמדות להתקנה הנן %1$s ו־%2$s במקום אלו המותקנת על ה־Mi Band שלך נכון לעכשיו.</string>
   <string name="miband_firmware_known">קושחה זו נבדקה וידוע כי היא נתמכת ב־Gadgetbridge.</string>
   <string name="miband_firmware_unknown_warning">קושחה זו לא נבדקה ויתכן כי אינה נתמכת ב־Gadgetbridge.\n\nלא מומלץ להתקין אותה על ה־Mi Band שלך!</string>
-  <string name="miband_firmware_suggest_whitelist">אם בכל זאת בחרת להמשיך והדברים ממשיכים לעבוד כרגיל, נא לספר למפתחים של Gadgetbridge להוסיף לרשימת ההיתר את גרסת הקושחה: %s</string>
+  <string name="miband_firmware_suggest_whitelist">אם בכל זאת בחרת להמשיך והדברים ממשיכים לעבוד כרגיל, נא לספר למפתחים של Gadgetbridge להוסיף לרשימת ההיתר את גרסת הקושחה %s</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">הגדרות</string>
   <string name="pref_header_general">הגדרות כלליות</string>
@@ -69,7 +69,7 @@
   <string name="pref_title_notifications_generic">תמיכה בדיווחים גנריים</string>
   <string name="pref_title_whenscreenon">…גם כאשר המסך פעיל</string>
   <string name="pref_title_notification_filter">לא להפריע</string>
-  <string name="pref_summary_notification_filter">חסימת שליחה של התרעות בלתי רצויות בהתבסס על המצב לא להפריע</string>
+  <string name="pref_summary_notification_filter">חסימת שליחה של התרעות בלתי רצויות בזמן שהמצב מכוון על לא להפריע</string>
   <string name="pref_title_transliteration">תעתיק</string>
   <string name="always">תמיד</string>
   <string name="when_screen_off">כאשר המסך כבוי</string>
@@ -118,7 +118,7 @@
   <string name="pref_title_pebble_forceuntested">הפעלת תכונות שלא נבדקו</string>
   <string name="pref_summary_pebble_forceuntested">הפעלת תכונות שלא נבדקו. יש להפעיל רק אם ההשלכות ברורות לך לחלוטין!!</string>
   <string name="pref_title_pebble_forcele">תמיד להעדיף BLE</string>
-  <string name="pref_summary_pebble_forcele">שימוש בתמיכה ניסיונית ב־Pebble LE עבור כל סוגי ה־Pebble במקום ה־Bluetooth הקלסי, נדרש צימוד „Pebble LE“ לאחר שנוצר חיבור שאינו LE בעבר</string>
+  <string name="pref_summary_pebble_forcele">שימוש בתמיכה ניסיונית ב־Pebble LE, עבור כל סוגי ה־Pebble במקום ה־Bluetooth הקלסי. נדרש צימוד שאינו LE תחילה ולאחר מכן צימוד מסוג „Pebble LE“</string>
   <string name="pref_title_pebble_mtu_limit">מגבלת ה־MTU של GATT ל־Pebble 2/LE</string>
   <string name="pref_summary_pebble_mtu_limit">אם ה־Pebble 2/Pebble LE שלך אינו עובד כצפוי, יש לנסות אפשרות זאת כדי להגביל את כמות הנתונים המועברת - MTU (טווח תקני 20–512)</string>
   <string name="pref_title_pebble_enable_applogs">הפעלת מעקב רישום אחר יישומון השעון</string>
@@ -226,22 +226,22 @@
   <string name="user_feedback_miband_set_alarms_ok">ההתראות נשלחו להתקן!</string>
   <string name="chart_no_data_synchronize">אין נתונים. לסנכרן מול ההתקן?</string>
   <string name="user_feedback_miband_activity_data_transfer">בהכנות להעברת %1$s של נתונים החל מ־%2$s</string>
-  <string name="miband_prefs_fitness_goal">יעד צעדים בכל יום</string>
+  <string name="miband_prefs_fitness_goal">יעד צעדים יומי</string>
   <string name="dbaccess_error_executing">שגיאה בהפעלת ‚%1$s‘</string>
   <string name="controlcenter_start_activitymonitor">הפעילות שלך (ניסיוני)</string>
   <string name="cannot_connect">לא ניתן להתחבר: %1$s</string>
   <string name="installer_activity_unable_to_find_handler">לא ניתן למצוא מנגנון להתקנת הקובץ הזה.</string>
   <string name="pbw_install_handler_unable_to_install">לא ניתן להתקין את הקובץ הנתון: %1$s</string>
-  <string name="pbw_install_handler_hw_revision_mismatch">לא ניתן להתקין את החומרה הנתונה: היא אינה תואמת את מהדורת החומרה של ה־Pebble שלך.</string>
+  <string name="pbw_install_handler_hw_revision_mismatch">לא ניתן להתקין את הקושחה הנתונה: היא אינה תואמת את מהדורת החומרה של ה־Pebble שלך.</string>
   <string name="installer_activity_wait_while_determining_status">נא להמתין בעת איתור מצב ההתקנה…</string>
   <string name="notif_battery_low_title">הסוללה של הגאדג׳ט חלשה!</string>
   <string name="notif_battery_low_percent">נותר בסוללה של %1$s:‏ %2$s%%</string>
   <string name="notif_battery_low_bigtext_last_charge_time">טעינה אחרונה: %s \n</string>
   <string name="notif_battery_low_bigtext_number_of_charges">מספר טעינות: %s</string>
   <string name="sleepchart_your_sleep">השינה שלך</string>
-  <string name="weeksleepchart_sleep_a_week">שינה של שבוע</string>
+  <string name="weeksleepchart_sleep_a_week">שינה בשבוע</string>
   <string name="weeksleepchart_today_sleep_description">שינה היום, יעד: %1$s</string>
-  <string name="weekstepschart_steps_a_week">צעדים של שבוע</string>
+  <string name="weekstepschart_steps_a_week">צעדים בשבוע</string>
   <string name="activity_sleepchart_activity_and_sleep">הפעילות והשינה שלך</string>
   <string name="updating_firmware">הקושחה מתעדכנת…</string>
   <string name="fwapp_install_device_not_ready">לא ניתן להתקין את הקובץ, ההתקן לא מוכן.</string>
@@ -257,7 +257,7 @@
   <string name="updatefirmwareoperation_metadata_updateproblem">אירעה תקלה עם העברת נתוני העל של הקושחה</string>
   <string name="updatefirmwareoperation_update_complete">התקנת הקושחה הושלמה</string>
   <string name="updatefirmwareoperation_update_complete_rebooting">התקנת הקושחה הושלמה, ההתקן מופעל מחדש…</string>
-  <string name="updatefirmwareoperation_write_failed">כתיבת הקושחה נכשלה</string>
+  <string name="updatefirmwareoperation_write_failed">צריבת הקושחה נכשלה</string>
   <string name="chart_steps">צעדים</string>
   <string name="liveactivity_live_activity">פעילות חיה</string>
   <string name="weeksteps_today_steps_description">צעדים היום, יעד: %1$s</string>
@@ -323,11 +323,11 @@
   <string name="dbmanagementactivity_error_importing_db">שגיאה בייבוא מסד הנתונים: %1$s</string>
   <string name="dbmanagementactivity_delete_activity_data_title">למחוק את נתוני הפעילות?</string>
   <string name="dbmanagementactivity_really_delete_entire_db">באמת למחוק את כל מסד הנתונים? כל נתוני הפעילות והמידע על ההתקנים שלך ילך לאיבוד.</string>
-  <string name="dbmanagementactivity_database_successfully_deleted">הנתונים נמחקו בהצלחה.</string>
+  <string name="dbmanagementactivity_database_successfully_deleted">הנתונים נמחקו.</string>
   <string name="dbmanagementactivity_db_deletion_failed">מחיקת מסד הנתונים נכשלה.</string>
   <string name="dbmanagementactivity_delete_old_activity_db">למחוק את מסד נתוני הפעילות המיושן?</string>
   <string name="dbmanagementactivity_delete_old_activitydb_confirmation">ללמחוק את מסד נתוני הפעילות המיושן? נתוני פעילות שלא ייובאו ילכו לאיבוד.</string>
-  <string name="dbmanagementactivity_old_activity_db_successfully_deleted">נתוני פעילות ישנים נמחקו בהצלחה.</string>
+  <string name="dbmanagementactivity_old_activity_db_successfully_deleted">נתוני פעילות ישנים נמחקו.</string>
   <string name="dbmanagementactivity_old_activity_db_deletion_failed">מחיקת מסד נתוני הפעילות הישן נכשל.</string>
   <string name="dbmanagementactivity_overwrite">שכתוב</string>
   <string name="Cancel">ביטול</string>
@@ -390,8 +390,7 @@
     <string name="mi2_prefs_do_not_disturb_end">מועד הסיום</string>
     <string name="fw_upgrade_notice_amazfitbip">ביקשת להתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Amazfit Bip שלך. 
 \n 
-\nנא לוודא את התקנת הקושחה ‎.gps בהתחלה, לאחר מכן את קובץ ה־‎.res ולבסוף קובץ ה־‎.fw 
-\n 
+\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res ולבסוף קובץ ה־‎.gps השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw.
 \n 
 \nלתשומת לבך: אין צורך בהתקנת קובצי ה־‎.res וה־‎.gps אם הם כבר זהים לאלו שהתקנת בעבר. 
 \n 
@@ -412,7 +411,7 @@
     <string name="discovery_bonding_failed_immediately">האיגוד עם %1$s נכשל מיידית.</string>
     <string name="discovery_trying_to_connect_to">מתבצע ניסיון להתחבר אל: %1$s</string>
     <string name="discovery_enable_bluetooth">יש להפעיל Bluetooth כדי לגלות התקנים.</string>
-    <string name="discovery_successfully_bonded">האיגוד עם %1$s הצליח.</string>
+    <string name="discovery_successfully_bonded">התבצע איגוד עם %1$s.</string>
     <string name="discovery_pair_title">ליצור צימוד עם %1$s?</string>
     <string name="discovery_pair_question">יש לבחור בצימוד כדי לצמד את ההתקנים שלך. אם התהליך נכשל, יש לנסות שוב ללא צימוד.</string>
     <string name="discovery_yes_pair">לצמד</string>
@@ -440,12 +439,12 @@
     <string name="controlcenter_connect">התחברות</string>
     <string name="pref_summary_pebble_enable_bgjs">כשאפשרות זו פעילה, יתאפשר למסיכות השעון להציג מזג אוויר, סוללה וכו׳.</string>
 
-    <string name="fw_upgrade_notice_amazfitcor">פעולה זו תתקין את הקושחה %s במקום הנוכחית שעל ה־Amazfit Cor שלך.
-\n
-\nנא לוודא את התקנת קובץ ה־‎.res, ולאחר מכן את קובץ ה־‎.fw. השעון שלך יופעל מחדש לאחר התקנת קובץ ה־‎.fw.
-\n
-\nלתשומת לבך: אין צורך להתקין את קובץ ה־‎.res אם הוא זהה לקובץ שהתקנת בעבר.
-\n
+    <string name="fw_upgrade_notice_amazfitcor">פעולה זו תתקין את הקושחה %s במקום הנוכחית שעל ה־Amazfit Cor שלך. 
+\n 
+\nנא לוודא את התקנת קובץ ה־‎.fw, ולאחר מכן את קובץ ה־‎.res. השעון שלך יופעל מחדש לאחר התקנת קובץ ה־‎.fw 
+\n 
+\nלתשומת לבך: אין צורך להתקין את קובץ ה־‎.res אם הוא זהה לקובץ שהתקנת בעבר. 
+\n 
 \nניסיוני, המשך מעבר לנקודה זו הוא על אחריותך!</string>
     <string name="amazfitcor_firmware">קושחה %1$s של Amazfit Cor</string>
     <string name="pref_title_charts_swipe">הפעלת הסטה לימין/שמאל בפעילות התרשימים</string>
@@ -496,4 +495,9 @@
 
     <string name="notif_export_failed_title">ייצוא מסד הנתונים נכשל! נא לבדוק את ההגדרות שלך.</string>
     <string name="choose_auto_export_location">נא לבחור את מיקום הייצוא</string>
-</resources>
+<string name="spanish">ספרדית</string>
+
+    <string name="notification_channel_name">הודעות של Gadgetbridge</string>
+<string name="devicetype_xwatch">XWatch</string>
+
+    </resources>

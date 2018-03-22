@@ -33,6 +33,7 @@ vendor's servers.
 * NO.1 F1 (WIP)
 * Liveview
 * Vibratissimo (experimental)
+* XWatch (Affordable Chinese Casio-like smartwatches)
 
 ## Features
 
@@ -72,6 +73,7 @@ For more information read [this wiki article](https://github.com/Freeyourgadget/
 * While all Mi Band devices are supported, some firmware versions might work better than others.
   You can consult the [projects wiki pages](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band) 
   to check if your firmware version is fully supported or if an upgrade/downgrade might be beneficial.
+* In order to display text notifications on the Mi Band 2, you have to [install a font on the band](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2).
 
 ## Features (Liveview)
 

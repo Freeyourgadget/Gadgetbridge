@@ -53,8 +53,8 @@
     <!-- Strings related to FwAppInstaller -->
     <string name="title_activity_fw_app_insaller">FW/App installer</string>
     <string name="fw_upgrade_notice">You are about to install firmware %s instead of the one currently on your Mi Band.</string>
-    <string name="fw_upgrade_notice_amazfitbip">You are about to install the %s firmware on your Amazfit Bip.\n\nPlease make sure to install the .gps firmware, then the .res file, and finally the .fw file. Your watch will reboot after installing the .fw file.\n\nNote: You do not have to install .res and .gps if these files are exactly the same as the ones previously installed.\n\nPROCEED AT YOUR OWN RISK!</string>
-    <string name="fw_upgrade_notice_amazfitcor">You are about to install the %s firmware on your Amazfit Cor.\n\nPlease make sure to install the .res file, and after that the .fw file. Your watch will reboot after installing the .fw file.\n\nNote: You do not have to install .res if it is exactly the same as the one previously installed.\n\nUNTESTED, MAY BRICK YOUR DEVICE, PROCEED AT YOUR OWN RISK!</string>
+    <string name="fw_upgrade_notice_amazfitbip">You are about to install the %s firmware on your Amazfit Bip.\n\nPlease make sure to install the .fw file, then the .res file, and finally the .gps file. Your watch will reboot after installing the .fw file.\n\nNote: You do not have to install .res and .gps if these files are exactly the same as the ones previously installed.\n\nPROCEED AT YOUR OWN RISK!</string>
+    <string name="fw_upgrade_notice_amazfitcor">You are about to install the %s firmware on your Amazfit Cor.\n\nPlease make sure to install the .fw file, and after that the .res file. Your watch will reboot after installing the .fw file.\n\nNote: You do not have to install .res if it is exactly the same as the one previously installed.\n\nUNTESTED, MAY BRICK YOUR DEVICE, PROCEED AT YOUR OWN RISK!</string>
     <string name="fw_multi_upgrade_notice">You are about to install the %1$s and %2$s firmware, instead of the ones currently on your Mi Band.</string>
     <string name="miband_firmware_known">This firmware has been tested and is known to be compatible with Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">"This firmware is untested and may not be compatible with Gadgetbridge.\n\nYou are DISCOURAGED from flashing it onto your Mi Band!"</string>
@@ -167,7 +167,7 @@
     <string name="pref_title_pebble_forceuntested">Enable untested features</string>
     <string name="pref_summary_pebble_forceuntested">Enable features that are untested. ENABLE ONLY IF YOU KNOW WHAT YOU ARE DOING!</string>
     <string name="pref_title_pebble_forcele">Always prefer BLE</string>
-    <string name="pref_summary_pebble_forcele">Use experimental Pebble LE support for all Pebbles, instead of BT classic. This requires paring to non LE first, and then "Pebble LE"</string>
+    <string name="pref_summary_pebble_forcele">Use experimental Pebble LE support for all Pebbles, instead of BT classic. This requires pairing to non LE first, and then Pebble LE</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU limit</string>
     <string name="pref_summary_pebble_mtu_limit">If your Pebble 2/Pebble LE does not work as expected, try this setting to limit the MTU (valid range 20–512)</string>
     <string name="pref_title_pebble_enable_applogs">Enable watch App logging</string>
@@ -406,6 +406,7 @@
     <string name="simplified_chinese">Simplified Chinese</string>
     <string name="traditional_chinese">Traditional Chinese</string>
     <string name="english">English</string>
+    <string name="spanish">Spanish</string>
 
     <string name="FetchActivityOperation_about_to_transfer_since">About to transfer data since %1$s</string>
 
@@ -529,6 +530,8 @@
     <string name="devicetype_exrizu_k8">Exrizu K8</string>
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
+    <string name="devicetype_xwatch">XWatch</string>
 
     <string name="choose_auto_export_location">Choose export location</string>
+    <string name="notification_channel_name">Gadgetbridge notifications</string>
 </resources>

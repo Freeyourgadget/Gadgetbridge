@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Lem Dulfo, Uwe Hermann
 
     This file is part of Gadgetbridge.
@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.MutableContextWrapper;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,6 +31,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
+import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
@@ -53,32 +55,33 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.JSInt
 public class WebViewSingleton {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebViewSingleton.class);
+    private static WebViewSingleton instance = new WebViewSingleton();
 
-    private WebView instance = null;
+    private WebView webView = null;
     private MutableContextWrapper contextWrapper;
     private Looper mainLooper;
-    private static WebViewSingleton webViewSingleton = new WebViewSingleton();
-    private static UUID currentRunningUUID;
-    public static Messenger internetHelper = null;
-    public static boolean internetHelperBound;
-    public static CountDownLatch latch;
-    public static WebResourceResponse internetResponse;
-    public final static Messenger internetHelperListener = new Messenger(new IncomingHandler());
+    private UUID currentRunningUUID;
+    private Messenger internetHelper = null;
+    public boolean internetHelperBound;
+    private boolean internetHelperInstalled;
+    private CountDownLatch latch;
+    private WebResourceResponse internetResponse;
+    private Messenger internetHelperListener;
 
     private WebViewSingleton() {
     }
 
     public static synchronized void ensureCreated(Activity context) {
-        if (webViewSingleton.instance == null) {
-            webViewSingleton.contextWrapper = new MutableContextWrapper(context);
-            webViewSingleton.mainLooper = context.getMainLooper();
-            webViewSingleton.instance = new WebView(webViewSingleton.contextWrapper);
+        if (instance.webView == null) {
+            instance.contextWrapper = new MutableContextWrapper(context);
+            instance.mainLooper = context.getMainLooper();
+            instance.webView = new WebView(instance.contextWrapper);
             WebView.setWebContentsDebuggingEnabled(true);
-            webViewSingleton.instance.setWillNotDraw(true);
-            webViewSingleton.instance.clearCache(true);
-            webViewSingleton.instance.setWebViewClient(new GBWebClient());
-            webViewSingleton.instance.setWebChromeClient(new GBChromeClient());
-            WebSettings webSettings = webViewSingleton.instance.getSettings();
+            instance.webView.setWillNotDraw(true);
+            instance.webView.clearCache(true);
+            instance.webView.setWebViewClient(new GBWebClient());
+            instance.webView.setWebChromeClient(new GBChromeClient());
+            WebSettings webSettings = instance.webView.getSettings();
             webSettings.setJavaScriptEnabled(true);
             //needed to access the DOM
             webSettings.setDomStorageEnabled(true);
@@ -88,7 +91,7 @@ public class WebViewSingleton {
     }
 
     //Internet helper outgoing connection
-    private static ServiceConnection internetHelperConnection = new ServiceConnection() {
+    private ServiceConnection internetHelperConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             LOG.info("internet helper service bound");
             internetHelperBound = true;
@@ -102,8 +105,20 @@ public class WebViewSingleton {
         }
     };
 
+    public static WebViewSingleton getInstance() {
+        return instance;
+    }
+
+    public WebResourceResponse send(Message webRequest) throws RemoteException, InterruptedException {
+        webRequest.replyTo = internetHelperListener;
+        latch = new CountDownLatch(1); //the messenger should run on a single thread, hence we don't need to be worried about concurrency. This approach however is certainly not ideal.
+        internetHelper.send(webRequest);
+        latch.await();
+        return internetResponse;
+    }
+
     //Internet helper inbound (responses) handler
-    private static class IncomingHandler extends Handler {
+    private class IncomingHandler extends Handler {
 
         private String getCharsetFromHeaders(String contentType) {
             if (contentType != null && contentType.toLowerCase().trim().contains("charset=")) {
@@ -135,9 +150,9 @@ public class WebViewSingleton {
     }
 
     @NonNull
-    public static WebView getWebView(Context context) {
-        webViewSingleton.contextWrapper.setBaseContext(context);
-        return webViewSingleton.instance;
+    public WebView getWebView(Context context) {
+        contextWrapper.setBaseContext(context);
+        return webView;
     }
 
     /**
@@ -145,16 +160,21 @@ public class WebViewSingleton {
      * @param uuid the uuid of the application expected to be running
      * @throws IllegalStateException when the webview is not active or the app is not running
      */
-    public static void checkAppRunning(@NonNull UUID uuid) {
-        if (webViewSingleton.instance == null) {
-            throw new IllegalStateException("webViewSingleton.instance is null!");
+    public void checkAppRunning(@NonNull UUID uuid) {
+        if (webView == null) {
+            throw new IllegalStateException("instance.webView is null!");
         }
         if (!uuid.equals(currentRunningUUID)) {
             throw new IllegalStateException("Expected app " + uuid + " is not running, but " + currentRunningUUID + " is.");
         }
     }
 
-    public static void runJavascriptInterface(@NonNull GBDevice device, @NonNull UUID uuid) {
+    public void runJavascriptInterface(@NonNull Activity context, @NonNull GBDevice device, @NonNull UUID uuid) {
+        ensureCreated(context);
+        runJavascriptInterface(device, uuid);
+    }
+
+    public void runJavascriptInterface(@NonNull GBDevice device, @NonNull UUID uuid) {
         if (uuid.equals(currentRunningUUID)) {
             LOG.debug("WEBVIEW uuid not changed keeping the old context");
         } else {
@@ -170,16 +190,26 @@ public class WebViewSingleton {
                     webView.loadUrl("file:///android_asset/app_config/configure.html?rand=" + Math.random() * 500);
                 }
             });
-            if (!internetHelperBound) {
-                Intent intent = new Intent();
-                intent.setComponent(new ComponentName("nodomain.freeyourgadget.internethelper", "nodomain.freeyourgadget.internethelper.MyService"));
-                webViewSingleton.contextWrapper.getApplicationContext().bindService(intent, internetHelperConnection, Context.BIND_AUTO_CREATE);
+            if (!internetHelperBound && !internetHelperInstalled) {
+                String internetHelperPkg = "nodomain.freeyourgadget.internethelper";
+                String internetHelperCls = internetHelperPkg + ".MyService";
+                try {
+                    contextWrapper.getPackageManager().getApplicationInfo(internetHelperPkg, 0);
+                    Intent intent = new Intent();
+                    intent.setComponent(new ComponentName(internetHelperPkg, internetHelperCls));
+                    contextWrapper.getApplicationContext().bindService(intent, internetHelperConnection, Context.BIND_AUTO_CREATE);
+                    internetHelperListener = new Messenger(new IncomingHandler());
+                    internetHelperInstalled = true;
+                }
+                catch (PackageManager.NameNotFoundException e) {
+                    internetHelperInstalled = false;
+                    LOG.info("WEBVIEW: Internet helper not installed, only mimicked HTTP requests will work.");
+                }
             }
         }
-
     }
 
-    public static void stopJavascriptInterface() {
+    public void stopJavascriptInterface() {
         invokeWebview(new WebViewRunnable() {
             @Override
             public void invoke(WebView webView) {
@@ -189,10 +219,10 @@ public class WebViewSingleton {
         });
     }
 
-    public static void disposeWebView() {
+    public void disposeWebView() {
         if (internetHelperBound) {
             LOG.debug("WEBVIEW: will unbind the internet helper");
-            webViewSingleton.contextWrapper.getApplicationContext().unbindService(internetHelperConnection);
+            contextWrapper.getApplicationContext().unbindService(internetHelperConnection);
             internetHelperBound = false;
         }
         currentRunningUUID = null;
@@ -207,34 +237,34 @@ public class WebViewSingleton {
                 webView.loadUrl("about:blank");
 //                    webView.freeMemory();
                 webView.pauseTimers();
-//                    instance.destroy();
-//                    instance = null;
+//                    webView.destroy();
+//                    webView = null;
 //                    contextWrapper = null;
 //                    jsInterface = null;
             }
         });
     }
 
-    public static void invokeWebview(final WebViewRunnable runnable) {
-        if (webViewSingleton.instance == null || webViewSingleton.mainLooper == null) {
+    public void invokeWebview(final WebViewRunnable runnable) {
+        if (webView == null || mainLooper == null) {
             LOG.warn("Webview already disposed, ignoring runnable");
             return;
         }
-        new Handler(webViewSingleton.mainLooper).post(new Runnable() {
+        new Handler(mainLooper).post(new Runnable() {
             @Override
             public void run() {
-                if (webViewSingleton.instance == null) {
+                if (webView == null) {
                     LOG.warn("Webview already disposed, cannot invoke runnable");
                     return;
                 }
-                runnable.invoke(webViewSingleton.instance);
+                runnable.invoke(webView);
             }
         });
     }
 
     public interface WebViewRunnable {
         /**
-         * Called in the main thread with a non-null webView instance
+         * Called in the main thread with a non-null webView webView
          * @param webView the webview, never null
          */
         void invoke(WebView webView);

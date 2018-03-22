@@ -48,16 +48,20 @@
 
     <string name="title_activity_fw_app_insaller">Εγκαταστάτης εφαρμογών/FW</string>
     <string name="fw_upgrade_notice">Πρόκειται να εγκαταστήσετε την έκδοση λογισμικού %s αντί για αυτή που έχετε τώρα στο Mi Band σας.</string>
-    <string name="fw_upgrade_notice_amazfitbip">"Πρόκειται να εγκαταστήστε το λογισμικό έκδοσης %s στο Amazfit Bip σας.
+    <string name="fw_upgrade_notice_amazfitbip">"Πρόκειται να εγκαταστήστε το λογισμικό έκδοσης %s στο Amazfit Bip σας. 
 \n 
-\nΠαρακαλώ να είστε σίγουροι ότι θα εγκαταστήσετε το αρχείο .gps, μετά το αρχείο .res και τέλος το αρχείο .fw. Το smartwatch θα κάνει επανεκκίνηση μετά την εγκατάσταση του .fw αρχείου. 
 \n
-\nΣημείωση: Δεν χρειάζεται η εγκατάσταση των αρχείων .res και .gps αν αυτά είναι ακριβώς τα ίδια  με αυτά που έχουν εγκατασταθεί προηγουμένως. 
+\nΠαρακαλώ να είστε σίγουροι ότι θα εγκαταστήσετε το αρχείο .fw, μετά το αρχείο .res και τέλος το αρχείο .gps. Το smartwatch θα κάνει επανεκκίνηση μετά την εγκατάσταση του .fw αρχείου. 
+\n
 \n 
+\nΣημείωση: Δεν χρειάζεται η εγκατάσταση των αρχείων .res και .gps αν αυτά είναι ακριβώς τα ίδια  με αυτά που έχουν εγκατασταθεί προηγουμένως. 
+\n
+\n 
+\n
 \nΠΡΟΧΩΡΗΣΤΕ ΜΕ ΔΙΚΗ ΣΑΣ ΕΥΘΥΝΗ!"</string>
     <string name="fw_upgrade_notice_amazfitcor">Πρόκειται να εγκαταστήσετε το λογισμικό %s για το Amazfit Cor. 
 \n 
-\nΠαρακαλώ βεβαιωθείτε ότι θα εγκαταστήσετε το αρχείο .res και μετά το αρχείο .fw. Το smartwatch θα επανεκκινήσει μετά την εγκατάσταση του .fw αρχείου.
+\nΠαρακαλώ βεβαιωθείτε ότι θα εγκαταστήσετε το αρχείο .fw και μετά το αρχείο .res. Το smartwatch θα επανεκκινήσει μετά την εγκατάσταση του .fw αρχείου. 
 \n 
 \nΣημείωση: Το αρχείο .res δεν χρειάζεται εγκατάσταση αν είναι ακριβώς το ίδιο με αυτό που έχει εγκατασταθεί προηγούμενα. 
 \n 
@@ -68,7 +72,7 @@
 \n 
 \nΔΕΝ συνίσταται η εγκατάσταση του στο Mi Band σας!</string>
     <string name="title_activity_appmanager">Διαχειριστής εφαρμογών</string>
-    <string name="miband_firmware_suggest_whitelist">Αν ακόμη θέλετε να προχωρήσετε και μετά όλα λειτουργούν κανονικά, παρακαλούμε ενημερώστε τους δημιουργούς του Gadgetbridge σχετικά με την έκδοση: %s</string>
+    <string name="miband_firmware_suggest_whitelist">Αν ακόμη θέλετε να προχωρήσετε και μετά όλα λειτουργούν κανονικά, παρακαλούμε ενημερώστε τους δημιουργούς του Gadgetbridge σχετικά με την %s έκδοση</string>
 
     <string name="title_activity_settings">Ρυθμίσεις</string>
 
@@ -174,7 +178,7 @@
     <string name="pref_title_pebble_forceuntested">Να επιτρέπονται τα μη δοκιμασμένα χαρακτηριστικά</string>
     <string name="pref_summary_pebble_forceuntested">Χρήση μη δοκιμασμένων χαρακτηριστικών. ΕΝΕΡΓΟΠΟΙΗΣΤΕ ΜΟΝΟ ΑΝ ΞΕΡΕΤΕ ΤΙ ΚΑΝΕΤΕ!</string>
     <string name="pref_title_pebble_forcele">Πάντα να προτιμάται το Bluetooth χαμηλής ενέργειας (BLE)</string>
-    <string name="pref_summary_pebble_forcele">Χρήση της δοκιμαστικής υποστήριξης του Pebble LE για όλα τα Pebble αντί της κλασικής υποστήριξης BT, απαιτεί τη σύζευξη Pebble LE μετά από σύνδεση μίας μη LE</string>
+    <string name="pref_summary_pebble_forcele">Χρήση της δοκιμαστικής υποστήριξης του Pebble LE για όλα τα Pebble αντί της κλασικής υποστήριξης BT. Αυτό απαιτεί τη σύζευξη μη LE πρώτα και μετά σύνδεση Pebble LE</string>
     <string name="pref_title_pebble_mtu_limit">Όριο Pebble 2/LE GATT MTU</string>
     <string name="pref_summary_pebble_mtu_limit">Αν το Pebble 2/Pebble LE δεν λειτουργεί αναμενόμενα, προσπαθήστε να βάλετε όριο στο MTU (από 20 έως 512)</string>
     <string name="pref_title_pebble_enable_applogs">Να επιτρέπεται η καταγραφή δεδομένων</string>
@@ -210,7 +214,7 @@
     <string name="gadgetbridge_running">Το Gadgetbridge εκτελείται</string>
     <string name="installing_binary_d_d">Γίνεται εγκατάσταση των βιβλιοθηκών %1$d/%2$d</string>
     <string name="installation_failed_">Η εγκατάσταση απέτυχε</string>
-    <string name="installation_successful">Η εγκατάσταση έγινε επιτυχώς</string>
+    <string name="installation_successful">Εγκατεστημένο</string>
     <string name="firmware_install_warning">ΠΡΟΣΠΑΘΕΙΤΕ ΝΑ ΕΓΚΑΤΑΣΤΗΣΕΤΕ ΛΟΓΙΣΜΙΚΟ, ΠΡΟΧΩΡΗΣΤΕ ΜΕ ΔΙΚΗ ΣΑΣ ΕΥΘΥΝΗ. 
 \n 
 \n 
@@ -313,7 +317,7 @@
     <string name="user_feedback_miband_set_alarms_ok">Τα ξυπνητήρια στάλθηκαν στη συσκευή!</string>
     <string name="chart_no_data_synchronize">Χωρίς δεδομένα. Συγχρονισμός με τη συσκευή;</string>
     <string name="user_feedback_miband_activity_data_transfer">"Θα γίνει μεταφορά %1$s  δεδομένων ξεκινώντας από %2$s"</string>
-    <string name="miband_prefs_fitness_goal">Επιθυμητός αριθμός βημάτων ανά μέρα</string>
+    <string name="miband_prefs_fitness_goal">Στόχος βημάτων ανά μέρα</string>
     <string name="dbaccess_error_executing">Σφάλμα κατά την εκτέλεση \"%1$s\"</string>
     <string name="controlcenter_start_activitymonitor">Η δραστηριότητά σας (ΥΠΟ ΔΟΚΙΜΗ)</string>
     <string name="cannot_connect">Δεν μπορεί να συνδεθεί: %1$s</string>
@@ -327,7 +331,7 @@
 \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Αριθμός φορτίσεων: %s</string>
     <string name="sleepchart_your_sleep">Ο ύπνος σας</string>
-    <string name="weeksleepchart_sleep_a_week">Ύπνος την εβδομάδα</string>
+    <string name="weeksleepchart_sleep_a_week">Ύπνος ανά εβδομάδα</string>
     <string name="weeksleepchart_today_sleep_description">Ύπνος σήμερα, στόχος: %1$s</string>
     <string name="weekstepschart_steps_a_week">Βήματα την εβδομάδα</string>
     <string name="activity_sleepchart_activity_and_sleep">Η δραστηριότητα και ο ύπνος σας</string>
@@ -438,7 +442,7 @@
     <string name="device_fw">Έκδοση λογισμικού: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Σφάλμα κατά τη δημιουργία φακέλου για τα αρχεία καταγραφής: %1$s</string>
     <string name="DEVINFO_HR_VER">"HR: "</string>
-    <string name="updatefirmwareoperation_update_in_progress">Αναβάθμιση του λογισμικού σε εξέλιξη</string>
+    <string name="updatefirmwareoperation_update_in_progress">Αναβάθμιση του λογισμικού</string>
     <string name="updatefirmwareoperation_firmware_not_sent">Το λογισμικό δεν απεστάλη στη συσκευή</string>
     <string name="charts_legend_heartrate">Σφυγμοί</string>
     <string name="live_activity_heart_rate">Σφυγμοί</string>
@@ -462,11 +466,11 @@
     <string name="dbmanagementactivity_error_importing_shared">Σφάλμα ρυθμίσεων εισαγωγής της βάσης δεδομένων: %1$s</string>
     <string name="dbmanagementactivity_delete_activity_data_title">Διαγραφή των δεδομένων της δραστηριότητάς σας;</string>
     <string name="dbmanagementactivity_really_delete_entire_db">Θέλετε πραγματικά να σβήσετε όλη τη βάση δεδομένων; Όλα τα δεδομένα της δραστηριότητάς σας και οι πληροφορίες για την συσκευή σας θα χαθούν.</string>
-    <string name="dbmanagementactivity_database_successfully_deleted">Τα δεδομένα διαγράφηκαν επιτυχώς.</string>
+    <string name="dbmanagementactivity_database_successfully_deleted">Τα δεδομένα διαγράφηκαν.</string>
     <string name="dbmanagementactivity_db_deletion_failed">Η διαγραφή της βάσης δεδομένων απέτυχε.</string>
     <string name="dbmanagementactivity_delete_old_activity_db">Διαγραφή της παλιάς βάσης δεδομένων;</string>
     <string name="dbmanagementactivity_delete_old_activitydb_confirmation">Θέλετε πραγματικά να διαγραφεί η παλιά βάση δεδομένων; Τα δεδομένα της δραστηριότητάς σας που δεν έχουν εισαχθεί θα χαθούν.</string>
-    <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Τα παλιά δεδομένα της δραστηριότητάς σας διαγράφηκαν επιτυχώς.</string>
+    <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Τα παλιά δεδομένα της δραστηριότητάς σας διαγράφηκαν.</string>
     <string name="dbmanagementactivity_old_activity_db_deletion_failed">Η διαγραφή της παλιάς βάσης δεδομένων απέτυχε.</string>
     <string name="dbmanagementactivity_overwrite">Αντικατάσταση</string>
     <string name="Cancel">Ακύρωση</string>
@@ -475,7 +479,7 @@
     <string name="title_activity_vibration">Δόνηση</string>
 
     <string name="title_activity_pebble_pairing">Σύζευξη Pebble</string>
-    <string name="pebble_pairing_hint">Ένα παράθυρο σύζευξης θα εμφανιστεί στο κινητό σας. Αν αυτό δεν συμβεί, δείτε στη περιοχή ειδοποιήσεων και δεχθείτε την σύζευξη. Μετά δεχθείτε την σύζευξη και στο Pebble σας</string>
+    <string name="pebble_pairing_hint">Ένα παράθυρο σύζευξης θα εμφανιστεί στην Abdroid συσκευή σας. Αν αυτό δεν συμβεί, δείτε στη περιοχή ειδοποιήσεων και δεχθείτε την σύζευξη. Επίσης μετά δεχθείτε την σύζευξη και στο Pebble σας</string>
 
     <string name="weather_notification_label">Βεβαιωθείτε ότι αυτό το θέμα είναι ενεργοποιημένο στην εφαρμογή του καιρού ώστε να λάβει τις πληροφορίες το Pebble.
 \n
@@ -543,4 +547,17 @@
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
 <string name="pref_title_weather">Καιρός</string>
+    <string name="pref_header_auto_export">Αυτόματη εξαγωγή ρυθμίσεων</string>
+    <string name="pref_title_auto_export_enabled">Η αυτόματη εξαγωγή είναι ενεργοποιημένη</string>
+    <string name="pref_title_auto_export_location">Διαδρομή εξαγωγής</string>
+    <string name="pref_title_auto_export_interval">Κάθε πότε θα γίνεται η εξαγωγή</string>
+    <string name="pref_summary_auto_export_interval">Εξαγωγή κάθε %d ώρες</string>
+
+    <string name="notif_export_failed_title">Η εξαγωγή της βάσης δεδομένων απέτυχε! Παρακαλώ ελέγξτε τις ρυθμίσεις σας.</string>
+    <string name="choose_auto_export_location">Διαλέξτε διαδρομή εξαγωγής</string>
+<string name="spanish">Ισπανικά</string>
+
+    <string name="notification_channel_name">Ειδοποιήσεις Gadgetbridge</string>
+<string name="devicetype_xwatch">XWatch</string>
+
     </resources>

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -37,24 +37,19 @@ public class Mi2NotificationStrategy extends V2NotificationStrategy<MiBand2Suppo
 
     @Override
     protected void sendCustomNotification(VibrationProfile vibrationProfile, SimpleNotification simpleNotification, BtLEAction extraAction, TransactionBuilder builder) {
-        for (short i = 0; i < vibrationProfile.getRepeat(); i++) {
-            int[] onOffSequence = vibrationProfile.getOnOffSequence();
-            for (int j = 0; j < onOffSequence.length; j++) {
-                int on = onOffSequence[j];
-                on = Math.min(500, on); // longer than 500ms is not possible
-                startNotify(builder, vibrationProfile.getAlertLevel(), simpleNotification);
-                builder.wait(on);
-                stopNotify(builder);
+        startNotify(builder, vibrationProfile.getAlertLevel(), simpleNotification);
+        BluetoothGattCharacteristic alert = getSupport().getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL);
+        byte repeat = (byte) (vibrationProfile.getRepeat() * (vibrationProfile.getOnOffSequence().length / 2));
+        if (repeat > 0) {
+            short vibration = (short) vibrationProfile.getOnOffSequence()[0];
+            short pause = (short) vibrationProfile.getOnOffSequence()[1];
+            int duration = (vibration + pause) * repeat;
+            builder.write(alert, new byte[]{-1, (byte) (vibration & 255), (byte) (vibration >> 8 & 255), (byte) (pause & 255), (byte) (pause >> 8 & 255), repeat});
+            builder.wait(duration);
+        }
 
-                if (++j < onOffSequence.length) {
-                    int off = Math.max(onOffSequence[j], 25); // wait at least 25ms
-                    builder.wait(off);
-                }
-
-                if (extraAction != null) {
-                    builder.add(extraAction);
-                }
-            }
+        if (extraAction != null) {
+            builder.add(extraAction);
         }
     }
 

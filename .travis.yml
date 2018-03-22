@@ -16,10 +16,10 @@ android:
     - tools
 
     # The BuildTools version used by your project
-    - build-tools-26.0.2
+    - build-tools-27.0.3
 
     # The SDK version used to compile your project
-    - android-25
+    - android-27
 
     # Additional components
     - extra-android-m2repository
@@ -29,5 +29,8 @@ android:
     # if you need to run emulator(s) during your tests
     #- sys-img-armeabi-v7a-android-19
     #- sys-img-x86-android-17
+
+before_install:
+  - yes | sdkmanager "platforms;android-27"
 
 script: ./gradlew build connectedCheck --stacktrace

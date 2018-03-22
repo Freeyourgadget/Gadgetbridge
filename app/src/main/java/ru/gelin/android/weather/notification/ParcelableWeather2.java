@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Daniele Gobbetti
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -88,6 +88,7 @@ public class ParcelableWeather2 implements Parcelable {
                 try {
                     condition.put("id", forecastConditionCode);
                     condition.put("main", forecastBundle.getString("weather_condition_text"));
+                    condition.put("description", forecastBundle.getString("weather_condition_text"));
                     condition.put("icon", Weather.mapToOpenWeatherMapIcon(forecastConditionCode));
                     weather.put(condition);
 

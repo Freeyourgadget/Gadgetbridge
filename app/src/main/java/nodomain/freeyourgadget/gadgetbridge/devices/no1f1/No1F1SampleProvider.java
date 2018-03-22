@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017 protomors
+/*  Copyright (C) 2017-2018 protomors
 
     This file is part of Gadgetbridge.
 

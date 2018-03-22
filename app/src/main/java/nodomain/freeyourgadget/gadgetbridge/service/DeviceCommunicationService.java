@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Avamander, Carsten Pfeiffer,
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Avamander, Carsten Pfeiffer,
     Daniele Gobbetti, Daniel Hauck, Frank Slezak, ivanovlev, João Paulo Barraca,
     Julien Pivotto, Kasha, Sergey Trofimov, Steffen Liebergeld, Uwe Hermann
 

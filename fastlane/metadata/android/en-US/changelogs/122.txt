@@ -1,0 +1,6 @@
+* Fix crash in settings activity with export location
+* Fix notification deletion regression
+* Add 'Ł' and 'ł' to transliteration map
+* Omnijaws Weather: correctly pick todays' min and max temperature
+* Fix alarm details activity on small screen
+* Pebble: minic online check of TrekVolle when using background js

@@ -46,12 +46,12 @@
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">Instalador de FW/App</string>
   <string name="fw_upgrade_notice">Estás a punto de instalar el firmware %s en lugar del que está en tu MiBand.</string>
-  <string name="fw_multi_upgrade_notice">Estás a punto de instalar los firmwares %1$s y %2$s en lugar de los que están en tu MiBand.</string>
+  <string name="fw_multi_upgrade_notice">Estás a punto de instalar los firmware %1$s y %2$s en lugar de los que están en tu MiBand.</string>
   <string name="miband_firmware_known">Este firmware ha sido probado y se sabe que es compatible con Gadgetbridge.</string>
-  <string name="miband_firmware_unknown_warning">Este firmware no ha sido probado y puede que no sea compatible con Gadgetbridge.
-\n
-\n¡NO se recomienda la instalación en tu MiBand!</string>
-  <string name="miband_firmware_suggest_whitelist">Si aun así quieres seguir y las cosas continúan funcionando correctamente, por favor indícales a los desarrolladores de Gadgetbridge que esta versión del firmware funciona bien: %s</string>
+  <string name="miband_firmware_unknown_warning">Este firmware no ha sido probado y puede que no sea compatible con Gadgetbridge. 
+\n 
+\n¡NO se recomienda la instalación en tu Mi Band!</string>
+  <string name="miband_firmware_suggest_whitelist">Si aun así quieres seguir y las cosas continúan funcionando correctamente, por favor indícales a los desarrolladores de Gadgetbridge que la versión %s del firmware funciona bien</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Ajustes</string>
   <string name="pref_header_general">Ajustes generales</string>
@@ -79,7 +79,7 @@
   <string name="pref_title_notifications_generic">Soporte para notificaciones genéricas</string>
   <string name="pref_title_whenscreenon">…también con pantalla encendida</string>
   <string name="pref_title_notification_filter">No Molestar</string>
-  <string name="pref_summary_notification_filter">Dejar de enviar notificaciones no deseadas basándose en el modo No Molestar</string>
+  <string name="pref_summary_notification_filter">Dejar de enviar notificaciones no deseadas en el modo No Molestar</string>
   <string name="pref_title_transliteration">Transcripción</string>
   <string name="pref_summary_transliteration">Utilizar en caso de que tu dispositivo no soporte la fuente de tu idioma</string>
   <string name="always">Siempre</string>
@@ -134,7 +134,7 @@
   <string name="pref_title_pebble_forceuntested">Habilitar características no probadas</string>
   <string name="pref_summary_pebble_forceuntested">Habilita características que no han sido probadas. ¡HABILÍTALO SOLO SI SABES LO QUE ESTÁS HACIENDO!</string>
   <string name="pref_title_pebble_forcele">Preferir siempre BLE</string>
-  <string name="pref_summary_pebble_forcele">Usar el soporte experimental de Pebble LE para todos los Pebble en lugar del Bluetooth clásico, lo cual requiere vincular \"Pebble LE\" si un Pebble no-LE ha sido vinculado antes</string>
+  <string name="pref_summary_pebble_forcele">Usar el soporte experimental de Pebble LE para todos los Pebble en lugar del Bluetooth clásico. Esto requiere vincular primero con Pebble no LE, y luego Pebble LE</string>
   <string name="pref_title_pebble_mtu_limit">Pebble 2/LE límite de GATT MTU</string>
   <string name="pref_summary_pebble_mtu_limit">Si tu Pebble 2/Pebble LE no funciona correctamente, prueba esta opción para limitar el MTU (rango válido 20–512)</string>
   <string name="pref_title_pebble_enable_applogs">Activar los logs de las aplicaciones del reloj</string>
@@ -165,7 +165,7 @@
   <string name="gadgetbridge_running">Gadgetbridge funcionando</string>
   <string name="installing_binary_d_d">Instalando binario %1$d/%2$d</string>
   <string name="installation_failed_">La instalación ha fallado</string>
-  <string name="installation_successful">Instalación correcta</string>
+  <string name="installation_successful">Instalado</string>
   <string name="firmware_install_warning">ESTÁS INTENTANDO INSTALAR UN FIRMWARE, CONTINÚA BAJO TU RESPONSABILIDAD.\n\n\n Este firmware es para la revisión de HW: %s</string>
   <string name="app_install_info">Estás a punto de instalar la siguiente app:\n\n\n%1$s Versión %2$s de %3$s\n</string>
   <string name="n_a">N/A</string>
@@ -245,7 +245,7 @@
   <string name="user_feedback_miband_set_alarms_ok">¡Alarmas enviadas al dispositivo!</string>
   <string name="chart_no_data_synchronize">Sin datos. ¿Sincronizar dispositivo?</string>
   <string name="user_feedback_miband_activity_data_transfer">A punto de transferir %1$s de datos desde %2$s</string>
-  <string name="miband_prefs_fitness_goal">Objetivo de pasos al día</string>
+  <string name="miband_prefs_fitness_goal">Objetivo de pasos diarios</string>
   <string name="dbaccess_error_executing">Error al ejecutar \'%1$s\'</string>
   <string name="controlcenter_start_activitymonitor">Tu actividad (ALPHA)</string>
   <string name="cannot_connect">No se puede conectar: %1$s</string>
@@ -258,11 +258,11 @@
   <string name="notif_battery_low_bigtext_last_charge_time">Última carga: %s \n</string>
   <string name="notif_battery_low_bigtext_number_of_charges">Número de cargas: %s</string>
   <string name="sleepchart_your_sleep">Tu sueño</string>
-  <string name="weeksleepchart_sleep_a_week">Sueño esta semana</string>
+  <string name="weeksleepchart_sleep_a_week">Sueño por semana</string>
   <string name="weeksleepchart_today_sleep_description">Sueño hoy, objetivo: %1$s</string>
   <string name="weekstepschart_steps_a_week">Pasos por semana</string>
   <string name="activity_sleepchart_activity_and_sleep">Tu actividad y sueño</string>
-  <string name="updating_firmware">Actualizando firmware…</string>
+  <string name="updating_firmware">Instalando firmware…</string>
   <string name="fwapp_install_device_not_ready">El archivo no puede ser instalado, el dispositivo no está listo.</string>
   <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
   <string name="miband_fwinstaller_compatible_version">Versión compatible</string>
@@ -276,7 +276,7 @@
   <string name="updatefirmwareoperation_metadata_updateproblem">Hubo un problema con la transferencia de metadatos del firmware</string>
   <string name="updatefirmwareoperation_update_complete">Instalación del firmware completa</string>
   <string name="updatefirmwareoperation_update_complete_rebooting">Instalación del firmware completa, reiniciando dispositivo…</string>
-  <string name="updatefirmwareoperation_write_failed">Falló la escritura del firmware</string>
+  <string name="updatefirmwareoperation_write_failed">Falló la instalación del firmware</string>
   <string name="chart_steps">Pasos</string>
   <string name="calories">Calorías</string>
   <string name="distance">Distancia</string>
@@ -288,8 +288,8 @@
   <string name="pref_title_dont_ack_transfer">No confirmar transferencia</string>
   <string name="pref_summary_dont_ack_transfers">Si los datos no son marcados como descargados, no serán borrados de tu Mi Band. Útil si Gadgetbridge se usa conjuntamente con otras apps.</string>
   <string name="pref_summary_keep_data_on_device">Mantendrá los datos de actividad en la Mi Band incluso después de la sincronización. Útil si GB se usa junto con otras apps.</string>
-  <string name="pref_title_low_latency_fw_update">Usa el modo de baja latencia para las actualizaciones de firmware</string>
-  <string name="pref_summary_low_latency_fw_update">Esto podría ayudar en dispositivos donde las actualizaciones de firmware fallan</string>
+  <string name="pref_title_low_latency_fw_update">Usa el modo de baja latencia para las instalaciones de firmware</string>
+  <string name="pref_summary_low_latency_fw_update">Esto podría ayudar en dispositivos donde las instalaciones de firmware fallan</string>
   <string name="live_activity_steps_history">Historial de pasos</string>
   <string name="live_activity_current_steps_per_minute">Pasos/min actuales</string>
   <string name="live_activity_total_steps">Pasos totales</string>
@@ -341,7 +341,7 @@
   <string name="device_fw">Versión de firmware: %1$s</string>
   <string name="error_creating_directory_for_logfiles">Error creando un directorio para los archivos de registro: %1$s</string>
   <string name="DEVINFO_HR_VER">"RH: "</string>
-  <string name="updatefirmwareoperation_update_in_progress">Actualización del Firmware en progreso</string>
+  <string name="updatefirmwareoperation_update_in_progress">Instalando firmware</string>
   <string name="updatefirmwareoperation_firmware_not_sent">Firmware no enviado</string>
   <string name="charts_legend_heartrate">Ritmo cardíaco</string>
   <string name="live_activity_heart_rate">Ritmo cardíaco</string>
@@ -357,7 +357,7 @@
   <string name="dbmanagementactivity_error_exporting_shared">Error de exportación de las preferencias: %1$s</string>
   <string name="dbmanagementactivity_import_data_title">¿Importar Datos?</string>
   <string name="dbmanagementactivity_overwrite_database_confirmation">¿Quiere sobreescribir la base de datos actual? Todos sus datos actuales (si los hay) se borrarán.</string>
-  <string name="dbmanagementactivity_import_successful">Importado con éxito.</string>
+  <string name="dbmanagementactivity_import_successful">Importado.</string>
   <string name="dbmanagementactivity_error_importing_db">Error de importación de la base de datos: %1$s</string>
   <string name="dbmanagementactivity_error_importing_shared">Error de importación de las preferencias: %1$s</string>
   <string name="dbmanagementactivity_delete_activity_data_title">¿Quieres borrar los datos de actividad?</string>
@@ -375,7 +375,7 @@
   <string name="title_activity_vibration">Vibración</string>
   <!--Strings related to Pebble Pairing Activity-->
   <string name="title_activity_pebble_pairing">Emparejando con Pebble</string>
-  <string name="pebble_pairing_hint">En su dispositivo Android aparecerá un mensaje para emparejar. Si no aparece, mira en el cajón de notificaciones y acepta la propuesta de emparejamiento. Después acepta también en tu Pebble.</string>
+  <string name="pebble_pairing_hint">En su dispositivo Android aparecerá un mensaje para emparejar. Si no aparece, mira en el cajón de notificaciones y acepta la propuesta de emparejamiento. Después acepta también en tu Pebble</string>
   <string name="weather_notification_label">Asegúrate de que este tema esté activado en la aplicación de notificación del tiempo para obtener la información en tu Pebble.\n\nNo se requiere configuración.\n\nPuedes activar la aplicación del tiempo del sistema desde la configuración de la app.\n\nLas watchfaces soportadas mostrarán la información del tiempo automáticamente.</string>
   <string name="pref_title_setup_bt_pairing">Activar el emparejamiento Bluetooth</string>
   <string name="pref_summary_setup_bt_pairing">Desactiva esto si tienes problemas de conexión</string>
@@ -389,27 +389,27 @@
   <string name="miband2_prefs_timeformat">Mi2: formato de hora</string>
   <string name="mi2_fw_installhandler_fw53_hint">¡Debes instalar la versión %1$s antes de instalar este firmware!</string>
   <string name="mi2_enable_text_notifications">Notificaciones textuales</string>
-  <string name="mi2_enable_text_notifications_summary">Requiere firmware &gt;= 1.0.1.28 e instalar Mili_pro.ft*</string>
+  <string name="mi2_enable_text_notifications_summary">Requiere firmware &gt;= 1.0.1.28 y tener Mili_pro.ft* instalado.</string>
   <string name="off">Apagado</string>
   <string name="mi2_dnd_off">Apagado</string>
   <string name="mi2_dnd_automatic">Automático (detección de sueño)</string>
   <string name="mi2_dnd_scheduled">Programado (intervalo de tiempo)</string>
   <string name="discovery_attempting_to_pair">Intento de emparejamiento con %1$s</string>
-  <string name="discovery_bonding_failed_immediately">El enlace con %1$s ha fallado</string>
+  <string name="discovery_bonding_failed_immediately">El enlace con %1$s ha fallado.</string>
   <string name="discovery_trying_to_connect_to">Intentando conectar con: %1$s</string>
   <string name="discovery_enable_bluetooth">Activa el Bluetooth para encontrar dispositivos.</string>
-  <string name="discovery_successfully_bonded">Correctamente enlazado con %1$s</string>
+  <string name="discovery_successfully_bonded">Enlazado con %1$s.</string>
   <string name="discovery_pair_title">Emparejar con %1$s?</string>
   <string name="discovery_pair_question">Selecciona Emparejar para emparejar tus dispositivos. Si esto falla, prueba de nuevo sin emparejar.</string>
   <string name="discovery_yes_pair">Emparejar</string>
   <string name="discovery_dont_pair">No emparejar</string>
-<string name="fw_upgrade_notice_amazfitbip">Estás a punto de instalar el firmware %s en tu Amazfit Bip.
-\n
-\nPor favor, asegúrate de instalar el firmware .gps, luego el archivo .res, y finalmente el .fw. Tu reloj se reiniciará después de instalar el archivo .fw.
-\n
-\nNota: no tienes que instalar los .res y .gps si ya están instalados en su última versión.
-\n
-\n¡PROCEDE BAJO TU RESPONSABILIDAD!
+<string name="fw_upgrade_notice_amazfitbip">Estás a punto de instalar el firmware %s en tu Amazfit Bip. 
+\n 
+\nPor favor, asegúrate de instalar el archivo .fw, entonces el archivo .res, y finalmente el archivo .gps. Tu reloj se reiniciará después de instalar el archivo .fw. 
+\n 
+\nNota: no tienes que instalar los .res y .gps si ya están instalados en su última versión. 
+\n 
+\n¡PROCEDE BAJO TU RESPONSABILIDAD! 
 \n 
 \nPor favor, asegúrate de instalar el firmware .gps, luego el archivo .res, y finalmente el binario .fw. Tu reloj reiniciará después de instalar el archivo .fw. 
 \n 
@@ -443,7 +443,7 @@
     <string name="controlcenter_connect">Conectar</string>
     <string name="fw_upgrade_notice_amazfitcor">Estás a punto de instalar el firmware %s en tu Amazfit Cor. 
 \n 
-\nPor favor, asegúrate de instalar el firmware .gps, luego el archivo .res, y finalmente el binario .fw. Tu reloj reiniciará después de instalar el archivo .fw. 
+\nPor favor, asegúrate de instalar el archivo .fw, y finalmente el archivo .res. Tu reloj reiniciará después de instalar el archivo .fw. 
 \n 
 \nNota: no tienes que instalar .res si este archivo es el mismo que el previamente instalado. 
 \n 
@@ -490,4 +490,17 @@
     <string name="devicetype_exrizu_k8">Exrizu K8</string>
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
-</resources>
+<string name="pref_header_auto_export">Exportar automáticamente</string>
+    <string name="pref_title_auto_export_enabled">Exportación automática activada</string>
+    <string name="pref_title_auto_export_location">Ubicación de exportación</string>
+    <string name="pref_title_auto_export_interval">Intervalo de exportación</string>
+    <string name="pref_summary_auto_export_interval">Exportar cada %d hora(s)</string>
+
+    <string name="notif_export_failed_title">¡La exportación de la base de datos ha fallado! Por favor, revisa los ajustes.</string>
+    <string name="choose_auto_export_location">Elije la ubicación para exportación</string>
+<string name="spanish">Español</string>
+
+    <string name="notification_channel_name">Notificaciones de Gadgetbridge</string>
+<string name="devicetype_xwatch">XWatch</string>
+
+    </resources>
