@@ -1,6 +1,6 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Frank Slezak, Hasan Ammar, Julien Pivotto, Kevin Richter, Normano64,
-    Steffen Liebergeld, TaaviE, Zhong Jianxin
+    Steffen Liebergeld, Taavi Eomäe, Zhong Jianxin
 
     This file is part of Gadgetbridge.
 
