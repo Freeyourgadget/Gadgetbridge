@@ -56,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallContro
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.ActivateDisplayOnLift;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
@@ -1330,7 +1331,9 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 case MiBandConst.PREF_MI2_GOAL_NOTIFICATION:
                     setGoalNotification(builder);
                     break;
-                case MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT:
+                case MiBandConst.PREF_ACTIVATE_DISPLAY_ON_LIFT:
+                case MiBandConst.PREF_DISPLAY_ON_LIFT_START:
+                case MiBandConst.PREF_DISPLAY_ON_LIFT_END:
                     setActivateDisplayOnLiftWrist(builder);
                     break;
                 case MiBandConst.PREF_MI2_DISPLAY_ITEMS:
@@ -1418,12 +1421,32 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     private MiBand2Support setActivateDisplayOnLiftWrist(TransactionBuilder builder) {
-        boolean enable = HuamiCoordinator.getActivateDisplayOnLiftWrist();
-        LOG.info("Setting activate display on lift wrist to " + enable);
-        if (enable) {
-            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_ENABLE_DISPLAY_ON_LIFT_WRIST);
-        } else {
-            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_DISABLE_DISPLAY_ON_LIFT_WRIST);
+        ActivateDisplayOnLift displayOnLift = HuamiCoordinator.getActivateDisplayOnLiftWrist(getContext());
+        LOG.info("Setting activate display on lift wrist to " + displayOnLift);
+
+        switch (displayOnLift) {
+            case ON:
+                builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_ENABLE_DISPLAY_ON_LIFT_WRIST);
+                break;
+            case OFF:
+                builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_DISABLE_DISPLAY_ON_LIFT_WRIST);
+                break;
+            case SCHEDULED:
+                byte[] cmd = MiBand2Service.COMMAND_ENABLE_DISPLAY_ON_LIFT_WRIST.clone();
+
+                Calendar calendar = GregorianCalendar.getInstance();
+
+                Date start = HuamiCoordinator.getDisplayOnLiftStart();
+                calendar.setTime(start);
+                cmd[4] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+                cmd[5] = (byte) calendar.get(Calendar.MINUTE);
+
+                Date end = HuamiCoordinator.getDisplayOnLiftEnd();
+                calendar.setTime(end);
+                cmd[6] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+                cmd[7] = (byte) calendar.get(Calendar.MINUTE);
+
+                builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), cmd);
         }
         return this;
     }

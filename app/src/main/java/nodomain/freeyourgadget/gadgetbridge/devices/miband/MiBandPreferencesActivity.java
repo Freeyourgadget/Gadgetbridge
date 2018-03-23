@@ -38,7 +38,9 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_ALARM_CLOCK;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_INCOMING_CALL;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_ACTIVATE_DISPLAY_ON_LIFT;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DISPLAY_ON_LIFT_END;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DISPLAY_ON_LIFT_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DATEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DISPLAY_ITEMS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB;
@@ -135,14 +137,14 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
             }
         });
 
-        final Preference activateDisplayOnLift = findPreference(PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT);
+        final Preference activateDisplayOnLift = findPreference(PREF_ACTIVATE_DISPLAY_ON_LIFT);
         activateDisplayOnLift.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newVal) {
                 invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT);
+                        GBApplication.deviceService().onSendConfiguration(PREF_ACTIVATE_DISPLAY_ON_LIFT);
                     }
                 });
                 return true;
@@ -307,6 +309,60 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
                     @Override
                     public void run() {
                         GBApplication.deviceService().onSendConfiguration(PREF_MI2_DO_NOT_DISTURB);
+                    }
+                });
+                return true;
+            }
+        });
+
+        String displayOnLiftState = prefs.getString(MiBandConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, PREF_MI2_DO_NOT_DISTURB_OFF);
+        boolean displayOnLiftScheduled = displayOnLiftState.equals(PREF_MI2_DO_NOT_DISTURB_SCHEDULED);
+
+        final Preference displayOnLiftStart = findPreference(PREF_DISPLAY_ON_LIFT_START);
+        displayOnLiftStart.setEnabled(displayOnLiftScheduled);
+        displayOnLiftStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_DISPLAY_ON_LIFT_START);
+                    }
+                });
+                return true;
+            }
+        });
+
+
+        final Preference displayOnLiftEnd = findPreference(PREF_DISPLAY_ON_LIFT_END);
+        displayOnLiftEnd.setEnabled(displayOnLiftScheduled);
+        displayOnLiftEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_DISPLAY_ON_LIFT_END);
+                    }
+                });
+                return true;
+            }
+        });
+
+
+        final Preference displayOnLift = findPreference(PREF_ACTIVATE_DISPLAY_ON_LIFT);
+        displayOnLift.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                final boolean scheduled = PREF_MI2_DO_NOT_DISTURB_SCHEDULED.equals(newVal.toString());
+
+                displayOnLiftStart.setEnabled(scheduled);
+                displayOnLiftEnd.setEnabled(scheduled);
+
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_ACTIVATE_DISPLAY_ON_LIFT);
                     }
                 });
                 return true;
