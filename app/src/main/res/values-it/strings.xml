@@ -500,4 +500,5 @@
     <string name="notification_channel_name">Notifiche Gadgetbridge</string>
 <string name="devicetype_xwatch">XWatch</string>
 
+    <string name="on">Acceso</string>
     </resources>
