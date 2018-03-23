@@ -1432,7 +1432,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_DISABLE_DISPLAY_ON_LIFT_WRIST);
                 break;
             case SCHEDULED:
-                byte[] cmd = MiBand2Service.COMMAND_ENABLE_DISPLAY_ON_LIFT_WRIST.clone();
+                byte[] cmd = MiBand2Service.COMMAND_SCHEDULE_DISPLAY_ON_LIFT_WRIST.clone();
 
                 Calendar calendar = GregorianCalendar.getInstance();
 

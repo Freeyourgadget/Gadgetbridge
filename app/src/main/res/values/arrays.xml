@@ -157,7 +157,7 @@
     </string-array>
     <string-array name="activate_display_on_lift_values">
         <item>@string/p_off</item>
-        <item>@string/p_automatic</item>
+        <item>@string/p_on</item>
         <item>@string/p_scheduled</item>
     </string-array>
 
