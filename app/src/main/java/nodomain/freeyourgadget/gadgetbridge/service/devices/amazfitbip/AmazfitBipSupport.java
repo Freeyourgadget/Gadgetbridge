@@ -182,28 +182,30 @@ public class AmazfitBipSupport extends MiBand2Support {
             LOG.error("Error sending current weather", ex);
         }
 
-        try {
-            TransactionBuilder builder;
-            builder = performInitialized("Sending air quality index");
-            int length = 8;
-            String aqiString = "(n/a)";
-            if (supportsConditionString) {
-                length += aqiString.getBytes().length + 1;
+        if (gbDevice.getType() == DeviceType.AMAZFITBIP) {
+            try {
+                TransactionBuilder builder;
+                builder = performInitialized("Sending air quality index");
+                int length = 8;
+                String aqiString = "(n/a)";
+                if (supportsConditionString) {
+                    length += aqiString.getBytes().length + 1;
+                }
+                ByteBuffer buf = ByteBuffer.allocate(length);
+                buf.order(ByteOrder.LITTLE_ENDIAN);
+                buf.put((byte) 4);
+                buf.putInt(weatherSpec.timestamp);
+                buf.put((byte) (tz_offset_hours * 4));
+                buf.putShort((short) 0);
+                if (supportsConditionString) {
+                    buf.put(aqiString.getBytes());
+                    buf.put((byte) 0);
+                }
+                builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+                builder.queue(getQueue());
+            } catch (IOException ex) {
+                LOG.error("Error sending air quality");
             }
-            ByteBuffer buf = ByteBuffer.allocate(length);
-            buf.order(ByteOrder.LITTLE_ENDIAN);
-            buf.put((byte) 4);
-            buf.putInt(weatherSpec.timestamp);
-            buf.put((byte) (tz_offset_hours * 4));
-            buf.putShort((short) 0);
-            if (supportsConditionString) {
-                buf.put(aqiString.getBytes());
-                buf.put((byte) 0);
-            }
-            builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
-            builder.queue(getQueue());
-        } catch (IOException ex) {
-            LOG.error("Error sending air quality");
         }
 
         try {
