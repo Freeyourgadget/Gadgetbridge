@@ -13,10 +13,20 @@
 -keepclassmembers class * {
     @android.webkit.JavascriptInterface <methods>;
 }
+-keepclassmembers class nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.JSInterface {
+    public *;
+}
 -keepattributes JavascriptInterface
 
 # https://github.com/tony19/logback-android/issues/29
 -dontwarn javax.mail.**, javax.naming.Context, javax.naming.InitialContext
 
+# To avoid any stacktrace ambiguity
 -keepattributes SourceFile,LineNumberTable
--keep class nodomain.freeyourgadget.gadgetbridge.entities.**{*;}
+
+# GreenDAO 3 - http://greenrobot.org/greendao/documentation/technical-faq/
+-keepclassmembers class * extends de.greenrobot.dao.AbstractDao {
+    public static final java.lang.String TABLENAME;
+}
+
+-keep class **$Properties
