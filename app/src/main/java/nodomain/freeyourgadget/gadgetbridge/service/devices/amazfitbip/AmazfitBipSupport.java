@@ -37,6 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiWeatherConditions
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -257,6 +258,25 @@ public class AmazfitBipSupport extends MiBand2Support {
             builder.queue(getQueue());
         } catch (Exception ex) {
             LOG.error("Error sending weather forecast", ex);
+        }
+
+        if (gbDevice.getType() == DeviceType.AMAZFITCOR) {
+            try {
+                TransactionBuilder builder;
+                builder = performInitialized("Sending forecast location");
+
+                int length = 2 + weatherSpec.location.getBytes().length;
+                ByteBuffer buf = ByteBuffer.allocate(length);
+                buf.order(ByteOrder.LITTLE_ENDIAN);
+                buf.put((byte) 8);
+                buf.put(weatherSpec.location.getBytes());
+                buf.put((byte) 0);
+
+                builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+                builder.queue(getQueue());
+            } catch (Exception ex) {
+                LOG.error("Error sending current forecast location", ex);
+            }
         }
     }
 
