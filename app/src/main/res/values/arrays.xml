@@ -150,6 +150,17 @@
         <item>@string/p_scheduled</item>
     </string-array>
 
+    <string-array name="activate_display_on_lift">
+        <item>@string/off</item>
+        <item>@string/on</item>
+        <item>@string/mi2_dnd_scheduled</item>
+    </string-array>
+    <string-array name="activate_display_on_lift_values">
+        <item>@string/p_off</item>
+        <item>@string/p_on</item>
+        <item>@string/p_scheduled</item>
+    </string-array>
+
     <string-array name="pref_mi2_display_items">
         <item>@string/chart_steps</item>
         <item>@string/distance</item>
