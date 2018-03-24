@@ -94,6 +94,7 @@ public class DeviceCommunicationServiceTestCase extends TestBase {
         ensureConnected();
 
         InOrder inOrder = Mockito.inOrder(mockSupport);
+        mDeviceService.connect(getDevice());
         mDeviceService.onFindDevice(true);
         mDeviceService.onFindDevice(false);
         inOrder.verify(mockSupport, Mockito.times(1)).onFindDevice(true);

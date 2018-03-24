@@ -158,11 +158,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private static final Logger LOG = LoggerFactory.getLogger(DeviceCommunicationService.class);
     @SuppressLint("StaticFieldLeak") // only used for test cases
     private static DeviceSupportFactory DEVICE_SUPPORT_FACTORY = null;
-
-    private ArrayList<DeviceContainer> deviceContainerArrayList = new ArrayList<>();
-
-    private Boolean mServiceStarted = false;
-
     private final String[] mMusicActions = {
             "com.android.music.metachanged",
             "com.android.music.playstatechanged",
@@ -175,20 +170,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             "com.spotify.music.metadatachanged",
             "com.spotify.music.playbackstatechanged"
     };
-
-    /**
-     * For testing!
-     *
-     * @param factory
-     */
-    public static void setDeviceSupportFactory(DeviceSupportFactory factory) {
-        DEVICE_SUPPORT_FACTORY = factory;
-    }
-
-    public DeviceCommunicationService() {
-
-    }
-
+    private ArrayList<DeviceContainer> deviceContainerArrayList = new ArrayList<>();
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -197,23 +179,19 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                 DeviceContainer container = getContainerForDevice(device);
 
-                if (container != null && container.getGBDevice() != null){
+                if (container != null && container.getGBDevice() != null) {
                     boolean enableReceivers = container.getDeviceSupport() != null && (container.getDeviceSupport().useAutoConnect() || container.getGBDevice().isInitialized());
                     setReceiversEnableState(enableReceivers, container.getGBDevice().isInitialized(), DeviceHelper.getInstance().getCoordinator(device), container);
                     GB.updateNotification(container.getGBDevice(), context);
-                } else {
-/*                    if (mGBDevice != null && mGBDevice.equals(device)) {
-                        mGBDevice = device;
-                        boolean enableReceivers = mDeviceSupport != null && (mDeviceSupport.useAutoConnect() || mGBDevice.isInitialized());
-                        setReceiversEnableState(enableReceivers, mGBDevice.isInitialized(), DeviceHelper.getInstance().getCoordinator(device));
-                        GB.updateNotification(mGBDevice, context);
-                    } else {
-                        LOG.error("Got ACTION_DEVICE_CHANGED from unexpected device: " + device);
-                    }*/
                 }
             }
         }
     };
+    private Boolean mServiceStarted = false;
+
+    public DeviceCommunicationService() {
+
+    }
 
     @Override
     public void onCreate() {
@@ -233,6 +211,15 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         return new DeviceSupportFactory(this);
     }
 
+    /**
+     * For testing!
+     *
+     * @param factory to use for testing
+     */
+    public static void setDeviceSupportFactory(DeviceSupportFactory factory) {
+        DEVICE_SUPPORT_FACTORY = factory;
+    }
+
     @Override
     public synchronized int onStartCommand(Intent intent, int flags, int startId) {
 
@@ -250,30 +237,34 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         }
 
         LOG.debug("Service start command: " + action);
-        if(action.equals(ACTION_START)){
+        if (action.equals(ACTION_START)) {
             start();
             return START_STICKY;
         }
 
         GBDevice intentGBDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
         DeviceContainer intentGBDeviceContainer = getContainerForDevice(intentGBDevice);
+        if (intentGBDeviceContainer == null) {
+            if (intentGBDevice != null) {
+                intentGBDevice.sendDeviceUpdateIntent(this);
+            }
+            return START_NOT_STICKY;
+        }
 
         if (!action.equals(ACTION_START) && !action.equals(ACTION_CONNECT)) {
-            if(intentGBDeviceContainer != null) {
-                if (!mServiceStarted) {
-                    // using the service before issuing ACTION_START
-                    LOG.info("Must start service with " + ACTION_START + " or " + ACTION_CONNECT + " before using it: " + action);
-                    return START_NOT_STICKY;
-                }
+            if (!mServiceStarted) {
+                // using the service before issuing ACTION_START
+                LOG.info("Must start service with " + ACTION_START + " or " + ACTION_CONNECT + " before using it: " + action);
+                return START_NOT_STICKY;
+            }
 
-                if (intentGBDeviceContainer.getDeviceSupport() == null || (!isInitialized(intentGBDevice) && !intentGBDeviceContainer.getDeviceSupport().useAutoConnect())) {
-                    // trying to send notification without valid Bluetooth connection
-                    if (intentGBDeviceContainer.getGBDevice() != null) {
-                        // at least send back the current device state
-                        intentGBDeviceContainer.getGBDevice().sendDeviceUpdateIntent(this);
-                    }
-                    return START_STICKY;
+            if (intentGBDeviceContainer.getDeviceSupport() == null || (!isInitialized(intentGBDevice) && !intentGBDeviceContainer.getDeviceSupport().useAutoConnect())) {
+                // trying to send notification without valid Bluetooth connection
+                if (intentGBDeviceContainer.getGBDevice() != null) {
+                    // at least send back the current device state
+                    intentGBDeviceContainer.getGBDevice().sendDeviceUpdateIntent(this);
                 }
+                return START_STICKY;
             }
         }
 
@@ -287,17 +278,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 }*/
             case ACTION_CONNECT: {
                 start(); // ensure started
-                String btDeviceAddress = null;
-                if (intentGBDevice == null) {
-                    if (prefs != null) { // may be null in test cases
-                        btDeviceAddress = prefs.getString("last_device_address", null);
-                        if (btDeviceAddress != null) {
-                            intentGBDevice = DeviceHelper.getInstance().findAvailableDevice(btDeviceAddress, this);
-                        }
-                    }
-                } else {
-                    btDeviceAddress = intentGBDevice.getAddress();
-                }
+                String btDeviceAddress;
+                btDeviceAddress = intentGBDevice.getAddress();
 
                 boolean autoReconnect = GBPrefs.AUTO_RECONNECT_DEFAULT;
                 if (prefs != null && prefs.getPreferences() != null) {
@@ -305,7 +287,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     autoReconnect = getGBPrefs().getAutoReconnect();
                 }
 
-                if (intentGBDevice != null && !isConnecting(intentGBDevice) && !isConnected(intentGBDevice)) {
+                if (!isConnecting(intentGBDevice) && !isConnected(intentGBDevice)) {
                     setDeviceSupport(null, intentGBDeviceContainer);
                     try {
                         DeviceSupportFactory factory = getDeviceSupportFactory();
@@ -326,7 +308,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                         GB.toast(this, getString(R.string.cannot_connect, e.getMessage()), Toast.LENGTH_SHORT, GB.ERROR, e);
                         setDeviceSupport(null, intentGBDeviceContainer);
                     }
-                } else if (intentGBDevice != null) {
+                } else {
                     // send an update at least
                     intentGBDevice.sendDeviceUpdateIntent(this);
                 }
@@ -410,7 +392,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             }
             case ACTION_DISCONNECT: {
                 intentGBDeviceContainer.getDeviceSupport().dispose();
-                if (intentGBDevice != null && intentGBDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
+                if (intentGBDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
                     setReceiversEnableState(false, false, null, intentGBDeviceContainer);
                     intentGBDevice.setState(GBDevice.State.NOT_CONNECTED);
                     intentGBDevice.sendDeviceUpdateIntent(this);
@@ -566,18 +548,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
      * @param deviceSupport to dispose
      */
     private void setDeviceSupport(@Nullable DeviceSupport deviceSupport, DeviceContainer deviceContainer) {
-        if(deviceContainer == null){
-            GBDevice mGBDevice;
-            DeviceSupport mDeviceSupport = null;
-            if (deviceSupport != mDeviceSupport && mDeviceSupport != null) {
-                mDeviceSupport.dispose();
-                mDeviceSupport = null;
-                mGBDevice = null;
-            }
-            mDeviceSupport = deviceSupport;
-            mGBDevice = mDeviceSupport != null ? mDeviceSupport.getDevice() : null;
-            if(mGBDevice != null){
-                deviceContainerArrayList.add(new DeviceContainer(mGBDevice, mDeviceSupport));
+        if (deviceContainer == null) {
+            GBDevice mGBDevice = deviceSupport != null ? deviceSupport.getDevice() : null;
+            if (mGBDevice != null) {
+                deviceContainerArrayList.add(new DeviceContainer(mGBDevice, deviceSupport));
             }
         } else {
             DeviceSupport mDeviceSupport = deviceContainer.getDeviceSupport();
@@ -591,13 +565,13 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         }
     }
 
-    private DeviceContainer getContainerForDevice(GBDevice device){
-        if(device == null){
+    private DeviceContainer getContainerForDevice(GBDevice device) {
+        if (device == null) {
             return null;
         }
 
-        for(DeviceContainer container : deviceContainerArrayList){
-            if(container.getGBDevice().equals(device)){
+        for (DeviceContainer container : deviceContainerArrayList) {
+            if (container.getGBDevice().equals(device)) {
                 return container;
             }
         }
@@ -772,10 +746,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
 
-        for(DeviceContainer container : deviceContainerArrayList){
+        for (DeviceContainer container : deviceContainerArrayList) {
             setReceiversEnableState(false, false, null, container); // disable BroadcastReceivers
             setDeviceSupport(null, container);
         }
+
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (nm != null) {
             nm.cancel(GB.NOTIFICATION_ID); // need to do this because the updated notification won't be cancelled when service stops
@@ -791,7 +766,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (GBPrefs.AUTO_RECONNECT.equals(key)) {
             boolean autoReconnect = getGBPrefs().getAutoReconnect();
-            DeviceSupport mDeviceSupport = null;
+            DeviceSupport mDeviceSupport = null; // TODO: Fix
             if (mDeviceSupport != null) {
                 mDeviceSupport.setAutoReconnect(autoReconnect);
             }
