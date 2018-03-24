@@ -492,20 +492,31 @@ public class GBDevice implements Parcelable {
     }
 
     public enum State {
-        // Note: the order is important!
-        NOT_CONNECTED,
-        WAITING_FOR_RECONNECT,
-        CONNECTING,
-        CONNECTED,
-        INITIALIZING,
-        AUTHENTICATION_REQUIRED, // some kind of pairing is required by the device
-        AUTHENTICATING, // some kind of pairing is requested by the device
+        NOT_CONNECTED(0),
+        WAITING_FOR_RECONNECT(1),
+        CONNECTING(2),
+        CONNECTED(3),
+        INITIALIZING(4),
+        /** Some kind of pairing is required by the device */
+        AUTHENTICATION_REQUIRED(5),
+        /** Some kind of pairing is requested by the device */
+        AUTHENTICATING(6),
         /**
          * Means that the device is connected AND all the necessary initialization steps
          * have been performed. At the very least, this means that basic information like
          * device name, firmware version, hardware revision (as applicable) is available
          * in the GBDevice.
          */
-        INITIALIZED,
+        INITIALIZED(7);
+
+        private int state;
+
+        State(int value) {
+            this.state = value;
+        }
+
+        public int getValue() {
+            return state;
+        }
     }
 }
