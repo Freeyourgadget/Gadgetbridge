@@ -53,8 +53,8 @@
   <string name="pref_header_general">Общие настройки</string>
   <string name="pref_title_general_autoconnectonbluetooth">Подключение к устройству при активации Bluetooth</string>
   <string name="pref_title_general_autostartonboot">Запускать автоматически</string>
-  <string name="pref_title_general_autocreonnect">Переподключаться автоматически</string>
-  <string name="pref_title_audo_player">Предпочтительный музыкальный плеер</string>
+  <string name="pref_title_general_autoreconnect">Переподключаться автоматически</string>
+  <string name="pref_title_audio_player">Предпочтительный музыкальный плеер</string>
   <string name="pref_default">По умолчанию</string>
   <string name="pref_header_datetime">Дата и время</string>
   <string name="pref_title_datetime_syctimeonconnect">Синхронизировать время при подключении</string>

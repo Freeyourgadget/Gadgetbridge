@@ -119,7 +119,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     short rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, GBDevice.RSSI_UNKNOWN);
                     Parcelable[] uuids = intent.getParcelableArrayExtra(BluetoothDevice.EXTRA_UUID);
-                    ParcelUuid[] uuids2 = AndroidUtils.toParcelUUids(uuids);
+                    ParcelUuid[] uuids2 = AndroidUtils.toParcelUuids(uuids);
                     handleDeviceFound(device, rssi, uuids2);
                     break;
                 }

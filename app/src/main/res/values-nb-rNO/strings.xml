@@ -75,8 +75,8 @@
     <string name="pref_header_general">Hovedinnstillinger</string>
     <string name="pref_title_general_autoconnectonbluetooth">Koble til enhet når Blåtann slås på</string>
     <string name="pref_title_general_autostartonboot">Start automatisk</string>
-    <string name="pref_title_general_autocreonnect">Koble til igjen automatisk</string>
-    <string name="pref_title_audo_player">Foretrukken lydspiller</string>
+    <string name="pref_title_general_autoreconnect">Koble til igjen automatisk</string>
+    <string name="pref_title_audio_player">Foretrukken lydspiller</string>
     <string name="pref_default">Forvalg</string>
     <string name="pref_header_datetime">Dato og tid</string>
     <string name="pref_title_datetime_syctimeonconnect">Synkroniser tid</string>

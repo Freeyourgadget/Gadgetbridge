@@ -73,8 +73,8 @@
     <string name="pref_header_general">Základné nastavenia</string>
     <string name="pref_title_general_autoconnectonbluetooth">Pripojiť zariadenie ak je BT zapnutý</string>
     <string name="pref_title_general_autostartonboot">Spúšťať automaticky</string>
-    <string name="pref_title_general_autocreonnect">Automatické opätovné pripojenie</string>
-    <string name="pref_title_audo_player">Preferovaný prehrávač zvukov</string>
+    <string name="pref_title_general_autoreconnect">Automatické opätovné pripojenie</string>
+    <string name="pref_title_audio_player">Preferovaný prehrávač zvukov</string>
     <string name="pref_default">Predvolené</string>
     <string name="pref_title_charts_swipe">Zapnúť možnosť potiahnutia vľavo/vpravo v grafoch aktivít</string>
 

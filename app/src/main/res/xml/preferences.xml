@@ -14,11 +14,11 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="general_autocreconnect"
-            android:title="@string/pref_title_general_autocreonnect" />
+            android:title="@string/pref_title_general_autoreconnect" />
         <ListPreference
             android:defaultValue="default"
             android:key="audio_player"
-            android:title="@string/pref_title_audo_player"
+            android:title="@string/pref_title_audio_player"
             android:summary="%s" />
         <ListPreference
             android:key="pref_key_theme"

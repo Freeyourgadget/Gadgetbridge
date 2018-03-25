@@ -57,8 +57,8 @@
   <string name="pref_header_general">全般設定</string>
   <string name="pref_title_general_autoconnectonbluetooth">Bluetoothがオンになったときにデバイスに接続</string>
   <string name="pref_title_general_autostartonboot">自動的に開始</string>
-  <string name="pref_title_general_autocreonnect">自動的に再接続</string>
-  <string name="pref_title_audo_player">お好みのオーディオプレイヤー</string>
+  <string name="pref_title_general_autoreconnect">自動的に再接続</string>
+  <string name="pref_title_audio_player">お好みのオーディオプレイヤー</string>
   <string name="pref_default">デフォルト</string>
   <string name="pref_header_datetime">日付と時刻</string>
   <string name="pref_title_datetime_syctimeonconnect">時間を合わせる</string>
