@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.25.1" versioncode="125">
+        <change>Amazfit Cor: Try to send weather location instead of AQI</change>
+        <change>Amazfit Bip: Support setting start end end time for background light when lifting the arm</change>
+        <change>Pebble: various fixes and improvemnets for background javascript</change>
+        <change>Explicity ask for RECEIVE_SMS permission to fix problems with Android 8</change>
+    </release>
     <release version="0.25.0" versioncode="124">
         <change>Inital suport for Xwatch</change>
         <change>Move the connected device to top in control center</change>
