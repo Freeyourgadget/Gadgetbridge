@@ -24,7 +24,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 
 /**
- * Provides lowlevel access to the database.
+ * Provides low-level access to the database.
  */
 public class LockHandler implements DBHandler {
 

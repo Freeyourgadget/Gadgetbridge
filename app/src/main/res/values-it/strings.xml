@@ -306,7 +306,7 @@
   <string name="miband_prefs_reserve_alarm_calendar">Sveglie da riservare per i prossimi eventi del calendario</string>
   <string name="miband_prefs_hr_sleep_detection">Utilizza il sensore del battito cardiaco per migliorare il riconoscimento del sonno</string>
   <string name="miband_prefs_device_time_offset_hours">Sfasamento dell\'orario per il device (per consentire il rilevamento del sonno per chi lavora a turni)</string>
-  <string name="miband2_prefs_dateformat">Mi2: formato della data</string>
+  <string name="miband2_prefs_dateformat">Mi Band 2: Formato Data</string>
   <string name="dateformat_time">Ora</string>
   <string name="dateformat_date_time">Ora e data</string>
   <string name="mi2_prefs_goal_notification">Notifica raggiungimento obbiettivi</string>
@@ -500,4 +500,5 @@
     <string name="notification_channel_name">Notifiche Gadgetbridge</string>
 <string name="devicetype_xwatch">XWatch</string>
 
+    <string name="on">Acceso</string>
     </resources>

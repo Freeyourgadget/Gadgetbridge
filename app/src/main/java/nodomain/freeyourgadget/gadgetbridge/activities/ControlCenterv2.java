@@ -309,6 +309,8 @@ public class ControlCenterv2 extends AppCompatActivity
             wantedPermissions.add(Manifest.permission.READ_PHONE_STATE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.PROCESS_OUTGOING_CALLS) == PackageManager.PERMISSION_DENIED)
             wantedPermissions.add(Manifest.permission.PROCESS_OUTGOING_CALLS);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_DENIED)
+            wantedPermissions.add(Manifest.permission.RECEIVE_SMS);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_DENIED)
             wantedPermissions.add(Manifest.permission.READ_SMS);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_DENIED)

@@ -1,5 +1,11 @@
 ### Changelog
 
+#### Version 0.25.1
+* Amazfit Cor: Try to send weather location instead of AQI
+* Amazfit Bip: Support setting start end end time for background light when lifting the arm
+* Pebble: various fixes and improvemnets for background javascript
+* Explicity ask for RECEIVE_SMS permission to fix problems with Android 8
+
 #### Version 0.25.0
 * Inital suport for Xwatch
 * Move the connected device to top in control center

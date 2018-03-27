@@ -532,7 +532,7 @@
     <string name="notif_export_failed_title">数据库导出失败！ 请检查您的设置。</string>
     <string name="miband_prefs_reserve_alarm_calendar">预警未来事件</string>
     <string name="mi2_prefs_button_press_broadcast_summary">在指定按键次数后发送消息</string>
-    <string name="DEVINFO_HR_VER">"设备版本： "</string>
+    <string name="DEVINFO_HR_VER">"心率： "</string>
     <string name="timeformat_am_pm">AM/PM</string>
 
     <string name="devicetype_vibratissimo">Vibratissimo</string>
