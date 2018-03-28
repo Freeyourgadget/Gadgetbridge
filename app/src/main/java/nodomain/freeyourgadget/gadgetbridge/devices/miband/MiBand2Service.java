@@ -35,8 +35,8 @@ public class MiBand2Service {
     public static final UUID UUID_CHARACTERISTIC_FIRMWARE_DATA = UUID.fromString("00001532-0000-3512-2118-0009af100700");
 
     public static final UUID UUID_UNKNOWN_CHARACTERISTIC0 = UUID.fromString("00000000-0000-3512-2118-0009af100700");
-    public static final UUID UUID_UNKNOWN_CHARACTERISTIC1 = UUID.fromString("00000001-0000-3512-2118-0009af100700");
-    public static final UUID UUID_UNKNOWN_CHARACTERISTIC2 = UUID.fromString("00000002-0000-3512-2118-0009af100700");
+    public static final UUID UUID_CHARACTERISTIC_1_SENSOR_CONTROL = UUID.fromString("00000001-0000-3512-2118-0009af100700");
+    public static final UUID UUID_CHARACTERISTIC_2_SENSOR_DATA = UUID.fromString("00000002-0000-3512-2118-0009af100700");
     /**
      * Alarms, Display and other configuration.
      */

@@ -157,6 +157,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     private boolean needsAuth;
     private volatile boolean telephoneRinging;
     private volatile boolean isLocatingDevice;
+    private volatile boolean isReadingSensorData;
 
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
@@ -164,6 +165,10 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     private RealtimeSamplesSupport realtimeSamplesSupport;
     private boolean alarmClockRinging;
+
+    private static final byte[] startSensorRead1 = new byte[]{0x01, 0x01, 0x19};
+    private static final byte[] startSensorRead2 = new byte[]{0x02};
+    private static final byte[] stopSensorRead = new byte[]{0x03};
 
     public MiBand2Support() {
         this(LOG);
@@ -276,6 +281,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), enable);
         builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_6_BATTERY_INFO), enable);
         builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_DEVICEEVENT), enable);
+        builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_2_SENSOR_DATA), enable);
 
         return this;
     }
@@ -1058,6 +1064,9 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         } else if (MiBand2Service.UUID_CHARACTERISTIC_7_REALTIME_STEPS.equals(characteristicUUID)) {
             handleRealtimeSteps(characteristic.getValue());
             return true;
+        } else if (MiBand2Service.UUID_CHARACTERISTIC_2_SENSOR_DATA.equals(characteristicUUID)) {
+            handleSensorData(characteristic.getValue());
+            return true;
         } else {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
@@ -1150,6 +1159,10 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         } else {
             LOG.warn("Unrecognized realtime steps value: " + Logging.formatBytes(value));
         }
+    }
+
+    private void handleSensorData(byte[] value) {
+        // See logcat for raw data output
     }
 
     private void enableRealtimeSamplesTimer(boolean enable) {
@@ -1373,9 +1386,16 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     public void onTestNewFunction() {
         try {
             TransactionBuilder builder = performInitialized("test realtime steps");
-            builder.read(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_7_REALTIME_STEPS));
+            if (isReadingSensorData) {
+                builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_1_SENSOR_CONTROL), stopSensorRead);
+            } else {
+                builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_1_SENSOR_CONTROL), startSensorRead1);
+                builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_1_SENSOR_CONTROL), startSensorRead2);
+            }
             builder.queue(getQueue());
+            isReadingSensorData = !isReadingSensorData;
         } catch (IOException e) {
+            LOG.error("Unable to toggle sensor reading MI2", e);
         }
     }
 
