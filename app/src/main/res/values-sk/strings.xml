@@ -76,11 +76,11 @@
     <string name="pref_title_general_autoreconnect">Automatické opätovné pripojenie</string>
     <string name="pref_title_audio_player">Preferovaný prehrávač zvukov</string>
     <string name="pref_default">Predvolené</string>
-    <string name="pref_title_charts_swipe">Zapnúť možnosť potiahnutia vľavo/vpravo v grafoch aktivít</string>
+    <string name="pref_title_charts_swipe">Zap. potiahnutie vľavo/vpravo v grafoch aktivít</string>
 
     <string name="pref_header_datetime">Dátum a čas</string>
-    <string name="pref_title_datetime_syctimeonconnect">Nastaviť čas</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Nastaviť čas počas pripojenia a pri zmene času v Androide</string>
+    <string name="pref_title_datetime_syctimeonconnect">Synchronizovať čas pri pripojení</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Synchronizovať čas pri pripojení k zariadeniu a aj pri zmene času alebo časového pásma v Androide</string>
 
     <string name="pref_title_theme">Téma aplikácie</string>
     <string name="pref_theme_light">Svetlá</string>
@@ -97,11 +97,11 @@
     <string name="pref_title_notifications_call">Hovory</string>
     <string name="pref_title_notifications_sms">SMS</string>
     <string name="pref_title_notifications_pebblemsg">Správy Pebble</string>
-    <string name="pref_summary_notifications_pebblemsg">Podpora pre aplikácie, ktoré posielajú upozornenia do Pebble cez PebbleKit.</string>
+    <string name="pref_summary_notifications_pebblemsg">Podpora pre aplikácie, ktoré posielajú upozornenia do hodiniek Pebble cez PebbleKit.</string>
     <string name="pref_title_notifications_generic">Prístup k upozorneniam</string>
     <string name="pref_title_whenscreenon">Upozornenia aj pri zapnutej obrazovke</string>
-    <string name="pref_title_notification_filter">Nerušiť</string>
-    <string name="pref_summary_notification_filter">Neposielať nechcené upozornenia v režime Nerušiť</string>
+    <string name="pref_title_notification_filter">Režim Nerušiť</string>
+    <string name="pref_summary_notification_filter">Zakázať odosielanie nechcených upozornení v režime Nerušiť</string>
     <string name="pref_title_transliteration">Náhrada diakritiky</string>
     <string name="pref_summary_transliteration">Toto zapnite, ak vaše zariadenie nepodporuje písma (znaky s diakritikou) pre vás jazyk</string>
 
@@ -424,7 +424,7 @@
 
     <string name="waiting_for_reconnect">Čakanie na opätovné pripojenie</string>
 
-    <string name="activity_prefs_about_you">Vaše údaje</string>
+    <string name="activity_prefs_about_you">Vaše osobné údaje</string>
     <string name="activity_prefs_year_birth">Rok narodenia</string>
     <string name="activity_prefs_gender">Pohlavie</string>
     <string name="activity_prefs_height_cm">Výška v cm</string>
