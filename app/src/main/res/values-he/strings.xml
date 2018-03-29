@@ -500,4 +500,5 @@
     <string name="notification_channel_name">הודעות של Gadgetbridge</string>
 <string name="devicetype_xwatch">XWatch</string>
 
+    <string name="on">פעיל</string>
     </resources>
