@@ -319,6 +319,8 @@ public class ControlCenterv2 extends AppCompatActivity
             wantedPermissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED)
             wantedPermissions.add(Manifest.permission.READ_CALENDAR);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.MEDIA_CONTENT_CONTROL) == PackageManager.PERMISSION_DENIED)
+            wantedPermissions.add(Manifest.permission.MEDIA_CONTENT_CONTROL);
 
         if (!wantedPermissions.isEmpty())
             ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[wantedPermissions.size()]), 0);
