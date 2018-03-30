@@ -120,7 +120,7 @@ public class ParcelableWeather2 implements Parcelable {
             } catch (JSONException e) {
                 LOG.error("error while construction JSON", e);
             }
-            LOG.debug("Forecast JSON for WEBVIEW: " + reconstructedOWMForecast.toString());
+            LOG.debug("Forecast JSON for Webview: " + reconstructedOWMForecast.toString());
         }
     }
 

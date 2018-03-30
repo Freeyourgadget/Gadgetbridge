@@ -509,7 +509,7 @@ public class GBApplication extends Application {
             case 0:
                 String legacyGender = sharedPrefs.getString("mi_user_gender", null);
                 String legacyHeight = sharedPrefs.getString("mi_user_height_cm", null);
-                String legacyWeigth = sharedPrefs.getString("mi_user_weight_kg", null);
+                String legacyWeight = sharedPrefs.getString("mi_user_weight_kg", null);
                 String legacyYOB = sharedPrefs.getString("mi_user_year_of_birth", null);
                 if (legacyGender != null) {
                     int gender = "male".equals(legacyGender) ? 1 : "female".equals(legacyGender) ? 0 : 2;
@@ -520,8 +520,8 @@ public class GBApplication extends Application {
                     editor.putString(ActivityUser.PREF_USER_HEIGHT_CM, legacyHeight);
                     editor.remove("mi_user_height_cm");
                 }
-                if (legacyWeigth != null) {
-                    editor.putString(ActivityUser.PREF_USER_WEIGHT_KG, legacyWeigth);
+                if (legacyWeight != null) {
+                    editor.putString(ActivityUser.PREF_USER_WEIGHT_KG, legacyWeight);
                     editor.remove("mi_user_weight_kg");
                 }
                 if (legacyYOB != null) {

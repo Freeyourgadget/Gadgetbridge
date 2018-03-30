@@ -5,7 +5,7 @@
 * Amazfit Bip: Fix call notification with unknown caller
 * Amazfit Bip: Fix crash when weather is updated and device reconnecting
 * Mi2/Bip: Fix crash when synchronizing calendar to alarms
-* Pebble: Fix crash when takeing screenshots on Android 8.0 (Oreo)
+* Pebble: Fix crash when taking screenshots on Android 8.0 (Oreo)
 * Pebble: Support some google app icons
 * Pebble: try to support spotify
 * Mi Band 2: Support configurable button actions

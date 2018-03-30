@@ -17,7 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -53,7 +52,7 @@ public class AndroidUtils {
      * @param uuids an array of {@link ParcelUuid} elements
      * @return a {@link ParcelUuid} array instance with the same contents
      */
-    public static ParcelUuid[] toParcelUUids(Parcelable[] uuids) {
+    public static ParcelUuid[] toParcelUuids(Parcelable[] uuids) {
         if (uuids == null) {
             return null;
         }

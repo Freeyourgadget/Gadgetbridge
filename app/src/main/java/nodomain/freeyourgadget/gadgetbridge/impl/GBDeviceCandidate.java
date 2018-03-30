@@ -47,13 +47,13 @@ public class GBDeviceCandidate implements Parcelable {
 
     private final BluetoothDevice device;
     private final short rssi;
-    private final ParcelUuid[] serviceUuds;
+    private final ParcelUuid[] serviceUuids;
     private DeviceType deviceType = DeviceType.UNKNOWN;
 
-    public GBDeviceCandidate(BluetoothDevice device, short rssi, ParcelUuid[] serviceUuds) {
+    public GBDeviceCandidate(BluetoothDevice device, short rssi, ParcelUuid[] serviceUuids) {
         this.device = device;
         this.rssi = rssi;
-        this.serviceUuds = mergeServiceUuids(serviceUuds, device.getUuids());
+        this.serviceUuids = mergeServiceUuids(serviceUuids, device.getUuids());
     }
 
     private GBDeviceCandidate(Parcel in) {
@@ -64,8 +64,8 @@ public class GBDeviceCandidate implements Parcelable {
         rssi = (short) in.readInt();
         deviceType = DeviceType.valueOf(in.readString());
 
-        ParcelUuid[] uuids = AndroidUtils.toParcelUUids(in.readParcelableArray(getClass().getClassLoader()));
-        serviceUuds = mergeServiceUuids(uuids, device.getUuids());
+        ParcelUuid[] uuids = AndroidUtils.toParcelUuids(in.readParcelableArray(getClass().getClassLoader()));
+        serviceUuids = mergeServiceUuids(uuids, device.getUuids());
     }
 
     @Override
@@ -73,7 +73,7 @@ public class GBDeviceCandidate implements Parcelable {
         dest.writeParcelable(device, 0);
         dest.writeInt(rssi);
         dest.writeString(deviceType.name());
-        dest.writeParcelableArray(serviceUuds, 0);
+        dest.writeParcelableArray(serviceUuids, 0);
     }
 
     public static final Creator<GBDeviceCandidate> CREATOR = new Creator<GBDeviceCandidate>() {
@@ -104,10 +104,10 @@ public class GBDeviceCandidate implements Parcelable {
         return device != null ? device.getAddress() : GBApplication.getContext().getString(R.string._unknown_);
     }
 
-    private ParcelUuid[] mergeServiceUuids(ParcelUuid[] serviceUuds, ParcelUuid[] deviceUuids) {
+    private ParcelUuid[] mergeServiceUuids(ParcelUuid[] serviceUuids, ParcelUuid[] deviceUuids) {
         Set<ParcelUuid> uuids = new HashSet<>();
-        if (serviceUuds != null) {
-            uuids.addAll(Arrays.asList(serviceUuds));
+        if (serviceUuids != null) {
+            uuids.addAll(Arrays.asList(serviceUuids));
         }
         if (deviceUuids != null) {
             uuids.addAll(Arrays.asList(deviceUuids));
@@ -117,7 +117,7 @@ public class GBDeviceCandidate implements Parcelable {
 
     @NonNull
     public ParcelUuid[] getServiceUuids() {
-        return serviceUuds;
+        return serviceUuids;
     }
 
     public boolean supportsService(UUID aService) {

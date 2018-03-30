@@ -72,8 +72,8 @@
     <string name="pref_header_general">Üldised seaded</string>
     <string name="pref_title_general_autoconnectonbluetooth">Ühendu seadmega kui Bluetooth lülitatakse sisse</string>
     <string name="pref_title_general_autostartonboot">Käivitu automaatselt</string>
-    <string name="pref_title_general_autocreonnect">Taasühendu automaatselt</string>
-    <string name="pref_title_audo_player">Eelistatud heli mängija</string>
+    <string name="pref_title_general_autoreconnect">Taasühendu automaatselt</string>
+    <string name="pref_title_audio_player">Eelistatud heli mängija</string>
     <string name="pref_default">Vaikeväärtus</string>
     <string name="pref_header_datetime">Kuupäev ja kellaaeg</string>
     <string name="pref_title_datetime_syctimeonconnect">Sünkrooni aega</string>
