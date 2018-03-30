@@ -253,8 +253,11 @@ public class DeviceHelper {
         List<GBDevice> result = new ArrayList<>(pairedDevices.size());
         DeviceHelper deviceHelper = DeviceHelper.getInstance();
         for (BluetoothDevice pairedDevice : pairedDevices) {
-            if (pairedDevice.getName() != null && (pairedDevice.getName().startsWith("Pebble-LE ") || pairedDevice.getName().startsWith("Pebble Time LE "))) {
-                continue; // ignore LE Pebble (this is part of the main device now (volatileAddress)
+            String pairedDeviceName = pairedDevice.getName();
+            if (pairedDeviceName != null){
+                if(pairedDeviceName.startsWith("Pebble-LE ") || pairedDeviceName.startsWith("Pebble Time LE ")) {
+                    continue; // ignore LE Pebble (this is part of the main device now (volatileAddress)
+                }
             }
             GBDevice device = deviceHelper.toSupportedDevice(pairedDevice);
             if (device != null) {
