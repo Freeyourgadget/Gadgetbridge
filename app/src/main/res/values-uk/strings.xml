@@ -42,8 +42,8 @@
   <string name="pref_header_general">Загальні параметри</string>
   <string name="pref_title_general_autoconnectonbluetooth">З\'єднання із пристроєм при активації Bluetooth</string>
   <string name="pref_title_general_autostartonboot">Запускатися автоматично</string>
-  <string name="pref_title_general_autocreonnect">Перепід\'єднуватись автоматично</string>
-  <string name="pref_title_audo_player">Переважний музичний програвач</string>
+  <string name="pref_title_general_autoreconnect">Перепід\'єднуватись автоматично</string>
+  <string name="pref_title_audio_player">Переважний музичний програвач</string>
   <string name="pref_default">Типовий</string>
   <string name="pref_header_datetime">Дата і час</string>
   <string name="pref_title_datetime_syctimeonconnect">Синхронізувати час під час з\'єднання</string>

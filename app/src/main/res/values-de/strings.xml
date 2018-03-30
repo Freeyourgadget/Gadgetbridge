@@ -55,8 +55,8 @@
   <string name="pref_header_general">Allgemeine Einstellungen</string>
   <string name="pref_title_general_autoconnectonbluetooth">Verbinde, wenn Bluetooth eingeschaltet wird</string>
   <string name="pref_title_general_autostartonboot">Automatisch starten</string>
-  <string name="pref_title_general_autocreonnect">Verbindung automatisch wiederherstellen</string>
-  <string name="pref_title_audo_player">Bevorzugter Audioplayer</string>
+  <string name="pref_title_general_autoreconnect">Verbindung automatisch wiederherstellen</string>
+  <string name="pref_title_audio_player">Bevorzugter Audioplayer</string>
   <string name="pref_default">Standard</string>
   <string name="pref_header_datetime">Datum und Uhrzeit</string>
   <string name="pref_title_datetime_syctimeonconnect">Uhrzeit synchronisieren</string>

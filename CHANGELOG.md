@@ -3,11 +3,11 @@
 #### Version 0.25.1
 * Amazfit Cor: Try to send weather location instead of AQI
 * Amazfit Bip: Support setting start end end time for background light when lifting the arm
-* Pebble: various fixes and improvemnets for background javascript
-* Explicity ask for RECEIVE_SMS permission to fix problems with Android 8
+* Pebble: various fixes and improvements for background javascript
+* Explicitly ask for RECEIVE_SMS permission to fix problems with Android 8
 
 #### Version 0.25.0
-* Inital suport for Xwatch
+* Initial support for Xwatch
 * Move the connected device to top in control center
 * Add adaptive launcher icon for Android 8.x
 * No longer plot heart rate graph when device was detected as not worn
@@ -23,9 +23,9 @@
 * Fix crash in settings activity with export location
 * Fix notification deletion regression
 * Add 'Ł' and 'ł' to transliteration map
-* Omnijaws Weather: correctly pick todays' min and max temperature
+* Omnijaws Weather: correctly pick today's min and max temperature
 * Fix alarm details activity on small screen
-* Pebble: minic online check of TrekVolle when using background js
+* Pebble: mimic online check of TrekVolle when using background js
 
 #### Version 0.24.4
 * Amazfit Bip: Fix language setting on new firmwares
@@ -82,7 +82,7 @@
 * Mi Band 2/Bip/Cor: Whole day HR support
 * Mi Band 2/Bip/Cor: Prevent writing a lot of HR samples to the database when not using the live activity feature
 * Pebble: Fix some nasty crashes which occur since 0.22.0
-* Workround for non-working notifcations from wechat and outlook
+* Workaround for non-working notifications from wechat and outlook
 
 #### Version 0.22.3
 * Amazfit Bip: Allow flashing watchfaces
@@ -104,7 +104,7 @@
 * Add experimental support for Amazfit Cor and Mi Band HRX (no firmware update on the latter)
 * Mi Band 2: Support more icons and textual notifications for more apps
 * Add some quick action buttons to Gadgetbridge's notification
-* Add transliteration support for ukranian cyrillic charaters
+* Add transliteration support for ukrainian cyrillic characters
 * Fix annoying toast in Mi Band settings
 
 #### Version 0.21.6
@@ -151,7 +151,7 @@
 * Amazfit Bip: Fix call notification with unknown caller
 * Amazfit Bip: Fix crash when weather is updated and device reconnecting
 * Mi2/Bip: Fix crash when synchronizing calendar to alarms
-* Pebble: Fix crash when takeing screenshots on Android 8.0 (Oreo)
+* Pebble: Fix crash when taking screenshots on Android 8.0 (Oreo)
 * Pebble: Support some google app icons
 * Pebble: try to support spotify
 * Mi Band 2: Support configurable button actions
@@ -170,7 +170,7 @@
 * Mi Band: Fix setting smart alarms
 
 #### Version 0.20.0
-* Inital Amazfit Bip support (WIP)
+* Initial Amazfit Bip support (WIP)
 * Various theming fixes
 * Add workaround for blacklist not properly persisting
 * Handle resetting language to default properly
@@ -241,7 +241,7 @@
 * Mi Band 2: Fix crash on "chat" or "social network" text notification (#603)
 
 #### Version 0.18.1
-* Pebble: Fix Firmware insstallation on Pebble Time Round (broken since 0.16.0)
+* Pebble: Fix Firmware installation on Pebble Time Round (broken since 0.16.0)
 * Start VibrationActivity when using "find device" button with Vibratissimo
 * Support material fork of K9
 
@@ -283,9 +283,9 @@
 #### Version 0.17.3
 * HPlus: Improve display of new messages and phone calls
 * HPlus: Fix bug related to steps and heart rate
-* Pebble: Support dynamic keys for natively supported watchfaces and watchapps (more stability accross versions)
+* Pebble: Support dynamic keys for natively supported watchfaces and watchapps (more stability across versions)
 * Pebble: Fix error Toast being displayed when TimeStyle watchface is not installed
-* Mi Band 1+2: Support for connecting wihout BT pairing (workaround for certain connection problems)
+* Mi Band 1+2: Support for connecting without BT pairing (workaround for certain connection problems)
 
 #### Version 0.17.2
 * Pebble: Fix temperature unit in Timestyle Pebble watchface
@@ -305,7 +305,7 @@
 * Pebble: Add option to disable call display
 * Pebble: Add option to automatically delete notifications that got dismissed on the phone
 * Pebble: Bugfix for some PebbleKit enabled 3rd party apps (TCW and maybe other)
-* Pebble 2/LE: Improve reliablitly and transfer speed
+* Pebble 2/LE: Improve reliability and transfer speed
 * HPlus: Improved discovery and pairing
 * HPlus: Improved notifications (display + vibration)
 * HPlus: Synchronize time and date
@@ -382,7 +382,7 @@
 
 #### Version 0.13.7
 * Pebble: Fix configuration of certain pebble apps (eg. QR Generator, Squared 4.0)
-* Pebble: Add context menu option in app manager to search a watchapp in the pebble appstore
+* Pebble: Add context menu option in app manager to search a watchapp in the pebble app store
 * Mi Band: allow to delete Mi Band address from development settings
 * Mi Band 2: Initial support for heart rate readings (Debug activity only)
 * Mi Band 2: Support disabled alarms
@@ -553,7 +553,7 @@
 * Fix enabling log file writing #261
 
 #### Version 0.9.0
-* Pebble: Support for configuring watchfaces/apps locally (clay) or though webbrowser (some do not work)
+* Pebble: Support for configuring watchfaces/apps locally (clay) or though web browser (some do not work)
 * Pebble: hide the alarm management activity as it's unsupported
 * Mi Band: Improve firmware detection and updates, including 1S support
 * Mi Band: Display HR FW for 1S
@@ -701,7 +701,7 @@
 * Pebble: Allow to treat K9 notifications as generic notifications (if notification mode is set to never)
 * Ignore QKSMS notifications to avoid double notification for incoming SMS
 * Improved UI of Firmware/App installer
-* Device state again visible on lockscreen
+* Device state again visible on lock screen
 * Date display and navigation now working properly for all charts
 
 #### Version 0.5.2
@@ -744,7 +744,7 @@
 * Fixed crash when synchronizing activity data in the graphs activity and changing device orientation
 
 #### Version 0.4.4
-* Set Gadgetbridge notification visibility to public, to show the connection status on the lockscreen
+* Set Gadgetbridge notification visibility to public, to show the connection status on the lock screen
 * Support for backup up and restoring of the activity database (via Debug activity)
 * Support for graceful upgrades and downgrades, keeping your activity database intact
 * Enhancement to activity graphs: new graphs for sleep data (only last night) accessible swiping right from the main graph
@@ -834,7 +834,7 @@
 
 #### Version 0.1.4
 * New AppManager shows installed Apps/Watchfaces (removal possible via context menu)
-* Allow back navigation in ActionBar (Debug and AppMananger Activities)
+* Allow back navigation in ActionBar (Debug and AppManager Activities)
 * Make sure Intent broadcasts do not leave Gadgetbridge
 * Show hint in the Main Activity (tap to connect etc)
 

@@ -60,8 +60,8 @@
     <string name="pref_header_general">Axustes xerais</string>
     <string name="pref_title_general_autoconnectonbluetooth">Conectar ao dispositivo ao activar o Bluetooth</string>
     <string name="pref_title_general_autostartonboot">Iniciar automaticamente</string>
-    <string name="pref_title_general_autocreonnect">Reconectar automaticamente</string>
-    <string name="pref_title_audo_player">Reprodutor de audio preferido</string>
+    <string name="pref_title_general_autoreconnect">Reconectar automaticamente</string>
+    <string name="pref_title_audio_player">Reprodutor de audio preferido</string>
     <string name="pref_default">Predefinido</string>
 
     <string name="pref_header_datetime">Data e Hora</string>

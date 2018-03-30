@@ -140,7 +140,7 @@ public class ImportExportSharedPreferences {
                             GBApplication.setCalendarsBlackList(calendars_blacklist);
                         }
                     } else if (!PREFERENCES.equals(name)) {
-                        throw new Exception("Unkown type " + name);
+                        throw new Exception("Unknown type " + name);
                     }
                     break;
                 case XmlPullParser.END_TAG:

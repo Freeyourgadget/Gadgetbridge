@@ -2,5 +2,5 @@
 * Add experimental support for Amazfit Cor and Mi Band HRX (no firmware update on the latter)
 * Mi Band 2: Support more icons and textual notifications for more apps
 * Add some quick action buttons to Gadgetbridge's notification
-* Add transliteration support for ukranian cyrillic charaters
+* Add transliteration support for ukrainian cyrillic characters
 * Fix annoying toast in Mi Band settings

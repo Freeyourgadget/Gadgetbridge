@@ -1,4 +1,4 @@
-* Inital suport for Xwatch
+* Initial support for Xwatch
 * Move the connected device to top in control center
 * Add adaptive launcher icon for Android 8.x
 * No longer plot heart rate graph when device was detected as not worn
