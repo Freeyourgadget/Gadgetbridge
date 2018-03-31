@@ -37,11 +37,11 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiWeatherConditions
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
+import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -49,9 +49,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ConditionalWrit
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.operations.AmazfitBipFetchLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiIcon;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.FetchSportsSummaryOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
@@ -283,12 +285,21 @@ public class AmazfitBipSupport extends MiBand2Support {
     }
 
     @Override
-    public void onTestNewFunction() {
+    public void onFetchRecordedData(int dataTypes) {
         try {
-//            new AmazfitBipFetchLogsOperation(this).perform();
-            new FetchSportsSummaryOperation(this).perform();
+            // FIXME: currently only one data type supported, these are meant to be flags
+            if (dataTypes == RecordedDataTypes.TYPE_ACTIVITY) {
+                new FetchActivityOperation(this).perform();
+            } else if (dataTypes == RecordedDataTypes.TYPE_GPS_TRACKS) {
+                new FetchSportsSummaryOperation(this).perform();
+            } else if (dataTypes == RecordedDataTypes.TYPE_DEBUGLOGS) {
+                new AmazfitBipFetchLogsOperation(this).perform();
+            }
+            else {
+                LOG.warn("fetching multiple data types at once is not supported yet");
+            }
         } catch (IOException ex) {
-            LOG.error("Unable to fetch logs", ex);
+            LOG.error("Unable to fetch recorded data types" + dataTypes, ex);
         }
     }
 

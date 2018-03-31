@@ -271,8 +271,9 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void onFetchActivityData() {
-        Intent intent = createIntent().setAction(ACTION_FETCH_ACTIVITY_DATA);
+    public void onFetchRecordedData(int dataTypes) {
+        Intent intent = createIntent().setAction(ACTION_FETCH_RECORDED_DATA)
+                .putExtra(EXTRA_RECORDED_DATA_TYPES, dataTypes);
         invokeService(intent);
     }
 

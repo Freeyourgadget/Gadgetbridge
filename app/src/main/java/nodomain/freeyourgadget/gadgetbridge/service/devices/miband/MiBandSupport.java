@@ -761,7 +761,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onFetchActivityData() {
+    public void onFetchRecordedData(int dataTypes) {
         try {
             new FetchActivityOperation(this).perform();
         } catch (IOException ex) {

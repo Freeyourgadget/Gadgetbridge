@@ -22,7 +22,7 @@ import static org.junit.Assert.fail;
  */
 public class LoggingTest extends TestBase {
 
-    public LoggingTest() throws Exception {
+    public LoggingTest() {
     }
 
     private Logging logging = GBApplication.getLogging();
@@ -38,8 +38,7 @@ public class LoggingTest extends TestBase {
     private File getLogFilesDir() {
         String dirName = System.getProperty(Logging.PROP_LOGFILES_DIR);
         if (dirName != null && dirName.length() > 5) {
-            File dir = new File(dirName);
-            return dir;
+            return new File(dirName);
         }
         fail("Property " + Logging.PROP_LOGFILES_DIR + " has invalid value: " + dirName);
         return null; // not reached
@@ -48,7 +47,7 @@ public class LoggingTest extends TestBase {
     @Test
     public void testToggleLogging() {
         try {
-            File dir = getLogFilesDir();
+            getLogFilesDir();
         } catch (AssertionError ignored) {
             // expected, as not yet set up
         }

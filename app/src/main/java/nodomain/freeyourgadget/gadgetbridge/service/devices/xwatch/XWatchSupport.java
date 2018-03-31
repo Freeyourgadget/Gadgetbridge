@@ -258,7 +258,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onFetchActivityData() {
+    public void onFetchRecordedData(int dataTypes) {
         try {
             if(builder == null) {
                 builder = performInitialized("fetchActivityData");

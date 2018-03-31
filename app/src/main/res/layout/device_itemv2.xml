@@ -49,7 +49,8 @@
                     android:clickable="true"
                     android:contentDescription="@string/controlcenter_delete_device"
                     android:tint="?attr/textColorTertiary"
-                    card_view:srcCompat="@drawable/ic_remove_device" />
+                    card_view:srcCompat="@drawable/ic_remove_device"
+                    android:focusable="true" />
             </RelativeLayout>
 
             <ImageView
@@ -63,7 +64,8 @@
                 android:longClickable="true"
                 android:background="?android:attr/selectableItemBackground"
                 android:src="@drawable/ic_device_pebble"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:focusable="true" />
 
             <TextView
                 android:id="@+id/device_name"
@@ -104,7 +106,8 @@
                 android:contentDescription="@string/candidate_item_device_image"
                 android:tint="@color/secondarytext"
                 android:background="?android:attr/selectableItemBackground"
-                card_view:srcCompat="@drawable/ic_more_vert" />
+                card_view:srcCompat="@drawable/ic_more_vert"
+                android:focusable="true" />
 
             <LinearLayout
                 android:id="@+id/device_battery_status_box"
@@ -157,7 +160,8 @@
                     android:contentDescription="@string/controlcenter_fetch_activity_data"
                     android:scaleType="fitXY"
                     android:tint="@color/secondarytext"
-                    card_view:srcCompat="@drawable/ic_action_fetch_activity_data" />
+                    card_view:srcCompat="@drawable/ic_action_fetch_activity_data"
+                    android:focusable="true" />
 
                 <ProgressBar
                     android:id="@+id/device_busy_indicator"
@@ -183,7 +187,8 @@
                 android:padding="4dp"
                 android:scaleType="fitXY"
                 android:tint="@color/secondarytext"
-                card_view:srcCompat="@drawable/ic_screenshot" />
+                card_view:srcCompat="@drawable/ic_screenshot"
+                android:focusable="true" />
 
             <ImageView
                 android:id="@+id/device_action_manage_apps"
@@ -198,7 +203,8 @@
                 android:padding="4dp"
                 android:scaleType="fitXY"
                 android:tint="@color/secondarytext"
-                card_view:srcCompat="@drawable/ic_action_manage_apps" />
+                card_view:srcCompat="@drawable/ic_action_manage_apps"
+                android:focusable="true" />
 
             <ImageView
                 android:id="@+id/device_action_set_alarms"
@@ -213,7 +219,8 @@
                 android:padding="4dp"
                 android:scaleType="fitXY"
                 android:tint="@color/secondarytext"
-                card_view:srcCompat="@drawable/ic_device_set_alarms" />
+                card_view:srcCompat="@drawable/ic_device_set_alarms"
+                android:focusable="true" />
 
             <ImageView
                 android:id="@+id/device_action_show_activity_graphs"
@@ -228,7 +235,8 @@
                 android:padding="4dp"
                 android:scaleType="fitXY"
                 android:tint="@color/secondarytext"
-                card_view:srcCompat="@drawable/ic_activity_graphs" />
+                card_view:srcCompat="@drawable/ic_activity_graphs"
+                android:focusable="true" />
 
             <ImageView
                 android:id="@+id/device_action_show_activity_tracks"
@@ -243,7 +251,8 @@
                 android:padding="4dp"
                 android:scaleType="fitXY"
                 android:tint="@color/secondarytext"
-                card_view:srcCompat="@drawable/ic_activity_tracks" />
+                card_view:srcCompat="@drawable/ic_activity_tracks"
+                android:focusable="true" />
 
             <ImageView
                 android:id="@+id/device_action_find"
@@ -257,7 +266,8 @@
                 android:padding="4dp"
                 android:scaleType="fitXY"
                 android:tint="@color/secondarytext"
-                card_view:srcCompat="@drawable/ic_action_find_lost_device" />
+                card_view:srcCompat="@drawable/ic_action_find_lost_device"
+                android:focusable="true" />
 
         </RelativeLayout>
 
