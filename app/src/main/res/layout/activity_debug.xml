@@ -102,7 +102,7 @@
                 android:text="set music info" />
 
             <Button
-                android:id="@+id/HearRateButton"
+                android:id="@+id/HeartRateButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 grid:layout_columnSpan="2"
@@ -124,7 +124,13 @@
                 grid:layout_columnSpan="2"
                 grid:layout_gravity="fill_horizontal"
                 android:text="create test notification" />
-
+            <Button
+                android:id="@+id/fetchDebugLogsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal"
+                android:text="Fetch device Debug Logs" />
             <Button
                 android:id="@+id/testNewFunctionality"
                 android:layout_width="wrap_content"

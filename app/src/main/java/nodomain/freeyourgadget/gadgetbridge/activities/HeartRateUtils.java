@@ -27,4 +27,8 @@ public class HeartRateUtils {
      * Value is in minutes
      */
     public static final int MAX_HR_MEASUREMENTS_GAP_MINUTES = 10;
+
+    public static boolean isValidHeartRateValue(int value) {
+        return value > HeartRateUtils.MIN_HEART_RATE_VALUE && value < HeartRateUtils.MAX_HEART_RATE_VALUE;
+    }
 }

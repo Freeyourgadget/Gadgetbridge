@@ -22,6 +22,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.CardView;
@@ -43,6 +44,7 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.ActivitySummariesActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
 import nodomain.freeyourgadget.gadgetbridge.activities.VibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
@@ -51,6 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -69,16 +72,16 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         this.deviceList = deviceList;
     }
 
+    @NonNull
     @Override
-    public GBDeviceAdapterv2.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public GBDeviceAdapterv2.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         this.parent = parent;
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.device_itemv2, parent, false);
-        ViewHolder vh = new ViewHolder(view);
-        return vh;
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final GBDevice device = deviceList.get(position);
         final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
 
@@ -143,7 +146,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                                         @Override
                                                         public void onClick(View v) {
                                                             showTransientSnackbar(R.string.busy_task_fetch_activity_data);
-                                                            GBApplication.deviceService().onFetchActivityData();
+                                                            GBApplication.deviceService().onFetchRecordedData(RecordedDataTypes.TYPE_ACTIVITY);
                                                         }
                                                     }
         );
@@ -204,6 +207,20 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                                          public void onClick(View v) {
                                                              Intent startIntent;
                                                              startIntent = new Intent(context, ChartsActivity.class);
+                                                             startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                                                             context.startActivity(startIntent);
+                                                         }
+                                                     }
+        );
+
+        //show activity tracks
+        holder.showActivityTracks.setVisibility(coordinator.supportsActivityTracks() ? View.VISIBLE : View.GONE);
+        holder.showActivityTracks.setOnClickListener(new View.OnClickListener()
+                                                     {
+                                                         @Override
+                                                         public void onClick(View v) {
+                                                             Intent startIntent;
+                                                             startIntent = new Intent(context, ActivitySummariesActivity.class);
                                                              startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
                                                              context.startActivity(startIntent);
                                                          }
@@ -338,6 +355,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         ImageView manageAppsView;
         ImageView setAlarmsView;
         ImageView showActivityGraphs;
+        ImageView showActivityTracks;
 
         ImageView deviceInfoView;
         //overflow
@@ -348,44 +366,44 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
 
         ViewHolder(View view) {
             super(view);
-            container = (CardView) view.findViewById(R.id.card_view);
+            container = view.findViewById(R.id.card_view);
 
-            deviceImageView = (ImageView) view.findViewById(R.id.device_image);
-            deviceNameLabel = (TextView) view.findViewById(R.id.device_name);
-            deviceStatusLabel = (TextView) view.findViewById(R.id.device_status);
+            deviceImageView = view.findViewById(R.id.device_image);
+            deviceNameLabel = view.findViewById(R.id.device_name);
+            deviceStatusLabel = view.findViewById(R.id.device_status);
 
             //actions
-            batteryStatusBox = (LinearLayout) view.findViewById(R.id.device_battery_status_box);
-            batteryStatusLabel = (TextView) view.findViewById(R.id.battery_status);
-            batteryIcon = (ImageView) view.findViewById(R.id.device_battery_status);
-            fetchActivityDataBox = (LinearLayout) view.findViewById(R.id.device_action_fetch_activity_box);
-            fetchActivityData = (ImageView) view.findViewById(R.id.device_action_fetch_activity);
-            busyIndicator = (ProgressBar) view.findViewById(R.id.device_busy_indicator);
-            takeScreenshotView = (ImageView) view.findViewById(R.id.device_action_take_screenshot);
-            manageAppsView = (ImageView) view.findViewById(R.id.device_action_manage_apps);
-            setAlarmsView = (ImageView) view.findViewById(R.id.device_action_set_alarms);
-            showActivityGraphs = (ImageView) view.findViewById(R.id.device_action_show_activity_graphs);
-            deviceInfoView = (ImageView) view.findViewById(R.id.device_info_image);
+            batteryStatusBox = view.findViewById(R.id.device_battery_status_box);
+            batteryStatusLabel = view.findViewById(R.id.battery_status);
+            batteryIcon = view.findViewById(R.id.device_battery_status);
+            fetchActivityDataBox = view.findViewById(R.id.device_action_fetch_activity_box);
+            fetchActivityData = view.findViewById(R.id.device_action_fetch_activity);
+            busyIndicator = view.findViewById(R.id.device_busy_indicator);
+            takeScreenshotView = view.findViewById(R.id.device_action_take_screenshot);
+            manageAppsView = view.findViewById(R.id.device_action_manage_apps);
+            setAlarmsView = view.findViewById(R.id.device_action_set_alarms);
+            showActivityGraphs = view.findViewById(R.id.device_action_show_activity_graphs);
+            showActivityTracks = view.findViewById(R.id.device_action_show_activity_tracks);
+            deviceInfoView = view.findViewById(R.id.device_info_image);
 
-            deviceInfoBox = (RelativeLayout) view.findViewById(R.id.device_item_infos_box);
+            deviceInfoBox = view.findViewById(R.id.device_item_infos_box);
             //overflow
-            deviceInfoList = (ListView) view.findViewById(R.id.device_item_infos);
-            findDevice = (ImageView) view.findViewById(R.id.device_action_find);
-            removeDevice = (ImageView) view.findViewById(R.id.device_action_remove);
+            deviceInfoList = view.findViewById(R.id.device_item_infos);
+            findDevice = view.findViewById(R.id.device_action_find);
+            removeDevice = view.findViewById(R.id.device_action_remove);
         }
 
     }
 
-    public void justifyListViewHeightBasedOnChildren(ListView listView) {
+    private void justifyListViewHeightBasedOnChildren(ListView listView) {
         ArrayAdapter adapter = (ArrayAdapter) listView.getAdapter();
 
         if (adapter == null) {
             return;
         }
-        ViewGroup vg = listView;
         int totalHeight = 0;
         for (int i = 0; i < adapter.getCount(); i++) {
-            View listItem = adapter.getView(i, null, vg);
+            View listItem = adapter.getView(i, null, listView);
             listItem.measure(0, 0);
             totalHeight += listItem.getMeasuredHeight();
         }
@@ -427,11 +445,11 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
     private void showTransientSnackbar(int resource) {
         Snackbar snackbar = Snackbar.make(parent, resource, Snackbar.LENGTH_SHORT);
 
-        View snackbarView = snackbar.getView();
+        //View snackbarView = snackbar.getView();
 
-// change snackbar text color
-        int snackbarTextId = android.support.design.R.id.snackbar_text;
-        TextView textView = (TextView) snackbarView.findViewById(snackbarTextId);
+        // change snackbar text color
+        //int snackbarTextId = android.support.design.R.id.snackbar_text;
+        //TextView textView = snackbarView.findViewById(snackbarTextId);
         //textView.setTextColor();
         //snackbarView.setBackgroundColor(Color.MAGENTA);
         snackbar.show();

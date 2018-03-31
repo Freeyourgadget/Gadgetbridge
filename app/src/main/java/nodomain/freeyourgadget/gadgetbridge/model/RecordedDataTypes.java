@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Carsten Pfeiffer
+/*  Copyright (C) 2018 Andreas Shimokawa
 
     This file is part of Gadgetbridge.
 
@@ -14,19 +14,15 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.database;
 
-/**
- * Contains the configuration used for particular activity samples.
- */
-public class UsedConfiguration {
-    String fwVersion;
-    String userName;
-    short userWeight;
-    short userSize;
-    // ...
-    int usedFrom; // timestamp
-    int usedUntil; // timestamp
-    short sleepGoal; // minutes
-    short stepsGoal;
+package nodomain.freeyourgadget.gadgetbridge.model;
+
+public class RecordedDataTypes {
+    public static int TYPE_ACTIVITY     = 0x00000001;
+    public static int TYPE_WORKOUTS     = 0x00000002;
+    public static int TYPE_GPS_TRACKS   = 0x00000004;
+    public static int TYPE_TEMPERATURE  = 0x00000008;
+    public static int TYPE_DEBUGLOGS    = 0x00000010;
+
+    public static int TYPE_ALL          = (int)0xffffffff;
 }

@@ -299,7 +299,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onFetchActivityData() {
+    public void onFetchRecordedData(int dataTypes) {
         sendFetchCommand(No1F1Constants.CMD_FETCH_STEPS);
     }
 

@@ -43,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.Op
 public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport> implements GattCallback, BTLEOperation {
     private final T mSupport;
     protected OperationStatus operationStatus = OperationStatus.INITIAL;
+    private String name;
 
     protected AbstractBTLEOperation(T support) {
         mSupport = support;
@@ -113,6 +114,22 @@ public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport>
 
     protected GBDevice getDevice() {
         return mSupport.getDevice();
+    }
+
+    protected void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getName() {
+        if (name != null) {
+            return name;
+        }
+        String busyTask = getDevice().getBusyTask();
+        if (busyTask != null) {
+            return busyTask;
+        }
+        return getClass().getSimpleName();
     }
 
     protected BluetoothGattCharacteristic getCharacteristic(UUID uuid) {
