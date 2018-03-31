@@ -140,6 +140,14 @@ public interface DeviceCoordinator {
     boolean supportsActivityTracking();
 
     /**
+     * Indicates whether the device supports recording dedicated activity tracks, like
+     * walking, hiking, running, swimming, etc. and retrieving the recorded
+     * data. This is different from the constant activity tracking since the tracks are
+     * usually recorded with additional features, like e.g. GPS.
+     */
+    boolean supportsActivityTracks();
+
+    /**
      * Returns true if activity data fetching is supported AND possible at this
      * very moment. This will consider the device state (being connected/disconnected/busy...)
      * etc.

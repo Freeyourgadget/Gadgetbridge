@@ -60,6 +60,10 @@
             android:label="@string/preferences_miband_settings"
             android:parentActivityName=".activities.SettingsActivity" />
         <activity
+            android:name=".activities.ActivitySummariesActivity"
+            android:label="@string/activity_summaries"
+            android:parentActivityName=".activities.ControlCenterv2" />
+        <activity
             android:launchMode="singleTop"
             android:name=".activities.appmanager.AppManagerActivity"
             android:label="@string/title_activity_appmanager"
@@ -415,7 +419,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/screenshot_provider_paths"/>
+                android:resource="@xml/shared_paths" />
         </provider>
 
         <receiver android:name=".SleepAlarmWidget">

@@ -65,6 +65,11 @@ public class AmazfitBipCoordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supportsActivityTracks() {
+        return true;
+    }
+
+    @Override
     public boolean supportsWeather() {
         return true;
     }
