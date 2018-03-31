@@ -573,4 +573,6 @@
     <string name="activity_type_unknown">Άγνωστη δραστηριότητα</string>
     <string name="activity_summaries">Δραστηριότητες</string>
     <string name="activity_type_biking">Ποδηλασία</string>
+    <string name="activity_type_treadmill">Διάδρομος</string>
+
     </resources>
