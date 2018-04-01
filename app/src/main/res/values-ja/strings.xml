@@ -497,4 +497,5 @@
     <string name="devicetype_xwatch">XWatch</string>
 
     <string name="notification_channel_name">Gadgetbridge 通知</string>
-</resources>
+<string name="on">オン</string>
+    </resources>
