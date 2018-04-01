@@ -171,6 +171,10 @@ public abstract class AbstractFetchOperation extends AbstractMiBand2Operation {
         this.startTimestamp = startTimestamp;
     }
 
+    protected Calendar getLastStartTimestamp() {
+        return startTimestamp;
+    }
+
     protected void saveLastSyncTimestamp(@NonNull GregorianCalendar timestamp) {
         SharedPreferences.Editor editor = GBApplication.getPrefs().getPreferences().edit();
         editor.putLong(getLastSyncTimeKey(), timestamp.getTimeInMillis());

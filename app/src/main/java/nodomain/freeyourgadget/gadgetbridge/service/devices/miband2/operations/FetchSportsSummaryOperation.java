@@ -27,7 +27,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
@@ -184,9 +183,21 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
             LOG.error("Error mapping acivity kind: " + ex.getMessage(), ex);
         }
         summary.setActivityKind(activityKind);
-        // FIXME: should save timezone etc.
-        summary.setStartTime(new Date(BLETypeConversions.toUnsigned(buffer.getInt()) * 1000));
-        summary.setEndTime(new Date(BLETypeConversions.toUnsigned(buffer.getInt()) * 1000));
+
+        // FIXME: should honor timezone we were in at that time etc
+        long timestamp_start = BLETypeConversions.toUnsigned(buffer.getInt()) * 1000;
+        long timestamp_end = BLETypeConversions.toUnsigned(buffer.getInt()) * 1000;
+
+
+        // FIXME: should be done like this but seems to return crap when in DST
+        //summary.setStartTime(new Date(timestamp_start));
+        //summary.setEndTime(new Date(timestamp_end));
+
+        // FIXME ... so do it like this
+        long duration = timestamp_end - timestamp_start;
+        summary.setStartTime(new Date(getLastStartTimestamp().getTimeInMillis()));
+        summary.setEndTime(new Date(getLastStartTimestamp().getTimeInMillis() + duration));
+
         int baseLongitude = buffer.getInt();
         int baseLatitude = buffer.getInt();
         int baseAltitude = buffer.getInt();
