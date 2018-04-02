@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.ContextMenu;
@@ -77,6 +78,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                 Object item = parent.getItemAtPosition(position);
                 if (item != null) {
                     ActivitySummary summary = (ActivitySummary) item;
+
                     String gpxTrack = summary.getGpxTrack();
                     if (gpxTrack != null) {
                         showTrack(gpxTrack);
@@ -112,6 +114,14 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                fetchTrackData();
+            }
+        });
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 fetchTrackData();
             }
         });
