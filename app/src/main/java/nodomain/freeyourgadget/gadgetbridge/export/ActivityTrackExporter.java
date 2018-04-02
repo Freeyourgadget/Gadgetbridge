@@ -11,5 +11,8 @@ public interface ActivityTrackExporter {
     @NonNull
     String getDefaultFileName(@NonNull ActivityTrack track);
 
-    void performExport(ActivityTrack track, File targetFile) throws IOException;
+    void performExport(ActivityTrack track, File targetFile) throws IOException, GPXTrackEmptyException;
+
+    class GPXTrackEmptyException extends Exception {
+    }
 }

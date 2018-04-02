@@ -80,6 +80,8 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                     String gpxTrack = summary.getGpxTrack();
                     if (gpxTrack != null) {
                         showTrack(gpxTrack);
+                    } else {
+                        GB.toast("This activity does not contain GPX tracks.", Toast.LENGTH_LONG, GB.INFO);
                     }
                 }
             }

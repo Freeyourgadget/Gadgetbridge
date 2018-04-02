@@ -39,7 +39,7 @@ public class GPXExporter implements ActivityTrackExporter {
     }
 
     @Override
-    public void performExport(ActivityTrack track, File targetFile) throws IOException {
+    public void performExport(ActivityTrack track, File targetFile) throws IOException, GPXTrackEmptyException {
         String encoding = StandardCharsets.UTF_8.name();
         XmlSerializer ser = Xml.newSerializer();
         try {
@@ -80,14 +80,19 @@ public class GPXExporter implements ActivityTrackExporter {
         return DateTimeUtils.formatIso8601(date);
     }
 
-    private void exportTrack(XmlSerializer ser, ActivityTrack track) throws IOException {
+    private void exportTrack(XmlSerializer ser, ActivityTrack track) throws IOException, GPXTrackEmptyException {
         ser.startTag(NS_DEFAULT, "trk");
         ser.startTag(NS_DEFAULT, "trkseg");
 
         List<ActivityPoint> trackPoints = track.getTrackPoints();
         String source = getSource(track);
+        boolean atLeastOnePointExported = false;
         for (ActivityPoint point : trackPoints) {
-            exportTrackPoint(ser, point, source);
+            atLeastOnePointExported = exportTrackPoint(ser, point, source) | atLeastOnePointExported ;
+        }
+
+        if(!atLeastOnePointExported) {
+            throw new GPXTrackEmptyException();
         }
 
         ser.endTag(NS_DEFAULT, "trkseg");
@@ -98,10 +103,10 @@ public class GPXExporter implements ActivityTrackExporter {
         return track.getDevice().getName();
     }
 
-    private void exportTrackPoint(XmlSerializer ser, ActivityPoint point, String source) throws IOException {
+    private boolean exportTrackPoint(XmlSerializer ser, ActivityPoint point, String source) throws IOException {
         GPSCoordinate location = point.getLocation();
         if (location == null) {
-            return; // skip invalid points, that just contain hr data, for example
+            return false; // skip invalid points, that just contain hr data, for example
         }
         ser.startTag(NS_DEFAULT, "trkpt");
         ser.attribute(NS_DEFAULT, "lon", formatLocation(location.getLongitude()));
@@ -117,6 +122,8 @@ public class GPXExporter implements ActivityTrackExporter {
         exportTrackpointExtensions(ser, point);
 
         ser.endTag(NS_DEFAULT, "trkpt");
+
+        return true;
     }
 
     private void exportTrackpointExtensions(XmlSerializer ser, ActivityPoint point) throws IOException {

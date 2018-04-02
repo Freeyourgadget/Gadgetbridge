@@ -100,12 +100,18 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
                 ActivityTrackExporter exporter = createExporter();
                 String fileName = FileUtils.makeValidFileName("gadgetbridge-track-" + DateTimeUtils.formatIso8601(summary.getStartTime()));
                 File targetFile = new File(FileUtils.getExternalFilesDir(), fileName);
-                exporter.performExport(track, targetFile);
 
-                try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                    summary.setGpxTrack(targetFile.getAbsolutePath());
-                    dbHandler.getDaoSession().getBaseActivitySummaryDao().update(summary);
+                try {
+                    exporter.performExport(track, targetFile);
+
+                    try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                        summary.setGpxTrack(targetFile.getAbsolutePath());
+                        dbHandler.getDaoSession().getBaseActivitySummaryDao().update(summary);
+                    }
+                } catch (ActivityTrackExporter.GPXTrackEmptyException ex) {
+                    GB.toast(getContext(), "This activity does not contain GPX tracks.", Toast.LENGTH_LONG, GB.ERROR, ex);
                 }
+
                 GregorianCalendar endTime = BLETypeConversions.createCalendar();
                 endTime.setTime(summary.getEndTime());
                 saveLastSyncTimestamp(endTime);
