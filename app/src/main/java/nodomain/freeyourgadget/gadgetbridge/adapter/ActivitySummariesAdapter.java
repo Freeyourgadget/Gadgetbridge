@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.adapter;
 import android.content.Context;
 import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySu
         try (DBHandler handler = GBApplication.acquireDB()) {
             BaseActivitySummaryDao summaryDao = handler.getDaoSession().getBaseActivitySummaryDao();
             List<BaseActivitySummary> allSummaries = summaryDao.loadAll();
+            Collections.reverse(allSummaries); //we fetch by swiping down, hence it makes sense to have most recent activities on top
             setItems(allSummaries, true);
         } catch (Exception e) {
             GB.toast("Error loading activity summaries.", Toast.LENGTH_SHORT, GB.ERROR, e);
