@@ -4,17 +4,26 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.FileProvider;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.ContextMenu;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -89,27 +98,71 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
             }
         });
 
-        getItemListView().setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+        getItemListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+
+        getItemListView().setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
-            public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
-                MenuItem delete = menu.add("Delete");
-                delete.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        deleteItemAt(selectedIndex);
-                        return true;
-                    }
-                });
+            public void onItemCheckedStateChanged(ActionMode actionMode, int position, long id, boolean checked) {
+                final int selectedItems = getItemListView().getCheckedItemCount();
+                actionMode.setTitle(selectedItems + " selected");
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+                getMenuInflater().inflate(R.menu.activity_list_menu, menu);
+                findViewById(R.id.fab).setVisibility(View.INVISIBLE);
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                boolean processed = false;
+                SparseBooleanArray checked = getItemListView().getCheckedItemPositions();
+                switch (menuItem.getItemId()) {
+                    case R.id.activity_action_delete:
+                        GB.toast(getBaseContext(), "TODO, delete activities :-)", Toast.LENGTH_LONG, GB.INFO);
+                        processed =  true;
+                        break;
+                    case R.id.activity_action_export:
+                        List<String> paths = new ArrayList<>();
+
+
+                        for(int i = 0; i<  checked.size(); i++) {
+                            if (checked.valueAt(i)) {
+
+                                BaseActivitySummary item = getItemAdapter().getItem(checked.keyAt(i));
+                                if (item != null) {
+                                    ActivitySummary summary = (ActivitySummary) item;
+
+                                    String gpxTrack = summary.getGpxTrack();
+                                    if (gpxTrack != null) {
+                                        paths.add(gpxTrack);
+                                    }
+                                }
+                            }
+                        }
+
+                        shareMultiple(paths);
+                        processed = true;
+                    default:
+                        break;
+
+                }
+                actionMode.finish();
+                return processed;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode actionMode) {
+                findViewById(R.id.fab).setVisibility(View.VISIBLE);
             }
         });
 
-        getItemListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedIndex = position;
-                return getItemListView().showContextMenu();
-            }
-        });
         swipeLayout = findViewById(R.id.list_activity_swipe_layout);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -159,5 +212,24 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                 GB.toast(this, getString(R.string.device_not_connected), Toast.LENGTH_SHORT, GB.ERROR);
             }
         }
+    }
+
+    private void shareMultiple(List<String> paths){
+
+        ArrayList<Uri> uris = new ArrayList<>();
+        for(String path: paths){
+            File file = new File(path);
+            uris.add(FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".screenshot_provider", file));
+        }
+
+        if(uris.size() > 0) {
+            final Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+            intent.setType("*/*");
+            intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+            startActivity(Intent.createChooser(intent, "SHARE"));
+        } else {
+            GB.toast(this, "No selected activity contains a GPX track to share", Toast.LENGTH_SHORT, GB.ERROR);
+        }
+
     }
 }
