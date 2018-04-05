@@ -38,8 +38,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ActivitySummariesActivity extends AbstractListActivity<BaseActivitySummary> {
 
-    private int selectedIndex;
-
     private GBDevice mGBDevice;
     private SwipeRefreshLayout swipeLayout;
 
@@ -125,7 +123,13 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                 SparseBooleanArray checked = getItemListView().getCheckedItemPositions();
                 switch (menuItem.getItemId()) {
                     case R.id.activity_action_delete:
-                        GB.toast(getBaseContext(), "TODO, delete activities :-)", Toast.LENGTH_LONG, GB.INFO);
+                        List<BaseActivitySummary> toDelete = new ArrayList<>();
+                        for(int i = 0; i<  checked.size(); i++) {
+                            if (checked.valueAt(i)) {
+                                toDelete.add(getItemAdapter().getItem(checked.keyAt(i)));
+                            }
+                        }
+                        deleteItems(toDelete);
                         processed =  true;
                         break;
                     case R.id.activity_action_export:
@@ -146,12 +150,16 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                                 }
                             }
                         }
-
                         shareMultiple(paths);
                         processed = true;
+                        break;
+                    case R.id.activity_action_select_all:
+                        for ( int i=0; i < getItemListView().getCount(); i++) {
+                            getItemListView().setItemChecked(i, true);
+                        }
+                        return true; //don't finish actionmode in this case!
                     default:
                         break;
-
                 }
                 actionMode.finish();
                 return processed;
@@ -186,13 +194,12 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         super.onDestroy();
     }
 
-    private void deleteItemAt(int position) {
-        BaseActivitySummary item = getItemAdapter().getItem(position);
-        if (item != null) {
+    private void deleteItems(List<BaseActivitySummary> items) {
+        for(BaseActivitySummary item : items) {
             item.delete();
             getItemAdapter().remove(item);
-            refresh();
         }
+        refresh();
     }
 
     private void showTrack(String gpxTrack) {
