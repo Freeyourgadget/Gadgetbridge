@@ -20,7 +20,7 @@
   <string name="appmananger_app_delete">Вилучити</string>
   <string name="appmananger_app_delete_cache">Вилучити та очистити з кешу</string>
   <string name="appmananger_app_reinstall">Перевстановити</string>
-  <string name="appmanager_app_openinstore">Пошук в Pebble Appstore</string>
+  <string name="appmanager_app_openinstore">Пошук в Pebble appstore</string>
   <string name="appmanager_health_activate">Увімкнути</string>
   <string name="appmanager_health_deactivate">Вимкнути</string>
   <string name="appmanager_hrm_activate">Увімкнути HRM</string>
@@ -238,4 +238,5 @@
   <string name="timeformat_am_pm">ДП/ПП</string>
 <string name="action_donate">Пожертвувати</string>
     <string name="controlcenter_connect">З\'єднати</string>
+    <string name="controlcenter_snackbar_connecting">Підключення</string>
     </resources>
