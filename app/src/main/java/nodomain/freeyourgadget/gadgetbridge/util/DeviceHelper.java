@@ -20,6 +20,7 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -248,11 +249,18 @@ public class DeviceHelper {
         return gbDevice;
     }
 
-    private List<GBDevice> getBondedDevices(BluetoothAdapter btAdapter) {
+    private @NonNull List<GBDevice> getBondedDevices(@NonNull BluetoothAdapter btAdapter) {
         Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
+        if (pairedDevices == null) {
+            return Collections.emptyList();
+        }
+
         List<GBDevice> result = new ArrayList<>(pairedDevices.size());
         DeviceHelper deviceHelper = DeviceHelper.getInstance();
         for (BluetoothDevice pairedDevice : pairedDevices) {
+            if (pairedDevice == null) {
+                continue; // just to be safe, see https://github.com/Freeyourgadget/Gadgetbridge/pull/1052
+            }
             if (pairedDevice.getName() != null && (pairedDevice.getName().startsWith("Pebble-LE ") || pairedDevice.getName().startsWith("Pebble Time LE "))) {
                 continue; // ignore LE Pebble (this is part of the main device now (volatileAddress)
             }
