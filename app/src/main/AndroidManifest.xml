@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <uses-permission android:name="cyanogenmod.permission.ACCESS_WEATHER_MANAGER" />
