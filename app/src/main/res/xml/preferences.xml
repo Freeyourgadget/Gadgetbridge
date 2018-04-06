@@ -193,6 +193,9 @@
                 android:key="amazfitbip_language"
                 android:summary="%s"
                 android:title="@string/pref_title_language" />
+            <Preference
+                android:key="amazfitbip_reset_lastsyncdate"
+                android:title="Reset last activity sync date" />
         </PreferenceScreen>
         <PreferenceScreen
             android:icon="@drawable/ic_device_pebble"

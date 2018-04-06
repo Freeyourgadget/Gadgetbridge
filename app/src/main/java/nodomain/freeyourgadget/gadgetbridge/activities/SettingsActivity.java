@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.location.Criteria;
 import android.location.Location;
@@ -43,12 +44,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -326,6 +329,19 @@ public class SettingsActivity extends AbstractSettingsActivity {
             public boolean onPreferenceChange(Preference preference, Object autoExportEnabled) {
                 int autoExportInterval = GBApplication.getPrefs().getInt(GBPrefs.AUTO_EXPORT_INTERVAL, 0);
                 PeriodicExporter.sheduleAlarm(getApplicationContext(), autoExportInterval, (boolean) autoExportEnabled);
+                return true;
+            }
+        });
+
+        pref = findPreference("amazfitbip_reset_lastsyncdate");
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                String device_address = GBApplication.app().getDeviceManager().getSelectedDevice().getAddress();
+                String key = device_address + "_" + "lastSportsActivityTimeMillis";
+                SharedPreferences.Editor editor = GBApplication.getPrefs().getPreferences().edit();
+                editor.putLong(key, new GregorianCalendar(2000,1,1).getTimeInMillis());
+                editor.apply();
+                GB.toast("Reset last sport sync date", Toast.LENGTH_LONG, GB.INFO);
                 return true;
             }
         });
