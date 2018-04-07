@@ -77,7 +77,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
         super.onCreate(savedInstanceState);
-        setItemAdapter(new ActivitySummariesAdapter(this));
+        setItemAdapter(new ActivitySummariesAdapter(this, mGBDevice));
 
         getItemListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

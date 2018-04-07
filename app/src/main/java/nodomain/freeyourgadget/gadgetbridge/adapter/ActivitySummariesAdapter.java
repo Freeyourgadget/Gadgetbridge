@@ -3,29 +3,35 @@ package nodomain.freeyourgadget.gadgetbridge.adapter;
 import android.content.Context;
 import android.widget.Toast;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySummary> {
-    public ActivitySummariesAdapter(Context context) {
+    public ActivitySummariesAdapter(Context context, GBDevice device) {
         super(context);
-        loadItems();
+        loadItems(device);
     }
 
-    public void loadItems() {
+    public void loadItems(GBDevice device) {
         try (DBHandler handler = GBApplication.acquireDB()) {
             BaseActivitySummaryDao summaryDao = handler.getDaoSession().getBaseActivitySummaryDao();
-            List<BaseActivitySummary> allSummaries = summaryDao.loadAll();
-            Collections.reverse(allSummaries); //we fetch by swiping down, hence it makes sense to have most recent activities on top
+            Device dbDevice = DBHelper.findDevice(device, handler.getDaoSession());
+
+            QueryBuilder<BaseActivitySummary> qb = summaryDao.queryBuilder();
+            qb.where(BaseActivitySummaryDao.Properties.DeviceId.eq(dbDevice.getId())).orderDesc(BaseActivitySummaryDao.Properties.StartTime);
+            List<BaseActivitySummary> allSummaries = qb.build().list();
             setItems(allSummaries, true);
         } catch (Exception e) {
             GB.toast("Error loading activity summaries.", Toast.LENGTH_SHORT, GB.ERROR, e);
