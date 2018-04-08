@@ -31,6 +31,7 @@ public class GPXExporter implements ActivityTrackExporter {
 
     private String creator;
     private boolean includeHeartRate = true;
+    private boolean includeHeartRateByTime = true;
 
     @NonNull
     @Override
@@ -46,6 +47,7 @@ public class GPXExporter implements ActivityTrackExporter {
             ser.setOutput(new FileOutputStream(targetFile), encoding);
             ser.startDocument(encoding, Boolean.TRUE);
             ser.setPrefix("xsi", NS_XSI_URI);
+            ser.setPrefix(NS_TRACKPOINT_EXTENSION, NS_TRACKPOINT_EXTENSION_URI);
             ser.setPrefix(NS_DEFAULT_PREFIX, NS_DEFAULT);
 
             ser.startTag(NS_DEFAULT, "gpx");
@@ -88,7 +90,7 @@ public class GPXExporter implements ActivityTrackExporter {
         String source = getSource(track);
         boolean atLeastOnePointExported = false;
         for (ActivityPoint point : trackPoints) {
-            atLeastOnePointExported = exportTrackPoint(ser, point, source) | atLeastOnePointExported ;
+            atLeastOnePointExported = exportTrackPoint(ser, point, source, trackPoints) | atLeastOnePointExported ;
         }
 
         if(!atLeastOnePointExported) {
@@ -103,7 +105,7 @@ public class GPXExporter implements ActivityTrackExporter {
         return track.getDevice().getName();
     }
 
-    private boolean exportTrackPoint(XmlSerializer ser, ActivityPoint point, String source) throws IOException {
+    private boolean exportTrackPoint(XmlSerializer ser, ActivityPoint point, String source, List<ActivityPoint> trackPoints) throws IOException {
         GPSCoordinate location = point.getLocation();
         if (location == null) {
             return false; // skip invalid points, that just contain hr data, for example
@@ -117,29 +119,53 @@ public class GPXExporter implements ActivityTrackExporter {
         if (description != null) {
             ser.startTag(NS_DEFAULT, "desc").text(description).endTag(NS_DEFAULT, "desc");
         }
-        ser.startTag(NS_DEFAULT, "src").text(source).endTag(NS_DEFAULT, "src");
+        //ser.startTag(NS_DEFAULT, "src").text(source).endTag(NS_DEFAULT, "src");
 
-        exportTrackpointExtensions(ser, point);
+        exportTrackpointExtensions(ser, point, trackPoints);
 
         ser.endTag(NS_DEFAULT, "trkpt");
 
         return true;
     }
 
-    private void exportTrackpointExtensions(XmlSerializer ser, ActivityPoint point) throws IOException {
+    private void exportTrackpointExtensions(XmlSerializer ser, ActivityPoint point, List<ActivityPoint> trackPoints) throws IOException {
         if (!includeHeartRate) {
             return;
         }
 
         int hr = point.getHeartRate();
         if (!HeartRateUtils.isValidHeartRateValue(hr)) {
+            if(!includeHeartRateByTime) { return; }
+
+            Date time = point.getTime();
+            ActivityPoint closestPointItem = null;
+            long lowestDifference = Long.MAX_VALUE;
+            for (ActivityPoint pointItem : trackPoints) {
+                int hrItem = pointItem.getHeartRate();
+                if(HeartRateUtils.isValidHeartRateValue(hrItem)) {
+                    Date timeItem = pointItem.getTime();
+                    if (timeItem.after(time) || timeItem.equals(time)) continue;
+                    long difference = time.getTime() - timeItem.getTime();
+                    if (difference < lowestDifference) {
+                    lowestDifference = difference;
+                    closestPointItem = pointItem;
+                    }
+                }
+            }
+            if(closestPointItem != null) {
+                hr = closestPointItem.getHeartRate();
+                if (!HeartRateUtils.isValidHeartRateValue(hr)) {
+                    return;
+                }
+            }
             return;
         }
+
         ser.startTag(NS_DEFAULT, "extensions");
-
         ser.setPrefix(NS_TRACKPOINT_EXTENSION, NS_TRACKPOINT_EXTENSION_URI);
+        ser.startTag(NS_TRACKPOINT_EXTENSION_URI, "TrackPointExtension");
         ser.startTag(NS_TRACKPOINT_EXTENSION_URI, "hr").text(String.valueOf(hr)).endTag(NS_TRACKPOINT_EXTENSION_URI, "hr");
-
+        ser.endTag(NS_TRACKPOINT_EXTENSION_URI, "TrackPointExtension");
         ser.endTag(NS_DEFAULT, "extensions");
     }
 

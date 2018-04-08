@@ -98,7 +98,7 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
             try {
                 ActivityTrack track = parser.parse(buffer.toByteArray());
                 ActivityTrackExporter exporter = createExporter();
-                String fileName = FileUtils.makeValidFileName("gadgetbridge-track-" + DateTimeUtils.formatIso8601(summary.getStartTime()));
+                String fileName = FileUtils.makeValidFileName("gadgetbridge-track-" + DateTimeUtils.formatIso8601(summary.getStartTime())+".gpx");
                 File targetFile = new File(FileUtils.getExternalFilesDir(), fileName);
 
                 try {
