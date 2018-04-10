@@ -501,4 +501,12 @@ NOTE : la base de données sera bien évidement plus grande !</string>
     <string name="notification_channel_name">Notifications de Gadgetbridge</string>
 <string name="devicetype_xwatch">XWatch</string>
 
+    <string name="on">Actif</string>
+    <string name="activity_type_not_measured">Non mesurée</string>
+    <string name="activity_type_activity">Activité</string>
+    <string name="activity_type_light_sleep">Sommeil léger</string>
+    <string name="activity_type_deep_sleep">Sommeil profond</string>
+    <string name="activity_type_running">Course</string>
+    <string name="activity_type_walking">Marche</string>
+    <string name="activity_type_swimming">Nage</string>
     </resources>
