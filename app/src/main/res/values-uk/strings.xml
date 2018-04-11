@@ -7,7 +7,7 @@
   <string name="action_quit">Вихід</string>
   <string name="controlcenter_fetch_activity_data">Синхронізувати</string>
   <string name="controlcenter_start_sleepmonitor">Аналіз сну (АЛЬФА)</string>
-  <string name="controlcenter_find_device">Знайти загублений пристрій…</string>
+  <string name="controlcenter_find_device">Знайти загублений пристрій</string>
   <string name="controlcenter_take_screenshot">Зробити знімок екрану</string>
   <string name="controlcenter_disconnect">Від\'єднатися</string>
   <string name="controlcenter_delete_device">Вилучити пристрій</string>
@@ -15,7 +15,7 @@
   <string name="controlcenter_delete_device_dialogmessage">Це вилучить пристрій та всі пов\'язані з ним дані!</string>
   <string name="title_activity_debug">Зневадження</string>
   <!--Strings related to AppManager-->
-  <string name="title_activity_appmanager">App Manager</string>
+  <string name="title_activity_appmanager">Менеджер застосунків</string>
   <string name="appmanager_installed_watchapps">Встановлені додатки</string>
   <string name="appmananger_app_delete">Вилучити</string>
   <string name="appmananger_app_delete_cache">Вилучити та очистити з кешу</string>
@@ -239,4 +239,5 @@
 <string name="action_donate">Пожертвувати</string>
     <string name="controlcenter_connect">З\'єднати</string>
     <string name="controlcenter_snackbar_connecting">Підключення</string>
-    </resources>
+    <string name="notification_channel_name">Сповіщення Gadgetbridge</string>
+</resources>
