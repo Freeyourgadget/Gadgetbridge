@@ -173,11 +173,11 @@ public class ActivityDetailsParser {
 
     private ActivityPoint getActivityPointFor(long timeOffsetSeconds) {
         Date time = makeAbsolute(timeOffsetSeconds);
-//        if (lastActivityPoint != null) {
-//            if (lastActivityPoint.getTime().equals(time)) {
-//                return lastActivityPoint;
-//            }
-//        }
+        if (lastActivityPoint != null) {
+            if (lastActivityPoint.getTime().equals(time)) {
+                return lastActivityPoint;
+            }
+        }
         return new ActivityPoint(time);
     }
 
