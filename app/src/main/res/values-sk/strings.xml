@@ -76,11 +76,11 @@
     <string name="pref_title_general_autoreconnect">Automatické opätovné pripojenie</string>
     <string name="pref_title_audio_player">Preferovaný prehrávač zvukov</string>
     <string name="pref_default">Predvolené</string>
-    <string name="pref_title_charts_swipe">Zapnúť možnosť potiahnutia vľavo/vpravo v grafoch aktivít</string>
+    <string name="pref_title_charts_swipe">Zap. potiahnutie vľavo/vpravo v grafoch aktivít</string>
 
     <string name="pref_header_datetime">Dátum a čas</string>
-    <string name="pref_title_datetime_syctimeonconnect">Nastaviť čas</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Nastaviť čas počas pripojenia a pri zmene času v Androide</string>
+    <string name="pref_title_datetime_syctimeonconnect">Synchronizovať čas pri pripojení</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Synchronizovať čas pri pripojení k zariadeniu a aj pri zmene času alebo časového pásma v Androide</string>
 
     <string name="pref_title_theme">Téma aplikácie</string>
     <string name="pref_theme_light">Svetlá</string>
@@ -89,7 +89,7 @@
     <string name="pref_title_language">Jazyk</string>
 
     <string name="pref_title_minimize_priority">Skryť upozornenia Gadgetbridge</string>
-    <string name="pref_summary_minimize_priority_off">V stavovom riadku na obrazovke uzamknutia bude zobrazená ikona a upozornenie</string>
+    <string name="pref_summary_minimize_priority_off">Zobraziť ikonu v stavovom riadku a upozornenia na uzamknutej obrazovke</string>
     <string name="pref_summary_minimize_priority_on">V stavovom riadku na obrazovke uzamknutia nebude zobrazená ikona a upozornenie</string>
 
     <string name="pref_header_notifications">Upozornenia</string>
@@ -97,11 +97,11 @@
     <string name="pref_title_notifications_call">Hovory</string>
     <string name="pref_title_notifications_sms">SMS</string>
     <string name="pref_title_notifications_pebblemsg">Správy Pebble</string>
-    <string name="pref_summary_notifications_pebblemsg">Podpora pre aplikácie, ktoré posielajú upozornenia do Pebble cez PebbleKit.</string>
+    <string name="pref_summary_notifications_pebblemsg">Podpora pre aplikácie, ktoré posielajú upozornenia do hodiniek Pebble cez PebbleKit.</string>
     <string name="pref_title_notifications_generic">Prístup k upozorneniam</string>
     <string name="pref_title_whenscreenon">Upozornenia aj pri zapnutej obrazovke</string>
-    <string name="pref_title_notification_filter">Nerušiť</string>
-    <string name="pref_summary_notification_filter">Neposielať nechcené upozornenia v režime Nerušiť</string>
+    <string name="pref_title_notification_filter">Režim Nerušiť</string>
+    <string name="pref_summary_notification_filter">Zakázať odosielanie nechcených upozornení v režime Nerušiť</string>
     <string name="pref_title_transliteration">Náhrada diakritiky</string>
     <string name="pref_summary_transliteration">Toto zapnite, ak vaše zariadenie nepodporuje písma (znaky s diakritikou) pre vás jazyk</string>
 
@@ -112,14 +112,14 @@
     <string name="pref_header_privacy">Súkromie</string>
     <string name="pref_title_call_privacy_mode">Ochrana súkromia pri hovore</string>
     <string name="pref_call_privacy_mode_off">Zobraziť meno a číslo</string>
-    <string name="pref_call_privacy_mode_name">Skryť meno, ale zobraziť číslo</string>
-    <string name="pref_call_privacy_mode_number">Skryť číslo, ale zobraziť meno</string>
+    <string name="pref_call_privacy_mode_name">Skryť meno, zobraziť číslo</string>
+    <string name="pref_call_privacy_mode_number">Skryť číslo, zobraziť meno</string>
     <string name="pref_call_privacy_mode_complete">Skryť meno aj číslo</string>
 
     <string name="pref_title_weather">Počasie</string>
     <string name="pref_title_weather_location">Poloha pre počasie (CM/LOS)</string>
 
-    <string name="pref_blacklist">Zakázané aplikácie (bez upozornení)</string>
+    <string name="pref_blacklist">Zakázať upozornenia z aplikácií</string>
     <string name="pref_blacklist_calendars">Zakázané kalendáre</string>
 
     <string name="pref_header_cannned_messages">Potlačené správy</string>
@@ -196,7 +196,7 @@
     <string name="pref_title_auto_export_enabled">Zapnutý/Vypnutý</string>
     <string name="pref_title_auto_export_location">Priečinok pre uloženie</string>
     <string name="pref_title_auto_export_interval">Časový interval</string>
-    <string name="pref_summary_auto_export_interval">Exportovať každú %d hodinu</string>
+    <string name="pref_summary_auto_export_interval">Exportovať každé %d hodiny</string>
 
     <string name="not_connected">Nepripojené</string>
     <string name="connecting">Pripájanie</string>
@@ -244,7 +244,7 @@
     <string name="pairing_in_progress">Vytváram väzbu: %1$s (%2$s)</string>
     <string name="pairing_already_bonded">Väzba s %1$s (%2$s) už existuje, prepájam…</string>
     <string name="message_cannot_pair_no_mac">Adresa MAC neprišla, nemôžem spárovať.</string>
-    <string name="preferences_category_device_specific_settings">Nastavenia zariadenia</string>
+    <string name="preferences_category_device_specific_settings">Špecifické nastavenia zariadení</string>
     <string name="preferences_miband_settings">Nastavenia Mi Band / Amazfit</string>
     <string name="preferences_amazfitbip_settings">Nastavenia Amazfit Bip</string>
     <string name="male">Muž</string>
@@ -262,7 +262,7 @@
     <string name="pref_header_vibration_count">Počet vibrácií</string>
 
     <string name="title_activity_sleepmonitor">Sledovanie spánku</string>
-    <string name="pref_write_logfiles">Zapísať logy</string>
+    <string name="pref_write_logfiles">Zapísovať logy</string>
     <string name="initializing">Spúšťanie</string>
     <string name="busy_task_fetch_activity_data">Načítavanie údajov o aktivite</string>
     <string name="sleep_activity_date_range">Od %1$s do %2$s</string>
@@ -424,7 +424,7 @@
 
     <string name="waiting_for_reconnect">Čakanie na opätovné pripojenie</string>
 
-    <string name="activity_prefs_about_you">Vaše údaje</string>
+    <string name="activity_prefs_about_you">Vaše osobné údaje</string>
     <string name="activity_prefs_year_birth">Rok narodenia</string>
     <string name="activity_prefs_gender">Pohlavie</string>
     <string name="activity_prefs_height_cm">Výška v cm</string>
@@ -552,4 +552,5 @@
     <string name="choose_auto_export_location">Vyberte umiestnenie exportu</string>
     <string name="notification_channel_name">Gadgetbridge upozornenia</string>
 <string name="controlcenter_connect">Pripojiť</string>
+    <string name="on">Zap.</string>
     </resources>

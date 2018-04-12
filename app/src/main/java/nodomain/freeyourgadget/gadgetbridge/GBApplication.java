@@ -304,6 +304,9 @@ public class GBApplication extends Application {
     public static boolean isRunningMarshmallowOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
+    public static boolean isRunningNougatOrLater() {
+        return VERSION.SDK_INT >= Build.VERSION_CODES.N;
+    }
 
     public static boolean isRunningOreoOrLater(){
         return VERSION.SDK_INT >= Build.VERSION_CODES.O;

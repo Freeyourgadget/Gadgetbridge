@@ -497,4 +497,19 @@
     <string name="devicetype_xwatch">XWatch</string>
 
     <string name="notification_channel_name">Gadgetbridge 通知</string>
-</resources>
+<string name="on">オン</string>
+    <string name="controlcenter_start_activity_tracks">活動の追跡</string>
+    <string name="activity_type_not_measured">未測定</string>
+    <string name="activity_type_activity">アクティビティ</string>
+    <string name="activity_type_light_sleep">浅い眠り</string>
+    <string name="activity_type_deep_sleep">深い眠り</string>
+    <string name="activity_type_not_worn">デバイスを着用していません</string>
+    <string name="activity_type_running">ランニング</string>
+    <string name="activity_type_walking">ウォーキング</string>
+    <string name="activity_type_swimming">スイミング</string>
+    <string name="activity_type_unknown">不明なアクティビティ</string>
+    <string name="activity_summaries">アクティビティ</string>
+    <string name="activity_type_biking">自転車走行</string>
+    <string name="activity_type_treadmill">ランニングマシン</string>
+
+    </resources>

@@ -560,4 +560,19 @@
     <string name="notification_channel_name">Ειδοποιήσεις Gadgetbridge</string>
 <string name="devicetype_xwatch">XWatch</string>
 
+    <string name="on">Ανοιχτό</string>
+    <string name="controlcenter_start_activity_tracks">Η δραστηριότητα σας καταγράφεται</string>
+    <string name="activity_type_not_measured">Δεν μετρήθηκε</string>
+    <string name="activity_type_activity">Δραστηριότητα</string>
+    <string name="activity_type_light_sleep">Ελαφρύς ύπνος</string>
+    <string name="activity_type_deep_sleep">Βαθύς ύπνος</string>
+    <string name="activity_type_not_worn">Η συσκευή δεν φοριέται</string>
+    <string name="activity_type_running">Τρέξιμο</string>
+    <string name="activity_type_walking">Περπάτημα</string>
+    <string name="activity_type_swimming">Κολύμβηση</string>
+    <string name="activity_type_unknown">Άγνωστη δραστηριότητα</string>
+    <string name="activity_summaries">Δραστηριότητες</string>
+    <string name="activity_type_biking">Ποδηλασία</string>
+    <string name="activity_type_treadmill">Διάδρομος</string>
+
     </resources>

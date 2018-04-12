@@ -1,9 +1,11 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.app.DatePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -17,12 +19,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -62,6 +66,27 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
             }
         }
     };
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        getMenuInflater().inflate(R.menu.activity_list_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean processed = false;
+        switch (item.getItemId()) {
+            case R.id.activity_action_manage_timestamp:
+                resetFetchTimestampToChosenDate();
+                processed = true;
+                break;
+        }
+        return processed;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +132,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
 
             @Override
             public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-                getMenuInflater().inflate(R.menu.activity_list_menu, menu);
+                getMenuInflater().inflate(R.menu.activity_list_context_menu, menu);
                 findViewById(R.id.fab).setVisibility(View.INVISIBLE);
                 return true;
             }
@@ -186,6 +211,23 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                 fetchTrackData();
             }
         });
+    }
+
+    public void resetFetchTimestampToChosenDate() {
+        final Calendar currentDate = Calendar.getInstance();
+        new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar date = Calendar.getInstance();
+                date.set(year, monthOfYear, dayOfMonth);
+
+                Long timestamp = date.getTimeInMillis() - 1000;
+                SharedPreferences.Editor editor = GBApplication.getPrefs().getPreferences().edit();
+                editor.remove(mGBDevice.getAddress() + "_" + "lastSportsActivityTimeMillis"); //FIXME: key reconstruction is BAD
+                editor.putLong(mGBDevice.getAddress() + "_" + "lastSportsActivityTimeMillis", timestamp);
+                editor.commit();
+            }
+        }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
     }
 
     @Override

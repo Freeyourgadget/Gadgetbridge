@@ -307,7 +307,7 @@
   <string name="miband_prefs_reserve_alarm_calendar">Alarmes à réserver pour événements futurs</string>
   <string name="miband_prefs_hr_sleep_detection">Utiliser le capteur cardiaque pour améliorer la détection du sommeil</string>
   <string name="miband_prefs_device_time_offset_hours">La compensation de temps en heure (pour travailleurs en rotation, par exemple)</string>
-  <string name="miband2_prefs_dateformat">Mi2 : Format de la date</string>
+  <string name="miband2_prefs_dateformat">Mi2 : Format de la date</string>
   <string name="dateformat_time">Heure</string>
   <string name="dateformat_date_time"><![CDATA[Date et heure]]></string>
   <string name="mi2_prefs_goal_notification">Notification d\'objectif</string>
@@ -341,7 +341,7 @@ Temps de sommeil péféré en heures</string>
   <string name="device_hw">Révision matérielle : %1$s</string>
   <string name="device_fw">Version du micrologiciel : %1$s</string>
   <string name="error_creating_directory_for_logfiles">Erreur à la création de votre fichier log : %1$s</string>
-  <string name="DEVINFO_HR_VER">"Révision matérielle : "</string>
+  <string name="DEVINFO_HR_VER">"Fréquence cardiaque : "</string>
   <string name="updatefirmwareoperation_update_in_progress">Installation du micrologiciel</string>
   <string name="updatefirmwareoperation_firmware_not_sent">Échec lors de l\'écriture du micrologiciel</string>
   <string name="charts_legend_heartrate">Fréquence cardiaque</string>
@@ -405,7 +405,7 @@ NOTE : la base de données sera bien évidement plus grande !</string>
   <string name="discovery_successfully_bonded">Lié à %1$s.</string>
   <string name="discovery_pair_title">Appairer avec %1$s ?</string>
   <string name="discovery_pair_question">Sélectionnez Jumeler pour associer vos dispositifs. Si cela échoue, essayez à nouveau sans jumelage.</string>
-  <string name="discovery_yes_pair">Jumelage</string>
+  <string name="discovery_yes_pair">Appairer</string>
   <string name="discovery_dont_pair">Ne pas appairer</string>
 <string name="fw_upgrade_notice_amazfitbip">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Bip. 
 \n 
@@ -494,11 +494,24 @@ NOTE : la base de données sera bien évidement plus grande !</string>
     <string name="pref_title_auto_export_interval">Intervalle d\'exportation</string>
     <string name="pref_summary_auto_export_interval">Exporter toutes les %d heures</string>
 
-    <string name="notif_export_failed_title">L\'exportation de la base de données a échoué ! Veuillez vérifier vos paramètres.</string>
+    <string name="notif_export_failed_title">L\'exportation de la base de données a échoué ! Veuillez vérifier vos paramètres.</string>
     <string name="choose_auto_export_location">Choisissez l\'emplacement d\'exportation</string>
 <string name="spanish">Espagnol</string>
 
     <string name="notification_channel_name">Notifications de Gadgetbridge</string>
 <string name="devicetype_xwatch">XWatch</string>
+
+    <string name="on">Actif</string>
+    <string name="activity_type_not_measured">Non mesurée</string>
+    <string name="activity_type_activity">Activité</string>
+    <string name="activity_type_light_sleep">Sommeil léger</string>
+    <string name="activity_type_deep_sleep">Sommeil profond</string>
+    <string name="activity_type_running">Course</string>
+    <string name="activity_type_walking">Marche</string>
+    <string name="activity_type_swimming">Natation</string>
+    <string name="activity_type_unknown">Activité inconnue</string>
+    <string name="activity_summaries">Activités</string>
+    <string name="activity_type_biking">Vélo</string>
+    <string name="activity_type_treadmill">Tapis de course</string>
 
     </resources>

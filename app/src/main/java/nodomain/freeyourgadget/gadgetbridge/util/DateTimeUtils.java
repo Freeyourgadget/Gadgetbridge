@@ -40,6 +40,9 @@ public class DateTimeUtils {
     }
 
     public static String formatIso8601(Date date) {
+        if(!GBApplication.isRunningNougatOrLater()){
+            return new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZZZ", Locale.US).format(date);
+        }
         return ISO_8601_FORMAT.format(date);
     }
 

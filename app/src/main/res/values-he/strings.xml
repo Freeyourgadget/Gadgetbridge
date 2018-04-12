@@ -500,4 +500,19 @@
     <string name="notification_channel_name">הודעות של Gadgetbridge</string>
 <string name="devicetype_xwatch">XWatch</string>
 
+    <string name="on">פעיל</string>
+    <string name="controlcenter_start_activity_tracks">מסלולי הפעילות שלך</string>
+    <string name="activity_type_not_measured">ללא מדידה</string>
+    <string name="activity_type_activity">פעילות</string>
+    <string name="activity_type_light_sleep">שינה קלה</string>
+    <string name="activity_type_deep_sleep">שינה עמוקה</string>
+    <string name="activity_type_not_worn">ההתקן לא נענד</string>
+    <string name="activity_type_running">ריצה</string>
+    <string name="activity_type_walking">הליכה</string>
+    <string name="activity_type_swimming">שחייה</string>
+    <string name="activity_type_unknown">פעילות לא ידועה</string>
+    <string name="activity_summaries">פעילויות</string>
+    <string name="activity_type_biking">רכיבת אופניים</string>
+    <string name="activity_type_treadmill">הליכון</string>
+
     </resources>
