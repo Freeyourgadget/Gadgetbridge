@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.export;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlSerializer;
@@ -31,7 +32,7 @@ public class GPXExporter implements ActivityTrackExporter {
 
     private String creator;
     private boolean includeHeartRate = true;
-    private boolean includeHeartRateByTime = true;
+    private boolean includeHeartRateOfNearestSample = true;
 
     @NonNull
     @Override
@@ -90,7 +91,7 @@ public class GPXExporter implements ActivityTrackExporter {
         String source = getSource(track);
         boolean atLeastOnePointExported = false;
         for (ActivityPoint point : trackPoints) {
-            atLeastOnePointExported = exportTrackPoint(ser, point, source, trackPoints) | atLeastOnePointExported ;
+            atLeastOnePointExported |= exportTrackPoint(ser, point, source, trackPoints);
         }
 
         if(!atLeastOnePointExported) {
@@ -135,30 +136,19 @@ public class GPXExporter implements ActivityTrackExporter {
 
         int hr = point.getHeartRate();
         if (!HeartRateUtils.isValidHeartRateValue(hr)) {
-            if(!includeHeartRateByTime) { return; }
+            if (!includeHeartRateOfNearestSample) {
+                return;
+            }
 
-            Date time = point.getTime();
-            ActivityPoint closestPointItem = null;
-            long lowestDifference = Long.MAX_VALUE;
-            for (ActivityPoint pointItem : trackPoints) {
-                int hrItem = pointItem.getHeartRate();
-                if(HeartRateUtils.isValidHeartRateValue(hrItem)) {
-                    Date timeItem = pointItem.getTime();
-                    if (timeItem.after(time) || timeItem.equals(time)) continue;
-                    long difference = time.getTime() - timeItem.getTime();
-                    if (difference < lowestDifference) {
-                    lowestDifference = difference;
-                    closestPointItem = pointItem;
-                    }
-                }
+            ActivityPoint closestPointItem = findClosestSensibleActivityPoint(point.getTime(), trackPoints);
+            if(closestPointItem == null) {
+                return;
             }
-            if(closestPointItem != null) {
-                hr = closestPointItem.getHeartRate();
-                if (!HeartRateUtils.isValidHeartRateValue(hr)) {
-                    return;
-                }
+
+            hr = closestPointItem.getHeartRate();
+            if (!HeartRateUtils.isValidHeartRateValue(hr)) {
+                return;
             }
-            return;
         }
 
         ser.startTag(NS_DEFAULT, "extensions");
@@ -167,6 +157,27 @@ public class GPXExporter implements ActivityTrackExporter {
         ser.startTag(NS_TRACKPOINT_EXTENSION_URI, "hr").text(String.valueOf(hr)).endTag(NS_TRACKPOINT_EXTENSION_URI, "hr");
         ser.endTag(NS_TRACKPOINT_EXTENSION_URI, "TrackPointExtension");
         ser.endTag(NS_DEFAULT, "extensions");
+    }
+
+    private @Nullable ActivityPoint findClosestSensibleActivityPoint(Date time, List<ActivityPoint> trackPoints) {
+        ActivityPoint closestPointItem = null;
+
+        long lowestDifference = 60 * 2 * 1000; // minimum distance is 2min
+        for (ActivityPoint pointItem : trackPoints) {
+            int hrItem = pointItem.getHeartRate();
+            if (HeartRateUtils.isValidHeartRateValue(hrItem)) {
+                Date timeItem = pointItem.getTime();
+                if (timeItem.after(time) || timeItem.equals(time)) {
+                    break; // we assume that the given trackPoints are sorted in time ascending order (oldest first)
+                }
+                long difference = time.getTime() - timeItem.getTime();
+                if (difference < lowestDifference) {
+                    lowestDifference = difference;
+                    closestPointItem = pointItem;
+                }
+            }
+        }
+        return closestPointItem;
     }
 
     private String formatLocation(double value) {
