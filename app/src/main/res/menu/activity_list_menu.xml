@@ -2,23 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <item
-        android:id="@+id/activity_action_select_all"
-        android:icon="@drawable/ic_select_all"
-        android:title="SELECT ALL"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/activity_action_export"
-        android:icon="@drawable/ic_share"
-        android:title="EXPORT"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/activity_action_delete"
-        android:icon="@drawable/ic_delete_cross"
-        android:title="@string/Delete"
-        app:showAsAction="always"/>
-
+        android:id="@+id/activity_action_manage_timestamp"
+        android:icon="@drawable/ic_reset"
+        android:title="@string/reset_index"
+        app:showAsAction="never" />
 </menu>
