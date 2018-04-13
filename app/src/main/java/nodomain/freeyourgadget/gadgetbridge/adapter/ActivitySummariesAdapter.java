@@ -19,12 +19,16 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySummary> {
+    private final GBDevice device;
+
     public ActivitySummariesAdapter(Context context, GBDevice device) {
         super(context);
-        loadItems(device);
+        this.device = device;
+        loadItems();
     }
 
-    public void loadItems(GBDevice device) {
+    @Override
+    public void loadItems() {
         try (DBHandler handler = GBApplication.acquireDB()) {
             BaseActivitySummaryDao summaryDao = handler.getDaoSession().getBaseActivitySummaryDao();
             Device dbDevice = DBHelper.findDevice(device, handler.getDaoSession());
