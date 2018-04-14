@@ -42,6 +42,9 @@ public class WeatherSpec implements Parcelable {
     public int currentHumidity;
     public int todayMaxTemp;
     public int todayMinTemp;
+    public float windSpeed; //km per hour
+    public int windDirection; //deg
+
     public ArrayList<Forecast> forecasts = new ArrayList<>();
 
     public WeatherSpec() {
