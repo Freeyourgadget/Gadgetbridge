@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release version="0.26.0" versioncode="126">
-        <change>AAmazfit Bip: Initial support for GPS tracks</change>
-        <change>APebble: Wind speed/direction support and bugfixes for weather when using background javascript</change>
+        <change>Amazfit Bip: Initial support for GPS tracks</change>
+        <change>Pebble: Wind speed/direction support and bugfixes for weather when using background javascript</change>
     </release>
     <release version="0.25.1" versioncode="125">
         <change>Amazfit Cor: Try to send weather location instead of AQI</change>
