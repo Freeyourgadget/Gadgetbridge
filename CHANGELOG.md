@@ -1,5 +1,9 @@
 ### Changelog
 
+#### Version 0.26.0
+* Amazfit Bip: Initial support for GPS tracks
+* Pebble: Wind speed/direction support and bugfixes for weather when using background javascript
+
 #### Version 0.25.1
 * Amazfit Cor: Try to send weather location instead of AQI
 * Amazfit Bip: Support setting start end end time for background light when lifting the arm
