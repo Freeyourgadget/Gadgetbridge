@@ -48,7 +48,7 @@ public class ActivityDetailsParserTest extends TestBase {
             assertEquals("Elvis", track.getUser().getName());
 
             List<ActivityPoint> trackPoints = track.getTrackPoints();
-            assertEquals(1208, trackPoints.size());
+            assertEquals(939, trackPoints.size());
         }
     }
 
@@ -87,7 +87,7 @@ public class ActivityDetailsParserTest extends TestBase {
             ActivityTrack track = parser.parse(FileUtils.readAll(in, MAX_DETAILS));
 
             List<ActivityPoint> trackPoints = track.getTrackPoints();
-            assertEquals(1208, trackPoints.size());
+            assertEquals(939, trackPoints.size());
 
 
             GPXExporter exporter = new GPXExporter();
