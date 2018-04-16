@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release version="0.26.1" versioncode="127">
-        <change> Fix crashes on connection problems on Android 6 and lower</change>
+        <change> Fix crashes and connection problems on Android 6 and lower</change>
     </release>
     <release version="0.26.0" versioncode="126">
         <change>Amazfit Bip: Initial support for GPS tracks</change>
