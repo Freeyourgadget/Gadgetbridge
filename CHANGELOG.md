@@ -1,5 +1,8 @@
 ### Changelog
 
+#### Version 0.26.1
+* Fix crashes and connection problems on Android 6 and lower
+
 #### Version 0.26.0
 * Amazfit Bip: Initial support for GPS tracks
 * Pebble: Wind speed/direction support and bugfixes for weather when using background javascript
