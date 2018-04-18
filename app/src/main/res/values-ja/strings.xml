@@ -512,4 +512,8 @@
     <string name="activity_type_biking">自転車走行</string>
     <string name="activity_type_treadmill">ランニングマシン</string>
 
+    <string name="select_all">すべて選択</string>
+    <string name="share">共有</string>
+    <string name="reset_index">取得日付をリセット</string>
+
     </resources>
