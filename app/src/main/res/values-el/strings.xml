@@ -575,4 +575,8 @@
     <string name="activity_type_biking">Ποδηλασία</string>
     <string name="activity_type_treadmill">Διάδρομος</string>
 
+    <string name="select_all">Επιλογή όλων</string>
+    <string name="share">Διαμοιρασμός</string>
+    <string name="reset_index">Επαναφορά ημερομηνίας λήψης</string>
+
     </resources>
