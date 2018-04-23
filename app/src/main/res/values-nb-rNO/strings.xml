@@ -554,4 +554,22 @@
     <string name="notification_channel_name">Gadgetbridge-merknader</string>
 <string name="devicetype_xwatch">XWatch</string>
 
+    <string name="on">På</string>
+    <string name="controlcenter_start_activity_tracks">Dine aktivitetsspor</string>
+    <string name="activity_type_not_measured">Ikke målt</string>
+    <string name="activity_type_activity">Aktivitet</string>
+    <string name="activity_type_light_sleep">Lett søvn</string>
+    <string name="activity_type_deep_sleep">Dyp søvn</string>
+    <string name="activity_type_not_worn">Enhet ikke båret</string>
+    <string name="activity_type_running">Springing</string>
+    <string name="activity_type_walking">Gåing</string>
+    <string name="activity_type_swimming">Svømming</string>
+    <string name="activity_type_unknown">Ukjent aktivitet</string>
+    <string name="activity_summaries">Aktiviteter</string>
+    <string name="activity_type_biking">Sykling</string>
+    <string name="activity_type_treadmill">Tredemølle</string>
+    <string name="select_all">Velg alle</string>
+    <string name="share">Del</string>
+    <string name="reset_index">Tilbakestill innhentingsdato</string>
+
     </resources>
