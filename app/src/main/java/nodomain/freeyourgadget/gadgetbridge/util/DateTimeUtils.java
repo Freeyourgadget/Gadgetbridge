@@ -20,7 +20,9 @@ import android.text.format.DateUtils;
 
 import com.github.pfichtner.durationformatter.DurationFormatter;
 
+import java.text.FieldPosition;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,7 +35,25 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class DateTimeUtils {
     private static SimpleDateFormat DAY_STORAGE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-    public static SimpleDateFormat ISO_8601_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZZZ", Locale.US);
+    public static SimpleDateFormat ISO_8601_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US){
+        //see https://github.com/Freeyourgadget/Gadgetbridge/issues/1076#issuecomment-383834116 and https://stackoverflow.com/a/30221245
+
+        @Override
+        public Date parse(String text, ParsePosition pos) {
+            if (text.length() > 3) {
+                text = text.substring(0, text.length() - 3) + text.substring(text.length() - 2);
+            }
+            return super.parse(text, pos);
+
+        }
+
+        @Override
+        public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition pos) {
+            StringBuffer rfcFormat = super.format(date, toAppendTo, pos);
+            return rfcFormat.insert(rfcFormat.length() - 2, ":");
+        }
+
+    }; //no public access, we have to workaround Android bugs
 
     public static String formatDateTime(Date date) {
         return DateUtils.formatDateTime(GBApplication.getContext(), date.getTime(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_NO_YEAR);
