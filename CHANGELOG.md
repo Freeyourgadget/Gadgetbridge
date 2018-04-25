@@ -1,5 +1,8 @@
 ### Changelog
 
+#### Version 0.26.2
+* Amazfit Bip: Time and timezone fixes for Android <=6 when exporting GPX
+
 #### Version 0.26.1
 * Fix crashes and connection problems on Android 6 and lower
 
