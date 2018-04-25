@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release version="0.26.2" versioncode="128">
-        <change>Amazfit Bip: Time and timezone fixes for Android <=6 when exporting GPX</change>
+        <change>Amazfit Bip: Time and timezone fixes for Android 6 and lower when exporting GPX</change>
     </release>
     <release version="0.26.1" versioncode="127">
         <change>Fix crashes and connection problems on Android 6 and lower</change>
