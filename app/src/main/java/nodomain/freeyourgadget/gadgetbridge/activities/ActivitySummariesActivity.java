@@ -273,7 +273,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
 
         if(uris.size() > 0) {
             final Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-            intent.setType("*/*");
+            intent.setType("application/gpx+xml");
             intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
             startActivity(Intent.createChooser(intent, "SHARE"));
         } else {
