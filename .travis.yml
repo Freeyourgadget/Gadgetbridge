@@ -33,4 +33,6 @@ android:
 before_install:
   - yes | sdkmanager "platforms;android-27"
 
-script: ./gradlew build connectedCheck --stacktrace
+script:
+  - ./gradlew build connectedCheck --stacktrace
+  - config/travis/validate_fastlane_metadata.sh
