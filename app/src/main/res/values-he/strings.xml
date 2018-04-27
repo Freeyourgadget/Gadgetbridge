@@ -519,4 +519,12 @@
     <string name="share">שיתוף</string>
     <string name="reset_index">איפוס מועד הקבלה</string>
 
-    </resources>
+    <string name="menuitem_status">מצב</string>
+    <string name="menuitem_activity">פעילות</string>
+    <string name="menuitem_weather">מזג אוויר</string>
+    <string name="menuitem_alarm">שעון מעורר</string>
+    <string name="menuitem_timer">קוצב זמן</string>
+    <string name="menuitem_compass">מצפן</string>
+    <string name="menuitem_settings">הגדרות</string>
+    <string name="menuitem_alipay">Alipay</string>
+</resources>
