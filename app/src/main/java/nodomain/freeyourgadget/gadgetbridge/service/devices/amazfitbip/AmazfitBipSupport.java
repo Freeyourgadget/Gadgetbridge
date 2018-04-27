@@ -140,7 +140,7 @@ public class AmazfitBipSupport extends MiBand2Support {
         }
 
         Version version = new Version(gbDevice.getFirmwareVersion());
-        if (version.compareTo(new Version("0.1.1.14")) <= 0) {
+        if (version.compareTo(new Version("0.1.1.14")) < 0) {
             LOG.warn("Won't set menu items since firmware is too low to be safe");
             return this;
         }
