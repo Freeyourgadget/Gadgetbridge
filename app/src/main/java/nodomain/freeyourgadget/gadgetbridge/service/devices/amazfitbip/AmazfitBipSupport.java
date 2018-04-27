@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Locale;
+import java.util.Set;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 
@@ -55,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationS
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.FetchSportsSummaryOperation;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
@@ -129,14 +131,52 @@ public class AmazfitBipSupport extends MiBand2Support {
 
     @Override
     protected AmazfitBipSupport setDisplayItems(TransactionBuilder builder) {
-        /*
-        LOG.info("Enabling all display items");
+        if (gbDevice.getType() != DeviceType.AMAZFITBIP) {
+            return this; // Disable for Cor for now
+        }
+        if (gbDevice.getFirmwareVersion() == null) {
+            LOG.warn("Device not initialized yet, won't set menu items");
+            return this;
+        }
 
-        // This will brick the watch, don't enable it!
-        byte[] data = new byte[]{ENDPOINT_DISPLAY_ITEMS, (byte) 0xff, 0x01, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
+        Version version = new Version(gbDevice.getFirmwareVersion());
+        if (version.compareTo(new Version("0.1.1.14")) <= 0) {
+            LOG.warn("Won't set menu items since firmware is too low to be safe");
+            return this;
+        }
 
-        builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), data);
-        */
+        Prefs prefs = GBApplication.getPrefs();
+        Set<String> pages = prefs.getStringSet("bip_display_items", null);
+        LOG.info("Setting display items to " + (pages == null ? "none" : pages));
+        byte[] command = AmazfitBipService.COMMAND_CHANGE_SCREENS.clone();
+
+        if (pages != null) {
+            if (pages.contains("status")) {
+                command[1] |= 0x02;
+            }
+            if (pages.contains("activity")) {
+                command[1] |= 0x04;
+            }
+            if (pages.contains("weather")) {
+                command[1] |= 0x08;
+            }
+            if (pages.contains("alarm")) {
+                command[1] |= 0x10;
+            }
+            if (pages.contains("timer")) {
+                command[1] |= 0x20;
+            }
+            if (pages.contains("compass")) {
+                command[1] |= 0x40;
+            }
+            if (pages.contains("settings")) {
+                command[1] |= 0x80;
+            }
+            if (pages.contains("alipay")) {
+                command[2] |= 0x01;
+            }
+        }
+        builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
         return this;
     }
 
@@ -145,7 +185,6 @@ public class AmazfitBipSupport extends MiBand2Support {
         if (gbDevice.getFirmwareVersion() == null) {
             LOG.warn("Device not initialized yet, so not sending weather info");
             return;
-
         }
         boolean supportsConditionString = false;
 

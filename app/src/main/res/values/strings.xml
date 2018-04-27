@@ -344,6 +344,8 @@
     <string name="clock">Clock</string>
     <string name="heart_rate">Heart rate</string>
     <string name="battery">Battery</string>
+
+
     <string name="liveactivity_live_activity">Live activity</string>
     <string name="weeksteps_today_steps_description">Steps today, target: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Do not ACK activity data transfer</string>
@@ -552,4 +554,14 @@
 
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>
+
+    <!-- Menus on the smart device -->
+    <string name="menuitem_status">Status</string>
+    <string name="menuitem_activity">Activity</string>
+    <string name="menuitem_weather">Weather</string>
+    <string name="menuitem_alarm">Alarm</string>
+    <string name="menuitem_timer">Timer</string>
+    <string name="menuitem_compass">Compass</string>
+    <string name="menuitem_settings">Settings</string>
+    <string name="menuitem_alipay">Alipay</string>
 </resources>
