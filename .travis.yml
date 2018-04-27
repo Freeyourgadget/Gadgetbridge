@@ -35,4 +35,4 @@ before_install:
 
 script:
   - ./gradlew build connectedCheck --stacktrace
-  - config/travis/validate_fastlane_metadata.sh
+  - bash config/travis/validate_fastlane_metadata.sh
