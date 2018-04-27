@@ -572,4 +572,12 @@
     <string name="share">Del</string>
     <string name="reset_index">Tilbakestill innhentingsdato</string>
 
-    </resources>
+    <string name="menuitem_status">Status</string>
+    <string name="menuitem_activity">Aktivitet</string>
+    <string name="menuitem_weather">Vær</string>
+    <string name="menuitem_alarm">Alarm</string>
+    <string name="menuitem_timer">Tidsur</string>
+    <string name="menuitem_compass">Kompass</string>
+    <string name="menuitem_settings">Innstillinger</string>
+    <string name="menuitem_alipay">Alipay</string>
+</resources>
