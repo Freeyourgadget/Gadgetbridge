@@ -8,7 +8,7 @@
   <string name="action_donate">Faire un don</string>
   <string name="controlcenter_fetch_activity_data">Synchroniser</string>
   <string name="controlcenter_start_sleepmonitor">Suivi du sommeil (ALPHA)</string>
-  <string name="controlcenter_find_device">Retrouver un appareil perdu</string>
+  <string name="controlcenter_find_device">Retrouver votre appareil perdu</string>
   <string name="controlcenter_take_screenshot">Prendre une capture d\'écran</string>
   <string name="controlcenter_disconnect">Déconnexion</string>
   <string name="controlcenter_delete_device">Supprimer l’appareil</string>
@@ -514,4 +514,18 @@ NOTE : la base de données sera bien évidement plus grande !</string>
     <string name="activity_type_biking">Vélo</string>
     <string name="activity_type_treadmill">Tapis de course</string>
 
-    </resources>
+    <string name="controlcenter_start_activity_tracks">Suivi de vos activités</string>
+    <string name="activity_type_not_worn">Dispositif non utilisé</string>
+    <string name="select_all">Tout sélectionner</string>
+    <string name="share">Partager</string>
+    <string name="reset_index">Réinitialiser la date de récupération</string>
+
+    <string name="menuitem_status">Etat</string>
+    <string name="menuitem_activity">Activité</string>
+    <string name="menuitem_weather">Météo</string>
+    <string name="menuitem_alarm">Alarme</string>
+    <string name="menuitem_timer">Minuteur</string>
+    <string name="menuitem_compass">Boussole</string>
+    <string name="menuitem_settings">Réglages</string>
+    <string name="menuitem_alipay">Alipay</string>
+</resources>
