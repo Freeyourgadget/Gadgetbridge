@@ -472,7 +472,7 @@ NOTE : la base de données sera bien évidement plus grande !</string>
     <string name="kind_gps_almanac">Almanach GPS</string>
     <string name="kind_gps_cep">Correction d\'erreurs GPS</string>
     <string name="kind_resources">Ressources</string>
-    <string name="kind_watchface">Watchface</string>
+    <string name="kind_watchface">Cadran</string>
 
     <string name="devicetype_unknown">Appareil inconnu</string>
     <string name="devicetype_test">Appareil de test</string>
