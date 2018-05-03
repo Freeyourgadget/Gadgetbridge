@@ -61,7 +61,7 @@ public class AmazfitBipFetchLogsOperation extends AbstractFetchOperation {
             return;
         }
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-hhmmss", Locale.US);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-HHmmss", Locale.US);
         String filename = "amazfitbip_" + dateFormat.format(new Date()) + ".log";
 
         File outputFile = new File(dir, filename );
@@ -121,7 +121,7 @@ public class AmazfitBipFetchLogsOperation extends AbstractFetchOperation {
     @Override
     protected void bufferActivityData(@NonNull byte[] value) {
         try {
-            logOutputStream.write(value, 1, value.length);
+            logOutputStream.write(value, 1, value.length - 1);
         } catch (IOException e) {
             LOG.warn("could not write to output stream", e);
             handleActivityFetchFinish(false);
