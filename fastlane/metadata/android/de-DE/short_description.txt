@@ -1,2 +1,1 @@
-Nutze deine Pebble/Mi Band/Amazfit Bip/Hplus, ohne die proprietäre App des Herstellers, ohne ein Benutzerkonto zu erstellen, und ohne irgendwelche Daten an die Server des Herstellers zu senden.
-
+Nutze deine Pebble/Bip/Miband/Hplus u.a. und behalte deine Daten für dich!
