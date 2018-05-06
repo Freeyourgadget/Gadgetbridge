@@ -95,6 +95,11 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(1333,  "0.1.0.80");
         crcToVersion.put(12017, "0.1.0.86");
         crcToVersion.put(8276,  "0.1.1.14");
+        crcToVersion.put(5914,  "0.1.1.17");
+        crcToVersion.put(6228,  "0.1.1.29");
+        crcToVersion.put(44223, "0.1.1.31");
+        crcToVersion.put(39726, "0.1.1.36");
+        crcToVersion.put(11062, "0.1.1.39");
 
         // resources
         crcToVersion.put(12586, "0.0.8.74");
@@ -104,13 +109,16 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(22051, "0.0.9.40");
         crcToVersion.put(46233, "0.0.9.49-0.1.0.11");
         crcToVersion.put(12098, "0.1.0.17");
-        crcToVersion.put(28696, "0.1.0.26-0.1.0.27");
+        crcToVersion.put(28696, "0.1.0.26-27");
         crcToVersion.put(5650,  "0.1.0.33");
-        crcToVersion.put(16117, "0.1.0.39-0.1.0.45");
-        crcToVersion.put(22506, "0.1.0.66-0.1.0.70");
-        crcToVersion.put(42264, "0.1.0.77-0.1.0.80");
-        crcToVersion.put(55934, "0.1.0.86-0.1.0.89");
-        crcToVersion.put(26587, "0.1.1.14");
+        crcToVersion.put(16117, "0.1.0.39-45");
+        crcToVersion.put(22506, "0.1.0.66-70");
+        crcToVersion.put(42264, "0.1.0.77-80");
+        crcToVersion.put(55934, "0.1.0.86-89");
+        crcToVersion.put(26587, "0.1.1.14-25");
+        crcToVersion.put(7446,  "0.1.1.29");
+        crcToVersion.put(47887, "0.1.1.31-36");
+        crcToVersion.put(14334, "0.1.1.39");
 
         // gps
         crcToVersion.put(61520, "9367,8f79a91,0,0,");
