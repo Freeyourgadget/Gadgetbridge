@@ -1,5 +1,11 @@
 ### Changelog
 
+#### Version 0.26.3
+* Amazfit Bip: Add proper mime type to shared gpx files
+* Amazfit Bip: allow to set displayed menu items
+* Amazfit Bip: fix fetching logs from device via debug menu
+* Amazfit Bip: Raise .res limit to 700000 bytes for modded files
+
 #### Version 0.26.2
 * Amazfit Bip: Time and timezone fixes for Android <=6 when exporting GPX
 
