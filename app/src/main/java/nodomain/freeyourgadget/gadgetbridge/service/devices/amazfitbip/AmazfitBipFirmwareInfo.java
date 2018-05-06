@@ -138,7 +138,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
     @Override
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
         if (ArrayUtils.startsWith(bytes, RES_HEADER) || ArrayUtils.startsWith(bytes, NEWRES_HEADER)) {
-            if (bytes.length > 500000) { // dont know how to distinguish from Cor .res
+            if (bytes.length > 700000) { // dont know how to distinguish from Cor .res
                 return HuamiFirmwareType.INVALID;
             }
             return HuamiFirmwareType.RES;
