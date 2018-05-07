@@ -56,15 +56,18 @@ public class Mi2FirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(49197, "1.0.0.53");
         crcToVersion.put(32450, "1.0.1.28");
         crcToVersion.put(51770, "1.0.1.34");
-        crcToVersion.put(3929, "1.0.1.39");
+        crcToVersion.put(3929,  "1.0.1.39");
         crcToVersion.put(47364, "1.0.1.54");
         crcToVersion.put(44776, "1.0.1.59");
         crcToVersion.put(27318, "1.0.1.67");
         crcToVersion.put(54702, "1.0.1.69");
-
+        crcToVersion.put(31698, "1.0.1.81");
+        crcToVersion.put(53474, "1.0.1.81 (tph)");
+        crcToVersion.put(46048, "1.0.1.81 (tph as7000)");
+        crcToVersion.put(19930, "1.0.1.81 (tph india)");
         // fonts
         crcToVersion.put(45624, "Font");
-        crcToVersion.put(6377, "Font (En)");
+        crcToVersion.put(6377,  "Font (En)");
     }
 
     public Mi2FirmwareInfo(byte[] bytes) {
