@@ -573,4 +573,12 @@
     <string name="share">Compartir</string>
     <string name="reset_index">Restablecer a data de obtención</string>
 
-    </resources>
+    <string name="menuitem_status">Estado</string>
+    <string name="menuitem_activity">Actividade</string>
+    <string name="menuitem_weather">Meteoroloxía</string>
+    <string name="menuitem_alarm">Alarma</string>
+    <string name="menuitem_timer">Cronómetro</string>
+    <string name="menuitem_compass">Compás</string>
+    <string name="menuitem_settings">Axustes</string>
+    <string name="menuitem_alipay">Alipay</string>
+</resources>
