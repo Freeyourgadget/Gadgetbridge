@@ -71,13 +71,12 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
     }
 
     synchronized void sendDataToPebble(byte[] data) {
-        //LOG.info("send data to pebble " + GB.hexdump(data, 0, -1));
         writeCharacteristics.setValue(data.clone());
 
         mBluetoothGattServer.notifyCharacteristicChanged(mBtDevice, writeCharacteristics, false);
     }
 
-    synchronized private void sendAckToPebble(int serial) {
+    synchronized void sendAckToPebble(int serial) {
         writeCharacteristics.setValue(new byte[]{(byte) (((serial << 3) | 1) & 0xff)});
 
         mBluetoothGattServer.notifyCharacteristicChanged(mBtDevice, writeCharacteristics, false);
@@ -110,39 +109,7 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
             LOG.warn("unexpected write request");
             return;
         }
-        if (!mPebbleLESupport.mIsConnected) {
-            mPebbleLESupport.mIsConnected = true;
-            synchronized (mPebbleLESupport) {
-                mPebbleLESupport.notify();
-            }
-        }
-        //LOG.info("write request: offset = " + offset + " value = " + GB.hexdump(value, 0, -1));
-        int header = value[0] & 0xff;
-        int command = header & 7;
-        int serial = header >> 3;
-        if (command == 0x01) {
-            LOG.info("got ACK for serial = " + serial);
-            if (mPebbleLESupport.mPPAck != null) {
-                mPebbleLESupport.mPPAck.countDown();
-            } else {
-                LOG.warn("mPPAck countdownlatch is not present but it probably should");
-            }
-        }
-        if (command == 0x02) { // some request?
-            LOG.info("got command 0x02");
-            if (value.length > 1) {
-                sendDataToPebble(new byte[]{0x03, 0x19, 0x19}); // no we don't know what that means
-                mPebbleLESupport.createPipedInputReader(); // FIXME: maybe not here
-            } else {
-                sendDataToPebble(new byte[]{0x03}); // no we don't know what that means
-            }
-        } else if (command == 0) { // normal package
-            LOG.info("got PPoGATT package serial = " + serial + " sending ACK");
-
-            sendAckToPebble(serial);
-
-            mPebbleLESupport.writeToPipedOutputStream(value, 1, value.length - 1);
-        }
+        mPebbleLESupport.handlePPoGATTPacket(value);
     }
 
     public void onConnectionStateChange(BluetoothDevice device, int status, int newState) {

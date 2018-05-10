@@ -39,8 +39,9 @@ public class PebbleLESupport {
     private PipedOutputStream mPipedOutputStream;
     private int mMTU = 20;
     private int mMTULimit = Integer.MAX_VALUE;
-    boolean mIsConnected = false;
-    CountDownLatch mPPAck;
+    public boolean clientOnly = false; // currently broken, and only possible for Pebble 2
+    private boolean mIsConnected = false;
+    private CountDownLatch mPPAck;
 
     public PebbleLESupport(Context context, final BluetoothDevice btDevice, PipedInputStream pipedInputStream, PipedOutputStream pipedOutputStream) throws IOException {
         mBtDevice = btDevice;
@@ -56,8 +57,10 @@ public class PebbleLESupport {
         mMTULimit = Math.max(mMTULimit, 20);
         mMTULimit = Math.min(mMTULimit, 512);
 
-        mPebbleGATTServer = new PebbleGATTServer(this, context, mBtDevice);
-        if (mPebbleGATTServer.initialize()) {
+        if (!clientOnly) {
+            mPebbleGATTServer = new PebbleGATTServer(this, context, mBtDevice);
+        }
+        if (clientOnly || mPebbleGATTServer.initialize()) {
             mPebbleGATTClient = new PebbleGATTClient(this, context, mBtDevice);
             try {
                 synchronized (this) {
@@ -73,11 +76,11 @@ public class PebbleLESupport {
         throw new IOException("connection failed");
     }
 
-    void writeToPipedOutputStream(byte[] value, int offset, int count) {
+    private void writeToPipedOutputStream(byte[] value, int offset, int count) {
         try {
             mPipedOutputStream.write(value, offset, count);
         } catch (IOException e) {
-            LOG.warn("error writing to output stream");
+            LOG.warn("error writing to output stream", e);
         }
     }
 
@@ -101,7 +104,7 @@ public class PebbleLESupport {
         }
     }
 
-    synchronized void createPipedInputReader() {
+    private synchronized void createPipedInputReader() {
         if (mPipeReader == null) {
             mPipeReader = new PipeReader();
         }
@@ -124,6 +127,58 @@ public class PebbleLESupport {
 
     void setMTU(int mtu) {
         mMTU = Math.min(mtu, mMTULimit);
+    }
+
+    public void handlePPoGATTPacket(byte[] value) {
+        if (!mIsConnected) {
+            mIsConnected = true;
+            synchronized (this) {
+                this.notify();
+            }
+        }
+        //LOG.info("write request: offset = " + offset + " value = " + GB.hexdump(value, 0, -1));
+        int header = value[0] & 0xff;
+        int command = header & 7;
+        int serial = header >> 3;
+        if (command == 0x01) {
+            LOG.info("got ACK for serial = " + serial);
+            if (mPPAck != null) {
+                mPPAck.countDown();
+            } else {
+                LOG.warn("mPPAck countdownlatch is not present but it probably should");
+            }
+        }
+        if (command == 0x02) { // some request?
+            LOG.info("got command 0x02");
+            if (value.length > 1) {
+                sendDataToPebble(new byte[]{0x03, 0x19, 0x19}); // no we don't know what that means
+                createPipedInputReader(); // FIXME: maybe not here
+            } else {
+                sendDataToPebble(new byte[]{0x03}); // no we don't know what that means
+            }
+        } else if (command == 0) { // normal package
+            LOG.info("got PPoGATT package serial = " + serial + " sending ACK");
+
+            sendAckToPebble(serial);
+
+            writeToPipedOutputStream(value, 1, value.length - 1);
+        }
+    }
+
+    private void sendAckToPebble(int serial) {
+        if (mPebbleGATTServer != null) {
+            mPebbleGATTServer.sendAckToPebble(serial);
+        } else {
+            mPebbleGATTClient.sendAckToPebble(serial);
+        }
+    }
+
+    private void sendDataToPebble(byte[] bytes) {
+        if (mPebbleGATTServer != null) {
+            mPebbleGATTServer.sendDataToPebble(bytes);
+        } else {
+            mPebbleGATTClient.sendDataToPebble(bytes);
+        }
     }
 
     private class PipeReader extends Thread {
@@ -159,7 +214,7 @@ public class PebbleLESupport {
                         byte[] outBuf = new byte[chunkSize + 1];
                         outBuf[0] = (byte) ((mmSequence++ << 3) & 0xff);
                         System.arraycopy(buf, srcPos, outBuf, 1, chunkSize);
-                        mPebbleGATTServer.sendDataToPebble(outBuf);
+                        sendDataToPebble(outBuf);
                         srcPos += chunkSize;
                         payloadToSend -= chunkSize;
                     }
