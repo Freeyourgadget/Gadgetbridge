@@ -443,7 +443,7 @@
     <string name="mi2_prefs_button_press_count">Anzahl an Tastendrücken</string>
     <string name="pref_title_charts_swipe">Seitwärts-Wischgesten in der Statistik-Anzeige</string>
 
-    <string name="pref_summary_pebble_enable_bgjs">Wenn aktiviert, können Watchfaces Informationen zu Wetter, Ladezustand etc. anzeigen.</string>
+    <string name="pref_summary_pebble_enable_bgjs">Ziffernblätter können Wetter, Ladezustand etc. anzeigen, wenn aktiviert</string>
 
     <string name="prefs_title_heartrate_measurement_interval">ganztägige Pulsmessung</string>
     <string name="interval_one_minute">minütlich</string>
@@ -478,7 +478,7 @@
 
     <string name="pref_header_auto_export">Automatischer Export</string>
     <string name="pref_title_auto_export_enabled">Automatischer Export aktiviert</string>
-    <string name="pref_title_auto_export_location">Exportverzeichnis</string>
+    <string name="pref_title_auto_export_location">Speicherort für Export</string>
     <string name="pref_title_auto_export_interval">Exportintervall</string>
     <string name="pref_summary_auto_export_interval">Exportiere alle %d Stunden</string>
 
