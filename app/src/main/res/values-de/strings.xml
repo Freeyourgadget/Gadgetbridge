@@ -49,7 +49,7 @@
   <string name="fw_multi_upgrade_notice">Es sollen die Firmwares %1$s und %2$s anstelle der aktuell installierten Versionen auf das Mi Band gespielt werden.</string>
   <string name="miband_firmware_known">Diese Firmware ist getestet worden und ist zu Gadgetbridge kompatibel.</string>
   <string name="miband_firmware_unknown_warning">Diese Firmware ist nicht getestet und könnte inkompatibel mit Gadgetbridge sein.\n\nEs wird nicht empfohlen, sie auf dem Mi Band zu installieren!</string>
-  <string name="miband_firmware_suggest_whitelist">Falls die Firmware trotzdem installiert werden soll und nachher alles korrekt funktioniert, melde bitte den Gadgetbridge-Entwicklern, dass die Firmware %s funktioniert</string>
+  <string name="miband_firmware_suggest_whitelist">Wenn du dennoch fortfahren möchtest und das Gerät anschließend korrekt funktioniert, melde bitte den Gadgetbridge Entwicklern, dass die Firmware %s funktioniert</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Einstellungen</string>
   <string name="pref_header_general">Allgemeine Einstellungen</string>
@@ -284,7 +284,7 @@
   <string name="battery">Batterie</string>
   <string name="liveactivity_live_activity">Live Aktivität</string>
   <string name="weeksteps_today_steps_description">Schritte heute, Ziel: %1$s</string>
-  <string name="pref_title_dont_ack_transfer">Transfer von Aktivitätsdaten nicht bestätigen</string>
+  <string name="pref_title_dont_ack_transfer">Transfer von Aktivitätsdaten nicht bestätigen (kein ACK)</string>
   <string name="pref_summary_dont_ack_transfers">Wenn der Transfer der Aktivitätsdaten nicht bestätigt wird, werden die Daten nicht auf dem Mi Band gelöscht. Das ist sinnvoll, wenn neben Gadgetbridge noch andere Apps auf das Mi Band zugreifen.</string>
   <string name="pref_summary_keep_data_on_device">Aktivitätsdaten verbleiben auf dem Mi Band, auch nach der Synchronisierung. Hilfreich, wenn das Mi Band mit weiteren Apps verwendet wird.</string>
   <string name="pref_title_low_latency_fw_update">Benutze Modus mit niedriger Latenz für Firmware-Updates</string>
@@ -474,4 +474,54 @@
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
 
-    </resources>
+    <string name="pref_title_weather_location">Ort für das Wetter (CM/LOS)</string>
+
+    <string name="pref_header_auto_export">Automatischer Export</string>
+    <string name="pref_title_auto_export_enabled">Automatischer Export aktiviert</string>
+    <string name="pref_title_auto_export_location">Exportverzeichnis</string>
+    <string name="pref_title_auto_export_interval">Exportintervall</string>
+    <string name="pref_summary_auto_export_interval">Exportiere alle %d Stunden</string>
+
+    <string name="notif_export_failed_title">Datenbankexport fehlgeschlagen! Bitte überprüfe deine Einstellungen.</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">"Nachricht senden, wenn eingestellte Anzahl an Knopfdrücken erreicht ist "</string>
+    <string name="mi2_prefs_button_press_count_match_delay_summary">Verzögerung nachdem Tastenaktion erkannt wurde (Dauer in button_id) oder 0 für sofortige Auslösung</string>
+    <string name="spanish">Spanisch</string>
+
+    <string name="on">Ein</string>
+    <string name="controlcenter_start_activity_tracks">Deine Aktivitätsverfolgungen</string>
+    <string name="activity_type_not_measured">Nicht gemessen</string>
+    <string name="activity_type_activity">Aktivität</string>
+    <string name="activity_type_light_sleep">Leichter Schlaf</string>
+    <string name="activity_type_deep_sleep">Tiefschlaf</string>
+    <string name="activity_type_not_worn">Gerät nicht getragen</string>
+    <string name="activity_type_running">Laufen</string>
+    <string name="activity_type_walking">Gehen</string>
+    <string name="activity_type_swimming">Schwimmen</string>
+    <string name="activity_type_unknown">Unbekannte Aktivität</string>
+    <string name="activity_summaries">Aktivitäten</string>
+    <string name="activity_type_biking">Radfahren</string>
+    <string name="activity_type_treadmill">Laufband</string>
+    <string name="select_all">Alle auswählen</string>
+    <string name="share">Teilen</string>
+    <string name="reset_index">Empfangenes Datum zurücksetzen</string>
+
+    <string name="kind_font">Schriftart</string>
+    <string name="kind_gps_almanac">GPS Almanach</string>
+    <string name="kind_gps_cep">GPS Fehlerkorrektur</string>
+    <string name="kind_resources">Quellen</string>
+    <string name="kind_watchface">Ziffernblatt</string>
+
+    <string name="devicetype_xwatch">XWatch</string>
+
+    <string name="choose_auto_export_location">Exportverzeichnis wählen</string>
+    <string name="notification_channel_name">Gadgetbridge Benachrichtigungen</string>
+
+    <string name="menuitem_status">Status</string>
+    <string name="menuitem_activity">Aktivität</string>
+    <string name="menuitem_weather">Wetter</string>
+    <string name="menuitem_alarm">Alarm</string>
+    <string name="menuitem_timer">Timer</string>
+    <string name="menuitem_compass">Kompass</string>
+    <string name="menuitem_settings">Einstellungen</string>
+    <string name="menuitem_alipay">Alipay</string>
+</resources>
