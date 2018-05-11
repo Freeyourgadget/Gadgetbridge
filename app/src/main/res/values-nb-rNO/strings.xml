@@ -580,4 +580,6 @@
     <string name="menuitem_compass">Kompass</string>
     <string name="menuitem_settings">Innstillinger</string>
     <string name="menuitem_alipay">Alipay</string>
-</resources>
+<string name="pref_title_pebble_gatt_clientonly">Kun GATT-klient</string>
+    <string name="pref_summary_pebble_gatt_clientonly">Dette er kun for Pebble 2 og eksperimentelt, prøv dette hvis du har tilkoblingsproblemer</string>
+    </resources>
