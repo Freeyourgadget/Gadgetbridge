@@ -24,6 +24,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
     // gps detection is totally bogus, just the first 16 bytes
@@ -45,20 +46,10 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
             (byte) 0x8c, 0x36, 0x2e, (byte) 0x8c, (byte) 0x9c, 0x08, 0x54, (byte) 0xa6
     };
 
-    // guessed - at least it is the same across versions from 0.0.7.x to 0.0.9.x
-    // and different from other devices
+    // this is the same as Cor
     private static final byte[] FW_HEADER = new byte[]{
-            0x68, 0x46, 0x70, 0x47, 0x68, 0x46, 0x70, 0x47,
-            0x68, 0x46, 0x70, 0x47, 0x68, 0x46, 0x70, 0x47
+            0x00, (byte) 0x98, 0x00, 0x20, (byte) 0xA5, 0x04, 0x00, 0x20, (byte) 0xAD, 0x04, 0x00, 0x20, (byte) 0xC5, 0x04, 0x00, 0x20
     };
-
-    // guessed - this is true for 0.1.0.11
-    private static final byte[] FW_HEADER_NEW = new byte[]{
-            0x60, (byte) 0xeb, 0x03, 0x0c, 0x70, 0x46, 0x31, 0x46,
-            0x3a, 0x46, 0x63, 0x46, (byte) 0xbd, (byte) 0xe8, (byte) 0xf0, (byte) 0x81
-    };
-
-    private static final int FW_HEADER_OFFSET = 0x9330;
 
     private static final byte[] GPS_ALMANAC_HEADER = new byte[]{ // probably wrong
             (byte) 0xa0, (byte) 0x80, 0x08, 0x00, (byte) 0x8b, 0x07
@@ -152,9 +143,15 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         if (ArrayUtils.startsWith(bytes, GPS_CEP_HEADER)) {
             return HuamiFirmwareType.GPS_CEP;
         }
-        if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET) || ArrayUtils.equals(bytes, FW_HEADER_NEW, FW_HEADER_OFFSET)) {
-            // TODO: this is certainly not a correct validation, but it works for now
-            return HuamiFirmwareType.FIRMWARE;
+        if (ArrayUtils.startsWith(bytes, FW_HEADER)) {
+            String foundVersion = searchFirmwareVersion(bytes);
+            if (foundVersion != null) {
+                Version version = new Version(foundVersion);
+                if ((version.compareTo(new Version("0.0.8.00")) >= 0) && (version.compareTo(new Version("1.0.5.00")) < 0)) {
+                    return HuamiFirmwareType.FIRMWARE;
+                }
+            }
+            return HuamiFirmwareType.INVALID;
         }
         if (ArrayUtils.startsWith(bytes, WATCHFACE_HEADER)) {
             return HuamiFirmwareType.WATCHFACE;
