@@ -409,11 +409,12 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             }
             case ACTION_DISCONNECT: {
                 mDeviceSupport.dispose();
-                if (mGBDevice != null && mGBDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
-                    setReceiversEnableState(false, false, null);
+                if (mGBDevice != null) {
                     mGBDevice.setState(GBDevice.State.NOT_CONNECTED);
                     mGBDevice.sendDeviceUpdateIntent(this);
                 }
+                setReceiversEnableState(false, false, null);
+                mGBDevice = null;
                 mDeviceSupport = null;
                 break;
             }
