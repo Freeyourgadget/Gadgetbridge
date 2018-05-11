@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -61,6 +62,8 @@ class PebbleGATTClient extends BluetoothGattCallback {
     private boolean doPairing = true;
     private boolean removeBond = false;
     private BluetoothGatt mBluetoothGatt;
+
+    private CountDownLatch mWaitWriteCompleteLatch;
 
     PebbleGATTClient(PebbleLESupport pebbleLESupport, Context context, BluetoothDevice btDevice) {
         mContext = context;
@@ -119,9 +122,16 @@ class PebbleGATTClient extends BluetoothGattCallback {
         if (!mPebbleLESupport.isExpectedDevice(gatt.getDevice())) {
             return;
         }
-
-        LOG.info("onCharacteristicWrite() " + characteristic.getUuid());
-        if (characteristic.getUuid().equals(PAIRING_TRIGGER_CHARACTERISTIC) || characteristic.getUuid().equals(CONNECTIVITY_CHARACTERISTIC)) {
+        if (characteristic.getUuid().equals(PPOGATT_CHARACTERISTIC_WRITE)) {
+            if (status != BluetoothGatt.GATT_SUCCESS) {
+                LOG.error("something went wrong when writing to PPoGATT characteristics");
+            }
+            if (mWaitWriteCompleteLatch != null) {
+                mWaitWriteCompleteLatch.countDown();
+            } else {
+                LOG.warn("mWaitWriteCompleteLatch is null!");
+            }
+        } else if (characteristic.getUuid().equals(PAIRING_TRIGGER_CHARACTERISTIC) || characteristic.getUuid().equals(CONNECTIVITY_CHARACTERISTIC)) {
             //mBtDevice.createBond(); // did not work when last tried
 
             if (oldPebble) {
@@ -266,13 +276,20 @@ class PebbleGATTClient extends BluetoothGattCallback {
     }
 
     synchronized void sendDataToPebble(byte[] data) {
+        mWaitWriteCompleteLatch = new CountDownLatch(1);
         writeCharacteristics.setValue(data.clone());
-        mBluetoothGatt.writeCharacteristic(writeCharacteristics);
-    }
 
-    synchronized void sendAckToPebble(int serial) {
-        writeCharacteristics.setValue(new byte[]{(byte) (((serial << 3) | 1) & 0xff)});
-        mBluetoothGatt.writeCharacteristic(writeCharacteristics);
+        boolean success = mBluetoothGatt.writeCharacteristic(writeCharacteristics);
+        if (!success) {
+            LOG.error("could not send data to pebble (error writing characteristic)");
+        } else {
+            try {
+                mWaitWriteCompleteLatch.await();
+            } catch (InterruptedException e) {
+                LOG.warn("interrupted while waiting for write complete latch");
+            }
+        }
+        mWaitWriteCompleteLatch = null;
     }
 
     public void close() {

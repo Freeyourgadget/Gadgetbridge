@@ -18,6 +18,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.ble;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.os.Handler;
+import android.os.HandlerThread;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,9 +41,11 @@ public class PebbleLESupport {
     private PipedOutputStream mPipedOutputStream;
     private int mMTU = 20;
     private int mMTULimit = Integer.MAX_VALUE;
-    public boolean clientOnly = false; // currently broken, and only possible for Pebble 2
+    public boolean clientOnly = false; // currently experimental, and only possible for Pebble 2
     private boolean mIsConnected = false;
     private CountDownLatch mPPAck;
+    private HandlerThread mWriteHandlerThread;
+    private Handler mWriteHandler;
 
     public PebbleLESupport(Context context, final BluetoothDevice btDevice, PipedInputStream pipedInputStream, PipedOutputStream pipedOutputStream) throws IOException {
         mBtDevice = btDevice;
@@ -53,6 +57,11 @@ public class PebbleLESupport {
         } catch (IOException e) {
             LOG.warn("could not connect input stream");
         }
+
+        mWriteHandlerThread = new HandlerThread("write handler thread");
+        mWriteHandlerThread.start();
+        mWriteHandler = new Handler(mWriteHandlerThread.getLooper());
+
         mMTULimit = GBApplication.getPrefs().getInt("pebble_mtu_limit", 512);
         mMTULimit = Math.max(mMTULimit, 20);
         mMTULimit = Math.min(mMTULimit, 512);
@@ -101,6 +110,9 @@ public class PebbleLESupport {
         try {
             mPipedOutputStream.close();
         } catch (IOException ignore) {
+        }
+        if (mWriteHandlerThread != null) {
+            mWriteHandlerThread.quit();
         }
     }
 
@@ -166,18 +178,20 @@ public class PebbleLESupport {
     }
 
     private void sendAckToPebble(int serial) {
-        if (mPebbleGATTServer != null) {
-            mPebbleGATTServer.sendAckToPebble(serial);
-        } else {
-            mPebbleGATTClient.sendAckToPebble(serial);
-        }
+        sendDataToPebble(new byte[]{(byte) (((serial << 3) | 1) & 0xff)});
     }
 
-    private void sendDataToPebble(byte[] bytes) {
+    private synchronized void sendDataToPebble(final byte[] bytes) {
         if (mPebbleGATTServer != null) {
             mPebbleGATTServer.sendDataToPebble(bytes);
         } else {
-            mPebbleGATTClient.sendDataToPebble(bytes);
+            // For now only in experimental client only code
+            mWriteHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mPebbleGATTClient.sendDataToPebble(bytes);
+                }
+            });
         }
     }
 

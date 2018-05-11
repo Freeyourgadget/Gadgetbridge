@@ -52,7 +52,9 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
 
     boolean initialize() {
         BluetoothManager bluetoothManager = (BluetoothManager) mContext.getSystemService(Context.BLUETOOTH_SERVICE);
-
+        if (bluetoothManager == null) {
+            return false;
+        }
         mBluetoothGattServer = bluetoothManager.openGattServer(mContext, this);
         if (mBluetoothGattServer == null) {
             return false;
@@ -72,12 +74,6 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
 
     synchronized void sendDataToPebble(byte[] data) {
         writeCharacteristics.setValue(data.clone());
-
-        mBluetoothGattServer.notifyCharacteristicChanged(mBtDevice, writeCharacteristics, false);
-    }
-
-    synchronized void sendAckToPebble(int serial) {
-        writeCharacteristics.setValue(new byte[]{(byte) (((serial << 3) | 1) & 0xff)});
 
         mBluetoothGattServer.notifyCharacteristicChanged(mBtDevice, writeCharacteristics, false);
     }
