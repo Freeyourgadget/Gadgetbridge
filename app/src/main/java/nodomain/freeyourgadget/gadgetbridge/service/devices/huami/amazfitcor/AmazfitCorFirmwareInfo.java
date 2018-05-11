@@ -68,7 +68,7 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
             String foundVersion = searchFirmwareVersion(bytes);
             if (foundVersion != null) {
                 Version version = new Version(foundVersion);
-                if (version.compareTo(new Version("1.0.5.00")) >= 0) {
+                if ((version.compareTo(new Version("1.0.5.00")) >= 0) && (version.compareTo(new Version("2.0.0.00")) < 0)) {
                     return HuamiFirmwareType.FIRMWARE;
                 }
             }
