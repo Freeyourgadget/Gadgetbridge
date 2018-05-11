@@ -439,6 +439,11 @@
                     android:summary="@string/pref_summary_pebble_mtu_limit" />
                 <CheckBoxPreference
                     android:defaultValue="false"
+                    android:key="pebble_gatt_clientonly"
+                    android:title="@string/pref_title_pebble_gatt_clientonly"
+                    android:summary="@string/pref_summary_pebble_gatt_clientonly" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
                     android:key="pebble_enable_applogs"
                     android:summary="@string/pref_summary_pebble_enable_applogs"
                     android:title="@string/pref_title_pebble_enable_applogs" />

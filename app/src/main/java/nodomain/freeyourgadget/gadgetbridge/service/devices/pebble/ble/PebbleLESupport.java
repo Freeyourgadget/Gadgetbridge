@@ -66,6 +66,8 @@ public class PebbleLESupport {
         mMTULimit = Math.max(mMTULimit, 20);
         mMTULimit = Math.min(mMTULimit, 512);
 
+        clientOnly = GBApplication.getPrefs().getBoolean("pebble_gatt_clientonly", false);
+
         if (!clientOnly) {
             mPebbleGATTServer = new PebbleGATTServer(this, context, mBtDevice);
         }
