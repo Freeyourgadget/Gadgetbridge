@@ -527,4 +527,6 @@
     <string name="menuitem_compass">מצפן</string>
     <string name="menuitem_settings">הגדרות</string>
     <string name="menuitem_alipay">Alipay</string>
-</resources>
+<string name="pref_title_pebble_gatt_clientonly">לקוח GATT בלבד</string>
+    <string name="pref_summary_pebble_gatt_clientonly">מצב זה מיועד ל־Pebble 2 והוא ניסיוני, ניתן לנסות זאת אם נתקלת בבעיות חיבור</string>
+    </resources>
