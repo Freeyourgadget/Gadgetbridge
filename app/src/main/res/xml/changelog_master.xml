@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.26.4" versioncode="130">
+        <change>Fix a bug with Toasts appearing every time a notification arrives when bluetooth is disabled</change>
+        <change>Pebble 2: Add optional GATT client only mode that might help with connection stability</change>
+        <change>Amazfit Cor: Fix detection of newer firmwares</change>
+        <change>Mi Band 2: Fix text notifcations not appearing with short vibration patterns</change>
+    </release>
     <release version="0.26.3" versioncode="129">
         <change>Amazfit Bip: Add proper mime type to shared gpx files</change>
         <change>Amazfit Bip: allow to set displayed menu items</change>
