@@ -156,10 +156,12 @@ public class PebbleLESupport {
         int serial = header >> 3;
         if (command == 0x01) {
             LOG.info("got ACK for serial = " + serial);
-            if (mPPAck != null) {
-                mPPAck.countDown();
-            } else {
-                LOG.warn("mPPAck countdownlatch is not present but it probably should");
+            if (!clientOnly) {
+                if (mPPAck != null) {
+                    mPPAck.countDown();
+                } else {
+                    LOG.warn("mPPAck countdownlatch is not present but it probably should");
+                }
             }
         }
         if (command == 0x02) { // some request?
@@ -224,7 +226,9 @@ public class PebbleLESupport {
 
                     int payloadToSend = bytesRead + 4;
                     int srcPos = 0;
-                    mPPAck = new CountDownLatch(1);
+                    if (!clientOnly) {
+                        mPPAck = new CountDownLatch(1);
+                    }
                     while (payloadToSend > 0) {
                         int chunkSize = (payloadToSend < (mMTU - 4)) ? payloadToSend : mMTU - 4;
                         byte[] outBuf = new byte[chunkSize + 1];
@@ -234,10 +238,10 @@ public class PebbleLESupport {
                         srcPos += chunkSize;
                         payloadToSend -= chunkSize;
                     }
-
-                    mPPAck.await();
-                    mPPAck = null;
-
+                    if (!clientOnly) {
+                        mPPAck.await();
+                        mPPAck = null;
+                    }
                 } catch (IOException | InterruptedException e) {
                     LOG.info(e.getMessage());
                     Thread.currentThread().interrupt();
