@@ -19,6 +19,8 @@
     <item name="p_heart_rate" type="string">heart_rate</item>
     <item name="p_battery" type="string">battery</item>
 
+    <item name="p_menuitem_shortcut_alipay" type="string">shortcut_alipay</item>
+    <item name="p_menuitem_shortcut_weather" type="string">shortcut_weather</item>
     <item name="p_menuitem_status" type="string">status</item>
     <item name="p_menuitem_activity" type="string">activity</item>
     <item name="p_menuitem_weather" type="string">weather</item>

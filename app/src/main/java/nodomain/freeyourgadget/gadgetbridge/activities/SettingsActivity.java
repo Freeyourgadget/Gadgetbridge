@@ -398,13 +398,18 @@ public class SettingsActivity extends AbstractSettingsActivity {
         try {
             return AndroidUtils.getFilePath(getApplicationContext(), uri);
         } catch (IllegalArgumentException e) {
-            Cursor cursor = getContentResolver().query(
-                    uri,
-                    new String[] { DocumentsContract.Document.COLUMN_DISPLAY_NAME },
-                    null, null, null, null
-            );
-            if (cursor != null && cursor.moveToFirst()) {
-                return cursor.getString(cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DISPLAY_NAME));
+            try {
+                Cursor cursor = getContentResolver().query(
+                        uri,
+                        new String[]{DocumentsContract.Document.COLUMN_DISPLAY_NAME},
+                        null, null, null, null
+                );
+                if (cursor != null && cursor.moveToFirst()) {
+                    return cursor.getString(cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DISPLAY_NAME));
+                }
+            }
+            catch (Exception fdfsdfds) {
+                LOG.warn("fuck");
             }
         }
         return "";

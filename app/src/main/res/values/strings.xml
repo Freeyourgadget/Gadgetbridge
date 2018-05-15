@@ -558,6 +558,8 @@
     <string name="notification_channel_name">Gadgetbridge notifications</string>
 
     <!-- Menus on the smart device -->
+    <string name="menuitem_shortcut_alipay">Alipay (Shortcut)</string>
+    <string name="menuitem_shortcut_weather">Weather (Shortcut)</string>
     <string name="menuitem_status">Status</string>
     <string name="menuitem_activity">Activity</string>
     <string name="menuitem_weather">Weather</string>

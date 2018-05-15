@@ -184,6 +184,8 @@
     </string-array>
 
     <string-array name="pref_bip_display_items">
+        <item>@string/menuitem_shortcut_alipay</item>
+        <item>@string/menuitem_shortcut_weather</item>
         <item>@string/menuitem_status</item>
         <item>@string/menuitem_activity</item>
         <item>@string/menuitem_weather</item>
@@ -195,6 +197,8 @@
     </string-array>
 
     <string-array name="pref_bip_display_items_values">
+        <item>@string/p_menuitem_shortcut_alipay</item>
+        <item>@string/p_menuitem_shortcut_weather</item>
         <item>@string/p_menuitem_status</item>
         <item>@string/p_menuitem_activity</item>
         <item>@string/p_menuitem_weather</item>
