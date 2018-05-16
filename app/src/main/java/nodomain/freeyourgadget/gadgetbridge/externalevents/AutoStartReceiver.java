@@ -32,7 +32,13 @@ public class AutoStartReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (GBApplication.getGBPrefs().getAutoStart() && Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             Log.i(TAG, "Boot completed, starting Gadgetbridge");
-            GBApplication.deviceService().start();
+            if (GBApplication.getPrefs().getBoolean("general_autoconnectonbluetooth", false)) {
+                Log.i(TAG, "Autoconnect is enabled, attempting to connect");
+                GBApplication.deviceService().connect();
+            } else {
+                GBApplication.deviceService().start();
+            }
+
             PeriodicExporter.enablePeriodicExport(context);
         }
     }
