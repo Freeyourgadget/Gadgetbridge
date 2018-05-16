@@ -529,4 +529,6 @@
     <string name="menuitem_alipay">Alipay</string>
 <string name="pref_title_pebble_gatt_clientonly">לקוח GATT בלבד</string>
     <string name="pref_summary_pebble_gatt_clientonly">מצב זה מיועד ל־Pebble 2 והוא ניסיוני, ניתן לנסות זאת אם נתקלת בבעיות חיבור</string>
+    <string name="menuitem_shortcut_alipay">Alipay (קיצור דרך)</string>
+    <string name="menuitem_shortcut_weather">מזג אוויר (קיצור דרך)</string>
     </resources>
