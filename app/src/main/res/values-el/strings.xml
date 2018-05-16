@@ -579,4 +579,16 @@
     <string name="share">Διαμοιρασμός</string>
     <string name="reset_index">Επαναφορά ημερομηνίας λήψης</string>
 
-    </resources>
+    <string name="pref_title_pebble_gatt_clientonly">μόνο GATT πελάτες</string>
+    <string name="pref_summary_pebble_gatt_clientonly">Αυτό είναι πειραματικό χαρακτηριστικό και μόνο για το Pebble 2 , δοκιμάστε το μόνο αν έχετε προβλήματα συνδεσιμότητας</string>
+    <string name="menuitem_shortcut_alipay">Alipay (συντόμευση)</string>
+    <string name="menuitem_shortcut_weather">Καιρός (συντόμευση)</string>
+    <string name="menuitem_status">Κατάσταση</string>
+    <string name="menuitem_activity">Δραστηριότητα</string>
+    <string name="menuitem_weather">Καιρός</string>
+    <string name="menuitem_alarm">Ξυπνητήρι</string>
+    <string name="menuitem_timer">Χρονόμετρο</string>
+    <string name="menuitem_compass">Πυξίδα</string>
+    <string name="menuitem_settings">Ρυθμίσεις</string>
+    <string name="menuitem_alipay">Alipay</string>
+</resources>
