@@ -22,8 +22,10 @@ import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.NotificationManager.Policy;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -56,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothStateChangeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
@@ -115,6 +118,7 @@ public class GBApplication extends Application {
     private static Locale language;
 
     private DeviceManager deviceManager;
+    private BluetoothStateChangeReceiver bluetoothStateChangeReceiver;
 
     public static void quit() {
         GB.log("Quitting Gadgetbridge...", GB.INFO, null);
@@ -186,6 +190,9 @@ public class GBApplication extends Application {
                             NotificationManager.IMPORTANCE_LOW);
                     notificationManager.createNotificationChannel(channel);
                 }
+
+                bluetoothStateChangeReceiver = new BluetoothStateChangeReceiver();
+                registerReceiver(bluetoothStateChangeReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
             }
             startService(new Intent(this, NotificationCollectorMonitorService.class));
         }
