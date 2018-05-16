@@ -582,4 +582,6 @@
     <string name="menuitem_alipay">Alipay</string>
 <string name="pref_title_pebble_gatt_clientonly">Kun GATT-klient</string>
     <string name="pref_summary_pebble_gatt_clientonly">Dette er kun for Pebble 2 og eksperimentelt, prøv dette hvis du har tilkoblingsproblemer</string>
+    <string name="menuitem_shortcut_alipay">Alipay (snarvei)</string>
+    <string name="menuitem_shortcut_weather">Vær (snarvei)</string>
     </resources>
