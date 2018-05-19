@@ -1,0 +1,3 @@
+* Fix autoreconnect at boot on recent android versions
+* Bluetooth connection is more stable on Oreo
+* Potentially fix the watch continuosly vibrating after call pickup

@@ -1,5 +1,10 @@
 ### Changelog
 
+#### Version 0.26.5
+* Fix autoreconnect at boot on recent android versions
+* Bluetooth connection is more stable on Oreo
+* Potentially fix the watch continuosly vibrating after call pickup
+
 #### Version 0.26.4
 * Fix a bug with Toasts appearing every time a notification arrives when bluetooth is disabled
 * Pebble 2: Add optional GATT client only mode that might help with connection stability
