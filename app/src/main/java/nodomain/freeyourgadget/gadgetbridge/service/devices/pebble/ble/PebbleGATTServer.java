@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
 
 class PebbleGATTServer extends BluetoothGattServerCallback {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleGATTServer.class);
@@ -43,6 +44,7 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
     private Context mContext;
     private BluetoothGattServer mBluetoothGattServer;
     private BluetoothGattCharacteristic writeCharacteristics;
+    private CountDownLatch mWaitWriteCompleteLatch;
 
     PebbleGATTServer(PebbleLESupport pebbleLESupport, Context context, BluetoothDevice btDevice) {
         mContext = context;
@@ -73,9 +75,20 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
     }
 
     synchronized void sendDataToPebble(byte[] data) {
+        mWaitWriteCompleteLatch = new CountDownLatch(1);
         writeCharacteristics.setValue(data.clone());
 
-        mBluetoothGattServer.notifyCharacteristicChanged(mBtDevice, writeCharacteristics, false);
+        boolean success = mBluetoothGattServer.notifyCharacteristicChanged(mBtDevice, writeCharacteristics, false);
+        if (!success) {
+            LOG.error("could not send data to pebble (error writing characteristic)");
+        } else {
+            try {
+                mWaitWriteCompleteLatch.await();
+            } catch (InterruptedException e) {
+                LOG.warn("interrupted while waiting for write complete latch");
+            }
+        }
+        mWaitWriteCompleteLatch = null;
     }
 
     public void onCharacteristicReadRequest(BluetoothDevice device, int requestId, int offset, BluetoothGattCharacteristic characteristic) {
@@ -157,7 +170,19 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
     }
 
     public void onNotificationSent(BluetoothDevice bluetoothDevice, int status) {
-        //LOG.info("onNotificationSent() status = " + status + " to device " + mmBtDevice.getAddress());
+
+        if (!mPebbleLESupport.isExpectedDevice(bluetoothDevice)) {
+            return;
+        }
+        if (status != BluetoothGatt.GATT_SUCCESS) {
+            LOG.error("something went wrong when writing to PPoGATT characteristics");
+        }
+        if (mWaitWriteCompleteLatch != null) {
+            mWaitWriteCompleteLatch.countDown();
+        } else {
+            LOG.warn("mWaitWriteCompleteLatch is null!");
+        }
+//        LOG.info("onNotificationSent() status = " + status + " to device " + bluetoothDevice.getAddress());
     }
 
     void close() {

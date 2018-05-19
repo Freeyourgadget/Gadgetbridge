@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
-import java.util.concurrent.CountDownLatch;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
@@ -43,7 +42,6 @@ public class PebbleLESupport {
     private int mMTULimit = Integer.MAX_VALUE;
     public boolean clientOnly = false; // currently experimental, and only possible for Pebble 2
     private boolean mIsConnected = false;
-    private CountDownLatch mPPAck;
     private HandlerThread mWriteHandlerThread;
     private Handler mWriteHandler;
 
@@ -156,13 +154,6 @@ public class PebbleLESupport {
         int serial = header >> 3;
         if (command == 0x01) {
             LOG.info("got ACK for serial = " + serial);
-            if (!clientOnly) {
-                if (mPPAck != null) {
-                    mPPAck.countDown();
-                } else {
-                    LOG.warn("mPPAck countdownlatch is not present but it probably should");
-                }
-            }
         }
         if (command == 0x02) { // some request?
             LOG.info("got command 0x02");
@@ -187,7 +178,12 @@ public class PebbleLESupport {
 
     private synchronized void sendDataToPebble(final byte[] bytes) {
         if (mPebbleGATTServer != null) {
-            mPebbleGATTServer.sendDataToPebble(bytes);
+            mWriteHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mPebbleGATTServer.sendDataToPebble(bytes);
+                }
+            });
         } else {
             // For now only in experimental client only code
             mWriteHandler.post(new Runnable() {
@@ -226,9 +222,6 @@ public class PebbleLESupport {
 
                     int payloadToSend = bytesRead + 4;
                     int srcPos = 0;
-                    if (!clientOnly) {
-                        mPPAck = new CountDownLatch(1);
-                    }
                     while (payloadToSend > 0) {
                         int chunkSize = (payloadToSend < (mMTU - 4)) ? payloadToSend : mMTU - 4;
                         byte[] outBuf = new byte[chunkSize + 1];
@@ -238,11 +231,7 @@ public class PebbleLESupport {
                         srcPos += chunkSize;
                         payloadToSend -= chunkSize;
                     }
-                    if (!clientOnly) {
-                        mPPAck.await();
-                        mPPAck = null;
-                    }
-                } catch (IOException | InterruptedException e) {
+                } catch (IOException e) {
                     LOG.info(e.getMessage());
                     Thread.currentThread().interrupt();
                     break;
