@@ -4,6 +4,7 @@
         <change>Fix autoreconnect at boot on recent android versions</change>
         <change>Bluetooth connection is more stable on Oreo</change>
         <change>Potentially fix the watch continuosly vibrating after call pickup</change>
+        <change>Amazfit Bip: add setting to configure shortcuts (swipe to right from watchface)</change>
     </release>
     <release version="0.26.4" versioncode="130">
         <change>Fix a bug with Toasts appearing every time a notification arrives when bluetooth is disabled</change>
