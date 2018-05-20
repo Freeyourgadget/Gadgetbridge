@@ -336,7 +336,7 @@
   <string name="appwidget_text">ZzZz</string>
   <string name="add_widget">Ajouter un widget</string>
   <string name="activity_prefs_sleep_duration">
-Temps de sommeil péféré en heures</string>
+Temps de sommeil préféré en heures</string>
   <string name="appwidget_alarms_set">Une alarme a été enregistré pour %1$02d:%2$02d</string>
   <string name="device_hw">Révision matérielle : %1$s</string>
   <string name="device_fw">Version du micrologiciel : %1$s</string>
