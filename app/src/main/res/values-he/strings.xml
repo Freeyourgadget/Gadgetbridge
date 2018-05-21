@@ -531,4 +531,5 @@
     <string name="pref_summary_pebble_gatt_clientonly">מצב זה מיועד ל־Pebble 2 והוא ניסיוני, ניתן לנסות זאת אם נתקלת בבעיות חיבור</string>
     <string name="menuitem_shortcut_alipay">Alipay (קיצור דרך)</string>
     <string name="menuitem_shortcut_weather">מזג אוויר (קיצור דרך)</string>
+    <string name="devicetype_q8">Q8</string>
     </resources>
