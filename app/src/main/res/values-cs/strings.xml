@@ -129,7 +129,7 @@
   <string name="pref_title_pebble_forcele">Vždy preferovat BLE</string>
   <string name="pref_summary_pebble_forcele">Použít experimentální podporu Pebble LE pro všechny Pebble místo BT classic, vyžaduje spárování \"Pebble LE\" po připojení bez LE</string>
   <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU ohraničení</string>
-  <string name="pref_summary_pebble_mtu_limit">Pokud vaše Pebble 2/Pebble LE nepracuje jak má, zkuste toto nastavení pro omezení MTU (povolený rozsah 20-512)</string>
+  <string name="pref_summary_pebble_mtu_limit">Pokud váš Pebble 2/Pebble LE nepracuje jak má, zkuste toto nastavení pro omezení MTU (povolený rozsah 20-512)</string>
   <string name="pref_title_pebble_enable_applogs">Zapnout logování Watch App</string>
   <string name="pref_summary_pebble_enable_applogs">Logy od watch app budou logovány v Gadgetbridge (vyžaduje znovupřipojení)</string>
   <string name="pref_title_pebble_always_ack_pebblekit">Předčasné potvrzení (ACK) pro PebbleKit</string>
@@ -504,4 +504,32 @@
 
     <string name="choose_auto_export_location">Vyberte umístění exportu</string>
     <string name="notification_channel_name">Gadgetbridge notifikace</string>
+<string name="pref_title_pebble_gatt_clientonly">pouze GATT klient</string>
+    <string name="pref_summary_pebble_gatt_clientonly">Toto je určeno pouze experimentální a pro Pebble 2, zkuste pokud máte problém se spojením</string>
+    <string name="on">Zap.</string>
+    <string name="activity_type_not_measured">Neměřeno</string>
+    <string name="activity_type_activity">Aktivita</string>
+    <string name="activity_type_light_sleep">Lehký spánek</string>
+    <string name="activity_type_deep_sleep">Hluboký spánek</string>
+    <string name="activity_type_not_worn">Zařízení nepoužito</string>
+    <string name="activity_type_running">Běh</string>
+    <string name="activity_type_walking">Chůze</string>
+    <string name="activity_type_swimming">Plavání</string>
+    <string name="activity_type_unknown">Neznámá aktivita</string>
+    <string name="activity_summaries">Aktivity</string>
+    <string name="activity_type_biking">Cyklistika</string>
+    <string name="select_all">Vybrat vše</string>
+    <string name="share">Sdílet</string>
+    <string name="reset_index">Vymazat datum stažení</string>
+
+    <string name="menuitem_shortcut_alipay">Alipay (Zástupce)</string>
+    <string name="menuitem_shortcut_weather">Počasí (Zástupce)</string>
+    <string name="menuitem_status">Stav</string>
+    <string name="menuitem_activity">Aktivita</string>
+    <string name="menuitem_weather">Počasí</string>
+    <string name="menuitem_alarm">Budík</string>
+    <string name="menuitem_timer">Časovač</string>
+    <string name="menuitem_compass">Kompas</string>
+    <string name="menuitem_settings">Nastavení</string>
+    <string name="menuitem_alipay">Alipay</string>
 </resources>
