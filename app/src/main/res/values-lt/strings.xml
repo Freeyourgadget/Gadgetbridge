@@ -1,2 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="app_name">Gadgetbridge</string>
+
+    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="action_settings">Nustatymai</string>
+    <string name="action_debug">Šalinti riktus</string>
+    <string name="action_quit">Išeiti</string>
+    <string name="action_donate">Aukoti</string>
+    <string name="controlcenter_fetch_activity_data">Sinchronizuoti</string>
+    <string name="controlcenter_find_device">Surasti pamestą įrenginį</string>
+    <string name="controlcenter_take_screenshot">Padaryti ekrano nuotrauką</string>
+    <string name="controlcenter_connect">Prijungti</string>
+    <string name="controlcenter_disconnect">Atjungti</string>
+    <string name="controlcenter_delete_device">Ištrinti įrenginį</string>
+    <string name="controlcenter_delete_device_name">Ištrinti %1$s</string>
+    <string name="controlcenter_delete_device_dialogmessage">Šiuo veiksmu ištrinsite įrenginį ir visus jo sukauptus duomenis</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Daroma įrenginio ekrano nuotrauka</string>
+
+
+    <string name="appmanager_installed_watchfaces">Įdiegti laikrodžio stiliai</string>
+    <string name="menuitem_weather">Oras</string>
+    <string name="menuitem_alarm">Žadintuvas</string>
+    <string name="menuitem_timer">Laikmatis</string>
+    <string name="menuitem_compass">Kompasas</string>
+    <string name="menuitem_settings">Nustatymai</string>
+    <string name="menuitem_alipay">Alipay</string>
+</resources>
