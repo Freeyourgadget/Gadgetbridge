@@ -79,7 +79,7 @@ public class ZeTimeCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsActivityTracking() {
-        return false;
+        return true;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ZeTimeCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsActivityDataFetching() {
-        return false;
+        return true;
     }
 
     @Override
@@ -125,5 +125,10 @@ public class ZeTimeCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsRealtimeData() {
         return false;
+    }
+
+    @Override
+    public int getBondingStyle(GBDevice device) {
+        return BONDING_STYLE_NONE;
     }
 }
