@@ -9,7 +9,7 @@ vendor's servers.
 
 [Homepage](https://gadgetbridge.org)
 
-[Blog](https://blog.gadgetbridge.org)
+[Blog](https://blog.freeyourgadget.org)
 
 [![Donate](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Gadgetbridge/donate)
 
