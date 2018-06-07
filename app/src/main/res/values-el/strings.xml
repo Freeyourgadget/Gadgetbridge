@@ -591,4 +591,5 @@
     <string name="menuitem_compass">Πυξίδα</string>
     <string name="menuitem_settings">Ρυθμίσεις</string>
     <string name="menuitem_alipay">Alipay</string>
-</resources>
+<string name="devicetype_q8">"Q8 "</string>
+    </resources>
