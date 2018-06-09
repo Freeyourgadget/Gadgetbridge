@@ -159,6 +159,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     private boolean needsAuth;
     private volatile boolean telephoneRinging;
     private volatile boolean isLocatingDevice;
+    private volatile boolean isReadingSensorData;
 
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
@@ -287,6 +288,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), enable);
         builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_6_BATTERY_INFO), enable);
         builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_DEVICEEVENT), enable);
+        builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_2_SENSOR_DATA), enable);
 
         return this;
     }
@@ -342,10 +344,16 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return new Mi2NotificationStrategy(this);
     }
 
+    // HR commands
     private static final byte[] startHeartMeasurementManual = new byte[]{0x15, MiBandService.COMMAND_SET_HR_MANUAL, 1};
     private static final byte[] stopHeartMeasurementManual = new byte[]{0x15, MiBandService.COMMAND_SET_HR_MANUAL, 0};
     private static final byte[] startHeartMeasurementContinuous = new byte[]{0x15, MiBandService.COMMAND_SET__HR_CONTINUOUS, 1};
     private static final byte[] stopHeartMeasurementContinuous = new byte[]{0x15, MiBandService.COMMAND_SET__HR_CONTINUOUS, 0};
+
+    // Raw sensor commands
+    private static final byte[] startSensorRead1 = new byte[]{0x01, 0x01, 0x19};
+    private static final byte[] startSensorRead2 = new byte[]{0x02};
+    private static final byte[] stopSensorRead = new byte[]{0x03};
 
     private MiBand2Support requestBatteryInfo(TransactionBuilder builder) {
         LOG.debug("Requesting Battery Info!");
@@ -1069,6 +1077,9 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         } else if (MiBand2Service.UUID_CHARACTERISTIC_7_REALTIME_STEPS.equals(characteristicUUID)) {
             handleRealtimeSteps(characteristic.getValue());
             return true;
+        } else if (MiBand2Service.UUID_CHARACTERISTIC_2_SENSOR_DATA.equals(characteristicUUID)) {
+            handleSensorData(characteristic.getValue());
+            return true;
         } else {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
@@ -1142,6 +1153,24 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 // single shot measurement, manually invoke storage and result publishing
                 realtimeSamplesSupport.triggerCurrentSample();
             }
+        }
+    }
+
+    /**
+     * Handles the raw-data from the sensor.
+     * @see nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport::handleSensorData
+     *
+     * @param value The data bytes
+     */
+    private void handleSensorData(byte[] value) {
+        String string = "";
+        for (byte b : value) {
+            string = string.concat(String.format(" 0x%4x", b));
+        }
+        LOG.warn("Received sensor data:" + string);
+
+        if ((value.length - 2) % 6 != 0) {
+            LOG.warn("Got unexpected sensor data with length: " + value.length);
         }
     }
 
@@ -1383,7 +1412,17 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     @Override
     public void onTestNewFunction() {
         try {
-            new FetchSportsSummaryOperation(this).perform();
+            TransactionBuilder builder = performInitialized("Test get realtime sensor data");
+            if (isReadingSensorData) {
+                builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_1_SENSOR_CONTROL), stopSensorRead);
+            } else {
+                builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_1_SENSOR_CONTROL), startSensorRead1);
+                builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_1_SENSOR_CONTROL), startSensorRead2);
+            }
+            builder.queue(getQueue());
+            isReadingSensorData = !isReadingSensorData;
+
+            // new FetchSportsSummaryOperation(this).perform();
         } catch (IOException ex) {
             LOG.error("Unable to fetch MI activity data", ex);
         }
