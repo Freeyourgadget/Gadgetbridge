@@ -516,4 +516,17 @@
     <string name="share">共有</string>
     <string name="reset_index">取得日付をリセット</string>
 
-    </resources>
+    <string name="pref_title_pebble_gatt_clientonly">GATT クライアントのみ</string>
+    <string name="pref_summary_pebble_gatt_clientonly">これは Pebble 2 のみで、実験的です。接続に問題がある場合、これを試してください</string>
+    <string name="devicetype_q8">Q8</string>
+    <string name="menuitem_shortcut_alipay">Alipay (ショートカット)</string>
+    <string name="menuitem_shortcut_weather">天気 (ショートカット)</string>
+    <string name="menuitem_status">ステータス</string>
+    <string name="menuitem_activity">アクティビティ</string>
+    <string name="menuitem_weather">天気</string>
+    <string name="menuitem_alarm">アラーム</string>
+    <string name="menuitem_timer">タイマー</string>
+    <string name="menuitem_compass">コンパス</string>
+    <string name="menuitem_settings">設定</string>
+    <string name="menuitem_alipay">Alipay</string>
+</resources>
