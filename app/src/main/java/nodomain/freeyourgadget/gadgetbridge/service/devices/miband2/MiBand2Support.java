@@ -69,7 +69,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband2.MiBand2Const;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
@@ -1200,7 +1200,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                         sample.setHeartRate(getHeartrateBpm());
                         sample.setSteps(getSteps());
                         sample.setRawIntensity(ActivitySample.NOT_MEASURED);
-                        sample.setRawKind(MiBand2Const.TYPE_ACTIVITY); // to make it visible in the charts TODO: add a MANUAL kind for that?
+                        sample.setRawKind(HuamiConst.TYPE_ACTIVITY); // to make it visible in the charts TODO: add a MANUAL kind for that?
 
                         provider.addGBActivitySample(sample);
 

@@ -20,12 +20,12 @@ package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 import java.util.List;
 
 import de.greenrobot.dao.query.QueryBuilder;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband2.MiBand2Const;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband2.MiBand2Const.*;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.*;
 
 public class MiBand2SampleProvider extends AbstractMiBandSampleProvider {
 
@@ -88,11 +88,11 @@ public class MiBand2SampleProvider extends AbstractMiBandSampleProvider {
 
     @Override
     public int normalizeType(int rawType) {
-        return MiBand2Const.toActivityKind(rawType);
+        return HuamiConst.toActivityKind(rawType);
     }
 
     @Override
     public int toRawActivityKind(int activityKind) {
-        return MiBand2Const.toRawActivityType(activityKind);
+        return HuamiConst.toRawActivityType(activityKind);
     }
 }

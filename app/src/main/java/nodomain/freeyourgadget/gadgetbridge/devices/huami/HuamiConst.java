@@ -1,8 +1,8 @@
-package nodomain.freeyourgadget.gadgetbridge.devices.miband2;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
-public class MiBand2Const {
+public class HuamiConst {
     // observed the following values so far:
     // 00 01 02 09 0a 0b 0c 10 11
 
