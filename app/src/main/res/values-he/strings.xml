@@ -388,9 +388,9 @@
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">השבתת אזהרות חוסר הפעילות לפרק זמן מסוים</string>
     <string name="mi2_prefs_do_not_disturb_start">מועד ההתחלה</string>
     <string name="mi2_prefs_do_not_disturb_end">מועד הסיום</string>
-    <string name="fw_upgrade_notice_amazfitbip">ביקשת להתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Amazfit Bip שלך. 
+    <string name="fw_upgrade_notice_amazfitbip">פעולה זו תתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Amazfit Bip שלך. 
 \n 
-\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res ולבסוף קובץ ה־‎.gps השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw.
+\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res ולבסוף קובץ ה־‎.gps השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw. 
 \n 
 \nלתשומת לבך: אין צורך בהתקנת קובצי ה־‎.res וה־‎.gps אם הם כבר זהים לאלו שהתקנת בעבר. 
 \n 
@@ -445,7 +445,7 @@
 \n 
 \nלתשומת לבך: אין צורך להתקין את קובץ ה־‎.res אם הוא זהה לקובץ שהתקנת בעבר. 
 \n 
-\nניסיוני, המשך מעבר לנקודה זו הוא על אחריותך!</string>
+\nהמשך מעבר לנקודה זו הוא על אחריותך!</string>
     <string name="amazfitcor_firmware">קושחה %1$s של Amazfit Cor</string>
     <string name="pref_title_charts_swipe">הפעלת הסטה לימין/שמאל בפעילות התרשימים</string>
 
@@ -532,4 +532,12 @@
     <string name="menuitem_shortcut_alipay">Alipay (קיצור דרך)</string>
     <string name="menuitem_shortcut_weather">מזג אוויר (קיצור דרך)</string>
     <string name="devicetype_q8">Q8</string>
+    <string name="fw_upgrade_notice_miband3">פעולה זו תתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Mi Band 3 שלך. 
+\n 
+\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw. 
+\n 
+\nלתשומת לבך: אין צורך בהתקנת קובץ ה־‎.res אם הוא כבר זהה לזה שהתקנת בעבר. 
+\n 
+\nהתהליך לא נבדק, ההתקן שלך עשוי להפסיק לפעול, המשך התהליך הוא על אחריותך!</string>
+    <string name="devicetype_miband3">Mi Band 3</string>
     </resources>
