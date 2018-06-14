@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -28,31 +28,27 @@ import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-public class MiBand2Coordinator extends HuamiCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(MiBand2Coordinator.class);
+public class MiBand3Coordinator extends HuamiCoordinator {
+    private static final Logger LOG = LoggerFactory.getLogger(MiBand3Coordinator.class);
 
     @Override
     public DeviceType getDeviceType() {
-        return DeviceType.MIBAND2;
+        return DeviceType.MIBAND3;
     }
 
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        if (candidate.supportsService(MiBand2Service.UUID_SERVICE_MIBAND2_SERVICE)) {
-            return DeviceType.MIBAND2;
-        }
-
-        // and a heuristic for now
         try {
             BluetoothDevice device = candidate.getDevice();
             String name = device.getName();
-            if (name != null && name.equalsIgnoreCase(HuamiConst.MI_BAND2_NAME)) {
-                return DeviceType.MIBAND2;
+            if (name != null && name.equalsIgnoreCase(HuamiConst.MI_BAND3_NAME)) {
+                return DeviceType.MIBAND3;
             }
         } catch (Exception ex) {
             LOG.error("unable to check device support", ex);
@@ -63,7 +59,7 @@ public class MiBand2Coordinator extends HuamiCoordinator {
 
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
-        MiBand2FWInstallHandler handler = new MiBand2FWInstallHandler(uri, context);
+        MiBand3FWInstallHandler handler = new MiBand3FWInstallHandler(uri, context);
         return handler.isValid() ? handler : null;
     }
 
@@ -74,6 +70,6 @@ public class MiBand2Coordinator extends HuamiCoordinator {
 
     @Override
     public boolean supportsWeather() {
-        return false;
+        return true;
     }
 }

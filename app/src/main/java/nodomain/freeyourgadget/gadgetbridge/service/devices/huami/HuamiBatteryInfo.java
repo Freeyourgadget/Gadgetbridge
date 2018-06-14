@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.miband2;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
 import java.util.GregorianCalendar;
 
@@ -45,14 +45,14 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.AbstractInfo;
 //        04		= 4   // num charges??
 //        64		= 100 // how much was charged
 
-public class BatteryInfo extends AbstractInfo {
+public class HuamiBatteryInfo extends AbstractInfo {
     public static final byte DEVICE_BATTERY_NORMAL = 0;
     public static final byte DEVICE_BATTERY_CHARGING = 1;
 //    public static final byte DEVICE_BATTERY_LOW = 1;
 //    public static final byte DEVICE_BATTERY_CHARGING_FULL = 3;
 //    public static final byte DEVICE_BATTERY_CHARGE_OFF = 4;
 
-    public BatteryInfo(byte[] data) {
+    public HuamiBatteryInfo(byte[] data) {
         super(data);
     }
 

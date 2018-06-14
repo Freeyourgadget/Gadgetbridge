@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -131,7 +131,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
     @Override
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
         if (ArrayUtils.startsWith(bytes, RES_HEADER) || ArrayUtils.startsWith(bytes, NEWRES_HEADER)) {
-            if (bytes.length > 700000) { // dont know how to distinguish from Cor .res
+            if ((bytes.length <= 100000) || (bytes.length > 700000)) { // dont know how to distinguish from Cor/Mi Band 3 .res
                 return HuamiFirmwareType.INVALID;
             }
             return HuamiFirmwareType.RES;
@@ -149,7 +149,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
             String foundVersion = searchFirmwareVersion(bytes);
             if (foundVersion != null) {
                 Version version = new Version(foundVersion);
-                if ((version.compareTo(new Version("0.0.8.00")) >= 0) && (version.compareTo(new Version("1.0.5.00")) < 0)) {
+                if ((version.compareTo(new Version("0.0.8.00")) >= 0) && (version.compareTo(new Version("1.0.0.00")) < 0)) {
                     return HuamiFirmwareType.FIRMWARE;
                 }
             }

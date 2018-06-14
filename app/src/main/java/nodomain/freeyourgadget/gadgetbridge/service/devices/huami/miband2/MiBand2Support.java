@@ -16,7 +16,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.miband2;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -101,14 +101,15 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotificat
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.heartrate.HeartRateProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.RealtimeSamplesSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.actions.StopNotificationAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.FetchActivityOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.FetchSportsSummaryOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.InitOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.UpdateFirmwareOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.actions.StopNotificationAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.operations.FetchActivityOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.operations.FetchSportsSummaryOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.operations.InitOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -1291,7 +1292,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     private void handleBatteryInfo(byte[] value, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
-            BatteryInfo info = new BatteryInfo(value);
+            HuamiBatteryInfo info = new HuamiBatteryInfo(value);
             batteryCmd.level = ((short) info.getLevelInPercent());
             batteryCmd.state = info.getState();
             batteryCmd.lastChargeTime = info.getLastChargeTime();
