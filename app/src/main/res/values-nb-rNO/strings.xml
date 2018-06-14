@@ -584,4 +584,13 @@
     <string name="pref_summary_pebble_gatt_clientonly">Dette er kun for Pebble 2 og eksperimentelt, prøv dette hvis du har tilkoblingsproblemer</string>
     <string name="menuitem_shortcut_alipay">Alipay (snarvei)</string>
     <string name="menuitem_shortcut_weather">Vær (snarvei)</string>
+    <string name="fw_upgrade_notice_miband3">Du er i ferd med å installere %s-fastvaren på din Mi Band 3.
+\n
+\nInstaler først .fw-fila, og dernest .res-fila. Klokka di vil starte på nytt etter at du installerer .fw-fila.
+\n
+\nMerk: Du trenger ikke å installere .res hvis du har akkurat den samme installert.
+\n
+\nUTESTET, KAN HAVARERE ENHETEN, FORTSETT PÅ EGEN RISIKO!</string>
+    <string name="devicetype_miband3">Mi Band 3</string>
+    <string name="devicetype_q8">Q8</string>
     </resources>
