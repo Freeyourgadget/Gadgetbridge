@@ -26,6 +26,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 
+import static nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeConstants.CMD_AVAIABLE_DATA;
+
 /**
  * Created by Kranz on 08.02.2018.
  */
@@ -59,7 +61,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
         // do this in a function
         builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
-                                                      ZeTimeConstants.CMD_GET_AVAIABLE_DATE,
+                                                      CMD_AVAIABLE_DATA,
                                                       ZeTimeConstants.CMD_REQUEST,
                                                       0x01,
                                                       0x00,
@@ -230,10 +232,35 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         UUID characteristicUUID = characteristic.getUuid();
         if (ZeTimeConstants.UUID_ACK_CHARACTERISTIC.equals(characteristicUUID)) {
             byte[] data = characteristic.getValue();
+            if(isMsgFormatOK(data)) {
+                switch (data[1]) {
+                    case ZeTimeConstants.CMD_AVAIABLE_DATA:
+                }
+            }
             return true;
         } else {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
+        }
+        return false;
+    }
+
+    private boolean isMsgFormatOK(byte[] msg)
+    {
+        if(msg[0] == ZeTimeConstants.CMD_PREAMBLE)
+        {
+            if((msg[3] != 0) && (msg[4] != 0))
+            {
+                int payloadSize = msg[4] * 256 + msg[3];
+                int msgLength = payloadSize + 6;
+                if(msgLength == msg.length)
+                {
+                    if(msg[msgLength - 1] == ZeTimeConstants.CMD_END)
+                    {
+                        return true;
+                    }
+                }
+            }
         }
         return false;
     }
