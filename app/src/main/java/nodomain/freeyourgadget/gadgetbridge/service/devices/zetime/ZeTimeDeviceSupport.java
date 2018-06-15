@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.zetime;
 
+import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.net.Uri;
 
@@ -21,7 +22,9 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 
 /**
  * Created by Kranz on 08.02.2018.
@@ -37,21 +40,22 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     public ZeTimeDeviceSupport(){
         super(LOG);
+        addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
+        addSupportedService(GattService.UUID_SERVICE_GENERIC_ATTRIBUTE);
         addSupportedService(ZeTimeConstants.UUID_SERVICE_BASE);
+        addSupportedService(ZeTimeConstants.UUID_SERVICE_EXTEND);
+        addSupportedService(ZeTimeConstants.UUID_SERVICE_HEART_RATE);
     }
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         LOG.info("Initializing");
-
-        gbDevice.setState(GBDevice.State.INITIALIZING);
-        gbDevice.sendDeviceUpdateIntent(getContext());
+        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
 
         notifyCharacteristic = getCharacteristic(ZeTimeConstants.UUID_NOTIFY_CHARACTERISTIC);
         writeCharacteristic = getCharacteristic(ZeTimeConstants.UUID_WRITE_CHARACTERISTIC);
         ackCharacteristic = getCharacteristic(ZeTimeConstants.UUID_ACK_CHARACTERISTIC);
 
-        builder.setGattCallback(this);
-        builder.notify(notifyCharacteristic, true);
+        builder.notify(ackCharacteristic, true);
 
         // do this in a function
         builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
@@ -63,11 +67,8 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                                                       ZeTimeConstants.CMD_END});
         builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
 
-        gbDevice.setState(GBDevice.State.INITIALIZED);
-        gbDevice.sendDeviceUpdateIntent(getContext());
-
+        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
         LOG.info("Initialization Done");
-
         return builder;
     }
 
@@ -219,5 +220,21 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
 
+    }
+
+    @Override
+    public boolean onCharacteristicChanged(BluetoothGatt gatt,
+                                           BluetoothGattCharacteristic characteristic) {
+        super.onCharacteristicChanged(gatt, characteristic);
+
+        UUID characteristicUUID = characteristic.getUuid();
+        if (ZeTimeConstants.UUID_ACK_CHARACTERISTIC.equals(characteristicUUID)) {
+            byte[] data = characteristic.getValue();
+            return true;
+        } else {
+            LOG.info("Unhandled characteristic changed: " + characteristicUUID);
+            logMessageContent(characteristic.getValue());
+        }
+        return false;
     }
 }
