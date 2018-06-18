@@ -176,7 +176,8 @@ public class GBApplication extends Application {
         setLanguage(language);
 
         deviceService = createDeviceService();
-        loadAppsBlackList();
+        loadAppsNotifBlackList();
+        loadAppsPebbleBlackList();
         loadCalendarsBlackList();
 
         if (isRunningMarshmallowOrLater()) {
@@ -372,57 +373,118 @@ public class GBApplication extends Application {
         return NotificationManager.INTERRUPTION_FILTER_ALL;
     }
 
-    private static HashSet<String> apps_blacklist = null;
+    private static HashSet<String> apps_notification_blacklist = null;
 
-    public static boolean appIsBlacklisted(String packageName) {
-        if (apps_blacklist == null) {
-            GB.log("appIsBlacklisted: apps_blacklist is null!", GB.INFO, null);
+    public static boolean appIsNotifBlacklisted(String packageName) {
+        if (apps_notification_blacklist == null) {
+            GB.log("appIsNotifBlacklisted: apps_notification_blacklist is null!", GB.INFO, null);
         }
-        return apps_blacklist != null && apps_blacklist.contains(packageName);
+        return apps_notification_blacklist != null && apps_notification_blacklist.contains(packageName);
     }
 
-    public static void setAppsBlackList(Set<String> packageNames) {
+    public static void setAppsNotifBlackList(Set<String> packageNames) {
         if (packageNames == null) {
-            GB.log("Set null apps_blacklist", GB.INFO, null);
-            apps_blacklist = new HashSet<>();
+            GB.log("Set null apps_notification_blacklist", GB.INFO, null);
+            apps_notification_blacklist = new HashSet<>();
         } else {
-            apps_blacklist = new HashSet<>(packageNames);
+            apps_notification_blacklist = new HashSet<>(packageNames);
         }
-        GB.log("New apps_blacklist has " + apps_blacklist.size() + " entries", GB.INFO, null);
-        saveAppsBlackList();
+        GB.log("New apps_notification_blacklist has " + apps_notification_blacklist.size() + " entries", GB.INFO, null);
+        saveAppsNotifBlackList();
     }
 
-    private static void loadAppsBlackList() {
-        GB.log("Loading apps_blacklist", GB.INFO, null);
-        apps_blacklist = (HashSet<String>) sharedPrefs.getStringSet(GBPrefs.PACKAGE_BLACKLIST, null);
-        if (apps_blacklist == null) {
-            apps_blacklist = new HashSet<>();
+    private static void loadAppsNotifBlackList() {
+        GB.log("Loading apps_notification_blacklist", GB.INFO, null);
+        apps_notification_blacklist = (HashSet<String>) sharedPrefs.getStringSet(GBPrefs.PACKAGE_BLACKLIST, null);
+        if (apps_notification_blacklist == null) {
+            apps_notification_blacklist = new HashSet<>();
         }
-        GB.log("Loaded apps_blacklist has " + apps_blacklist.size() + " entries", GB.INFO, null);
+        GB.log("Loaded apps_notification_blacklist has " + apps_notification_blacklist.size() + " entries", GB.INFO, null);
     }
 
-    private static void saveAppsBlackList() {
-        GB.log("Saving apps_blacklist with " + apps_blacklist.size() + " entries", GB.INFO, null);
+    private static void saveAppsNotifBlackList() {
+        GB.log("Saving apps_notification_blacklist with " + apps_notification_blacklist.size() + " entries", GB.INFO, null);
         SharedPreferences.Editor editor = sharedPrefs.edit();
-        if (apps_blacklist.isEmpty()) {
+        if (apps_notification_blacklist.isEmpty()) {
             editor.putStringSet(GBPrefs.PACKAGE_BLACKLIST, null);
         } else {
-            Prefs.putStringSet(editor, GBPrefs.PACKAGE_BLACKLIST, apps_blacklist);
+            Prefs.putStringSet(editor, GBPrefs.PACKAGE_BLACKLIST, apps_notification_blacklist);
         }
         editor.apply();
     }
 
-    public static void addAppToBlacklist(String packageName) {
-        if (apps_blacklist.add(packageName)) {
-            saveAppsBlackList();
+    public static void addAppToNotifBlacklist(String packageName) {
+        if (apps_notification_blacklist.add(packageName)) {
+            saveAppsNotifBlackList();
         }
     }
 
-    public static synchronized void removeFromAppsBlacklist(String packageName) {
-        GB.log("Removing from apps_blacklist: " + packageName, GB.INFO, null);
-        apps_blacklist.remove(packageName);
-        saveAppsBlackList();
+    public static synchronized void removeFromAppsNotifBlacklist(String packageName) {
+        GB.log("Removing from apps_notification_blacklist: " + packageName, GB.INFO, null);
+        apps_notification_blacklist.remove(packageName);
+        saveAppsNotifBlackList();
     }
+
+    private static HashSet<String> apps_pebblemsg_blacklist = null;
+
+    public static boolean appIsPebbleBlacklisted(String sender) {
+        if (apps_pebblemsg_blacklist == null) {
+            GB.log("appIsPebbleBlacklisted: apps_pebblemsg_blacklist is null!", GB.INFO, null);
+        }
+        return apps_pebblemsg_blacklist != null && apps_pebblemsg_blacklist.contains(sender);
+    }
+
+    public static void setAppsPebbleBlackList(Set<String> packageNames) {
+        if (packageNames == null) {
+            GB.log("Set null apps_pebblemsg_blacklist", GB.INFO, null);
+            apps_pebblemsg_blacklist = new HashSet<>();
+        } else {
+            apps_pebblemsg_blacklist = new HashSet<>(packageNames);
+        }
+        GB.log("New apps_pebblemsg_blacklist has " + apps_pebblemsg_blacklist.size() + " entries", GB.INFO, null);
+        saveAppsPebbleBlackList();
+    }
+
+    private static void loadAppsPebbleBlackList() {
+        GB.log("Loading apps_pebblemsg_blacklist", GB.INFO, null);
+        apps_pebblemsg_blacklist = (HashSet<String>) sharedPrefs.getStringSet(GBPrefs.PACKAGE_PEBBLEMSG_BLACKLIST, null);
+        if (apps_pebblemsg_blacklist == null) {
+            apps_pebblemsg_blacklist = new HashSet<>();
+        }
+        GB.log("Loaded apps_pebblemsg_blacklist has " + apps_pebblemsg_blacklist.size() + " entries", GB.INFO, null);
+    }
+
+    private static void saveAppsPebbleBlackList() {
+        GB.log("Saving apps_pebblemsg_blacklist with " + apps_pebblemsg_blacklist.size() + " entries", GB.INFO, null);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        if (apps_pebblemsg_blacklist.isEmpty()) {
+            editor.putStringSet(GBPrefs.PACKAGE_PEBBLEMSG_BLACKLIST, null);
+        } else {
+            Prefs.putStringSet(editor, GBPrefs.PACKAGE_PEBBLEMSG_BLACKLIST, apps_pebblemsg_blacklist);
+        }
+        editor.apply();
+    }
+
+    public static void addAppToPebbleBlacklist(String packageName) {
+        if (apps_pebblemsg_blacklist.add(packageNameToPebbleMsgSender(packageName))) {
+            saveAppsPebbleBlackList();
+        }
+    }
+
+    public static synchronized void removeFromAppsPebbleBlacklist(String packageName) {
+        GB.log("Removing from apps_pebblemsg_blacklist: " + packageName, GB.INFO, null);
+        apps_pebblemsg_blacklist.remove(packageNameToPebbleMsgSender(packageName));
+        saveAppsPebbleBlackList();
+    }
+
+public static String packageNameToPebbleMsgSender(String packageName) {
+    if ("eu.siacs.conversations".equals(packageName)){
+        return("Conversations");
+    } else if ("net.osmand.plus".equals(packageName)) {
+        return("OsmAnd");
+    }
+    return packageName;
+}
 
     private static HashSet<String> calendars_blacklist = null;
 
@@ -435,7 +497,7 @@ public class GBApplication extends Application {
 
     public static void setCalendarsBlackList(Set<String> calendarNames) {
         if (calendarNames == null) {
-            GB.log("Set null apps_blacklist", GB.INFO, null);
+            GB.log("Set null apps_notification_blacklist", GB.INFO, null);
             calendars_blacklist = new HashSet<>();
         } else {
             calendars_blacklist = new HashSet<>(calendarNames);

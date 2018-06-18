@@ -38,6 +38,8 @@ import java.util.List;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
+import static nodomain.freeyourgadget.gadgetbridge.GBApplication.packageNameToPebbleMsgSender;
+
 public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapter.AppBLViewHolder> implements Filterable {
 
     private List<ApplicationInfo> applicationInfoList;
@@ -62,7 +64,7 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
             if (name == null) {
                 name = ai.packageName;
             }
-            if (GBApplication.appIsBlacklisted(ai.packageName)) {
+            if (GBApplication.appIsNotifBlacklisted(ai.packageName) || GBApplication.appIsPebbleBlacklisted(packageNameToPebbleMsgSender(ai.packageName))) {
                 // sort blacklisted first by prefixing with a '!'
                 name = "!" + name;
             }
@@ -94,17 +96,31 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
         holder.deviceAppNameLabel.setText(mNameMap.get(appInfo));
         holder.deviceImageView.setImageDrawable(appInfo.loadIcon(mPm));
 
-        holder.checkbox.setChecked(GBApplication.appIsBlacklisted(appInfo.packageName));
+        holder.blacklist_checkbox.setChecked(GBApplication.appIsNotifBlacklisted(appInfo.packageName));
+        holder.blacklist_checkbox.setTextColor(mContext.getResources().getColorStateList(R.color.blacklist_checkboxes));
 
+        holder.blacklist_pebble_checkbox.setChecked(GBApplication.appIsPebbleBlacklisted(packageNameToPebbleMsgSender(appInfo.packageName)));
+
+        holder.blacklist_pebble_checkbox.setTextColor(mContext.getResources().getColorStateList(R.color.blacklist_checkboxes));
+        holder.blacklist_pebble_checkbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if ( ((CheckBox)view).isChecked() ) {
+                    GBApplication.addAppToPebbleBlacklist(appInfo.packageName);
+                } else {
+                    GBApplication.removeFromAppsPebbleBlacklist(appInfo.packageName);
+                }
+            }
+        });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CheckBox checkBox = ((CheckBox) v.findViewById(R.id.item_checkbox));
                 checkBox.toggle();
                 if (checkBox.isChecked()) {
-                    GBApplication.addAppToBlacklist(appInfo.packageName);
+                    GBApplication.addAppToNotifBlacklist(appInfo.packageName);
                 } else {
-                    GBApplication.removeFromAppsBlacklist(appInfo.packageName);
+                    GBApplication.removeFromAppsNotifBlacklist(appInfo.packageName);
                 }
             }
         });
@@ -123,9 +139,10 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
         return applicationFilter;
     }
 
-    public class AppBLViewHolder extends RecyclerView.ViewHolder {
+    class AppBLViewHolder extends RecyclerView.ViewHolder {
 
-        final CheckBox checkbox;
+        final CheckBox blacklist_checkbox;
+        final CheckBox blacklist_pebble_checkbox;
         final ImageView deviceImageView;
         final TextView deviceAppVersionAuthorLabel;
         final TextView deviceAppNameLabel;
@@ -133,7 +150,8 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
         AppBLViewHolder(View itemView) {
             super(itemView);
 
-            checkbox = (CheckBox) itemView.findViewById(R.id.item_checkbox);
+            blacklist_checkbox = (CheckBox) itemView.findViewById(R.id.item_checkbox);
+            blacklist_pebble_checkbox = (CheckBox) itemView.findViewById(R.id.item_pebble_checkbox);
             deviceImageView = (ImageView) itemView.findViewById(R.id.item_image);
             deviceAppVersionAuthorLabel = (TextView) itemView.findViewById(R.id.item_details);
             deviceAppNameLabel = (TextView) itemView.findViewById(R.id.item_name);
