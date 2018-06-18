@@ -43,7 +43,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +69,6 @@ public class ControlCenterv2 extends AppCompatActivity
     }
 
     private DeviceManager deviceManager;
-    private ImageView background;
 
     private GBDeviceAdapterv2 mGBDeviceAdapter;
     private RecyclerView deviceListView;
@@ -127,7 +125,6 @@ public class ControlCenterv2 extends AppCompatActivity
         deviceListView = findViewById(R.id.deviceListView);
         deviceListView.setHasFixedSize(true);
         deviceListView.setLayoutManager(new LinearLayoutManager(this));
-        background = findViewById(R.id.no_items_bg);
 
         List<GBDevice> deviceList = deviceManager.getDevices();
         mGBDeviceAdapter = new GBDeviceAdapterv2(this, deviceList);
@@ -281,13 +278,6 @@ public class ControlCenterv2 extends AppCompatActivity
     }
 
     private void refreshPairedDevices() {
-        List<GBDevice> deviceList = deviceManager.getDevices();
-        if (deviceList.isEmpty()) {
-            background.setVisibility(View.VISIBLE);
-        } else {
-            background.setVisibility(View.INVISIBLE);
-        }
-
         mGBDeviceAdapter.notifyDataSetChanged();
     }
 

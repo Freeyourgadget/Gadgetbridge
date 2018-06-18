@@ -558,7 +558,7 @@
 <string name="spanish">Ισπανικά</string>
 
     <string name="notification_channel_name">Ειδοποιήσεις Gadgetbridge</string>
-<string name="devicetype_xwatch">XWatch</string>
+<string name="devicetype_xwatch">"XWatch "</string>
 
     <string name="on">Ανοιχτό</string>
     <string name="controlcenter_start_activity_tracks">Η δραστηριότητα σας καταγράφεται</string>
@@ -590,5 +590,6 @@
     <string name="menuitem_timer">Χρονόμετρο</string>
     <string name="menuitem_compass">Πυξίδα</string>
     <string name="menuitem_settings">Ρυθμίσεις</string>
-    <string name="menuitem_alipay">Alipay</string>
-</resources>
+    <string name="menuitem_alipay">"Alipay "</string>
+<string name="devicetype_q8">"Q8 "</string>
+    </resources>

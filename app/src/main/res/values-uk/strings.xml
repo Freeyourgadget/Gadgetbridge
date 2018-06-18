@@ -240,4 +240,7 @@
     <string name="controlcenter_connect">З\'єднати</string>
     <string name="controlcenter_snackbar_connecting">Підключення</string>
     <string name="notification_channel_name">Сповіщення Gadgetbridge</string>
-</resources>
+<string name="controlcenter_navigation_drawer_open">Відкрити навігаційну панель</string>
+    <string name="controlcenter_navigation_drawer_close">Закрити навігаційну панель</string>
+    <string name="controlcenter_snackbar_disconnecting">Роз\'єднання</string>
+    </resources>

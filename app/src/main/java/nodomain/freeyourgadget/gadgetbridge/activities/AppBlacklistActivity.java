@@ -22,6 +22,8 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import org.slf4j.Logger;
@@ -65,10 +67,23 @@ public class AppBlacklistActivity extends AbstractGBActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.app_blacklist_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
+                return true;
+            case R.id.blacklist_all_notif:
+                appBlacklistAdapter.blacklistAllNotif();
+                return true;
+            case R.id.whitelist_all_notif:
+                appBlacklistAdapter.whitelistAllNotif();
                 return true;
         }
         return super.onOptionsItemSelected(item);

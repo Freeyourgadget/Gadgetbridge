@@ -37,7 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Version;
 public class MiBand2FWInstallHandler extends AbstractMiBandFWInstallHandler {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand2FWInstallHandler.class);
 
-    public MiBand2FWInstallHandler(Uri uri, Context context) {
+    MiBand2FWInstallHandler(Uri uri, Context context) {
         super(uri, context);
     }
 

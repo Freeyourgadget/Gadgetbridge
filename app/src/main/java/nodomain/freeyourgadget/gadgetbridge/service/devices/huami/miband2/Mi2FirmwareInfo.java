@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.miband2;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,6 +48,9 @@ public class Mi2FirmwareInfo extends HuamiFirmwareInfo {
 
     private static final int FW_HEADER_OFFSET = 0x150;
 
+    private static final byte FW_MAGIC = (byte) 0xf8;
+    private static final int FW_MAGIC_OFFSET = 0x17d;
+
     private static Map<Integer, String> crcToVersion = new HashMap<>();
 
     static {
@@ -78,7 +81,8 @@ public class Mi2FirmwareInfo extends HuamiFirmwareInfo {
         if (ArrayUtils.startsWith(bytes, HuamiFirmwareInfo.FT_HEADER)) {
             return HuamiFirmwareType.FONT;
         }
-        if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET)) {
+        if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET)
+                && (bytes[FW_MAGIC_OFFSET] == FW_MAGIC)) {
             // TODO: this is certainly not a correct validation, but it works for now
             return HuamiFirmwareType.FIRMWARE;
         }

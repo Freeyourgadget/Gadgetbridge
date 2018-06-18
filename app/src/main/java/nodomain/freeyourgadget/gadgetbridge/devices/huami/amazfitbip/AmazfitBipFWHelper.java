@@ -23,7 +23,7 @@ import android.support.annotation.NonNull;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.AmazfitBipFirmwareInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipFirmwareInfo;
 
 public class AmazfitBipFWHelper extends HuamiFWHelper {
 

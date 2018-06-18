@@ -1,8 +1,8 @@
-package nodomain.freeyourgadget.gadgetbridge.devices.miband2;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
-public class MiBand2Const {
+public class HuamiConst {
     // observed the following values so far:
     // 00 01 02 09 0a 0b 0c 10 11
 
@@ -26,6 +26,11 @@ public class MiBand2Const {
     public static final int TYPE_IGNORE = 10;
     public static final int TYPE_DEEP_SLEEP = 11;
     public static final int TYPE_WAKE_UP = 12;
+
+
+    public static final String MI_BAND2_NAME = "MI Band 2";
+    public static final String MI_BAND2_NAME_HRX = "Mi Band HRX";
+    public static final String MI_BAND3_NAME = "Mi Band 3";
 
     public static int toActivityKind(int rawType) {
         switch (rawType) {
