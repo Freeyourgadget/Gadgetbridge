@@ -46,6 +46,9 @@
 
     <!-- Strings related to AppBlacklist -->
     <string name="title_activity_appblacklist">Notification blacklist</string>
+    <string name="blacklist_all_for_notifications">Blacklist all for notifications</string>
+    <string name="whitelist_all_for_notifications">Whitelist all for notifications</string>
+
 
     <!-- Strings related to CalBlacklist -->
     <string name="title_activity_calblacklist">Blacklisted Calendars</string>

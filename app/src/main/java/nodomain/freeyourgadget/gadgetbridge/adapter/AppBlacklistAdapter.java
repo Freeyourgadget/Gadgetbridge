@@ -32,8 +32,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -125,6 +127,22 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
             }
         });
 
+    }
+
+    public void blacklistAllNotif() {
+        Set<String> apps_blacklist = new HashSet<>();
+        List<ApplicationInfo> allApps = mPm.getInstalledApplications(PackageManager.GET_META_DATA);
+        for (ApplicationInfo ai : allApps) {
+            apps_blacklist.add(ai.packageName);
+        }
+        GBApplication.setAppsNotifBlackList(apps_blacklist);
+        notifyDataSetChanged();
+    }
+
+    public void whitelistAllNotif() {
+        Set<String> apps_blacklist = new HashSet<>();
+        GBApplication.setAppsNotifBlackList(apps_blacklist);
+        notifyDataSetChanged();
     }
 
     @Override
