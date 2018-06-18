@@ -195,6 +195,9 @@
     <string name="pref_title_auto_export_interval">Export interval</string>
     <string name="pref_summary_auto_export_interval">Export every %d hour</string>
 
+    <!-- Auto fetch activity preferences -->
+    <string name="pref_auto_fetch">Auto fetch activity data</string>
+
     <string name="not_connected">Not connected</string>
     <string name="connecting">Connecting</string>
     <string name="connected">Connected</string>
