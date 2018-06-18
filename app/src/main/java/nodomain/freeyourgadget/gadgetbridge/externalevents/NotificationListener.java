@@ -446,7 +446,8 @@ public class NotificationListener extends NotificationListenerService {
         //some Apps always mark their notifcations as read-only
         if (NotificationCompat.getLocalOnly(notification) &&
                 type != NotificationType.WECHAT &&
-                type != NotificationType.OUTLOOK) {
+                type != NotificationType.OUTLOOK &&
+                type != NotificationType.SKYPE) { //see https://github.com/Freeyourgadget/Gadgetbridge/issues/1109
             return true;
         }
 
