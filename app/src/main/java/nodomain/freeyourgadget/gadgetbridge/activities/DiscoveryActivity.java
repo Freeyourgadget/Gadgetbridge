@@ -615,4 +615,14 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             }
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopBTDiscovery();
+        stopBTLEDiscovery();
+        if (GB.supportsBluetoothLE()) {
+            stopNewBTLEDiscovery();
+        }
+    }
 }
