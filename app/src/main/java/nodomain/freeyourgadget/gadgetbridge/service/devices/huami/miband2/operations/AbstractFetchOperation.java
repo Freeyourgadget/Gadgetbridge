@@ -21,7 +21,6 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.SharedPreferences;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
-import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -118,6 +117,7 @@ public abstract class AbstractFetchOperation extends AbstractMiBand2Operation {
 
     @CallSuper
     protected void handleActivityFetchFinish(boolean success) {
+        GB.updateTransferNotification(null,"",false,100,getContext());
         operationFinished();
         unsetBusy();
     }
@@ -148,8 +148,9 @@ public abstract class AbstractFetchOperation extends AbstractMiBand2Operation {
                 Calendar startTimestamp = getSupport().fromTimeBytes(Arrays.copyOfRange(value, 7, value.length));
                 setStartTimestamp(startTimestamp);
 
-                GB.toast(getContext().getString(R.string.FetchActivityOperation_about_to_transfer_since,
-                        DateFormat.getDateTimeInstance().format(startTimestamp.getTime())), Toast.LENGTH_LONG, GB.INFO);
+                GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data),
+                        getContext().getString(R.string.FetchActivityOperation_about_to_transfer_since,
+                        DateFormat.getDateTimeInstance().format(startTimestamp.getTime())), true, 0, getContext());;
             } else {
                 LOG.warn("Unexpected activity metadata: " + Logging.formatBytes(value));
                 handleActivityFetchFinish(false);

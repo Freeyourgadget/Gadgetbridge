@@ -19,6 +19,8 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.app.Activity;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -50,9 +52,12 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
+import static nodomain.freeyourgadget.gadgetbridge.GBApplication.isRunningOreoOrLater;
+
 public class GB {
 
     public static final String NOTIFICATION_CHANNEL_ID = "gadgetbridge";
+    public static final String NOTIFICATION_CHANNEL_ID_TRANSFER = "gadgetbridge transfer";
 
     public static final int NOTIFICATION_ID = 1;
     public static final int NOTIFICATION_ID_INSTALL = 2;
@@ -323,17 +328,29 @@ public class GB {
         }
     }
 
-    private static Notification createTransferNotification(String text, boolean ongoing,
+    private static Notification createTransferNotification(String title, String text, boolean ongoing,
                                                            int percentage, Context context) {
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if(isRunningOreoOrLater()) {
+            NotificationChannel channel = notificationManager.getNotificationChannel(NOTIFICATION_CHANNEL_ID_TRANSFER);
+            if(channel == null) {
+                channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID_TRANSFER,
+                        context.getString(R.string.notification_channel_name),
+                        NotificationManager.IMPORTANCE_LOW);
+                notificationManager.createNotificationChannel(channel);
+            }
+        }
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
                 notificationIntent, 0);
 
-        NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID_TRANSFER)
+                .setTicker((title == null) ? context.getString(R.string.app_name) : title)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setContentTitle(context.getString(R.string.app_name))
+                .setContentTitle((title == null) ? context.getString(R.string.app_name) : title)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
                 .setContentText(text)
                 .setContentIntent(pendingIntent)
                 .setOngoing(ongoing);
@@ -355,11 +372,11 @@ public class GB {
         removeNotification(NOTIFICATION_ID_LOW_BATTERY, context);
     }
 
-    public static void updateTransferNotification(String text, boolean ongoing, int percentage, Context context) {
+    public static void updateTransferNotification(String title, String text, boolean ongoing, int percentage, Context context) {
         if (percentage == 100) {
             removeNotification(NOTIFICATION_ID_TRANSFER, context);
         } else {
-            Notification notification = createTransferNotification(text, ongoing, percentage, context);
+            Notification notification = createTransferNotification(title, text, ongoing, percentage, context);
             updateNotification(notification, NOTIFICATION_ID_TRANSFER, context);
         }
     }
