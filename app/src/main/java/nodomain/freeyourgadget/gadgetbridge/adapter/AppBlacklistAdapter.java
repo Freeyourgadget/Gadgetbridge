@@ -23,7 +23,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -99,25 +99,24 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
         holder.deviceImageView.setImageDrawable(appInfo.loadIcon(mPm));
 
         holder.blacklist_checkbox.setChecked(GBApplication.appIsNotifBlacklisted(appInfo.packageName));
-        holder.blacklist_checkbox.setTextColor(mContext.getResources().getColorStateList(R.color.blacklist_checkboxes));
-
         holder.blacklist_pebble_checkbox.setChecked(GBApplication.appIsPebbleBlacklisted(packageNameToPebbleMsgSender(appInfo.packageName)));
 
-        holder.blacklist_pebble_checkbox.setTextColor(mContext.getResources().getColorStateList(R.color.blacklist_checkboxes));
         holder.blacklist_pebble_checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ( ((CheckBox)view).isChecked() ) {
+                ((CheckedTextView) view).toggle();
+                if ( ((CheckedTextView)view).isChecked() ) {
                     GBApplication.addAppToPebbleBlacklist(appInfo.packageName);
                 } else {
                     GBApplication.removeFromAppsPebbleBlacklist(appInfo.packageName);
                 }
+
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CheckBox checkBox = ((CheckBox) v.findViewById(R.id.item_checkbox));
+                CheckedTextView checkBox = ((CheckedTextView) v.findViewById(R.id.item_checkbox));
                 checkBox.toggle();
                 if (checkBox.isChecked()) {
                     GBApplication.addAppToNotifBlacklist(appInfo.packageName);
@@ -159,8 +158,8 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
 
     class AppBLViewHolder extends RecyclerView.ViewHolder {
 
-        final CheckBox blacklist_checkbox;
-        final CheckBox blacklist_pebble_checkbox;
+        final CheckedTextView blacklist_checkbox;
+        final CheckedTextView blacklist_pebble_checkbox;
         final ImageView deviceImageView;
         final TextView deviceAppVersionAuthorLabel;
         final TextView deviceAppNameLabel;
@@ -168,8 +167,8 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
         AppBLViewHolder(View itemView) {
             super(itemView);
 
-            blacklist_checkbox = (CheckBox) itemView.findViewById(R.id.item_checkbox);
-            blacklist_pebble_checkbox = (CheckBox) itemView.findViewById(R.id.item_pebble_checkbox);
+            blacklist_checkbox = (CheckedTextView) itemView.findViewById(R.id.item_checkbox);
+            blacklist_pebble_checkbox = (CheckedTextView) itemView.findViewById(R.id.item_pebble_checkbox);
             deviceImageView = (ImageView) itemView.findViewById(R.id.item_image);
             deviceAppVersionAuthorLabel = (TextView) itemView.findViewById(R.id.item_details);
             deviceAppNameLabel = (TextView) itemView.findViewById(R.id.item_name);
