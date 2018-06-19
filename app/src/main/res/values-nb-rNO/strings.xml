@@ -593,4 +593,10 @@
 \nUTESTET, KAN HAVARERE ENHETEN, FORTSETT PÅ EGEN RISIKO!</string>
     <string name="devicetype_miband3">Mi Band 3</string>
     <string name="devicetype_q8">Q8</string>
+    <string name="blacklist_all_for_notifications">Svartelist merknader fra alle disse</string>
+    <string name="whitelist_all_for_notifications">Hvitlist merknader fra alle disse</string>
+
+
+    <string name="pref_auto_fetch">Hent aktivitetsdata automatisk</string>
+
     </resources>
