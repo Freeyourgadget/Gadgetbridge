@@ -544,4 +544,6 @@
     <string name="whitelist_all_for_notifications">הוספת כולם לרשימת ההיתר של ההתרעות</string>
 
 
+    <string name="pref_auto_fetch">אחזור אוטומטי של נתוני פעילות</string>
+
     </resources>
