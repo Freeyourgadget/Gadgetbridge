@@ -22,6 +22,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
@@ -58,7 +59,8 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         ackCharacteristic = getCharacteristic(ZeTimeConstants.UUID_ACK_CHARACTERISTIC);
 
         builder.notify(ackCharacteristic, true);
-
+        requestDeviceInfo(builder);
+        requestBatteryInfo(builder);
         // do this in a function
         builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
                                                       CMD_AVAIABLE_DATA,
@@ -234,7 +236,15 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             byte[] data = characteristic.getValue();
             if(isMsgFormatOK(data)) {
                 switch (data[1]) {
+                    case ZeTimeConstants.CMD_WATCH_ID:
+                        break;
+                    case ZeTimeConstants.CMD_DEVICE_VERSION:
+                        break;
+                    case ZeTimeConstants.CMD_BATTERY_POWER:
+                        handleBatteryInfo(characteristic.getValue(), BluetoothGatt.GATT_SUCCESS);
+                        break;
                     case ZeTimeConstants.CMD_AVAIABLE_DATA:
+                        break;
                 }
             }
             return true;
@@ -263,5 +273,50 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             }
         }
         return false;
+    }
+
+    private ZeTimeDeviceSupport requestBatteryInfo(TransactionBuilder builder) {
+        LOG.debug("Requesting Battery Info!");
+        builder.write(writeCharacteristic,new byte[]{ZeTimeConstants.CMD_PREAMBLE,
+                                                ZeTimeConstants.CMD_BATTERY_POWER,
+                                                ZeTimeConstants.CMD_REQUEST,
+                                                0x01,
+                                                0x00,
+                                                0x00,
+                                                ZeTimeConstants.CMD_END});
+        builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
+        return this;
+    }
+
+    private ZeTimeDeviceSupport requestDeviceInfo(TransactionBuilder builder) {
+        LOG.debug("Requesting Device Info!");
+        builder.write(writeCharacteristic,new byte[]{ZeTimeConstants.CMD_PREAMBLE,
+                                                ZeTimeConstants.CMD_WATCH_ID,
+                                                ZeTimeConstants.CMD_REQUEST,
+                                                0x01,
+                                                0x00,
+                                                0x00,
+                                                ZeTimeConstants.CMD_END});
+        builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
+
+        builder.write(writeCharacteristic,new byte[]{ZeTimeConstants.CMD_PREAMBLE,
+                                                ZeTimeConstants.CMD_DEVICE_VERSION,
+                                                ZeTimeConstants.CMD_REQUEST,
+                                                0x01,
+                                                0x00,
+                                                0x00,
+                                                ZeTimeConstants.CMD_END});
+        builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
+        return this;
+    }
+
+    private void handleBatteryInfo(byte[] value, int status) {
+        if (status == BluetoothGatt.GATT_SUCCESS) {
+            //batteryCmd.level = ((short) info.getLevelInPercent());
+            //batteryCmd.state = info.getState();
+            //batteryCmd.lastChargeTime = info.getLastChargeTime();
+            //batteryCmd.numCharges = info.getNumCharges();
+            handleGBDeviceEvent(batteryCmd);
+        }
     }
 }
