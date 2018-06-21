@@ -59,13 +59,13 @@
 \n 
 \n
 \nΠΡΟΧΩΡΗΣΤΕ ΜΕ ΔΙΚΗ ΣΑΣ ΕΥΘΥΝΗ!"</string>
-    <string name="fw_upgrade_notice_amazfitcor">Πρόκειται να εγκαταστήσετε το λογισμικό %s για το Amazfit Cor. 
+    <string name="fw_upgrade_notice_amazfitcor">—Πρόκειται να εγκαταστήσετε το λογισμικό %s για το Amazfit Cor. 
 \n 
 \nΠαρακαλώ βεβαιωθείτε ότι θα εγκαταστήσετε το αρχείο .fw και μετά το αρχείο .res. Το smartwatch θα επανεκκινήσει μετά την εγκατάσταση του .fw αρχείου. 
 \n 
 \nΣημείωση: Το αρχείο .res δεν χρειάζεται εγκατάσταση αν είναι ακριβώς το ίδιο με αυτό που έχει εγκατασταθεί προηγούμενα. 
 \n 
-\nΔΕΝ ΕΙΝΑΙ ΕΠΑΡΚΩΣ ΔΟΚΙΜΑΣΜΕΝΟ, ΜΠΟΡΕΙ ΝΑ ΧΑΛΑΣΕΙ Η ΣΥΣΚΕΥΗ. ΠΡΟΧΩΡΗΣΤΕ ΜΕ ΔΙΚΗ ΣΑΣ ΕΥΘΥΝΗ!</string>
+\nΠΡΟΧΩΡΗΣΤΕ ΜΕ ΔΙΚΗ ΣΑΣ ΕΥΘΥΝΗ!</string>
     <string name="fw_multi_upgrade_notice">Πρόκειται να εγκαταστήσετε τα λογισμικά %1$s και %2$s αντ\'αυτών που υπάρχουν στο Mi Band σας.</string>
     <string name="miband_firmware_known">Αυτό το λογισμικό έχει δοκιμαστεί και είναι συμβατό με το Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">Αυτό το λογισμικό δεν έχει δοκιμαστεί και ενδέχεται να μην είναι συμβατό με το Gadgetbridge. 
@@ -592,4 +592,19 @@
     <string name="menuitem_settings">Ρυθμίσεις</string>
     <string name="menuitem_alipay">"Alipay "</string>
 <string name="devicetype_q8">"Q8 "</string>
+    <string name="blacklist_all_for_notifications">Μαύρη λίστα για όλες τις ειδοποιήσεις</string>
+    <string name="whitelist_all_for_notifications">Να ειδοποιήσει όλες οι ειδοποιήσεις</string>
+
+
+    <string name="fw_upgrade_notice_miband3">—Πρόκειται να εγκαταστήσετε το λογισμικό %s για το Mi Band 3. 
+\n 
+\nΠαρακαλώ βεβαιωθείτε ότι θα εγκαταστήσετε το αρχείο .fw και μετά το αρχείο .res. Το smartwatch θα επανεκκινήσει μετά την εγκατάσταση του .fw αρχείου. 
+\n 
+\nΣημείωση: Το αρχείο .res δεν χρειάζεται εγκατάσταση αν είναι ακριβώς το ίδιο με αυτό που έχει εγκατασταθεί προηγούμενα. 
+\n 
+\nΜΗ ΕΠΑΡΚΩΣ ΔΟΚΙΜΑΣΜΕΝΟ, ΜΠΟΡΕΙ ΝΑ ΧΑΛΑΣΕΙ Η ΣΥΣΚΕΥΗ ΣΑΣ,
+\nΠΡΟΧΩΡΗΣΤΕ ΜΕ ΔΙΚΗ ΣΑΣ ΕΥΘΥΝΗ!</string>
+    <string name="pref_auto_fetch">Αυτόματη λήψη δεδομένων δραστηριότητας</string>
+
+    <string name="devicetype_miband3">"Mi Band 3 "</string>
     </resources>
