@@ -8,12 +8,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeConstants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
@@ -22,7 +25,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
@@ -36,6 +38,7 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeConstant
 public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(ZeTimeDeviceSupport.class);
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
+    private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
 
     public BluetoothGattCharacteristic notifyCharacteristic = null;
     public BluetoothGattCharacteristic writeCharacteristic = null;
@@ -239,9 +242,10 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     case ZeTimeConstants.CMD_WATCH_ID:
                         break;
                     case ZeTimeConstants.CMD_DEVICE_VERSION:
+                        handleDeviceInfo(data);
                         break;
                     case ZeTimeConstants.CMD_BATTERY_POWER:
-                        handleBatteryInfo(characteristic.getValue(), BluetoothGatt.GATT_SUCCESS);
+                        handleBatteryInfo(data);
                         break;
                     case ZeTimeConstants.CMD_AVAIABLE_DATA:
                         break;
@@ -259,7 +263,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     {
         if(msg[0] == ZeTimeConstants.CMD_PREAMBLE)
         {
-            if((msg[3] != 0) && (msg[4] != 0))
+            if((msg[3] != 0) || (msg[4] != 0))
             {
                 int payloadSize = msg[4] * 256 + msg[3];
                 int msgLength = payloadSize + 6;
@@ -310,13 +314,22 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    private void handleBatteryInfo(byte[] value, int status) {
-        if (status == BluetoothGatt.GATT_SUCCESS) {
-            //batteryCmd.level = ((short) info.getLevelInPercent());
-            //batteryCmd.state = info.getState();
-            //batteryCmd.lastChargeTime = info.getLastChargeTime();
-            //batteryCmd.numCharges = info.getNumCharges();
+    private void handleBatteryInfo(byte[] value) {
+            batteryCmd.level = ((short) value[5]);
+            if(batteryCmd.level <= 25)
+            {
+                batteryCmd.state = BatteryState.BATTERY_LOW;
+            } else
+            {
+                batteryCmd.state = BatteryState.BATTERY_NORMAL;
+            }
             handleGBDeviceEvent(batteryCmd);
-        }
+    }
+
+    private void handleDeviceInfo(byte[] value) {
+            value[value.length-1] = 0; // convert the end to a String end
+            byte[] string = Arrays.copyOfRange(value,5, value.length-1);
+            versionCmd.hwVersion = new String(string);
+            handleGBDeviceEvent(versionCmd);
     }
 }
