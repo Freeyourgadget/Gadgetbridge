@@ -47,9 +47,9 @@
   <string name="title_activity_fw_app_insaller">FW/App Installer</string>
   <string name="fw_upgrade_notice">Es soll die Firmware %s anstelle der aktuell installierten Version auf das Mi Band gespielt werden.</string>
   <string name="fw_multi_upgrade_notice">Es sollen die Firmwares %1$s und %2$s anstelle der aktuell installierten Versionen auf das Mi Band gespielt werden.</string>
-  <string name="miband_firmware_known">Diese Firmware ist getestet worden und ist zu Gadgetbridge kompatibel.</string>
+  <string name="miband_firmware_known">Diese Firmware ist getestet worden und ist mit Gadgetbridge kompatibel.</string>
   <string name="miband_firmware_unknown_warning">Diese Firmware ist nicht getestet und könnte inkompatibel mit Gadgetbridge sein.\n\nEs wird nicht empfohlen, sie auf dem Mi Band zu installieren!</string>
-  <string name="miband_firmware_suggest_whitelist">Wenn du dennoch fortfahren möchtest und das Gerät anschließend korrekt funktioniert, melde bitte den Gadgetbridge Entwicklern, dass die Firmware %s funktioniert</string>
+  <string name="miband_firmware_suggest_whitelist">Wenn du dennoch fortfahren möchtest und das Gerät anschliessend korrekt funktioniert, melde bitte den Gadgetbridge Entwicklern, dass diese Firmwareversion %s funktioniert</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Einstellungen</string>
   <string name="pref_header_general">Allgemeine Einstellungen</string>
@@ -60,7 +60,7 @@
   <string name="pref_default">Standard</string>
   <string name="pref_header_datetime">Datum und Uhrzeit</string>
   <string name="pref_title_datetime_syctimeonconnect">Uhrzeit synchronisieren</string>
-  <string name="pref_summary_datetime_syctimeonconnect">Synchronisiere die Uhrzeit mit dem Gerät bei Verbindungsaufbau und wenn die Zeit oder Zeitzone auf dem Android Gerät geändert wird</string>
+  <string name="pref_summary_datetime_syctimeonconnect">Synchronisiere die Uhrzeit mit dem Gerät nach dem Verbindungsaufbau und wenn die Zeit oder Zeitzone auf dem Android Gerät geändert wird</string>
   <string name="pref_title_theme">Farbschema</string>
   <string name="pref_theme_light">Hell</string>
   <string name="pref_theme_dark">Dunkel</string>
@@ -85,7 +85,7 @@
   <string name="never">Niemals</string>
   <string name="pref_header_privacy">Privatsphäre</string>
   <string name="pref_title_call_privacy_mode">Privatsphäre-Modus für Anrufe</string>
-  <string name="pref_call_privacy_mode_off">Zeige Name und Telefonnumer</string>
+  <string name="pref_call_privacy_mode_off">Name und Telefonnummer anzeigen</string>
   <string name="pref_call_privacy_mode_name">Verstecke den Namen, aber zeige die Telefonnummer an</string>
   <string name="pref_call_privacy_mode_number">Zeige den Namen an, aber verstecke die Telefonnummer</string>
   <string name="pref_call_privacy_mode_complete">Verstecke Name und Telefonnummer</string>
@@ -441,7 +441,7 @@
 \n
 \nNICHT GETESTET, DIES KÖNNTE DEIN GERÄT UNBENUTZBAR MACHEN, INSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_press_count">Anzahl an Tastendrücken</string>
-    <string name="pref_title_charts_swipe">Seitwärts-Wischgesten in der Statistik-Anzeige</string>
+    <string name="pref_title_charts_swipe">Seitwärts-Wischgesten in der Statistik-Anzeige aktivieren</string>
 
     <string name="pref_summary_pebble_enable_bgjs">Ziffernblätter können Wetter, Ladezustand etc. anzeigen, wenn aktiviert</string>
 
@@ -524,4 +524,11 @@
     <string name="menuitem_compass">Kompass</string>
     <string name="menuitem_settings">Einstellungen</string>
     <string name="menuitem_alipay">Alipay</string>
-</resources>
+<string name="fw_upgrade_notice_miband3">Es soll die Firmware %s auf das Mi Band 3 gespielt werden. 
+\n 
+\nBitte stelle sicher, dass du zuerst die .fw-Datei und im Anschluss die .res-Datei installierst. Nach der Installation der .fw-Datei startet dein Mi Band 3 neu. 
+\n 
+\nHinweis: Die .res-Datei muss nicht neu installiert werden, falls die exakt gleiche Datei bereits bei einer vorherigen Version installiert wurde. 
+\n 
+\nNICHT GETESTET, DIES KÖNNTE DEIN GERÄT UNBENUTZBAR MACHEN, INSTALLATION AUF EIGENE GEFAHR!</string>
+    </resources>
