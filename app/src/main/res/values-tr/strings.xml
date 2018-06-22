@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="app_name">Gadgetbridge</string>
 
@@ -36,17 +36,17 @@
     <string name="pref_title_whenscreenon">… ayrıca ekran açık iken</string>
 
     <string name="always">her zaman</string>
-    <string name="when_screen_off">ekran kapalı olduğunda</string>
-    <string name="never">asla</string>
+    <string name="when_screen_off">Ekran kapalı olduğunda</string>
+    <string name="never">Asla</string>
 
     <string name="pref_header_development">Geliştirici seçenekleri</string>
     <string name="pref_title_development_miaddr">Mi Band adresi</string>
 
 
-    <string name="not_connected">bağlı değil</string>
-    <string name="connecting">bağlanıyor</string>
-    <string name="connected">bağlandı</string>
-    <string name="unknown_state">bilinmeyen durum</string>
+    <string name="not_connected">Bağlı değil</string>
+    <string name="connecting">Bağlanıyor</string>
+    <string name="connected">Bağlandı</string>
+    <string name="unknown_state">Bilinmeyen durum</string>
     <string name="_unknown_">(bilinmeyen)</string>
     <string name="test">Test</string>
     <string name="test_notification">Test bilgilendirmesi</string>
@@ -55,15 +55,15 @@
     <string name="bluetooth_is_disabled_">Bluetooth açık değil.</string>
     <string name="tap_connected_device_for_app_mananger">Uygulama yöneticisi için cihaza dokunun</string>
     <string name="tap_a_device_to_connect">Bağlanmak için cihaza dokunun</string>
-    <string name="cannot_connect_bt_address_invalid_">Bağlanamıyor. BT adresi geçersiz olabilir.</string>
+    <string name="cannot_connect_bt_address_invalid_">Bağlanamıyor. Bluetooth adresi geçersiz olabilir!</string>
     <string name="gadgetbridge_running">Gadgetbridge çalışıyor</string>
     <string name="battery_low">düşük</string>
     <string name="battery_medium">orta</string>
     <string name="battery_full">dolu</string>
     <string name="battery_not_charging">şarj olmuyor</string>
-    <string name="installing_binary_d_d">dosya yükleniyor %1$d/%2$d</string>
-    <string name="installation_failed_">yükleme başarısız!</string>
-    <string name="installation_successful">yükleme başarılı</string>
+    <string name="installing_binary_d_d">Dosya yükleniyor %1$d/%2$d</string>
+    <string name="installation_failed_">Yükleme başarısız</string>
+    <string name="installation_successful">Yükleme başarılı</string>
     <string name="firmware_install_warning">BİR AYGIT YAZILIMI YÜKLÜYORSUNUZ, LÜTFEN DİKKAT EDİNİZ.\n\n\n Aygıt yazılımının donanım versiyonu: %s</string>
     <string name="app_install_info">Aşağıdaki uygulamayı yüklemek üzeresiniz:\n\n\n%1$s sürüm %2$s, %3$s tarafından geliştirilmiştir.\n</string>
     <string name="n_a">Yok</string>
@@ -73,7 +73,7 @@
 
     <string name="discovery_stop_scanning">Aramayı durdur</string>
     <string name="discovery_start_scanning">Cihazları aramaya başla</string>
-    <string name="action_discover">Cihazı bul</string>
+    <string name="action_discover">Yeni cihazı bağla</string>
     <string name="device_with_rssi">%1$s (%2$s)</string>
     <string name="title_activity_android_pairing">Cihaz ile eşleştir</string>
     <string name="android_pairing_hint">Android Bluetooth Eşleme penceresini kullanarak cihaz ile eşleştiriniz.</string>
@@ -81,10 +81,10 @@
     <string name="pairing">%s ile eşleşiyor…</string>
     <string name="message_cannot_pair_no_mac">MAC adresi gelmedi, eşleşemiyor.</string>
     <string name="preferences_category_device_specific_settings">Cihaz için özel ayarlar</string>
-    <string name="preferences_miband_settings">Mi Band Ayarları</string>
-    <string name="male">erkek</string>
-    <string name="female">kadın</string>
-    <string name="other">diğer</string>
+    <string name="preferences_miband_settings">"Mi Band  ve Amazfit Ayarları"</string>
+    <string name="male">Erkek</string>
+    <string name="female">Kadın</string>
+    <string name="other">Diğer</string>
     <string name="miband_pairing_using_dummy_userdata">Geçerli kullanıcı verisi girilmedi. Şimdilik yapay veri kullanılıyor.</string>
     <string name="miband_pairing_tap_hint">Mi Band\'ınız titreştiğinde ve yanıp söndüğünde birkaç defa dokunun.</string>
     <string name="appinstaller_install">Yükle</string>
@@ -101,7 +101,41 @@
 
     <string name="title_activity_sleepmonitor">Uyku Monitörü</string>
     <string name="pref_write_logfiles">Kütük dosyalarını yaz</string>
-    <string name="initializing">başlatılıyor</string>
+    <string name="initializing">Başlatılıyor</string>
     <string name="busy_task_fetch_activity_data">Aktivite verisi alınıyor</string>
 
-</resources>
+<string name="action_donate">Para Bağışla</string>
+    <string name="controlcenter_fetch_activity_data">Eşitleme</string>
+    <string name="controlcenter_find_device">Kayıp Cihazı ara</string>
+    <string name="controlcenter_take_screenshot">Ekran görüntüsü al</string>
+    <string name="controlcenter_connect">Bağlan</string>
+    <string name="controlcenter_disconnect">Bağlantıyı Kes</string>
+    <string name="controlcenter_delete_device">Cihazı sil</string>
+    <string name="controlcenter_delete_device_name">%1$s Sil</string>
+    <string name="controlcenter_delete_device_dialogmessage">Cihazı ve tüm ilgili verileri silinecek!</string>
+    <string name="controlcenter_snackbar_need_longpress">Bağlantıyı kesmek için uzun kartı basın</string>
+    <string name="controlcenter_snackbar_disconnecting">Bağlantı kesiliyor</string>
+    <string name="controlcenter_snackbar_connecting">Bağlaniyor</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Bağlantı kesiliyor</string>
+
+
+    <string name="appmanager_cached_watchapps_watchfaces">Önbellekteki uygulamalar</string>
+    <string name="appmanager_installed_watchapps">Yüklü uygulamalar</string>
+    <string name="appmanager_installed_watchfaces">Yüklü saat arayüzler</string>
+    <string name="appmananger_app_delete_cache">Sil ve önbelleğe temizle</string>
+    <string name="appmananger_app_reinstall">Tekrar yükle</string>
+    <string name="appmanager_health_activate">Başlat</string>
+    <string name="appmanager_health_deactivate">Durdur</string>
+    <string name="appmanager_hrm_activate">Kalp atış hızı ölçümü başlat</string>
+    <string name="appmanager_hrm_deactivate">Kalp atış hızı ölçümü durdur</string>
+    <string name="app_move_to_top">Yukarıya taşı</string>
+
+    <string name="title_activity_appblacklist">Kara listede bildirimler</string>
+    <string name="blacklist_all_for_notifications">Bütün bildirimleri kara listeye ekle</string>
+    <string name="whitelist_all_for_notifications">Bütün bildirimleri beyaz listeye ekle</string>
+
+
+    <string name="title_activity_calblacklist">Kara Listede Takvimler</string>
+
+    <string name="title_activity_fw_app_insaller">FW/Uygulama yükleyici</string>
+    </resources>
