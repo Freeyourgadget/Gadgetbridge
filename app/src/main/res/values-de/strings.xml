@@ -531,4 +531,10 @@
 \nHinweis: Die .res-Datei muss nicht neu installiert werden, falls die exakt gleiche Datei bereits bei einer vorherigen Version installiert wurde. 
 \n 
 \nNICHT GETESTET, DIES KÖNNTE DEIN GERÄT UNBENUTZBAR MACHEN, INSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="pref_summary_pebble_gatt_clientonly">"Experimentell. Nur kompatibel mit der Pebble 2. Nur aufspielen falls Sie Verbindungsprobleme haben. "</string>
+    <string name="pref_auto_fetch">Automatischer Abruf von Aktivitätsdaten</string>
+    <string name="devicetype_miband3">Mi Band 3</string>
+    <string name="devicetype_q8">Q8</string>
+    <string name="menuitem_shortcut_alipay">Alipay (Schnellzugriff)</string>
+    <string name="menuitem_shortcut_weather">Wetter (Schnellzugriff)</string>
     </resources>
