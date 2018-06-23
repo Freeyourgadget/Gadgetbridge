@@ -537,4 +537,10 @@
     <string name="devicetype_q8">Q8</string>
     <string name="menuitem_shortcut_alipay">Alipay (Schnellzugriff)</string>
     <string name="menuitem_shortcut_weather">Wetter (Schnellzugriff)</string>
+    <string name="blacklist_all_for_notifications">Sperrliste alle für Benachrichtigungen</string>
+    <string name="whitelist_all_for_notifications">Positivliste alle für Benachrichtigungen</string>
+
+
+    <string name="pref_auto_fetch_summary">Das Abrufen erfolgt beim Entsperren des Bildschirms. Funktioniert nur, wenn ein Sperrmechanismus eingestellt ist!</string>
+
     </resources>
