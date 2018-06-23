@@ -35,11 +35,11 @@
     <string name="pref_title_notifications_generic">Genel bilgilendirme desteği</string>
     <string name="pref_title_whenscreenon">… ayrıca ekran açık iken</string>
 
-    <string name="always">her zaman</string>
+    <string name="always">Her zaman</string>
     <string name="when_screen_off">Ekran kapalı olduğunda</string>
     <string name="never">Asla</string>
 
-    <string name="pref_header_development">Geliştirici seçenekleri</string>
+    <string name="pref_header_development">Geliştirici Seçenekleri</string>
     <string name="pref_title_development_miaddr">Mi Band adresi</string>
 
 
@@ -138,4 +138,69 @@
     <string name="title_activity_calblacklist">Kara Listede Takvimler</string>
 
     <string name="title_activity_fw_app_insaller">FW/Uygulama yükleyici</string>
+    <string name="appmanager_weather_activate">Sistem hava durumu uygulamasını etkinleştirin</string>
+    <string name="appmanager_weather_deactivate">Sistem hava durumu uygulamasını devre dışı bırak</string>
+    <string name="appmanager_weather_install_provider">Hava durumu bildirim uygulamasını yükle</string>
+    <string name="app_configure">Yapılandır</string>
+    <string name="miband_firmware_known">Bu firmware test edilmiş ve Gadgetbridge ile uyumlu olduğu bilinmektedir.</string>
+    <string name="miband_firmware_suggest_whitelist">Devam etmek istiyorsanız ve her sey daha sonra düzgün çalışmaya devam ederse, lütfen Gadgetbridge geliştiricilerine% s firmware sürümünü beyaz listeye eklemesini söyleyin</string>
+
+    <string name="pref_title_general_autostartonboot">Otomatik Başlat</string>
+    <string name="pref_title_general_autoreconnect">Otomatik yeniden bağlan</string>
+    <string name="pref_title_audio_player">Tercih Edilen Audioplayer</string>
+    <string name="pref_default">Varsayılan</string>
+    <string name="pref_title_charts_swipe">"Grafikler aktivitede Sol/Sağ tokatlamak etkinleştirmek "</string>
+
+    <string name="pref_title_theme">Görünüş</string>
+    <string name="pref_theme_light">Aydın</string>
+    <string name="pref_theme_dark">Karanlık</string>
+
+    <string name="pref_title_language">Dil</string>
+
+    <string name="pref_title_minimize_priority">"Gadgetbridge bildirim gizle "</string>
+    <string name="pref_title_notifications_repetitions">Tekrar sayısı</string>
+    <string name="pref_title_notifications_call">Telefon görüşmeleri</string>
+    <string name="pref_title_notification_filter">Rahatsız etme</string>
+    <string name="pref_summary_notification_filter">İstenmeyen bildirimleri rahatsız etmeyin modunda gönderilmesini durdurmak</string>
+    <string name="pref_title_transliteration">başka alfabeye çevirme</string>
+    <string name="pref_summary_transliteration">"Eğer cihazınız dil yazı tipi desteği varsa bunu etkinleştirin "</string>
+
+    <string name="pref_header_privacy">Gizlilik</string>
+    <string name="pref_title_call_privacy_mode">Gizlilik modu</string>
+    <string name="pref_call_privacy_mode_off">"Ad ve numara  göster"</string>
+    <string name="pref_call_privacy_mode_name">Adı gizlemek ama numarasını görüntülemek</string>
+    <string name="pref_call_privacy_mode_number">"Numara ama ekran adını gizle "</string>
+    <string name="pref_call_privacy_mode_complete">"Adını ve numarasını gizle "</string>
+
+    <string name="pref_title_weather">Hava Durumu</string>
+    <string name="pref_blacklist">Kara Liste Uygulamaları</string>
+    <string name="pref_blacklist_calendars">Kara liste takvimler</string>
+
+    <string name="pref_header_cannned_messages">Konserve mesajları</string>
+    <string name="pref_title_canned_replies">Yanıtlar</string>
+    <string name="pref_title_canned_reply_suffix">Ortak sonek</string>
+    <string name="pref_title_canned_messages_dismisscall">Çağrı Reddi</string>
+    <string name="pref_title_pebble_settings">Pebble ayarları</string>
+
+    <string name="pref_header_activitytrackers">Aktivite izci</string>
+    <string name="pref_title_pebble_activitytracker">Tercih edilen etkinlik izci</string>
+    <string name="pref_title_pebble_sync_health">Pebble sağlık durumu senkronize et</string>
+    <string name="pref_title_pebble_sync_misfit">Misfit senkronize et</string>
+    <string name="pref_title_pebble_sync_morpheuz">Morpheuz senkronize et</string>
+
+    <string name="pref_title_enable_outgoing_call">Giden aramaları müsaade et</string>
+    <string name="pref_header_pebble_timeline">Pebble zaman çizelgesi</string>
+    <string name="pref_title_sunrise_sunset">Gün doğumu ve Gün batımı</string>
+    <string name="pref_summary_sunrise_sunset">"Gün doğumu ve Gün batımı saatleri konumuna göre Pebble zaman çizelgesine gönderin "</string>
+    <string name="pref_title_enable_calendar_sync">Takvimi eşitle</string>
+    <string name="pref_summary_enable_calendar_sync">Takvim olayları çizelgesine gönder</string>
+
+    <string name="pref_title_autoremove_notifications">Reddedilen bildirimleri otomatik sil</string>
+    <string name="pref_title_pebble_privacy_mode">Gizlilik modu</string>
+    <string name="pref_pebble_privacy_mode_off">Normal bildirimleri</string>
+    <string name="pref_header_location">Konum</string>
+    <string name="pref_title_location_aquire">Konumumu bul</string>
+    <string name="pref_title_location_latitude">Enlem</string>
+    <string name="pref_title_location_longitude">Boylam</string>
+    <string name="pref_title_location_keep_uptodate">Konumumu güncel tut</string>
     </resources>
