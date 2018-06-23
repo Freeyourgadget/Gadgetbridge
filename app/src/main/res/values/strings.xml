@@ -201,6 +201,7 @@
 
     <!-- Auto fetch activity preferences -->
     <string name="pref_auto_fetch">Auto fetch activity data</string>
+    <string name="pref_auto_fetch_summary">Fetch happens upon screen unlock. Only works if a lock mechanism is set!</string>
 
     <string name="not_connected">Not connected</string>
     <string name="connecting">Connecting</string>

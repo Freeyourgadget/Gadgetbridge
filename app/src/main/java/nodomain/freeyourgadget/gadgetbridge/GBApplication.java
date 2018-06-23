@@ -64,7 +64,6 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.service.NotificationCollectorMonitorService;
-import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBAutoFetchReceiver;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -197,10 +196,6 @@ public class GBApplication extends Application {
                 registerReceiver(bluetoothStateChangeReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
             }
             startService(new Intent(this, NotificationCollectorMonitorService.class));
-        }
-
-        if (prefs.getBoolean("auto_fetch_enabled", false)) {
-            registerReceiver(new GBAutoFetchReceiver(), new IntentFilter("android.intent.action.USER_PRESENT"));
         }
     }
 

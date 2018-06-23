@@ -533,7 +533,8 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="auto_fetch_enabled"
-            android:title="@string/pref_auto_fetch" />
+            android:title="@string/pref_auto_fetch"
+            android:summary="@string/pref_auto_fetch_summary"/>
     </PreferenceCategory>
 
     <PreferenceCategory

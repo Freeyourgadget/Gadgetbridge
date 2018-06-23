@@ -69,6 +69,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBAutoFetchReceiver;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
@@ -174,6 +175,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private BluetoothConnectReceiver mBlueToothConnectReceiver = null;
     private BluetoothPairingRequestReceiver mBlueToothPairingRequestReceiver = null;
     private AlarmClockReceiver mAlarmClockReceiver = null;
+    private GBAutoFetchReceiver mGBAutoFetchReceiver = null;
 
     private AlarmReceiver mAlarmReceiver = null;
     private CalendarReceiver mCalendarReceiver = null;
@@ -676,6 +678,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     //Nothing wrong, it just means we're not running on omnirom.
                 }
             }
+            if (GBApplication.getPrefs().getBoolean("auto_fetch_enabled", false) &&
+                    coordinator != null && coordinator.supportsActivityDataFetching()) {
+                mGBAutoFetchReceiver = new GBAutoFetchReceiver();
+                registerReceiver(mGBAutoFetchReceiver, new IntentFilter("android.intent.action.USER_PRESENT"));
+            }
         } else {
             if (mPhoneCallReceiver != null) {
                 unregisterReceiver(mPhoneCallReceiver);
@@ -716,6 +723,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             }
             if (mOmniJawsObserver != null) {
                 getContentResolver().unregisterContentObserver(mOmniJawsObserver);
+            }
+            if (mGBAutoFetchReceiver != null) {
+                unregisterReceiver(mGBAutoFetchReceiver);
+                mGBAutoFetchReceiver = null;
             }
         }
     }
