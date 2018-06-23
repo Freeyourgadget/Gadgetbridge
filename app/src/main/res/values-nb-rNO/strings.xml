@@ -62,7 +62,7 @@
 \n 
 \nMerk: Du må ikke installere .res og .gps hvis disse er akkurat de samme som dem som allerede er installert. 
 \n 
-\nUTESTET, KAN HAVARERE ENHETEN DIN, FORTSETT PÅ EGEN RISIKO!</string>
+\nFORTSETT PÅ EGEN RISIKO!</string>
     <string name="fw_multi_upgrade_notice">Du er i ferd med å installere %1$s- og %2$s-fastvarene isteden for dem som er installert nå på ditt Mi Band.</string>
     <string name="miband_firmware_known">Denne fastvaren har blitt testet og er kompatibel med Gadgetbru.</string>
     <string name="miband_firmware_unknown_warning">Denne fastvaren er utestet og er kanskje ikke kompatibel med Gadgetbru. 
@@ -598,5 +598,7 @@
 
 
     <string name="pref_auto_fetch">Hent aktivitetsdata automatisk</string>
+
+    <string name="pref_auto_fetch_summary">Henting skjer ved skjermopplåsing, og fungerer kun hvis en låsemekanisme er valgt!</string>
 
     </resources>
