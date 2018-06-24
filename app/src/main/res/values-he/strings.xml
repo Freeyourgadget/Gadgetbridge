@@ -546,4 +546,6 @@
 
     <string name="pref_auto_fetch">אחזור אוטומטי של נתוני פעילות</string>
 
+    <string name="pref_auto_fetch_summary">האחזור מתבצע בעת שחרור נעילת המסך. עובד רק אם הוגדר מנגנון נעילה!</string>
+
     </resources>
