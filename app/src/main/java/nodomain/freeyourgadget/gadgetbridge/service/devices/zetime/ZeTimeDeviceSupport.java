@@ -64,15 +64,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         builder.notify(ackCharacteristic, true);
         requestDeviceInfo(builder);
         requestBatteryInfo(builder);
-        // do this in a function
-        builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
-                                                      CMD_AVAIABLE_DATA,
-                                                      ZeTimeConstants.CMD_REQUEST,
-                                                      0x01,
-                                                      0x00,
-                                                      0x00,
-                                                      ZeTimeConstants.CMD_END});
-        builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
+        requestActivityInfo(builder);
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
         LOG.info("Initialization Done");
@@ -247,6 +239,8 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     case ZeTimeConstants.CMD_BATTERY_POWER:
                         handleBatteryInfo(data);
                         break;
+                    case ZeTimeConstants.CMD_SHOCK_STRENGTH:
+                        break;
                     case ZeTimeConstants.CMD_AVAIABLE_DATA:
                         break;
                 }
@@ -310,6 +304,30 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                                                 0x00,
                                                 0x00,
                                                 ZeTimeConstants.CMD_END});
+        builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
+        return this;
+    }
+
+    private ZeTimeDeviceSupport requestActivityInfo(TransactionBuilder builder) {
+        builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_AVAIABLE_DATA,
+                ZeTimeConstants.CMD_REQUEST,
+                0x01,
+                0x00,
+                0x00,
+                ZeTimeConstants.CMD_END});
+        builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
+        return this;
+    }
+
+    private ZeTimeDeviceSupport requestShockStrength(TransactionBuilder builder) {
+        builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_SHOCK_STRENGTH,
+                ZeTimeConstants.CMD_REQUEST,
+                0x01,
+                0x00,
+                0x00,
+                ZeTimeConstants.CMD_END});
         builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
         return this;
     }
