@@ -151,7 +151,11 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
             }
         });
 
+        String displayOnLiftState = prefs.getString(MiBandConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, PREF_MI2_DO_NOT_DISTURB_OFF);
+        boolean displayOnLiftScheduled = displayOnLiftState.equals(PREF_MI2_DO_NOT_DISTURB_SCHEDULED);
+
         final Preference rotateWristCycleInfo = findPreference(PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO);
+        rotateWristCycleInfo.setEnabled(!PREF_MI2_DO_NOT_DISTURB_OFF.equals(displayOnLiftState));
         rotateWristCycleInfo.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newVal) {
@@ -315,9 +319,6 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
             }
         });
 
-        String displayOnLiftState = prefs.getString(MiBandConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, PREF_MI2_DO_NOT_DISTURB_OFF);
-        boolean displayOnLiftScheduled = displayOnLiftState.equals(PREF_MI2_DO_NOT_DISTURB_SCHEDULED);
-
         final Preference displayOnLiftStart = findPreference(PREF_DISPLAY_ON_LIFT_START);
         displayOnLiftStart.setEnabled(displayOnLiftScheduled);
         displayOnLiftStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -358,7 +359,7 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
 
                 displayOnLiftStart.setEnabled(scheduled);
                 displayOnLiftEnd.setEnabled(scheduled);
-
+                rotateWristCycleInfo.setEnabled(!PREF_MI2_DO_NOT_DISTURB_OFF.equals(newVal.toString()));
                 invokeLater(new Runnable() {
                     @Override
                     public void run() {
