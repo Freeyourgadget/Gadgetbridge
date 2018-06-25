@@ -1,5 +1,14 @@
 ### Changelog
 
+#### Version 0.27.0 (WIP)
+* Initial support for Mi Band 3 (largely untested, needs to be connected to Mi Fit once)
+* Option for automatic activity sync after sceen unlock
+* Allow blacklisting of pebblekit notifications for individual apps
+* Forward Skype notifcations to even if "local only" flag is set
+* Show Gadgetbridge logo behind cards in main activity
+* Always stop BT/BTLE discovery when exiting the discovery activty
+* Pebble: Fix a rare crash in weview
+
 #### Version 0.26.5
 * Fix autoreconnect at boot on recent Android versions
 * Bluetooth connection is more stable on Oreo
