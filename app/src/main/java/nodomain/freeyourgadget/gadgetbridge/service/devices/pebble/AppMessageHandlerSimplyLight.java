@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Sergio Lopez
+/*  Copyright (C) 2018 Sergio Lopez
 
     This file is part of Gadgetbridge.
 

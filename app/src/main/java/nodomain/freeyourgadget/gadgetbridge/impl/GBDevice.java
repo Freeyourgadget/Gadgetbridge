@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Uwe Hermann
+    Gobbetti, Taavi Eomäe, Uwe Hermann
 
     This file is part of Gadgetbridge.
 

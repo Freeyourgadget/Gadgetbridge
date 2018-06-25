@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 José Rebelo
+/*  Copyright (C) 2017-2018 Andreas Shimokawa, José Rebelo
 
     This file is part of Gadgetbridge.
 

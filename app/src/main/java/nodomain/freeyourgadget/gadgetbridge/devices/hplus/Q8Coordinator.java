@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 Alejandro Ladera Chamorro
+/*  Copyright (C) 2017-2018 João Paulo Barraca, tiparega
 
     This file is part of Gadgetbridge.
 
