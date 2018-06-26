@@ -1,6 +1,6 @@
 ### Changelog
 
-#### Version 0.27.0 (WIP)
+#### Version 0.27.0
 * Initial support for Mi Band 3 (largely untested, needs to be connected to Mi Fit once)
 * Option for automatic activity sync after screen unlock
 * Allow hiding activity transfer notification on Android Oreo and above
@@ -9,6 +9,7 @@
 * Forward Skype notifications to wearable even if "local only" flag is set
 * Show Gadgetbridge logo behind cards in main activity
 * Always stop BT/BTLE discovery when exiting the discovery activity
+* Amazfit Bip/Cor: Fix scheduled setting for "display on lift wrist" preference
 * Amazfit Bip/Cor: add recent firmwares to whitelist
 * Pebble: Fix a rare crash in webview
 
