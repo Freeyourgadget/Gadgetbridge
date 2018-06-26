@@ -29,8 +29,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 
-import static nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeConstants.CMD_AVAIABLE_DATA;
-
 /**
  * Created by Kranz on 08.02.2018.
  */
@@ -39,6 +37,8 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(ZeTimeDeviceSupport.class);
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
+    private byte[] lastMsg;
+    private byte msgPart;
 
     public BluetoothGattCharacteristic notifyCharacteristic = null;
     public BluetoothGattCharacteristic writeCharacteristic = null;
@@ -55,6 +55,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         LOG.info("Initializing");
+        msgPart = 0;
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
 
         notifyCharacteristic = getCharacteristic(ZeTimeConstants.UUID_NOTIFY_CHARACTERISTIC);
@@ -228,7 +229,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
         UUID characteristicUUID = characteristic.getUuid();
         if (ZeTimeConstants.UUID_ACK_CHARACTERISTIC.equals(characteristicUUID)) {
-            byte[] data = characteristic.getValue();
+            byte[] data = receiveCompleteMsg(characteristic.getValue());
             if(isMsgFormatOK(data)) {
                 switch (data[1]) {
                     case ZeTimeConstants.CMD_WATCH_ID:
@@ -273,6 +274,28 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         return false;
     }
 
+    private byte[] receiveCompleteMsg(byte[] msg)
+    {
+        if(msgPart == 0) {
+            int payloadSize = msg[4] * 256 + msg[3];
+            if (payloadSize > 14) {
+                lastMsg = new byte[msg.length];
+                System.arraycopy(msg, 0, lastMsg, 0, msg.length);
+                msgPart++;
+                return null;
+            } else {
+                return msg;
+            }
+        } else
+        {
+            byte[] completeMsg = new byte[lastMsg.length + msg.length];
+            System.arraycopy(lastMsg, 0, completeMsg, 0, lastMsg.length);
+            System.arraycopy(msg, 0, completeMsg, lastMsg.length, msg.length);
+            msgPart = 0;
+            return completeMsg;
+        }
+    }
+
     private ZeTimeDeviceSupport requestBatteryInfo(TransactionBuilder builder) {
         LOG.debug("Requesting Battery Info!");
         builder.write(writeCharacteristic,new byte[]{ZeTimeConstants.CMD_PREAMBLE,
@@ -294,6 +317,15 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                                                 0x01,
                                                 0x00,
                                                 0x00,
+                                                ZeTimeConstants.CMD_END});
+        builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
+
+        builder.write(writeCharacteristic,new byte[]{ZeTimeConstants.CMD_PREAMBLE,
+                                                ZeTimeConstants.CMD_DEVICE_VERSION,
+                                                ZeTimeConstants.CMD_REQUEST,
+                                                0x01,
+                                                0x00,
+                                                0x05,
                                                 ZeTimeConstants.CMD_END});
         builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
 
@@ -347,7 +379,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private void handleDeviceInfo(byte[] value) {
             value[value.length-1] = 0; // convert the end to a String end
             byte[] string = Arrays.copyOfRange(value,5, value.length-1);
-            versionCmd.hwVersion = new String(string);
+            if(string.length > 6)
+            {
+                versionCmd.fwVersion = new String(string);
+            } else{
+                versionCmd.hwVersion = new String(string);
+            }
             handleGBDeviceEvent(versionCmd);
     }
 }
