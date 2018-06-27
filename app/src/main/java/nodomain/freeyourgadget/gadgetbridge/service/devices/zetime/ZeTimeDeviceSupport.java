@@ -3,18 +3,29 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.zetime;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.net.Uri;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.ZeTimeActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -28,6 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
  * Created by Kranz on 08.02.2018.
@@ -39,6 +51,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private byte[] lastMsg;
     private byte msgPart;
+    private int availableSleepData;
+    private int availableStepsData;
+    private int availableHeartRateData;
+    private int progressSteps;
+    private int progressSleep;
+    private int progressHeartRate;
 
     public BluetoothGattCharacteristic notifyCharacteristic = null;
     public BluetoothGattCharacteristic writeCharacteristic = null;
@@ -56,6 +74,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         LOG.info("Initializing");
         msgPart = 0;
+        availableStepsData = 0;
+        availableHeartRateData = 0;
+        availableSleepData = 0;
+        progressSteps = 0;
+        progressSleep = 0;
+        progressHeartRate = 0;
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
 
         notifyCharacteristic = getCharacteristic(ZeTimeConstants.UUID_NOTIFY_CHARACTERISTIC);
@@ -243,6 +267,14 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     case ZeTimeConstants.CMD_SHOCK_STRENGTH:
                         break;
                     case ZeTimeConstants.CMD_AVAIABLE_DATA:
+                        handleActivityFetching(data);
+                        break;
+                    case ZeTimeConstants.CMD_GET_STEP_COUNT:
+                        handleStepsData(data);
+                        break;
+                    case ZeTimeConstants.CMD_GET_SLEEP_DATA:
+                        break;
+                    case ZeTimeConstants.CMD_GET_HEARTRATE_EXDATA:
                         break;
                 }
             }
@@ -386,5 +418,109 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 versionCmd.hwVersion = new String(string);
             }
             handleGBDeviceEvent(versionCmd);
+    }
+
+    private void handleActivityFetching(byte[] msg)
+    {
+        availableStepsData = (int) (msg[5] + 256*msg[6]);
+        availableHeartRateData = (int) (msg[7] + 256*msg[8]);
+        availableSleepData = (int) (msg[9] + 256*msg[10]);
+        if(availableStepsData > 0){
+            getStepData();
+        } else if(availableHeartRateData > 0)
+        {
+            getHeartRateData();
+        } else if(availableSleepData > 0)
+        {
+            getSleepData();
+        }
+    }
+
+    private void getStepData()
+    {
+        try {
+            TransactionBuilder builder = performInitialized("fetchStepData");
+            builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
+                                ZeTimeConstants.CMD_GET_STEP_COUNT,
+                                ZeTimeConstants.CMD_REQUEST,
+                                0x02,
+                                0x00,
+                                0x00,
+                                0x00,
+                                ZeTimeConstants.CMD_END});
+            performConnected(builder.getTransaction());
+            builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
+    }
+
+    private void getHeartRateData()
+    {
+        try {
+            TransactionBuilder builder = performInitialized("fetchStepData");
+            builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_GET_HEARTRATE_EXDATA,
+                ZeTimeConstants.CMD_REQUEST,
+                0x02,
+                0x00,
+                0x00,
+                0x00,
+                ZeTimeConstants.CMD_END});
+            performConnected(builder.getTransaction());
+            builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
+    }
+
+    private void getSleepData()
+    {
+        try {
+            TransactionBuilder builder = performInitialized("fetchStepData");
+            builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_GET_SLEEP_DATA,
+                ZeTimeConstants.CMD_REQUEST,
+                0x02,
+                0x00,
+                0x00,
+                0x00,
+                ZeTimeConstants.CMD_END});
+            builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
+    }
+
+    private void handleStepsData(byte[] msg)
+    {
+        ZeTimeActivitySample sample = new ZeTimeActivitySample();
+        Calendar timestamp = GregorianCalendar.getInstance();
+        timestamp.setTimeInMillis((long) (msg[10] * 16777216 + msg[9] * 65536 + msg[8] * 256 + msg[7]));
+        sample.setSteps((int) (msg[14] * 16777216 + msg[13] * 65536 + msg[12] * 256 + msg[11]));
+        sample.setTimestamp((int) (timestamp.getTimeInMillis() / 1000L));
+        sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
+        sample.setRawIntensity(sample.getSteps());
+
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            sample.setUserId(DBHelper.getUser(dbHandler.getDaoSession()).getId());
+            sample.setDeviceId(DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId());
+            ZeTimeSampleProvider provider = new ZeTimeSampleProvider(getDevice(), dbHandler.getDaoSession());
+            provider.addGBActivitySample(sample);
+        } catch (Exception ex) {
+            GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+            GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
+        }
+
+        progressSteps = msg[5] + msg[6] * 256;
+        GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSteps / availableStepsData), getContext());
+        if (progressSteps == availableStepsData) {
+            progressSteps = 0;
+            availableStepsData = 0;
+            getHeartRateData();
+        }
     }
 }

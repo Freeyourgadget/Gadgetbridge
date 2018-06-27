@@ -109,7 +109,7 @@ public class ZeTimeCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        return null;
+        return new ZeTimeSampleProvider(device, session);
     }
 
     @Override
