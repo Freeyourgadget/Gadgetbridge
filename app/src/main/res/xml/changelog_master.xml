@@ -67,7 +67,7 @@
         <change>Add 'Ł' and 'ł' to transliteration map</change>
         <change>Omnijaws Weather: correctly pick todays' min and max temperature</change>
         <change>Fix alarm details activity on small screen</change>
-        <change>Pebble: minic online check of TrekVolle when using background js</change>
+        <change>Pebble: mimic online check of TrekVolle when using background js</change>
     </release>
     <release version="0.24.4" versioncode="121">
         <change>Amazfit Bip: Fix language setting on new firmwares</change>
