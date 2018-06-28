@@ -11,8 +11,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -173,7 +171,13 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFetchActivityData() {
-
+        try {
+            TransactionBuilder builder = performInitialized("fetchActivityData");
+            requestActivityInfo(builder);
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error on fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
     }
 
     @Override
@@ -273,8 +277,10 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                         handleStepsData(data);
                         break;
                     case ZeTimeConstants.CMD_GET_SLEEP_DATA:
+                        handleSleepData(data);
                         break;
                     case ZeTimeConstants.CMD_GET_HEARTRATE_EXDATA:
+                        handleHeatRateData(data);
                         break;
                 }
             }
@@ -288,17 +294,15 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private boolean isMsgFormatOK(byte[] msg)
     {
-        if(msg[0] == ZeTimeConstants.CMD_PREAMBLE)
-        {
-            if((msg[3] != 0) || (msg[4] != 0))
-            {
-                int payloadSize = msg[4] * 256 + msg[3];
-                int msgLength = payloadSize + 6;
-                if(msgLength == msg.length)
-                {
-                    if(msg[msgLength - 1] == ZeTimeConstants.CMD_END)
-                    {
-                        return true;
+        if(msg != null) {
+            if (msg[0] == ZeTimeConstants.CMD_PREAMBLE) {
+                if ((msg[3] != 0) || (msg[4] != 0)) {
+                    int payloadSize = msg[4] * 256 + msg[3];
+                    int msgLength = payloadSize + 6;
+                    if (msgLength == msg.length) {
+                        if (msg[msgLength - 1] == ZeTimeConstants.CMD_END) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -423,8 +427,8 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private void handleActivityFetching(byte[] msg)
     {
         availableStepsData = (int) (msg[5] + 256*msg[6]);
-        availableHeartRateData = (int) (msg[7] + 256*msg[8]);
-        availableSleepData = (int) (msg[9] + 256*msg[10]);
+        availableSleepData = (int) (msg[7] + 256*msg[8]);
+        availableHeartRateData= (int) (msg[9] + 256*msg[10]);
         if(availableStepsData > 0){
             getStepData();
         } else if(availableHeartRateData > 0)
@@ -463,8 +467,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_GET_HEARTRATE_EXDATA,
                 ZeTimeConstants.CMD_REQUEST,
-                0x02,
-                0x00,
+                0x01,
                 0x00,
                 0x00,
                 ZeTimeConstants.CMD_END});
@@ -498,10 +501,10 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private void handleStepsData(byte[] msg)
     {
         ZeTimeActivitySample sample = new ZeTimeActivitySample();
-        Calendar timestamp = GregorianCalendar.getInstance();
-        timestamp.setTimeInMillis((long) (msg[10] * 16777216 + msg[9] * 65536 + msg[8] * 256 + msg[7]));
+        //Calendar timestamp = GregorianCalendar.getInstance();
+        //timestamp.setTimeInMillis((long) (msg[10] * 16777216 + msg[9] * 65536 + msg[8] * 256 + msg[7]));
         sample.setSteps((int) (msg[14] * 16777216 + msg[13] * 65536 + msg[12] * 256 + msg[11]));
-        sample.setTimestamp((int) (timestamp.getTimeInMillis() / 1000L));
+        sample.setTimestamp(msg[10] * 16777216 + msg[9] * 65536 + msg[8] * 256 + msg[7]);
         sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
         sample.setRawIntensity(sample.getSteps());
 
@@ -516,11 +519,91 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
 
         progressSteps = msg[5] + msg[6] * 256;
-        GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSteps / availableStepsData), getContext());
+        GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSteps *100 / availableStepsData), getContext());
         if (progressSteps == availableStepsData) {
             progressSteps = 0;
             availableStepsData = 0;
-            getHeartRateData();
+            GB.updateTransferNotification("", false, 100, getContext());
+            if (getDevice().isBusy()) {
+                getDevice().unsetBusyTask();
+                getDevice().sendDeviceUpdateIntent(getContext());
+            }
+            if(availableHeartRateData > 0) {
+                getHeartRateData();
+            } else if(availableSleepData > 0)
+            {
+                getSleepData();
+            }
+        }
+    }
+
+    private void handleSleepData(byte[] msg)
+    {
+        ZeTimeActivitySample sample = new ZeTimeActivitySample();
+        sample.setTimestamp(msg[10] * 16777216 + msg[9] * 65536 + msg[8] * 256 + msg[7]);
+        if(msg[11] == 0) {
+            sample.setRawKind(ActivityKind.TYPE_DEEP_SLEEP);
+        } else if(msg[11] == 1)
+        {
+            sample.setRawKind(ActivityKind.TYPE_LIGHT_SLEEP);
+        } else
+        {
+            sample.setRawKind(ActivityKind.TYPE_UNKNOWN);
+        }
+
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            sample.setUserId(DBHelper.getUser(dbHandler.getDaoSession()).getId());
+            sample.setDeviceId(DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId());
+            ZeTimeSampleProvider provider = new ZeTimeSampleProvider(getDevice(), dbHandler.getDaoSession());
+            provider.addGBActivitySample(sample);
+        } catch (Exception ex) {
+            GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+            GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
+        }
+
+        progressSteps = msg[5] + msg[6] * 256;
+        GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSteps *100 / availableSleepData), getContext());
+        if (progressSteps == availableStepsData) {
+            progressSteps = 0;
+            availableSleepData = 0;
+            GB.updateTransferNotification("", false, 100, getContext());
+            if (getDevice().isBusy()) {
+                getDevice().unsetBusyTask();
+                getDevice().sendDeviceUpdateIntent(getContext());
+            }
+        }
+    }
+
+    private void handleHeatRateData(byte[] msg)
+    {
+        ZeTimeActivitySample sample = new ZeTimeActivitySample();
+        sample.setHeartRate(msg[11]);
+        sample.setTimestamp(msg[10] * 16777216 + msg[9] * 65536 + msg[8] * 256 + msg[7]);
+
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            sample.setUserId(DBHelper.getUser(dbHandler.getDaoSession()).getId());
+            sample.setDeviceId(DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId());
+            ZeTimeSampleProvider provider = new ZeTimeSampleProvider(getDevice(), dbHandler.getDaoSession());
+            provider.addGBActivitySample(sample);
+        } catch (Exception ex) {
+            GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+            GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
+        }
+
+        progressSteps = msg[5] + msg[6] * 256;
+        GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSteps *100 / availableHeartRateData), getContext());
+        if (progressSteps == availableStepsData) {
+            progressSteps = 0;
+            availableHeartRateData = 0;
+            GB.updateTransferNotification("", false, 100, getContext());
+            if (getDevice().isBusy()) {
+                getDevice().unsetBusyTask();
+                getDevice().sendDeviceUpdateIntent(getContext());
+            }
+            if(availableSleepData > 0)
+            {
+                getSleepData();
+            }
         }
     }
 }

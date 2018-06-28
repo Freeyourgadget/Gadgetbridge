@@ -35,7 +35,7 @@ public class ZeTimeSampleProvider extends AbstractSampleProvider<ZeTimeActivityS
 
     @Override
     public float normalizeIntensity(int rawIntensity) {
-        return rawIntensity / (float) 8000.0;
+        return rawIntensity;
     }
 
     @Override
