@@ -1,3 +1,19 @@
+/*  Copyright (C) 2017-2018 Daniele Gobbetti
+
+    This file is part of Gadgetbridge.
+
+    Gadgetbridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Gadgetbridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 import android.content.Context;
@@ -44,7 +60,9 @@ public class OmniJawsObserver extends ContentObserver {
             "forecast_condition",
             "forecast_condition_code",
             "time_stamp",
-            "forecast_date"
+            "forecast_date",
+            "wind_speed",
+            "wind_direction"
     };
 
     private final String[] SETTINGS_PROJECTION = new String[]{
@@ -100,9 +118,13 @@ public class OmniJawsObserver extends ContentObserver {
 
                             weatherSpec.currentTemp = toKelvin(c.getFloat(3));
                             weatherSpec.currentHumidity = (int) c.getFloat(4);
+
+                            weatherSpec.windSpeed = toKmh(c.getFloat(11));
+                            weatherSpec.windDirection = c.getInt(12);
+                            weatherSpec.timestamp = (int) (Long.valueOf(c.getString(9)) / 1000);
+                        } else if (i == 1) {
                             weatherSpec.todayMinTemp = toKelvin(c.getFloat(5));
                             weatherSpec.todayMaxTemp = toKelvin(c.getFloat(6));
-                            weatherSpec.timestamp = (int) (Long.valueOf(c.getString(9)) / 1000);
                         } else {
 
                             WeatherSpec.Forecast gbForecast = new WeatherSpec.Forecast();
@@ -160,4 +182,10 @@ public class OmniJawsObserver extends ContentObserver {
         return (int) ((temperature - 32) * 0.5555555555555556D + 273.15);
     }
 
+    private float toKmh(float speed) {
+        if (mMetric) {
+            return speed;
+        }
+        return (speed * 1.61f);
+    }
 }

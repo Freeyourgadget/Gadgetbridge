@@ -13,6 +13,7 @@
 
     <string-array name="pref_language_options">
         <item name="default">System Default</item>
+        <item name="cz">Čeština</item>
         <item name="de">Deutsch</item>
         <item name="en">English</item>
         <item name="es">Español</item>
@@ -25,10 +26,12 @@
         <item name="ko">한국어</item>
         <item name="ja">日本語</item>
         <item name="hu">Magyar</item>
+        <item name="sk">Slovenčina</item>
     </string-array>
 
     <string-array name="pref_language_values">
         <item>default</item>
+        <item>cz</item>
         <item>de</item>
         <item>en</item>
         <item>es</item>
@@ -41,6 +44,7 @@
         <item>ko</item>
         <item>ja</item>
         <item>hu</item>
+        <item>sk</item>
     </string-array>
 
     <string-array name="notification_mode">
@@ -146,6 +150,17 @@
         <item>@string/p_scheduled</item>
     </string-array>
 
+    <string-array name="activate_display_on_lift">
+        <item>@string/off</item>
+        <item>@string/on</item>
+        <item>@string/mi2_dnd_scheduled</item>
+    </string-array>
+    <string-array name="activate_display_on_lift_values">
+        <item>@string/p_off</item>
+        <item>@string/p_on</item>
+        <item>@string/p_scheduled</item>
+    </string-array>
+
     <string-array name="pref_mi2_display_items">
         <item>@string/chart_steps</item>
         <item>@string/distance</item>
@@ -166,6 +181,41 @@
         <item>@string/p_calories</item>
         <item>@string/p_heart_rate</item>
         <item>@string/p_battery</item>
+    </string-array>
+
+    <string-array name="pref_bip_display_items">
+        <item>@string/menuitem_shortcut_alipay</item>
+        <item>@string/menuitem_shortcut_weather</item>
+        <item>@string/menuitem_status</item>
+        <item>@string/menuitem_activity</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_compass</item>
+        <item>@string/menuitem_settings</item>
+        <item>@string/menuitem_alipay</item>
+    </string-array>
+
+    <string-array name="pref_bip_display_items_values">
+        <item>@string/p_menuitem_shortcut_alipay</item>
+        <item>@string/p_menuitem_shortcut_weather</item>
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_compass</item>
+        <item>@string/p_menuitem_settings</item>
+        <item>@string/p_menuitem_alipay</item>
+    </string-array>
+    <string-array name="pref_bip_display_items_default">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_compass</item>
+        <item>@string/p_menuitem_settings</item>
     </string-array>
 
     <string-array name="pref_entries_unit_system">
@@ -235,5 +285,4 @@
         <item>1800</item>
         <item>3600</item>
     </string-array>
-
 </resources>

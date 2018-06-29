@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017 Andreas Shimokawa, João Paulo Barraca
+/*  Copyright (C) 2017-2018 Andreas Shimokawa, João Paulo Barraca
 
     This file is part of Gadgetbridge.
 
@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
@@ -44,7 +45,7 @@ public class MiBand2HRXCoordinator extends HuamiCoordinator {
         try {
             BluetoothDevice device = candidate.getDevice();
             String name = device.getName();
-            if (name != null && (name.equalsIgnoreCase("Mi Band HRX") || name.equalsIgnoreCase("Mi Band 2i"))) {
+            if (name != null && (name.equalsIgnoreCase(HuamiConst.MI_BAND2_NAME_HRX) || name.equalsIgnoreCase("Mi Band 2i"))) {
                 return DeviceType.MIBAND2;
             }
         } catch (Exception ex) {

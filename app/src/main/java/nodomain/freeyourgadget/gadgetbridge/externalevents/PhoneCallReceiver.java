@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Normano64
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Normano64
 
     This file is part of Gadgetbridge.
 
@@ -18,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 import android.app.NotificationManager;
 import android.app.NotificationManager.Policy;
+import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -35,19 +37,12 @@ public class PhoneCallReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Service.TELEPHONY_SERVICE);
         if (intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
             mSavedNumber = intent.getExtras().getString("android.intent.extra.PHONE_NUMBER");
         } else {
-            String stateStr = intent.getExtras().getString(TelephonyManager.EXTRA_STATE);
             String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
-            int state = 0;
-            if (TelephonyManager.EXTRA_STATE_IDLE.equals(stateStr)) {
-                state = TelephonyManager.CALL_STATE_IDLE;
-            } else if (TelephonyManager.EXTRA_STATE_OFFHOOK.equals(stateStr)) {
-                state = TelephonyManager.CALL_STATE_OFFHOOK;
-            } else if (TelephonyManager.EXTRA_STATE_RINGING.equals(stateStr)) {
-                state = TelephonyManager.CALL_STATE_RINGING;
-            }
+            int state = tm.getCallState();
             onCallStateChanged(context, state, number);
         }
     }

@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017 Daniele Gobbetti
+/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -31,6 +32,7 @@ import android.webkit.WebViewClient;
 import net.e175.klaus.solarpositioning.DeltaT;
 import net.e175.klaus.solarpositioning.SPA;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -40,21 +42,16 @@ import java.io.ByteArrayInputStream;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
-
-import static nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton.internetHelper;
-import static nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton.internetHelperBound;
-import static nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton.internetHelperListener;
-import static nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton.internetResponse;
-import static nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton.latch;
+import nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton;
 
 public class GBWebClient extends WebViewClient {
 
     private String[] AllowedDomains = new String[]{
             "openweathermap.org",   //for weather :)
+            "rawgit.com",           //for trekvolle
             "tagesschau.de"         //for internal watchapp tests
     };
     private static final Logger LOG = LoggerFactory.getLogger(GBWebClient.class);
@@ -82,27 +79,29 @@ public class GBWebClient extends WebViewClient {
 
 
     private WebResourceResponse mimicReply(Uri requestedUri) {
-        if (requestedUri.getHost() != null && (org.apache.commons.lang3.StringUtils.indexOfAny(requestedUri.getHost(), AllowedDomains) != -1)) {
-            if (internetHelperBound) {
+        if (requestedUri.getHost() != null && (StringUtils.indexOfAny(requestedUri.getHost(), AllowedDomains) != -1)) {
+            if (GBApplication.getGBPrefs().isBackgroundJsEnabled() && WebViewSingleton.getInstance().internetHelperBound) {
                 LOG.debug("WEBVIEW forwarding request to the internet helper");
                 Bundle bundle = new Bundle();
                 bundle.putString("URL", requestedUri.toString());
                 Message webRequest = Message.obtain();
-                webRequest.replyTo = internetHelperListener;
                 webRequest.setData(bundle);
                 try {
-                    latch = new CountDownLatch(1); //the messenger should run on a single thread, hence we don't need to be worried about concurrency. This approach however is certainly not ideal.
-                    internetHelper.send(webRequest);
-                    latch.await();
-                    return internetResponse;
-
+                    return WebViewSingleton.getInstance().send(webRequest);
                 } catch (RemoteException | InterruptedException e) {
                     LOG.warn("Error downloading data from " + requestedUri, e);
                 }
 
             } else {
-                LOG.debug("WEBVIEW request to openweathermap.org detected of type: " + requestedUri.getPath() + " params: " + requestedUri.getQuery());
-                return mimicOpenWeatherMapResponse(requestedUri.getPath(), requestedUri.getQueryParameter("units"));
+                if (StringUtils.endsWith(requestedUri.getHost(), "openweathermap.org")){
+                    LOG.debug("WEBVIEW request to openweathermap.org detected of type: " + requestedUri.getPath() + " params: " + requestedUri.getQuery());
+                    return mimicOpenWeatherMapResponse(requestedUri.getPath(), requestedUri.getQueryParameter("units"));
+                } else if (StringUtils.endsWith(requestedUri.getHost(), "rawgit.com")) {
+                    LOG.debug("WEBVIEW request to rawgit.com detected of type: " + requestedUri.getPath() + " params: " + requestedUri.getQuery());
+                    return mimicRawGitResponse(requestedUri.getPath());
+                } else {
+                    LOG.debug("WEBVIEW request to allowed domain detected but not intercepted: " + requestedUri.toString());
+                }
             }
         } else {
             LOG.debug("WEBVIEW request:" + requestedUri.toString() + " not intercepted");
@@ -130,7 +129,24 @@ public class GBWebClient extends WebViewClient {
         return true;
     }
 
-    private static WebResourceResponse mimicOpenWeatherMapResponse(String type, String units) {
+    private WebResourceResponse mimicRawGitResponse(String path) {
+        if("/aHcVolle/TrekVolle/master/online.html".equals(path)) { //TrekVolle online check
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Access-Control-Allow-Origin", "*");
+                return new WebResourceResponse("text/html", "utf-8", 200, "OK",
+                        headers,
+                        new ByteArrayInputStream("1".toString().getBytes())
+                );
+            } else {
+                return new WebResourceResponse("text/html", "utf-8", new ByteArrayInputStream("1".toString().getBytes()));
+            }
+        }
+
+        return null;
+    }
+
+    private WebResourceResponse mimicOpenWeatherMapResponse(String type, String units) {
 
         if (Weather.getInstance() == null) {
             LOG.warn("WEBVIEW - Weather instance is null, cannot update weather");
@@ -145,6 +161,8 @@ public class GBWebClient extends WebViewClient {
                 JSONObject main = resp.getJSONObject("main");
 
                 convertTemps(main, units); //caller might want different units
+                JSONObject wind = resp.getJSONObject("wind");
+                convertSpeeds(wind, units);
 
                 resp.put("cod", 200);
                 resp.put("coord", coordObject(currentPosition));
@@ -198,6 +216,14 @@ public class GBWebClient extends WebViewClient {
         sys.put("sunset", (sunrise[2].getTimeInMillis() / 1000));
 
         return sys;
+    }
+
+    private static void convertSpeeds(JSONObject wind, String units) throws JSONException {
+        if ("metric".equals(units)) {
+            wind.put("speed", (wind.getDouble("speed") * 3.6f) );
+        } else if ("imperial".equals(units)) { //it's 2018... this is so sad
+            wind.put("speed", (wind.getDouble("speed") * 2.237f) );
+        }
     }
 
     private static void convertTemps(JSONObject main, String units) throws JSONException {

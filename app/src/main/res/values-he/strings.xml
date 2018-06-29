@@ -47,8 +47,8 @@
   <string name="pref_header_general">הגדרות כלליות</string>
   <string name="pref_title_general_autoconnectonbluetooth">התחברות להתקן כאשר ה־Bluetooth פועל</string>
   <string name="pref_title_general_autostartonboot">התחלה אוטומטית</string>
-  <string name="pref_title_general_autocreonnect">התחברות אוטומטית מחדש</string>
-  <string name="pref_title_audo_player">נגן מדיה מועדף</string>
+  <string name="pref_title_general_autoreconnect">התחברות אוטומטית מחדש</string>
+  <string name="pref_title_audio_player">נגן מדיה מועדף</string>
   <string name="pref_default">בררת מחדל</string>
   <string name="pref_header_datetime">שעה ותאריך</string>
   <string name="pref_title_datetime_syctimeonconnect">סנכרון השעה</string>
@@ -388,10 +388,9 @@
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">השבתת אזהרות חוסר הפעילות לפרק זמן מסוים</string>
     <string name="mi2_prefs_do_not_disturb_start">מועד ההתחלה</string>
     <string name="mi2_prefs_do_not_disturb_end">מועד הסיום</string>
-    <string name="fw_upgrade_notice_amazfitbip">ביקשת להתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Amazfit Bip שלך. 
+    <string name="fw_upgrade_notice_amazfitbip">פעולה זו תתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Amazfit Bip שלך. 
 \n 
-\nנא לוודא את התקנת קושחת ה־‎.gps בהתחלה, לאחר מכן את קובץ ה־‎.res ולבסוף קובץ ה־‎.fw 
-\n 
+\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res ולבסוף קובץ ה־‎.gps השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw. 
 \n 
 \nלתשומת לבך: אין צורך בהתקנת קובצי ה־‎.res וה־‎.gps אם הם כבר זהים לאלו שהתקנת בעבר. 
 \n 
@@ -442,11 +441,11 @@
 
     <string name="fw_upgrade_notice_amazfitcor">פעולה זו תתקין את הקושחה %s במקום הנוכחית שעל ה־Amazfit Cor שלך. 
 \n 
-\nנא לוודא את התקנת קובץ ה־‎.res, ולאחר מכן את קובץ ה־‎.fw. השעון שלך יופעל מחדש לאחר התקנת קובץ ה־‎.fw
+\nנא לוודא את התקנת קובץ ה־‎.fw, ולאחר מכן את קובץ ה־‎.res. השעון שלך יופעל מחדש לאחר התקנת קובץ ה־‎.fw 
 \n 
 \nלתשומת לבך: אין צורך להתקין את קובץ ה־‎.res אם הוא זהה לקובץ שהתקנת בעבר. 
 \n 
-\nניסיוני, המשך מעבר לנקודה זו הוא על אחריותך!</string>
+\nהמשך מעבר לנקודה זו הוא על אחריותך!</string>
     <string name="amazfitcor_firmware">קושחה %1$s של Amazfit Cor</string>
     <string name="pref_title_charts_swipe">הפעלת הסטה לימין/שמאל בפעילות התרשימים</string>
 
@@ -497,5 +496,56 @@
     <string name="notif_export_failed_title">ייצוא מסד הנתונים נכשל! נא לבדוק את ההגדרות שלך.</string>
     <string name="choose_auto_export_location">נא לבחור את מיקום הייצוא</string>
 <string name="spanish">ספרדית</string>
+
+    <string name="notification_channel_name">הודעות של Gadgetbridge</string>
+<string name="devicetype_xwatch">XWatch</string>
+
+    <string name="on">פעיל</string>
+    <string name="controlcenter_start_activity_tracks">מסלולי הפעילות שלך</string>
+    <string name="activity_type_not_measured">ללא מדידה</string>
+    <string name="activity_type_activity">פעילות</string>
+    <string name="activity_type_light_sleep">שינה קלה</string>
+    <string name="activity_type_deep_sleep">שינה עמוקה</string>
+    <string name="activity_type_not_worn">ההתקן לא נענד</string>
+    <string name="activity_type_running">ריצה</string>
+    <string name="activity_type_walking">הליכה</string>
+    <string name="activity_type_swimming">שחייה</string>
+    <string name="activity_type_unknown">פעילות לא ידועה</string>
+    <string name="activity_summaries">פעילויות</string>
+    <string name="activity_type_biking">רכיבת אופניים</string>
+    <string name="activity_type_treadmill">הליכון</string>
+
+    <string name="select_all">בחירת הכול</string>
+    <string name="share">שיתוף</string>
+    <string name="reset_index">איפוס מועד הקבלה</string>
+
+    <string name="menuitem_status">מצב</string>
+    <string name="menuitem_activity">פעילות</string>
+    <string name="menuitem_weather">מזג אוויר</string>
+    <string name="menuitem_alarm">שעון מעורר</string>
+    <string name="menuitem_timer">קוצב זמן</string>
+    <string name="menuitem_compass">מצפן</string>
+    <string name="menuitem_settings">הגדרות</string>
+    <string name="menuitem_alipay">Alipay</string>
+<string name="pref_title_pebble_gatt_clientonly">לקוח GATT בלבד</string>
+    <string name="pref_summary_pebble_gatt_clientonly">מצב זה מיועד ל־Pebble 2 והוא ניסיוני, ניתן לנסות זאת אם נתקלת בבעיות חיבור</string>
+    <string name="menuitem_shortcut_alipay">Alipay (קיצור דרך)</string>
+    <string name="menuitem_shortcut_weather">מזג אוויר (קיצור דרך)</string>
+    <string name="devicetype_q8">Q8</string>
+    <string name="fw_upgrade_notice_miband3">פעולה זו תתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Mi Band 3 שלך. 
+\n 
+\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw. 
+\n 
+\nלתשומת לבך: אין צורך בהתקנת קובץ ה־‎.res אם הוא כבר זהה לזה שהתקנת בעבר. 
+\n 
+\nהתהליך לא נבדק, ההתקן שלך עשוי להפסיק לפעול, המשך התהליך הוא על אחריותך!</string>
+    <string name="devicetype_miband3">Mi Band 3</string>
+    <string name="blacklist_all_for_notifications">הוספת כולם לרשימה השחורה של ההתרעות</string>
+    <string name="whitelist_all_for_notifications">הוספת כולם לרשימת ההיתר של ההתרעות</string>
+
+
+    <string name="pref_auto_fetch">אחזור אוטומטי של נתוני פעילות</string>
+
+    <string name="pref_auto_fetch_summary">האחזור מתבצע בעת שחרור נעילת המסך. עובד רק אם הוגדר מנגנון נעילה!</string>
 
     </resources>

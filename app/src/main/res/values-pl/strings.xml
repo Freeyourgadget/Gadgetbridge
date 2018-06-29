@@ -43,8 +43,8 @@
   <string name="title_activity_settings">Ustawienia</string>
   <string name="pref_header_general">Ustawienia ogólne</string>
   <string name="pref_title_general_autoconnectonbluetooth">Połącz z urządzeniem gdy Bluetooth jest włączone</string>
-  <string name="pref_title_general_autocreonnect">Automatycznie ponawiaj połączenie</string>
-  <string name="pref_title_audo_player">Preferowany odtwarzacz muzyki</string>
+  <string name="pref_title_general_autoreconnect">Automatycznie ponawiaj połączenie</string>
+  <string name="pref_title_audio_player">Preferowany odtwarzacz muzyki</string>
   <string name="pref_default">Domyślny</string>
   <string name="pref_header_datetime">Data i godzina</string>
   <string name="pref_title_datetime_syctimeonconnect">Synchronizuj czas</string>
@@ -343,4 +343,24 @@
     <string name="mi2_prefs_button_press_count_match_delay">Opóźnienie po wciśnięciu przycisku akcji</string>
     <string name="mi2_prefs_goal_notification_summary">Opaska zawibruje gdy zostanie osiągnięty dzienny cel korków</string>
     <string name="mi2_prefs_do_not_disturb">Nie przeszkadzać</string>
+    <string name="pref_summary_notifications_pebblemsg">Obsługa aplikacji, które wysyłają powiadomienia na Pebble przy użyciu PebbleKit.</string>
+    <string name="pref_title_weather">Pogoda</string>
+    <string name="pref_title_canned_messages_dismisscall">Odrzucanie połączeń</string>
+    <string name="prefs_title_all_day_heart_rate">Całodobowy pomiar tętna</string>
+    <string name="pref_header_auto_export">Automatyczny eksport</string>
+    <string name="pref_summary_auto_export_interval">Eksportować co %d godzin</string>
+
+    <string name="preferences_amazfitbip_settings">Ustawienia Amazfit Bip</string>
+    <string name="prefs_title_heartrate_measurement_interval">Całodobowy pomiar tętna</string>
+    <string name="interval_one_minute">raz na minutę</string>
+    <string name="interval_five_minutes">raz na 5 minut</string>
+    <string name="interval_ten_minutes">raz na 10 minut</string>
+    <string name="interval_thirty_minutes">raz na 30 minut</string>
+    <string name="interval_one_hour">raz na godzinę</string>
+
+    <string name="activity_type_light_sleep">Sen płytki</string>
+    <string name="activity_type_deep_sleep">Sen głęboki</string>
+    <string name="activity_type_running">Bieg</string>
+    <string name="activity_type_swimming">Pływanie</string>
+    <string name="activity_type_treadmill">Bieżnia</string>
     </resources>

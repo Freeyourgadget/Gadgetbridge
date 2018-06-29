@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Frank Slezak, ivanovlev, Kasha, Lem Dulfo, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
@@ -40,17 +40,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
+import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+
+import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
 
 
 public class DebugActivity extends AbstractGBActivity {
@@ -61,23 +64,12 @@ public class DebugActivity extends AbstractGBActivity {
             = "nodomain.freeyourgadget.gadgetbridge.DebugActivity.action.reply";
 
     private Spinner sendTypeSpinner;
-    private Button sendButton;
-    private Button incomingCallButton;
-    private Button outgoingCallButton;
-    private Button startCallButton;
-    private Button endCallButton;
-    private Button testNotificationButton;
-    private Button setMusicInfoButton;
-    private Button setTimeButton;
-    private Button rebootButton;
-    private Button HeartRateButton;
-    private Button testNewFunctionalityButton;
 
     private EditText editContent;
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            switch (intent.getAction()) {
+            switch (Objects.requireNonNull(intent.getAction())) {
                 case ACTION_REPLY: {
                     Bundle remoteInput = RemoteInput.getResultsFromIntent(intent);
                     CharSequence reply = remoteInput.getCharSequence(EXTRA_REPLY);
@@ -85,11 +77,9 @@ public class DebugActivity extends AbstractGBActivity {
                     GB.toast(context, "got wearable reply: " + reply, Toast.LENGTH_SHORT, GB.INFO);
                     break;
                 }
-                case DeviceService.ACTION_HEARTRATE_MEASUREMENT: {
-                    int hrValue = intent.getIntExtra(DeviceService.EXTRA_HEART_RATE_VALUE, -1);
-                    GB.toast(DebugActivity.this, "Heart Rate measured: " + hrValue, Toast.LENGTH_LONG, GB.INFO);
+                default:
+                    LOG.info("ignoring intent action " + intent.getAction());
                     break;
-                }
             }
         }
     };
@@ -105,17 +95,17 @@ public class DebugActivity extends AbstractGBActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
         registerReceiver(mReceiver, filter); // for ACTION_REPLY
 
-        editContent = (EditText) findViewById(R.id.editContent);
+        editContent = findViewById(R.id.editContent);
 
         ArrayList<String> spinnerArray = new ArrayList<>();
         for (NotificationType notificationType : NotificationType.values()) {
             spinnerArray.add(notificationType.name());
         }
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
-        sendTypeSpinner = (Spinner) findViewById(R.id.sendTypeSpinner);
+        sendTypeSpinner = findViewById(R.id.sendTypeSpinner);
         sendTypeSpinner.setAdapter(spinnerArrayAdapter);
 
-        sendButton = (Button) findViewById(R.id.sendButton);
+        Button sendButton = findViewById(R.id.sendButton);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,7 +122,7 @@ public class DebugActivity extends AbstractGBActivity {
             }
         });
 
-        incomingCallButton = (Button) findViewById(R.id.incomingCallButton);
+        Button incomingCallButton = findViewById(R.id.incomingCallButton);
         incomingCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,7 +132,7 @@ public class DebugActivity extends AbstractGBActivity {
                 GBApplication.deviceService().onSetCallState(callSpec);
             }
         });
-        outgoingCallButton = (Button) findViewById(R.id.outgoingCallButton);
+        Button outgoingCallButton = findViewById(R.id.outgoingCallButton);
         outgoingCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,7 +143,7 @@ public class DebugActivity extends AbstractGBActivity {
             }
         });
 
-        startCallButton = (Button) findViewById(R.id.startCallButton);
+        Button startCallButton = findViewById(R.id.startCallButton);
         startCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,7 +152,7 @@ public class DebugActivity extends AbstractGBActivity {
                 GBApplication.deviceService().onSetCallState(callSpec);
             }
         });
-        endCallButton = (Button) findViewById(R.id.endCallButton);
+        Button endCallButton = findViewById(R.id.endCallButton);
         endCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,15 +162,15 @@ public class DebugActivity extends AbstractGBActivity {
             }
         });
 
-        rebootButton = (Button) findViewById(R.id.rebootButton);
+        Button rebootButton = findViewById(R.id.rebootButton);
         rebootButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 GBApplication.deviceService().onReboot();
             }
         });
-        HeartRateButton = (Button) findViewById(R.id.HearRateButton);
-        HeartRateButton.setOnClickListener(new View.OnClickListener() {
+        Button heartRateButton = findViewById(R.id.HeartRateButton);
+        heartRateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 GB.toast("Measuring heart rate, please wait...", Toast.LENGTH_LONG, GB.INFO);
@@ -188,7 +178,7 @@ public class DebugActivity extends AbstractGBActivity {
             }
         });
 
-        setMusicInfoButton = (Button) findViewById(R.id.setMusicInfoButton);
+        Button setMusicInfoButton = findViewById(R.id.setMusicInfoButton);
         setMusicInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -214,7 +204,7 @@ public class DebugActivity extends AbstractGBActivity {
             }
         });
 
-        setTimeButton = (Button) findViewById(R.id.setTimeButton);
+        Button setTimeButton = findViewById(R.id.setTimeButton);
         setTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,7 +212,7 @@ public class DebugActivity extends AbstractGBActivity {
             }
         });
 
-        testNotificationButton = (Button) findViewById(R.id.testNotificationButton);
+        Button testNotificationButton = findViewById(R.id.testNotificationButton);
         testNotificationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -230,7 +220,15 @@ public class DebugActivity extends AbstractGBActivity {
             }
         });
 
-        testNewFunctionalityButton = (Button) findViewById(R.id.testNewFunctionality);
+        Button fetchDebugLogsButton = findViewById(R.id.fetchDebugLogsButton);
+        fetchDebugLogsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GBApplication.deviceService().onFetchRecordedData(RecordedDataTypes.TYPE_DEBUGLOGS);
+            }
+        });
+
+        Button testNewFunctionalityButton = findViewById(R.id.testNewFunctionality);
         testNewFunctionalityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -266,7 +264,7 @@ public class DebugActivity extends AbstractGBActivity {
 
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender().addAction(action);
 
-        NotificationCompat.Builder ncomp = new NotificationCompat.Builder(this)
+        NotificationCompat.Builder ncomp = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(getString(R.string.test_notification))
                 .setContentText(getString(R.string.this_is_a_test_notification_from_gadgetbridge))
                 .setTicker(getString(R.string.this_is_a_test_notification_from_gadgetbridge))
@@ -275,7 +273,9 @@ public class DebugActivity extends AbstractGBActivity {
                 .setContentIntent(pendingIntent)
                 .extend(wearableExtender);
 
-        nManager.notify((int) System.currentTimeMillis(), ncomp.build());
+        if (nManager != null) {
+            nManager.notify((int) System.currentTimeMillis(), ncomp.build());
+        }
     }
 
     @Override
@@ -295,7 +295,4 @@ public class DebugActivity extends AbstractGBActivity {
         unregisterReceiver(mReceiver);
     }
 
-    public interface DeviceSelectionCallback {
-        void invoke(GBDevice device);
-    }
 }

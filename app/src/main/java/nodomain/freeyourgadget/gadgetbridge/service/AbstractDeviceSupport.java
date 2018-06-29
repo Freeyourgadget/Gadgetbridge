@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -65,6 +65,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBCallControlRecei
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBMusicControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+
+import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
 
 // TODO: support option for a single reminder notification when notifications could not be delivered?
 // conditions: app was running and received notifications, but device was not connected.
@@ -225,13 +227,13 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     private void handleGBDeviceEvent(GBDeviceEventSleepMonitorResult sleepMonitorResult) {
         Context context = getContext();
         LOG.info("Got event for SLEEP_MONIOR_RES");
-        Intent sleepMontiorIntent = new Intent(ChartsHost.REFRESH);
-        sleepMontiorIntent.putExtra("smartalarm_from", sleepMonitorResult.smartalarm_from);
-        sleepMontiorIntent.putExtra("smartalarm_to", sleepMonitorResult.smartalarm_to);
-        sleepMontiorIntent.putExtra("recording_base_timestamp", sleepMonitorResult.recording_base_timestamp);
-        sleepMontiorIntent.putExtra("alarm_gone_off", sleepMonitorResult.alarm_gone_off);
+        Intent sleepMonitorIntent = new Intent(ChartsHost.REFRESH);
+        sleepMonitorIntent.putExtra("smartalarm_from", sleepMonitorResult.smartalarm_from);
+        sleepMonitorIntent.putExtra("smartalarm_to", sleepMonitorResult.smartalarm_to);
+        sleepMonitorIntent.putExtra("recording_base_timestamp", sleepMonitorResult.recording_base_timestamp);
+        sleepMonitorIntent.putExtra("alarm_gone_off", sleepMonitorResult.alarm_gone_off);
 
-        LocalBroadcastManager.getInstance(context).sendBroadcast(sleepMontiorIntent);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(sleepMonitorIntent);
     }
 
     private void handleGBDeviceEvent(GBDeviceEventScreenshot screenshot) {
@@ -257,7 +259,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
 
             NotificationCompat.Action action = new NotificationCompat.Action.Builder(android.R.drawable.ic_menu_share, "share", pendingShareIntent).build();
 
-            Notification notif = new NotificationCompat.Builder(context)
+            Notification notif = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                     .setContentTitle("Screenshot taken")
                     .setTicker("Screenshot taken")
                     .setContentText(filename)
@@ -298,10 +300,10 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                     deviceEvent.phoneNumber = (String) GBApplication.getIDSenderLookup().lookup(deviceEvent.handle);
                 }
                 if (deviceEvent.phoneNumber != null) {
-                    LOG.info("got notfication reply for SMS from " + deviceEvent.phoneNumber + " : " + deviceEvent.reply);
+                    LOG.info("Got notification reply for SMS from " + deviceEvent.phoneNumber + " : " + deviceEvent.reply);
                     SmsManager.getDefault().sendTextMessage(deviceEvent.phoneNumber, null, deviceEvent.reply, null, null);
                 } else {
-                    LOG.info("got notfication reply for notification id " + deviceEvent.handle + " : " + deviceEvent.reply);
+                    LOG.info("Got notification reply for notification id " + deviceEvent.handle + " : " + deviceEvent.reply);
                     action = NotificationListener.ACTION_REPLY;
                 }
                 break;

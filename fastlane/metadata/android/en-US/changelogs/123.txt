@@ -1,0 +1,3 @@
+* Display the chat icon for notifications coming from Kontalk and Antox
+* Pebble: Fix for background js which try to send floats (e.g. TrekVolle)
+* Mi Band 2: Change the way vibration patterns work, also fixes problems with missing text on newer firmwares

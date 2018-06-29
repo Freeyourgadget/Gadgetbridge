@@ -34,9 +34,6 @@
         android:layout_alignParentEnd="true"
         android:layout_gravity="bottom|end"
         app:srcCompat="@drawable/ic_add"
-        app:elevation="6dp"
-        app:pressedTranslationZ="12dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginEnd="10dp" />
+        android:layout_margin="16dp" />
 
 </android.widget.RelativeLayout>

@@ -7,7 +7,7 @@
   <string name="action_quit">Sair</string>
   <string name="controlcenter_fetch_activity_data">Sincronizar</string>
   <string name="controlcenter_start_sleepmonitor">Monitor de sono (ALPHA)</string>
-  <string name="controlcenter_find_device">Buscando dispositivo perdido...</string>
+  <string name="controlcenter_find_device">Buscando dispositivo desconectado</string>
   <string name="controlcenter_take_screenshot">Print da tela</string>
   <string name="controlcenter_disconnect">Desconectar</string>
   <string name="controlcenter_delete_device">Apagar dispositivo</string>
@@ -49,8 +49,8 @@
   <string name="pref_header_general">Configurações Gerais</string>
   <string name="pref_title_general_autoconnectonbluetooth">Conecta o dispositivo quando o Bluetooth estiver ligado</string>
   <string name="pref_title_general_autostartonboot">Iniciar automaticamente</string>
-  <string name="pref_title_general_autocreonnect">Reconectar automaticamente</string>
-  <string name="pref_title_audo_player">Player de música preferencial</string>
+  <string name="pref_title_general_autoreconnect">Reconectar automaticamente</string>
+  <string name="pref_title_audio_player">Player de música preferencial</string>
   <string name="pref_default">Padrão</string>
   <string name="pref_header_datetime">Data e Hora</string>
   <string name="pref_title_datetime_syctimeonconnect">Sincronizar hora</string>
@@ -142,8 +142,8 @@
   <string name="test">Teste</string>
   <string name="test_notification">Teste de notificação</string>
   <string name="this_is_a_test_notification_from_gadgetbridge">Esta é uma Notificação de Teste de Gadgetbridge</string>
-  <string name="bluetooth_is_not_supported_">Bluetooth não suportado</string>
-  <string name="bluetooth_is_disabled_">Bluetooth desabilitado</string>
+  <string name="bluetooth_is_not_supported_">Bluetooth não suportado.</string>
+  <string name="bluetooth_is_disabled_">Bluetooth desabilitado.</string>
   <string name="tap_connected_device_for_app_mananger">Toque no dispositivo conectado</string>
   <string name="tap_connected_device_for_activity">Toque no dispositivo conectado</string>
   <string name="tap_connected_device_for_vibration">Toque no dispositivo conectado para Vibração</string>
@@ -166,11 +166,11 @@
   <string name="title_activity_android_pairing">Parear dispositivo</string>
   <string name="android_pairing_hint">Use a caixa de diálogo Android Bluetooth para emparelhar o dispositivo.</string>
   <string name="title_activity_mi_band_pairing">Parear sua Mi Band</string>
-  <string name="pairing">Pareando com %s...</string>
+  <string name="pairing">Pareando com %s…</string>
   <string name="pairing_creating_bond_with">Criar vínculo com %1$s (%2$s)</string>
   <string name="pairing_unable_to_pair_with">Não é possível emparelhar com %1$s (%2$s)</string>
   <string name="pairing_in_progress">Vinculação em andamento: %1$s (%2$s)</string>
-  <string name="pairing_already_bonded">Já ligado com %1$s (%2$s), conectando ...</string>
+  <string name="pairing_already_bonded">Já ligado com %1$s (%2$s), conectando…</string>
   <string name="message_cannot_pair_no_mac">Nenhum endereço do mac passou, não pode emparelhar.</string>
   <string name="preferences_category_device_specific_settings">Configurações Específicas do Dispositivo</string>
   <string name="preferences_miband_settings">Configurações da Mi Band</string>
@@ -211,7 +211,7 @@
   <string name="pref_screen_notification_profile_generic_navigation">Navegação</string>
   <string name="pref_screen_notification_profile_generic_social">Rede social</string>
   <string name="control_center_find_lost_device">Busca Dispositivo Perdido</string>
-  <string name="control_center_cancel_to_stop_vibration">Cancele para parar a vibração</string>
+  <string name="control_center_cancel_to_stop_vibration">Cancele para parar a vibração.</string>
   <string name="title_activity_charts">Sua atividade</string>
   <string name="title_activity_set_alarm">Configurar Alarmes</string>
   <string name="controlcenter_start_configure_alarms">Configurar alarmes</string>
@@ -235,7 +235,7 @@
   <string name="installer_activity_unable_to_find_handler">Não foi possível encontrar um manipulador para instalar o arquivo.</string>
   <string name="pbw_install_handler_unable_to_install">Impossível instalar o arquivo fornecido: %1$s</string>
   <string name="pbw_install_handler_hw_revision_mismatch">Não é possível instalar o firmware fornecido: ele não corresponde à revisão do hardware do seu Pebble.</string>
-  <string name="installer_activity_wait_while_determining_status">Aguarde enquanto é determinado o status da instalação ...</string>
+  <string name="installer_activity_wait_while_determining_status">Aguarde enquanto é determinado o status da instalação…</string>
   <string name="notif_battery_low_title">Gadget com bateria baixa!</string>
   <string name="notif_battery_low_percent">%1$s bateria a: %2$s%%</string>
   <string name="notif_battery_low_bigtext_last_charge_time">Última carga: %s \n</string>
@@ -256,7 +256,7 @@
   <string name="updatefirmwareoperation_updateproblem_do_not_reboot">Problema com a transferência do firmware. NÃO REBOTAR sua Mi Band!</string>
   <string name="updatefirmwareoperation_metadata_updateproblem">Problemas ao transferir os metadados do firmware</string>
   <string name="updatefirmwareoperation_update_complete">Instalação do Firmware completa</string>
-  <string name="updatefirmwareoperation_update_complete_rebooting">Instalação do Firmware completa, reiniciando o dispositivo...</string>
+  <string name="updatefirmwareoperation_update_complete_rebooting">Instalação do Firmware completa, reiniciando o dispositivo…</string>
   <string name="updatefirmwareoperation_write_failed">Falha ao instalar o Firmware</string>
   <string name="chart_steps">Passos</string>
   <string name="liveactivity_live_activity">Atividade ao vivo</string>
@@ -303,7 +303,7 @@
   <string name="device_hw">HW: %1$s</string>
   <string name="device_fw">FW: %1$s</string>
   <string name="error_creating_directory_for_logfiles">Erro ao criar o diretório para arquivos de log: %1$s</string>
-  <string name="DEVINFO_HR_VER">FC:</string>
+  <string name="DEVINFO_HR_VER">"FC: "</string>
   <string name="updatefirmwareoperation_update_in_progress">Atualização de Firmware em progresso</string>
   <string name="updatefirmwareoperation_firmware_not_sent">Firmware não enviado</string>
   <string name="charts_legend_heartrate">Frequência cardíaca</string>
@@ -356,12 +356,12 @@
 
     <string name="title_activity_calblacklist">Blacklist do Calendário</string>
 
-    <string name="fw_upgrade_notice_amazfitbip">Você está prestes a instalar o firmware% s no Amazip Bip.
-\n
-\nCertifique-se de instalar o firmware .gps, depois o arquivo .res e, finalmente, o arquivo .fw. Seu relógio será reiniciado após a instalação do arquivo .fw.
-\n
-\nNota: você não precisa instalar .res e .gps se esses arquivos forem exatamente os mesmos que os instalados anteriormente.
-\n
+    <string name="fw_upgrade_notice_amazfitbip">Você está prestes a instalar o firmware %s no Amazip Bip. 
+\n 
+\nCertifique-se de instalar o firmware .gps, depois o arquivo .res e, finalmente, o arquivo .fw. Seu relógio será reiniciado após a instalação do arquivo .fw. 
+\n 
+\nNota: você não precisa instalar .res e .gps se esses arquivos forem exatamente os mesmos que os instalados anteriormente. 
+\n 
 \nPROSSIGA POR SUA CONTA E RISCO!</string>
     <string name="fw_upgrade_notice_amazfitcor">Você está prestes a instalar o firmware %s no seu Amazfit Cor.
 \n
@@ -415,4 +415,9 @@
     <string name="mi2_prefs_button_press_count_summary">Número de toques no botão para enviar a mensagem</string>
     <string name="mi2_prefs_button_press_broadcast">Mensagem para enviar</string>
     <string name="mi2_prefs_button_press_broadcast_summary">Enviar mensagem após um número definido de toques no botão</string>
-    </resources>
+    <string name="pref_summary_enable_calendar_sync">Enviar eventos do calendário para linha do tempo</string>
+
+    <string name="mi2_prefs_button_action">Ativar botão</string>
+    <string name="mi2_prefs_button_action_vibrate">Ativar vibração</string>
+    <string name="notification_channel_name">Notificações - Gadgetbridge</string>
+</resources>

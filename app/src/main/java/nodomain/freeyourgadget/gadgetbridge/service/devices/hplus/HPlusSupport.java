@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
+/*  Copyright (C) 2016-2018 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
     ivanovlev, João Paulo Barraca, Pavel Motyrev, Quallenauge
 
     This file is part of Gadgetbridge.
@@ -539,7 +539,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onFetchActivityData() {
+    public void onFetchRecordedData(int dataTypes) {
 
         if (syncHelper == null){
             syncHelper = new HPlusHandlerThread(gbDevice, getContext(), this);

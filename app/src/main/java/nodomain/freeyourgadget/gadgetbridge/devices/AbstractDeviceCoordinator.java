@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2017 Carsten Pfeiffer, Daniele Gobbetti
+/*  Copyright (C) 2015-2018 Carsten Pfeiffer, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -123,5 +123,10 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     @Override
     public int getBondingStyle(GBDevice device) {
         return BONDING_STYLE_ASK;
+    }
+
+    @Override
+    public boolean supportsActivityTracks() {
+        return false;
     }
 }

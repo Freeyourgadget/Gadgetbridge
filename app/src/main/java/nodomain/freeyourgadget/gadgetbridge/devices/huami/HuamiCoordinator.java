@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer, José Rebelo
+/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -52,7 +52,6 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
@@ -133,9 +132,30 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return DateTimeDisplay.DATE_TIME;
     }
 
-    public static boolean getActivateDisplayOnLiftWrist() {
+    public static ActivateDisplayOnLift getActivateDisplayOnLiftWrist(Context context) {
         Prefs prefs = GBApplication.getPrefs();
-        return prefs.getBoolean(MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT, true);
+
+        String liftOff = context.getString(R.string.p_off);
+        String liftOn = context.getString(R.string.p_on);
+        String liftScheduled = context.getString(R.string.p_scheduled);
+
+        String pref = prefs.getString(MiBandConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, liftOff);
+
+        if (liftOn.equals(pref)) {
+            return ActivateDisplayOnLift.ON;
+        } else if (liftScheduled.equals(pref)) {
+            return ActivateDisplayOnLift.SCHEDULED;
+        }
+
+        return ActivateDisplayOnLift.OFF;
+    }
+
+    public static Date getDisplayOnLiftStart() {
+        return getTimePreference( MiBandConst.PREF_DISPLAY_ON_LIFT_START, "00:00");
+    }
+
+    public static Date getDisplayOnLiftEnd() {
+        return getTimePreference( MiBandConst.PREF_DISPLAY_ON_LIFT_END, "00:00");
     }
 
     public static Set<String> getDisplayItems() {

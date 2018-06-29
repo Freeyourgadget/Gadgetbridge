@@ -9,7 +9,7 @@ vendor's servers.
 
 [Homepage](https://gadgetbridge.org)
 
-[Blog](https://blog.gadgetbridge.org)
+[Blog](https://blog.freeyourgadget.org)
 
 [![Donate](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Gadgetbridge/donate)
 
@@ -33,6 +33,7 @@ vendor's servers.
 * NO.1 F1 (WIP)
 * Liveview
 * Vibratissimo (experimental)
+* XWatch (Affordable Chinese Casio-like smartwatches)
 
 ## Features
 
@@ -94,7 +95,7 @@ For more information read [this wiki article](https://github.com/Freeyourgadget/
 
 ## Contribute
 
-Contributions are welcome, be it feedback, bugreports, documentation, translation, research or code. Feel free to work
+Contributions are welcome, be it feedback, bug reports, documentation, translation, research or code. Feel free to work
 on any of the open [issues](https://github.com/Freeyourgadget/Gadgetbridge/issues?q=is%3Aopen+is%3Aissue);
 just leave a comment that you're working on one to avoid duplicated work.
 

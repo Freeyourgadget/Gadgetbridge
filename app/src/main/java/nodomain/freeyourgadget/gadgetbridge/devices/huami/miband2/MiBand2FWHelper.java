@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -23,7 +23,7 @@ import android.support.annotation.NonNull;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.Mi2FirmwareInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.Mi2FirmwareInfo;
 
 public class MiBand2FWHelper extends HuamiFWHelper {
 

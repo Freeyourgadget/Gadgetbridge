@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -168,7 +168,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
     private void addSample(ActivitySample sample) {
         int heartRate = sample.getHeartRate();
         int timestamp = tsTranslation.shorten(sample.getTimestamp());
-        if (isValidHeartRateValue(heartRate)) {
+        if (HeartRateUtils.isValidHeartRateValue(heartRate)) {
             setCurrentHeartRate(heartRate, timestamp);
         }
         int steps = sample.getSteps();

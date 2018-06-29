@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa, Daniele Gobbetti
+/*  Copyright (C) 2016-2018 Andreas Shimokawa, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -45,6 +45,7 @@ public class Weather {
         JSONArray weather = new JSONArray();
         JSONObject condition = new JSONObject();
         JSONObject main = new JSONObject();
+        JSONObject wind = new JSONObject();
 
         try {
             condition.put("id", weatherSpec.currentConditionCode);
@@ -53,14 +54,19 @@ public class Weather {
             condition.put("icon", Weather.mapToOpenWeatherMapIcon(weatherSpec.currentConditionCode));
             weather.put(condition);
 
+
             main.put("temp", weatherSpec.currentTemp);
             main.put("humidity", weatherSpec.currentHumidity);
             main.put("temp_min", weatherSpec.todayMinTemp);
             main.put("temp_max", weatherSpec.todayMaxTemp);
-            main.put("name", weatherSpec.location);
+
+            wind.put("speed", (weatherSpec.windSpeed / 3.6f)); //meter per second
+            wind.put("deg", weatherSpec.windDirection);
 
             reconstructedOWMWeather.put("weather", weather);
             reconstructedOWMWeather.put("main", main);
+            reconstructedOWMWeather.put("name", weatherSpec.location);
+            reconstructedOWMWeather.put("wind", wind);
 
         } catch (JSONException e) {
             LOG.error("Error while reconstructing OWM weather reply");

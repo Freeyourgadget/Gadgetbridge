@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa, Daniele Gobbetti, Uwe Hermann
+/*  Copyright (C) 2016-2018 Andreas Shimokawa, Daniele Gobbetti, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
 
 class PebbleGATTServer extends BluetoothGattServerCallback {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleGATTServer.class);
@@ -43,6 +44,7 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
     private Context mContext;
     private BluetoothGattServer mBluetoothGattServer;
     private BluetoothGattCharacteristic writeCharacteristics;
+    private CountDownLatch mWaitWriteCompleteLatch;
 
     PebbleGATTServer(PebbleLESupport pebbleLESupport, Context context, BluetoothDevice btDevice) {
         mContext = context;
@@ -52,7 +54,9 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
 
     boolean initialize() {
         BluetoothManager bluetoothManager = (BluetoothManager) mContext.getSystemService(Context.BLUETOOTH_SERVICE);
-
+        if (bluetoothManager == null) {
+            return false;
+        }
         mBluetoothGattServer = bluetoothManager.openGattServer(mContext, this);
         if (mBluetoothGattServer == null) {
             return false;
@@ -71,16 +75,20 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
     }
 
     synchronized void sendDataToPebble(byte[] data) {
-        //LOG.info("send data to pebble " + GB.hexdump(data, 0, -1));
+        mWaitWriteCompleteLatch = new CountDownLatch(1);
         writeCharacteristics.setValue(data.clone());
 
-        mBluetoothGattServer.notifyCharacteristicChanged(mBtDevice, writeCharacteristics, false);
-    }
-
-    synchronized private void sendAckToPebble(int serial) {
-        writeCharacteristics.setValue(new byte[]{(byte) (((serial << 3) | 1) & 0xff)});
-
-        mBluetoothGattServer.notifyCharacteristicChanged(mBtDevice, writeCharacteristics, false);
+        boolean success = mBluetoothGattServer.notifyCharacteristicChanged(mBtDevice, writeCharacteristics, false);
+        if (!success) {
+            LOG.error("could not send data to pebble (error writing characteristic)");
+        } else {
+            try {
+                mWaitWriteCompleteLatch.await();
+            } catch (InterruptedException e) {
+                LOG.warn("interrupted while waiting for write complete latch");
+            }
+        }
+        mWaitWriteCompleteLatch = null;
     }
 
     public void onCharacteristicReadRequest(BluetoothDevice device, int requestId, int offset, BluetoothGattCharacteristic characteristic) {
@@ -110,39 +118,7 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
             LOG.warn("unexpected write request");
             return;
         }
-        if (!mPebbleLESupport.mIsConnected) {
-            mPebbleLESupport.mIsConnected = true;
-            synchronized (mPebbleLESupport) {
-                mPebbleLESupport.notify();
-            }
-        }
-        //LOG.info("write request: offset = " + offset + " value = " + GB.hexdump(value, 0, -1));
-        int header = value[0] & 0xff;
-        int command = header & 7;
-        int serial = header >> 3;
-        if (command == 0x01) {
-            LOG.info("got ACK for serial = " + serial);
-            if (mPebbleLESupport.mPPAck != null) {
-                mPebbleLESupport.mPPAck.countDown();
-            } else {
-                LOG.warn("mPPAck countdownlatch is not present but it probably should");
-            }
-        }
-        if (command == 0x02) { // some request?
-            LOG.info("got command 0x02");
-            if (value.length > 1) {
-                sendDataToPebble(new byte[]{0x03, 0x19, 0x19}); // no we don't know what that means
-                mPebbleLESupport.createPipedInputReader(); // FIXME: maybe not here
-            } else {
-                sendDataToPebble(new byte[]{0x03}); // no we don't know what that means
-            }
-        } else if (command == 0) { // normal package
-            LOG.info("got PPoGATT package serial = " + serial + " sending ACK");
-
-            sendAckToPebble(serial);
-
-            mPebbleLESupport.writeToPipedOutputStream(value, 1, value.length - 1);
-        }
+        mPebbleLESupport.handlePPoGATTPacket(value);
     }
 
     public void onConnectionStateChange(BluetoothDevice device, int status, int newState) {
@@ -194,7 +170,19 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
     }
 
     public void onNotificationSent(BluetoothDevice bluetoothDevice, int status) {
-        //LOG.info("onNotificationSent() status = " + status + " to device " + mmBtDevice.getAddress());
+
+        if (!mPebbleLESupport.isExpectedDevice(bluetoothDevice)) {
+            return;
+        }
+        if (status != BluetoothGatt.GATT_SUCCESS) {
+            LOG.error("something went wrong when writing to PPoGATT characteristics");
+        }
+        if (mWaitWriteCompleteLatch != null) {
+            mWaitWriteCompleteLatch.countDown();
+        } else {
+            LOG.warn("mWaitWriteCompleteLatch is null!");
+        }
+//        LOG.info("onNotificationSent() status = " + status + " to device " + bluetoothDevice.getAddress());
     }
 
     void close() {

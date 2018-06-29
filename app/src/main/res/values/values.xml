@@ -19,7 +19,19 @@
     <item name="p_heart_rate" type="string">heart_rate</item>
     <item name="p_battery" type="string">battery</item>
 
+    <item name="p_menuitem_shortcut_alipay" type="string">shortcut_alipay</item>
+    <item name="p_menuitem_shortcut_weather" type="string">shortcut_weather</item>
+    <item name="p_menuitem_status" type="string">status</item>
+    <item name="p_menuitem_activity" type="string">activity</item>
+    <item name="p_menuitem_weather" type="string">weather</item>
+    <item name="p_menuitem_alarm" type="string">alarm</item>
+    <item name="p_menuitem_timer" type="string">timer</item>
+    <item name="p_menuitem_compass" type="string">compass</item>
+    <item name="p_menuitem_settings" type="string">settings</item>
+    <item name="p_menuitem_alipay" type="string">alipay</item>
+
     <item name="p_off" type="string">off</item>
+    <item name="p_on" type="string">on</item>
     <item name="p_automatic" type="string">automatic</item>
     <item name="p_scheduled" type="string">scheduled</item>
 

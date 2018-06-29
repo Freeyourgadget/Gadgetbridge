@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017 Daniele Gobbetti, protomors
+/*  Copyright (C) 2017-2018 Andreas Shimokawa, Daniele Gobbetti, protomors
 
     This file is part of Gadgetbridge.
 
@@ -299,7 +299,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onFetchActivityData() {
+    public void onFetchRecordedData(int dataTypes) {
         sendFetchCommand(No1F1Constants.CMD_FETCH_STEPS);
     }
 
@@ -582,7 +582,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             LOG.info("CRC received: " + (data[2] & 0xff) + ", calculated: " + (crc & 0xff));
             if (data[2] != crc) {
                 GB.toast(getContext(), "Incorrect CRC. Try fetching data again.", Toast.LENGTH_LONG, GB.ERROR);
-                GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
+                GB.updateTransferNotification(null,"Data transfer failed", false, 0, getContext());
                 if (getDevice().isBusy()) {
                     getDevice().unsetBusyTask();
                     getDevice().sendDeviceUpdateIntent(getContext());
@@ -612,7 +612,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     } else if (data[0] == No1F1Constants.CMD_FETCH_SLEEP) {
                         sendFetchCommand(No1F1Constants.CMD_FETCH_HEARTRATE);
                     } else {
-                        GB.updateTransferNotification("", false, 100, getContext());
+                        GB.updateTransferNotification(null,"", false, 100, getContext());
                         if (getDevice().isBusy()) {
                             getDevice().unsetBusyTask();
                             getDevice().sendDeviceUpdateIntent(getContext());
@@ -620,7 +620,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     }
                 } catch (Exception ex) {
                     GB.toast(getContext(), "Error saving activity data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-                    GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
+                    GB.updateTransferNotification(null,"Data transfer failed", false, 0, getContext());
                 }
             }
         } else {
@@ -657,7 +657,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                 firstTimestamp = sample.getTimestamp();
             int progress = startProgress + 33 * (sample.getTimestamp() - firstTimestamp) /
                     ((int) (Calendar.getInstance().getTimeInMillis() / 1000L) - firstTimestamp);
-            GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, progress, getContext());
+            GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, progress, getContext());
         }
     }
 

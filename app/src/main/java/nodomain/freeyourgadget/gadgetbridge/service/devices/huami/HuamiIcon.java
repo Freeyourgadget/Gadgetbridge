@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017 Andreas Shimokawa
+/*  Copyright (C) 2017-2018 Andreas Shimokawa, Daniele Gobbetti, Lukas
+    Veneziano
 
     This file is part of Gadgetbridge.
 
@@ -67,6 +68,8 @@ public class HuamiIcon {
             case CONVERSATIONS:
             case RIOT:
             case HIPCHAT:
+            case KONTALK:
+            case ANTOX:
                 return WECHAT;
             case GENERIC_EMAIL:
             case GMAIL:

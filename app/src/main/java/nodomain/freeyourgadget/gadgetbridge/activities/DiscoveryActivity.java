@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, JohnnySun, Lem Dulfo, Uwe Hermann
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, JohnnySun, Lem Dulfo, Taavi Eomäe, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -24,6 +24,7 @@ import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
+import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanRecord;
@@ -54,6 +55,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -66,8 +68,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-import static android.bluetooth.le.ScanSettings.MATCH_MODE_STICKY;
-import static android.bluetooth.le.ScanSettings.SCAN_MODE_LOW_LATENCY;
 
 public class DiscoveryActivity extends AbstractGBActivity implements AdapterView.OnItemClickListener {
     private static final Logger LOG = LoggerFactory.getLogger(DiscoveryActivity.class);
@@ -80,7 +80,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     private final BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            switch (intent.getAction()) {
+            switch (Objects.requireNonNull(intent.getAction())) {
                 case BluetoothAdapter.ACTION_DISCOVERY_STARTED:
                     if (isScanning != Scanning.SCANNING_BTLE && isScanning != Scanning.SCANNING_NEW_BTLE) {
                         discoveryStarted(Scanning.SCANNING_BT);
@@ -105,9 +105,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
                     });
                     break;
                 case BluetoothAdapter.ACTION_STATE_CHANGED:
-                    int oldState = intent.getIntExtra(BluetoothAdapter.EXTRA_PREVIOUS_STATE, BluetoothAdapter.STATE_OFF);
                     int newState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.STATE_OFF);
-                    bluetoothStateChanged(oldState, newState);
+                    bluetoothStateChanged(newState);
                     break;
                 case BluetoothDevice.ACTION_FOUND: {
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
@@ -119,7 +118,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     short rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, GBDevice.RSSI_UNKNOWN);
                     Parcelable[] uuids = intent.getParcelableArrayExtra(BluetoothDevice.EXTRA_UUID);
-                    ParcelUuid[] uuids2 = AndroidUtils.toParcelUUids(uuids);
+                    ParcelUuid[] uuids2 = AndroidUtils.toParcelUuids(uuids);
                     handleDeviceFound(device, rssi, uuids2);
                     break;
                 }
@@ -265,7 +264,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_discovery);
-        startButton = (Button) findViewById(R.id.discovery_start);
+        startButton = findViewById(R.id.discovery_start);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -273,11 +272,11 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             }
         });
 
-        progressView = (ProgressBar) findViewById(R.id.discovery_progressbar);
+        progressView = findViewById(R.id.discovery_progressbar);
         progressView.setProgress(0);
         progressView.setIndeterminate(true);
         progressView.setVisibility(View.GONE);
-        ListView deviceCandidatesView = (ListView) findViewById(R.id.discovery_deviceCandidatesView);
+        ListView deviceCandidatesView = findViewById(R.id.discovery_deviceCandidatesView);
 
         cadidateListAdapter = new DeviceCandidateAdapter(this, deviceCandidates);
         deviceCandidatesView.setAdapter(cadidateListAdapter);
@@ -443,10 +442,15 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void stopNewBTLEDiscovery() {
-        adapter.getBluetoothLeScanner().stopScan(newLeScanCallback);
+        BluetoothLeScanner bluetoothLeScanner = adapter.getBluetoothLeScanner();
+        if (bluetoothLeScanner == null) {
+            LOG.warn("could not get BluetoothLeScanner()!");
+            return;
+        }
+        bluetoothLeScanner.stopScan(newLeScanCallback);
     }
 
-    private void bluetoothStateChanged(int oldState, int newState) {
+    private void bluetoothStateChanged(int newState) {
         discoveryFinished();
         if (newState == BluetoothAdapter.STATE_ON) {
             this.adapter = BluetoothAdapter.getDefaultAdapter();
@@ -530,12 +534,12 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     private ScanSettings getScanSettings() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return new ScanSettings.Builder()
-                    .setScanMode(SCAN_MODE_LOW_LATENCY)
-                    .setMatchMode(MATCH_MODE_STICKY)
+                    .setScanMode(android.bluetooth.le.ScanSettings.SCAN_MODE_LOW_LATENCY)
+                    .setMatchMode(android.bluetooth.le.ScanSettings.MATCH_MODE_STICKY)
                     .build();
         } else {
             return new ScanSettings.Builder()
-                    .setScanMode(SCAN_MODE_LOW_LATENCY)
+                    .setScanMode(android.bluetooth.le.ScanSettings.SCAN_MODE_LOW_LATENCY)
                     .build();
         }
     }
@@ -609,6 +613,16 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             } catch (Exception e) {
                 LOG.error("Error pairing device: " + deviceCandidate.getMacAddress());
             }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopBTDiscovery();
+        stopBTLEDiscovery();
+        if (GB.supportsBluetoothLE()) {
+            stopNewBTLEDiscovery();
         }
     }
 }

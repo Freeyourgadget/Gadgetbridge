@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -23,7 +23,7 @@ import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor.AmazfitCorFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.AmazfitBipSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
 
 public class AmazfitCorSupport extends AmazfitBipSupport {
 

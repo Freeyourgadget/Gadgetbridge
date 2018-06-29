@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Julien
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Julien
     Pivotto, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
@@ -180,7 +180,7 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     }
 
     @Override
-    public void onFetchActivityData() {
+    public void onFetchRecordedData(int dataTypes) {
         byte[] bytes = gbDeviceProtocol.encodeSynchronizeActivityData();
         sendToDevice(bytes);
     }

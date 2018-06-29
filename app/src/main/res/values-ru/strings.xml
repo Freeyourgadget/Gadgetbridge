@@ -28,7 +28,7 @@
   <string name="appmananger_app_delete">Удалить</string>
   <string name="appmananger_app_delete_cache">Удалить и очистить кеш</string>
   <string name="appmananger_app_reinstall">Переустановка</string>
-  <string name="appmanager_app_openinstore">Искать в Pebble Appstore</string>
+  <string name="appmanager_app_openinstore">Искать в магазине Pebble</string>
   <string name="appmanager_health_activate">Активировать</string>
   <string name="appmanager_health_deactivate">Деактивировать</string>
   <string name="appmanager_hrm_activate">Включить монитор сердечного ритма</string>
@@ -53,8 +53,8 @@
   <string name="pref_header_general">Общие настройки</string>
   <string name="pref_title_general_autoconnectonbluetooth">Подключение к устройству при активации Bluetooth</string>
   <string name="pref_title_general_autostartonboot">Запускать автоматически</string>
-  <string name="pref_title_general_autocreonnect">Переподключаться автоматически</string>
-  <string name="pref_title_audo_player">Предпочтительный музыкальный плеер</string>
+  <string name="pref_title_general_autoreconnect">Переподключаться автоматически</string>
+  <string name="pref_title_audio_player">Предпочтительный музыкальный плеер</string>
   <string name="pref_default">По умолчанию</string>
   <string name="pref_header_datetime">Дата и время</string>
   <string name="pref_title_datetime_syctimeonconnect">Синхронизировать время при подключении</string>
@@ -299,7 +299,7 @@
   <string name="dateformat_time">Время</string>
   <string name="dateformat_date_time">Время и дата</string>
   <string name="mi2_prefs_activate_display_on_lift">Активировать экран при подъёме</string>
-  <string name="FetchActivityOperation_about_to_transfer_since">Готов к передачи данных с %1$s</string>
+  <string name="FetchActivityOperation_about_to_transfer_since">Готов к передаче данных с %1$s</string>
   <string name="waiting_for_reconnect">Ожидание переподключения</string>
   <string name="activity_prefs_about_you">Ваши данные</string>
   <string name="activity_prefs_year_birth">Год рождения</string>
@@ -466,4 +466,19 @@
     <string name="interval_thirty_minutes">раз в полчаса</string>
     <string name="interval_one_hour">раз в час</string>
 
+    <string name="pref_title_weather">Погода</string>
+    <string name="notif_export_failed_title">Ошибка экспорта базы данных! Пожалуйста, проверьте настройки.</string>
+    <string name="activity_type_light_sleep">Быстрый сон</string>
+    <string name="activity_type_deep_sleep">Глубокий сон</string>
+    <string name="activity_type_not_worn">Устройство не надето</string>
+    <string name="activity_type_running">Бег</string>
+    <string name="activity_type_walking">Прогулка</string>
+    <string name="activity_type_swimming">Плавание</string>
+    <string name="kind_font">Шрифт</string>
+    <string name="kind_watchface">Циферблат</string>
+
+    <string name="menuitem_status">Статус</string>
+    <string name="menuitem_weather">Погода</string>
+    <string name="menuitem_compass">Компас</string>
+    <string name="menuitem_settings">Настройки</string>
     </resources>
