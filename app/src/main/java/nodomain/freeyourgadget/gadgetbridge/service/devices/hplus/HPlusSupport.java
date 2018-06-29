@@ -539,7 +539,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onFetchActivityData() {
+    public void onFetchRecordedData(int dataTypes) {
 
         if (syncHelper == null){
             syncHelper = new HPlusHandlerThread(gbDevice, getContext(), this);

@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2018 Alberto, Carsten Pfeiffer, Daniele Gobbetti
+/*  Copyright (C) 2017-2018 Alberto, Carsten Pfeiffer, Daniele Gobbetti,
+    Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -130,7 +131,14 @@ public class ImportExportSharedPreferences {
                             for (int z=0;z<text.split(",").length;z++){
                                 apps_blacklist.add(text.split(",")[z].trim());
                             }
-                            GBApplication.setAppsBlackList(apps_blacklist);
+                            GBApplication.setAppsNotifBlackList(apps_blacklist);
+                        } else if (key.equals(GBPrefs.PACKAGE_PEBBLEMSG_BLACKLIST)) { //TODO: untested
+                            Set<String> apps_pebble_blacklist = new HashSet<>();
+                            text=text.replace("[","").replace("]","");
+                            for (int z=0;z<text.split(",").length;z++){
+                                apps_pebble_blacklist.add(text.split(",")[z].trim());
+                            }
+                            GBApplication.setAppsPebbleBlackList(apps_pebble_blacklist);
                         } else if (key.equals(GBPrefs.CALENDAR_BLACKLIST)) { //TODO: untested
                             Set<String> calendars_blacklist = new HashSet<>();
                             text = text.replace("[", "").replace("]", "");

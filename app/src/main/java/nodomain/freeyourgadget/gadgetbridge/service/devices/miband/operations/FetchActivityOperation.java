@@ -236,12 +236,12 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
         // avoid too many notifications overloading the system
         if (progress - activityStruct.lastNotifiedProgress >= 8) {
             activityStruct.lastNotifiedProgress = progress;
-            GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, progress, getContext());
+            GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, progress, getContext());
         }
 
         if (activityStruct.isBlockFinished()) {
             sendAckDataTransfer(activityStruct.activityDataTimestampToAck, activityStruct.activityDataUntilNextHeader);
-            GB.updateTransferNotification("", false, 100, getContext());
+            GB.updateTransferNotification(null, "", false, 100, getContext());
         }
     }
 
@@ -271,9 +271,10 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
         // as we just did
 
         if (activityStruct.isFirstChunk() && dataUntilNextHeader != 0) {
-            GB.toast(getContext().getString(R.string.user_feedback_miband_activity_data_transfer,
+
+            GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), getContext().getString(R.string.user_feedback_miband_activity_data_transfer,
                     DateTimeUtils.formatDurationHoursMinutes((totalDataToRead / getBytesPerMinuteOfActivityData()), TimeUnit.MINUTES),
-                    DateFormat.getDateTimeInstance().format(timestamp.getTime())), Toast.LENGTH_LONG, GB.INFO);
+                    DateFormat.getDateTimeInstance().format(timestamp.getTime())), true, 0, getContext());
         }
         LOG.info("total data to read: " + totalDataToRead + " len: " + (totalDataToRead / getBytesPerMinuteOfActivityData()) + " minute(s)");
         LOG.info("data to read until next header: " + dataUntilNextHeader + " len: " + (dataUntilNextHeader / getBytesPerMinuteOfActivityData()) + " minute(s)");
@@ -326,7 +327,7 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
                 TransactionBuilder builder = performInitialized("send stop sync data");
                 builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_STOP_SYNC_DATA});
                 builder.queue(getQueue());
-                GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
+                GB.updateTransferNotification(null,"Data transfer failed", false, 0, getContext());
                 handleActivityFetchFinish();
 
             } catch (IOException e) {

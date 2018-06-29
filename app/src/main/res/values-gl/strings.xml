@@ -555,4 +555,30 @@
     <string name="devicetype_xwatch">XWatch</string>
 
     <string name="notification_channel_name">Notificacións do Gadgetbridge</string>
+<string name="on">Aceso</string>
+    <string name="controlcenter_start_activity_tracks">Os teus rexistros de actividade</string>
+    <string name="activity_type_not_measured">Sen medir</string>
+    <string name="activity_type_activity">Actividade</string>
+    <string name="activity_type_light_sleep">Sono leve</string>
+    <string name="activity_type_deep_sleep">Sono profundo</string>
+    <string name="activity_type_not_worn">Dispositivo non usado</string>
+    <string name="activity_type_running">Carreira</string>
+    <string name="activity_type_walking">Paseo</string>
+    <string name="activity_type_swimming">Natación</string>
+    <string name="activity_type_unknown">Actividade descoñecida</string>
+    <string name="activity_summaries">Actividades</string>
+    <string name="activity_type_biking">Ciclismo</string>
+    <string name="activity_type_treadmill">Fita de correr</string>
+    <string name="select_all">Seleccionar todas</string>
+    <string name="share">Compartir</string>
+    <string name="reset_index">Restablecer a data de obtención</string>
+
+    <string name="menuitem_status">Estado</string>
+    <string name="menuitem_activity">Actividade</string>
+    <string name="menuitem_weather">Meteoroloxía</string>
+    <string name="menuitem_alarm">Alarma</string>
+    <string name="menuitem_timer">Cronómetro</string>
+    <string name="menuitem_compass">Compás</string>
+    <string name="menuitem_settings">Axustes</string>
+    <string name="menuitem_alipay">Alipay</string>
 </resources>

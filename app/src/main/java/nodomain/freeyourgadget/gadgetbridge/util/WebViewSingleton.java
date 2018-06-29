@@ -190,7 +190,7 @@ public class WebViewSingleton {
                     webView.loadUrl("file:///android_asset/app_config/configure.html?rand=" + Math.random() * 500);
                 }
             });
-            if (!internetHelperBound && !internetHelperInstalled) {
+            if (contextWrapper != null && !internetHelperBound && !internetHelperInstalled) {
                 String internetHelperPkg = "nodomain.freeyourgadget.internethelper";
                 String internetHelperCls = internetHelperPkg + ".MyService";
                 try {

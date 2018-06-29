@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="app_name">Gadgetbridge</string>
+
+    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="action_settings">Nustatymai</string>
+    <string name="action_debug">Šalinti riktus</string>
+    <string name="action_quit">Išeiti</string>
+    <string name="action_donate">Aukoti</string>
+    <string name="controlcenter_fetch_activity_data">Sinchronizuoti</string>
+    <string name="controlcenter_find_device">Surasti pamestą įrenginį</string>
+    <string name="controlcenter_take_screenshot">Padaryti ekrano nuotrauką</string>
+    <string name="controlcenter_connect">Prijungti</string>
+    <string name="controlcenter_disconnect">Atjungti</string>
+    <string name="controlcenter_delete_device">Ištrinti įrenginį</string>
+    <string name="controlcenter_delete_device_name">Ištrinti %1$s</string>
+    <string name="controlcenter_delete_device_dialogmessage">Šiuo veiksmu ištrinsite įrenginį ir visus jo sukauptus duomenis</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Daroma įrenginio ekrano nuotrauka</string>
+
+
+    <string name="appmanager_installed_watchfaces">Įdiegti laikrodžio stiliai</string>
+    <string name="menuitem_weather">Oras</string>
+    <string name="menuitem_alarm">Žadintuvas</string>
+    <string name="menuitem_timer">Laikmatis</string>
+    <string name="menuitem_compass">Kompasas</string>
+    <string name="menuitem_settings">Nustatymai</string>
+    <string name="menuitem_alipay">Alipay</string>
+<string name="controlcenter_navigation_drawer_open">Atverti programos meniu</string>
+    <string name="controlcenter_navigation_drawer_close">Užverti programos meniu</string>
+    <string name="controlcenter_snackbar_need_longpress">Norėdami atjungti ilgai spauskite kortelę</string>
+    <string name="controlcenter_snackbar_disconnecting">Atjungiama</string>
+    <string name="controlcenter_snackbar_connecting">Jungiama</string>
+    <string name="title_activity_debug">Derinti</string>
+
+    <string name="title_activity_appmanager">Programų tvarkyklė</string>
+    <string name="appmanager_cached_watchapps_watchfaces">Programos talpykloje</string>
+    <string name="appmanager_installed_watchapps">Įdiegtos programos</string>
+    <string name="appmananger_app_delete">Ištrinti</string>
+    <string name="appmananger_app_delete_cache">Ištrinti ir pašalinti iš talpyklos</string>
+    <string name="appmananger_app_reinstall">Įdiegti iš naujo</string>
+    <string name="appmanager_app_openinstore">Ieškoti \"Pebble\" programų parduotuvėje</string>
+    <string name="appmanager_health_activate">Įjungti</string>
+    <string name="appmanager_health_deactivate">Išjungti</string>
+    <string name="appmanager_hrm_activate">Įjungti širdies ritmo stebėjimą</string>
+    <string name="appmanager_hrm_deactivate">Išjungti širdies ritmo stebėjimą</string>
+    <string name="appmanager_weather_activate">Įjungti sistemos orų prognozės programą</string>
+    <string name="appmanager_weather_deactivate">Išjungti sistemos orų prognozės programą</string>
+    <string name="appmanager_weather_install_provider">Įdiegti orų prognozės pranešimų programą</string>
+    <string name="app_configure">Konfigūruoti</string>
+    <string name="app_move_to_top">Perkelti į viršų</string>
+
+    <string name="title_activity_appblacklist">Pranešimų juodasis sąrašas</string>
+
+    <string name="title_activity_calblacklist">Kalendorių juodasis sąrašas</string>
+
+    <string name="title_activity_fw_app_insaller">FW/Programų diegyklė</string>
+    <string name="devicetype_test">Išbandyti įrenginį</string>
+    <string name="devicetype_pebble">Pebble</string>
+    <string name="devicetype_miband">Mi Band</string>
+    <string name="devicetype_miband2">Mi Band 2</string>
+    <string name="devicetype_amazfit_bip">Amazfit Bip</string>
+    <string name="devicetype_amazfit_cor">Amazfit Cor</string>
+    <string name="devicetype_vibratissimo">Vibratissimo</string>
+    <string name="devicetype_liveview">LiveView</string>
+    <string name="devicetype_hplus">HPlus</string>
+    <string name="devicetype_makibes_f68">Makibes F68</string>
+    <string name="devicetype_exrizu_k8">Exrizu K8</string>
+    <string name="menuitem_activity">Veikla</string>
+    </resources>

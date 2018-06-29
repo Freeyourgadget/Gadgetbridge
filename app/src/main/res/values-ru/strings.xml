@@ -299,7 +299,7 @@
   <string name="dateformat_time">Время</string>
   <string name="dateformat_date_time">Время и дата</string>
   <string name="mi2_prefs_activate_display_on_lift">Активировать экран при подъёме</string>
-  <string name="FetchActivityOperation_about_to_transfer_since">Готов к передачи данных с %1$s</string>
+  <string name="FetchActivityOperation_about_to_transfer_since">Готов к передаче данных с %1$s</string>
   <string name="waiting_for_reconnect">Ожидание переподключения</string>
   <string name="activity_prefs_about_you">Ваши данные</string>
   <string name="activity_prefs_year_birth">Год рождения</string>
@@ -467,4 +467,18 @@
     <string name="interval_one_hour">раз в час</string>
 
     <string name="pref_title_weather">Погода</string>
+    <string name="notif_export_failed_title">Ошибка экспорта базы данных! Пожалуйста, проверьте настройки.</string>
+    <string name="activity_type_light_sleep">Быстрый сон</string>
+    <string name="activity_type_deep_sleep">Глубокий сон</string>
+    <string name="activity_type_not_worn">Устройство не надето</string>
+    <string name="activity_type_running">Бег</string>
+    <string name="activity_type_walking">Прогулка</string>
+    <string name="activity_type_swimming">Плавание</string>
+    <string name="kind_font">Шрифт</string>
+    <string name="kind_watchface">Циферблат</string>
+
+    <string name="menuitem_status">Статус</string>
+    <string name="menuitem_weather">Погода</string>
+    <string name="menuitem_compass">Компас</string>
+    <string name="menuitem_settings">Настройки</string>
     </resources>

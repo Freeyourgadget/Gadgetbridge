@@ -28,12 +28,12 @@
             android:defaultValue="@string/pref_theme_value_light"
             android:summary="%s" />
         <ListPreference
-            android:key="language"
-            android:title="@string/pref_title_language"
+            android:defaultValue="default"
             android:entries="@array/pref_language_options"
             android:entryValues="@array/pref_language_values"
-            android:defaultValue="default"
-            android:summary="%s" />
+            android:key="language"
+            android:summary="%s"
+            android:title="@string/pref_title_language" />
         <ListPreference
             android:defaultValue="metric"
             android:entries="@array/pref_entries_unit_system"
@@ -193,6 +193,14 @@
                 android:key="amazfitbip_language"
                 android:summary="%s"
                 android:title="@string/pref_title_language" />
+            <MultiSelectListPreference
+                android:dialogTitle="@string/mi2_prefs_display_items"
+                android:defaultValue="@array/pref_bip_display_items_default"
+                android:entries="@array/pref_bip_display_items"
+                android:entryValues="@array/pref_bip_display_items_values"
+                android:key="bip_display_items"
+                android:summary="@string/mi2_prefs_display_items_summary"
+                android:title="@string/mi2_prefs_display_items"/>
         </PreferenceScreen>
         <PreferenceScreen
             android:icon="@drawable/ic_device_pebble"
@@ -431,6 +439,11 @@
                     android:summary="@string/pref_summary_pebble_mtu_limit" />
                 <CheckBoxPreference
                     android:defaultValue="false"
+                    android:key="pebble_gatt_clientonly"
+                    android:title="@string/pref_title_pebble_gatt_clientonly"
+                    android:summary="@string/pref_summary_pebble_gatt_clientonly" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
                     android:key="pebble_enable_applogs"
                     android:summary="@string/pref_summary_pebble_enable_applogs"
                     android:title="@string/pref_title_pebble_enable_applogs" />
@@ -514,6 +527,16 @@
             android:title="@string/pref_title_auto_export_interval"
             android:summary="@string/pref_summary_auto_export_interval"/>
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Auto fetch">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="auto_fetch_enabled"
+            android:title="@string/pref_auto_fetch"
+            android:summary="@string/pref_auto_fetch_summary"/>
+    </PreferenceCategory>
+
     <PreferenceCategory
         android:key="pref_key_development"
         android:title="@string/pref_header_development">

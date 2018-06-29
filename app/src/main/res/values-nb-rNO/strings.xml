@@ -62,7 +62,7 @@
 \n 
 \nMerk: Du må ikke installere .res og .gps hvis disse er akkurat de samme som dem som allerede er installert. 
 \n 
-\nUTESTET, KAN HAVARERE ENHETEN DIN, FORTSETT PÅ EGEN RISIKO!</string>
+\nFORTSETT PÅ EGEN RISIKO!</string>
     <string name="fw_multi_upgrade_notice">Du er i ferd med å installere %1$s- og %2$s-fastvarene isteden for dem som er installert nå på ditt Mi Band.</string>
     <string name="miband_firmware_known">Denne fastvaren har blitt testet og er kompatibel med Gadgetbru.</string>
     <string name="miband_firmware_unknown_warning">Denne fastvaren er utestet og er kanskje ikke kompatibel med Gadgetbru. 
@@ -553,5 +553,52 @@
 
     <string name="notification_channel_name">Gadgetbridge-merknader</string>
 <string name="devicetype_xwatch">XWatch</string>
+
+    <string name="on">På</string>
+    <string name="controlcenter_start_activity_tracks">Dine aktivitetsspor</string>
+    <string name="activity_type_not_measured">Ikke målt</string>
+    <string name="activity_type_activity">Aktivitet</string>
+    <string name="activity_type_light_sleep">Lett søvn</string>
+    <string name="activity_type_deep_sleep">Dyp søvn</string>
+    <string name="activity_type_not_worn">Enhet ikke båret</string>
+    <string name="activity_type_running">Springing</string>
+    <string name="activity_type_walking">Gåing</string>
+    <string name="activity_type_swimming">Svømming</string>
+    <string name="activity_type_unknown">Ukjent aktivitet</string>
+    <string name="activity_summaries">Aktiviteter</string>
+    <string name="activity_type_biking">Sykling</string>
+    <string name="activity_type_treadmill">Tredemølle</string>
+    <string name="select_all">Velg alle</string>
+    <string name="share">Del</string>
+    <string name="reset_index">Tilbakestill innhentingsdato</string>
+
+    <string name="menuitem_status">Status</string>
+    <string name="menuitem_activity">Aktivitet</string>
+    <string name="menuitem_weather">Vær</string>
+    <string name="menuitem_alarm">Alarm</string>
+    <string name="menuitem_timer">Tidsur</string>
+    <string name="menuitem_compass">Kompass</string>
+    <string name="menuitem_settings">Innstillinger</string>
+    <string name="menuitem_alipay">Alipay</string>
+<string name="pref_title_pebble_gatt_clientonly">Kun GATT-klient</string>
+    <string name="pref_summary_pebble_gatt_clientonly">Dette er kun for Pebble 2 og eksperimentelt, prøv dette hvis du har tilkoblingsproblemer</string>
+    <string name="menuitem_shortcut_alipay">Alipay (snarvei)</string>
+    <string name="menuitem_shortcut_weather">Vær (snarvei)</string>
+    <string name="fw_upgrade_notice_miband3">Du er i ferd med å installere %s-fastvaren på din Mi Band 3.
+\n
+\nInstaler først .fw-fila, og dernest .res-fila. Klokka di vil starte på nytt etter at du installerer .fw-fila.
+\n
+\nMerk: Du trenger ikke å installere .res hvis du har akkurat den samme installert.
+\n
+\nUTESTET, KAN HAVARERE ENHETEN, FORTSETT PÅ EGEN RISIKO!</string>
+    <string name="devicetype_miband3">Mi Band 3</string>
+    <string name="devicetype_q8">Q8</string>
+    <string name="blacklist_all_for_notifications">Svartelist merknader fra alle disse</string>
+    <string name="whitelist_all_for_notifications">Hvitlist merknader fra alle disse</string>
+
+
+    <string name="pref_auto_fetch">Hent aktivitetsdata automatisk</string>
+
+    <string name="pref_auto_fetch_summary">Henting skjer ved skjermopplåsing, og fungerer kun hvis en låsemekanisme er valgt!</string>
 
     </resources>

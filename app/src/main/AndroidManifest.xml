@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <uses-permission android:name="cyanogenmod.permission.ACCESS_WEATHER_MANAGER" />
@@ -59,6 +60,10 @@
             android:name=".devices.miband.MiBandPreferencesActivity"
             android:label="@string/preferences_miband_settings"
             android:parentActivityName=".activities.SettingsActivity" />
+        <activity
+            android:name=".activities.ActivitySummariesActivity"
+            android:label="@string/activity_summaries"
+            android:parentActivityName=".activities.ControlCenterv2" />
         <activity
             android:launchMode="singleTop"
             android:name=".activities.appmanager.AppManagerActivity"
@@ -415,7 +420,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/screenshot_provider_paths"/>
+                android:resource="@xml/shared_paths" />
         </provider>
 
         <receiver android:name=".SleepAlarmWidget">

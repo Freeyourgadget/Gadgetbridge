@@ -1,6 +1,7 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Avamander, Carsten Pfeiffer,
     Daniele Gobbetti, Daniel Hauck, Frank Slezak, ivanovlev, João Paulo Barraca,
-    Julien Pivotto, Kasha, Sergey Trofimov, Steffen Liebergeld, Uwe Hermann
+    Julien Pivotto, Kasha, Sergey Trofimov, Steffen Liebergeld, Taavi Eomäe,
+    Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -69,6 +70,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBAutoFetchReceiver;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
@@ -86,7 +88,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DI
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_REALTIME_STEPS;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_FETCH_ACTIVITY_DATA;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_FETCH_RECORDED_DATA;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_FIND_DEVICE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_HEARTRATE_TEST;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_INSTALL;
@@ -150,6 +152,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOT
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_SUBJECT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_TITLE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_TYPE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_RECORDED_DATA_TYPES;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_URI;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_VIBRATION_INTENSITY;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER;
@@ -173,6 +176,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private BluetoothConnectReceiver mBlueToothConnectReceiver = null;
     private BluetoothPairingRequestReceiver mBlueToothPairingRequestReceiver = null;
     private AlarmClockReceiver mAlarmClockReceiver = null;
+    private GBAutoFetchReceiver mGBAutoFetchReceiver = null;
 
     private AlarmReceiver mAlarmReceiver = null;
     private CalendarReceiver mCalendarReceiver = null;
@@ -216,7 +220,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     mGBDevice = device;
                     boolean enableReceivers = mDeviceSupport != null && (mDeviceSupport.useAutoConnect() || mGBDevice.isInitialized());
                     setReceiversEnableState(enableReceivers, mGBDevice.isInitialized(), DeviceHelper.getInstance().getCoordinator(device));
-                    GB.updateNotification(mGBDevice, context);
                 } else {
                     LOG.error("Got ACTION_DEVICE_CHANGED from unexpected device: " + device);
                 }
@@ -401,17 +404,19 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mDeviceSupport.onHeartRateTest();
                 break;
             }
-            case ACTION_FETCH_ACTIVITY_DATA: {
-                mDeviceSupport.onFetchActivityData();
+            case ACTION_FETCH_RECORDED_DATA: {
+                int dataTypes = intent.getIntExtra(EXTRA_RECORDED_DATA_TYPES, 0);
+                mDeviceSupport.onFetchRecordedData(dataTypes);
                 break;
             }
             case ACTION_DISCONNECT: {
                 mDeviceSupport.dispose();
-                if (mGBDevice != null && mGBDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
-                    setReceiversEnableState(false, false, null);
+                if (mGBDevice != null) {
                     mGBDevice.setState(GBDevice.State.NOT_CONNECTED);
                     mGBDevice.sendDeviceUpdateIntent(this);
                 }
+                setReceiversEnableState(false, false, null);
+                mGBDevice = null;
                 mDeviceSupport = null;
                 break;
             }
@@ -674,6 +679,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     //Nothing wrong, it just means we're not running on omnirom.
                 }
             }
+            if (GBApplication.getPrefs().getBoolean("auto_fetch_enabled", false) &&
+                    coordinator != null && coordinator.supportsActivityDataFetching()) {
+                mGBAutoFetchReceiver = new GBAutoFetchReceiver();
+                registerReceiver(mGBAutoFetchReceiver, new IntentFilter("android.intent.action.USER_PRESENT"));
+            }
         } else {
             if (mPhoneCallReceiver != null) {
                 unregisterReceiver(mPhoneCallReceiver);
@@ -714,6 +724,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             }
             if (mOmniJawsObserver != null) {
                 getContentResolver().unregisterContentObserver(mOmniJawsObserver);
+            }
+            if (mGBAutoFetchReceiver != null) {
+                unregisterReceiver(mGBAutoFetchReceiver);
+                mGBAutoFetchReceiver = null;
             }
         }
     }

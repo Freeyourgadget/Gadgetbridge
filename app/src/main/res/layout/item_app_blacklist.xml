@@ -6,25 +6,40 @@
     android:minHeight="60dp">
 
 
-    <CheckBox
+    <android.support.v7.widget.AppCompatCheckedTextView
         android:id="@+id/item_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:clickable="false"
-        android:focusable="false" />
+        android:textColor="@color/blacklist_checkboxes"
+        android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+        android:text="NOTIF"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <android.support.v7.widget.AppCompatCheckedTextView
+        android:id="@+id/item_pebble_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@+id/item_checkbox"
+        android:textColor="@color/blacklist_checkboxes"
+        android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+        android:text="PEBBLE"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <ImageView
         android:id="@+id/item_image"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_centerVertical="true"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_toEndOf="@+id/item_checkbox"
+        android:layout_toEndOf="@+id/item_pebble_checkbox"
         android:paddingBottom="8dp"
         android:paddingTop="8dp" />
 

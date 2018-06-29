@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Felix
-    Konstantin Maurer, JohnnySun
+    Konstantin Maurer, JohnnySun, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -309,5 +309,15 @@ public class FileUtils {
             }
         }
         throw new IOException("Cannot create temporary directory in " + parent);
+    }
+
+    /**
+     * Replaces some wellknown invalid characters in the given filename
+     * to underscrores.
+     * @param name the file name to make valid
+     * @return the valid file name
+     */
+    public static String makeValidFileName(String name) {
+        return name.replaceAll("\0/:\\r\\n\\\\", "_");
     }
 }

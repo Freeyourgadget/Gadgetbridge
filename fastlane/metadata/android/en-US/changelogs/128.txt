@@ -1,0 +1,1 @@
+* Amazfit Bip: Time and timezone fixes for Android <=6 when exporting GPX

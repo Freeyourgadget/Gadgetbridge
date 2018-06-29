@@ -1,0 +1,2 @@
+* Amazfit Bip: Initial support for GPS tracks
+* Pebble: Wind speed/direction support and bugfixes for weather when using background javascript
