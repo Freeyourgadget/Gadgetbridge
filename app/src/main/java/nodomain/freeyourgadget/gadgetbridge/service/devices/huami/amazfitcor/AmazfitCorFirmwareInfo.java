@@ -50,6 +50,10 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(64977, "RES 1.0.6.76");
         crcToVersion.put(60501, "RES 1.0.7.52-71");
         crcToVersion.put(31263, "RES 1.0.7.77-91");
+
+        // font
+        crcToVersion.put(61054, "8");
+        crcToVersion.put(62291, "9 (Latin)");
     }
 
     public AmazfitCorFirmwareInfo(byte[] bytes) {
@@ -80,7 +84,13 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
         if (ArrayUtils.startsWith(bytes, WATCHFACE_HEADER)) {
             return HuamiFirmwareType.WATCHFACE;
         }
-
+        if (ArrayUtils.startsWith(bytes, NEWFT_HEADER)) {
+            if (bytes[10] == 0x01) {
+                return HuamiFirmwareType.FONT;
+            } else if (bytes[10] == 0x02) {
+                return HuamiFirmwareType.FONT_LATIN;
+            }
+        }
         return HuamiFirmwareType.INVALID;
     }
 
