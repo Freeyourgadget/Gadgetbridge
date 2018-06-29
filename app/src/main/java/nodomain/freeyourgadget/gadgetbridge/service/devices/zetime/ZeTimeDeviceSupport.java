@@ -170,7 +170,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onFetchActivityData() {
+    public void onFetchRecordedData(int dataTypes) {
         try {
             TransactionBuilder builder = performInitialized("fetchActivityData");
             requestActivityInfo(builder);
@@ -515,15 +515,15 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             provider.addGBActivitySample(sample);
         } catch (Exception ex) {
             GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-            GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
+            GB.updateTransferNotification(null,"Data transfer failed", false, 0, getContext());
         }
 
         progressSteps = msg[5] + msg[6] * 256;
-        GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSteps *100 / availableStepsData), getContext());
+        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSteps *100 / availableStepsData), getContext());
         if (progressSteps == availableStepsData) {
             progressSteps = 0;
             availableStepsData = 0;
-            GB.updateTransferNotification("", false, 100, getContext());
+            GB.updateTransferNotification(null,"", false, 100, getContext());
             if (getDevice().isBusy()) {
                 getDevice().unsetBusyTask();
                 getDevice().sendDeviceUpdateIntent(getContext());
@@ -558,15 +558,15 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             provider.addGBActivitySample(sample);
         } catch (Exception ex) {
             GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-            GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
+            GB.updateTransferNotification(null,"Data transfer failed", false, 0, getContext());
         }
 
         progressSteps = msg[5] + msg[6] * 256;
-        GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSteps *100 / availableSleepData), getContext());
+        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSteps *100 / availableSleepData), getContext());
         if (progressSteps == availableStepsData) {
             progressSteps = 0;
             availableSleepData = 0;
-            GB.updateTransferNotification("", false, 100, getContext());
+            GB.updateTransferNotification(null,"", false, 100, getContext());
             if (getDevice().isBusy()) {
                 getDevice().unsetBusyTask();
                 getDevice().sendDeviceUpdateIntent(getContext());
@@ -587,15 +587,15 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             provider.addGBActivitySample(sample);
         } catch (Exception ex) {
             GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-            GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
+            GB.updateTransferNotification(null,"Data transfer failed", false, 0, getContext());
         }
 
         progressSteps = msg[5] + msg[6] * 256;
-        GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSteps *100 / availableHeartRateData), getContext());
+        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSteps *100 / availableHeartRateData), getContext());
         if (progressSteps == availableStepsData) {
             progressSteps = 0;
             availableHeartRateData = 0;
-            GB.updateTransferNotification("", false, 100, getContext());
+            GB.updateTransferNotification(null,"", false, 100, getContext());
             if (getDevice().isBusy()) {
                 getDevice().unsetBusyTask();
                 getDevice().sendDeviceUpdateIntent(getContext());
