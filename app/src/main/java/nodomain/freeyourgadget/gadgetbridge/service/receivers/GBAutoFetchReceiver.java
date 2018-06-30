@@ -20,20 +20,22 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.time.DateUtils;
+import java.util.Date;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 
 
 public class GBAutoFetchReceiver extends BroadcastReceiver {
-    private static final Logger LOG = LoggerFactory.getLogger(GBAutoFetchReceiver.class);
+    private Date lastSync = new Date();
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        //LOG.info("User is present!");
-        GBApplication.deviceService().onFetchRecordedData(RecordedDataTypes.TYPE_ACTIVITY);
+        Date nextSync = DateUtils.addMinutes(lastSync, GBApplication.getPrefs().getInt("auto_fetch_interval_limit", 0));
+        if (nextSync.before(new Date())) {
+            GBApplication.deviceService().onFetchRecordedData(RecordedDataTypes.TYPE_ACTIVITY);
+            lastSync = new Date();
+        }
     }
 }
-
