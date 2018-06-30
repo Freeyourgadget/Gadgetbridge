@@ -31,22 +31,22 @@
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">Встановлення мікропрограми</string>
   <string name="fw_upgrade_notice">Ви збираєтесь встановити мікропрограму %s на заміну поточній Вашого Mi–Band.</string>
-  <string name="fw_multi_upgrade_notice">Ви збираєтесь встановити мікропрограми %1$s та %2$s на заміну поточній Вашого Mi–Band.</string>
+  <string name="fw_multi_upgrade_notice">Ви збираєтесь встановити прошивки %1$s та %2$s на заміну поточній вашого Mi Band.</string>
   <string name="miband_firmware_known">Ця мікропрограма була перевірена на сумісність із Gadgetbridge.</string>
-  <string name="miband_firmware_unknown_warning">Ця мікропрограма не перевірялася і може бути не сумісною із Gadgetbridge.
-\n
-\nНе рекомендується встановлювати її на Ваш Mi–Band!</string>
-  <string name="miband_firmware_suggest_whitelist">Якщо ж Ви вирішили продовжити та все працює, будь ласка, повідомте про це розробникам, аби відмітити цю версію мікропрограми сумісною: %s</string>
+  <string name="miband_firmware_unknown_warning">Ця мікропрограма не перевірялася і може бути не сумісною із Gadgetbridge. 
+\n 
+\nНе рекомендується встановлювати її на Ваш Mi Band!</string>
+  <string name="miband_firmware_suggest_whitelist">Якщо ж Ви вирішили продовжити та все працює, будь ласка, повідомте про це розробникам, аби відмітити версію %s мікропрограми сумісною з вашим пристроєм</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Параметри</string>
   <string name="pref_header_general">Загальні параметри</string>
   <string name="pref_title_general_autoconnectonbluetooth">З\'єднання із пристроєм при активації Bluetooth</string>
   <string name="pref_title_general_autostartonboot">Запускатися автоматично</string>
   <string name="pref_title_general_autoreconnect">Перепід\'єднуватись автоматично</string>
-  <string name="pref_title_audio_player">Переважний музичний програвач</string>
+  <string name="pref_title_audio_player">Бажаний музичний програвач</string>
   <string name="pref_default">Типовий</string>
   <string name="pref_header_datetime">Дата і час</string>
-  <string name="pref_title_datetime_syctimeonconnect">Синхронізувати час під час з\'єднання</string>
+  <string name="pref_title_datetime_syctimeonconnect">"Синхронізація часу "</string>
   <string name="pref_summary_datetime_syctimeonconnect">Синхронізувати час під час з\'єднання з пристроєм, а також під час зміни часу чи часової зони в системі</string>
   <string name="pref_title_theme">Тема</string>
   <string name="pref_theme_light">Світла</string>
@@ -58,24 +58,24 @@
   <string name="pref_title_notifications_sms">SMS—повідомлення</string>
   <string name="pref_title_notifications_pebblemsg">Повідомлення Pebble</string>
   <string name="pref_title_notifications_generic">Підтримка звичайних сповіщень</string>
-  <string name="pref_title_whenscreenon">… навіть коли екран увімкнено</string>
+  <string name="pref_title_whenscreenon">…навіть коли екран увімкнено</string>
   <string name="pref_title_notification_filter">Не тубрувати</string>
-  <string name="always">завжди</string>
-  <string name="when_screen_off">коли екран вимкнуто</string>
-  <string name="never">ніколи</string>
+  <string name="always">Завжди</string>
+  <string name="when_screen_off">Коли екран вимкнуто</string>
+  <string name="never">Ніколи</string>
   <string name="pref_header_privacy">Приавтність</string>
   <string name="pref_blacklist">Перелік заблокованих додатків</string>
   <string name="pref_title_canned_replies">Відповіді</string>
   <string name="pref_title_canned_reply_suffix">Загальний суфікс</string>
   <string name="pref_header_development">Параметри для розробників</string>
-  <string name="pref_title_development_miaddr">Адреса Mi—Band</string>
+  <string name="pref_title_development_miaddr">MAC адреса Mi Band</string>
   <string name="pref_title_pebble_settings">Параметри Pebble</string>
   <string name="pref_header_activitytrackers">Трекер активності</string>
-  <string name="pref_title_pebble_activitytracker">Переважний трекер активності</string>
+  <string name="pref_title_pebble_activitytracker">Бажаний трекер активності</string>
   <string name="pref_title_pebble_sync_health">Синхронізувати Pebble Health</string>
   <string name="pref_title_pebble_sync_misfit">Синхронізувати Misfit</string>
   <string name="pref_title_pebble_sync_morpheuz">Синхронізувати Morpheuz</string>
-  <string name="pref_title_enable_pebblekit">Дозволити доступ іншим особам</string>
+  <string name="pref_title_enable_pebblekit">Дозволити доступ стороннім додаткам</string>
   <string name="pref_summary_enable_pebblekit">Додати експериментальну підтримку додатків Android, які використовують PebbleKit</string>
   <string name="pref_title_sunrise_sunset">Схід і захід сонця</string>
   <string name="pref_summary_sunrise_sunset">Надіслати час сходу і заходу сонця оснований на місцезнаходженні до розкладу Pebble</string>
@@ -243,4 +243,81 @@
 <string name="controlcenter_navigation_drawer_open">Відкрити навігаційну панель</string>
     <string name="controlcenter_navigation_drawer_close">Закрити навігаційну панель</string>
     <string name="controlcenter_snackbar_disconnecting">Роз\'єднання</string>
-    </resources>
+    <string name="controlcenter_snackbar_need_longpress">Довго натисніть на картку, щоб Роз\'єднати</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Знімок екрана пристрою</string>
+
+
+    <string name="appmanager_cached_watchapps_watchfaces">Додатки в кеші</string>
+    <string name="appmanager_installed_watchfaces">Встановлені годинники</string>
+    <string name="appmanager_weather_activate">Активувати системний додаток погоди</string>
+    <string name="appmanager_weather_deactivate">Вимкнути системний додаток погоди</string>
+    <string name="appmanager_weather_install_provider">Встановити додаток повідомлення про погоду</string>
+    <string name="app_move_to_top">Рухати вище</string>
+
+    <string name="blacklist_all_for_notifications">Чорний список для усіх сповіщень</string>
+    <string name="whitelist_all_for_notifications">Білий список для всіх сповіщень</string>
+
+
+    <string name="title_activity_calblacklist">Чорний список календарів</string>
+
+    <string name="fw_upgrade_notice_amazfitbip">Ви збираєтеся встановити %s прошивку на ваш Amazfit Bip.
+\n
+\nЗберігайте послідовність файлів, спорчатку .fw файл, потім .res за ним .gps. Ваш годинник перезавантажиться після встановлення .fw файлу.
+\n
+\nПримітка. Вам не потрібно встановлювати .res та .gps, якщо ці файли точно такі ж, як раніше встановлені.
+\n
+\nДІЄТЕ НА ВЛАСНИЙ РИЗИК!</string>
+    <string name="fw_upgrade_notice_amazfitcor">Ви збираєтеся встановити %s прошивку на ваш Amazfit Cor.
+\n
+\nЗберігайте послідовність файлів, спорчатку .fw файл, потім .res файл. Ваш годинник перезавантажиться після встановлення .fw файлу.
+\n
+\nПримітка. Вам не потрібно встановлювати .res файл, якщо він точно такий же, як і раніше встановлений.
+\n
+\nДІЄТЕ НА ВЛАСНИЙ РИЗИК!</string>
+    <string name="fw_upgrade_notice_miband3">Ви маєте намір встановити %s прошивку на ваш Mi Band 3.
+\n
+\nБудь ласка, не забудьте встановити файл .fw і після цього файл .res. Ваш годинник буде перезавантаження після установки файлу .fw.
+\n
+\nПримітка. Вам не потрібно встановлювати .res, якщо він точно такий же, як і раніше встановлений.
+\n
+\nНЕТЕСТОВАНО, МОЖЕ ПОШКОДИТИ ВАШ ПРИСТРІЙ, ДІЙТЕ НА СВІЙ СТРАХ І РИЗИК!</string>
+    <string name="pref_title_charts_swipe">Увімкнути бокові рухи у діаграмах активності</string>
+
+    <string name="pref_title_minimize_priority">Сховати сповіщення Gadgetbridge</string>
+    <string name="pref_summary_minimize_priority_off">Значок в рядку стану та сповіщення на екрані блокування відображаються</string>
+    <string name="pref_summary_minimize_priority_on">Значок в рядку стану та сповіщення на екрані блокування не відображаються</string>
+
+    <string name="pref_summary_notifications_pebblemsg">Підтримка застосунків, які відправляють повідомлення Pebble через PebbleKit.</string>
+    <string name="pref_summary_notification_filter">Припинить надсилання небажаних сповіщень у режимі \"Не турбувати\"</string>
+    <string name="pref_title_transliteration">Транслітерація</string>
+    <string name="pref_summary_transliteration">"Увімкніть цей параметр, якщо пристрій не підтримує шрифт вашої мови "</string>
+
+    <string name="pref_title_call_privacy_mode">Режим приватності</string>
+    <string name="pref_call_privacy_mode_off">Показувати ім’я та номер</string>
+    <string name="pref_call_privacy_mode_name">Приховати ім\'я, але показати номер</string>
+    <string name="pref_call_privacy_mode_number">Приховати номер, але показати ім\'я</string>
+    <string name="pref_call_privacy_mode_complete">Приховати ім\'я та номер</string>
+
+    <string name="pref_title_weather">Погода</string>
+    <string name="pref_title_weather_location">Розташування погоди (CM / LOS)</string>
+
+    <string name="pref_blacklist_calendars">Календарі чорного списку</string>
+
+    <string name="pref_header_cannned_messages">Збережені повідомлення</string>
+    <string name="pref_title_canned_messages_dismisscall">Пропущені виклики</string>
+    <string name="pref_title_canned_messages_set">Оновлення на Pebble</string>
+
+    <string name="pref_title_enable_outgoing_call">Підтримка вихідних дзвінків</string>
+    <string name="pref_summary_enable_outgoing_call">"При вимкненні цого параметру  Pebble 2/LE не вібруватиме підчас вихідних дзвінків"</string>
+
+    <string name="pref_header_pebble_timeline">Шкала часу Pebble</string>
+    <string name="pref_title_enable_calendar_sync">Синхронізувати календар</string>
+    <string name="pref_summary_enable_calendar_sync">Надіслати події календаря до часової шкали</string>
+
+    <string name="pref_auto_fetch_summary">Вибірка відбувається при розблокування екрану. Працює тільки якщо встановлений механізм блокування!</string>
+
+    <string name="notif_export_failed_title">Експорт бази даних не вдався! Будь ласка, перевірте ваші настройки.</string>
+    <string name="miband2_prefs_dateformat">Mi2: Формат дати</string>
+    <string name="DEVINFO_HR_VER">"HR: "</string>
+    <string name="menuitem_alipay">Alipay</string>
+</resources>
