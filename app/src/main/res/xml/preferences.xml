@@ -535,6 +535,13 @@
             android:key="auto_fetch_enabled"
             android:title="@string/pref_auto_fetch"
             android:summary="@string/pref_auto_fetch_summary"/>
+        <EditTextPreference
+            android:inputType="number"
+            android:key="auto_fetch_interval_limit"
+            android:defaultValue="0"
+            android:maxLength="3"
+            android:title="@string/pref_auto_fetch_limit_fetches"
+            android:summary="@string/pref_auto_fetch_limit_fetches_summary"/>
     </PreferenceCategory>
 
     <PreferenceCategory

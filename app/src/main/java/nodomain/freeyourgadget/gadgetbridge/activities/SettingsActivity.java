@@ -326,6 +326,26 @@ public class SettingsActivity extends AbstractSettingsActivity {
             }
         });
 
+        pref = findPreference("auto_fetch_interval_limit");
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object autoFetchInterval) {
+                String summary = String.format(
+                        getApplicationContext().getString(R.string.pref_auto_fetch_limit_fetches_summary),
+                        Integer.valueOf((String) autoFetchInterval));
+                preference.setSummary(summary);
+                return true;
+            }
+        });
+
+        int autoFetchInterval = GBApplication.getPrefs().getInt("auto_fetch_interval_limit", 0);
+        summary = String.format(
+                getApplicationContext().getString(R.string.pref_auto_fetch_limit_fetches_summary),
+                (int) autoFetchInterval);
+        pref.setSummary(summary);
+
+
+
         final Preference displayPages = findPreference("bip_display_items");
         displayPages.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
