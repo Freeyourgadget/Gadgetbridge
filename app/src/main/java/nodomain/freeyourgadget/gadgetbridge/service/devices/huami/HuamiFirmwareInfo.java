@@ -48,6 +48,8 @@ public abstract class HuamiFirmwareInfo {
             0x4e, 0x45, 0x5a, 0x4b
     };
 
+    protected static final int FONT_TYPE_OFFSET = 0x9;
+
     private HuamiFirmwareType firmwareType = HuamiFirmwareType.FIRMWARE;
 
     public String toVersion(int crc16) {
