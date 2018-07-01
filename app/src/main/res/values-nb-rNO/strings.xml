@@ -601,4 +601,7 @@
 
     <string name="pref_auto_fetch_summary">Henting skjer ved skjermopplåsing, og fungerer kun hvis en låsemekanisme er valgt!</string>
 
+    <string name="pref_auto_fetch_limit_fetches">Minimumstid mellom innhentinger</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Henter hvert %d minutt</string>
+
     </resources>
