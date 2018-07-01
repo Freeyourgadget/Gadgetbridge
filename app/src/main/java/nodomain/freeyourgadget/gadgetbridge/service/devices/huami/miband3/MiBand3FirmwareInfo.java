@@ -53,6 +53,12 @@ public class MiBand3FirmwareInfo extends HuamiFirmwareInfo {
 
     @Override
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
+        if (ArrayUtils.startsWith(bytes, FT_HEADER)) {
+            if (bytes[FONT_TYPE_OFFSET] == 0x03 || bytes[FONT_TYPE_OFFSET] == 0x04) {
+                return HuamiFirmwareType.FONT;
+            }
+            return HuamiFirmwareType.INVALID;
+        }
         if (ArrayUtils.startsWith(bytes, RES_HEADER)) {
             if (bytes.length > 100000) { // don't know how to distinguish from Bip/Cor .res
                 return HuamiFirmwareType.INVALID;

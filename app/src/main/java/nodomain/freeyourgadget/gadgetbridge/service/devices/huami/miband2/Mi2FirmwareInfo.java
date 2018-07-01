@@ -78,8 +78,11 @@ public class Mi2FirmwareInfo extends HuamiFirmwareInfo {
     }
 
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
-        if (ArrayUtils.startsWith(bytes, HuamiFirmwareInfo.FT_HEADER)) {
-            return HuamiFirmwareType.FONT;
+        if (ArrayUtils.startsWith(bytes, FT_HEADER)) {
+            if (bytes[FONT_TYPE_OFFSET] == 0x00 || bytes[FONT_TYPE_OFFSET] == (byte) 0xff) {
+                return HuamiFirmwareType.FONT;
+            }
+            return HuamiFirmwareType.INVALID;
         }
         if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET)
                 && (bytes[FW_MAGIC_OFFSET] == FW_MAGIC)) {
