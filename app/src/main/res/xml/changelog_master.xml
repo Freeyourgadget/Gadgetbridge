@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.27.1" versioncode="133">
+        <change>Pebble: Change appstore search to point to RomanPort's pebble appstore</change>
+        <change>Mi Band 3: Allow flashing fonts (untested)</change>
+        <change>Amazfit Bip: Allow flashing latest firmwares</change>
+        <change>Amazfit Cor: Allow flashing Bip fonts (untested)</change>
+        <change>Allow to limit auto fetch to a user configurable time interval</change>
+    </release>
     <release version="0.27.0" versioncode="132">
         <change>Initial support for Mi Band 3 (largely untested, needs to be connected to Mi Fit once)</change>
         <change>Option for automatic activity sync after screen unlock</change>
