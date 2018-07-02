@@ -548,4 +548,7 @@
 
     <string name="pref_auto_fetch_summary">האחזור מתבצע בעת שחרור נעילת המסך. עובד רק אם הוגדר מנגנון נעילה!</string>
 
+    <string name="pref_auto_fetch_limit_fetches">זמן מזערי בין אחזורים</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">מתבצע אחזור כל %s דקות</string>
+
     </resources>
