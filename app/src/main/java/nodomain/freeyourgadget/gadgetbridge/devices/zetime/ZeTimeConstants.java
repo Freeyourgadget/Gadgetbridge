@@ -55,10 +55,35 @@ public class ZeTimeConstants {
     public static final byte CMD_INACTIVITY_ALERT = (byte) 0x5E;
     public static final byte CMD_CALORIES_TYPE = (byte) 0x60;
     public static final byte CMD_GET_HEARTRATE_EXDATA = (byte) 0x61;
+    public static final byte CMD_PUSH_EX_MSG = (byte) 0x76;
     // here are the action commands
     public static final byte CMD_REQUEST = (byte) 0x70;
+    public static final byte CMD_SEND = (byte) 0x71;
     public static final byte CMD_REQUEST_RESPOND = (byte) 0x80;
     // further commands
     public static final byte CMD_END = (byte) 0x8f;
     public static final byte CMD_ACK_WRITE = (byte) 0x03;
+    // notification types and icons
+    public static final byte NOTIFICATION_MISSED_CALL = (byte) 0x00;
+    public static final byte NOTIFICATION_SMS = (byte) 0x01;
+    public static final byte NOTIFICATION_SOCIAL = (byte) 0x02;
+    public static final byte NOTIFICATION_EMAIL = (byte) 0x03;
+    public static final byte NOTIFICATION_CALENDAR = (byte) 0x04;
+    public static final byte NOTIFICATION_INCOME_CALL = (byte) 0x05;
+    public static final byte NOTIFICATION_CALL_OFF = (byte) 0x06;
+    public static final byte NOTIFICATION_WECHAT = (byte) 0x07;
+    public static final byte NOTIFICATION_VIBER = (byte) 0x08;
+    public static final byte NOTIFICATION_SNAPCHAT = (byte) 0x09;
+    public static final byte NOTIFICATION_WHATSAPP = (byte) 0x0A;
+    public static final byte NOTIFICATION_QQ = (byte) 0x0B;
+    public static final byte NOTIFICATION_FACEBOOK = (byte) 0x0C;
+    public static final byte NOTIFICATION_HANGOUTS = (byte) 0x0D;
+    public static final byte NOTIFICATION_GMAIL = (byte) 0x0E;
+    public static final byte NOTIFICATION_MESSENGER = (byte) 0x0F;
+    public static final byte NOTIFICATION_INSTAGRAM = (byte) 0x10;
+    public static final byte NOTIFICATION_TWITTER = (byte) 0x11;
+    public static final byte NOTIFICATION_LINKEDIN = (byte) 0x12;
+    public static final byte NOTIFICATION_UBER = (byte) 0x13;
+    public static final byte NOTIFICATION_LINE = (byte) 0x14;
+    public static final byte NOTIFICATION_SKYPE = (byte) 0x15;
 }
