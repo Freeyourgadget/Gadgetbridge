@@ -93,7 +93,7 @@ public class HRContentProvider extends ContentProvider {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            Log.e(HRContentProvider.class.getName(), "Received Event, aciton: " + action);
+            //Log.i(HRContentProvider.class.getName(), "Received Event, aciton: " + action);
 
             switch (action) {
                 case GBDevice.ACTION_DEVICE_CHANGED:
@@ -131,7 +131,7 @@ public class HRContentProvider extends ContentProvider {
 
     @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        Log.e(HRContentProvider.class.getName(), "query uri " + uri.toString());
+        //Log.i(HRContentProvider.class.getName(), "query uri " + uri.toString());
         MatrixCursor mc;
         Intent intent;
 
@@ -170,11 +170,12 @@ public class HRContentProvider extends ContentProvider {
                 return mc;
             case REALTIME:
                 String sample_string = (buffered_sample == null) ? "" : buffered_sample.toString();
-                Log.e(HRContentProvider.class.getName(), String.format("Get REALTIME buffered sample %s", sample_string));
+                //Log.e(HRContentProvider.class.getName(), String.format("Get REALTIME buffered sample %s", sample_string));
                 mc = new MatrixCursor(realtimeColumnNames);
-                
-                // TODO no strings...
-                mc.addRow(new Object[]{"OK", sample_string});
+                if (buffered_sample == null)
+                    mc.addRow(new Object[]{"NO_DATA", 0});
+                else
+                    mc.addRow(new Object[]{"OK", buffered_sample.getHeartRate()});
                 return mc;
         }
         return new MatrixCursor(deviceColumnNames);

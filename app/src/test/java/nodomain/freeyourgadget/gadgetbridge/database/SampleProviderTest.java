@@ -205,7 +205,7 @@ public class SampleProviderTest extends TestBase {
 
         for (int i = 0; i < 10; i++) {
             MiBandActivitySample sample = createSample(sampleProvider, MiBandSampleProvider.TYPE_ACTIVITY, 100 + i * 50, 10, 60 + i * 5, 1000 * i, user, device);
-            Log.d(SampleProviderTest.class.getName(), "Sending sample " + sample.toString());
+            //Log.d(SampleProviderTest.class.getName(), "Sending sample " + sample.toString());
             Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
                     .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
             app.sendBroadcast(intent);
@@ -265,7 +265,7 @@ public class SampleProviderTest extends TestBase {
         }
 
         /*
-         * Test the activity start uri
+         * Test the activity stop uri
          */
         cursor = mContentResolver.query(HRContentProvider.ACTIVITY_STOP_URI, null, null, null, null);
         if (cursor.moveToFirst()) {
@@ -283,41 +283,42 @@ public class SampleProviderTest extends TestBase {
          */
         class A1 extends ContentObserver {
             public int numObserved = 0;
+
             A1() {
                 super(null);
             }
+
             @Override
             public void onChange(boolean selfChange, Uri uri) {
                 super.onChange(selfChange, uri);
-                Log.e(SampleProviderTest.class.getName(), "Changed " + uri.toString());
+                //Log.e(SampleProviderTest.class.getName(), "Changed " + uri.toString());
+                Cursor cursor = mContentResolver.query(HRContentProvider.REALTIME_URI, null, null, null, null);
+                if (cursor.moveToFirst()) {
+                    do {
+                        String status = cursor.getString(0);
+                        int heartRate = cursor.getInt(1);
+                        assertEquals("OK", status);
+                        assertEquals(60 + 5*numObserved, heartRate);
+                        Log.i("test", "HeartRate " + heartRate);
+                    } while (cursor.moveToNext());
+                }
                 numObserved++;
             }
         };
         A1 a1 = new A1();
 
         mContentResolver.registerContentObserver(HRContentProvider.REALTIME_URI, false, a1);
+
         generateSampleStream(sampleProvider);
 
-        /*
-         * Test the realtime data start uri
-         */
-        cursor = mContentResolver.query(HRContentProvider.REALTIME_URI, null, null, null, null);
-        if (cursor.moveToFirst()) {
-            do {
-                String status = cursor.getString(0);
-                String message = cursor.getString(1);
-                assertEquals("OK", status);
-                assertEquals(false, message.isEmpty());
-                Log.i("test", "------FOUND SOMETHING------");
-            } while (cursor.moveToNext());
-        }
-
         List<Intent> l = shadowOf(RuntimeEnvironment.application).getBroadcastIntents();
+
         assertEquals(10, l.size());
         for (Intent i : l)
             assertEquals(i.getAction(), DeviceService.ACTION_REALTIME_SAMPLES);
 
         List<BroadcastReceiver> r = shadowOf(RuntimeEnvironment.application).getReceiversForIntent(l.get(0));
+
         assertEquals(1, r.size());
 
         assertEquals(a1.numObserved, 10);
