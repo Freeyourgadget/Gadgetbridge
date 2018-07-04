@@ -57,6 +57,7 @@ public class ZeTimeConstants {
     public static final byte CMD_GET_HEARTRATE_EXDATA = (byte) 0x61;
     public static final byte CMD_PUSH_EX_MSG = (byte) 0x76;
     public static final byte CMD_PUSH_WEATHER_DATA = (byte) 0x77;
+    public static final byte CMD_MUSIC_CONTROL = (byte) 0xD0;
     // here are the action commands
     public static final byte CMD_REQUEST = (byte) 0x70;
     public static final byte CMD_SEND = (byte) 0x71;

@@ -21,6 +21,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeSampleProvider;
@@ -51,6 +52,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(ZeTimeDeviceSupport.class);
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
+    private final GBDeviceEventMusicControl musicCmd = new GBDeviceEventMusicControl();
     private byte[] lastMsg;
     private byte msgPart;
     private int availableSleepData;
@@ -61,10 +63,14 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private int progressHeartRate;
     private final int maxMsgLength = 20;
     private boolean callIncoming = false;
+    private String songtitle = null;
+    public byte[] music = null;
+    public byte volume = 73;
 
     public BluetoothGattCharacteristic notifyCharacteristic = null;
     public BluetoothGattCharacteristic writeCharacteristic = null;
     public BluetoothGattCharacteristic ackCharacteristic = null;
+    public BluetoothGattCharacteristic replyCharacteristic = null;
 
     public ZeTimeDeviceSupport(){
         super(LOG);
@@ -89,8 +95,10 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         notifyCharacteristic = getCharacteristic(ZeTimeConstants.UUID_NOTIFY_CHARACTERISTIC);
         writeCharacteristic = getCharacteristic(ZeTimeConstants.UUID_WRITE_CHARACTERISTIC);
         ackCharacteristic = getCharacteristic(ZeTimeConstants.UUID_ACK_CHARACTERISTIC);
+        replyCharacteristic = getCharacteristic(ZeTimeConstants.UUID_REPLY_CHARACTERISTIC);
 
         builder.notify(ackCharacteristic, true);
+        builder.notify(notifyCharacteristic, true);
         requestDeviceInfo(builder);
         requestBatteryInfo(builder);
         requestActivityInfo(builder);
@@ -152,7 +160,21 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetMusicInfo(MusicSpec musicSpec) {
-
+        songtitle = musicSpec.track;
+        if (music != null) {
+            try {
+                byte [] musicT = new byte[songtitle.length() + 7]; // 7 bytes for weatherdata and overhead
+                System.arraycopy(music, 0, musicT, 0, 6);
+                System.arraycopy(songtitle.getBytes(StandardCharsets.UTF_8), 0, musicT, 6, songtitle.length());
+                musicT[musicT.length - 1] = ZeTimeConstants.CMD_END;
+                musicT[2] = ZeTimeConstants.CMD_SEND;
+                TransactionBuilder builder = performInitialized("setMusicInfo");
+                sendMsgToWatch(builder, music);
+                performConnected(builder.getTransaction());
+            } catch (IOException e) {
+                GB.toast(getContext(), "Error setting music info: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+            }
+        }
     }
 
     @Override
@@ -271,7 +293,30 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetMusicState(MusicStateSpec stateSpec) {
-
+        if(songtitle != null) {
+            music = new byte[songtitle.length() + 7]; // 7 bytes for weatherdata and overhead
+            music[0] = ZeTimeConstants.CMD_PREAMBLE;
+            music[1] = ZeTimeConstants.CMD_MUSIC_CONTROL;
+            music[2] = ZeTimeConstants.CMD_REQUEST_RESPOND;
+            music[3] = (byte) ((songtitle.length() + 1) & 0xff);
+            music[4] = (byte) ((songtitle.length() + 1) >> 8);
+            if (stateSpec.state == MusicStateSpec.STATE_PLAYING) {
+                music[5] = 0;
+            } else {
+                music[5] = 1;
+            }
+            System.arraycopy(songtitle.getBytes(StandardCharsets.UTF_8), 0, music, 6, songtitle.length());
+            music[music.length - 1] = ZeTimeConstants.CMD_END;
+            if (music != null) {
+                try {
+                    TransactionBuilder builder = performInitialized("setMusicStateInfo");
+                    replyMsgToWatch(builder, music);
+                    performConnected(builder.getTransaction());
+                } catch (IOException e) {
+                    GB.toast(getContext(), "Error setting music state and info: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                }
+            }
+        }
     }
 
     @Override
@@ -643,10 +688,26 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     case ZeTimeConstants.CMD_GET_HEARTRATE_EXDATA:
                         handleHeatRateData(data);
                         break;
+                    case ZeTimeConstants.CMD_MUSIC_CONTROL:
+                        handleMusicControl(data);
+                        break;
                 }
             }
             return true;
-        } else {
+        } else if (ZeTimeConstants.UUID_NOTIFY_CHARACTERISTIC.equals(characteristicUUID))
+        {
+            byte[] data = receiveCompleteMsg(characteristic.getValue());
+            if(isMsgFormatOK(data)) {
+                switch (data[1])
+                {
+                    case ZeTimeConstants.CMD_MUSIC_CONTROL:
+                        handleMusicControl(data);
+                        break;
+                }
+                return true;
+            }
+        }
+        else {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
         }
@@ -991,5 +1052,86 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             builder.write(writeCharacteristic, msg);
         }
         builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
+    }
+
+    private void handleMusicControl(byte[] musicControlMsg)
+    {
+        if(musicControlMsg[2] == ZeTimeConstants.CMD_SEND) {
+            switch (musicControlMsg[5]) {
+                case 0: // play current song
+                    musicCmd.event = GBDeviceEventMusicControl.Event.PLAY;
+                    break;
+                case 1: // pause current song
+                    musicCmd.event = GBDeviceEventMusicControl.Event.PAUSE;
+                    break;
+                case 2: // skip to previous song
+                    musicCmd.event = GBDeviceEventMusicControl.Event.PREVIOUS;
+                    break;
+                case 3: // skip to next song
+                    musicCmd.event = GBDeviceEventMusicControl.Event.NEXT;
+                    break;
+                case 4: // change volume
+                    if (musicControlMsg[6] > volume) {
+                        musicCmd.event = GBDeviceEventMusicControl.Event.VOLUMEUP;
+                        volume += 10;
+                    } else {
+                        musicCmd.event = GBDeviceEventMusicControl.Event.VOLUMEDOWN;
+                        volume -= 10;
+                    }
+                    try {
+                        TransactionBuilder builder = performInitialized("replyMusicVolume");
+                        replyMsgToWatch(builder, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
+                                ZeTimeConstants.CMD_MUSIC_CONTROL,
+                                ZeTimeConstants.CMD_REQUEST_RESPOND,
+                                0x02,
+                                0x00,
+                                0x02,
+                                volume,
+                                ZeTimeConstants.CMD_END});
+                        performConnected(builder.getTransaction());
+                    } catch (IOException e) {
+                        GB.toast(getContext(), "Error reply the music volume: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                    }
+                    break;
+            }
+            handleGBDeviceEvent(musicCmd);
+        }
+            if((music != null) && (musicControlMsg[5] != 4))
+            {
+                music[2] = ZeTimeConstants.CMD_REQUEST_RESPOND;
+                try {
+                    TransactionBuilder builder = performInitialized("replyMusicState");
+                    replyMsgToWatch(builder, music);
+                    performConnected(builder.getTransaction());
+                } catch (IOException e) {
+                    GB.toast(getContext(), "Error reply the music state: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                }
+            }
+    }
+
+    private void replyMsgToWatch(TransactionBuilder builder, byte[] msg)
+    {
+        if(msg.length > maxMsgLength)
+        {
+            int msgpartlength = 0;
+            byte[] msgpart = null;
+
+            do {
+                if((msg.length - msgpartlength) < maxMsgLength)
+                {
+                    msgpart = new byte[msg.length - msgpartlength];
+                    System.arraycopy(msg, msgpartlength, msgpart, 0, msg.length - msgpartlength);
+                    msgpartlength += (msg.length - msgpartlength);
+                } else {
+                    msgpart = new byte[maxMsgLength];
+                    System.arraycopy(msg, msgpartlength, msgpart, 0, maxMsgLength);
+                    msgpartlength += maxMsgLength;
+                }
+                builder.write(replyCharacteristic, msgpart);
+            }while(msgpartlength < msg.length);
+        } else
+        {
+            builder.write(replyCharacteristic, msg);
+        }
     }
 }
