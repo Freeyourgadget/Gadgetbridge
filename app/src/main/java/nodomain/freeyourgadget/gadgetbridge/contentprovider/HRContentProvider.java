@@ -174,7 +174,7 @@ public class HRContentProvider extends ContentProvider {
                 mc = new MatrixCursor(realtimeColumnNames);
                 
                 // TODO no strings...
-                mc.addRow(new Object[]{"OK", sample_string, buffered_sample});
+                mc.addRow(new Object[]{"OK", sample_string});
                 return mc;
         }
         return new MatrixCursor(deviceColumnNames);
