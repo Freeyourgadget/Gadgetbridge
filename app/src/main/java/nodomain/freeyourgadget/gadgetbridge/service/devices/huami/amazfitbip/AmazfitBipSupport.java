@@ -454,7 +454,7 @@ public class AmazfitBipSupport extends MiBand2Support {
         builder.add(new ConditionalWriteAction(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION)) {
             @Override
             protected byte[] checkCondition() {
-                if (gbDevice.getType() == DeviceType.AMAZFITBIP && new Version(gbDevice.getFirmwareVersion()).compareTo(new Version("0.1.0.77")) >= 0) {
+                if (gbDevice.getType() == DeviceType.MIBAND3 || (gbDevice.getType() == DeviceType.AMAZFITBIP && new Version(gbDevice.getFirmwareVersion()).compareTo(new Version("0.1.0.77")) >= 0)) {
                     return command_new;
                 } else {
                     return command_old;
