@@ -35,6 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
@@ -310,7 +311,36 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
-
+        byte[] weather = new byte[weatherSpec.location.length() + 26]; // 26 bytes for weatherdata and overhead
+        weather[0] = ZeTimeConstants.CMD_PREAMBLE;
+        weather[1] = ZeTimeConstants.CMD_PUSH_WEATHER_DATA;
+        weather[2] = ZeTimeConstants.CMD_SEND;
+        weather[3] = (byte)((weatherSpec.location.length() + 20) & 0xff);
+        weather[4] = (byte)((weatherSpec.location.length() + 20) >> 8);
+        weather[5] = 0; // celsius
+        weather[6] = (byte)(weatherSpec.currentTemp - 273);
+        weather[7] = (byte)(weatherSpec.todayMinTemp - 273);
+        weather[8] = (byte)(weatherSpec.todayMaxTemp - 273);
+        weather[9] = Weather.mapToZeTimeCondition(weatherSpec.currentConditionCode);
+        for(int forecast = 0; forecast < 3; forecast++) {
+            weather[10+(forecast*5)] = 0; // celsius
+            weather[11+(forecast*5)] = (byte) 0xff;
+            weather[12+(forecast*5)] = (byte) (weatherSpec.forecasts.get(forecast).minTemp - 273);
+            weather[13+(forecast*5)] = (byte) (weatherSpec.forecasts.get(forecast).maxTemp - 273);
+            weather[14+(forecast*5)] = Weather.mapToZeTimeCondition(weatherSpec.forecasts.get(forecast).conditionCode);
+        }
+        System.arraycopy(weatherSpec.location.getBytes(StandardCharsets.UTF_8), 0, weather, 25, weatherSpec.location.length());
+        weather[weather.length-1] = ZeTimeConstants.CMD_END;
+        if(weather != null)
+        {
+            try {
+                TransactionBuilder builder = performInitialized("sendWeahter");
+                sendMsgToWatch(builder, weather);
+                performConnected(builder.getTransaction());
+            } catch (IOException e) {
+                GB.toast(getContext(), "Error sending weather: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+            }
+        }
     }
 
     @Override
