@@ -50,8 +50,6 @@ public class SampleProviderTest extends TestBase {
         super.setUp();
         dummyGBDevice = createDummyGDevice("00:00:00:00:10");
 
-        mContentResolver = app.getContentResolver();
-
         HRContentProvider provider = new HRContentProvider();
         // Stuff context into provider
         provider.attachInfo(app.getApplicationContext(), null);
@@ -217,6 +215,8 @@ public class SampleProviderTest extends TestBase {
 
     @Test
     public void testContentProvider() {
+        mContentResolver = app.getContentResolver();
+
         dummyGBDevice.setState(GBDevice.State.CONNECTED);
         final MiBandSampleProvider sampleProvider = new MiBandSampleProvider(dummyGBDevice, daoSession);
 
