@@ -16,7 +16,9 @@ import org.junit.Test;
 
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.contentprovider.HRContentProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandSampleProvider;
@@ -227,6 +229,8 @@ public class SampleProviderTest extends TestBase {
         dummyGBDevice.sendDeviceUpdateIntent(app);
 
         assertNotNull("The ContentResolver may not be null", mContentResolver);
+
+        assertNotNull(((GBApplication) GBApplication.getContext()).getDeviceManager());
 
         /*
          * Test the device uri

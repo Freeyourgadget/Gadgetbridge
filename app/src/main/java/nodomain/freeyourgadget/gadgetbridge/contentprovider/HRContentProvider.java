@@ -145,7 +145,7 @@ public class HRContentProvider extends ContentProvider {
 
         switch (URI_MATCHER.match(uri)) {
             case DEVICES_LIST:
-                DeviceManager deviceManager = ((GBApplication) GBApplication.getContext()).getDeviceManager();
+                DeviceManager deviceManager = ((GBApplication) (GBApplication.getContext())).getDeviceManager();
                 List<GBDevice> l = deviceManager.getDevices();
                 if (l == null) {
                     return null;
