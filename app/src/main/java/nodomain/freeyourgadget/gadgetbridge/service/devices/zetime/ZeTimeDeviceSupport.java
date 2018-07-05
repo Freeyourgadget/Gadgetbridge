@@ -324,7 +324,36 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-
+        Calendar time = GregorianCalendar.getInstance();
+        byte[] CalendarEvent = new byte[calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length + 16]; // 26 bytes for calendar and overhead
+        time.setTimeInMillis(calendarEventSpec.timestamp);
+        CalendarEvent[0] = ZeTimeConstants.CMD_PREAMBLE;
+        CalendarEvent[1] = ZeTimeConstants.CMD_PUSH_CALENDAR_DAY;
+        CalendarEvent[2] = ZeTimeConstants.CMD_SEND;
+        CalendarEvent[3] = (byte)((calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length + 10) & 0xff);
+        CalendarEvent[4] = (byte)((calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length + 10) >> 8);
+        CalendarEvent[5] = (byte)(calendarEventSpec.type + 0x1);
+        CalendarEvent[6] = (byte)(time.get(Calendar.YEAR) & 0xff);
+        CalendarEvent[7] = (byte)(time.get(Calendar.YEAR) >> 8);
+        CalendarEvent[8] = (byte)(time.get(Calendar.MONTH)+1);
+        CalendarEvent[9] = (byte)time.get(Calendar.DAY_OF_MONTH);
+        CalendarEvent[10] = (byte) ((time.get(Calendar.HOUR_OF_DAY)/10) + '0');
+        CalendarEvent[11] = (byte) ((time.get(Calendar.HOUR_OF_DAY)%10) + '0');
+        CalendarEvent[12] = (byte) ((time.get(Calendar.MINUTE)/10) + '0');
+        CalendarEvent[13] = (byte) ((time.get(Calendar.MINUTE)%10) + '0');
+        CalendarEvent[14] = (byte) calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length;
+        System.arraycopy(calendarEventSpec.title.getBytes(StandardCharsets.UTF_8), 0, CalendarEvent, 15, calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length);
+        CalendarEvent[CalendarEvent.length-1] = ZeTimeConstants.CMD_END;
+        if(CalendarEvent != null)
+        {
+            try {
+                TransactionBuilder builder = performInitialized("sendCalendarEvenr");
+                sendMsgToWatch(builder, CalendarEvent);
+                performConnected(builder.getTransaction());
+            } catch (IOException e) {
+                GB.toast(getContext(), "Error sending calendar event: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+            }
+        }
     }
 
     @Override
