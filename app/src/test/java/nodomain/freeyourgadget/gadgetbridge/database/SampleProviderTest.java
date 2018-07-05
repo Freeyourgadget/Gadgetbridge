@@ -228,10 +228,11 @@ public class SampleProviderTest extends TestBase {
 
         assertNotNull("The ContentResolver may not be null", mContentResolver);
 
+        Uri test = HRContentProvider.DEVICES_URI;
         /*
          * Test the device uri
          */
-        Cursor cursor = mContentResolver.query(HRContentProvider.DEVICES_URI, null, null, null, null);
+        Cursor cursor = mContentResolver.query(test, null, null, null, null);
 
         assertNotNull(cursor);
         assertEquals(1, cursor.getCount());
