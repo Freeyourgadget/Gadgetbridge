@@ -136,6 +136,9 @@ public class HRContentProvider extends ContentProvider {
         //TODO Do i need only for testing or also in production?
         this.getContext().registerReceiver(mReceiver, filterLocal);
 
+        //TODO: ???
+        mGBDevice = ((GBApplication) this.getContext()).getDeviceManager().getSelectedDevice();
+
         return true;
     }
 
@@ -146,14 +149,14 @@ public class HRContentProvider extends ContentProvider {
 
         switch (URI_MATCHER.match(uri)) {
             case DEVICES_LIST:
-                DeviceManager deviceManager = ((GBApplication) (GBApplication.getContext())).getDeviceManager();
+                DeviceManager deviceManager = ((GBApplication) (this.getContext())).getDeviceManager();
                 List<GBDevice> l = deviceManager.getDevices();
                 if (l == null) {
                     return null;
                 }
                 Log.i(HRContentProvider.class.getName(), String.format("listing %d devices", l.size()));
 
-                 mc = new MatrixCursor(deviceColumnNames);
+                mc = new MatrixCursor(deviceColumnNames);
                 for (GBDevice dev : l) {
                     mc.addRow(new Object[]{dev.getName(), dev.getModel(), dev.getAddress()});
                 }
