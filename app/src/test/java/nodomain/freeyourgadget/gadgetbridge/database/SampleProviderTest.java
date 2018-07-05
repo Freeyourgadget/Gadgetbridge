@@ -49,6 +49,7 @@ public class SampleProviderTest extends TestBase {
     public void setUp() throws Exception {
         super.setUp();
         dummyGBDevice = createDummyGDevice("00:00:00:00:10");
+        mContentResolver = app.getContentResolver();
 
         HRContentProvider provider = new HRContentProvider();
         // Stuff context into provider
@@ -215,7 +216,6 @@ public class SampleProviderTest extends TestBase {
 
     @Test
     public void testContentProvider() {
-        mContentResolver = app.getContentResolver();
 
         dummyGBDevice.setState(GBDevice.State.CONNECTED);
         final MiBandSampleProvider sampleProvider = new MiBandSampleProvider(dummyGBDevice, daoSession);
@@ -226,11 +226,7 @@ public class SampleProviderTest extends TestBase {
         // Refresh the device list
         dummyGBDevice.sendDeviceUpdateIntent(app);
 
-        /*
-         * (DeviceSupportFactory)mFactory.createDeviceSupport(gbDevice); -->
-         * deviceSupport = new ServiceDeviceSupport(new MiBand2Support(), EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING));
-         *
-         */
+        assertNotNull("The ContentResolver may not be null", mContentResolver);
 
         /*
          * Test the device uri
@@ -287,7 +283,6 @@ public class SampleProviderTest extends TestBase {
             A1() {
                 super(null);
             }
-
             @Override
             public void onChange(boolean selfChange, Uri uri) {
                 super.onChange(selfChange, uri);
