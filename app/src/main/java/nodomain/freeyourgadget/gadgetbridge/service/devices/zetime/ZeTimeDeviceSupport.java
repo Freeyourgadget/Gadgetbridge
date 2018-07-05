@@ -65,7 +65,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private boolean callIncoming = false;
     private String songtitle = null;
     public byte[] music = null;
-    public byte volume = 73;
+    public byte volume = 90;
 
     public BluetoothGattCharacteristic notifyCharacteristic = null;
     public BluetoothGattCharacteristic writeCharacteristic = null;
@@ -163,12 +163,15 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         songtitle = musicSpec.track;
         if (music != null) {
             try {
-                byte [] musicT = new byte[songtitle.length() + 7]; // 7 bytes for weatherdata and overhead
+                byte [] musicT = new byte[songtitle.getBytes(StandardCharsets.UTF_8).length + 7]; // 7 bytes for status and overhead
                 System.arraycopy(music, 0, musicT, 0, 6);
-                System.arraycopy(songtitle.getBytes(StandardCharsets.UTF_8), 0, musicT, 6, songtitle.length());
+                System.arraycopy(songtitle.getBytes(StandardCharsets.UTF_8), 0, musicT, 6, songtitle.getBytes(StandardCharsets.UTF_8).length);
                 musicT[musicT.length - 1] = ZeTimeConstants.CMD_END;
-                musicT[2] = ZeTimeConstants.CMD_SEND;
+                musicT[3] = (byte) ((songtitle.getBytes(StandardCharsets.UTF_8).length + 1) & 0xff);
+                musicT[4] = (byte) ((songtitle.getBytes(StandardCharsets.UTF_8).length + 1) >> 8);
                 TransactionBuilder builder = performInitialized("setMusicInfo");
+                replyMsgToWatch(builder, music);
+                musicT[2] = ZeTimeConstants.CMD_SEND;
                 sendMsgToWatch(builder, music);
                 performConnected(builder.getTransaction());
             } catch (IOException e) {
@@ -205,13 +208,13 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         if(callIncoming || (callSpec.command == CallSpec.CALL_INCOMING)) {
             if (callSpec.command == CallSpec.CALL_INCOMING) {
             if (callSpec.name != null) {
-                notification_length += callSpec.name.length();
-                subject_length = callSpec.name.length();
+                notification_length += callSpec.name.getBytes(StandardCharsets.UTF_8).length;
+                subject_length = callSpec.name.getBytes(StandardCharsets.UTF_8).length;
                 subject = new byte[subject_length];
                 System.arraycopy(callSpec.name.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
             } else if (callSpec.number != null) {
-                notification_length += callSpec.number.length();
-                subject_length = callSpec.number.length();
+                notification_length += callSpec.number.getBytes(StandardCharsets.UTF_8).length;
+                subject_length = callSpec.number.getBytes(StandardCharsets.UTF_8).length;
                 subject = new byte[subject_length];
                 System.arraycopy(callSpec.number.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
             }
@@ -294,18 +297,18 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetMusicState(MusicStateSpec stateSpec) {
         if(songtitle != null) {
-            music = new byte[songtitle.length() + 7]; // 7 bytes for weatherdata and overhead
+            music = new byte[songtitle.getBytes(StandardCharsets.UTF_8).length + 7]; // 7 bytes for status and overhead
             music[0] = ZeTimeConstants.CMD_PREAMBLE;
             music[1] = ZeTimeConstants.CMD_MUSIC_CONTROL;
             music[2] = ZeTimeConstants.CMD_REQUEST_RESPOND;
-            music[3] = (byte) ((songtitle.length() + 1) & 0xff);
-            music[4] = (byte) ((songtitle.length() + 1) >> 8);
+            music[3] = (byte) ((songtitle.getBytes(StandardCharsets.UTF_8).length + 1) & 0xff);
+            music[4] = (byte) ((songtitle.getBytes(StandardCharsets.UTF_8).length + 1) >> 8);
             if (stateSpec.state == MusicStateSpec.STATE_PLAYING) {
                 music[5] = 0;
             } else {
                 music[5] = 1;
             }
-            System.arraycopy(songtitle.getBytes(StandardCharsets.UTF_8), 0, music, 6, songtitle.length());
+            System.arraycopy(songtitle.getBytes(StandardCharsets.UTF_8), 0, music, 6, songtitle.getBytes(StandardCharsets.UTF_8).length);
             music[music.length - 1] = ZeTimeConstants.CMD_END;
             if (music != null) {
                 try {
@@ -356,12 +359,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
-        byte[] weather = new byte[weatherSpec.location.length() + 26]; // 26 bytes for weatherdata and overhead
+        byte[] weather = new byte[weatherSpec.location.getBytes(StandardCharsets.UTF_8).length + 26]; // 26 bytes for weatherdata and overhead
         weather[0] = ZeTimeConstants.CMD_PREAMBLE;
         weather[1] = ZeTimeConstants.CMD_PUSH_WEATHER_DATA;
         weather[2] = ZeTimeConstants.CMD_SEND;
-        weather[3] = (byte)((weatherSpec.location.length() + 20) & 0xff);
-        weather[4] = (byte)((weatherSpec.location.length() + 20) >> 8);
+        weather[3] = (byte)((weatherSpec.location.getBytes(StandardCharsets.UTF_8).length + 20) & 0xff);
+        weather[4] = (byte)((weatherSpec.location.getBytes(StandardCharsets.UTF_8).length + 20) >> 8);
         weather[5] = 0; // celsius
         weather[6] = (byte)(weatherSpec.currentTemp - 273);
         weather[7] = (byte)(weatherSpec.todayMinTemp - 273);
@@ -374,7 +377,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             weather[13+(forecast*5)] = (byte) (weatherSpec.forecasts.get(forecast).maxTemp - 273);
             weather[14+(forecast*5)] = Weather.mapToZeTimeCondition(weatherSpec.forecasts.get(forecast).conditionCode);
         }
-        System.arraycopy(weatherSpec.location.getBytes(StandardCharsets.UTF_8), 0, weather, 25, weatherSpec.location.length());
+        System.arraycopy(weatherSpec.location.getBytes(StandardCharsets.UTF_8), 0, weather, 25, weatherSpec.location.getBytes(StandardCharsets.UTF_8).length);
         weather[weather.length-1] = ZeTimeConstants.CMD_END;
         if(weather != null)
         {
@@ -407,8 +410,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     public void onNotification(NotificationSpec notificationSpec) {
 
         int subject_length = 0;
-        int body_length = notificationSpec.body.length();
-        int notification_length = notificationSpec.body.length();
+        //int body_length = notificationSpec.body.length();
+        int body_length = notificationSpec.body.getBytes(StandardCharsets.UTF_8).length;
+        int notification_length = notificationSpec.body.getBytes(StandardCharsets.UTF_8).length;
         byte[] subject = null;
         byte[] notification = null;
         Calendar time = GregorianCalendar.getInstance();
@@ -435,14 +439,14 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             case GENERIC_SMS:
                 if (notificationSpec.sender != null)
                 {
-                    notification_length += notificationSpec.sender.length();
-                    subject_length = notificationSpec.sender.length();
+                    notification_length += notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
+                    subject_length = notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
                     subject = new byte[subject_length];
                     System.arraycopy(notificationSpec.sender.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
                 } else if(notificationSpec.phoneNumber != null)
                 {
-                    notification_length += notificationSpec.phoneNumber.length();
-                    subject_length = notificationSpec.phoneNumber.length();
+                    notification_length += notificationSpec.phoneNumber.getBytes(StandardCharsets.UTF_8).length;
+                    subject_length = notificationSpec.phoneNumber.getBytes(StandardCharsets.UTF_8).length;
                     subject = new byte[subject_length];
                     System.arraycopy(notificationSpec.phoneNumber.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
                 }
@@ -465,14 +469,14 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             case GENERIC_PHONE:
                 if (notificationSpec.sender != null)
                 {
-                    notification_length += notificationSpec.sender.length();
-                    subject_length = notificationSpec.sender.length();
+                    notification_length += notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
+                    subject_length = notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
                     subject = new byte[subject_length];
                     System.arraycopy(notificationSpec.sender.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
                 } else if(notificationSpec.phoneNumber != null)
                 {
-                    notification_length += notificationSpec.phoneNumber.length();
-                    subject_length = notificationSpec.phoneNumber.length();
+                    notification_length += notificationSpec.phoneNumber.getBytes(StandardCharsets.UTF_8).length;
+                    subject_length = notificationSpec.phoneNumber.getBytes(StandardCharsets.UTF_8).length;
                     subject = new byte[subject_length];
                     System.arraycopy(notificationSpec.phoneNumber.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
                 }
@@ -500,14 +504,14 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             case GENERIC_EMAIL:
                 if (notificationSpec.sender != null)
                 {
-                    notification_length += notificationSpec.sender.length();
-                    subject_length = notificationSpec.sender.length();
+                    notification_length += notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
+                    subject_length = notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
                     subject = new byte[subject_length];
                     System.arraycopy(notificationSpec.sender.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
                 } else if(notificationSpec.subject != null)
                 {
-                    notification_length += notificationSpec.subject.length();
-                    subject_length = notificationSpec.subject.length();
+                    notification_length += notificationSpec.subject.getBytes(StandardCharsets.UTF_8).length;
+                    subject_length = notificationSpec.subject.getBytes(StandardCharsets.UTF_8).length;
                     subject = new byte[subject_length];
                     System.arraycopy(notificationSpec.subject.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
                 }
@@ -548,14 +552,14 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             case VIBER:
                 if (notificationSpec.sender != null)
                 {
-                    notification_length += notificationSpec.sender.length();
-                    subject_length = notificationSpec.sender.length();
+                    notification_length += notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
+                    subject_length = notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
                     subject = new byte[subject_length];
                     System.arraycopy(notificationSpec.sender.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
                 } else if(notificationSpec.subject != null)
                 {
-                    notification_length += notificationSpec.subject.length();
-                    subject_length = notificationSpec.subject.length();
+                    notification_length += notificationSpec.subject.getBytes(StandardCharsets.UTF_8).length;
+                    subject_length = notificationSpec.subject.getBytes(StandardCharsets.UTF_8).length;
                     subject = new byte[subject_length];
                     System.arraycopy(notificationSpec.subject.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
                 }
@@ -582,14 +586,14 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             case LINKEDIN:
                 if (notificationSpec.sender != null)
                 {
-                    notification_length += notificationSpec.sender.length();
-                    subject_length = notificationSpec.sender.length();
+                    notification_length += notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
+                    subject_length = notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
                     subject = new byte[subject_length];
                     System.arraycopy(notificationSpec.sender.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
                 } else if(notificationSpec.subject != null)
                 {
-                    notification_length += notificationSpec.subject.length();
-                    subject_length = notificationSpec.subject.length();
+                    notification_length += notificationSpec.subject.getBytes(StandardCharsets.UTF_8).length;
+                    subject_length = notificationSpec.subject.getBytes(StandardCharsets.UTF_8).length;
                     subject = new byte[subject_length];
                     System.arraycopy(notificationSpec.subject.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
                 }
@@ -612,14 +616,14 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             case GENERIC_CALENDAR:
                 if (notificationSpec.sender != null)
                 {
-                    notification_length += notificationSpec.sender.length();
-                    subject_length = notificationSpec.sender.length();
+                    notification_length += notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
+                    subject_length = notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
                     subject = new byte[subject_length];
                     System.arraycopy(notificationSpec.sender.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
                 } else if(notificationSpec.subject != null)
                 {
-                    notification_length += notificationSpec.subject.length();
-                    subject_length = notificationSpec.subject.length();
+                    notification_length += notificationSpec.subject.getBytes(StandardCharsets.UTF_8).length;
+                    subject_length = notificationSpec.subject.getBytes(StandardCharsets.UTF_8).length;
                     subject = new byte[subject_length];
                     System.arraycopy(notificationSpec.subject.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
                 }
@@ -981,10 +985,10 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             GB.updateTransferNotification(null,"Data transfer failed", false, 0, getContext());
         }
 
-        progressSteps = msg[5] + msg[6] * 256;
-        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSteps *100 / availableSleepData), getContext());
-        if (progressSteps == availableStepsData) {
-            progressSteps = 0;
+        progressSleep = msg[5] + msg[6] * 256;
+        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSleep *100 / availableSleepData), getContext());
+        if (progressSleep == availableSleepData) {
+            progressSleep = 0;
             availableSleepData = 0;
             GB.updateTransferNotification(null,"", false, 100, getContext());
             if (getDevice().isBusy()) {
@@ -1010,10 +1014,10 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             GB.updateTransferNotification(null,"Data transfer failed", false, 0, getContext());
         }
 
-        progressSteps = msg[5] + msg[6] * 256;
-        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSteps *100 / availableHeartRateData), getContext());
-        if (progressSteps == availableStepsData) {
-            progressSteps = 0;
+        progressHeartRate = msg[5] + msg[6] * 256;
+        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressHeartRate *100 / availableHeartRateData), getContext());
+        if (progressHeartRate == availableHeartRateData) {
+            progressHeartRate = 0;
             availableHeartRateData = 0;
             GB.updateTransferNotification(null,"", false, 100, getContext());
             if (getDevice().isBusy()) {
@@ -1073,10 +1077,14 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 case 4: // change volume
                     if (musicControlMsg[6] > volume) {
                         musicCmd.event = GBDeviceEventMusicControl.Event.VOLUMEUP;
-                        volume += 10;
+                        if(volume < 170) {
+                            volume += 10;
+                        }
                     } else {
                         musicCmd.event = GBDeviceEventMusicControl.Event.VOLUMEDOWN;
-                        volume -= 10;
+                        if(volume > 10) {
+                            volume -= 10;
+                        }
                     }
                     try {
                         TransactionBuilder builder = performInitialized("replyMusicVolume");
@@ -1095,9 +1103,8 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     break;
             }
             handleGBDeviceEvent(musicCmd);
-        }
-            if((music != null) && (musicControlMsg[5] != 4))
-            {
+        } else {
+            if (music != null) {
                 music[2] = ZeTimeConstants.CMD_REQUEST_RESPOND;
                 try {
                     TransactionBuilder builder = performInitialized("replyMusicState");
@@ -1107,6 +1114,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     GB.toast(getContext(), "Error reply the music state: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                 }
             }
+        }
     }
 
     private void replyMsgToWatch(TransactionBuilder builder, byte[] msg)
