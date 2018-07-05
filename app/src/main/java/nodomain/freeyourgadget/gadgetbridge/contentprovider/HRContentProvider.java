@@ -77,7 +77,7 @@ public class HRContentProvider extends ContentProvider {
     // this is only needed for the MatrixCursor constructor
     public static final String[] deviceColumnNames = new String[]{"Name", "Model", "Address"};
     public static final String[] activityColumnNames = new String[]{"Status", "Message"};
-    public static final String[] realtimeColumnNames = new String[]{"Status", "Heartrate"};
+    public static final String[] realtimeColumnNames = new String[]{"Status", "Heartrate", "Steps", "Battery"};
 
     static final String AUTHORITY = "com.gadgetbridge.heartrate.provider";
 
@@ -147,6 +147,9 @@ public class HRContentProvider extends ContentProvider {
             case DEVICES_LIST:
                 DeviceManager deviceManager = ((GBApplication) GBApplication.getContext()).getDeviceManager();
                 List<GBDevice> l = deviceManager.getDevices();
+                if (l == null) {
+                    return null;
+                }
                 Log.i(HRContentProvider.class.getName(), String.format("listing %d devices", l.size()));
 
                  mc = new MatrixCursor(deviceColumnNames);
@@ -173,9 +176,9 @@ public class HRContentProvider extends ContentProvider {
                 //Log.e(HRContentProvider.class.getName(), String.format("Get REALTIME buffered sample %s", sample_string));
                 mc = new MatrixCursor(realtimeColumnNames);
                 if (buffered_sample == null)
-                    mc.addRow(new Object[]{"NO_DATA", 0});
+                    mc.addRow(new Object[]{"NO_DATA", -1, -1, -1});
                 else
-                    mc.addRow(new Object[]{"OK", buffered_sample.getHeartRate()});
+                    mc.addRow(new Object[]{"OK", buffered_sample.getHeartRate(), buffered_sample.getSteps(), mGBDevice != null ? mGBDevice.getBatteryLevel() : 99});
                 return mc;
         }
         return new MatrixCursor(deviceColumnNames);
