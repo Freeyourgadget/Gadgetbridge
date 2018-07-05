@@ -44,8 +44,6 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_BOO
 /**
  * A content Provider, which publishes read only RAW @see ActivitySample to other applications
  * <p>
- * TODO:
- * For this to work there must be an additional api which switches the GadgetBridge to "start activity"
  */
 public class HRContentProvider extends ContentProvider {
 
@@ -73,12 +71,12 @@ public class HRContentProvider extends ContentProvider {
     // this is only needed for the MatrixCursor constructor
     public static final String[] deviceColumnNames = new String[]{"Name", "Model", "Address"};
     public static final String[] activityColumnNames = new String[]{"Status", "Message"};
-    public static final String[] realtimeColumnNames = new String[]{"Status", "Message"};
+    public static final String[] realtimeColumnNames = new String[]{"Status", "Heartrate"};
 
     static final String AUTHORITY = "com.gadgetbridge.heartrate.provider";
+
     static final String ACTIVITY_START_URL = "content://" + AUTHORITY + "/activity_start";
     static final String ACTIVITY_STOP_URL = "content://" + AUTHORITY + "/activity_stop";
-
     static final String REALTIME_URL = "content://" + AUTHORITY + "/realtime";
     static final String DEVICES_URL = "content://" + AUTHORITY + "/devices";
 
@@ -87,6 +85,7 @@ public class HRContentProvider extends ContentProvider {
     public static final Uri REALTIME_URI = Uri.parse(REALTIME_URL);
     public static final Uri DEVICES_URI = Uri.parse(DEVICES_URL);
 
+    // TODO: This is most of the time null...
     private GBDevice mGBDevice = null;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -96,6 +95,7 @@ public class HRContentProvider extends ContentProvider {
             //Log.i(HRContentProvider.class.getName(), "Received Event, aciton: " + action);
 
             switch (action) {
+                // TODO So the device changed, but what do I do now?
                 case GBDevice.ACTION_DEVICE_CHANGED:
                     mGBDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                     break;
@@ -133,7 +133,6 @@ public class HRContentProvider extends ContentProvider {
     public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         //Log.i(HRContentProvider.class.getName(), "query uri " + uri.toString());
         MatrixCursor mc;
-        Intent intent;
 
         switch (URI_MATCHER.match(uri)) {
             case DEVICES_LIST:
@@ -147,24 +146,16 @@ public class HRContentProvider extends ContentProvider {
                 }
                 return mc;
             case ACTIVITY_START:
-                Log.i(HRContentProvider.class.getName(), String.format("Get ACTIVTY START"));
-                intent =
-                        new Intent()
-                        .setAction(ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT)
-                        .putExtra(EXTRA_BOOLEAN_ENABLE, true);
-
-                GBApplication.getContext().startService(intent);
+                Log.i(HRContentProvider.class.getName(), "Get ACTIVTY START");
+                GBApplication.deviceService().onEnableRealtimeSteps(true);
+                GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
                 mc = new MatrixCursor(activityColumnNames);
                 mc.addRow(new String[]{"OK", "No error"});
                 return mc;
             case ACTIVITY_STOP:
-                Log.i(HRContentProvider.class.getName(), String.format("Get ACTIVITY STOP"));
-                intent =
-                        new Intent()
-                                .setAction(ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT)
-                                .putExtra(EXTRA_BOOLEAN_ENABLE, false);
-
-                GBApplication.getContext().startService(intent);
+                Log.i(HRContentProvider.class.getName(), "Get ACTIVITY STOP");
+                GBApplication.deviceService().onEnableRealtimeSteps(false);
+                GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(false);
                 mc = new MatrixCursor(activityColumnNames);
                 mc.addRow(new String[]{"OK", "No error"});
                 return mc;
