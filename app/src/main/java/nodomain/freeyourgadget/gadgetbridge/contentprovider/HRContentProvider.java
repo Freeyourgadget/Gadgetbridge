@@ -44,12 +44,12 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_BOO
 /**
  * A content Provider, which publishes read only RAW @see ActivitySample to other applications
  * <p>
- *     TODO:
- *     - Contract Class
- *     - Permission System to read HR Data
- *     - Fix Travis
- *     - Check if the Device is really connected - connect and disconnect
- *
+ * TODO:
+ * - Contract Class
+ * - Permission System to read HR Data
+ * - Fix Travis
+ * - Check if the Device is really connected - connect and disconnect
+ * (Is the Selected device the current connected device??)
  */
 public class HRContentProvider extends ContentProvider {
 
@@ -106,10 +106,11 @@ public class HRContentProvider extends ContentProvider {
                     mGBDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                     break;
                 case DeviceService.ACTION_REALTIME_SAMPLES:
-                    buffered_sample = (ActivitySample) intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE);
-                    if (buffered_sample.getHeartRate() == -1)
+                    ActivitySample tmp_sample = (ActivitySample) intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE);
+                    if (tmp_sample.getHeartRate() == -1)
                         break;
 
+                    buffered_sample = tmp_sample;
                     // This notifies the observer
                     getContext().
                             getContentResolver().
