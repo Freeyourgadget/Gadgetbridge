@@ -64,8 +64,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private final int maxMsgLength = 20;
     private boolean callIncoming = false;
     private String songtitle = null;
+    private byte musicState = -1;
     public byte[] music = null;
-    public byte volume = 90;
+    public byte volume = 50;
 
     public BluetoothGattCharacteristic notifyCharacteristic = null;
     public BluetoothGattCharacteristic writeCharacteristic = null;
@@ -103,6 +104,15 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         requestBatteryInfo(builder);
         requestActivityInfo(builder);
         synchronizeTime(builder);
+
+        replyMsgToWatch(builder, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_MUSIC_CONTROL,
+                ZeTimeConstants.CMD_REQUEST_RESPOND,
+                0x02,
+                0x00,
+                0x02,
+                volume,
+                ZeTimeConstants.CMD_END});
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
         LOG.info("Initialization Done");
@@ -162,21 +172,24 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetMusicInfo(MusicSpec musicSpec) {
         songtitle = musicSpec.track;
-        if (music != null) {
-            try {
-                byte [] musicT = new byte[songtitle.getBytes(StandardCharsets.UTF_8).length + 7]; // 7 bytes for status and overhead
-                System.arraycopy(music, 0, musicT, 0, 6);
-                System.arraycopy(songtitle.getBytes(StandardCharsets.UTF_8), 0, musicT, 6, songtitle.getBytes(StandardCharsets.UTF_8).length);
-                musicT[musicT.length - 1] = ZeTimeConstants.CMD_END;
-                musicT[3] = (byte) ((songtitle.getBytes(StandardCharsets.UTF_8).length + 1) & 0xff);
-                musicT[4] = (byte) ((songtitle.getBytes(StandardCharsets.UTF_8).length + 1) >> 8);
-                TransactionBuilder builder = performInitialized("setMusicInfo");
-                replyMsgToWatch(builder, music);
-                musicT[2] = ZeTimeConstants.CMD_SEND;
-                sendMsgToWatch(builder, music);
-                performConnected(builder.getTransaction());
-            } catch (IOException e) {
-                GB.toast(getContext(), "Error setting music info: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        if(musicState != -1) {
+            music = new byte[songtitle.getBytes(StandardCharsets.UTF_8).length + 7]; // 7 bytes for status and overhead
+            music[0] = ZeTimeConstants.CMD_PREAMBLE;
+            music[1] = ZeTimeConstants.CMD_MUSIC_CONTROL;
+            music[2] = ZeTimeConstants.CMD_REQUEST_RESPOND;
+            music[3] = (byte) ((songtitle.getBytes(StandardCharsets.UTF_8).length + 1) & 0xff);
+            music[4] = (byte) ((songtitle.getBytes(StandardCharsets.UTF_8).length + 1) >> 8);
+            music[5] = musicState;
+            System.arraycopy(songtitle.getBytes(StandardCharsets.UTF_8), 0, music, 6, songtitle.getBytes(StandardCharsets.UTF_8).length);
+            music[music.length - 1] = ZeTimeConstants.CMD_END;
+            if (music != null) {
+                try {
+                    TransactionBuilder builder = performInitialized("setMusicStateInfo");
+                    replyMsgToWatch(builder, music);
+                    performConnected(builder.getTransaction());
+                } catch (IOException e) {
+                    GB.toast(getContext(), "Error setting music state and info: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                }
             }
         }
     }
@@ -297,6 +310,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetMusicState(MusicStateSpec stateSpec) {
+        musicState = stateSpec.state;
         if(songtitle != null) {
             music = new byte[songtitle.getBytes(StandardCharsets.UTF_8).length + 7]; // 7 bytes for status and overhead
             music[0] = ZeTimeConstants.CMD_PREAMBLE;
@@ -1113,7 +1127,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 case 4: // change volume
                     if (musicControlMsg[6] > volume) {
                         musicCmd.event = GBDeviceEventMusicControl.Event.VOLUMEUP;
-                        if(volume < 170) {
+                        if(volume < 90) {
                             volume += 10;
                         }
                     } else {
