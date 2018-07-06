@@ -136,8 +136,8 @@ public class HRContentProvider extends ContentProvider {
         //TODO Do i need only for testing or also in production?
         this.getContext().registerReceiver(mReceiver, filterLocal);
 
-        //TODO: ???
-        mGBDevice = ((GBApplication) this.getContext()).getDeviceManager().getSelectedDevice();
+        //TODO: This crashes the app. Seems like device Manager is not here yet
+        //mGBDevice = ((GBApplication) this.getContext()).getDeviceManager().getSelectedDevice();
 
         return true;
     }
@@ -162,7 +162,19 @@ public class HRContentProvider extends ContentProvider {
                 }
                 return mc;
             case ACTIVITY_START:
-                Log.i(HRContentProvider.class.getName(), "Get ACTIVTY START");
+                // TODO Here we should connect to the device
+                // However which device to connect to
+                // if (there_is_a_current_deice_that_is_connected())
+                //    Start_realtime_there()
+                // else
+                //    connect_to_device, then start realtime?
+                // Then listen to the DEVICE_CHANGED handle and IF Connected start the onEanable() thingies
+                //GBApplication.deviceService().connect(mGBDevice);
+                String deviceAddress = (selectionArgs != null) ? selectionArgs[0] : "";
+                GBDevice tmp = ((GBApplication) this.getContext()).getDeviceManager().getSelectedDevice();
+                Log.i(HRContentProvider.class.getName(), String.format("Get ACTIVTY START %s device selected device %s", deviceAddress, tmp));
+
+                Log.i(HRContentProvider.class.getName(), String.format("Get ACTIVTY START %s device", deviceAddress));
                 GBApplication.deviceService().onEnableRealtimeSteps(true);
                 GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
                 mc = new MatrixCursor(activityColumnNames);
@@ -176,7 +188,7 @@ public class HRContentProvider extends ContentProvider {
                 mc.addRow(new String[]{"OK", "No error"});
                 return mc;
             case REALTIME:
-                String sample_string = (buffered_sample == null) ? "" : buffered_sample.toString();
+                //String sample_string = (buffered_sample == null) ? "" : buffered_sample.toString();
                 //Log.e(HRContentProvider.class.getName(), String.format("Get REALTIME buffered sample %s", sample_string));
                 mc = new MatrixCursor(realtimeColumnNames);
                 if (buffered_sample == null)
