@@ -22,19 +22,19 @@
 
     <string name="title_activity_debug">Debug</string>
 
-    <string name="title_activity_appmanager">Applicatie Beheer</string>
+    <string name="title_activity_appmanager">App Beheerder</string>
     <string name="appmanager_cached_watchapps_watchfaces">Apps in de cache</string>
     <string name="appmanager_installed_watchapps">Geïnstalleerde apps</string>
     <string name="appmanager_installed_watchfaces">Geïnstalleerde wijzerplaten</string>
     <string name="appmananger_app_delete">Verwijder</string>
     <string name="appmananger_app_delete_cache">Verwijder en verwijder uit cache</string>
-    <string name="appmananger_app_reinstall">Installeer</string>
+    <string name="appmananger_app_reinstall">Herinstalleer</string>
     <string name="appmanager_app_openinstore">Zoek in Pebble appstore</string>
     <string name="appmanager_health_activate">Activeren</string>
     <string name="appmanager_health_deactivate">deactiveren</string>
     <string name="appmanager_hrm_activate">Activeer HRM</string>
     <string name="appmanager_hrm_deactivate">Deactiveer HRM</string>
-    <string name="appmanager_weather_activate">Activeer de systeemweer-app</string>
+    <string name="appmanager_weather_activate">Activeer de systeem weer app</string>
     <string name="appmanager_weather_install_provider">Installeer de app voor weerbericht</string>
     <string name="app_configure">Configureren</string>
     <string name="app_move_to_top">Verplaats naar de top</string>
@@ -160,9 +160,9 @@
     <string name="_pebble_watch_reply">Antwoord</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
 <string name="controlcenter_connect">Verbinden</string>
-    <string name="controlcenter_navigation_drawer_open">Open het navigatie scherm</string>
-    <string name="controlcenter_navigation_drawer_close">Sluit het navigatie scherm</string>
-    <string name="appmanager_weather_deactivate">Deactiveer de systeemweer-app</string>
+    <string name="controlcenter_navigation_drawer_open">Open navigatie scherm</string>
+    <string name="controlcenter_navigation_drawer_close">Sluit navigatie scherm</string>
+    <string name="appmanager_weather_deactivate">Deactiveer de systeem weer app</string>
     <string name="title_activity_calblacklist">Kalenders op de zwarte lijst</string>
 
     <string name="title_activity_fw_app_insaller">Firmware/Apps installeren</string>
@@ -553,4 +553,52 @@
 
     <string name="choose_auto_export_location">Kies export locatie</string>
     <string name="notification_channel_name">Gadgetbridge meldingen</string>
+<string name="blacklist_all_for_notifications">Blacklist voor alle notificaties</string>
+    <string name="whitelist_all_for_notifications">Whitelist voor alle notificaties</string>
+
+
+    <string name="fw_upgrade_notice_miband3">Je staat op het punt om de %s-firmware op je Mi Band 3 te installeren.
+\n
+\nZorg ervoor dat u het .fw bestand installeert, en daarna het .res bestand. Uw horloge wordt opnieuw opgestart na het installeren van het .fw-bestand.
+\n
+\nOpmerking: U hoeft .res niet te installeren als het precies hetzelfde is als het eerder geïnstalleerde .res.
+\n
+\nNIET GETEST, KAN UW APPARAAT BRICKEN, GA VERDER OP EIGEN RISICO!</string>
+    <string name="pref_title_pebble_gatt_clientonly">Alleen GATT-cliënt</string>
+    <string name="pref_summary_pebble_gatt_clientonly">Dit is alleen voor Pebble 2 en experimenteel, probeer dit als je connectiviteitsproblemen hebt</string>
+    <string name="pref_auto_fetch">Activiteitsgegevens automatisch ophalen</string>
+    <string name="pref_auto_fetch_summary">Ophalen gebeurt bij het ontgrendelen van het scherm. Werkt alleen als er een vergrendelmechanisme is ingesteld!</string>
+    <string name="pref_auto_fetch_limit_fetches">Minimaal tijdsverloop tussen de ophaalbeurten</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Om de %d minuten ophalen</string>
+
+    <string name="on">Aan</string>
+    <string name="controlcenter_start_activity_tracks">Uw activiteit tracks</string>
+    <string name="activity_type_not_measured">Niet gemeten</string>
+    <string name="activity_type_activity">Activiteit</string>
+    <string name="activity_type_light_sleep">Lichte slaap</string>
+    <string name="activity_type_deep_sleep">Diepe slaap</string>
+    <string name="activity_type_not_worn">Apparaat niet gedragen</string>
+    <string name="activity_type_running">Hardlopen</string>
+    <string name="activity_type_walking">Wandelen</string>
+    <string name="activity_type_swimming">Zwemmen</string>
+    <string name="activity_type_unknown">Onbekend activiteit</string>
+    <string name="activity_summaries">Activiteiten</string>
+    <string name="activity_type_biking">Fietsen</string>
+    <string name="activity_type_treadmill">Loopband</string>
+    <string name="select_all">Alles selecteren</string>
+    <string name="share">Delen</string>
+    <string name="devicetype_miband3">Mi Band 3</string>
+    <string name="devicetype_q8">Q8</string>
+    <string name="devicetype_xwatch">XWatch</string>
+
+    <string name="menuitem_shortcut_alipay">Alipay (snelkoppeling)</string>
+    <string name="menuitem_shortcut_weather">Weer (snelkoppeling)</string>
+    <string name="menuitem_status">Status</string>
+    <string name="menuitem_activity">Activiteit</string>
+    <string name="menuitem_weather">Weer</string>
+    <string name="menuitem_alarm">Alarm</string>
+    <string name="menuitem_timer">Timer</string>
+    <string name="menuitem_compass">Kompas</string>
+    <string name="menuitem_settings">Instellingen</string>
+    <string name="menuitem_alipay">Alipay</string>
 </resources>
