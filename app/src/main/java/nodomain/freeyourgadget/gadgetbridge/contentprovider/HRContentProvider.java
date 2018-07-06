@@ -27,6 +27,7 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -38,14 +39,15 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_BOOLEAN_ENABLE;
-
 /**
  * A content Provider, which publishes read only RAW @see ActivitySample to other applications
  * <p>
  * TODO:
- * For this to work there must be an additional api which switches the GadgetBridge to "start activity"
+ * - Contract Class
+ * - Permission System to read HR Data
+ * - Fix Travis
+ * - Check if the Device is really connected - connect and disconnect
+ * (Is the Selected device the current connected device??)
  */
 public class HRContentProvider extends ContentProvider {
 
@@ -54,57 +56,57 @@ public class HRContentProvider extends ContentProvider {
     private static final int ACTIVITY_START = 3;
     private static final int ACTIVITY_STOP = 4;
 
+    enum provider_state {ACTIVE, INACTIVE};
+    provider_state state = provider_state.INACTIVE;
+
     private static final UriMatcher URI_MATCHER;
 
     static {
         URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
-        URI_MATCHER.addURI(HRContentProvider.AUTHORITY,
+        URI_MATCHER.addURI(HRContentProviderContract.AUTHORITY,
                 "devices", DEVICES_LIST);
-        URI_MATCHER.addURI(HRContentProvider.AUTHORITY,
+        URI_MATCHER.addURI(HRContentProviderContract.AUTHORITY,
                 "realtime", REALTIME);
-        URI_MATCHER.addURI(HRContentProvider.AUTHORITY,
+        URI_MATCHER.addURI(HRContentProviderContract.AUTHORITY,
                 "activity_start", ACTIVITY_START);
-        URI_MATCHER.addURI(HRContentProvider.AUTHORITY,
+        URI_MATCHER.addURI(HRContentProviderContract.AUTHORITY,
                 "activity_stop", ACTIVITY_STOP);
     }
 
     private ActivitySample buffered_sample = null;
 
-    // this is only needed for the MatrixCursor constructor
-    public static final String[] deviceColumnNames = new String[]{"Name", "Model", "Address"};
-    public static final String[] activityColumnNames = new String[]{"Status", "Message"};
-    public static final String[] realtimeColumnNames = new String[]{"Status", "Message"};
-
-    static final String AUTHORITY = "com.gadgetbridge.heartrate.provider";
-    static final String ACTIVITY_START_URL = "content://" + AUTHORITY + "/activity_start";
-    static final String ACTIVITY_STOP_URL = "content://" + AUTHORITY + "/activity_stop";
-
-    static final String REALTIME_URL = "content://" + AUTHORITY + "/realtime";
-    static final String DEVICES_URL = "content://" + AUTHORITY + "/devices";
-
-    public static final Uri ACTIVITY_START_URI = Uri.parse(ACTIVITY_START_URL);
-    public static final Uri ACTIVITY_STOP_URI = Uri.parse(ACTIVITY_STOP_URL);
-    public static final Uri REALTIME_URI = Uri.parse(REALTIME_URL);
-    public static final Uri DEVICES_URI = Uri.parse(DEVICES_URL);
-
+    // TODO: This is most of the time null...
     private GBDevice mGBDevice = null;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            Log.e(HRContentProvider.class.getName(), "Received Event, aciton: " + action);
+            //Log.i(HRContentProvider.class.getName(), "Received Event, aciton: " + action);
 
             switch (action) {
                 case GBDevice.ACTION_DEVICE_CHANGED:
                     mGBDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+
+                    // Rationale: If device was not connected
+                    // it should show up here after beeing connected
+                    // If the user wanted to switch on realtime traffic, but we first needed to connect it
+                    // we do it here
+                    if (state == provider_state.ACTIVE) {
+                        GBApplication.deviceService().onEnableRealtimeSteps(true);
+                        GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
+                    }
                     break;
                 case DeviceService.ACTION_REALTIME_SAMPLES:
-                    buffered_sample = (ActivitySample) intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE);
+                    ActivitySample tmp_sample = (ActivitySample) intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE);
+                    if (tmp_sample.getHeartRate() == -1)
+                        break;
+
+                    buffered_sample = tmp_sample;
                     // This notifies the observer
                     getContext().
                             getContentResolver().
-                            notifyChange(REALTIME_URI, null);
+                            notifyChange(HRContentProviderContract.REALTIME_URI, null);
                     break;
                 default:
                     break;
@@ -126,58 +128,82 @@ public class HRContentProvider extends ContentProvider {
         //TODO Do i need only for testing or also in production?
         this.getContext().registerReceiver(mReceiver, filterLocal);
 
+        //TODO: This crashes the app. Seems like device Manager is not here yet
+        //mGBDevice = ((GBApplication) this.getContext()).getDeviceManager().getSelectedDevice();
+
         return true;
     }
 
     @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        Log.e(HRContentProvider.class.getName(), "query uri " + uri.toString());
+        //Log.i(HRContentProvider.class.getName(), "query uri " + uri.toString());
         MatrixCursor mc;
-        Intent intent;
 
+        DeviceManager deviceManager;
         switch (URI_MATCHER.match(uri)) {
             case DEVICES_LIST:
-                DeviceManager deviceManager = ((GBApplication) GBApplication.getContext()).getDeviceManager();
+                deviceManager = ((GBApplication) (this.getContext())).getDeviceManager();
                 List<GBDevice> l = deviceManager.getDevices();
+                if (l == null) {
+                    return null;
+                }
                 Log.i(HRContentProvider.class.getName(), String.format("listing %d devices", l.size()));
 
-                 mc = new MatrixCursor(deviceColumnNames);
+                mc = new MatrixCursor(HRContentProviderContract.deviceColumnNames);
                 for (GBDevice dev : l) {
                     mc.addRow(new Object[]{dev.getName(), dev.getModel(), dev.getAddress()});
                 }
                 return mc;
             case ACTIVITY_START:
-                Log.i(HRContentProvider.class.getName(), String.format("Get ACTIVTY START"));
-                intent =
-                        new Intent()
-                        .setAction(ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT)
-                        .putExtra(EXTRA_BOOLEAN_ENABLE, true);
+                this.state = provider_state.ACTIVE;
+                GBDevice targetDevice = getDevice((selectionArgs != null) ? selectionArgs[0] : "");
+                if (targetDevice != null && targetDevice.isConnected()) {
+                    Log.i(HRContentProvider.class.getName(), "Get ACTIVTY START");
+                    GBApplication.deviceService().onEnableRealtimeSteps(true);
+                    GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
+                    mc = new MatrixCursor(HRContentProviderContract.activityColumnNames);
+                    mc.addRow(new String[]{"OK", "Connected"});
+                } else {
+                    GBApplication.deviceService().connect(targetDevice);
+                    mc = new MatrixCursor(HRContentProviderContract.activityColumnNames);
+                    mc.addRow(new String[]{"OK", "Connecting"});
+                }
 
-                GBApplication.getContext().startService(intent);
-                mc = new MatrixCursor(activityColumnNames);
-                mc.addRow(new String[]{"OK", "No error"});
                 return mc;
             case ACTIVITY_STOP:
-                Log.i(HRContentProvider.class.getName(), String.format("Get ACTIVITY STOP"));
-                intent =
-                        new Intent()
-                                .setAction(ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT)
-                                .putExtra(EXTRA_BOOLEAN_ENABLE, false);
+                this.state = provider_state.INACTIVE;
 
-                GBApplication.getContext().startService(intent);
-                mc = new MatrixCursor(activityColumnNames);
+                Log.i(HRContentProvider.class.getName(), "Get ACTIVITY STOP");
+                GBApplication.deviceService().onEnableRealtimeSteps(false);
+                GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(false);
+                mc = new MatrixCursor(HRContentProviderContract.activityColumnNames);
                 mc.addRow(new String[]{"OK", "No error"});
                 return mc;
             case REALTIME:
-                String sample_string = (buffered_sample == null) ? "" : buffered_sample.toString();
-                Log.e(HRContentProvider.class.getName(), String.format("Get REALTIME buffered sample %s", sample_string));
-                mc = new MatrixCursor(realtimeColumnNames);
-                
-                // TODO no strings...
-                mc.addRow(new Object[]{"OK", sample_string});
+                //String sample_string = (buffered_sample == null) ? "" : buffered_sample.toString();
+                //Log.e(HRContentProvider.class.getName(), String.format("Get REALTIME buffered sample %s", sample_string));
+                mc = new MatrixCursor(HRContentProviderContract.realtimeColumnNames);
+                if (buffered_sample != null)
+                    mc.addRow(new Object[]{"OK", buffered_sample.getHeartRate(), buffered_sample.getSteps(), mGBDevice != null ? mGBDevice.getBatteryLevel() : 99});
                 return mc;
         }
-        return new MatrixCursor(deviceColumnNames);
+        return null;
+    }
+
+    // Returns the requested device. If it is not found
+    // it tries to return the "current" device (if i understand it correctly)
+    @Nullable
+    private GBDevice getDevice(String deviceAddress) {
+        DeviceManager deviceManager;
+        deviceManager = ((GBApplication) (this.getContext())).getDeviceManager();
+        for (GBDevice device : deviceManager.getDevices()) {
+            if (deviceAddress.equals(device.getAddress())) {
+                Log.i(HRContentProvider.class.getName(), String.format("Found device device %s", device));
+                return device;
+            }
+        }
+        Log.i(HRContentProvider.class.getName(), String.format("Did not find device returning selected %s", deviceManager.getSelectedDevice()));
+        return deviceManager.getSelectedDevice();
     }
 
     @Override
