@@ -102,6 +102,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         requestDeviceInfo(builder);
         requestBatteryInfo(builder);
         requestActivityInfo(builder);
+        synchronizeTime(builder);
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
         LOG.info("Initialization Done");
@@ -358,7 +359,13 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetTime() {
-
+        try {
+            TransactionBuilder builder = performInitialized("synchronizeTime");
+            synchronizeTime(builder);
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error setting the time: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
     }
 
     @Override
@@ -1170,5 +1177,29 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         {
             builder.write(replyCharacteristic, msg);
         }
+    }
+
+    private void synchronizeTime(TransactionBuilder builder)
+    {
+        Calendar now = GregorianCalendar.getInstance();
+        byte[] timeSync = new byte[]{ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_DATE_TIME,
+                ZeTimeConstants.CMD_SEND,
+                0x0c,
+                0x00,
+                (byte)(now.get(Calendar.YEAR) & 0xff),
+                (byte)(now.get(Calendar.YEAR) >> 8),
+                (byte)(now.get(Calendar.MONTH) + 1),
+                (byte)now.get(Calendar.DAY_OF_MONTH),
+                (byte)now.get(Calendar.HOUR_OF_DAY),
+                (byte)now.get(Calendar.MINUTE),
+                (byte)now.get(Calendar.SECOND),
+                0x00, // is 24h
+                0x00, // SetTime after calibration
+                0x01, // Unit
+                (byte)((now.get(Calendar.ZONE_OFFSET)/3600000) + (now.get(Calendar.DST_OFFSET)/3600000)), // TimeZone hour + daylight saving
+                0x00, // TimeZone minute
+                ZeTimeConstants.CMD_END};
+        sendMsgToWatch(builder, timeSync);
     }
 }
