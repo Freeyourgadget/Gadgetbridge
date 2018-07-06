@@ -295,6 +295,9 @@ public class GBDaoGenerator {
         activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         addHeartRateProperties(activitySample);
+        activitySample.addIntProperty("caloriesBurnt");
+        activitySample.addIntProperty("distanceMeters");
+        activitySample.addIntProperty("activeTimeMinutes");
         return activitySample;
     }
 

@@ -460,9 +460,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     public void onNotification(NotificationSpec notificationSpec) {
 
         int subject_length = 0;
-        //int body_length = notificationSpec.body.length();
         int body_length = notificationSpec.body.getBytes(StandardCharsets.UTF_8).length;
-        int notification_length = notificationSpec.body.getBytes(StandardCharsets.UTF_8).length;
+        if(body_length > 256)
+        {
+            body_length = 256;
+        }
+        int notification_length = body_length;
         byte[] subject = null;
         byte[] notification = null;
         Calendar time = GregorianCalendar.getInstance();
@@ -773,7 +776,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         if(msg != null) {
             if (msg[0] == ZeTimeConstants.CMD_PREAMBLE) {
                 if ((msg[3] != 0) || (msg[4] != 0)) {
-                    int payloadSize = msg[4] * 256 + msg[3];
+                    int payloadSize = (msg[4]&0xff) * 256 + (msg[3]&0xff);
                     int msgLength = payloadSize + 6;
                     if (msgLength == msg.length) {
                         if (msg[msgLength - 1] == ZeTimeConstants.CMD_END) {
@@ -789,7 +792,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private byte[] receiveCompleteMsg(byte[] msg)
     {
         if(msgPart == 0) {
-            int payloadSize = msg[4] * 256 + msg[3];
+            int payloadSize = (msg[4]&0xff) * 256 + (msg[3]&0xff);
             if (payloadSize > 14) {
                 lastMsg = new byte[msg.length];
                 System.arraycopy(msg, 0, lastMsg, 0, msg.length);
@@ -902,9 +905,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private void handleActivityFetching(byte[] msg)
     {
-        availableStepsData = (int) (msg[5] + 256*msg[6]);
-        availableSleepData = (int) (msg[7] + 256*msg[8]);
-        availableHeartRateData= (int) (msg[9] + 256*msg[10]);
+        availableStepsData = (int) ((msg[5]&0xff) + 256*(msg[6]&0xff));
+        availableSleepData = (int) ((msg[7]&0xff) + 256*(msg[8]&0xff));
+        availableHeartRateData= (int) ((msg[9]&0xff) + 256*(msg[10]&0xff));
         if(availableStepsData > 0){
             getStepData();
         } else if(availableHeartRateData > 0)
@@ -975,10 +978,11 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private void handleStepsData(byte[] msg)
     {
         ZeTimeActivitySample sample = new ZeTimeActivitySample();
-        //Calendar timestamp = GregorianCalendar.getInstance();
-        //timestamp.setTimeInMillis((long) (msg[10] * 16777216 + msg[9] * 65536 + msg[8] * 256 + msg[7]));
-        sample.setSteps((int) (msg[14] * 16777216 + msg[13] * 65536 + msg[12] * 256 + msg[11]));
-        sample.setTimestamp(msg[10] * 16777216 + msg[9] * 65536 + msg[8] * 256 + msg[7]);
+        sample.setTimestamp((msg[10]&0xff) * 16777216 + (msg[9]&0xff) * 65536 + (msg[8]&0xff) * 256 + (msg[7]&0xff));
+        sample.setSteps(((msg[14]&0xff) * 16777216 + (msg[13]&0xff) * 65536 + (msg[12]&0xff) * 256 + (msg[11]&0xff)));
+        sample.setCaloriesBurnt(((msg[18]&0xff) * 16777216 + (msg[17]&0xff) * 65536 + (msg[16]&0xff) * 256 + (msg[15]&0xff)));
+        sample.setDistanceMeters(((msg[22]&0xff) * 16777216 + (msg[21]&0xff) * 65536 + (msg[20]&0xff) * 256 + (msg[19]&0xff)));
+        sample.setActiveTimeMinutes(((msg[26]&0xff) * 16777216 + (msg[25]&0xff) * 65536 + (msg[24]&0xff) * 256 + (msg[23]&0xff)));
         sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
         sample.setRawIntensity(sample.getSteps());
 
@@ -1014,7 +1018,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private void handleSleepData(byte[] msg)
     {
         ZeTimeActivitySample sample = new ZeTimeActivitySample();
-        sample.setTimestamp(msg[10] * 16777216 + msg[9] * 65536 + msg[8] * 256 + msg[7]);
+        sample.setTimestamp((msg[10]&0xff) * 16777216 + (msg[9]&0xff) * 65536 + (msg[8]&0xff) * 256 + (msg[7]&0xff));
         if(msg[11] == 0) {
             sample.setRawKind(ActivityKind.TYPE_DEEP_SLEEP);
         } else if(msg[11] == 1)
@@ -1052,7 +1056,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     {
         ZeTimeActivitySample sample = new ZeTimeActivitySample();
         sample.setHeartRate(msg[11]);
-        sample.setTimestamp(msg[10] * 16777216 + msg[9] * 65536 + msg[8] * 256 + msg[7]);
+        sample.setTimestamp((msg[10]&0xff) * 16777216 + (msg[9]&0xff) * 65536 + (msg[8]&0xff) * 256 + (msg[7]&0xff));
 
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             sample.setUserId(DBHelper.getUser(dbHandler.getDaoSession()).getId());
