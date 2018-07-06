@@ -2,7 +2,6 @@ package nodomain.freeyourgadget.gadgetbridge.database;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.ContentObserver;
@@ -11,14 +10,12 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import org.apache.tools.ant.types.resources.comparators.Content;
 import org.junit.Test;
 
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.contentprovider.HRContentProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
+import nodomain.freeyourgadget.gadgetbridge.contentprovider.HRContentProviderContract;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandSampleProvider;
@@ -38,7 +35,6 @@ import static org.junit.Assert.assertTrue;
 import static org.robolectric.Shadows.shadowOf;
 
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.shadows.ShadowApplication;
 import org.robolectric.shadows.ShadowContentResolver;
 
 
@@ -234,7 +230,7 @@ public class SampleProviderTest extends TestBase {
         Cursor cursor;
         /*
          * Test the device uri
-        Cursor cursor = mContentResolver.query(HRContentProvider.DEVICES_URI, null, null, null, null);
+        Cursor cursor = mContentResolver.query(HRContentProviderContract.DEVICES_URI, null, null, null, null);
 
         assertNotNull(cursor);
         assertEquals(1, cursor.getCount());
@@ -253,13 +249,13 @@ public class SampleProviderTest extends TestBase {
         /*
          * Test the activity start uri
          */
-        cursor = mContentResolver.query(HRContentProvider.ACTIVITY_START_URI, null, null, null, null);
+        cursor = mContentResolver.query(HRContentProviderContract.ACTIVITY_START_URI, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
                 String status = cursor.getString(0);
                 String message = cursor.getString(1);
                 assertEquals("OK", status);
-                assertEquals("No error", message);
+                assertEquals("Connected", message);
 
             } while (cursor.moveToNext());
         }
@@ -267,7 +263,7 @@ public class SampleProviderTest extends TestBase {
         /*
          * Test the activity stop uri
          */
-        cursor = mContentResolver.query(HRContentProvider.ACTIVITY_STOP_URI, null, null, null, null);
+        cursor = mContentResolver.query(HRContentProviderContract.ACTIVITY_STOP_URI, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
                 String status = cursor.getString(0);
@@ -291,7 +287,7 @@ public class SampleProviderTest extends TestBase {
             public void onChange(boolean selfChange, Uri uri) {
                 super.onChange(selfChange, uri);
                 //Log.e(SampleProviderTest.class.getName(), "Changed " + uri.toString());
-                Cursor cursor = mContentResolver.query(HRContentProvider.REALTIME_URI, null, null, null, null);
+                Cursor cursor = mContentResolver.query(HRContentProviderContract.REALTIME_URI, null, null, null, null);
                 if (cursor.moveToFirst()) {
                     do {
                         String status = cursor.getString(0);
@@ -303,10 +299,10 @@ public class SampleProviderTest extends TestBase {
                 }
                 numObserved++;
             }
-        };
+        }
         A1 a1 = new A1();
 
-        mContentResolver.registerContentObserver(HRContentProvider.REALTIME_URI, false, a1);
+        mContentResolver.registerContentObserver(HRContentProviderContract.REALTIME_URI, false, a1);
 
         generateSampleStream(sampleProvider);
 
