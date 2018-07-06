@@ -447,6 +447,10 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             LOG.warn("could not get BluetoothLeScanner()!");
             return;
         }
+        if (newLeScanCallback == null) {
+            LOG.warn("newLeScanCallback == null!");
+            return;
+        }
         bluetoothLeScanner.stopScan(newLeScanCallback);
     }
 
