@@ -56,7 +56,7 @@ public class HRContentProvider extends ContentProvider {
     private static final int ACTIVITY_START = 3;
     private static final int ACTIVITY_STOP = 4;
 
-    enum provider_state {ACTIVE, INACTIVE};
+    enum provider_state {ACTIVE, CONNECTING, INACTIVE};
     provider_state state = provider_state.INACTIVE;
 
     private static final UriMatcher URI_MATCHER;
@@ -87,12 +87,15 @@ public class HRContentProvider extends ContentProvider {
             switch (action) {
                 case GBDevice.ACTION_DEVICE_CHANGED:
                     mGBDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
-
+                    Log.d(HRContentProvider.class.toString(), "Got Device " + mGBDevice);
                     // Rationale: If device was not connected
                     // it should show up here after beeing connected
                     // If the user wanted to switch on realtime traffic, but we first needed to connect it
                     // we do it here
-                    if (state == provider_state.ACTIVE) {
+                    if (mGBDevice.isConnected() && state == provider_state.CONNECTING) {
+                        Log.d(HRContentProvider.class.toString(), "Device connected now, enabling realtime " + mGBDevice);
+
+                        state = provider_state.ACTIVE;
                         GBApplication.deviceService().onEnableRealtimeSteps(true);
                         GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
                     }
@@ -155,10 +158,12 @@ public class HRContentProvider extends ContentProvider {
                 }
                 return mc;
             case ACTIVITY_START:
-                this.state = provider_state.ACTIVE;
+
+                this.state = provider_state.CONNECTING;
+                Log.i(HRContentProvider.class.getName(), "Get ACTIVTY START");
                 GBDevice targetDevice = getDevice((selectionArgs != null) ? selectionArgs[0] : "");
                 if (targetDevice != null && targetDevice.isConnected()) {
-                    Log.i(HRContentProvider.class.getName(), "Get ACTIVTY START");
+                    this.state = provider_state.ACTIVE;
                     GBApplication.deviceService().onEnableRealtimeSteps(true);
                     GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
                     mc = new MatrixCursor(HRContentProviderContract.activityColumnNames);
@@ -195,6 +200,13 @@ public class HRContentProvider extends ContentProvider {
     @Nullable
     private GBDevice getDevice(String deviceAddress) {
         DeviceManager deviceManager;
+
+        if (mGBDevice != null && mGBDevice.getAddress() == deviceAddress) {
+            Log.i(HRContentProvider.class.getName(), String.format("Found device mGBDevice %s", mGBDevice));
+
+            return mGBDevice;
+        }
+
         deviceManager = ((GBApplication) (this.getContext())).getDeviceManager();
         for (GBDevice device : deviceManager.getDevices()) {
             if (deviceAddress.equals(device.getAddress())) {
