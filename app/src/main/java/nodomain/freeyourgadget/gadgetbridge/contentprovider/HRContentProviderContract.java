@@ -3,9 +3,19 @@ package nodomain.freeyourgadget.gadgetbridge.contentprovider;
 import android.net.Uri;
 
 public final class HRContentProviderContract {
-    public static final String[] deviceColumnNames = new String[]{"Name", "Model", "Address"};
-    public static final String[] activityColumnNames = new String[]{"Status", "Message"};
-    public static final String[] realtimeColumnNames = new String[]{"Status", "Heartrate", "Steps", "Battery"};
+
+    public static final String COLUMN_STATUS = "Status";
+    public static final String COLUMN_NAME = "Name";
+    public static final String COLUMN_ADDRESS = "Address";
+    public static final String COLUMN_MODEL = "Model";
+    public static final String COLUMN_MESSAGE = "Message";
+    public static final String COLUMN_HEARTRATE = "HeartRate";
+    public static final String COLUMN_STEPS = "Steps";
+    public static final String COLUMN_BATTERY = "Battery";
+
+    public static final String[] deviceColumnNames = new String[]{COLUMN_NAME, COLUMN_MODEL, COLUMN_ADDRESS};
+    public static final String[] activityColumnNames = new String[]{COLUMN_STATUS, COLUMN_MESSAGE};
+    public static final String[] realtimeColumnNames = new String[]{COLUMN_STATUS, COLUMN_HEARTRATE, COLUMN_STEPS, COLUMN_BATTERY};
 
     static final String AUTHORITY = "com.gadgetbridge.heartrate.provider";
 
