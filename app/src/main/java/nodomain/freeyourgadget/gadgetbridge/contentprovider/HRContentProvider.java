@@ -31,6 +31,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -50,6 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
  * (Is the Selected device the current connected device??)
  */
 public class HRContentProvider extends ContentProvider {
+    private static final Logger LOG = LoggerFactory.getLogger(HRContentProvider.class);
 
     private static final int DEVICES_LIST = 1;
     private static final int REALTIME = 2;
@@ -82,18 +86,18 @@ public class HRContentProvider extends ContentProvider {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            //Log.i(HRContentProvider.class.getName(), "Received Event, aciton: " + action);
+            //LOG.info(HRContentProvider.class.getName(), "Received Event, aciton: " + action);
 
             switch (action) {
                 case GBDevice.ACTION_DEVICE_CHANGED:
                     mGBDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
-                    Log.d(HRContentProvider.class.toString(), "Got Device " + mGBDevice);
+                    LOG.debug(HRContentProvider.class.toString(), "Got Device " + mGBDevice);
                     // Rationale: If device was not connected
                     // it should show up here after beeing connected
                     // If the user wanted to switch on realtime traffic, but we first needed to connect it
                     // we do it here
                     if (mGBDevice.isConnected() && state == provider_state.CONNECTING) {
-                        Log.d(HRContentProvider.class.toString(), "Device connected now, enabling realtime " + mGBDevice);
+                        LOG.debug(HRContentProvider.class.toString(), "Device connected now, enabling realtime " + mGBDevice);
 
                         state = provider_state.ACTIVE;
                         GBApplication.deviceService().onEnableRealtimeSteps(true);
@@ -120,7 +124,7 @@ public class HRContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        Log.i(HRContentProvider.class.getName(), "Creating...");
+        LOG.info(HRContentProvider.class.getName(), "Creating...");
         IntentFilter filterLocal = new IntentFilter();
 
         filterLocal.addAction(GBDevice.ACTION_DEVICE_CHANGED);
@@ -139,7 +143,7 @@ public class HRContentProvider extends ContentProvider {
 
     @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        //Log.i(HRContentProvider.class.getName(), "query uri " + uri.toString());
+        //LOG.info(HRContentProvider.class.getName(), "query uri " + uri.toString());
         MatrixCursor mc;
 
         DeviceManager deviceManager;
@@ -150,7 +154,7 @@ public class HRContentProvider extends ContentProvider {
                 if (l == null) {
                     return null;
                 }
-                Log.i(HRContentProvider.class.getName(), String.format("listing %d devices", l.size()));
+                LOG.info(HRContentProvider.class.getName(), String.format("listing %d devices", l.size()));
 
                 mc = new MatrixCursor(HRContentProviderContract.deviceColumnNames);
                 for (GBDevice dev : l) {
@@ -160,7 +164,7 @@ public class HRContentProvider extends ContentProvider {
             case ACTIVITY_START:
 
                 this.state = provider_state.CONNECTING;
-                Log.i(HRContentProvider.class.getName(), "Get ACTIVTY START");
+                LOG.info(HRContentProvider.class.getName(), "Get ACTIVTY START");
                 GBDevice targetDevice = getDevice((selectionArgs != null) ? selectionArgs[0] : "");
                 if (targetDevice != null && targetDevice.isConnected()) {
                     this.state = provider_state.ACTIVE;
@@ -178,7 +182,7 @@ public class HRContentProvider extends ContentProvider {
             case ACTIVITY_STOP:
                 this.state = provider_state.INACTIVE;
 
-                Log.i(HRContentProvider.class.getName(), "Get ACTIVITY STOP");
+                LOG.info(HRContentProvider.class.getName(), "Get ACTIVITY STOP");
                 GBApplication.deviceService().onEnableRealtimeSteps(false);
                 GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(false);
                 mc = new MatrixCursor(HRContentProviderContract.activityColumnNames);
@@ -186,7 +190,7 @@ public class HRContentProvider extends ContentProvider {
                 return mc;
             case REALTIME:
                 //String sample_string = (buffered_sample == null) ? "" : buffered_sample.toString();
-                //Log.e(HRContentProvider.class.getName(), String.format("Get REALTIME buffered sample %s", sample_string));
+                //LOG.error(HRContentProvider.class.getName(), String.format("Get REALTIME buffered sample %s", sample_string));
                 mc = new MatrixCursor(HRContentProviderContract.realtimeColumnNames);
                 if (buffered_sample != null)
                     mc.addRow(new Object[]{"OK", buffered_sample.getHeartRate(), buffered_sample.getSteps(), mGBDevice != null ? mGBDevice.getBatteryLevel() : 99});
@@ -202,7 +206,7 @@ public class HRContentProvider extends ContentProvider {
         DeviceManager deviceManager;
 
         if (mGBDevice != null && mGBDevice.getAddress() == deviceAddress) {
-            Log.i(HRContentProvider.class.getName(), String.format("Found device mGBDevice %s", mGBDevice));
+            LOG.info(HRContentProvider.class.getName(), String.format("Found device mGBDevice %s", mGBDevice));
 
             return mGBDevice;
         }
@@ -210,17 +214,17 @@ public class HRContentProvider extends ContentProvider {
         deviceManager = ((GBApplication) (this.getContext())).getDeviceManager();
         for (GBDevice device : deviceManager.getDevices()) {
             if (deviceAddress.equals(device.getAddress())) {
-                Log.i(HRContentProvider.class.getName(), String.format("Found device device %s", device));
+                LOG.info(HRContentProvider.class.getName(), String.format("Found device device %s", device));
                 return device;
             }
         }
-        Log.i(HRContentProvider.class.getName(), String.format("Did not find device returning selected %s", deviceManager.getSelectedDevice()));
+        LOG.info(HRContentProvider.class.getName(), String.format("Did not find device returning selected %s", deviceManager.getSelectedDevice()));
         return deviceManager.getSelectedDevice();
     }
 
     @Override
     public String getType(@NonNull Uri uri) {
-        Log.e(HRContentProvider.class.getName(), "getType uri " + uri);
+        LOG.error(HRContentProvider.class.getName(), "getType uri " + uri);
         return null;
     }
 

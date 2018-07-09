@@ -8,7 +8,6 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import org.junit.Test;
 
@@ -36,9 +35,12 @@ import static org.robolectric.Shadows.shadowOf;
 
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.ShadowContentResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class SampleProviderTest extends TestBase {
+    private static final Logger LOG = LoggerFactory.getLogger(SampleProviderTest.class);
 
     private GBDevice dummyGBDevice;
     private ContentResolver mContentResolver;
@@ -204,7 +206,7 @@ public class SampleProviderTest extends TestBase {
 
         for (int i = 0; i < 10; i++) {
             MiBandActivitySample sample = createSample(sampleProvider, MiBandSampleProvider.TYPE_ACTIVITY, 100 + i * 50, 10, 60 + i * 5, 1000 * i, user, device);
-            //Log.d(SampleProviderTest.class.getName(), "Sending sample " + sample.toString());
+            //LOG.debug(SampleProviderTest.class.getName(), "Sending sample " + sample.toString());
             Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
                     .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
             app.sendBroadcast(intent);
@@ -286,7 +288,7 @@ public class SampleProviderTest extends TestBase {
             @Override
             public void onChange(boolean selfChange, Uri uri) {
                 super.onChange(selfChange, uri);
-                //Log.e(SampleProviderTest.class.getName(), "Changed " + uri.toString());
+                //LOG.error(SampleProviderTest.class.getName(), "Changed " + uri.toString());
                 Cursor cursor = mContentResolver.query(HRContentProviderContract.REALTIME_URI, null, null, null, null);
                 if (cursor.moveToFirst()) {
                     do {
@@ -294,7 +296,7 @@ public class SampleProviderTest extends TestBase {
                         int heartRate = cursor.getInt(1);
                         assertEquals("OK", status);
                         assertEquals(60 + 5*numObserved, heartRate);
-                        Log.i("test", "HeartRate " + heartRate);
+                        LOG.info("test", "HeartRate " + heartRate);
                     } while (cursor.moveToNext());
                 }
                 numObserved++;
