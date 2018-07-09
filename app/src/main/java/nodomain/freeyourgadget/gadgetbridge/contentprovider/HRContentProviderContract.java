@@ -17,7 +17,7 @@ public final class HRContentProviderContract {
     public static final String[] activityColumnNames = new String[]{COLUMN_STATUS, COLUMN_MESSAGE};
     public static final String[] realtimeColumnNames = new String[]{COLUMN_STATUS, COLUMN_HEARTRATE, COLUMN_STEPS, COLUMN_BATTERY};
 
-    static final String AUTHORITY = "com.gadgetbridge.heartrate.provider";
+    static final String AUTHORITY = "org.gadgetbridge.realtimesamples.provider";
 
     static final String ACTIVITY_START_URL = "content://" + AUTHORITY + "/activity_start";
     static final String ACTIVITY_STOP_URL = "content://" + AUTHORITY + "/activity_stop";
