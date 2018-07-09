@@ -45,12 +45,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 /**
  * A content Provider, which publishes read only RAW @see ActivitySample to other applications
  * <p>
- * TODO:
- * - Contract Class
- * - Permission System to read HR Data
- * - Fix Travis
- * - Check if the Device is really connected - connect and disconnect
- * (Is the Selected device the current connected device??)
  */
 public class HRContentProvider extends ContentProvider {
     private static final Logger LOG = LoggerFactory.getLogger(HRContentProvider.class);
