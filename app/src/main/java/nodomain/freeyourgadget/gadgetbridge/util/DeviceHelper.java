@@ -58,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.no1f1.No1F1Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.vibratissimo.VibratissimoCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xwatch.XWatchCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributes;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -211,6 +212,7 @@ public class DeviceHelper {
         result.add(new EXRIZUK8Coordinator());
         result.add(new TeclastH30Coordinator());
         result.add(new XWatchCoordinator());
+        result.add(new ZeTimeCoordinator());
 
         return result;
     }

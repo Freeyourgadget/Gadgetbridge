@@ -179,7 +179,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         }
     }
 
-    private void handleGBDeviceEvent(GBDeviceEventMusicControl musicEvent) {
+    protected void handleGBDeviceEvent(GBDeviceEventMusicControl musicEvent) {
         Context context = getContext();
         LOG.info("Got event for MUSIC_CONTROL");
         Intent musicIntent = new Intent(GBMusicControlReceiver.ACTION_MUSICCONTROL);

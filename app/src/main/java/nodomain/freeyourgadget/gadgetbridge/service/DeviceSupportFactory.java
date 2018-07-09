@@ -41,6 +41,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.vibratissimo.Vibrati
 import nodomain.freeyourgadget.gadgetbridge.service.devices.hplus.HPlusSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.jyou.TeclastH30Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xwatch.XWatchSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.zetime.ZeTimeDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class DeviceSupportFactory {
@@ -151,6 +152,9 @@ public class DeviceSupportFactory {
                         break;
                     case XWATCH:
                         deviceSupport = new ServiceDeviceSupport(new XWatchSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+		    case ZETIME:
+                        deviceSupport = new ServiceDeviceSupport(new ZeTimeDeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
                 }
                 if (deviceSupport != null) {
                     deviceSupport.setContext(gbDevice, mBtAdapter, mContext);
