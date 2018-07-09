@@ -53,7 +53,7 @@ public class SampleProviderTest extends TestBase {
         // Stuff context into provider
         provider.attachInfo(app.getApplicationContext(), null);
 
-        ShadowContentResolver.registerProviderInternal("com.gadgetbridge.heartrate.provider", provider);
+        ShadowContentResolver.registerProviderInternal("org.gadgetbridge.realtimesamples.provider", provider);
     }
 
     @Test

@@ -415,7 +415,7 @@
 
         <provider
             android:name=".contentprovider.HRContentProvider"
-            android:authorities="com.gadgetbridge.heartrate.provider"
+            android:authorities="org.gadgetbridge.realtimesamples.provider"
             android:exported="true" />
 
         <provider
