@@ -35,6 +35,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
@@ -54,10 +57,13 @@ public class HRContentProvider extends ContentProvider {
     private static final int ACTIVITY_START = 3;
     private static final int ACTIVITY_STOP = 4;
 
-    enum provider_state {ACTIVE, CONNECTING, INACTIVE};
+    enum provider_state {ACTIVE, CONNECTING, INACTIVE}
+
+    ;
     provider_state state = provider_state.INACTIVE;
 
     private static final UriMatcher URI_MATCHER;
+    private Timer punchTimer = new Timer();
 
     static {
         URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
@@ -85,7 +91,7 @@ public class HRContentProvider extends ContentProvider {
             switch (action) {
                 case GBDevice.ACTION_DEVICE_CHANGED:
                     mGBDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
-                    LOG.debug(HRContentProvider.class.toString(), "Got Device " + mGBDevice);
+                    LOG.debug(HRContentProvider.class.toString(), "ACTION DEVICE CHANGED Got Device " + mGBDevice);
                     // Rationale: If device was not connected
                     // it should show up here after beeing connected
                     // If the user wanted to switch on realtime traffic, but we first needed to connect it
@@ -172,6 +178,17 @@ public class HRContentProvider extends ContentProvider {
                     mc.addRow(new String[]{"OK", "Connecting"});
                 }
 
+                punchTimer.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        // From LiveActivityFragment:
+                        // have to enable it again and again to keep it measureing
+                        GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
+                    }
+
+                }, 1000 * 10, 1000);
+                // Start after 10 seconds, repeat each second
+
                 return mc;
             case ACTIVITY_STOP:
                 this.state = provider_state.INACTIVE;
@@ -181,6 +198,7 @@ public class HRContentProvider extends ContentProvider {
                 GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(false);
                 mc = new MatrixCursor(HRContentProviderContract.activityColumnNames);
                 mc.addRow(new String[]{"OK", "No error"});
+                punchTimer.cancel();
                 return mc;
             case REALTIME:
                 //String sample_string = (buffered_sample == null) ? "" : buffered_sample.toString();
