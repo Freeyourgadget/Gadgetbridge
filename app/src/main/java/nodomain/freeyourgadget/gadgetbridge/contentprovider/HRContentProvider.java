@@ -40,6 +40,7 @@ import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -81,7 +82,7 @@ public class HRContentProvider extends ContentProvider {
 
     private GBDevice mGBDevice = null;
 
-    protected final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -131,9 +132,6 @@ public class HRContentProvider extends ContentProvider {
         filterLocal.addAction(DeviceService.ACTION_REALTIME_SAMPLES);
 
         LocalBroadcastManager.getInstance(this.getContext()).registerReceiver(mReceiver, filterLocal);
-
-        //TODO Do i need only for testing or also in production?
-        this.getContext().registerReceiver(mReceiver, filterLocal);
 
         //TODO: This crashes the app. Seems like device Manager is not here yet
         //mGBDevice = ((GBApplication) this.getContext()).getDeviceManager().getSelectedDevice();

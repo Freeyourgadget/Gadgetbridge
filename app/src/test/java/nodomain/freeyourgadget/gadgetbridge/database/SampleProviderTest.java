@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.database;
 
-import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,13 +7,18 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.contentprovider.HRContentProvider;
 import nodomain.freeyourgadget.gadgetbridge.contentprovider.HRContentProviderContract;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandSampleProvider;
@@ -31,10 +35,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.robolectric.Shadows.shadowOf;
 
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.ShadowContentResolver;
+import org.robolectric.shadows.ShadowLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,10 +51,13 @@ public class SampleProviderTest extends TestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+        ShadowLog.stream = System.out; // show logger’s output
+
         dummyGBDevice = createDummyGDevice("00:00:00:00:10");
         mContentResolver = app.getContentResolver();
 
         HRContentProvider provider = new HRContentProvider();
+
         // Stuff context into provider
         provider.attachInfo(app.getApplicationContext(), null);
 
@@ -209,11 +215,12 @@ public class SampleProviderTest extends TestBase {
             //LOG.debug("Sending sample " + sample.getHeartRate());
             Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
                     .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
-            app.sendBroadcast(intent);
+            LocalBroadcastManager.getInstance(app.getApplicationContext()).sendBroadcast(intent);
         }
     }
 
 
+    //@Ignore
     @Test
     public void testContentProvider() {
 
@@ -227,6 +234,7 @@ public class SampleProviderTest extends TestBase {
         dummyGBDevice.sendDeviceUpdateIntent(app);
 
         assertNotNull("The ContentResolver may not be null", mContentResolver);
+
 
         Cursor cursor;
         /*
@@ -304,20 +312,20 @@ public class SampleProviderTest extends TestBase {
         A1 a1 = new A1();
 
         mContentResolver.registerContentObserver(HRContentProviderContract.REALTIME_URI, false, a1);
-
         generateSampleStream(sampleProvider);
-
-        List<Intent> l = shadowOf(RuntimeEnvironment.application).getBroadcastIntents();
-
-        assertEquals(10, l.size());
-        for (Intent i : l)
-            assertEquals(i.getAction(), DeviceService.ACTION_REALTIME_SAMPLES);
-
-        List<BroadcastReceiver> r = shadowOf(RuntimeEnvironment.application).getReceiversForIntent(l.get(0));
-
-        assertEquals(1, r.size());
 
         assertEquals(a1.numObserved, 10);
 
     }
+
+   @Test
+   public void testDeviceManager() {
+       DeviceManager manager = ((GBApplication) (this.getContext())).getDeviceManager();
+       Log.d("---------------", "-----------------------------------");
+
+       System.out.println("-----------------------------------------");
+       assertNotNull(((GBApplication) GBApplication.getContext()).getDeviceManager());
+       LOG.debug(manager.toString());
+
+   }
 }
