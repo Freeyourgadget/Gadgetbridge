@@ -758,6 +758,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         }
     }
 
+    // Unser Einstig
     @Override
     public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
         if (characteristicHRControlPoint == null) {
@@ -770,6 +771,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 builder.notify(heartrateCharacteristic, enable);
             }
             if (enable) {
+                // Er stoppt und startet es zur sicherheit
                 builder.write(characteristicHRControlPoint, stopHeartMeasurementManual);
                 builder.write(characteristicHRControlPoint, startHeartMeasurementContinuous);
             } else {
@@ -1058,6 +1060,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             handleRealtimeSteps(characteristic.getValue());
             return true;
         } else if (GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT.equals(characteristicUUID)) {
+            // Hier kommt also die HeartRate in den Thread der dann alles in ein sample packt, in der DB speichert und den intent schickt
             handleHeartrate(characteristic.getValue());
             return true;
         } else if (MiBand2Service.UUID_CHARACTERISTIC_AUTH.equals(characteristicUUID)) {
@@ -1137,6 +1140,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("heart rate: " + hrValue);
             }
+            // Das ding ruft also in den thread rein und setzt das sample...
             RealtimeSamplesSupport realtimeSamplesSupport = getRealtimeSamplesSupport();
             realtimeSamplesSupport.setHeartrateBpm(hrValue);
             if (!realtimeSamplesSupport.isRunning()) {
@@ -1193,6 +1197,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                     try (DBHandler handler = GBApplication.acquireDB()) {
                         DaoSession session = handler.getDaoSession();
 
+                        // Why is this so complicated????
                         Device device = DBHelper.getDevice(getDevice(), session);
                         User user = DBHelper.getUser(session);
                         int ts = (int) (System.currentTimeMillis() / 1000);
