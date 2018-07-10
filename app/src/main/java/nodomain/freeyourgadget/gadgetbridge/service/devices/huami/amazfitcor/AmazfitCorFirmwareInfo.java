@@ -24,7 +24,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
     // this is the same as Bip
@@ -50,6 +49,10 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(64977, "RES 1.0.6.76");
         crcToVersion.put(60501, "RES 1.0.7.52-71");
         crcToVersion.put(31263, "RES 1.0.7.77-91");
+
+        // font
+        crcToVersion.put(61054, "8");
+        crcToVersion.put(62291, "9 (Latin)");
     }
 
     public AmazfitCorFirmwareInfo(byte[] bytes) {
@@ -68,19 +71,21 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
             return HuamiFirmwareType.RES_COMPRESSED;
         }
         if (ArrayUtils.startsWith(bytes, FW_HEADER)) {
-            String foundVersion = searchFirmwareVersion(bytes);
-            if (foundVersion != null) {
-                Version version = new Version(foundVersion);
-                if ((version.compareTo(new Version("1.0.5.00")) >= 0) && (version.compareTo(new Version("2.0.0.00")) < 0)) {
-                    return HuamiFirmwareType.FIRMWARE;
-                }
+            if (searchString32BitAligned(bytes, "Amazfit Cor")) {
+                return HuamiFirmwareType.FIRMWARE;
             }
             return HuamiFirmwareType.INVALID;
         }
         if (ArrayUtils.startsWith(bytes, WATCHFACE_HEADER)) {
             return HuamiFirmwareType.WATCHFACE;
         }
-
+        if (ArrayUtils.startsWith(bytes, NEWFT_HEADER)) {
+            if (bytes[10] == 0x01) {
+                return HuamiFirmwareType.FONT;
+            } else if (bytes[10] == 0x02) {
+                return HuamiFirmwareType.FONT_LATIN;
+            }
+        }
         return HuamiFirmwareType.INVALID;
     }
 

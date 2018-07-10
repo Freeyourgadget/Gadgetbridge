@@ -24,7 +24,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
     // gps detection is totally bogus, just the first 16 bytes
@@ -93,6 +92,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(11062, "0.1.1.39");
         crcToVersion.put(56670, "0.1.1.41");
         crcToVersion.put(58736, "0.1.1.45");
+        crcToVersion.put(2602,  "1.0.2.00");
 
         // resources
         crcToVersion.put(12586, "0.0.8.74");
@@ -114,6 +114,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(14334, "0.1.1.39");
         crcToVersion.put(21109, "0.1.1.41");
         crcToVersion.put(23073, "0.1.1.45");
+        crcToVersion.put(59245, "1.0.2.00");
 
         // gps
         crcToVersion.put(61520, "9367,8f79a91,0,0,");
@@ -148,12 +149,8 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
             return HuamiFirmwareType.GPS_CEP;
         }
         if (ArrayUtils.startsWith(bytes, FW_HEADER)) {
-            String foundVersion = searchFirmwareVersion(bytes);
-            if (foundVersion != null) {
-                Version version = new Version(foundVersion);
-                if ((version.compareTo(new Version("0.0.8.00")) >= 0) && (version.compareTo(new Version("1.0.0.00")) < 0)) {
-                    return HuamiFirmwareType.FIRMWARE;
-                }
+            if (searchString32BitAligned(bytes, "Amazfit Bip Watch")) {
+                return HuamiFirmwareType.FIRMWARE;
             }
             return HuamiFirmwareType.INVALID;
         }

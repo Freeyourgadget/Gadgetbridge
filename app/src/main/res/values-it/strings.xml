@@ -404,14 +404,14 @@
 \nNota: Non è necessario installare i file .res e .gps se questi sono gli stessi della versione precedentemente installata.
 \n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Si sta per installare il firmware %s sul Amazfit Cor.
-\n
-\nSi prega di installare prima il file .fw e successivamente il file .res. Il tuo smartwatch si riavvierà dopo l\'installazione del file .fw.
-\n
-\nNOTA: Non è necessario installare il file .res se risulta essere uguale a quello precedentemente installato.
-\n
-\nNON TESTATO: PROCEDI A TUO RISCHIO E PERICOLO!</string>
-    <string name="pref_title_charts_swipe">Abilit swipe Sinistra/Destra nel grafico delle attività</string>
+    <string name="fw_upgrade_notice_amazfitcor">Si sta per installare il firmware %s sul Amazfit Cor. 
+\n 
+\nSi prega di installare prima il file .fw e successivamente il file .res. Il tuo smartwatch si riavvierà dopo l\'installazione del file .fw. 
+\n 
+\nNOTA: Non è necessario installare il file .res se risulta essere uguale a quello precedentemente installato. 
+\n 
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="pref_title_charts_swipe">Abilita swipe Sinistra/Destra nel grafico delle attività</string>
 
     <string name="pref_title_weather">Meteo</string>
     <string name="pref_title_weather_location">Posizione meteo (CM/LOS)</string>
@@ -501,4 +501,49 @@
 <string name="devicetype_xwatch">XWatch</string>
 
     <string name="on">Acceso</string>
-    </resources>
+    <string name="blacklist_all_for_notifications">Blocca le notifiche da tutte le applicazioni</string>
+    <string name="whitelist_all_for_notifications">Consenti le notifiche da tutte le applicazioni</string>
+
+
+    <string name="fw_upgrade_notice_miband3">Si sta per installare il firmware %s sul Mi Band 3. 
+\n 
+\nSi prega di installare prima il file .fw e successivamente il file .res. Il tuo Miband si riavvierà dopo l\'installazione del file .fw. 
+\n 
+\nNOTA: Non è necessario installare il file .res se risulta essere uguale a quello precedentemente installato. 
+\n 
+\nNON TESTATO, POTREBBE DANNEGGIARE IL DISPOSITIVO IN MANIERA IRREVERSIBILE, PROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="pref_title_pebble_gatt_clientonly">Modalità GATT client</string>
+    <string name="pref_summary_pebble_gatt_clientonly">Sperimentale, compatibile solo con Pebble 2, attivare solo in caso di problemi di connettività</string>
+    <string name="pref_auto_fetch">"Recupero automatico dati  delle attività"</string>
+    <string name="pref_auto_fetch_summary">Il recupero avviene quando lo schermo viene sbloccato. Funziona solo se è attivata una modalità di blocco!</string>
+
+    <string name="controlcenter_start_activity_tracks">Traccia delle tua attività</string>
+    <string name="activity_type_not_measured">Non misurato</string>
+    <string name="activity_type_activity">Attività</string>
+    <string name="activity_type_light_sleep">Sonno leggero</string>
+    <string name="activity_type_deep_sleep">Sonno profondo</string>
+    <string name="activity_type_not_worn">Device non indossato</string>
+    <string name="activity_type_running">Corsa</string>
+    <string name="activity_type_walking">Camminata</string>
+    <string name="activity_type_swimming">Nuoto</string>
+    <string name="activity_type_unknown">Attività sconosciuta</string>
+    <string name="activity_summaries">Attività</string>
+    <string name="activity_type_biking">Bicicletta</string>
+    <string name="activity_type_treadmill">Tapis roulant</string>
+    <string name="select_all">Seleziona tutto</string>
+    <string name="share">Condividi</string>
+    <string name="reset_index">Reset data di recupero</string>
+
+    <string name="devicetype_miband3">Mi Band 3</string>
+    <string name="devicetype_q8">Q8</string>
+    <string name="menuitem_shortcut_alipay">Alipay (Scorciatoia)</string>
+    <string name="menuitem_shortcut_weather">Meteo (Scorciatoia)</string>
+    <string name="menuitem_status">Status</string>
+    <string name="menuitem_activity">Attività</string>
+    <string name="menuitem_weather">Meteo</string>
+    <string name="menuitem_alarm">Allarmi</string>
+    <string name="menuitem_timer">Timer</string>
+    <string name="menuitem_compass">Bussola</string>
+    <string name="menuitem_settings">Impostazioni</string>
+    <string name="menuitem_alipay">Alipay</string>
+</resources>
