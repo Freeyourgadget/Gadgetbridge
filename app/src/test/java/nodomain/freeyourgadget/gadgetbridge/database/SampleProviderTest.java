@@ -55,7 +55,7 @@ public class SampleProviderTest extends TestBase {
         // Stuff context into provider
         provider.attachInfo(app.getApplicationContext(), null);
 
-        ShadowContentResolver.registerProviderInternal("org.gadgetbridge.realtimesamples.provider", provider);
+        ShadowContentResolver.registerProviderInternal(HRContentProviderContract.AUTHORITY, provider);
     }
 
     @Test
