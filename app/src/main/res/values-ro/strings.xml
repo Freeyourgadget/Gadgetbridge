@@ -1,2 +1,68 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="app_name">Gadgetbridge</string>
+
+    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="action_settings">Setari</string>
+    <string name="action_debug">Debug</string>
+    <string name="action_quit">Iesire</string>
+    <string name="action_donate">Doneaza</string>
+    <string name="controlcenter_fetch_activity_data">Sincronizeaza</string>
+    <string name="controlcenter_find_device">Gaseste bratara</string>
+    <string name="controlcenter_connect">Conecteaza</string>
+    <string name="controlcenter_disconnect">Deconecteaza</string>
+    <string name="controlcenter_delete_device">Sterge bratara</string>
+    <string name="controlcenter_delete_device_name">Sterge %1$s</string>
+    <string name="controlcenter_delete_device_dialogmessage">Va fi stearsa bratara si datele asociate!</string>
+    <string name="controlcenter_navigation_drawer_open">Deschide meniul de navigatie</string>
+    <string name="controlcenter_navigation_drawer_close">Inchide meniul de navigatie</string>
+    <string name="controlcenter_snackbar_need_longpress">Apasati lung pentru a deconecta</string>
+    <string name="title_activity_appmanager">Manager aplicatii</string>
+    <string name="appmananger_app_reinstall">Reinstaleaza</string>
+    <string name="appmanager_health_activate">Activeaza</string>
+    <string name="appmanager_health_deactivate">Dezactiveaza</string>
+    <string name="appmanager_hrm_activate">Activeaza Masurare ritm cardiac</string>
+    <string name="appmanager_hrm_deactivate">Dezactiveaza Masurare ritm cardiac</string>
+    <string name="appmanager_weather_activate">Activeaza Aplicatie meteo</string>
+    <string name="appmanager_weather_deactivate">Dezactiveaza Aplicatie meteo</string>
+    <string name="app_configure">Configureaza</string>
+    <string name="title_activity_appblacklist">Notificari blocate</string>
+    <string name="blacklist_all_for_notifications">Blocheaza toate notificarile</string>
+    <string name="whitelist_all_for_notifications">Permite toate notificarile</string>
+
+
+    <string name="title_activity_calblacklist">Calendare blocate</string>
+
+    <string name="title_activity_fw_app_insaller">Instalare firmware</string>
+    <string name="fw_multi_upgrade_notice">Esti pe punctul de a instala firmware-ul %1$s si %2$s, in locul celor deja instalate pe Mi Band.</string>
+    <string name="miband_firmware_known">Firmware-ul a fost testat si este compatibil cu Gadgetbridge.</string>
+    <string name="title_activity_settings">Setari</string>
+
+    <string name="pref_header_general">Setari generale</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Conectare la bratara cand Bluetooth este pornit</string>
+    <string name="pref_title_general_autostartonboot">Porneste automat</string>
+    <string name="pref_title_general_autoreconnect">Reconecteare automata</string>
+    <string name="pref_default">Implicit</string>
+    <string name="pref_header_datetime">Data si Timp</string>
+    <string name="pref_title_datetime_syctimeonconnect">Sincronizare timp</string>
+    <string name="pref_title_theme">Tema</string>
+    <string name="pref_theme_light">Deschis</string>
+    <string name="pref_theme_dark">Intunecat</string>
+
+    <string name="pref_title_language">Limba</string>
+
+    <string name="pref_header_notifications">Notificari</string>
+    <string name="pref_title_notifications_call">Apeluri telefonice</string>
+    <string name="pref_title_notifications_sms">SMS</string>
+    <string name="pref_title_notifications_generic">Suport notificari generice</string>
+    <string name="pref_title_whenscreenon">... si cand ecranul este pornit</string>
+    <string name="always">Intotdeauna</string>
+    <string name="when_screen_off">Cand ecranul este oprit</string>
+    <string name="never">Niciodata</string>
+
+    <string name="pref_call_privacy_mode_off">Afiseaza numele si numarul</string>
+    <string name="pref_call_privacy_mode_name">Ascunde numele, afiseaza numarul</string>
+    <string name="pref_call_privacy_mode_number">Afiseaza numele, ascunde numarul</string>
+    <string name="pref_call_privacy_mode_complete">Ascunde numele si numarul</string>
+
+    <string name="pref_title_weather">Meteo</string>
+    </resources>
