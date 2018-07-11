@@ -776,7 +776,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         if(msg != null) {
             if (msg[0] == ZeTimeConstants.CMD_PREAMBLE) {
                 if ((msg[3] != 0) || (msg[4] != 0)) {
-                    int payloadSize = (msg[4]&0xff) * 256 + (msg[3]&0xff);
+                    int payloadSize = (msg[4] << 8)&0xff00 | (msg[3]&0xff);
                     int msgLength = payloadSize + 6;
                     if (msgLength == msg.length) {
                         if (msg[msgLength - 1] == ZeTimeConstants.CMD_END) {
@@ -792,7 +792,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private byte[] receiveCompleteMsg(byte[] msg)
     {
         if(msgPart == 0) {
-            int payloadSize = (msg[4]&0xff) * 256 + (msg[3]&0xff);
+            int payloadSize = (msg[4] << 8)&0xff00 | (msg[3]&0xff);
             if (payloadSize > 14) {
                 lastMsg = new byte[msg.length];
                 System.arraycopy(msg, 0, lastMsg, 0, msg.length);
@@ -905,9 +905,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private void handleActivityFetching(byte[] msg)
     {
-        availableStepsData = (int) ((msg[5]&0xff) + 256*(msg[6]&0xff));
-        availableSleepData = (int) ((msg[7]&0xff) + 256*(msg[8]&0xff));
-        availableHeartRateData= (int) ((msg[9]&0xff) + 256*(msg[10]&0xff));
+        availableStepsData = (int) ((msg[5]&0xff) | (msg[6] << 8)&0xff00);
+        availableSleepData = (int) ((msg[7]&0xff) | (msg[8] << 8)&0xff00);
+        availableHeartRateData= (int) ((msg[9]&0xff) | (msg[10] << 8)&0xff00);
         if(availableStepsData > 0){
             getStepData();
         } else if(availableHeartRateData > 0)
@@ -978,11 +978,11 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private void handleStepsData(byte[] msg)
     {
         ZeTimeActivitySample sample = new ZeTimeActivitySample();
-        sample.setTimestamp((msg[10]&0xff) * 16777216 + (msg[9]&0xff) * 65536 + (msg[8]&0xff) * 256 + (msg[7]&0xff));
-        sample.setSteps(((msg[14]&0xff) * 16777216 + (msg[13]&0xff) * 65536 + (msg[12]&0xff) * 256 + (msg[11]&0xff)));
-        sample.setCaloriesBurnt(((msg[18]&0xff) * 16777216 + (msg[17]&0xff) * 65536 + (msg[16]&0xff) * 256 + (msg[15]&0xff)));
-        sample.setDistanceMeters(((msg[22]&0xff) * 16777216 + (msg[21]&0xff) * 65536 + (msg[20]&0xff) * 256 + (msg[19]&0xff)));
-        sample.setActiveTimeMinutes(((msg[26]&0xff) * 16777216 + (msg[25]&0xff) * 65536 + (msg[24]&0xff) * 256 + (msg[23]&0xff)));
+        sample.setTimestamp((msg[10] << 24)&0xff000000 | (msg[9] << 16)&0xff0000 | (msg[8] << 8)&0xff00 | (msg[7]&0xff));
+        sample.setSteps((msg[14] << 24)&0xff000000 | (msg[13] << 16)&0xff0000 | (msg[12] << 8)&0xff00 | (msg[11]&0xff));
+        sample.setCaloriesBurnt((msg[18] << 24)&0xff000000 | (msg[17] << 16)&0xff0000 | (msg[16] << 8)&0xff00 | (msg[15]&0xff));
+        sample.setDistanceMeters((msg[22] << 24)&0xff000000 | (msg[21] << 16)&0xff0000 | (msg[20] << 8)&0xff00 | (msg[19]&0xff));
+        sample.setActiveTimeMinutes((msg[26] << 24)&0xff000000 | (msg[25] << 16)&0xff0000 | (msg[24] << 8)&0xff00 | (msg[23]&0xff));
         sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
         sample.setRawIntensity(sample.getSteps());
 
@@ -996,7 +996,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             GB.updateTransferNotification(null,"Data transfer failed", false, 0, getContext());
         }
 
-        progressSteps = msg[5] + msg[6] * 256;
+        progressSteps = (msg[5]&0xff) | ((msg[6] << 8)&0xff00);
         GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSteps *100 / availableStepsData), getContext());
         if (progressSteps == availableStepsData) {
             progressSteps = 0;
@@ -1018,7 +1018,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private void handleSleepData(byte[] msg)
     {
         ZeTimeActivitySample sample = new ZeTimeActivitySample();
-        sample.setTimestamp((msg[10]&0xff) * 16777216 + (msg[9]&0xff) * 65536 + (msg[8]&0xff) * 256 + (msg[7]&0xff));
+        sample.setTimestamp((msg[10] << 24)&0xff000000 | (msg[9] << 16)&0xff0000 | (msg[8] << 8)&0xff00 | (msg[7]&0xff));
         if(msg[11] == 0) {
             sample.setRawKind(ActivityKind.TYPE_DEEP_SLEEP);
         } else if(msg[11] == 1)
@@ -1039,7 +1039,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             GB.updateTransferNotification(null,"Data transfer failed", false, 0, getContext());
         }
 
-        progressSleep = msg[5] + msg[6] * 256;
+        progressSleep = (msg[5]&0xff) | (msg[6] << 8)&0xff00;
         GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSleep *100 / availableSleepData), getContext());
         if (progressSleep == availableSleepData) {
             progressSleep = 0;
@@ -1056,7 +1056,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     {
         ZeTimeActivitySample sample = new ZeTimeActivitySample();
         sample.setHeartRate(msg[11]);
-        sample.setTimestamp((msg[10]&0xff) * 16777216 + (msg[9]&0xff) * 65536 + (msg[8]&0xff) * 256 + (msg[7]&0xff));
+        sample.setTimestamp((msg[10] << 24)&0xff000000 | (msg[9] << 16)&0xff0000 | (msg[8] << 8)&0xff00 | (msg[7]&0xff));
 
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             sample.setUserId(DBHelper.getUser(dbHandler.getDaoSession()).getId());
@@ -1068,7 +1068,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             GB.updateTransferNotification(null,"Data transfer failed", false, 0, getContext());
         }
 
-        progressHeartRate = msg[5] + msg[6] * 256;
+        progressHeartRate = (msg[5]&0xff) | ((msg[6] << 8)&0xff00);
         GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressHeartRate *100 / availableHeartRateData), getContext());
         if (progressHeartRate == availableHeartRateData) {
             progressHeartRate = 0;
