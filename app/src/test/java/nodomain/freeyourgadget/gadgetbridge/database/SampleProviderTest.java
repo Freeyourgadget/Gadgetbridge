@@ -206,7 +206,7 @@ public class SampleProviderTest extends TestBase {
 
         for (int i = 0; i < 10; i++) {
             MiBandActivitySample sample = createSample(sampleProvider, MiBandSampleProvider.TYPE_ACTIVITY, 100 + i * 50, 10, 60 + i * 5, 1000 * i, user, device);
-            //LOG.debug(SampleProviderTest.class.getName(), "Sending sample " + sample.toString());
+            //LOG.debug("Sending sample " + sample.getHeartRate());
             Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
                     .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
             app.sendBroadcast(intent);
@@ -227,12 +227,12 @@ public class SampleProviderTest extends TestBase {
         dummyGBDevice.sendDeviceUpdateIntent(app);
 
         assertNotNull("The ContentResolver may not be null", mContentResolver);
-        //assertNotNull(((GBApplication) GBApplication.getContext()).getDeviceManager());
 
         Cursor cursor;
         /*
          * Test the device uri
-        Cursor cursor = mContentResolver.query(HRContentProviderContract.DEVICES_URI, null, null, null, null);
+         */
+        cursor = mContentResolver.query(HRContentProviderContract.DEVICES_URI, null, null, null, null);
 
         assertNotNull(cursor);
         assertEquals(1, cursor.getCount());
@@ -246,7 +246,6 @@ public class SampleProviderTest extends TestBase {
                 assertEquals(dummyGBDevice.getAddress(), deviceAddress);
             } while (cursor.moveToNext());
         }
-         */
 
         /*
          * Test the activity start uri
@@ -288,15 +287,15 @@ public class SampleProviderTest extends TestBase {
             @Override
             public void onChange(boolean selfChange, Uri uri) {
                 super.onChange(selfChange, uri);
-                //LOG.error(SampleProviderTest.class.getName(), "Changed " + uri.toString());
                 Cursor cursor = mContentResolver.query(HRContentProviderContract.REALTIME_URI, null, null, null, null);
                 if (cursor.moveToFirst()) {
                     do {
                         String status = cursor.getString(0);
                         int heartRate = cursor.getInt(1);
+
+                        LOG.info("HeartRate " + heartRate);
                         assertEquals("OK", status);
                         assertEquals(60 + 5*numObserved, heartRate);
-                        LOG.info("test", "HeartRate " + heartRate);
                     } while (cursor.moveToNext());
                 }
                 numObserved++;
