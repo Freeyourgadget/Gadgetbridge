@@ -186,7 +186,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 try {
                     TransactionBuilder builder = performInitialized("setMusicStateInfo");
                     replyMsgToWatch(builder, music);
-                    performConnected(builder.getTransaction());
+                    builder.queue(getQueue());
                 } catch (IOException e) {
                     GB.toast(getContext(), "Error setting music state and info: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                 }
@@ -268,7 +268,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 try {
                     TransactionBuilder builder = performInitialized("setCallState");
                     sendMsgToWatch(builder, notification);
-                    performConnected(builder.getTransaction());
+                    builder.queue(getQueue());
                 } catch (IOException e) {
                     GB.toast(getContext(), "Error set call state: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                 }
@@ -297,7 +297,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("fetchActivityData");
             requestActivityInfo(builder);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error on fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -329,7 +329,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 try {
                     TransactionBuilder builder = performInitialized("setMusicStateInfo");
                     replyMsgToWatch(builder, music);
-                    performConnected(builder.getTransaction());
+                    builder.queue(getQueue());
                 } catch (IOException e) {
                     GB.toast(getContext(), "Error setting music state and info: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                 }
@@ -364,7 +364,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             try {
                 TransactionBuilder builder = performInitialized("sendCalendarEvenr");
                 sendMsgToWatch(builder, CalendarEvent);
-                performConnected(builder.getTransaction());
+                builder.queue(getQueue());
             } catch (IOException e) {
                 GB.toast(getContext(), "Error sending calendar event: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
             }
@@ -376,7 +376,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("synchronizeTime");
             synchronizeTime(builder);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error setting the time: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -434,7 +434,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             try {
                 TransactionBuilder builder = performInitialized("sendWeahter");
                 sendMsgToWatch(builder, weather);
-                performConnected(builder.getTransaction());
+                builder.queue(getQueue());
             } catch (IOException e) {
                 GB.toast(getContext(), "Error sending weather: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
             }
@@ -706,7 +706,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             //builder.write(writeCharacteristic, notification);
             //builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
             sendMsgToWatch(builder, notification);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error sending notification: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -932,7 +932,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                                 0x00,
                                 ZeTimeConstants.CMD_END});
             builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -950,7 +950,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 0x00,
                 ZeTimeConstants.CMD_END});
             builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -969,7 +969,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 0x00,
                 ZeTimeConstants.CMD_END});
             builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -1150,7 +1150,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                                 0x02,
                                 volume,
                                 ZeTimeConstants.CMD_END});
-                        performConnected(builder.getTransaction());
+                        builder.queue(getQueue());
                     } catch (IOException e) {
                         GB.toast(getContext(), "Error reply the music volume: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                     }
@@ -1163,7 +1163,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 try {
                     TransactionBuilder builder = performInitialized("replyMusicState");
                     replyMsgToWatch(builder, music);
-                    performConnected(builder.getTransaction());
+                    builder.queue(getQueue());
                 } catch (IOException e) {
                     GB.toast(getContext(), "Error reply the music state: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                 }
