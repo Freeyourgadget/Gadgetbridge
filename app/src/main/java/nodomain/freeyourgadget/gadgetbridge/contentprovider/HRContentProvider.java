@@ -217,7 +217,7 @@ public class HRContentProvider extends ContentProvider {
     private GBDevice getDevice(String deviceAddress) {
         DeviceManager deviceManager;
 
-        if (mGBDevice != null && mGBDevice.getAddress() == deviceAddress) {
+        if (mGBDevice != null && mGBDevice.getAddress().equals(deviceAddress)) {
             LOG.info(HRContentProvider.class.getName(), String.format("Found device mGBDevice %s", mGBDevice));
 
             return mGBDevice;
