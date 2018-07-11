@@ -743,7 +743,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                         handleSleepData(data);
                         break;
                     case ZeTimeConstants.CMD_GET_HEARTRATE_EXDATA:
-                        handleHeatRateData(data);
+                        handleHeartRateData(data);
                         break;
                     case ZeTimeConstants.CMD_MUSIC_CONTROL:
                         handleMusicControl(data);
@@ -1052,7 +1052,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void handleHeatRateData(byte[] msg)
+    private void handleHeartRateData(byte[] msg)
     {
         ZeTimeActivitySample sample = new ZeTimeActivitySample();
         sample.setHeartRate(msg[11]);
