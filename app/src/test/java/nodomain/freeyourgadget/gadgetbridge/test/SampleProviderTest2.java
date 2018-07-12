@@ -23,16 +23,9 @@ import org.slf4j.LoggerFactory;
 public class SampleProviderTest2 extends TestBase {
     private static final Logger LOG = LoggerFactory.getLogger(SampleProviderTest2.class);
 
-    private GBDevice dummyGBDevice;
-    private ContentResolver mContentResolver;
-
     @Override
     public void setUp() throws Exception {
-        LOG.debug("-------------------------------------");
         super.setUp();
-        LOG.debug("++++++++++++++++++++++++++++++++++++++");
-        ShadowLog.stream = System.out; // show logger’s output
-
     }
 
    @Test
