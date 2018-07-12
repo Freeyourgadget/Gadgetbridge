@@ -43,6 +43,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.util.TypedValue;
 
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
@@ -172,6 +174,7 @@ public class GBApplication extends Application {
         setupExceptionHandler();
 
         deviceManager = new DeviceManager(this);
+        LoggerFactory.getLogger(GBApplication.class).debug("SETUP and set DeviceManager " + deviceManager.toString());
         String language = prefs.getString("language", "default");
         setLanguage(language);
 
