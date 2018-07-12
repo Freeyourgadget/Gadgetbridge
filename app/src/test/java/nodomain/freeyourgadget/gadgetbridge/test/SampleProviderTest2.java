@@ -28,18 +28,11 @@ public class SampleProviderTest2 extends TestBase {
 
     @Override
     public void setUp() throws Exception {
+        LOG.debug("-------------------------------------");
         super.setUp();
+        LOG.debug("++++++++++++++++++++++++++++++++++++++");
         ShadowLog.stream = System.out; // show logger’s output
 
-        dummyGBDevice = createDummyGDevice("00:00:00:00:10");
-        mContentResolver = app.getContentResolver();
-
-        HRContentProvider provider = new HRContentProvider();
-
-        // Stuff context into provider
-        //provider.attachInfo(app.getApplicationContext(), null);
-
-        ShadowContentResolver.registerProviderInternal(HRContentProviderContract.AUTHORITY, provider);
     }
 
    @Test
