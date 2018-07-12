@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.id115.ID115Constants;
@@ -224,7 +225,7 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
     }
 
     ID115Support setTime(TransactionBuilder builder) {
-        Calendar c = GregorianCalendar.getInstance();
+        Calendar c = Calendar.getInstance(TimeZone.getDefault());
 
         int day = c.get(Calendar.DAY_OF_WEEK);
 
@@ -235,11 +236,12 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
             dayOfWeek = (byte)(day - 2);
         }
 
-        // TODO: set year
+        int year = c.get(Calendar.YEAR);
         builder.write(normalWriteCharacteristic, new byte[] {
                 ID115Constants.CMD_ID_SETTINGS, ID115Constants.CMD_KEY_SET_TIME,
-                0, 0,
-                (byte)c.get(Calendar.MONTH),
+                (byte)(year & 0xff),
+                (byte)(year >> 8),
+                (byte)(1 + c.get(Calendar.MONTH)),
                 (byte)c.get(Calendar.DAY_OF_MONTH),
                 (byte)c.get(Calendar.HOUR_OF_DAY),
                 (byte)c.get(Calendar.MINUTE),
