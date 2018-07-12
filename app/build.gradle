@@ -5,9 +5,23 @@ apply plugin: "pmd"
 def ABORT_ON_CHECK_FAILURE = false
 
 tasks.withType(Test) {
+    systemProperty "robolectric.logging.enabled", "true"
+    systemProperty "robolectric.logging", "stdout"
     systemProperty "MiFirmwareDir", System.getProperty("MiFirmwareDir", null)
     systemProperty "logback.configurationFile", System.getProperty("user.dir", null) + "/app/src/main/assets/logback.xml"
     systemProperty "GB_LOGFILES_DIR", java.nio.file.Files.createTempDirectory("gblog").toString()
+    testLogging {
+      exceptionFormat = 'full'
+      showStandardStreams = true
+      showStandardStreams true
+      showCauses true
+      showExceptions true
+      showStackTraces true
+
+    }
+    systemProperties['robolectric.logging'] = 'stdout'
+    //disabling since there is just too much logging happening in the Robolectric layer.
+    systemProperties['robolectric.logging.enabled'] = 'true'
 }
 
 android {
@@ -62,7 +76,10 @@ dependencies {
 //    testImplementation "ch.qos.logback:logback-core:1.1.3"
     testImplementation "junit:junit:4.12"
     testImplementation "org.mockito:mockito-core:1.10.19"
-    testImplementation "org.robolectric:robolectric:3.6.1"
+    testImplementation "org.robolectric:robolectric:3.8"
+    api "org.robolectric:shadows-supportv4:3.8"
+
+
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:27.1.1"
@@ -157,3 +174,4 @@ task findbugs(type: FindBugs) {
         }
     }
 }
+
