@@ -487,67 +487,53 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 (byte) ((time.get(Calendar.SECOND)%10) + '0'),
         };
 
+        if (notificationSpec.sender != null)
+        {
+            notification_length += notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
+            subject_length = notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
+            subject = new byte[subject_length];
+            System.arraycopy(notificationSpec.sender.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
+        } else if(notificationSpec.phoneNumber != null)
+        {
+            notification_length += notificationSpec.phoneNumber.getBytes(StandardCharsets.UTF_8).length;
+            subject_length = notificationSpec.phoneNumber.getBytes(StandardCharsets.UTF_8).length;
+            subject = new byte[subject_length];
+            System.arraycopy(notificationSpec.phoneNumber.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
+        } else if(notificationSpec.subject != null)
+        {
+            notification_length += notificationSpec.subject.getBytes(StandardCharsets.UTF_8).length;
+            subject_length = notificationSpec.subject.getBytes(StandardCharsets.UTF_8).length;
+            subject = new byte[subject_length];
+            System.arraycopy(notificationSpec.subject.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
+        } else if(notificationSpec.title != null)
+        {
+            notification_length += notificationSpec.title.getBytes(StandardCharsets.UTF_8).length;
+            subject_length = notificationSpec.title.getBytes(StandardCharsets.UTF_8).length;
+            subject = new byte[subject_length];
+            System.arraycopy(notificationSpec.title.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
+        }
+        notification_length += datetimeBytes.length + 10; // add message overhead
+        notification = new byte[notification_length];
+        notification[0] = ZeTimeConstants.CMD_PREAMBLE;
+        notification[1] = ZeTimeConstants.CMD_PUSH_EX_MSG;
+        notification[2] = ZeTimeConstants.CMD_SEND;
+        notification[3] = (byte)((notification_length-6) & 0xff);
+        notification[4] = (byte)((notification_length-6) >> 8);
+        notification[6] = 1;
+        notification[7] = (byte)subject_length;
+        notification[8] = (byte)body_length;
+        System.arraycopy(subject, 0, notification, 9, subject_length);
+        System.arraycopy(notificationSpec.body.getBytes(StandardCharsets.UTF_8), 0, notification, 9+subject_length, body_length);
+        System.arraycopy(datetimeBytes, 0, notification, 9+subject_length+body_length, datetimeBytes.length);
+        notification[notification_length-1] = ZeTimeConstants.CMD_END;
+
         switch(notificationSpec.type)
         {
             case GENERIC_SMS:
-                if (notificationSpec.sender != null)
-                {
-                    notification_length += notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
-                    subject_length = notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
-                    subject = new byte[subject_length];
-                    System.arraycopy(notificationSpec.sender.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
-                } else if(notificationSpec.phoneNumber != null)
-                {
-                    notification_length += notificationSpec.phoneNumber.getBytes(StandardCharsets.UTF_8).length;
-                    subject_length = notificationSpec.phoneNumber.getBytes(StandardCharsets.UTF_8).length;
-                    subject = new byte[subject_length];
-                    System.arraycopy(notificationSpec.phoneNumber.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
-                }
-                notification_length += datetimeBytes.length + 10; // add message overhead
-                notification = new byte[notification_length];
-                notification[0] = ZeTimeConstants.CMD_PREAMBLE;
-                notification[1] = ZeTimeConstants.CMD_PUSH_EX_MSG;
-                notification[2] = ZeTimeConstants.CMD_SEND;
-                notification[3] = (byte)((notification_length-6) & 0xff);
-                notification[4] = (byte)((notification_length-6) >> 8);
                 notification[5] = ZeTimeConstants.NOTIFICATION_SMS;
-                notification[6] = 1;
-                notification[7] = (byte)subject_length;
-                notification[8] = (byte)body_length;
-                System.arraycopy(subject, 0, notification, 9, subject_length);
-                System.arraycopy(notificationSpec.body.getBytes(StandardCharsets.UTF_8), 0, notification, 9+subject_length, body_length);
-                System.arraycopy(datetimeBytes, 0, notification, 9+subject_length+body_length, datetimeBytes.length);
-                notification[notification_length-1] = ZeTimeConstants.CMD_END;
                 break;
             case GENERIC_PHONE:
-                if (notificationSpec.sender != null)
-                {
-                    notification_length += notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
-                    subject_length = notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
-                    subject = new byte[subject_length];
-                    System.arraycopy(notificationSpec.sender.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
-                } else if(notificationSpec.phoneNumber != null)
-                {
-                    notification_length += notificationSpec.phoneNumber.getBytes(StandardCharsets.UTF_8).length;
-                    subject_length = notificationSpec.phoneNumber.getBytes(StandardCharsets.UTF_8).length;
-                    subject = new byte[subject_length];
-                    System.arraycopy(notificationSpec.phoneNumber.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
-                }
-                notification_length += datetimeBytes.length + 10; // add message overhead
-                notification = new byte[notification_length];
-                notification[0] = ZeTimeConstants.CMD_PREAMBLE;
-                notification[1] = ZeTimeConstants.CMD_PUSH_EX_MSG;
-                notification[2] = ZeTimeConstants.CMD_SEND;
-                notification[3] = (byte)((notification_length-6) & 0xff);
-                notification[4] = (byte)((notification_length-6) >> 8);
                 notification[5] = ZeTimeConstants.NOTIFICATION_MISSED_CALL;
-                notification[6] = 1;
-                notification[7] = (byte)subject_length;
-                notification[8] = (byte)body_length;
-                System.arraycopy(subject, 0, notification, 9, subject_length);
-                System.arraycopy(notificationSpec.body.getBytes(StandardCharsets.UTF_8), 0, notification, 9+subject_length, body_length);
-                System.arraycopy(datetimeBytes, 0, notification, 9+subject_length+body_length, datetimeBytes.length);
-                notification[notification_length-1] = ZeTimeConstants.CMD_END;
                 break;
             case GMAIL:
             case GOOGLE_INBOX:
@@ -555,156 +541,67 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             case OUTLOOK:
             case YAHOO_MAIL:
             case GENERIC_EMAIL:
-                if (notificationSpec.sender != null)
-                {
-                    notification_length += notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
-                    subject_length = notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
-                    subject = new byte[subject_length];
-                    System.arraycopy(notificationSpec.sender.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
-                } else if(notificationSpec.subject != null)
-                {
-                    notification_length += notificationSpec.subject.getBytes(StandardCharsets.UTF_8).length;
-                    subject_length = notificationSpec.subject.getBytes(StandardCharsets.UTF_8).length;
-                    subject = new byte[subject_length];
-                    System.arraycopy(notificationSpec.subject.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
-                }
-                notification_length += datetimeBytes.length + 10; // add message overhead
-                notification = new byte[notification_length];
-                notification[0] = ZeTimeConstants.CMD_PREAMBLE;
-                notification[1] = ZeTimeConstants.CMD_PUSH_EX_MSG;
-                notification[2] = ZeTimeConstants.CMD_SEND;
-                notification[3] = (byte)((notification_length-6) & 0xff);
-                notification[4] = (byte)((notification_length-6) >> 8);
                 notification[5] = ZeTimeConstants.NOTIFICATION_EMAIL;
-                notification[6] = 1;
-                notification[7] = (byte)subject_length;
-                notification[8] = (byte)body_length;
-                System.arraycopy(subject, 0, notification, 9, subject_length);
-                System.arraycopy(notificationSpec.body.getBytes(StandardCharsets.UTF_8), 0, notification, 9+subject_length, body_length);
-                System.arraycopy(datetimeBytes, 0, notification, 9+subject_length+body_length, datetimeBytes.length);
-                notification[notification_length-1] = ZeTimeConstants.CMD_END;
+                break;
+            case WECHAT:
+                notification[5] = ZeTimeConstants.NOTIFICATION_WECHAT;
+                break;
+            case VIBER:
+                notification[5] = ZeTimeConstants.NOTIFICATION_VIBER;
+                break;
+            case WHATSAPP:
+                notification[5] = ZeTimeConstants.NOTIFICATION_WHATSAPP;
+                break;
+            case FACEBOOK:
+            case FACEBOOK_MESSENGER:
+                notification[5] = ZeTimeConstants.NOTIFICATION_FACEBOOK;
+                break;
+            case GOOGLE_HANGOUTS:
+                notification[5] = ZeTimeConstants.NOTIFICATION_HANGOUTS;
+                break;
+            case LINE:
+                notification[5] = ZeTimeConstants.NOTIFICATION_LINE;
+                break;
+            case SKYPE:
+                notification[5] = ZeTimeConstants.NOTIFICATION_SKYPE;
                 break;
             case CONVERSATIONS:
-            case FACEBOOK_MESSENGER:
             case RIOT:
             case SIGNAL:
             case TELEGRAM:
             case THREEMA:
             case KONTALK:
             case ANTOX:
-            case WHATSAPP:
             case GOOGLE_MESSENGER:
-            case GOOGLE_HANGOUTS:
             case HIPCHAT:
-            case SKYPE:
-            case WECHAT:
             case KIK:
             case KAKAO_TALK:
             case SLACK:
-            case LINE:
-            case VIBER:
-                if (notificationSpec.sender != null)
-                {
-                    notification_length += notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
-                    subject_length = notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
-                    subject = new byte[subject_length];
-                    System.arraycopy(notificationSpec.sender.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
-                } else if(notificationSpec.subject != null)
-                {
-                    notification_length += notificationSpec.subject.getBytes(StandardCharsets.UTF_8).length;
-                    subject_length = notificationSpec.subject.getBytes(StandardCharsets.UTF_8).length;
-                    subject = new byte[subject_length];
-                    System.arraycopy(notificationSpec.subject.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
-                }
-                notification_length += datetimeBytes.length + 10; // add message overhead
-                notification = new byte[notification_length];
-                notification[0] = ZeTimeConstants.CMD_PREAMBLE;
-                notification[1] = ZeTimeConstants.CMD_PUSH_EX_MSG;
-                notification[2] = ZeTimeConstants.CMD_SEND;
-                notification[3] = (byte)((notification_length-6) & 0xff);
-                notification[4] = (byte)((notification_length-6) >> 8);
                 notification[5] = ZeTimeConstants.NOTIFICATION_MESSENGER;
-                notification[6] = 1;
-                notification[7] = (byte)subject_length;
-                notification[8] = (byte)body_length;
-                System.arraycopy(subject, 0, notification, 9, subject_length);
-                System.arraycopy(notificationSpec.body.getBytes(StandardCharsets.UTF_8), 0, notification, 9+subject_length, body_length);
-                System.arraycopy(datetimeBytes, 0, notification, 9+subject_length+body_length, datetimeBytes.length);
-                notification[notification_length-1] = ZeTimeConstants.CMD_END;
                 break;
-            case FACEBOOK:
-            case TWITTER:
             case SNAPCHAT:
+                notification[5] = ZeTimeConstants.NOTIFICATION_SNAPCHAT;
+                break;
             case INSTAGRAM:
+                notification[5] = ZeTimeConstants.NOTIFICATION_INSTAGRAM;
+                break;
+            case TWITTER:
+                notification[5] = ZeTimeConstants.NOTIFICATION_TWITTER;
+                break;
             case LINKEDIN:
-                if (notificationSpec.sender != null)
-                {
-                    notification_length += notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
-                    subject_length = notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
-                    subject = new byte[subject_length];
-                    System.arraycopy(notificationSpec.sender.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
-                } else if(notificationSpec.subject != null)
-                {
-                    notification_length += notificationSpec.subject.getBytes(StandardCharsets.UTF_8).length;
-                    subject_length = notificationSpec.subject.getBytes(StandardCharsets.UTF_8).length;
-                    subject = new byte[subject_length];
-                    System.arraycopy(notificationSpec.subject.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
-                }
-                notification_length += datetimeBytes.length + 10; // add message overhead
-                notification = new byte[notification_length];
-                notification[0] = ZeTimeConstants.CMD_PREAMBLE;
-                notification[1] = ZeTimeConstants.CMD_PUSH_EX_MSG;
-                notification[2] = ZeTimeConstants.CMD_SEND;
-                notification[3] = (byte)((notification_length-6) & 0xff);
-                notification[4] = (byte)((notification_length-6) >> 8);
-                notification[5] = ZeTimeConstants.NOTIFICATION_SOCIAL;
-                notification[6] = 1;
-                notification[7] = (byte)subject_length;
-                notification[8] = (byte)body_length;
-                System.arraycopy(subject, 0, notification, 9, subject_length);
-                System.arraycopy(notificationSpec.body.getBytes(StandardCharsets.UTF_8), 0, notification, 9+subject_length, body_length);
-                System.arraycopy(datetimeBytes, 0, notification, 9+subject_length+body_length, datetimeBytes.length);
-                notification[notification_length-1] = ZeTimeConstants.CMD_END;
+                notification[5] = ZeTimeConstants.NOTIFICATION_LINKEDIN;
                 break;
             case GENERIC_CALENDAR:
-                if (notificationSpec.sender != null)
-                {
-                    notification_length += notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
-                    subject_length = notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
-                    subject = new byte[subject_length];
-                    System.arraycopy(notificationSpec.sender.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
-                } else if(notificationSpec.subject != null)
-                {
-                    notification_length += notificationSpec.subject.getBytes(StandardCharsets.UTF_8).length;
-                    subject_length = notificationSpec.subject.getBytes(StandardCharsets.UTF_8).length;
-                    subject = new byte[subject_length];
-                    System.arraycopy(notificationSpec.subject.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
-                }
-                notification_length += datetimeBytes.length + 10; // add message overhead
-                notification = new byte[notification_length];
-                notification[0] = ZeTimeConstants.CMD_PREAMBLE;
-                notification[1] = ZeTimeConstants.CMD_PUSH_EX_MSG;
-                notification[2] = ZeTimeConstants.CMD_SEND;
-                notification[3] = (byte)((notification_length-6) & 0xff);
-                notification[4] = (byte)((notification_length-6) >> 8);
                 notification[5] = ZeTimeConstants.NOTIFICATION_CALENDAR;
-                notification[6] = 1;
-                notification[7] = (byte)subject_length;
-                notification[8] = (byte)body_length;
-                System.arraycopy(subject, 0, notification, 9, subject_length);
-                System.arraycopy(notificationSpec.body.getBytes(StandardCharsets.UTF_8), 0, notification, 9+subject_length, body_length);
-                System.arraycopy(datetimeBytes, 0, notification, 9+subject_length+body_length, datetimeBytes.length);
-                notification[notification_length-1] = ZeTimeConstants.CMD_END;
                 break;
             default:
+                notification[5] = ZeTimeConstants.NOTIFICATION_SOCIAL;
                 break;
         }
         if(notification != null)
         {
         try {
             TransactionBuilder builder = performInitialized("sendNotification");
-            //builder.write(writeCharacteristic, notification);
-            //builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
             sendMsgToWatch(builder, notification);
             builder.queue(getQueue());
         } catch (IOException e) {
