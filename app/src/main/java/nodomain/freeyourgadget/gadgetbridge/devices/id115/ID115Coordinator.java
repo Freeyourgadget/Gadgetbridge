@@ -105,7 +105,7 @@ public class ID115Coordinator extends AbstractDeviceCoordinator {
 
     @Override
     public String getManufacturer() {
-        return null;
+        return "VeryFit";
     }
 
     @Override
