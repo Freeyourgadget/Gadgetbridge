@@ -37,7 +37,7 @@ public class SampleProviderTest2 extends TestBase {
         HRContentProvider provider = new HRContentProvider();
 
         // Stuff context into provider
-        provider.attachInfo(app.getApplicationContext(), null);
+        //provider.attachInfo(app.getApplicationContext(), null);
 
         ShadowContentResolver.registerProviderInternal(HRContentProviderContract.AUTHORITY, provider);
     }
