@@ -3,7 +3,7 @@
 
     <string name="title_activity_controlcenter">Gadgetbridge</string>
     <string name="action_settings">Setari</string>
-    <string name="action_debug">Debug</string>
+    <string name="action_debug">Depaneaza</string>
     <string name="action_quit">Iesire</string>
     <string name="action_donate">Doneaza</string>
     <string name="controlcenter_fetch_activity_data">Sincronizeaza</string>
@@ -65,4 +65,63 @@
     <string name="pref_call_privacy_mode_complete">Ascunde numele si numarul</string>
 
     <string name="pref_title_weather">Meteo</string>
-    </resources>
+    <string name="controlcenter_take_screenshot">Captura ecran</string>
+    <string name="controlcenter_snackbar_disconnecting">Se deconecteaza</string>
+    <string name="controlcenter_snackbar_connecting">Se conecteaza</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Capturez ecranul dispozitivului</string>
+
+
+    <string name="title_activity_debug">Depanare</string>
+
+    <string name="appmanager_installed_watchapps">Aplicatii instalate</string>
+    <string name="appmanager_installed_watchfaces">Fete de ceas instalate</string>
+    <string name="appmananger_app_delete">Sterge</string>
+    <string name="appmanager_app_openinstore">Cauta in magazinul Pebble</string>
+    <string name="appmanager_weather_install_provider">Instaleaza aplicatie notificari meteo</string>
+    <string name="app_move_to_top">Muta la inceput</string>
+
+    <string name="fw_upgrade_notice">Esti pe punctul de a instala firmware-ul %s in locul celui deja instalat pe Mi Band.</string>
+    <string name="fw_upgrade_notice_amazfitbip">Esti pe punctul de a instala firmware-ul %s pe Amazfit Bip.
+\n
+\nAi grija sa instalezi fisierul .fw, apoi fisierul .res, si in final fisierul .gps. Ceasul va reporni dupa ce se instaleaza fisierul .fw.
+\n
+\nNota: Nu este necesar sa instalezi fisierele .res si .gps daca aceste fisiere sunt identice cu cele instalate anterior.
+\n
+\nCONTINUATI PE RISCUL DUMNEAVOASTRA!</string>
+    <string name="fw_upgrade_notice_amazfitcor">Esti pe punctul de a instala firmware-ul %s pe Amazfit Cor.
+\n
+\nAi grija sa instalezi fisierul .fw, si apoi fisierul .res. Ceasul va reporni dupa ce se instaleaza fisierul .fw.
+\n
+\nNota: Nu este necesar sa instalezi fisierul .res daca acest fisier este identic cu cel instalat anterior.
+\n
+\nCONTINUATI PE RISCUL DUMNEAVOASTRA!</string>
+    <string name="fw_upgrade_notice_miband3">Esti pe punctul de a instala firmware-ul %s pe Mi Band 3.
+\n
+\nAi grija sa instalezi fisierul .fw, si apoi fisierul .res. Ceasul va reporni dupa ce se instaleaza fisierul .fw.
+\n
+\nNota: Nu este necesar sa instalezi fisierul .res daca acest fisier este identic cu cel instalat anterior.
+\n
+\nNETESTAT, V-AR PUTEA BLOCA ECHIPAMENTUL, CONTINUATI PE RISCUL DUMNEAVOASTRA!</string>
+    <string name="miband_firmware_unknown_warning">Acest firmware nu a fost testat si ar putea sa nu fie compatibil cu Gadgetbridge.
+\n
+\nTe DESCURAJAM sa-l instalezi pe Mi Band!</string>
+    <string name="pref_header_development">Optiuni dezvoltator</string>
+    <string name="pref_title_development_miaddr">Adresa Mi Band</string>
+
+    <string name="pref_title_pebble_settings">Setari Pebble</string>
+
+    <string name="pref_title_pebble_sync_misfit">Sincronizeaza Misfit</string>
+    <string name="pref_summary_enable_outgoing_call">Dezactivand aceasta optiune va opri Pebble 2/LE sa vibreze la apeluri</string>
+
+    <string name="pref_pebble_privacy_mode_off">Notificari normale</string>
+    <string name="pref_title_location_latitude">Latitudine</string>
+    <string name="pref_title_location_longitude">Longitudine</string>
+    <string name="menuitem_shortcut_weather">Meteo (Scurtatura)</string>
+    <string name="menuitem_activity">Activitate</string>
+    <string name="menuitem_weather">Meteo</string>
+    <string name="menuitem_alarm">Alarma</string>
+    <string name="menuitem_timer">Cronometru</string>
+    <string name="menuitem_compass">Compas</string>
+    <string name="menuitem_settings">Setari</string>
+    <string name="menuitem_alipay">Alipay</string>
+</resources>
