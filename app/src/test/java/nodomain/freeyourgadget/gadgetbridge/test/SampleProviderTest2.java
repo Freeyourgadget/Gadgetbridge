@@ -45,9 +45,13 @@ public class SampleProviderTest2 extends TestBase {
    @Test
    public void testDeviceManager() {
        DeviceManager manager = ((GBApplication) (this.getContext())).getDeviceManager();
-       Log.d("---------------", "-----------------------------------");
+       assertNotNull(((GBApplication) GBApplication.getContext()).getDeviceManager());
+       LOG.debug(manager.toString());
 
-       System.out.println("-----------------------------------------");
+   }
+   @Test
+   public void testDeviceManager2() {
+       DeviceManager manager = ((GBApplication) (this.getContext())).getDeviceManager();
        assertNotNull(((GBApplication) GBApplication.getContext()).getDeviceManager());
        LOG.debug(manager.toString());
 
