@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.database;
+package nodomain.freeyourgadget.gadgetbridge.test;
 
 import android.content.ContentResolver;
 import android.util.Log;
@@ -30,15 +30,15 @@ public class SampleProviderTest2 extends TestBase {
 
    @Test
    public void testDeviceManager() {
-       DeviceManager manager = ((GBApplication) (this.getContext())).getDeviceManager();
-       assertNotNull(((GBApplication) GBApplication.getContext()).getDeviceManager());
+       DeviceManager manager = ((GBApplication) (app)).getDeviceManager();
+       assertNotNull(manager);
        LOG.debug(manager.toString());
 
    }
    @Test
    public void testDeviceManager2() {
-       DeviceManager manager = ((GBApplication) (this.getContext())).getDeviceManager();
-       assertNotNull(((GBApplication) GBApplication.getContext()).getDeviceManager());
+       DeviceManager manager = ((GBApplication) (app)).getDeviceManager();
+       assertNotNull(manager);
        LOG.debug(manager.toString());
 
    }
