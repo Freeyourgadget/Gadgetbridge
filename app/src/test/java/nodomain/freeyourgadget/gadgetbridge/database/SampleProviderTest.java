@@ -240,7 +240,7 @@ public class SampleProviderTest extends TestBase {
         /*
          * Test the device uri
          */
-        cursor = mContentResolver.query(HRContentProviderContract.DEVICES_URI, null, null, null, null);
+        cursor = mContentResolver.query(Uri.parse(HRContentProviderContract.DEVICES_URL), null, null, null, null);
 
         assertNotNull(cursor);
         assertEquals(1, cursor.getCount());
@@ -258,7 +258,7 @@ public class SampleProviderTest extends TestBase {
         /*
          * Test the activity start uri
          */
-        cursor = mContentResolver.query(HRContentProviderContract.ACTIVITY_START_URI, null, null, null, null);
+        cursor = mContentResolver.query(Uri.parse(HRContentProviderContract.ACTIVITY_START_URL), null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
                 String status = cursor.getString(0);
@@ -272,7 +272,7 @@ public class SampleProviderTest extends TestBase {
         /*
          * Test the activity stop uri
          */
-        cursor = mContentResolver.query(HRContentProviderContract.ACTIVITY_STOP_URI, null, null, null, null);
+        cursor = mContentResolver.query(Uri.parse(HRContentProviderContract.ACTIVITY_STOP_URL), null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
                 String status = cursor.getString(0);
@@ -295,7 +295,7 @@ public class SampleProviderTest extends TestBase {
             @Override
             public void onChange(boolean selfChange, Uri uri) {
                 super.onChange(selfChange, uri);
-                Cursor cursor = mContentResolver.query(HRContentProviderContract.REALTIME_URI, null, null, null, null);
+                Cursor cursor = mContentResolver.query(Uri.parse(HRContentProviderContract.REALTIME_URL), null, null, null, null);
                 if (cursor.moveToFirst()) {
                     do {
                         String status = cursor.getString(0);
@@ -311,7 +311,7 @@ public class SampleProviderTest extends TestBase {
         }
         A1 a1 = new A1();
 
-        mContentResolver.registerContentObserver(HRContentProviderContract.REALTIME_URI, false, a1);
+        mContentResolver.registerContentObserver(Uri.parse(HRContentProviderContract.REALTIME_URL), false, a1);
         generateSampleStream(sampleProvider);
 
         assertEquals(a1.numObserved, 10);
