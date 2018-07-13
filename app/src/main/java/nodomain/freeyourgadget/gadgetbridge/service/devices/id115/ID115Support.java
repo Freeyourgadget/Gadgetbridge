@@ -27,10 +27,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.no1f1.No1F1Support;
 
 public class ID115Support extends AbstractBTLEDeviceSupport {
-    private static final Logger LOG = LoggerFactory.getLogger(No1F1Support.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ID115Support.class);
 
     public BluetoothGattCharacteristic normalWriteCharacteristic = null;
     public BluetoothGattCharacteristic healthWriteCharacteristic = null;
