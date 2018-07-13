@@ -201,6 +201,8 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         byte[] subject = null;
         byte[] notification = null;
         Calendar time = GregorianCalendar.getInstance();
+        // convert every single digit of the date to ascii characters
+        // we do it like so: use the base chrachter of '0' and add the digit
         byte[] datetimeBytes = new byte[]{
                 (byte) ((time.get(Calendar.YEAR) / 1000) + '0'),
                 (byte) (((time.get(Calendar.YEAR) / 100)%10) + '0'),
@@ -352,10 +354,10 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         CalendarEvent[7] = (byte)(time.get(Calendar.YEAR) >> 8);
         CalendarEvent[8] = (byte)(time.get(Calendar.MONTH)+1);
         CalendarEvent[9] = (byte)time.get(Calendar.DAY_OF_MONTH);
-        CalendarEvent[10] = (byte) ((time.get(Calendar.HOUR_OF_DAY)/10) + '0');
-        CalendarEvent[11] = (byte) ((time.get(Calendar.HOUR_OF_DAY)%10) + '0');
-        CalendarEvent[12] = (byte) ((time.get(Calendar.MINUTE)/10) + '0');
-        CalendarEvent[13] = (byte) ((time.get(Calendar.MINUTE)%10) + '0');
+        CalendarEvent[10] = (byte) (time.get(Calendar.HOUR_OF_DAY) & 0xff);
+        CalendarEvent[11] = (byte) (time.get(Calendar.HOUR_OF_DAY) >> 8);
+        CalendarEvent[12] = (byte) (time.get(Calendar.MINUTE) & 0xff);
+        CalendarEvent[13] = (byte) (time.get(Calendar.MINUTE) >> 8);
         CalendarEvent[14] = (byte) calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length;
         System.arraycopy(calendarEventSpec.title.getBytes(StandardCharsets.UTF_8), 0, CalendarEvent, 15, calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length);
         CalendarEvent[CalendarEvent.length-1] = ZeTimeConstants.CMD_END;
@@ -469,6 +471,8 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         byte[] subject = null;
         byte[] notification = null;
         Calendar time = GregorianCalendar.getInstance();
+        // convert every single digit of the date to ascii characters
+        // we do it like so: use the base chrachter of '0' and add the digit
         byte[] datetimeBytes = new byte[]{
                 (byte) ((time.get(Calendar.YEAR) / 1000) + '0'),
                 (byte) (((time.get(Calendar.YEAR) / 100)%10) + '0'),
