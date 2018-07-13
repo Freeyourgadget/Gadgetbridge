@@ -13,6 +13,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class ZeTimeSampleProvider extends AbstractSampleProvider<ZeTimeActivitySample> {
 
+    private final float movementDivisor = 6000.0f;
     private GBDevice mDevice;
     private DaoSession mSession;
 
@@ -35,7 +36,7 @@ public class ZeTimeSampleProvider extends AbstractSampleProvider<ZeTimeActivityS
 
     @Override
     public float normalizeIntensity(int rawIntensity) {
-        return rawIntensity;
+        return rawIntensity/movementDivisor;
     }
 
     @Override
