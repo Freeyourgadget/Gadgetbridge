@@ -16,8 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.contentprovider;
 
-import android.net.Uri;
-
 public final class HRContentProviderContract {
 
     public static final String COLUMN_STATUS = "Status";
@@ -35,13 +33,9 @@ public final class HRContentProviderContract {
 
     public static final String AUTHORITY = "nodomain.freeyourgadget.gadgetbridge.realtimesamples.provider";
 
-    static final String ACTIVITY_START_URL = "content://" + AUTHORITY + "/activity_start";
-    static final String ACTIVITY_STOP_URL = "content://" + AUTHORITY + "/activity_stop";
-    static final String REALTIME_URL = "content://" + AUTHORITY + "/realtime";
-    static final String DEVICES_URL = "content://" + AUTHORITY + "/devices";
+    public static final String ACTIVITY_START_URL = "content://" + AUTHORITY + "/activity_start";
+    public static final String ACTIVITY_STOP_URL = "content://" + AUTHORITY + "/activity_stop";
+    public static final String REALTIME_URL = "content://" + AUTHORITY + "/realtime";
+    public static final String DEVICES_URL = "content://" + AUTHORITY + "/devices";
 
-    public static final Uri ACTIVITY_START_URI = Uri.parse(ACTIVITY_START_URL);
-    public static final Uri ACTIVITY_STOP_URI = Uri.parse(ACTIVITY_STOP_URL);
-    public static final Uri REALTIME_URI = Uri.parse(REALTIME_URL);
-    public static final Uri DEVICES_URI = Uri.parse(DEVICES_URL);
 }

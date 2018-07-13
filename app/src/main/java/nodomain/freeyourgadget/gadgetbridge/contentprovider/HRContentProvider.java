@@ -112,7 +112,7 @@ public class HRContentProvider extends ContentProvider {
                     // This notifies the observer
                     getContext().
                             getContentResolver().
-                            notifyChange(HRContentProviderContract.REALTIME_URI, null);
+                            notifyChange(Uri.parse(HRContentProviderContract.REALTIME_URL), null);
                     break;
                 default:
                     break;
