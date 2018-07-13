@@ -28,6 +28,7 @@ public class ID115Constants {
 
     // CMD_ID_SETTINGS
     public static final byte CMD_KEY_SET_TIME = 0x01;
+    public static final byte CMD_KEY_SET_GOAL = 0x03;
     public static final byte CMD_KEY_SET_DISPLAY_MODE = 0x2B;
 
     // CMD_ID_NOTIFY

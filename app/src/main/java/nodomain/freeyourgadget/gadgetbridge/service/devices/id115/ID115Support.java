@@ -17,6 +17,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.id115.ID115Constants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -63,6 +64,7 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
 
         setTime(builder)
                 .setDisplayMode(builder, false)
+                .setGoal(builder)
                 .setInitialized(builder);
 
         return builder;
@@ -306,6 +308,23 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
         builder.write(normalWriteCharacteristic, new byte[] {
                 ID115Constants.CMD_ID_SETTINGS, ID115Constants.CMD_KEY_SET_DISPLAY_MODE,
                 mode
+        });
+        return this;
+    }
+
+    private ID115Support setGoal(TransactionBuilder transaction) {
+        ActivityUser activityUser = new ActivityUser();
+        int value = activityUser.getStepsGoal();
+
+        transaction.write(normalWriteCharacteristic, new byte[]{
+                ID115Constants.CMD_ID_SETTINGS,
+                ID115Constants.CMD_KEY_SET_GOAL,
+                0,
+                (byte) (value & 0xff),
+                (byte) ((value >> 8) & 0xff),
+                (byte) ((value >> 16) & 0xff),
+                (byte) ((value >> 24) & 0xff),
+                0, 0
         });
         return this;
     }
