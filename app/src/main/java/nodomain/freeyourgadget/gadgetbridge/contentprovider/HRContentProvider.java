@@ -90,6 +90,7 @@ public class HRContentProvider extends ContentProvider {
                 case GBDevice.ACTION_DEVICE_CHANGED:
                     mGBDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                     LOG.debug("ACTION DEVICE CHANGED Got Device " + mGBDevice);
+
                     // Rationale: If device was not connected
                     // it should show up here after being connected
                     // If the user wanted to switch on realtime traffic, but we first needed to connect it
@@ -97,9 +98,7 @@ public class HRContentProvider extends ContentProvider {
                     if (mGBDevice.isConnected() && state == provider_state.CONNECTING) {
                         LOG.debug("Device connected now, enabling realtime " + mGBDevice);
 
-                        state = provider_state.ACTIVE;
-                        GBApplication.deviceService().onEnableRealtimeSteps(true);
-                        GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
+                        enable_realtime();
                     }
                     break;
                 case DeviceService.ACTION_REALTIME_SAMPLES:
@@ -131,9 +130,6 @@ public class HRContentProvider extends ContentProvider {
 
         LocalBroadcastManager.getInstance(this.getContext()).registerReceiver(mReceiver, filterLocal);
 
-        //TODO: This crashes the app. Seems like device Manager is not here yet
-        //mGBDevice = ((GBApplication) this.getContext()).getDeviceManager().getSelectedDevice();
-
         return true;
     }
 
@@ -142,71 +138,102 @@ public class HRContentProvider extends ContentProvider {
         //LOG.info(HRContentProvider.class.getName(), "query uri " + uri.toString());
         MatrixCursor mc;
 
-        DeviceManager deviceManager;
         switch (URI_MATCHER.match(uri)) {
             case DEVICES_LIST:
-                deviceManager = ((GBApplication) (this.getContext())).getDeviceManager();
-                List<GBDevice> l = deviceManager.getDevices();
-                if (l == null) {
-                    return null;
-                }
-                LOG.info(String.format("listing %d devices", l.size()));
+                LOG.info("Get DEVICES LIST");
+                return devices_list();
 
-                mc = new MatrixCursor(HRContentProviderContract.deviceColumnNames);
-                for (GBDevice dev : l) {
-                    mc.addRow(new Object[]{dev.getName(), dev.getModel(), dev.getAddress()});
-                }
-                return mc;
             case ACTIVITY_START:
-
-                this.state = provider_state.CONNECTING;
                 LOG.info("Get ACTIVTY START");
-                GBDevice targetDevice = getDevice((selectionArgs != null) ? selectionArgs[0] : "");
-                if (targetDevice != null && targetDevice.isConnected()) {
-                    this.state = provider_state.ACTIVE;
-                    GBApplication.deviceService().onEnableRealtimeSteps(true);
-                    GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
-                    mc = new MatrixCursor(HRContentProviderContract.activityColumnNames);
-                    mc.addRow(new String[]{"OK", "Connected"});
-                } else {
-                    GBApplication.deviceService().connect(targetDevice);
-                    mc = new MatrixCursor(HRContentProviderContract.activityColumnNames);
-                    mc.addRow(new String[]{"OK", "Connecting"});
-                }
+                return activity_start(projection, selectionArgs);
 
-                punchTimer.scheduleAtFixedRate(new TimerTask() {
-                    @Override
-                    public void run() {
-                        LOG.debug("punching the deviceService...");
-                        // As seen in LiveActivityFragment:
-                        // have to enable it again and again to keep it measureing
-                        GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
-                    }
-
-                }, 1000 * 10, 1000);
-                // Start after 10 seconds, repeat each second
-
-                return mc;
             case ACTIVITY_STOP:
-                this.state = provider_state.INACTIVE;
-
                 LOG.info("Get ACTIVITY STOP");
-                GBApplication.deviceService().onEnableRealtimeSteps(false);
-                GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(false);
-                mc = new MatrixCursor(HRContentProviderContract.activityColumnNames);
-                mc.addRow(new String[]{"OK", "No error"});
-                punchTimer.cancel();
-                punchTimer = new Timer();
-                return mc;
+                return activity_stop(projection, selectionArgs);
+
             case REALTIME:
-                //String sample_string = (buffered_sample == null) ? "" : buffered_sample.toString();
-                //LOG.error(String.format("Get REALTIME buffered sample %s", sample_string));
-                mc = new MatrixCursor(HRContentProviderContract.realtimeColumnNames);
-                if (buffered_sample != null)
-                    mc.addRow(new Object[]{"OK", buffered_sample.getHeartRate(), buffered_sample.getSteps(), mGBDevice != null ? mGBDevice.getBatteryLevel() : 99});
-                return mc;
+                LOG.info("REALTIME");
+                return realtime(projection, selectionArgs);
         }
         return null;
+    }
+
+    @Nullable
+    private Cursor devices_list() {
+        MatrixCursor mc;
+        DeviceManager deviceManager = ((GBApplication) (this.getContext())).getDeviceManager();
+        List<GBDevice> l = deviceManager.getDevices();
+        if (l == null) {
+            return null;
+        }
+        LOG.info(String.format("listing %d devices", l.size()));
+
+        mc = new MatrixCursor(HRContentProviderContract.deviceColumnNames);
+        for (GBDevice dev : l) {
+            mc.addRow(new Object[]{dev.getName(), dev.getModel(), dev.getAddress()});
+        }
+        return mc;
+    }
+
+    @NonNull
+    private Cursor activity_start(String[] projection, String[] args) {
+        MatrixCursor mc;
+        this.state = provider_state.CONNECTING;
+
+        GBDevice targetDevice = getDevice((args != null) ? args[0] : "");
+        if (targetDevice != null && targetDevice.isConnected()) {
+            enable_realtime();
+            mc = new MatrixCursor(HRContentProviderContract.activityColumnNames);
+            mc.addRow(new String[]{"OK", "Connected"});
+        } else {
+            GBApplication.deviceService().connect(targetDevice);
+            mc = new MatrixCursor(HRContentProviderContract.activityColumnNames);
+            mc.addRow(new String[]{"OK", "Connecting"});
+        }
+
+        return mc;
+    }
+
+    @NonNull
+    private Cursor activity_stop(String[] projection, String[] args) {
+        MatrixCursor mc;
+        this.state = provider_state.INACTIVE;
+
+        GBApplication.deviceService().onEnableRealtimeSteps(false);
+        GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(false);
+        mc = new MatrixCursor(HRContentProviderContract.activityColumnNames);
+        mc.addRow(new String[]{"OK", "No error"});
+        punchTimer.cancel();
+        punchTimer = new Timer();
+        return mc;
+    }
+
+
+    private void enable_realtime() {
+        this.state = provider_state.ACTIVE;
+        GBApplication.deviceService().onEnableRealtimeSteps(true);
+        GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
+
+        punchTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                LOG.debug("punching the deviceService...");
+                // As seen in LiveActivityFragment:
+                // have to enable it again and again to keep it measureing
+                GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
+            }
+
+        }, 1000 * 10, 1000);
+        // Start after 10 seconds, repeat each second
+    }
+
+    @NonNull
+    private Cursor realtime(String[] projection, String[] args) {
+        MatrixCursor mc;
+        mc = new MatrixCursor(HRContentProviderContract.realtimeColumnNames);
+        if (buffered_sample != null)
+            mc.addRow(new Object[]{"OK", buffered_sample.getHeartRate(), buffered_sample.getSteps(), mGBDevice != null ? mGBDevice.getBatteryLevel() : 99});
+        return mc;
     }
 
     // Returns the requested device. If it is not found
