@@ -2,6 +2,8 @@ package nodomain.freeyourgadget.gadgetbridge.devices.id115;
 
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
+
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport.BASE_UUID;
 
 public class ID115Constants {
@@ -28,6 +30,53 @@ public class ID115Constants {
     public static final byte CMD_KEY_SET_TIME = 0x01;
     public static final byte CMD_KEY_SET_DISPLAY_MODE = 0x2B;
 
+    // CMD_ID_NOTIFY
+    public static final byte CMD_KEY_NOTIFY_CALL = 0x01;
+    public static final byte CMD_KEY_NOTIFY_STOP = 0x02;
+    public static final byte CMD_KEY_NOTIFY_MSG = 0x03;
+
     // CMD_ID_DEVICE_RESTART
     public static final byte CMD_KEY_REBOOT = 0x01;
+
+    public static byte getNotificationType(NotificationType type) {
+        switch (type) {
+//            case GENERIC_EMAIL:
+//                return 2; // Icon is not supported
+            case WECHAT:
+                return 3;
+//            case QQ:
+//                return 4;
+            case FACEBOOK:
+                return 6;
+            case TWITTER:
+                return 7;
+            case WHATSAPP:
+                return 8;
+            case FACEBOOK_MESSENGER:
+                return 9;
+            case INSTAGRAM:
+                return 10;
+            case LINKEDIN:
+                return 11;
+//            case GENERIC_CALENDAR:
+//                return 12; // Icon is not supported
+//            case SKYPE:
+//                return 13; // Icon is not supported
+//            case LINE:
+//                return 17; // Icon is not supported
+//            case VIBER:
+//                return 18; // Icon is not supported
+//            case KAKAO_TALK:
+//                return 19; // Icon is not supported
+//            case VK:
+//                return 16; // Icon is not supported
+//            case GMAIL:
+//                return 20; // Icon is not supported
+//            case OUTLOOK:
+//                return 21; // Icon is not supported
+//            case SNAPCHAT:
+//                return 22; // Icon is not supported
+        }
+        return 1;
+    }
 }
