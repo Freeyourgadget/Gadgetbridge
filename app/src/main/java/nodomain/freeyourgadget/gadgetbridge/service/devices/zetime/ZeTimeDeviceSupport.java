@@ -789,7 +789,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             {
                 batteryCmd.state = BatteryState.BATTERY_NORMAL;
             }
-            handleGBDeviceEvent(batteryCmd);
+        evaluateGBDeviceEvent(batteryCmd);
     }
 
     private void handleDeviceInfo(byte[] value) {
@@ -801,7 +801,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             } else{
                 versionCmd.hwVersion = new String(string);
             }
-            handleGBDeviceEvent(versionCmd);
+        evaluateGBDeviceEvent(versionCmd);
     }
 
     private void handleActivityFetching(byte[] msg)
@@ -1057,7 +1057,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     }
                     break;
             }
-            handleGBDeviceEvent(musicCmd);
+            evaluateGBDeviceEvent(musicCmd);
         } else {
             if (music != null) {
                 music[2] = ZeTimeConstants.CMD_REQUEST_RESPOND;
