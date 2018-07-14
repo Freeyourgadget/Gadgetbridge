@@ -93,6 +93,7 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
             setTime(builder);
             performConnected(builder.getTransaction());
         } catch(IOException e) {
+            LOG.warn("Unable to send current time", e);
         }
     }
 
@@ -368,6 +369,7 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
             });
             performConnected(builder.getTransaction());
         } catch(IOException e) {
+            LOG.warn("Unable to stop call notification", e);
         }
     }
 
@@ -420,6 +422,7 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
             builder.write(normalWriteCharacteristic, cmd);
             performConnected(builder.getTransaction());
         } catch (IOException e) {
+            LOG.warn("Unable to send notification chunk", e);
         }
     }
 
