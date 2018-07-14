@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.id115.ID115Constants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
@@ -63,7 +64,7 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
         builder.notify(normalNotifyCharacteristic, true);
 
         setTime(builder)
-                .setDisplayMode(builder, false)
+                .setScreenOrientation(builder)
                 .setGoal(builder)
                 .setInitialized(builder);
 
@@ -303,11 +304,22 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    ID115Support setDisplayMode(TransactionBuilder builder, boolean vertical) {
-        byte mode = (byte)(vertical? 2 : 0);
+    ID115Support setScreenOrientation(TransactionBuilder builder) {
+        String value = GBApplication.getPrefs().getString(ID115Constants.PREF_SCREEN_ORIENTATION,
+                "horizontal");
+        LOG.warn("value: '" + value + "'");
+
+        byte orientation;
+        if (value.equals("horizontal")) {
+            orientation = ID115Constants.CMD_ARG_HORIZONTAL;
+        } else {
+            orientation = ID115Constants.CMD_ARG_VERTICAL;
+        }
+
+        LOG.warn("Screen orientation: " + orientation);
         builder.write(normalWriteCharacteristic, new byte[] {
                 ID115Constants.CMD_ID_SETTINGS, ID115Constants.CMD_KEY_SET_DISPLAY_MODE,
-                mode
+                orientation
         });
         return this;
     }
