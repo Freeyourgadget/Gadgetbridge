@@ -399,7 +399,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             } else if (what == Scanning.SCANNING_NEW_BTLE) {
                 if (GB.supportsBluetoothLE()) {
                     startNEWBTLEDiscovery();
-                } else  {
+                } else {
                     discoveryFinished();
                 }
             }
@@ -433,15 +433,20 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     }
 
     private void stopBTLEDiscovery() {
-        adapter.stopLeScan(leScanCallback);
+        if (adapter != null)
+            adapter.stopLeScan(leScanCallback);
     }
 
     private void stopBTDiscovery() {
-        adapter.cancelDiscovery();
+        if (adapter != null)
+            adapter.cancelDiscovery();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void stopNewBTLEDiscovery() {
+        if (adapter == null)
+            return;
+
         BluetoothLeScanner bluetoothLeScanner = adapter.getBluetoothLeScanner();
         if (bluetoothLeScanner == null) {
             LOG.warn("could not get BluetoothLeScanner()!");
@@ -520,10 +525,10 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void startNEWBTLEDiscovery() {
         // Only use new API when user uses Lollipop+ device
-            LOG.info("Start New BTLE Discovery");
-            handler.removeMessages(0, stopRunnable);
-            handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
-            adapter.getBluetoothLeScanner().startScan(getScanFilters(), getScanSettings(), getScanCallback());
+        LOG.info("Start New BTLE Discovery");
+        handler.removeMessages(0, stopRunnable);
+        handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
+        adapter.getBluetoothLeScanner().startScan(getScanFilters(), getScanSettings(), getScanCallback());
     }
 
     private List<ScanFilter> getScanFilters() {
