@@ -1,5 +1,10 @@
 ### Changelog
 
+#### Version 0.28.0 (WIP)
+* Inital support for ZeTime
+* Amazfit Bip/Cor: Rework firmware detection to cope with new version scheme
+* Mi Band 3: support setting language (english and spanish tested)
+
 #### Version 0.27.1
 * Pebble: Change appstore search to point to RomanPort's pebble appstore
 * Mi Band 3: Allow flashing fonts (untested)
