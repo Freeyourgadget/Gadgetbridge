@@ -1,7 +1,7 @@
 ### Changelog
 
 #### Version 0.28.0 (WIP)
-* Inital support for ZeTime
+* Inital support for ZeTime: time,weather and activity data sync, notification support and music playback control is working
 * Amazfit Bip/Cor: Rework firmware detection to cope with new version scheme
 * Mi Band 3: support setting language (english and spanish tested)
 
