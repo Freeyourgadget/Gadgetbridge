@@ -29,7 +29,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,10 +36,8 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -98,7 +95,7 @@ public class HRContentProvider extends ContentProvider {
                     if (mGBDevice.isConnected() && state == provider_state.CONNECTING) {
                         LOG.debug("Device connected now, enabling realtime " + mGBDevice);
 
-                        enable_realtime();
+                        enableContinuousRealtimeHeartRateMeasurement();
                     }
                     break;
                 case DeviceService.ACTION_REALTIME_SAMPLES:
@@ -135,31 +132,31 @@ public class HRContentProvider extends ContentProvider {
 
     @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        //LOG.info(HRContentProvider.class.getName(), "query uri " + uri.toString());
+        //LOG.info("query uri " + uri.toString());
         MatrixCursor mc;
 
         switch (URI_MATCHER.match(uri)) {
             case DEVICES_LIST:
                 LOG.info("Get DEVICES LIST");
-                return devices_list();
+                return getDevicesList();
 
             case ACTIVITY_START:
                 LOG.info("Get ACTIVTY START");
-                return activity_start(projection, selectionArgs);
+                return startRealtimeSampling(projection, selectionArgs);
 
             case ACTIVITY_STOP:
                 LOG.info("Get ACTIVITY STOP");
-                return activity_stop(projection, selectionArgs);
+                return stopRealtimeSampling(projection, selectionArgs);
 
             case REALTIME:
                 LOG.info("REALTIME");
-                return realtime(projection, selectionArgs);
+                return getRealtimeSample(projection, selectionArgs);
         }
         return null;
     }
 
     @Nullable
-    private Cursor devices_list() {
+    private Cursor getDevicesList() {
         MatrixCursor mc;
         DeviceManager deviceManager = ((GBApplication) (this.getContext())).getDeviceManager();
         List<GBDevice> l = deviceManager.getDevices();
@@ -176,13 +173,13 @@ public class HRContentProvider extends ContentProvider {
     }
 
     @NonNull
-    private Cursor activity_start(String[] projection, String[] args) {
+    private Cursor startRealtimeSampling(String[] projection, String[] args) {
         MatrixCursor mc;
         this.state = provider_state.CONNECTING;
 
         GBDevice targetDevice = getDevice((args != null) ? args[0] : "");
         if (targetDevice != null && targetDevice.isConnected()) {
-            enable_realtime();
+            enableContinuousRealtimeHeartRateMeasurement();
             mc = new MatrixCursor(HRContentProviderContract.activityColumnNames);
             mc.addRow(new String[]{"OK", "Connected"});
         } else {
@@ -195,7 +192,7 @@ public class HRContentProvider extends ContentProvider {
     }
 
     @NonNull
-    private Cursor activity_stop(String[] projection, String[] args) {
+    private Cursor stopRealtimeSampling(String[] projection, String[] args) {
         MatrixCursor mc;
         this.state = provider_state.INACTIVE;
 
@@ -209,7 +206,7 @@ public class HRContentProvider extends ContentProvider {
     }
 
 
-    private void enable_realtime() {
+    private void enableContinuousRealtimeHeartRateMeasurement() {
         this.state = provider_state.ACTIVE;
         GBApplication.deviceService().onEnableRealtimeSteps(true);
         GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
@@ -228,7 +225,7 @@ public class HRContentProvider extends ContentProvider {
     }
 
     @NonNull
-    private Cursor realtime(String[] projection, String[] args) {
+    private Cursor getRealtimeSample(String[] projection, String[] args) {
         MatrixCursor mc;
         mc = new MatrixCursor(HRContentProviderContract.realtimeColumnNames);
         if (buffered_sample != null)
