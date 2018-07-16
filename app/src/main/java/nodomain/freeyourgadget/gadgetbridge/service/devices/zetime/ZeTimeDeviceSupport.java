@@ -412,6 +412,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
+        String buildnumber = versionCmd.fwVersion.substring(versionCmd.fwVersion.length() - 4);
         byte[] weather = new byte[weatherSpec.location.getBytes(StandardCharsets.UTF_8).length + 26]; // 26 bytes for weatherdata and overhead
         weather[0] = ZeTimeConstants.CMD_PREAMBLE;
         weather[1] = ZeTimeConstants.CMD_PUSH_WEATHER_DATA;
@@ -422,7 +423,14 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         weather[6] = (byte)(weatherSpec.currentTemp - 273);
         weather[7] = (byte)(weatherSpec.todayMinTemp - 273);
         weather[8] = (byte)(weatherSpec.todayMaxTemp - 273);
-        weather[9] = Weather.mapToZeTimeCondition(weatherSpec.currentConditionCode);
+
+        if (buildnumber.compareTo("B4.1") >= 0) // if using firmware 1.7 Build 41 and above use newer icons
+        {
+            weather[9] = Weather.mapToZeTimeCondition(weatherSpec.currentConditionCode);
+        } else
+        {
+            weather[9] = Weather.mapToZeTimeConditionOld(weatherSpec.currentConditionCode);
+        }
         for(int forecast = 0; forecast < 3; forecast++) {
             weather[10+(forecast*5)] = 0; // celsius
             weather[11+(forecast*5)] = (byte) 0xff;
