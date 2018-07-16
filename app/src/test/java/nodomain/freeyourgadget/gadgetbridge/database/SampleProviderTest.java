@@ -10,7 +10,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -37,13 +36,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.runners.MethodSorters;
 import org.robolectric.shadows.ShadowContentResolver;
 import org.robolectric.shadows.ShadowLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+
 public class SampleProviderTest extends TestBase {
     private static final Logger LOG = LoggerFactory.getLogger(SampleProviderTest.class);
 
@@ -222,8 +220,9 @@ public class SampleProviderTest extends TestBase {
     }
 
 
+    //@Ignore
     @Test
-    public void atestContentProvider() {
+    public void testContentProvider() {
 
         dummyGBDevice.setState(GBDevice.State.CONNECTED);
         final MiBandSampleProvider sampleProvider = new MiBandSampleProvider(dummyGBDevice, daoSession);
@@ -318,11 +317,15 @@ public class SampleProviderTest extends TestBase {
         assertEquals(a1.numObserved, 10);
 
     }
-    @Ignore
+
    @Test
    public void testDeviceManager() {
        DeviceManager manager = ((GBApplication) (this.getContext())).getDeviceManager();
-       assertNotNull(manager);
+       Log.d("---------------", "-----------------------------------");
+
+       System.out.println("-----------------------------------------");
+       assertNotNull(((GBApplication) GBApplication.getContext()).getDeviceManager());
        LOG.debug(manager.toString());
+
    }
 }
