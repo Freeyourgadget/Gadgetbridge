@@ -421,6 +421,7 @@
     <string name="traditional_chinese">Traditional Chinese</string>
     <string name="english">English</string>
     <string name="spanish">Spanish</string>
+    <string name="russian">Russian</string>
 
     <string name="FetchActivityOperation_about_to_transfer_since">About to transfer data since %1$s</string>
 

@@ -50,12 +50,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ConditionalWrit
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.operations.AmazfitBipFetchLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiIcon;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.operations.AmazfitBipFetchLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.MiBand2Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.operations.FetchSportsSummaryOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
@@ -427,6 +427,10 @@ public class AmazfitBipSupport extends MiBand2Support {
                 command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_SPANISH;
                 localeString = "es_ES";
                 break;
+            case 4:
+                command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                localeString = "ru_RU";
+                break;
             default:
                 switch (language) {
                     case "zh":
@@ -441,6 +445,10 @@ public class AmazfitBipSupport extends MiBand2Support {
                     case "es":
                         command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_SPANISH;
                         localeString = "es_ES";
+                        break;
+                    case "ru":
+                        command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                        localeString = "ru_RU";
                         break;
                     default:
                         command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
