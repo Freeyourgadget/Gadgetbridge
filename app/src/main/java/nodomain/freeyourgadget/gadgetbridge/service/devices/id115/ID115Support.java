@@ -309,7 +309,6 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
     ID115Support setWrist(TransactionBuilder builder) {
         String value = GBApplication.getPrefs().getString(ID115Constants.PREF_WRIST,
                 "left");
-        LOG.warn("wrist value: '" + value + "'");
 
         byte wrist;
         if (value.equals("left")) {
@@ -318,7 +317,6 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
             wrist = ID115Constants.CMD_ARG_RIGHT;
         }
 
-        LOG.warn("Wrist: " + wrist);
         builder.write(normalWriteCharacteristic, new byte[] {
                 ID115Constants.CMD_ID_SETTINGS, ID115Constants.CMD_KEY_SET_HAND,
                 wrist
@@ -329,7 +327,6 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
     ID115Support setScreenOrientation(TransactionBuilder builder) {
         String value = GBApplication.getPrefs().getString(ID115Constants.PREF_SCREEN_ORIENTATION,
                 "horizontal");
-        LOG.warn("value: '" + value + "'");
 
         byte orientation;
         if (value.equals("horizontal")) {
@@ -338,7 +335,6 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
             orientation = ID115Constants.CMD_ARG_VERTICAL;
         }
 
-        LOG.warn("Screen orientation: " + orientation);
         builder.write(normalWriteCharacteristic, new byte[] {
                 ID115Constants.CMD_ID_SETTINGS, ID115Constants.CMD_KEY_SET_DISPLAY_MODE,
                 orientation
