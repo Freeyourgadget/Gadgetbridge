@@ -247,7 +247,7 @@ public class AmazfitBipSupport extends MiBand2Support {
             LOG.error("Error sending current weather", ex);
         }
 
-        if (gbDevice.getType() == DeviceType.AMAZFITBIP) {
+        if (gbDevice.getType() != DeviceType.AMAZFITCOR) {
             try {
                 TransactionBuilder builder;
                 builder = performInitialized("Sending air quality index");
