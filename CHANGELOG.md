@@ -3,7 +3,10 @@
 #### Version 0.28.0 (WIP)
 * Inital support for ZeTime
 * Amazfit Bip/Cor: Rework firmware detection to cope with new version scheme
+* Amazfit Bip: Support setting language to Russian
 * Mi Band 3: support setting language (english and spanish tested)
+* Mi Band 3: Fix pairing
+* Mi Band 3: Send AQI to enable display of current temperature
 
 #### Version 0.27.1
 * Pebble: Change appstore search to point to RomanPort's pebble appstore
