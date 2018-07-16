@@ -101,7 +101,7 @@ public class MiBand2Service {
     /**
      * In some logs it's 0x0...
      */
-    public static final byte AUTH_BYTE = 0x00;
+    public static final byte AUTH_BYTE = 0x08;
 
     // maybe not really activity data, but steps?
     public static final byte COMMAND_FETCH_DATA = 0x02;
