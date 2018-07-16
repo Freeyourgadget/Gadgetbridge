@@ -7,6 +7,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport.BASE_UUID;
 
 public class ID115Constants {
+    public static final String PREF_WRIST = "id115_wrist";
     public static final String PREF_SCREEN_ORIENTATION = "id115_screen_orientation";
 
     public static final UUID UUID_SERVICE_ID115 = UUID.fromString(String.format(BASE_UUID, "0AF0"));
@@ -31,6 +32,9 @@ public class ID115Constants {
     // CMD_ID_SETTINGS
     public static final byte CMD_KEY_SET_TIME = 0x01;
     public static final byte CMD_KEY_SET_GOAL = 0x03;
+    public static final byte CMD_KEY_SET_HAND = 0x22;
+    public static final byte CMD_ARG_LEFT = 0x00;
+    public static final byte CMD_ARG_RIGHT = 0x01;
     public static final byte CMD_KEY_SET_DISPLAY_MODE = 0x2B;
     public static final byte CMD_ARG_HORIZONTAL = 0x00;
     public static final byte CMD_ARG_VERTICAL = 0x02;

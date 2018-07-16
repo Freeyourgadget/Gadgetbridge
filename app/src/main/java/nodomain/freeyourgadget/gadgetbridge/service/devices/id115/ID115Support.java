@@ -64,6 +64,7 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
         builder.notify(normalNotifyCharacteristic, true);
 
         setTime(builder)
+                .setWrist(builder)
                 .setScreenOrientation(builder)
                 .setGoal(builder)
                 .setInitialized(builder);
@@ -301,6 +302,26 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
                 (byte)c.get(Calendar.MINUTE),
                 (byte)c.get(Calendar.SECOND),
                 dayOfWeek
+        });
+        return this;
+    }
+
+    ID115Support setWrist(TransactionBuilder builder) {
+        String value = GBApplication.getPrefs().getString(ID115Constants.PREF_WRIST,
+                "left");
+        LOG.warn("wrist value: '" + value + "'");
+
+        byte wrist;
+        if (value.equals("left")) {
+            wrist = ID115Constants.CMD_ARG_LEFT;
+        } else {
+            wrist = ID115Constants.CMD_ARG_RIGHT;
+        }
+
+        LOG.warn("Wrist: " + wrist);
+        builder.write(normalWriteCharacteristic, new byte[] {
+                ID115Constants.CMD_ID_SETTINGS, ID115Constants.CMD_KEY_SET_HAND,
+                wrist
         });
         return this;
     }

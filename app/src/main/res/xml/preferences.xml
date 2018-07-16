@@ -514,6 +514,15 @@
             <PreferenceCategory
                 android:key="pref_category_id115_general"
                 android:title="@string/pref_header_general">
+
+                <ListPreference
+                    android:defaultValue="left"
+                    android:entries="@array/wearside"
+                    android:entryValues="@array/wearside_values"
+                    android:key="id115_wrist"
+                    android:title="@string/miband_prefs_wearside"
+                    android:summary="%s" />
+
                 <ListPreference
                     android:defaultValue="horizontal"
                     android:entries="@array/orientation"
