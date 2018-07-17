@@ -89,6 +89,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
         builder.setGattCallback(this);
         builder.notify(measureCharacteristic, true);
 
+        setTime(builder);
         sendSettings(builder);
 
         builder.write(ctrlCharacteristic, new byte[]{No1F1Constants.CMD_FIRMWARE_VERSION});
@@ -173,18 +174,8 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     public void onSetTime() {
         try {
             TransactionBuilder builder = performInitialized("setTime");
-            Calendar c = GregorianCalendar.getInstance();
-            byte[] datetimeBytes = new byte[]{
-                    No1F1Constants.CMD_DATETIME,
-                    (byte) ((c.get(Calendar.YEAR) / 256) & 0xff),
-                    (byte) (c.get(Calendar.YEAR) % 256),
-                    (byte) (c.get(Calendar.MONTH) + 1),
-                    (byte) c.get(Calendar.DAY_OF_MONTH),
-                    (byte) c.get(Calendar.HOUR_OF_DAY),
-                    (byte) c.get(Calendar.MINUTE),
-                    (byte) c.get(Calendar.SECOND)
-            };
-            builder.write(ctrlCharacteristic, datetimeBytes);
+            setTime(builder);
+            performConnected(builder.getTransaction());
         } catch (IOException e) {
             GB.toast(getContext(), "Error setting time: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -394,6 +385,21 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     @Override
     public boolean useAutoConnect() {
         return true;
+    }
+
+    private void setTime(TransactionBuilder transaction) {
+        Calendar c = GregorianCalendar.getInstance();
+        byte[] datetimeBytes = new byte[]{
+                No1F1Constants.CMD_DATETIME,
+                (byte) ((c.get(Calendar.YEAR) / 256) & 0xff),
+                (byte) (c.get(Calendar.YEAR) % 256),
+                (byte) (c.get(Calendar.MONTH) + 1),
+                (byte) c.get(Calendar.DAY_OF_MONTH),
+                (byte) c.get(Calendar.HOUR_OF_DAY),
+                (byte) c.get(Calendar.MINUTE),
+                (byte) c.get(Calendar.SECOND)
+        };
+        transaction.write(ctrlCharacteristic, datetimeBytes);
     }
 
     /**
