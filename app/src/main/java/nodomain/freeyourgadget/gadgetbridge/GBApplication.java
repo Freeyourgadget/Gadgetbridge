@@ -145,11 +145,6 @@ public class GBApplication extends Application {
         app = this;
         super.onCreate();
 
-        if (lockHandler != null) {
-            // guard against multiple invocations (robolectric)
-            return;
-        }
-
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefs = new Prefs(sharedPrefs);
         gbPrefs = new GBPrefs(prefs);
