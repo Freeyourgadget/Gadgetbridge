@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<changelog>
     <release version="0.28.0" versioncode="134">
         <change>Initial support for ZeTime</change>
         <change>Amazfit Bip/Cor: Rework firmware detection to cope with new version scheme</change>
