@@ -518,4 +518,11 @@
     <string name="devicetype_amazfit_cor">Amazfit Cor</string>
     <string name="menuitem_shortcut_alipay">Alipay (ярлык)</string>
     <string name="menuitem_alipay">Alipay</string>
-</resources>
+<string name="on">Вкл.</string>
+    <string name="select_all">Выбрать все</string>
+    <string name="share">Поделиться</string>
+    <string name="kind_firmware">Прошивка</string>
+    <string name="menuitem_shortcut_weather">Погода (ярлык)</string>
+    <string name="menuitem_alarm">Будильник</string>
+    <string name="menuitem_timer">Таймер</string>
+    </resources>
