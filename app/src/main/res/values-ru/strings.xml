@@ -82,7 +82,7 @@
   <string name="when_screen_off">Когда экран выключен</string>
   <string name="never">Никогда</string>
   <string name="pref_header_privacy">Конфиденциальность</string>
-  <string name="pref_title_call_privacy_mode">Вызов режима конфиденциальности</string>
+  <string name="pref_title_call_privacy_mode">Конфиденциальность вызовов</string>
   <string name="pref_call_privacy_mode_off">Отображать имя и номер</string>
   <string name="pref_call_privacy_mode_name">Скрывать имя, но отображать номер</string>
   <string name="pref_call_privacy_mode_number">Скрывать номер, но отображать имя</string>
@@ -159,7 +159,7 @@
   <string name="gadgetbridge_running">Gadgetbridge запущен</string>
   <string name="installing_binary_d_d">установка бинарного файла %1$d/%2$d</string>
   <string name="installation_failed_">Установка не удалась</string>
-  <string name="installation_successful">Установка завершена</string>
+  <string name="installation_successful">Установлено</string>
   <string name="firmware_install_warning">ВЫ ПЫТАЕТЕСЬ УСТАНОВИТЬ ПРОШИВКУ, ПРОДОЛЖАЙТЕ НА СВОЙ СТРАХ И РИСК.\n\n\n Эта прошивка для ревизии устройства: %s</string>
   <string name="app_install_info">Вы собираетесь установить приложение:\n\n\n%1$s версия %2$s от %3$s\n</string>
   <string name="n_a">Недоступно</string>
@@ -218,7 +218,7 @@
   <string name="pref_screen_notification_profile_generic_chat">Чат</string>
   <string name="pref_screen_notification_profile_generic_navigation">Навигация</string>
   <string name="pref_screen_notification_profile_generic_social">Социальные сети</string>
-  <string name="control_center_find_lost_device">Найти потерянное устройство</string>
+  <string name="control_center_find_lost_device">Поиск потерянного устройства</string>
   <string name="control_center_cancel_to_stop_vibration">Отмените, чтобы прекратить вибрацию.</string>
   <string name="title_activity_charts">Ваша активность</string>
   <string name="title_activity_set_alarm">Завести Будильник</string>
@@ -236,7 +236,7 @@
   <string name="user_feedback_miband_set_alarms_ok">Будильник был послан на устройство!</string>
   <string name="chart_no_data_synchronize">Нет данных. Синхронизировать устройство?</string>
   <string name="user_feedback_miband_activity_data_transfer">Будет передано %1$s данных, начиная с %2$s</string>
-  <string name="miband_prefs_fitness_goal">Цель шагов на каждый день</string>
+  <string name="miband_prefs_fitness_goal">Ежедневная цель шагов</string>
   <string name="dbaccess_error_executing">Произошла ошибка при выполнении \'%1$s\'</string>
   <string name="controlcenter_start_activitymonitor">Ваша активность (АЛЬФА)</string>
   <string name="cannot_connect">Подключиться не удалось: %1$s</string>
@@ -316,7 +316,7 @@
   <string name="device_fw">Версия прошивки: %1$s</string>
   <string name="error_creating_directory_for_logfiles">Ошибка создания каталога для лог-файлов: %1$s</string>
   <string name="DEVINFO_HR_VER">"Версия устройства: "</string>
-  <string name="updatefirmwareoperation_update_in_progress">Происходит обновление прошивки</string>
+  <string name="updatefirmwareoperation_update_in_progress">Обновление прошивки</string>
   <string name="updatefirmwareoperation_firmware_not_sent">Прошивка не отправлена</string>
   <string name="charts_legend_heartrate">Пульс</string>
   <string name="live_activity_heart_rate">Пульс</string>
@@ -334,16 +334,16 @@
   <string name="dbmanagementactivity_error_exporting_shared">Ошибка экспорта настроек: %1$s</string>
   <string name="dbmanagementactivity_import_data_title">Импортировать данные?</string>
   <string name="dbmanagementactivity_overwrite_database_confirmation">Точно перезаписать текущую базу данных? Все текущие данные вашей активности (если они есть) будут утеряны.</string>
-  <string name="dbmanagementactivity_import_successful">Импорт успешно завершён.</string>
+  <string name="dbmanagementactivity_import_successful">Импортировано.</string>
   <string name="dbmanagementactivity_error_importing_db">Ошибка импорта базы данных: %1$s</string>
   <string name="dbmanagementactivity_error_importing_shared">Ошибка импорта настроек: %1$s</string>
   <string name="dbmanagementactivity_delete_activity_data_title">Удалить данные по вашей активности?</string>
   <string name="dbmanagementactivity_really_delete_entire_db">Действительно удалить всю базу данных? Все данные о вашей активности и информация о ваших устройствах будут утеряны.</string>
-  <string name="dbmanagementactivity_database_successfully_deleted">Данные успешно удалены.</string>
+  <string name="dbmanagementactivity_database_successfully_deleted">Данные удалены.</string>
   <string name="dbmanagementactivity_db_deletion_failed">Удалить базу данных не получилось.</string>
   <string name="dbmanagementactivity_delete_old_activity_db">Удалить данные по предыдущей активности?</string>
   <string name="dbmanagementactivity_delete_old_activitydb_confirmation">Точно удалить старые данные об активности? Все не импортированные данные об активности будут утеряны.</string>
-  <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Устаревшие данные по вашей активности успешно удалены.</string>
+  <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Устаревшие данные активности удалены.</string>
   <string name="dbmanagementactivity_old_activity_db_deletion_failed">Удалить устаревшие данные по вашей активности не получилось.</string>
   <string name="dbmanagementactivity_overwrite">Перезаписать</string>
   <string name="Cancel">Отмена</string>
@@ -378,7 +378,7 @@
   <string name="discovery_bonding_failed_immediately">Не удалось выполнить привязку к %1$s.</string>
   <string name="discovery_trying_to_connect_to">Попытка соединения с: %1$s</string>
   <string name="discovery_enable_bluetooth">Включить Bluetooth для обнаружения устройств.</string>
-  <string name="discovery_successfully_bonded">Привязка к %1$s успешно выполнена.</string>
+  <string name="discovery_successfully_bonded">Связано с %1$s.</string>
   <string name="discovery_pair_title">Выполнить сопряжение с %1$s ?</string>
   <string name="discovery_pair_question">Выберите \"Сопряжение\" для сопряжения ваших устройств. Если не получилось, попробуйте снова без сопряжения.</string>
   <string name="discovery_yes_pair">Сопряжение</string>
@@ -387,19 +387,20 @@
     <string name="controlcenter_connect">Подключить</string>
     <string name="title_activity_calblacklist">Заблокированные календари</string>
 
-    <string name="fw_upgrade_notice_amazfitbip">"Вы собираетесь установить прошивку %s на ваш Amazfit Bip.
+    <string name="fw_upgrade_notice_amazfitbip">Вы собираетесь установить прошивку %s на ваш Amazfit Bip. 
+\n 
+\nСоблюдайте последовательность: вначале установите файл .fw, затем .res, и затем .gps. После установки файла .fw часы перезагрузятся. 
 \n
-\nПеред этим, пожалуйста, установите файл .gps,  файл .res и последним — .fw файл. После установки .fw файла устройство перезагрузится. 
-\nОбратите внимание: если файлы .gps и .res такие же, как в текущей версии, их не нужно переустанавливать.
-\n
-\nВы действуете на свой страх и риск!"</string>
-    <string name="fw_upgrade_notice_amazfitcor">Вы собираетесь установить прошивку %s на ваш Amazonfit Cor.
-\n
-\nПеред этим, пожалуйста, установите файл .res и файл .fw. После установки файла .fw ваше устройство перезагрузится.
-\n
-\nОбратие внимание: если версия файла .res совпадает с предыдущей, его не нужно переустанавливать.
-\n
-\nЭту прошивку не проверяли, поэтому есть вероятность сломать ваше устройство. Действуйте на свой страх и риск!</string>
+\nОбратите внимание: если файлы .gps и .res такие же, как в текущей версии, их не нужно переустанавливать. 
+\n 
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="fw_upgrade_notice_amazfitcor">Вы собираетесь установить прошивку %s на ваш Amazfit Cor. 
+\n 
+\nСоблюдайте последовательность: вначале установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся. 
+\n 
+\nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать. 
+\n 
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_title_charts_swipe">Включить жесты \"провести направо и налево\" в графиках активности</string>
 
     <string name="pref_blacklist_calendars">Заблокировать Календари</string>
@@ -481,4 +482,40 @@
     <string name="menuitem_weather">Погода</string>
     <string name="menuitem_compass">Компас</string>
     <string name="menuitem_settings">Настройки</string>
-    </resources>
+    <string name="blacklist_all_for_notifications">Заблокировать все</string>
+    <string name="whitelist_all_for_notifications">Разблокировать все</string>
+
+
+    <string name="fw_upgrade_notice_miband3">Вы собираетесь установить прошивку %s на ваш Mi Band 3. 
+\n 
+\nСоблюдайте последовательность: вначале установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся. 
+\n
+\nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать. 
+\n 
+\nНЕ ПРОВЕРЯЛОСЬ, ЕСТЬ ВЕРОЯТНОСТЬ СЛОМАТЬ ВАШЕ УСТРОЙСТВО. ВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="pref_title_weather_location">Местоположение для погоды (CM/LOS)</string>
+
+    <string name="pref_title_pebble_gatt_clientonly">Подключаться только в режиме GATT-клиента</string>
+    <string name="pref_summary_pebble_gatt_clientonly">Экспериментальные настройки только для Pebble 2. Попробуйте, если есть проблемы с соединением.</string>
+    <string name="pref_header_auto_export">Автоматический экспорт данных</string>
+    <string name="pref_title_auto_export_enabled">Включить автоматический экспорт</string>
+    <string name="pref_title_auto_export_location">Путь экспорта</string>
+    <string name="pref_title_auto_export_interval">Интервал экспорта</string>
+    <string name="pref_summary_auto_export_interval">Экспортировать каждые %d часов</string>
+
+    <string name="spanish">Испанский</string>
+    <string name="russian">Русский</string>
+
+    <string name="activity_type_not_measured">Не измерялось</string>
+    <string name="activity_type_activity">Активность</string>
+    <string name="activity_type_unknown">Неизвестная активность</string>
+    <string name="activity_type_treadmill">Беговая дорожка</string>
+    <string name="kind_gps">Прошивка GPS</string>
+    <string name="kind_resources">Ресурсы</string>
+    <string name="devicetype_unknown">Неизвестное устройство</string>
+    <string name="devicetype_pebble">Pebble</string>
+    <string name="devicetype_amazfit_bip">Amazfit Bip</string>
+    <string name="devicetype_amazfit_cor">Amazfit Cor</string>
+    <string name="menuitem_shortcut_alipay">Alipay (ярлык)</string>
+    <string name="menuitem_alipay">Alipay</string>
+</resources>
