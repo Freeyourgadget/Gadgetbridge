@@ -1,7 +1,7 @@
 ### Changelog
 
-#### Version 0.28.0 (WIP)
-* Inital support for ZeTime
+#### Version 0.28.0
+* Initial support for ZeTime
 * Amazfit Bip/Cor: Rework firmware detection to cope with new version scheme
 * Amazfit Bip: Support setting language to Russian
 * Amazfit Cor: Support language switching on newer firmwares
