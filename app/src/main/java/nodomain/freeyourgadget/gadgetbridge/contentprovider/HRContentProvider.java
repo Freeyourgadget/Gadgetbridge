@@ -38,6 +38,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -101,7 +102,7 @@ public class HRContentProvider extends ContentProvider {
                 case DeviceService.ACTION_REALTIME_SAMPLES:
                     ActivitySample tmp_sample = (ActivitySample) intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE);
                     //LOG.debug("Got new Sample " + tmp_sample.getHeartRate());
-                    if (tmp_sample.getHeartRate() == -1)
+                    if (!HeartRateUtils.isValidHeartRateValue(tmp_sample.getHeartRate()))
                         break;
 
                     buffered_sample = tmp_sample;
