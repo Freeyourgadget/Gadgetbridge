@@ -525,4 +525,5 @@
     <string name="menuitem_shortcut_weather">Погода (ярлык)</string>
     <string name="menuitem_alarm">Будильник</string>
     <string name="menuitem_timer">Таймер</string>
+    <string name="activity_type_biking">Велопрогулка</string>
     </resources>
