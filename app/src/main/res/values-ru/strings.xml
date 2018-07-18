@@ -87,7 +87,7 @@
   <string name="pref_call_privacy_mode_name">Скрывать имя, но отображать номер</string>
   <string name="pref_call_privacy_mode_number">Скрывать номер, но отображать имя</string>
   <string name="pref_call_privacy_mode_complete">Скрывать имя и номер</string>
-  <string name="pref_blacklist">Нежелательные приложения</string>
+  <string name="pref_blacklist">Заблокированные приложения</string>
   <string name="pref_header_cannned_messages">Сохранённые сообщения</string>
   <string name="pref_title_canned_replies">Ответы</string>
   <string name="pref_title_canned_reply_suffix">Общий суффикс</string>
@@ -526,4 +526,18 @@
     <string name="menuitem_alarm">Будильник</string>
     <string name="menuitem_timer">Таймер</string>
     <string name="activity_type_biking">Велопрогулка</string>
+    <string name="devicetype_test">Тестовое устройство</string>
+    <string name="devicetype_miband">Mi Band</string>
+    <string name="devicetype_miband2">Mi Band 2</string>
+    <string name="devicetype_miband3">Mi Band 3</string>
+    <string name="devicetype_vibratissimo">Vibratissimo</string>
+    <string name="devicetype_liveview">LiveView</string>
+    <string name="devicetype_hplus">HPlus</string>
+    <string name="devicetype_makibes_f68">Makibes F68</string>
+    <string name="devicetype_exrizu_k8">Exrizu K8</string>
+    <string name="devicetype_q8">Q8</string>
+    <string name="devicetype_teclast_h30">Teclast H30</string>
+    <string name="devicetype_xwatch">XWatch</string>
+    <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
+
     </resources>
