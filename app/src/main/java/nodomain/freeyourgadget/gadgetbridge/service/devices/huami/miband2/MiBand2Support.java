@@ -155,6 +155,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         }
     };
 
+    private Timer punchTimer = new Timer();
+
     BluetoothGattCharacteristic characteristicHRControlPoint;
 
     private boolean needsAuth;
@@ -347,6 +349,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     private static final byte[] stopHeartMeasurementManual = new byte[]{0x15, MiBandService.COMMAND_SET_HR_MANUAL, 0};
     private static final byte[] startHeartMeasurementContinuous = new byte[]{0x15, MiBandService.COMMAND_SET__HR_CONTINUOUS, 1};
     private static final byte[] stopHeartMeasurementContinuous = new byte[]{0x15, MiBandService.COMMAND_SET__HR_CONTINUOUS, 0};
+    private static final byte[] continueHeartMeasurementContinuous = new byte[]{0x16};
 
     private MiBand2Support requestBatteryInfo(TransactionBuilder builder) {
         LOG.debug("Requesting Battery Info!");
@@ -772,8 +775,30 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             if (enable) {
                 builder.write(characteristicHRControlPoint, stopHeartMeasurementManual);
                 builder.write(characteristicHRControlPoint, startHeartMeasurementContinuous);
+                punchTimer.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        LOG.debug("punching the deviceService...");
+                        // write the continue bit...
+                        try {
+                            TransactionBuilder builder = performInitialized("Continue heart rate measurement");
+                            builder.write(characteristicHRControlPoint, continueHeartMeasurementContinuous);
+                            builder.queue(getQueue());
+                        } catch (IOException e) {
+                        }
+
+                    }
+
+                }, 1000 * 10, 10000);
+                // Start after 10 seconds, repeat each second
+
+
             } else {
                 builder.write(characteristicHRControlPoint, stopHeartMeasurementContinuous);
+                punchTimer.cancel();
+                punchTimer = new Timer();
+
+
             }
             builder.queue(getQueue());
             enableRealtimeSamplesTimer(enable);
