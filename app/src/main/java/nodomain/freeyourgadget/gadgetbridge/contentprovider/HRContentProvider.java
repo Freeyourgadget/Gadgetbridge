@@ -60,7 +60,6 @@ public class HRContentProvider extends ContentProvider {
     provider_state state = provider_state.INACTIVE;
 
     private static final UriMatcher URI_MATCHER;
-    private Timer punchTimer = new Timer();
 
     static {
         URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
@@ -201,8 +200,6 @@ public class HRContentProvider extends ContentProvider {
         GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(false);
         mc = new MatrixCursor(HRContentProviderContract.activityColumnNames);
         mc.addRow(new String[]{"OK", "No error"});
-        punchTimer.cancel();
-        punchTimer = new Timer();
         return mc;
     }
 
@@ -212,17 +209,6 @@ public class HRContentProvider extends ContentProvider {
         GBApplication.deviceService().onEnableRealtimeSteps(true);
         GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
 
-        punchTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                LOG.debug("punching the deviceService...");
-                // As seen in LiveActivityFragment:
-                // have to enable it again and again to keep it measureing
-                GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
-            }
-
-        }, 1000 * 10, 1000);
-        // Start after 10 seconds, repeat each second
     }
 
     @NonNull
