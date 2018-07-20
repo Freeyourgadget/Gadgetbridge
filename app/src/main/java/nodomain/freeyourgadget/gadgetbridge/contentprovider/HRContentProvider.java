@@ -221,8 +221,8 @@ public class HRContentProvider extends ContentProvider {
                 GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
             }
 
-        }, 1000 * 10, 1000);
-        // Start after 10 seconds, repeat each second
+        }, 1000 * 10, 1000 * 10);
+        // Start after 10 seconds, repeat every 10 seconds
     }
 
     @NonNull
