@@ -156,7 +156,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         }
     };
 
-    BluetoothGattCharacteristic characteristicHRControlPoint;
+    private BluetoothGattCharacteristic characteristicHRControlPoint;
+    protected BluetoothGattCharacteristic characteristicChunked;
 
     private boolean needsAuth;
     private volatile boolean telephoneRinging;
@@ -216,6 +217,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             }
             new InitOperation(authenticate, authFlags, this, builder).perform();
             characteristicHRControlPoint = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT);
+            characteristicChunked = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_CHUNKEDTRANSFER);
         } catch (IOException e) {
             GB.toast(getContext(), "Initializing Mi Band 2 failed", Toast.LENGTH_SHORT, GB.ERROR, e);
         }
@@ -1607,6 +1609,34 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_DISTANCE_UNIT_IMPERIAL);
         }
         return this;
+    }
+
+    protected void writeToChunked(TransactionBuilder builder, int type, byte[] data) {
+        final int MAX_CHUNKLENGTH = 17;
+        int remaining = data.length;
+        byte count = 0;
+        while (remaining > 0) {
+            int copybytes = Math.min(remaining, MAX_CHUNKLENGTH);
+            byte[] chunk = new byte[copybytes + 3];
+
+            byte flags = 0;
+            if (remaining <= MAX_CHUNKLENGTH) {
+                flags |= 0x80; // last chunk
+                if (count == 0) {
+                    flags |= 0x40; // weird but true
+                }
+            } else if (count > 0) {
+                flags |= 0x40; // consecutive chunk
+            }
+
+            chunk[0] = 0;
+            chunk[1] = (byte) (flags | type);
+            chunk[2] = (byte) (count & 0xff);
+
+            System.arraycopy(data, count++ * MAX_CHUNKLENGTH, chunk, 3, copybytes);
+            builder.write(characteristicChunked, chunk);
+            remaining -= copybytes;
+        }
     }
 
     public void phase2Initialize(TransactionBuilder builder) {

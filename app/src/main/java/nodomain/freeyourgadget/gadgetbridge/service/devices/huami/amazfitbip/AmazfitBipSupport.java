@@ -310,7 +310,6 @@ public class AmazfitBipSupport extends MiBand2Support {
 
             for (WeatherSpec.Forecast forecast : weatherSpec.forecasts) {
                 condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(forecast.conditionCode);
-
                 buf.put(condition);
                 buf.put(condition);
                 buf.put((byte) (forecast.maxTemp - 273));
@@ -321,7 +320,12 @@ public class AmazfitBipSupport extends MiBand2Support {
                 }
             }
 
-            builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+            if (characteristicChunked != null) {
+                writeToChunked(builder, 1, buf.array());
+            } else {
+                builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+            }
+
             builder.queue(getQueue());
         } catch (Exception ex) {
             LOG.error("Error sending weather forecast", ex);
