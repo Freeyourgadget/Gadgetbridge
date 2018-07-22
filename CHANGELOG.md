@@ -1,5 +1,12 @@
 ### Changelog
 
+#### Version 0.28.1
+* Fix wrong weather icon mapping in rare cases
+* Fix device discovery on Android 4.4
+* Amazfit Bip: Use UTC in gpx tracks for better compatibility with external software
+* Amazfit Bip: Add the (localized) activity type to the gpx filename
+* Amazfit Bip: Fix weather on latest firmwares
+
 #### Version 0.28.0
 * Initial support for ZeTime
 * Amazfit Bip/Cor: Rework firmware detection to cope with new version scheme
