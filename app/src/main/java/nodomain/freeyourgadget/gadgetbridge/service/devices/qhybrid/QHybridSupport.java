@@ -171,7 +171,8 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
-        Log.d("Service", "notif from " + notificationSpec.sourceName);
+        Log.d("Service", "notif from " + notificationSpec.sourceAppId);
+        new Exception().printStackTrace();
         String packageName = notificationSpec.sourceName;
 
         PackageConfig config = helper.getSetting(packageName);
