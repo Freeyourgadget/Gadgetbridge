@@ -231,9 +231,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
     public void logMessageContent(byte[] value) {
         if (value != null) {
-            for (byte b : value) {
-                LOG.warn("DATA: " + String.format("0x%2x", b) + " - " + (char) (b & 0xff));
-            }
+            LOG.warn("DATA: " + GB.hexdump(value, 0, value.length));
         }
     }
 
@@ -630,7 +628,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         super.onPause();
         stopBTDiscovery();
         stopBTLEDiscovery();
-        if (GB.supportsBluetoothLE()) {
+        if (GBApplication.isRunningLollipopOrLater()) {
             stopNewBTLEDiscovery();
         }
     }
