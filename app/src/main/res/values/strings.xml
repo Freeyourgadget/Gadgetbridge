@@ -382,7 +382,7 @@
     <string name="fwinstaller_firmware_not_compatible_to_device">This firmware is not compatible with the device</string>
     <string name="miband_prefs_reserve_alarm_calendar">Alarms to reserve for upcoming events</string>
     <string name="miband_prefs_hr_sleep_detection">Use heart rate sensor to improve sleep detection</string>
-	<string name="miband_prefs_device_time_offset_hours">Device time offset in hours (for detecting sleep of shift workers)</string>
+    <string name="miband_prefs_device_time_offset_hours">Device time offset in hours (for detecting sleep of shift workers)</string>
     <string name="miband2_prefs_dateformat">Mi2: Date format</string>
     <string name="dateformat_time">Time</string>
     <string name="dateformat_date_time"><![CDATA[Time & date]]></string>
@@ -565,6 +565,7 @@
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
     <string name="devicetype_xwatch">XWatch</string>
+    <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
 
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>
@@ -580,4 +581,5 @@
     <string name="menuitem_compass">Compass</string>
     <string name="menuitem_settings">Settings</string>
     <string name="menuitem_alipay">Alipay</string>
+    <string name="preferences_qhybrid_settings">Q Hybrid Settings</string>
 </resources>

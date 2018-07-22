@@ -53,6 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.ConfigActivity;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -99,6 +100,12 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 startActivity(enableIntent);
                 return true;
             }
+        });
+
+        pref = findPreference("pref_key_qhybrid");
+        pref.setOnPreferenceClickListener((preference) -> {
+            startActivity(new Intent(SettingsActivity.this, ConfigActivity.class));
+            return true;
         });
 
         pref = findPreference("pref_key_blacklist");

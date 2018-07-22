@@ -19,7 +19,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
     <uses-permission android:name="cyanogenmod.permission.ACCESS_WEATHER_MANAGER" />
     <uses-permission android:name="cyanogenmod.permission.READ_WEATHER" />
     <uses-permission android:name="org.omnirom.omnijaws.READ_WEATHER" />
@@ -39,8 +38,8 @@
         android:allowBackup="false"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/GadgetbridgeTheme">
         <activity
             android:name=".activities.ControlCenterv2"
@@ -48,7 +47,9 @@
             android:theme="@style/GadgetbridgeTheme.NoActionBar">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -65,9 +66,9 @@
             android:label="@string/activity_summaries"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
-            android:launchMode="singleTop"
             android:name=".activities.appmanager.AppManagerActivity"
             android:label="@string/title_activity_appmanager"
+            android:launchMode="singleTop"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
             android:name=".activities.AppBlacklistActivity"
@@ -277,7 +278,7 @@
 
                 <data android:mimeType="application/octet-stream" />
             </intent-filter>
-            <!-- to receive firmwares from the download content provider if recognized as zip-->
+            <!-- to receive firmwares from the download content provider if recognized as zip -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -293,7 +294,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="*/*" />
-
             </intent-filter>
         </activity>
 
@@ -318,18 +318,19 @@
 
         <activity android:name=".externalevents.WeatherNotificationConfig">
             <intent-filter>
-                <action android:name="ru.gelin.android.weather.notification.ACTION_WEATHER_SKIN_PREFERENCES"/>
+                <action android:name="ru.gelin.android.weather.notification.ACTION_WEATHER_SKIN_PREFERENCES" />
             </intent-filter>
         </activity>
 
-        <receiver android:name=".externalevents.AutoStartReceiver"
+        <receiver
+            android:name=".externalevents.AutoStartReceiver"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".externalevents.BluetoothStateChangeReceiver"
             android:exported="false">
@@ -352,16 +353,14 @@
             </intent-filter>
         </receiver>
         <receiver
+            android:name=".database.PeriodicExporter"
             android:enabled="true"
-            android:name="nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter"
-            android:exported="false">
-
-        </receiver>
+            android:exported="false" />
 
         <!--
             forcing the DebugActivity to portrait mode avoids crashes with the progress
             dialog when changing orientation
-         -->
+        -->
         <activity
             android:name=".activities.DebugActivity"
             android:label="@string/title_activity_debug"
@@ -398,8 +397,8 @@
         <activity
             android:name=".activities.AlarmDetails"
             android:label="@string/title_activity_alarm_details"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".activities.ConfigureAlarms" />
+            android:parentActivityName=".activities.ConfigureAlarms"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.VibrationActivity"
             android:label="@string/title_activity_vibration"
@@ -412,7 +411,6 @@
             android:name=".contentprovider.PebbleContentProvider"
             android:authorities="com.getpebble.android.provider"
             android:exported="true" />
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.screenshot_provider"
@@ -435,23 +433,27 @@
         </receiver>
 
         <activity
-            android:launchMode="singleTask"
+            android:name=".activities.ExternalPebbleJSActivity"
             android:allowTaskReparenting="true"
             android:clearTaskOnLaunch="true"
-            android:name=".activities.ExternalPebbleJSActivity"
             android:label="@string/app_configure"
+            android:launchMode="singleTask"
             android:parentActivityName=".activities.appmanager.AppManagerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2" />
+
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="gadgetbridge" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".devices.qhybrid.ConfigActivity" android:exported="true"/>
+        <activity android:name=".devices.qhybrid.QHybridAppChoserActivity" android:exported="true" ></activity>
     </application>
 
 </manifest>

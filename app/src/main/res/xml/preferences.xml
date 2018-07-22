@@ -18,15 +18,15 @@
         <ListPreference
             android:defaultValue="default"
             android:key="audio_player"
-            android:title="@string/pref_title_audio_player"
-            android:summary="%s" />
+            android:summary="%s"
+            android:title="@string/pref_title_audio_player" />
         <ListPreference
-            android:key="pref_key_theme"
-            android:title="@string/pref_title_theme"
+            android:defaultValue="@string/pref_theme_value_light"
             android:entries="@array/pref_theme_options"
             android:entryValues="@array/pref_theme_values"
-            android:defaultValue="@string/pref_theme_value_light"
-            android:summary="%s" />
+            android:key="pref_key_theme"
+            android:summary="%s"
+            android:title="@string/pref_title_theme" />
         <ListPreference
             android:defaultValue="default"
             android:entries="@array/pref_language_options"
@@ -68,8 +68,8 @@
                 android:entries="@array/gender"
                 android:entryValues="@array/gender_values"
                 android:key="activity_user_gender"
-                android:title="@string/activity_prefs_gender"
-                android:summary="%s" />
+                android:summary="%s"
+                android:title="@string/activity_prefs_gender" />
 
             <!--TODO: support localized heights and weights -->
             <EditTextPreference
@@ -120,16 +120,16 @@
             android:entries="@array/notification_mode_toggle"
             android:entryValues="@array/notification_mode_values_toggle"
             android:key="notification_mode_calls"
-            android:title="@string/pref_title_notifications_call"
-            android:summary="%s" />
+            android:summary="%s"
+            android:title="@string/pref_title_notifications_call" />
 
         <ListPreference
             android:defaultValue="when_screen_off"
             android:entries="@array/notification_mode"
             android:entryValues="@array/notification_mode_values"
             android:key="notification_mode_sms"
-            android:title="@string/pref_title_notifications_sms"
-            android:summary="%s" />
+            android:summary="%s"
+            android:title="@string/pref_title_notifications_sms" />
 
         <ListPreference
             android:defaultValue="when_screen_off"
@@ -152,8 +152,7 @@
             android:defaultValue="false"
             android:key="transliteration"
             android:summary="@string/pref_summary_transliteration"
-            android:title="@string/pref_title_transliteration"
-            />
+            android:title="@string/pref_title_transliteration" />
 
         <CheckBoxPreference
             android:defaultValue="false"
@@ -166,19 +165,21 @@
             android:title="@string/pref_blacklist" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/pref_header_privacy">
-    <ListPreference
-        android:defaultValue="@string/p_call_privacy_mode_off"
-        android:key="pref_call_privacy_mode"
-        android:title="@string/pref_title_call_privacy_mode"
-        android:entries="@array/pref_call_privacy_mode"
-        android:entryValues="@array/pref_call_privacy_mode_values"
-        android:summary="%s" />
+    <PreferenceCategory android:title="@string/pref_header_privacy">
+        <ListPreference
+            android:defaultValue="@string/p_call_privacy_mode_off"
+            android:entries="@array/pref_call_privacy_mode"
+            android:entryValues="@array/pref_call_privacy_mode_values"
+            android:key="pref_call_privacy_mode"
+            android:summary="%s"
+            android:title="@string/pref_title_call_privacy_mode" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/preferences_category_device_specific_settings">
+    <PreferenceCategory android:title="@string/preferences_category_device_specific_settings">
+        <Preference
+            android:icon="@drawable/ic_device_pebble"
+            android:key="pref_key_qhybrid"
+            android:title="@string/preferences_qhybrid_settings" />
         <Preference
             android:icon="@drawable/ic_device_miband"
             android:key="pref_key_miband"
@@ -194,20 +195,19 @@
                 android:summary="%s"
                 android:title="@string/pref_title_language" />
             <MultiSelectListPreference
-                android:dialogTitle="@string/mi2_prefs_display_items"
                 android:defaultValue="@array/pref_bip_display_items_default"
+                android:dialogTitle="@string/mi2_prefs_display_items"
                 android:entries="@array/pref_bip_display_items"
                 android:entryValues="@array/pref_bip_display_items_values"
                 android:key="bip_display_items"
                 android:summary="@string/mi2_prefs_display_items_summary"
-                android:title="@string/mi2_prefs_display_items"/>
+                android:title="@string/mi2_prefs_display_items" />
         </PreferenceScreen>
         <PreferenceScreen
             android:icon="@drawable/ic_device_pebble"
             android:key="pref_key_pebble"
             android:title="@string/pref_title_pebble_settings">
-            <PreferenceCategory
-                android:title="@string/pref_header_general">
+            <PreferenceCategory android:title="@string/pref_header_general">
                 <CheckBoxPreference
                     android:defaultValue="true"
                     android:key="pebble_enable_outgoing_call"
@@ -230,12 +230,12 @@
                     android:summary="@string/pref_summary_autoremove_notifications"
                     android:title="@string/pref_title_autoremove_notifications" />
                 <ListPreference
-                    android:key="pebble_pref_privacy_mode"
-                    android:title="@string/pref_title_pebble_privacy_mode"
+                    android:defaultValue="@string/p_pebble_privacy_mode_off"
                     android:entries="@array/pebble_privacymode"
                     android:entryValues="@array/pebble_privacymode_values"
-                    android:defaultValue="@string/p_pebble_privacy_mode_off"
-                    android:summary="%s" />
+                    android:key="pebble_pref_privacy_mode"
+                    android:summary="%s"
+                    android:title="@string/pref_title_pebble_privacy_mode" />
             </PreferenceCategory>
             <PreferenceCategory android:title="@string/pref_header_pebble_timeline">
                 <CheckBoxPreference
@@ -265,10 +265,10 @@
                     android:title="@string/pref_title_pebble_sync_health" />
                 <CheckBoxPreference
                     android:defaultValue="true"
-                    android:key="pebble_health_store_raw"
                     android:dependency="pebble_sync_health"
-                    android:title="@string/pref_title_pebble_health_store_raw"
-                    android:summary="@string/pref_summary_pebble_health_store_raw" />
+                    android:key="pebble_health_store_raw"
+                    android:summary="@string/pref_summary_pebble_health_store_raw"
+                    android:title="@string/pref_title_pebble_health_store_raw" />
                 <CheckBoxPreference
                     android:defaultValue="true"
                     android:key="pebble_sync_misfit"
@@ -278,23 +278,22 @@
                     android:key="pebble_sync_morpheuz"
                     android:title="@string/pref_title_pebble_sync_morpheuz" />
             </PreferenceCategory>
-            <PreferenceCategory
-                android:title="@string/pref_header_location">
-            <Preference
-                android:key="location_aquire"
-                android:title="@string/pref_title_location_aquire"/>
-            <EditTextPreference
-                android:maxLength="7"
-                android:inputType="numberDecimal|numberSigned"
-                android:defaultValue="0"
-                android:key="location_latitude"
-                android:title="@string/pref_title_location_latitude" />
-            <EditTextPreference
-                android:maxLength="7"
-                android:inputType="numberDecimal|numberSigned"
-                android:defaultValue="0"
-                android:key="location_longitude"
-                android:title="@string/pref_title_location_longitude" />
+            <PreferenceCategory android:title="@string/pref_header_location">
+                <Preference
+                    android:key="location_aquire"
+                    android:title="@string/pref_title_location_aquire" />
+                <EditTextPreference
+                    android:defaultValue="0"
+                    android:inputType="numberDecimal|numberSigned"
+                    android:key="location_latitude"
+                    android:maxLength="7"
+                    android:title="@string/pref_title_location_latitude" />
+                <EditTextPreference
+                    android:defaultValue="0"
+                    android:inputType="numberDecimal|numberSigned"
+                    android:key="location_longitude"
+                    android:maxLength="7"
+                    android:title="@string/pref_title_location_longitude" />
                 <CheckBoxPreference
                     android:defaultValue="true"
                     android:dependency="location_aquire"
@@ -302,8 +301,7 @@
                     android:summary="@string/pref_summary_location_keep_uptodate"
                     android:title="@string/pref_title_location_keep_uptodate" />
             </PreferenceCategory>
-            <PreferenceCategory
-                android:title="@string/pref_header_cannned_messages">
+            <PreferenceCategory android:title="@string/pref_header_cannned_messages">
                 <PreferenceScreen android:title="@string/pref_title_canned_replies">
                     <EditTextPreference
                         android:defaultValue=" (canned reply)"
@@ -413,8 +411,7 @@
                         android:maxLength="64" />
                 </PreferenceScreen>
             </PreferenceCategory>
-            <PreferenceCategory
-                android:title="@string/pref_header_development">
+            <PreferenceCategory android:title="@string/pref_header_development">
                 <CheckBoxPreference
                     android:defaultValue="false"
                     android:key="pebble_force_protocol"
@@ -431,17 +428,17 @@
                     android:summary="@string/pref_summary_pebble_forcele"
                     android:title="@string/pref_title_pebble_forcele" />
                 <EditTextPreference
+                    android:defaultValue="512"
                     android:inputType="number"
                     android:key="pebble_mtu_limit"
                     android:maxLength="3"
-                    android:defaultValue="512"
-                    android:title="@string/pref_title_pebble_mtu_limit"
-                    android:summary="@string/pref_summary_pebble_mtu_limit" />
+                    android:summary="@string/pref_summary_pebble_mtu_limit"
+                    android:title="@string/pref_title_pebble_mtu_limit" />
                 <CheckBoxPreference
                     android:defaultValue="false"
                     android:key="pebble_gatt_clientonly"
-                    android:title="@string/pref_title_pebble_gatt_clientonly"
-                    android:summary="@string/pref_summary_pebble_gatt_clientonly" />
+                    android:summary="@string/pref_summary_pebble_gatt_clientonly"
+                    android:title="@string/pref_title_pebble_gatt_clientonly" />
                 <CheckBoxPreference
                     android:defaultValue="false"
                     android:key="pebble_enable_applogs"
@@ -454,8 +451,8 @@
                     android:title="@string/pref_title_pebble_always_ack_pebblekit" />
                 <CheckBoxPreference
                     android:defaultValue="false"
-                    android:key="pebble_enable_background_javascript"
                     android:dependency="pebble_force_untested"
+                    android:key="pebble_enable_background_javascript"
                     android:summary="@string/pref_summary_pebble_enable_bgjs"
                     android:title="@string/pref_title_pebble_enable_bgjs" />
                 <EditTextPreference
@@ -483,21 +480,21 @@
                     android:entries="@array/wearside"
                     android:entryValues="@array/wearside_values"
                     android:key="hplus_wrist"
-                    android:title="@string/miband_prefs_wearside"
-                    android:summary="%s" />
+                    android:summary="%s"
+                    android:title="@string/miband_prefs_wearside" />
 
                 <ListPreference
                     android:defaultValue="24h"
                     android:entries="@array/pref_timeformat_entries"
                     android:entryValues="@array/pref_timeformat_values"
                     android:key="hplus_timeformat"
-                    android:title="@string/pref_title_timeformat"
-                    android:summary="%s" />
+                    android:summary="%s"
+                    android:title="@string/pref_title_timeformat" />
 
                 <EditTextPreference
                     android:defaultValue="5"
                     android:key="hplus_screentime"
-                    android:title="@string/pref_title_screentime"/>
+                    android:title="@string/pref_title_screentime" />
 
                 <CheckBoxPreference
                     android:defaultValue="true"
@@ -509,39 +506,37 @@
         </PreferenceScreen>
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/pref_header_auto_export">
+    <PreferenceCategory android:title="@string/pref_header_auto_export">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="auto_export_enabled"
             android:title="@string/pref_title_auto_export_enabled" />
         <Preference
             android:key="auto_export_location"
-            android:title="@string/pref_title_auto_export_location"
-            android:summary="%s" />
+            android:summary="%s"
+            android:title="@string/pref_title_auto_export_location" />
         <EditTextPreference
+            android:defaultValue="3"
             android:inputType="number"
             android:key="auto_export_interval"
-            android:defaultValue="3"
             android:maxLength="3"
-            android:title="@string/pref_title_auto_export_interval"
-            android:summary="@string/pref_summary_auto_export_interval"/>
+            android:summary="@string/pref_summary_auto_export_interval"
+            android:title="@string/pref_title_auto_export_interval" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="Auto fetch">
+    <PreferenceCategory android:title="Auto fetch">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="auto_fetch_enabled"
-            android:title="@string/pref_auto_fetch"
-            android:summary="@string/pref_auto_fetch_summary"/>
+            android:summary="@string/pref_auto_fetch_summary"
+            android:title="@string/pref_auto_fetch" />
         <EditTextPreference
+            android:defaultValue="0"
             android:inputType="number"
             android:key="auto_fetch_interval_limit"
-            android:defaultValue="0"
             android:maxLength="3"
-            android:title="@string/pref_auto_fetch_limit_fetches"
-            android:summary="@string/pref_auto_fetch_limit_fetches_summary"/>
+            android:summary="@string/pref_auto_fetch_limit_fetches_summary"
+            android:title="@string/pref_auto_fetch_limit_fetches" />
     </PreferenceCategory>
 
     <PreferenceCategory

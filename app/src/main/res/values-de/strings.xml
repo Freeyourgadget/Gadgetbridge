@@ -542,5 +542,6 @@
 
 
     <string name="pref_auto_fetch_summary">Das Abrufen erfolgt beim Entsperren des Bildschirms. Funktioniert nur, wenn ein Sperrmechanismus eingestellt ist!</string>
+    <string name="preferences_qhybrid_settings">Q Hybrid Einstellungen</string>
 
-    </resources>
+</resources>
