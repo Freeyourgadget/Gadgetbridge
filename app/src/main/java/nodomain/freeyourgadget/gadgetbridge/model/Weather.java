@@ -433,7 +433,7 @@ public class Weather {
                 return 801;
             case 45:  //thundershowers
             case 47:  //isolated thundershowers
-                return 621;
+                return 211;
             case 3200:  //not available
             default:
                 return -1;
