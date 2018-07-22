@@ -32,11 +32,12 @@ import java.util.Collections;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 
 import static android.view.View.GONE;
 
-public class QHybridAppChoserActivity extends AppCompatActivity {
+public class QHybridAppChoserActivity extends AbstractGBActivity {
     boolean hasControl = false;
 
     PackageConfigHelper helper;

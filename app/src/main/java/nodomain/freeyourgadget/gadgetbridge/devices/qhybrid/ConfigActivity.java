@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -28,9 +29,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 
-public class ConfigActivity extends AppCompatActivity {
+public class ConfigActivity extends AbstractGBActivity {
     PackageAdapter adapter;
     ArrayList<PackageConfig> list;
     PackageConfigHelper helper;
@@ -41,6 +43,7 @@ public class ConfigActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qhybrid_settings);
 
