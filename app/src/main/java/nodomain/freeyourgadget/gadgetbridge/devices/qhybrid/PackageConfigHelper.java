@@ -78,6 +78,7 @@ public class PackageConfigHelper extends DBOpenHelper {
     }
 
     public PackageConfig getSetting(String appName){
+        if(appName == null) return null;
         Cursor c = database.query(DB_TABLE, new String[]{"*"}, DB_APPNAME + "=?", new String[]{appName}, null, null, null);
         if(c.getCount() == 0){
             c.close();
