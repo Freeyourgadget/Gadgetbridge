@@ -61,7 +61,7 @@ public class TimePicker extends AlertDialog.Builder {
         radius = (int) (w * 0.06);
         radius1 = 0;
         radius2 = (int) (radius * 2.3);
-        radius3 = radius2 * 2;
+        radius3 = (int)(radius2 * 2.15);
         int offset = (int) (w * 0.1);
         radius1 += offset;
         radius2 += offset;
@@ -186,7 +186,12 @@ public class TimePicker extends AlertDialog.Builder {
 
 
     private void drawClock() {
-        pickerCanvas.drawColor(Color.WHITE);
+        //pickerCanvas.drawColor(Color.WHITE);
+        Paint white = new Paint();
+        white.setColor(Color.WHITE);
+        white.setStyle(Paint.Style.FILL);
+        pickerCanvas.drawCircle(width / 2, width / 2, width / 2, white);
+
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
         paint.setColor(Color.BLUE);
