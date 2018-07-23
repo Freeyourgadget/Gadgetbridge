@@ -71,6 +71,7 @@ public interface DeviceService extends EventHandler {
     String EXTRA_NOTIFICATION_PHONENUMBER = "notification_phonenumber";
     String EXTRA_NOTIFICATION_SENDER = "notification_sender";
     String EXTRA_NOTIFICATION_SOURCENAME = "notification_sourcename";
+    String EXTRA_NOTIFICATION_SOURCEAPPID = "notification_sourceappid";
     String EXTRA_NOTIFICATION_SUBJECT = "notification_subject";
     String EXTRA_NOTIFICATION_TITLE = "notification_title";
     String EXTRA_NOTIFICATION_TYPE = "notification_type";
