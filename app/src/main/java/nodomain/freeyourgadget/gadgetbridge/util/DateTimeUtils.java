@@ -51,7 +51,12 @@ public class DateTimeUtils {
         @Override
         public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition pos) {
             StringBuffer rfcFormat = super.format(date, toAppendTo, pos);
-            return rfcFormat.insert(rfcFormat.length() - 2, ":");
+            if (this.getTimeZone().equals(TimeZone.getTimeZone("UTC"))) {
+                rfcFormat.setLength(rfcFormat.length()-5);
+                return rfcFormat.append("Z");
+            } else {
+                return rfcFormat.insert(rfcFormat.length() - 2, ":");
+            }
         }
 
     }; //no public access, we have to workaround Android bugs
@@ -64,6 +69,17 @@ public class DateTimeUtils {
         if(GBApplication.isRunningNougatOrLater()){
             return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.US).format(date);
         }
+        ISO_8601_FORMAT.setTimeZone(TimeZone.getDefault());
+        return ISO_8601_FORMAT.format(date);
+    }
+
+    public static String formatIso8601UTC(Date date) {
+        if(GBApplication.isRunningNougatOrLater()){
+            final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.US);
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            return sdf.format(date);
+        }
+        ISO_8601_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
         return ISO_8601_FORMAT.format(date);
     }
 

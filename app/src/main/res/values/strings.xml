@@ -421,6 +421,7 @@
     <string name="traditional_chinese">Traditional Chinese</string>
     <string name="english">English</string>
     <string name="spanish">Spanish</string>
+    <string name="russian">Russian</string>
 
     <string name="FetchActivityOperation_about_to_transfer_since">About to transfer data since %1$s</string>
 
@@ -566,6 +567,7 @@
     <string name="devicetype_teclast_h30">Teclast H30</string>
     <string name="devicetype_xwatch">XWatch</string>
     <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
+    <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
 
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>

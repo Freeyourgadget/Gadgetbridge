@@ -2,7 +2,7 @@ Gadgetbridge
 ============
 
 Gadgetbridge is an Android (4.4+) application which will allow you to use your
-Pebble, Mi Band, Amazfit Bit and HPlus device (and more) without the vendor's closed source application
+Pebble, Mi Band, Amazfit Bip and HPlus device (and more) without the vendor's closed source application
 and without the need to create an account and transmit any of your data to the
 vendor's servers.
 
@@ -26,11 +26,13 @@ vendor's servers.
 * Pebble 2 [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble)
 * Mi Band, Mi Band 1A, Mi Band 1S [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band)
 * Mi Band 2 [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2)
+* Mi Band 3 [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-3)
 * Amazfit Bip [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
 * Amazfit Cor (no maintainer) [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor)
 * HPlus Devices (e.g. ZeBand) [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/HPlus)
 * Teclast H10, H30 (WIP)
 * NO.1 F1 (WIP)
+* ZeTime (WIP)
 * Liveview
 * Vibratissimo (experimental)
 * XWatch (Affordable Chinese Casio-like smartwatches)
@@ -92,6 +94,8 @@ For more information read [this wiki article](https://github.com/Freeyourgadget/
 * João Paulo Barraca (HPlus)
 * Vitaly Svyastyn (NO.1 F1)
 * Sami Alaoui (Teclast H30)
+* "ladbsoft" (XWatch)
+* Sebastian Kranz (ZeTime)
 
 ## Contribute
 

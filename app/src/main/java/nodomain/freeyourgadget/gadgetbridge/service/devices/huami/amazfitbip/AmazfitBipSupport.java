@@ -50,12 +50,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ConditionalWrit
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.operations.AmazfitBipFetchLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiIcon;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.operations.AmazfitBipFetchLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.MiBand2Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.operations.FetchSportsSummaryOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
@@ -247,7 +247,7 @@ public class AmazfitBipSupport extends MiBand2Support {
             LOG.error("Error sending current weather", ex);
         }
 
-        if (gbDevice.getType() == DeviceType.AMAZFITBIP) {
+        if (gbDevice.getType() != DeviceType.AMAZFITCOR) {
             try {
                 TransactionBuilder builder;
                 builder = performInitialized("Sending air quality index");
@@ -310,7 +310,6 @@ public class AmazfitBipSupport extends MiBand2Support {
 
             for (WeatherSpec.Forecast forecast : weatherSpec.forecasts) {
                 condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(forecast.conditionCode);
-
                 buf.put(condition);
                 buf.put(condition);
                 buf.put((byte) (forecast.maxTemp - 273));
@@ -321,7 +320,12 @@ public class AmazfitBipSupport extends MiBand2Support {
                 }
             }
 
-            builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+            if (characteristicChunked != null) {
+                writeToChunked(builder, 1, buf.array());
+            } else {
+                builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+            }
+
             builder.queue(getQueue());
         } catch (Exception ex) {
             LOG.error("Error sending weather forecast", ex);
@@ -427,6 +431,10 @@ public class AmazfitBipSupport extends MiBand2Support {
                 command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_SPANISH;
                 localeString = "es_ES";
                 break;
+            case 4:
+                command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                localeString = "ru_RU";
+                break;
             default:
                 switch (language) {
                     case "zh":
@@ -442,6 +450,10 @@ public class AmazfitBipSupport extends MiBand2Support {
                         command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_SPANISH;
                         localeString = "es_ES";
                         break;
+                    case "ru":
+                        command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                        localeString = "ru_RU";
+                        break;
                     default:
                         command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
                         localeString = "en_US";
@@ -454,7 +466,9 @@ public class AmazfitBipSupport extends MiBand2Support {
         builder.add(new ConditionalWriteAction(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION)) {
             @Override
             protected byte[] checkCondition() {
-                if (gbDevice.getType() == DeviceType.AMAZFITBIP && new Version(gbDevice.getFirmwareVersion()).compareTo(new Version("0.1.0.77")) >= 0) {
+                if (gbDevice.getType() == DeviceType.MIBAND3 ||
+                        (gbDevice.getType() == DeviceType.AMAZFITBIP && new Version(gbDevice.getFirmwareVersion()).compareTo(new Version("0.1.0.77")) >= 0) ||
+                        (gbDevice.getType() == DeviceType.AMAZFITCOR && new Version(gbDevice.getFirmwareVersion()).compareTo(new Version("1.0.7.23")) >= 0)) {
                     return command_new;
                 } else {
                     return command_old;

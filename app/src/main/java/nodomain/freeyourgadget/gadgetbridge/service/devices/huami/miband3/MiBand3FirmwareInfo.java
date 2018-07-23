@@ -43,8 +43,13 @@ public class MiBand3FirmwareInfo extends HuamiFirmwareInfo {
 
     static {
         // firmware
+        crcToVersion.put(55852, "1.2.0.8");
 
         // resources
+        crcToVersion.put(54724, "1.2.0.8");
+
+        // font
+        crcToVersion.put(19775, "1");
     }
 
     public MiBand3FirmwareInfo(byte[] bytes) {

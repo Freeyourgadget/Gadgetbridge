@@ -1,5 +1,21 @@
 ### Changelog
 
+#### Version 0.28.1
+* Fix wrong weather icon mapping in rare cases
+* Fix device discovery on Android 4.4
+* Amazfit Bip: Use UTC in gpx tracks for better compatibility with external software
+* Amazfit Bip: Add the (localized) activity type to the gpx filename
+* Amazfit Bip: Fix weather on latest firmwares
+
+#### Version 0.28.0
+* Initial support for ZeTime
+* Amazfit Bip/Cor: Rework firmware detection to cope with new version scheme
+* Amazfit Bip: Support setting language to Russian
+* Amazfit Cor: Support language switching on newer firmwares
+* Mi Band 3: support setting language (english and spanish tested)
+* Mi Band 3: Fix pairing
+* Mi Band 3: Send AQI to enable display of current temperature
+
 #### Version 0.27.1
 * Pebble: Change appstore search to point to RomanPort's pebble appstore
 * Mi Band 3: Allow flashing fonts (untested)

@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="app_name">Gadgetbridge</string>
+
+    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="action_settings">Setari</string>
+    <string name="action_debug">Depaneaza</string>
+    <string name="action_quit">Iesire</string>
+    <string name="action_donate">Doneaza</string>
+    <string name="controlcenter_fetch_activity_data">Sincronizeaza</string>
+    <string name="controlcenter_find_device">Gaseste bratara</string>
+    <string name="controlcenter_connect">Conecteaza</string>
+    <string name="controlcenter_disconnect">Deconecteaza</string>
+    <string name="controlcenter_delete_device">Sterge bratara</string>
+    <string name="controlcenter_delete_device_name">Sterge %1$s</string>
+    <string name="controlcenter_delete_device_dialogmessage">Va fi stearsa bratara si datele asociate!</string>
+    <string name="controlcenter_navigation_drawer_open">Deschide meniul de navigatie</string>
+    <string name="controlcenter_navigation_drawer_close">Inchide meniul de navigatie</string>
+    <string name="controlcenter_snackbar_need_longpress">Apasati lung pentru a deconecta</string>
+    <string name="title_activity_appmanager">Manager aplicatii</string>
+    <string name="appmananger_app_reinstall">Reinstaleaza</string>
+    <string name="appmanager_health_activate">Activeaza</string>
+    <string name="appmanager_health_deactivate">Dezactiveaza</string>
+    <string name="appmanager_hrm_activate">Activeaza Masurare ritm cardiac</string>
+    <string name="appmanager_hrm_deactivate">Dezactiveaza Masurare ritm cardiac</string>
+    <string name="appmanager_weather_activate">Activeaza Aplicatie meteo</string>
+    <string name="appmanager_weather_deactivate">Dezactiveaza Aplicatie meteo</string>
+    <string name="app_configure">Configureaza</string>
+    <string name="title_activity_appblacklist">Notificari blocate</string>
+    <string name="blacklist_all_for_notifications">Blocheaza toate notificarile</string>
+    <string name="whitelist_all_for_notifications">Permite toate notificarile</string>
+
+
+    <string name="title_activity_calblacklist">Calendare blocate</string>
+
+    <string name="title_activity_fw_app_insaller">Instalare firmware</string>
+    <string name="fw_multi_upgrade_notice">Esti pe punctul de a instala firmware-ul %1$s si %2$s, in locul celor deja instalate pe Mi Band.</string>
+    <string name="miband_firmware_known">Firmware-ul a fost testat si este compatibil cu Gadgetbridge.</string>
+    <string name="title_activity_settings">Setari</string>
+
+    <string name="pref_header_general">Setari generale</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Conectare la bratara cand Bluetooth este pornit</string>
+    <string name="pref_title_general_autostartonboot">Porneste automat</string>
+    <string name="pref_title_general_autoreconnect">Reconecteare automata</string>
+    <string name="pref_default">Implicit</string>
+    <string name="pref_header_datetime">Data si Timp</string>
+    <string name="pref_title_datetime_syctimeonconnect">Sincronizare timp</string>
+    <string name="pref_title_theme">Tema</string>
+    <string name="pref_theme_light">Deschis</string>
+    <string name="pref_theme_dark">Intunecat</string>
+
+    <string name="pref_title_language">Limba</string>
+
+    <string name="pref_header_notifications">Notificari</string>
+    <string name="pref_title_notifications_call">Apeluri telefonice</string>
+    <string name="pref_title_notifications_sms">SMS</string>
+    <string name="pref_title_notifications_generic">Suport notificari generice</string>
+    <string name="pref_title_whenscreenon">... si cand ecranul este pornit</string>
+    <string name="always">Intotdeauna</string>
+    <string name="when_screen_off">Cand ecranul este oprit</string>
+    <string name="never">Niciodata</string>
+
+    <string name="pref_call_privacy_mode_off">Afiseaza numele si numarul</string>
+    <string name="pref_call_privacy_mode_name">Ascunde numele, afiseaza numarul</string>
+    <string name="pref_call_privacy_mode_number">Afiseaza numele, ascunde numarul</string>
+    <string name="pref_call_privacy_mode_complete">Ascunde numele si numarul</string>
+
+    <string name="pref_title_weather">Meteo</string>
+    <string name="controlcenter_take_screenshot">Captura ecran</string>
+    <string name="controlcenter_snackbar_disconnecting">Se deconecteaza</string>
+    <string name="controlcenter_snackbar_connecting">Se conecteaza</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Capturez ecranul dispozitivului</string>
+
+
+    <string name="title_activity_debug">Depanare</string>
+
+    <string name="appmanager_installed_watchapps">Aplicatii instalate</string>
+    <string name="appmanager_installed_watchfaces">Fete de ceas instalate</string>
+    <string name="appmananger_app_delete">Sterge</string>
+    <string name="appmanager_app_openinstore">Cauta in magazinul Pebble</string>
+    <string name="appmanager_weather_install_provider">Instaleaza aplicatie notificari meteo</string>
+    <string name="app_move_to_top">Muta la inceput</string>
+
+    <string name="fw_upgrade_notice">Esti pe punctul de a instala firmware-ul %s in locul celui deja instalat pe Mi Band.</string>
+    <string name="fw_upgrade_notice_amazfitbip">Esti pe punctul de a instala firmware-ul %s pe Amazfit Bip.
+\n
+\nAi grija sa instalezi fisierul .fw, apoi fisierul .res, si in final fisierul .gps. Ceasul va reporni dupa ce se instaleaza fisierul .fw.
+\n
+\nNota: Nu este necesar sa instalezi fisierele .res si .gps daca aceste fisiere sunt identice cu cele instalate anterior.
+\n
+\nCONTINUATI PE RISCUL DUMNEAVOASTRA!</string>
+    <string name="fw_upgrade_notice_amazfitcor">Esti pe punctul de a instala firmware-ul %s pe Amazfit Cor.
+\n
+\nAi grija sa instalezi fisierul .fw, si apoi fisierul .res. Ceasul va reporni dupa ce se instaleaza fisierul .fw.
+\n
+\nNota: Nu este necesar sa instalezi fisierul .res daca acest fisier este identic cu cel instalat anterior.
+\n
+\nCONTINUATI PE RISCUL DUMNEAVOASTRA!</string>
+    <string name="fw_upgrade_notice_miband3">Esti pe punctul de a instala firmware-ul %s pe Mi Band 3.
+\n
+\nAi grija sa instalezi fisierul .fw, si apoi fisierul .res. Ceasul va reporni dupa ce se instaleaza fisierul .fw.
+\n
+\nNota: Nu este necesar sa instalezi fisierul .res daca acest fisier este identic cu cel instalat anterior.
+\n
+\nNETESTAT, V-AR PUTEA BLOCA ECHIPAMENTUL, CONTINUATI PE RISCUL DUMNEAVOASTRA!</string>
+    <string name="miband_firmware_unknown_warning">Acest firmware nu a fost testat si ar putea sa nu fie compatibil cu Gadgetbridge.
+\n
+\nTe DESCURAJAM sa-l instalezi pe Mi Band!</string>
+    <string name="pref_header_development">Optiuni dezvoltator</string>
+    <string name="pref_title_development_miaddr">Adresa Mi Band</string>
+
+    <string name="pref_title_pebble_settings">Setari Pebble</string>
+
+    <string name="pref_title_pebble_sync_misfit">Sincronizeaza Misfit</string>
+    <string name="pref_summary_enable_outgoing_call">Dezactivand aceasta optiune va opri Pebble 2/LE sa vibreze la apeluri</string>
+
+    <string name="pref_pebble_privacy_mode_off">Notificari normale</string>
+    <string name="pref_title_location_latitude">Latitudine</string>
+    <string name="pref_title_location_longitude">Longitudine</string>
+    <string name="menuitem_shortcut_weather">Meteo (Scurtatura)</string>
+    <string name="menuitem_activity">Activitate</string>
+    <string name="menuitem_weather">Meteo</string>
+    <string name="menuitem_alarm">Alarma</string>
+    <string name="menuitem_timer">Cronometru</string>
+    <string name="menuitem_compass">Compas</string>
+    <string name="menuitem_settings">Setari</string>
+    <string name="menuitem_alipay">Alipay</string>
+</resources>
