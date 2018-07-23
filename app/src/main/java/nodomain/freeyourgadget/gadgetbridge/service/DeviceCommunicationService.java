@@ -31,6 +31,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -753,9 +754,15 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         }
     }
 
+    public class CommunicationServiceBinder extends Binder{
+        public DeviceSupport getDeviceSupport(){
+            return ((ServiceDeviceSupport)DeviceCommunicationService.this.mDeviceSupport).getDelegate();
+        }
+    }
+
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return new CommunicationServiceBinder();
     }
 
     @Override
