@@ -62,10 +62,6 @@ public class ServiceDeviceSupport implements DeviceSupport {
         this.flags = flags;
     }
 
-    public DeviceSupport getDelegate() {
-        return delegate;
-    }
-
     @Override
     public void setContext(GBDevice gbDevice, BluetoothAdapter btAdapter, Context context) {
         delegate.setContext(gbDevice, btAdapter, context);
