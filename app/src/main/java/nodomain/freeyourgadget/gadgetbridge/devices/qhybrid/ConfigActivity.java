@@ -1,13 +1,16 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
@@ -23,6 +26,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -30,9 +35,11 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 
-public class ConfigActivity extends AbstractGBActivity {
+public class ConfigActivity extends AbstractGBActivity implements ServiceConnection, QHybridSupport.OnVibrationStrengthListener {
     PackageAdapter adapter;
     ArrayList<PackageConfig> list;
     PackageConfigHelper helper;
@@ -41,11 +48,15 @@ public class ConfigActivity extends AbstractGBActivity {
 
     private boolean hasControl = false;
 
+    QHybridSupport support;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qhybrid_settings);
+
+        bindService(new Intent(getApplicationContext(), DeviceCommunicationService.class), this, 0);
 
         setTitle(R.string.preferences_qhybrid_settings);
 
@@ -109,6 +120,15 @@ public class ConfigActivity extends AbstractGBActivity {
         });
     }
 
+    private void updateVibrationStrength(){
+        runOnUiThread(() -> {
+            findViewById(R.id.vibrationSettingProgressBar).setVisibility(View.VISIBLE);
+            SeekBar seekBar = findViewById(R.id.vibrationStrengthBar);
+            seekBar.setAlpha(0.4f);
+        });
+        this.support.getVibrationStrength(this);
+    }
+
     private void setControl(boolean control) {
         if (hasControl == control) return;
         Intent intent = new Intent(control ? QHybridSupport.commandControl : QHybridSupport.commandUncontrol);
@@ -139,6 +159,7 @@ public class ConfigActivity extends AbstractGBActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unbindService(this);
         helper.close();
     }
 
@@ -152,6 +173,39 @@ public class ConfigActivity extends AbstractGBActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+    }
+
+    @Override
+    public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+        Log.d("Config", "service connected");
+        DeviceCommunicationService.CommunicationServiceBinder binder = (DeviceCommunicationService.CommunicationServiceBinder)iBinder;
+        if(binder == null){
+            Log.d("Config", "No  device connected");
+            return;
+        }
+        DeviceSupport support = ((DeviceCommunicationService.CommunicationServiceBinder)iBinder).getDeviceSupport();
+        if(!(support instanceof QHybridSupport)){
+            Log.d("Config", "wrong device connected");
+            return;
+        }
+        this.support = (QHybridSupport) support;
+        updateVibrationStrength();
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName componentName) {
+
+    }
+
+    @Override
+    public void onVibrationStrength(int strength) {
+        Log.d("Config", "got strength: " + strength);
+        runOnUiThread(() -> {
+            findViewById(R.id.vibrationSettingProgressBar).setVisibility(View.GONE);
+            SeekBar seekBar = findViewById(R.id.vibrationStrengthBar);
+            seekBar.setAlpha(1f);
+            seekBar.setProgress(strength);
+        });
     }
 
     class PackageAdapter extends ArrayAdapter<PackageConfig>{

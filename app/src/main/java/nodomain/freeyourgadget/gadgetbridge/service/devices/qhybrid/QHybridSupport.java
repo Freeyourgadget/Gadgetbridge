@@ -31,6 +31,7 @@ import java.util.UUID;
 import d.d.qhook.requests.displayPairAnimationRequest;
 import d.d.qhook.requests.fileListRequest;
 import d.d.qhook.requests.getBatteryRequest;
+import d.d.qhook.requests.getVibeStrengthRequest;
 import d.d.qhook.requests.playNotificationFilterVibrationRequest;
 import d.d.qhook.requests.sendNotificationHandControlRequest;
 import d.d.qhook.requests.setCurrentTimeServiceRequest;
@@ -67,6 +68,8 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
 
     ArrayList<ew> requests = new ArrayList<>();
 
+    OnVibrationStrengthListener vibrationStrengthListener;
+
     public static final String commandControl = "qhybrid_command_control";
     public static final String commandUncontrol = "qhybrid_command_uncontrol";
     public static final String commandSet = "qhybrid_command_set";
@@ -93,11 +96,17 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void getBattery() {
-
-
         d.d.qhook.requests.getBatteryRequest request = new getBatteryRequest();
         requests.add(request);
         request.cb();
+        queueWrite(request);
+    }
+
+    public void getVibrationStrength(OnVibrationStrengthListener listener){
+        this.vibrationStrengthListener = listener;
+        d.d.qhook.requests.getVibeStrengthRequest request = new getVibeStrengthRequest();
+        request.cb();
+        requests.add(request);
         queueWrite(request);
     }
 
@@ -381,6 +390,13 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
                     logger.debug("battery level: " + gbDevice.getBatteryLevel());
                     break;
                 }
+                case "getVibeStrength":{
+                    if(this.vibrationStrengthListener != null){
+                        this.vibrationStrengthListener.onVibrationStrength(((getVibeStrengthRequest)lastRequest).dm().nH);
+                        this.vibrationStrengthListener = null;
+                    }
+                    break;
+                }
             }
         }
 
@@ -459,4 +475,8 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
             }
         }
     };
+
+    public interface OnVibrationStrengthListener{
+        public void onVibrationStrength(int strength);
+    }
 }
