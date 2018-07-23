@@ -13,8 +13,8 @@ tasks.withType(Test) {
 android {
     compileOptions {
         // for KitKat
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     compileSdkVersion 27
     buildToolsVersion "27.0.3"
@@ -28,6 +28,7 @@ android {
         versionName "0.28.1"
         versionCode 135
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
     buildTypes {
         release {
