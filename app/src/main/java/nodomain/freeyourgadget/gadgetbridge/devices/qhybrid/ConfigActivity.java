@@ -1,11 +1,11 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,19 +14,23 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -49,6 +53,7 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
     private boolean hasControl = false;
 
     QHybridSupport support;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,14 +123,47 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
                 return false;
             }
         });
+        SeekBar vibeBar = findViewById(R.id.vibrationStrengthBar);
+        vibeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {}
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                int[] strength = {25, 50, 100};
+                support.setVibrationStrength(strength[seekBar.getProgress()]);
+                updateSettings();
+            }
+        });
     }
 
-    private void updateVibrationStrength(){
-        runOnUiThread(() -> {
-            findViewById(R.id.vibrationSettingProgressBar).setVisibility(View.VISIBLE);
-            SeekBar seekBar = findViewById(R.id.vibrationStrengthBar);
-            seekBar.setAlpha(0.4f);
-        });
+    private void setSettingsEnables(boolean enables){
+        findViewById(R.id.settingsLayout).setAlpha(enables ? 1f : 0.2f);
+        findViewById(R.id.vibrationSettingProgressBar).setVisibility(enables ? View.GONE : View.VISIBLE);
+    }
+
+    private void updateSettings(){
+        runOnUiThread(() -> setSettingsEnables(false));
+        this.support.getGoal(goal -> runOnUiThread(() -> {
+            EditText et = findViewById(R.id.stepGoalEt);
+            et.setOnEditorActionListener(null);
+            et.setText(String.valueOf(goal));
+            et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                    if(i == EditorInfo.IME_ACTION_DONE){
+                        Log.d("Settings", "enter");
+                        support.setGoal(Long.parseLong(textView.getText().toString()));
+                        ((InputMethodManager) getApplicationContext().getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                        updateSettings();
+                    }
+                    return true;
+                }
+            });
+        }));
         this.support.getVibrationStrength(this);
     }
 
@@ -172,7 +210,6 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
     }
 
     @Override
@@ -180,16 +217,18 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         Log.d("Config", "service connected");
         DeviceCommunicationService.CommunicationServiceBinder binder = (DeviceCommunicationService.CommunicationServiceBinder)iBinder;
         if(binder == null){
-            Log.d("Config", "No  device connected");
+            Log.d("Config", "Service not running");
+            setSettingsError("Service not running");
             return;
         }
         DeviceSupport support = ((DeviceCommunicationService.CommunicationServiceBinder)iBinder).getDeviceSupport();
         if(!(support instanceof QHybridSupport)){
-            Log.d("Config", "wrong device connected");
+            Log.d("Config", "Watch not connected");
+            setSettingsError("Watch not connected");
             return;
         }
         this.support = (QHybridSupport) support;
-        updateVibrationStrength();
+        updateSettings();
     }
 
     @Override
@@ -199,12 +238,21 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
 
     @Override
     public void onVibrationStrength(int strength) {
+        int strengthProgress = strength == 100 ? 2 : strength == 50 ? 1 : 0;
         Log.d("Config", "got strength: " + strength);
         runOnUiThread(() -> {
-            findViewById(R.id.vibrationSettingProgressBar).setVisibility(View.GONE);
+            setSettingsEnables(true);
             SeekBar seekBar = findViewById(R.id.vibrationStrengthBar);
-            seekBar.setAlpha(1f);
-            seekBar.setProgress(strength);
+            seekBar.setProgress(strengthProgress);
+        });
+    }
+
+    private void setSettingsError(String error){
+        runOnUiThread(() -> {
+            setSettingsEnables(false);
+            findViewById(R.id.vibrationSettingProgressBar).setVisibility(View.GONE);
+            ((TextView) findViewById(R.id.settingsErrorText)).setVisibility(View.VISIBLE);
+            ((TextView) findViewById(R.id.settingsErrorText)).setText(error);
         });
     }
 

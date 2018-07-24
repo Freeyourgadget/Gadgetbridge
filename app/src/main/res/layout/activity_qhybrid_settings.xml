@@ -1,73 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
     android:orientation="vertical"
-    android:weightSum="1"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:weightSum="1">
 
     <ListView
         android:id="@+id/qhybrid_appList"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="0.4"
-        android:layout_width="wrap_content" />
+        android:layout_weight="0.4" />
 
     <Button
         android:id="@+id/qhybrid_addApp"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="+" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="vibration strength:"/>
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ProgressBar
+            android:id="@+id/vibrationSettingProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:id="@+id/vibrationSettingProgressBar"/>
+            android:layout_centerInParent="true"/>
 
-       <!--  <RadioGroup
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/settingsErrorText"
+            android:visibility="gone"
+            android:textSize="20dp"
+            android:layout_centerInParent="true"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:alpha="100"
-            android:id="@+id/vibrationStrength"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:orientation="vertical"
+            android:id="@+id/settingsLayout">
 
-            <RadioButton
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/vibrationStrengthQuarter"
-                android:text="25%"
-                android:layout_weight="1"/>
-            <RadioButton
+                android:text="vibration strength:" />
+
+
+            <SeekBar
+                android:id="@+id/vibrationStrengthBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="2"
+                android:min="0" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/vibrationStrengthHalf"
-                android:text="50%"
-                android:layout_weight="1"/>
-            <RadioButton
-                android:layout_width="wrap_content"
+                android:text="Goal in steps" />
+
+            <EditText
+                android:id="@+id/stepGoalEt"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/vibrationStrengthFull"
-                android:text="100%"
-                android:layout_weight="1"/>
+                android:inputType="numberDecimal" />
 
-        </RadioGroup> -->
-
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:min="0"
-            android:max="100"
-            android:id="@+id/vibrationStrengthBar"/>
+        </LinearLayout>
 
     </RelativeLayout>
 
