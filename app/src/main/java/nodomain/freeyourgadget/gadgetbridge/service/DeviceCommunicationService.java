@@ -756,6 +756,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
     public class CommunicationServiceBinder extends Binder{
         public DeviceSupport getDeviceSupport(){
+            if(mDeviceSupport == null) return null;
             return ((ServiceDeviceSupport)DeviceCommunicationService.this.mDeviceSupport).getDelegate();
         }
     }
