@@ -125,16 +125,20 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         });
         SeekBar vibeBar = findViewById(R.id.vibrationStrengthBar);
         vibeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int start;
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {}
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                start = seekBar.getProgress();
+            }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                int[] strength = {25, 50, 100};
-                support.setVibrationStrength(strength[seekBar.getProgress()]);
+                int progress;
+                if((progress = seekBar.getProgress()) == start) return;
+                support.setVibrationStrength((int)Math.pow(2, progress) * 25);
                 updateSettings();
             }
         });
@@ -150,15 +154,20 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         this.support.getGoal(goal -> runOnUiThread(() -> {
             EditText et = findViewById(R.id.stepGoalEt);
             et.setOnEditorActionListener(null);
-            et.setText(String.valueOf(goal));
+            String text = String.valueOf(goal);
+            et.setText(text);
+            et.setSelection(text.length());
             et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                     if(i == EditorInfo.IME_ACTION_DONE){
                         Log.d("Settings", "enter");
-                        support.setGoal(Long.parseLong(textView.getText().toString()));
+                        String t = textView.getText().toString();
+                        if(!t.equals(text)) {
+                            support.setGoal(Long.parseLong(t));
+                            updateSettings();
+                        }
                         ((InputMethodManager) getApplicationContext().getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                        updateSettings();
                     }
                     return true;
                 }
@@ -238,7 +247,7 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
 
     @Override
     public void onVibrationStrength(int strength) {
-        int strengthProgress = strength == 100 ? 2 : strength == 50 ? 1 : 0;
+        int strengthProgress = (int)(Math.log(strength / 25) / Math.log(2));
         Log.d("Config", "got strength: " + strength);
         runOnUiThread(() -> {
             setSettingsEnables(true);
