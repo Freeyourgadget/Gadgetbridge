@@ -90,6 +90,11 @@ public class TeclastH30Coordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsFindDevice() {
+        return true;
+    }
+
+    @Override
     public DeviceType getDeviceType() {
         return DeviceType.TECLASTH30;
     }

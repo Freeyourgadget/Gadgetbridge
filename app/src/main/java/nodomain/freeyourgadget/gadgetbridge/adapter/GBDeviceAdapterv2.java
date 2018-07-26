@@ -249,7 +249,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
 
         );
 
-        holder.findDevice.setVisibility(device.isInitialized() ? View.VISIBLE : View.GONE);
+        holder.findDevice.setVisibility(device.isInitialized() && coordinator.supportsFindDevice() ? View.VISIBLE : View.GONE);
         holder.findDevice.setOnClickListener(new View.OnClickListener()
 
                                              {

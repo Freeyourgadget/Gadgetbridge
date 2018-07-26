@@ -153,6 +153,11 @@ public class No1F1Coordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsFindDevice() {
+        return true;
+    }
+
+    @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
         Long deviceId = device.getId();
         QueryBuilder<?> qb = session.getNo1F1ActivitySampleDao().queryBuilder();
