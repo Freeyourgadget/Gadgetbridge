@@ -242,4 +242,10 @@ public interface DeviceCoordinator {
      * forecast display.
      */
     boolean supportsWeather();
+
+    /**
+     * Indicates whether the device supports being found by vibrating, 
+     * making some sound or lighting up
+     */
+    boolean supportsFindDevice();
 }

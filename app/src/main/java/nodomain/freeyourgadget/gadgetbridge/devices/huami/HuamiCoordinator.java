@@ -263,4 +263,9 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     public boolean supportsSmartWakeup(GBDevice device) {
         return false;
     }
+
+    @Override
+    public boolean supportsFindDevice() {
+        return true;
+    }
 }
