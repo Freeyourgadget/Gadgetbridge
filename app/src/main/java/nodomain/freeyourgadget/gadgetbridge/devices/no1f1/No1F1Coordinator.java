@@ -82,12 +82,6 @@ public class No1F1Coordinator extends AbstractDeviceCoordinator {
         return null;
     }
 
-    @Nullable
-    @Override
-    public Class<? extends Activity> getPrimaryActivity() {
-        return ChartsActivity.class;
-    }
-
     @Override
     public boolean supportsActivityDataFetching() {
         return true;
