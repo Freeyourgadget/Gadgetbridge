@@ -55,6 +55,11 @@ public class LiveviewCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public Class<? extends Activity> getPrimaryActivity() {
+        return null;
+    }
+
+    @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         return null;
     }

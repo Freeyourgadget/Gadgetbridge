@@ -114,6 +114,11 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public Class<? extends Activity> getPrimaryActivity() {
+        return ChartsActivity.class;
+    }
+
+    @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         return null;
     }

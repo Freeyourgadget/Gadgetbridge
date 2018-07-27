@@ -16,10 +16,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,4 +76,9 @@ public class MiBand2HRXCoordinator extends HuamiCoordinator {
         return false;
     }
 
+    @Nullable
+    @Override
+    public Class<? extends Activity> getPrimaryActivity() {
+        return null;
+    }
 }

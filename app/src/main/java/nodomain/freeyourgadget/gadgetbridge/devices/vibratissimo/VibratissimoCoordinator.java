@@ -56,6 +56,11 @@ public class VibratissimoCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public Class<? extends Activity> getPrimaryActivity() {
+        return VibrationActivity.class;
+    }
+
+    @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         return null;
     }

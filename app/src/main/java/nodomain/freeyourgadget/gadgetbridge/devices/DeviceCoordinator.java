@@ -124,6 +124,15 @@ public interface DeviceCoordinator {
     Class<? extends Activity> getPairingActivity();
 
     /**
+     * Returns the Activity class that will be used as the primary activity
+     * for the given device.
+     *
+     * @return the primary activity class, or null if none
+     */
+    @Nullable
+    Class<? extends Activity> getPrimaryActivity();
+
+    /**
      * Returns true if activity data fetching is supported by the device
      * (with this coordinator).
      *

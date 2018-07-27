@@ -67,6 +67,11 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public Class<? extends Activity> getPrimaryActivity() {
+        return AppManagerActivity.class;
+    }
+
+    @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
         Long deviceId = device.getId();
         QueryBuilder<?> qb = session.getPebbleHealthActivitySampleDao().queryBuilder();

@@ -113,6 +113,11 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public Class<? extends Activity> getPrimaryActivity() {
+        return null;
+    }
+
+    @Override
     public SampleProvider<?> getSampleProvider(GBDevice device, DaoSession session) {
         return new UnknownSampleProvider();
     }

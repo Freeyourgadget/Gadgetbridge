@@ -111,6 +111,11 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public Class<? extends Activity> getPrimaryActivity() {
+        return ChartsActivity.class;
+    }
+
+    @Override
     public SampleProvider<? extends AbstractActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
         return new MiBandSampleProvider(device, session);
     }
