@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Daniele Gobbetti
+/*  Copyright (C) 2018 José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -16,22 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.deviceevents;
 
-
-import java.util.GregorianCalendar;
-
-import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
-
-public class GBDeviceEventBatteryInfo extends GBDeviceEvent {
-    public GregorianCalendar lastChargeTime = null;
-    public BatteryState state = BatteryState.UNKNOWN;
-    public short level = 50;
-    public int numCharges = -1;
-    public float voltage = -1f;
-
-    public boolean extendedInfoAvailable() {
-        if (numCharges != -1 && lastChargeTime != null) {
-            return true;
-        }
-        return false;
-    }
+public class GBDeviceEventFmFrequency extends GBDeviceEvent {
+    public float frequency;
 }

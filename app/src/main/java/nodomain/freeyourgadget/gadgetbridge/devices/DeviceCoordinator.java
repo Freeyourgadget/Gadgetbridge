@@ -254,4 +254,21 @@ public interface DeviceCoordinator {
      * like artist, title, album, play state etc.
      */
     boolean supportsMusicInfo();
+
+    /**
+     * Indicates whether the device has an led which supports custom colors
+     */
+    boolean supportsLedColor();
+
+    /**
+     * Indicates whether the device's led supports any RGB color,
+     * or only preset colors
+     */
+    boolean supportsRgbLedColor();
+
+    /**
+     * Returns the preset colors supported by the device, if any, in ARGB, with alpha = 255
+     */
+    @NonNull
+    int[] getColorPresets();
 }

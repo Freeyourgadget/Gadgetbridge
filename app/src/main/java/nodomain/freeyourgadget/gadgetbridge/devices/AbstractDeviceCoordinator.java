@@ -135,4 +135,18 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     public boolean supportsMusicInfo() {
         return false;
     }
+
+    public boolean supportsLedColor() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsRgbLedColor() {
+        return false;
+    }
+
+    @Override
+    public int[] getColorPresets() {
+        return new int[0];
+    }
 }
