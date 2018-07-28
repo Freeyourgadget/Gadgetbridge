@@ -45,7 +45,7 @@
         <activity
             android:name=".activities.ControlCenterv2"
             android:label="@string/title_activity_controlcenter"
-            android:theme="@style/GadgetbridgeTheme.NoActionBar">
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="android.intent.action.MAIN" />
