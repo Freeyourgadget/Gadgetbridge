@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="GadgetbridgeTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="textColorPrimary">@color/primarytext_light</item>
@@ -54,4 +54,10 @@
     <style name="GadgetbridgeTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="GadgetbridgeTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="SplashTheme" parent="GadgetbridgeTheme.NoActionBar">
+        <item tools:targetApi="21" name="android:statusBarColor">@color/primarydark_dark</item>
+        <item tools:targetApi="21" name="android:navigationBarColor">@color/primarydark_dark</item>
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
 </resources>
