@@ -21,7 +21,10 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
@@ -126,6 +129,37 @@ public class ActivityDetailsParser {
             throw new GBException("Error parsing activity details: " + ex.getMessage(), ex);
         }
 
+        try{
+            int pointer = 0;
+            List<ActivityPoint> activityPointList = activityTrack.getTrackPoints();
+            Date gpsStartTime = null;
+            List<Integer> gpsEntryIndexes = new ArrayList<>();
+            while (pointer < activityPointList.size()){
+                if (activityPointList.get(pointer).getLocation() == null){
+                    pointer++;
+                    continue;
+                }
+                gpsEntryIndexes.add(pointer);
+                if (!(activityPointList.get(pointer).getTime().equals(activityPointList.get(pointer+1).getTime()))){
+                    gpsStartTime = activityPointList.get(pointer).getTime();
+                    break;
+                }
+                pointer++;
+            }
+            long differenceInSec = TimeUnit.SECONDS.convert(Math.abs(gpsStartTime.getTime() - baseDate.getTime()), TimeUnit.MILLISECONDS);
+
+            double multiplier = (double) differenceInSec / (double) (gpsEntryIndexes.size());
+
+            for (int j = 0; j < gpsEntryIndexes.size(); j++){
+                long timeOffsetSeconds = Math.round(j * multiplier);
+                activityPointList.get(gpsEntryIndexes.get(j)).setTime(makeAbsolute(timeOffsetSeconds));
+            }
+
+        }
+        catch (Exception ex){
+            throw new GBException("Error cleaning activity details: " + ex.getMessage(), ex);
+        }
+
         return activityTrack;
     }
 
@@ -144,7 +178,7 @@ public class ActivityDetailsParser {
                 convertHuamiValueToDecimalDegrees(baseLatitude),
                 baseAltitude);
 
-        ActivityPoint ap = getActivityPointFor(timeOffset);
+        ActivityPoint ap = getActivityPointFor(timeOffset, coordinate);
         ap.setLocation(coordinate);
         add(ap);
 
@@ -191,6 +225,19 @@ public class ActivityDetailsParser {
         Date time = makeAbsolute(timeOffsetSeconds);
         if (lastActivityPoint != null) {
             if (lastActivityPoint.getTime().equals(time)) {
+                return lastActivityPoint;
+            }
+        }
+        return new ActivityPoint(time);
+    }
+
+    private ActivityPoint getActivityPointFor(long timeOffsetSeconds, GPSCoordinate gpsCoordinate) {
+        Date time = makeAbsolute(timeOffsetSeconds);
+        if (lastActivityPoint != null) {
+            if (lastActivityPoint.getTime().equals(time)) {
+                if (lastActivityPoint.getLocation() != null &&  !lastActivityPoint.getLocation().equals(gpsCoordinate)) {
+                    return new ActivityPoint(time);
+                }
                 return lastActivityPoint;
             }
         }
