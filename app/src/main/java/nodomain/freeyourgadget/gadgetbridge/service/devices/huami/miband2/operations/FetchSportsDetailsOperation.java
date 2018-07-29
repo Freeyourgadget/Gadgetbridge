@@ -30,12 +30,14 @@ import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.export.ActivityTrackExporter;
 import nodomain.freeyourgadget.gadgetbridge.export.GPXExporter;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityTrack;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -99,7 +101,22 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
             try {
                 ActivityTrack track = parser.parse(buffer.toByteArray());
                 ActivityTrackExporter exporter = createExporter();
-                String fileName = FileUtils.makeValidFileName("gadgetbridge-track-" + DateTimeUtils.formatIso8601(summary.getStartTime()) + ".gpx");
+                String trackType = "track";
+                switch (summary.getActivityKind()) {
+                    case ActivityKind.TYPE_CYCLING:
+                        trackType = getContext().getString(R.string.activity_type_biking);
+                        break;
+                    case ActivityKind.TYPE_RUNNING:
+                        trackType = getContext().getString(R.string.activity_type_running);
+                        break;
+                    case ActivityKind.TYPE_WALKING:
+                        trackType = getContext().getString(R.string.activity_type_walking);
+                        break;
+                    case ActivityKind.TYPE_SWIMMING:
+                        trackType = getContext().getString(R.string.activity_type_swimming);
+                        break;
+                }
+                String fileName = FileUtils.makeValidFileName("gadgetbridge-"+trackType.toLowerCase()+"-" + DateTimeUtils.formatIso8601(summary.getStartTime()) + ".gpx");
                 File targetFile = new File(FileUtils.getExternalFilesDir(), fileName);
 
                 try {

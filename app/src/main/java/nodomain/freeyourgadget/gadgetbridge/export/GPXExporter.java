@@ -131,7 +131,7 @@ public class GPXExporter implements ActivityTrackExporter {
         ser.attribute(NS_DEFAULT, "lon", formatLocation(location.getLongitude()));
         ser.attribute(NS_DEFAULT, "lat", formatLocation(location.getLatitude()));
         ser.startTag(NS_DEFAULT, "ele").text(formatLocation(location.getAltitude())).endTag(NS_DEFAULT, "ele");
-        ser.startTag(NS_DEFAULT, "time").text(formatTime(point.getTime())).endTag(NS_DEFAULT, "time");
+        ser.startTag(NS_DEFAULT, "time").text(DateTimeUtils.formatIso8601UTC(point.getTime())).endTag(NS_DEFAULT, "time");
         String description = point.getDescription();
         if (description != null) {
             ser.startTag(NS_DEFAULT, "desc").text(description).endTag(NS_DEFAULT, "desc");

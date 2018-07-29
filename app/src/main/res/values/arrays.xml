@@ -267,6 +267,7 @@
         <item name="1">@string/traditional_chinese</item>
         <item name="2">@string/english</item>
         <item name="3">@string/spanish</item>
+        <item name="4">@string/russian</item>
     </string-array>
 
     <string-array name="pref_amazfitbip_language_values">
@@ -275,6 +276,7 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
+        <item>4</item>
     </string-array>
 
     <string-array name="prefs_heartrate_measurement_interval">

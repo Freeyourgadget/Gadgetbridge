@@ -153,7 +153,8 @@ public class DeviceSupportFactory {
                         break;
                     case XWATCH:
                         deviceSupport = new ServiceDeviceSupport(new XWatchSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
-		    case ZETIME:
+                        break;
+		            case ZETIME:
                         deviceSupport = new ServiceDeviceSupport(new ZeTimeDeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
                     case ID115:

@@ -68,6 +68,11 @@ public class ZeTimeCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsFindDevice() {
+        return true;
+    }
+
+    @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         return null;
     }

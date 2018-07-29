@@ -57,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.ActivateDisplayOnLift;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
@@ -69,7 +70,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
@@ -84,6 +84,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -103,13 +104,13 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.heartrate.Hear
 import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiDeviceEvent;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.RealtimeSamplesSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.actions.StopNotificationAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.operations.FetchSportsSummaryOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.operations.InitOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.operations.UpdateFirmwareOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.RealtimeSamplesSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -155,7 +156,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         }
     };
 
-    BluetoothGattCharacteristic characteristicHRControlPoint;
+    private BluetoothGattCharacteristic characteristicHRControlPoint;
+    protected BluetoothGattCharacteristic characteristicChunked;
 
     private boolean needsAuth;
     private volatile boolean telephoneRinging;
@@ -209,8 +211,13 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         try {
             boolean authenticate = needsAuth;
             needsAuth = false;
-            new InitOperation(authenticate, this, builder).perform();
+            byte authFlags = MiBand2Service.AUTH_BYTE;
+            if (gbDevice.getType() == DeviceType.MIBAND3) {
+                authFlags = 0x00;
+            }
+            new InitOperation(authenticate, authFlags, this, builder).perform();
             characteristicHRControlPoint = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT);
+            characteristicChunked = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_CHUNKEDTRANSFER);
         } catch (IOException e) {
             GB.toast(getContext(), "Initializing Mi Band 2 failed", Toast.LENGTH_SHORT, GB.ERROR, e);
         }
@@ -219,7 +226,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     /**
      * Returns the given date/time (calendar) as a byte sequence, suitable for sending to the
-     * Mi Band 2 (or derivative). The band appears to not handle DST offsets, so we simply add this 
+     * Mi Band 2 (or derivative). The band appears to not handle DST offsets, so we simply add this
      * to the timezone.
      * @param calendar
      * @param precision
@@ -1602,6 +1609,34 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_DISTANCE_UNIT_IMPERIAL);
         }
         return this;
+    }
+
+    protected void writeToChunked(TransactionBuilder builder, int type, byte[] data) {
+        final int MAX_CHUNKLENGTH = 17;
+        int remaining = data.length;
+        byte count = 0;
+        while (remaining > 0) {
+            int copybytes = Math.min(remaining, MAX_CHUNKLENGTH);
+            byte[] chunk = new byte[copybytes + 3];
+
+            byte flags = 0;
+            if (remaining <= MAX_CHUNKLENGTH) {
+                flags |= 0x80; // last chunk
+                if (count == 0) {
+                    flags |= 0x40; // weird but true
+                }
+            } else if (count > 0) {
+                flags |= 0x40; // consecutive chunk
+            }
+
+            chunk[0] = 0;
+            chunk[1] = (byte) (flags | type);
+            chunk[2] = (byte) (count & 0xff);
+
+            System.arraycopy(data, count++ * MAX_CHUNKLENGTH, chunk, 3, copybytes);
+            builder.write(characteristicChunked, chunk);
+            remaining -= copybytes;
+        }
     }
 
     public void phase2Initialize(TransactionBuilder builder) {
