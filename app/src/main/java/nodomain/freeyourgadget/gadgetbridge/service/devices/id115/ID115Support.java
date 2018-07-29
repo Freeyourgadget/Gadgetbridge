@@ -37,7 +37,6 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(ID115Support.class);
 
     public BluetoothGattCharacteristic normalWriteCharacteristic = null;
-    public BluetoothGattCharacteristic normalNotifyCharacteristic = null;
     public BluetoothGattCharacteristic healthWriteCharacteristic = null;
 
     byte[] currentNotificationBuffer;
@@ -55,13 +54,9 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         normalWriteCharacteristic = getCharacteristic(ID115Constants.UUID_CHARACTERISTIC_WRITE_NORMAL);
-        normalNotifyCharacteristic = getCharacteristic(ID115Constants.UUID_CHARACTERISTIC_NOTIFY_NORMAL);
         healthWriteCharacteristic = getCharacteristic(ID115Constants.UUID_CHARACTERISTIC_WRITE_HEALTH);
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
-
-        builder.setGattCallback(this);
-        builder.notify(normalNotifyCharacteristic, true);
 
         setTime(builder)
                 .setWrist(builder)
@@ -79,7 +74,11 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
-        sendMessageNotification(notificationSpec);
+        try {
+            new SendNotificationOperation(this, notificationSpec).perform();
+        } catch (IOException ex) {
+            LOG.error("Unable to send ID115 notification", ex);
+        }
     }
 
     @Override
@@ -106,7 +105,11 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetCallState(CallSpec callSpec) {
         if (callSpec.command == CallSpec.CALL_INCOMING) {
-            sendCallNotification(callSpec);
+            try {
+                new SendNotificationOperation(this, callSpec).perform();
+            } catch (IOException ex) {
+                LOG.error("Unable to send ID115 notification", ex);
+            }
         } else {
             sendStopCallNotification();
         }
@@ -241,40 +244,6 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
 
     }
 
-    @Override
-    public boolean onCharacteristicChanged(BluetoothGatt gatt,
-                                           BluetoothGattCharacteristic characteristic) {
-        if (super.onCharacteristicChanged(gatt, characteristic)) {
-            return true;
-        }
-
-        UUID characteristicUUID = characteristic.getUuid();
-        byte[] data = characteristic.getValue();
-        if (!characteristicUUID.equals(ID115Constants.UUID_CHARACTERISTIC_NOTIFY_NORMAL)) {
-            return false;
-        }
-
-        if (data.length < 2) {
-            LOG.warn("short GATT response");
-            return false;
-        }
-        if (data[0] == ID115Constants.CMD_ID_NOTIFY) {
-            if (data.length < 4) {
-                LOG.warn("short GATT response for NOTIFY");
-                return false;
-            }
-            if (data[1] == currentNotificationType) {
-                if (data[3] == currentNotificationIndex) {
-                    if (currentNotificationIndex != currentNotificationSize) {
-                        sendNotificationChunk(currentNotificationIndex + 1);
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
     private void setInitialized(TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
     }
@@ -359,23 +328,6 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    void sendCallNotification(CallSpec callSpec) {
-        String number = "";
-        if (callSpec.number != null) {
-            number = callSpec.number;
-        }
-
-        String name = "";
-        if (callSpec.name != null) {
-            name = callSpec.name;
-        }
-
-        currentNotificationBuffer = encodeCallNotification(name, number);
-        currentNotificationSize = (currentNotificationBuffer.length + 15) / 16;
-        currentNotificationType = ID115Constants.CMD_KEY_NOTIFY_CALL;
-        sendNotificationChunk(1);
-    }
-
     void sendStopCallNotification() {
         try {
             TransactionBuilder builder = performInitialized("stop_call_notification");
@@ -387,113 +339,6 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
             performConnected(builder.getTransaction());
         } catch(IOException e) {
             LOG.warn("Unable to stop call notification", e);
-        }
-    }
-
-    void sendMessageNotification(NotificationSpec notificationSpec) {
-        String phone = "";
-        if (notificationSpec.phoneNumber != null) {
-            phone = notificationSpec.phoneNumber;
-        }
-
-        String title = "";
-        if (notificationSpec.sender != null) {
-            title = notificationSpec.sender;
-        } else if (notificationSpec.title != null) {
-            title = notificationSpec.title;
-        } else if (notificationSpec.subject != null) {
-            title = notificationSpec.subject;
-        }
-
-        String text = "";
-        if (notificationSpec.body != null) {
-            text = notificationSpec.body;
-        }
-
-        currentNotificationBuffer = encodeMessageNotification(notificationSpec.type, title, phone, text);
-        currentNotificationSize = (currentNotificationBuffer.length + 15) / 16;
-        currentNotificationType = ID115Constants.CMD_KEY_NOTIFY_MSG;
-        sendNotificationChunk(1);
-    }
-
-    void sendNotificationChunk(int chunkIndex) {
-        currentNotificationIndex = chunkIndex;
-
-        int offset = (chunkIndex - 1) * 16;
-        int tailSize = currentNotificationBuffer.length - offset;
-        int chunkSize = (tailSize > 16)? 16 : tailSize;
-
-        byte raw[] = new byte[16];
-        System.arraycopy(currentNotificationBuffer, offset, raw, 0, chunkSize);
-
-        try {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            outputStream.write(ID115Constants.CMD_ID_NOTIFY);
-            outputStream.write(currentNotificationType);
-            outputStream.write((byte)currentNotificationSize);
-            outputStream.write((byte)currentNotificationIndex);
-            outputStream.write(raw);
-            byte cmd[] = outputStream.toByteArray();
-
-            TransactionBuilder builder = performInitialized("notification");
-            builder.write(normalWriteCharacteristic, cmd);
-            performConnected(builder.getTransaction());
-        } catch (IOException e) {
-            LOG.warn("Unable to send notification chunk", e);
-        }
-    }
-
-    byte[] encodeCallNotification(String name, String phone) {
-        if (name.length() > 20) {
-            name = name.substring(0, 20);
-        }
-        if (phone.length() > 20) {
-            phone = phone.substring(0, 20);
-        }
-
-        byte[] name_bytes = name.getBytes(StandardCharsets.UTF_8);
-        byte[] phone_bytes = phone.getBytes(StandardCharsets.UTF_8);
-
-        try {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            outputStream.write((byte) phone_bytes.length);
-            outputStream.write((byte) name_bytes.length);
-            outputStream.write(phone_bytes);
-            outputStream.write(name_bytes);
-            return outputStream.toByteArray();
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    byte[] encodeMessageNotification(NotificationType type, String title, String phone, String text) {
-        if (title.length() > 20) {
-            title = title.substring(0, 20);
-        }
-        if (phone.length() > 20) {
-            phone = phone.substring(0, 20);
-        }
-        if (text.length() > 20) {
-            text = text.substring(0, 20);
-        }
-        byte[] title_bytes = title.getBytes(StandardCharsets.UTF_8);
-        byte[] phone_bytes = phone.getBytes(StandardCharsets.UTF_8);
-        byte[] text_bytes = text.getBytes(StandardCharsets.UTF_8);
-
-        byte nativeType = ID115Constants.getNotificationType(type);
-
-        try {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            outputStream.write(nativeType);
-            outputStream.write((byte) text_bytes.length);
-            outputStream.write((byte) phone_bytes.length);
-            outputStream.write((byte) title_bytes.length);
-            outputStream.write(phone_bytes);
-            outputStream.write(title_bytes);
-            outputStream.write(text_bytes);
-            return outputStream.toByteArray();
-        } catch (IOException e) {
-            return null;
         }
     }
 }
