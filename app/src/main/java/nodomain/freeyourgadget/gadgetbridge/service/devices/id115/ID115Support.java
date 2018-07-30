@@ -64,6 +64,9 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
                 .setGoal(builder)
                 .setInitialized(builder);
 
+        getDevice().setFirmwareVersion("N/A");
+        getDevice().setFirmwareVersion2("N/A");
+
         return builder;
     }
 
@@ -167,7 +170,11 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFetchRecordedData(int dataTypes) {
-
+        try {
+            new FetchActivityOperation(this).perform();
+        } catch (IOException ex) {
+            LOG.error("Unable to fetch ID115 activity data", ex);
+        }
     }
 
     @Override

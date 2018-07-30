@@ -44,6 +44,9 @@ public class ID115Constants {
     public static final byte CMD_KEY_NOTIFY_STOP = 0x02;
     public static final byte CMD_KEY_NOTIFY_MSG = 0x03;
 
+    // CMD_ID_HEALTH_DATA
+    public static final byte CMD_KEY_FETCH_ACTIVITY_TODAY = 0x03;
+
     // CMD_ID_DEVICE_RESTART
     public static final byte CMD_KEY_REBOOT = 0x01;
 
