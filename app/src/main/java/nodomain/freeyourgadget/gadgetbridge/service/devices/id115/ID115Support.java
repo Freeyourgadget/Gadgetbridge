@@ -1,15 +1,12 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.id115;
 
-import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.net.Uri;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -26,7 +23,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
@@ -38,11 +34,6 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
 
     public BluetoothGattCharacteristic normalWriteCharacteristic = null;
     public BluetoothGattCharacteristic healthWriteCharacteristic = null;
-
-    byte[] currentNotificationBuffer;
-    int currentNotificationSize;
-    int currentNotificationIndex;
-    byte currentNotificationType;
 
     public ID115Support() {
         super(LOG);
