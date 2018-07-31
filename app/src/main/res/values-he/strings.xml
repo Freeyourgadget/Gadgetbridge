@@ -555,4 +555,11 @@
 
     <string name="russian">רוסית</string>
 
+    <string name="preferences_id115_settings">הגדרות ID115</string>
+    <string name="prefs_screen_orientation">כיוון המסך</string>
+
+    <string name="horizontal">אופקי</string>
+    <string name="vertical">אנכי</string>
+    <string name="devicetype_id115">ID115</string>
+
     </resources>
