@@ -21,6 +21,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -33,7 +34,9 @@ import android.view.View;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.Entry;
@@ -70,6 +73,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
+import static nodomain.freeyourgadget.gadgetbridge.activities.charts.SleepUtils.isSleep;
+
 /**
  * A base class fragment to be used with ChartsActivity. The fragment can supply
  * a title to be displayed in the activity by returning non-null in #getTitle()
@@ -92,6 +97,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected final int ANIM_TIME = 250;
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractChartFragment.class);
+
 
     private final Set<String> mIntentFilterActions;
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -523,27 +529,19 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
                 String xLabel = "";
                 if (annotate) {
-//                    cal.setTimeInMillis((ts + tsOffset) * 1000L);
-//                    date = cal.getTime();
-//                    String dateString = annotationDateFormat.format(date);
-//                    xLabel = dateString;
-//                    if (last_type != type) {
-//                        if (isSleep(last_type) && !isSleep(type)) {
-//                            // woken up
-//                            LimitLine line = new LimitLine(i, dateString);
-//                            line.enableDashedLine(8, 8, 0);
-//                            line.setTextColor(Color.WHITE);
-//                            line.setTextSize(15);
-//                            chart.getXAxis().addLimitLine(line);
-//                        } else if (!isSleep(last_type) && isSleep(type)) {
-//                            // fallen asleep
-//                            LimitLine line = new LimitLine(i, dateString);
-//                            line.enableDashedLine(8, 8, 0);
-//                            line.setTextSize(15);
-//                            line.setTextColor(Color.WHITE);
-//                            chart.getXAxis().addLimitLine(line);
-//                        }
-//                    }
+                    if (last_type != type) {
+                        String filter = "test";
+                        Intent intent = new Intent(filter);
+                        if (isSleep(last_type) && !isSleep(type)) {
+                            // woken up
+                            intent.putExtra("woken_up", ts);
+                            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+                        } else if (!isSleep(last_type) && isSleep(type)) {
+                            // fallen asleep
+                            intent.putExtra("fallen_asleep", ts);
+                            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+                        }
+                    }
                 }
                 last_type = type;
             }

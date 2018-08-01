@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.LineData;
@@ -55,6 +57,8 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
     private int mSmartAlarmTo = -1;
     private int mTimestampFrom = -1;
     private int mSmartAlarmGoneOff = -1;
+    private int fallenAsleep = -1;
+    private int wokenUp = -1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,12 +118,51 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
+        if (action.equals("test")) {
+            wokenUp = intent.getIntExtra("woken_up", -1);
+            fallenAsleep = intent.getIntExtra("fallen_asleep", -1);
+
+            if(fallenAsleep != -1) {
+                LimitLine FallenAsleepLine = new LimitLine(fallenAsleep);
+                FallenAsleepLine.enableDashedLine(8, 8, 0);
+                FallenAsleepLine.setTextColor(Color.BLUE);
+                FallenAsleepLine.setTextSize(15);
+                FallenAsleepLine.setLabel("Fallen Asleep");
+                mChart.getXAxis().addLimitLine(FallenAsleepLine);
+            }
+
+            if(wokenUp != -1) {
+                LimitLine WokenUpLine = new LimitLine(wokenUp);
+                WokenUpLine.enableDashedLine(8, 8, 0);
+                WokenUpLine.setTextColor(Color.GREEN);
+                WokenUpLine.setTextSize(15);
+                WokenUpLine.setLabel("Woken Up");
+                mChart.getXAxis().addLimitLine(WokenUpLine);
+            }
+        }
         if (action.equals(ChartsHost.REFRESH)) {
             // TODO: use LimitLines to visualize smart alarms?
             mSmartAlarmFrom = intent.getIntExtra("smartalarm_from", -1);
             mSmartAlarmTo = intent.getIntExtra("smartalarm_to", -1);
             mTimestampFrom = intent.getIntExtra("recording_base_timestamp", -1);
             mSmartAlarmGoneOff = intent.getIntExtra("alarm_gone_off", -1);
+            if(fallenAsleep != -1) {
+                LimitLine FallenAsleepLine = new LimitLine(fallenAsleep);
+                FallenAsleepLine.enableDashedLine(8, 8, 0);
+                FallenAsleepLine.setTextColor(Color.BLUE);
+                FallenAsleepLine.setTextSize(15);
+                FallenAsleepLine.setLabel("Fallen Asleep");
+                mChart.getXAxis().addLimitLine(FallenAsleepLine);
+            }
+
+            if(wokenUp != -1) {
+                LimitLine WokenUpLine = new LimitLine(wokenUp);
+                WokenUpLine.enableDashedLine(8, 8, 0);
+                WokenUpLine.setTextColor(Color.GREEN);
+                WokenUpLine.setTextSize(15);
+                WokenUpLine.setLabel("Woken Up");
+                mChart.getXAxis().addLimitLine(WokenUpLine);
+            }
             refresh();
         } else {
             super.onReceive(context, intent);
