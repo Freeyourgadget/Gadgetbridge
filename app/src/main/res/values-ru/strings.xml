@@ -482,8 +482,8 @@
     <string name="menuitem_weather">Погода</string>
     <string name="menuitem_compass">Компас</string>
     <string name="menuitem_settings">Настройки</string>
-    <string name="blacklist_all_for_notifications">Заблокировать все</string>
-    <string name="whitelist_all_for_notifications">Разблокировать все</string>
+    <string name="blacklist_all_for_notifications">Заблокировать все уведомления</string>
+    <string name="whitelist_all_for_notifications">Разблокировать все уведомления</string>
 
 
     <string name="fw_upgrade_notice_miband3">Вы собираетесь установить прошивку %s на ваш Mi Band 3. 
