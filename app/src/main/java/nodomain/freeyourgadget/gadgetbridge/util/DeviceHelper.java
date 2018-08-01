@@ -50,6 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor.AmazfitCorC
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2HRXCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.id115.ID115Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.jyou.TeclastH30Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.liveview.LiveviewCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
@@ -215,6 +216,7 @@ public class DeviceHelper {
         result.add(new XWatchCoordinator());
         result.add(new QHybridCoordinator());
         result.add(new ZeTimeCoordinator());
+        result.add(new ID115Coordinator());
 
         return result;
     }

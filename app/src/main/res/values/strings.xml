@@ -192,6 +192,10 @@
     <string name="prefs_title_all_day_heart_rate">All day heart rate measurement</string>
     <string name="preferences_hplus_settings">HPlus/Makibes settings</string>
 
+    <!-- ID115 Preferences -->
+    <string name="preferences_id115_settings">ID115 settings</string>
+    <string name="prefs_screen_orientation">Screen orientation</string>
+
     <!-- Auto export preferences -->
     <string name="pref_header_auto_export">Auto export</string>
     <string name="pref_title_auto_export_enabled">Auto export enabled</string>
@@ -252,6 +256,8 @@
     <string name="other">Other</string>
     <string name="left">Left</string>
     <string name="right">Right</string>
+    <string name="horizontal">Horizontal</string>
+    <string name="vertical">Vertical</string>
     <string name="miband_pairing_using_dummy_userdata">No valid user data given, using dummy user data for now.</string>
     <string name="miband_pairing_tap_hint">When your Mi Band vibrates and blinks, tap it a few times in a row.</string>
     <string name="appinstaller_install">Install</string>
@@ -568,6 +574,7 @@
     <string name="devicetype_xwatch">XWatch</string>
     <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
+    <string name="devicetype_id115">ID115</string>
 
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>

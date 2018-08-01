@@ -504,6 +504,31 @@
             </PreferenceCategory>
 
         </PreferenceScreen>
+        <PreferenceScreen
+            android:icon="@drawable/ic_device_h30_h10"
+            android:key="pref_key_id115"
+            android:title="@string/preferences_id115_settings">
+            <PreferenceCategory
+                android:key="pref_category_id115_general"
+                android:title="@string/pref_header_general">
+
+                <ListPreference
+                    android:defaultValue="left"
+                    android:entries="@array/wearside"
+                    android:entryValues="@array/wearside_values"
+                    android:key="id115_wrist"
+                    android:title="@string/miband_prefs_wearside"
+                    android:summary="%s" />
+
+                <ListPreference
+                    android:defaultValue="horizontal"
+                    android:entries="@array/orientation"
+                    android:entryValues="@array/orientation_values"
+                    android:key="id115_screen_orientation"
+                    android:title="@string/prefs_screen_orientation"
+                    android:summary="%s" />
+            </PreferenceCategory>
+        </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_header_auto_export">

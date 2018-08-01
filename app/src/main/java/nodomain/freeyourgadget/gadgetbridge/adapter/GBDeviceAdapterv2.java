@@ -108,9 +108,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                 return true;
             }
         });
-        holder.deviceImageView.setImageResource(R.drawable.level_list_device);
-        //level-list does not allow negative values, hence we always add 100 to the key.
-        holder.deviceImageView.setImageLevel(device.getType().getKey() + 100 + (device.isInitialized() ? 100 : 0));
+        holder.deviceImageView.setImageResource(device.isInitialized() ? device.getType().getIcon() : device.getType().getDisabledIcon());
 
         holder.deviceNameLabel.setText(getUniqueDeviceName(device));
 
@@ -249,7 +247,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
 
         );
 
-        holder.findDevice.setVisibility(device.isInitialized() ? View.VISIBLE : View.GONE);
+        holder.findDevice.setVisibility(device.isInitialized() && coordinator.supportsFindDevice() ? View.VISIBLE : View.GONE);
         holder.findDevice.setOnClickListener(new View.OnClickListener()
 
                                              {
