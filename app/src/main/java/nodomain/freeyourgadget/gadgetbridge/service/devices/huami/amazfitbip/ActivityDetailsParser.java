@@ -134,7 +134,7 @@ public class ActivityDetailsParser {
         return activityTrack;
     }
 
-    private void fixupMissingTimestamps(ActivityTrack activityTrack) throws GBException {
+    private void fixupMissingTimestamps(ActivityTrack activityTrack) {
         try {
             int pointer = 0;
             List<ActivityPoint> activityPointList = activityTrack.getTrackPoints();
@@ -168,7 +168,7 @@ public class ActivityDetailsParser {
                 }
             }
         } catch (Exception ex) {
-            throw new GBException("Error cleaning activity details: " + ex.getMessage(), ex);
+            LOG.warn("Error cleaning activity details", ex);
         }
     }
 
