@@ -4,4 +4,8 @@
     <item
         android:drawable="@color/primary_dark"/>
 
+    <item
+        android:gravity="center"
+        android:drawable="@drawable/gadgetbridge_img"/>
+
 </layer-list>
