@@ -273,7 +273,7 @@
   <string name="distance">Расстояние</string>
   <string name="liveactivity_live_activity">Жизненная активность</string>
   <string name="weeksteps_today_steps_description">Шагов сегодня, цель: %1$s</string>
-  <string name="pref_title_dont_ack_transfer">Не передавать данные об активности</string>
+  <string name="pref_title_dont_ack_transfer">Не подтверждать передачу данных об активности</string>
   <string name="pref_summary_dont_ack_transfers">Если данные об активности не будут переданы на устройство, оно не будет очищено. Полезно, если GB используется с другими приложениями.</string>
   <string name="pref_summary_keep_data_on_device">Хранить данные о деятельности на Mi Band, даже после синхронизации. Полезно, если Mi Band используется совместно с другими приложениями.</string>
   <string name="pref_title_low_latency_fw_update">Использовать режим с низкими задержками для обновления прошивки</string>
@@ -496,7 +496,7 @@
     <string name="pref_title_weather_location">Местоположение для погоды (CM/LOS)</string>
 
     <string name="pref_title_pebble_gatt_clientonly">Подключаться только в режиме GATT-клиента</string>
-    <string name="pref_summary_pebble_gatt_clientonly">Экспериментальные настройки только для Pebble 2. Попробуйте, если есть проблемы с соединением.</string>
+    <string name="pref_summary_pebble_gatt_clientonly">Экспериментальные настройки только для Pebble 2. Попробуйте, если связь не очень</string>
     <string name="pref_header_auto_export">Автоматический экспорт данных</string>
     <string name="pref_title_auto_export_enabled">Включить автоматический экспорт</string>
     <string name="pref_title_auto_export_location">Путь экспорта</string>
@@ -540,4 +540,28 @@
     <string name="devicetype_xwatch">XWatch</string>
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
 
+    <string name="preferences_id115_settings">Настройки ID115</string>
+    <string name="prefs_screen_orientation">Ориентация экрана</string>
+
+    <string name="pref_auto_fetch">Загружать данные об активности автоматически</string>
+    <string name="pref_auto_fetch_summary">Загрузка данных каждый раз, когда экран разблокируют. Это работает только если настроена блокировка экрана!</string>
+    <string name="pref_auto_fetch_limit_fetches">Минимальный интервал между загрузками</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Загружать каждые %d минут(ы)</string>
+
+    <string name="horizontal">Горизонтально</string>
+    <string name="vertical">Вертикально</string>
+    <string name="controlcenter_start_activity_tracks">Отслеживание активности</string>
+    <string name="activity_summaries">Статистика активности</string>
+    <string name="reset_index">Сбросить дату загрузки</string>
+
+    <string name="kind_invalid">Недопустимый формат данных</string>
+    <string name="kind_gps_almanac">Данные GPS</string>
+    <string name="kind_gps_cep">Поправка ошибки GPS</string>
+    <string name="devicetype_no1_f1">No.1 F1</string>
+    <string name="devicetype_id115">ID115</string>
+
+    <string name="choose_auto_export_location">Куда сохранять данные при экспорте</string>
+    <string name="notification_channel_name">Уведомления Gadgetbridge</string>
+
+    <string name="menuitem_activity">Активность</string>
     </resources>
