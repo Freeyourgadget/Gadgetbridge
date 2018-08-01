@@ -7,7 +7,6 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:tint="#edededed"
             android:src="@drawable/gadgetbridge_img"/>
     </item>
 
