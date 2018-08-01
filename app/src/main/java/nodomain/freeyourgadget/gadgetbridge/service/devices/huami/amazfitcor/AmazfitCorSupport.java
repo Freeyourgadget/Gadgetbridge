@@ -50,7 +50,7 @@ public class AmazfitCorSupport extends AmazfitBipSupport {
             if (pages.contains("status")) {
                 command[1] |= 0x02;
             }
-            if (pages.contains("notification")) {
+            if (pages.contains("notifications")) {
                 command[1] |= 0x04;
             }
             if (pages.contains("activity")) {
