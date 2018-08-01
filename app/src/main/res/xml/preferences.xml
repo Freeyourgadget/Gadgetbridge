@@ -203,6 +203,18 @@
                 android:title="@string/mi2_prefs_display_items"/>
         </PreferenceScreen>
         <PreferenceScreen
+            android:icon="@drawable/ic_device_miband"
+            android:title="@string/preferences_amazfitcor_settings">
+            <MultiSelectListPreference
+                android:dialogTitle="@string/mi2_prefs_display_items"
+                android:defaultValue="@array/pref_cor_display_items_default"
+                android:entries="@array/pref_cor_display_items"
+                android:entryValues="@array/pref_cor_display_items_values"
+                android:key="cor_display_items"
+                android:summary="@string/mi2_prefs_display_items_summary"
+                android:title="@string/mi2_prefs_display_items"/>
+        </PreferenceScreen>
+        <PreferenceScreen
             android:icon="@drawable/ic_device_pebble"
             android:key="pref_key_pebble"
             android:title="@string/pref_title_pebble_settings">

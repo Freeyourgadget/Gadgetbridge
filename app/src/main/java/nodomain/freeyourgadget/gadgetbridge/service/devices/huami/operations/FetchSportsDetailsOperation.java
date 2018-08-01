@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.operations;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
 
 import android.support.annotation.NonNull;
 import android.widget.Toast;
@@ -43,7 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.ActivityDetailsParser;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.MiBand2Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -59,7 +59,7 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
 
     private ByteArrayOutputStream buffer;
 
-    public FetchSportsDetailsOperation(@NonNull BaseActivitySummary summary, @NonNull MiBand2Support support, @NonNull String lastSyncTimeKey) {
+    public FetchSportsDetailsOperation(@NonNull BaseActivitySummary summary, @NonNull HuamiSupport support, @NonNull String lastSyncTimeKey) {
         super(support);
         setName("fetching sport details");
         this.summary = summary;

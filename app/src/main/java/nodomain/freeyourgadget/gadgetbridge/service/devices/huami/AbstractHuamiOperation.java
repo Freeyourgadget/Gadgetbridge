@@ -14,13 +14,14 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.AbstractMiBandOperation;
 
-public abstract class AbstractMiBand2Operation extends AbstractMiBandOperation<MiBand2Support> {
-    protected AbstractMiBand2Operation(MiBand2Support support) {
+public abstract class AbstractHuamiOperation extends AbstractMiBandOperation<HuamiSupport> {
+    protected AbstractHuamiOperation(HuamiSupport support) {
         super(support);
     }
 

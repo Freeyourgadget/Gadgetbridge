@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.operations;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -40,8 +40,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.AbstractMiBand2Operation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.MiBand2Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -49,7 +49,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
  * An operation that fetches activity data. For every fetch, a new operation must
  * be created, i.e. an operation may not be reused for multiple fetches.
  */
-public abstract class AbstractFetchOperation extends AbstractMiBand2Operation {
+public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractFetchOperation.class);
 
     protected byte lastPacketCounter;
@@ -59,7 +59,7 @@ public abstract class AbstractFetchOperation extends AbstractMiBand2Operation {
     protected Calendar startTimestamp;
     protected int expectedDataLength;
 
-    public AbstractFetchOperation(MiBand2Support support) {
+    public AbstractFetchOperation(HuamiSupport support) {
         super(support);
     }
 

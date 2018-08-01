@@ -217,6 +217,7 @@
         <item>@string/p_menuitem_settings</item>
         <item>@string/p_menuitem_alipay</item>
     </string-array>
+
     <string-array name="pref_bip_display_items_default">
         <item>@string/p_menuitem_status</item>
         <item>@string/p_menuitem_activity</item>
@@ -226,6 +227,39 @@
         <item>@string/p_menuitem_compass</item>
         <item>@string/p_menuitem_settings</item>
     </string-array>
+
+    <string-array name="pref_cor_display_items">
+        <item>@string/menuitem_status</item>
+        <item>@string/menuitem_notifications</item>
+        <item>@string/menuitem_activity</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_settings</item>
+        <item>@string/menuitem_alipay</item>
+    </string-array>
+
+    <string-array name="pref_cor_display_items_values">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_settings</item>
+        <item>@string/p_menuitem_alipay</item>
+    </string-array>
+
+    <string-array name="pref_cor_display_items_default">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_settings</item>
+    </string-array>
+
 
     <string-array name="pref_entries_unit_system">
         <item>@string/unit_metric</item>

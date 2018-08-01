@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.operations;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -41,17 +41,17 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.MiBand2Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class InitOperation extends AbstractBTLEOperation<MiBand2Support> {
+public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
     private static final Logger LOG = LoggerFactory.getLogger(InitOperation.class);
 
     private final TransactionBuilder builder;
     private final boolean needsAuth;
     private final byte authFlags;
 
-    public InitOperation(boolean needsAuth, byte authFlags, MiBand2Support support, TransactionBuilder builder) {
+    public InitOperation(boolean needsAuth, byte authFlags, HuamiSupport support, TransactionBuilder builder) {
         super(support);
         this.needsAuth = needsAuth;
         this.authFlags = authFlags;

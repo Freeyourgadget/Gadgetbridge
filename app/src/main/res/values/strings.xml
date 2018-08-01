@@ -251,6 +251,7 @@
     <string name="preferences_category_device_specific_settings">Device specific settings</string>
     <string name="preferences_miband_settings">Mi Band / Amazfit settings</string>
     <string name="preferences_amazfitbip_settings">Amazfit Bip settings</string>
+    <string name="preferences_amazfitcor_settings">Amazfit Cor settings</string>s
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="other">Other</string>
@@ -582,6 +583,7 @@
     <string name="menuitem_shortcut_alipay">Alipay (Shortcut)</string>
     <string name="menuitem_shortcut_weather">Weather (Shortcut)</string>
     <string name="menuitem_status">Status</string>
+    <string name="menuitem_notifications">Notifications</string>
     <string name="menuitem_activity">Activity</string>
     <string name="menuitem_weather">Weather</string>
     <string name="menuitem_alarm">Alarm</string>
