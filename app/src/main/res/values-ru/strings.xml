@@ -564,4 +564,6 @@
     <string name="notification_channel_name">Уведомления Gadgetbridge</string>
 
     <string name="menuitem_activity">Активность</string>
+    <string name="preferences_amazfitcor_settings">Настройки Amazfit Cor</string>s
+    <string name="menuitem_notifications">Уведомления</string>
     </resources>
