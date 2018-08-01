@@ -318,6 +318,6 @@ public class FileUtils {
      * @return the valid file name
      */
     public static String makeValidFileName(String name) {
-        return name.replaceAll("\0/:\\r\\n\\\\", "_");
+        return name.replaceAll("[\0/:\\r\\n\\\\]", "_");
     }
 }
