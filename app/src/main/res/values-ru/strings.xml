@@ -295,7 +295,7 @@
   <string name="miband_prefs_reserve_alarm_calendar">Резервные сигналы для предстоящих событий</string>
   <string name="miband_prefs_hr_sleep_detection">Использовать датчик сердцебиения для улучшения мониторинга сна</string>
   <string name="miband_prefs_device_time_offset_hours">Смещение времени в часах (для тех, кто работает по ночам)</string>
-  <string name="miband2_prefs_dateformat">Mi2: Формат даты</string>
+  <string name="miband2_prefs_dateformat">Формат даты</string>
   <string name="dateformat_time">Время</string>
   <string name="dateformat_date_time">Время и дата</string>
   <string name="mi2_prefs_activate_display_on_lift">Активировать экран при подъёме</string>
@@ -566,4 +566,7 @@
     <string name="menuitem_activity">Активность</string>
     <string name="preferences_amazfitcor_settings">Настройки Amazfit Cor</string>s
     <string name="menuitem_notifications">Уведомления</string>
-    </resources>
+    <string name="preferences_miband2_settings">Настройки Mi Band 2</string>
+    <string name="preferences_miband3_settings">Настройки Mi Band 3</string>
+    <string name="menuitem_more">Ещё</string>
+</resources>
