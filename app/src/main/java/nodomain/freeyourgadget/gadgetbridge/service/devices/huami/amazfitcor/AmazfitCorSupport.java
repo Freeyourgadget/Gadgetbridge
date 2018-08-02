@@ -71,6 +71,9 @@ public class AmazfitCorSupport extends AmazfitBipSupport {
             if (pages.contains("alipay")) {
                 command[2] |= 0x01;
             }
+            if (pages.contains("music")) {
+                command[2] |= 0x02;
+            }
         }
         builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
 

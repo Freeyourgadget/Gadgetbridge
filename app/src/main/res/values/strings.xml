@@ -593,5 +593,6 @@
     <string name="menuitem_compass">Compass</string>
     <string name="menuitem_settings">Settings</string>
     <string name="menuitem_alipay">Alipay</string>
+    <string name="menuitem_music">Music</string>
     <string name="menuitem_more">More</string>
 </resources>
