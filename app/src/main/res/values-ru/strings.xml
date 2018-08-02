@@ -569,4 +569,5 @@
     <string name="preferences_miband2_settings">Настройки Mi Band 2</string>
     <string name="preferences_miband3_settings">Настройки Mi Band 3</string>
     <string name="menuitem_more">Ещё</string>
-</resources>
+<string name="menuitem_music">Музыка</string>
+    </resources>
