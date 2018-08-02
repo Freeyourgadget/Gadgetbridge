@@ -54,6 +54,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.ActivateDisplayOnLift;
@@ -937,7 +938,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     public void handleDeviceEvent(byte[] value) {
-        if (value == null || value.length != 1) {
+        if (value == null || value.length == 0) {
             return;
         }
         GBDeviceEventCallControl callCmd = new GBDeviceEventCallControl();
@@ -987,6 +988,35 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 LOG.info("find phone stopped");
                 findPhoneEvent.event = GBDeviceEventFindPhone.Event.STOP;
                 evaluateGBDeviceEvent(findPhoneEvent);
+                break;
+            case HuamiDeviceEvent.MUSIC_CONTROL:
+                LOG.info("got music control");
+                GBDeviceEventMusicControl deviceEventMusicControl = new GBDeviceEventMusicControl();
+
+                switch (value[1]) {
+                    case 0:
+                        deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.PLAY;
+                        break;
+                    case 1:
+                        deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.PAUSE;
+                        break;
+                    case 3:
+                        deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.NEXT;
+                        break;
+                    case 4:
+                        deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.PREVIOUS;
+                        break;
+                    case 5:
+                        deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.VOLUMEUP;
+                        break;
+                    case 6:
+                        deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.VOLUMEDOWN;
+                        break;
+                    default:
+                        LOG.info("unhandled music control event " + value[1]);
+                        return;
+                }
+                evaluateGBDeviceEvent(deviceEventMusicControl);
                 break;
             default:
                 LOG.warn("unhandled event " + value[0]);
