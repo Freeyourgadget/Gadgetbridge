@@ -36,7 +36,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
@@ -87,10 +87,10 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
         }
         fetchCount++;
 
-        characteristicActivityData = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_5_ACTIVITY_DATA);
+        characteristicActivityData = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_5_ACTIVITY_DATA);
         builder.notify(characteristicActivityData, false);
 
-        characteristicFetch = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC4);
+        characteristicFetch = getCharacteristic(HuamiService.UUID_UNKNOWN_CHARACTERISTIC4);
         builder.notify(characteristicFetch, true);
 
         startFetching(builder);
@@ -105,10 +105,10 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
     public boolean onCharacteristicChanged(BluetoothGatt gatt,
                                            BluetoothGattCharacteristic characteristic) {
         UUID characteristicUUID = characteristic.getUuid();
-        if (MiBand2Service.UUID_CHARACTERISTIC_5_ACTIVITY_DATA.equals(characteristicUUID)) {
+        if (HuamiService.UUID_CHARACTERISTIC_5_ACTIVITY_DATA.equals(characteristicUUID)) {
             handleActivityNotif(characteristic.getValue());
             return true;
-        } else if (MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC4.equals(characteristicUUID)) {
+        } else if (HuamiService.UUID_UNKNOWN_CHARACTERISTIC4.equals(characteristicUUID)) {
             handleActivityMetadata(characteristic.getValue());
             return true;
         } else {
@@ -140,7 +140,7 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
     protected void handleActivityMetadata(byte[] value) {
         if (value.length == 15) {
             // first two bytes are whether our request was accepted
-            if (ArrayUtils.equals(value, MiBand2Service.RESPONSE_ACTIVITY_DATA_START_DATE_SUCCESS, 0)) {
+            if (ArrayUtils.equals(value, HuamiService.RESPONSE_ACTIVITY_DATA_START_DATE_SUCCESS, 0)) {
                 // the third byte (0x01 on success) = ?
                 // the 4th - 7th bytes epresent the number of bytes/packets to expect, excluding the counter bytes
                 expectedDataLength = BLETypeConversions.toUint32(Arrays.copyOfRange(value, 3, 7));
@@ -157,7 +157,7 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
                 handleActivityFetchFinish(false);
             }
         } else if (value.length == 3) {
-            if (Arrays.equals(MiBand2Service.RESPONSE_FINISH_SUCCESS, value)) {
+            if (Arrays.equals(HuamiService.RESPONSE_FINISH_SUCCESS, value)) {
                 handleActivityFetchFinish(true);
             } else {
                 LOG.warn("Unexpected activity metadata: " + Logging.formatBytes(value));

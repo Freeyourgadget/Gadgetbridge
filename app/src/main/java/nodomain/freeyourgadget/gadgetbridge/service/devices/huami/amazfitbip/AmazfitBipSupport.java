@@ -37,7 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiWeatherConditions;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -131,9 +131,6 @@ public class AmazfitBipSupport extends HuamiSupport {
 
     @Override
     protected AmazfitBipSupport setDisplayItems(TransactionBuilder builder) {
-        if (gbDevice.getType() != DeviceType.AMAZFITBIP) {
-            return this; // Disable for Cor for now
-        }
         if (gbDevice.getFirmwareVersion() == null) {
             LOG.warn("Device not initialized yet, won't set menu items");
             return this;
@@ -185,7 +182,7 @@ public class AmazfitBipSupport extends HuamiSupport {
                 shortcut_alipay = true;
             }
         }
-        builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
+        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
         setShortcuts(builder, shortcut_weather, shortcut_alipay);
 
         return this;
@@ -201,7 +198,7 @@ public class AmazfitBipSupport extends HuamiSupport {
                 (byte) ((alipay && weather) ? 0x81 : 0x01), 0x01,
         };
 
-        builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
+        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
     }
 
     @Override
@@ -376,7 +373,7 @@ public class AmazfitBipSupport extends HuamiSupport {
         boolean handled = super.onCharacteristicChanged(gatt, characteristic);
         if (!handled) {
             UUID characteristicUUID = characteristic.getUuid();
-            if (MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION.equals(characteristicUUID)) {
+            if (HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION.equals(characteristicUUID)) {
                 return handleConfigurationInfo(characteristic.getValue());
             }
         }
@@ -399,7 +396,7 @@ public class AmazfitBipSupport extends HuamiSupport {
     // this probably does more than only getting the GPS version...
     private AmazfitBipSupport requestGPSVersion(TransactionBuilder builder) {
         LOG.info("Requesting GPS version");
-        builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), AmazfitBipService.COMMAND_REQUEST_GPS_VERSION);
+        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), AmazfitBipService.COMMAND_REQUEST_GPS_VERSION);
         return this;
     }
 
@@ -463,7 +460,7 @@ public class AmazfitBipSupport extends HuamiSupport {
         command_new = AmazfitBipService.COMMAND_SET_LANGUAGE_NEW_TEMPLATE;
         System.arraycopy(localeString.getBytes(), 0, command_new, 3, localeString.getBytes().length);
 
-        builder.add(new ConditionalWriteAction(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION)) {
+        builder.add(new ConditionalWriteAction(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION)) {
             @Override
             protected byte[] checkCondition() {
                 if (gbDevice.getType() == DeviceType.MIBAND3 ||

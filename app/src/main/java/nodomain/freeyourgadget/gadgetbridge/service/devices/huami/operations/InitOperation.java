@@ -36,7 +36,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -65,17 +65,17 @@ public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
         if (needsAuth) {
             builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.AUTHENTICATING, getContext()));
             // write key to miband2
-            byte[] sendKey = org.apache.commons.lang3.ArrayUtils.addAll(new byte[]{MiBand2Service.AUTH_SEND_KEY, authFlags}, getSecretKey());
-            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_AUTH), sendKey);
+            byte[] sendKey = org.apache.commons.lang3.ArrayUtils.addAll(new byte[]{HuamiService.AUTH_SEND_KEY, authFlags}, getSecretKey());
+            builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_AUTH), sendKey);
         } else {
             builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
             // get random auth number
-            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_AUTH), requestAuthNumber());
+            builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_AUTH), requestAuthNumber());
         }
     }
 
     private byte[] requestAuthNumber() {
-        return new byte[]{MiBand2Service.AUTH_REQUEST_RANDOM_AUTH_NUMBER, authFlags};
+        return new byte[]{HuamiService.AUTH_REQUEST_RANDOM_AUTH_NUMBER, authFlags};
     }
 
     private byte[] getSecretKey() {
@@ -91,31 +91,31 @@ public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
     public boolean onCharacteristicChanged(BluetoothGatt gatt,
                                            BluetoothGattCharacteristic characteristic) {
         UUID characteristicUUID = characteristic.getUuid();
-        if (MiBand2Service.UUID_CHARACTERISTIC_AUTH.equals(characteristicUUID)) {
+        if (HuamiService.UUID_CHARACTERISTIC_AUTH.equals(characteristicUUID)) {
             try {
                 byte[] value = characteristic.getValue();
                 getSupport().logMessageContent(value);
-                if (value[0] == MiBand2Service.AUTH_RESPONSE &&
-                        value[1] == MiBand2Service.AUTH_SEND_KEY &&
-                        value[2] == MiBand2Service.AUTH_SUCCESS) {
+                if (value[0] == HuamiService.AUTH_RESPONSE &&
+                        value[1] == HuamiService.AUTH_SEND_KEY &&
+                        value[2] == HuamiService.AUTH_SUCCESS) {
                     TransactionBuilder builder = createTransactionBuilder("Sending the secret key to the band");
                     builder.write(characteristic, requestAuthNumber());
                     getSupport().performImmediately(builder);
-                } else if (value[0] == MiBand2Service.AUTH_RESPONSE &&
-                        value[1] == MiBand2Service.AUTH_REQUEST_RANDOM_AUTH_NUMBER &&
-                        value[2] == MiBand2Service.AUTH_SUCCESS) {
+                } else if (value[0] == HuamiService.AUTH_RESPONSE &&
+                        value[1] == HuamiService.AUTH_REQUEST_RANDOM_AUTH_NUMBER &&
+                        value[2] == HuamiService.AUTH_SUCCESS) {
                     // md5??
                     byte[] eValue = handleAESAuth(value, getSecretKey());
                     byte[] responseValue = org.apache.commons.lang3.ArrayUtils.addAll(
-                            new byte[]{MiBand2Service.AUTH_SEND_ENCRYPTED_AUTH_NUMBER, authFlags}, eValue);
+                            new byte[]{HuamiService.AUTH_SEND_ENCRYPTED_AUTH_NUMBER, authFlags}, eValue);
 
                     TransactionBuilder builder = createTransactionBuilder("Sending the encrypted random key to the band");
                     builder.write(characteristic, responseValue);
                     getSupport().setCurrentTimeWithService(builder);
                     getSupport().performImmediately(builder);
-                } else if (value[0] == MiBand2Service.AUTH_RESPONSE &&
-                        value[1] == MiBand2Service.AUTH_SEND_ENCRYPTED_AUTH_NUMBER &&
-                        value[2] == MiBand2Service.AUTH_SUCCESS) {
+                } else if (value[0] == HuamiService.AUTH_RESPONSE &&
+                        value[1] == HuamiService.AUTH_SEND_ENCRYPTED_AUTH_NUMBER &&
+                        value[2] == HuamiService.AUTH_SUCCESS) {
                     TransactionBuilder builder = createTransactionBuilder("Authenticated, now initialize phase 2");
                     builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
                     getSupport().requestDeviceInfo(builder);

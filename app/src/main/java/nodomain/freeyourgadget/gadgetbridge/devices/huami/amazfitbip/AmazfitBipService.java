@@ -19,9 +19,9 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip;
 
 import java.util.UUID;
 
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service.DISPLAY_ITEM_BIT_CLOCK;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service.ENDPOINT_DISPLAY;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service.ENDPOINT_DISPLAY_ITEMS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.DISPLAY_ITEM_BIT_CLOCK;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.ENDPOINT_DISPLAY;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.ENDPOINT_DISPLAY_ITEMS;
 
 public class AmazfitBipService {
     public static final UUID UUID_CHARACTERISTIC_WEATHER = UUID.fromString("0000000e-0000-3512-2118-0009af100700");

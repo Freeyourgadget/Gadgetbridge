@@ -33,7 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.export.ActivityTrackExporter;
 import nodomain.freeyourgadget.gadgetbridge.export.GPXExporter;
@@ -73,12 +73,12 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
         GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
 
         builder.write(characteristicFetch, BLETypeConversions.join(new byte[] {
-                MiBand2Service.COMMAND_ACTIVITY_DATA_START_DATE,
+                HuamiService.COMMAND_ACTIVITY_DATA_START_DATE,
                 AmazfitBipService.COMMAND_ACTIVITY_DATA_TYPE_SPORTS_DETAILS},
                 getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES)));
         builder.add(new WaitAction(1000)); // TODO: actually wait for the success-reply
         builder.notify(characteristicActivityData, true);
-        builder.write(characteristicFetch, new byte[] { MiBand2Service.COMMAND_FETCH_DATA });
+        builder.write(characteristicFetch, new byte[] { HuamiService.COMMAND_FETCH_DATA });
     }
 
     @Override

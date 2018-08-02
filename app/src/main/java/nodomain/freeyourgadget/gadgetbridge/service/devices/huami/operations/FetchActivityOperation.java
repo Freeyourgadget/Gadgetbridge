@@ -33,7 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -69,10 +69,10 @@ public class FetchActivityOperation extends AbstractFetchOperation {
     @Override
     protected void startFetching(TransactionBuilder builder) {
         GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
-        builder.write(characteristicFetch, BLETypeConversions.join(new byte[] { MiBand2Service.COMMAND_ACTIVITY_DATA_START_DATE, MiBand2Service.COMMAND_ACTIVITY_DATA_TYPE_ACTIVTY }, getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES)));
+        builder.write(characteristicFetch, BLETypeConversions.join(new byte[] { HuamiService.COMMAND_ACTIVITY_DATA_START_DATE, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_ACTIVTY }, getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES)));
         builder.add(new WaitAction(1000)); // TODO: actually wait for the success-reply
         builder.notify(characteristicActivityData, true);
-        builder.write(characteristicFetch, new byte[] { MiBand2Service.COMMAND_FETCH_DATA});
+        builder.write(characteristicFetch, new byte[] { HuamiService.COMMAND_FETCH_DATA});
     }
 
     protected void handleActivityFetchFinish(boolean success) {

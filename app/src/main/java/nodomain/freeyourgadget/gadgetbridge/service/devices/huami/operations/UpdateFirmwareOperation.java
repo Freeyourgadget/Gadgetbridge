@@ -33,7 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
@@ -57,8 +57,8 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
     public UpdateFirmwareOperation(Uri uri, HuamiSupport support) {
         super(support);
         this.uri = uri;
-        fwCControlChar = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_FIRMWARE);
-        fwCDataChar = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_FIRMWARE_DATA);
+        fwCControlChar = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_FIRMWARE);
+        fwCDataChar = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_FIRMWARE_DATA);
     }
 
     @Override
@@ -132,20 +132,20 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
             getSupport().logMessageContent(value);
             return;
         }
-        boolean success = value[2] == MiBand2Service.SUCCESS;
+        boolean success = value[2] == HuamiService.SUCCESS;
 
-        if (value[0] == MiBand2Service.RESPONSE && success) {
+        if (value[0] == HuamiService.RESPONSE && success) {
             try {
                 switch (value[1]) {
-                    case MiBand2Service.COMMAND_FIRMWARE_INIT: {
+                    case HuamiService.COMMAND_FIRMWARE_INIT: {
                         sendFirmwareData(getFirmwareInfo());
                         break;
                     }
-                    case MiBand2Service.COMMAND_FIRMWARE_START_DATA: {
+                    case HuamiService.COMMAND_FIRMWARE_START_DATA: {
                         sendChecksum(getFirmwareInfo());
                         break;
                     }
-                    case MiBand2Service.COMMAND_FIRMWARE_CHECKSUM: {
+                    case HuamiService.COMMAND_FIRMWARE_CHECKSUM: {
                         if (getFirmwareInfo().getFirmwareType() == HuamiFirmwareType.FIRMWARE) {
                             TransactionBuilder builder = performInitialized("reboot");
                             getSupport().sendReboot(builder);
@@ -156,7 +156,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
                         }
                         break;
                     }
-                    case MiBand2Service.COMMAND_FIRMWARE_REBOOT: {
+                    case HuamiService.COMMAND_FIRMWARE_REBOOT: {
                         LOG.info("Reboot command successfully sent.");
                         GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_update_complete), false, 100, getContext());
 //                    getSupport().onReboot();
@@ -202,7 +202,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
             }
             byte[] bytes = new byte[arraySize];
             int i = 0;
-            bytes[i++] = MiBand2Service.COMMAND_FIRMWARE_INIT;
+            bytes[i++] = HuamiService.COMMAND_FIRMWARE_INIT;
             bytes[i++] = sizeBytes[0];
             bytes[i++] = sizeBytes[1];
             bytes[i++] = sizeBytes[2];
@@ -243,7 +243,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
             if (prefs.getBoolean("mi_low_latency_fw_update", true)) {
                 getSupport().setLowLatency(builder);
             }
-            builder.write(fwCControlChar, new byte[] { MiBand2Service.COMMAND_FIRMWARE_START_DATA });
+            builder.write(fwCControlChar, new byte[] { HuamiService.COMMAND_FIRMWARE_START_DATA });
 
             for (int i = 0; i < packets; i++) {
                 byte[] fwChunk = Arrays.copyOfRange(fwbytes, i * packetLength, i * packetLength + packetLength);
@@ -253,7 +253,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
 
                 int progressPercent = (int) ((((float) firmwareProgress) / len) * 100);
                 if ((i > 0) && (i % 100 == 0)) {
-                    builder.write(fwCControlChar, new byte[]{MiBand2Service.COMMAND_FIRMWARE_UPDATE_SYNC});
+                    builder.write(fwCControlChar, new byte[]{HuamiService.COMMAND_FIRMWARE_UPDATE_SYNC});
                     builder.add(new SetProgressAction(getContext().getString(R.string.updatefirmwareoperation_update_in_progress), true, progressPercent, getContext()));
                 }
             }
@@ -264,7 +264,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
                 firmwareProgress = len;
             }
 
-            builder.write(fwCControlChar, new byte[]{MiBand2Service.COMMAND_FIRMWARE_UPDATE_SYNC});
+            builder.write(fwCControlChar, new byte[]{HuamiService.COMMAND_FIRMWARE_UPDATE_SYNC});
             builder.queue(getQueue());
 
         } catch (IOException ex) {
@@ -281,7 +281,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
         int crc16 = firmwareInfo.getCrc16();
         byte[] bytes = BLETypeConversions.fromUint16(crc16);
         builder.write(fwCControlChar, new byte[] {
-                MiBand2Service.COMMAND_FIRMWARE_CHECKSUM,
+                HuamiService.COMMAND_FIRMWARE_CHECKSUM,
                 bytes[0],
                 bytes[1],
         });
