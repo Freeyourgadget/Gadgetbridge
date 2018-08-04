@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.operations;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
 
 import android.text.format.DateUtils;
 import android.widget.Toast;
@@ -33,7 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -42,7 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.MiBand2Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -55,7 +55,7 @@ public class FetchActivityOperation extends AbstractFetchOperation {
 
     private List<MiBandActivitySample> samples = new ArrayList<>(60*24); // 1day per default
 
-    public FetchActivityOperation(MiBand2Support support) {
+    public FetchActivityOperation(HuamiSupport support) {
         super(support);
         setName("fetching activity data");
     }
@@ -69,10 +69,10 @@ public class FetchActivityOperation extends AbstractFetchOperation {
     @Override
     protected void startFetching(TransactionBuilder builder) {
         GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
-        builder.write(characteristicFetch, BLETypeConversions.join(new byte[] { MiBand2Service.COMMAND_ACTIVITY_DATA_START_DATE, MiBand2Service.COMMAND_ACTIVITY_DATA_TYPE_ACTIVTY }, getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES)));
+        builder.write(characteristicFetch, BLETypeConversions.join(new byte[] { HuamiService.COMMAND_ACTIVITY_DATA_START_DATE, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_ACTIVTY }, getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES)));
         builder.add(new WaitAction(1000)); // TODO: actually wait for the success-reply
         builder.notify(characteristicActivityData, true);
-        builder.write(characteristicFetch, new byte[] { MiBand2Service.COMMAND_FETCH_DATA});
+        builder.write(characteristicFetch, new byte[] { HuamiService.COMMAND_FETCH_DATA});
     }
 
     protected void handleActivityFetchFinish(boolean success) {

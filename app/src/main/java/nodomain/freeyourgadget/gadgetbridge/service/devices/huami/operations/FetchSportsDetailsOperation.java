@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.operations;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
 
 import android.support.annotation.NonNull;
 import android.widget.Toast;
@@ -33,7 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.export.ActivityTrackExporter;
 import nodomain.freeyourgadget.gadgetbridge.export.GPXExporter;
@@ -43,7 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.ActivityDetailsParser;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.MiBand2Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -59,7 +59,7 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
 
     private ByteArrayOutputStream buffer;
 
-    public FetchSportsDetailsOperation(@NonNull BaseActivitySummary summary, @NonNull MiBand2Support support, @NonNull String lastSyncTimeKey) {
+    public FetchSportsDetailsOperation(@NonNull BaseActivitySummary summary, @NonNull HuamiSupport support, @NonNull String lastSyncTimeKey) {
         super(support);
         setName("fetching sport details");
         this.summary = summary;
@@ -73,12 +73,12 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
         GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
 
         builder.write(characteristicFetch, BLETypeConversions.join(new byte[] {
-                MiBand2Service.COMMAND_ACTIVITY_DATA_START_DATE,
+                HuamiService.COMMAND_ACTIVITY_DATA_START_DATE,
                 AmazfitBipService.COMMAND_ACTIVITY_DATA_TYPE_SPORTS_DETAILS},
                 getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES)));
         builder.add(new WaitAction(1000)); // TODO: actually wait for the success-reply
         builder.notify(characteristicActivityData, true);
-        builder.write(characteristicFetch, new byte[] { MiBand2Service.COMMAND_FETCH_DATA });
+        builder.write(characteristicFetch, new byte[] { HuamiService.COMMAND_FETCH_DATA });
     }
 
     @Override

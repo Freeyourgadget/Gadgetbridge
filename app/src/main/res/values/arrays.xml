@@ -192,6 +192,30 @@
         <item>@string/p_battery</item>
     </string-array>
 
+    <string-array name="pref_miband3_display_items">
+        <item>@string/menuitem_notifications</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_more</item>
+        <item>@string/menuitem_status</item>
+        <item>@string/heart_rate</item>
+    </string-array>
+
+    <string-array name="pref_miband3_display_items_values">
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_more</item>
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_heart_rate</item>
+    </string-array>
+
+    <string-array name="pref_miband3_display_items_default">
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_more</item>
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_heart_rate</item>
+    </string-array>
+
     <string-array name="pref_bip_display_items">
         <item>@string/menuitem_shortcut_alipay</item>
         <item>@string/menuitem_shortcut_weather</item>
@@ -217,6 +241,7 @@
         <item>@string/p_menuitem_settings</item>
         <item>@string/p_menuitem_alipay</item>
     </string-array>
+
     <string-array name="pref_bip_display_items_default">
         <item>@string/p_menuitem_status</item>
         <item>@string/p_menuitem_activity</item>
@@ -226,6 +251,42 @@
         <item>@string/p_menuitem_compass</item>
         <item>@string/p_menuitem_settings</item>
     </string-array>
+
+    <string-array name="pref_cor_display_items">
+        <item>@string/menuitem_status</item>
+        <item>@string/menuitem_notifications</item>
+        <item>@string/menuitem_activity</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_settings</item>
+        <item>@string/menuitem_alipay</item>
+        <item>@string/menuitem_music</item>
+    </string-array>
+
+    <string-array name="pref_cor_display_items_values">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_settings</item>
+        <item>@string/p_menuitem_alipay</item>
+        <item>@string/p_menuitem_music</item>
+    </string-array>
+
+    <string-array name="pref_cor_display_items_default">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_settings</item>
+        <item>@string/p_menuitem_music</item>
+    </string-array>
+
 
     <string-array name="pref_entries_unit_system">
         <item>@string/unit_metric</item>

@@ -21,7 +21,10 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
@@ -44,7 +47,7 @@ public class ActivityDetailsParser {
     public static final BigDecimal HUAMI_TO_DECIMAL_DEGREES_DIVISOR = new BigDecimal(3000000.0);
     private final BaseActivitySummary summary;
     private final ActivityTrack activityTrack;
-//    private final int version;
+    //    private final int version;
     private final Date baseDate;
     private long baseLongitude;
     private long baseLatitude;
@@ -126,7 +129,47 @@ public class ActivityDetailsParser {
             throw new GBException("Error parsing activity details: " + ex.getMessage(), ex);
         }
 
+        fixupMissingTimestamps(activityTrack);
+
         return activityTrack;
+    }
+
+    private void fixupMissingTimestamps(ActivityTrack activityTrack) {
+        try {
+            int pointer = 0;
+            List<ActivityPoint> activityPointList = activityTrack.getTrackPoints();
+            Date gpsStartTime = null;
+            List<ActivityPoint> entriesToFixUp = new ArrayList<>();
+            while (pointer < activityPointList.size() - 1) {
+                ActivityPoint activityPoint = activityPointList.get(pointer);
+                if (activityPoint.getLocation() == null) {
+                    pointer++;
+                    continue;
+                }
+                if (activityPoint.getTime().equals(activityPointList.get(pointer + 1).getTime())) {
+                    entriesToFixUp.add(activityPoint);
+                } else {
+                    // found the first activity point with a proper timestamp
+                    entriesToFixUp.add(activityPoint);
+                    gpsStartTime = activityPointList.get(pointer + 1).getTime();
+                    break;
+                }
+                pointer++;
+            }
+            if (gpsStartTime != null) {
+                // now adjust those entries without a timestamp
+                long differenceInSec = TimeUnit.SECONDS.convert(Math.abs(gpsStartTime.getTime() - baseDate.getTime()), TimeUnit.MILLISECONDS);
+
+                double multiplier = (double) differenceInSec / (double) (entriesToFixUp.size());
+
+                for (int j = 0; j < entriesToFixUp.size(); j++) {
+                    long timeOffsetSeconds = Math.round(j * multiplier);
+                    entriesToFixUp.get(j).setTime(makeAbsolute(timeOffsetSeconds));
+                }
+            }
+        } catch (Exception ex) {
+            LOG.warn("Error cleaning activity details", ex);
+        }
     }
 
     private int consumeGPSAndUpdateBaseLocation(byte[] bytes, int offset, long timeOffset) {
@@ -144,7 +187,7 @@ public class ActivityDetailsParser {
                 convertHuamiValueToDecimalDegrees(baseLatitude),
                 baseAltitude);
 
-        ActivityPoint ap = getActivityPointFor(timeOffset);
+        ActivityPoint ap = getActivityPointFor(timeOffset, coordinate);
         ap.setLocation(coordinate);
         add(ap);
 
@@ -191,6 +234,19 @@ public class ActivityDetailsParser {
         Date time = makeAbsolute(timeOffsetSeconds);
         if (lastActivityPoint != null) {
             if (lastActivityPoint.getTime().equals(time)) {
+                return lastActivityPoint;
+            }
+        }
+        return new ActivityPoint(time);
+    }
+
+    private ActivityPoint getActivityPointFor(long timeOffsetSeconds, GPSCoordinate gpsCoordinate) {
+        Date time = makeAbsolute(timeOffsetSeconds);
+        if (lastActivityPoint != null) {
+            if (lastActivityPoint.getTime().equals(time)) {
+                if (lastActivityPoint.getLocation() != null && !lastActivityPoint.getLocation().equals(gpsCoordinate)) {
+                    return new ActivityPoint(time);
+                }
                 return lastActivityPoint;
             }
         }

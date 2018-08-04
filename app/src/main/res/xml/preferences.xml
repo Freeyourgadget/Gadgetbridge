@@ -185,6 +185,45 @@
             android:key="pref_key_miband"
             android:title="@string/preferences_miband_settings" />
         <PreferenceScreen
+            android:icon="@drawable/ic_device_miband"
+            android:title="@string/preferences_miband2_settings">
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="mi2_enable_text_notifications"
+                android:summaryOn="@string/mi2_enable_text_notifications_summary"
+                android:summaryOff="@string/off"
+                android:title="@string/mi2_enable_text_notifications" />
+            <ListPreference
+                android:defaultValue="@string/p_dateformat_time"
+                android:entries="@array/mi2_dateformats"
+                android:entryValues="@array/mi2_dateformats_values"
+                android:key="mi2_dateformat"
+                android:title="@string/miband2_prefs_dateformat"
+                android:summary="%s" />
+            <MultiSelectListPreference
+                android:dialogTitle="@string/mi2_prefs_display_items"
+                android:defaultValue="@array/pref_mi2_display_items_default"
+                android:entries="@array/pref_mi2_display_items"
+                android:entryValues="@array/pref_mi2_display_items_values"
+                android:key="mi2_display_items"
+                android:summary="@string/mi2_prefs_display_items_summary"
+                android:title="@string/mi2_prefs_display_items"/>
+        </PreferenceScreen>
+<!--
+        <PreferenceScreen
+            android:icon="@drawable/ic_device_miband"
+            android:title="@string/preferences_miband3_settings">
+            <MultiSelectListPreference
+                android:dialogTitle="@string/mi2_prefs_display_items"
+                android:defaultValue="@array/pref_miband3_display_items_default"
+                android:entries="@array/pref_miband3_display_items"
+                android:entryValues="@array/pref_miband3_display_items_values"
+                android:key="miband3_display_items"
+                android:summary="@string/mi2_prefs_display_items_summary"
+                android:title="@string/mi2_prefs_display_items"/>
+        </PreferenceScreen>
+-->
+        <PreferenceScreen
             android:icon="@drawable/ic_device_hplus"
             android:title="@string/preferences_amazfitbip_settings">
             <ListPreference
@@ -202,6 +241,18 @@
                 android:key="bip_display_items"
                 android:summary="@string/mi2_prefs_display_items_summary"
                 android:title="@string/mi2_prefs_display_items" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:icon="@drawable/ic_device_miband"
+            android:title="@string/preferences_amazfitcor_settings">
+            <MultiSelectListPreference
+                android:dialogTitle="@string/mi2_prefs_display_items"
+                android:defaultValue="@array/pref_cor_display_items_default"
+                android:entries="@array/pref_cor_display_items"
+                android:entryValues="@array/pref_cor_display_items_values"
+                android:key="cor_display_items"
+                android:summary="@string/mi2_prefs_display_items_summary"
+                android:title="@string/mi2_prefs_display_items"/>
         </PreferenceScreen>
         <PreferenceScreen
             android:icon="@drawable/ic_device_pebble"
