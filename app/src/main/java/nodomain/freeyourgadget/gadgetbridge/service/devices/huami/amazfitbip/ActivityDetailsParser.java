@@ -140,7 +140,7 @@ public class ActivityDetailsParser {
             List<ActivityPoint> activityPointList = activityTrack.getTrackPoints();
             Date gpsStartTime = null;
             List<ActivityPoint> entriesToFixUp = new ArrayList<>();
-            while (pointer < activityPointList.size() + 1) {
+            while (pointer < activityPointList.size() - 1) {
                 ActivityPoint activityPoint = activityPointList.get(pointer);
                 if (activityPoint.getLocation() == null) {
                     pointer++;
