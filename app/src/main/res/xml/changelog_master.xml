@@ -8,7 +8,7 @@
         <change>Amazfit Bip: Fix weather on latest firmwares</change>
     </release>
     <release version="0.28.0" versioncode="134">
-        <change>Initial support for ZeTime</change>
+        <change>Initial support for ZeTime: time, weather and activity data sync, notification support and music playback control is working</change>
         <change>Amazfit Bip/Cor: Rework firmware detection to cope with new version scheme</change>
         <change>Amazfit Bip: Support setting language to Russian</change>
         <change>Amazfit Cor: Support language switching on newer firmwares</change>
