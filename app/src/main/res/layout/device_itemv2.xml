@@ -269,6 +269,21 @@
                 card_view:srcCompat="@drawable/ic_action_find_lost_device"
                 android:focusable="true" />
 
+            <ImageView
+                android:id="@+id/device_action_calibrate"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/device_image"
+                android:layout_margin="4dp"
+                android:layout_toEndOf="@id/device_action_find"
+                android:clickable="true"
+                android:contentDescription="@string/controlcenter_calibrate_device"
+                android:padding="4dp"
+                android:scaleType="fitXY"
+                android:tint="@color/secondarytext"
+                card_view:srcCompat="@drawable/ic_activity_unknown"
+                android:focusable="true" />
+
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
