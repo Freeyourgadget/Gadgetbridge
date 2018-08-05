@@ -567,4 +567,5 @@
     <string name="preferences_amazfitcor_settings">הגדרות Amazfit Cor</string>s
     <string name="menuitem_notifications">התראות</string>
     <string name="menuitem_more">עוד</string>
-</resources>
+<string name="menuitem_music">מוזיקה</string>
+    </resources>
