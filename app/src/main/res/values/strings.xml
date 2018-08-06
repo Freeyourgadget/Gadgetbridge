@@ -424,7 +424,8 @@
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">Disable the inactivity warnings for a time interval</string>
     <string name="mi2_prefs_do_not_disturb_start">Start time</string>
     <string name="mi2_prefs_do_not_disturb_end">End time</string>
-
+    <string name="mi3_prefs_band_screen_unlock">Band screen unlock"</string>
+    <string name="mi3_prefs_band_screen_unlock_summary">Swipe up to unlock the band\'s screen</string>
     <string name="automatic">Automatic</string>
     <string name="simplified_chinese">Simplified Chinese</string>
     <string name="traditional_chinese">Traditional Chinese</string>

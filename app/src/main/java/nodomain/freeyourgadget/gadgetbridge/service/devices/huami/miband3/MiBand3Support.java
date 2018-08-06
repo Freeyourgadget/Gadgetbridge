@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband3;
 
 import android.content.Context;
 import android.net.Uri;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,10 +29,13 @@ import java.util.Set;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3FWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Service;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class MiBand3Support extends AmazfitBipSupport {
@@ -69,6 +73,45 @@ public class MiBand3Support extends AmazfitBipSupport {
         builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
 
         return this;
+    }
+
+    @Override
+    public void onSendConfiguration(String config) {
+        TransactionBuilder builder;
+        try {
+            builder = performInitialized("Sending configuration for option: " + config);
+            switch (config) {
+                case MiBandConst.PREF_MI3_BAND_SCREEN_UNLOCK:
+                    setBandScreenUnlock(builder);
+                    break;
+                default:
+                    super.onSendConfiguration(config);
+                    return;
+            }
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR, e);
+        }
+    }
+
+    private MiBand3Support setBandScreenUnlock(TransactionBuilder builder) {
+        boolean enable = MiBand3Coordinator.getBandScreenUnlock();
+        LOG.info("Setting band screen unlock to " + enable);
+
+        if (enable) {
+            builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand3Service.COMMAND_ENABLE_BAND_SCREEN_UNLOCK);
+        } else {
+            builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand3Service.COMMAND_DISABLE_BAND_SCREEN_UNLOCK);
+        }
+
+        return this;
+    }
+
+    @Override
+    public void phase2Initialize(TransactionBuilder builder) {
+        super.phase2Initialize(builder);
+        LOG.info("phase2Initialize...");
+        setBandScreenUnlock(builder);
     }
 
     @Override
