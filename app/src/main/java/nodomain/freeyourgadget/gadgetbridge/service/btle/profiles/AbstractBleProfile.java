@@ -53,7 +53,9 @@ public abstract class AbstractBleProfile<T extends AbstractBTLEDeviceSupport> ex
      * @param intent the intent to broadcast
      */
     protected void notify(Intent intent) {
-        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+        // note: we send synchronously in order to keep the processing order of BLE events
+        // in BtleQueue and the reception of results.
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcastSync(intent);
     }
 
     /**
