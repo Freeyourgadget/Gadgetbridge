@@ -1,5 +1,19 @@
 ### Changelog
 
+#### Version 0.29.0 (WIP)
+* New Device: Initial support for ID115
+* Show splash screen during startup
+* (Add missing ActivityPoints and timestamp) <- FIXME: what is that
+* Fix exported GPX file names
+* Vertically align device icon in main activity
+* Amazfit Cor: Allow to configure displayed menu items
+* Amazfit Cor: Support basic music control
+* Amazfit Cor: Fix flashing font files
+* Amazfit Bip: Fix current weather not being displayed with later firmwares
+* Amazfit Bip/Cor: Try to fix device being sometimes stuck in connecting state
+* Mi Band 2: Put some device specific settings into its own settings category
+* NO1 F1: Set time during initialization
+
 #### Version 0.28.1
 * Fix wrong weather icon mapping in rare cases
 * Fix device discovery on Android 4.4
