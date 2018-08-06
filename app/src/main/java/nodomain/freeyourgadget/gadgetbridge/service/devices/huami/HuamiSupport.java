@@ -1319,8 +1319,10 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
         LOG.warn("Device info: " + info);
         versionCmd.hwVersion = info.getHardwareRevision();
-//        versionCmd.fwVersion = info.getFirmwareRevision(); // always null
-        versionCmd.fwVersion = info.getSoftwareRevision();
+        versionCmd.fwVersion = info.getFirmwareRevision();
+        if (versionCmd.fwVersion == null) {
+            versionCmd.fwVersion = info.getSoftwareRevision();
+        }
         if (versionCmd.fwVersion != null && versionCmd.fwVersion.length() > 0 && versionCmd.fwVersion.charAt(0) == 'V') {
             versionCmd.fwVersion = versionCmd.fwVersion.substring(1);
         }
