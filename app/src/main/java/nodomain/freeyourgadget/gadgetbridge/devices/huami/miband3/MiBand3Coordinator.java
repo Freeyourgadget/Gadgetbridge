@@ -24,12 +24,15 @@ import android.support.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class MiBand3Coordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand3Coordinator.class);
@@ -69,5 +72,10 @@ public class MiBand3Coordinator extends HuamiCoordinator {
     @Override
     public boolean supportsWeather() {
         return true;
+    }
+
+    public static boolean getBandScreenUnlock() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getBoolean(MiBandConst.PREF_MI3_BAND_SCREEN_UNLOCK, false);
     }
 }
