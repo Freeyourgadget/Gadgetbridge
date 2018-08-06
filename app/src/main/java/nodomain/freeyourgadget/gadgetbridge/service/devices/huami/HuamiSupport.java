@@ -151,7 +151,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         @Override
         public void onReceive(Context context, Intent intent) {
             String s = intent.getAction();
-            if (s.equals(DeviceInfoProfile.ACTION_DEVICE_INFO)) {
+            if (DeviceInfoProfile.ACTION_DEVICE_INFO.equals(s)) {
                 handleDeviceInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo) intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO));
             }
         }
