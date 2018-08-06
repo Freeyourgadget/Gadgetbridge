@@ -34,6 +34,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -170,6 +172,10 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     private RealtimeSamplesSupport realtimeSamplesSupport;
     private boolean alarmClockRinging;
+
+    private boolean isMusicAppStarted = false;
+    private MusicSpec bufferMusicSpec = null;
+    private MusicStateSpec bufferMusicStateSpec = null;
 
     public HuamiSupport() {
         this(LOG);
@@ -726,12 +732,102 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetMusicState(MusicStateSpec stateSpec) {
-        // not supported
+        if (bufferMusicStateSpec != stateSpec)
+            bufferMusicStateSpec = stateSpec;
+        sendMusicStateToDevice();
+
     }
 
     @Override
     public void onSetMusicInfo(MusicSpec musicSpec) {
-        // not supported
+        if (bufferMusicSpec != musicSpec)
+            bufferMusicSpec = musicSpec;
+
+        if (!isMusicAppStarted) {
+            return;
+        }
+        sendMusicStateToDevice();
+    }
+
+
+    private void sendMusicStateToDevice() {
+
+
+        if (characteristicChunked == null) {
+            return;
+        }
+        if (bufferMusicSpec == null && bufferMusicStateSpec == null) {
+            try {
+                TransactionBuilder builder = performInitialized("send dummy playback info to enable music controls");
+                writeToChunked(builder, 3, new byte[]{1, 0, 1, 0, 0, 0, 1, 0});
+                builder.queue(getQueue());
+            } catch (IOException e) {
+                LOG.error("Unable to send dummy music controls");
+            }
+            return;
+        }
+
+        byte flags = 0x00;
+        flags |= 0x01;
+        int length = 8;
+        if (bufferMusicSpec.track != null && bufferMusicSpec.track.getBytes().length > 0) {
+            length += bufferMusicSpec.track.getBytes().length + 1;
+            flags |= 0x02;
+        }
+        if (bufferMusicSpec.album != null && bufferMusicSpec.album.getBytes().length > 0) {
+            length += bufferMusicSpec.album.getBytes().length + 1;
+            flags |= 0x04;
+        }
+        if (bufferMusicSpec.artist != null && bufferMusicSpec.artist.getBytes().length > 0) {
+            length += bufferMusicSpec.artist.getBytes().length + 1;
+            flags |= 0x08;
+        }
+
+
+//        LOG.info("Music flags are: " + (flags & 0xff));
+        try {
+            ByteBuffer buf = ByteBuffer.allocate(length);
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+            buf.put(flags);
+            byte state;
+            switch (bufferMusicStateSpec.state) {
+                case MusicStateSpec.STATE_PLAYING:
+                    state = 1;
+                    break;
+                default:
+                    state = 0;
+            }
+
+            buf.put(state);
+            buf.put(new byte[]{0x1, 0x0, 0x0, 0x0}); //unknown
+            buf.put(new byte[]{0x1,0x0}); //show track
+//            buf.put(new byte[]{0x1,0x1}); //show album
+
+
+            if (bufferMusicSpec.track != null && bufferMusicSpec.track.getBytes().length > 0) {
+                buf.put(bufferMusicSpec.track.getBytes());
+                buf.put((byte) 0);
+            }
+            if (bufferMusicSpec.album != null && bufferMusicSpec.album.getBytes().length > 0) {
+                buf.put(bufferMusicSpec.album.getBytes());
+                buf.put((byte) 0);
+            }
+            if (bufferMusicSpec.artist != null && bufferMusicSpec.artist.getBytes().length > 0) {
+                buf.put(bufferMusicSpec.artist.getBytes());
+                buf.put((byte) 0);
+            }
+
+
+            TransactionBuilder builder = performInitialized("send playback info");
+            writeToChunked(builder, 3, buf.array());
+
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.error("Unable to send playback state");
+        }
+
+//        LOG.info("Sent music: " + bufferMusicSpec.toString() + " " + bufferMusicStateSpec.toString());
+
     }
 
     @Override
@@ -1011,6 +1107,15 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                         break;
                     case 6:
                         deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.VOLUMEDOWN;
+                        break;
+                    case (byte) 224:
+                        LOG.info("Music app started");
+                        isMusicAppStarted = true;
+                        sendMusicStateToDevice();
+                        break;
+                    case (byte) 225:
+                        LOG.info("Music app terminated");
+                        isMusicAppStarted = false;
                         break;
                     default:
                         LOG.info("unhandled music control event " + value[1]);
