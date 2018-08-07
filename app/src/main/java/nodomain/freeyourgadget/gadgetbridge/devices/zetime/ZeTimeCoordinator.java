@@ -133,6 +133,11 @@ public class ZeTimeCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsMusicInfo() {
+        return true;
+    }
+
+    @Override
     public int getBondingStyle(GBDevice device) {
         return BONDING_STYLE_NONE;
     }

@@ -639,7 +639,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mPebbleReceiver = new PebbleReceiver();
                 registerReceiver(mPebbleReceiver, new IntentFilter("com.getpebble.action.SEND_NOTIFICATION"));
             }
-            if (mMusicPlaybackReceiver == null) {
+            if (mMusicPlaybackReceiver == null && coordinator != null && coordinator.supportsMusicInfo()) {
                 mMusicPlaybackReceiver = new MusicPlaybackReceiver();
                 IntentFilter filter = new IntentFilter();
                 for (String action : mMusicActions) {

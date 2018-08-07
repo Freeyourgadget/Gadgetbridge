@@ -58,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallContro
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.ActivateDisplayOnLift;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
@@ -114,6 +115,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.Ini
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.RealtimeSamplesSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -732,16 +734,28 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetMusicState(MusicStateSpec stateSpec) {
-        if (bufferMusicStateSpec != stateSpec)
-            bufferMusicStateSpec = stateSpec;
-        sendMusicStateToDevice();
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        if (!coordinator.supportsMusicInfo()) {
+            return;
+        }
 
+        if (bufferMusicStateSpec != stateSpec) {
+            bufferMusicStateSpec = stateSpec;
+        }
+
+        sendMusicStateToDevice();
     }
 
     @Override
     public void onSetMusicInfo(MusicSpec musicSpec) {
-        if (bufferMusicSpec != musicSpec)
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        if (!coordinator.supportsMusicInfo()) {
+            return;
+        }
+
+        if (bufferMusicSpec != musicSpec) {
             bufferMusicSpec = musicSpec;
+        }
 
         if (!isMusicAppStarted) {
             return;

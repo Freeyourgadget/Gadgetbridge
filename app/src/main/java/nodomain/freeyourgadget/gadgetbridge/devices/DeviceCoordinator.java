@@ -248,4 +248,10 @@ public interface DeviceCoordinator {
      * making some sound or lighting up
      */
     boolean supportsFindDevice();
+
+    /**
+     * Indicates whether the device supports displaying music information
+     * like artist, title, album, play state etc.
+     */
+    boolean supportsMusicInfo();
 }
