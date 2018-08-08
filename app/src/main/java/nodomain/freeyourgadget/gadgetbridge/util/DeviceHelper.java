@@ -55,6 +55,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.jyou.TeclastH30Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.liveview.LiveviewCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.nikon.NikonCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.no1f1.No1F1Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.vibratissimo.VibratissimoCoordinator;
@@ -215,6 +216,7 @@ public class DeviceHelper {
         result.add(new XWatchCoordinator());
         result.add(new ZeTimeCoordinator());
         result.add(new ID115Coordinator());
+        result.add(new NikonCoordinator());
 
         return result;
     }

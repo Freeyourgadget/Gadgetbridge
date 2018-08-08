@@ -577,6 +577,7 @@
     <string name="devicetype_xwatch">XWatch</string>
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
     <string name="devicetype_id115">ID115</string>
+    <string name="devicetype_nikon">Nikon</string>
 
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>
