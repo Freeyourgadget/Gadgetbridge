@@ -528,7 +528,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             byte[] msg;
 
             // send header
-            bytes = header.toString().getBytes("EUC-JP");
+            bytes = header.getBytes("EUC-JP");
             length = min(bytes.length, 18);
             msg = new byte[length + 2];
             msg[0] = No1F1Constants.CMD_NOTIFICATION;
@@ -537,7 +537,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             builder.write(ctrlCharacteristic, msg);
 
             // send body
-            bytes = header.toString().getBytes("EUC-JP");
+            bytes = header.getBytes("EUC-JP");
             length = min(bytes.length, 18);
             msg = new byte[length + 2];
             msg[0] = No1F1Constants.CMD_NOTIFICATION;
