@@ -184,7 +184,7 @@
             android:key="pref_key_miband"
             android:title="@string/preferences_miband_settings" />
         <PreferenceScreen
-            android:icon="@drawable/ic_device_miband"
+            android:icon="@drawable/ic_device_miband2"
             android:title="@string/preferences_miband2_settings">
             <CheckBoxPreference
                 android:defaultValue="true"
@@ -210,7 +210,7 @@
         </PreferenceScreen>
 <!--
         <PreferenceScreen
-            android:icon="@drawable/ic_device_miband"
+            android:icon="@drawable/ic_device_miband2"
             android:title="@string/preferences_miband3_settings">
             <MultiSelectListPreference
                 android:dialogTitle="@string/mi2_prefs_display_items"
