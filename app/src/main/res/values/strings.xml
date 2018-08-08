@@ -21,6 +21,7 @@
     <string name="controlcenter_snackbar_disconnecting">Disconnecting</string>
     <string name="controlcenter_snackbar_connecting">Connecting</string>
     <string name="controlcenter_snackbar_requested_screenshot">Taking a screenshot of the device</string>
+    <string name="controlcenter_calibrate_device">Calibrate Device</string>
 
 
     <string name="title_activity_debug">Debug</string>
@@ -269,6 +270,7 @@
     <string name="candidate_item_device_image">Device image</string>
     <string name="miband_prefs_alias">Name/Alias</string>
     <string name="pref_header_vibration_count">Vibration count</string>
+    <string name="watch9_pairing_tap_hint">When your watch vibrates, shake the device or press its button.</string>
 
     <string name="title_activity_sleepmonitor">Sleep monitor</string>
     <string name="pref_write_logfiles">Write log files</string>
@@ -577,6 +579,7 @@
     <string name="devicetype_xwatch">XWatch</string>
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
     <string name="devicetype_id115">ID115</string>
+    <string name="devicetype_watch9">Watch 9</string>
 
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>
@@ -595,4 +598,12 @@
     <string name="menuitem_alipay">Alipay</string>
     <string name="menuitem_music">Music</string>
     <string name="menuitem_more">More</string>
+
+    <string name="watch9_time_minutes">Minutes:</string>
+    <string name="watch9_time_hours">Hours:</string>
+    <string name="watch9_time_seconds">Seconds:</string>
+    <string name="watch9_calibration_hint">Set the time your device is showing to you right now.</string>
+    <string name="watch9_calibration_button">Calibrate</string>
+    <string name="title_activity_watch9_pairing">Watch 9 pairing</string>
+    <string name="title_activity_watch9_calibration">Watch 9 calibration</string>
 </resources>

@@ -43,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.hplus.HPlusSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.jyou.TeclastH30Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xwatch.XWatchSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.zetime.ZeTimeDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.watch9.Watch9DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class DeviceSupportFactory {
@@ -159,6 +160,9 @@ public class DeviceSupportFactory {
                         break;
                     case ID115:
                         deviceSupport = new ServiceDeviceSupport(new ID115Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
+                    case WATCH9:
+                        deviceSupport = new ServiceDeviceSupport(new Watch9DeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
                 }
                 if (deviceSupport != null) {

@@ -388,6 +388,12 @@
             android:name=".devices.pebble.PebblePairingActivity"
             android:label="@string/title_activity_pebble_pairing" />
         <activity
+            android:name=".devices.watch9.Watch9PairingActivity"
+            android:label="@string/title_activity_watch9_pairing"  />
+        <activity
+            android:name=".devices.watch9.Watch9CalibrationActivity"
+            android:label="@string/title_activity_watch9_calibration"  />
+        <activity
             android:name=".activities.charts.ChartsActivity"
             android:label="@string/title_activity_charts"
             android:parentActivityName=".activities.ControlCenterv2" />
