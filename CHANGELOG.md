@@ -2,13 +2,14 @@
 
 #### Version 0.29.0 (WIP)
 * New Device: Initial support for ID115
+* New Device: Initial support for Lenovo Watch9
 * Show splash screen during startup
-* (Add missing ActivityPoints and timestamp) <- FIXME: what is that
-* Fix exported GPX file names
 * Vertically align device icon in main activity
 * Amazfit Cor: Allow to configure displayed menu items
 * Amazfit Cor: Support basic music control
 * Amazfit Cor: Fix flashing font files
+* Amazfit Bip: improved GPX export
+* Amazfit Bip: Fix exported GPX file names for *FAT storage
 * Amazfit Bip: Fix current weather not being displayed with later firmwares
 * Amazfit Bip/Cor: Try to fix device being sometimes stuck in connecting state
 * Mi Band 2: Put some device specific settings into its own settings category
