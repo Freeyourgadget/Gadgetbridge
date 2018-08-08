@@ -741,9 +741,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
         if (bufferMusicStateSpec != stateSpec) {
             bufferMusicStateSpec = stateSpec;
+            sendMusicStateToDevice();
         }
 
-        sendMusicStateToDevice();
     }
 
     @Override
@@ -755,12 +755,11 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
         if (bufferMusicSpec != musicSpec) {
             bufferMusicSpec = musicSpec;
+            if (isMusicAppStarted) {
+                sendMusicStateToDevice();
+            }
         }
 
-        if (!isMusicAppStarted) {
-            return;
-        }
-        sendMusicStateToDevice();
     }
 
 
