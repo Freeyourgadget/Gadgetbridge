@@ -216,7 +216,7 @@
     <string name="discovery_stop_scanning">Stopp skanning</string>
     <string name="discovery_start_scanning">Start oppdagning</string>
     <string name="action_discover">Koble til ny enhet</string>
-    <string name="device_with_rssi">%1$s (%2$)</string>
+    <string name="device_with_rssi">%1$s (%2$s)</string>
     <string name="title_activity_android_pairing">Parr enhet</string>
     <string name="android_pairing_hint">Bruk parringsdialogen for Blåtann i Android til å parre enheten.</string>
     <string name="title_activity_mi_band_pairing">Parr ditt Mi Band</string>

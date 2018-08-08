@@ -41,7 +41,7 @@
 
     <string name="title_activity_appblacklist">Notificatie zwarte lijst</string>
 
-    <string name="fw_upgrade_notice">U staat op het punt om firmware% s te installeren in plaats van die nu op uw Mi Band staat.</string>
+    <string name="fw_upgrade_notice">U staat op het punt om firmware %s te installeren in plaats van die nu op uw Mi Band staat.</string>
     <string name="fw_upgrade_notice_amazfitbip">U staat op het punt om de firmware %s te installeren op uw Amazfit Bip. 
 \n 
 \nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand en als laatste het .gps-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand. 

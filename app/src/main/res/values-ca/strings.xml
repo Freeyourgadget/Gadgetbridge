@@ -208,7 +208,7 @@
     <string name="tap_a_device_to_connect">Fes un toc a un dispositius per connectar</string>
     <string name="cannot_connect_bt_address_invalid_">No és pot connectar. Direcció BT incorrecta?</string>
     <string name="gadgetbridge_running">Gadgetbridge funcionant</string>
-    <string name="installing_binary_d_d">Instal·lat binari $1$d/%2$d</string>
+    <string name="installing_binary_d_d">Instal·lat binari %1$d/%2$d</string>
     <string name="installation_failed_">La instal·lació ha fallat</string>
     <string name="installation_successful">Instal·lació correcta</string>
     <string name="pref_title_weather">El temps</string>
@@ -237,7 +237,7 @@
     <string name="android_pairing_hint">Utilitza el diàleg d\'emparellament Android Bluetooth per emparellar el dispositiu.</string>
     <string name="title_activity_mi_band_pairing">Emparelleu Mi Band</string>
     <string name="pairing">Emparellant amb %s…</string>
-    <string name="pairing_creating_bond_with">Creant vincle amb %1$*s (%2$*s)</string>
+    <string name="pairing_creating_bond_with">Creant vincle amb %1$s (%2$s)</string>
     <string name="pairing_unable_to_pair_with">No s\'ha pogut emparellar amb %1$s (%2$s)</string>
     <string name="pairing_in_progress">Emparellament en curs: %1$s (%2$s)</string>
     <string name="pairing_already_bonded">Ja emparellat amb %1$s (%2$s), connectant…</string>
