@@ -343,7 +343,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
         int autoFetchInterval = GBApplication.getPrefs().getInt("auto_fetch_interval_limit", 0);
         summary = String.format(
                 getApplicationContext().getString(R.string.pref_auto_fetch_limit_fetches_summary),
-                (int) autoFetchInterval);
+                autoFetchInterval);
         pref.setSummary(summary);
 
 

@@ -143,7 +143,7 @@
     <string name="appmanager_weather_install_provider">Hava durumu bildirim uygulamasını yükle</string>
     <string name="app_configure">Yapılandır</string>
     <string name="miband_firmware_known">Bu firmware test edilmiş ve Gadgetbridge ile uyumlu olduğu bilinmektedir.</string>
-    <string name="miband_firmware_suggest_whitelist">Devam etmek istiyorsanız ve her sey daha sonra düzgün çalışmaya devam ederse, lütfen Gadgetbridge geliştiricilerine% s firmware sürümünü beyaz listeye eklemesini söyleyin</string>
+    <string name="miband_firmware_suggest_whitelist">Devam etmek istiyorsanız ve her sey daha sonra düzgün çalışmaya devam ederse, lütfen Gadgetbridge geliştiricilerine %s firmware sürümünü beyaz listeye eklemesini söyleyin</string>
 
     <string name="pref_title_general_autostartonboot">Otomatik Başlat</string>
     <string name="pref_title_general_autoreconnect">Otomatik yeniden bağlan</string>
