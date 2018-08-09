@@ -570,4 +570,18 @@
     <string name="preferences_miband3_settings">Настройки Mi Band 3</string>
     <string name="menuitem_more">Ещё</string>
 <string name="menuitem_music">Музыка</string>
-    </resources>
+    <string name="controlcenter_calibrate_device">Калибровать устройство</string>
+
+
+    <string name="watch9_pairing_tap_hint">Когда устройство завибрирует, встряхните его или нажмите на кнопку.</string>
+
+    <string name="devicetype_watch9">Калибровать устройство</string>
+
+    <string name="watch9_time_minutes">Минут:</string>
+    <string name="watch9_time_hours">Часов:</string>
+    <string name="watch9_time_seconds">Секунд:</string>
+    <string name="watch9_calibration_hint">Выставьте текущее время (сверьтесь с системным).</string>
+    <string name="watch9_calibration_button">Калибровка</string>
+    <string name="title_activity_watch9_pairing">Сопряжение Watch 9</string>
+    <string name="title_activity_watch9_calibration">Калибровка Watch 9</string>
+</resources>
