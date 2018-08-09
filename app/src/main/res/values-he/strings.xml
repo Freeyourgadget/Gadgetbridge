@@ -568,4 +568,18 @@
     <string name="menuitem_notifications">התראות</string>
     <string name="menuitem_more">עוד</string>
 <string name="menuitem_music">מוזיקה</string>
-    </resources>
+    <string name="controlcenter_calibrate_device">כיול התקן</string>
+
+
+    <string name="watch9_pairing_tap_hint">כשהשעון שלך רוטט, עליך לנער את ההתקן או ללחוץ על הכפתור שלו.</string>
+
+    <string name="devicetype_watch9">Watch 9</string>
+
+    <string name="watch9_time_minutes">דקות:</string>
+    <string name="watch9_time_hours">שעות:</string>
+    <string name="watch9_time_seconds">שניות:</string>
+    <string name="watch9_calibration_hint">הגדרת השעה שתופיע בהתקן שלך כרגע.</string>
+    <string name="watch9_calibration_button">כיול</string>
+    <string name="title_activity_watch9_pairing">צימוד Watch 9</string>
+    <string name="title_activity_watch9_calibration">כיול Watch 9</string>
+</resources>
