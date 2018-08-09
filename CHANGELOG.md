@@ -13,6 +13,8 @@
 * Amazfit Bip: Fix current weather not being displayed with later firmwares
 * Amazfit Bip/Cor: Try to fix device being sometimes stuck in connecting state
 * Mi Band 2: Put some device specific settings into its own settings category
+* Mi Band 3: Support locking the Mi Band sceen (swipe up to unlock)
+* Mi Band 2/3: New icon
 * NO1 F1: Set time during initialization
 
 #### Version 0.28.1
