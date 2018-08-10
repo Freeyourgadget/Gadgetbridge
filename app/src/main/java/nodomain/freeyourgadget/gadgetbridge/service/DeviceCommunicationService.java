@@ -667,6 +667,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 IntentFilter filter = new IntentFilter();
                 filter.addAction(AlarmClockReceiver.ALARM_ALERT_ACTION);
                 filter.addAction(AlarmClockReceiver.ALARM_DONE_ACTION);
+                filter.addAction(AlarmClockReceiver.GOOGLE_CLOCK_ALARM_ALERT_ACTION);
+                filter.addAction(AlarmClockReceiver.GOOGLE_CLOCK_ALARM_DONE_ACTION);
                 registerReceiver(mAlarmClockReceiver, filter);
             }
             if (mCMWeatherReceiver == null && coordinator != null && coordinator.supportsWeather()) {
