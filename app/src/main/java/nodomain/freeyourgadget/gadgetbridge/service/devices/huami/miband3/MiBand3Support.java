@@ -43,33 +43,46 @@ public class MiBand3Support extends AmazfitBipSupport {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand3Support.class);
 
     @Override
-    protected AmazfitBipSupport setDisplayItems(TransactionBuilder builder) {
-        if (true) {
-            return this;
-        }
-
+    protected MiBand3Support setDisplayItems(TransactionBuilder builder) {
         Prefs prefs = GBApplication.getPrefs();
         Set<String> pages = prefs.getStringSet("miband3_display_items", null);
         LOG.info("Setting display items to " + (pages == null ? "none" : pages));
         byte[] command = MiBand3Service.COMMAND_CHANGE_SCREENS.clone();
 
+        byte pos = 1;
         if (pages != null) {
-            if (pages.contains("notifications")) {
-                command[1] |= 0x02;
-            }
-            if (pages.contains("weather")) {
-                command[1] |= 0x04;
-            }
-            if (pages.contains("more")) {
-                command[1] |= 0x10;
-            }
-            if (pages.contains("status")) {
-                command[1] |= 0x20;
-            }
-            if (pages.contains("heart_rate")) {
-                command[1] |= 0x40;
+            for (String page : pages) {
+                switch (page) {
+                    case "notifications":
+                        command[1] |= 0x02;
+                        command[4] = pos++;
+                        break;
+                    case "weather":
+                        command[1] |= 0x04;
+                        command[5] = pos++;
+                        break;
+                    case "more":
+                        command[1] |= 0x10;
+                        command[7] = pos++;
+                        break;
+                    case "status":
+                        command[1] |= 0x20;
+                        command[8] = pos++;
+                        break;
+                    case "heart_rate":
+                        command[1] |= 0x40;
+                        command[9] = pos++;
+                        break;
+                }
             }
         }
+
+        for (int i = 4; i <= 9; i++) {
+            if (command[i] == 0) {
+                command[i] = pos++;
+            }
+        }
+
         builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
 
         return this;

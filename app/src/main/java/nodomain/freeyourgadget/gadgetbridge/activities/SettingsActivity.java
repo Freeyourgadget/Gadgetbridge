@@ -405,8 +405,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
             }
         });
 
-
-        /*
         final Preference miBand3DisplayItems = findPreference("miband3_display_items");
         miBand3DisplayItems.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -420,7 +418,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 return true;
             }
         });
-        */
 
         final Preference corDisplayItems = findPreference("cor_display_items");
         corDisplayItems.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
