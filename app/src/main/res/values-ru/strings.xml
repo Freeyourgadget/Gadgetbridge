@@ -584,4 +584,6 @@
     <string name="watch9_calibration_button">Калибровка</string>
     <string name="title_activity_watch9_pairing">Сопряжение Watch 9</string>
     <string name="title_activity_watch9_calibration">Калибровка Watch 9</string>
-</resources>
+<string name="mi3_prefs_band_screen_unlock">Разблокировать экран устройства</string>
+    <string name="mi3_prefs_band_screen_unlock_summary">Смахните вверх, чтобы разблокировать экран устройства</string>
+    </resources>
