@@ -582,4 +582,6 @@
     <string name="watch9_calibration_button">כיול</string>
     <string name="title_activity_watch9_pairing">צימוד Watch 9</string>
     <string name="title_activity_watch9_calibration">כיול Watch 9</string>
-</resources>
+<string name="mi3_prefs_band_screen_unlock">שחרור המסך בעזרת הצמיד</string>
+    <string name="mi3_prefs_band_screen_unlock_summary">יש לגרור כלפי מעלה כדי לשחרר את נעילת המסך של הצמיד</string>
+    </resources>
