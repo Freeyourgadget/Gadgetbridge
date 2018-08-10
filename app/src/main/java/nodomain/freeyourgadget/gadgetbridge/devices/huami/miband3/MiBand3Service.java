@@ -22,7 +22,7 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.EN
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.ENDPOINT_DISPLAY_ITEMS;
 
 public class MiBand3Service {
-    public static final byte[] COMMAND_CHANGE_SCREENS = new byte[]{ENDPOINT_DISPLAY_ITEMS, DISPLAY_ITEM_BIT_CLOCK, 0x30, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
+    public static final byte[] COMMAND_CHANGE_SCREENS = new byte[]{ENDPOINT_DISPLAY_ITEMS, DISPLAY_ITEM_BIT_CLOCK, 0x30, 0x00, 0x00, 0x00, 0x06, 0x00, 0x00, 0x00};
     public static final byte[] COMMAND_ENABLE_BAND_SCREEN_UNLOCK = new byte[]{ENDPOINT_DISPLAY, 0x16, 0x00, 0x01};
     public static final byte[] COMMAND_DISABLE_BAND_SCREEN_UNLOCK = new byte[]{ENDPOINT_DISPLAY, 0x16, 0x00, 0x00};
 }
