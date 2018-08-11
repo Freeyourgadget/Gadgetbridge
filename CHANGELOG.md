@@ -5,6 +5,7 @@
 * New Device: Initial support for Lenovo Watch9
 * Show splash screen during startup
 * Vertically align device icon in main activity
+* Try to support the google clock application (untested)
 * Amazfit Cor: Allow to configure displayed menu items
 * Amazfit Cor: Support basic music control
 * Amazfit Cor: Fix flashing font files
@@ -13,6 +14,7 @@
 * Amazfit Bip: Fix current weather not being displayed with later firmwares
 * Amazfit Bip/Cor: Try to fix device being sometimes stuck in connecting state
 * Mi Band 2: Put some device specific settings into its own settings category
+* Mi Band 3: Support disabling of on-device menu items
 * Mi Band 3: Support locking the Mi Band sceen (swipe up to unlock)
 * Mi Band 2/3: New icon
 * NO1 F1: Set time during initialization
