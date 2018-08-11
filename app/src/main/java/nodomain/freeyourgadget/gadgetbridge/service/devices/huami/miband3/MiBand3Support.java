@@ -51,29 +51,25 @@ public class MiBand3Support extends AmazfitBipSupport {
 
         byte pos = 1;
         if (pages != null) {
-            for (String page : pages) {
-                switch (page) {
-                    case "notifications":
-                        command[1] |= 0x02;
-                        command[4] = pos++;
-                        break;
-                    case "weather":
-                        command[1] |= 0x04;
-                        command[5] = pos++;
-                        break;
-                    case "more":
-                        command[1] |= 0x10;
-                        command[7] = pos++;
-                        break;
-                    case "status":
-                        command[1] |= 0x20;
-                        command[8] = pos++;
-                        break;
-                    case "heart_rate":
-                        command[1] |= 0x40;
-                        command[9] = pos++;
-                        break;
-                }
+            if (pages.contains("notifications")) {
+                command[1] |= 0x02;
+                command[4] = pos++;
+            }
+            if (pages.contains("weather")) {
+                command[1] |= 0x04;
+                command[5] = pos++;
+            }
+            if (pages.contains("more")) {
+                command[1] |= 0x10;
+                command[7] = pos++;
+            }
+            if (pages.contains("status")) {
+                command[1] |= 0x20;
+                command[8] = pos++;
+            }
+            if (pages.contains("heart_rate")) {
+                command[1] |= 0x40;
+                command[9] = pos++;
             }
         }
 
