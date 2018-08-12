@@ -1,6 +1,6 @@
 ### Changelog
 
-#### Version 0.29.0 (WIP)
+#### Version 0.29.0
 * New Device: Initial support for ID115
 * New Device: Initial support for Lenovo Watch9
 * Show splash screen during startup
