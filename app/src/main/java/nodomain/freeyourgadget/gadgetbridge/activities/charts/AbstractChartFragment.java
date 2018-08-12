@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -443,6 +444,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             int lastHrSampleIndex = -1;
             HeartRateUtils heartRateUtilsInstance = HeartRateUtils.getInstance();
 
+            byte lastDeepSleep = 0;
+
             for (int i = 0; i < numEntries; i++) {
                 ActivitySample sample = samples.get(i);
                 int type = sample.getKind();
@@ -464,6 +467,21 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                 float movement = sample.getIntensity();
 
                 float value = movement;
+
+                if(type == ActivityKind.TYPE_DEEP_SLEEP || type == ActivityKind.TYPE_LIGHT_SLEEP){
+                    if(value > 0.07f){
+                        type = ActivityKind.TYPE_LIGHT_SLEEP;
+                    }else{
+                        if (lastDeepSleep >= 10 || last_type == ActivityKind.TYPE_DEEP_SLEEP){
+                            type = ActivityKind.TYPE_DEEP_SLEEP;
+                            lastDeepSleep = 0;
+                        }else{
+                            type = ActivityKind.TYPE_LIGHT_SLEEP;
+                            lastDeepSleep++;
+                        }
+                    }
+                }
+
                 switch (type) {
                     case ActivityKind.TYPE_DEEP_SLEEP:
                         if (last_type != type) { //FIXME: this is ugly but it works (repeated in each case)

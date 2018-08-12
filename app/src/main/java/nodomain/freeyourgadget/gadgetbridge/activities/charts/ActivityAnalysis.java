@@ -18,6 +18,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -44,9 +45,30 @@ class ActivityAnalysis {
 
         ActivityAmount previousAmount = null;
         ActivitySample previousSample = null;
+        byte lastDeepSleep = 0;
+
         for (ActivitySample sample : samples) {
+
+            float movement = sample.getIntensity();
+            int type = sample.getKind();
+            float value = movement;
+
+            if(type == ActivityKind.TYPE_DEEP_SLEEP || type == ActivityKind.TYPE_LIGHT_SLEEP){
+                if(value > 0.07f){
+                    type = ActivityKind.TYPE_LIGHT_SLEEP;
+                }else{
+                    if (lastDeepSleep >= 10 || previousSample.getKind() == ActivityKind.TYPE_DEEP_SLEEP){
+                        type = ActivityKind.TYPE_DEEP_SLEEP;
+                        lastDeepSleep = 0;
+                    }else{
+                        type = ActivityKind.TYPE_LIGHT_SLEEP;
+                        lastDeepSleep++;
+                    }
+                }
+            }
+
             ActivityAmount amount;
-            switch (sample.getKind()) {
+            switch (type) {
                 case ActivityKind.TYPE_DEEP_SLEEP:
                     amount = deepSleep;
                     break;
