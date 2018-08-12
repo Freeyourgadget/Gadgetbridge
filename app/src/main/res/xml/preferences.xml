@@ -212,6 +212,13 @@
         <PreferenceScreen
             android:icon="@drawable/ic_device_miband2"
             android:title="@string/preferences_miband3_settings">
+            <ListPreference
+                android:defaultValue="auto"
+                android:entries="@array/pref_miband3_language"
+                android:entryValues="@array/pref_miband3_language_values"
+                android:key="miband3_language"
+                android:summary="%s"
+                android:title="@string/pref_title_language" />
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="mi3_band_screen_unlock"

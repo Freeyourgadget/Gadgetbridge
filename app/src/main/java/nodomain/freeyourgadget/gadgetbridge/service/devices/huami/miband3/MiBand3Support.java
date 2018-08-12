@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -101,6 +102,29 @@ public class MiBand3Support extends AmazfitBipSupport {
         } catch (IOException e) {
             GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR, e);
         }
+    }
+
+    @Override
+    protected MiBand3Support setLanguage(TransactionBuilder builder) {
+        String localeString = GBApplication.getPrefs().getString("miband3_language", "auto");
+
+        if (localeString.equals("auto")) {
+            String language = Locale.getDefault().getLanguage();
+            String country = Locale.getDefault().getCountry();
+
+            if (country == null) {
+                // sometimes country is null, no idea why, guess it.
+                country = language;
+            }
+            localeString = language + "_" + country.toUpperCase();
+        }
+        LOG.info("Setting device to locale: " + localeString);
+        byte[] command_new = HuamiService.COMMAND_SET_LANGUAGE_NEW_TEMPLATE.clone();
+        System.arraycopy(localeString.getBytes(), 0, command_new, 3, localeString.getBytes().length);
+
+        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), command_new);
+
+        return this;
     }
 
     private MiBand3Support setBandScreenUnlock(TransactionBuilder builder) {

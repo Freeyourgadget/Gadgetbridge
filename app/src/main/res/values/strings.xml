@@ -434,6 +434,12 @@
     <string name="english">English</string>
     <string name="spanish">Spanish</string>
     <string name="russian">Russian</string>
+    <string name="german">German</string>
+    <string name="italian">Italian</string>
+    <string name="french">French</string>
+    <string name="polish">Polish</string>
+    <string name="korean">Korean</string>
+    <string name="japanese">Japanese</string>
 
     <string name="FetchActivityOperation_about_to_transfer_since">About to transfer data since %1$s</string>
 

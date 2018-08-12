@@ -411,7 +411,7 @@ public class AmazfitBipSupport extends HuamiSupport {
         return this;
     }
 
-    private AmazfitBipSupport setLanguage(TransactionBuilder builder) {
+    protected AmazfitBipSupport setLanguage(TransactionBuilder builder) {
 
         String language = Locale.getDefault().getLanguage();
         String country = Locale.getDefault().getCountry();
@@ -468,14 +468,13 @@ public class AmazfitBipSupport extends HuamiSupport {
                         break;
                 }
         }
-        command_new = AmazfitBipService.COMMAND_SET_LANGUAGE_NEW_TEMPLATE;
+        command_new = HuamiService.COMMAND_SET_LANGUAGE_NEW_TEMPLATE.clone();
         System.arraycopy(localeString.getBytes(), 0, command_new, 3, localeString.getBytes().length);
 
         builder.add(new ConditionalWriteAction(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION)) {
             @Override
             protected byte[] checkCondition() {
-                if (gbDevice.getType() == DeviceType.MIBAND3 ||
-                        (gbDevice.getType() == DeviceType.AMAZFITBIP && new Version(gbDevice.getFirmwareVersion()).compareTo(new Version("0.1.0.77")) >= 0) ||
+                if ((gbDevice.getType() == DeviceType.AMAZFITBIP && new Version(gbDevice.getFirmwareVersion()).compareTo(new Version("0.1.0.77")) >= 0) ||
                         (gbDevice.getType() == DeviceType.AMAZFITCOR && new Version(gbDevice.getFirmwareVersion()).compareTo(new Version("1.0.7.23")) >= 0)) {
                     return command_new;
                 } else {
