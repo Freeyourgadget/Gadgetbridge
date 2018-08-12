@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="0.29.0" versioncode="137">
+    <release version="0.29.0" versioncode="136">
         <change>New Device: Initial support for ID115</change>
         <change>New Device: Initial support for Lenovo Watch9</change>
         <change>Show splash screen during startup</change>
