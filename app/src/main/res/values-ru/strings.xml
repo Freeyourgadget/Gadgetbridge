@@ -588,4 +588,12 @@
     <string name="title_activity_watch9_calibration">Калибровка Watch 9</string>
 <string name="mi3_prefs_band_screen_unlock">Разблокировать экран устройства</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Смахните вверх, чтобы разблокировать экран устройства</string>
-</resources>
+
+    <string name="german">Немецкий язык</string>
+    <string name="italian">Итальянский язык</string>
+    <string name="french">Французский язык</string>
+    <string name="polish">Польский язык</string>
+    <string name="korean">Корейский язык</string>
+    <string name="japanese">Японский язык</string>
+
+    </resources>
