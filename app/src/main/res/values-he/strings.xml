@@ -584,4 +584,11 @@
     <string name="title_activity_watch9_calibration">כיול Watch 9</string>
 <string name="mi3_prefs_band_screen_unlock">שחרור נעילת מסך הצמיד</string>
     <string name="mi3_prefs_band_screen_unlock_summary">יש לגרור כלפי מעלה כדי לשחרר את נעילת המסך של הצמיד</string>
+    <string name="german">גרמנית</string>
+    <string name="italian">איטלקית</string>
+    <string name="french">צרפתית</string>
+    <string name="polish">פולנית</string>
+    <string name="korean">קוריאנית</string>
+    <string name="japanese">יפנית</string>
+
     </resources>
