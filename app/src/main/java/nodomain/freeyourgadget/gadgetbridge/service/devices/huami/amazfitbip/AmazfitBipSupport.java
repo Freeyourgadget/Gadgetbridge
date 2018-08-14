@@ -34,10 +34,10 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiWeatherConditions;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -238,7 +238,12 @@ public class AmazfitBipSupport extends HuamiSupport {
                 buf.put((byte) 0);
             }
 
-            builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+            if (characteristicChunked != null) {
+                writeToChunked(builder, 1, buf.array());
+            } else {
+                builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+            }
+
             builder.queue(getQueue());
         } catch (Exception ex) {
             LOG.error("Error sending current weather", ex);
@@ -263,7 +268,13 @@ public class AmazfitBipSupport extends HuamiSupport {
                     buf.put(aqiString.getBytes());
                     buf.put((byte) 0);
                 }
-                builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+
+                if (characteristicChunked != null) {
+                    writeToChunked(builder, 1, buf.array());
+                } else {
+                    builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+                }
+
                 builder.queue(getQueue());
             } catch (IOException ex) {
                 LOG.error("Error sending air quality");
@@ -400,7 +411,7 @@ public class AmazfitBipSupport extends HuamiSupport {
         return this;
     }
 
-    private AmazfitBipSupport setLanguage(TransactionBuilder builder) {
+    protected AmazfitBipSupport setLanguage(TransactionBuilder builder) {
 
         String language = Locale.getDefault().getLanguage();
         String country = Locale.getDefault().getCountry();
@@ -457,14 +468,13 @@ public class AmazfitBipSupport extends HuamiSupport {
                         break;
                 }
         }
-        command_new = AmazfitBipService.COMMAND_SET_LANGUAGE_NEW_TEMPLATE;
+        command_new = HuamiService.COMMAND_SET_LANGUAGE_NEW_TEMPLATE.clone();
         System.arraycopy(localeString.getBytes(), 0, command_new, 3, localeString.getBytes().length);
 
         builder.add(new ConditionalWriteAction(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION)) {
             @Override
             protected byte[] checkCondition() {
-                if (gbDevice.getType() == DeviceType.MIBAND3 ||
-                        (gbDevice.getType() == DeviceType.AMAZFITBIP && new Version(gbDevice.getFirmwareVersion()).compareTo(new Version("0.1.0.77")) >= 0) ||
+                if ((gbDevice.getType() == DeviceType.AMAZFITBIP && new Version(gbDevice.getFirmwareVersion()).compareTo(new Version("0.1.0.77")) >= 0) ||
                         (gbDevice.getType() == DeviceType.AMAZFITCOR && new Version(gbDevice.getFirmwareVersion()).compareTo(new Version("1.0.7.23")) >= 0)) {
                     return command_new;
                 } else {

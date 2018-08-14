@@ -129,4 +129,9 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     public boolean supportsActivityTracks() {
         return false;
     }
+
+    @Override
+    public boolean supportsMusicInfo() {
+        return false;
+    }
 }

@@ -185,7 +185,7 @@
             android:key="pref_key_miband"
             android:title="@string/preferences_miband_settings" />
         <PreferenceScreen
-            android:icon="@drawable/ic_device_miband"
+            android:icon="@drawable/ic_device_miband2"
             android:title="@string/preferences_miband2_settings">
             <CheckBoxPreference
                 android:defaultValue="true"
@@ -209,10 +209,22 @@
                 android:summary="@string/mi2_prefs_display_items_summary"
                 android:title="@string/mi2_prefs_display_items"/>
         </PreferenceScreen>
-<!--
+
         <PreferenceScreen
-            android:icon="@drawable/ic_device_miband"
+            android:icon="@drawable/ic_device_miband2"
             android:title="@string/preferences_miband3_settings">
+            <ListPreference
+                android:defaultValue="auto"
+                android:entries="@array/pref_miband3_language"
+                android:entryValues="@array/pref_miband3_language_values"
+                android:key="miband3_language"
+                android:summary="%s"
+                android:title="@string/pref_title_language" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="mi3_band_screen_unlock"
+                android:summary="@string/mi3_prefs_band_screen_unlock_summary"
+                android:title="@string/mi3_prefs_band_screen_unlock" />
             <MultiSelectListPreference
                 android:dialogTitle="@string/mi2_prefs_display_items"
                 android:defaultValue="@array/pref_miband3_display_items_default"
@@ -222,7 +234,6 @@
                 android:summary="@string/mi2_prefs_display_items_summary"
                 android:title="@string/mi2_prefs_display_items"/>
         </PreferenceScreen>
--->
         <PreferenceScreen
             android:icon="@drawable/ic_device_hplus"
             android:title="@string/preferences_amazfitbip_settings">

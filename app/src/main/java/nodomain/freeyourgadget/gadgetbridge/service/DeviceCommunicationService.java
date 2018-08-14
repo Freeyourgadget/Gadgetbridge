@@ -640,7 +640,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mPebbleReceiver = new PebbleReceiver();
                 registerReceiver(mPebbleReceiver, new IntentFilter("com.getpebble.action.SEND_NOTIFICATION"));
             }
-            if (mMusicPlaybackReceiver == null) {
+            if (mMusicPlaybackReceiver == null && coordinator != null && coordinator.supportsMusicInfo()) {
                 mMusicPlaybackReceiver = new MusicPlaybackReceiver();
                 IntentFilter filter = new IntentFilter();
                 for (String action : mMusicActions) {
@@ -668,6 +668,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 IntentFilter filter = new IntentFilter();
                 filter.addAction(AlarmClockReceiver.ALARM_ALERT_ACTION);
                 filter.addAction(AlarmClockReceiver.ALARM_DONE_ACTION);
+                filter.addAction(AlarmClockReceiver.GOOGLE_CLOCK_ALARM_ALERT_ACTION);
+                filter.addAction(AlarmClockReceiver.GOOGLE_CLOCK_ALARM_DONE_ACTION);
                 registerReceiver(mAlarmClockReceiver, filter);
             }
             if (mCMWeatherReceiver == null && coordinator != null && coordinator.supportsWeather()) {

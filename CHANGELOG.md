@@ -1,5 +1,24 @@
 ### Changelog
 
+#### Version 0.29.0
+* New Device: Initial support for ID115
+* New Device: Initial support for Lenovo Watch9
+* Show splash screen during startup
+* Vertically align device icon in main activity
+* Try to support the google clock application (untested)
+* Amazfit Cor: Allow to configure displayed menu items
+* Amazfit Cor: Support basic music control
+* Amazfit Cor: Fix flashing font files
+* Amazfit Bip: improved GPX export
+* Amazfit Bip: Fix exported GPX file names for *FAT storage
+* Amazfit Bip: Fix current weather not being displayed with later firmwares
+* Amazfit Bip/Cor: Try to fix device being sometimes stuck in connecting state
+* Mi Band 2: Put some device specific settings into its own settings category
+* Mi Band 3: Support disabling of on-device menu items
+* Mi Band 3: Support locking the Mi Band sceen (swipe up to unlock)
+* Mi Band 2/3: New icon
+* NO1 F1: Set time during initialization
+
 #### Version 0.28.1
 * Fix wrong weather icon mapping in rare cases
 * Fix device discovery on Android 4.4
@@ -8,7 +27,7 @@
 * Amazfit Bip: Fix weather on latest firmwares
 
 #### Version 0.28.0
-* Initial support for ZeTime
+* Initial support for ZeTime: time, weather and activity data sync, notification support and music playback control is working
 * Amazfit Bip/Cor: Rework firmware detection to cope with new version scheme
 * Amazfit Bip: Support setting language to Russian
 * Amazfit Cor: Support language switching on newer firmwares

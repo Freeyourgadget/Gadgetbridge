@@ -363,4 +363,5 @@
     <string name="activity_type_running">Bieg</string>
     <string name="activity_type_swimming">Pływanie</string>
     <string name="activity_type_treadmill">Bieżnia</string>
+    <string name="controlcenter_connect">Połącz</string>
     </resources>

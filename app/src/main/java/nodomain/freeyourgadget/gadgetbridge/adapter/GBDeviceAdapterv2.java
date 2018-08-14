@@ -50,6 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.VibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
+import nodomain.freeyourgadget.gadgetbridge.devices.watch9.Watch9CalibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
@@ -290,6 +291,16 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
 
         );
 
+        holder.calibrateDevice.setVisibility(device.isInitialized() && device.getType() == DeviceType.WATCH9 ? View.VISIBLE : View.GONE);
+        holder.calibrateDevice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = new Intent(context, Watch9CalibrationActivity.class);
+                startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                context.startActivity(startIntent);
+            }
+        });
+
         //remove device, hidden under details
         holder.removeDevice.setOnClickListener(new View.OnClickListener()
 
@@ -354,6 +365,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         ImageView setAlarmsView;
         ImageView showActivityGraphs;
         ImageView showActivityTracks;
+        ImageView calibrateDevice;
 
         ImageView deviceInfoView;
         //overflow
@@ -383,6 +395,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             showActivityGraphs = view.findViewById(R.id.device_action_show_activity_graphs);
             showActivityTracks = view.findViewById(R.id.device_action_show_activity_tracks);
             deviceInfoView = view.findViewById(R.id.device_info_image);
+            calibrateDevice = view.findViewById(R.id.device_action_calibrate);
 
             deviceInfoBox = view.findViewById(R.id.device_item_infos_box);
             //overflow

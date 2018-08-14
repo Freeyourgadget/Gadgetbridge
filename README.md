@@ -22,20 +22,22 @@ vendor's servers.
 [List of changes](https://github.com/Freeyourgadget/Gadgetbridge/blob/master/CHANGELOG.md)
 
 ## Supported Devices
-* Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble)
-* Pebble 2 [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble)
-* Mi Band, Mi Band 1A, Mi Band 1S [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band)
-* Mi Band 2 [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2)
-* Mi Band 3 [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-3)
 * Amazfit Bip [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
 * Amazfit Cor (no maintainer) [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor)
 * HPlus Devices (e.g. ZeBand) [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/HPlus)
-* Teclast H10, H30 (WIP)
+* ID115 (WIP)
+* Lenovo Watch 9 (WIP)
+* Liveview (WIP)
+* Mi Band, Mi Band 1A, Mi Band 1S [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band)
+* Mi Band 2 [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2)
+* Mi Band 3 [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-3)
 * NO.1 F1 (WIP)
-* ZeTime (WIP)
-* Liveview
-* Vibratissimo (experimental)
+* Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble)
+* Pebble 2 [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble)
+* Teclast H10, H30 (WIP)
 * XWatch (Affordable Chinese Casio-like smartwatches)
+* Vibratissimo (experimental)
+* ZeTime (WIP)
 
 ## Features
 
@@ -96,6 +98,8 @@ For more information read [this wiki article](https://github.com/Freeyourgadget/
 * Sami Alaoui (Teclast H30)
 * "ladbsoft" (XWatch)
 * Sebastian Kranz (ZeTime)
+* Vadim Kaushan (ID115)
+* "maxirnilian" (Lenovo Watch 9)
 
 ## Contribute
 
