@@ -20,6 +20,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -164,9 +165,9 @@ public class SleepChartFragment extends AbstractChartFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_sleepchart, container, false);
 
-        mActivityChart = (LineChart) rootView.findViewById(R.id.sleepchart);
-        mSleepAmountChart = (PieChart) rootView.findViewById(R.id.sleepchart_pie_light_deep);
-        mSleepchartInfo = (TextView) rootView.findViewById(R.id.sleepchart_info);
+        mActivityChart = rootView.findViewById(R.id.sleepchart);
+        mSleepAmountChart = rootView.findViewById(R.id.sleepchart_pie_light_deep);
+        mSleepchartInfo = rootView.findViewById(R.id.sleepchart_info);
 
         setupActivityChart();
         setupSleepAmountChart();
@@ -275,10 +276,10 @@ public class SleepChartFragment extends AbstractChartFragment {
     private static class MySleepChartsData extends ChartsData {
         private String totalSleep;
         private final PieData pieData;
-        private Date startSleep;
-        private Date endSleep;
+        private @Nullable Date startSleep;
+        private @Nullable Date endSleep;
 
-        public MySleepChartsData(String totalSleep, PieData pieData, Date startSleep, Date endSleep) {
+        public MySleepChartsData(String totalSleep, PieData pieData, @Nullable Date startSleep, @Nullable Date endSleep) {
             this.totalSleep = totalSleep;
             this.pieData = pieData;
             this.startSleep = startSleep;
@@ -293,10 +294,12 @@ public class SleepChartFragment extends AbstractChartFragment {
             return totalSleep;
         }
 
+        @Nullable
         public Date getStartSleep() {
             return startSleep;
         }
 
+        @Nullable
         public Date getEndSleep() {
             return endSleep;
         }
