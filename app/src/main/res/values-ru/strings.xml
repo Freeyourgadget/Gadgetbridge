@@ -287,6 +287,8 @@
   <string name="abstract_chart_fragment_kind_light_sleep">Быстрый сон</string>
   <string name="abstract_chart_fragment_kind_deep_sleep">Глубокий сон</string>
   <string name="abstract_chart_fragment_kind_not_worn">Не носилось</string>
+  <string name="you_slept">Вы спали с %1$s до %2$s</string>
+  <string name="you_did_not_sleep">Вы не спали</string>
   <string name="device_not_connected">Не подключен.</string>
   <string name="user_feedback_all_alarms_disabled">Все будильники отключены</string>
   <string name="pref_title_keep_data_on_device">Хранить данные об активности на устройстве</string>
@@ -586,4 +588,4 @@
     <string name="title_activity_watch9_calibration">Калибровка Watch 9</string>
 <string name="mi3_prefs_band_screen_unlock">Разблокировать экран устройства</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Смахните вверх, чтобы разблокировать экран устройства</string>
-    </resources>
+</resources>
