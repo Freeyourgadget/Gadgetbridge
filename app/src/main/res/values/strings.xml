@@ -386,6 +386,8 @@
     <string name="abstract_chart_fragment_kind_light_sleep">Light sleep</string>
     <string name="abstract_chart_fragment_kind_deep_sleep">Deep sleep</string>
     <string name="abstract_chart_fragment_kind_not_worn">Not worn</string>
+    <string name="you_slept">You slept from %1$s to %2$s</string>
+    <string name="you_did_not_sleep">You did not sleep</string>
     <string name="device_not_connected">Not connected.</string>
     <string name="user_feedback_all_alarms_disabled">All alarms disabled</string>
     <string name="pref_title_keep_data_on_device">Keep activity data on device</string>
