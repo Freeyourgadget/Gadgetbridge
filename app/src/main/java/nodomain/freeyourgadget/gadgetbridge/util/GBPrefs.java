@@ -38,6 +38,9 @@ public class GBPrefs {
     public static final String USER_NAME_DEFAULT = "gadgetbridge-user";
     private static final String USER_BIRTHDAY = "";
 
+    public static final String CHART_MAX_HEART_RATE = "chart_max_heart_rate";
+    public static final String CHART_MIN_HEART_RATE = "chart_min_heart_rate";
+
     private final Prefs mPrefs;
 
     public GBPrefs(Prefs prefs) {

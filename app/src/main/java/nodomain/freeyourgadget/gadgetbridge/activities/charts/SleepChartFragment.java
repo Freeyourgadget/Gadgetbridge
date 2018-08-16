@@ -233,8 +233,8 @@ public class SleepChartFragment extends AbstractChartFragment {
         yAxisRight.setDrawLabels(true);
         yAxisRight.setDrawTopYLabelEntry(true);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
-        yAxisRight.setAxisMaxValue(HeartRateUtils.MAX_HEART_RATE_VALUE);
-        yAxisRight.setAxisMinValue(HeartRateUtils.MIN_HEART_RATE_VALUE);
+        yAxisRight.setAxisMaxValue(HeartRateUtils.getInstance().getMaxHeartRate());
+        yAxisRight.setAxisMinValue(HeartRateUtils.getInstance().getMinHeartRate());
     }
 
     @Override
