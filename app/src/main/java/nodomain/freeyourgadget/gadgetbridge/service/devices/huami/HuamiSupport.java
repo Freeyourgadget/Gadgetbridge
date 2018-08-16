@@ -769,7 +769,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         if (characteristicChunked == null) {
             return;
         }
-        if (bufferMusicSpec == null && bufferMusicStateSpec == null) {
+        if (bufferMusicSpec == null || bufferMusicStateSpec == null) {
             try {
                 TransactionBuilder builder = performInitialized("send dummy playback info to enable music controls");
                 writeToChunked(builder, 3, new byte[]{1, 0, 1, 0, 0, 0, 1, 0});
