@@ -53,15 +53,15 @@ public class AlarmDetails extends AbstractGBActivity {
         alarm = getIntent().getParcelableExtra("alarm");
         device = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
 
-        timePicker = (TimePicker) findViewById(R.id.alarm_time_picker);
-        cbSmartWakeup = (CheckedTextView) findViewById(R.id.alarm_cb_smart_wakeup);
-        cbMonday = (CheckedTextView) findViewById(R.id.alarm_cb_monday);
-        cbTuesday = (CheckedTextView) findViewById(R.id.alarm_cb_tuesday);
-        cbWednesday = (CheckedTextView) findViewById(R.id.alarm_cb_wednesday);
-        cbThursday = (CheckedTextView) findViewById(R.id.alarm_cb_thursday);
-        cbFriday = (CheckedTextView) findViewById(R.id.alarm_cb_friday);
-        cbSaturday = (CheckedTextView) findViewById(R.id.alarm_cb_saturday);
-        cbSunday = (CheckedTextView) findViewById(R.id.alarm_cb_sunday);
+        timePicker = findViewById(R.id.alarm_time_picker);
+        cbSmartWakeup = findViewById(R.id.alarm_cb_smart_wakeup);
+        cbMonday = findViewById(R.id.alarm_cb_monday);
+        cbTuesday = findViewById(R.id.alarm_cb_tuesday);
+        cbWednesday = findViewById(R.id.alarm_cb_wednesday);
+        cbThursday = findViewById(R.id.alarm_cb_thursday);
+        cbFriday = findViewById(R.id.alarm_cb_friday);
+        cbSaturday = findViewById(R.id.alarm_cb_saturday);
+        cbSunday = findViewById(R.id.alarm_cb_sunday);
 
 
         cbSmartWakeup.setOnClickListener(new View.OnClickListener() {
