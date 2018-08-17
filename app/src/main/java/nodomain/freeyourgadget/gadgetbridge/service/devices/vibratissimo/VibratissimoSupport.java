@@ -18,12 +18,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.vibratissimo;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
-import android.support.v4.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.IntentListener;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 
@@ -56,9 +53,9 @@ public class VibratissimoSupport extends AbstractBTLEDeviceSupport {
     private final BatteryInfoProfile<VibratissimoSupport> batteryInfoProfile;
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private final IntentListener mListener = new IntentListener() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void notify(Intent intent) {
             String s = intent.getAction();
             if (s.equals(DeviceInfoProfile.ACTION_DEVICE_INFO)) {
                 handleDeviceInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo) intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO));
@@ -77,27 +74,16 @@ public class VibratissimoSupport extends AbstractBTLEDeviceSupport {
         addSupportedService(UUID.fromString("00001523-1212-efde-1523-785feabcd123"));
 
         deviceInfoProfile = new DeviceInfoProfile<>(this);
+        deviceInfoProfile.addListener(mListener);
         batteryInfoProfile = new BatteryInfoProfile<>(this);
+        batteryInfoProfile.addListener(mListener);
         addSupportedProfile(deviceInfoProfile);
         addSupportedProfile(batteryInfoProfile);
-
-        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getContext());
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(BatteryInfoProfile.ACTION_BATTERY_INFO);
-        intentFilter.addAction(DeviceInfoProfile.ACTION_DEVICE_INFO);
-        broadcastManager.registerReceiver(mReceiver, intentFilter);
     }
 
     private void handleBatteryInfo(nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfo info) {
         batteryCmd.level = (short) info.getPercentCharged();
         handleGBDeviceEvent(batteryCmd);
-    }
-
-    @Override
-    public void dispose() {
-        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getContext());
-        broadcastManager.unregisterReceiver(mReceiver);
-        super.dispose();
     }
 
     @Override
