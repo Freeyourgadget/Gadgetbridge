@@ -35,6 +35,7 @@
 
     <item name="p_off" type="string">off</item>
     <item name="p_on" type="string">on</item>
+    <item name="p_sunset" type="string">sunset</item>
     <item name="p_automatic" type="string">automatic</item>
     <item name="p_scheduled" type="string">scheduled</item>
 
