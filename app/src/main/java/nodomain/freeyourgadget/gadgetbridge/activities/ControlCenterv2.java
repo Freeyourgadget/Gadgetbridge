@@ -87,7 +87,12 @@ public class ControlCenterv2 extends AppCompatActivity
                     finish();
                     break;
                 case DeviceManager.ACTION_DEVICES_CHANGED:
-                    refreshPairedDevices();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            refreshPairedDevices();
+                        }
+                    });
                     break;
             }
         }
