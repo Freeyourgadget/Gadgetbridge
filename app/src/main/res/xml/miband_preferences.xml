@@ -222,6 +222,11 @@
             android:title="@string/mi2_prefs_do_not_disturb"
             android:summary="%s" />
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="mi2_do_not_disturb_lift_wrist"
+            android:title="@string/mi2_prefs_do_not_disturb_lift_wrist" />
+
         <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
             android:defaultValue="01:00"
             android:key="mi2_do_not_disturb_start"

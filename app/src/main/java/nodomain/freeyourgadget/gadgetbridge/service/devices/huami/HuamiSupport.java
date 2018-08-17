@@ -1517,6 +1517,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case MiBandConst.PREF_MI2_DO_NOT_DISTURB:
                 case MiBandConst.PREF_MI2_DO_NOT_DISTURB_START:
                 case MiBandConst.PREF_MI2_DO_NOT_DISTURB_END:
+                case MiBandConst.PREF_MI2_DO_NOT_DISTURB_LIFT_WRIST:
                     setDoNotDisturb(builder);
                     break;
                 case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS:
@@ -1665,16 +1666,19 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     private HuamiSupport setDoNotDisturb(TransactionBuilder builder) {
         DoNotDisturb doNotDisturb = HuamiCoordinator.getDoNotDisturb(getContext());
-        LOG.info("Setting do not disturb to " + doNotDisturb);
+        boolean doNotDisturbLiftWrist = HuamiCoordinator.getDoNotDisturbLiftWrist();
+        LOG.info("Setting do not disturb to " + doNotDisturb + ", wake on lift wrist " + doNotDisturbLiftWrist);
+        byte[] data = null;
+
         switch (doNotDisturb) {
             case OFF:
-                builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), HuamiService.COMMAND_DO_NOT_DISTURB_OFF);
+                data = HuamiService.COMMAND_DO_NOT_DISTURB_OFF.clone();
                 break;
             case AUTOMATIC:
-                builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), HuamiService.COMMAND_DO_NOT_DISTURB_AUTOMATIC);
+                data = HuamiService.COMMAND_DO_NOT_DISTURB_AUTOMATIC.clone();
                 break;
             case SCHEDULED:
-                byte[] data = HuamiService.COMMAND_DO_NOT_DISTURB_SCHEDULED.clone();
+                data = HuamiService.COMMAND_DO_NOT_DISTURB_SCHEDULED.clone();
 
                 Calendar calendar = GregorianCalendar.getInstance();
 
@@ -1691,6 +1695,14 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), data);
 
                 break;
+        }
+
+        if (data != null) {
+            if (doNotDisturbLiftWrist && doNotDisturb != DoNotDisturb.OFF) {
+                data[1] &= ~0x80;
+            }
+
+            builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), data);
         }
 
         return this;

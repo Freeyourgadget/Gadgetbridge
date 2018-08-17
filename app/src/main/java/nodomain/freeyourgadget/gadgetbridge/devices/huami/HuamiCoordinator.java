@@ -254,6 +254,11 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return DoNotDisturb.OFF;
     }
 
+    public static boolean getDoNotDisturbLiftWrist() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getBoolean(MiBandConst.PREF_MI2_DO_NOT_DISTURB_LIFT_WRIST, false);
+    }
+
     @Override
     public boolean supportsScreenshots() {
         return false;

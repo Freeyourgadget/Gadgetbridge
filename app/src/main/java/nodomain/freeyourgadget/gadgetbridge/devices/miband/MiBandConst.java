@@ -60,6 +60,7 @@ public final class MiBandConst {
     public static final String PREF_MI2_DO_NOT_DISTURB_SCHEDULED = "scheduled";
     public static final String PREF_MI2_DO_NOT_DISTURB_START = "mi2_do_not_disturb_start";
     public static final String PREF_MI2_DO_NOT_DISTURB_END = "mi2_do_not_disturb_end";
+    public static final String PREF_MI2_DO_NOT_DISTURB_LIFT_WRIST = "mi2_do_not_disturb_lift_wrist";
     public static final String PREF_MI2_INACTIVITY_WARNINGS = "mi2_inactivity_warnings";
     public static final String PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD = "mi2_inactivity_warnings_threshold";
     public static final String PREF_MI2_INACTIVITY_WARNINGS_START = "mi2_inactivity_warnings_start";
