@@ -209,7 +209,7 @@ public class ITagSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onFetchActivityData() {
+    public void onFetchRecordedData(int dataTypes) {
 
     }
 
