@@ -94,6 +94,7 @@
     <string name="pref_title_notifications_repetitions">Repetitions</string>
     <string name="pref_title_notifications_call">Phone Calls</string>
     <string name="pref_title_notifications_sms">SMS</string>
+    <string name="pref_title_notifications_timeout">Minimum time between notifications</string>
     <string name="pref_title_notifications_pebblemsg">Pebble Messages</string>
     <string name="pref_summary_notifications_pebblemsg">Support for apps that send notifications to the Pebble via PebbleKit.</string>
     <string name="pref_title_notifications_generic">Generic notification support</string>
@@ -368,6 +369,15 @@
     <string name="heart_rate">Heart rate</string>
     <string name="battery">Battery</string>
 
+    <string name="no_limit">No limit</string>
+    <string name="seconds_5">5 seconds</string>
+    <string name="seconds_10">10 seconds</string>
+    <string name="seconds_20">20 seconds</string>
+    <string name="seconds_30">30 seconds</string>
+    <string name="minutes_1">1 minute</string>
+    <string name="minutes_5">5 minutes</string>
+    <string name="minutes_10">10 minutes</string>
+    <string name="minutes_30">30 minutes</string>
 
     <string name="liveactivity_live_activity">Live activity</string>
     <string name="weeksteps_today_steps_description">Steps today, target: %1$s</string>

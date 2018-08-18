@@ -387,4 +387,28 @@
         <item>1800</item>
         <item>3600</item>
     </string-array>
+
+    <string-array name="notifications_timeout">
+        <item>@string/no_limit</item>
+        <item>@string/seconds_5</item>
+        <item>@string/seconds_10</item>
+        <item>@string/seconds_20</item>
+        <item>@string/seconds_30</item>
+        <item>@string/minutes_1</item>
+        <item>@string/minutes_5</item>
+        <item>@string/minutes_10</item>
+        <item>@string/minutes_30</item>
+    </string-array>
+    <string-array name="notifications_timeout_values">
+        <item>0</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>60</item>
+        <item>300</item>
+        <item>600</item>
+        <item>1800</item>
+    </string-array>
+
 </resources>
