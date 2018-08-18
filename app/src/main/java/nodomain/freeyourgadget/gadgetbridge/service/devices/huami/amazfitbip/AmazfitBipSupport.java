@@ -19,6 +19,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 
 import org.slf4j.Logger;
@@ -92,11 +94,8 @@ public class AmazfitBipSupport extends HuamiSupport {
 
         try {
             TransactionBuilder builder = performInitialized("new notification");
-            AlertNotificationProfile<?> profile = new AlertNotificationProfile(this);
-            profile.setMaxLength(230);
 
             byte customIconId = HuamiIcon.mapToIconId(notificationSpec.type);
-
             AlertCategory alertCategory = AlertCategory.CustomHuami;
 
             // The SMS icon for AlertCategory.SMS is unique and not available as iconId
@@ -108,8 +107,55 @@ public class AmazfitBipSupport extends HuamiSupport {
                 alertCategory = AlertCategory.Email;
             }
 
-            NewAlert alert = new NewAlert(alertCategory, 1, message, customIconId);
-            profile.newAlert(builder, alert);
+            int maxLength = 230;
+            if (characteristicChunked != null) {
+                int prefixlength = 2;
+                int suffixlength = 0;
+
+                byte[] appSuffix = null;
+
+                if (alertCategory == AlertCategory.CustomHuami) {
+                    String appName;
+                    prefixlength = 3;
+                    final PackageManager pm = getContext().getPackageManager();
+                    ApplicationInfo ai = null;
+                    try {
+                        ai = pm.getApplicationInfo(notificationSpec.sourceAppId, 0);
+                    } catch (PackageManager.NameNotFoundException ignored) {
+                    }
+
+                    if (ai != null) {
+                        appName = "\0" + pm.getApplicationLabel(ai) + "\0";
+                    } else {
+                        appName = "\0" + "unknown app" + "\0";
+                    }
+                    appSuffix = appName.getBytes();
+                    suffixlength = appSuffix.length;
+                }
+
+                byte[] rawmessage = message.getBytes();
+                int length = Math.min(rawmessage.length, maxLength - prefixlength);
+
+                byte[] command = new byte[length + prefixlength + suffixlength];
+
+                command[0] = (byte) alertCategory.getId();
+                command[1] = 1;
+                if (alertCategory == AlertCategory.CustomHuami) {
+                    command[2] = customIconId;
+                }
+
+                System.arraycopy(rawmessage, 0, command, prefixlength, length);
+                if (appSuffix != null) {
+                    System.arraycopy(appSuffix, 0, command, prefixlength + length, appSuffix.length);
+                }
+
+                writeToChunked(builder, 0, command);
+            } else {
+                AlertNotificationProfile<?> profile = new AlertNotificationProfile(this);
+                NewAlert alert = new NewAlert(alertCategory, 1, message, customIconId);
+                profile.setMaxLength(maxLength);
+                profile.newAlert(builder, alert);
+            }
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to send notification to Amazfit Bip", ex);
