@@ -110,9 +110,10 @@ public class AmazfitBipSupport extends HuamiSupport {
             int maxLength = 230;
             if (characteristicChunked != null) {
                 int prefixlength = 2;
-                int suffixlength = 0;
 
-                byte[] appSuffix = null;
+                // We also need a (fake) source name for Mi Band 3 for SMS/EMAIL, else the message is not displayed
+                byte[] appSuffix = "\0 \0".getBytes();
+                int suffixlength = appSuffix.length;
 
                 if (alertCategory == AlertCategory.CustomHuami) {
                     String appName;
@@ -127,7 +128,7 @@ public class AmazfitBipSupport extends HuamiSupport {
                     if (ai != null) {
                         appName = "\0" + pm.getApplicationLabel(ai) + "\0";
                     } else {
-                        appName = "\0" + "unknown app" + "\0";
+                        appName = "\0" + "UNKNOWN" + "\0";
                     }
                     appSuffix = appName.getBytes();
                     suffixlength = appSuffix.length;
@@ -145,9 +146,7 @@ public class AmazfitBipSupport extends HuamiSupport {
                 }
 
                 System.arraycopy(rawmessage, 0, command, prefixlength, length);
-                if (appSuffix != null) {
-                    System.arraycopy(appSuffix, 0, command, prefixlength + length, appSuffix.length);
-                }
+                System.arraycopy(appSuffix, 0, command, prefixlength + length, appSuffix.length);
 
                 writeToChunked(builder, 0, command);
             } else {
