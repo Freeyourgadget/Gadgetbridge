@@ -42,6 +42,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -192,7 +193,11 @@ class PebbleIoThread extends GBDeviceIoThread {
                     for (ParcelUuid uuid : uuids) {
                         LOG.info("found service UUID " + uuid);
                     }
-                    mBtSocket = btDevice.createRfcommSocketToServiceRecord(uuids[0].getUuid());
+
+                    final UUID UuidSDP = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
+                    mBtSocket = btDevice.createRfcommSocketToServiceRecord(UuidSDP);
+
+                    //mBtSocket = btDevice.createRfcommSocketToServiceRecord(uuids[0].getUuid());
                     mBtSocket.connect();
                     mInStream = mBtSocket.getInputStream();
                     mOutStream = mBtSocket.getOutputStream();

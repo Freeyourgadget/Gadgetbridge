@@ -25,8 +25,8 @@ android {
         targetSdkVersion 27
 
         // Note: always bump BOTH versionCode and versionName!
-        versionName "0.25.0"
-        versionCode 124
+        versionName "0.29.0"
+        versionCode 136
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -65,13 +65,13 @@ dependencies {
     testImplementation "org.robolectric:robolectric:3.6.1"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.android.support:appcompat-v7:27.0.2"
-    implementation "com.android.support:cardview-v7:27.0.2"
-    implementation "com.android.support:recyclerview-v7:27.0.2"
-    implementation "com.android.support:support-v4:27.0.2"
-    implementation "com.android.support:gridlayout-v7:27.0.2"
-    implementation "com.android.support:design:27.0.2"
-    implementation "com.android.support:palette-v7:27.0.2"
+    implementation "com.android.support:appcompat-v7:27.1.1"
+    implementation "com.android.support:cardview-v7:27.1.1"
+    implementation "com.android.support:recyclerview-v7:27.1.1"
+    implementation "com.android.support:support-v4:27.1.1"
+    implementation "com.android.support:gridlayout-v7:27.1.1"
+    implementation "com.android.support:design:27.1.1"
+    implementation "com.android.support:palette-v7:27.1.1"
     implementation("com.github.tony19:logback-android-classic:1.1.1-6") {
         exclude group: "com.google.android", module: "android"
     }

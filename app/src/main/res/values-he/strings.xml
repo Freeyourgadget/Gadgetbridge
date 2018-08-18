@@ -33,7 +33,7 @@
   <string name="app_configure">הגדרה</string>
   <string name="app_move_to_top">העברה למעלה</string>
   <!--Strings related to AppBlacklist-->
-  <string name="title_activity_appblacklist">רשימת התרעות חסומות</string>
+  <string name="title_activity_appblacklist">רשימת התראות חסומות</string>
   <!--Strings related to CalBlacklist-->
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">התקנת קושחה/יישומון</string>
@@ -47,8 +47,8 @@
   <string name="pref_header_general">הגדרות כלליות</string>
   <string name="pref_title_general_autoconnectonbluetooth">התחברות להתקן כאשר ה־Bluetooth פועל</string>
   <string name="pref_title_general_autostartonboot">התחלה אוטומטית</string>
-  <string name="pref_title_general_autocreonnect">התחברות אוטומטית מחדש</string>
-  <string name="pref_title_audo_player">נגן מדיה מועדף</string>
+  <string name="pref_title_general_autoreconnect">התחברות אוטומטית מחדש</string>
+  <string name="pref_title_audio_player">נגן מדיה מועדף</string>
   <string name="pref_default">בררת מחדל</string>
   <string name="pref_header_datetime">שעה ותאריך</string>
   <string name="pref_title_datetime_syctimeonconnect">סנכרון השעה</string>
@@ -57,7 +57,7 @@
   <string name="pref_theme_light">בהירה</string>
   <string name="pref_theme_dark">כהה</string>
   <string name="pref_title_language">שפה</string>
-  <string name="pref_title_minimize_priority">הסתרת ההתרעות של Gadgetbridge</string>
+  <string name="pref_title_minimize_priority">הסתרת ההתראות של Gadgetbridge</string>
   <string name="pref_summary_minimize_priority_off">הסמל בשורת המצב והדיווח במסך הנעילה מופיעים</string>
   <string name="pref_summary_minimize_priority_on">הסמל בשורת המצב והדיווח במסך הנעילה מוסתרים</string>
   <string name="pref_header_notifications">דיווחים</string>
@@ -69,7 +69,7 @@
   <string name="pref_title_notifications_generic">תמיכה בדיווחים גנריים</string>
   <string name="pref_title_whenscreenon">…גם כאשר המסך פעיל</string>
   <string name="pref_title_notification_filter">לא להפריע</string>
-  <string name="pref_summary_notification_filter">חסימת שליחה של התרעות בלתי רצויות בזמן שהמצב מכוון על לא להפריע</string>
+  <string name="pref_summary_notification_filter">חסימת שליחה של התראות בלתי רצויות בזמן שהמצב מכוון על לא להפריע</string>
   <string name="pref_title_transliteration">תעתיק</string>
   <string name="always">תמיד</string>
   <string name="when_screen_off">כאשר המסך כבוי</string>
@@ -137,8 +137,8 @@
   <string name="unknown_state">מצב לא ידוע</string>
   <string name="_unknown_">(לא ידוע)</string>
   <string name="test">בדיקה</string>
-  <string name="test_notification">התרעה לבדיקה</string>
-  <string name="this_is_a_test_notification_from_gadgetbridge">זוהי התרעה לבדיקה מ־Gadgetbridge</string>
+  <string name="test_notification">התראה לבדיקה</string>
+  <string name="this_is_a_test_notification_from_gadgetbridge">זוהי התראה לבדיקה מ־Gadgetbridge</string>
   <string name="bluetooth_is_not_supported_">אין תמיכה ב־Bluetooth.</string>
   <string name="bluetooth_is_disabled_">ה־Bluetooth מנוטרל.</string>
   <string name="tap_connected_device_for_app_mananger">נקישה על ההתקן המחובר למנהל היישומים</string>
@@ -200,11 +200,11 @@
   <string name="vibration_profile_alarm_clock">שעון מעורר</string>
   <string name="miband_prefs_vibration">רטט</string>
   <string name="vibration_try">בדיקה</string>
-  <string name="pref_screen_notification_profile_sms">התרעת מסרון</string>
+  <string name="pref_screen_notification_profile_sms">התראת מסרון</string>
   <string name="pref_header_vibration_settings">הגדרות רטט</string>
-  <string name="pref_screen_notification_profile_generic">התרעות כלליות</string>
-  <string name="pref_screen_notification_profile_email">התרעה על דוא״ל</string>
-  <string name="pref_screen_notification_profile_incoming_call">התרעה על שיחה נכנסת</string>
+  <string name="pref_screen_notification_profile_generic">התראות כלליות</string>
+  <string name="pref_screen_notification_profile_email">התראה על דוא״ל</string>
+  <string name="pref_screen_notification_profile_incoming_call">התראה על שיחה נכנסת</string>
   <string name="pref_screen_notification_profile_generic_chat">צ׳אט</string>
   <string name="pref_screen_notification_profile_generic_navigation">ניווט</string>
   <string name="pref_screen_notification_profile_generic_social">רשת חברתית</string>
@@ -283,7 +283,7 @@
   <string name="miband_prefs_reserve_alarm_calendar">התראות לשמירה עבור אירועים עתידיים</string>
   <string name="miband_prefs_hr_sleep_detection">ניתן להשתמש בחיישן הדופק כדי לשפר את איתור השינה</string>
   <string name="miband_prefs_device_time_offset_hours">הפרש זמן בהתקן בשעות (לזיהוי שינה של עובדי משמרות)</string>
-  <string name="miband2_prefs_dateformat">Mi2: תבנית זמן</string>
+  <string name="miband2_prefs_dateformat">תבנית זמן</string>
   <string name="dateformat_time">זמן</string>
   <string name="dateformat_date_time"><![CDATA[זמן ותאריך]]></string>
   <string name="mi2_prefs_activate_display_on_lift">הפעלת התצוגה עם הנפת היד</string>
@@ -299,7 +299,7 @@
   <string name="appwidget_text">חררר</string>
   <string name="add_widget">הוספת וידג׳ט</string>
   <string name="activity_prefs_sleep_duration">משך השינה המועדף בשעות</string>
-  <string name="appwidget_alarms_set">הוגדרה התרעה לשעה %1$02d:%2$02d</string>
+  <string name="appwidget_alarms_set">הוגדרה התראה לשעה %1$02d:%2$02d</string>
   <string name="device_hw">מהדורת חומרה: %1$s</string>
   <string name="device_fw">מהדורת קושחה: %1$s</string>
   <string name="error_creating_directory_for_logfiles">אירעה שגיאה ביצירת תיקייה לקובצי הרישום: %1$s</string>
@@ -375,22 +375,22 @@
     <string name="clock">שעון</string>
     <string name="heart_rate">דופק</string>
     <string name="battery">סוללה</string>
-    <string name="mi2_prefs_goal_notification">התרעת יעד</string>
+    <string name="mi2_prefs_goal_notification">התראת יעד</string>
     <string name="mi2_prefs_goal_notification_summary">הצמיד ירטוט כאשר הגעת ליעד הצעדים היומי</string>
     <string name="mi2_prefs_display_items">הצגת פריטים</string>
     <string name="mi2_prefs_display_items_summary">בחירת הפריטים שיופיעו על מסך הצמיד</string>
     <string name="mi2_prefs_rotate_wrist_to_switch_info">הטיית היד כדי לעבור למצב נתונים אחר</string>
     <string name="mi2_prefs_do_not_disturb">לא להפריע</string>
-    <string name="mi2_prefs_do_not_disturb_summary">הצמיד לא יקבל התרעות בזמן הפעילות</string>
+    <string name="mi2_prefs_do_not_disturb_summary">הצמיד לא יקבל התראות בזמן הפעילות</string>
     <string name="mi2_prefs_inactivity_warnings">אזהרות חוסר פעילות</string>
     <string name="mi2_prefs_inactivity_warnings_summary">הצמיד ירטוט כשלא ביצעת פעילות במשך זמן מה</string>
     <string name="mi2_prefs_inactivity_warnings_threshold">סף חוסר פעילות (בדקות)</string>
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">השבתת אזהרות חוסר הפעילות לפרק זמן מסוים</string>
     <string name="mi2_prefs_do_not_disturb_start">מועד ההתחלה</string>
     <string name="mi2_prefs_do_not_disturb_end">מועד הסיום</string>
-    <string name="fw_upgrade_notice_amazfitbip">ביקשת להתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Amazfit Bip שלך. 
+    <string name="fw_upgrade_notice_amazfitbip">פעולה זו תתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Amazfit Bip שלך. 
 \n 
-\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res ולבסוף קובץ ה־‎.gps השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw.
+\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res ולבסוף קובץ ה־‎.gps השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw. 
 \n 
 \nלתשומת לבך: אין צורך בהתקנת קובצי ה־‎.res וה־‎.gps אם הם כבר זהים לאלו שהתקנת בעבר. 
 \n 
@@ -401,7 +401,7 @@
     <string name="dbmanagementactivity_error_exporting_shared">שגיאה בייצוא ההעדפה: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">שגיאה בייבוא העדפה: %1$s</string>
     <string name="mi2_fw_installhandler_fw53_hint">עליך להתקין את הגרסה %1$s בטרם התקנת קושחה זו!</string>
-    <string name="mi2_enable_text_notifications">התרעות טקסט</string>
+    <string name="mi2_enable_text_notifications">התראות טקסט</string>
     <string name="mi2_enable_text_notifications_summary">נדרשת קושחה &gt;= 1.0.1.28 והקובץ Mili_pro.ft*‎ מותקן.</string>
     <string name="off">כבוי</string>
     <string name="mi2_dnd_off">כבוי</string>
@@ -445,7 +445,7 @@
 \n 
 \nלתשומת לבך: אין צורך להתקין את קובץ ה־‎.res אם הוא זהה לקובץ שהתקנת בעבר. 
 \n 
-\nניסיוני, המשך מעבר לנקודה זו הוא על אחריותך!</string>
+\nהמשך מעבר לנקודה זו הוא על אחריותך!</string>
     <string name="amazfitcor_firmware">קושחה %1$s של Amazfit Cor</string>
     <string name="pref_title_charts_swipe">הפעלת הסטה לימין/שמאל בפעילות התרשימים</string>
 
@@ -500,4 +500,88 @@
     <string name="notification_channel_name">הודעות של Gadgetbridge</string>
 <string name="devicetype_xwatch">XWatch</string>
 
+    <string name="on">פעיל</string>
+    <string name="controlcenter_start_activity_tracks">מסלולי הפעילות שלך</string>
+    <string name="activity_type_not_measured">ללא מדידה</string>
+    <string name="activity_type_activity">פעילות</string>
+    <string name="activity_type_light_sleep">שינה קלה</string>
+    <string name="activity_type_deep_sleep">שינה עמוקה</string>
+    <string name="activity_type_not_worn">ההתקן לא נענד</string>
+    <string name="activity_type_running">ריצה</string>
+    <string name="activity_type_walking">הליכה</string>
+    <string name="activity_type_swimming">שחייה</string>
+    <string name="activity_type_unknown">פעילות לא ידועה</string>
+    <string name="activity_summaries">פעילויות</string>
+    <string name="activity_type_biking">רכיבת אופניים</string>
+    <string name="activity_type_treadmill">הליכון</string>
+
+    <string name="select_all">בחירת הכול</string>
+    <string name="share">שיתוף</string>
+    <string name="reset_index">איפוס מועד הקבלה</string>
+
+    <string name="menuitem_status">מצב</string>
+    <string name="menuitem_activity">פעילות</string>
+    <string name="menuitem_weather">מזג אוויר</string>
+    <string name="menuitem_alarm">שעון מעורר</string>
+    <string name="menuitem_timer">קוצב זמן</string>
+    <string name="menuitem_compass">מצפן</string>
+    <string name="menuitem_settings">הגדרות</string>
+    <string name="menuitem_alipay">Alipay</string>
+<string name="pref_title_pebble_gatt_clientonly">לקוח GATT בלבד</string>
+    <string name="pref_summary_pebble_gatt_clientonly">מצב זה מיועד ל־Pebble 2 והוא ניסיוני, ניתן לנסות זאת אם נתקלת בבעיות חיבור</string>
+    <string name="menuitem_shortcut_alipay">Alipay (קיצור דרך)</string>
+    <string name="menuitem_shortcut_weather">מזג אוויר (קיצור דרך)</string>
+    <string name="devicetype_q8">Q8</string>
+    <string name="fw_upgrade_notice_miband3">פעולה זו תתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Mi Band 3 שלך. 
+\n 
+\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw. 
+\n 
+\nלתשומת לבך: אין צורך בהתקנת קובץ ה־‎.res אם הוא כבר זהה לזה שהתקנת בעבר. 
+\n 
+\nהתהליך לא נבדק, ההתקן שלך עשוי להפסיק לפעול, המשך התהליך הוא על אחריותך!</string>
+    <string name="devicetype_miband3">Mi Band 3</string>
+    <string name="blacklist_all_for_notifications">הוספת כולם לרשימה השחורה של ההתראות</string>
+    <string name="whitelist_all_for_notifications">הוספת כולם לרשימת ההיתר של ההתראות</string>
+
+
+    <string name="pref_auto_fetch">אחזור אוטומטי של נתוני פעילות</string>
+
+    <string name="pref_auto_fetch_summary">האחזור מתבצע בעת שחרור נעילת המסך. עובד רק אם הוגדר מנגנון נעילה!</string>
+
+    <string name="pref_auto_fetch_limit_fetches">זמן מזערי בין אחזורים</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">מתבצע אחזור כל %d דקות</string>
+
+    <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
+
+    <string name="russian">רוסית</string>
+
+    <string name="preferences_id115_settings">הגדרות ID115</string>
+    <string name="prefs_screen_orientation">כיוון המסך</string>
+
+    <string name="horizontal">אופקי</string>
+    <string name="vertical">אנכי</string>
+    <string name="devicetype_id115">ID115</string>
+
+    <string name="preferences_miband2_settings">הגדרות Mi Band 2</string>
+    <string name="preferences_miband3_settings">הגדרות Mi Band 3</string>
+    <string name="preferences_amazfitcor_settings">הגדרות Amazfit Cor</string>s
+    <string name="menuitem_notifications">התראות</string>
+    <string name="menuitem_more">עוד</string>
+<string name="menuitem_music">מוזיקה</string>
+    <string name="controlcenter_calibrate_device">כיול התקן</string>
+
+
+    <string name="watch9_pairing_tap_hint">כשהשעון שלך רוטט, עליך לנער את ההתקן או ללחוץ על הכפתור שלו.</string>
+
+    <string name="devicetype_watch9">Watch 9</string>
+
+    <string name="watch9_time_minutes">דקות:</string>
+    <string name="watch9_time_hours">שעות:</string>
+    <string name="watch9_time_seconds">שניות:</string>
+    <string name="watch9_calibration_hint">הגדרת השעה שתופיע בהתקן שלך כרגע.</string>
+    <string name="watch9_calibration_button">כיול</string>
+    <string name="title_activity_watch9_pairing">צימוד Watch 9</string>
+    <string name="title_activity_watch9_calibration">כיול Watch 9</string>
+<string name="mi3_prefs_band_screen_unlock">שחרור נעילת מסך הצמיד</string>
+    <string name="mi3_prefs_band_screen_unlock_summary">יש לגרור כלפי מעלה כדי לשחרר את נעילת המסך של הצמיד</string>
     </resources>

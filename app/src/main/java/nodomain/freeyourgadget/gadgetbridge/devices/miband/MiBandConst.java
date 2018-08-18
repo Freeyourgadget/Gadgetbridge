@@ -49,7 +49,9 @@ public final class MiBandConst {
 	public static final String PREF_MI2_DISPLAY_ITEM_CALORIES = "calories";
 	public static final String PREF_MI2_DISPLAY_ITEM_HEART_RATE = "heart_rate";
 	public static final String PREF_MI2_DISPLAY_ITEM_BATTERY = "battery";
-	public static final String PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT = "mi2_activate_display_on_lift_wrist";
+	public static final String PREF_ACTIVATE_DISPLAY_ON_LIFT = "activate_display_on_lift_wrist";
+    public static final String PREF_DISPLAY_ON_LIFT_START = "display_on_lift_start";
+    public static final String PREF_DISPLAY_ON_LIFT_END = "display_on_lift_end";
     public static final String PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO = "mi2_rotate_wrist_to_switch_info";
 	public static final String PREF_MI2_ENABLE_TEXT_NOTIFICATIONS = "mi2_enable_text_notifications";
     public static final String PREF_MI2_DO_NOT_DISTURB = "mi2_do_not_disturb";
@@ -67,12 +69,11 @@ public final class MiBandConst {
     public static final String PREF_MI2_INACTIVITY_WARNINGS_DND_END = "mi2_inactivity_warnings_dnd_end";
     public static final String PREF_MIBAND_SETUP_BT_PAIRING = "mi_setup_bt_pairing";
 
+    public static final String PREF_MI3_BAND_SCREEN_UNLOCK = "mi3_band_screen_unlock";
 
     public static final String ORIGIN_INCOMING_CALL = "incoming_call";
     public static final String ORIGIN_ALARM_CLOCK = "alarm_clock";
     public static final String MI_GENERAL_NAME_PREFIX = "MI";
-    public static final String MI_BAND2_NAME = "MI Band 2";
-    public static final String MI_BAND2_NAME_HRX = "Mi Band HRX";
     public static final String MI_1 = "1";
     public static final String MI_1A = "1A";
     public static final String MI_1S = "1S";

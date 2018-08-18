@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item
+            android:id="@+id/blacklist_all_notif"
+            android:title="@string/blacklist_all_for_notifications">
+
+        </item>
+        <item
+            android:id="@+id/whitelist_all_notif"
+            android:title="@string/whitelist_all_for_notifications" />
+</menu>

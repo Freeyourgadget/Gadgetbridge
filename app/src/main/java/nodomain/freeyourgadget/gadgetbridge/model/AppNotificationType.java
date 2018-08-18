@@ -109,6 +109,9 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
         // Skype
         put("com.skype.raider", NotificationType.SKYPE);
 
+        // Skype for business
+        put("com.microsoft.office.lync15", NotificationType.SKYPE);
+
         // Mailbox
         put("com.mailboxapp", NotificationType.MAILBOX);
 

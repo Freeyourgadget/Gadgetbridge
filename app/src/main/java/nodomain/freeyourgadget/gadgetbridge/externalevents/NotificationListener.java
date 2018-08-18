@@ -1,6 +1,6 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Frank Slezak, Hasan Ammar, Julien Pivotto, Kevin Richter, Normano64,
-    Steffen Liebergeld, TaaviE, Zhong Jianxin
+    Steffen Liebergeld, Taavi Eomäe, Zhong Jianxin
 
     This file is part of Gadgetbridge.
 
@@ -113,7 +113,7 @@ public class NotificationListener extends NotificationListenerService {
                             } else {
                                 // ACTION_MUTE
                                 LOG.info("going to mute " + sbn.getPackageName());
-                                GBApplication.addAppToBlacklist(sbn.getPackageName());
+                                GBApplication.addAppToNotifBlacklist(sbn.getPackageName());
                             }
                         }
                     }
@@ -426,7 +426,7 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
 
-        if (GBApplication.appIsBlacklisted(source)) {
+        if (GBApplication.appIsNotifBlacklisted(source)) {
             LOG.info("Ignoring notification, application is blacklisted");
             return true;
         }
@@ -446,7 +446,8 @@ public class NotificationListener extends NotificationListenerService {
         //some Apps always mark their notifcations as read-only
         if (NotificationCompat.getLocalOnly(notification) &&
                 type != NotificationType.WECHAT &&
-                type != NotificationType.OUTLOOK) {
+                type != NotificationType.OUTLOOK &&
+                type != NotificationType.SKYPE) { //see https://github.com/Freeyourgadget/Gadgetbridge/issues/1109
             return true;
         }
 

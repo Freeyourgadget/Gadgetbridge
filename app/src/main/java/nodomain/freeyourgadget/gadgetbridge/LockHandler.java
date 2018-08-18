@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -24,7 +24,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 
 /**
- * Provides lowlevel access to the database.
+ * Provides low-level access to the database.
  */
 public class LockHandler implements DBHandler {
 

@@ -428,7 +428,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                 startActivity(startIntent);
                 return true;
             case R.id.appmanager_app_openinstore:
-                String url = "https://apps.getpebble.com/en_US/search/" + ((selectedApp.getType() == GBDeviceApp.Type.WATCHFACE) ? "watchfaces" : "watchapps") + "/1?query=" + selectedApp.getName() + "&dev_settings=true";
+                String url = "https://pebble-appstore.romanport.com/" + ((selectedApp.getType() == GBDeviceApp.Type.WATCHFACE) ? "watchfaces" : "watchapps") + "/0/?query=" + selectedApp.getName();
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(url));
                 startActivity(intent);

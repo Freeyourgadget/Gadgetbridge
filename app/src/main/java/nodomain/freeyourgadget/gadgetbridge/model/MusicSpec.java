@@ -75,4 +75,16 @@ public class MusicSpec {
         result = 31 * result + trackNr;
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "MusicSpec{" +
+                "artist='" + artist + '\'' +
+                ", album='" + album + '\'' +
+                ", track='" + track + '\'' +
+                ", duration=" + duration +
+                ", trackCount=" + trackCount +
+                ", trackNr=" + trackNr +
+                '}';
+    }
 }

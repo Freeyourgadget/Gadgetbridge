@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Daniele Gobbetti
+/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -135,10 +136,10 @@ public class GBWebClient extends WebViewClient {
                 headers.put("Access-Control-Allow-Origin", "*");
                 return new WebResourceResponse("text/html", "utf-8", 200, "OK",
                         headers,
-                        new ByteArrayInputStream("1".toString().getBytes())
+                        new ByteArrayInputStream("1".getBytes())
                 );
             } else {
-                return new WebResourceResponse("text/html", "utf-8", new ByteArrayInputStream("1".toString().getBytes()));
+                return new WebResourceResponse("text/html", "utf-8", new ByteArrayInputStream("1".getBytes()));
             }
         }
 
@@ -160,6 +161,8 @@ public class GBWebClient extends WebViewClient {
                 JSONObject main = resp.getJSONObject("main");
 
                 convertTemps(main, units); //caller might want different units
+                JSONObject wind = resp.getJSONObject("wind");
+                convertSpeeds(wind, units);
 
                 resp.put("cod", 200);
                 resp.put("coord", coordObject(currentPosition));
@@ -213,6 +216,14 @@ public class GBWebClient extends WebViewClient {
         sys.put("sunset", (sunrise[2].getTimeInMillis() / 1000));
 
         return sys;
+    }
+
+    private static void convertSpeeds(JSONObject wind, String units) throws JSONException {
+        if ("metric".equals(units)) {
+            wind.put("speed", (wind.getDouble("speed") * 3.6f) );
+        } else if ("imperial".equals(units)) { //it's 2018... this is so sad
+            wind.put("speed", (wind.getDouble("speed") * 2.237f) );
+        }
     }
 
     private static void convertTemps(JSONObject main, String units) throws JSONException {

@@ -52,8 +52,8 @@
   <string name="pref_header_general">Általános beállítások</string>
   <string name="pref_title_general_autoconnectonbluetooth">Kapcsolódjon az eszközhöz a Bluetooth bekapcsolásakor</string>
   <string name="pref_title_general_autostartonboot">Automatikus indulás</string>
-  <string name="pref_title_general_autocreonnect">Újracsatlakozás automatikusan</string>
-  <string name="pref_title_audo_player">Preferált zenelejátszó</string>
+  <string name="pref_title_general_autoreconnect">Újracsatlakozás automatikusan</string>
+  <string name="pref_title_audio_player">Preferált zenelejátszó</string>
   <string name="pref_default">Alapértelmezett</string>
   <string name="pref_header_datetime">Dátum és idő</string>
   <string name="pref_title_datetime_syctimeonconnect">Idő szinkronizálás</string>

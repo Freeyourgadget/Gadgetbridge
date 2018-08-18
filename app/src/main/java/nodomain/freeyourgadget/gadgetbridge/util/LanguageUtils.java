@@ -78,6 +78,9 @@ public class LanguageUtils {
             // Polish
             put('Ł', "L"); put('ł', "l");
 
+            //Lithuanian
+            put('ą', "a"); put('č', "c"); put('ę', "e"); put('ė', "e"); put('į', "i"); put('š', "s"); put('ų', "u"); put('ū', "u"); put('ž', "z");
+
             //TODO: these must be configurable. If someone wants to transliterate cyrillic it does not mean his device has no German umlauts
             //all or nothing is really bad here
         }
@@ -111,7 +114,9 @@ public class LanguageUtils {
             message.append(transliterate(c));
         }
 
-        return flattenToAscii(message.toString());
+        String messageString = BengaliLanguageUtils.transliterate(message.toString());
+
+        return flattenToAscii(messageString);
     }
 
     /**

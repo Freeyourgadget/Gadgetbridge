@@ -57,8 +57,8 @@
   <string name="pref_header_general">全般設定</string>
   <string name="pref_title_general_autoconnectonbluetooth">Bluetoothがオンになったときにデバイスに接続</string>
   <string name="pref_title_general_autostartonboot">自動的に開始</string>
-  <string name="pref_title_general_autocreonnect">自動的に再接続</string>
-  <string name="pref_title_audo_player">お好みのオーディオプレイヤー</string>
+  <string name="pref_title_general_autoreconnect">自動的に再接続</string>
+  <string name="pref_title_audio_player">お好みのオーディオプレイヤー</string>
   <string name="pref_default">デフォルト</string>
   <string name="pref_header_datetime">日付と時刻</string>
   <string name="pref_title_datetime_syctimeonconnect">時間を合わせる</string>
@@ -497,4 +497,36 @@
     <string name="devicetype_xwatch">XWatch</string>
 
     <string name="notification_channel_name">Gadgetbridge 通知</string>
+<string name="on">オン</string>
+    <string name="controlcenter_start_activity_tracks">活動の追跡</string>
+    <string name="activity_type_not_measured">未測定</string>
+    <string name="activity_type_activity">アクティビティ</string>
+    <string name="activity_type_light_sleep">浅い眠り</string>
+    <string name="activity_type_deep_sleep">深い眠り</string>
+    <string name="activity_type_not_worn">デバイスを着用していません</string>
+    <string name="activity_type_running">ランニング</string>
+    <string name="activity_type_walking">ウォーキング</string>
+    <string name="activity_type_swimming">スイミング</string>
+    <string name="activity_type_unknown">不明なアクティビティ</string>
+    <string name="activity_summaries">アクティビティ</string>
+    <string name="activity_type_biking">自転車走行</string>
+    <string name="activity_type_treadmill">ランニングマシン</string>
+
+    <string name="select_all">すべて選択</string>
+    <string name="share">共有</string>
+    <string name="reset_index">取得日付をリセット</string>
+
+    <string name="pref_title_pebble_gatt_clientonly">GATT クライアントのみ</string>
+    <string name="pref_summary_pebble_gatt_clientonly">これは Pebble 2 のみで、実験的です。接続に問題がある場合、これを試してください</string>
+    <string name="devicetype_q8">Q8</string>
+    <string name="menuitem_shortcut_alipay">Alipay (ショートカット)</string>
+    <string name="menuitem_shortcut_weather">天気 (ショートカット)</string>
+    <string name="menuitem_status">ステータス</string>
+    <string name="menuitem_activity">アクティビティ</string>
+    <string name="menuitem_weather">天気</string>
+    <string name="menuitem_alarm">アラーム</string>
+    <string name="menuitem_timer">タイマー</string>
+    <string name="menuitem_compass">コンパス</string>
+    <string name="menuitem_settings">設定</string>
+    <string name="menuitem_alipay">Alipay</string>
 </resources>

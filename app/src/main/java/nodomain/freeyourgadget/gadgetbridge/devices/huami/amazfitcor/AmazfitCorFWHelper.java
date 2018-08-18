@@ -18,12 +18,10 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.AmazfitBipFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitcor.AmazfitCorFirmwareInfo;
 
 public class AmazfitCorFWHelper extends HuamiFWHelper {
@@ -32,12 +30,11 @@ public class AmazfitCorFWHelper extends HuamiFWHelper {
         super(uri, context);
     }
 
-    @NonNull
     @Override
     protected void determineFirmwareInfo(byte[] wholeFirmwareBytes) {
         firmwareInfo = new AmazfitCorFirmwareInfo(wholeFirmwareBytes);
         if (!firmwareInfo.isHeaderValid()) {
-            throw new IllegalArgumentException("Not a an Amazifit Bip firmware");
+            throw new IllegalArgumentException("Not a an Amazfit Cor firmware");
         }
     }
 }

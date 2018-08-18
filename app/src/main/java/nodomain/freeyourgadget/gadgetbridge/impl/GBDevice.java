@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Uwe Hermann
+    Gobbetti, Taavi Eomäe, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -326,7 +326,7 @@ public class GBDevice implements Parcelable {
 
     public void setRssi(short rssi) {
         if (rssi < 0) {
-            LOG.warn("illegal rssi value " + rssi + ", setting to RSSI_UNKNOWN");
+            LOG.warn("Illegal RSSI value " + rssi + ", setting to RSSI_UNKNOWN");
             mRssi = RSSI_UNKNOWN;
         } else {
             mRssi = rssi;
@@ -450,7 +450,7 @@ public class GBDevice implements Parcelable {
             result.add(new GenericItem(DEVINFO_FW_VER, mFirmwareVersion));
         }
         if (mFirmwareVersion2 != null) {
-            // FIXME: thats ugly
+            // FIXME: This is ugly
             if (mDeviceType == DeviceType.AMAZFITBIP) {
                 result.add(new GenericItem(DEVINFO_GPS_VER, mFirmwareVersion2));
             } else {

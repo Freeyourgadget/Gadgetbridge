@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,15 +84,18 @@ class ActivityAnalysis {
                     }
 
                     if (!stats.containsKey(steps)) {
-                        LOG.info("Adding: " + steps);
+//                        LOG.debug("Adding: " + steps);
                         stats.put(steps, timeDifference);
                     } else {
                         long time = stats.get(steps);
-                        LOG.info("Updating: " + steps + " " + timeDifference + time);
+//                        LOG.debug("Updating: " + steps + " " + timeDifference + time);
                         stats.put(steps, timeDifference + time);
                     }
                 }
             }
+
+            amount.setStartDate(sample.getTimestamp());
+            amount.setEndDate(sample.getTimestamp());
 
             previousAmount = amount;
             previousSample = sample;

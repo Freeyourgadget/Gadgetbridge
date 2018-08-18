@@ -46,6 +46,7 @@ import static cyanogenmod.providers.WeatherContract.WeatherColumns.WeatherCode.N
 import static cyanogenmod.providers.WeatherContract.WeatherColumns.WeatherCode.SCATTERED_SNOW_SHOWERS;
 import static cyanogenmod.providers.WeatherContract.WeatherColumns.WeatherCode.SCATTERED_THUNDERSTORMS;
 import static cyanogenmod.providers.WeatherContract.WeatherColumns.WeatherCode.SHOWERS;
+import static cyanogenmod.providers.WeatherContract.WeatherColumns.WindSpeedUnit.MPH;
 
 public class CMWeatherReceiver extends BroadcastReceiver implements CMWeatherManager.WeatherUpdateRequestListener, CMWeatherManager.LookupCityRequestListener {
 
@@ -148,6 +149,13 @@ public class CMWeatherReceiver extends BroadcastReceiver implements CMWeatherMan
                 weatherSpec.todayMaxTemp = (int) weatherInfo.getTodaysHigh() + 273;
                 weatherSpec.todayMinTemp = (int) weatherInfo.getTodaysLow() + 273;
             }
+            if (weatherInfo.getWindSpeedUnit() == MPH) {
+                weatherSpec.windSpeed = (float) weatherInfo.getWindSpeed() * 1.609344f;
+            } else {
+                weatherSpec.windSpeed = (float) weatherInfo.getWindSpeed();
+            }
+            weatherSpec.windDirection = (int) weatherInfo.getWindDirection();
+
             weatherSpec.currentConditionCode = Weather.mapToOpenWeatherMapCondition(CMtoYahooCondintion(weatherInfo.getConditionCode()));
             weatherSpec.currentCondition = Weather.getConditionString(weatherSpec.currentConditionCode);
             weatherSpec.currentHumidity = (int) weatherInfo.getHumidity();

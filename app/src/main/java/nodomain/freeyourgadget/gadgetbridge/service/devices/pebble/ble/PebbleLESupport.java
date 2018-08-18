@@ -18,6 +18,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.ble;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.os.Handler;
+import android.os.HandlerThread;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +27,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
-import java.util.concurrent.CountDownLatch;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
@@ -39,8 +40,10 @@ public class PebbleLESupport {
     private PipedOutputStream mPipedOutputStream;
     private int mMTU = 20;
     private int mMTULimit = Integer.MAX_VALUE;
-    boolean mIsConnected = false;
-    CountDownLatch mPPAck;
+    public boolean clientOnly = false; // currently experimental, and only possible for Pebble 2
+    private boolean mIsConnected = false;
+    private HandlerThread mWriteHandlerThread;
+    private Handler mWriteHandler;
 
     public PebbleLESupport(Context context, final BluetoothDevice btDevice, PipedInputStream pipedInputStream, PipedOutputStream pipedOutputStream) throws IOException {
         mBtDevice = btDevice;
@@ -52,12 +55,21 @@ public class PebbleLESupport {
         } catch (IOException e) {
             LOG.warn("could not connect input stream");
         }
+
+        mWriteHandlerThread = new HandlerThread("write handler thread");
+        mWriteHandlerThread.start();
+        mWriteHandler = new Handler(mWriteHandlerThread.getLooper());
+
         mMTULimit = GBApplication.getPrefs().getInt("pebble_mtu_limit", 512);
         mMTULimit = Math.max(mMTULimit, 20);
         mMTULimit = Math.min(mMTULimit, 512);
 
-        mPebbleGATTServer = new PebbleGATTServer(this, context, mBtDevice);
-        if (mPebbleGATTServer.initialize()) {
+        clientOnly = GBApplication.getPrefs().getBoolean("pebble_gatt_clientonly", false);
+
+        if (!clientOnly) {
+            mPebbleGATTServer = new PebbleGATTServer(this, context, mBtDevice);
+        }
+        if (clientOnly || mPebbleGATTServer.initialize()) {
             mPebbleGATTClient = new PebbleGATTClient(this, context, mBtDevice);
             try {
                 synchronized (this) {
@@ -73,11 +85,11 @@ public class PebbleLESupport {
         throw new IOException("connection failed");
     }
 
-    void writeToPipedOutputStream(byte[] value, int offset, int count) {
+    private void writeToPipedOutputStream(byte[] value, int offset, int count) {
         try {
             mPipedOutputStream.write(value, offset, count);
         } catch (IOException e) {
-            LOG.warn("error writing to output stream");
+            LOG.warn("error writing to output stream", e);
         }
     }
 
@@ -99,9 +111,12 @@ public class PebbleLESupport {
             mPipedOutputStream.close();
         } catch (IOException ignore) {
         }
+        if (mWriteHandlerThread != null) {
+            mWriteHandlerThread.quit();
+        }
     }
 
-    synchronized void createPipedInputReader() {
+    private synchronized void createPipedInputReader() {
         if (mPipeReader == null) {
             mPipeReader = new PipeReader();
         }
@@ -124,6 +139,60 @@ public class PebbleLESupport {
 
     void setMTU(int mtu) {
         mMTU = Math.min(mtu, mMTULimit);
+    }
+
+    public void handlePPoGATTPacket(byte[] value) {
+        if (!mIsConnected) {
+            mIsConnected = true;
+            synchronized (this) {
+                this.notify();
+            }
+        }
+        //LOG.info("write request: offset = " + offset + " value = " + GB.hexdump(value, 0, -1));
+        int header = value[0] & 0xff;
+        int command = header & 7;
+        int serial = header >> 3;
+        if (command == 0x01) {
+            LOG.info("got ACK for serial = " + serial);
+        }
+        if (command == 0x02) { // some request?
+            LOG.info("got command 0x02");
+            if (value.length > 1) {
+                sendDataToPebble(new byte[]{0x03, 0x19, 0x19}); // no we don't know what that means
+                createPipedInputReader(); // FIXME: maybe not here
+            } else {
+                sendDataToPebble(new byte[]{0x03}); // no we don't know what that means
+            }
+        } else if (command == 0) { // normal package
+            LOG.info("got PPoGATT package serial = " + serial + " sending ACK");
+
+            sendAckToPebble(serial);
+
+            writeToPipedOutputStream(value, 1, value.length - 1);
+        }
+    }
+
+    private void sendAckToPebble(int serial) {
+        sendDataToPebble(new byte[]{(byte) (((serial << 3) | 1) & 0xff)});
+    }
+
+    private synchronized void sendDataToPebble(final byte[] bytes) {
+        if (mPebbleGATTServer != null) {
+            mWriteHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mPebbleGATTServer.sendDataToPebble(bytes);
+                }
+            });
+        } else {
+            // For now only in experimental client only code
+            mWriteHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mPebbleGATTClient.sendDataToPebble(bytes);
+                }
+            });
+        }
     }
 
     private class PipeReader extends Thread {
@@ -153,21 +222,16 @@ public class PebbleLESupport {
 
                     int payloadToSend = bytesRead + 4;
                     int srcPos = 0;
-                    mPPAck = new CountDownLatch(1);
                     while (payloadToSend > 0) {
                         int chunkSize = (payloadToSend < (mMTU - 4)) ? payloadToSend : mMTU - 4;
                         byte[] outBuf = new byte[chunkSize + 1];
                         outBuf[0] = (byte) ((mmSequence++ << 3) & 0xff);
                         System.arraycopy(buf, srcPos, outBuf, 1, chunkSize);
-                        mPebbleGATTServer.sendDataToPebble(outBuf);
+                        sendDataToPebble(outBuf);
                         srcPos += chunkSize;
                         payloadToSend -= chunkSize;
                     }
-
-                    mPPAck.await();
-                    mPPAck = null;
-
-                } catch (IOException | InterruptedException e) {
+                } catch (IOException e) {
                     LOG.info(e.getMessage());
                     Thread.currentThread().interrupt();
                     break;

@@ -60,8 +60,8 @@
     <string name="pref_header_general">Axustes xerais</string>
     <string name="pref_title_general_autoconnectonbluetooth">Conectar ao dispositivo ao activar o Bluetooth</string>
     <string name="pref_title_general_autostartonboot">Iniciar automaticamente</string>
-    <string name="pref_title_general_autocreonnect">Reconectar automaticamente</string>
-    <string name="pref_title_audo_player">Reprodutor de audio preferido</string>
+    <string name="pref_title_general_autoreconnect">Reconectar automaticamente</string>
+    <string name="pref_title_audio_player">Reprodutor de audio preferido</string>
     <string name="pref_default">Predefinido</string>
 
     <string name="pref_header_datetime">Data e Hora</string>
@@ -463,7 +463,7 @@
     <string name="_pebble_watch_open_on_phone">Abrir no teléfono</string>
     <string name="_pebble_watch_mute">Silenciar</string>
     <string name="_pebble_watch_reply">Responder</string>
-<string name="fw_upgrade_notice_amazfitbip">Estás a piques de instalar firmware no teu Amazfit Bip. 
+<string name="fw_upgrade_notice_amazfitbip">Estás a piques de instalar firmware %s no teu Amazfit Bip.
 \n 
 \nPor favor, asegúrate de instalar o ficheiro .fw, despois o arquivo .res, e finalmente o ficheiro .gps . O teu reloxo reiniciará despois de instalar o arquivo .fw. 
 \n 
@@ -488,7 +488,7 @@
 \nAs \"watchfaces\" soportadas amosarán a información do clima automáticamente.</string>
     <string name="discovery_pair_question">Selecciona Emparellar para emparellar os teus dispositivos. Se isto falla, proba de novo sen emparellar.</string>
     <string name="controlcenter_connect">Conectar</string>
-    <string name="fw_upgrade_notice_amazfitcor">Estás a piques de instalar firmware no teu Amazfit Cor. 
+    <string name="fw_upgrade_notice_amazfitcor">Estás a piques de instalar firmware %s no teu Amazfit Cor.
 \n 
 \nPor favor, asegúrate de instalar o ficheiro .fw, e despois diso o ficheiro .res. O teu reloxo reiniciará despois de instalar o arquivo .fw. 
 \n 
@@ -555,4 +555,30 @@
     <string name="devicetype_xwatch">XWatch</string>
 
     <string name="notification_channel_name">Notificacións do Gadgetbridge</string>
+<string name="on">Aceso</string>
+    <string name="controlcenter_start_activity_tracks">Os teus rexistros de actividade</string>
+    <string name="activity_type_not_measured">Sen medir</string>
+    <string name="activity_type_activity">Actividade</string>
+    <string name="activity_type_light_sleep">Sono leve</string>
+    <string name="activity_type_deep_sleep">Sono profundo</string>
+    <string name="activity_type_not_worn">Dispositivo non usado</string>
+    <string name="activity_type_running">Carreira</string>
+    <string name="activity_type_walking">Paseo</string>
+    <string name="activity_type_swimming">Natación</string>
+    <string name="activity_type_unknown">Actividade descoñecida</string>
+    <string name="activity_summaries">Actividades</string>
+    <string name="activity_type_biking">Ciclismo</string>
+    <string name="activity_type_treadmill">Fita de correr</string>
+    <string name="select_all">Seleccionar todas</string>
+    <string name="share">Compartir</string>
+    <string name="reset_index">Restablecer a data de obtención</string>
+
+    <string name="menuitem_status">Estado</string>
+    <string name="menuitem_activity">Actividade</string>
+    <string name="menuitem_weather">Meteoroloxía</string>
+    <string name="menuitem_alarm">Alarma</string>
+    <string name="menuitem_timer">Cronómetro</string>
+    <string name="menuitem_compass">Compás</string>
+    <string name="menuitem_settings">Axustes</string>
+    <string name="menuitem_alipay">Alipay</string>
 </resources>

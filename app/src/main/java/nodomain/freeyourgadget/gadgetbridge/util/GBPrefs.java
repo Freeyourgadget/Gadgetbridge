@@ -22,6 +22,7 @@ import java.util.Date;
 
 public class GBPrefs {
     public static final String PACKAGE_BLACKLIST = "package_blacklist";
+    public static final String PACKAGE_PEBBLEMSG_BLACKLIST = "package_pebblemsg_blacklist";
     public static final String CALENDAR_BLACKLIST = "calendar_blacklist";
     public static final String AUTO_RECONNECT = "general_autocreconnect";
     private static final String AUTO_START = "general_autostartonboot";

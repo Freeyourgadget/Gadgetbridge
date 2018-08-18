@@ -40,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
  * Provides access to the list of devices managed by Gadgetbridge.
@@ -150,6 +151,8 @@ public class DeviceManager {
                 }
             }
         }
+        GB.updateNotification(selectedDevice, context);
+
     }
 
     private void refreshPairedDevices() {

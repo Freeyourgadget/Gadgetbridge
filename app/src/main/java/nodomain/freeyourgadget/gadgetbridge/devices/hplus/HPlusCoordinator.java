@@ -104,6 +104,11 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsFindDevice() {
+        return true;
+    }
+
+    @Override
     public DeviceType getDeviceType() {
         return DeviceType.HPLUS;
     }

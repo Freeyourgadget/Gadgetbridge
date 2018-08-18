@@ -36,7 +36,7 @@ public class BluetoothStateChangeReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
 
-        if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+        if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(action)) {
             if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_ON) {
 
                 Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
@@ -50,6 +50,7 @@ public class BluetoothStateChangeReceiver extends BroadcastReceiver {
                 LOG.info("Bluetooth turned on => connecting...");
                 GBApplication.deviceService().connect();
             } else if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
+                LOG.info("Bluetooth turned off => disconnecting...");
                 GBApplication.deviceService().disconnect();
             }
         }

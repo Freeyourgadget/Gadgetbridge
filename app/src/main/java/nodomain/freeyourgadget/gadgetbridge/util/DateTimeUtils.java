@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, AndrewH, Carsten Pfeiffer,
+    Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -20,7 +21,9 @@ import android.text.format.DateUtils;
 
 import com.github.pfichtner.durationformatter.DurationFormatter;
 
+import java.text.FieldPosition;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,9 +36,52 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class DateTimeUtils {
     private static SimpleDateFormat DAY_STORAGE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+    private static SimpleDateFormat HOURS_MINUTES_FORMAT = new SimpleDateFormat("HH:mm", Locale.US);
+    public static SimpleDateFormat ISO_8601_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US){
+        //see https://github.com/Freeyourgadget/Gadgetbridge/issues/1076#issuecomment-383834116 and https://stackoverflow.com/a/30221245
+
+        @Override
+        public Date parse(String text, ParsePosition pos) {
+            if (text.length() > 3) {
+                text = text.substring(0, text.length() - 3) + text.substring(text.length() - 2);
+            }
+            return super.parse(text, pos);
+
+        }
+
+        @Override
+        public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition pos) {
+            StringBuffer rfcFormat = super.format(date, toAppendTo, pos);
+            if (this.getTimeZone().equals(TimeZone.getTimeZone("UTC"))) {
+                rfcFormat.setLength(rfcFormat.length()-5);
+                return rfcFormat.append("Z");
+            } else {
+                return rfcFormat.insert(rfcFormat.length() - 2, ":");
+            }
+        }
+
+    }; //no public access, we have to workaround Android bugs
 
     public static String formatDateTime(Date date) {
-        return DateUtils.formatDateTime(GBApplication.getContext(), date.getTime(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME);
+        return DateUtils.formatDateTime(GBApplication.getContext(), date.getTime(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_NO_YEAR);
+    }
+
+    public static String formatIso8601(Date date) {
+        if(GBApplication.isRunningNougatOrLater()){
+            return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.US).format(date);
+        }
+        ISO_8601_FORMAT.setTimeZone(TimeZone.getDefault());
+        return ISO_8601_FORMAT.format(date);
+    }
+
+    public static String formatIso8601UTC(Date date) {
+        if(GBApplication.isRunningNougatOrLater()){
+            final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.US);
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            return sdf.format(date);
+        }
+        ISO_8601_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return ISO_8601_FORMAT.format(date);
     }
 
     public static String formatDate(Date date) {
@@ -84,6 +130,10 @@ public class DateTimeUtils {
 
     public static Date dayFromString(String day) throws ParseException {
         return DAY_STORAGE_FORMAT.parse(day);
+    }
+
+    public static String timeToString(Date date) {
+        return HOURS_MINUTES_FORMAT.format(date);
     }
 
     public static Date todayUTC() {

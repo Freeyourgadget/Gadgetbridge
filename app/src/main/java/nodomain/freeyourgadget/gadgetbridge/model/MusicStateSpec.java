@@ -71,4 +71,15 @@ public class MusicStateSpec {
         result = 31 * result + (int) repeat;
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "MusicStateSpec{" +
+                "state=" + state +
+                ", position=" + position +
+                ", playRate=" + playRate +
+                ", shuffle=" + shuffle +
+                ", repeat=" + repeat +
+                '}';
+    }
 }

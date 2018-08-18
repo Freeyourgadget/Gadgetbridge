@@ -49,7 +49,7 @@ public interface DeviceService extends EventHandler {
     String ACTION_INSTALL = PREFIX + ".action.install";
     String ACTION_REBOOT = PREFIX + ".action.reboot";
     String ACTION_HEARTRATE_TEST = PREFIX + ".action.heartrate_test";
-    String ACTION_FETCH_ACTIVITY_DATA = PREFIX + ".action.fetch_activity_data";
+    String ACTION_FETCH_RECORDED_DATA = PREFIX + ".action.fetch_activity_data";
     String ACTION_DISCONNECT = PREFIX + ".action.disconnect";
     String ACTION_FIND_DEVICE = PREFIX + ".action.find_device";
     String ACTION_SET_CONSTANT_VIBRATION = PREFIX + ".action.set_constant_vibration";
@@ -71,6 +71,7 @@ public interface DeviceService extends EventHandler {
     String EXTRA_NOTIFICATION_PHONENUMBER = "notification_phonenumber";
     String EXTRA_NOTIFICATION_SENDER = "notification_sender";
     String EXTRA_NOTIFICATION_SOURCENAME = "notification_sourcename";
+    String EXTRA_NOTIFICATION_SOURCEAPPID = "notification_sourceappid";
     String EXTRA_NOTIFICATION_SUBJECT = "notification_subject";
     String EXTRA_NOTIFICATION_TITLE = "notification_title";
     String EXTRA_NOTIFICATION_TYPE = "notification_type";
@@ -103,8 +104,8 @@ public interface DeviceService extends EventHandler {
     String EXTRA_CONNECT_FIRST_TIME = "connect_first_time";
     String EXTRA_BOOLEAN_ENABLE = "enable_realtime_steps";
     String EXTRA_INTERVAL_SECONDS = "interval_seconds";
-
     String EXTRA_WEATHER = "weather";
+    String EXTRA_RECORDED_DATA_TYPES = "data_types";
 
     /**
      * Use EXTRA_REALTIME_SAMPLE instead

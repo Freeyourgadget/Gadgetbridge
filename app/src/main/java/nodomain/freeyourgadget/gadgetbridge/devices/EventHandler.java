@@ -67,7 +67,7 @@ public interface EventHandler {
 
     void onAppReorder(UUID uuids[]);
 
-    void onFetchActivityData();
+    void onFetchRecordedData(int dataTypes);
 
     void onReboot();
 

@@ -19,7 +19,7 @@
 |Realtime Activity Tracking         | NO        | NO            | YES     | YES       | YES         |
 |Music Control                      | YES       | YES           | NO      | NO        | NO          |
 |Watchapp/face Installation         | YES       | YES           | NO      | NO        | YES         |
-|Firmware Installaton               | YES       | YES           | YES     | YES       | YES         |
+|Firmware Installation              | YES       | YES           | YES     | YES       | YES         |
 |Taking Screenshots                 | YES       | YES           | NO      | NO        | NO          |
 |Support Android Companion Apps     | YES       | YES           | NO      | NO        | NO          |
 

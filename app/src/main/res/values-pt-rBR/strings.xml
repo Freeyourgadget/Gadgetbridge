@@ -49,8 +49,8 @@
   <string name="pref_header_general">Configurações Gerais</string>
   <string name="pref_title_general_autoconnectonbluetooth">Conecta o dispositivo quando o Bluetooth estiver ligado</string>
   <string name="pref_title_general_autostartonboot">Iniciar automaticamente</string>
-  <string name="pref_title_general_autocreonnect">Reconectar automaticamente</string>
-  <string name="pref_title_audo_player">Player de música preferencial</string>
+  <string name="pref_title_general_autoreconnect">Reconectar automaticamente</string>
+  <string name="pref_title_audio_player">Player de música preferencial</string>
   <string name="pref_default">Padrão</string>
   <string name="pref_header_datetime">Data e Hora</string>
   <string name="pref_title_datetime_syctimeonconnect">Sincronizar hora</string>
@@ -388,7 +388,7 @@
     <string name="pref_title_auto_export_interval">Intervalo de exportação</string>
     <string name="pref_summary_auto_export_interval">Exportar a cada %d hora(s)</string>
 
-    <string name="preferences_amazfitbip_settings">Ajustes do Amazfit Bit</string>
+    <string name="preferences_amazfitbip_settings">Ajustes do Amazfit Bip</string>
     <string name="discovery_connected_devices_hint">Permita que seu dispositivo seja detectado. Os dispositivos já pareados não serão detectados. Para o Android 6 ou superior, é necessário habilitar a localização de GPS. Desative o Privacy Guard para o Gadgetbridge, pois o telefone poderá travar ou reiniciar caso esteja ativo. Se nenhum dispositivo for encontrado após alguns minutos, tente novamente após reiniciar seu aparelho telefônico.</string>
     <string name="prefs_title_heartrate_measurement_interval">Medição diária dos batimentos cardíacos</string>
     <string name="interval_one_minute">A cada minuto</string>

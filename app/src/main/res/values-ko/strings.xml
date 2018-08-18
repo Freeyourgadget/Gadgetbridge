@@ -33,8 +33,8 @@
   <string name="title_activity_settings">설정</string>
   <string name="pref_header_general">일반 설정</string>
   <string name="pref_title_general_autoconnectonbluetooth">블루투스가 켜지면 기기에 접속하기</string>
-  <string name="pref_title_general_autocreonnect">자동으로 재연결</string>
-  <string name="pref_title_audo_player">선호하는 오디오 플레이어</string>
+  <string name="pref_title_general_autoreconnect">자동으로 재연결</string>
+  <string name="pref_title_audio_player">선호하는 오디오 플레이어</string>
   <string name="pref_default">기본값</string>
   <string name="pref_header_datetime">날짜와 시간</string>
   <string name="pref_title_datetime_syctimeonconnect">시간 동기화</string>
@@ -496,6 +496,24 @@
     <string name="_pebble_watch_open_on_phone">스마트폰에서 열기</string>
     <string name="_pebble_watch_mute">음소거</string>
     <string name="_pebble_watch_reply">답장</string>
+
+    <string name="controlcenter_start_activity_tracks">당신의 활동 트랙</string>
+    <string name="activity_type_not_measured">측정되지 않음</string>
+    <string name="activity_type_activity">활동</string>
+    <string name="activity_type_light_sleep">얕은 수면</string>
+    <string name="activity_type_deep_sleep">깊은 수면</string>
+    <string name="activity_type_not_worn">디바이스 깨지 않음</string>
+    <string name="activity_type_running">달리기</string>
+    <string name="activity_type_walking">걷기</string>
+    <string name="activity_type_swimming">수영</string>
+    <string name="activity_type_unknown">알 수 없는 활동</string>
+    <string name="activity_summaries">활동종합</string>
+    <string name="activity_type_biking">바이크</string>
+    <string name="activity_type_treadmill">트레드밀</string>
+    <string name="select_all">전체 선택</string>
+    <string name="share">공유</string>
+    <string name="reset_index">데이터 불러오기 초기화</string>
+
     <string name="kind_firmware">펌웨어</string>
     <string name="kind_invalid">올바르지 않은 데이터</string>
     <string name="kind_font">글꼴</string>
@@ -504,11 +522,38 @@
     <string name="kind_gps_cep">GPS 오류 보정</string>
     <string name="kind_resources">리소스</string>
     <string name="kind_watchface">워치페이스</string>
+
     <string name="devicetype_unknown">알 수 없는 기기</string>
     <string name="devicetype_test">기기 테스트</string>
     <string name="devicetype_pebble">Pebble</string>
     <string name="devicetype_miband">Mi Band</string>
     <string name="devicetype_miband2">Mi Band 2</string>
+    <string name="devicetype_miband3">Mi Band 3</string>
     <string name="devicetype_amazfit_bip">Amazfit Bip</string>
     <string name="devicetype_amazfit_cor">Amazfit Cor</string>
+    <string name="devicetype_vibratissimo">Vibratissimo</string>
+    <string name="devicetype_liveview">LiveView</string>
+    <string name="devicetype_hplus">HPlus</string>
+    <string name="devicetype_makibes_f68">Makibes F68</string>
+    <string name="devicetype_exrizu_k8">Exrizu K8</string>
+    <string name="devicetype_q8">Q8</string>
+    <string name="devicetype_no1_f1">No.1 F1</string>
+    <string name="devicetype_teclast_h30">Teclast H30</string>
+    <string name="devicetype_xwatch">XWatch</string>
+
+    <string name="choose_auto_export_location">추출 위치를 선택하세요</string>
+    <string name="notification_channel_name">가젯브릿지 알림</string>
+
+    <!-- Menus on the smart device -->
+    <string name="menuitem_shortcut_alipay">Alipay (Shortcut)</string>
+    <string name="menuitem_shortcut_weather">날씨 (Shortcut)</string>
+    <string name="menuitem_status">상태</string>
+    <string name="menuitem_activity">활동</string>
+    <string name="menuitem_weather">날씨</string>
+    <string name="menuitem_alarm">알람</string>
+    <string name="menuitem_timer">타이머</string>
+    <string name="menuitem_compass">컴파스</string>
+    <string name="menuitem_settings">설정</string>
+    <string name="menuitem_alipay">Alipay</string>
+
     </resources>

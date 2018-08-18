@@ -18,6 +18,9 @@ package nodomain.freeyourgadget.gadgetbridge.deviceevents;
 
 
 public abstract class GBDeviceEvent {
-
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ": ";
+    }
 }
 

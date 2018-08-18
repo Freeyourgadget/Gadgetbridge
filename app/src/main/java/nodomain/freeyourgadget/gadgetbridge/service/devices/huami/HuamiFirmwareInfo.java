@@ -48,6 +48,8 @@ public abstract class HuamiFirmwareInfo {
             0x4e, 0x45, 0x5a, 0x4b
     };
 
+    protected static final int FONT_TYPE_OFFSET = 0x9;
+
     private HuamiFirmwareType firmwareType = HuamiFirmwareType.FIRMWARE;
 
     public String toVersion(int crc16) {
@@ -172,4 +174,25 @@ public abstract class HuamiFirmwareInfo {
         return null;
     }
 
+    protected boolean searchString32BitAligned(byte[] fwbytes, String findString) {
+        ByteBuffer stringBuf = ByteBuffer.wrap((findString + "\0").getBytes());
+        stringBuf.order(ByteOrder.BIG_ENDIAN);
+        int[] findArray = new int[stringBuf.remaining() / 4];
+        for (int i = 0; i < findArray.length; i++) {
+            findArray[i] = stringBuf.getInt();
+        }
+
+        ByteBuffer buf = ByteBuffer.wrap(fwbytes);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        while (buf.remaining() > 3) {
+            int arrayPos = 0;
+            while (arrayPos < findArray.length && buf.remaining() > 3 && (buf.getInt() == findArray[arrayPos])) {
+                arrayPos++;
+            }
+            if (arrayPos == findArray.length) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

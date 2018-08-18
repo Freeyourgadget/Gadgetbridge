@@ -18,6 +18,8 @@ package nodomain.freeyourgadget.gadgetbridge.model;
 
 import android.content.Context;
 
+import java.util.Date;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class ActivityAmount {
@@ -25,6 +27,8 @@ public class ActivityAmount {
     private short percent;
     private long totalSeconds;
     private long totalSteps;
+    private Date startDate = null;
+    private Date endDate = null;
 
     public ActivityAmount(int activityKind) {
         this.activityKind = activityKind;
@@ -66,5 +70,22 @@ public class ActivityAmount {
                 return context.getString(R.string.abstract_chart_fragment_kind_light_sleep);
         }
         return context.getString(R.string.abstract_chart_fragment_kind_activity);
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(int seconds) {
+        if(startDate == null)
+            this.startDate = new Date((long)seconds * 1000);
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(int seconds) {
+        this.endDate = new Date((long)seconds * 1000);
     }
 }

@@ -26,16 +26,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareT
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
 public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
-    // guessed - at least it is the same accross current versions and different from other devices
+    // this is the same as Bip
     private static final byte[] FW_HEADER = new byte[]{
-            (byte) 0x06, (byte) 0x48, (byte) 0x00, (byte) 0x47, (byte) 0xfe, (byte) 0xe7, (byte) 0xfe, (byte) 0xe7,
-            (byte) 0xfe, (byte) 0xe7, (byte) 0xfe, (byte) 0xe7, (byte) 0xfe, (byte) 0xe7, (byte) 0xfe, (byte) 0xe7
+            0x00, (byte) 0x98, 0x00, 0x20, (byte) 0xA5, 0x04, 0x00, 0x20, (byte) 0xAD, 0x04, 0x00, 0x20, (byte) 0xC5, 0x04, 0x00, 0x20
     };
-
-    //FIXME: this is a moving target :/
-    private static final int FW_HEADER_OFFSET = 0x9330;
-    private static final int FW_HEADER_OFFSET_2 = 0x9340;
-    private static final int FW_HEADER_OFFSET_3 = 0x9288;
 
     private static final int COMPRESSED_RES_HEADER_OFFSET = 0x9;
 
@@ -46,12 +40,19 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(39948, "1.0.5.60");
         crcToVersion.put(62147, "1.0.5.78");
         crcToVersion.put(54213, "1.0.6.76");
+        crcToVersion.put(9458,  "1.0.7.52");
+        crcToVersion.put(51575, "1.0.7.88");
 
         // resources
         crcToVersion.put(46341, "RES 1.0.5.60");
         crcToVersion.put(21770, "RES 1.0.5.78");
         crcToVersion.put(64977, "RES 1.0.6.76");
+        crcToVersion.put(60501, "RES 1.0.7.52-71");
+        crcToVersion.put(31263, "RES 1.0.7.77-91");
 
+        // font
+        crcToVersion.put(61054, "8");
+        crcToVersion.put(62291, "9 (Latin)");
     }
 
     public AmazfitCorFirmwareInfo(byte[] bytes) {
@@ -65,13 +66,25 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
                 return HuamiFirmwareType.INVALID;
             }
             return HuamiFirmwareType.RES;
-        } else if (ArrayUtils.equals(bytes, RES_HEADER, COMPRESSED_RES_HEADER_OFFSET) || ArrayUtils.equals(bytes, NEWRES_HEADER, COMPRESSED_RES_HEADER_OFFSET)) {
+        }
+        if (ArrayUtils.equals(bytes, RES_HEADER, COMPRESSED_RES_HEADER_OFFSET) || ArrayUtils.equals(bytes, NEWRES_HEADER, COMPRESSED_RES_HEADER_OFFSET)) {
             return HuamiFirmwareType.RES_COMPRESSED;
-        } else if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET) || ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET_2) || ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET_3)) {
-            // TODO: this is certainly not a correct validation, but it works for now
-            return HuamiFirmwareType.FIRMWARE;
-        } else if (ArrayUtils.startsWith(bytes, WATCHFACE_HEADER)) {
+        }
+        if (ArrayUtils.startsWith(bytes, FW_HEADER)) {
+            if (searchString32BitAligned(bytes, "Amazfit Cor")) {
+                return HuamiFirmwareType.FIRMWARE;
+            }
+            return HuamiFirmwareType.INVALID;
+        }
+        if (ArrayUtils.startsWith(bytes, WATCHFACE_HEADER)) {
             return HuamiFirmwareType.WATCHFACE;
+        }
+        if (ArrayUtils.startsWith(bytes, NEWFT_HEADER)) {
+            if (bytes[10] == 0x01) {
+                return HuamiFirmwareType.FONT;
+            } else if (bytes[10] == 0x02) {
+                return HuamiFirmwareType.FONT_LATIN;
+            }
         }
         return HuamiFirmwareType.INVALID;
     }

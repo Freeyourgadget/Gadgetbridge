@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Daniele Gobbetti
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Daniele Gobbetti, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -55,6 +55,10 @@ public class ParcelableWeather2 implements Parcelable {
             weatherSpec.currentCondition = conditionBundle.getString("weather_condition_text");
             conditionBundle.getStringArray("weather_condition_types");
             weatherSpec.currentTemp = conditionBundle.getInt("weather_current_temp");
+
+            weatherSpec.windDirection = mapDirToDeg(conditionBundle.getString("weather_wind_direction"));
+            weatherSpec.windSpeed = getSpeedInKMH(conditionBundle.getInt("weather_wind_speed"),
+                    conditionBundle.getString("weather_wind_speed_unit"));
 
             String[] currentConditionType = conditionBundle.getStringArray("weather_condition_types");
             if (currentConditionType != null) {
@@ -120,7 +124,7 @@ public class ParcelableWeather2 implements Parcelable {
             } catch (JSONException e) {
                 LOG.error("error while construction JSON", e);
             }
-            LOG.debug("Forecast JSON for WEBVIEW: " + reconstructedOWMForecast.toString());
+            LOG.debug("Forecast JSON for Webview: " + reconstructedOWMForecast);
         }
     }
 
@@ -252,6 +256,30 @@ public class ParcelableWeather2 implements Parcelable {
                 return 906;
         }
         return 3200;
+    }
+
+    private int getSpeedInKMH(int speed, String incomingUnit) {
+        float kmhSpeed = 0;
+        switch (incomingUnit) {
+            case "MPS":
+                kmhSpeed = speed * 3.6f;
+                break;
+            case "MPH":
+                kmhSpeed = speed * 1.6093f;
+                break;
+            case "KPH":
+                kmhSpeed = speed;
+                break;
+        }
+        return Math.round(kmhSpeed);
+    }
+
+    private int mapDirToDeg(String dir) {
+        return Math.round(WindDirection.valueOf(dir).ordinal() * 22.5f);
+    }
+
+    private enum WindDirection { // see upstream code, we can't be more precise than getting the quadrant
+        N, NNE, NE, ENE, E, ESE, SE, SSE, S, SSW, SW, WSW, W, WNW, NW, NNW
     }
 
 }

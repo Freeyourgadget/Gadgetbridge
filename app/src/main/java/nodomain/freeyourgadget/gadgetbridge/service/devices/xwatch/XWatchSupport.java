@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018 ladbsoft
+/*  Copyright (C) 2018 Andreas Shimokawa, ladbsoft
 
     This file is part of Gadgetbridge.
 
@@ -258,7 +258,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onFetchActivityData() {
+    public void onFetchRecordedData(int dataTypes) {
         try {
             if(builder == null) {
                 builder = performInitialized("fetchActivityData");

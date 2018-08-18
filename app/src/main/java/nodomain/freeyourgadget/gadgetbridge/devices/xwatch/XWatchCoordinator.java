@@ -130,4 +130,9 @@ public class XWatchCoordinator extends AbstractDeviceCoordinator {
     public boolean supportsWeather() {
         return false;
     }
+
+    @Override
+    public boolean supportsFindDevice() {
+        return true;
+    }
 }

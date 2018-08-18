@@ -142,7 +142,8 @@ public class GBDeviceService implements DeviceService {
                 .putExtra(EXTRA_NOTIFICATION_ID, notificationSpec.id)
                 .putExtra(EXTRA_NOTIFICATION_TYPE, notificationSpec.type)
                 .putExtra(EXTRA_NOTIFICATION_SOURCENAME, notificationSpec.sourceName)
-                .putExtra(EXTRA_NOTIFICATION_PEBBLE_COLOR, notificationSpec.pebbleColor);
+                .putExtra(EXTRA_NOTIFICATION_PEBBLE_COLOR, notificationSpec.pebbleColor)
+                .putExtra(EXTRA_NOTIFICATION_SOURCEAPPID, notificationSpec.sourceAppId);
         invokeService(intent);
     }
 
@@ -271,8 +272,9 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void onFetchActivityData() {
-        Intent intent = createIntent().setAction(ACTION_FETCH_ACTIVITY_DATA);
+    public void onFetchRecordedData(int dataTypes) {
+        Intent intent = createIntent().setAction(ACTION_FETCH_RECORDED_DATA)
+                .putExtra(EXTRA_RECORDED_DATA_TYPES, dataTypes);
         invokeService(intent);
     }
 

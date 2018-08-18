@@ -8,7 +8,7 @@
     <string name="action_quit">Quit</string>
     <string name="action_donate">Donate</string>
     <string name="controlcenter_fetch_activity_data">Synchronize</string>
-    <string name="controlcenter_find_device">Find lost Device</string>
+    <string name="controlcenter_find_device">Find lost device</string>
     <string name="controlcenter_take_screenshot">Take Screenshot</string>
     <string name="controlcenter_connect">Connect</string>
     <string name="controlcenter_disconnect">Disconnect</string>
@@ -21,6 +21,7 @@
     <string name="controlcenter_snackbar_disconnecting">Disconnecting</string>
     <string name="controlcenter_snackbar_connecting">Connecting</string>
     <string name="controlcenter_snackbar_requested_screenshot">Taking a screenshot of the device</string>
+    <string name="controlcenter_calibrate_device">Calibrate Device</string>
 
 
     <string name="title_activity_debug">Debug</string>
@@ -38,42 +39,46 @@
     <string name="appmanager_health_deactivate">Deactivate</string>
     <string name="appmanager_hrm_activate">Activate HRM</string>
     <string name="appmanager_hrm_deactivate">Deactivate HRM</string>
-    <string name="appmanager_weather_activate">Activate system weather app</string>
-    <string name="appmanager_weather_deactivate">Deactivate system weather app</string>
-    <string name="appmanager_weather_install_provider">Install the weather notification app</string>
+    <string name="appmanager_weather_activate">Activate System Weather app</string>
+    <string name="appmanager_weather_deactivate">Deactivate System Weather app</string>
+    <string name="appmanager_weather_install_provider">Install the Weather Notification app</string>
     <string name="app_configure">Configure</string>
     <string name="app_move_to_top">Move to top</string>
 
     <!-- Strings related to AppBlacklist -->
     <string name="title_activity_appblacklist">Notification blacklist</string>
+    <string name="blacklist_all_for_notifications">Blacklist all for notifications</string>
+    <string name="whitelist_all_for_notifications">Whitelist all for notifications</string>
+
 
     <!-- Strings related to CalBlacklist -->
     <string name="title_activity_calblacklist">Blacklisted Calendars</string>
 
     <!-- Strings related to FwAppInstaller -->
     <string name="title_activity_fw_app_insaller">FW/App installer</string>
-    <string name="fw_upgrade_notice">You are about to install firmware %s instead of the one currently on your Mi Band.</string>
+    <string name="fw_upgrade_notice">You are about to install the %s firmware instead of the one currently on your Mi Band.</string>
     <string name="fw_upgrade_notice_amazfitbip">You are about to install the %s firmware on your Amazfit Bip.\n\nPlease make sure to install the .fw file, then the .res file, and finally the .gps file. Your watch will reboot after installing the .fw file.\n\nNote: You do not have to install .res and .gps if these files are exactly the same as the ones previously installed.\n\nPROCEED AT YOUR OWN RISK!</string>
-    <string name="fw_upgrade_notice_amazfitcor">You are about to install the %s firmware on your Amazfit Cor.\n\nPlease make sure to install the .fw file, and after that the .res file. Your watch will reboot after installing the .fw file.\n\nNote: You do not have to install .res if it is exactly the same as the one previously installed.\n\nUNTESTED, MAY BRICK YOUR DEVICE, PROCEED AT YOUR OWN RISK!</string>
+    <string name="fw_upgrade_notice_amazfitcor">You are about to install the %s firmware on your Amazfit Cor.\n\nPlease make sure to install the .fw file, and after that the .res file. Your watch will reboot after installing the .fw file.\n\nNote: You do not have to install .res if it is exactly the same as the one previously installed.\n\nPROCEED AT YOUR OWN RISK!</string>
+    <string name="fw_upgrade_notice_miband3">You are about to install the %s firmware on your Mi Band 3.\n\nPlease make sure to install the .fw file, and after that the .res file. Your watch will reboot after installing the .fw file.\n\nNote: You do not have to install .res if it is exactly the same as the one previously installed.\n\nUNTESTED, MAY BRICK YOUR DEVICE, PROCEED AT YOUR OWN RISK!</string>
     <string name="fw_multi_upgrade_notice">You are about to install the %1$s and %2$s firmware, instead of the ones currently on your Mi Band.</string>
     <string name="miband_firmware_known">This firmware has been tested and is known to be compatible with Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">"This firmware is untested and may not be compatible with Gadgetbridge.\n\nYou are DISCOURAGED from flashing it onto your Mi Band!"</string>
-    <string name="miband_firmware_suggest_whitelist">If you still want to proceed and things continue to work properly afterwards, please tell the Gadgetbridge developers to whitelist the %s firmware version</string>
+    <string name="miband_firmware_suggest_whitelist">If you still want to proceed and things continue to work properly afterwards, please tell the Gadgetbridge developers to whitelist the %s firmware version.</string>
 
     <!-- Strings related to Settings -->
     <string name="title_activity_settings">Settings</string>
 
     <string name="pref_header_general">General settings</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Connect to device when Bluetooth turned on</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Connect to Gadgetbridge device when Bluetooth is turned on</string>
     <string name="pref_title_general_autostartonboot">Start automatically</string>
-    <string name="pref_title_general_autocreonnect">Reconnect automatically</string>
-    <string name="pref_title_audo_player">Preferred Audioplayer</string>
+    <string name="pref_title_general_autoreconnect">Reconnect automatically</string>
+    <string name="pref_title_audio_player">Preferred Audioplayer</string>
     <string name="pref_default">Default</string>
     <string name="pref_title_charts_swipe">Enable left/right swipe in the charts activity</string>
 
     <string name="pref_header_datetime">Date and Time</string>
     <string name="pref_title_datetime_syctimeonconnect">Sync time</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Sync time to device when connecting, and when time or time zone changes on Android</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Sync time to Gadgetbridge device when connecting, and when time or time zone changes on Android device</string>
 
     <string name="pref_title_theme">Theme</string>
     <string name="pref_theme_light">Light</string>
@@ -90,11 +95,11 @@
     <string name="pref_title_notifications_call">Phone Calls</string>
     <string name="pref_title_notifications_sms">SMS</string>
     <string name="pref_title_notifications_pebblemsg">Pebble Messages</string>
-    <string name="pref_summary_notifications_pebblemsg">Support for applications which send notifications to the Pebble via PebbleKit.</string>
+    <string name="pref_summary_notifications_pebblemsg">Support for apps that send notifications to the Pebble via PebbleKit.</string>
     <string name="pref_title_notifications_generic">Generic notification support</string>
     <string name="pref_title_whenscreenon">…also when screen is on</string>
     <string name="pref_title_notification_filter">Do Not Disturb</string>
-    <string name="pref_summary_notification_filter">Stop unwanted notifications from being sent in Do Not Disturb mode</string>
+    <string name="pref_summary_notification_filter">Unwanted notifications are stopped in this mode</string>
     <string name="pref_title_transliteration">Transliteration</string>
     <string name="pref_summary_transliteration">Enable this if your device has no support for your language\'s font</string>
 
@@ -136,7 +141,7 @@
     <string name="pref_summary_enable_outgoing_call">Disabling this will also stop the Pebble 2/LE to vibrate on outgoing calls</string>
 
     <string name="pref_title_enable_pebblekit">Allow 3rd party Android App access</string>
-    <string name="pref_summary_enable_pebblekit">Enable experimental support for Android Apps using PebbleKit</string>
+    <string name="pref_summary_enable_pebblekit">Enable experimental support for Android apps using PebbleKit</string>
 
     <string name="pref_header_pebble_timeline">Pebble timeline</string>
     <string name="pref_title_sunrise_sunset">Sunrise and sunset</string>
@@ -163,14 +168,16 @@
     <string name="toast_aqurired_networklocation">location acquired</string>
 
     <string name="pref_title_pebble_forceprotocol">Force notification protocol</string>
-    <string name="pref_summary_pebble_forceprotocol">This option forces using the latest notification protocol depending on the firmware version. ENABLE ONLY IF YOU KNOW WHAT YOU ARE DOING!</string>
+    <string name="pref_summary_pebble_forceprotocol">This option forces using the latest notification protocol depending on the firmware version. KNOW WHAT YOU ARE DOING!</string>
     <string name="pref_title_pebble_forceuntested">Enable untested features</string>
-    <string name="pref_summary_pebble_forceuntested">Enable features that are untested. ENABLE ONLY IF YOU KNOW WHAT YOU ARE DOING!</string>
+    <string name="pref_summary_pebble_forceuntested">Enable untested features. KNOW WHAT YOU ARE DOING!</string>
     <string name="pref_title_pebble_forcele">Always prefer BLE</string>
     <string name="pref_summary_pebble_forcele">Use experimental Pebble LE support for all Pebbles, instead of BT classic. This requires pairing to non LE first, and then Pebble LE</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU limit</string>
     <string name="pref_summary_pebble_mtu_limit">If your Pebble 2/Pebble LE does not work as expected, try this setting to limit the MTU (valid range 20–512)</string>
-    <string name="pref_title_pebble_enable_applogs">Enable watch App logging</string>
+    <string name="pref_title_pebble_enable_applogs">Enable watch app logging</string>
+    <string name="pref_title_pebble_gatt_clientonly">GATT client only</string>
+    <string name="pref_summary_pebble_gatt_clientonly">This is for Pebble 2 only and experimental, try this if you have connectivity problems</string>
     <string name="pref_summary_pebble_enable_applogs">Will cause logs from watch apps to be logged by Gadgetbridge (requires reconnect)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">Prematurely ACK PebbleKit</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Will cause messages that are sent to external 3rd party apps to be acknowledged always and immediately</string>
@@ -186,12 +193,22 @@
     <string name="prefs_title_all_day_heart_rate">All day heart rate measurement</string>
     <string name="preferences_hplus_settings">HPlus/Makibes settings</string>
 
+    <!-- ID115 Preferences -->
+    <string name="preferences_id115_settings">ID115 settings</string>
+    <string name="prefs_screen_orientation">Screen orientation</string>
+
     <!-- Auto export preferences -->
     <string name="pref_header_auto_export">Auto export</string>
     <string name="pref_title_auto_export_enabled">Auto export enabled</string>
     <string name="pref_title_auto_export_location">Export location</string>
     <string name="pref_title_auto_export_interval">Export interval</string>
     <string name="pref_summary_auto_export_interval">Export every %d hour</string>
+
+    <!-- Auto fetch activity preferences -->
+    <string name="pref_auto_fetch">Auto fetch activity data</string>
+    <string name="pref_auto_fetch_summary">Fetch happens upon screen unlock. Only works if a lock mechanism is set!</string>
+    <string name="pref_auto_fetch_limit_fetches">Minimum time between fetches</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Fetches every %d minutes</string>
 
     <string name="not_connected">Not connected</string>
     <string name="connecting">Connecting</string>
@@ -234,12 +251,17 @@
     <string name="message_cannot_pair_no_mac">No MAC address passed, cannot pair.</string>
     <string name="preferences_category_device_specific_settings">Device specific settings</string>
     <string name="preferences_miband_settings">Mi Band / Amazfit settings</string>
+    <string name="preferences_miband2_settings">Mi Band 2 settings</string>
+    <string name="preferences_miband3_settings">Mi Band 3 settings</string>
     <string name="preferences_amazfitbip_settings">Amazfit Bip settings</string>
+    <string name="preferences_amazfitcor_settings">Amazfit Cor settings</string>s
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="other">Other</string>
     <string name="left">Left</string>
     <string name="right">Right</string>
+    <string name="horizontal">Horizontal</string>
+    <string name="vertical">Vertical</string>
     <string name="miband_pairing_using_dummy_userdata">No valid user data given, using dummy user data for now.</string>
     <string name="miband_pairing_tap_hint">When your Mi Band vibrates and blinks, tap it a few times in a row.</string>
     <string name="appinstaller_install">Install</string>
@@ -248,6 +270,7 @@
     <string name="candidate_item_device_image">Device image</string>
     <string name="miband_prefs_alias">Name/Alias</string>
     <string name="pref_header_vibration_count">Vibration count</string>
+    <string name="watch9_pairing_tap_hint">When your watch vibrates, shake the device or press its button.</string>
 
     <string name="title_activity_sleepmonitor">Sleep monitor</string>
     <string name="pref_write_logfiles">Write log files</string>
@@ -270,7 +293,7 @@
     <string name="pref_screen_notification_profile_sms">SMS notification</string>
     <string name="pref_header_vibration_settings">Vibration settings</string>
     <string name="pref_screen_notification_profile_generic">Generic notification</string>
-    <string name="pref_screen_notification_profile_email">Email notification</string>
+    <string name="pref_screen_notification_profile_email">E-mail notification</string>
     <string name="pref_screen_notification_profile_incoming_call">Incoming call notification</string>
     <string name="pref_screen_notification_profile_generic_chat">Chat</string>
     <string name="pref_screen_notification_profile_generic_navigation">Navigation</string>
@@ -301,8 +324,8 @@
     <string name="alarm_fri_short">Fri</string>
     <string name="alarm_sat_short">Sat</string>
     <string name="alarm_smart_wakeup">Smart wakeup</string>
-    <string name="user_feedback_miband_set_alarms_failed">There was an error setting the alarms, please try again!</string>
-    <string name="user_feedback_miband_set_alarms_ok">Alarms sent to device!</string>
+    <string name="user_feedback_miband_set_alarms_failed">There was an error setting the alarms, please try again.</string>
+    <string name="user_feedback_miband_set_alarms_ok">Alarms sent to device.</string>
     <string name="chart_no_data_synchronize">No data. Synchronize device?</string>
     <string name="user_feedback_miband_activity_data_transfer">About to transfer %1$s of data starting from %2$s</string>
     <string name="miband_prefs_fitness_goal">Daily step target</string>
@@ -344,13 +367,15 @@
     <string name="clock">Clock</string>
     <string name="heart_rate">Heart rate</string>
     <string name="battery">Battery</string>
+
+
     <string name="liveactivity_live_activity">Live activity</string>
     <string name="weeksteps_today_steps_description">Steps today, target: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Do not ACK activity data transfer</string>
     <string name="pref_summary_dont_ack_transfers">If the activity data are not acked to the band, they will not be cleared. Useful if GB is used together with other apps.</string>
     <string name="pref_summary_keep_data_on_device">Will keep activity data on the Mi Band even after synchronization. Useful if GB is used together with other apps.</string>
     <string name="pref_title_low_latency_fw_update">Use low-latency mode for firmware flashing</string>
-    <string name="pref_summary_low_latency_fw_update">This might help on devices where firmware flashing fails</string>
+    <string name="pref_summary_low_latency_fw_update">This might help on devices where firmware flashing fails.</string>
 
     <string name="live_activity_steps_history">Steps history</string>
     <string name="live_activity_current_steps_per_minute">Current steps/min</string>
@@ -361,6 +386,8 @@
     <string name="abstract_chart_fragment_kind_light_sleep">Light sleep</string>
     <string name="abstract_chart_fragment_kind_deep_sleep">Deep sleep</string>
     <string name="abstract_chart_fragment_kind_not_worn">Not worn</string>
+    <string name="you_slept">You slept from %1$s to %2$s</string>
+    <string name="you_did_not_sleep">You did not sleep</string>
     <string name="device_not_connected">Not connected.</string>
     <string name="user_feedback_all_alarms_disabled">All alarms disabled</string>
     <string name="pref_title_keep_data_on_device">Keep activity data on device</string>
@@ -369,7 +396,7 @@
     <string name="miband_prefs_reserve_alarm_calendar">Alarms to reserve for upcoming events</string>
     <string name="miband_prefs_hr_sleep_detection">Use heart rate sensor to improve sleep detection</string>
 	<string name="miband_prefs_device_time_offset_hours">Device time offset in hours (for detecting sleep of shift workers)</string>
-    <string name="miband2_prefs_dateformat">Mi2: Date format</string>
+    <string name="miband2_prefs_dateformat">Date format</string>
     <string name="dateformat_time">Time</string>
     <string name="dateformat_date_time"><![CDATA[Time & date]]></string>
     <string name="mi2_prefs_button_actions">Button actions</string>
@@ -398,15 +425,24 @@
     <string name="mi2_prefs_inactivity_warnings">Inactivity warnings</string>
     <string name="mi2_prefs_inactivity_warnings_summary">The band will vibrate when you have been inactive for a while</string>
     <string name="mi2_prefs_inactivity_warnings_threshold">Inactivity threshold (in minutes)</string>
-    <string name="mi2_prefs_inactivity_warnings_dnd_summary">Disable the inactivity warnings for a time interval</string>
+    <string name="mi2_prefs_inactivity_warnings_dnd_summary">Disable inactivity warnings for a time interval</string>
     <string name="mi2_prefs_do_not_disturb_start">Start time</string>
     <string name="mi2_prefs_do_not_disturb_end">End time</string>
-
+    <string name="mi3_prefs_band_screen_unlock">Band screen unlock"</string>
+    <string name="mi3_prefs_band_screen_unlock_summary">Swipe up to unlock the band\'s screen</string>
     <string name="automatic">Automatic</string>
     <string name="simplified_chinese">Simplified Chinese</string>
     <string name="traditional_chinese">Traditional Chinese</string>
     <string name="english">English</string>
+    <string name="norwegian_bokmal">Norwegian Bokmål</string>
     <string name="spanish">Spanish</string>
+    <string name="russian">Russian</string>
+    <string name="german">German</string>
+    <string name="italian">Italian</string>
+    <string name="french">French</string>
+    <string name="polish">Polish</string>
+    <string name="korean">Korean</string>
+    <string name="japanese">Japanese</string>
 
     <string name="FetchActivityOperation_about_to_transfer_since">About to transfer data since %1$s</string>
 
@@ -435,10 +471,10 @@
     <string name="live_activity_heart_rate">Heart rate</string>
 
     <string name="pref_title_pebble_health_store_raw">Store raw record in the database</string>
-    <string name="pref_summary_pebble_health_store_raw">If checked the data is stored \"as is\" and is available for later interpretation. NB: the database will be bigger in this case!</string>
+    <string name="pref_summary_pebble_health_store_raw">Stores the data \"as is\", increasing the database usage to allow for later interpretation.</string>
     <string name="action_db_management">Database management</string>
     <string name="title_activity_db_management">Database management</string>
-    <string name="activity_db_management_import_export_explanation">The database operations use the following path on your device. \nThis path is accessible to other Android applications and your computer. \nExpect to find your exported database (or place the database you want to import) there:</string>
+    <string name="activity_db_management_import_export_explanation">The database operations use the following path on your device. \nThis path is accessible to other Android apps and your computer. \nExpect to find your exported database (or place the database you want to import) there:</string>
     <string name="activity_db_management_merge_old_title">Legacy database delete</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Cannot access export path. Please contact the developers.</string>
     <string name="dbmanagementactivity_exported_to">Exported to: %1$s</string>
@@ -466,7 +502,7 @@
 
     <!-- Strings related to Pebble Pairing Activity-->
     <string name="title_activity_pebble_pairing">Pebble pairing</string>
-    <string name="pebble_pairing_hint">A pairing dialog will pop up on your Android device. If not, look in the notification drawer and accept the pairing request. Also accept it on your Pebble afterwards</string>
+    <string name="pebble_pairing_hint">A pairing dialog will pop up on your Android device. If not, look in the notification drawer and accept the pairing request. Also accept it on your Pebble afterwards.</string>
 
     <string name="weather_notification_label">Make sure that this skin is enabled in the Weather Notification app to get weather information on your Pebble.\n\nNo configuration is needed here.\n\nYou can enable the system weather app of your Pebble from the app management.\n\nSupported watchfaces will show the weather automatically.</string>
     <string name="pref_title_setup_bt_pairing">Enable Bluetooth pairing</string>
@@ -488,6 +524,7 @@
     <string name="mi2_fw_installhandler_fw53_hint">You need to install version %1$s before installing this firmware!</string>
     <string name="mi2_enable_text_notifications">Text notifications</string>
     <string name="mi2_enable_text_notifications_summary"><![CDATA[Needs firmware >= 1.0.1.28 and Mili_pro.ft* installed.]]></string>
+    <string name="on">On</string>
     <string name="off">Off</string>
     <string name="mi2_dnd_off">Off</string>
     <string name="mi2_dnd_automatic">Automatic (sleep detection)</string>
@@ -503,9 +540,26 @@
     <string name="discovery_dont_pair">Don\'t Pair</string>
 
     <!-- strings sent to pebble watches for quick actions -->
-    <string name="_pebble_watch_open_on_phone">Open on phone</string>
+    <string name="_pebble_watch_open_on_phone">Open on Android device</string>
     <string name="_pebble_watch_mute">Mute</string>
     <string name="_pebble_watch_reply">Reply</string>
+
+    <string name="controlcenter_start_activity_tracks">Your activity tracks</string>
+    <string name="activity_type_not_measured">Not measured</string>
+    <string name="activity_type_activity">Activity</string>
+    <string name="activity_type_light_sleep">Light sleep</string>
+    <string name="activity_type_deep_sleep">Deep sleep</string>
+    <string name="activity_type_not_worn">Device not worn</string>
+    <string name="activity_type_running">Running</string>
+    <string name="activity_type_walking">Walking</string>
+    <string name="activity_type_swimming">Swimming</string>
+    <string name="activity_type_unknown">Unknown activity</string>
+    <string name="activity_summaries">Activities</string>
+    <string name="activity_type_biking">Biking</string>
+    <string name="activity_type_treadmill">Treadmill</string>
+    <string name="select_all">Select all</string>
+    <string name="share">Share</string>
+    <string name="reset_index">Reset fetch date</string>
 
     <string name="kind_firmware">Firmware</string>
     <string name="kind_invalid">Invalid data</string>
@@ -521,6 +575,7 @@
     <string name="devicetype_pebble">Pebble</string>
     <string name="devicetype_miband">Mi Band</string>
     <string name="devicetype_miband2">Mi Band 2</string>
+    <string name="devicetype_miband3">Mi Band 3</string>
     <string name="devicetype_amazfit_bip">Amazfit Bip</string>
     <string name="devicetype_amazfit_cor">Amazfit Cor</string>
     <string name="devicetype_vibratissimo">Vibratissimo</string>
@@ -528,10 +583,37 @@
     <string name="devicetype_hplus">HPlus</string>
     <string name="devicetype_makibes_f68">Makibes F68</string>
     <string name="devicetype_exrizu_k8">Exrizu K8</string>
+    <string name="devicetype_q8">Q8</string>
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
     <string name="devicetype_xwatch">XWatch</string>
+    <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
+    <string name="devicetype_id115">ID115</string>
+    <string name="devicetype_watch9">Watch 9</string>
 
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>
+
+    <!-- Menus on the smart device -->
+    <string name="menuitem_shortcut_alipay">Alipay (Shortcut)</string>
+    <string name="menuitem_shortcut_weather">Weather (Shortcut)</string>
+    <string name="menuitem_status">Status</string>
+    <string name="menuitem_notifications">Notifications</string>
+    <string name="menuitem_activity">Activity</string>
+    <string name="menuitem_weather">Weather</string>
+    <string name="menuitem_alarm">Alarm</string>
+    <string name="menuitem_timer">Timer</string>
+    <string name="menuitem_compass">Compass</string>
+    <string name="menuitem_settings">Settings</string>
+    <string name="menuitem_alipay">Alipay</string>
+    <string name="menuitem_music">Music</string>
+    <string name="menuitem_more">More</string>
+
+    <string name="watch9_time_minutes">Minutes:</string>
+    <string name="watch9_time_hours">Hours:</string>
+    <string name="watch9_time_seconds">Seconds:</string>
+    <string name="watch9_calibration_hint">Set the time your device is showing to you right now.</string>
+    <string name="watch9_calibration_button">Calibrate</string>
+    <string name="title_activity_watch9_pairing">Watch 9 pairing</string>
+    <string name="title_activity_watch9_calibration">Watch 9 calibration</string>
 </resources>
