@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, atkyritsis, Carsten Pfeiffer,
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, atkyritsis, Carsten Pfeiffer,
     Christian Fischer, Daniele Gobbetti, freezed-or-frozen, JohnnySun, Julien
     Pivotto, Kasha, Sergey Trofimov, Steffen Liebergeld
 
@@ -761,7 +761,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onFetchActivityData() {
+    public void onFetchRecordedData(int dataTypes) {
         try {
             new FetchActivityOperation(this).perform();
         } catch (IOException ex) {
@@ -1056,9 +1056,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         if (value.length != 1) {
             LOG.error("Notifications should be 1 byte long.");
             LOG.info("RECEIVED DATA WITH LENGTH: " + value.length);
-            for (byte b : value) {
-                LOG.warn("DATA: " + String.format("0x%2x", b));
-            }
+            LOG.warn("DATA: " + GB.hexdump(value, 0, value.length));
             return;
         }
         switch (value[0]) {
@@ -1087,9 +1085,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 LOG.info("Setting latency succeeded.");
                 break;
             default:
-                for (byte b : value) {
-                    LOG.warn("DATA: " + String.format("0x%2x", b));
-                }
+                LOG.warn("DATA: " + GB.hexdump(value, 0, value.length));
         }
     }
 
@@ -1297,9 +1293,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
         if ((value.length - 2) % 6 != 0) {
             LOG.warn("GOT UNEXPECTED SENSOR DATA WITH LENGTH: " + value.length);
-            for (byte b : value) {
-                LOG.warn("DATA: " + String.format("0x%4x", b));
-            }
+            LOG.warn("DATA: " + GB.hexdump(value, 0, value.length));
         }
         else {
             counter = (value[0] & 0xff) | ((value[1] & 0xff) << 8);

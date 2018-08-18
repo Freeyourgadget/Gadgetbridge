@@ -48,20 +48,24 @@
 
     <string name="title_activity_fw_app_insaller">Εγκαταστάτης εφαρμογών/FW</string>
     <string name="fw_upgrade_notice">Πρόκειται να εγκαταστήσετε την έκδοση λογισμικού %s αντί για αυτή που έχετε τώρα στο Mi Band σας.</string>
-    <string name="fw_upgrade_notice_amazfitbip">"Πρόκειται να εγκαταστήστε το λογισμικό έκδοσης %s στο Amazfit Bip σας.
+    <string name="fw_upgrade_notice_amazfitbip">"Πρόκειται να εγκαταστήστε το λογισμικό έκδοσης %s στο Amazfit Bip σας. 
 \n 
-\nΠαρακαλώ να είστε σίγουροι ότι θα εγκαταστήσετε το αρχείο .gps, μετά το αρχείο .res και τέλος το αρχείο .fw. Το smartwatch θα κάνει επανεκκίνηση μετά την εγκατάσταση του .fw αρχείου. 
 \n
+\nΠαρακαλώ να είστε σίγουροι ότι θα εγκαταστήσετε το αρχείο .fw, μετά το αρχείο .res και τέλος το αρχείο .gps. Το smartwatch θα κάνει επανεκκίνηση μετά την εγκατάσταση του .fw αρχείου. 
+\n
+\n 
 \nΣημείωση: Δεν χρειάζεται η εγκατάσταση των αρχείων .res και .gps αν αυτά είναι ακριβώς τα ίδια  με αυτά που έχουν εγκατασταθεί προηγουμένως. 
+\n
 \n 
+\n
 \nΠΡΟΧΩΡΗΣΤΕ ΜΕ ΔΙΚΗ ΣΑΣ ΕΥΘΥΝΗ!"</string>
-    <string name="fw_upgrade_notice_amazfitcor">Πρόκειται να εγκαταστήσετε το λογισμικό %s για το Amazfit Cor. 
+    <string name="fw_upgrade_notice_amazfitcor">—Πρόκειται να εγκαταστήσετε το λογισμικό %s για το Amazfit Cor. 
 \n 
-\nΠαρακαλώ βεβαιωθείτε ότι θα εγκαταστήσετε το αρχείο .res και μετά το αρχείο .fw. Το smartwatch θα επανεκκινήσει μετά την εγκατάσταση του .fw αρχείου.
+\nΠαρακαλώ βεβαιωθείτε ότι θα εγκαταστήσετε το αρχείο .fw και μετά το αρχείο .res. Το smartwatch θα επανεκκινήσει μετά την εγκατάσταση του .fw αρχείου. 
 \n 
 \nΣημείωση: Το αρχείο .res δεν χρειάζεται εγκατάσταση αν είναι ακριβώς το ίδιο με αυτό που έχει εγκατασταθεί προηγούμενα. 
 \n 
-\nΔΕΝ ΕΙΝΑΙ ΕΠΑΡΚΩΣ ΔΟΚΙΜΑΣΜΕΝΟ, ΜΠΟΡΕΙ ΝΑ ΧΑΛΑΣΕΙ Η ΣΥΣΚΕΥΗ. ΠΡΟΧΩΡΗΣΤΕ ΜΕ ΔΙΚΗ ΣΑΣ ΕΥΘΥΝΗ!</string>
+\nΠΡΟΧΩΡΗΣΤΕ ΜΕ ΔΙΚΗ ΣΑΣ ΕΥΘΥΝΗ!</string>
     <string name="fw_multi_upgrade_notice">Πρόκειται να εγκαταστήσετε τα λογισμικά %1$s και %2$s αντ\'αυτών που υπάρχουν στο Mi Band σας.</string>
     <string name="miband_firmware_known">Αυτό το λογισμικό έχει δοκιμαστεί και είναι συμβατό με το Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">Αυτό το λογισμικό δεν έχει δοκιμαστεί και ενδέχεται να μην είναι συμβατό με το Gadgetbridge. 
@@ -75,8 +79,8 @@
     <string name="pref_header_general">Γενικές ρυθμίσεις</string>
     <string name="pref_title_general_autoconnectonbluetooth">Σύνδεση με την συσκευή όταν το Bluetooth ενεργοποιείται</string>
     <string name="pref_title_general_autostartonboot">Αυτόματη έναρξη</string>
-    <string name="pref_title_general_autocreonnect">Αυτόματη επανασύνδεση</string>
-    <string name="pref_title_audo_player">Προτιμώμενο πρόγραμμα ήχου</string>
+    <string name="pref_title_general_autoreconnect">Αυτόματη επανασύνδεση</string>
+    <string name="pref_title_audio_player">Προτιμώμενο πρόγραμμα ήχου</string>
     <string name="pref_default">Προεπιλογή</string>
     <string name="pref_title_charts_swipe">Σύρετε αριστερά/δεξιά για τα διαγράμματα της δραστηριότητας</string>
 
@@ -551,4 +555,60 @@
 
     <string name="notif_export_failed_title">Η εξαγωγή της βάσης δεδομένων απέτυχε! Παρακαλώ ελέγξτε τις ρυθμίσεις σας.</string>
     <string name="choose_auto_export_location">Διαλέξτε διαδρομή εξαγωγής</string>
-</resources>
+<string name="spanish">Ισπανικά</string>
+
+    <string name="notification_channel_name">Ειδοποιήσεις Gadgetbridge</string>
+<string name="devicetype_xwatch">"XWatch "</string>
+
+    <string name="on">Ανοιχτό</string>
+    <string name="controlcenter_start_activity_tracks">Η δραστηριότητα σας καταγράφεται</string>
+    <string name="activity_type_not_measured">Δεν μετρήθηκε</string>
+    <string name="activity_type_activity">Δραστηριότητα</string>
+    <string name="activity_type_light_sleep">Ελαφρύς ύπνος</string>
+    <string name="activity_type_deep_sleep">Βαθύς ύπνος</string>
+    <string name="activity_type_not_worn">Η συσκευή δεν φοριέται</string>
+    <string name="activity_type_running">Τρέξιμο</string>
+    <string name="activity_type_walking">Περπάτημα</string>
+    <string name="activity_type_swimming">Κολύμβηση</string>
+    <string name="activity_type_unknown">Άγνωστη δραστηριότητα</string>
+    <string name="activity_summaries">Δραστηριότητες</string>
+    <string name="activity_type_biking">Ποδηλασία</string>
+    <string name="activity_type_treadmill">Διάδρομος</string>
+
+    <string name="select_all">Επιλογή όλων</string>
+    <string name="share">Διαμοιρασμός</string>
+    <string name="reset_index">Επαναφορά ημερομηνίας λήψης</string>
+
+    <string name="pref_title_pebble_gatt_clientonly">μόνο GATT πελάτες</string>
+    <string name="pref_summary_pebble_gatt_clientonly">Αυτό είναι πειραματικό χαρακτηριστικό και μόνο για το Pebble 2 , δοκιμάστε το μόνο αν έχετε προβλήματα συνδεσιμότητας</string>
+    <string name="menuitem_shortcut_alipay">Alipay (συντόμευση)</string>
+    <string name="menuitem_shortcut_weather">Καιρός (συντόμευση)</string>
+    <string name="menuitem_status">Κατάσταση</string>
+    <string name="menuitem_activity">Δραστηριότητα</string>
+    <string name="menuitem_weather">Καιρός</string>
+    <string name="menuitem_alarm">Ξυπνητήρι</string>
+    <string name="menuitem_timer">Χρονόμετρο</string>
+    <string name="menuitem_compass">Πυξίδα</string>
+    <string name="menuitem_settings">Ρυθμίσεις</string>
+    <string name="menuitem_alipay">"Alipay "</string>
+<string name="devicetype_q8">"Q8 "</string>
+    <string name="blacklist_all_for_notifications">Μαύρη λίστα για όλες τις ειδοποιήσεις</string>
+    <string name="whitelist_all_for_notifications">Να ειδοποιήσει όλες οι ειδοποιήσεις</string>
+
+
+    <string name="fw_upgrade_notice_miband3">—Πρόκειται να εγκαταστήσετε το λογισμικό %s για το Mi Band 3. 
+\n 
+\nΠαρακαλώ βεβαιωθείτε ότι θα εγκαταστήσετε το αρχείο .fw και μετά το αρχείο .res. Το smartwatch θα επανεκκινήσει μετά την εγκατάσταση του .fw αρχείου. 
+\n 
+\nΣημείωση: Το αρχείο .res δεν χρειάζεται εγκατάσταση αν είναι ακριβώς το ίδιο με αυτό που έχει εγκατασταθεί προηγούμενα. 
+\n 
+\nΜΗ ΕΠΑΡΚΩΣ ΔΟΚΙΜΑΣΜΕΝΟ, ΜΠΟΡΕΙ ΝΑ ΧΑΛΑΣΕΙ Η ΣΥΣΚΕΥΗ ΣΑΣ,
+\nΠΡΟΧΩΡΗΣΤΕ ΜΕ ΔΙΚΗ ΣΑΣ ΕΥΘΥΝΗ!</string>
+    <string name="pref_auto_fetch">Αυτόματη λήψη δεδομένων δραστηριότητας</string>
+
+    <string name="devicetype_miband3">"Mi Band 3 "</string>
+    <string name="pref_auto_fetch_summary">Η λήψη των δεδομένων γίνεται μόνο όταν ξεκλειδώσετε την οθόνη. Δουλεύει μόνο όταν έχετε ορίσει έναν τρόπο κλειδώματος οθόνης!</string>
+    <string name="pref_auto_fetch_limit_fetches">Ελάχιστος χρόνος μεταξύ λήψης δεδομένων</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Λήψη δεδομένων κάθε %d λεπτά</string>
+
+    </resources>

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017 Andreas Shimokawa, Sami Alaoui
+/*  Copyright (C) 2017-2018 Andreas Shimokawa, Sami Alaoui
 
     This file is part of Gadgetbridge.
 
@@ -362,7 +362,7 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onFetchActivityData() {
+    public void onFetchRecordedData(int dataTypes) {
 
     }
 

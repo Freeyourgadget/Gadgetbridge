@@ -1,5 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.29.0" versioncode="136">
+        <change>New Device: Initial support for ID115</change>
+        <change>New Device: Initial support for Lenovo Watch9</change>
+        <change>Show splash screen during startup</change>
+        <change>Vertically align device icon in main activity</change>
+        <change>Try to support the google clock application (untested)</change>
+        <change>Amazfit Cor: Allow to configure displayed menu items</change>
+        <change>Amazfit Cor: Support basic music control</change>
+        <change>Amazfit Cor: Fix flashing font files</change>
+        <change>Amazfit Bip: improved GPX export</change>
+        <change>Amazfit Bip: Fix exported GPX file names for *FAT storage</change>
+        <change>Amazfit Bip: Fix current weather not being displayed with later firmwares</change>
+        <change>Amazfit Bip/Cor: Try to fix device being sometimes stuck in connecting state</change>
+        <change>Mi Band 2: Put some device specific settings into its own settings category</change>
+        <change>Mi Band 3: Support disabling of on-device menu items</change>
+        <change>Mi Band 3: Support locking the Mi Band sceen (swipe up to unlock)</change>
+        <change>Mi Band 2/3: New icon</change>
+        <change>NO1 F1: Set time during initialization</change>
+    </release>
+    <release version="0.28.1" versioncode="135">
+        <change>Fix wrong weather icon mapping in rare cases</change>
+        <change>Fix device discovery on Android 4.4</change>
+        <change>Amazfit Bip: Use UTC in gpx tracks for better compatibility with external software</change>
+        <change>Amazfit Bip: Add the (localized) activity type to the gpx filename</change>
+        <change>Amazfit Bip: Fix weather on latest firmwares</change>
+    </release>
+    <release version="0.28.0" versioncode="134">
+        <change>Initial support for ZeTime: time, weather and activity data sync, notification support and music playback control is working</change>
+        <change>Amazfit Bip/Cor: Rework firmware detection to cope with new version scheme</change>
+        <change>Amazfit Bip: Support setting language to Russian</change>
+        <change>Amazfit Cor: Support language switching on newer firmwares</change>
+        <change>Mi Band 3: support setting language (english and spanish tested)</change>
+        <change>Mi Band 3: Fix pairing</change>
+        <change>Mi Band 3: Send AQI to enable display of current temperature</change>
+    </release>
+    <release version="0.27.1" versioncode="133">
+        <change>Pebble: Change appstore search to point to RomanPort's pebble appstore</change>
+        <change>Mi Band 3: Allow flashing fonts (untested)</change>
+        <change>Amazfit Bip: Allow flashing latest firmwares</change>
+        <change>Amazfit Cor: Allow flashing Bip fonts (untested)</change>
+        <change>Allow to limit auto fetch to a user configurable time interval</change>
+    </release>
+    <release version="0.27.0" versioncode="132">
+        <change>Initial support for Mi Band 3 (largely untested, needs to be connected to Mi Fit once)</change>
+        <change>Option for automatic activity sync after screen unlock</change>
+        <change>Allow hiding activity transfer notification on Android Oreo and above</change>
+        <change>Allow blacklisting of pebblekit notifications for individual apps</change>
+        <change>Allow blacklisting all application at once</change>
+        <change>Forward Skype notifications to wearable even if "local only" flag is set</change>
+        <change>Show Gadgetbridge logo behind cards in main activity</change>
+        <change>Always stop BT/BTLE discovery when exiting the discovery activity</change>
+        <change>Amazfit Bip/Cor: Fix scheduled setting for "display on lift wrist" preference</change>
+        <change>Amazfit Bip/Cor: add recent firmwares to whitelist</change>
+        <change>Pebble: Fix a rare crash in webview</change>
+    </release>
+    <release version="0.26.5" versioncode="131">
+        <change>Fix autoreconnect at boot on recent Android versions</change>
+        <change>Bluetooth connection is more stable on Oreo</change>
+        <change>Potentially fix the watch continuously vibrating after call pickup</change>
+        <change>Amazfit Bip: Add setting to configure shortcuts (swipe to right from watchface)</change>
+        <change>Recognize Q8 as a HPlus device</change>
+    </release>
+    <release version="0.26.4" versioncode="130">
+        <change>Fix a bug with Toasts appearing every time a notification arrives when bluetooth is disabled</change>
+        <change>Pebble 2: Add optional GATT client only mode that might help with connection stability</change>
+        <change>Amazfit Cor: Fix detection of newer firmwares</change>
+        <change>Mi Band 2: Fix text notifcations not appearing with short vibration patterns</change>
+    </release>
+    <release version="0.26.3" versioncode="129">
+        <change>Amazfit Bip: Add proper mime type to shared gpx files</change>
+        <change>Amazfit Bip: allow to set displayed menu items</change>
+        <change>Amazfit Bip: fix fetching logs from device via debug menu</change>
+        <change>Amazfit Bip: Raise .res limit to 700000 bytes for modded files</change>
+    </release>
+    <release version="0.26.2" versioncode="128">
+        <change>Amazfit Bip: Time and timezone fixes for Android 6 and lower when exporting GPX</change>
+    </release>
+    <release version="0.26.1" versioncode="127">
+        <change>Fix crashes and connection problems on Android 6 and lower</change>
+    </release>
+    <release version="0.26.0" versioncode="126">
+        <change>Amazfit Bip: Initial support for GPS tracks</change>
+        <change>Pebble: Wind speed/direction support and bugfixes for weather when using background javascript</change>
+    </release>
+    <release version="0.25.1" versioncode="125">
+        <change>Amazfit Cor: Try to send weather location instead of AQI</change>
+        <change>Amazfit Bip: Support setting start end end time for background light when lifting the arm</change>
+        <change>Pebble: various fixes and improvemnets for background javascript</change>
+        <change>Explicity ask for RECEIVE_SMS permission to fix problems with Android 8</change>
+    </release>
+    <release version="0.25.0" versioncode="124">
+        <change>Inital suport for Xwatch</change>
+        <change>Move the connected device to top in control center</change>
+        <change>Add adaptive launcher icon for Android 8.x</change>
+        <change>No longer plot heart rate graph when device was detected as not worn</change>
+        <change>Pebble: Small fixes for background js (e.g. Pebble-Casio-WV58DE)</change>
+        <change>Pebble: native (non bg js) support for weather in Simply Light watchface</change>
+    </release>
+    <release version="0.24.6" versioncode="123">
+        <change>Display the chat icon for notifications coming from Kontalk and Antox</change>
+        <change>Pebble: Fix for background js which try to send floats (e.g. TrekVolle)</change>
+        <change>Mi Band 2: Change the way vibration patterns work, also fixes problems with missing text on newer firmwares</change>
+    </release>
+    <release version="0.24.5" versioncode="122">
+        <change>Fix crash in settings activity with export location</change>
+        <change>Fix notification deletion regression</change>
+        <change>Add 'Ł' and 'ł' to transliteration map</change>
+        <change>Omnijaws Weather: correctly pick todays' min and max temperature</change>
+        <change>Fix alarm details activity on small screen</change>
+        <change>Pebble: mimic online check of TrekVolle when using background js</change>
+    </release>
     <release version="0.24.4" versioncode="121">
         <change>Amazfit Bip: Fix language setting on new firmwares</change>
     </release>

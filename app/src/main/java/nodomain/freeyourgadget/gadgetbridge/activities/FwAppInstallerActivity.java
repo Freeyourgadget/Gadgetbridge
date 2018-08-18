@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Lem Dulfo
 
     This file is part of Gadgetbridge.
@@ -43,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.ItemWithDetailsAdapter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
@@ -191,13 +192,36 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
     }
 
     private InstallHandler findInstallHandlerFor(Uri uri) {
-        for (DeviceCoordinator coordinator : DeviceHelper.getInstance().getAllCoordinators()) {
+        for (DeviceCoordinator coordinator : getAllCoordinatorsConnectedFirst()) {
             InstallHandler handler = coordinator.findInstallHandler(uri, this);
             if (handler != null) {
                 return handler;
             }
         }
         return null;
+    }
+
+    private List<DeviceCoordinator> getAllCoordinatorsConnectedFirst() {
+        DeviceManager deviceManager = ((GBApplication) getApplicationContext()).getDeviceManager();
+        List<DeviceCoordinator> connectedCoordinators = new ArrayList<>();
+        List<DeviceCoordinator> allCoordinators = DeviceHelper.getInstance().getAllCoordinators();
+        List<DeviceCoordinator> sortedCoordinators = new ArrayList<>(allCoordinators.size());
+
+        GBDevice connectedDevice = deviceManager.getSelectedDevice();
+        if (connectedDevice != null && connectedDevice.isConnected()) {
+            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(connectedDevice);
+            if (coordinator != null) {
+                connectedCoordinators.add(coordinator);
+            }
+        }
+
+        sortedCoordinators.addAll(connectedCoordinators);
+        for (DeviceCoordinator coordinator : allCoordinators) {
+            if (!connectedCoordinators.contains(coordinator)) {
+                sortedCoordinators.add(coordinator);
+            }
+        }
+        return sortedCoordinators;
     }
 
     @Override

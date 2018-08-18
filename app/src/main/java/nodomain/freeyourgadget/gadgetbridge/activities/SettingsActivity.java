@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2017 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti, Normano64
+/*  Copyright (C) 2015-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer,
+    Daniele Gobbetti, Felix Konstantin Maurer, Normano64
 
     This file is part of Gadgetbridge.
 
@@ -18,7 +18,6 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.Manifest;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -29,16 +28,13 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
-import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
@@ -47,7 +43,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -65,6 +60,10 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DATEFORMAT;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DISPLAY_ITEMS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ENABLE_TEXT_NOTIFICATIONS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI3_BAND_SCREEN_UNLOCK;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_HEIGHT_CM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_SLEEP_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_STEPS_GOAL;
@@ -330,6 +329,110 @@ public class SettingsActivity extends AbstractSettingsActivity {
             }
         });
 
+        pref = findPreference("auto_fetch_interval_limit");
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object autoFetchInterval) {
+                String summary = String.format(
+                        getApplicationContext().getString(R.string.pref_auto_fetch_limit_fetches_summary),
+                        Integer.valueOf((String) autoFetchInterval));
+                preference.setSummary(summary);
+                return true;
+            }
+        });
+
+        int autoFetchInterval = GBApplication.getPrefs().getInt("auto_fetch_interval_limit", 0);
+        summary = String.format(
+                getApplicationContext().getString(R.string.pref_auto_fetch_limit_fetches_summary),
+                autoFetchInterval);
+        pref.setSummary(summary);
+
+
+
+        final Preference displayPages = findPreference("bip_display_items");
+        displayPages.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DISPLAY_ITEMS);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference setDateFormat = findPreference(PREF_MI2_DATEFORMAT);
+        setDateFormat.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DATEFORMAT);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference miBand2DisplayItems = findPreference(PREF_MI2_DISPLAY_ITEMS);
+        miBand2DisplayItems.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DISPLAY_ITEMS);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference miBand3ScreenUnlock = findPreference(PREF_MI3_BAND_SCREEN_UNLOCK);
+        miBand3ScreenUnlock.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI3_BAND_SCREEN_UNLOCK);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference miBand3DisplayItems = findPreference("miband3_display_items");
+        miBand3DisplayItems.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DISPLAY_ITEMS);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference corDisplayItems = findPreference("cor_display_items");
+        corDisplayItems.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DISPLAY_ITEMS);
+                    }
+                });
+                return true;
+            }
+        });
+
         // Get all receivers of Media Buttons
         Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
 
@@ -377,7 +480,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
     }
 
     /*
-    Either returns the file path of the selected document, or the display name
+    Either returns the file path of the selected document, or the display name, or an empty string
      */
     private String getAutoExportLocationSummary() {
         String autoExportLocation = GBApplication.getPrefs().getString(GBPrefs.AUTO_EXPORT_LOCATION, null);
@@ -386,20 +489,21 @@ public class SettingsActivity extends AbstractSettingsActivity {
         }
         Uri uri = Uri.parse(autoExportLocation);
         try {
-            String filePath = AndroidUtils.getFilePath(getApplicationContext(), uri);
-            if (filePath != null) {
-                return filePath;
+            return AndroidUtils.getFilePath(getApplicationContext(), uri);
+        } catch (IllegalArgumentException e) {
+            try {
+                Cursor cursor = getContentResolver().query(
+                        uri,
+                        new String[]{DocumentsContract.Document.COLUMN_DISPLAY_NAME},
+                        null, null, null, null
+                );
+                if (cursor != null && cursor.moveToFirst()) {
+                    return cursor.getString(cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DISPLAY_NAME));
+                }
             }
-        } catch (URISyntaxException e) {
-            return "";
-        }
-        Cursor cursor = getContentResolver().query(
-                uri,
-                new String[] { DocumentsContract.Document.COLUMN_DISPLAY_NAME },
-        null, null, null, null
-        );
-        if (cursor != null && cursor.moveToFirst()) {
-            return cursor.getString(cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DISPLAY_NAME));
+            catch (Exception fdfsdfds) {
+                LOG.warn("fuck");
+            }
         }
         return "";
     }
@@ -457,6 +561,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 PREF_USER_WEIGHT_KG,
                 PREF_USER_SLEEP_DURATION,
                 PREF_USER_STEPS_GOAL,
+                PREF_MI2_ENABLE_TEXT_NOTIFICATIONS,
                 "weather_city",
         };
     }

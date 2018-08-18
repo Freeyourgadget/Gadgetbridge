@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Julien Pivotto, Uwe Hermann
 
     This file is part of Gadgetbridge.
@@ -42,6 +42,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -110,7 +111,7 @@ class PebbleIoThread extends GBDeviceIoThread {
     public static void sendAppMessage(GBDeviceEventAppMessage message) {
         final String jsEvent;
         try {
-            WebViewSingleton.checkAppRunning(message.appUUID);
+            WebViewSingleton.getInstance().checkAppRunning(message.appUUID);
         } catch (IllegalStateException ex) {
             LOG.warn("Unable to send app message: " + message, ex);
             return;
@@ -124,9 +125,9 @@ class PebbleIoThread extends GBDeviceIoThread {
             jsEvent = "appmessage";
         }
 
-        final String appMessage = PebbleUtils.parseIncomingAppMessage(message.message, message.appUUID);
+        final String appMessage = PebbleUtils.parseIncomingAppMessage(message.message, message.appUUID, message.id);
         LOG.debug("to WEBVIEW: event: " + jsEvent + " message: " + appMessage);
-        WebViewSingleton.invokeWebview(new WebViewSingleton.WebViewRunnable() {
+        WebViewSingleton.getInstance().invokeWebview(new WebViewSingleton.WebViewRunnable() {
             @Override
             public void invoke(WebView webView) {
                 webView.evaluateJavascript("if (typeof Pebble == 'object') Pebble.evaluate('" + jsEvent + "',[" + appMessage + "]);", new ValueCallback<String>() {
@@ -192,7 +193,11 @@ class PebbleIoThread extends GBDeviceIoThread {
                     for (ParcelUuid uuid : uuids) {
                         LOG.info("found service UUID " + uuid);
                     }
-                    mBtSocket = btDevice.createRfcommSocketToServiceRecord(uuids[0].getUuid());
+
+                    final UUID UuidSDP = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
+                    mBtSocket = btDevice.createRfcommSocketToServiceRecord(UuidSDP);
+
+                    //mBtSocket = btDevice.createRfcommSocketToServiceRecord(uuids[0].getUuid());
                     mBtSocket.connect();
                     mInStream = mBtSocket.getInputStream();
                     mOutStream = mBtSocket.getOutputStream();
@@ -424,7 +429,7 @@ class PebbleIoThread extends GBDeviceIoThread {
         }
 
         if (GBApplication.getGBPrefs().isBackgroundJsEnabled()) {
-            WebViewSingleton.disposeWebView();
+            WebViewSingleton.getInstance().disposeWebView();
         }
 
         gbDevice.sendDeviceUpdateIntent(getContext());
@@ -553,9 +558,9 @@ class PebbleIoThread extends GBDeviceIoThread {
                     LOG.info("got GBDeviceEventAppManagement START event for uuid: " + appMgmt.uuid);
                     if (GBApplication.getGBPrefs().isBackgroundJsEnabled()) {
                         if (mPebbleProtocol.hasAppMessageHandler(appMgmt.uuid)) {
-                            WebViewSingleton.stopJavascriptInterface();
+                            WebViewSingleton.getInstance().stopJavascriptInterface();
                         } else {
-                            WebViewSingleton.runJavascriptInterface(gbDevice, appMgmt.uuid);
+                            WebViewSingleton.getInstance().runJavascriptInterface(gbDevice, appMgmt.uuid);
                         }
                     }
                     break;

@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017 Carsten Pfeiffer, Daniele Gobbetti
+/*  Copyright (C) 2017-2018 Carsten Pfeiffer, Daniele Gobbetti, Felix
+    Konstantin Maurer
 
     This file is part of Gadgetbridge.
 
@@ -31,7 +32,13 @@ public class AutoStartReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (GBApplication.getGBPrefs().getAutoStart() && Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             Log.i(TAG, "Boot completed, starting Gadgetbridge");
-            GBApplication.deviceService().start();
+            if (GBApplication.getPrefs().getBoolean("general_autoconnectonbluetooth", false)) {
+                Log.i(TAG, "Autoconnect is enabled, attempting to connect");
+                GBApplication.deviceService().connect();
+            } else {
+                GBApplication.deviceService().start();
+            }
+
             PeriodicExporter.enablePeriodicExport(context);
         }
     }

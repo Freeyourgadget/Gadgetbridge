@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Uwe Hermann, Yar
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Felix Konstantin Maurer, Taavi Eomäe, Uwe Hermann, Yar
 
     This file is part of Gadgetbridge.
 
@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.app.Activity;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
@@ -29,6 +30,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -50,7 +52,13 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
+import static nodomain.freeyourgadget.gadgetbridge.GBApplication.isRunningOreoOrLater;
+
 public class GB {
+
+    public static final String NOTIFICATION_CHANNEL_ID = "gadgetbridge";
+    public static final String NOTIFICATION_CHANNEL_ID_TRANSFER = "gadgetbridge transfer";
+
     public static final int NOTIFICATION_ID = 1;
     public static final int NOTIFICATION_ID_INSTALL = 2;
     public static final int NOTIFICATION_ID_LOW_BATTERY = 3;
@@ -84,7 +92,7 @@ public class GB {
         }
 
         Boolean connected = device.isInitialized();
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
         builder.setContentTitle(deviceName)
                 .setTicker(deviceName + " - " + text)
                 .setContentText(text)
@@ -99,7 +107,7 @@ public class GB {
             PendingIntent disconnectPendingIntent = PendingIntent.getService(context, 0, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT);
             builder.addAction(R.drawable.ic_notification_disconnected, context.getString(R.string.controlcenter_disconnect), disconnectPendingIntent);
             if (GBApplication.isRunningLollipopOrLater() && DeviceHelper.getInstance().getCoordinator(device).supportsActivityDataFetching()) { //for some reason this fails on KK
-                deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_FETCH_ACTIVITY_DATA);
+                deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_FETCH_RECORDED_DATA);
                 PendingIntent fetchPendingIntent = PendingIntent.getService(context, 1, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT);
                 builder.addAction(R.drawable.ic_action_fetch_activity_data, context.getString(R.string.controlcenter_fetch_activity_data), fetchPendingIntent);
             }
@@ -119,7 +127,7 @@ public class GB {
     }
 
     public static Notification createNotification(String text, Context context) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
         builder.setTicker(text)
                 .setContentText(text)
                 .setSmallIcon(R.drawable.ic_notification_disconnected)
@@ -150,12 +158,16 @@ public class GB {
         if (notification == null) {
             return;
         }
-        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+//      TODO: I believe it's better do always use the NMC instead of the old call, but old code works
+        NotificationManagerCompat nm = NotificationManagerCompat.from(context);
+//        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(id, notification);
     }
 
     private static void removeNotification(int id, Context context) {
-        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+//      TODO: I believe it's better do always use the NMC instead of the old call, but old code works
+        NotificationManagerCompat nm = NotificationManagerCompat.from(context);
+//        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         nm.cancel(id);
     }
 
@@ -316,17 +328,29 @@ public class GB {
         }
     }
 
-    private static Notification createTransferNotification(String text, boolean ongoing,
+    private static Notification createTransferNotification(String title, String text, boolean ongoing,
                                                            int percentage, Context context) {
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if(isRunningOreoOrLater()) {
+            NotificationChannel channel = notificationManager.getNotificationChannel(NOTIFICATION_CHANNEL_ID_TRANSFER);
+            if(channel == null) {
+                channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID_TRANSFER,
+                        context.getString(R.string.notification_channel_name),
+                        NotificationManager.IMPORTANCE_LOW);
+                notificationManager.createNotificationChannel(channel);
+            }
+        }
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
                 notificationIntent, 0);
 
-        NotificationCompat.Builder nb = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID_TRANSFER)
+                .setTicker((title == null) ? context.getString(R.string.app_name) : title)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setContentTitle(context.getString(R.string.app_name))
+                .setContentTitle((title == null) ? context.getString(R.string.app_name) : title)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
                 .setContentText(text)
                 .setContentIntent(pendingIntent)
                 .setOngoing(ongoing);
@@ -348,11 +372,11 @@ public class GB {
         removeNotification(NOTIFICATION_ID_LOW_BATTERY, context);
     }
 
-    public static void updateTransferNotification(String text, boolean ongoing, int percentage, Context context) {
+    public static void updateTransferNotification(String title, String text, boolean ongoing, int percentage, Context context) {
         if (percentage == 100) {
             removeNotification(NOTIFICATION_ID_TRANSFER, context);
         } else {
-            Notification notification = createTransferNotification(text, ongoing, percentage, context);
+            Notification notification = createTransferNotification(title, text, ongoing, percentage, context);
             updateNotification(notification, NOTIFICATION_ID_TRANSFER, context);
         }
     }
@@ -365,7 +389,7 @@ public class GB {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
                 notificationIntent, 0);
 
-        NotificationCompat.Builder nb = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(context.getString(R.string.app_name))
                 .setContentText(text)
                 .setTicker(text)
@@ -395,7 +419,7 @@ public class GB {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
                 notificationIntent, 0);
 
-        NotificationCompat.Builder nb = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(context.getString(R.string.notif_battery_low_title))
                 .setContentText(text)
                 .setContentIntent(pendingIntent)
@@ -429,7 +453,7 @@ public class GB {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
                 notificationIntent, 0);
 
-        NotificationCompat.Builder nb = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(context.getString(R.string.notif_export_failed_title))
                 .setContentText(text)
                 .setContentIntent(pendingIntent)

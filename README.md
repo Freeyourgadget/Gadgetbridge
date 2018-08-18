@@ -2,14 +2,14 @@ Gadgetbridge
 ============
 
 Gadgetbridge is an Android (4.4+) application which will allow you to use your
-Pebble, Mi Band, Amazfit Bit and HPlus device (and more) without the vendor's closed source application
+Pebble, Mi Band, Amazfit Bip and HPlus device (and more) without the vendor's closed source application
 and without the need to create an account and transmit any of your data to the
 vendor's servers.
 
 
 [Homepage](https://gadgetbridge.org)
 
-[Blog](https://blog.gadgetbridge.org)
+[Blog](https://blog.freeyourgadget.org)
 
 [![Donate](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Gadgetbridge/donate)
 
@@ -22,17 +22,22 @@ vendor's servers.
 [List of changes](https://github.com/Freeyourgadget/Gadgetbridge/blob/master/CHANGELOG.md)
 
 ## Supported Devices
-* Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble)
-* Pebble 2 [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble)
-* Mi Band, Mi Band 1A, Mi Band 1S [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band)
-* Mi Band 2 [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2)
 * Amazfit Bip [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
 * Amazfit Cor (no maintainer) [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor)
 * HPlus Devices (e.g. ZeBand) [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/HPlus)
-* Teclast H10, H30 (WIP)
+* ID115 (WIP)
+* Lenovo Watch 9 (WIP)
+* Liveview (WIP)
+* Mi Band, Mi Band 1A, Mi Band 1S [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band)
+* Mi Band 2 [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2)
+* Mi Band 3 [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-3)
 * NO.1 F1 (WIP)
-* Liveview
+* Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble)
+* Pebble 2 [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble)
+* Teclast H10, H30 (WIP)
+* XWatch (Affordable Chinese Casio-like smartwatches)
 * Vibratissimo (experimental)
+* ZeTime (WIP)
 
 ## Features
 
@@ -91,10 +96,14 @@ For more information read [this wiki article](https://github.com/Freeyourgadget/
 * João Paulo Barraca (HPlus)
 * Vitaly Svyastyn (NO.1 F1)
 * Sami Alaoui (Teclast H30)
+* "ladbsoft" (XWatch)
+* Sebastian Kranz (ZeTime)
+* Vadim Kaushan (ID115)
+* "maxirnilian" (Lenovo Watch 9)
 
 ## Contribute
 
-Contributions are welcome, be it feedback, bugreports, documentation, translation, research or code. Feel free to work
+Contributions are welcome, be it feedback, bug reports, documentation, translation, research or code. Feel free to work
 on any of the open [issues](https://github.com/Freeyourgadget/Gadgetbridge/issues?q=is%3Aopen+is%3Aissue);
 just leave a comment that you're working on one to avoid duplicated work.
 

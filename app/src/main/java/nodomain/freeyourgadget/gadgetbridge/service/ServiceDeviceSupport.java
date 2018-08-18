@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Julien Pivotto, Kasha, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
@@ -248,11 +248,11 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onFetchActivityData() {
+    public void onFetchRecordedData(int dataTypes) {
         if (checkBusy("fetch activity data")) {
             return;
         }
-        delegate.onFetchActivityData();
+        delegate.onFetchRecordedData(dataTypes);
     }
 
     @Override

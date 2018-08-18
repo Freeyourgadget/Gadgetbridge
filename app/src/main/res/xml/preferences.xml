@@ -14,11 +14,11 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="general_autocreconnect"
-            android:title="@string/pref_title_general_autocreonnect" />
+            android:title="@string/pref_title_general_autoreconnect" />
         <ListPreference
             android:defaultValue="default"
             android:key="audio_player"
-            android:title="@string/pref_title_audo_player"
+            android:title="@string/pref_title_audio_player"
             android:summary="%s" />
         <ListPreference
             android:key="pref_key_theme"
@@ -28,12 +28,12 @@
             android:defaultValue="@string/pref_theme_value_light"
             android:summary="%s" />
         <ListPreference
-            android:key="language"
-            android:title="@string/pref_title_language"
+            android:defaultValue="default"
             android:entries="@array/pref_language_options"
             android:entryValues="@array/pref_language_values"
-            android:defaultValue="default"
-            android:summary="%s" />
+            android:key="language"
+            android:summary="%s"
+            android:title="@string/pref_title_language" />
         <ListPreference
             android:defaultValue="metric"
             android:entries="@array/pref_entries_unit_system"
@@ -184,6 +184,56 @@
             android:key="pref_key_miband"
             android:title="@string/preferences_miband_settings" />
         <PreferenceScreen
+            android:icon="@drawable/ic_device_miband2"
+            android:title="@string/preferences_miband2_settings">
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="mi2_enable_text_notifications"
+                android:summaryOn="@string/mi2_enable_text_notifications_summary"
+                android:summaryOff="@string/off"
+                android:title="@string/mi2_enable_text_notifications" />
+            <ListPreference
+                android:defaultValue="@string/p_dateformat_time"
+                android:entries="@array/mi2_dateformats"
+                android:entryValues="@array/mi2_dateformats_values"
+                android:key="mi2_dateformat"
+                android:title="@string/miband2_prefs_dateformat"
+                android:summary="%s" />
+            <MultiSelectListPreference
+                android:dialogTitle="@string/mi2_prefs_display_items"
+                android:defaultValue="@array/pref_mi2_display_items_default"
+                android:entries="@array/pref_mi2_display_items"
+                android:entryValues="@array/pref_mi2_display_items_values"
+                android:key="mi2_display_items"
+                android:summary="@string/mi2_prefs_display_items_summary"
+                android:title="@string/mi2_prefs_display_items"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:icon="@drawable/ic_device_miband2"
+            android:title="@string/preferences_miband3_settings">
+            <ListPreference
+                android:defaultValue="auto"
+                android:entries="@array/pref_miband3_language"
+                android:entryValues="@array/pref_miband3_language_values"
+                android:key="miband3_language"
+                android:summary="%s"
+                android:title="@string/pref_title_language" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="mi3_band_screen_unlock"
+                android:summary="@string/mi3_prefs_band_screen_unlock_summary"
+                android:title="@string/mi3_prefs_band_screen_unlock" />
+            <MultiSelectListPreference
+                android:dialogTitle="@string/mi2_prefs_display_items"
+                android:defaultValue="@array/pref_miband3_display_items_default"
+                android:entries="@array/pref_miband3_display_items"
+                android:entryValues="@array/pref_miband3_display_items_values"
+                android:key="miband3_display_items"
+                android:summary="@string/mi2_prefs_display_items_summary"
+                android:title="@string/mi2_prefs_display_items"/>
+        </PreferenceScreen>
+        <PreferenceScreen
             android:icon="@drawable/ic_device_hplus"
             android:title="@string/preferences_amazfitbip_settings">
             <ListPreference
@@ -193,6 +243,26 @@
                 android:key="amazfitbip_language"
                 android:summary="%s"
                 android:title="@string/pref_title_language" />
+            <MultiSelectListPreference
+                android:dialogTitle="@string/mi2_prefs_display_items"
+                android:defaultValue="@array/pref_bip_display_items_default"
+                android:entries="@array/pref_bip_display_items"
+                android:entryValues="@array/pref_bip_display_items_values"
+                android:key="bip_display_items"
+                android:summary="@string/mi2_prefs_display_items_summary"
+                android:title="@string/mi2_prefs_display_items"/>
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:icon="@drawable/ic_device_miband"
+            android:title="@string/preferences_amazfitcor_settings">
+            <MultiSelectListPreference
+                android:dialogTitle="@string/mi2_prefs_display_items"
+                android:defaultValue="@array/pref_cor_display_items_default"
+                android:entries="@array/pref_cor_display_items"
+                android:entryValues="@array/pref_cor_display_items_values"
+                android:key="cor_display_items"
+                android:summary="@string/mi2_prefs_display_items_summary"
+                android:title="@string/mi2_prefs_display_items"/>
         </PreferenceScreen>
         <PreferenceScreen
             android:icon="@drawable/ic_device_pebble"
@@ -431,6 +501,11 @@
                     android:summary="@string/pref_summary_pebble_mtu_limit" />
                 <CheckBoxPreference
                     android:defaultValue="false"
+                    android:key="pebble_gatt_clientonly"
+                    android:title="@string/pref_title_pebble_gatt_clientonly"
+                    android:summary="@string/pref_summary_pebble_gatt_clientonly" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
                     android:key="pebble_enable_applogs"
                     android:summary="@string/pref_summary_pebble_enable_applogs"
                     android:title="@string/pref_title_pebble_enable_applogs" />
@@ -494,6 +569,31 @@
             </PreferenceCategory>
 
         </PreferenceScreen>
+        <PreferenceScreen
+            android:icon="@drawable/ic_device_h30_h10"
+            android:key="pref_key_id115"
+            android:title="@string/preferences_id115_settings">
+            <PreferenceCategory
+                android:key="pref_category_id115_general"
+                android:title="@string/pref_header_general">
+
+                <ListPreference
+                    android:defaultValue="left"
+                    android:entries="@array/wearside"
+                    android:entryValues="@array/wearside_values"
+                    android:key="id115_wrist"
+                    android:title="@string/miband_prefs_wearside"
+                    android:summary="%s" />
+
+                <ListPreference
+                    android:defaultValue="horizontal"
+                    android:entries="@array/orientation"
+                    android:entryValues="@array/orientation_values"
+                    android:key="id115_screen_orientation"
+                    android:title="@string/prefs_screen_orientation"
+                    android:summary="%s" />
+            </PreferenceCategory>
+        </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -514,6 +614,23 @@
             android:title="@string/pref_title_auto_export_interval"
             android:summary="@string/pref_summary_auto_export_interval"/>
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Auto fetch">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="auto_fetch_enabled"
+            android:title="@string/pref_auto_fetch"
+            android:summary="@string/pref_auto_fetch_summary"/>
+        <EditTextPreference
+            android:inputType="number"
+            android:key="auto_fetch_interval_limit"
+            android:defaultValue="0"
+            android:maxLength="3"
+            android:title="@string/pref_auto_fetch_limit_fetches"
+            android:summary="@string/pref_auto_fetch_limit_fetches_summary"/>
+    </PreferenceCategory>
+
     <PreferenceCategory
         android:key="pref_key_development"
         android:title="@string/pref_header_development">

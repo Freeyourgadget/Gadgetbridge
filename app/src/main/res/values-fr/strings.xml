@@ -8,7 +8,7 @@
   <string name="action_donate">Faire un don</string>
   <string name="controlcenter_fetch_activity_data">Synchroniser</string>
   <string name="controlcenter_start_sleepmonitor">Suivi du sommeil (ALPHA)</string>
-  <string name="controlcenter_find_device">Retrouver un appareil perdu</string>
+  <string name="controlcenter_find_device">Retrouver votre appareil perdu</string>
   <string name="controlcenter_take_screenshot">Prendre une capture d\'écran</string>
   <string name="controlcenter_disconnect">Déconnexion</string>
   <string name="controlcenter_delete_device">Supprimer l’appareil</string>
@@ -57,8 +57,8 @@
   <string name="pref_header_general">Paramètres généraux</string>
   <string name="pref_title_general_autoconnectonbluetooth">Connecter votre appareil quand le Bluetooth est mis en marche</string>
   <string name="pref_title_general_autostartonboot">Démarrer automatiquement</string>
-  <string name="pref_title_general_autocreonnect">Reconnexion automatique </string>
-  <string name="pref_title_audo_player">Lecteur audio préféré</string>
+  <string name="pref_title_general_autoreconnect">Reconnexion automatique </string>
+  <string name="pref_title_audio_player">Lecteur audio préféré</string>
   <string name="pref_default">Par défaut</string>
   <string name="pref_header_datetime">Date et heure</string>
   <string name="pref_title_datetime_syctimeonconnect">Synchroniser l\'heure</string>
@@ -307,7 +307,7 @@
   <string name="miband_prefs_reserve_alarm_calendar">Alarmes à réserver pour événements futurs</string>
   <string name="miband_prefs_hr_sleep_detection">Utiliser le capteur cardiaque pour améliorer la détection du sommeil</string>
   <string name="miband_prefs_device_time_offset_hours">La compensation de temps en heure (pour travailleurs en rotation, par exemple)</string>
-  <string name="miband2_prefs_dateformat">Mi2 : Format de la date</string>
+  <string name="miband2_prefs_dateformat">Format de la date</string>
   <string name="dateformat_time">Heure</string>
   <string name="dateformat_date_time"><![CDATA[Date et heure]]></string>
   <string name="mi2_prefs_goal_notification">Notification d\'objectif</string>
@@ -336,12 +336,12 @@
   <string name="appwidget_text">ZzZz</string>
   <string name="add_widget">Ajouter un widget</string>
   <string name="activity_prefs_sleep_duration">
-Temps de sommeil péféré en heures</string>
+Temps de sommeil préféré en heures</string>
   <string name="appwidget_alarms_set">Une alarme a été enregistré pour %1$02d:%2$02d</string>
   <string name="device_hw">Révision matérielle : %1$s</string>
   <string name="device_fw">Version du micrologiciel : %1$s</string>
   <string name="error_creating_directory_for_logfiles">Erreur à la création de votre fichier log : %1$s</string>
-  <string name="DEVINFO_HR_VER">"Révision matérielle : "</string>
+  <string name="DEVINFO_HR_VER">"Fréquence cardiaque : "</string>
   <string name="updatefirmwareoperation_update_in_progress">Installation du micrologiciel</string>
   <string name="updatefirmwareoperation_firmware_not_sent">Échec lors de l\'écriture du micrologiciel</string>
   <string name="charts_legend_heartrate">Fréquence cardiaque</string>
@@ -405,11 +405,11 @@ NOTE : la base de données sera bien évidement plus grande !</string>
   <string name="discovery_successfully_bonded">Lié à %1$s.</string>
   <string name="discovery_pair_title">Appairer avec %1$s ?</string>
   <string name="discovery_pair_question">Sélectionnez Jumeler pour associer vos dispositifs. Si cela échoue, essayez à nouveau sans jumelage.</string>
-  <string name="discovery_yes_pair">Jumelage</string>
+  <string name="discovery_yes_pair">Appairer</string>
   <string name="discovery_dont_pair">Ne pas appairer</string>
 <string name="fw_upgrade_notice_amazfitbip">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Bip. 
 \n 
-\nVeuillez installer le micrologiciel .gps, ensuite le fichier .res, puis le fichier .fw. Votre montre redémarrera après installation du .fw. 
+\nVeuillez installer le fichier .fw, puis le fichier .res, puis le fichier.gps.. Votre montre redémarrera après installation du .fw. 
 \n 
 \nNote : vous ne devez pas installer .res et .gps si ceux-ci sont identiques à ceux installés précédemment. 
 \n 
@@ -441,11 +441,11 @@ NOTE : la base de données sera bien évidement plus grande !</string>
     <string name="controlcenter_connect">Connecter</string>
     <string name="fw_upgrade_notice_amazfitcor">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Cor. 
 \n 
-\nVeuillez installer le micrologiciel .gps, ensuite le fichier .res, puis le fichier .fw. Votre montre redémarrera après installation du .fw. 
+\nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après installation du .fw. 
 \n 
 \nNote : vous ne devez pas installer .res si celui-ci est identique à celui installé précédemment. 
 \n 
-\nNON TESTÉ, PEUT BRICKER L\'APPAREIL. CONTINUEZ À VOS RISQUES !</string>
+\nNON TESTÉ, PEUT BRIQUER L\'APPAREIL. CONTINUEZ À VOS RISQUES !</string>
     <string name="amazfitcor_firmware">Micrologiciel Amazfit Cor %1$s</string>
     <string name="pref_title_charts_swipe">Permettre le balayage gauche/droite dans les graphiques d\'activité</string>
 
@@ -472,7 +472,7 @@ NOTE : la base de données sera bien évidement plus grande !</string>
     <string name="kind_gps_almanac">Almanach GPS</string>
     <string name="kind_gps_cep">Correction d\'erreurs GPS</string>
     <string name="kind_resources">Ressources</string>
-    <string name="kind_watchface">Watchface</string>
+    <string name="kind_watchface">Cadran</string>
 
     <string name="devicetype_unknown">Appareil inconnu</string>
     <string name="devicetype_test">Appareil de test</string>
@@ -494,6 +494,76 @@ NOTE : la base de données sera bien évidement plus grande !</string>
     <string name="pref_title_auto_export_interval">Intervalle d\'exportation</string>
     <string name="pref_summary_auto_export_interval">Exporter toutes les %d heures</string>
 
-    <string name="notif_export_failed_title">L\'exportation de la base de données a échoué ! Veuillez vérifier vos paramètres.</string>
+    <string name="notif_export_failed_title">L\'exportation de la base de données a échoué ! Veuillez vérifier vos paramètres.</string>
     <string name="choose_auto_export_location">Choisissez l\'emplacement d\'exportation</string>
+<string name="spanish">Espagnol</string>
+
+    <string name="notification_channel_name">Notifications de Gadgetbridge</string>
+<string name="devicetype_xwatch">XWatch</string>
+
+    <string name="on">Actif</string>
+    <string name="activity_type_not_measured">Non mesurée</string>
+    <string name="activity_type_activity">Activité</string>
+    <string name="activity_type_light_sleep">Sommeil léger</string>
+    <string name="activity_type_deep_sleep">Sommeil profond</string>
+    <string name="activity_type_running">Course</string>
+    <string name="activity_type_walking">Marche</string>
+    <string name="activity_type_swimming">Natation</string>
+    <string name="activity_type_unknown">Activité inconnue</string>
+    <string name="activity_summaries">Activités</string>
+    <string name="activity_type_biking">Vélo</string>
+    <string name="activity_type_treadmill">Tapis de course</string>
+
+    <string name="controlcenter_start_activity_tracks">Suivi de vos activités</string>
+    <string name="activity_type_not_worn">Dispositif non utilisé</string>
+    <string name="select_all">Tout sélectionner</string>
+    <string name="share">Partager</string>
+    <string name="reset_index">Réinitialiser la date de récupération</string>
+
+    <string name="menuitem_status">Etat</string>
+    <string name="menuitem_activity">Activité</string>
+    <string name="menuitem_weather">Météo</string>
+    <string name="menuitem_alarm">Alarme</string>
+    <string name="menuitem_timer">Minuteur</string>
+    <string name="menuitem_compass">Boussole</string>
+    <string name="menuitem_settings">Réglages</string>
+    <string name="menuitem_alipay">Alipay</string>
+<string name="blacklist_all_for_notifications">Bloquer toutes les notifications</string>
+    <string name="whitelist_all_for_notifications">Débloquer toutes les notifications</string>
+
+
+    <string name="fw_upgrade_notice_miband3">"Vous allez installer le micrologiciel %s dans votre Mi Band 3.
+\n
+\nAssurez-vous d\'installer d\'abord le fichier .fw, et ensuite le fichiers .res. Votre bracelet redémarrera après l\'installation du fichiers .fw.
+\n
+\nRemarque:  Vous n\'avez pas besoin d\'installer le fichier .res si c\'est exactement le même que celui déja installé.
+\n
+\nNON TESTÉ, PEUT BRIQUER VOTRE APPAREIL, À VOS RISQUES ET PÉRILS !"</string>
+    <string name="pref_title_pebble_gatt_clientonly">client GATT uniquement</string>
+    <string name="pref_summary_pebble_gatt_clientonly">C\'est uniquement pour les Pebble 2 et expérimental, à essayer si vous avez des problèmes de connectivité</string>
+    <string name="preferences_id115_settings">réglages ID115</string>
+    <string name="prefs_screen_orientation">Orientation de l\'écran</string>
+
+    <string name="pref_auto_fetch">Récupérer automatiquement les données d\'activité</string>
+    <string name="pref_auto_fetch_summary">Récupération au déverrouillage de l\'écran. Fonctionne uniquement si un mécanisme de verrouillage est configuré !</string>
+    <string name="pref_auto_fetch_limit_fetches">Temps minimum entre synchronisations</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Synchronisation toutes les %d minutes</string>
+
+    <string name="preferences_miband2_settings">Réglages Mi Band 2</string>
+    <string name="preferences_miband3_settings">Régalges Mi Band 3</string>
+    <string name="preferences_amazfitcor_settings">Réglages Amazfit Cor</string>s
+    <string name="horizontal">Horizontal</string>
+    <string name="vertical">Vertical</string>
+    <string name="russian">Russe</string>
+
+    <string name="devicetype_miband3">Mi Band 3</string>
+    <string name="devicetype_q8">Q8</string>
+    <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
+    <string name="devicetype_id115">ID115</string>
+
+    <string name="menuitem_shortcut_alipay">Alipay (Raccourci)</string>
+    <string name="menuitem_shortcut_weather">Météo (Raccourci)</string>
+    <string name="menuitem_notifications">Notifications</string>
+    <string name="menuitem_music">Musique</string>
+    <string name="menuitem_more">Suite</string>
 </resources>

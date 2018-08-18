@@ -49,38 +49,38 @@
 
     <string name="title_activity_controlcenter">Gadgetbru</string>
     <string name="controlcenter_delete_device_dialogmessage">Dette vil slette enheten og all tilknyttet data!</string>
-    <string name="fw_upgrade_notice_amazfitbip">Du er i ferd med å installere fastvaren %s på din Amazfit Bip.
-\n
-\nForsikre deg om at du installerer .gps-fastvaren, så .res-fila, og til sist .fw-fila. Armbåndsuret ditt vil starte på nytt etter at .fw-fila er installert.
-\n
-\nMerk: Du må ikke installere .res og .gps hvis disse er akkurat de samme som dem som allerede er installert.
-\n
+    <string name="fw_upgrade_notice_amazfitbip">Du er i ferd med å installere %s-fastvaren på din Amazfit Bip. 
+\n 
+\nForsikre deg om at du installerer ..fw-fila, så .res-fila, og til sist gps-fila. Armbåndsuret ditt vil starte på nytt etter at .fw-fila er installert. 
+\n 
+\nMerk: Du må ikke installere .res og .gps hvis disse er akkurat de samme som dem som allerede er installert. 
+\n 
 \nFORTSETT PÅ EGEN RISIKO!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Du er i ferd med å installere fastvaren %s på din Amazfit Cor.
-\n
-\nForsikre deg om at du installerer .res-fila, og så .fw-fila. Armbåndsuret ditt vil starte på nytt etter at .fw-fila er installert.
-\n
-\nMerk: Du må ikke installere .res og .gps hvis disse er akkurat de samme som dem som allerede er installert.
-\n
-\nUTESTET, KAN HAVARERE ENHETEN DIN, FORTSETT PÅ EGEN RISIKO!</string>
-    <string name="fw_multi_upgrade_notice">Du er i ferd med å installere fastvarene %1$s og %2$s i steden for dem som er installert nå på ditt Mi Band.</string>
+    <string name="fw_upgrade_notice_amazfitcor">Du er i ferd med å installere %s-fastvaren på din Amazfit Cor. 
+\n 
+\nForsikre deg om at du installerer .fw-fila, og så .res-fila. Armbåndsuret ditt vil starte på nytt etter at .fw-fila er installert. 
+\n 
+\nMerk: Du må ikke installere .res og .gps hvis disse er akkurat de samme som dem som allerede er installert. 
+\n 
+\nFORTSETT PÅ EGEN RISIKO!</string>
+    <string name="fw_multi_upgrade_notice">Du er i ferd med å installere %1$s- og %2$s-fastvarene isteden for dem som er installert nå på ditt Mi Band.</string>
     <string name="miband_firmware_known">Denne fastvaren har blitt testet og er kompatibel med Gadgetbru.</string>
-    <string name="miband_firmware_unknown_warning">Denne fastvaren er utestet og er kanskje ikke kompatibel med Gadgetbru.
+    <string name="miband_firmware_unknown_warning">Denne fastvaren er utestet og er kanskje ikke kompatibel med Gadgetbru. 
 \n
-\nDu oppfordres IKKE til å skrive den til ditt Mi Band!</string>
-    <string name="miband_firmware_suggest_whitelist">Hvis du fremdeles ønsker å fortsette og ting fungerer etterpå, fortell Gadgetbru-utviklerne at de skal hvitliste fastvareversjon: %s</string>
+\nDu FRARÅDES fra å skrive den til ditt Mi Band!</string>
+    <string name="miband_firmware_suggest_whitelist">Hvis du fremdeles ønsker å fortsette og ting fungerer etterpå, fortell Gadgetbru-utviklerne at de skal hvitliste %s-fastvareversjonen</string>
 
     <string name="title_activity_settings">Innstillinger</string>
 
     <string name="pref_header_general">Hovedinnstillinger</string>
     <string name="pref_title_general_autoconnectonbluetooth">Koble til enhet når Blåtann slås på</string>
     <string name="pref_title_general_autostartonboot">Start automatisk</string>
-    <string name="pref_title_general_autocreonnect">Koble til igjen automatisk</string>
-    <string name="pref_title_audo_player">Foretrukken lydspiller</string>
+    <string name="pref_title_general_autoreconnect">Koble til igjen automatisk</string>
+    <string name="pref_title_audio_player">Foretrukken lydspiller</string>
     <string name="pref_default">Forvalg</string>
     <string name="pref_header_datetime">Dato og tid</string>
     <string name="pref_title_datetime_syctimeonconnect">Synkroniser tid</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Synkroniser tid til enhet ved tilknobling og når tid eller tidssone endres på Android</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Synkroniser tid til enhet ved tilkobling, og når tid eller tidssone endres på Android-enheten</string>
 
     <string name="pref_title_theme">Drakt</string>
     <string name="pref_theme_light">Lys</string>
@@ -101,7 +101,7 @@
     <string name="pref_title_notifications_generic">Generisk merknadsstøtte</string>
     <string name="pref_title_whenscreenon">…også når skjermen er på</string>
     <string name="pref_title_notification_filter">Ikke forstyrr</string>
-    <string name="pref_summary_notification_filter">Stopp uønskede merkander fra å bli sendt i \"Ikke forstyrr\"-modus</string>
+    <string name="pref_summary_notification_filter">Stopp uønskede merknader fra å bli sendt i \"Ikke forstyrr\"-modus</string>
     <string name="pref_title_transliteration">Translitterasjon</string>
     <string name="pref_summary_transliteration">Skru på hvis din enhet ikke har noen støtte for ditt språks skrift</string>
 
@@ -169,7 +169,7 @@
     <string name="pref_title_pebble_forceuntested">Skru på utestede funksjoner</string>
     <string name="pref_summary_pebble_forceuntested">Skru på utestede funksjoner. KUN SKRU PÅ DETTE HVIS DU VET HVA DU GJØR!</string>
     <string name="pref_title_pebble_forcele">Alltid foretrekk BLE</string>
-    <string name="pref_summary_pebble_forcele">Bruk eksperimentell Pebble LE-støtte for alle Pebble-klokker istedenfor BT classic, som krever parring av en Pebble LE etter at noe som ikke var en LE har vært tilkoblet én gang</string>
+    <string name="pref_summary_pebble_forcele">Bruk eksperimentell Pebble LE-støtte for alle Pebble-klokker, istedenfor BT classic, som krever parring til ikke-LE først, og så Pebble LE</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU-grense</string>
     <string name="pref_summary_pebble_mtu_limit">Hvis din Pebble 2/Pebble LE ikke fungerer som forventet, prøv å sette denne grensen for å begrense MTU (gyldig rekkevidde 20-512)</string>
     <string name="pref_title_pebble_enable_bgjs">Skru på bakgrunns-JS</string>
@@ -216,7 +216,7 @@
     <string name="discovery_stop_scanning">Stopp skanning</string>
     <string name="discovery_start_scanning">Start oppdagning</string>
     <string name="action_discover">Koble til ny enhet</string>
-    <string name="device_with_rssi">%1$s (%2$)</string>
+    <string name="device_with_rssi">%1$s (%2$s)</string>
     <string name="title_activity_android_pairing">Parr enhet</string>
     <string name="android_pairing_hint">Bruk parringsdialogen for Blåtann i Android til å parre enheten.</string>
     <string name="title_activity_mi_band_pairing">Parr ditt Mi Band</string>
@@ -299,13 +299,13 @@
     <string name="user_feedback_miband_set_alarms_ok">Alarmer sendt til enhet.</string>
     <string name="chart_no_data_synchronize">Ingen data. Synkroniser enhet?</string>
     <string name="user_feedback_miband_activity_data_transfer">I ferd med å overføre %1$s med data fra %2$s</string>
-    <string name="miband_prefs_fitness_goal">Stegmål</string>
+    <string name="miband_prefs_fitness_goal">Daglig stegmål</string>
     <string name="dbaccess_error_executing">Feil under kjøring av \"%1$s\"</string>
     <string name="controlcenter_start_activitymonitor">Din aktivitet (alfa)</string>
     <string name="cannot_connect">Kan ikke koble til: %1$s</string>
     <string name="installer_activity_unable_to_find_handler">Kan ikke finne en behandler for installasjon av denne fila.</string>
     <string name="pbw_install_handler_unable_to_install">Klarte ikke å installere gitt fil: %1$s</string>
-    <string name="pbw_install_handler_hw_revision_mismatch">Klarte ikke å installere angitt fastvare. Den passer ikke for maskinvareversjonen for din Pebble.</string>
+    <string name="pbw_install_handler_hw_revision_mismatch">Klarte ikke å installere angitt fastvare: Den passer ikke maskinvareversjonen på din Pebble.</string>
     <string name="installer_activity_wait_while_determining_status">Vent mens installasjonsstatus fastsettes…</string>
     <string name="notif_battery_low_title">Lite batteri på gadget!</string>
     <string name="notif_battery_low_percent">%1$s batteri gjenstår: %2$s%%</string>
@@ -345,7 +345,7 @@
     <string name="pref_title_dont_ack_transfer">Ikke send bekreftelse på aktivitetsdataoverføring</string>
     <string name="pref_summary_dont_ack_transfers">Hvis aktivitetsdataen ikke bekreftes til bandet, vil de ikke bli tømt. Nyttig hvis Gb brukes sammen med andre programmer.</string>
     <string name="pref_summary_keep_data_on_device">Beholder aktivitetsdata på Mi Band-et, selv etter synkronisering. Nyttig hvis Gb brukes sammen med andre programmer.</string>
-    <string name="pref_title_low_latency_fw_update">Bruk lav-latens -modus for fastvareoppgraderinger</string>
+    <string name="pref_title_low_latency_fw_update">Bruk lav-latens-modus for fastvareoppgraderinger</string>
     <string name="pref_summary_low_latency_fw_update">Dette kan hjelpe på enheter der fastvareoppgraderinger mislykkes.</string>
 
     <string name="live_activity_steps_history">Steghistorikk</string>
@@ -382,7 +382,7 @@
     <string name="mi2_prefs_inactivity_warnings">Inaktivitetsadvarsler</string>
     <string name="mi2_prefs_inactivity_warnings_summary">Båndet vil vibrere når du har vært inaktiv en stund</string>
     <string name="mi2_prefs_inactivity_warnings_threshold">Inaktivitetsterskel (i minutter)</string>
-    <string name="mi2_prefs_inactivity_warnings_dnd_summary">Skru av inaktivitetsadvarsel for en tidsperiode</string>
+    <string name="mi2_prefs_inactivity_warnings_dnd_summary">Skru av inaktivitetsadvarsler for en tidsperiode</string>
     <string name="mi2_prefs_do_not_disturb_start">Starttid</string>
     <string name="mi2_prefs_do_not_disturb_end">Sluttid</string>
 
@@ -444,7 +444,7 @@
     <string name="title_activity_vibration">Vibrasjon</string>
 
     <string name="title_activity_pebble_pairing">Pebble-parring</string>
-    <string name="pebble_pairing_hint">En parringslogg bør sprette opp på din Android-enhet. Hvis det ikke skjer, se i navigasjonsskuffen, og godta parringsforespørselen. Etter det godtar du parringsforespørselen på din Pebble</string>
+    <string name="pebble_pairing_hint">En parringslogg vil sprette opp på din Android-enhet. Hvis ikke, se i navigasjonsskuffen, og godta parringsforespørselen. Godta den også på din Pebble etterpå.</string>
 
     <string name="pref_title_setup_bt_pairing">Skru på Blåtannsparring</string>
     <string name="pref_summary_setup_bt_pairing">Skru dette av hvis du har problemer med å koble til</string>
@@ -477,7 +477,7 @@
     <string name="discovery_yes_pair">Parr</string>
     <string name="discovery_dont_pair">Ikke parr</string>
 
-    <string name="_pebble_watch_open_on_phone">Åpne på telefonen</string>
+    <string name="_pebble_watch_open_on_phone">Åpne på Android-enheten</string>
     <string name="_pebble_watch_mute">Forstum</string>
     <string name="_pebble_watch_reply">Svar</string>
 <string name="pref_title_weather">Vær</string>
@@ -549,4 +549,59 @@
 
     <string name="notif_export_failed_title">Eksport av database mislyktes. Sjekk innstillingene dine.</string>
     <string name="choose_auto_export_location">Velg eksportplassering</string>
-</resources>
+<string name="spanish">Spansk</string>
+
+    <string name="notification_channel_name">Gadgetbridge-merknader</string>
+<string name="devicetype_xwatch">XWatch</string>
+
+    <string name="on">På</string>
+    <string name="controlcenter_start_activity_tracks">Dine aktivitetsspor</string>
+    <string name="activity_type_not_measured">Ikke målt</string>
+    <string name="activity_type_activity">Aktivitet</string>
+    <string name="activity_type_light_sleep">Lett søvn</string>
+    <string name="activity_type_deep_sleep">Dyp søvn</string>
+    <string name="activity_type_not_worn">Enhet ikke båret</string>
+    <string name="activity_type_running">Springing</string>
+    <string name="activity_type_walking">Gåing</string>
+    <string name="activity_type_swimming">Svømming</string>
+    <string name="activity_type_unknown">Ukjent aktivitet</string>
+    <string name="activity_summaries">Aktiviteter</string>
+    <string name="activity_type_biking">Sykling</string>
+    <string name="activity_type_treadmill">Tredemølle</string>
+    <string name="select_all">Velg alle</string>
+    <string name="share">Del</string>
+    <string name="reset_index">Tilbakestill innhentingsdato</string>
+
+    <string name="menuitem_status">Status</string>
+    <string name="menuitem_activity">Aktivitet</string>
+    <string name="menuitem_weather">Vær</string>
+    <string name="menuitem_alarm">Alarm</string>
+    <string name="menuitem_timer">Tidsur</string>
+    <string name="menuitem_compass">Kompass</string>
+    <string name="menuitem_settings">Innstillinger</string>
+    <string name="menuitem_alipay">Alipay</string>
+<string name="pref_title_pebble_gatt_clientonly">Kun GATT-klient</string>
+    <string name="pref_summary_pebble_gatt_clientonly">Dette er kun for Pebble 2 og eksperimentelt, prøv dette hvis du har tilkoblingsproblemer</string>
+    <string name="menuitem_shortcut_alipay">Alipay (snarvei)</string>
+    <string name="menuitem_shortcut_weather">Vær (snarvei)</string>
+    <string name="fw_upgrade_notice_miband3">Du er i ferd med å installere %s-fastvaren på din Mi Band 3.
+\n
+\nInstaler først .fw-fila, og dernest .res-fila. Klokka di vil starte på nytt etter at du installerer .fw-fila.
+\n
+\nMerk: Du trenger ikke å installere .res hvis du har akkurat den samme installert.
+\n
+\nUTESTET, KAN HAVARERE ENHETEN, FORTSETT PÅ EGEN RISIKO!</string>
+    <string name="devicetype_miband3">Mi Band 3</string>
+    <string name="devicetype_q8">Q8</string>
+    <string name="blacklist_all_for_notifications">Svartelist merknader fra alle disse</string>
+    <string name="whitelist_all_for_notifications">Hvitlist merknader fra alle disse</string>
+
+
+    <string name="pref_auto_fetch">Hent aktivitetsdata automatisk</string>
+
+    <string name="pref_auto_fetch_summary">Henting skjer ved skjermopplåsing, og fungerer kun hvis en låsemekanisme er valgt!</string>
+
+    <string name="pref_auto_fetch_limit_fetches">Minimumstid mellom innhentinger</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Henter hvert %d minutt</string>
+
+    </resources>

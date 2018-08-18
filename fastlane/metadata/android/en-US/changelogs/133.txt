@@ -1,0 +1,5 @@
+* Pebble: Change appstore search to point to RomanPort's pebble appstore
+* Mi Band 3: Allow flashing fonts (untested)
+* Amazfit Bip: Allow flashing latest firmwares
+* Amazfit Cor: Allow flashing Bip fonts (untested)
+* Allow to limit auto fetch to a user configurable time interval

@@ -5,17 +5,22 @@
     tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity$PlaceholderFragment"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/sleepchart_info"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0" />
+
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/sleepchart_pie_light_deep"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="20"></com.github.mikephil.charting.charts.PieChart>
+        android:layout_weight="2" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/sleepchart"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-
-        android:layout_weight="20" />
+        android:layout_weight="2" />
 
 </LinearLayout>

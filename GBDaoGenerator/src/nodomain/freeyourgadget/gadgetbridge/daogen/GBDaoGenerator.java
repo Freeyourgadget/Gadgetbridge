@@ -15,6 +15,8 @@
  */
 package nodomain.freeyourgadget.gadgetbridge.daogen;
 
+import java.util.Date;
+
 import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
 import de.greenrobot.daogenerator.Index;
@@ -32,6 +34,7 @@ public class GBDaoGenerator {
     private static final String MAIN_PACKAGE = "nodomain.freeyourgadget.gadgetbridge";
     private static final String MODEL_PACKAGE = MAIN_PACKAGE + ".model";
     private static final String VALID_BY_DATE = MODEL_PACKAGE + ".ValidByDate";
+    private static final String ACTIVITY_SUMMARY = MODEL_PACKAGE + ".ActivitySummary";
     private static final String OVERRIDE = "@Override";
     private static final String SAMPLE_RAW_INTENSITY = "rawIntensity";
     private static final String SAMPLE_STEPS = "steps";
@@ -42,7 +45,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(17, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(18, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -65,8 +68,13 @@ public class GBDaoGenerator {
         addHPlusHealthActivityKindOverlay(schema, user, device);
         addHPlusHealthActivitySample(schema, user, device);
         addNo1F1ActivitySample(schema, user, device);
+        addXWatchActivitySample(schema, user, device);
+        addZeTimeActivitySample(schema, user, device);
+        addID115ActivitySample(schema, user, device);
 
         addCalendarSyncState(schema, device);
+
+        addBipActivitySummary(schema, user, device);
 
         new DaoGenerator().generateAll(schema, "app/src/main/java");
     }
@@ -269,6 +277,43 @@ public class GBDaoGenerator {
         return activitySample;
     }
 
+    private static Entity addXWatchActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "XWatchActivitySample");
+        activitySample.implementsSerializable();
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        addHeartRateProperties(activitySample);
+        return activitySample;
+    }
+
+    private static Entity addZeTimeActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "ZeTimeActivitySample");
+        activitySample.implementsSerializable();
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        addHeartRateProperties(activitySample);
+        activitySample.addIntProperty("caloriesBurnt");
+        activitySample.addIntProperty("distanceMeters");
+        activitySample.addIntProperty("activeTimeMinutes");
+        return activitySample;
+    }
+
+    private static Entity addID115ActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "ID115ActivitySample");
+        activitySample.implementsSerializable();
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty("caloriesBurnt");
+        activitySample.addIntProperty("distanceMeters");
+        activitySample.addIntProperty("activeTimeMinutes");
+        return activitySample;
+    }
+
     private static void addCommonActivitySampleProperties(String superClass, Entity activitySample, Entity user, Entity device) {
         activitySample.setSuperclass(superClass);
         activitySample.addImport(MAIN_PACKAGE + ".devices.SampleProvider");
@@ -295,6 +340,31 @@ public class GBDaoGenerator {
         calendarSyncState.addIndex(indexUnique);
         calendarSyncState.addToOne(device, deviceId);
         calendarSyncState.addIntProperty("hash").notNull();
+    }
+
+    private static void addBipActivitySummary(Schema schema, Entity user, Entity device) {
+        Entity summary = addEntity(schema, "BaseActivitySummary");
+        summary.implementsInterface(ACTIVITY_SUMMARY);
+        summary.addIdProperty();
+
+        summary.setJavaDoc(
+                "This class represents the summary of a user's activity event. I.e. a walk, hike, a bicycle tour, etc.");
+
+        summary.addStringProperty("name").codeBeforeGetter(OVERRIDE);
+        summary.addDateProperty("startTime").notNull().codeBeforeGetter(OVERRIDE);
+        summary.addDateProperty("endTime").notNull().codeBeforeGetter(OVERRIDE);
+        summary.addIntProperty("activityKind").notNull().codeBeforeGetter(OVERRIDE);
+
+        summary.addIntProperty("baseLongitude").javaDocGetterAndSetter("Temporary, bip-specific");
+        summary.addIntProperty("baseLatitude").javaDocGetterAndSetter("Temporary, bip-specific");
+        summary.addIntProperty("baseAltitude").javaDocGetterAndSetter("Temporary, bip-specific");
+
+        summary.addStringProperty("gpxTrack").codeBeforeGetter(OVERRIDE);
+
+        Property deviceId = summary.addLongProperty("deviceId").notNull().codeBeforeGetter(OVERRIDE).getProperty();
+        summary.addToOne(device, deviceId);
+        Property userId = summary.addLongProperty("userId").notNull().codeBeforeGetter(OVERRIDE).getProperty();
+        summary.addToOne(user, userId);
     }
 
     private static Property findProperty(Entity entity, String propertyName) {

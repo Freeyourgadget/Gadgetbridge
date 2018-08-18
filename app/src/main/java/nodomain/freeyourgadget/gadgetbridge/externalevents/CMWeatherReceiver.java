@@ -1,3 +1,19 @@
+/*  Copyright (C) 2017-2018 Andreas Shimokawa
+
+    This file is part of Gadgetbridge.
+
+    Gadgetbridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Gadgetbridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 import android.app.AlarmManager;
@@ -30,6 +46,7 @@ import static cyanogenmod.providers.WeatherContract.WeatherColumns.WeatherCode.N
 import static cyanogenmod.providers.WeatherContract.WeatherColumns.WeatherCode.SCATTERED_SNOW_SHOWERS;
 import static cyanogenmod.providers.WeatherContract.WeatherColumns.WeatherCode.SCATTERED_THUNDERSTORMS;
 import static cyanogenmod.providers.WeatherContract.WeatherColumns.WeatherCode.SHOWERS;
+import static cyanogenmod.providers.WeatherContract.WeatherColumns.WindSpeedUnit.MPH;
 
 public class CMWeatherReceiver extends BroadcastReceiver implements CMWeatherManager.WeatherUpdateRequestListener, CMWeatherManager.LookupCityRequestListener {
 
@@ -132,6 +149,13 @@ public class CMWeatherReceiver extends BroadcastReceiver implements CMWeatherMan
                 weatherSpec.todayMaxTemp = (int) weatherInfo.getTodaysHigh() + 273;
                 weatherSpec.todayMinTemp = (int) weatherInfo.getTodaysLow() + 273;
             }
+            if (weatherInfo.getWindSpeedUnit() == MPH) {
+                weatherSpec.windSpeed = (float) weatherInfo.getWindSpeed() * 1.609344f;
+            } else {
+                weatherSpec.windSpeed = (float) weatherInfo.getWindSpeed();
+            }
+            weatherSpec.windDirection = (int) weatherInfo.getWindDirection();
+
             weatherSpec.currentConditionCode = Weather.mapToOpenWeatherMapCondition(CMtoYahooCondintion(weatherInfo.getConditionCode()));
             weatherSpec.currentCondition = Weather.getConditionString(weatherSpec.currentConditionCode);
             weatherSpec.currentHumidity = (int) weatherInfo.getHumidity();

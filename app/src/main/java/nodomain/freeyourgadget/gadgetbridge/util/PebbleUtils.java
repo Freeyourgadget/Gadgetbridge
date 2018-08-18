@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa, Daniele Gobbetti, Frank Slezak
+/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Frank Slezak
 
     This file is part of Gadgetbridge.
 
@@ -129,21 +130,24 @@ public class PebbleUtils {
         return null;
     }
 
-    public static String parseIncomingAppMessage(String msg, UUID uuid) {
+    public static String parseIncomingAppMessage(String msg, UUID uuid, int transactionId) {
         JSONObject jsAppMessage = new JSONObject();
 
         JSONObject knownKeys = PebbleUtils.getAppConfigurationKeys(uuid);
         SparseArray<String> appKeysMap = new SparseArray<>();
-
-        if (knownKeys == null || msg == null) {
-            return "{}";
-        }
-
         String inKey, outKey;
-        //knownKeys contains "name"->"index", we need to reverse that
-        for (Iterator<String> key = knownKeys.keys(); key.hasNext(); ) {
-            inKey = key.next();
-            appKeysMap.put(knownKeys.optInt(inKey), inKey);
+
+//      TODO: The fact that knownKeys is null for the passed UUID means that the
+//      watchapp was installed by some other app, hence we cannot communicate with it.
+//      The user could be warned somehow.
+        if (knownKeys == null || msg == null) {
+            msg = "[]";
+        } else {
+            //knownKeys contains "name"->"index", we need to reverse that
+            for (Iterator<String> key = knownKeys.keys(); key.hasNext(); ) {
+                inKey = key.next();
+                appKeysMap.put(knownKeys.optInt(inKey), inKey);
+            }
         }
 
         try {
@@ -168,6 +172,9 @@ public class PebbleUtils {
                 }
             }
             jsAppMessage.put("payload", outgoing);
+            JSONObject data = new JSONObject();
+            data.put("transactionId", transactionId);
+            jsAppMessage.put("data", data);
 
         } catch (Exception e) {
             LOG.warn("Unable to parse incoming app message", e);

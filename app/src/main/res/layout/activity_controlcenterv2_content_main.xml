@@ -15,7 +15,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:src="@drawable/gadgetbridge_img" />
+        android:alpha="0.1"
+        android:tint="?attr/textColorPrimary"
+        app:srcCompat="@drawable/gadgetbridge_img" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/deviceListView"

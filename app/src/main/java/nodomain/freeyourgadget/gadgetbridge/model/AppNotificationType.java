@@ -1,5 +1,6 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa, AnthonyDiGirolamo, Daniele
-    Gobbetti, Frank Slezak, Kaz Wolfe, Kevin Richter
+/*  Copyright (C) 2016-2018 Andreas Shimokawa, AnthonyDiGirolamo, Daniele
+    Gobbetti, Frank Slezak, Kaz Wolfe, Kevin Richter, Lukas Veneziano, michaelneu,
+    NotAFIle, Tomas Radej
 
     This file is part of Gadgetbridge.
 
@@ -76,6 +77,12 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
         // Threema
         put("ch.threema.app", NotificationType.THREEMA);
 
+        // Kontalk
+        put("org.kontalk", NotificationType.KONTALK);
+
+        // Antox
+        put("chat.tox.antox", NotificationType.ANTOX);
+
         // Twitter
         put("org.mariotaku.twidere", NotificationType.TWITTER);
         put("com.twitter.android", NotificationType.TWITTER);
@@ -101,6 +108,9 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
 
         // Skype
         put("com.skype.raider", NotificationType.SKYPE);
+
+        // Skype for business
+        put("com.microsoft.office.lync15", NotificationType.SKYPE);
 
         // Mailbox
         put("com.mailboxapp", NotificationType.MAILBOX);

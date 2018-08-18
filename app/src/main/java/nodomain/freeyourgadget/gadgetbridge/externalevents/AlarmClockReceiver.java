@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -40,18 +40,20 @@ public class AlarmClockReceiver extends BroadcastReceiver {
 
     /** A public action sent by AlarmService when the alarm has started. */
     public static final String ALARM_ALERT_ACTION = "com.android.deskclock.ALARM_ALERT";
+    public static final String GOOGLE_CLOCK_ALARM_ALERT_ACTION = "com.google.android.deskclock.action.ALARM_ALERT";
 
     /** A public action sent by AlarmService when the alarm has stopped for any reason. */
     public static final String ALARM_DONE_ACTION = "com.android.deskclock.ALARM_DONE";
+    public static final String GOOGLE_CLOCK_ALARM_DONE_ACTION = "com.google.android.deskclock.action.ALARM_DONE";
     private int lastId;
 
 
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        if (ALARM_ALERT_ACTION.equals(action)) {
+        if (ALARM_ALERT_ACTION.equals(action) || GOOGLE_CLOCK_ALARM_ALERT_ACTION.equals(action)) {
             sendAlarm(true);
-        } else if (ALARM_DONE_ACTION.equals(action)) {
+        } else if (ALARM_DONE_ACTION.equals(action) || GOOGLE_CLOCK_ALARM_DONE_ACTION.equals(action)) {
             sendAlarm(false);
         }
     }

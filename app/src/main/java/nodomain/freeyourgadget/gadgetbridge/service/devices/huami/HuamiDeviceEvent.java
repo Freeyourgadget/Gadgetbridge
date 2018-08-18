@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -30,4 +30,5 @@ public class HuamiDeviceEvent {
     public static final byte BUTTON_PRESSED_LONG = 0x0b;
     public static final byte TICK_30MIN = 0x0e; // unsure
     public static final byte FIND_PHONE_STOP = 0x0f;
+    public static final byte MUSIC_CONTROL = (byte) 0xfe;
 }

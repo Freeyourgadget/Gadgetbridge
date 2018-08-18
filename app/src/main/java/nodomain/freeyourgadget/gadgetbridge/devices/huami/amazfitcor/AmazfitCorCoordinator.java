@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017 Andreas Shimokawa, João Paulo Barraca
+/*  Copyright (C) 2017-2018 Andreas Shimokawa, João Paulo Barraca
 
     This file is part of Gadgetbridge.
 
@@ -66,6 +66,11 @@ public class AmazfitCorCoordinator extends HuamiCoordinator {
 
     @Override
     public boolean supportsWeather() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsMusicInfo() {
         return true;
     }
 }

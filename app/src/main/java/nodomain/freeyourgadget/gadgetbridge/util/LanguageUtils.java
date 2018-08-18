@@ -1,5 +1,5 @@
-/*  Copyright (C) 2017 Andreas Shimokawa, ivanovlev, lazarosfs, McSym28,
-    Yaron Shahrabani
+/*  Copyright (C) 2017-2018 Andreas Shimokawa, Daniele Gobbetti, ivanovlev,
+    lazarosfs, McSym28, Ted Stein, Yaron Shahrabani
 
     This file is part of Gadgetbridge.
 
@@ -19,9 +19,10 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 
 import org.apache.commons.lang3.text.WordUtils;
 
+import java.text.Normalizer;
 import java.util.HashMap;
 import java.util.Map;
-import java.text.Normalizer;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class LanguageUtils {
@@ -67,12 +68,18 @@ public class LanguageUtils {
             put('د', "d"); put('ذ', "th"); put('ر', "r"); put('ز', "z"); put('س', "s"); put('ش', "sh"); put('ص', "9");
             put('ض', "9'"); put('ط', "6"); put('ظ', "6'"); put('ع', "3"); put('غ', "3'"); put('ف', "f");
             put('ق', "q"); put('ك', "k"); put('ل', "l"); put('م', "m"); put('ن', "n"); put('ه', "h");
-            put('و', "w"); put('ي', "y"); put('ى', "a");
+            put('و', "w"); put('ي', "y"); put('ى', "a"); put('ﺓ', "");
             put('آ', "2"); put('ئ', "2"); put('إ', "2"); put('ؤ', "2"); put('أ', "2"); put('ء', "2");
 
             // Farsi
             put('پ', "p"); put('چ', "ch"); put('ڜ', "ch"); put('ڤ', "v"); put('ڥ', "v");
             put('ڨ', "g"); put('گ', "g"); put('ݣ', "g");
+
+            // Polish
+            put('Ł', "L"); put('ł', "l");
+
+            //Lithuanian
+            put('ą', "a"); put('č', "c"); put('ę', "e"); put('ė', "e"); put('į', "i"); put('š', "s"); put('ų', "u"); put('ū', "u"); put('ž', "z");
 
             //TODO: these must be configurable. If someone wants to transliterate cyrillic it does not mean his device has no German umlauts
             //all or nothing is really bad here
@@ -107,7 +114,9 @@ public class LanguageUtils {
             message.append(transliterate(c));
         }
 
-        return flattenToAscii(message.toString());
+        String messageString = BengaliLanguageUtils.transliterate(message.toString());
+
+        return flattenToAscii(messageString);
     }
 
     /**

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa, Avamander, Carsten Pfeiffer,
+/*  Copyright (C) 2016-2018 Andreas Shimokawa, Avamander, Carsten Pfeiffer,
     Daniele Gobbetti, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
@@ -70,5 +70,16 @@ public class MusicStateSpec {
         result = 31 * result + (int) shuffle;
         result = 31 * result + (int) repeat;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "MusicStateSpec{" +
+                "state=" + state +
+                ", position=" + position +
+                ", playRate=" + playRate +
+                ", shuffle=" + shuffle +
+                ", repeat=" + repeat +
+                '}';
     }
 }

@@ -115,7 +115,7 @@ class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
-    public void onFetchActivityData() {
+    public void onFetchRecordedData(int dataTypes) {
 
     }
 
