@@ -28,7 +28,7 @@
   <string name="appmanager_hrm_activate">הפעלת מעקב דופק</string>
   <string name="appmanager_hrm_deactivate">נטרול מעקב דופק</string>
   <string name="appmanager_weather_activate">הפעלת יישומון מזג האוויר של המערכת</string>
-  <string name="appmanager_weather_deactivate">נטרול יישומון מזג האוויר של המערכת</string>
+  <string name="appmanager_weather_deactivate">השבתת יישומון מזג האוויר של המערכת</string>
   <string name="appmanager_weather_install_provider">התקנת יישומון דיווח מזג האוויר</string>
   <string name="app_configure">הגדרה</string>
   <string name="app_move_to_top">העברה למעלה</string>
@@ -41,18 +41,18 @@
   <string name="fw_multi_upgrade_notice">הקושחות המועמדות להתקנה הנן %1$s ו־%2$s במקום אלו המותקנת על ה־Mi Band שלך נכון לעכשיו.</string>
   <string name="miband_firmware_known">קושחה זו נבדקה וידוע כי היא נתמכת ב־Gadgetbridge.</string>
   <string name="miband_firmware_unknown_warning">קושחה זו לא נבדקה ויתכן כי אינה נתמכת ב־Gadgetbridge.\n\nלא מומלץ להתקין אותה על ה־Mi Band שלך!</string>
-  <string name="miband_firmware_suggest_whitelist">אם בכל זאת בחרת להמשיך והדברים ממשיכים לעבוד כרגיל, נא לספר למפתחים של Gadgetbridge להוסיף לרשימת ההיתר את גרסת הקושחה %s</string>
+  <string name="miband_firmware_suggest_whitelist">אם בכל זאת בחרת להמשיך והדברים ממשיכים לעבוד כרגיל, נא לספר למפתחים של Gadgetbridge להוסיף לרשימת ההיתר את גרסת הקושחה %s.</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">הגדרות</string>
   <string name="pref_header_general">הגדרות כלליות</string>
-  <string name="pref_title_general_autoconnectonbluetooth">התחברות להתקן כאשר ה־Bluetooth פועל</string>
+  <string name="pref_title_general_autoconnectonbluetooth">התחברות להתקן Gadgetbridge כאשר ה־Bluetooth פועל</string>
   <string name="pref_title_general_autostartonboot">התחלה אוטומטית</string>
   <string name="pref_title_general_autoreconnect">התחברות אוטומטית מחדש</string>
   <string name="pref_title_audio_player">נגן מדיה מועדף</string>
   <string name="pref_default">בררת מחדל</string>
   <string name="pref_header_datetime">שעה ותאריך</string>
   <string name="pref_title_datetime_syctimeonconnect">סנכרון השעה</string>
-  <string name="pref_summary_datetime_syctimeonconnect">סנכרון השעה בהתקן בעת ההתחברות וכאשר השעה או אזור הזמן משתנים באנדרואיד</string>
+  <string name="pref_summary_datetime_syctimeonconnect">סנכרון השעה בהתקן ה־Gadgetbridge בעת ההתחברות וכאשר השעה או אזור הזמן משתנים בהתקן ה־Android</string>
   <string name="pref_title_theme">ערכת עיצוב</string>
   <string name="pref_theme_light">בהירה</string>
   <string name="pref_theme_dark">כהה</string>
