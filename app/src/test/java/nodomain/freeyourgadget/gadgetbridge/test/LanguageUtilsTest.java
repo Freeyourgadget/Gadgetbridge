@@ -67,6 +67,19 @@ public class LanguageUtilsTest extends TestBase {
     }
 
     @Test
+    public void testStringTransliterateLithuanian() {
+        String input = "ą č ę ė į š ų ū ž";
+        String output = LanguageUtils.transliterate(input);
+        String expected = "a c e e i s u u z";
+        assertEquals("lithuanian translation failed", expected, output);
+
+        input = "aąa cčc eęe eėe iįi sšs uųu uūu zžz";
+        output = LanguageUtils.transliterate(input);
+        expected = "aaa ccc eee eee iii sss uuu uuu zzz";
+        assertEquals("lithuanian translation failed", expected, output);
+    }
+
+    @Test
     public void testTransliterateOption() throws Exception {
         setDefaultTransliteration();
         assertFalse("Transliteration option fail! Expected 'Off' by default, but result is 'On'", LanguageUtils.transliterate());
