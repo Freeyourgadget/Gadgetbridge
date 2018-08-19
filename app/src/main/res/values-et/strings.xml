@@ -55,13 +55,13 @@
 \nNote: .res ja .gps faili ei pea installima kui tegu on samade failidega mis eelmisel uuendusel.
 \n
 \nJÄTKATE OMAL RIISIKOL!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Olete paigaldamas %s püsivara enda Amazfit Cor\'ile.
-\n
-\nPalun veenduge, et enne paigaldate .res faili ja pärast seda .fw faili. Teie kell taaskäivitub pärast .fw faili paigaldust.
-\n
-\nNote: .res faili ei pea paigaldama kui tegu on sama failiga mis eelmisel uuendusel.
-\n
-\nTESTIMATA, VÕIB TEIE SEADME PABERIRASKUSEKS MUUTA, JÄTKATE OMAL RIISIKOL!</string>
+    <string name="fw_upgrade_notice_amazfitcor">Olete paigaldamas %s püsivara enda Amazfit Cor\'ile. 
+\n 
+\nPalun veenduge, et enne paigaldate .res faili ja pärast seda .fw faili. Teie kell taaskäivitub pärast .fw faili paigaldust. 
+\n 
+\nNote: .res faili ei pea paigaldama kui tegu on sama failiga mis eelmisel uuendusel. 
+\n 
+\nVÕIB TEIE SEADME PABERIRASKUSEKS MUUTA, JÄTKATE OMAL RIISIKOL!</string>
     <string name="fw_multi_upgrade_notice">Olete installimas %1$s ja %2$s püsivara selle asemel, mis praegu teie Mi Band\'il on.</string>
     <string name="miband_firmware_known">See püsivara on testitud ja on teadaolevalt sobiv koos Gadgetbridge\'iga kasutamiseks.</string>
     <string name="miband_firmware_unknown_warning">See püsivara on testimata ja ei pruugi olla Gadgetbridge\'iga ühilduv.
@@ -137,4 +137,58 @@
     <string name="pref_title_pebble_activitytracker">Eelistatud aktiivsusmonitor</string>
     <string name="pref_title_pebble_sync_health">Sünkrooni Pebble\'i terviseandmeid</string>
     <string name="pref_title_pebble_sync_misfit">Sünkrooni Misfit\'i</string>
+    <string name="controlcenter_calibrate_device">Kalibreeri seade</string>
+
+
+    <string name="blacklist_all_for_notifications">Lisa kõik teatised musta nimekirja</string>
+    <string name="whitelist_all_for_notifications">Lisa kõik teatised valgesse nimekirja</string>
+
+
+    <string name="fw_upgrade_notice_miband3">Te kavatsete installida %s püsivara enda Mi Band 3le.
+\n
+\nVeenduge, et installite .fw faili ja seejärel .res fail. Kell taaskäivitub pärast .fw faili installimist.
+\n
+\nMärkus: Sa ei pea installima .res faili kui see on täpselt sama, mis eelnevalt installitud.
+\n
+\nTESTIMATA, TEIE SEADE VÕIB MUUTUDA PABERIRASKUSEKS, JÄTKATE OMAL RIISIKOL!</string>
+    <string name="pref_title_canned_messages_dismisscall">Kõne hargile panek</string>
+    <string name="pref_title_pebble_sync_morpheuz">Sünkrooni Morpheuz</string>
+
+    <string name="pref_title_enable_outgoing_call">Toeta väljaminevaid kõnesid</string>
+    <string name="pref_summary_enable_outgoing_call">Selle valiku väljalülitamine lülitab välja ka Pebble 2/LE värisemise väljaminevate kõnede puhul.</string>
+
+    <string name="pref_title_enable_pebblekit">Luba kolmanda osapoolte rakenduste ligipääs</string>
+    <string name="pref_summary_enable_pebblekit">Lülita sisse eksperimentaalne PebbleKit\'i kasutavate rakenduste tugi</string>
+
+    <string name="pref_header_pebble_timeline">Pebble ajajoon</string>
+    <string name="pref_title_sunrise_sunset">Päikesetõus ja päikeseloojang</string>
+    <string name="pref_summary_sunrise_sunset">Saada päikesetõusu ja päikeseloojangu ajad asukoha järgi Pebble ajajoonele</string>
+    <string name="pref_title_enable_calendar_sync">Sünkrooni kalender</string>
+    <string name="pref_summary_enable_calendar_sync">Saada kalendri sündmused ajajoonele</string>
+
+    <string name="pref_title_autoremove_notifications">Eemalda automaatselt eemaldatud teatised</string>
+    <string name="pref_summary_autoremove_notifications">Teatised eemaldatakse automaatselt Pebble\'st kui need eemaldatakse Androidi seadmest</string>
+
+    <string name="pref_title_pebble_privacy_mode">Privaatsusrežiim</string>
+    <string name="pref_pebble_privacy_mode_off">Tavalised teatised</string>
+    <string name="pref_pebble_privacy_mode_content">Nihuta teatise tekst ekraanilt välja</string>
+    <string name="pref_pebble_privacy_mode_complete">Näita ainult teatise ikooni</string>
+
+    <string name="pref_header_location">Asukoht</string>
+    <string name="pref_title_location_aquire">Küsi asukoht</string>
+    <string name="pref_title_location_latitude">Laiuskraad</string>
+    <string name="pref_title_location_longitude">Pikkuskraad</string>
+    <string name="pref_title_location_keep_uptodate">Hoia asukoht ajakohasena</string>
+    <string name="pref_summary_location_keep_uptodate">Proovi küsida ajakohast asukohta jooksvalt, kasuta eelnevalt salvestatut kui eelnev ei õnnestu</string>
+
+    <string name="toast_enable_networklocationprovider">Palun lülita sisse võrgu järgi seatud asukoht</string>
+    <string name="toast_aqurired_networklocation">asukoht leitud</string>
+
+    <string name="pref_title_pebble_forceprotocol">Sunniviisiliselt kasuta teatiste protokolli</string>
+    <string name="pref_summary_pebble_forceprotocol">See valik sunnib kõige uuema teatiste protokolli kasutamise vastavalt püsivara versioonile. KASUTA AINULT KUI SA TEAD MIDA SA TEED!</string>
+    <string name="pref_title_pebble_forceuntested">Lülita sisse testimata funktsioonid</string>
+    <string name="pref_summary_pebble_forceuntested">Lülita sisse testimata funktsioonid. LÜLITA SISSE AINULT SIIS KUI SA TEAD MIDA SA TEED!</string>
+    <string name="pref_title_pebble_forcele">Alati eelista Bluetooth LE\'d</string>
+    <string name="pref_auto_fetch_summary">Allalaadimine käivitatakse ekraani lahtilukustamise ajal. Töötab ainult sellel juhul kui lukustusmehhanism on seatud!</string>
+    <string name="DEVINFO_HR_VER">"Pulss: "</string>
     </resources>

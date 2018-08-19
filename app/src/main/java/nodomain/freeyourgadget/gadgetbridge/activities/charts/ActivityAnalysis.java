@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,6 +93,9 @@ class ActivityAnalysis {
                     }
                 }
             }
+
+            amount.setStartDate(sample.getTimestamp());
+            amount.setEndDate(sample.getTimestamp());
 
             previousAmount = amount;
             previousSample = sample;

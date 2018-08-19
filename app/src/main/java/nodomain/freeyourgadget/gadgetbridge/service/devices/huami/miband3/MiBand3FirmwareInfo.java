@@ -69,7 +69,7 @@ public class MiBand3FirmwareInfo extends HuamiFirmwareInfo {
             return HuamiFirmwareType.INVALID;
         }
         if (ArrayUtils.startsWith(bytes, RES_HEADER)) {
-            if (bytes.length > 100000) { // don't know how to distinguish from Bip/Cor .res
+            if (bytes.length > 150000) { // don't know how to distinguish from Bip/Cor .res
                 return HuamiFirmwareType.INVALID;
             }
             return HuamiFirmwareType.RES;

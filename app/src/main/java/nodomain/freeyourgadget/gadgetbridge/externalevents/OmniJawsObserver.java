@@ -121,7 +121,7 @@ public class OmniJawsObserver extends ContentObserver {
 
                             weatherSpec.windSpeed = toKmh(c.getFloat(11));
                             weatherSpec.windDirection = c.getInt(12);
-                            weatherSpec.timestamp = (int) (Long.valueOf(c.getString(9)) / 1000);
+                            weatherSpec.timestamp = (int) (Long.parseLong(c.getString(9)) / 1000);
                         } else if (i == 1) {
                             weatherSpec.todayMinTemp = toKelvin(c.getFloat(5));
                             weatherSpec.todayMaxTemp = toKelvin(c.getFloat(6));

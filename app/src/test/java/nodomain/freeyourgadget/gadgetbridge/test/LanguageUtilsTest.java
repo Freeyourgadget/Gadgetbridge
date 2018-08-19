@@ -57,6 +57,28 @@ public class LanguageUtilsTest extends TestBase {
         assertEquals("Farsi transiteration failed", farsiExpected, farsiActual);
     }
 
+    public void testStringTransliterateBengali() throws Exception {
+        //input with cyrillic and diacritic letters
+        String input = "অনিরুদ্ধ";
+        String output = LanguageUtils.transliterate(input);
+        String result = "oniruddho";
+
+        assertEquals("Transliteration failed", result, output);
+    }
+
+    @Test
+    public void testStringTransliterateLithuanian() {
+        String input = "ą č ę ė į š ų ū ž";
+        String output = LanguageUtils.transliterate(input);
+        String expected = "a c e e i s u u z";
+        assertEquals("lithuanian translation failed", expected, output);
+
+        input = "aąa cčc eęe eėe iįi sšs uųu uūu zžz";
+        output = LanguageUtils.transliterate(input);
+        expected = "aaa ccc eee eee iii sss uuu uuu zzz";
+        assertEquals("lithuanian translation failed", expected, output);
+    }
+
     @Test
     public void testTransliterateOption() throws Exception {
         setDefaultTransliteration();

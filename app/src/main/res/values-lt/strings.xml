@@ -13,7 +13,7 @@
     <string name="controlcenter_disconnect">Atjungti</string>
     <string name="controlcenter_delete_device">Ištrinti įrenginį</string>
     <string name="controlcenter_delete_device_name">Ištrinti %1$s</string>
-    <string name="controlcenter_delete_device_dialogmessage">Šiuo veiksmu ištrinsite įrenginį ir visus jo sukauptus duomenis</string>
+    <string name="controlcenter_delete_device_dialogmessage">Šiuo veiksmu ištrinsite įrenginį ir visus jo sukauptus duomenis!</string>
     <string name="controlcenter_snackbar_requested_screenshot">Daroma įrenginio ekrano nuotrauka</string>
 
 
@@ -65,4 +65,7 @@
     <string name="devicetype_makibes_f68">Makibes F68</string>
     <string name="devicetype_exrizu_k8">Exrizu K8</string>
     <string name="menuitem_activity">Veikla</string>
+    <string name="controlcenter_calibrate_device">Kalibruoti įrenginį</string>
+
+
     </resources>

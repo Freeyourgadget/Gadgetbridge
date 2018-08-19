@@ -36,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class DateTimeUtils {
     private static SimpleDateFormat DAY_STORAGE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+    private static SimpleDateFormat HOURS_MINUTES_FORMAT = new SimpleDateFormat("HH:mm", Locale.US);
     public static SimpleDateFormat ISO_8601_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US){
         //see https://github.com/Freeyourgadget/Gadgetbridge/issues/1076#issuecomment-383834116 and https://stackoverflow.com/a/30221245
 
@@ -129,6 +130,10 @@ public class DateTimeUtils {
 
     public static Date dayFromString(String day) throws ParseException {
         return DAY_STORAGE_FORMAT.parse(day);
+    }
+
+    public static String timeToString(Date date) {
+        return HOURS_MINUTES_FORMAT.format(date);
     }
 
     public static Date todayUTC() {

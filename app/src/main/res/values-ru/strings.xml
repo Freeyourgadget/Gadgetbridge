@@ -43,22 +43,22 @@
   <!--Strings related to CalBlacklist-->
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">Установщик прошивки/приложений</string>
-  <string name="fw_upgrade_notice">Вы собираетесь установить прошивку %s вместо текущей на вашем Mi Band.</string>
+  <string name="fw_upgrade_notice">Вы собираетесь установить на Mi Band прошивку %s вместо текущей.</string>
   <string name="fw_multi_upgrade_notice">Вы собираетесь установить прошивки %1$s и %2$s вместо текущей на вашем Mi Band.</string>
   <string name="miband_firmware_known">Эта прошивка была проверена и совместима с Gadgetbridge.</string>
   <string name="miband_firmware_unknown_warning">Эта прошивка не протестирована и может быть несовместима с Gadgetbridge.\n\nНе рекомендуется устанавливать её на ваш Mi Band!</string>
-  <string name="miband_firmware_suggest_whitelist">Если вы желаете продолжить и впоследствии всё функционирует нормально, пожалуйста, сообщите разработчикам Gadgetbridge, чтобы они пометили как совместимую версию прошивки: %s</string>
+  <string name="miband_firmware_suggest_whitelist">Если вы установите эту прошивку и убедитесь, что всё работает без сбоев, пожалуйста, сообщите об этом разработчикам Gadgetbridge. Они пометят эту версию прошивки (%s) как совместимую.</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Настройки</string>
   <string name="pref_header_general">Общие настройки</string>
-  <string name="pref_title_general_autoconnectonbluetooth">Подключение к устройству при активации Bluetooth</string>
+  <string name="pref_title_general_autoconnectonbluetooth">Подключение к зарегистрированному устройству при активации Bluetooth</string>
   <string name="pref_title_general_autostartonboot">Запускать автоматически</string>
   <string name="pref_title_general_autoreconnect">Переподключаться автоматически</string>
   <string name="pref_title_audio_player">Предпочтительный музыкальный плеер</string>
   <string name="pref_default">По умолчанию</string>
   <string name="pref_header_datetime">Дата и время</string>
   <string name="pref_title_datetime_syctimeonconnect">Синхронизировать время при подключении</string>
-  <string name="pref_summary_datetime_syctimeonconnect">Синхронизировать время при подключении к устройству, а также при изменении времени или временной зоны в системе</string>
+  <string name="pref_summary_datetime_syctimeonconnect">Синхронизировать время при подключении к зарегистрированному стройству, а также при изменении времени или временной зоны в системных настройках</string>
   <string name="pref_title_theme">Тема</string>
   <string name="pref_theme_light">Светлая</string>
   <string name="pref_theme_dark">Темная</string>
@@ -71,7 +71,7 @@
   <string name="pref_title_notifications_call">Вызовы</string>
   <string name="pref_title_notifications_sms">СМС-сообщения</string>
   <string name="pref_title_notifications_pebblemsg">Сообщения Pebble</string>
-  <string name="pref_summary_notifications_pebblemsg">Поддержка приложений, которые отправляют уведомления  на Pebble через PebbleKit.</string>
+  <string name="pref_summary_notifications_pebblemsg">Поддержка приложений, которые отправляют уведомления на Pebble с помощью PebbleKit.</string>
   <string name="pref_title_notifications_generic">Поддержка обычных уведомлений</string>
   <string name="pref_title_whenscreenon">… даже когда экран включён</string>
   <string name="pref_title_notification_filter">Не беспокоить</string>
@@ -104,7 +104,7 @@
   <string name="pref_title_enable_outgoing_call">Поддержка исходящих вызовов</string>
   <string name="pref_summary_enable_outgoing_call">При отключении данного пункта, Pebble 2/LE также не будет вибрировать при исходящих вызовах</string>
   <string name="pref_title_enable_pebblekit">Разрешить доступ посторонним приложениям</string>
-  <string name="pref_summary_enable_pebblekit">Добавить экспериментальную поддержку приложений Android, использующих PebbleKit</string>
+  <string name="pref_summary_enable_pebblekit">Добавить экспериментальную поддержку приложений, использующих PebbleKit</string>
   <string name="pref_title_sunrise_sunset">Восход и закат солнца</string>
   <string name="pref_summary_sunrise_sunset">Показывать время восхода и захода солнца в зависимости от местоположения на временной шкале Pebble</string>
   <string name="pref_title_enable_calendar_sync">Синхронизация календаря</string>
@@ -124,9 +124,9 @@
   <string name="toast_enable_networklocationprovider">Пожалуйста, включите сетевое расположение</string>
   <string name="toast_aqurired_networklocation">Месторасположение определено</string>
   <string name="pref_title_pebble_forceprotocol">Принудительный протокол уведомлений</string>
-  <string name="pref_summary_pebble_forceprotocol">Эта настройка принудительно использует самый новый протокол уведомлений, (зависит от версии прошивки). ВКЛЮЧАЙТЕ, ЕСЛИ ТОЧНО ЗНАЕТЕ, ЗАЧЕМ ВАМ ЭТО!</string>
+  <string name="pref_summary_pebble_forceprotocol">Эта настройка принудительно использует самый новый протокол уведомлений (зависит от версии прошивки). ВКЛЮЧАЙТЕ, ЕСЛИ ТОЧНО ЗНАЕТЕ, ЗАЧЕМ ВЫ ЭТО ДЕЛАЕТЕ!</string>
   <string name="pref_title_pebble_forceuntested">Включить непроверенные функции</string>
-  <string name="pref_summary_pebble_forceuntested">Включить функции, которые не протестированы. ВКЛЮЧАЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+  <string name="pref_summary_pebble_forceuntested">Включить функции, не проходившие проверку. ВКЛЮЧАЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
   <string name="pref_title_pebble_forcele">Всегда отдавать предпочтение BLE</string>
   <string name="pref_summary_pebble_forcele">Использовать экспериментальную поддержку Pebble LE для всех Pebble вместо BT classic, требует сопряжения «Pebble LE» после того, как был подключен не LE</string>
   <string name="pref_title_pebble_mtu_limit">Ограничение GATT MTU для Pebble 2/LE</string>
@@ -213,7 +213,7 @@
   <string name="pref_screen_notification_profile_sms">SMS-уведомление</string>
   <string name="pref_header_vibration_settings">Настройки вибрации</string>
   <string name="pref_screen_notification_profile_generic">Общие уведомления</string>
-  <string name="pref_screen_notification_profile_email">Уведомление электронной почты</string>
+  <string name="pref_screen_notification_profile_email">Уведомления электронной почты</string>
   <string name="pref_screen_notification_profile_incoming_call">Уведомления о входящих звонках</string>
   <string name="pref_screen_notification_profile_generic_chat">Чат</string>
   <string name="pref_screen_notification_profile_generic_navigation">Навигация</string>
@@ -232,8 +232,8 @@
   <string name="alarm_fri_short">Пт</string>
   <string name="alarm_sat_short">Сб</string>
   <string name="alarm_smart_wakeup">умное пробуждение</string>
-  <string name="user_feedback_miband_set_alarms_failed">Произошла ошибка при настройке будильника, попробуйте ещё раз!</string>
-  <string name="user_feedback_miband_set_alarms_ok">Будильник был послан на устройство!</string>
+  <string name="user_feedback_miband_set_alarms_failed">При настройке будильника произошла ошибка, попробуйте ещё раз.</string>
+  <string name="user_feedback_miband_set_alarms_ok">Будильник был добавлен на устройстве.</string>
   <string name="chart_no_data_synchronize">Нет данных. Синхронизировать устройство?</string>
   <string name="user_feedback_miband_activity_data_transfer">Будет передано %1$s данных, начиная с %2$s</string>
   <string name="miband_prefs_fitness_goal">Ежедневная цель шагов</string>
@@ -277,7 +277,7 @@
   <string name="pref_summary_dont_ack_transfers">Если данные об активности не будут переданы на устройство, оно не будет очищено. Полезно, если GB используется с другими приложениями.</string>
   <string name="pref_summary_keep_data_on_device">Хранить данные о деятельности на Mi Band, даже после синхронизации. Полезно, если Mi Band используется совместно с другими приложениями.</string>
   <string name="pref_title_low_latency_fw_update">Использовать режим с низкими задержками для обновления прошивки</string>
-  <string name="pref_summary_low_latency_fw_update">Это может помочь в случае неудачного обновления прошивки</string>
+  <string name="pref_summary_low_latency_fw_update">Это может пригодиться в случае неудачного обновления прошивки.</string>
   <string name="live_activity_steps_history">История шагов</string>
   <string name="live_activity_current_steps_per_minute">Текущие шаги в минуту</string>
   <string name="live_activity_total_steps">Всего шагов</string>
@@ -287,6 +287,8 @@
   <string name="abstract_chart_fragment_kind_light_sleep">Быстрый сон</string>
   <string name="abstract_chart_fragment_kind_deep_sleep">Глубокий сон</string>
   <string name="abstract_chart_fragment_kind_not_worn">Не носилось</string>
+  <string name="you_slept">Вы спали с %1$s до %2$s</string>
+  <string name="you_did_not_sleep">Вы не спали</string>
   <string name="device_not_connected">Не подключен.</string>
   <string name="user_feedback_all_alarms_disabled">Все будильники отключены</string>
   <string name="pref_title_keep_data_on_device">Хранить данные об активности на устройстве</string>
@@ -321,11 +323,13 @@
   <string name="charts_legend_heartrate">Пульс</string>
   <string name="live_activity_heart_rate">Пульс</string>
   <string name="pref_title_pebble_health_store_raw">Хранить необработанные записи в базе данных</string>
-  <string name="pref_summary_pebble_health_store_raw">Если флажок установлен, данные сохраняются как есть, в дальнейшем их можно обрабатывать. Обратите внимание: в этом случае база данных будет занимать больше места!</string>
+  <string name="pref_summary_pebble_health_store_raw">Если флажок установлен, данные сохраняются как есть. В дальнейшем их можно будет обрабатывать. Обратите внимание: в этом случае база данных будет занимать больше места.</string>
   <string name="action_db_management">Управление базой данных</string>
   <string name="title_activity_db_management">Управление базой данных</string>
-  <string name="activity_db_management_import_export_explanation">"Операции с базой данных используют  этот путь на вашем устройстве. 
-\nОн доступен для других приложений Android и вашего компьютера. 
+  <string name="activity_db_management_import_export_explanation">"Операции с базой данных используют  этот путь на устройстве. 
+\n
+\nОн доступен для других приложений Android и. компьютера. 
+\n
 \nВы можете найти экспортированную базу данных (или разместить базу данных, которую вы хотите импортировать) здесь:"</string>
   <string name="activity_db_management_merge_old_title">Удаление устаревшей базы данных</string>
   <string name="dbmanagementactivvity_cannot_access_export_path">Нет доступа к пути экспорта. Обратитесь, пожалуйста, к разработчикам.</string>
@@ -352,7 +356,7 @@
   <string name="title_activity_vibration">Вибрация</string>
   <!--Strings related to Pebble Pairing Activity-->
   <string name="title_activity_pebble_pairing">Сопряжение с Pebble</string>
-  <string name="pebble_pairing_hint">На вашем Android устройстве должно появиться всплывающее окно с запросом на сопряжение устройств. Если этого не произошло, загляните в ящик уведомлений и примите запрос на сопряжение. После этого примите запрос сопряжения на вашем устройстве Pebble</string>
+  <string name="pebble_pairing_hint">На вашем Android устройстве должно появиться всплывающее окно с запросом на сопряжение устройств. Если этого не произошло, загляните в ящик уведомлений и примите запрос на сопряжение. После этого примите запрос сопряжения на вашем устройстве Pebble.</string>
   <string name="weather_notification_label">Чтобы получать информацию о погоде на вашем Pebble, убедитесь, что выбрали эту тему в приложении «Уведомление о погоде».
 \n
 \nДополнительная настройка не нужна.
@@ -586,4 +590,13 @@
     <string name="title_activity_watch9_calibration">Калибровка Watch 9</string>
 <string name="mi3_prefs_band_screen_unlock">Разблокировать экран устройства</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Смахните вверх, чтобы разблокировать экран устройства</string>
+
+    <string name="german">Немецкий язык</string>
+    <string name="italian">Итальянский язык</string>
+    <string name="french">Французский язык</string>
+    <string name="polish">Польский язык</string>
+    <string name="korean">Корейский язык</string>
+    <string name="japanese">Японский язык</string>
+
+    <string name="norwegian_bokmal">Норвежский (литературный)</string>
     </resources>

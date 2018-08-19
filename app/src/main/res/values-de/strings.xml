@@ -552,4 +552,24 @@
     <string name="title_activity_watch9_calibration">Watch 9 kalibrieren</string>
     <string name="watch9_calibration_hint">Stelle die Uhrzeit ein, die aktuell auf der Uhr zusehen ist.</string>
 
-</resources>
+<string name="controlcenter_calibrate_device">Kalibriere Gerät</string>
+
+
+    <string name="preferences_id115_settings">ID115 Einstellungen</string>
+    <string name="preferences_miband2_settings">Mi Band 2 Einstellungen</string>
+    <string name="preferences_miband3_settings">Mi Band 3 Einstellungen</string>
+    <string name="preferences_amazfitcor_settings">Amazfit Cor Einstellungen</string>s
+    <string name="horizontal">Horizontal</string>
+    <string name="vertical">Vertikal</string>
+    <string name="you_slept">Du hast von %1$s bis %2$s geschlafen</string>
+    <string name="you_did_not_sleep">Du hast nicht geschlafen</string>
+    <string name="norwegian_bokmal">Norwegisch</string>
+    <string name="russian">Russisch</string>
+    <string name="german">Deutsch</string>
+    <string name="italian">Italienisch</string>
+    <string name="french">Französisch</string>
+    <string name="polish">Polnisch</string>
+    <string name="korean">Koreanisch</string>
+    <string name="japanese">Japanisch</string>
+
+    </resources>

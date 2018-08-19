@@ -102,6 +102,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbortTransactionAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.IntentListener;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.heartrate.HeartRateProfile;
@@ -151,9 +152,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(HuamiSupport.class);
     private final DeviceInfoProfile<HuamiSupport> deviceInfoProfile;
     private final HeartRateProfile<HuamiSupport> heartRateProfile;
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private final IntentListener mListener = new IntentListener() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void notify(Intent intent) {
             String s = intent.getAction();
             if (DeviceInfoProfile.ACTION_DEVICE_INFO.equals(s)) {
                 handleDeviceInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo) intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO));
@@ -197,22 +198,10 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         addSupportedService(HuamiService.UUID_SERVICE_FIRMWARE_SERVICE);
 
         deviceInfoProfile = new DeviceInfoProfile<>(this);
+        deviceInfoProfile.addListener(mListener);
         addSupportedProfile(deviceInfoProfile);
         heartRateProfile = new HeartRateProfile<>(this);
         addSupportedProfile(heartRateProfile);
-
-        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getContext());
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(DeviceInfoProfile.ACTION_DEVICE_INFO);
-        intentFilter.addAction(DeviceService.ACTION_MIBAND2_AUTH);
-        broadcastManager.registerReceiver(mReceiver, intentFilter);
-    }
-
-    @Override
-    public void dispose() {
-        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getContext());
-        broadcastManager.unregisterReceiver(mReceiver);
-        super.dispose();
     }
 
     @Override
@@ -769,7 +758,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         if (characteristicChunked == null) {
             return;
         }
-        if (bufferMusicSpec == null && bufferMusicStateSpec == null) {
+        if (bufferMusicSpec == null || bufferMusicStateSpec == null) {
             try {
                 TransactionBuilder builder = performInitialized("send dummy playback info to enable music controls");
                 writeToChunked(builder, 3, new byte[]{1, 0, 1, 0, 0, 0, 1, 0});
