@@ -3,8 +3,8 @@
 #### Version 0.29.1
 * Mi Band 3: Support setting language to to German, Italian, French, Polish, Japanese, Korean (read wiki)
 * Mi Band 3: Support flashing latest RES files
-* Mi Band 3: Fix notifcation text not being displayed
-* Mi Band 3/Cor/Bip: Display app name when generic when no app specific icon is available
+* Mi Band 3: Fix notification text not being displayed
+* Mi Band 3/Cor/Bip: Display app name when no app specific icon is available
 * Teclast: add/improve H1 and H3 watch recognition
 * Support transliteration for Lithuanian and Bengali
 * Fix BLE reconnect issues in certain conditions
