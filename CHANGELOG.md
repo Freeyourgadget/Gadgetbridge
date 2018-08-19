@@ -5,11 +5,12 @@
 * Mi Band 3: Support flashing latest RES files
 * Mi Band 3: Fix notifcation text not being displayed
 * Mi Band 3/Cor/Bip: Display app name when generic when no app specific icon is available
-* HPlus: Support H3 watch strap
-* Display start and end of sleep in statistics
+* Teclast: add/improve H1 and H3 watch recognition
+* Support transliteration for Lithuanian and Bengali
+* Fix BLE reconnect issues in certain conditions
 * Various fixes for display issues on small screens
 * Fix some potential NPEs
-* Support transliteration for Lithuanian
+* WIP: Display start and end of sleep in statistics
 
 #### Version 0.29.0
 * New Device: Initial support for ID115
