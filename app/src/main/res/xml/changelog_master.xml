@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.29.1" versioncode="137">
+        <change>Mi Band 3: Support setting language to to German, Italian, French, Polish, Japanese, Korean (read wiki)</change>
+        <change>Mi Band 3: Support flashing latest RES files</change>
+        <change>Mi Band 3: Fix notifcation text not being displayed</change>
+        <change>Mi Band 3/Cor/Bip: Display app name when generic when no app specific icon is available</change>
+        <change>Teclast: add/improve H1 and H3 watch recognition</change>
+        <change>Support transliteration for Lithuanian and Bengali</change>
+        <change>Fix BLE reconnect issues in certain conditions</change>
+        <change>Various fixes for display issues on small screens</change>
+        <change>Fix some potential NPEs</change>
+        <change>WIP: Display start and end of sleep in statistics</change>
+    </release>
     <release version="0.29.0" versioncode="136">
         <change>New Device: Initial support for ID115</change>
         <change>New Device: Initial support for Lenovo Watch9</change>
