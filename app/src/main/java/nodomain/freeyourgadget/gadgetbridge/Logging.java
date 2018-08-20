@@ -54,6 +54,13 @@ public abstract class Logging {
         }
     }
 
+    public String getLogPath() {
+        if (fileLogger != null)
+            return fileLogger.getFile();
+        else
+            return null;
+    }
+
     public void debugLoggingConfiguration() {
         // For debugging problems with the logback configuration
         LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();

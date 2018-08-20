@@ -522,7 +522,7 @@
     <string name="devicetype_amazfit_cor">Amazfit Cor</string>
     <string name="menuitem_shortcut_alipay">Alipay (ярлык)</string>
     <string name="menuitem_alipay">Alipay</string>
-<string name="on">Вкл.</string>
+    <string name="on">Вкл.</string>
     <string name="select_all">Выбрать все</string>
     <string name="share">Поделиться</string>
     <string name="kind_firmware">Прошивка</string>
@@ -573,7 +573,7 @@
     <string name="preferences_miband2_settings">Настройки Mi Band 2</string>
     <string name="preferences_miband3_settings">Настройки Mi Band 3</string>
     <string name="menuitem_more">Ещё</string>
-<string name="menuitem_music">Музыка</string>
+    <string name="menuitem_music">Музыка</string>
     <string name="controlcenter_calibrate_device">Калибровать устройство</string>
 
 
@@ -588,15 +588,14 @@
     <string name="watch9_calibration_button">Калибровка</string>
     <string name="title_activity_watch9_pairing">Сопряжение Watch 9</string>
     <string name="title_activity_watch9_calibration">Калибровка Watch 9</string>
-<string name="mi3_prefs_band_screen_unlock">Разблокировать экран устройства</string>
+    <string name="mi3_prefs_band_screen_unlock">Разблокировать экран устройства</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Смахните вверх, чтобы разблокировать экран устройства</string>
-
     <string name="german">Немецкий язык</string>
     <string name="italian">Итальянский язык</string>
     <string name="french">Французский язык</string>
     <string name="polish">Польский язык</string>
     <string name="korean">Корейский язык</string>
     <string name="japanese">Японский язык</string>
-
     <string name="norwegian_bokmal">Норвежский (литературный)</string>
-    </resources>
+    <string name="share_log">Поделиться лог-файлом</string>
+</resources>
