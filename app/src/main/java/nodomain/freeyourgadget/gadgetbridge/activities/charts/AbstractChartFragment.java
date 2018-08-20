@@ -93,6 +93,8 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils.isV
 public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected final int ANIM_TIME = 250;
 
+    public static final float Y_VALUE_NOT_WORN = 0.1f;
+
     private static final Logger LOG = LoggerFactory.getLogger(AbstractChartFragment.class);
 
     private final Set<String> mIntentFilterActions;
@@ -474,7 +476,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                             notWornEntries.add(createLineEntry(0, ts));
                             activityEntries.add(createLineEntry(0, ts));
                         }
-                        deepSleepEntries.add(createLineEntry(value + SleepUtils.Y_VALUE_DEEP_SLEEP, ts));
+                        deepSleepEntries.add(createLineEntry(SleepUtils.Y_VALUE_DEEP_SLEEP, ts));
                         break;
                     case ActivityKind.TYPE_LIGHT_SLEEP:
                         if (last_type != type) {
@@ -484,7 +486,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                             notWornEntries.add(createLineEntry(0, ts));
                             activityEntries.add(createLineEntry(0, ts));
                         }
-                        lightSleepEntries.add(createLineEntry(value, ts));
+                        lightSleepEntries.add(createLineEntry(SleepUtils.Y_VALUE_LIGHT_SLEEP, ts));
                         break;
                     case ActivityKind.TYPE_NOT_WORN:
                         if (last_type != type) {
@@ -494,7 +496,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                             deepSleepEntries.add(createLineEntry(0, ts));
                             activityEntries.add(createLineEntry(0, ts));
                         }
-                        notWornEntries.add(createLineEntry(SleepUtils.Y_VALUE_DEEP_SLEEP, ts)); //a small value, just to show something on the graphs
+                        notWornEntries.add(createLineEntry(Y_VALUE_NOT_WORN, ts)); //a small value, just to show something on the graphs
                         break;
                     default:
 //                        short steps = sample.getSteps();
