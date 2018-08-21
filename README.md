@@ -17,7 +17,7 @@ vendor's servers.
 
 ## Download
 
-[![Gadgetbridge on F-Droid](/Get_it_on_F-Droid.png?raw=true "Download from F-Droid")](https://f-droid.org/packages/nodomain.freeyourgadget.gadgetbridge)
+[![Gadgetbridge on F-Droid](/Get-it-on-F-Droid.png?raw=true "Download from F-Droid")](https://f-droid.org/packages/nodomain.freeyourgadget.gadgetbridge)
 
 [List of changes](https://github.com/Freeyourgadget/Gadgetbridge/blob/master/CHANGELOG.md)
 
