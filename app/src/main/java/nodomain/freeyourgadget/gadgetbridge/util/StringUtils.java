@@ -17,8 +17,13 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 public class StringUtils {
+
+
 
     @NonNull
     public static String truncate(String s, int maxLength){
@@ -27,7 +32,7 @@ public class StringUtils {
         }
 
         int length = Math.min(s.length(), maxLength);
-        if(length < 0) {
+        if(length <= 0) {
             return "";
         }
 

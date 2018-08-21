@@ -156,12 +156,28 @@
             android:title="@string/pref_title_whenscreenon" />
 
         <CheckBoxPreference
+        android:layout="@layout/preference_checkbox"
+        android:defaultValue="false"
+        android:key="transliteration"
+        android:summary="@string/pref_summary_transliteration"
+        android:title="@string/pref_title_transliteration"
+        />
+
+        <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
-            android:key="transliteration"
-            android:summary="@string/pref_summary_transliteration"
-            android:title="@string/pref_title_transliteration"
+            android:key="rtl"
+            android:summary="@string/pref_summary_rtl"
+            android:title="@string/pref_title_rtl"
             />
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="rtl_max_line_length"
+            android:defaultValue="20"
+            android:maxLength="159"
+            android:title="@string/pref_rtl_max_line_length"
+            android:summary="@string/pref_rtl_max_line_length_summary"/>
 
         <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
@@ -590,7 +606,7 @@
                     android:title="@string/pref_title_screentime"/>
 
                 <CheckBoxPreference
-            android:layout="@layout/preference_checkbox"
+                    android:layout="@layout/preference_checkbox"
                     android:defaultValue="true"
                     android:key="hplus_alldayhr"
                     android:title="@string/prefs_title_all_day_heart_rate" />

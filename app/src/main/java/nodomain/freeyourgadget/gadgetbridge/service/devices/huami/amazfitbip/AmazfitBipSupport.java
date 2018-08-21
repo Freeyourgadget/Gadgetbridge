@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.util.Log;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.ope
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSportsSummaryOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
+import nodomain.freeyourgadget.gadgetbridge.util.LanguageUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
@@ -85,12 +87,17 @@ public class AmazfitBipSupport extends HuamiSupport {
         String senderOrTiltle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
 
         String message = StringUtils.truncate(senderOrTiltle, 32) + "\0";
+        Log.d("ROIGR", "senderOrTiltle: " + senderOrTiltle);
         if (notificationSpec.subject != null) {
             message += StringUtils.truncate(notificationSpec.subject, 128) + "\n\n";
+            Log.d("ROIGR", "subject: " + notificationSpec.subject);
         }
         if (notificationSpec.body != null) {
             message += StringUtils.truncate(notificationSpec.body, 128);
+            Log.d("ROIGR", "body: " + notificationSpec.body);
         }
+
+//        message = LanguageUtils.fixRtl(message, message.length());
 
         try {
             TransactionBuilder builder = performInitialized("new notification");
