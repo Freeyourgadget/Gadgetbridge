@@ -81,6 +81,14 @@ public class GBDeviceService implements DeviceService {
             }
         }
 
+        if (LanguageUtils.rtlSupport()) {
+            for (String extra : transliterationExtras) {
+                if (intent.hasExtra(extra)) {
+                    intent.putExtra(extra, LanguageUtils.fixRtl(intent.getStringExtra(extra)));
+                }
+            }
+        }
+
         mContext.startService(intent);
     }
 

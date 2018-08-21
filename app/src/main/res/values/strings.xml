@@ -104,6 +104,11 @@
     <string name="pref_title_transliteration">Transliteration</string>
     <string name="pref_summary_transliteration">Enable this if your device has no support for your language\'s font</string>
 
+    <string name="pref_title_rtl">Right-To-Left</string>
+    <string name="pref_summary_rtl">Enable this if your device has no support in right-to-left languages</string>
+    <string name="pref_rtl_max_line_length">Right-To-Left Max Line Length</string>
+    <string name="pref_rtl_max_line_length_summary">When Right-To-Left is enable, the text is separated to lines. Change tjis value if the lines are to long/short.</string>
+
     <string name="always">Always</string>
     <string name="when_screen_off">When screen is off</string>
     <string name="never">Never</string>
@@ -626,4 +631,5 @@
     <string name="watch9_calibration_button">Calibrate</string>
     <string name="title_activity_watch9_pairing">Watch 9 pairing</string>
     <string name="title_activity_watch9_calibration">Watch 9 calibration</string>
+
 </resources>

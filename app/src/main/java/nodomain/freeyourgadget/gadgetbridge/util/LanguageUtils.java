@@ -17,11 +17,19 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import android.text.TextUtils;
+import android.util.Log;
+import android.util.Pair;
+
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
@@ -149,5 +157,172 @@ public class LanguageUtils {
     private static String flattenToAscii(String string) {
         string = Normalizer.normalize(string, Normalizer.Form.NFD);
         return string.replaceAll("\\p{M}", "");
+    }
+
+    /**
+     * Checks the status of transliteration option
+     * @return true if transliterate option is On, and false, if Off or not exist
+     */
+    public static boolean rtlSupport()
+    {
+        return GBApplication.getPrefs().getBoolean("rtl", false);
+    }
+
+    //transliteration map with english equivalent for unsupported chars
+    private static Map<Character, Character> directionSignsMap = new HashMap<Character, Character>(){
+        {
+            put('(', ')'); put(')', '('); put('[', ']'); put(']', '['); put('{','}'); put('}','{');
+
+
+        }
+    };
+
+    //transliteration map with english equivalent for unsupported chars
+    private static ArrayList <Pair<Character, Character>> rtlRange = new ArrayList<Pair<Character, Character>>() {
+        {
+            add(new Pair<Character, Character>('\u0590', '\u05F4'));
+            add(new Pair<Character, Character>('\uFB1D', '\uFB4F'));
+            add(new Pair<Character, Character>('\u0600', '\u06FF'));
+            add(new Pair<Character, Character>('\u0750', '\u077F'));
+            add(new Pair<Character, Character>('\u08A0', '\u08FF'));
+            add(new Pair<Character, Character>('\uFB50', '\uFDFF'));
+            add(new Pair<Character, Character>('\uFE70', '\uFEFF'));
+        }
+    };
+
+    private static Boolean isRtl(char c){
+        for (Pair<Character, Character> rang: rtlRange) {
+            if (rang.first <= c && c <= rang.second) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static ArrayList <Pair<Character, Character>> stsRange = new ArrayList<Pair<Character, Character>>() {
+        {
+            add(new Pair<Character, Character>('\u0021', '\u002F'));
+            add(new Pair<Character, Character>('\u003A', '\u0040'));
+            add(new Pair<Character, Character>('\u005B', '\u0060'));
+            add(new Pair<Character, Character>('\u007B', '\u007E'));
+        }
+    };
+
+    private static Boolean isSts(char c){
+        for (Pair<Character, Character> rang: stsRange) {
+            if (rang.first <= c && c <= rang.second) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static ArrayList<Character> endSigns = new ArrayList<Character>() {
+        {
+            add('\0');
+            add('\n');
+            add(' ');
+        }
+    };
+
+    private static Boolean isEndSign(char c){
+        for (char sign: endSigns){
+            if (c == sign){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static String reverse(String a) {
+        int j = a.length();
+        int startWithSpace = 0;
+        char[] newWord = new char[j];
+
+        if (j == 0) {
+            return a;
+        }
+
+        if (isEndSign(a.charAt(a.length() - 1))){
+            startWithSpace = 1;
+            newWord[--j] = a.charAt(a.length() - 1);
+        }
+
+        for (int i = 0; i < a.length() - startWithSpace; i++) {
+            if (LanguageUtils.directionSignsMap.containsKey(a.charAt(i))) {
+                newWord[--j] = LanguageUtils.directionSignsMap.get(a.charAt(i));
+            } else {
+                newWord[--j] = a.charAt(i);
+            }
+        }
+        return new String(newWord);
+    }
+
+    public static String fixRtl(String s) {
+        if (s == null || s.isEmpty()){
+            return s;
+        }
+        int length = s.length();
+        String oldString = s.substring(0, length);
+        String newString = "";
+        List<String> lines = new ArrayList<>();
+        char[] newWord = new char[length];
+        int line_max_size = GBApplication.getPrefs().getInt("rtl_max_line_length", 20);;
+
+        int startPos = 0;
+        int endPos = 0;
+        Boolean isRtlState = LanguageUtils.isRtl(oldString.charAt(0));
+        char c;
+        String line = "";
+        for (int i = 0; i < length; i++) {
+            c = oldString.charAt(i);
+            Log.d("ROIGR", String.format("%s: i %x i", c, (int) c));
+            if ((LanguageUtils.isRtl(c) == isRtlState || LanguageUtils.isSts(c)) && i < length - 1) {
+                endPos++;
+            } else {
+                String word;
+
+                if (isEndSign(c)){
+                    endPos++;
+                }
+
+                if (i == length - 1){
+                    endPos = length;
+                }
+                if (isRtlState) {
+                    word = reverse(oldString.substring(startPos, endPos));
+                } else {
+                    word = (oldString.substring(startPos, endPos));
+                }
+                Log.d("ROIGR", String.format("|%s| is now |%s|", oldString.substring(startPos, endPos), word));
+                if (line.length() + word.length() > line_max_size) {
+                    lines.add(line + "\n");
+                    line = "";
+                }
+                line = String.format("%s%s", word, line);
+                if (line.endsWith("\0") || line.endsWith("\n")) {
+                    lines.add(line);
+                    line = "";
+                }
+                startPos = endPos;
+                if (!isEndSign(c)){
+                    endPos++;
+                    isRtlState = !isRtlState;
+                }
+            }
+        }
+
+        lines.add(line);
+
+        newString = TextUtils.join("", lines);
+        Log.d("ROIGR", "lines:\n\n" + lines);
+        Log.d("ROIGR", "final messege:\n\n" + newString);
+//        if (LanguageUtils.isRtl(s.charAt(0))){
+//            newString = reverse(s);
+//        } else {
+//            newString = s;
+//        }
+        return newString;
     }
 }
