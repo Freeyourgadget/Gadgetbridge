@@ -16,10 +16,9 @@ vendor's servers.
 [![Build](https://travis-ci.org/Freeyourgadget/Gadgetbridge.svg?branch=master)](https://travis-ci.org/Freeyourgadget/Gadgetbridge)
 
 ## Download
-)]
+
 [<img src="/Get_it_on_F-Droid.png?raw=true
-      alt="Get it on F-Droid"
-      height="80">](https://f-droid.org/packages/nodomain.freeyourgadget.gadgetbridge)
+      alt="Get it on F-Droid">](https://f-droid.org/packages/nodomain.freeyourgadget.gadgetbridge)
 
 [List of changes](https://github.com/Freeyourgadget/Gadgetbridge/blob/master/CHANGELOG.md)
 
