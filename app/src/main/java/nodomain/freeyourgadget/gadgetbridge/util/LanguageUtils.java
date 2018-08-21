@@ -18,18 +18,15 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Pair;
 
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
@@ -160,15 +157,15 @@ public class LanguageUtils {
     }
 
     /**
-     * Checks the status of transliteration option
-     * @return true if transliterate option is On, and false, if Off or not exist
+     * Checks the status of right-to-left option
+     * @return true if right-to-left option is On, and false, if Off or not exist
      */
     public static boolean rtlSupport()
     {
         return GBApplication.getPrefs().getBoolean("rtl", false);
     }
 
-    //transliteration map with english equivalent for unsupported chars
+    //map with brackets chars to change there direction
     private static Map<Character, Character> directionSignsMap = new HashMap<Character, Character>(){
         {
             put('(', ')'); put(')', '('); put('[', ']'); put(']', '['); put('{','}'); put('}','{');
@@ -177,7 +174,7 @@ public class LanguageUtils {
         }
     };
 
-    //transliteration map with english equivalent for unsupported chars
+    //list of unicode ranges of rtl chars
     private static ArrayList <Pair<Character, Character>> rtlRange = new ArrayList<Pair<Character, Character>>() {
         {
             add(new Pair<Character, Character>('\u0590', '\u05F4'));
@@ -190,6 +187,9 @@ public class LanguageUtils {
         }
     };
 
+    /**
+     * @return true if the char is in the rtl range, otherwise false
+     */
     private static Boolean isRtl(char c){
         for (Pair<Character, Character> rang: rtlRange) {
             if (rang.first <= c && c <= rang.second) {
@@ -199,7 +199,8 @@ public class LanguageUtils {
         return false;
     }
 
-    private static ArrayList <Pair<Character, Character>> stsRange = new ArrayList<Pair<Character, Character>>() {
+    //list of unicode ranges of punctuations chars
+    private static ArrayList <Pair<Character, Character>> punctuationsRange = new ArrayList<Pair<Character, Character>>() {
         {
             add(new Pair<Character, Character>('\u0021', '\u002F'));
             add(new Pair<Character, Character>('\u003A', '\u0040'));
@@ -208,8 +209,11 @@ public class LanguageUtils {
         }
     };
 
-    private static Boolean isSts(char c){
-        for (Pair<Character, Character> rang: stsRange) {
+    /**
+     * @return true if the char is in the punctuations range, otherwise false
+     */
+    private static Boolean isPunctuations(char c){
+        for (Pair<Character, Character> rang: punctuationsRange) {
             if (rang.first <= c && c <= rang.second) {
                 return true;
             }
@@ -217,7 +221,8 @@ public class LanguageUtils {
         return false;
     }
 
-    private static ArrayList<Character> endSigns = new ArrayList<Character>() {
+    //list of sign that ends a word
+    private static ArrayList<Character> wordEndSigns = new ArrayList<Character>() {
         {
             add('\0');
             add('\n');
@@ -225,8 +230,11 @@ public class LanguageUtils {
         }
     };
 
-    private static Boolean isEndSign(char c){
-        for (char sign: endSigns){
+    /**
+     * @return true if the char is in the end of word list, otherwise false
+     */
+    private static Boolean isWordEndSign(char c){
+        for (char sign: wordEndSigns){
             if (c == sign){
                 return true;
             }
@@ -235,30 +243,45 @@ public class LanguageUtils {
         return false;
     }
 
-    private static String reverse(String a) {
-        int j = a.length();
+    /**
+     * The function get a string and reverse it.
+     * in case of end-of-word sign, it will leave it at the end.
+     * in case of sign with direction like brackets, it will change the direction.
+     * @param s - the string to reverse
+     * @return reversed string
+     */
+    private static String reverse(String s) {
+        int j = s.length();
         int startWithSpace = 0;
         char[] newWord = new char[j];
 
         if (j == 0) {
-            return a;
+            return s;
         }
 
-        if (isEndSign(a.charAt(a.length() - 1))){
+        // remain end-of-word sign at the end
+        if (isWordEndSign(s.charAt(s.length() - 1))){
             startWithSpace = 1;
-            newWord[--j] = a.charAt(a.length() - 1);
+            newWord[--j] = s.charAt(s.length() - 1);
         }
 
-        for (int i = 0; i < a.length() - startWithSpace; i++) {
-            if (LanguageUtils.directionSignsMap.containsKey(a.charAt(i))) {
-                newWord[--j] = LanguageUtils.directionSignsMap.get(a.charAt(i));
+        for (int i = 0; i < s.length() - startWithSpace; i++) {
+            if (LanguageUtils.directionSignsMap.containsKey(s.charAt(i))) {
+                newWord[--j] = LanguageUtils.directionSignsMap.get(s.charAt(i));
             } else {
-                newWord[--j] = a.charAt(i);
+                newWord[--j] = s.charAt(i);
             }
         }
         return new String(newWord);
     }
 
+    /**
+     * The function get a string and fix the rtl words.
+     * since simple reverse puts the beginning of the text at the end, the text should have been from bottom to top.
+     * To avoid that, we save the text in lines (line max size can be change in the settings)
+     * @param s - the string to fix.
+     * @return a fix string.
+     */
     public static String fixRtl(String s) {
         if (s == null || s.isEmpty()){
             return s;
@@ -277,13 +300,12 @@ public class LanguageUtils {
         String line = "";
         for (int i = 0; i < length; i++) {
             c = oldString.charAt(i);
-            Log.d("ROIGR", String.format("%s: i %x i", c, (int) c));
-            if ((LanguageUtils.isRtl(c) == isRtlState || LanguageUtils.isSts(c)) && i < length - 1) {
+            if ((LanguageUtils.isRtl(c) == isRtlState || LanguageUtils.isPunctuations(c)) && i < length - 1) {
                 endPos++;
             } else {
                 String word;
 
-                if (isEndSign(c)){
+                if (isWordEndSign(c)){
                     endPos++;
                 }
 
@@ -295,7 +317,6 @@ public class LanguageUtils {
                 } else {
                     word = (oldString.substring(startPos, endPos));
                 }
-                Log.d("ROIGR", String.format("|%s| is now |%s|", oldString.substring(startPos, endPos), word));
                 if (line.length() + word.length() > line_max_size) {
                     lines.add(line + "\n");
                     line = "";
@@ -306,7 +327,7 @@ public class LanguageUtils {
                     line = "";
                 }
                 startPos = endPos;
-                if (!isEndSign(c)){
+                if (!isWordEndSign(c)){
                     endPos++;
                     isRtlState = !isRtlState;
                 }
@@ -316,13 +337,7 @@ public class LanguageUtils {
         lines.add(line);
 
         newString = TextUtils.join("", lines);
-        Log.d("ROIGR", "lines:\n\n" + lines);
-        Log.d("ROIGR", "final messege:\n\n" + newString);
-//        if (LanguageUtils.isRtl(s.charAt(0))){
-//            newString = reverse(s);
-//        } else {
-//            newString = s;
-//        }
+
         return newString;
     }
 }
