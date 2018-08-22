@@ -30,3 +30,5 @@
 }
 
 -keep class **$Properties
+
+-keep public class com.ru.gelin.android.weather.notification.ParcelableWeather2
