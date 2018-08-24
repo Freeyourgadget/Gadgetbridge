@@ -23,6 +23,37 @@ public class BengaliLanguageUtils extends LanguageUtils {
             put("্ব", "w");
         }
     };
+    // Vowels Only
+    private final static Hashtable<String, String> vowelsAndHasants = new Hashtable<String, String>() {
+        {
+            put("আ", "aa");
+            put("অ", "a");
+            put("ই", "i");
+            put("ঈ", "ii");
+            put("উ", "u");
+            put("ঊ", "uu");
+            put("ঋ", "ri");
+            put("এ", "e");
+            put("ঐ", "oi");
+            put("ও", "o");
+            put("ঔ", "ou");
+            put("া", "aa");
+            put("ি", "i");
+            put("ী", "ii");
+            put("ু", "u");
+            put("ূ", "uu");
+            put("ৃ", "r");
+            put("ে", "e");
+            put("ো", "o");
+            put("ৈ", "oi");
+            put("ৗ", "ou");
+            put("ৌ", "ou");
+            put("ং", "ng");
+            put("ঃ", "h");
+            put("।", ".");
+        }
+    };
+    
     // Single Character Letters.
     private final static Hashtable<String, String> letters = new Hashtable<String, String>() {
         {
@@ -102,8 +133,22 @@ public class BengaliLanguageUtils extends LanguageUtils {
     };
 
     // The regex to extract Bengali characters in nested groups.
-    private final static String pattern = "(র্){0,1}([অ-হড়-য়](্([অ-মশ-হড়-য়]))*)((‍){0,1}(্([য-ল]))){0,1}([া-ৌ]){0,1}|[্ঁঃংৎ০-৯।]| ";
+    private final static String pattern = "(র্){0,1}(([অ-হড়-য়])(্([অ-মশ-হড়-য়]))*)((‍){0,1}(্([য-ল]))){0,1}([া-ৌ]){0,1}|[্ঁঃংৎ০-৯।]| ";
 
+    private static String getVal(String key){
+	if (key != null) {
+	    boolean hasKey = composites.containsKey(key);
+	    if (hasKey) {
+		return composites.get(key);
+	    }
+	    hasKey = letters.containsKey(key);
+	    if (hasKey) {
+		return letters.get(key);
+	    }
+	}
+	return null;
+    }
+    
     public static String transliterate(String txt) {
         if (txt.isEmpty()) {
             return txt;
@@ -118,50 +163,43 @@ public class BengaliLanguageUtils extends LanguageUtils {
             if (reff != null) {
                 appendableString = appendableString + "rr";
             }
-            int g = 0;
             // This is a filter-down approach. First considering larger groups,
             // If found any match breaks their. Else go to the next step.
             // Helpful to solve some corner-cases.
-            while (g < 5) {
-                String key = m.group(g);
-                if (key != null) {
-                    boolean hasKey = composites.containsKey(key);
-                    if (hasKey) {
-                        appendableString = appendableString + composites.get(key);
-                        break;
-                    }
-                    hasKey = letters.containsKey(key);
-                    if (hasKey) {
-                        appendableString = appendableString + letters.get(key);
-                        break;
-                    }
-                }
-                g = g + 1;
+	    String mainPart = getVal(m.group(2));
+	    if (mainPart != null) {
+		appendableString = appendableString + mainPart;
+	    } else {
+		String firstPart = getVal(m.group(3));
+		if (firstPart != null){
+		    appendableString = appendableString + firstPart;
+		}
+		int g = 4;
+		while (g < 6){
+		    String part = getVal(m.group(g));
+		    if (part != null){
+			appendableString = appendableString + part;
+			break;
+		    }
+		    g = g + 1;
+		}
+	    }
+            int g = 6;
+            while (g < 10) {
+                String key = getVal(m.group(g));
+                if (key != null){
+		    appendableString = appendableString + key;
+		    break;
+		}
+		g = g + 1;
             }
-            g = 5;
-            while (g < 9) {
-                String key = m.group(g);
-                if (key != null) {
-                    boolean hasKey = composites.containsKey(key);
-                    if (hasKey) {
-                        appendableString = appendableString + composites.get(key);
-                        break;
-                    }
-                    hasKey = letters.containsKey(key);
-                    if (hasKey) {
-                        appendableString = appendableString + letters.get(key);
-                        break;
-                    }
-                }
-                g = g + 1;
-            }
-            String kaar = m.group(9);
+            String kaar = m.group(10);
             if (kaar != null) {
                 boolean hasKey = letters.containsKey(kaar);
                 if (hasKey) {
                     appendableString = appendableString + letters.get(kaar);
                 }
-            } else if (appendableString.length() > 0 && !appendableString.equals(".")) {
+            } else if (appendableString.length() > 0 && !vowelsAndHasants.containsKey(m.group(0))) {
                 // Adding 'a' like ITRANS if no vowel is present.
                 // TODO: Have to add it dynamically using Bengali grammer rules.
                 appendableString = appendableString + "a";

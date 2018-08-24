@@ -61,7 +61,7 @@ public class LanguageUtilsTest extends TestBase {
         //input with cyrillic and diacritic letters
         String input = "অনিরুদ্ধ";
         String output = LanguageUtils.transliterate(input);
-        String result = "oniruddho";
+        String result = "aniruddha";
 
         assertEquals("Transliteration failed", result, output);
     }
