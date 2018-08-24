@@ -3,7 +3,10 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 import java.util.Hashtable;
 import java.util.regex.*;
 
+// What's the reason to extending LanguageUtils?
+// Just doing it because already done in the previous code.
 public class BengaliLanguageUtils extends LanguageUtils {
+    // Composite Letters.
     private final static Hashtable<String, String> composites = new Hashtable<String, String>() {
         {
             put("ক্ষ", "kkh");
@@ -20,6 +23,7 @@ public class BengaliLanguageUtils extends LanguageUtils {
             put("্ব", "w");
         }
     };
+    // Single Character Letters.
     private final static Hashtable<String, String> letters = new Hashtable<String, String>() {
         {
             put("আ", "aa");
@@ -97,6 +101,7 @@ public class BengaliLanguageUtils extends LanguageUtils {
         }
     };
 
+    // The regex to extract Bengali characters in nested groups.
     private final static String pattern = "(র্){0,1}([অ-হড়-য়](্([অ-মশ-হড়-য়]))*)((‍){0,1}(্([য-ল]))){0,1}([া-ৌ]){0,1}|[্ঁঃংৎ০-৯।]| ";
 
     public static String transliterate(String txt) {
@@ -114,6 +119,9 @@ public class BengaliLanguageUtils extends LanguageUtils {
                 appendableString = appendableString + "rr";
             }
             int g = 0;
+            // This is a filter-down approach. First considering larger groups,
+            // If found any match breaks their. Else go to the next step.
+            // Helpful to solve some corner-cases.
             while (g < 5) {
                 String key = m.group(g);
                 if (key != null) {
@@ -154,6 +162,8 @@ public class BengaliLanguageUtils extends LanguageUtils {
                     appendableString = appendableString + letters.get(kaar);
                 }
             } else if (appendableString.length() > 0 && !appendableString.equals(".")) {
+                // Adding 'a' like ITRANS if no vowel is present.
+                // TODO: Have to add it dynamically using Bengali grammer rules.
                 appendableString = appendableString + "a";
             }
             String others = m.group(0);
