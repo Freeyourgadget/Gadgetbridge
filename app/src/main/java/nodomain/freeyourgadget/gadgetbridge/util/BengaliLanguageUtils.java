@@ -1,110 +1,171 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
-import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.regex.*;
 
 public class BengaliLanguageUtils extends LanguageUtils {
-
-    private final static char BENGALI_JOIN_CHAR = '্';
-
-    private final static HashMap<Character, String> numbers = new HashMap<Character, String>() {
+    private final static Hashtable<String, String> composites = new Hashtable<String, String>() {
         {
-            put('০',"0"); put('১',"1"); put('২',"2"); put('৩',"3"); put('৪',"4");
-            put('৫',"5"); put('৬',"6"); put('৭',"7"); put('৮',"8");
-            put('৯',"9");
+            put("ক্ষ", "kkh");
+            put("ঞ্চ", "NC");
+            put("ঞ্ছ", "NCh");
+            put("ঞ্জ", "Ng");
+            put("জ্ঞ", "gg");
+            put("ঞ্ঝ", "Ngh");
+            put("্র", "r");
+            put("্ল", "l");
+            put("ষ্ম", "SSh");
+            put("র্", "r");
+            put("্য", "y");
+            put("্ব", "w");
+        }
+    };
+    private final static Hashtable<String, String> letters = new Hashtable<String, String>() {
+        {
+            put("আ", "aa");
+            put("অ", "a");
+            put("ই", "i");
+            put("ঈ", "ii");
+            put("উ", "u");
+            put("ঊ", "uu");
+            put("ঋ", "ri");
+            put("এ", "e");
+            put("ঐ", "oi");
+            put("ও", "o");
+            put("ঔ", "ou");
+            put("ক", "k");
+            put("খ", "kh");
+            put("গ", "g");
+            put("ঘ", "gh");
+            put("ঙ", "ng");
+            put("চ", "ch");
+            put("ছ", "chh");
+            put("জ", "j");
+            put("ঝ", "jh");
+            put("ঞ", "Ng");
+            put("ট", "T");
+            put("ঠ", "Th");
+            put("ড", "D");
+            put("ঢ", "Dh");
+            put("ণ", "N");
+            put("ত", "t");
+            put("থ", "th");
+            put("দ", "d");
+            put("ধ", "dh");
+            put("ন", "n");
+            put("প", "p");
+            put("ফ", "ph");
+            put("ব", "b");
+            put("ভ", "bh");
+            put("ম", "m");
+            put("য", "J");
+            put("র", "r");
+            put("ল", "l");
+            put("শ", "sh");
+            put("ষ", "Sh");
+            put("স", "s");
+            put("হ", "h");
+            put("ড়", "rh");
+            put("ঢ়", "rH");
+            put("য়", "y");
+            put("ৎ", "t");
+            put("০", "0");
+            put("১", "1");
+            put("২", "2");
+            put("৩", "3");
+            put("৪", "4");
+            put("৫", "5");
+            put("৬", "6");
+            put("৭", "7");
+            put("৮", "8");
+            put("৯", "9");
+            put("া", "aa");
+            put("ি", "i");
+            put("ী", "ii");
+            put("ু", "u");
+            put("ূ", "uu");
+            put("ৃ", "r");
+            put("ে", "e");
+            put("ো", "o");
+            put("ৈ", "oi");
+            put("ৗ", "ou");
+            put("ৌ", "ou");
+            put("ং", "ng");
+            put("ঃ", "h");
+            put("ঁ", "nN");
+            put("।", ".");
         }
     };
 
-    private final static HashMap<Character, String> vowels = new HashMap<Character, String>() {
-        {
-            put('অ', "o"); put('আ', "a"); put('ই', "i"); put('ঈ', "ee");
-            put('উ', "u"); put('ঊ', "oo"); put('ঋ', "ri"); put('এ', "e");
-            put('ঐ', "oi"); put('ও', "o"); put('ঔ', "ou"); put('া', "a");
-            put('ি', "i"); put('ী', "ee"); put('ু', "u"); put('ূ', "oo");
-            put('ৃ', "ri"); put('ে', "e"); put('ৈ', "oi"); put('ো', "o");
-            put('ৌ', "ou");
-        }
-    };
-
-    private final static HashMap<Character, String> consonants = new HashMap<Character, String>() {
-        {
-            put('ঁ', ""); put('ং', "ng"); put('ঃ', "");
-            put('ক', "k"); put('খ', "kh"); put('গ', "g"); put('ঘ', "gh"); put('ঙ', "ng");
-            put('চ', "ch"); put('ছ', "ch"); put('জ', "j"); put('ঝ', "jh"); put('ঞ', "ng");
-            put('ট', "t"); put('ঠ', "th"); put('ড', "d"); put('ঢ', "dh"); put('ণ', "n");
-            put('ত', "t"); put('থ', "th"); put('দ', "d"); put('ধ', "dh"); put('ন', "n");
-            put('প', "p"); put('ফ', "f"); put('ব', "b"); put('ভ', "v"); put('ম', "m");
-            put('য', "z"); put('র', "r"); put('ল', "l"); put('শ', "sh");
-            put('ষ', "sh"); put('স', "s"); put('হ', "h");
-            put('ৎ', "t"); put('ড়', "r"); put('ঢ়', "r"); put('য়', "y");
-        }
-    };
-
-    private final static HashMap<Character, String> symbols = new HashMap<Character, String>() {
-        {
-            put('ব', "w");
-            put('য়', "y");
-        }
-    };
-
-    private final static HashMap<Character, String> joins = new HashMap<Character, String>() {
-        {
-            put('৳', "$");
-        }
-    };
-
-    private static boolean hasJoinedInString(String string) {
-        return string.contains(string);
-    }
+    private final static String pattern = "(র্){0,1}([অ-হড়-য়](্([অ-মশ-হড়-য়]))*)((‍){0,1}(্([য-ল]))){0,1}([া-ৌ]){0,1}|[্ঁঃংৎ০-৯।]| ";
 
     public static String transliterate(String txt) {
         if (txt.isEmpty()) {
             return txt;
         }
 
-        char[] charArray = txt.toCharArray();
-
-        StringBuilder romanizedBuilder = new StringBuilder();
-        char last = '\0';
-
-        for(int i = 0; i < txt.length(); i++) {
-            char currentChar = charArray[i];
-
-            if (symbols.containsKey(currentChar)) {
-                romanizedBuilder.append(symbols.get(currentChar));
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(txt);
+        StringBuffer sb = new StringBuffer();
+        while (m.find()) {
+            String appendableString = "";
+            String reff = m.group(1);
+            if (reff != null) {
+                appendableString = appendableString + "rr";
             }
-            else if (numbers.containsKey(currentChar)) {
-                romanizedBuilder.append(numbers.get(currentChar));
-            }
-            else if (vowels.containsKey(currentChar)) {
-                romanizedBuilder.append(vowels.get(currentChar));
-            }
-            else if (consonants.containsKey(currentChar)) {
-                if (last != '\0' && consonants.containsKey(last)) {
-                    romanizedBuilder.append('o');
+            int g = 0;
+            while (g < 5) {
+                String key = m.group(g);
+                if (key != null) {
+                    boolean hasKey = composites.containsKey(key);
+                    if (hasKey) {
+                        appendableString = appendableString + composites.get(key);
+                        break;
+                    }
+                    hasKey = letters.containsKey(key);
+                    if (hasKey) {
+                        appendableString = appendableString + letters.get(key);
+                        break;
+                    }
                 }
-                romanizedBuilder.append(consonants.get(currentChar));
-            } else if (currentChar == BENGALI_JOIN_CHAR) {
-                if (i + 1 < txt.length() && joins.containsKey(charArray[i + 1])) {
-                    romanizedBuilder.append(joins.get(charArray[i + 1]));
-                    i++;
-                    continue;
-                }
-            } else {
-                romanizedBuilder.append(currentChar);
+                g = g + 1;
             }
+            g = 5;
+            while (g < 9) {
+                String key = m.group(g);
+                if (key != null) {
+                    boolean hasKey = composites.containsKey(key);
+                    if (hasKey) {
+                        appendableString = appendableString + composites.get(key);
+                        break;
+                    }
+                    hasKey = letters.containsKey(key);
+                    if (hasKey) {
+                        appendableString = appendableString + letters.get(key);
+                        break;
+                    }
+                }
+                g = g + 1;
+            }
+            String kaar = m.group(9);
+            if (kaar != null) {
+                boolean hasKey = letters.containsKey(kaar);
+                if (hasKey) {
+                    appendableString = appendableString + letters.get(kaar);
+                }
+            } else if (appendableString.length() > 0 && !appendableString.equals(".")) {
+                appendableString = appendableString + "a";
+            }
+            String others = m.group(0);
+            if (others != null) {
 
-            last = currentChar;
+                if (appendableString.length() <= 0) {
+                    appendableString = appendableString + others;
+                }
+            }
+            m.appendReplacement(sb, appendableString);
         }
-
-        String romanized = romanizedBuilder.toString();
-
-        if (vowels.containsKey(charArray[charArray.length - 1])
-                && hasJoinedInString(txt)
-                && romanized.toCharArray()[romanized.length() - 1] == 'y') {
-            romanizedBuilder.append('o');
-        }
-
-        return romanizedBuilder.toString();
+        m.appendTail(sb);
+        return sb.toString();
     }
-
 }
