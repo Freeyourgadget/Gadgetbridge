@@ -135,6 +135,27 @@ class RtlUtils {
         return false;
     }
 
+    //list of sign that ends a word
+    private static ArrayList<Character> endLineSigns = new ArrayList<Character>() {
+        {
+            add('\0');
+            add('\n');
+        }
+    };
+
+    /**
+     * @return true if the char is in the end of word list, otherwise false
+     */
+    static Boolean isEndLineSign(char c){
+        for (char sign: endLineSigns){
+            if (c == sign){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     //map from Arabian characters to their contextual form in the beginning of the word
     private static Map<Character, Character> contextualArabicIsolated = new HashMap<Character, Character>(){
         {
@@ -338,7 +359,7 @@ class RtlUtils {
         Character curChar, nextChar = s.charAt(0);
         contextualState prevState = contextualState.isolate;
         contextualState curState = contextualState.isolate;
-        
+
         for (int i = 0; i < length - 1; i++){
             curChar = nextChar;
             nextChar = s.charAt(i + 1);
@@ -400,7 +421,7 @@ class RtlUtils {
      */
     static String reverse(String s) {
         int j = s.length();
-        int startWithSpace = 0;
+        int isEndLine = 0;
         char[] newWord = new char[j];
 
         if (j == 0) {
@@ -408,18 +429,19 @@ class RtlUtils {
         }
 
         // remain end-of-word sign at the end
-        if (isWordEndSign(s.charAt(s.length() - 1))){
-            startWithSpace = 1;
+        if (isEndLineSign(s.charAt(s.length() - 1))){
+            isEndLine = 1;
             newWord[--j] = s.charAt(s.length() - 1);
         }
 
-        for (int i = 0; i < s.length() - startWithSpace; i++) {
+        for (int i = 0; i < s.length() - isEndLine; i++) {
             if (directionSignsMap.containsKey(s.charAt(i))) {
                 newWord[--j] = directionSignsMap.get(s.charAt(i));
             } else {
                 newWord[--j] = s.charAt(i);
             }
         }
+
         return new String(newWord);
     }
 }
