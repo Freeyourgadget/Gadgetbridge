@@ -621,4 +621,7 @@
     <string name="watch9_calibration_button">Calibrate</string>
     <string name="title_activity_watch9_pairing">Watch 9 pairing</string>
     <string name="title_activity_watch9_calibration">Watch 9 calibration</string>
+    <string name="pref_title_contextual_arabic">Contextual Arabic</string>
+    <string name="pref_summary_contextual_arabic">Enable this to support contextual Arabic</string>
+    <string name="preferences_rtl_settings">Right To Left Support</string>
 </resources>
