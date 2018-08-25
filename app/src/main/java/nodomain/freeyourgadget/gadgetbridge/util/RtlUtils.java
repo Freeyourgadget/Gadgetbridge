@@ -325,6 +325,12 @@ class RtlUtils {
         }
     }
 
+    /**
+     * This function return the contextual form of Arabic characters in a given state
+     * @param c - the character to convert
+     * @param state - the character state: beginning, middle, end or isolated
+     * @return the contextual character
+     */
     private static char getContextualSymbol(Character c, contextualState state) {
         Character newChar;
         switch (state){
@@ -348,6 +354,41 @@ class RtlUtils {
         }
     }
 
+    /**
+     * This function return the contextual state of a given character, depend of the previous
+     * character state and the next charachter.
+     * @param prevState - previous character state or isolated if none
+     * @param curChar - the current character
+     * @param nextChar - the next character or null if none
+     * @return the current character contextual state
+     */
+    private static contextualState getCharContextualState(contextualState prevState, Character curChar, Character nextChar) {
+        contextualState curState;
+        if ((prevState == contextualState.isolate || prevState == contextualState.end) &&
+                contextualArabicBeginning.containsKey(curChar) &&
+                contextualArabicEnd.containsKey(nextChar)){
+
+            curState = contextualState.begin;
+
+        } else if ((prevState == contextualState.begin || prevState == contextualState.middle) &&
+                contextualArabicEnd.containsKey(curChar)){
+
+            if (contextualArabicMiddle.containsKey(curChar) && contextualArabicEnd.containsKey(nextChar)){
+                curState = contextualState.middle;
+            }else{
+                curState = contextualState.end;
+            }
+        }else{
+            curState = contextualState.isolate;
+        }
+        return curState;
+    }
+
+    /**
+     * this function convert given string to it's contextual form
+     * @param s - the given string
+     * @return the contextual form of the string
+     */
     static String converToContextual(String s){
         if (s == null || s.isEmpty() || s.length() == 1){
             return s;
@@ -387,28 +428,6 @@ class RtlUtils {
         newWord.append(getContextualSymbol(nextChar, curState));
 
         return newWord.toString();
-    }
-
-    private static contextualState getCharContextualState(contextualState prevState, Character curChar, Character nextChar) {
-        contextualState curState;
-        if ((prevState == contextualState.isolate || prevState == contextualState.end) &&
-                contextualArabicBeginning.containsKey(curChar) &&
-                contextualArabicEnd.containsKey(nextChar)){
-
-            curState = contextualState.begin;
-
-        } else if ((prevState == contextualState.begin || prevState == contextualState.middle) &&
-                contextualArabicEnd.containsKey(curChar)){
-
-            if (contextualArabicMiddle.containsKey(curChar) && contextualArabicEnd.containsKey(nextChar)){
-                curState = contextualState.middle;
-            }else{
-                curState = contextualState.end;
-            }
-        }else{
-            curState = contextualState.isolate;
-        }
-        return curState;
     }
 
 
