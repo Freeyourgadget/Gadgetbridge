@@ -170,23 +170,32 @@
             android:summary="@string/pref_summary_transliteration"
             android:title="@string/pref_title_transliteration"
             />
+        <PreferenceScreen
+        android:title="@string/preferences_rtl_settings">
+            <CheckBoxPreference
+                android:layout="@layout/preference_checkbox"
+                android:defaultValue="false"
+                android:key="rtl"
+                android:summary="@string/pref_summary_rtl"
+                android:title="@string/pref_title_rtl"
+                />
 
-        <CheckBoxPreference
-            android:layout="@layout/preference_checkbox"
-            android:defaultValue="false"
-            android:key="rtl"
-            android:summary="@string/pref_summary_rtl"
-            android:title="@string/pref_title_rtl"
-            />
+            <CheckBoxPreference
+                android:layout="@layout/preference_checkbox"
+                android:defaultValue="false"
+                android:key="contextualArabic"
+                android:summary="@string/pref_summary_contextual_arabic"
+                android:title="@string/pref_title_contextual_arabic"
+                />
 
-        <EditTextPreference
-            android:inputType="number"
-            android:key="rtl_max_line_length"
-            android:defaultValue="20"
-            android:maxLength="159"
-            android:title="@string/pref_rtl_max_line_length"
-            android:summary="@string/pref_rtl_max_line_length_summary"/>
-
+            <EditTextPreference
+                android:inputType="number"
+                android:key="rtl_max_line_length"
+                android:defaultValue="20"
+                android:maxLength="159"
+                android:title="@string/pref_rtl_max_line_length"
+                android:summary="@string/pref_rtl_max_line_length_summary"/>
+        </PreferenceScreen>
         <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
