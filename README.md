@@ -1,6 +1,8 @@
 Gadgetbridge
 ============
 
+This implementation for the Fossil Q hybrid is not officially supported by Fossil nor does Fossil provide any warranty concerning the functionality of this code.
+
 Gadgetbridge is an Android (4.4+) application which will allow you to use your
 Pebble, Mi Band, Amazfit Bip and HPlus device (and more) without the vendor's closed source application
 and without the need to create an account and transmit any of your data to the
