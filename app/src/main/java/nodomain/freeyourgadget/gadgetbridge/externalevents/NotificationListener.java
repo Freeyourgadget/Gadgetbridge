@@ -50,6 +50,7 @@ import android.support.v7.graphics.Palette;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -85,6 +86,8 @@ public class NotificationListener extends NotificationListenerService {
             = "nodomain.freeyourgadget.gadgetbridge.notificationlistener.action.reply";
 
     private LimitedQueue mActionLookup = new LimitedQueue(16);
+
+    private HashMap<String, Long> notificationTimes = new HashMap<>();
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
@@ -191,6 +194,8 @@ public class NotificationListener extends NotificationListenerService {
         if (shouldIgnore(sbn))
             return;
 
+        Prefs prefs = GBApplication.getPrefs();
+
         switch (GBApplication.getGrantedInterruptionFilter()) {
             case NotificationManager.INTERRUPTION_FILTER_ALL:
                 break;
@@ -264,6 +269,18 @@ public class NotificationListener extends NotificationListenerService {
             LOG.info("Not forwarding notification, FLAG_GROUP_SUMMARY is set and no wearable action present. Notification flags: " + notification.flags);
             return;
         }
+
+        // Ignore too frequent notifications, according to user preference
+        long min_timeout = prefs.getInt("notifications_timeout", 0) * 1000;
+        Long cur_time = System.currentTimeMillis();
+        if (notificationTimes.containsKey(source)) {
+            Long last_time = notificationTimes.get(source);
+            if (cur_time - last_time < min_timeout) {
+                LOG.info("Ignoring frequent notification, last one was " + (cur_time - last_time) + "ms ago");
+                return;
+            }
+        }
+        notificationTimes.put(source, cur_time);
 
         GBApplication.deviceService().onNotification(notificationSpec);
     }
