@@ -1,10 +1,14 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.TimePickerDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -15,9 +19,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -29,16 +32,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.PopupMenu;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
@@ -54,12 +62,61 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
 
     QHybridSupport support;
 
+    SharedPreferences prefs;
+
+    TextView timeOffsetView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qhybrid_settings);
+
+        Log.d("Config", "device: " + (getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE) == null));
+
+        prefs = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+        timeOffsetView = findViewById(R.id.qhybridTimeOffset);
+        timeOffsetView.setOnClickListener(view -> {
+            int timeOffset = prefs.getInt("QHYBRID_TIME_OFFSET", 0);
+            LinearLayout layout2 = new LinearLayout(this);
+            layout2.setOrientation(LinearLayout.HORIZONTAL);
+
+            NumberPicker hourPicker = new NumberPicker(this);
+            hourPicker.setMinValue(0);
+            hourPicker.setMaxValue(23);
+            hourPicker.setValue(timeOffset / 60);
+
+            NumberPicker minPicker = new NumberPicker(this);
+            minPicker.setMinValue(0);
+            minPicker.setMaxValue(59);
+            minPicker.setValue(timeOffset % 60);
+
+            layout2.addView(hourPicker);
+            TextView tw = new TextView(this);
+            tw.setText(":");
+            layout2.addView(tw);
+            layout2.addView(minPicker);
+
+            layout2.setGravity(Gravity.CENTER);
+
+            new AlertDialog.Builder(this)
+                    .setTitle("offset time by")
+                    .setView(layout2)
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            prefs.edit().putInt("QHYBRID_TIME_OFFSET", hourPicker.getValue() * 60 + minPicker.getValue()).apply();
+                            updateTimeOffset();
+                            LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.commandUpdate));
+                            Toast.makeText(ConfigActivity.this, "change might take some seconds...", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("cancel", null)
+                    .show();
+
+        });
+        updateTimeOffset();
 
         bindService(new Intent(getApplicationContext(), DeviceCommunicationService.class), this, 0);
 
@@ -82,14 +139,14 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
-                        switch (menuItem.getTitle().toString()){
-                            case "edit":{
+                        switch (menuItem.getTitle().toString()) {
+                            case "edit": {
                                 TimePicker picker = new TimePicker(ConfigActivity.this, list.get(i));
                                 picker.finishListener = new TimePicker.OnFinishListener() {
                                     @Override
                                     public void onFinish(boolean success, PackageConfig config) {
-                                        setControl(false);
-                                        if(success){
+                                        setControl(false, null);
+                                        if (success) {
                                             helper.saveConfig(config);
                                             refreshList();
                                         }
@@ -107,10 +164,10 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
                                         vibrate(config);
                                     }
                                 };
-                                setControl(true);
+                                setControl(true, picker.getSettings());
                                 break;
                             }
-                            case "delete":{
+                            case "delete": {
                                 helper.deleteConfig(list.get(i));
                                 refreshList();
                                 break;
@@ -126,8 +183,10 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         SeekBar vibeBar = findViewById(R.id.vibrationStrengthBar);
         vibeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int start;
+
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {}
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+            }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -137,19 +196,28 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 int progress;
-                if((progress = seekBar.getProgress()) == start) return;
-                support.setVibrationStrength((int)Math.pow(2, progress) * 25);
+                if ((progress = seekBar.getProgress()) == start) return;
+                support.setVibrationStrength((int) Math.pow(2, progress) * 25);
                 updateSettings();
             }
         });
     }
 
-    private void setSettingsEnables(boolean enables){
+    private void updateTimeOffset() {
+        int timeOffset = prefs.getInt("QHYBRID_TIME_OFFSET", 0);
+        DecimalFormat format = new DecimalFormat("00");
+        timeOffsetView.setText(
+                format.format(timeOffset / 60) + ":" +
+                        format.format(timeOffset % 60)
+        );
+    }
+
+    private void setSettingsEnables(boolean enables) {
         findViewById(R.id.settingsLayout).setAlpha(enables ? 1f : 0.2f);
         findViewById(R.id.vibrationSettingProgressBar).setVisibility(enables ? View.GONE : View.VISIBLE);
     }
 
-    private void updateSettings(){
+    private void updateSettings() {
         runOnUiThread(() -> setSettingsEnables(false));
         this.support.getGoal(goal -> runOnUiThread(() -> {
             EditText et = findViewById(R.id.stepGoalEt);
@@ -160,11 +228,11 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
             et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                    if(i == EditorInfo.IME_ACTION_DONE){
+                    if (i == EditorInfo.IME_ACTION_DONE) {
                         Log.d("Settings", "enter");
                         String t = textView.getText().toString();
-                        if(!t.equals(text)) {
-                            support.setGoal(Long.parseLong(t));
+                        if (!t.equals(text)) {
+                            support.setGoal(Integer.parseInt(t));
                             updateSettings();
                         }
                         ((InputMethodManager) getApplicationContext().getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
@@ -176,28 +244,29 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         this.support.getVibrationStrength(this);
     }
 
-    private void setControl(boolean control) {
+    private void setControl(boolean control, PackageConfig config) {
         if (hasControl == control) return;
         Intent intent = new Intent(control ? QHybridSupport.commandControl : QHybridSupport.commandUncontrol);
+        intent.putExtra("CONFIG", config);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         this.hasControl = control;
     }
 
-    private void setHands(PackageConfig config){
+    private void setHands(PackageConfig config) {
         sendControl(config, QHybridSupport.commandSet);
     }
 
-    private void vibrate(PackageConfig config){
+    private void vibrate(PackageConfig config) {
         sendControl(config, QHybridSupport.commandVibrate);
     }
 
-    private void sendControl(PackageConfig config, String request){
+    private void sendControl(PackageConfig config, String request) {
         Intent intent = new Intent(request);
         intent.putExtra("CONFIG", config);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
-    private void refreshList(){
+    private void refreshList() {
         list.clear();
         list.addAll(helper.getSettings());
         adapter.notifyDataSetChanged();
@@ -224,14 +293,14 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
     @Override
     public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
         Log.d("Config", "service connected");
-        DeviceCommunicationService.CommunicationServiceBinder binder = (DeviceCommunicationService.CommunicationServiceBinder)iBinder;
-        if(binder == null){
+        DeviceCommunicationService.CommunicationServiceBinder binder = (DeviceCommunicationService.CommunicationServiceBinder) iBinder;
+        if (binder == null) {
             Log.d("Config", "Service not running");
             setSettingsError("Service not running");
             return;
         }
-        DeviceSupport support = ((DeviceCommunicationService.CommunicationServiceBinder)iBinder).getDeviceSupport();
-        if(!(support instanceof QHybridSupport)){
+        DeviceSupport support = ((DeviceCommunicationService.CommunicationServiceBinder) iBinder).getDeviceSupport();
+        if (!(support instanceof QHybridSupport)) {
             Log.d("Config", "Watch not connected");
             setSettingsError("Watch not connected");
             return;
@@ -247,7 +316,7 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
 
     @Override
     public void onVibrationStrength(int strength) {
-        int strengthProgress = (int)(Math.log(strength / 25) / Math.log(2));
+        int strengthProgress = (int) (Math.log(strength / 25) / Math.log(2));
         Log.d("Config", "got strength: " + strength);
         runOnUiThread(() -> {
             setSettingsEnables(true);
@@ -256,7 +325,7 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         });
     }
 
-    private void setSettingsError(String error){
+    private void setSettingsError(String error) {
         runOnUiThread(() -> {
             setSettingsEnables(false);
             findViewById(R.id.vibrationSettingProgressBar).setVisibility(View.GONE);
@@ -265,7 +334,7 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         });
     }
 
-    class PackageAdapter extends ArrayAdapter<PackageConfig>{
+    class PackageAdapter extends ArrayAdapter<PackageConfig> {
         PackageManager manager;
 
         public PackageAdapter(@NonNull Context context, int resource, @NonNull List<PackageConfig> objects) {
@@ -276,7 +345,8 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         @NonNull
         @Override
         public View getView(int position, @Nullable View view, @NonNull ViewGroup parent) {
-            if(view == null) view = ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.qhybrid_package_settings_item, null);
+            if (view == null)
+                view = ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.qhybrid_package_settings_item, null);
             PackageConfig settings = getItem(position);
 
             try {
@@ -297,21 +367,21 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
             c.drawCircle(width / 2, width / 2, width / 2 - 3, black);
 
             int center = width / 2;
-            if(settings.getHour() != -1){
+            if (settings.getHour() != -1) {
                 c.drawLine(
                         center,
                         center,
-                        (float)(center + Math.sin(Math.toRadians(settings.getHour())) * (width / 4)),
-                        (float)(center - Math.cos(Math.toRadians(settings.getHour())) * (width / 4)),
+                        (float) (center + Math.sin(Math.toRadians(settings.getHour())) * (width / 4)),
+                        (float) (center - Math.cos(Math.toRadians(settings.getHour())) * (width / 4)),
                         black
-                        );
+                );
             }
-            if(settings.getMin() != -1){
+            if (settings.getMin() != -1) {
                 c.drawLine(
                         center,
                         center,
-                        (float)(center + Math.sin(Math.toRadians(settings.getMin())) * (width / 3)),
-                        (float)(center - Math.cos(Math.toRadians(settings.getMin())) * (width / 3)),
+                        (float) (center + Math.sin(Math.toRadians(settings.getMin())) * (width / 3)),
+                        (float) (center - Math.cos(Math.toRadians(settings.getMin())) * (width / 3)),
                         black
                 );
             }

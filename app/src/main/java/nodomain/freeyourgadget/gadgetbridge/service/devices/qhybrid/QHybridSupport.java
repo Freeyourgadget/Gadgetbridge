@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.BroadcastReceiver;
@@ -11,38 +13,22 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-
-import com.misfit.ble.obfuscated.ew;
-import com.misfit.ble.setting.qmotion.QMotionEnum;
-import com.misfit.ble.setting.sam.HandControl;
-import com.misfit.ble.setting.sam.HandSettings;
-import com.misfit.ble.setting.sam.SAMEnum;
+import android.util.SparseArray;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
 
-import d.d.qhook.requests.displayPairAnimationRequest;
-import d.d.qhook.requests.fileListRequest;
-import d.d.qhook.requests.getBatteryRequest;
-import d.d.qhook.requests.getGoalInStepsRequest;
-import d.d.qhook.requests.getVibeStrengthRequest;
-import d.d.qhook.requests.playNotificationFilterVibrationRequest;
-import d.d.qhook.requests.sendNotificationHandControlRequest;
-import d.d.qhook.requests.setCurrentTimeServiceRequest;
-import d.d.qhook.requests.setGoalInStepsRequest;
-import d.d.qhook.requests.setMovingHandsRequest;
-import d.d.qhook.requests.setReleaseHandsControlRequest;
-import d.d.qhook.requests.setRequestHandsControlRequest;
-import d.d.qhook.requests.setVibeStrengthRequest;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfig;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -50,6 +36,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
+import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -58,6 +46,23 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.Transaction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.BatteryLevelRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.AnimationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.DownloadFileRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.EraseFileRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.FileRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.GetStepGoalRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.GetVibrationStrengthRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.ListFilesRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.MoveHandsRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.PlayNotificationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.ReleaseHandsControlRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.RequestHandControlRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetCurrentTimeServiceRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetStepGoalRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetVibrationStrengthRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.VibrateRequest;
 
 public class QHybridSupport extends AbstractBTLEDeviceSupport {
     static final Logger logger = LoggerFactory.getLogger(QHybridSupport.class);
@@ -71,8 +76,7 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
         super(logger);
     }
 
-    //ArrayList<ew> requests = new ArrayList<>();
-    List<ResponseFilter> responseFilters;
+    SparseArray<Request> responseFilters = new SparseArray<>();
 
     OnVibrationStrengthListener vibrationStrengthListener;
     OnGoalListener goalListener;
@@ -82,19 +86,17 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
     public static final String commandSet = "qhybrid_command_set";
     public static final String commandVibrate = "qhybrid_command_vibrate";
     public static final String commandUpdate = "qhybrid_command_update";
+    public static final String commandNotification = "qhybrid_command_notification";
 
-    class ResponseFilter {
-        int responseDataLength;
-        byte[] responseDataMask;
-        Class<? extends com.misfit.ble.obfuscated.ew> responseClass;
+    public static final String ITEM_STEP_GOAL = "STEP_GOAL";
+    public static final String ITEM_VIBRATION_STRENGTH = "VIBRATION_STRENGTH";
 
-        public ResponseFilter(Class<? extends ew> responseClass, int responseDataLanegth, byte... responseDataMask) {
-            this.responseDataLength = responseDataLanegth;
-            this.responseDataMask = responseDataMask;
-            this.responseClass = responseClass;
-        }
-    }
+    Request fileRequest = null;
+    //int fileIndex = -1;
 
+    boolean dumpInited = false;
+
+    long timeOffset;
 
     public QHybridSupport() {
         super(logger);
@@ -104,63 +106,74 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
         commandFilter.addAction(commandSet);
         commandFilter.addAction(commandVibrate);
         commandFilter.addAction(commandUpdate);
+        commandFilter.addAction(commandNotification);
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(commandReceiver, commandFilter);
-        //addSupportedService(UUID.fromString("3dda0002-957f-7d4a-34a6-74696673696d"));
 
-        responseFilters = Arrays.asList(
-                new ResponseFilter(getGoalInStepsRequest.class, 6, (byte) 3, (byte) 16),
-                new ResponseFilter(getVibeStrengthRequest.class, 4, (byte) 3, (byte) 15, (byte) 8),
-                new ResponseFilter(getBatteryRequest.class, 3, (byte) 3, (byte) 8)
-        );
+        fillResponseList();
+
+    }
+
+    private void fillResponseList() {
+
+        Class<? extends Request>[] classes = new Class[]{
+                BatteryLevelRequest.class,
+                GetStepGoalRequest.class,
+                GetVibrationStrengthRequest.class
+        };
+        for (Class<? extends Request> c : classes) {
+            try {
+                c.getSuperclass().getDeclaredMethod("handleResponse", BluetoothGattCharacteristic.class);
+                Request object = c.newInstance();
+                byte[] sequence = object.getStartSequence();
+                if (sequence.length > 1) {
+                    responseFilters.put((int) object.getStartSequence()[1], object);
+                    Log.d("Service", "response filter " + object.getStartSequence()[1] + ": " + c.getSimpleName());
+                }
+            } catch (NoSuchMethodException | IllegalAccessException | InstantiationException e) {
+                Log.d("Service", "skipping class " + c.getName());
+                //e.printStackTrace();
+            }
+        }
+    }
+
+    private void getTimeOffset(){
+        timeOffset = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE).getInt("QHYBRID_TIME_OFFSET", 0);
     }
 
     @Override
     public void dispose() {
         super.dispose();
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(commandReceiver);
+        getContext().unregisterReceiver(dumpReceiver);
+        ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE)).cancel(dumpIntent);
+        dumpInited = false;
     }
 
     private void getBattery() {
-        d.d.qhook.requests.getBatteryRequest request = new getBatteryRequest();
-        request.cb();
-        queueWrite(request);
+        queueWrite(new BatteryLevelRequest());
     }
 
     public void getGoal(OnGoalListener listener) {
         this.goalListener = listener;
-        d.d.qhook.requests.getGoalInStepsRequest request = new getGoalInStepsRequest();
-        request.cb();
-        queueWrite(request);
+        queueWrite(new GetStepGoalRequest());
     }
 
-    public void setGoal(long goal) {
-        d.d.qhook.requests.setGoalInStepsRequest request = new setGoalInStepsRequest();
-        request.f(goal);
-        queueWrite(request);
+    public void setGoal(int goal) {
+        queueWrite(new SetStepGoalRequest(goal));
     }
 
     public void getVibrationStrength(OnVibrationStrengthListener listener) {
         this.vibrationStrengthListener = listener;
-        d.d.qhook.requests.getVibeStrengthRequest request = new getVibeStrengthRequest();
-        request.cb();
-        queueWrite(request);
+        queueWrite(new GetVibrationStrengthRequest());
     }
 
     public void setVibrationStrength(int strength) {
-        d.d.qhook.requests.setVibeStrengthRequest request = new setVibeStrengthRequest();
-        request.c((short) strength);
-        queueWrite(request);
+        queueWrite(new SetVibrationStrengthRequest((short) strength));
     }
 
-    private void getXY() {
-        d.d.qhook.requests.fileListRequest request = new fileListRequest();
-        request.cb();
-
-        queueWrite(request);
-    }
-
-    private void queueWrite(com.misfit.ble.obfuscated.ew request) {
-        new TransactionBuilder(request.getRequestName()).write(getCharacteristic(UUID.fromString(request.getCharacteristicUUID())), request.mRequestData).queue(getQueue());
+    private void queueWrite(Request request) {
+        new TransactionBuilder(request.getClass().getSimpleName()).write(getCharacteristic(request.getRequestUUID()), request.getRequestData()).queue(getQueue());
+        if(request instanceof FileRequest) this.fileRequest = request;
     }
 
     @Override
@@ -168,6 +181,15 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
         logger.debug("connect attempt...");
         return super.connect();
     }
+
+    BroadcastReceiver dumpReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d("Dump", "dumping...");
+            downloadActivityFiles();
+        }
+    };
+    PendingIntent dumpIntent;
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
@@ -187,8 +209,17 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
 
 
         helper = new PackageConfigHelper(getContext());
+
+        if (!dumpInited) {
+            getContext().registerReceiver(dumpReceiver, new IntentFilter("dumpReceiver2"));
+            dumpIntent = PendingIntent.getBroadcast(getContext(), 0, new Intent("dumpReceiver2"), PendingIntent.FLAG_UPDATE_CURRENT);
+            ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, AlarmManager.INTERVAL_HOUR, dumpIntent);
+            dumpInited = true;
+        }
+        getTimeOffset();
         return builder;
     }
+
 
     @Override
     public void performConnected(Transaction transaction) throws IOException {
@@ -200,17 +231,14 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
     public void onServicesDiscovered(BluetoothGatt gatt) {
         super.onServicesDiscovered(gatt);
 
-        playPairingAnimation();
+        playAnimation();
         getBattery();
-        //getXY();
 
         logger.debug("onServicesDiscovered");
     }
 
-    private void playPairingAnimation() {
-        d.d.qhook.requests.displayPairAnimationRequest request = new displayPairAnimationRequest();
-        request.cb();
-        queueWrite(request);
+    private void playAnimation() {
+        queueWrite(new AnimationRequest());
     }
 
 
@@ -221,8 +249,8 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
-        Log.d("Service", "notif from " + notificationSpec.sourceAppId);
-        new Exception().printStackTrace();
+        Log.d("Service", "notif from " + notificationSpec.sourceAppId + "  " + notificationSpec.sender + "   " + notificationSpec.phoneNumber);
+        //new Exception().printStackTrace();
         String packageName = notificationSpec.sourceName;
 
         PackageConfig config = helper.getSetting(packageName);
@@ -234,17 +262,7 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
         if (mode == AudioManager.RINGER_MODE_SILENT && config.getRespectSilentMode()) return;
 
 
-        ArrayList<HandControl> controls = new ArrayList<>(2);
-        if (config.getHour() != -1)
-            controls.add(new HandControl(SAMEnum.HandID.HOUR, (short) config.getHour()));
-        if (config.getMin() != -1)
-            controls.add(new HandControl(SAMEnum.HandID.MINUTE, (short) config.getMin()));
-
-        SAMEnum.VibeEnum vibe = getVine(config.getVibration());
-
-        sendNotificationHandControlRequest request = new sendNotificationHandControlRequest();
-        request.a(QMotionEnum.LEDColor.BLUE, (byte) 1, vibe, 0, controls);
-        queueWrite(request);
+        queueWrite(new PlayNotificationRequest(config.getVibration(), config.getHour(), config.getMin()));
     }
 
     @Override
@@ -254,12 +272,11 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetTime() {
-        d.d.qhook.requests.setCurrentTimeServiceRequest request = new setCurrentTimeServiceRequest();
         long millis = System.currentTimeMillis();
         TimeZone zone = new GregorianCalendar().getTimeZone();
-        request.a(
-                (long) (millis / 1000),
-                (int) (millis % 1000),
+        SetCurrentTimeServiceRequest request = new SetCurrentTimeServiceRequest(
+                (int) (millis / 1000 + timeOffset * 60),
+                (short) (millis % 1000),
                 (short) ((zone.getRawOffset() + zone.getDSTSavings()) / 60000));
         queueWrite(request);
     }
@@ -353,12 +370,11 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
 
         if (start) {
             new Thread(() -> {
-                d.d.qhook.requests.playNotificationFilterVibrationRequest request = new playNotificationFilterVibrationRequest();
-                request.a(false, (short) 4, 1);
-                BluetoothGattCharacteristic chara = getCharacteristic(UUID.fromString(request.getCharacteristicUUID()));
+                VibrateRequest request = new VibrateRequest(false, (short) 4, (short) 1);
+                BluetoothGattCharacteristic chara = getCharacteristic(request.getRequestUUID());
                 int i = 0;
                 while (searchDevice) {
-                    new TransactionBuilder("findDevice#" + i++).write(chara, request.mRequestData).queue(getQueue());
+                    new TransactionBuilder("findDevice#" + i++).write(chara, request.getRequestData()).queue(getQueue());
                     try {
                         Thread.sleep(2500);
                     } catch (InterruptedException e) {
@@ -376,7 +392,6 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onScreenshotReq() {
-
     }
 
     @Override
@@ -406,7 +421,11 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onTestNewFunction() {
+        downloadActivityFiles();
+    }
 
+    private void downloadActivityFiles(){
+        queueWrite(new ListFilesRequest());
     }
 
     @Override
@@ -414,47 +433,106 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
 
     }
 
+    private void backupFile(DownloadFileRequest request){
+        try {
+            File f = new File("/sdcard/qFiles/");
+            if(!f.exists()) f.mkdir();
+
+            File file = new File("/sdcard/qFiles/" + request.timeStamp);
+            if(file.exists()){
+                throw new Exception("file " + file.getPath() + " exists");
+            }
+            logger.debug("Writing file " + file.getPath());
+            file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(request.file);
+            fos.close();
+            logger.debug("file written.");
+
+            queueWrite(new EraseFileRequest((short)request.fileHandle));
+        }catch (Exception e){
+            e.printStackTrace();
+            if(request.fileHandle > 257){
+                queueWrite(new DownloadFileRequest((short)(request.fileHandle - 1)));
+            }
+        }
+
+    }
+
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-            /*if (requests.get(0).getRequestName().equals("fileList")) {
-                if (characteristic.getUuid().toString().equals("3dda0004-957f-7d4a-34a6-74696673696d")) {
-                    requests.get(0).handleResponse(characteristic.getUuid().toString(), characteristic.getValue());
-                    return true;
+        Request request = null;
+        byte[] values = characteristic.getValue();
+        if (characteristic.getUuid().toString().equals("3dda0004-957f-7d4a-34a6-74696673696d") || characteristic.getUuid().toString().equals("3dda0003-957f-7d4a-34a6-74696673696d")) {
+            request = fileRequest;
+            request.handleResponse(characteristic);
+            if(request instanceof ListFilesRequest){
+                if(((ListFilesRequest)request).completed) {
+                    logger.debug("File count: " + ((ListFilesRequest) request).fileCount + "  size: " + ((ListFilesRequest) request).size);
+                    if(((ListFilesRequest) request).fileCount == 0) return true;
+                    queueWrite(new DownloadFileRequest((short)(256 + ((ListFilesRequest) request).fileCount)));
                 }
-            }*/
-        //if(characteristic.getValue().length == 3 && characteristic.getValue()[0] == 1 && characteristic.getValue()[1] == 15 && characteristic.getValue()[2] == 8) return true;
-        com.misfit.ble.obfuscated.ew request = resolveAnswer(characteristic);
-        String values = String.valueOf(characteristic.getValue()[0]);
-        for (int i = 1; i < characteristic.getValue().length; i++) {
-            values += ", " + String.valueOf(characteristic.getValue()[i]);
-        }
-        if (request == null) {
-            Log.d("Service", "unable to resolve " + characteristic.getUuid().toString() + ": " + values);
-            return true;
-        }
-        request.handleResponse(characteristic.getUuid().toString(), characteristic.getValue());
-
-        logger.debug(request.getRequestName() + " response: " + request.getResponseDescriptionJSON().toString() + "   " + values);
-
-        switch (request.getRequestName()) {
-            case "getBattery": {
-                gbDevice.setBatteryLevel(((getBatteryRequest.a) request.getResponse()).ly);
-                logger.debug("battery level: " + gbDevice.getBatteryLevel());
-                break;
-            }
-            case "getVibeStrength": {
-                if (this.vibrationStrengthListener != null) {
-                    this.vibrationStrengthListener.onVibrationStrength(((getVibeStrengthRequest) request).dm().nH);
-                    this.vibrationStrengthListener = null;
+            }else if(request instanceof DownloadFileRequest){
+                if(((FileRequest) request).completed) {
+                    logger.debug("file " + ((DownloadFileRequest)request).fileHandle + " completed: " + ((DownloadFileRequest)request).size);
+                    backupFile((DownloadFileRequest)request);
                 }
-                break;
+            }else if(request instanceof EraseFileRequest){
+                if(((EraseFileRequest)request).fileHandle > 257){
+                    queueWrite(new DownloadFileRequest((short)(((EraseFileRequest)request).fileHandle - 1)));
+                }
             }
-            case "getGoalInSteps": {
+        } else if (characteristic.getUuid().toString().equals("3dda0002-957f-7d4a-34a6-74696673696d")) {
+            request = resolveAnswer(characteristic);
+
+            String valueString = String.valueOf(values[0]);
+            for (int i = 1; i < characteristic.getValue().length; i++) {
+                valueString += ", " + String.valueOf(values[i]);
+            }
+            if (request == null) {
+                Log.d("Service", "unable to resolve " + characteristic.getUuid().toString() + ": " + valueString);
+                return true;
+            }
+            Log.d("Service", "response: " + request.getClass().getSimpleName());
+            request.handleResponse(characteristic);
+
+            if (request instanceof BatteryLevelRequest) {
+                gbDevice.setBatteryLevel(((BatteryLevelRequest) request).level);
+            } else if (request instanceof GetStepGoalRequest) {
                 if (this.goalListener != null) {
-                    this.goalListener.onGoal(((getGoalInStepsRequest) request).cI().mb);
+                    this.goalListener.onGoal(((GetStepGoalRequest) request).stepGoal);
                     this.goalListener = null;
                 }
-                break;
+                gbDevice.addDeviceInfo(new GenericItem(ITEM_STEP_GOAL, String.valueOf(((GetStepGoalRequest) request).stepGoal)));
+            } else if (request instanceof GetVibrationStrengthRequest) {
+                if (this.vibrationStrengthListener != null) {
+                    logger.debug("got vibration: " + ((GetVibrationStrengthRequest) request).strength);
+                    this.vibrationStrengthListener.onVibrationStrength(((GetVibrationStrengthRequest) request).strength);
+                    this.vibrationStrengthListener = null;
+                }
+                gbDevice.addDeviceInfo(new GenericItem(ITEM_VIBRATION_STRENGTH, String.valueOf(((GetVibrationStrengthRequest) request).strength)));
+            } else if (fileRequest instanceof ListFilesRequest) {
+                ListFilesRequest r = (ListFilesRequest) fileRequest;
+                //if(r.fileCount != -1){
+                if (r.completed) {
+                    Log.d("Service", "FileCount: " + r.fileCount);
+                    this.fileRequest = null;
+                }
+                //}
+
+            }
+        } else {
+            Log.d("Service", "unknown shit on " + characteristic.getUuid().toString() + ":  " + characteristic.getValue()[1]);
+            try {
+                File charLog = new File("/sdcard/charLog.txt");
+                if (!charLog.exists()) {
+                    charLog.createNewFile();
+                }
+
+                FileOutputStream fos = new FileOutputStream(charLog, true);
+                fos.write((new Date().toString() + ": " + characteristic.getUuid().toString() + ": " + arrayToString(characteristic.getValue())).getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
@@ -462,57 +540,35 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
 
     }
 
-    private com.misfit.ble.obfuscated.ew resolveAnswer(BluetoothGattCharacteristic characteristic) {
-        byte[] values = characteristic.getValue();
-        for (ResponseFilter filter : responseFilters) {
-            if (filter.responseDataLength != values.length) continue;
-            for (int i = 0; i < filter.responseDataMask.length; i++) {
-                if (values[i] != filter.responseDataMask[i]) continue;
-            }
-            try {
-                return filter.responseClass.newInstance();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
+    private String arrayToString(byte[] bytes){
+        if(bytes.length == 0) return "";
+        String s = "";
+        final String chars = "0123456789ABCDEF";
+        for(byte b : bytes){
+            s += chars.charAt((b >> 4) & 0xF);
+            s += chars.charAt((b >> 0) & 0xF);
+            s += " ";
         }
+        return s.substring(0, s.length() - 1) + "\n";
+    }
 
-        return null;
+    private Request resolveAnswer(BluetoothGattCharacteristic characteristic) {
+        byte[] values = characteristic.getValue();
+        if (values[0] != 3) return null;
+        return responseFilters.get(values[1]);
     }
 
     @Override
     public boolean onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-        logger.debug("char written: " + status);
         return super.onCharacteristicWrite(gatt, characteristic, status);
     }
 
-    private void setHands(int hour, int minute) {
-        ArrayList<HandSettings> controls = new ArrayList<>();
-        if (hour > -1) {
-            controls.add(new HandSettings(SAMEnum.HandID.HOUR, hour, SAMEnum.HandMovingDirection.SHORTEST_PATH, SAMEnum.HandMovingSpeed.FULL));
-        }
-        if (minute > -1) {
-            controls.add(new HandSettings(SAMEnum.HandID.MINUTE, minute, SAMEnum.HandMovingDirection.SHORTEST_PATH, SAMEnum.HandMovingSpeed.FULL));
-        }
-        d.d.qhook.requests.setMovingHandsRequest request = new setMovingHandsRequest();
-        request.a(SAMEnum.HandMovingType.POSITION, controls);
-        queueWrite(request);
+    private void setHands(short hour, short minute) {
+        queueWrite(new MoveHandsRequest(false, minute, hour, (short) -1));
     }
 
     void vibrate(int vibration) {
-        sendNotificationHandControlRequest request = new sendNotificationHandControlRequest();
-        request.a(QMotionEnum.LEDColor.BLUE, (byte) 1, getVine(vibration), 0, Collections.emptyList());
-        queueWrite(request);
-    }
-
-    private SAMEnum.VibeEnum getVine(int vibration) {
-        for (SAMEnum.VibeEnum v : SAMEnum.VibeEnum.values()) {
-            if (v.getId() == vibration) {
-                return v;
-            }
-        }
-        return SAMEnum.VibeEnum.SINGLE_SHORT_VIBE;
+        queueWrite(new PlayNotificationRequest(vibration, -1, -1));
     }
 
     BroadcastReceiver commandReceiver = new BroadcastReceiver() {
@@ -523,16 +579,16 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
             switch (intent.getAction()) {
                 case commandControl: {
                     Log.d("Service", "sending control request");
-                    d.d.qhook.requests.setRequestHandsControlRequest request = new setRequestHandsControlRequest();
-                    request.a((byte) 1, false, false);
-                    queueWrite(request);
-                    setHands(0, 0);
+                    queueWrite(new RequestHandControlRequest());
+                    if (config != null) {
+                        setHands(config.getHour(), config.getMin());
+                    } else {
+                        setHands((short) 0, (short) 0);
+                    }
                     break;
                 }
                 case commandUncontrol: {
-                    d.d.qhook.requests.setReleaseHandsControlRequest request = new setReleaseHandsControlRequest();
-                    request.i(0);
-                    queueWrite(request);
+                    queueWrite(new ReleaseHandsControlRequest());
                     break;
                 }
                 case commandSet: {
@@ -544,8 +600,13 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
                     vibrate(config.getVibration());
                     break;
                 }
+                case commandNotification:{
+                    queueWrite(new PlayNotificationRequest(config.getVibration(), config.getHour(), config.getMin()));
+                    break;
+                }
                 case commandUpdate: {
-
+                    getTimeOffset();
+                    onSetTime();
                     break;
                 }
             }

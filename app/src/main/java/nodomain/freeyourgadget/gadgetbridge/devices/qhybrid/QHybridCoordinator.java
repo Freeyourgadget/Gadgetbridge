@@ -44,7 +44,7 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
     @NonNull
     @Override
     public Collection<? extends ScanFilter> createBLEScanFilters() {
-        return Collections.singletonList(new ScanFilter.Builder().setDeviceAddress("D0:1C:30:C0:F8:5A").setServiceUuid(ParcelUuid.fromString("00001812-0000-1000-8000-00805f9b34fb")).build());
+        return Collections.singletonList(new ScanFilter.Builder().setServiceUuid(ParcelUuid.fromString("00001812-0000-1000-8000-00805f9b34fb")).build());
     }
 
     @Override
@@ -129,6 +129,11 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsWeather() {
         return false;
+    }
+
+    @Override
+    public boolean supportsFindDevice() {
+        return true;
     }
 
     @Override

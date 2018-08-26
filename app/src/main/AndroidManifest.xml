@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
@@ -22,6 +22,7 @@
     <uses-permission android:name="cyanogenmod.permission.ACCESS_WEATHER_MANAGER" />
     <uses-permission android:name="cyanogenmod.permission.READ_WEATHER" />
     <uses-permission android:name="org.omnirom.omnijaws.READ_WEATHER" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature
         android:name="android.hardware.bluetooth"
@@ -458,8 +459,32 @@
                 <data android:scheme="gadgetbridge" />
             </intent-filter>
         </activity>
-        <activity android:name=".devices.qhybrid.ConfigActivity" android:exported="true"/>
-        <activity android:name=".devices.qhybrid.QHybridAppChoserActivity" android:exported="true" ></activity>
+        <activity
+            android:name=".devices.qhybrid.ConfigActivity"
+            android:exported="true" />
+        <activity
+            android:name=".devices.qhybrid.QHybridAppChoserActivity"
+            android:exported="true" />
+        <activity
+            android:name=".devices.qhybrid.TaskerPluginActivity"
+            android:exported="true"
+            android:icon="@drawable/ic_device_pebble"
+            android:label="@string/tasker_notification">
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".devices.qhybrid.TaskerPluginReceiver"
+            android:enabled="true"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING"/>
+            </intent-filter>
+
+        </receiver>
     </application>
 
 </manifest>

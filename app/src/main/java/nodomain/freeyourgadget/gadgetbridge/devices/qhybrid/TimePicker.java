@@ -20,7 +20,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 
-import com.misfit.ble.setting.sam.SAMEnum;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.PlayNotificationRequest;
 
 public class TimePicker extends AlertDialog.Builder {
     ImageView pickerView;
@@ -31,7 +31,7 @@ public class TimePicker extends AlertDialog.Builder {
 
     int height, width, radius;
     int radius1, radius2, radius3;
-    SAMEnum.HandID controlledHand;
+    int controlledHand = 0;
     int handRadius;
 
     AlertDialog dialog;
@@ -85,10 +85,10 @@ public class TimePicker extends AlertDialog.Builder {
         layout.addView(box);
 
         RadioGroup group = new RadioGroup(context);
-        for(SAMEnum.VibeEnum vibe: SAMEnum.VibeEnum.values()){
+        for(PlayNotificationRequest.VibrationType vibe: PlayNotificationRequest.VibrationType.values()){
             RadioButton button = new RadioButton(context);
             button.setText(vibe.toString());
-            button.setId(vibe.getId());
+            button.setId(vibe.getValue());
             group.addView(button);
         }
 
@@ -131,6 +131,10 @@ public class TimePicker extends AlertDialog.Builder {
         });
     }
 
+    public PackageConfig getSettings() {
+        return settings;
+    }
+
     private void handleTouch(AlertDialog dialog, MotionEvent event) {
         int centerX = width / 2;
         int centerY = height / 2;
@@ -143,14 +147,14 @@ public class TimePicker extends AlertDialog.Builder {
                 if (dist < (radius1 + radiusHalf) && dist > (radius1 - radiusHalf)) {
                     Log.d("Settings", "hit sub");
                     handRadius = (int) (height / 2f - radius1);
-                    controlledHand = SAMEnum.HandID.SUB_EYE;
+                    controlledHand = 3;
                 } else if (dist < (radius2 + radiusHalf) && dist > (radius2 - radiusHalf)) {
                     Log.d("Settings", "hit hour");
-                    controlledHand = SAMEnum.HandID.HOUR;
+                    controlledHand = 1;
                     handRadius = (int) (height / 2f - radius2);
                 } else if (dist < (radius3 + radiusHalf) && dist > (radius3 - radiusHalf)) {
                     Log.d("Settings", "hit minute");
-                    controlledHand = SAMEnum.HandID.MINUTE;
+                    controlledHand = 2;
                     handRadius = (int) (height / 2f - radius3);
                 } else {
                     Log.d("Settings", "hit nothing");
@@ -158,17 +162,17 @@ public class TimePicker extends AlertDialog.Builder {
                 break;
             }
             case MotionEvent.ACTION_MOVE: {
-                if (controlledHand == null) return;
+                if (controlledHand == 0) return;
                 double degree = difY == 0 ? (difX < 0 ? 90 : 270) : Math.toDegrees(Math.atan((float) difX / (float) difY));
                 if (difY > 0) degree = 180 + degree;
                 if (degree < 0) degree = 360 + degree;
                 switch (controlledHand) {
-                    case HOUR: {
-                        settings.setHour((int) ((degree + 15) / 30) * 30 % 360);
+                    case 1: {
+                        settings.setHour((short) (((degree + 15) / 30) * 30 % 360));
                         break;
                     }
-                    case MINUTE: {
-                        settings.setMin((int) ((degree + 15) / 30) * 30 % 360);
+                    case 2: {
+                        settings.setMin((short) (((degree + 15) / 30) * 30 % 360));
                         break;
                     }
                 }

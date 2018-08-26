@@ -2,18 +2,18 @@ package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
 import android.util.Log;
 
-import com.misfit.ble.setting.sam.SAMEnum;
-
 import java.io.Serializable;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.PlayNotificationRequest;
+
 public class PackageConfig implements Serializable {
-    private int min, hour;
+    private short min, hour;
     private String packageName, appName;
     private int vibration;
     private boolean respectSilentMode;
     private long id = -1;
 
-    public PackageConfig(int min, int hour, String packageName, String appName, boolean respectSilentMode, int vibration) {
+    public PackageConfig(short min, short hour, String packageName, String appName, boolean respectSilentMode, int vibration) {
         this.min = min;
         this.hour = hour;
         this.packageName = packageName;
@@ -22,7 +22,7 @@ public class PackageConfig implements Serializable {
         this.vibration = vibration;
     }
 
-    public PackageConfig(int min, int hour, String packageName, String appName, boolean respectSilentMode, int vibration, long id) {
+    public PackageConfig(short min, short hour, String packageName, String appName, boolean respectSilentMode, int vibration, long id) {
         this.min = min;
         this.hour = hour;
         this.packageName = packageName;
@@ -37,7 +37,7 @@ public class PackageConfig implements Serializable {
         this.packageName = packageName;
         this.appName = appName;
         this.respectSilentMode = false;
-        this.vibration = SAMEnum.VibeEnum.SINGLE_SHORT_VIBE.getId();
+        this.vibration = PlayNotificationRequest.VibrationType.SINGLE_NORMAL.getValue();
         this.id = -1;
     }
 
@@ -66,11 +66,11 @@ public class PackageConfig implements Serializable {
         this.respectSilentMode = respectSilentMode;
     }
 
-    public void setMin(int min) {
+    public void setMin(short min) {
         this.min = min;
     }
 
-    public void setHour(int hour) {
+    public void setHour(short hour) {
         this.hour = hour;
     }
 
@@ -82,11 +82,11 @@ public class PackageConfig implements Serializable {
         this.appName = appName;
     }
 
-    public int getMin() {
+    public short getMin() {
         return min;
     }
 
-    public int getHour() {
+    public short getHour() {
         return hour;
     }
 

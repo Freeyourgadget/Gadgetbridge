@@ -26,8 +26,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.misfit.ble.setting.sam.SAMEnum;
-
 import java.util.Collections;
 import java.util.List;
 

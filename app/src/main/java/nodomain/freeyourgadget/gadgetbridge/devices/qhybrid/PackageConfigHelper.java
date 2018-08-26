@@ -62,8 +62,8 @@ public class PackageConfigHelper extends DBOpenHelper {
             cursor.moveToFirst();
             do {
                 list.add(new PackageConfig(
-                        cursor.getInt(minPos),
-                        cursor.getInt(hourPos),
+                        (short)cursor.getInt(minPos),
+                        (short)cursor.getInt(hourPos),
                         cursor.getString(packageNamePos),
                         cursor.getString(appNamePos),
                         cursor.getInt(silentPos) == 1,
@@ -86,8 +86,8 @@ public class PackageConfigHelper extends DBOpenHelper {
         }
         c.moveToFirst();
         PackageConfig settings = new PackageConfig(
-                c.getInt(c.getColumnIndex(DB_MINUTE)),
-                c.getInt(c.getColumnIndex(DB_HOUR)),
+                (short)c.getInt(c.getColumnIndex(DB_MINUTE)),
+                (short)c.getInt(c.getColumnIndex(DB_HOUR)),
                 c.getString(c.getColumnIndex(DB_PACKAGE)),
                 c.getString(c.getColumnIndex(DB_APPNAME)),
                 c.getInt(c.getColumnIndex(DB_RESPECT_SILENT)) == 1,

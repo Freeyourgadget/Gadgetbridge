@@ -1,0 +1,42 @@
+[33m020baf52[m[33m ([m[1;36mHEAD -> [m[1;32mget-support-device[m[33m, [m[1;31morigin/get-support-device[m[33m)[m HEAD@{0}: reset: moving to HEAD
+[33m020baf52[m[33m ([m[1;36mHEAD -> [m[1;32mget-support-device[m[33m, [m[1;31morigin/get-support-device[m[33m)[m HEAD@{1}: cherry-pick: Fixed possible case of missing device
+[33ma4843cac[m HEAD@{2}: checkout: moving from master to get-support-device
+[33m2c0bcdfe[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{3}: reset: moving to HEAD
+[33m2c0bcdfe[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{4}: commit: changed some math
+[33maaefc09f[m HEAD@{5}: commit: added some more settings
+[33m8572e7a3[m HEAD@{6}: commit: Fixed possible case of missing device
+[33m943864e7[m HEAD@{7}: commit: changed response filter strategy and added som getters
+[33m03659f0f[m HEAD@{8}: checkout: moving from get-support-device to master
+[33ma4843cac[m HEAD@{9}: cherry-pick: added ability to connect to the current DeviceSupport
+[33m872a91b0[m[33m ([m[1;33mtag: 0.28.1[m[33m, [m[1;31mupstream/master[m[33m)[m HEAD@{10}: checkout: moving from master to get-support-device
+[33m03659f0f[m HEAD@{11}: commit: user can now set vibration strength
+[33m3875d699[m HEAD@{12}: checkout: moving from device-support-bind to master
+[33m4f1771f9[m HEAD@{13}: cherry-pick: re-added ability to connect to the current DeviceSupport
+[33m2db9d538[m HEAD@{14}: checkout: moving from master to device-support-bind
+[33m3875d699[m HEAD@{15}: revert: re-added ability to connect to the current DeviceSupport
+[33m57451a3b[m HEAD@{16}: checkout: moving from device-support-bind to master
+[33m2db9d538[m HEAD@{17}: revert: Revert "added ability to connect to the current DeviceSupport"
+[33mc293b4da[m HEAD@{18}: merge origin/master: Merge made by the 'recursive' strategy.
+[33m037ea288[m HEAD@{19}: checkout: moving from master to device-support-bind
+[33m57451a3b[m HEAD@{20}: revert: Revert "added ability to connect to the current DeviceSupport"
+[33m502f77fa[m HEAD@{21}: commit (amend): added ability to connect to the current DeviceSupport
+[33m037ea288[m HEAD@{22}: checkout: moving from device-support-bind to master
+[33m037ea288[m HEAD@{23}: checkout: moving from master to device-support-bind
+[33m037ea288[m HEAD@{24}: commit: added ability to connect to the current DeviceSupport
+[33mb846eabf[m HEAD@{25}: checkout: moving from master to master
+[33mb846eabf[m HEAD@{26}: commit: updated to Java 8, multiDex
+[33m2422766c[m HEAD@{27}: checkout: moving from acaf39e24f176d6f36c530905e243a3b92e0a8ae to master
+[33macaf39e2[m HEAD@{28}: checkout: moving from fix-missing-sourceAppId to origin
+[33m63cb70ac[m[33m ([m[1;31morigin/fix-missing-sourceAppId[m[33m, [m[1;32mfix-missing-sourceAppId[m[33m)[m HEAD@{29}: cherry-pick: Fix missing sourceAppID field
+[33m872a91b0[m[33m ([m[1;33mtag: 0.28.1[m[33m, [m[1;31mupstream/master[m[33m)[m HEAD@{30}: checkout: moving from master to fix-missing-sourceAppId
+[33m2422766c[m HEAD@{31}: commit (merge): Merged new device
+[33macaf39e2[m HEAD@{32}: checkout: moving from master to master
+[33macaf39e2[m HEAD@{33}: commit: Fix missing sourceAppID field
+[33m92f08d83[m HEAD@{34}: commit: graphical update
+[33m0d8d2357[m HEAD@{35}: commit: switched to AbstractGBActivity
+[33mc6c79d5f[m HEAD@{36}: commit (amend): Added Original code library from Fossil
+[33m2a680b0d[m HEAD@{37}: commit: Added Original code library from Fossil, will be removed in the future
+[33m423e3dea[m HEAD@{38}: commit: added notification debug code
+[33m89089cc8[m HEAD@{39}: commit: Fix NullPointerException
+[33m62a5d8e8[m HEAD@{40}: commit: Initial commit
+[33ma3e22d57[m[33m ([m[1;33mtag: 0.27.1[m[33m)[m HEAD@{41}: clone: from git@github.com:dakhnod/Gadgetbridge.git
