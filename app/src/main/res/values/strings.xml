@@ -392,6 +392,7 @@
     <string name="live_activity_total_steps">Total steps</string>
     <string name="live_activity_steps_per_minute_history">Steps per minute history</string>
     <string name="live_activity_start_your_activity">Start your activity</string>
+    <string name="live_activity_max_heart_rate">Current / Max heart rate: %1$d / %2$d</string>
     <string name="abstract_chart_fragment_kind_activity">Activity</string>
     <string name="abstract_chart_fragment_kind_light_sleep">Light sleep</string>
     <string name="abstract_chart_fragment_kind_deep_sleep">Deep sleep</string>

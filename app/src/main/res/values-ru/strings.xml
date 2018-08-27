@@ -283,6 +283,7 @@
   <string name="live_activity_total_steps">Всего шагов</string>
   <string name="live_activity_steps_per_minute_history">История шагов за минуту</string>
   <string name="live_activity_start_your_activity">Начните вашу активность</string>
+  <string name="live_activity_max_heart_rate">Текущая / максимальная ЧСС: %1$d / %2$d</string>
   <string name="abstract_chart_fragment_kind_activity">Активность</string>
   <string name="abstract_chart_fragment_kind_light_sleep">Быстрый сон</string>
   <string name="abstract_chart_fragment_kind_deep_sleep">Глубокий сон</string>
@@ -597,6 +598,5 @@
     <string name="polish">Польский язык</string>
     <string name="korean">Корейский язык</string>
     <string name="japanese">Японский язык</string>
-
     <string name="norwegian_bokmal">Норвежский (литературный)</string>
     </resources>

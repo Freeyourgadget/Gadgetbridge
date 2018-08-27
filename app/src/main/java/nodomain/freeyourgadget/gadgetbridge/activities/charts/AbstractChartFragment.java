@@ -232,7 +232,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected void showDateBar(boolean show) {
-        getChartsHost().getDateBar().setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+        getChartsHost().getDateBar().setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     @Override
