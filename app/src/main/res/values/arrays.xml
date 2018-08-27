@@ -172,12 +172,16 @@
 
     <string-array name="mi3_night_mode">
         <item>@string/off</item>
+        <!--
         <item>@string/mi3_night_mode_sunset</item>
+        -->
         <item>@string/mi2_dnd_scheduled</item>
     </string-array>
     <string-array name="mi3_night_mode_values">
         <item>@string/p_off</item>
+        <!--
         <item>@string/p_sunset</item>
+        -->
         <item>@string/p_scheduled</item>
     </string-array>
 
