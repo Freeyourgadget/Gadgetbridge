@@ -30,8 +30,13 @@ public class LanguageUtils {
     private static Map<Character, String> transliterateMap = new HashMap<Character, String>(){
         {
             //extended ASCII characters
-            put('æ', "ae"); put('œ', "oe"); put('ª', "a"); put('º', "o"); put('«',"\""); put('»',"\"");
-
+            put('œ', "oe"); put('ª', "a"); put('º', "o"); put('«',"\""); put('»',"\"");
+            
+            // Scandinavian characters
+            put('Æ',"Ae"); put('æ',"ae");
+            put('Ø',"Oe"); put('ø',"oe");
+            put('Å',"Aa"); put('å',"aa");
+            
             //german characters
             put('ä',"ae"); put('ö',"oe"); put('ü',"ue");
             put('Ä',"Ae"); put('Ö',"Oe"); put('Ü',"Üe");
