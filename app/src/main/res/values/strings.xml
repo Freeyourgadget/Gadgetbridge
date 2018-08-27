@@ -509,6 +509,7 @@
     <string name="dbmanagementactivity_overwrite">Overwrite</string>
     <string name="Cancel">Cancel</string>
     <string name="Delete">Delete</string>
+    <string name="ok">Ok</string>
 
     <!-- Strings related to Vibration Activity -->
     <string name="title_activity_vibration">Vibration</string>
@@ -631,4 +632,6 @@
     <string name="title_activity_watch9_pairing">Watch 9 pairing</string>
     <string name="title_activity_watch9_calibration">Watch 9 calibration</string>
     <string name="share_log">Share log</string>
+    <string name="share_log_warning">Please keep in mind Gadgetbridge log files may contain lots of personal information, including but not limited to health data, unique identifiers (such as a device MAC address), music preferences, etc. Consider editing the file and removing this information before sending the file to a public issue report.</string>
+    <string name="warning">Warning!</string>
 </resources>

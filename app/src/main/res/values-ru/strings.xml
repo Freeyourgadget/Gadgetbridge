@@ -598,4 +598,6 @@
     <string name="japanese">Японский язык</string>
     <string name="norwegian_bokmal">Норвежский (литературный)</string>
     <string name="share_log">Поделиться лог-файлом</string>
+    <string name="share_log_warning">Файлы журнала Gadgetbridge могут содержать личную информацию, например уникальные идентификаторы: (устройство, MAC-адрес), предпочтения в музыке и т.д. Рассмотрите возможность редактирования файла и удаления этой информации перед отправкой файла общедоступное место.</string>
+    <string name="warning">Внимание!</string>
 </resources>
