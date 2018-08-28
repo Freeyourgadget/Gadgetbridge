@@ -77,9 +77,9 @@
     <string name="pref_default">Vaikeväärtus</string>
     <string name="pref_header_datetime">Kuupäev ja kellaaeg</string>
     <string name="pref_title_datetime_syctimeonconnect">Sünkrooni aega</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Sünkrooni aeg seadmega ühendumise ajal ja kui aeg või ajatsoon muutub Androidis</string>
+    <string name="pref_summary_datetime_syctimeonconnect">"Sünkrooni aeg seadmega ühendumise ajal või kui Androidis aeg või ajatsoon muutub "</string>
 
-    <string name="miband_firmware_suggest_whitelist">Kui te siiski soovite jätkata ja seade jätkab tööd ka hiljem palun andke Gadgetbridge\'i arendajatele teada, et nad lisaksid %s versiooni toetatud püsivarade nimekirja</string>
+    <string name="miband_firmware_suggest_whitelist">Kui te siiski soovite jätkata ja seade jätkab tööd ka hiljem palun andke Gadgetbridge\'i arendajatele teada, et nad lisaksid %s versiooni toetatud püsivarade nimekirja.</string>
 
     <string name="pref_title_charts_swipe">Luba viiped vasakule/paremale graafikute vaates</string>
 
@@ -116,7 +116,7 @@
     <string name="pref_summary_minimize_priority_off">Olekuriba ikooni ja lukustusekraani märguandeid kuvatakse</string>
     <string name="pref_summary_minimize_priority_on">Olekuriba ikoon ja lukustuserkaani märguanded on peidetud</string>
 
-    <string name="pref_summary_notifications_pebblemsg">Tugi rakendustele, mis saadavad PebbleKit kaudu märguandeid Pebblele.</string>
+    <string name="pref_summary_notifications_pebblemsg">Tugi rakendustele, mis saadavad PebbleKit\'i kaudu märguandeid Pebble\'le.</string>
     <string name="pref_title_whenscreenon">...ka sisse lülitatud ekraaniga</string>
     <string name="pref_summary_notification_filter">Peata soovimatute märguannete saatmine \"Ära sega\" režiimis</string>
     <string name="pref_summary_transliteration">Luba see, kui su seadmel puudub su keele fondi tugi</string>
@@ -140,8 +140,8 @@
     <string name="controlcenter_calibrate_device">Kalibreeri seade</string>
 
 
-    <string name="blacklist_all_for_notifications">Lisa kõik teatised musta nimekirja</string>
-    <string name="whitelist_all_for_notifications">Lisa kõik teatised valgesse nimekirja</string>
+    <string name="blacklist_all_for_notifications">Lisa kõikide nende teatised musta nimekirja</string>
+    <string name="whitelist_all_for_notifications">Lisa kõikide nende teatised valgesse nimekirja</string>
 
 
     <string name="fw_upgrade_notice_miband3">Te kavatsete installida %s püsivara enda Mi Band 3le.
@@ -155,7 +155,7 @@
     <string name="pref_title_pebble_sync_morpheuz">Sünkrooni Morpheuz</string>
 
     <string name="pref_title_enable_outgoing_call">Toeta väljaminevaid kõnesid</string>
-    <string name="pref_summary_enable_outgoing_call">Selle valiku väljalülitamine lülitab välja ka Pebble 2/LE värisemise väljaminevate kõnede puhul.</string>
+    <string name="pref_summary_enable_outgoing_call">Selle valiku väljalülitamine lülitab välja ka Pebble 2/LE värisemise väljaminevate kõnede puhul</string>
 
     <string name="pref_title_enable_pebblekit">Luba kolmanda osapoolte rakenduste ligipääs</string>
     <string name="pref_summary_enable_pebblekit">Lülita sisse eksperimentaalne PebbleKit\'i kasutavate rakenduste tugi</string>
@@ -187,8 +187,15 @@
     <string name="pref_title_pebble_forceprotocol">Sunniviisiliselt kasuta teatiste protokolli</string>
     <string name="pref_summary_pebble_forceprotocol">See valik sunnib kõige uuema teatiste protokolli kasutamise vastavalt püsivara versioonile. KASUTA AINULT KUI SA TEAD MIDA SA TEED!</string>
     <string name="pref_title_pebble_forceuntested">Lülita sisse testimata funktsioonid</string>
-    <string name="pref_summary_pebble_forceuntested">Lülita sisse testimata funktsioonid. LÜLITA SISSE AINULT SIIS KUI SA TEAD MIDA SA TEED!</string>
+    <string name="pref_summary_pebble_forceuntested">Lülita sisse testimata funktsioonid. TEA, MIDA SA TEED!</string>
     <string name="pref_title_pebble_forcele">Alati eelista Bluetooth LE\'d</string>
     <string name="pref_auto_fetch_summary">Allalaadimine käivitatakse ekraani lahtilukustamise ajal. Töötab ainult sellel juhul kui lukustusmehhanism on seatud!</string>
     <string name="DEVINFO_HR_VER">"Pulss: "</string>
+    <string name="pref_title_notifications_timeout">Lühim aeg teavituste vahel</string>
+    <string name="pref_summary_pebble_forcele">Kasuta eksperimentaalset Pebble LE tuge kõikide Pebble\'de jaoks tavalise Bluetoothi asemel. See nõuab sidumist tavalise Bluetoothi kaudu ja seejärel Bluetooth LE sidumist</string>
+    <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU limiit</string>
+    <string name="pref_summary_pebble_mtu_limit">Kui Pebble 2/Pebble LE ei taha ootuspäraselt töötada proovi seada MTUle limiit vahemikus 20-512</string>
+    <string name="pref_title_pebble_enable_applogs">Lülita sisse kellarakenduste logimine</string>
+    <string name="pref_title_pebble_gatt_clientonly">Ainult GATT klient</string>
+    <string name="pref_summary_pebble_gatt_clientonly">See on ainult Pebble 2le ja eksperimentaalne, katseta kui on ilmnenud ühenduvusprobleeme</string>
     </resources>

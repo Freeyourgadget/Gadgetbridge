@@ -445,6 +445,9 @@
     <string name="mi2_prefs_do_not_disturb_end">End time</string>
     <string name="mi3_prefs_band_screen_unlock">Band screen unlock"</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Swipe up to unlock the band\'s screen</string>
+    <string name="mi3_prefs_night_mode">Night mode</string>
+    <string name="mi3_prefs_night_mode_summary">Lower band screen brightness automatically at night</string>
+
     <string name="automatic">Automatic</string>
     <string name="simplified_chinese">Simplified Chinese</string>
     <string name="traditional_chinese">Traditional Chinese</string>
@@ -511,6 +514,7 @@
     <string name="dbmanagementactivity_overwrite">Overwrite</string>
     <string name="Cancel">Cancel</string>
     <string name="Delete">Delete</string>
+    <string name="ok">Ok</string>
 
     <!-- Strings related to Vibration Activity -->
     <string name="title_activity_vibration">Vibration</string>
@@ -542,6 +546,7 @@
     <string name="on">On</string>
     <string name="off">Off</string>
     <string name="mi2_dnd_off">Off</string>
+    <string name="mi3_night_mode_sunset">At sunset</string>
     <string name="mi2_dnd_automatic">Automatic (sleep detection)</string>
     <string name="mi2_dnd_scheduled">Scheduled (time interval)</string>
     <string name="discovery_attempting_to_pair">Attempting to pair with %1$s</string>
@@ -634,4 +639,7 @@
     <string name="pref_title_contextual_arabic">Contextual Arabic</string>
     <string name="pref_summary_contextual_arabic">Enable this to support contextual Arabic</string>
     <string name="preferences_rtl_settings">Right To Left Support</string>
+    <string name="share_log">Share log</string>
+    <string name="share_log_warning">Please keep in mind Gadgetbridge log files may contain lots of personal information, including but not limited to health data, unique identifiers (such as a device MAC address), music preferences, etc. Consider editing the file and removing this information before sending the file to a public issue report.</string>
+    <string name="warning">Warning!</string>
 </resources>

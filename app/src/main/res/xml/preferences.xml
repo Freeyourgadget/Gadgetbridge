@@ -276,6 +276,33 @@
                 android:key="miband3_display_items"
                 android:summary="@string/mi2_prefs_display_items_summary"
                 android:title="@string/mi2_prefs_display_items"/>
+            <PreferenceScreen
+                android:persistent="false"
+                android:title="@string/mi3_prefs_night_mode"
+                android:summary="@string/mi3_prefs_night_mode_summary">
+
+                <!-- workaround for missing toolbar -->
+                <PreferenceCategory android:title="@string/mi3_prefs_night_mode" />
+
+                <ListPreference
+                    android:defaultValue="@string/p_off"
+                    android:entries="@array/mi3_night_mode"
+                    android:entryValues="@array/mi3_night_mode_values"
+                    android:key="mi3_night_mode"
+                    android:summary="%s"
+                    android:title="@string/mi3_prefs_night_mode" />
+
+                <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
+                    android:defaultValue="16:00"
+                    android:key="mi3_night_mode_start"
+                    android:title="@string/mi2_prefs_do_not_disturb_start" />
+
+                <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
+                    android:defaultValue="7:00"
+                    android:key="mi3_night_mode_end"
+                    android:title="@string/mi2_prefs_do_not_disturb_end" />
+
+            </PreferenceScreen>
         </PreferenceScreen>
         <PreferenceScreen
             android:icon="@drawable/ic_device_hplus"

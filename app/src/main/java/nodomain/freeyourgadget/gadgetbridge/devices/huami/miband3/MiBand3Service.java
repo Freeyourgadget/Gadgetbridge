@@ -25,4 +25,7 @@ public class MiBand3Service {
     public static final byte[] COMMAND_CHANGE_SCREENS = new byte[]{ENDPOINT_DISPLAY_ITEMS, DISPLAY_ITEM_BIT_CLOCK, 0x30, 0x00, 0x00, 0x00, 0x06, 0x00, 0x00, 0x00};
     public static final byte[] COMMAND_ENABLE_BAND_SCREEN_UNLOCK = new byte[]{ENDPOINT_DISPLAY, 0x16, 0x00, 0x01};
     public static final byte[] COMMAND_DISABLE_BAND_SCREEN_UNLOCK = new byte[]{ENDPOINT_DISPLAY, 0x16, 0x00, 0x00};
+    public static final byte[] COMMAND_NIGHT_MODE_OFF = new byte[]{0x1a, 0x00};
+    public static final byte[] COMMAND_NIGHT_MODE_SUNSET = new byte[]{0x1a, 0x02};
+    public static final byte[] COMMAND_NIGHT_MODE_SCHEDULED = new byte[]{0x1a, 0x01, 0x10, 0x00, 0x07, 0x00};
 }
