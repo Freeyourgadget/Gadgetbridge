@@ -228,6 +228,10 @@ public class GBApplication extends Application {
         logging.setupLogging(enabled);
     }
 
+    public static String getLogPath(){
+        return logging.getLogPath();
+    }
+
     private void setupExceptionHandler() {
         LoggingExceptionHandler handler = new LoggingExceptionHandler(Thread.getDefaultUncaughtExceptionHandler());
         Thread.setDefaultUncaughtExceptionHandler(handler);

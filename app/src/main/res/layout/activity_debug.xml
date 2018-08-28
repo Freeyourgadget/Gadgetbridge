@@ -138,6 +138,13 @@
                 grid:layout_columnSpan="2"
                 grid:layout_gravity="fill_horizontal"
                 android:text="Test New Functionality" />
+            <Button
+                android:id="@+id/shareLog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal"
+                android:text="@string/share_log" />
         </android.support.v7.widget.GridLayout>
     </ScrollView>
 
