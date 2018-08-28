@@ -37,7 +37,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -250,7 +249,7 @@ public class DebugActivity extends AbstractGBActivity {
         });
     }
 
-    private void showWarning(){
+    private void showWarning() {
         new AlertDialog.Builder(this)
                 .setCancelable(true)
                 .setTitle(R.string.warning)
@@ -259,7 +258,7 @@ public class DebugActivity extends AbstractGBActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String fileName = GBApplication.getLogPath();
-                        if(fileName != null && fileName.length() > 0) {
+                        if (fileName != null && fileName.length() > 0) {
                             Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
                             emailIntent.setType("*/*");
                             emailIntent.putExtra(EXTRA_SUBJECT, "Gadgetbridge log file");
@@ -279,6 +278,17 @@ public class DebugActivity extends AbstractGBActivity {
 
     private void testNewFunctionality() {
         GBApplication.deviceService().onTestNewFunction();
+    }
+
+    private void shareLog() {
+        String fileName = GBApplication.getLogPath();
+        if(fileName != null && fileName.length() > 0) {
+            Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+            emailIntent.setType("*/*");
+            emailIntent.putExtra(EXTRA_SUBJECT, "Gadgetbridge log file");
+            emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(fileName)));
+            startActivity(Intent.createChooser(emailIntent, "Share File"));
+        }
     }
 
     private void testNotification() {
