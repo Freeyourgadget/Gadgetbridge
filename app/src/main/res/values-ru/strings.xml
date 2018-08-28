@@ -600,4 +600,20 @@
     <string name="share_log">Поделиться лог-файлом</string>
     <string name="share_log_warning">Файлы журнала Gadgetbridge могут содержать личную информацию, например уникальные идентификаторы: (устройство, MAC-адрес), предпочтения в музыке и т.д. Рассмотрите возможность редактирования файла и удаления этой информации перед отправкой файла общедоступное место.</string>
     <string name="warning">Внимание!</string>
-</resources>
+
+    <string name="pref_title_notifications_timeout">Минимальный интервал между уведомлениями</string>
+    <string name="no_limit">Без ограничений</string>
+    <string name="seconds_5">5 секунд</string>
+    <string name="seconds_10">10 секунд</string>
+    <string name="seconds_20">20 секунд</string>
+    <string name="seconds_30">30 секунд</string>
+    <string name="minutes_1">1 минута</string>
+    <string name="minutes_5">5 минут</string>
+    <string name="minutes_10">10 минут</string>
+    <string name="minutes_30">30 минут</string>
+
+    <string name="mi3_prefs_night_mode">Ночной режим</string>
+    <string name="mi3_prefs_night_mode_summary">Автоматически снижать яркость экрана устройства по ночам</string>
+
+    <string name="mi3_night_mode_sunset">На закате</string>
+    </resources>
