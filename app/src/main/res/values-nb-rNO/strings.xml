@@ -418,7 +418,7 @@
     <string name="live_activity_heart_rate">Puls</string>
 
     <string name="pref_title_pebble_health_store_raw">Lagre rådata i databasen</string>
-    <string name="pref_summary_pebble_health_store_raw">Hvis valgt blir dataen lagret \"som den er\" og er tilgjengelig for senere fortolkning. NB: Databasen kan bli større i sådant fall!</string>
+    <string name="pref_summary_pebble_health_store_raw">Hvis valgt blir dataen lagret \"som den er\", noe som øker databasebruk for senere fortolkning.</string>
     <string name="action_db_management">Databasebehandling</string>
     <string name="title_activity_db_management">Databasebehandling</string>
     <string name="dbmanagementactivity_exported_to">Eksporter til: %1$s</string>
@@ -660,4 +660,9 @@
     <string name="watch9_calibration_button">Kalibrer</string>
     <string name="title_activity_watch9_pairing">Watch 9-parring</string>
     <string name="title_activity_watch9_calibration">Watch 9-kalibrering</string>
+<string name="ok">OK</string>
+
+    <string name="share_log">Del logg</string>
+    <string name="share_log_warning">Ha i minnet at Gadgetbridge-loggfiler kan inneholde mye personlig informasjon, inkludert, og ikke begrenset til helsedata, unike indetifikatorer (som enhetens MAC-adresse), musikkpreferanser, osv. Overvei å redigere filen for fjerning av denne infoen før du sender filen til som offentlig feilrapport.</string>
+    <string name="warning">Advarsel!</string>
 </resources>
