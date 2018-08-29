@@ -616,4 +616,6 @@
     <string name="mi3_prefs_night_mode_summary">Автоматически снижать яркость экрана устройства по ночам</string>
 
     <string name="mi3_night_mode_sunset">На закате</string>
+    <string name="ok">ОК</string>
+
     </resources>
