@@ -1,5 +1,5 @@
 /*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+    Gobbetti, Pavel Elagin
 
     This file is part of Gadgetbridge.
 

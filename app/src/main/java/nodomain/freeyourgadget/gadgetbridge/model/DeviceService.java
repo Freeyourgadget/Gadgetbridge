@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Frank Slezak,
-    ivanovlev, JohnnySun, Julien Pivotto, Kasha, Steffen Liebergeld
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, dakhnod,
+    Frank Slezak, ivanovlev, JohnnySun, Julien Pivotto, Kasha, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 

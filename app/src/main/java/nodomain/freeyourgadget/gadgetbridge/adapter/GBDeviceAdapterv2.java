@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Lem Dulfo
+    Gobbetti, José Rebelo, Lem Dulfo, maxirnilian
 
     This file is part of Gadgetbridge.
 

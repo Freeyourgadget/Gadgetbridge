@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, JohnnySun, Uwe Hermann
+    Gobbetti, JohnnySun, José Rebelo, Uwe Hermann
 
     This file is part of Gadgetbridge.
 

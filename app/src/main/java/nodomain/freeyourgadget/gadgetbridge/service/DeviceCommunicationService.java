@@ -1,7 +1,7 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Avamander, Carsten Pfeiffer,
-    Daniele Gobbetti, Daniel Hauck, Frank Slezak, ivanovlev, João Paulo Barraca,
-    Julien Pivotto, Kasha, Sergey Trofimov, Steffen Liebergeld, Taavi Eomäe,
-    Uwe Hermann
+    dakhnod, Daniele Gobbetti, Daniel Hauck, Frank Slezak, ivanovlev, João Paulo
+    Barraca, Julien Pivotto, Kasha, Martin, Sergey Trofimov, Steffen Liebergeld,
+    Taavi Eomäe, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
