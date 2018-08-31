@@ -1,13 +1,13 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.regex.*;
 
 // What's the reason to extending LanguageUtils?
 // Just doing it because already done in the previous code.
 public class BengaliLanguageUtils extends LanguageUtils {
     // Composite Letters.
-    private final static Hashtable<String, String> composites = new Hashtable<String, String>() {
+    private final static HashMap<String, String> composites = new HashMap<String, String>() {
         {
             put("ক্ষ", "kkh");
             put("ঞ্চ", "NC");
@@ -24,7 +24,7 @@ public class BengaliLanguageUtils extends LanguageUtils {
         }
     };
     // Vowels Only
-    private final static Hashtable<String, String> vowelsAndHasants = new Hashtable<String, String>() {
+    private final static HashMap<String, String> vowelsAndHasants = new HashMap<String, String>() {
         {
             put("আ", "aa");
             put("অ", "a");
@@ -53,9 +53,9 @@ public class BengaliLanguageUtils extends LanguageUtils {
             put("।", ".");
         }
     };
-    
+
     // Single Character Letters.
-    private final static Hashtable<String, String> letters = new Hashtable<String, String>() {
+    private final static HashMap<String, String> letters = new HashMap<String, String>() {
         {
             put("আ", "aa");
             put("অ", "a");
@@ -133,29 +133,29 @@ public class BengaliLanguageUtils extends LanguageUtils {
     };
 
     // The regex to extract Bengali characters in nested groups.
-    private final static String pattern = "(র্){0,1}(([অ-হড়-য়])(্([অ-মশ-হড়-য়]))*)((‍){0,1}(্([য-ল]))){0,1}([া-ৌ]){0,1}|[্ঁঃংৎ০-৯।]| ";
+    private final static String pattern = "(র্){0,1}(([অ-হড়-য়])(্([অ-মশ-হড়-য়]))*)((‍){0,1}(্([য-ল]))){0,1}([া-ৌ]){0,1}|([্ঁঃংৎ০-৯।])| ";
+    private final static Pattern bengaliRegex = Pattern.compile(pattern);
 
-    private static String getVal(String key){
-	if (key != null) {
-	    boolean hasKey = composites.containsKey(key);
-	    if (hasKey) {
-		return composites.get(key);
-	    }
-	    hasKey = letters.containsKey(key);
-	    if (hasKey) {
-		return letters.get(key);
-	    }
-	}
-	return null;
+    private static String getVal(String key) {
+        if (key != null) {
+            boolean hasKey = composites.containsKey(key);
+            if (hasKey) {
+                return composites.get(key);
+            }
+            hasKey = letters.containsKey(key);
+            if (hasKey) {
+                return letters.get(key);
+            }
+        }
+        return null;
     }
-    
+
     public static String transliterate(String txt) {
         if (txt.isEmpty()) {
             return txt;
         }
 
-        Pattern r = Pattern.compile(pattern);
-        Matcher m = r.matcher(txt);
+        Matcher m = bengaliRegex.matcher(txt);
         StringBuffer sb = new StringBuffer();
         while (m.find()) {
             String appendableString = "";
@@ -166,32 +166,32 @@ public class BengaliLanguageUtils extends LanguageUtils {
             // This is a filter-down approach. First considering larger groups,
             // If found any match breaks their. Else go to the next step.
             // Helpful to solve some corner-cases.
-	    String mainPart = getVal(m.group(2));
-	    if (mainPart != null) {
-		appendableString = appendableString + mainPart;
-	    } else {
-		String firstPart = getVal(m.group(3));
-		if (firstPart != null){
-		    appendableString = appendableString + firstPart;
-		}
-		int g = 4;
-		while (g < 6){
-		    String part = getVal(m.group(g));
-		    if (part != null){
-			appendableString = appendableString + part;
-			break;
-		    }
-		    g = g + 1;
-		}
-	    }
+            String mainPart = getVal(m.group(2));
+            if (mainPart != null) {
+                appendableString = appendableString + mainPart;
+            } else {
+                String firstPart = getVal(m.group(3));
+                if (firstPart != null) {
+                    appendableString = appendableString + firstPart;
+                }
+                int g = 4;
+                while (g < 6) {
+                    String part = getVal(m.group(g));
+                    if (part != null) {
+                        appendableString = appendableString + part;
+                        break;
+                    }
+                    g = g + 1;
+                }
+            }
             int g = 6;
             while (g < 10) {
                 String key = getVal(m.group(g));
-                if (key != null){
-		    appendableString = appendableString + key;
-		    break;
-		}
-		g = g + 1;
+                if (key != null) {
+                    appendableString = appendableString + key;
+                    break;
+                }
+                g = g + 1;
             }
             String kaar = m.group(10);
             if (kaar != null) {
@@ -203,6 +203,13 @@ public class BengaliLanguageUtils extends LanguageUtils {
                 // Adding 'a' like ITRANS if no vowel is present.
                 // TODO: Have to add it dynamically using Bengali grammer rules.
                 appendableString = appendableString + "a";
+            }
+            String singleton = m.group(11);
+            if (singleton != null) {
+                boolean hasKeyS = letters.containsKey(singleton);
+                if (hasKeyS) {
+                    appendableString = appendableString + letters.get(singleton);
+                }
             }
             String others = m.group(0);
             if (others != null) {
