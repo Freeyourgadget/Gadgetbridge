@@ -10,6 +10,8 @@
     <string name="controlcenter_fetch_activity_data">Synchronize</string>
     <string name="controlcenter_find_device">Find lost device</string>
     <string name="controlcenter_take_screenshot">Take Screenshot</string>
+    <string name="controlcenter_change_led_color">Change LED Color</string>
+    <string name="controlcenter_change_fm_frequency">Change FM Frequency</string>
     <string name="controlcenter_connect">Connect</string>
     <string name="controlcenter_disconnect">Disconnect</string>
     <string name="controlcenter_delete_device">Delete Device</string>
@@ -605,6 +607,8 @@
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
     <string name="devicetype_id115">ID115</string>
     <string name="devicetype_watch9">Watch 9</string>
+    <string name="devicetype_roidmi">Roidmi</string>
+    <string name="devicetype_roidmi3">Roidmi 3</string>
 
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>
@@ -634,4 +638,12 @@
     <string name="share_log">Share log</string>
     <string name="share_log_warning">Please keep in mind Gadgetbridge log files may contain lots of personal information, including but not limited to health data, unique identifiers (such as a device MAC address), music preferences, etc. Consider editing the file and removing this information before sending the file to a public issue report.</string>
     <string name="warning">Warning!</string>
+
+    <!-- LED Color -->
+    <string name="preferences_led_color">LED Color</string>
+
+    <!-- FM transmitters -->
+    <string name="preferences_fm_frequency">FM Frequency</string>
+    <string name="pref_invalid_frequency_title">Invalid frequency</string>
+    <string name="pref_invalid_frequency_message">Please enter a frequency between 87.5 and 108.0</string>
 </resources>

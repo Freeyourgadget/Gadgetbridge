@@ -186,4 +186,19 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     public boolean supportsFindDevice() {
         return false;
     }
+
+    @Override
+    public boolean supportsLedColor() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsRgbLedColor() {
+        return false;
+    }
+
+    @Override
+    public int[] getColorPresets() {
+        return new int[0];
+    }
 }

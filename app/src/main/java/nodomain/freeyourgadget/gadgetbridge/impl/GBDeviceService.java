@@ -405,4 +405,18 @@ public class GBDeviceService implements DeviceService {
 
         return name;
     }
+
+    @Override
+    public void onSetFmFrequency(float frequency) {
+        Intent intent = createIntent().setAction(ACTION_SET_FM_FREQUENCY)
+                .putExtra(EXTRA_FM_FREQUENCY, frequency);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onSetLedColor(int color) {
+        Intent intent = createIntent().setAction(ACTION_SET_LED_COLOR)
+                .putExtra(EXTRA_LED_COLOR, color);
+        invokeService(intent);
+    }
 }
