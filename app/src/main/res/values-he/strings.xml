@@ -616,4 +616,14 @@
     <string name="share_log">שיתוף יומן</string>
     <string name="share_log_warning">נא לשים לב שקובץ היומן של Gadgetbridge עשוי להכיל פרטים אישיים רבים, לרבות אך לא רק נתונים רפואיים, מזהים יחודיים (כגון כתובת החומרה של המכשיר), העדפות מוזיקליות וכו׳. מוטב לערוך את הקובץ ולהסיר את המידע הזה בטרם הגשתו באופן ציבורי כדי לדווח על תקלה.</string>
     <string name="warning">אזהרה!</string>
+<string name="controlcenter_change_led_color">החלפת צבע נורית</string>
+    <string name="controlcenter_change_fm_frequency">החלפת תדירות FM</string>
+    <string name="devicetype_roidmi">Roidmi</string>
+    <string name="devicetype_roidmi3">Roidmi 3</string>
+
+    <string name="preferences_led_color">צבע נורית</string>
+
+    <string name="preferences_fm_frequency">תדר FM</string>
+    <string name="pref_invalid_frequency_title">תדר שגוי</string>
+    <string name="pref_invalid_frequency_message">נא לבחור בתדר בין 87.5 לבין 108.0</string>
 </resources>
