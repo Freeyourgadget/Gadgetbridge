@@ -618,4 +618,14 @@
     <string name="mi3_night_mode_sunset">На закате</string>
     <string name="ok">ОК</string>
 
-    </resources>
+    <string name="controlcenter_change_led_color">Изменить цвет излучения светодиода</string>
+    <string name="controlcenter_change_fm_frequency">Изменить частоту УКВ</string>
+    <string name="devicetype_roidmi">Roidmi</string>
+    <string name="devicetype_roidmi3">Roidmi 3</string>
+
+    <string name="preferences_led_color">Цвет излучения светодиода</string>
+
+    <string name="preferences_fm_frequency">Частота УКВ</string>
+    <string name="pref_invalid_frequency_title">Недопустимая частота</string>
+    <string name="pref_invalid_frequency_message">Выберите, пожалуйста, частоту в интервале 87.5—108</string>
+</resources>
