@@ -138,12 +138,12 @@ public class BengaliLanguageUtils extends LanguageUtils {
 
     private static String getVal(String key) {
         if (key != null) {
-            boolean hasKey = composites.containsKey(key);
-            if (hasKey) {
-                return composites.get(key);
+            String comp = composites.get(key);
+            if (comp != null) {
+                return comp;
             }
-            hasKey = letters.containsKey(key);
-            if (hasKey) {
+            String sl = letters.get(key);
+            if (sl != null) {
                 return letters.get(key);
             }
         }
@@ -195,9 +195,9 @@ public class BengaliLanguageUtils extends LanguageUtils {
             }
             String kaar = m.group(10);
             if (kaar != null) {
-                boolean hasKey = letters.containsKey(kaar);
-                if (hasKey) {
-                    appendableString = appendableString + letters.get(kaar);
+                String kaarStr = letters.get(kaar);
+                if (kaarStr != null) {
+                    appendableString = appendableString + kaarStr;
                 }
             } else if (appendableString.length() > 0 && !vowelsAndHasants.containsKey(m.group(0))) {
                 // Adding 'a' like ITRANS if no vowel is present.
@@ -206,9 +206,9 @@ public class BengaliLanguageUtils extends LanguageUtils {
             }
             String singleton = m.group(11);
             if (singleton != null) {
-                boolean hasKeyS = letters.containsKey(singleton);
-                if (hasKeyS) {
-                    appendableString = appendableString + letters.get(singleton);
+                String singleStr = letters.get(singleton);
+                if (singleStr != null) {
+                    appendableString = appendableString + singleStr;
                 }
             }
             String others = m.group(0);
