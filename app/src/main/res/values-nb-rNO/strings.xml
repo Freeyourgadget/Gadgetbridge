@@ -665,4 +665,14 @@
     <string name="share_log">Del logg</string>
     <string name="share_log_warning">Ha i minnet at Gadgetbridge-loggfiler kan inneholde mye personlig informasjon, inkludert, og ikke begrenset til helsedata, unike indetifikatorer (som enhetens MAC-adresse), musikkpreferanser, osv. Overvei å redigere filen for fjerning av denne infoen før du sender filen til som offentlig feilrapport.</string>
     <string name="warning">Advarsel!</string>
+<string name="controlcenter_change_led_color">Endre LED-farge</string>
+    <string name="controlcenter_change_fm_frequency">Endre FM-frekvens</string>
+    <string name="devicetype_roidmi">Roidmi</string>
+    <string name="devicetype_roidmi3">Roidmi 3</string>
+
+    <string name="preferences_led_color">LED-farge</string>
+
+    <string name="preferences_fm_frequency">FM-frekvens</string>
+    <string name="pref_invalid_frequency_title">Ugyldig frekvens</string>
+    <string name="pref_invalid_frequency_message">Skriv inn en frekvens mellom 87.5 og 108.0</string>
 </resources>
