@@ -77,12 +77,8 @@ public class LanguageUtils {
             put('آ', "2"); put('ئ', "2"); put('إ', "2"); put('ؤ', "2"); put('أ', "2"); put('ء', "2");
 
             // Persian(Farsi)
-            put('ا', "a"); put('ب', "b"); put('پ', "p"); put('ت', "t"); put('ث', "th"); put('ج', "j"); put('چ', "ch"); 
-            put('ح', "h"); put('خ', "kh"); put('د', "d"); put('ذ', "z"); put('ر', "r"); put('ز', "z"); put('ژ', "zh"); 
-            put('س', "s"); put('ش', "sh"); put('ص', "s"); put('ض', "z"); put('ط', "t"); put('ظ', "z'"); put('ع', "e"); 
-            put('غ', "gh"); put('ف', "f"); put('ق', "q"); put('ک', "k"); put('گ', "g"); put('ل', "l"); put('م', "m"); 
-            put('ن', "n"); put('و', "v"); put('ه', "h"); put('ي', "y"); put('ی', "y"); put('آ', "A"); put('ئ', "e"); 
-            put('ء', "e"); put('ؤ', "w"); put('؟', "?"); 
+            put('پ', "p"); put('چ', "ch"); put('ژ', "zh"); put('ک', "k"); put('گ', "g"); put('ی', "y");
+	    put('؟', "?"); put('٪', "%"); put('؛', ";"); put('،', ","); 
 
             // Polish
             put('Ł', "L"); put('ł', "l");
