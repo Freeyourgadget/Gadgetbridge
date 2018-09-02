@@ -10,6 +10,45 @@ import java.util.Map;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 class RtlUtils {
+
+    enum characterType{
+        ltr,
+        rtl,
+        rtl_arabic,
+        punctuation,
+        lineEnd,
+        space,
+    }
+
+    public static characterType getCharacterType(char c){
+        characterType type;
+        switch (Character.getDirectionality(c)) {
+            case Character.DIRECTIONALITY_RIGHT_TO_LEFT:
+                type = characterType.rtl;
+                break;
+            case Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC:
+                type = characterType.rtl_arabic;
+                break;
+            case Character.DIRECTIONALITY_EUROPEAN_NUMBER_SEPARATOR:
+            case Character.DIRECTIONALITY_EUROPEAN_NUMBER_TERMINATOR:
+            case Character.DIRECTIONALITY_COMMON_NUMBER_SEPARATOR:
+            case Character.DIRECTIONALITY_OTHER_NEUTRALS:
+                type = characterType.punctuation;
+                break;
+            case Character.DIRECTIONALITY_BOUNDARY_NEUTRAL:
+            case Character.DIRECTIONALITY_PARAGRAPH_SEPARATOR:
+                type = characterType.lineEnd;
+                break;
+            case Character.DIRECTIONALITY_WHITESPACE:
+                type = characterType.space;
+                break;
+            default:
+                type = characterType.ltr;
+        }
+
+        return type;
+    }
+
     /**
      * Checks the status of right-to-left option
      * @return true if right-to-left option is On, and false, if Off or not exist
@@ -58,37 +97,53 @@ class RtlUtils {
     /**
      * @return true if the char is in the rtl range, otherwise false
      */
-    static Boolean isHebrew(char c){
-        for (Pair<Character, Character> rang: hebrewRange) {
-            if (rang.first <= c && c <= rang.second) {
-                return true;
-            }
-        }
-        return false;
+    static boolean isHebrew(char c){
+//        for (Pair<Character, Character> rang: hebrewRange) {
+//            if (rang.first <= c && c <= rang.second) {
+//                return true;
+//            }
+//        }
+//        return false;
+        return getCharacterType(c) == characterType.rtl;
     }
 
     /**
      * @return true if the char is in the rtl range, otherwise false
      */
-    static Boolean isArabic(char c){
-        for (Pair<Character, Character> rang: arabicRange) {
-            if (rang.first <= c && c <= rang.second) {
-                return true;
-            }
-        }
-        return false;
+    static boolean isArabic(char c){
+//        for (Pair<Character, Character> rang: arabicRange) {
+//            if (rang.first <= c && c <= rang.second) {
+//                return true;
+//            }
+//        }
+//        return false;
+        return getCharacterType(c) == characterType.rtl_arabic;
     }
 
     /**
      * @return true if the char is in the rtl range, otherwise false
      */
-    static Boolean isRtl(char c){
-        for (Pair<Character, Character> rang: rtlRange) {
-            if (rang.first <= c && c <= rang.second) {
-                return true;
-            }
-        }
-        return false;
+    static boolean isLtr(char c){
+//        for (Pair<Character, Character> rang: rtlRange) {
+//            if (rang.first <= c && c <= rang.second) {
+//                return true;
+//            }
+//        }
+//        return false;
+        return getCharacterType(c) == characterType.ltr;
+    }
+
+    /**
+     * @return true if the char is in the rtl range, otherwise false
+     */
+    static boolean isRtl(char c){
+//        for (Pair<Character, Character> rang: rtlRange) {
+//            if (rang.first <= c && c <= rang.second) {
+//                return true;
+//            }
+//        }
+//        return false;
+        return (getCharacterType(c) == characterType.rtl) || (getCharacterType(c) == characterType.rtl_arabic);
     }
 
     //list of unicode ranges of punctuations chars
@@ -104,13 +159,14 @@ class RtlUtils {
     /**
      * @return true if the char is in the punctuations range, otherwise false
      */
-    static Boolean isPunctuations(char c){
-        for (Pair<Character, Character> rang: punctuationsRange) {
-            if (rang.first <= c && c <= rang.second) {
-                return true;
-            }
-        }
-        return false;
+    static boolean isPunctuations(char c){
+//        for (Pair<Character, Character> rang: punctuationsRange) {
+//            if (rang.first <= c && c <= rang.second) {
+//                return true;
+//            }
+//        }
+//        return false;
+        return getCharacterType(c) == characterType.punctuation;
     }
 
     //list of sign that ends a word
@@ -125,14 +181,15 @@ class RtlUtils {
     /**
      * @return true if the char is in the end of word list, otherwise false
      */
-    static Boolean isWordEndSign(char c){
-        for (char sign: wordEndSigns){
-            if (c == sign){
-                return true;
-            }
-        }
-
-        return false;
+    static boolean isSpaceSign(char c){
+//        for (char sign: wordEndSigns){
+//            if (c == sign){
+//                return true;
+//            }
+//        }
+//
+//        return false;
+        return getCharacterType(c) == characterType.space;
     }
 
     //list of sign that ends a word
@@ -146,14 +203,15 @@ class RtlUtils {
     /**
      * @return true if the char is in the end of word list, otherwise false
      */
-    static Boolean isEndLineSign(char c){
-        for (char sign: endLineSigns){
-            if (c == sign){
-                return true;
-            }
-        }
-
-        return false;
+    static boolean isEndLineSign(char c){
+//        for (char sign: endLineSigns){
+//            if (c == sign){
+//                return true;
+//            }
+//        }
+//
+//        return false;
+        return getCharacterType(c) == characterType.lineEnd;
     }
 
     //map from Arabian characters to their contextual form in the beginning of the word

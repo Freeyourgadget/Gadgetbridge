@@ -18,6 +18,7 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -182,6 +183,8 @@ public class LanguageUtils {
         if (s == null || s.isEmpty()){
             return s;
         }
+        Log.d("ROIGR", "before: |" + org.apache.commons.lang3.StringEscapeUtils.escapeJava(s) + "|");
+
         int length = s.length();
         String oldString = s.substring(0, length);
         String newString = "";
@@ -191,50 +194,80 @@ public class LanguageUtils {
 
         int startPos = 0;
         int endPos = 0;
-        Boolean isRtlState = RtlUtils.isRtl(oldString.charAt(0));
+        RtlUtils.characterType CurRtlType = RtlUtils.isRtl(oldString.charAt(0))? RtlUtils.characterType.rtl : RtlUtils.characterType.ltr;
+        RtlUtils.characterType PhraseRtlType = CurRtlType;
+
         char c;
-        String line = "";
+//        String word = "", phrase = "", line = "";
+        StringBuilder word = new StringBuilder();
+        StringBuilder phrase = new StringBuilder();
+        StringBuilder line = new StringBuilder();
+        String phraseString = "";
+
         for (int i = 0; i < length; i++) {
             c = oldString.charAt(i);
-            if ((RtlUtils.isRtl(c) == isRtlState || RtlUtils.isPunctuations(c)) && i < length - 1) {
-                endPos++;
+
+            Log.d("ROIGR", "char: " + c + " :" + Character.getDirectionality(c));
+//            Log.d("ROIGR", "hex : " + (int)c);
+
+            if (RtlUtils.isLtr(c)){
+                CurRtlType = RtlUtils.characterType.ltr;
+            } else if (RtlUtils.isRtl(c)) {
+                CurRtlType = RtlUtils.characterType.rtl;
+            }
+
+            if ((CurRtlType == PhraseRtlType) || RtlUtils.isPunctuations(c)) {
+                word.append(c);
             } else {
-                String word;
+                if (RtlUtils.isSpaceSign(c)){
+                    word.append(c);
 
-                if (RtlUtils.isWordEndSign(c)){
-                    endPos++;
-                }
-
-                if (i == length - 1){
-                    endPos = length;
-                }
-                word = oldString.substring(startPos, endPos);
-                if (isRtlState) {
-                    if(RtlUtils.contextualSupport()){
-                        word = RtlUtils.converToContextual(word);
+                    if (line.length() + phrase.length() + word.length() < line_max_size) {
+                        phrase.append(word);
+                        word.setLength(0);
+                        continue;
                     }
-                    word = RtlUtils.reverse(word);
                 }
+
+                //we either move from rtl to ltr or vice versa or word should move to new line
+
+                phraseString = phrase.toString();
+                if (PhraseRtlType == RtlUtils.characterType.rtl) {
+                    if(RtlUtils.contextualSupport()){
+                        phraseString = RtlUtils.converToContextual(phraseString);
+                    }
+                    phraseString = RtlUtils.reverse(phraseString);
+                }
+                line.insert(0, phraseString);
+                phrase.setLength(0);
+
+                Log.d("ROIGR", "word: |" + word + "|");
                 if (line.length() + word.length() > line_max_size) {
-                    lines.add(line + "\n");
-                    line = "";
+                    line.append('\n');
+                    lines.add(line.toString());
+                    Log.d("ROIGR", "line: |" + line + "|");
+                    line.setLength(0);
                 }
-                line = String.format("%s%s", word, line);
-                if (line.endsWith("\0") || line.endsWith("\n")) {
+
+
+
+                if (RtlUtils.isEndLineSign(c)) {
                     lines.add(line);
+                    Log.d("ROIGR", "line: |" + line + "|");
                     line = "";
                 }
-                startPos = endPos;
-                if (!RtlUtils.isWordEndSign(c)){
-                    endPos++;
-                    isRtlState = !isRtlState;
+                if (!RtlUtils.isSpaceSign(c)){
+                    word.append(c);
+                    PhraseRtlType = PhraseRtlType == RtlUtils.characterType.rtl ? RtlUtils.characterType.ltr : RtlUtils.characterType.rtl;
                 }
             }
         }
 
-        lines.add(line);
+        lines.add(line.toString());
 
         newString = TextUtils.join("", lines);
+
+        Log.d("ROIGR", "after : |" + org.apache.commons.lang3.StringEscapeUtils.escapeJava(newString) + "|");
 
         return newString;
     }
