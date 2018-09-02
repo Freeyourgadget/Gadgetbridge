@@ -36,15 +36,10 @@ public class HeartRateUtils {
     private int maxHeartRateValue;
     private int minHeartRateValue;
 
-    /**
-     * extra class used for synchronized access of the singleton
-     */
-    private static final class HeartRateUtilsInstanceHolder {
-        static final HeartRateUtils INSTANCE = new HeartRateUtils();
-    }
+    private static final HeartRateUtils instance = new HeartRateUtils();
 
     public static HeartRateUtils getInstance() {
-        return HeartRateUtilsInstanceHolder.INSTANCE;
+        return instance;
     }
 
     /**
