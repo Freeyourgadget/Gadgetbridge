@@ -41,8 +41,10 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.LanguageUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.RtlUtils;
 
 import static nodomain.freeyourgadget.gadgetbridge.util.JavaExtensions.coalesce;
+
 
 public class GBDeviceService implements DeviceService {
     protected final Context mContext;
@@ -81,10 +83,10 @@ public class GBDeviceService implements DeviceService {
             }
         }
 
-        if (LanguageUtils.rtlSupport()) {
+        if (RtlUtils.rtlSupport()) {
             for (String extra : transliterationExtras) {
                 if (intent.hasExtra(extra)) {
-                    intent.putExtra(extra, LanguageUtils.fixRtl(intent.getStringExtra(extra)));
+                    intent.putExtra(extra, RtlUtils.fixRtl(intent.getStringExtra(extra)));
                 }
             }
         }

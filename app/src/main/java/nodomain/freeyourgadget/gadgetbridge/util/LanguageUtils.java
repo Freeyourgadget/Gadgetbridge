@@ -17,28 +17,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
-import android.text.TextUtils;
-import android.util.Log;
-
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.text.Normalizer;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class LanguageUtils {
-    /**
-     * Checks the status of right-to-left option
-     * @return true if right-to-left option is On, and false, if Off or not exist
-     */
-    public static boolean rtlSupport()
-    {
-        return GBApplication.getPrefs().getBoolean("rtl", false);
-    }
 
     //transliteration map with english equivalent for unsupported chars
     private static Map<Character, String> transliterateMap = new HashMap<Character, String>(){
@@ -128,7 +115,7 @@ public class LanguageUtils {
 
         char[] chars = txt.toCharArray();
 
-        for (Character c : chars)
+        for (char c : chars)
         {
             message.append(transliterate(c));
         }
@@ -143,8 +130,8 @@ public class LanguageUtils {
      * @param c input char
      * @return replacement text
      */
-    private static String transliterate(Character c){
-        Character lowerChar = Character.toLowerCase(c);
+    private static String transliterate(char c){
+        char lowerChar = Character.toLowerCase(c);
 
         if (transliterateMap.containsKey(lowerChar)) {
             String replace = transliterateMap.get(lowerChar);
@@ -168,126 +155,5 @@ public class LanguageUtils {
     private static String flattenToAscii(String string) {
         string = Normalizer.normalize(string, Normalizer.Form.NFD);
         return string.replaceAll("\\p{M}", "");
-    }
-
-
-
-    /**
-     * The function get a string and fix the rtl words.
-     * since simple reverse puts the beginning of the text at the end, the text should have been from bottom to top.
-     * To avoid that, we save the text in lines (line max size can be change in the settings)
-     * @param s - the string to fix.
-     * @return a fix string.
-     */
-    public static String fixRtl(String s) {
-        if (s == null || s.isEmpty()){
-            return s;
-        }
-        Log.d("ROIGR", "before: |" + org.apache.commons.lang3.StringEscapeUtils.escapeJava(s) + "|");
-
-        int length = s.length();
-        String oldString = s.substring(0, length);
-        String newString = "";
-        List<String> lines = new ArrayList<>();
-        char[] newWord = new char[length];
-        int line_max_size = GBApplication.getPrefs().getInt("rtl_max_line_length", 20);;
-
-        int startPos = 0;
-        int endPos = 0;
-        RtlUtils.characterType CurRtlType = RtlUtils.isRtl(oldString.charAt(0))? RtlUtils.characterType.rtl : RtlUtils.characterType.ltr;
-        RtlUtils.characterType PhraseRtlType = CurRtlType;
-
-        Character c;
-//        String word = "", phrase = "", line = "";
-        StringBuilder word = new StringBuilder();
-        StringBuilder phrase = new StringBuilder();
-        StringBuilder line = new StringBuilder();
-        String phraseString = "";
-        boolean addCharToWord = false;
-        for (int i = 0; i < length; i++) {
-            c = oldString.charAt(i);
-            addCharToWord = false;
-            Log.d("ROIGR", "char: " + c + " :" + Character.getDirectionality(c));
-//            Log.d("ROIGR", "hex : " + (int)c);
-
-            if (RtlUtils.isLtr(c)){
-                CurRtlType = RtlUtils.characterType.ltr;
-            } else if (RtlUtils.isRtl(c)) {
-                CurRtlType = RtlUtils.characterType.rtl;
-            }
-
-            if ((CurRtlType == PhraseRtlType) && !(RtlUtils.isSpaceSign(c) || RtlUtils.isEndLineSign(c))){
-                Log.d("ROIGR", "add: " + c + " to: " + word);
-                word.append(c);
-                addCharToWord = true;
-                if (i < length - 1) {
-                    continue;
-                }
-            }
-
-
-
-            do {
-                if (line.length() + phrase.length() + word.length() < line_max_size) {
-                    if (RtlUtils.isSpaceSign(c)) {
-                        word.append(c);
-                        addCharToWord = true;
-                    }
-
-                    phrase.append(word);
-                    word.setLength(0);
-
-                    if (RtlUtils.isSpaceSign(c)) {
-                        break;
-                    }
-                }
-
-
-                phraseString = phrase.toString();
-                Log.d("ROIGR", "phrase:   |" + phraseString + "|");
-                if (PhraseRtlType == RtlUtils.characterType.rtl) {
-                    if (RtlUtils.contextualSupport()) {
-                        phraseString = RtlUtils.converToContextual(phraseString);
-                    }
-                    phraseString = RtlUtils.reverse(phraseString);
-                }
-
-                line.insert(0, RtlUtils.fixWhitespace(phraseString));
-                Log.d("ROIGR", "line now: |" + line + "|");
-                phrase.setLength(0);
-
-                if (word.length() > 0){
-                    line.append('\n');
-                } else if (RtlUtils.isEndLineSign(c)) {
-                    line.append(c);
-                } else if (!addCharToWord) {
-                    word.append(c);
-                    if (i == length - 1){
-                        addCharToWord = true;
-                        continue;
-                    }
-                    PhraseRtlType = PhraseRtlType == RtlUtils.characterType.rtl ? RtlUtils.characterType.ltr : RtlUtils.characterType.rtl;
-                    break;
-                }
-
-                lines.add(line.toString());
-                Log.d("ROIGR", "line: |" + line + "|");
-                line.setLength(0);
-
-                if (word.length() == 0){
-                    break;
-                }
-
-            } while (true);
-
-        }
-
-        lines.add(line.toString());
-
-        newString = TextUtils.join("", lines);
-
-        Log.d("ROIGR", "after : |" + org.apache.commons.lang3.StringEscapeUtils.escapeJava(newString) + "|");
-
-        return newString;
     }
 }

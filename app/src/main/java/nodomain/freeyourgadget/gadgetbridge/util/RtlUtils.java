@@ -1,15 +1,26 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
-class RtlUtils {
+public class RtlUtils {
+
+    /**
+     * Checks the status of right-to-left option
+     * @return true if right-to-left option is On, and false, if Off or not exist
+     */
+    public static boolean rtlSupport()
+    {
+        return GBApplication.getPrefs().getBoolean("rtl", false);
+    }
 
     enum characterType{
         ltr,
@@ -440,5 +451,124 @@ class RtlUtils {
         } else {
             return s;
         }
+    }
+
+    /**
+     * The function get a string and fix the rtl words.
+     * since simple reverse puts the beginning of the text at the end, the text should have been from bottom to top.
+     * To avoid that, we save the text in lines (line max size can be change in the settings)
+     * @param s - the string to fix.
+     * @return a fix string.
+     */
+    public static String fixRtl(String s) {
+        if (s == null || s.isEmpty()){
+            return s;
+        }
+        Log.d("ROIGR", "before: |" + org.apache.commons.lang3.StringEscapeUtils.escapeJava(s) + "|");
+
+        int length = s.length();
+        String oldString = s.substring(0, length);
+        String newString = "";
+        List<String> lines = new ArrayList<>();
+        char[] newWord = new char[length];
+        int line_max_size = GBApplication.getPrefs().getInt("rtl_max_line_length", 20);;
+
+        int startPos = 0;
+        int endPos = 0;
+        characterType CurRtlType = isRtl(oldString.charAt(0))? characterType.rtl : characterType.ltr;
+        characterType PhraseRtlType = CurRtlType;
+
+        Character c;
+//        String word = "", phrase = "", line = "";
+        StringBuilder word = new StringBuilder();
+        StringBuilder phrase = new StringBuilder();
+        StringBuilder line = new StringBuilder();
+        String phraseString = "";
+        boolean addCharToWord = false;
+        for (int i = 0; i < length; i++) {
+            c = oldString.charAt(i);
+            addCharToWord = false;
+            Log.d("ROIGR", "char: " + c + " :" + Character.getDirectionality(c));
+//            Log.d("ROIGR", "hex : " + (int)c);
+
+            if (isLtr(c)){
+                CurRtlType = characterType.ltr;
+            } else if (isRtl(c)) {
+                CurRtlType = characterType.rtl;
+            }
+
+            if ((CurRtlType == PhraseRtlType) && !(isSpaceSign(c) || isEndLineSign(c))){
+                Log.d("ROIGR", "add: " + c + " to: " + word);
+                word.append(c);
+                addCharToWord = true;
+                if (i < length - 1) {
+                    continue;
+                }
+            }
+
+
+
+            do {
+                if (line.length() + phrase.length() + word.length() < line_max_size) {
+                    if (isSpaceSign(c)) {
+                        word.append(c);
+                        addCharToWord = true;
+                    }
+
+                    phrase.append(word);
+                    word.setLength(0);
+
+                    if (isSpaceSign(c)) {
+                        break;
+                    }
+                }
+
+
+                phraseString = phrase.toString();
+                Log.d("ROIGR", "phrase:   |" + phraseString + "|");
+                if (PhraseRtlType == characterType.rtl) {
+                    if (contextualSupport()) {
+                        phraseString = converToContextual(phraseString);
+                    }
+                    phraseString = reverse(phraseString);
+                }
+
+                line.insert(0, fixWhitespace(phraseString));
+                Log.d("ROIGR", "line now: |" + line + "|");
+                phrase.setLength(0);
+
+                if (word.length() > 0){
+                    line.append('\n');
+                } else if (isEndLineSign(c)) {
+                    line.append(c);
+                } else if (!addCharToWord) {
+                    word.append(c);
+                    if (i == length - 1){
+                        addCharToWord = true;
+                        continue;
+                    }
+                    PhraseRtlType = PhraseRtlType == characterType.rtl ? characterType.ltr : characterType.rtl;
+                    break;
+                }
+
+                lines.add(line.toString());
+                Log.d("ROIGR", "line: |" + line + "|");
+                line.setLength(0);
+
+                if (word.length() == 0){
+                    break;
+                }
+
+            } while (true);
+
+        }
+
+        lines.add(line.toString());
+
+        newString = TextUtils.join("", lines);
+
+        Log.d("ROIGR", "after : |" + org.apache.commons.lang3.StringEscapeUtils.escapeJava(newString) + "|");
+
+        return newString;
     }
 }
