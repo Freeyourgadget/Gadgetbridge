@@ -128,7 +128,7 @@ public class LanguageUtils {
 
         char[] chars = txt.toCharArray();
 
-        for (char c : chars)
+        for (Character c : chars)
         {
             message.append(transliterate(c));
         }
@@ -143,8 +143,8 @@ public class LanguageUtils {
      * @param c input char
      * @return replacement text
      */
-    private static String transliterate(char c){
-        char lowerChar = Character.toLowerCase(c);
+    private static String transliterate(Character c){
+        Character lowerChar = Character.toLowerCase(c);
 
         if (transliterateMap.containsKey(lowerChar)) {
             String replace = transliterateMap.get(lowerChar);
