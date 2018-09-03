@@ -20,7 +20,7 @@ class RtlUtils {
         space,
     }
 
-    public static characterType getCharacterType(char c){
+    public static characterType getCharacterType(Character c){
         characterType type;
         switch (Character.getDirectionality(c)) {
             case Character.DIRECTIONALITY_RIGHT_TO_LEFT:
@@ -67,150 +67,60 @@ class RtlUtils {
         }
     };
 
-    //list of unicode ranges of rtl chars
-    private static ArrayList<Pair<Character, Character>> hebrewRange = new ArrayList<Pair<Character, Character>>() {
-        {
-            add(new Pair<Character, Character>('\u0590', '\u05F4'));
-            add(new Pair<Character, Character>('\uFB1D', '\uFB4F'));
-        }
-    };
-
-    //list of unicode ranges of rtl chars
-    private static ArrayList<Pair<Character, Character>> arabicRange = new ArrayList<Pair<Character, Character>>() {
-        {
-            add(new Pair<Character, Character>('\u0600', '\u06FF'));
-            add(new Pair<Character, Character>('\u0750', '\u077F'));
-            add(new Pair<Character, Character>('\u08A0', '\u08FF'));
-            add(new Pair<Character, Character>('\uFB50', '\uFDFF'));
-            add(new Pair<Character, Character>('\uFE70', '\uFEFF'));
-        }
-    };
-
-    //list of unicode ranges of rtl chars
-    private static ArrayList<Pair<Character, Character>> rtlRange = new ArrayList<Pair<Character, Character>>() {
-        {
-            addAll(hebrewRange);
-            addAll(arabicRange);
-        }
-    };
-
     /**
      * @return true if the char is in the rtl range, otherwise false
      */
-    static boolean isHebrew(char c){
-//        for (Pair<Character, Character> rang: hebrewRange) {
-//            if (rang.first <= c && c <= rang.second) {
-//                return true;
-//            }
-//        }
-//        return false;
+    static boolean isHebrew(Character c){
+
         return getCharacterType(c) == characterType.rtl;
     }
 
     /**
      * @return true if the char is in the rtl range, otherwise false
      */
-    static boolean isArabic(char c){
-//        for (Pair<Character, Character> rang: arabicRange) {
-//            if (rang.first <= c && c <= rang.second) {
-//                return true;
-//            }
-//        }
-//        return false;
+    static boolean isArabic(Character c){
+
         return getCharacterType(c) == characterType.rtl_arabic;
     }
 
     /**
      * @return true if the char is in the rtl range, otherwise false
      */
-    static boolean isLtr(char c){
-//        for (Pair<Character, Character> rang: rtlRange) {
-//            if (rang.first <= c && c <= rang.second) {
-//                return true;
-//            }
-//        }
-//        return false;
+    static boolean isLtr(Character c){
+
         return getCharacterType(c) == characterType.ltr;
     }
 
     /**
      * @return true if the char is in the rtl range, otherwise false
      */
-    static boolean isRtl(char c){
-//        for (Pair<Character, Character> rang: rtlRange) {
-//            if (rang.first <= c && c <= rang.second) {
-//                return true;
-//            }
-//        }
-//        return false;
+    static boolean isRtl(Character c){
+
         return (getCharacterType(c) == characterType.rtl) || (getCharacterType(c) == characterType.rtl_arabic);
     }
-
-    //list of unicode ranges of punctuations chars
-    private static ArrayList <Pair<Character, Character>> punctuationsRange = new ArrayList<Pair<Character, Character>>() {
-        {
-            add(new Pair<Character, Character>('\u0021', '\u002F'));
-            add(new Pair<Character, Character>('\u003A', '\u0040'));
-            add(new Pair<Character, Character>('\u005B', '\u0060'));
-            add(new Pair<Character, Character>('\u007B', '\u007E'));
-        }
-    };
 
     /**
      * @return true if the char is in the punctuations range, otherwise false
      */
-    static boolean isPunctuations(char c){
-//        for (Pair<Character, Character> rang: punctuationsRange) {
-//            if (rang.first <= c && c <= rang.second) {
-//                return true;
-//            }
-//        }
-//        return false;
+    static boolean isPunctuations(Character c){
+
         return getCharacterType(c) == characterType.punctuation;
     }
 
-    //list of sign that ends a word
-    private static ArrayList<Character> wordEndSigns = new ArrayList<Character>() {
-        {
-            add('\0');
-            add('\n');
-            add(' ');
-        }
-    };
 
     /**
      * @return true if the char is in the end of word list, otherwise false
      */
-    static boolean isSpaceSign(char c){
-//        for (char sign: wordEndSigns){
-//            if (c == sign){
-//                return true;
-//            }
-//        }
-//
-//        return false;
+    static boolean isSpaceSign(Character c){
+
         return getCharacterType(c) == characterType.space;
     }
 
-    //list of sign that ends a word
-    private static ArrayList<Character> endLineSigns = new ArrayList<Character>() {
-        {
-            add('\0');
-            add('\n');
-        }
-    };
-
     /**
      * @return true if the char is in the end of word list, otherwise false
      */
-    static boolean isEndLineSign(char c){
-//        for (char sign: endLineSigns){
-//            if (c == sign){
-//                return true;
-//            }
-//        }
-//
-//        return false;
+    static boolean isEndLineSign(Character c){
+
         return getCharacterType(c) == characterType.lineEnd;
     }
 
@@ -370,7 +280,7 @@ class RtlUtils {
         end
     }
 
-    private static boolean exceptionAfterLam(char c){
+    private static boolean exceptionAfterLam(Character c){
         switch (c){
             case '\u0622':
             case '\u0623':
@@ -389,7 +299,7 @@ class RtlUtils {
      * @param state - the character state: beginning, middle, end or isolated
      * @return the contextual character
      */
-    private static char getContextualSymbol(Character c, contextualState state) {
+    private static Character getContextualSymbol(Character c, contextualState state) {
         Character newChar;
         switch (state){
             case begin:
@@ -506,10 +416,10 @@ class RtlUtils {
         }
 
         // remain end-of-word sign at the end
-        if (isEndLineSign(s.charAt(s.length() - 1))){
-            isEndLine = 1;
-            newWord[--j] = s.charAt(s.length() - 1);
-        }
+//        if (isEndLineSign(s.charAt(s.length() - 1))){
+//            isEndLine = 1;
+//            newWord[--j] = s.charAt(s.length() - 1);
+//        }
 
         for (int i = 0; i < s.length() - isEndLine; i++) {
             if (directionSignsMap.containsKey(s.charAt(i))) {
@@ -520,5 +430,15 @@ class RtlUtils {
         }
 
         return new String(newWord);
+    }
+
+    static String fixWhitespace(String s){
+        int length = s.length();
+
+        if (length > 0 && isSpaceSign(s.charAt(length - 1))){
+            return s.charAt(length - 1) + s.substring(0, length - 1);
+        } else {
+            return s;
+        }
     }
 }
