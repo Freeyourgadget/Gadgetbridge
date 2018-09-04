@@ -343,6 +343,8 @@
     <string name="notif_battery_low_percent">%1$s battery left: %2$s%%</string>
     <string name="notif_battery_low_bigtext_last_charge_time">Last charge: %s \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Number of charges: %s</string>
+    <string name="notif_battery_low">%1$s battery low</string>
+    <string name="notif_battery_low_extended">%1$s battery low: %2$s</string>
     <string name="notif_export_failed_title">Export database failed! Please check your settings.</string>
     <string name="sleepchart_your_sleep">Your sleep</string>
     <string name="weeksleepchart_sleep_a_week">Sleep per week</string>

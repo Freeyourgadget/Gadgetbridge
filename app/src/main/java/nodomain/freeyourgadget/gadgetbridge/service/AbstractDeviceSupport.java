@@ -356,20 +356,35 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         gbDevice.setBatteryState(deviceEvent.state);
         gbDevice.setBatteryVoltage(deviceEvent.voltage);
 
-        //show the notification if the battery level is below threshold and only if not connected to charger
-        if (deviceEvent.level <= gbDevice.getBatteryThresholdPercent() &&
-                (BatteryState.BATTERY_LOW.equals(deviceEvent.state) ||
-                        BatteryState.BATTERY_NORMAL.equals(deviceEvent.state))
-                ) {
-            GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), String.valueOf(deviceEvent.level)),
-                    deviceEvent.extendedInfoAvailable() ?
-                            context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), String.valueOf(deviceEvent.level)) + "\n" +
-                                    context.getString(R.string.notif_battery_low_bigtext_last_charge_time, DateFormat.getDateTimeInstance().format(deviceEvent.lastChargeTime.getTime())) +
-                                    context.getString(R.string.notif_battery_low_bigtext_number_of_charges, String.valueOf(deviceEvent.numCharges))
-                            : ""
-                    , context);
+        if (deviceEvent.level == GBDevice.BATTERY_UNKNOWN) {
+            // no level available, just "high" or "low"
+            if (BatteryState.BATTERY_LOW.equals(deviceEvent.state)) {
+                GB.updateBatteryNotification(context.getString(R.string.notif_battery_low, gbDevice.getName()),
+                        deviceEvent.extendedInfoAvailable() ?
+                                context.getString(R.string.notif_battery_low_extended, gbDevice.getName(),
+                                        context.getString(R.string.notif_battery_low_bigtext_last_charge_time, DateFormat.getDateTimeInstance().format(deviceEvent.lastChargeTime.getTime())) +
+                                        context.getString(R.string.notif_battery_low_bigtext_number_of_charges, String.valueOf(deviceEvent.numCharges)))
+                                : ""
+                        , context);
+            } else {
+                GB.removeBatteryNotification(context);
+            }
         } else {
-            GB.removeBatteryNotification(context);
+            //show the notification if the battery level is below threshold and only if not connected to charger
+            if (deviceEvent.level <= gbDevice.getBatteryThresholdPercent() &&
+                    (BatteryState.BATTERY_LOW.equals(deviceEvent.state) ||
+                            BatteryState.BATTERY_NORMAL.equals(deviceEvent.state))
+                    ) {
+                GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), String.valueOf(deviceEvent.level)),
+                        deviceEvent.extendedInfoAvailable() ?
+                                context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), String.valueOf(deviceEvent.level)) + "\n" +
+                                        context.getString(R.string.notif_battery_low_bigtext_last_charge_time, DateFormat.getDateTimeInstance().format(deviceEvent.lastChargeTime.getTime())) +
+                                        context.getString(R.string.notif_battery_low_bigtext_number_of_charges, String.valueOf(deviceEvent.numCharges))
+                                : ""
+                        , context);
+            } else {
+                GB.removeBatteryNotification(context);
+            }
         }
 
         gbDevice.sendDeviceUpdateIntent(context);
