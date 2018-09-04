@@ -70,8 +70,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
-import static nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils.isValidHeartRateValue;
-
 /**
  * A base class fragment to be used with ChartsActivity. The fragment can supply
  * a title to be displayed in the activity by returning non-null in #getTitle()
@@ -443,6 +441,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             List<Entry> heartrateEntries = hr ? new ArrayList<Entry>(numEntries) : null;
             List<Integer> colors = new ArrayList<>(numEntries); // this is kinda inefficient...
             int lastHrSampleIndex = -1;
+            HeartRateUtils heartRateUtilsInstance = HeartRateUtils.getInstance();
 
             for (int i = 0; i < numEntries; i++) {
                 ActivitySample sample = samples.get(i);
@@ -512,7 +511,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                         }
                         activityEntries.add(createLineEntry(value, ts));
                 }
-                if (hr && sample.getKind() != ActivityKind.TYPE_NOT_WORN && HeartRateUtils.isValidHeartRateValue(sample.getHeartRate())) {
+                if (hr && sample.getKind() != ActivityKind.TYPE_NOT_WORN && heartRateUtilsInstance.isValidHeartRateValue(sample.getHeartRate())) {
                     if (lastHrSampleIndex > -1 && ts - lastHrSampleIndex > 1800*HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
                         heartrateEntries.add(createLineEntry(0, lastHrSampleIndex + 1));
                         heartrateEntries.add(createLineEntry(0, ts - 1));

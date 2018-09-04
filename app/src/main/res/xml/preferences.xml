@@ -101,6 +101,24 @@
                 android:maxLength="2"
                 android:title="@string/activity_prefs_sleep_duration" />
         </PreferenceScreen>
+        <PreferenceScreen
+            android:key="pref_charts"
+            android:title="@string/activity_prefs_charts">
+
+            <EditTextPreference
+                android:inputType="number"
+                android:key="chart_max_heart_rate"
+                android:maxLength="3"
+                android:defaultValue="250"
+                android:title="@string/activity_prefs_chart_max_heart_rate" />
+
+            <EditTextPreference
+                android:inputType="number"
+                android:key="chart_min_heart_rate"
+                android:maxLength="3"
+                android:defaultValue="10"
+                android:title="@string/activity_prefs_chart_min_heart_rate" />
+        </PreferenceScreen>
         <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="true"

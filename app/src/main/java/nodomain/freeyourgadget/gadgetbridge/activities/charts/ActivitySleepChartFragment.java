@@ -104,8 +104,8 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         yAxisRight.setDrawLabels(true);
         yAxisRight.setDrawTopYLabelEntry(true);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
-        yAxisRight.setAxisMaximum(HeartRateUtils.MAX_HEART_RATE_VALUE);
-        yAxisRight.setAxisMinimum(HeartRateUtils.MIN_HEART_RATE_VALUE);
+        yAxisRight.setAxisMaximum(HeartRateUtils.getInstance().getMaxHeartRate());
+        yAxisRight.setAxisMinimum(HeartRateUtils.getInstance().getMinHeartRate());
 
         // refresh immediately instead of use refreshIfVisible(), for perceived performance
         refresh();
