@@ -626,4 +626,10 @@
     <string name="preferences_fm_frequency">תדר FM</string>
     <string name="pref_invalid_frequency_title">תדר שגוי</string>
     <string name="pref_invalid_frequency_message">נא לבחור בתדר בין 87.5 לבין 108.0</string>
-</resources>
+<string name="notif_battery_low">הסוללה של %1$s חלשה</string>
+    <string name="notif_battery_low_extended">הסוללה של %1$s חלשה: %2$s</string>
+    <string name="activity_prefs_charts">הגדרות תרשימים</string>
+    <string name="activity_prefs_chart_max_heart_rate">דופק מרבי</string>
+    <string name="activity_prefs_chart_min_heart_rate">דופק מזערי</string>
+
+    </resources>
