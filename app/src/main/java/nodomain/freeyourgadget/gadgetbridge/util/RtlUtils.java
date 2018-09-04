@@ -2,7 +2,6 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +21,7 @@ public class RtlUtils {
         return GBApplication.getPrefs().getBoolean("rtl", false);
     }
 
-    enum characterType{
+    public enum characterType{
         ltr,
         rtl,
         rtl_arabic,
@@ -81,7 +80,7 @@ public class RtlUtils {
     /**
      * @return true if the char is in the rtl range, otherwise false
      */
-    static boolean isHebrew(Character c){
+    public static boolean isHebrew(Character c){
 
         return getCharacterType(c) == characterType.rtl;
     }
@@ -89,7 +88,7 @@ public class RtlUtils {
     /**
      * @return true if the char is in the rtl range, otherwise false
      */
-    static boolean isArabic(Character c){
+    public static boolean isArabic(Character c){
 
         return getCharacterType(c) == characterType.rtl_arabic;
     }
@@ -97,7 +96,7 @@ public class RtlUtils {
     /**
      * @return true if the char is in the rtl range, otherwise false
      */
-    static boolean isLtr(Character c){
+    public static boolean isLtr(Character c){
 
         return getCharacterType(c) == characterType.ltr;
     }
@@ -105,7 +104,7 @@ public class RtlUtils {
     /**
      * @return true if the char is in the rtl range, otherwise false
      */
-    static boolean isRtl(Character c){
+    public static boolean isRtl(Character c){
 
         return (getCharacterType(c) == characterType.rtl) || (getCharacterType(c) == characterType.rtl_arabic);
     }
@@ -113,7 +112,7 @@ public class RtlUtils {
     /**
      * @return true if the char is in the punctuations range, otherwise false
      */
-    static boolean isPunctuations(Character c){
+    public static boolean isPunctuations(Character c){
 
         return getCharacterType(c) == characterType.punctuation;
     }
@@ -122,7 +121,7 @@ public class RtlUtils {
     /**
      * @return true if the char is in the end of word list, otherwise false
      */
-    static boolean isSpaceSign(Character c){
+    public static boolean isSpaceSign(Character c){
 
         return getCharacterType(c) == characterType.space;
     }
@@ -130,7 +129,7 @@ public class RtlUtils {
     /**
      * @return true if the char is in the end of word list, otherwise false
      */
-    static boolean isEndLineSign(Character c){
+    public static boolean isEndLineSign(Character c){
 
         return getCharacterType(c) == characterType.lineEnd;
     }
@@ -284,14 +283,14 @@ public class RtlUtils {
             put((char)('ل' + 'ا'), '\uFEFC');
         }
     };
-    enum contextualState{
+    public enum contextualState{
         isolate,
         begin,
         middle,
         end
     }
 
-    private static boolean exceptionAfterLam(Character c){
+    public static boolean exceptionAfterLam(Character c){
         switch (c){
             case '\u0622':
             case '\u0623':
@@ -310,7 +309,7 @@ public class RtlUtils {
      * @param state - the character state: beginning, middle, end or isolated
      * @return the contextual character
      */
-    private static Character getContextualSymbol(Character c, contextualState state) {
+    public static Character getContextualSymbol(Character c, contextualState state) {
         Character newChar;
         switch (state){
             case begin:
@@ -341,7 +340,7 @@ public class RtlUtils {
      * @param nextChar - the next character or null if none
      * @return the current character contextual state
      */
-    private static contextualState getCharContextualState(contextualState prevState, Character curChar, Character nextChar) {
+    public static contextualState getCharContextualState(contextualState prevState, Character curChar, Character nextChar) {
         contextualState curState;
         if ((prevState == contextualState.isolate || prevState == contextualState.end) &&
                 contextualArabicBeginning.containsKey(curChar) &&
@@ -368,7 +367,7 @@ public class RtlUtils {
      * @param s - the given string
      * @return the contextual form of the string
      */
-    static String converToContextual(String s){
+    public static String convertToContextual(String s){
         if (s == null || s.isEmpty() || s.length() == 1){
             return s;
         }
@@ -417,7 +416,7 @@ public class RtlUtils {
      * @param s - the string to reverse
      * @return reversed string
      */
-    static String reverse(String s) {
+    public static String reverse(String s) {
         int j = s.length();
         int isEndLine = 0;
         char[] newWord = new char[j];
@@ -425,12 +424,6 @@ public class RtlUtils {
         if (j == 0) {
             return s;
         }
-
-        // remain end-of-word sign at the end
-//        if (isEndLineSign(s.charAt(s.length() - 1))){
-//            isEndLine = 1;
-//            newWord[--j] = s.charAt(s.length() - 1);
-//        }
 
         for (int i = 0; i < s.length() - isEndLine; i++) {
             if (directionSignsMap.containsKey(s.charAt(i))) {
@@ -443,7 +436,7 @@ public class RtlUtils {
         return new String(newWord);
     }
 
-    static String fixWhitespace(String s){
+    public static String fixWhitespace(String s){
         int length = s.length();
 
         if (length > 0 && isSpaceSign(s.charAt(length - 1))){
@@ -471,7 +464,7 @@ public class RtlUtils {
         String newString = "";
         List<String> lines = new ArrayList<>();
         char[] newWord = new char[length];
-        int line_max_size = GBApplication.getPrefs().getInt("rtl_max_line_length", 20);;
+        int line_max_size = GBApplication.getPrefs().getInt("rtl_max_line_length", 18);
 
         int startPos = 0;
         int endPos = 0;
@@ -528,7 +521,7 @@ public class RtlUtils {
                 Log.d("ROIGR", "phrase:   |" + phraseString + "|");
                 if (PhraseRtlType == characterType.rtl) {
                     if (contextualSupport()) {
-                        phraseString = converToContextual(phraseString);
+                        phraseString = convertToContextual(phraseString);
                     }
                     phraseString = reverse(phraseString);
                 }
