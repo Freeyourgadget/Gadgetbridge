@@ -114,4 +114,18 @@ public class DeviceCommunicationServiceTestCase extends TestBase {
 
         assertEquals("Transliteration support fail!", "Prosto tekct", result);
     }
+
+    @Test
+    public void testRtlSupport() {
+        SharedPreferences settings = GBApplication.getPrefs().getPreferences();
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("rtl", true);
+        editor.commit();
+
+        Intent intent = mDeviceService.createIntent().putExtra(EXTRA_NOTIFICATION_BODY, "English and עברית");
+        mDeviceService.invokeService(intent);
+        String result = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
+
+        assertEquals("Rtl support fail!", "תירבע English and", result);
+    }
 }

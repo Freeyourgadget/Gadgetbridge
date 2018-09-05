@@ -106,6 +106,11 @@
     <string name="pref_title_transliteration">Transliteration</string>
     <string name="pref_summary_transliteration">Enable this if your device has no support for your language\'s font</string>
 
+    <string name="pref_title_rtl">Right-To-Left</string>
+    <string name="pref_summary_rtl">Enable this if your device has no support in right-to-left languages</string>
+    <string name="pref_rtl_max_line_length">Right-To-Left Max Line Length</string>
+    <string name="pref_rtl_max_line_length_summary">When Right-To-Left is enable, the text is separated to lines. Change this value if the lines are to long/short.</string>
+
     <string name="always">Always</string>
     <string name="when_screen_off">When screen is off</string>
     <string name="never">Never</string>
@@ -641,6 +646,9 @@
     <string name="watch9_calibration_button">Calibrate</string>
     <string name="title_activity_watch9_pairing">Watch 9 pairing</string>
     <string name="title_activity_watch9_calibration">Watch 9 calibration</string>
+    <string name="pref_title_contextual_arabic">Contextual Arabic</string>
+    <string name="pref_summary_contextual_arabic">Enable this to support contextual Arabic</string>
+    <string name="preferences_rtl_settings">Right To Left Support</string>
     <string name="share_log">Share log</string>
     <string name="share_log_warning">Please keep in mind Gadgetbridge log files may contain lots of personal information, including but not limited to health data, unique identifiers (such as a device MAC address), music preferences, etc. Consider editing the file and removing this information before sending the file to a public issue report.</string>
     <string name="warning">Warning!</string>

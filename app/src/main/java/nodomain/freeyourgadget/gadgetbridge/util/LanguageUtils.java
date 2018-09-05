@@ -27,6 +27,7 @@ import java.util.Map;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class LanguageUtils {
+
     //transliteration map with english equivalent for unsupported chars
     private static Map<Character, String> transliterateMap = new HashMap<Character, String>(){
         {
