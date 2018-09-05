@@ -629,4 +629,10 @@
     <string name="pref_invalid_frequency_title">Недопустимая частота</string>
     <string name="pref_invalid_frequency_message">Выберите, пожалуйста, частоту в интервале 87.5—108</string>
     <string name="language_and_region_prefs">Язык и региональные настройки</string>
+    <string name="notif_battery_low">Аккумулятор %1$s почти разряжен</string>
+    <string name="notif_battery_low_extended">Аккумулятор %1$s почти разряжен: %2$s</string>
+    <string name="activity_prefs_charts">Настройки статистики активности</string>
+    <string name="activity_prefs_chart_max_heart_rate">Максимальный пульс</string>
+    <string name="activity_prefs_chart_min_heart_rate">Минимальный пульс</string>
+
 </resources>
