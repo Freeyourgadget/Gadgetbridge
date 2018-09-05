@@ -177,6 +177,13 @@ public class RtlUtils {
             put((char)('ل' + 'أ'), '\uFEF7');
             put((char)('ل' + 'إ'), '\uFEF9');
             put((char)('ل' + 'ا'), '\uFEFB');
+            //Farsi
+            put('گ', '\uFB92');
+            put('ک', '\uFB8E');
+            put('چ', '\uFB7A');
+            put('پ', '\uFB56');
+            put('ژ', '\uFB8A');
+            put('ی', '\uFBFC');
 
         }
     };
@@ -207,6 +214,12 @@ public class RtlUtils {
             put('ه', '\uFEEB');
             put('ي', '\uFEF3');
             put('ئ', '\uFE8B');
+            //Farsi
+            put('گ', '\uFB94');
+            put('ک', '\uFB90');
+            put('چ', '\uFB7C');
+            put('پ', '\uFB58');
+            put('ی', '\uFBFE');
         }
     };
 
@@ -236,6 +249,12 @@ public class RtlUtils {
             put('ه', '\uFEEC');
             put('ي', '\uFEF4');
             put('ئ', '\uFE8C');
+            //Farsi
+            put('گ', '\uFB95');
+            put('ک', '\uFB91');
+            put('چ', '\uFB7D');
+            put('پ', '\uFB59');
+            put('ی', '\uFBFF');
         }
     };
 
@@ -281,6 +300,13 @@ public class RtlUtils {
             put((char)('ل' + 'أ'), '\uFEF8');
             put((char)('ل' + 'إ'), '\uFEFA');
             put((char)('ل' + 'ا'), '\uFEFC');
+            //Farsi
+            put('گ', '\uFB93');
+            put('ک', '\uFB8F');
+            put('چ', '\uFB7B');
+            put('پ', '\uFB57');
+            put('ژ', '\uFB8B');
+            put('ی', '\uFBFD');
         }
     };
     public enum contextualState{
