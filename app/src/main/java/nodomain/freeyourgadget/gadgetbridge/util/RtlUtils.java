@@ -529,7 +529,7 @@ public class RtlUtils {
 
             do {
                 if ((line.length() + phrase.length() + word.length() < line_max_size) ||
-                        (phrase.length() == 0 && word.length() > line_max_size)) {
+                        (line.length() == 0 && word.length() > line_max_size)) {
                     if (isSpaceSign(c)) {
                         word.append(c);
                         addCharToWord = true;
