@@ -14,6 +14,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.test.TestBase;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_BODY;
 import static org.junit.Assert.assertEquals;
