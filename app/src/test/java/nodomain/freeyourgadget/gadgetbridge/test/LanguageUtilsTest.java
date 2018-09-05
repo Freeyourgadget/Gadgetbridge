@@ -51,8 +51,8 @@ public class LanguageUtilsTest extends TestBase {
         String hamzaActual = LanguageUtils.transliterate(hamza);
         assertEquals("hamza transliteration failed", hamzaExpected, hamzaActual);
 
-        String farsi = "پچڜڤڥڨگݣ";
-        String farsiExpected = "pchchvvggg";
+        String farsi = "گچپژ";
+        String farsiExpected = "gchpzh";
         String farsiActual = LanguageUtils.transliterate(farsi);
         assertEquals("Farsi transiteration failed", farsiExpected, farsiActual);
     }

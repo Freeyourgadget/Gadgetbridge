@@ -78,9 +78,9 @@ public class LanguageUtils {
             put('و', "w"); put('ي', "y"); put('ى', "a"); put('ﺓ', "");
             put('آ', "2"); put('ئ', "2"); put('إ', "2"); put('ؤ', "2"); put('أ', "2"); put('ء', "2");
 
-            // Farsi
-            put('پ', "p"); put('چ', "ch"); put('ڜ', "ch"); put('ڤ', "v"); put('ڥ', "v");
-            put('ڨ', "g"); put('گ', "g"); put('ݣ', "g");
+            // Persian(Farsi)
+            put('پ', "p"); put('چ', "ch"); put('ژ', "zh"); put('ک', "k"); put('گ', "g"); put('ی', "y");
+	    put('؟', "?"); put('٪', "%"); put('؛', ";"); put('،', ","); 
 
             // Polish
             put('Ł', "L"); put('ł', "l");
