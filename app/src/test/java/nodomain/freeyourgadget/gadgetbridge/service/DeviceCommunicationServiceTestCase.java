@@ -119,7 +119,7 @@ public class DeviceCommunicationServiceTestCase extends TestBase {
     public void testRtlSupport() {
         SharedPreferences settings = GBApplication.getPrefs().getPreferences();
         SharedPreferences.Editor editor = settings.edit();
-        editor.putBoolean("rtl", true);
+        editor.putBoolean(GBPrefs.RTL_SUPPORT, true);
         editor.commit();
 
         Intent intent = mDeviceService.createIntent().putExtra(EXTRA_NOTIFICATION_BODY, "English and עברית");

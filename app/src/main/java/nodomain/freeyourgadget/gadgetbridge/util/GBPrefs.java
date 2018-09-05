@@ -32,6 +32,8 @@ public class GBPrefs {
     private static final boolean AUTO_START_DEFAULT = true;
     private static final String BG_JS_ENABLED = "pebble_enable_background_javascript";
     private static final boolean BG_JS_ENABLED_DEFAULT = false;
+    public static final String RTL_SUPPORT = "rtl";
+    public static final String RTL_CONTEXTUAL_ARABIC = "contextualArabic";
     public static boolean AUTO_RECONNECT_DEFAULT = true;
 
     public static final String USER_NAME = "mi_user_alias";

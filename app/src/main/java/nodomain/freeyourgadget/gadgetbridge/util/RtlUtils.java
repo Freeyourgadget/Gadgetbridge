@@ -18,7 +18,7 @@ public class RtlUtils {
      */
     public static boolean rtlSupport()
     {
-        return GBApplication.getPrefs().getBoolean("rtl", false);
+        return GBApplication.getPrefs().getBoolean(GBPrefs.RTL_SUPPORT, false);
     }
 
     public enum characterType{
@@ -65,7 +65,7 @@ public class RtlUtils {
      */
     public static boolean contextualSupport()
     {
-        return GBApplication.getPrefs().getBoolean("contextualArabic", false);
+        return GBApplication.getPrefs().getBoolean(GBPrefs.RTL_CONTEXTUAL_ARABIC, false);
     }
 
     //map with brackets chars to change there direction
