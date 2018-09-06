@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Frank Slezak,
-    ivanovlev, JohnnySun, Julien Pivotto, Kasha, Steffen Liebergeld
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, dakhnod,
+    Frank Slezak, ivanovlev, JohnnySun, Julien Pivotto, Kasha, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 
@@ -65,12 +65,15 @@ public interface DeviceService extends EventHandler {
     String ACTION_SEND_CONFIGURATION = PREFIX + ".action.send_configuration";
     String ACTION_SEND_WEATHER = PREFIX + ".action.send_weather";
     String ACTION_TEST_NEW_FUNCTION = PREFIX + ".action.test_new_function";
+    String ACTION_SET_FM_FREQUENCY = PREFIX + ".action.set_fm_frequency";
+    String ACTION_SET_LED_COLOR = PREFIX + ".action.set_led_color";
     String EXTRA_NOTIFICATION_BODY = "notification_body";
     String EXTRA_NOTIFICATION_FLAGS = "notification_flags";
     String EXTRA_NOTIFICATION_ID = "notification_id";
     String EXTRA_NOTIFICATION_PHONENUMBER = "notification_phonenumber";
     String EXTRA_NOTIFICATION_SENDER = "notification_sender";
     String EXTRA_NOTIFICATION_SOURCENAME = "notification_sourcename";
+    String EXTRA_NOTIFICATION_SOURCEAPPID = "notification_sourceappid";
     String EXTRA_NOTIFICATION_SUBJECT = "notification_subject";
     String EXTRA_NOTIFICATION_TITLE = "notification_title";
     String EXTRA_NOTIFICATION_TYPE = "notification_type";
@@ -105,6 +108,8 @@ public interface DeviceService extends EventHandler {
     String EXTRA_INTERVAL_SECONDS = "interval_seconds";
     String EXTRA_WEATHER = "weather";
     String EXTRA_RECORDED_DATA_TYPES = "data_types";
+    String EXTRA_FM_FREQUENCY = "fm_frequency";
+    String EXTRA_LED_COLOR = "led_color";
 
     /**
      * Use EXTRA_REALTIME_SAMPLE instead

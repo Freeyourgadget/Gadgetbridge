@@ -20,6 +20,8 @@ import android.support.annotation.NonNull;
 
 public class StringUtils {
 
+
+
     @NonNull
     public static String truncate(String s, int maxLength){
         if (s == null) {

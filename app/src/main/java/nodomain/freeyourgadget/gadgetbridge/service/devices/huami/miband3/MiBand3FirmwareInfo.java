@@ -43,8 +43,22 @@ public class MiBand3FirmwareInfo extends HuamiFirmwareInfo {
 
     static {
         // firmware
+        crcToVersion.put(55852, "1.2.0.8");
+        crcToVersion.put(14899, "1.3.0.4");
+        crcToVersion.put(20651, "1.3.0.8");
+        crcToVersion.put(60781, "1.4.0.12");
+        crcToVersion.put(30045, "1.5.0.2");
+        crcToVersion.put(38254, "1.5.0.7");
+        crcToVersion.put(46985, "1.5.0.11");
 
         // resources
+        crcToVersion.put(54724, "1.2.0.8");
+        crcToVersion.put(52589, "1.3.0.4");
+        crcToVersion.put(34642, "1.3.0.8");
+        crcToVersion.put(25278, "1.4.0.12-1.5.0.11");
+
+        // font
+        crcToVersion.put(19775, "1");
     }
 
     public MiBand3FirmwareInfo(byte[] bytes) {
@@ -60,7 +74,7 @@ public class MiBand3FirmwareInfo extends HuamiFirmwareInfo {
             return HuamiFirmwareType.INVALID;
         }
         if (ArrayUtils.startsWith(bytes, RES_HEADER)) {
-            if (bytes.length > 100000) { // don't know how to distinguish from Bip/Cor .res
+            if (bytes.length > 150000) { // don't know how to distinguish from Bip/Cor .res
                 return HuamiFirmwareType.INVALID;
             }
             return HuamiFirmwareType.RES;

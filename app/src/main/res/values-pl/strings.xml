@@ -8,12 +8,12 @@
   <string name="controlcenter_fetch_activity_data">Synchronizuj</string>
   <string name="controlcenter_start_sleepmonitor">Monitor snu (ALPHA)</string>
   <string name="controlcenter_find_device">Odnajdź zagubione urządzenie</string>
-  <string name="controlcenter_take_screenshot">Zrób screena</string>
+  <string name="controlcenter_take_screenshot">Zrób zrzut ekranu</string>
   <string name="controlcenter_disconnect">Rozłącz</string>
   <string name="controlcenter_delete_device">Usuń urządzenie</string>
   <string name="controlcenter_delete_device_name">Usuń %1$s</string>
   <string name="controlcenter_delete_device_dialogmessage">Ta operacja usunie urządzenie oraz wszystkie zgromadzone dane!</string>
-  <string name="title_activity_debug">Debugger</string>
+  <string name="title_activity_debug">Debugowanie</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">Zarządzanie aplikacjami</string>
   <string name="appmanager_cached_watchapps_watchfaces">Aplikacje w pamięci</string>
@@ -22,7 +22,7 @@
   <string name="appmananger_app_delete">Usuń</string>
   <string name="appmananger_app_delete_cache">Odinstaluj i usuń z pamięci</string>
   <string name="appmananger_app_reinstall">Zainstaluj ponownie</string>
-  <string name="appmanager_app_openinstore">Szukaj w Pebble Appstore</string>
+  <string name="appmanager_app_openinstore">Szukaj w Pebble appstore</string>
   <string name="appmanager_health_activate">Aktywuj</string>
   <string name="appmanager_health_deactivate">Deaktywuj</string>
   <string name="appmanager_hrm_activate">Aktywuj HRM</string>
@@ -32,12 +32,12 @@
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Czarna lista powiadomień</string>
   <!--Strings related to FwAppInstaller-->
-  <string name="title_activity_fw_app_insaller">Instalator FW/Aplikacji</string>
-  <string name="fw_upgrade_notice">Masz zamiar zainstalować firmware %s zamiast aktualnie zainstalowanego na twoim Mi Band.</string>
+  <string name="title_activity_fw_app_insaller">Instalator oprogramowania i aplikacji</string>
+  <string name="fw_upgrade_notice">Zamierzasz zainstalować firmware %s zamiast aktualnie zainstalowanego na twoim Mi Band.</string>
   <string name="miband_firmware_known">Ten firmware został przetestowany i jest kompatybilny z Gadgetbridge.</string>
-  <string name="miband_firmware_unknown_warning">Ten firmware nie jest przetestowany i może być nie kompatybilny z Gadgetbridge.
-\n
-\n Nie zalecamy wgrywania na twój Mi Band!</string>
+  <string name="miband_firmware_unknown_warning">Ten firmware nie jest przetestowany i może być nie kompatybilny z Gadgetbridge. 
+\n 
+\nNie zalecamy wgrywania na twój Mi Band!</string>
   <string name="miband_firmware_suggest_whitelist">Jeśli nadal chcesz kontynuować i po instalacji wszystko działa prawidłowo, proszę powiadom programistów Gadgetbridge by dodali wersję firmware: %s do białej listy</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Ustawienia</string>
@@ -48,7 +48,7 @@
   <string name="pref_default">Domyślny</string>
   <string name="pref_header_datetime">Data i godzina</string>
   <string name="pref_title_datetime_syctimeonconnect">Synchronizuj czas</string>
-  <string name="pref_summary_datetime_syctimeonconnect">Synchronizuj czas urządzenia podczas połączenia gdy czas lub strefa czasowa zmienia się na Androidzie</string>
+  <string name="pref_summary_datetime_syctimeonconnect">Synchronizuj czas urządzenia podczas połączenia gdy czas lub strefa czasowa zmienia się na urządzeniu Android</string>
   <string name="pref_title_theme">Motyw</string>
   <string name="pref_theme_light">Jasny</string>
   <string name="pref_theme_dark">Ciemny</string>
@@ -59,15 +59,15 @@
   <string name="pref_title_notifications_sms">SMS</string>
   <string name="pref_title_notifications_pebblemsg">Wiadomości Pebble</string>
   <string name="pref_title_notifications_generic">Obsługa ogólnych powiadomień</string>
-  <string name="pref_title_whenscreenon">... także gdy ekran jest włączony</string>
-  <string name="pref_title_notification_filter">Nie przeszkadzaj</string>
+  <string name="pref_title_whenscreenon">...także gdy ekran jest włączony</string>
+  <string name="pref_title_notification_filter">Nie przeszkadzać</string>
   <string name="always">Zawsze</string>
   <string name="when_screen_off">Gdy ekran jest wyłączony</string>
   <string name="never">Nigdy</string>
   <string name="pref_blacklist">Czarna lista aplikacji</string>
   <string name="pref_header_cannned_messages">Wiadomości zwrotne</string>
   <string name="pref_title_canned_replies">Odpowiedzi</string>
-  <string name="pref_title_canned_messages_set">Uaktualnij na Pebble</string>
+  <string name="pref_title_canned_messages_set">Uaktualnij przez Pebble</string>
   <string name="pref_header_development">Ustawienia programisty</string>
   <string name="pref_title_development_miaddr">Adres Mi Band</string>
   <string name="pref_title_pebble_settings">Ustawienia Pebble</string>
@@ -79,9 +79,9 @@
   <string name="pref_title_enable_pebblekit">Zezwól zewnętrznym aplikacjom Android na dostęp</string>
   <string name="pref_summary_enable_pebblekit">Włącz eksperymentalną obsługę aplikacji Android przez PebbleKit</string>
   <string name="pref_title_sunrise_sunset">Wschód i zachód</string>
-  <string name="pref_summary_sunrise_sunset">Wyślij wschód i zachód do linii czasu Pebble bazując na lokalizacji</string>
+  <string name="pref_summary_sunrise_sunset">Wyślij czas wschodu i zachodu bazując na lokazliacji do ośi czasu Pebble</string>
   <string name="pref_header_location">Lokalizacja</string>
-  <string name="pref_title_location_aquire">Otrzymaj lokalizację</string>
+  <string name="pref_title_location_aquire">Uzyskaj lokalizację</string>
   <string name="pref_title_location_latitude">Szerokość</string>
   <string name="pref_title_location_longitude">Długość</string>
   <string name="pref_title_location_keep_uptodate">Utrzymuj aktualną lokalizację</string>
@@ -266,25 +266,25 @@
   <string name="title_activity_vibration">Wibracje</string>
   <!--Strings related to Pebble Pairing Activity-->
 <string name="action_donate">Wspomóż</string>
-    <string name="controlcenter_snackbar_need_longpress">Przytrzymaj aby usunąć</string>
+    <string name="controlcenter_snackbar_need_longpress">Przytrzymaj aby rozłączyć</string>
     <string name="controlcenter_snackbar_disconnecting">Rozłączanie</string>
     <string name="controlcenter_snackbar_connecting">Łączenie</string>
-    <string name="controlcenter_snackbar_requested_screenshot">Tworzenie zrzutu ekranowego z urządzenia</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Tworzenie zrzutu ekranu urządzenia</string>
 
 
     <string name="appmanager_weather_activate">Aktywuj systemową aplikację pogodową</string>
     <string name="appmanager_weather_deactivate">Dezaktywuj systemową aplikację pogodową</string>
-    <string name="appmanager_weather_install_provider">Zainstaluj aplikację pogodową z powiadomieniami</string>
+    <string name="appmanager_weather_install_provider">Zainstaluj powiadomienia pogodowe</string>
     <string name="title_activity_calblacklist">Czarna lista kalendarzy</string>
 
     <string name="pref_title_general_autostartonboot">Uruchom automatycznie</string>
     <string name="pref_title_minimize_priority">Ukryj powiadomienia z Gadgetbridge</string>
-    <string name="pref_summary_minimize_priority_off">Ikona na pasku stanu i powiadomienia na zablokowanym ekranie pokazują się</string>
+    <string name="pref_summary_minimize_priority_off">Ikona na pasku stanu i powiadomienia na zablokowanym ekranie wyświetlają się</string>
     <string name="pref_summary_minimize_priority_on">Ikona na pasku stanu i powiadomienia na zablokowanym ekranie są ukryte</string>
 
-    <string name="pref_summary_notification_filter">Wstrzymaj wysyłanie niechcianych powiadomień w trybie \"Nie przeszkadzać\"</string>
+    <string name="pref_summary_notification_filter">Niechciane powiadomienia są wyłączone w tym trybie</string>
     <string name="pref_title_transliteration">Transliteracja</string>
-    <string name="pref_summary_transliteration">Włącz tą opcję jeśli twoje urządzenie nie wspiera fontów w twoim języku</string>
+    <string name="pref_summary_transliteration">Włącz tą opcję jeśli twoje urządzenie nie wspiera czcionki w twoim języku</string>
 
     <string name="pref_header_privacy">Prywatność</string>
     <string name="pref_call_privacy_mode_off">Wyświetl nazwę i numer</string>
@@ -297,14 +297,14 @@
 
     <string name="pref_title_canned_reply_suffix">Wspólny sufiks</string>
     <string name="pref_title_enable_outgoing_call">Wspieraj rozmowy wychodzące</string>
-    <string name="pref_header_pebble_timeline">Pebble timeline</string>
+    <string name="pref_header_pebble_timeline">Oś czasu Pebble</string>
     <string name="pref_title_enable_calendar_sync">Synchronizuj kalendarz</string>
-    <string name="pref_summary_enable_calendar_sync">Wyślij zdarzenie z kalendarza do linii czasu</string>
+    <string name="pref_summary_enable_calendar_sync">Wyślij zdarzenie z kalendarza do ośi czasu</string>
 
     <string name="pref_title_autoremove_notifications">Automatycznie usuń odrzucone powiadomienia</string>
     <string name="pref_title_pebble_privacy_mode">Tryb prywatny</string>
     <string name="pref_pebble_privacy_mode_off">Normalne powiadomienia</string>
-    <string name="pref_pebble_privacy_mode_complete">Pokaż jedynie ikonę powiadomienia</string>
+    <string name="pref_pebble_privacy_mode_complete">Pokaż samą ikonę powiadomień</string>
 
     <string name="pref_title_pebble_enable_bgjs">Włącz JS w tle</string>
     <string name="pref_summary_pebble_enable_bgjs">Jeśli włączone, pozwala zegarkowi na wyświetlanie informacji o pogodzie, baterii itp.</string>
@@ -363,4 +363,49 @@
     <string name="activity_type_running">Bieg</string>
     <string name="activity_type_swimming">Pływanie</string>
     <string name="activity_type_treadmill">Bieżnia</string>
+    <string name="controlcenter_connect">Połącz</string>
+    <string name="controlcenter_navigation_drawer_open">Otwórz okno nawigacji</string>
+    <string name="controlcenter_navigation_drawer_close">Zamknij okno nawigacji</string>
+    <string name="controlcenter_calibrate_device">Kalibracja urządzenia</string>
+
+
+    <string name="blacklist_all_for_notifications">Czarna lista dla wszystkich powiadomień</string>
+    <string name="whitelist_all_for_notifications">Biała lista dla wszystkich powiadomień</string>
+
+
+    <string name="fw_upgrade_notice_amazfitbip">Zamierzasz zainstalować oprogramowanie %s na Twoim Amazfit Bip.
+\n
+\nUpewnij się aby zainstalować plik .fw, potem .res oraz .gps. Twój zegarek zresetuje się po instalacji pliku .fw.
+\n
+\nPodpowiedź: Nie instaluj plików .res i .gps jeśli są takie same jak poprzednio zainstalowane.
+\n
+\nROBISZ TO NA WŁASNE RYZYKO!</string>
+    <string name="fw_upgrade_notice_amazfitcor">Zamierzasz zainstalować oprogramowanie %s na Twoim Amazfit Cor.
+\n
+\nUpewnij się aby zainstalować plik .fw oraz .res. Twój zegarek zresetuje się po instalacji pliku .fw.
+\n
+\nPodpowiedź: Nie instaluj pliku .res jeśli jest taki sam jak poprzednio zainstalowany.
+\n
+\nROBISZ TO NA WŁASNE RYZYKO!</string>
+    <string name="fw_upgrade_notice_miband3">Zamierzasz zainstalować oprogramowanie %s na Twoim Mi Band 3.
+\n
+\nUpewnij się aby zainstalować plik .fw oraz .res. Twój zegarek zresetuje się po instalacji pliku .fw
+\n
+\nPodpowiedź: Nie instaluj plików .res jeśli jest taki sam jak poprzednio zainstalowany.
+\n
+\nROBISZ TO NA WŁASNE RYZYKO!</string>
+    <string name="fw_multi_upgrade_notice">Zamierzasz zainstalować oprogramowanie %1$s oraz %2$s, na miejsce obecnie zainstalowanego na Twoim Mi Band.</string>
+    <string name="pref_title_charts_swipe">Włącz gesty lewo/prawo w wykresie aktywności</string>
+
+    <string name="pref_title_notifications_timeout">Minimalny czas pomiędzy powiadomieniami</string>
+    <string name="pref_title_call_privacy_mode">Włącz tryb prywatny</string>
+    <string name="pref_title_weather_location">Lokalizacja pogody</string>
+
+    <string name="pref_summary_enable_outgoing_call">Wyłączenie tej opcji zatrzyma również Pebble 2/LE w wibracjach połączeń wychodzących</string>
+
+    <string name="pref_summary_autoremove_notifications">Powiadomienia są automatycznie usuwane z Pebble po usunięciu ich z urządzenia Android</string>
+
+    <string name="pref_pebble_privacy_mode_content">Przesuń tekst powiadomienia poza ekran</string>
+    <string name="pref_summary_location_keep_uptodate">Spróbuj uzyskać obecną lokalizację podczas biegu, używaj zapisanej lokalizacji jako rezerwowej</string>
+
     </resources>

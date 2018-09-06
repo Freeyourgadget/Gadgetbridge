@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Lem Dulfo
+    Gobbetti, José Rebelo, Lem Dulfo, maxirnilian
 
     This file is part of Gadgetbridge.
 
@@ -22,16 +22,19 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -40,7 +43,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jaredrummler.android.colorpicker.ColorPickerDialog;
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
+
 import java.util.List;
+import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -50,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.VibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
+import nodomain.freeyourgadget.gadgetbridge.devices.watch9.Watch9CalibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
@@ -108,9 +116,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                 return true;
             }
         });
-        holder.deviceImageView.setImageResource(R.drawable.level_list_device);
-        //level-list does not allow negative values, hence we always add 100 to the key.
-        holder.deviceImageView.setImageLevel(device.getType().getKey() + 100 + (device.isInitialized() ? 100 : 0));
+        holder.deviceImageView.setImageResource(device.isInitialized() ? device.getType().getIcon() : device.getType().getDisabledIcon());
 
         holder.deviceNameLabel.setText(getUniqueDeviceName(device));
 
@@ -126,16 +132,22 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         //battery
         holder.batteryStatusBox.setVisibility(View.GONE);
         short batteryLevel = device.getBatteryLevel();
+        float batteryVoltage = device.getBatteryVoltage();
+        BatteryState batteryState = device.getBatteryState();
+
         if (batteryLevel != GBDevice.BATTERY_UNKNOWN) {
             holder.batteryStatusBox.setVisibility(View.VISIBLE);
             holder.batteryStatusLabel.setText(device.getBatteryLevel() + "%");
-            BatteryState batteryState = device.getBatteryState();
             if (BatteryState.BATTERY_CHARGING.equals(batteryState) ||
                     BatteryState.BATTERY_CHARGING_FULL.equals(batteryState)) {
                 holder.batteryIcon.setImageLevel(device.getBatteryLevel() + 100);
             } else {
                 holder.batteryIcon.setImageLevel(device.getBatteryLevel());
             }
+        } else if (BatteryState.NO_BATTERY.equals(batteryState) && batteryVoltage != GBDevice.BATTERY_UNKNOWN) {
+            holder.batteryStatusBox.setVisibility(View.VISIBLE);
+            holder.batteryStatusLabel.setText(String.format(Locale.getDefault(), "%.1fV", batteryVoltage));
+            holder.batteryIcon.setImageLevel(200);
         }
 
         //fetch activity data
@@ -249,7 +261,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
 
         );
 
-        holder.findDevice.setVisibility(device.isInitialized() ? View.VISIBLE : View.GONE);
+        holder.findDevice.setVisibility(device.isInitialized() && coordinator.supportsFindDevice() ? View.VISIBLE : View.GONE);
         holder.findDevice.setOnClickListener(new View.OnClickListener()
 
                                              {
@@ -291,6 +303,111 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                              }
 
         );
+
+        holder.calibrateDevice.setVisibility(device.isInitialized() && device.getType() == DeviceType.WATCH9 ? View.VISIBLE : View.GONE);
+        holder.calibrateDevice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = new Intent(context, Watch9CalibrationActivity.class);
+                startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                context.startActivity(startIntent);
+            }
+        });
+
+        holder.fmFrequencyBox.setVisibility(View.GONE);
+        if (device.isInitialized() && device.getExtraInfo("fm_frequency") != null) {
+            holder.fmFrequencyBox.setVisibility(View.VISIBLE);
+            holder.fmFrequencyLabel.setText(String.format(Locale.getDefault(), "%.1f", (float) device.getExtraInfo("fm_frequency")));
+        }
+        final TextView fmFrequencyLabel = holder.fmFrequencyLabel;
+        holder.fmFrequencyBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(R.string.preferences_fm_frequency);
+
+                final EditText input = new EditText(context);
+
+                input.setSelection(input.getText().length());
+                input.setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                input.setText(String.format(Locale.getDefault(), "%.1f", (float) device.getExtraInfo("fm_frequency")));
+                builder.setView(input);
+
+                builder.setPositiveButton(context.getResources().getString(android.R.string.ok),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                float frequency = Float.valueOf(input.getText().toString());
+                                // Trim to 1 decimal place, discard the rest
+                                frequency = Float.valueOf(String.format(Locale.getDefault(), "%.1f", frequency));
+                                if (frequency < 87.5 || frequency > 108.0) {
+                                    new AlertDialog.Builder(context)
+                                            .setTitle(R.string.pref_invalid_frequency_title)
+                                            .setMessage(R.string.pref_invalid_frequency_message)
+                                            .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                }
+                                            })
+                                            .show();
+                                } else {
+                                    device.setExtraInfo("fm_frequency", frequency);
+                                    fmFrequencyLabel.setText(String.format(Locale.getDefault(), "%.1f", (float) device.getExtraInfo("fm_frequency")));
+                                    GBApplication.deviceService().onSetFmFrequency(frequency);
+                                }
+                            }
+                        });
+                builder.setNegativeButton(context.getResources().getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+        });
+
+        holder.ledColor.setVisibility(View.GONE);
+        if (device.isInitialized() && device.getExtraInfo("led_color") != null && coordinator.supportsLedColor()) {
+            holder.ledColor.setVisibility(View.VISIBLE);
+            final GradientDrawable ledColor = (GradientDrawable) holder.ledColor.getDrawable().mutate();
+            ledColor.setColor((int) device.getExtraInfo("led_color"));
+            holder.ledColor.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ColorPickerDialog.Builder builder = ColorPickerDialog.newBuilder();
+                    builder.setDialogTitle(R.string.preferences_led_color);
+
+                    builder.setColor((int) device.getExtraInfo("led_color"));
+                    if (coordinator.supportsRgbLedColor()) {
+                        builder.setAllowCustom(true);
+                        builder.setShowAlphaSlider(false);
+                        builder.setAllowPresets(true);
+                    } else {
+                        builder.setAllowCustom(false);
+                        builder.setAllowPresets(true);
+                        builder.setShowColorShades(false);
+                        builder.setPresets(coordinator.getColorPresets());
+                    }
+
+                    ColorPickerDialog dialog = builder.create();
+                    dialog.setColorPickerDialogListener(new ColorPickerDialogListener() {
+                        @Override
+                        public void onColorSelected(int dialogId, int color) {
+                            ledColor.setColor(color);
+                            device.setExtraInfo("led_color", color);
+                            GBApplication.deviceService().onSetLedColor(color);
+                        }
+
+                        @Override
+                        public void onDialogDismissed(int dialogId) {
+                            // Nothing to do
+                        }
+                    });
+                    dialog.show(((Activity) context).getFragmentManager(), "color-picker-dialog");
+                }
+            });
+        }
 
         //remove device, hidden under details
         holder.removeDevice.setOnClickListener(new View.OnClickListener()
@@ -356,6 +473,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         ImageView setAlarmsView;
         ImageView showActivityGraphs;
         ImageView showActivityTracks;
+        ImageView calibrateDevice;
 
         ImageView deviceInfoView;
         //overflow
@@ -363,6 +481,9 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         ListView deviceInfoList;
         ImageView findDevice;
         ImageView removeDevice;
+        LinearLayout fmFrequencyBox;
+        TextView fmFrequencyLabel;
+        ImageView ledColor;
 
         ViewHolder(View view) {
             super(view);
@@ -385,12 +506,16 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             showActivityGraphs = view.findViewById(R.id.device_action_show_activity_graphs);
             showActivityTracks = view.findViewById(R.id.device_action_show_activity_tracks);
             deviceInfoView = view.findViewById(R.id.device_info_image);
+            calibrateDevice = view.findViewById(R.id.device_action_calibrate);
 
             deviceInfoBox = view.findViewById(R.id.device_item_infos_box);
             //overflow
             deviceInfoList = view.findViewById(R.id.device_item_infos);
             findDevice = view.findViewById(R.id.device_action_find);
             removeDevice = view.findViewById(R.id.device_action_remove);
+            fmFrequencyBox = view.findViewById(R.id.device_fm_frequency_box);
+            fmFrequencyLabel = view.findViewById(R.id.fm_frequency);
+            ledColor = view.findViewById(R.id.device_led_color);
         }
 
     }

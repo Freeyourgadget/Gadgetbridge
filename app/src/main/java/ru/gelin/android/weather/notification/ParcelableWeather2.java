@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Daniele Gobbetti, Taavi Eomäe
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -124,7 +125,7 @@ public class ParcelableWeather2 implements Parcelable {
             } catch (JSONException e) {
                 LOG.error("error while construction JSON", e);
             }
-            LOG.debug("Forecast JSON for Webview: " + reconstructedOWMForecast.toString());
+            LOG.debug("Forecast JSON for Webview: " + reconstructedOWMForecast);
         }
     }
 

@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Christian
-    Fischer, Daniele Gobbetti, Szymon Tomasz Stefanek
+    Fischer, Daniele Gobbetti, José Rebelo, Szymon Tomasz Stefanek
 
     This file is part of Gadgetbridge.
 
@@ -174,6 +174,11 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsWeather() {
         return false;
+    }
+
+    @Override
+    public boolean supportsFindDevice() {
+        return true;
     }
 
     public static boolean hasValidUserInfo() {

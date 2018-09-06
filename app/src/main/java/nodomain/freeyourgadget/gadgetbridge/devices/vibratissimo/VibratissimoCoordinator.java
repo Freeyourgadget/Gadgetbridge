@@ -1,5 +1,5 @@
 /*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+    Gobbetti, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -123,6 +123,11 @@ public class VibratissimoCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsWeather() {
         return false;
+    }
+
+    @Override
+    public boolean supportsFindDevice() {
+        return true;
     }
 
     @Override

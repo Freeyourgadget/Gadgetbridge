@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, JohnnySun, Uwe Hermann
+    Gobbetti, JohnnySun, José Rebelo, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -242,4 +242,33 @@ public interface DeviceCoordinator {
      * forecast display.
      */
     boolean supportsWeather();
+
+    /**
+     * Indicates whether the device supports being found by vibrating, 
+     * making some sound or lighting up
+     */
+    boolean supportsFindDevice();
+
+    /**
+     * Indicates whether the device supports displaying music information
+     * like artist, title, album, play state etc.
+     */
+    boolean supportsMusicInfo();
+
+    /**
+     * Indicates whether the device has an led which supports custom colors
+     */
+    boolean supportsLedColor();
+
+    /**
+     * Indicates whether the device's led supports any RGB color,
+     * or only preset colors
+     */
+    boolean supportsRgbLedColor();
+
+    /**
+     * Returns the preset colors supported by the device, if any, in ARGB, with alpha = 255
+     */
+    @NonNull
+    int[] getColorPresets();
 }

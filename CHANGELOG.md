@@ -1,9 +1,51 @@
 ### Changelog
 
-#### Version 0.28.0 (WIP)
-* Inital support for ZeTime: time,weather and activity data sync, notification support and music playback control is working
+#### Version 0.29.1
+* Mi Band 3: Support setting language to to German, Italian, French, Polish, Japanese, Korean (read wiki)
+* Mi Band 3: Support flashing latest RES files
+* Mi Band 3: Fix notification text not being displayed
+* Mi Band 3/Cor/Bip: Display app name when no app specific icon is available
+* Teclast: add/improve H1 and H3 watch recognition
+* Support transliteration for Lithuanian and Bengali
+* Fix BLE reconnect issues in certain conditions
+* Various fixes for display issues on small screens
+* Fix some potential NPEs
+* WIP: Display start and end of sleep in statistics
+
+#### Version 0.29.0
+* New Device: Initial support for ID115
+* New Device: Initial support for Lenovo Watch9
+* Show splash screen during startup
+* Vertically align device icon in main activity
+* Try to support the google clock application (untested)
+* Amazfit Cor: Allow to configure displayed menu items
+* Amazfit Cor: Support basic music control
+* Amazfit Cor: Fix flashing font files
+* Amazfit Bip: improved GPX export
+* Amazfit Bip: Fix exported GPX file names for *FAT storage
+* Amazfit Bip: Fix current weather not being displayed with later firmwares
+* Amazfit Bip/Cor: Try to fix device being sometimes stuck in connecting state
+* Mi Band 2: Put some device specific settings into its own settings category
+* Mi Band 3: Support disabling of on-device menu items
+* Mi Band 3: Support locking the Mi Band sceen (swipe up to unlock)
+* Mi Band 2/3: New icon
+* NO1 F1: Set time during initialization
+
+#### Version 0.28.1
+* Fix wrong weather icon mapping in rare cases
+* Fix device discovery on Android 4.4
+* Amazfit Bip: Use UTC in gpx tracks for better compatibility with external software
+* Amazfit Bip: Add the (localized) activity type to the gpx filename
+* Amazfit Bip: Fix weather on latest firmwares
+
+#### Version 0.28.0
+* Initial support for ZeTime: time, weather and activity data sync, notification support and music playback control is working
 * Amazfit Bip/Cor: Rework firmware detection to cope with new version scheme
+* Amazfit Bip: Support setting language to Russian
+* Amazfit Cor: Support language switching on newer firmwares
 * Mi Band 3: support setting language (english and spanish tested)
+* Mi Band 3: Fix pairing
+* Mi Band 3: Send AQI to enable display of current temperature
 
 #### Version 0.27.1
 * Pebble: Change appstore search to point to RomanPort's pebble appstore

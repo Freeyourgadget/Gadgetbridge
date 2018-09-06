@@ -109,34 +109,6 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
             }
         });
 
-        final Preference setDateFormat = findPreference(PREF_MI2_DATEFORMAT);
-        setDateFormat.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DATEFORMAT);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference displayPages = findPreference(PREF_MI2_DISPLAY_ITEMS);
-        displayPages.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DISPLAY_ITEMS);
-                    }
-                });
-                return true;
-            }
-        });
-
         final Preference activateDisplayOnLift = findPreference(PREF_ACTIVATE_DISPLAY_ON_LIFT);
         activateDisplayOnLift.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -440,7 +412,6 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
         prefKeys.add(ActivityUser.PREF_USER_STEPS_GOAL);
         prefKeys.add(PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR);
         prefKeys.add(PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS);
-        prefKeys.add(PREF_MI2_ENABLE_TEXT_NOTIFICATIONS);
         prefKeys.add(PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD);
         prefKeys.add(getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_ALARM_CLOCK));
         prefKeys.add(getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_INCOMING_CALL));

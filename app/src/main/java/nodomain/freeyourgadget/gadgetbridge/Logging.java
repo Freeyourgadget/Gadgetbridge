@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Carsten Pfeiffer, Daniele Gobbetti
+/*  Copyright (C) 2016-2018 Carsten Pfeiffer, Daniele Gobbetti, Pavel Elagin
 
     This file is part of Gadgetbridge.
 
@@ -52,6 +52,13 @@ public abstract class Logging {
             Log.e("GBApplication", "External files dir not available, cannot log to file", ex);
             stopFileLogger();
         }
+    }
+
+    public String getLogPath() {
+        if (fileLogger != null)
+            return fileLogger.getFile();
+        else
+            return null;
     }
 
     public void debugLoggingConfiguration() {

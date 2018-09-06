@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Taavi Eomäe
+    Gobbetti, Sebastian Kranz, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -52,7 +52,9 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFmFrequency;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventLEDColor;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
@@ -159,6 +161,10 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             handleGBDeviceEvent((GBDeviceEventBatteryInfo) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventFindPhone) {
             handleGBDeviceEvent((GBDeviceEventFindPhone) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventLEDColor) {
+            handleGBDeviceEvent((GBDeviceEventLEDColor) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventFmFrequency) {
+            handleGBDeviceEvent((GBDeviceEventFmFrequency) deviceEvent);
         }
     }
 
@@ -199,12 +205,32 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
 
     protected void handleGBDeviceEvent(GBDeviceEventVersionInfo infoEvent) {
         Context context = getContext();
-        LOG.info("Got event for VERSION_INFO");
+        LOG.info("Got event for VERSION_INFO: " + infoEvent);
         if (gbDevice == null) {
             return;
         }
         gbDevice.setFirmwareVersion(infoEvent.fwVersion);
         gbDevice.setModel(infoEvent.hwVersion);
+        gbDevice.sendDeviceUpdateIntent(context);
+    }
+
+    protected void handleGBDeviceEvent(GBDeviceEventLEDColor colorEvent) {
+        Context context = getContext();
+        LOG.info("Got event for LED Color");
+        if (gbDevice == null) {
+            return;
+        }
+        gbDevice.setExtraInfo("led_color", colorEvent.color);
+        gbDevice.sendDeviceUpdateIntent(context);
+    }
+
+    protected void handleGBDeviceEvent(GBDeviceEventFmFrequency frequencyEvent) {
+        Context context = getContext();
+        LOG.info("Got event for FM Frequency");
+        if (gbDevice == null) {
+            return;
+        }
+        gbDevice.setExtraInfo("fm_frequency", frequencyEvent.frequency);
         gbDevice.sendDeviceUpdateIntent(context);
     }
 
@@ -328,21 +354,37 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         LOG.info("Got BATTERY_INFO device event");
         gbDevice.setBatteryLevel(deviceEvent.level);
         gbDevice.setBatteryState(deviceEvent.state);
+        gbDevice.setBatteryVoltage(deviceEvent.voltage);
 
-        //show the notification if the battery level is below threshold and only if not connected to charger
-        if (deviceEvent.level <= gbDevice.getBatteryThresholdPercent() &&
-                (BatteryState.BATTERY_LOW.equals(deviceEvent.state) ||
-                        BatteryState.BATTERY_NORMAL.equals(deviceEvent.state))
-                ) {
-            GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), String.valueOf(deviceEvent.level)),
-                    deviceEvent.extendedInfoAvailable() ?
-                            context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), String.valueOf(deviceEvent.level)) + "\n" +
-                                    context.getString(R.string.notif_battery_low_bigtext_last_charge_time, DateFormat.getDateTimeInstance().format(deviceEvent.lastChargeTime.getTime())) +
-                                    context.getString(R.string.notif_battery_low_bigtext_number_of_charges, String.valueOf(deviceEvent.numCharges))
-                            : ""
-                    , context);
+        if (deviceEvent.level == GBDevice.BATTERY_UNKNOWN) {
+            // no level available, just "high" or "low"
+            if (BatteryState.BATTERY_LOW.equals(deviceEvent.state)) {
+                GB.updateBatteryNotification(context.getString(R.string.notif_battery_low, gbDevice.getName()),
+                        deviceEvent.extendedInfoAvailable() ?
+                                context.getString(R.string.notif_battery_low_extended, gbDevice.getName(),
+                                        context.getString(R.string.notif_battery_low_bigtext_last_charge_time, DateFormat.getDateTimeInstance().format(deviceEvent.lastChargeTime.getTime())) +
+                                        context.getString(R.string.notif_battery_low_bigtext_number_of_charges, String.valueOf(deviceEvent.numCharges)))
+                                : ""
+                        , context);
+            } else {
+                GB.removeBatteryNotification(context);
+            }
         } else {
-            GB.removeBatteryNotification(context);
+            //show the notification if the battery level is below threshold and only if not connected to charger
+            if (deviceEvent.level <= gbDevice.getBatteryThresholdPercent() &&
+                    (BatteryState.BATTERY_LOW.equals(deviceEvent.state) ||
+                            BatteryState.BATTERY_NORMAL.equals(deviceEvent.state))
+                    ) {
+                GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), String.valueOf(deviceEvent.level)),
+                        deviceEvent.extendedInfoAvailable() ?
+                                context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), String.valueOf(deviceEvent.level)) + "\n" +
+                                        context.getString(R.string.notif_battery_low_bigtext_last_charge_time, DateFormat.getDateTimeInstance().format(deviceEvent.lastChargeTime.getTime())) +
+                                        context.getString(R.string.notif_battery_low_bigtext_number_of_charges, String.valueOf(deviceEvent.numCharges))
+                                : ""
+                        , context);
+            } else {
+                GB.removeBatteryNotification(context);
+            }
         }
 
         gbDevice.sendDeviceUpdateIntent(context);

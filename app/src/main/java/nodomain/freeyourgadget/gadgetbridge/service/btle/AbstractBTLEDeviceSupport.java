@@ -318,4 +318,14 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
             profile.onReadRemoteRssi(gatt, rssi, status);
         }
     }
+
+    @Override
+    public void onSetFmFrequency(float frequency) {
+
+    }
+
+    @Override
+    public void onSetLedColor(int color) {
+
+    }
 }

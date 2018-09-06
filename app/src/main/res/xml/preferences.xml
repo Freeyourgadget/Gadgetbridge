@@ -4,14 +4,17 @@
         android:key="pref_key_general"
         android:title="@string/pref_header_general">
         <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
             android:defaultValue="true"
             android:key="general_autostartonboot"
             android:title="@string/pref_title_general_autostartonboot" />
         <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
             android:key="general_autoconnectonbluetooth"
             android:title="@string/pref_title_general_autoconnectonbluetooth" />
         <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
             android:key="general_autocreconnect"
             android:title="@string/pref_title_general_autoreconnect" />
@@ -47,6 +50,7 @@
                 android:title="@string/pref_title_weather_location" />
         </PreferenceScreen>
         <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
             android:key="minimize_priority"
             android:summaryOff="@string/pref_summary_minimize_priority_off"
@@ -97,7 +101,26 @@
                 android:maxLength="2"
                 android:title="@string/activity_prefs_sleep_duration" />
         </PreferenceScreen>
+        <PreferenceScreen
+            android:key="pref_charts"
+            android:title="@string/activity_prefs_charts">
+
+            <EditTextPreference
+                android:inputType="number"
+                android:key="chart_max_heart_rate"
+                android:maxLength="3"
+                android:defaultValue="250"
+                android:title="@string/activity_prefs_chart_max_heart_rate" />
+
+            <EditTextPreference
+                android:inputType="number"
+                android:key="chart_min_heart_rate"
+                android:maxLength="3"
+                android:defaultValue="10"
+                android:title="@string/activity_prefs_chart_min_heart_rate" />
+        </PreferenceScreen>
         <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
             android:defaultValue="true"
             android:key="charts_allow_swipe"
             android:title="@string/pref_title_charts_swipe" />
@@ -106,6 +129,7 @@
         android:key="pref_key_datetime"
         android:title="@string/pref_header_datetime">
         <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
             android:defaultValue="true"
             android:key="datetime_synconconnect"
             android:summary="@string/pref_summary_datetime_syctimeonconnect"
@@ -144,18 +168,54 @@
             android:title="@string/pref_title_notifications_generic" />
 
         <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
             android:key="notifications_generic_whenscreenon"
             android:title="@string/pref_title_whenscreenon" />
 
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/notifications_timeout"
+            android:entryValues="@array/notifications_timeout_values"
+            android:key="notifications_timeout"
+            android:title="@string/pref_title_notifications_timeout"
+            android:summary="%s" />
+
         <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
             android:key="transliteration"
             android:summary="@string/pref_summary_transliteration"
             android:title="@string/pref_title_transliteration"
             />
+        <PreferenceScreen
+        android:title="@string/preferences_rtl_settings">
+            <CheckBoxPreference
+                android:layout="@layout/preference_checkbox"
+                android:defaultValue="false"
+                android:key="rtl"
+                android:summary="@string/pref_summary_rtl"
+                android:title="@string/pref_title_rtl"
+                />
 
+            <CheckBoxPreference
+                android:layout="@layout/preference_checkbox"
+                android:defaultValue="false"
+                android:key="contextualArabic"
+                android:summary="@string/pref_summary_contextual_arabic"
+                android:title="@string/pref_title_contextual_arabic"
+                />
+
+            <EditTextPreference
+                android:inputType="number"
+                android:key="rtl_max_line_length"
+                android:defaultValue="20"
+                android:maxLength="159"
+                android:title="@string/pref_rtl_max_line_length"
+                android:summary="@string/pref_rtl_max_line_length_summary"/>
+        </PreferenceScreen>
         <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
             android:key="notification_filter"
             android:summary="@string/pref_summary_notification_filter"
@@ -184,6 +244,85 @@
             android:key="pref_key_miband"
             android:title="@string/preferences_miband_settings" />
         <PreferenceScreen
+            android:icon="@drawable/ic_device_miband2"
+            android:title="@string/preferences_miband2_settings">
+            <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
+                android:defaultValue="true"
+                android:key="mi2_enable_text_notifications"
+                android:summaryOn="@string/mi2_enable_text_notifications_summary"
+                android:summaryOff="@string/off"
+                android:title="@string/mi2_enable_text_notifications" />
+            <ListPreference
+                android:defaultValue="@string/p_dateformat_time"
+                android:entries="@array/mi2_dateformats"
+                android:entryValues="@array/mi2_dateformats_values"
+                android:key="mi2_dateformat"
+                android:title="@string/miband2_prefs_dateformat"
+                android:summary="%s" />
+            <MultiSelectListPreference
+                android:dialogTitle="@string/mi2_prefs_display_items"
+                android:defaultValue="@array/pref_mi2_display_items_default"
+                android:entries="@array/pref_mi2_display_items"
+                android:entryValues="@array/pref_mi2_display_items_values"
+                android:key="mi2_display_items"
+                android:summary="@string/mi2_prefs_display_items_summary"
+                android:title="@string/mi2_prefs_display_items"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:icon="@drawable/ic_device_miband2"
+            android:title="@string/preferences_miband3_settings">
+            <ListPreference
+                android:defaultValue="auto"
+                android:entries="@array/pref_miband3_language"
+                android:entryValues="@array/pref_miband3_language_values"
+                android:key="miband3_language"
+                android:summary="%s"
+                android:title="@string/pref_title_language" />
+            <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
+                android:defaultValue="false"
+                android:key="mi3_band_screen_unlock"
+                android:summary="@string/mi3_prefs_band_screen_unlock_summary"
+                android:title="@string/mi3_prefs_band_screen_unlock" />
+            <MultiSelectListPreference
+                android:dialogTitle="@string/mi2_prefs_display_items"
+                android:defaultValue="@array/pref_miband3_display_items_default"
+                android:entries="@array/pref_miband3_display_items"
+                android:entryValues="@array/pref_miband3_display_items_values"
+                android:key="miband3_display_items"
+                android:summary="@string/mi2_prefs_display_items_summary"
+                android:title="@string/mi2_prefs_display_items"/>
+            <PreferenceScreen
+                android:persistent="false"
+                android:title="@string/mi3_prefs_night_mode"
+                android:summary="@string/mi3_prefs_night_mode_summary">
+
+                <!-- workaround for missing toolbar -->
+                <PreferenceCategory android:title="@string/mi3_prefs_night_mode" />
+
+                <ListPreference
+                    android:defaultValue="@string/p_off"
+                    android:entries="@array/mi3_night_mode"
+                    android:entryValues="@array/mi3_night_mode_values"
+                    android:key="mi3_night_mode"
+                    android:summary="%s"
+                    android:title="@string/mi3_prefs_night_mode" />
+
+                <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
+                    android:defaultValue="16:00"
+                    android:key="mi3_night_mode_start"
+                    android:title="@string/mi2_prefs_do_not_disturb_start" />
+
+                <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
+                    android:defaultValue="7:00"
+                    android:key="mi3_night_mode_end"
+                    android:title="@string/mi2_prefs_do_not_disturb_end" />
+
+            </PreferenceScreen>
+        </PreferenceScreen>
+        <PreferenceScreen
             android:icon="@drawable/ic_device_hplus"
             android:title="@string/preferences_amazfitbip_settings">
             <ListPreference
@@ -203,17 +342,31 @@
                 android:title="@string/mi2_prefs_display_items"/>
         </PreferenceScreen>
         <PreferenceScreen
+            android:icon="@drawable/ic_device_miband"
+            android:title="@string/preferences_amazfitcor_settings">
+            <MultiSelectListPreference
+                android:dialogTitle="@string/mi2_prefs_display_items"
+                android:defaultValue="@array/pref_cor_display_items_default"
+                android:entries="@array/pref_cor_display_items"
+                android:entryValues="@array/pref_cor_display_items_values"
+                android:key="cor_display_items"
+                android:summary="@string/mi2_prefs_display_items_summary"
+                android:title="@string/mi2_prefs_display_items"/>
+        </PreferenceScreen>
+        <PreferenceScreen
             android:icon="@drawable/ic_device_pebble"
             android:key="pref_key_pebble"
             android:title="@string/pref_title_pebble_settings">
             <PreferenceCategory
                 android:title="@string/pref_header_general">
                 <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
                     android:defaultValue="true"
                     android:key="pebble_enable_outgoing_call"
                     android:summary="@string/pref_summary_enable_outgoing_call"
                     android:title="@string/pref_title_enable_outgoing_call" />
                 <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
                     android:defaultValue="false"
                     android:key="pebble_enable_pebblekit"
                     android:summary="@string/pref_summary_enable_pebblekit"
@@ -225,6 +378,7 @@
                     android:maxLength="4"
                     android:title="@string/pref_title_pebble_reconnect_attempts" />
                 <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
                     android:defaultValue="false"
                     android:key="autoremove_notifications"
                     android:summary="@string/pref_summary_autoremove_notifications"
@@ -239,6 +393,7 @@
             </PreferenceCategory>
             <PreferenceCategory android:title="@string/pref_header_pebble_timeline">
                 <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
                     android:defaultValue="true"
                     android:key="enable_calendar_sync"
                     android:summary="@string/pref_summary_enable_calendar_sync"
@@ -247,6 +402,7 @@
                     android:key="pref_key_blacklist_calendars"
                     android:title="@string/pref_blacklist_calendars" />
                 <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
                     android:key="send_sunrise_sunset"
                     android:summary="@string/pref_summary_sunrise_sunset"
                     android:title="@string/pref_title_sunrise_sunset" />
@@ -260,20 +416,24 @@
                     android:summary="%s"
                     android:title="@string/pref_title_pebble_activitytracker" />
                 <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
                     android:defaultValue="true"
                     android:key="pebble_sync_health"
                     android:title="@string/pref_title_pebble_sync_health" />
                 <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
                     android:defaultValue="true"
                     android:key="pebble_health_store_raw"
                     android:dependency="pebble_sync_health"
                     android:title="@string/pref_title_pebble_health_store_raw"
                     android:summary="@string/pref_summary_pebble_health_store_raw" />
                 <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
                     android:defaultValue="true"
                     android:key="pebble_sync_misfit"
                     android:title="@string/pref_title_pebble_sync_misfit" />>
                 <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
                     android:defaultValue="true"
                     android:key="pebble_sync_morpheuz"
                     android:title="@string/pref_title_pebble_sync_morpheuz" />
@@ -296,6 +456,7 @@
                 android:key="location_longitude"
                 android:title="@string/pref_title_location_longitude" />
                 <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
                     android:defaultValue="true"
                     android:dependency="location_aquire"
                     android:key="use_updated_location_if_available"
@@ -416,16 +577,19 @@
             <PreferenceCategory
                 android:title="@string/pref_header_development">
                 <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
                     android:defaultValue="false"
                     android:key="pebble_force_protocol"
                     android:summary="@string/pref_summary_pebble_forceprotocol"
                     android:title="@string/pref_title_pebble_forceprotocol" />
                 <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
                     android:defaultValue="false"
                     android:key="pebble_force_untested"
                     android:summary="@string/pref_summary_pebble_forceuntested"
                     android:title="@string/pref_title_pebble_forceuntested" />
                 <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
                     android:defaultValue="false"
                     android:key="pebble_force_le"
                     android:summary="@string/pref_summary_pebble_forcele"
@@ -438,21 +602,25 @@
                     android:title="@string/pref_title_pebble_mtu_limit"
                     android:summary="@string/pref_summary_pebble_mtu_limit" />
                 <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
                     android:defaultValue="false"
                     android:key="pebble_gatt_clientonly"
                     android:title="@string/pref_title_pebble_gatt_clientonly"
                     android:summary="@string/pref_summary_pebble_gatt_clientonly" />
                 <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
                     android:defaultValue="false"
                     android:key="pebble_enable_applogs"
                     android:summary="@string/pref_summary_pebble_enable_applogs"
                     android:title="@string/pref_title_pebble_enable_applogs" />
                 <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
                     android:defaultValue="false"
                     android:key="pebble_always_ack_pebblekit"
                     android:summary="@string/pref_summary_pebble_always_ack_pebblekit"
                     android:title="@string/pref_title_pebble_always_ack_pebblekit" />
                 <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
                     android:defaultValue="false"
                     android:key="pebble_enable_background_javascript"
                     android:dependency="pebble_force_untested"
@@ -500,6 +668,7 @@
                     android:title="@string/pref_title_screentime"/>
 
                 <CheckBoxPreference
+                    android:layout="@layout/preference_checkbox"
                     android:defaultValue="true"
                     android:key="hplus_alldayhr"
                     android:title="@string/prefs_title_all_day_heart_rate" />
@@ -507,11 +676,37 @@
             </PreferenceCategory>
 
         </PreferenceScreen>
+        <PreferenceScreen
+            android:icon="@drawable/ic_device_h30_h10"
+            android:key="pref_key_id115"
+            android:title="@string/preferences_id115_settings">
+            <PreferenceCategory
+                android:key="pref_category_id115_general"
+                android:title="@string/pref_header_general">
+
+                <ListPreference
+                    android:defaultValue="left"
+                    android:entries="@array/wearside"
+                    android:entryValues="@array/wearside_values"
+                    android:key="id115_wrist"
+                    android:title="@string/miband_prefs_wearside"
+                    android:summary="%s" />
+
+                <ListPreference
+                    android:defaultValue="horizontal"
+                    android:entries="@array/orientation"
+                    android:entryValues="@array/orientation_values"
+                    android:key="id115_screen_orientation"
+                    android:title="@string/prefs_screen_orientation"
+                    android:summary="%s" />
+            </PreferenceCategory>
+        </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/pref_header_auto_export">
         <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
             android:key="auto_export_enabled"
             android:title="@string/pref_title_auto_export_enabled" />
@@ -531,6 +726,7 @@
     <PreferenceCategory
         android:title="Auto fetch">
         <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
             android:key="auto_fetch_enabled"
             android:title="@string/pref_auto_fetch"
@@ -548,6 +744,7 @@
         android:key="pref_key_development"
         android:title="@string/pref_header_development">
         <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
             android:key="log_to_file"
             android:title="@string/pref_write_logfiles" />

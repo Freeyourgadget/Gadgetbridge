@@ -26,6 +26,7 @@ public class GBDeviceEventBatteryInfo extends GBDeviceEvent {
     public BatteryState state = BatteryState.UNKNOWN;
     public short level = 50;
     public int numCharges = -1;
+    public float voltage = -1f;
 
     public boolean extendedInfoAvailable() {
         if (numCharges != -1 && lastChargeTime != null) {

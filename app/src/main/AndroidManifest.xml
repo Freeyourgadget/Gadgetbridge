@@ -8,6 +8,7 @@
     -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -45,7 +46,7 @@
         <activity
             android:name=".activities.ControlCenterv2"
             android:label="@string/title_activity_controlcenter"
-            android:theme="@style/GadgetbridgeTheme.NoActionBar">
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="android.intent.action.MAIN" />
@@ -387,6 +388,12 @@
         <activity
             android:name=".devices.pebble.PebblePairingActivity"
             android:label="@string/title_activity_pebble_pairing" />
+        <activity
+            android:name=".devices.watch9.Watch9PairingActivity"
+            android:label="@string/title_activity_watch9_pairing"  />
+        <activity
+            android:name=".devices.watch9.Watch9CalibrationActivity"
+            android:label="@string/title_activity_watch9_calibration"  />
         <activity
             android:name=".activities.charts.ChartsActivity"
             android:label="@string/title_activity_charts"

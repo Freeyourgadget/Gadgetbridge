@@ -1,5 +1,5 @@
 /*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+    Gobbetti, Pavel Elagin
 
     This file is part of Gadgetbridge.
 
@@ -136,10 +136,10 @@ public class GBWebClient extends WebViewClient {
                 headers.put("Access-Control-Allow-Origin", "*");
                 return new WebResourceResponse("text/html", "utf-8", 200, "OK",
                         headers,
-                        new ByteArrayInputStream("1".toString().getBytes())
+                        new ByteArrayInputStream("1".getBytes())
                 );
             } else {
-                return new WebResourceResponse("text/html", "utf-8", new ByteArrayInputStream("1".toString().getBytes()));
+                return new WebResourceResponse("text/html", "utf-8", new ByteArrayInputStream("1".getBytes()));
             }
         }
 

@@ -19,9 +19,9 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip;
 
 import java.util.UUID;
 
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service.DISPLAY_ITEM_BIT_CLOCK;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service.ENDPOINT_DISPLAY;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service.ENDPOINT_DISPLAY_ITEMS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.DISPLAY_ITEM_BIT_CLOCK;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.ENDPOINT_DISPLAY;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.ENDPOINT_DISPLAY_ITEMS;
 
 public class AmazfitBipService {
     public static final UUID UUID_CHARACTERISTIC_WEATHER = UUID.fromString("0000000e-0000-3512-2118-0009af100700");
@@ -35,8 +35,6 @@ public class AmazfitBipService {
     public static final byte[] COMMAND_SET_LANGUAGE_TRADITIONAL_CHINESE = new byte[]{ENDPOINT_DISPLAY, 0x13, 0x00, 0x01};
     public static final byte[] COMMAND_SET_LANGUAGE_ENGLISH = new byte[]{ENDPOINT_DISPLAY, 0x13, 0x00, 0x02};
     public static final byte[] COMMAND_SET_LANGUAGE_SPANISH = new byte[]{ENDPOINT_DISPLAY, 0x13, 0x00, 0x03};
-    public static final byte[] COMMAND_SET_LANGUAGE_NEW_TEMPLATE = new byte[]{ENDPOINT_DISPLAY, 0x17, 0x00, 0, 0, 0, 0, 0};
-
 
     public static final byte COMMAND_ACTIVITY_DATA_TYPE_SPORTS_SUMMARIES = 0x05;
     public static final byte COMMAND_ACTIVITY_DATA_TYPE_SPORTS_DETAILS = 0x06;

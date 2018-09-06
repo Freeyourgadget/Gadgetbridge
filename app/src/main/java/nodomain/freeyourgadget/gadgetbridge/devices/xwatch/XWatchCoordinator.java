@@ -1,5 +1,5 @@
 /*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, ladbsoft
+    Gobbetti, José Rebelo, ladbsoft
 
     This file is part of Gadgetbridge.
 
@@ -129,5 +129,10 @@ public class XWatchCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsWeather() {
         return false;
+    }
+
+    @Override
+    public boolean supportsFindDevice() {
+        return true;
     }
 }

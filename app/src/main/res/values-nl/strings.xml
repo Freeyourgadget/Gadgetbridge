@@ -41,7 +41,7 @@
 
     <string name="title_activity_appblacklist">Notificatie zwarte lijst</string>
 
-    <string name="fw_upgrade_notice">U staat op het punt om firmware% s te installeren in plaats van die nu op uw Mi Band staat.</string>
+    <string name="fw_upgrade_notice">U staat op het punt om firmware %s te installeren in plaats van die nu op uw Mi Band staat.</string>
     <string name="fw_upgrade_notice_amazfitbip">U staat op het punt om de firmware %s te installeren op uw Amazfit Bip. 
 \n 
 \nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand en als laatste het .gps-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand. 
@@ -279,7 +279,7 @@
 
     <string name="vibration_profile_staccato">Staccato</string>
     <string name="vibration_profile_short">Kort</string>
-    <string name="vibration_profile_medium">Medium</string>
+    <string name="vibration_profile_medium">Middel</string>
     <string name="vibration_profile_long">Lang</string>
     <string name="vibration_profile_waterdrop">Waterdruppel</string>
     <string name="vibration_profile_ring">Ring</string>
@@ -425,7 +425,7 @@
     <string name="traditional_chinese">Traditioneel Chinees</string>
     <string name="english">Engels</string>
 
-    <string name="FetchActivityOperation_about_to_transfer_since">Op het punt om data over te zetten sinds %1$s</string>
+    <string name="FetchActivityOperation_about_to_transfer_since">Op het punt om data over te zetten vanaf %1$s</string>
 
     <string name="waiting_for_reconnect">Wachten om opnieuw te verbinden</string>
 
@@ -601,4 +601,34 @@
     <string name="menuitem_compass">Kompas</string>
     <string name="menuitem_settings">Instellingen</string>
     <string name="menuitem_alipay">Alipay</string>
-</resources>
+<string name="controlcenter_calibrate_device">Kalibreer apparaat</string>
+
+
+    <string name="preferences_id115_settings">ID115 instellingen</string>
+    <string name="prefs_screen_orientation">Scherm orientatie</string>
+
+    <string name="preferences_miband2_settings">Mi Band 2 instellingen</string>
+    <string name="preferences_miband3_settings">Mi Band 3 instellingen</string>
+    <string name="preferences_amazfitcor_settings">Amazfit Cor instellingen</string>s
+    <string name="horizontal">Horizontaal</string>
+    <string name="vertical">Vertikaal</string>
+    <string name="watch9_pairing_tap_hint">Wanneer het horloge trilt, schud hem of druk op de knop.</string>
+
+    <string name="you_slept">Je sliep van %1$s tot %2$s</string>
+    <string name="you_did_not_sleep">Je hebt niet geslapen</string>
+    <string name="mi3_prefs_band_screen_unlock">Band scherm vrijgeven</string>
+    <string name="mi3_prefs_band_screen_unlock_summary">Veeg omhoog om het scherm vrij te geven</string>
+    <string name="norwegian_bokmal">Noors</string>
+    <string name="russian">Russisch</string>
+    <string name="german">Duits</string>
+    <string name="italian">Italiaans</string>
+    <string name="french">Frans</string>
+    <string name="polish">Pools</string>
+    <string name="korean">Koreaans</string>
+    <string name="japanese">Japans</string>
+
+    <string name="reset_index">Herstel ophaal datum</string>
+
+    <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
+    <string name="menuitem_notifications">Notificaties</string>
+    </resources>

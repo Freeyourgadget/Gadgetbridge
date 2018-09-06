@@ -72,4 +72,13 @@ public class LoggingTest extends TestBase {
             throw ex;
         }
     }
+
+    @Test
+    public void testLogFormat() {
+        String tempOut = Logging.formatBytes(new byte[] {0xa});
+        assertEquals("0x0a", tempOut);
+
+        tempOut = Logging.formatBytes(new byte[] {0xa, 1, (byte) 255});
+        assertEquals("0x0a 0x01 0xff", tempOut);
+    }
 }

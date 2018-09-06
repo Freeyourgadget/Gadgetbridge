@@ -19,6 +19,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 
 import org.slf4j.Logger;
@@ -34,10 +36,10 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiWeatherConditions;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -50,17 +52,17 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ConditionalWrit
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.operations.AmazfitBipFetchLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiIcon;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.operations.AmazfitBipFetchLogsOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchActivityOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSportsSummaryOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.MiBand2Support;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.operations.FetchActivityOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.operations.FetchSportsSummaryOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
-public class AmazfitBipSupport extends MiBand2Support {
+public class AmazfitBipSupport extends HuamiSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitBipSupport.class);
 
@@ -92,11 +94,8 @@ public class AmazfitBipSupport extends MiBand2Support {
 
         try {
             TransactionBuilder builder = performInitialized("new notification");
-            AlertNotificationProfile<?> profile = new AlertNotificationProfile(this);
-            profile.setMaxLength(230);
 
             byte customIconId = HuamiIcon.mapToIconId(notificationSpec.type);
-
             AlertCategory alertCategory = AlertCategory.CustomHuami;
 
             // The SMS icon for AlertCategory.SMS is unique and not available as iconId
@@ -108,8 +107,54 @@ public class AmazfitBipSupport extends MiBand2Support {
                 alertCategory = AlertCategory.Email;
             }
 
-            NewAlert alert = new NewAlert(alertCategory, 1, message, customIconId);
-            profile.newAlert(builder, alert);
+            int maxLength = 230;
+            if (characteristicChunked != null) {
+                int prefixlength = 2;
+
+                // We also need a (fake) source name for Mi Band 3 for SMS/EMAIL, else the message is not displayed
+                byte[] appSuffix = "\0 \0".getBytes();
+                int suffixlength = appSuffix.length;
+
+                if (alertCategory == AlertCategory.CustomHuami) {
+                    String appName;
+                    prefixlength = 3;
+                    final PackageManager pm = getContext().getPackageManager();
+                    ApplicationInfo ai = null;
+                    try {
+                        ai = pm.getApplicationInfo(notificationSpec.sourceAppId, 0);
+                    } catch (PackageManager.NameNotFoundException ignored) {
+                    }
+
+                    if (ai != null) {
+                        appName = "\0" + pm.getApplicationLabel(ai) + "\0";
+                    } else {
+                        appName = "\0" + "UNKNOWN" + "\0";
+                    }
+                    appSuffix = appName.getBytes();
+                    suffixlength = appSuffix.length;
+                }
+
+                byte[] rawmessage = message.getBytes();
+                int length = Math.min(rawmessage.length, maxLength - prefixlength);
+
+                byte[] command = new byte[length + prefixlength + suffixlength];
+
+                command[0] = (byte) alertCategory.getId();
+                command[1] = 1;
+                if (alertCategory == AlertCategory.CustomHuami) {
+                    command[2] = customIconId;
+                }
+
+                System.arraycopy(rawmessage, 0, command, prefixlength, length);
+                System.arraycopy(appSuffix, 0, command, prefixlength + length, appSuffix.length);
+
+                writeToChunked(builder, 0, command);
+            } else {
+                AlertNotificationProfile<?> profile = new AlertNotificationProfile(this);
+                NewAlert alert = new NewAlert(alertCategory, 1, message, customIconId);
+                profile.setMaxLength(maxLength);
+                profile.newAlert(builder, alert);
+            }
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to send notification to Amazfit Bip", ex);
@@ -131,9 +176,6 @@ public class AmazfitBipSupport extends MiBand2Support {
 
     @Override
     protected AmazfitBipSupport setDisplayItems(TransactionBuilder builder) {
-        if (gbDevice.getType() != DeviceType.AMAZFITBIP) {
-            return this; // Disable for Cor for now
-        }
         if (gbDevice.getFirmwareVersion() == null) {
             LOG.warn("Device not initialized yet, won't set menu items");
             return this;
@@ -185,7 +227,7 @@ public class AmazfitBipSupport extends MiBand2Support {
                 shortcut_alipay = true;
             }
         }
-        builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
+        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
         setShortcuts(builder, shortcut_weather, shortcut_alipay);
 
         return this;
@@ -201,7 +243,7 @@ public class AmazfitBipSupport extends MiBand2Support {
                 (byte) ((alipay && weather) ? 0x81 : 0x01), 0x01,
         };
 
-        builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
+        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
     }
 
     @Override
@@ -241,13 +283,18 @@ public class AmazfitBipSupport extends MiBand2Support {
                 buf.put((byte) 0);
             }
 
-            builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+            if (characteristicChunked != null) {
+                writeToChunked(builder, 1, buf.array());
+            } else {
+                builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+            }
+
             builder.queue(getQueue());
         } catch (Exception ex) {
             LOG.error("Error sending current weather", ex);
         }
 
-        if (gbDevice.getType() == DeviceType.AMAZFITBIP) {
+        if (gbDevice.getType() != DeviceType.AMAZFITCOR) {
             try {
                 TransactionBuilder builder;
                 builder = performInitialized("Sending air quality index");
@@ -266,7 +313,13 @@ public class AmazfitBipSupport extends MiBand2Support {
                     buf.put(aqiString.getBytes());
                     buf.put((byte) 0);
                 }
-                builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+
+                if (characteristicChunked != null) {
+                    writeToChunked(builder, 1, buf.array());
+                } else {
+                    builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+                }
+
                 builder.queue(getQueue());
             } catch (IOException ex) {
                 LOG.error("Error sending air quality");
@@ -310,7 +363,6 @@ public class AmazfitBipSupport extends MiBand2Support {
 
             for (WeatherSpec.Forecast forecast : weatherSpec.forecasts) {
                 condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(forecast.conditionCode);
-
                 buf.put(condition);
                 buf.put(condition);
                 buf.put((byte) (forecast.maxTemp - 273));
@@ -321,7 +373,12 @@ public class AmazfitBipSupport extends MiBand2Support {
                 }
             }
 
-            builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+            if (characteristicChunked != null) {
+                writeToChunked(builder, 1, buf.array());
+            } else {
+                builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+            }
+
             builder.queue(getQueue());
         } catch (Exception ex) {
             LOG.error("Error sending weather forecast", ex);
@@ -372,7 +429,7 @@ public class AmazfitBipSupport extends MiBand2Support {
         boolean handled = super.onCharacteristicChanged(gatt, characteristic);
         if (!handled) {
             UUID characteristicUUID = characteristic.getUuid();
-            if (MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION.equals(characteristicUUID)) {
+            if (HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION.equals(characteristicUUID)) {
                 return handleConfigurationInfo(characteristic.getValue());
             }
         }
@@ -395,11 +452,11 @@ public class AmazfitBipSupport extends MiBand2Support {
     // this probably does more than only getting the GPS version...
     private AmazfitBipSupport requestGPSVersion(TransactionBuilder builder) {
         LOG.info("Requesting GPS version");
-        builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), AmazfitBipService.COMMAND_REQUEST_GPS_VERSION);
+        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), AmazfitBipService.COMMAND_REQUEST_GPS_VERSION);
         return this;
     }
 
-    private AmazfitBipSupport setLanguage(TransactionBuilder builder) {
+    protected AmazfitBipSupport setLanguage(TransactionBuilder builder) {
 
         String language = Locale.getDefault().getLanguage();
         String country = Locale.getDefault().getCountry();
@@ -427,6 +484,10 @@ public class AmazfitBipSupport extends MiBand2Support {
                 command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_SPANISH;
                 localeString = "es_ES";
                 break;
+            case 4:
+                command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                localeString = "ru_RU";
+                break;
             default:
                 switch (language) {
                     case "zh":
@@ -442,19 +503,24 @@ public class AmazfitBipSupport extends MiBand2Support {
                         command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_SPANISH;
                         localeString = "es_ES";
                         break;
+                    case "ru":
+                        command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                        localeString = "ru_RU";
+                        break;
                     default:
                         command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
                         localeString = "en_US";
                         break;
                 }
         }
-        command_new = AmazfitBipService.COMMAND_SET_LANGUAGE_NEW_TEMPLATE;
+        command_new = HuamiService.COMMAND_SET_LANGUAGE_NEW_TEMPLATE.clone();
         System.arraycopy(localeString.getBytes(), 0, command_new, 3, localeString.getBytes().length);
 
-        builder.add(new ConditionalWriteAction(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION)) {
+        builder.add(new ConditionalWriteAction(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION)) {
             @Override
             protected byte[] checkCondition() {
-                if (gbDevice.getType() == DeviceType.MIBAND3 || (gbDevice.getType() == DeviceType.AMAZFITBIP && new Version(gbDevice.getFirmwareVersion()).compareTo(new Version("0.1.0.77")) >= 0)) {
+                if ((gbDevice.getType() == DeviceType.AMAZFITBIP && new Version(gbDevice.getFirmwareVersion()).compareTo(new Version("0.1.0.77")) >= 0) ||
+                        (gbDevice.getType() == DeviceType.AMAZFITCOR && new Version(gbDevice.getFirmwareVersion()).compareTo(new Version("1.0.7.23")) >= 0)) {
                     return command_new;
                 } else {
                     return command_old;

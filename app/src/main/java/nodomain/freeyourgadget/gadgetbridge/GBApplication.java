@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Martin, Normano64, Taavi Eomäe
+    Gobbetti, Martin, Normano64, Pavel Elagin, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -226,6 +226,10 @@ public class GBApplication extends Application {
 
     public static void setupLogging(boolean enabled) {
         logging.setupLogging(enabled);
+    }
+
+    public static String getLogPath(){
+        return logging.getLogPath();
     }
 
     private void setupExceptionHandler() {

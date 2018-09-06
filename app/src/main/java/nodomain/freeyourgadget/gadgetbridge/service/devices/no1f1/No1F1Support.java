@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Daniele Gobbetti, protomors
+/*  Copyright (C) 2017-2018 Andreas Shimokawa, Daniele Gobbetti, Pavel
+    Elagin, protomors
 
     This file is part of Gadgetbridge.
 
@@ -89,6 +90,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
         builder.setGattCallback(this);
         builder.notify(measureCharacteristic, true);
 
+        setTime(builder);
         sendSettings(builder);
 
         builder.write(ctrlCharacteristic, new byte[]{No1F1Constants.CMD_FIRMWARE_VERSION});
@@ -173,18 +175,8 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     public void onSetTime() {
         try {
             TransactionBuilder builder = performInitialized("setTime");
-            Calendar c = GregorianCalendar.getInstance();
-            byte[] datetimeBytes = new byte[]{
-                    No1F1Constants.CMD_DATETIME,
-                    (byte) ((c.get(Calendar.YEAR) / 256) & 0xff),
-                    (byte) (c.get(Calendar.YEAR) % 256),
-                    (byte) (c.get(Calendar.MONTH) + 1),
-                    (byte) c.get(Calendar.DAY_OF_MONTH),
-                    (byte) c.get(Calendar.HOUR_OF_DAY),
-                    (byte) c.get(Calendar.MINUTE),
-                    (byte) c.get(Calendar.SECOND)
-            };
-            builder.write(ctrlCharacteristic, datetimeBytes);
+            setTime(builder);
+            performConnected(builder.getTransaction());
         } catch (IOException e) {
             GB.toast(getContext(), "Error setting time: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -396,6 +388,21 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
         return true;
     }
 
+    private void setTime(TransactionBuilder transaction) {
+        Calendar c = GregorianCalendar.getInstance();
+        byte[] datetimeBytes = new byte[]{
+                No1F1Constants.CMD_DATETIME,
+                (byte) ((c.get(Calendar.YEAR) / 256) & 0xff),
+                (byte) (c.get(Calendar.YEAR) % 256),
+                (byte) (c.get(Calendar.MONTH) + 1),
+                (byte) c.get(Calendar.DAY_OF_MONTH),
+                (byte) c.get(Calendar.HOUR_OF_DAY),
+                (byte) c.get(Calendar.MINUTE),
+                (byte) c.get(Calendar.SECOND)
+        };
+        transaction.write(ctrlCharacteristic, datetimeBytes);
+    }
+
     /**
      * Set display settings (time format and measurement system)
      *
@@ -522,7 +529,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             byte[] msg;
 
             // send header
-            bytes = header.toString().getBytes("EUC-JP");
+            bytes = header.getBytes("EUC-JP");
             length = min(bytes.length, 18);
             msg = new byte[length + 2];
             msg[0] = No1F1Constants.CMD_NOTIFICATION;
@@ -531,7 +538,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             builder.write(ctrlCharacteristic, msg);
 
             // send body
-            bytes = header.toString().getBytes("EUC-JP");
+            bytes = header.getBytes("EUC-JP");
             length = min(bytes.length, 18);
             msg = new byte[length + 2];
             msg[0] = No1F1Constants.CMD_NOTIFICATION;
@@ -598,7 +605,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                         if (data[0] == No1F1Constants.CMD_FETCH_STEPS) {
                             samples.get(i).setRawKind(ActivityKind.TYPE_ACTIVITY);
                             samples.get(i).setRawIntensity(samples.get(i).getSteps());
-                        } else if (data[0] == No1F1Constants.CMD_FETCH_STEPS) {
+                        } else if (data[0] == No1F1Constants.CMD_FETCH_SLEEP) {
                             if (samples.get(i).getRawIntensity() < 7)
                                 samples.get(i).setRawKind(ActivityKind.TYPE_DEEP_SLEEP);
                             else

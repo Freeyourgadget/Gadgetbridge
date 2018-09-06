@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti
+    Daniele Gobbetti, Pavel Elagin
 
     This file is part of Gadgetbridge.
 
@@ -20,9 +20,11 @@ package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.Chart;
@@ -43,6 +45,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -62,6 +65,7 @@ public class SleepChartFragment extends AbstractChartFragment {
 
     private LineChart mActivityChart;
     private PieChart mSleepAmountChart;
+    private TextView mSleepchartInfo;
 
     private int mSmartAlarmFrom = -1;
     private int mSmartAlarmTo = -1;
@@ -86,9 +90,25 @@ public class SleepChartFragment extends AbstractChartFragment {
         List<Integer> colors = new ArrayList<>();
 //        int index = 0;
         long totalSeconds = 0;
+
+        Date startSleep = null;
+        Date endSleep = null;
+
         for (ActivityAmount amount : amounts.getAmounts()) {
             if ((amount.getActivityKind() & ActivityKind.TYPE_SLEEP) != 0) {
                 long value = amount.getTotalSeconds();
+                if(startSleep == null){
+                    startSleep = amount.getStartDate();
+                } else {
+                    if(startSleep.after(amount.getStartDate()))
+                        startSleep = amount.getStartDate();
+                }
+                if(endSleep == null){
+                    endSleep = amount.getEndDate();
+                } else {
+                    if(endSleep.before(amount.getEndDate()))
+                    endSleep = amount.getEndDate();
+                }
                 totalSeconds += value;
 //                entries.add(new PieEntry(value, index++));
                 entries.add(new PieEntry(value, amount.getName(getActivity())));
@@ -112,7 +132,7 @@ public class SleepChartFragment extends AbstractChartFragment {
         data.setDataSet(set);
 
         //setupLegend(pieChart);
-        return new MySleepChartsData(totalSleep, data);
+        return new MySleepChartsData(totalSleep, data, startSleep, endSleep);
     }
 
     @Override
@@ -124,6 +144,15 @@ public class SleepChartFragment extends AbstractChartFragment {
         mActivityChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
         mActivityChart.getXAxis().setValueFormatter(mcd.getChartsData().getXValueFormatter());
         mActivityChart.setData(mcd.getChartsData().getData());
+
+        if (mcd.getPieData().getStartSleep() != null && mcd.getPieData().getEndSleep() != null) {
+            mSleepchartInfo.setText(getContext().getString(
+                    R.string.you_slept,
+                    DateTimeUtils.timeToString(mcd.getPieData().getStartSleep()),
+                    DateTimeUtils.timeToString(mcd.getPieData().getEndSleep())));
+        } else {
+            mSleepchartInfo.setText(getContext().getString(R.string.you_did_not_sleep));
+        }
     }
 
     @Override
@@ -136,8 +165,9 @@ public class SleepChartFragment extends AbstractChartFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_sleepchart, container, false);
 
-        mActivityChart = (LineChart) rootView.findViewById(R.id.sleepchart);
-        mSleepAmountChart = (PieChart) rootView.findViewById(R.id.sleepchart_pie_light_deep);
+        mActivityChart = rootView.findViewById(R.id.sleepchart);
+        mSleepAmountChart = rootView.findViewById(R.id.sleepchart_pie_light_deep);
+        mSleepchartInfo = rootView.findViewById(R.id.sleepchart_info);
 
         setupActivityChart();
         setupSleepAmountChart();
@@ -203,8 +233,8 @@ public class SleepChartFragment extends AbstractChartFragment {
         yAxisRight.setDrawLabels(true);
         yAxisRight.setDrawTopYLabelEntry(true);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
-        yAxisRight.setAxisMaxValue(HeartRateUtils.MAX_HEART_RATE_VALUE);
-        yAxisRight.setAxisMinValue(HeartRateUtils.MIN_HEART_RATE_VALUE);
+        yAxisRight.setAxisMaxValue(HeartRateUtils.getInstance().getMaxHeartRate());
+        yAxisRight.setAxisMinValue(HeartRateUtils.getInstance().getMinHeartRate());
     }
 
     @Override
@@ -246,10 +276,14 @@ public class SleepChartFragment extends AbstractChartFragment {
     private static class MySleepChartsData extends ChartsData {
         private String totalSleep;
         private final PieData pieData;
+        private @Nullable Date startSleep;
+        private @Nullable Date endSleep;
 
-        public MySleepChartsData(String totalSleep, PieData pieData) {
+        public MySleepChartsData(String totalSleep, PieData pieData, @Nullable Date startSleep, @Nullable Date endSleep) {
             this.totalSleep = totalSleep;
             this.pieData = pieData;
+            this.startSleep = startSleep;
+            this.endSleep = endSleep;
         }
 
         public PieData getPieData() {
@@ -258,6 +292,16 @@ public class SleepChartFragment extends AbstractChartFragment {
 
         public CharSequence getTotalSleep() {
             return totalSleep;
+        }
+
+        @Nullable
+        public Date getStartSleep() {
+            return startSleep;
+        }
+
+        @Nullable
+        public Date getEndSleep() {
+            return endSleep;
         }
     }
 

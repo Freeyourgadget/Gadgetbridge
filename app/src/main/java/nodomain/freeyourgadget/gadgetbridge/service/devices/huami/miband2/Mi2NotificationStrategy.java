@@ -24,13 +24,14 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.V2NotificationStrategy;
 
-public class Mi2NotificationStrategy extends V2NotificationStrategy<MiBand2Support> {
+public class Mi2NotificationStrategy extends V2NotificationStrategy<HuamiSupport> {
 
     private final BluetoothGattCharacteristic alertLevelCharacteristic;
 
-    public Mi2NotificationStrategy(MiBand2Support support) {
+    public Mi2NotificationStrategy(HuamiSupport support) {
         super(support);
         alertLevelCharacteristic = support.getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL);
     }

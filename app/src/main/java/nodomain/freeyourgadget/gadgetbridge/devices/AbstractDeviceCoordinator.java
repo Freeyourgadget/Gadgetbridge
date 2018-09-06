@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2018 Carsten Pfeiffer, Daniele Gobbetti
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -128,5 +129,24 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     @Override
     public boolean supportsActivityTracks() {
         return false;
+    }
+
+    @Override
+    public boolean supportsMusicInfo() {
+        return false;
+    }
+
+    public boolean supportsLedColor() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsRgbLedColor() {
+        return false;
+    }
+
+    @Override
+    public int[] getColorPresets() {
+        return new int[0];
     }
 }

@@ -81,6 +81,10 @@ public abstract class BtClassicIoThread extends GBDeviceIoThread {
     public synchronized void write(byte[] bytes) {
         if (null == bytes)
             return;
+        if (mOutStream == null) {
+            LOG.error("mOutStream is null");
+            return;
+        }
         LOG.debug("writing:" + GB.hexdump(bytes, 0, bytes.length));
         try {
             mOutStream.write(bytes);
