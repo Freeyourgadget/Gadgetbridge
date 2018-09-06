@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -56,12 +57,15 @@ import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 
 public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
     protected static final Logger LOG = LoggerFactory.getLogger(AbstractWeekChartFragment.class);
+    protected final int TOTAL_DAYS = 7;
 
     private Locale mLocale;
-    private int mTargetValue = 0;
+    protected int mTargetValue = 0;
+    protected long mBalance = 0;
 
     private PieChart mTodayPieChart;
     private BarChart mWeekChart;
+    private TextView mBalanceView;
 
     private int mOffsetHours = getOffsetHours();
 
@@ -93,15 +97,16 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
     protected void renderCharts() {
         mWeekChart.invalidate();
         mTodayPieChart.invalidate();
+        mBalanceView.setText(getBalance());
     }
 
     private DefaultChartsData<BarData> refreshWeekBeforeData(DBHandler db, BarChart barChart, Calendar day, GBDevice device) {
         day = (Calendar) day.clone(); // do not modify the caller's argument
-        day.add(Calendar.DATE, -7);
+        day.add(Calendar.DATE, -TOTAL_DAYS);
         List<BarEntry> entries = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<String>();
 
-        for (int counter = 0; counter < 7; counter++) {
+        for (int counter = 0; counter < TOTAL_DAYS; counter++) {
             ActivityAmounts amounts = getActivityAmountsForDay(db, day, device);
 
             entries.add(new BarEntry(counter, getTotalsForActivityAmounts(amounts)));
@@ -177,8 +182,9 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
             mTargetValue = goal;
         }
 
-        mTodayPieChart = (PieChart) rootView.findViewById(R.id.todaystepschart);
-        mWeekChart = (BarChart) rootView.findViewById(R.id.weekstepschart);
+        mTodayPieChart = rootView.findViewById(R.id.todaystepschart);
+        mWeekChart = rootView.findViewById(R.id.weekstepschart);
+        mBalanceView = rootView.findViewById(R.id.balance);
 
         setupWeekChart();
         setupTodayPieChart();
@@ -324,4 +330,6 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
     abstract int[] getColors();
 
     abstract String getPieDescription(int targetValue);
+
+    abstract String getBalance();
 }
