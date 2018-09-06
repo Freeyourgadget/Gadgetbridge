@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -73,11 +74,13 @@ public class GBDevice implements Parcelable {
     private String mModel;
     private State mState = State.NOT_CONNECTED;
     private short mBatteryLevel = BATTERY_UNKNOWN;
+    private float mBatteryVoltage = BATTERY_UNKNOWN;
     private short mBatteryThresholdPercent = BATTERY_THRESHOLD_PERCENT;
     private BatteryState mBatteryState;
     private short mRssi = RSSI_UNKNOWN;
     private String mBusyTask;
     private List<ItemWithDetails> mDeviceInfos;
+    private HashMap<String, Object> mExtraInfos;
 
     public GBDevice(String address, String name, DeviceType deviceType) {
         this(address, null, name, deviceType);
@@ -106,6 +109,7 @@ public class GBDevice implements Parcelable {
         mRssi = (short) in.readInt();
         mBusyTask = in.readString();
         mDeviceInfos = in.readArrayList(getClass().getClassLoader());
+        mExtraInfos = (HashMap) in.readSerializable();
 
         validate();
     }
@@ -126,6 +130,7 @@ public class GBDevice implements Parcelable {
         dest.writeInt(mRssi);
         dest.writeString(mBusyTask);
         dest.writeList(mDeviceInfos);
+        dest.writeSerializable(mExtraInfos);
     }
 
     private void validate() {
@@ -371,6 +376,33 @@ public class GBDevice implements Parcelable {
         return mAddress.hashCode() ^ 37;
     }
 
+
+    /**
+     * Returns the extra info value if it is set, null otherwise
+     * @param key the extra info key
+     * @return the extra info value if set, null otherwise
+     */
+    public Object getExtraInfo(String key) {
+        if (mExtraInfos == null) {
+            return null;
+        }
+
+        return mExtraInfos.get(key);
+    }
+
+    /**
+     * Sets an extra info value, overwriting the current one, if any
+     * @param key the extra info key
+     * @param info the extra info value
+     */
+    public void setExtraInfo(String key, Object info) {
+        if (mExtraInfos == null) {
+            mExtraInfos = new HashMap<>();
+        }
+
+        mExtraInfos.put(key, info);
+    }
+
     /**
      * Ranges from 0-100 (percent), or -1 if unknown
      *
@@ -386,6 +418,23 @@ public class GBDevice implements Parcelable {
         } else {
             LOG.error("Battery level musts be within range 0-100: " + batteryLevel);
         }
+    }
+
+    public void setBatteryVoltage(float batteryVoltage) {
+        if (batteryVoltage >= 0 || batteryVoltage == BATTERY_UNKNOWN) {
+            mBatteryVoltage = batteryVoltage;
+        } else {
+            LOG.error("Battery voltage must be > 0: " + batteryVoltage);
+        }
+    }
+
+    /**
+     * Voltage greater than zero (unit: Volt), or -1 if unknown
+     *
+     * @return the battery voltage, or -1 if unknown
+     */
+    public float getBatteryVoltage() {
+        return mBatteryVoltage;
     }
 
     public BatteryState getBatteryState() {

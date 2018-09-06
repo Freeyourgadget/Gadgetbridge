@@ -550,7 +550,7 @@ NOTE : la base de données sera bien évidement plus grande !</string>
     <string name="pref_auto_fetch_limit_fetches_summary">Synchronisation toutes les %d minutes</string>
 
     <string name="preferences_miband2_settings">Réglages Mi Band 2</string>
-    <string name="preferences_miband3_settings">Régalges Mi Band 3</string>
+    <string name="preferences_miband3_settings">Réglages Mi Band 3</string>
     <string name="preferences_amazfitcor_settings">Réglages Amazfit Cor</string>s
     <string name="horizontal">Horizontal</string>
     <string name="vertical">Vertical</string>

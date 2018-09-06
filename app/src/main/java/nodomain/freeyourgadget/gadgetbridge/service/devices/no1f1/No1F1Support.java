@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Daniele Gobbetti, protomors
+/*  Copyright (C) 2017-2018 Andreas Shimokawa, Daniele Gobbetti, Pavel
+    Elagin, protomors
 
     This file is part of Gadgetbridge.
 

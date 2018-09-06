@@ -335,7 +335,7 @@
   <string name="Cancel">ביטול</string>
   <string name="Delete">מחיקה</string>
   <!--Strings related to Vibration Activity-->
-  <string name="title_activity_vibration">רטטרטט</string>
+  <string name="title_activity_vibration">רטט</string>
   <!--Strings related to Pebble Pairing Activity-->
   <string name="title_activity_pebble_pairing">צימוד Pebble</string>
   <string name="pebble_pairing_hint">במסך של התקן האנדרואיד שלך אמורה לקפוץ חלונית צימוד. אם החלונית לא מופיעה, יש לחפש במגירת הדיווחים ולאשר את בקשת הצימוד. לאחר מכן יש לאשר את בקשת הצימוד ב־Pebble שלך.</string>
@@ -596,4 +596,34 @@
     <string name="you_slept">שנתך החלה ב־%1$s ונמשכה עד %2$s</string>
     <string name="you_did_not_sleep">לא ישנת</string>
     <string name="norwegian_bokmal">נורווגית ספרותית</string>
-    </resources>
+    <string name="pref_title_notifications_timeout">זמן מזערי בין התראות</string>
+    <string name="no_limit">ללא הגבלה</string>
+    <string name="seconds_5">5 שניות</string>
+    <string name="seconds_10">10 שניות</string>
+    <string name="seconds_20">20 שניות</string>
+    <string name="seconds_30">30 שניות</string>
+    <string name="minutes_1">דקה</string>
+    <string name="minutes_5">5 דקות</string>
+    <string name="minutes_10">10 דקות</string>
+    <string name="minutes_30">30 דקות</string>
+
+    <string name="mi3_prefs_night_mode">מצב לילה</string>
+    <string name="mi3_prefs_night_mode_summary">הנמכת בהירות המסך אוטומטית בלילה</string>
+
+    <string name="mi3_night_mode_sunset">בשקיעה</string>
+    <string name="ok">אישור</string>
+
+    <string name="share_log">שיתוף יומן</string>
+    <string name="share_log_warning">נא לשים לב שקובץ היומן של Gadgetbridge עשוי להכיל פרטים אישיים רבים, לרבות אך לא רק נתונים רפואיים, מזהים יחודיים (כגון כתובת החומרה של המכשיר), העדפות מוזיקליות וכו׳. מוטב לערוך את הקובץ ולהסיר את המידע הזה בטרם הגשתו באופן ציבורי כדי לדווח על תקלה.</string>
+    <string name="warning">אזהרה!</string>
+<string name="controlcenter_change_led_color">החלפת צבע נורית</string>
+    <string name="controlcenter_change_fm_frequency">החלפת תדירות FM</string>
+    <string name="devicetype_roidmi">Roidmi</string>
+    <string name="devicetype_roidmi3">Roidmi 3</string>
+
+    <string name="preferences_led_color">צבע נורית</string>
+
+    <string name="preferences_fm_frequency">תדר FM</string>
+    <string name="pref_invalid_frequency_title">תדר שגוי</string>
+    <string name="pref_invalid_frequency_message">נא לבחור בתדר בין 87.5 לבין 108.0</string>
+</resources>

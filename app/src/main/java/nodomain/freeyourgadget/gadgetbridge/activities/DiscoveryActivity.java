@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, JohnnySun, Lem Dulfo, Taavi Eomäe, Uwe Hermann
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, boun, Carsten Pfeiffer,
+    Daniele Gobbetti, JohnnySun, jonnsoft, Lem Dulfo, Taavi Eomäe, Uwe Hermann
 
     This file is part of Gadgetbridge.
 

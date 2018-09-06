@@ -188,4 +188,14 @@ class TestDeviceSupport extends AbstractDeviceSupport {
     public void onSendWeather(WeatherSpec weatherSpec) {
 
     }
+
+    @Override
+    public void onSetFmFrequency(float frequency) {
+
+    }
+
+    @Override
+    public void onSetLedColor(int color) {
+
+    }
 }

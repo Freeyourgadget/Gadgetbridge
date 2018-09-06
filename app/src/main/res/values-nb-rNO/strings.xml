@@ -44,7 +44,7 @@
     <string name="title_activity_calblacklist">Svartelistede kalendere</string>
 
     <string name="title_activity_fw_app_insaller">Fastvare-/program-installerer</string>
-    <string name="fw_upgrade_notice">Du er i ferd med å installere fastvaren %s i stedet for den som er installert på ditt Mi Band nå.</string>
+    <string name="fw_upgrade_notice">Du er i ferd med å installere %s-fastvaren i stedet for den som er installert på ditt Mi Band nå.</string>
     <string name="app_name">Gadgetbru</string>
 
     <string name="title_activity_controlcenter">Gadgetbru</string>
@@ -68,19 +68,19 @@
     <string name="miband_firmware_unknown_warning">Denne fastvaren er utestet og er kanskje ikke kompatibel med Gadgetbru. 
 \n
 \nDu FRARÅDES fra å skrive den til ditt Mi Band!</string>
-    <string name="miband_firmware_suggest_whitelist">Hvis du fremdeles ønsker å fortsette og ting fungerer etterpå, fortell Gadgetbru-utviklerne at de skal hvitliste %s-fastvareversjonen</string>
+    <string name="miband_firmware_suggest_whitelist">Hvis du fremdeles ønsker å fortsette og ting fungerer etterpå, fortell Gadgetbru-utviklerne at de skal hvitliste %s-fastvareversjonen.</string>
 
     <string name="title_activity_settings">Innstillinger</string>
 
     <string name="pref_header_general">Hovedinnstillinger</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Koble til enhet når Blåtann slås på</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Koble til Gadgetbridge-enhet når Blåtann slås på</string>
     <string name="pref_title_general_autostartonboot">Start automatisk</string>
     <string name="pref_title_general_autoreconnect">Koble til igjen automatisk</string>
     <string name="pref_title_audio_player">Foretrukken lydspiller</string>
     <string name="pref_default">Forvalg</string>
     <string name="pref_header_datetime">Dato og tid</string>
     <string name="pref_title_datetime_syctimeonconnect">Synkroniser tid</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Synkroniser tid til enhet ved tilkobling, og når tid eller tidssone endres på Android-enheten</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Synkroniser tid til Gadgetbridge-enhet ved tilkobling, og når tid eller tidssone endres på Android-enheten</string>
 
     <string name="pref_title_theme">Drakt</string>
     <string name="pref_theme_light">Lys</string>
@@ -101,7 +101,7 @@
     <string name="pref_title_notifications_generic">Generisk merknadsstøtte</string>
     <string name="pref_title_whenscreenon">…også når skjermen er på</string>
     <string name="pref_title_notification_filter">Ikke forstyrr</string>
-    <string name="pref_summary_notification_filter">Stopp uønskede merknader fra å bli sendt i \"Ikke forstyrr\"-modus</string>
+    <string name="pref_summary_notification_filter">Modus der uønskede merkander stoppes</string>
     <string name="pref_title_transliteration">Translitterasjon</string>
     <string name="pref_summary_transliteration">Skru på hvis din enhet ikke har noen støtte for ditt språks skrift</string>
 
@@ -165,9 +165,9 @@
     <string name="toast_aqurired_networklocation">plassering innhentet</string>
 
     <string name="pref_title_pebble_forceprotocol">Tving gjennom merknadsprotokoll</string>
-    <string name="pref_summary_pebble_forceprotocol">Dette valget tvinger bruk av siste merknadskotroll avhengig av fastvareversjon. KUN SKRU PÅ DETTE HVIS DU VET HVA DU GJØR!</string>
+    <string name="pref_summary_pebble_forceprotocol">Dette valget tvinger bruk av siste merknadskotroll avhengig av fastvareversjon. TA REDE PÅ HVA DU DRIVER PÅ MED!</string>
     <string name="pref_title_pebble_forceuntested">Skru på utestede funksjoner</string>
-    <string name="pref_summary_pebble_forceuntested">Skru på utestede funksjoner. KUN SKRU PÅ DETTE HVIS DU VET HVA DU GJØR!</string>
+    <string name="pref_summary_pebble_forceuntested">Skru på utestede funksjoner. TA REDE PÅ HVA DU DRIVER PÅ MED!</string>
     <string name="pref_title_pebble_forcele">Alltid foretrekk BLE</string>
     <string name="pref_summary_pebble_forcele">Bruk eksperimentell Pebble LE-støtte for alle Pebble-klokker, istedenfor BT classic, som krever parring til ikke-LE først, og så Pebble LE</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU-grense</string>
@@ -364,7 +364,7 @@
     <string name="fwinstaller_firmware_not_compatible_to_device">Fastvaren er ikke kompatibel med enheten</string>
     <string name="miband_prefs_reserve_alarm_calendar">Alarmer å holde av for kommende hendelser</string>
     <string name="miband_prefs_hr_sleep_detection">Bruk pulsmåler for å forbedre bestemmelse av søvnmønster</string>
-	<string name="miband2_prefs_dateformat">Mi2: Datoformat</string>
+	<string name="miband2_prefs_dateformat">Datoformat</string>
     <string name="dateformat_time">Tid</string>
     <string name="dateformat_date_time">Tid og dato</string>
     <string name="mi2_prefs_button_actions">Knappevalg</string>
@@ -418,7 +418,7 @@
     <string name="live_activity_heart_rate">Puls</string>
 
     <string name="pref_title_pebble_health_store_raw">Lagre rådata i databasen</string>
-    <string name="pref_summary_pebble_health_store_raw">Hvis valgt blir dataen lagret \"som den er\" og er tilgjengelig for senere fortolkning. NB: Databasen kan bli større i sådant fall!</string>
+    <string name="pref_summary_pebble_health_store_raw">Hvis valgt blir dataen lagret \"som den er\", noe som øker databasebruk for senere fortolkning.</string>
     <string name="action_db_management">Databasebehandling</string>
     <string name="title_activity_db_management">Databasebehandling</string>
     <string name="dbmanagementactivity_exported_to">Eksporter til: %1$s</string>
@@ -477,7 +477,7 @@
     <string name="discovery_yes_pair">Parr</string>
     <string name="discovery_dont_pair">Ikke parr</string>
 
-    <string name="_pebble_watch_open_on_phone">Åpne på Android-enheten</string>
+    <string name="_pebble_watch_open_on_phone">Åpne på Android-enhet</string>
     <string name="_pebble_watch_mute">Forstum</string>
     <string name="_pebble_watch_reply">Svar</string>
 <string name="pref_title_weather">Vær</string>
@@ -500,7 +500,7 @@
     <string name="pref_header_cannned_messages">Forhåndsutfylte meldinger</string>
     <string name="pref_title_canned_reply_suffix">Vanlig endelse</string>
     <string name="pref_title_canned_messages_dismisscall">Legg på røret</string>
-    <string name="pref_title_pebble_enable_applogs">SKru på logging av klokkeprogram</string>
+    <string name="pref_title_pebble_enable_applogs">Skru på logging av klokkeprogram</string>
     <string name="pref_summary_pebble_enable_applogs">Logger klokkeprogram i Gadgetbridge (krever omstart)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">Send ACK til PebbleKit</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Meldinger sendt til eksterne tredjepartsprogrammer vil alltid bli anerkjent umiddelbart</string>
@@ -604,4 +604,75 @@
     <string name="pref_auto_fetch_limit_fetches">Minimumstid mellom innhentinger</string>
     <string name="pref_auto_fetch_limit_fetches_summary">Henter hvert %d minutt</string>
 
-    </resources>
+    <string name="controlcenter_calibrate_device">Kalibrer enhet</string>
+
+
+    <string name="pref_title_notifications_timeout">Minimumstid mellom merknad</string>
+    <string name="preferences_id115_settings">ID115-innstillinger</string>
+    <string name="prefs_screen_orientation">Skjermretning</string>
+
+    <string name="preferences_miband2_settings">Mi Band 2-innstillinger</string>
+    <string name="preferences_miband3_settings">Mi Band 3-innstillinger</string>
+    <string name="preferences_amazfitcor_settings">Amazfit Cor-inntillinger</string>s
+    <string name="horizontal">Vannrett</string>
+    <string name="vertical">Loddrett</string>
+    <string name="watch9_pairing_tap_hint">Når din klokke vibrerer, rist enheten eller på dens knapp.</string>
+
+    <string name="no_limit">Ingen grense</string>
+    <string name="seconds_5">5 sekunder</string>
+    <string name="seconds_10">10 sekunder</string>
+    <string name="seconds_20">20 sekunder</string>
+    <string name="seconds_30">30 sekunder</string>
+    <string name="minutes_1">1 minutt</string>
+    <string name="minutes_5">5 minutter</string>
+    <string name="minutes_10">10 minutter</string>
+    <string name="minutes_30">30 minutter</string>
+
+    <string name="you_slept">Du sov fra %1$s til %2$s</string>
+    <string name="you_did_not_sleep">Du sov ikke</string>
+    <string name="mi3_prefs_band_screen_unlock">Band-skjermopplåsing</string>
+    <string name="mi3_prefs_band_screen_unlock_summary">Dra oppover for å låse opp band-ens skjerm</string>
+    <string name="mi3_prefs_night_mode">Nattmodus</string>
+    <string name="mi3_prefs_night_mode_summary">Senk band-lysstyrke automatisk om natten</string>
+
+    <string name="norwegian_bokmal">Norsk bokmål</string>
+    <string name="russian">Russisk</string>
+    <string name="german">Tysk</string>
+    <string name="italian">Italiensk</string>
+    <string name="french">Fransk</string>
+    <string name="polish">Polsk</string>
+    <string name="korean">Koreansk</string>
+    <string name="japanese">Japansk</string>
+
+    <string name="mi3_night_mode_sunset">Ved solnedgang</string>
+    <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
+    <string name="devicetype_id115">ID115</string>
+    <string name="devicetype_watch9">Watch 9</string>
+
+    <string name="menuitem_notifications">Merknader</string>
+    <string name="menuitem_music">Musikk</string>
+    <string name="menuitem_more">Mer</string>
+
+    <string name="watch9_time_minutes">Minutter:</string>
+    <string name="watch9_time_hours">Timer:</string>
+    <string name="watch9_time_seconds">Sekunder:</string>
+    <string name="watch9_calibration_hint">Sett tiden din enhet viser deg akkurat nå.</string>
+    <string name="watch9_calibration_button">Kalibrer</string>
+    <string name="title_activity_watch9_pairing">Watch 9-parring</string>
+    <string name="title_activity_watch9_calibration">Watch 9-kalibrering</string>
+<string name="ok">OK</string>
+
+    <string name="share_log">Del logg</string>
+    <string name="share_log_warning">Ha i minnet at Gadgetbridge-loggfiler kan inneholde mye personlig informasjon, inkludert, og ikke begrenset til helsedata, unike indetifikatorer (som enhetens MAC-adresse), musikkpreferanser, osv. Overvei å redigere filen for fjerning av denne infoen før du sender filen til som offentlig feilrapport.</string>
+    <string name="warning">Advarsel!</string>
+<string name="controlcenter_change_led_color">Endre LED-farge</string>
+    <string name="controlcenter_change_fm_frequency">Endre FM-frekvens</string>
+    <string name="devicetype_roidmi">Roidmi</string>
+    <string name="devicetype_roidmi3">Roidmi 3</string>
+
+    <string name="preferences_led_color">LED-farge</string>
+
+    <string name="preferences_fm_frequency">FM-frekvens</string>
+    <string name="pref_invalid_frequency_title">Ugyldig frekvens</string>
+    <string name="pref_invalid_frequency_message">Skriv inn en frekvens mellom 87.5 og 108.0</string>
+</resources>

@@ -1,5 +1,6 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Frank Slezak, ivanovlev, Kasha, Lem Dulfo, Steffen Liebergeld
+    Gobbetti, Frank Slezak, ivanovlev, Kasha, Lem Dulfo, Pavel Elagin, Steffen
+    Liebergeld
 
     This file is part of Gadgetbridge.
 
@@ -17,12 +18,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.NotificationCompat;
@@ -39,6 +43,7 @@ import android.widget.Toast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -53,8 +58,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
+import static android.content.Intent.EXTRA_SUBJECT;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
-
 
 public class DebugActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(DebugActivity.class);
@@ -235,10 +240,56 @@ public class DebugActivity extends AbstractGBActivity {
                 testNewFunctionality();
             }
         });
+
+        Button shareLogButton = findViewById(R.id.shareLog);
+        shareLogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showWarning();
+            }
+        });
+    }
+
+    private void showWarning() {
+        new AlertDialog.Builder(this)
+                .setCancelable(true)
+                .setTitle(R.string.warning)
+                .setMessage(R.string.share_log_warning)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String fileName = GBApplication.getLogPath();
+                        if (fileName != null && fileName.length() > 0) {
+                            Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+                            emailIntent.setType("*/*");
+                            emailIntent.putExtra(EXTRA_SUBJECT, "Gadgetbridge log file");
+                            emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(fileName)));
+                            startActivity(Intent.createChooser(emailIntent, "Share File"));
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .show();
     }
 
     private void testNewFunctionality() {
         GBApplication.deviceService().onTestNewFunction();
+    }
+
+    private void shareLog() {
+        String fileName = GBApplication.getLogPath();
+        if(fileName != null && fileName.length() > 0) {
+            Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+            emailIntent.setType("*/*");
+            emailIntent.putExtra(EXTRA_SUBJECT, "Gadgetbridge log file");
+            emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(fileName)));
+            startActivity(Intent.createChooser(emailIntent, "Share File"));
+        }
     }
 
     private void testNotification() {

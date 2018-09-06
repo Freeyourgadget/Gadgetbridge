@@ -383,4 +383,15 @@
     <string name="miband_prefs_hr_sleep_detection">Використовувати датчик пульсу для поліпшення виявлення сну</string>
 	<string name="dateformat_time">Час</string>
     <string name="dateformat_date_time">Дата і час</string>
+    <string name="pref_title_unit_system">Одиниці вимірювання</string>
+    <string name="tap_connected_device_for_vibration">Натисніть на під\'єднаний пристрій для вібрації</string>
+    <string name="pairing">Утворення пари з %s…</string>
+    <string name="pairing_unable_to_pair_with">Не вдалось утворити пару з %1$s (%2$s)</string>
+    <string name="pairing_in_progress">Зв\'язування в процесі: %1$s (%2$s)</string>
+    <string name="preferences_amazfitcor_settings">Налаштування Amazfit Cor</string>s
+    <string name="watch9_pairing_tap_hint">Коли ваш годинник вібруватиме, потрясіть пристрій або натисніть його кнопку.</string>
+
+    <string name="stats_x_axis_label">Всього хвилин</string>
+    <string name="weeksleepchart_sleep_a_week">Сон за тиждень</string>
+    <string name="weeksleepchart_today_sleep_description">Сон сьогодні, ціль: %1$s</string>
     </resources>

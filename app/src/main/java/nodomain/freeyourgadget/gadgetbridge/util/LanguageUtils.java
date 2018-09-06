@@ -1,5 +1,6 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Daniele Gobbetti, ivanovlev,
-    lazarosfs, McSym28, Ted Stein, Yaron Shahrabani
+/*  Copyright (C) 2017-2018 Andreas Shimokawa, Aniruddha Adhikary, Daniele
+    Gobbetti, ivanovlev, kalaee, lazarosfs, McSym28, Ted Stein, Thomas, Yaron
+    Shahrabani
 
     This file is part of Gadgetbridge.
 
@@ -26,6 +27,7 @@ import java.util.Map;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class LanguageUtils {
+
     //transliteration map with english equivalent for unsupported chars
     private static Map<Character, String> transliterateMap = new HashMap<Character, String>(){
         {
@@ -76,9 +78,9 @@ public class LanguageUtils {
             put('و', "w"); put('ي', "y"); put('ى', "a"); put('ﺓ', "");
             put('آ', "2"); put('ئ', "2"); put('إ', "2"); put('ؤ', "2"); put('أ', "2"); put('ء', "2");
 
-            // Farsi
-            put('پ', "p"); put('چ', "ch"); put('ڜ', "ch"); put('ڤ', "v"); put('ڥ', "v");
-            put('ڨ', "g"); put('گ', "g"); put('ݣ', "g");
+            // Persian(Farsi)
+            put('پ', "p"); put('چ', "ch"); put('ژ', "zh"); put('ک', "k"); put('گ', "g"); put('ی', "y");
+	    put('؟', "?"); put('٪', "%"); put('؛', ";"); put('،', ","); 
 
             // Polish
             put('Ł', "L"); put('ł', "l");

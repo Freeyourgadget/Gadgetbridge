@@ -1,5 +1,6 @@
 /*  Copyright (C) 2015-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti, Felix Konstantin Maurer, Normano64
+    Daniele Gobbetti, Felix Konstantin Maurer, José Rebelo, Martin, Normano64,
+    Pavel Elagin
 
     This file is part of Gadgetbridge.
 
