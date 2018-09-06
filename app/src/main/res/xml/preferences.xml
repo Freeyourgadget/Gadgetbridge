@@ -701,6 +701,29 @@
                     android:summary="%s" />
             </PreferenceCategory>
         </PreferenceScreen>
+        <PreferenceScreen
+            android:icon="@drawable/ic_device_default"
+            android:key="pref_key_zetime"
+            android:title="@string/zetime_title_settings">
+            <PreferenceCategory
+                android:key="pref_category_zetime_general"
+                android:title="@string/pref_header_general">
+
+                <ListPreference
+                    android:defaultValue="left"
+                    android:entries="@array/wearside"
+                    android:entryValues="@array/wearside_values"
+                    android:key="zetime_wrist"
+                    android:title="@string/miband_prefs_wearside"
+                    android:summary="%s" />
+                <EditTextPreference
+                    android:inputType="number"
+                    android:maxLength="5"
+                    android:defaultValue="30"
+                    android:key="zetime_screentime"
+                    android:title="@string/zetime_title_screentime"/>
+            </PreferenceCategory>
+        </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory

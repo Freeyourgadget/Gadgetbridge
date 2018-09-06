@@ -55,6 +55,7 @@ public class ZeTimeConstants {
     public static final byte CMD_SCREEN_ON_TIME = (byte) 0x13;
     public static final byte CMD_SNOOZE = (byte) 0x14;
     public static final byte CMD_DO_NOT_DISTURB = (byte) 0x15;
+    public static final byte CMD_DISPLAY_TIMEOUT = (byte) 0x25;
     public static final byte CMD_USER_INFO = (byte) 0x30;
     public static final byte CMD_USAGE_HABITS = (byte) 0x31;
     public static final byte CMD_USER_NAME = (byte) 0x32;
@@ -105,4 +106,12 @@ public class ZeTimeConstants {
     public static final byte NOTIFICATION_UBER = (byte) 0x13;
     public static final byte NOTIFICATION_LINE = (byte) 0x14;
     public static final byte NOTIFICATION_SKYPE = (byte) 0x15;
+    // watch settings
+    public static final String PREF_WRIST = "zetime_wrist";
+    public static final byte WEAR_ON_LEFT_WRIST = (byte) 0x00;
+    public static final byte WEAR_ON_RIGHT_WRIST = (byte) 0x01;
+
+    public static final String PREF_SCREENTIME = "zetime_screentime";
+    public static final int MAX_SCREEN_ON_TIME = 0xffff;
+
 }

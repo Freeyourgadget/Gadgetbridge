@@ -120,6 +120,8 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         builder.notify(notifyCharacteristic, true);
         requestDeviceInfo(builder);
         requestBatteryInfo(builder);
+        setWrist(builder);
+        setScreenTime(builder);
         requestActivityInfo(builder);
         synchronizeTime(builder);
 
@@ -1152,5 +1154,46 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 0x00, // TimeZone minute
                 ZeTimeConstants.CMD_END};
         sendMsgToWatch(builder, timeSync);
+    }
+
+    // function serving the settings
+    private void setWrist(TransactionBuilder builder)
+    {
+        String value = GBApplication.getPrefs().getString(ZeTimeConstants.PREF_WRIST,"left");
+
+        byte[] wrist = {ZeTimeConstants.CMD_PREAMBLE,
+                        ZeTimeConstants.CMD_USAGE_HABITS,
+                        ZeTimeConstants.CMD_SEND,
+                        (byte)0x1,
+                        (byte)0x0,
+                        ZeTimeConstants.WEAR_ON_LEFT_WRIST,
+                        ZeTimeConstants.CMD_END};
+        if (value.equals("right")) {
+            wrist[5] = ZeTimeConstants.WEAR_ON_RIGHT_WRIST;
+        }
+
+        LOG.warn("Wrist: " + wrist[5]);
+        sendMsgToWatch(builder, wrist);
+    }
+
+    private void setScreenTime(TransactionBuilder builder)
+    {
+        int value = GBApplication.getPrefs().getInt(ZeTimeConstants.PREF_SCREENTIME, 30);
+        if(value > ZeTimeConstants.MAX_SCREEN_ON_TIME)
+        {
+            GB.toast(getContext(), "Value for screen on time is greater than 18h! ", Toast.LENGTH_LONG, GB.ERROR);
+            value = ZeTimeConstants.MAX_SCREEN_ON_TIME;
+        }
+
+        byte[] screentime = {ZeTimeConstants.CMD_PREAMBLE,
+                            ZeTimeConstants.CMD_DISPLAY_TIMEOUT,
+                            ZeTimeConstants.CMD_SEND,
+                            (byte)0x2,
+                            (byte)0x0,
+                            (byte)(value & 0xff),
+                            (byte)(value >> 8),
+                            ZeTimeConstants.CMD_END};
+
+        sendMsgToWatch(builder, screentime);
     }
 }

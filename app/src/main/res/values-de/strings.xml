@@ -571,4 +571,8 @@
     <string name="korean">Koreanisch</string>
     <string name="japanese">Japanisch</string>
 
+    <!-- ZeTime Preferences -->
+    <string name="zetime_title_settings">ZeTime Einstellungen</string>
+    <string name="zetime_title_screentime">Bildschirm-An-Dauer in Sekunden</string>
+
     </resources>

@@ -205,6 +205,10 @@
     <string name="preferences_id115_settings">ID115 settings</string>
     <string name="prefs_screen_orientation">Screen orientation</string>
 
+    <!-- ZeTime Preferences -->
+    <string name="zetime_title_settings">ZeTime settings</string>
+    <string name="zetime_title_screentime">Screen on duration in seconds</string>
+
     <!-- Auto export preferences -->
     <string name="pref_header_auto_export">Auto export</string>
     <string name="pref_title_auto_export_enabled">Auto export enabled</string>
