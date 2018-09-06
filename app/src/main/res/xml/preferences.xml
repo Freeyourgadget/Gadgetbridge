@@ -30,20 +30,55 @@
             android:entryValues="@array/pref_theme_values"
             android:defaultValue="@string/pref_theme_value_light"
             android:summary="%s" />
-        <ListPreference
-            android:defaultValue="default"
-            android:entries="@array/pref_language_options"
-            android:entryValues="@array/pref_language_values"
-            android:key="language"
-            android:summary="%s"
-            android:title="@string/pref_title_language" />
-        <ListPreference
-            android:defaultValue="metric"
-            android:entries="@array/pref_entries_unit_system"
-            android:entryValues="@array/pref_values_unit_system"
-            android:key="measurement_system"
-            android:summary="%s"
-            android:title="@string/pref_title_unit_system" />
+
+        <PreferenceScreen
+            android:key="language_category"
+            android:title="@string/language_and_region_prefs">
+            <ListPreference
+                android:defaultValue="default"
+                android:entries="@array/pref_language_options"
+                android:entryValues="@array/pref_language_values"
+                android:key="language"
+                android:summary="%s"
+                android:title="@string/pref_title_language" />
+            <ListPreference
+                android:defaultValue="metric"
+                android:entries="@array/pref_entries_unit_system"
+                android:entryValues="@array/pref_values_unit_system"
+                android:key="measurement_system"
+                android:summary="%s"
+                android:title="@string/pref_title_unit_system" />
+            <CheckBoxPreference
+                android:layout="@layout/preference_checkbox"
+                android:defaultValue="false"
+                android:key="transliteration"
+                android:summary="@string/pref_summary_transliteration"
+                android:title="@string/pref_title_transliteration" />
+
+            <PreferenceScreen
+                android:title="@string/preferences_rtl_settings">
+                <CheckBoxPreference
+                    android:layout="@layout/preference_checkbox"
+                    android:defaultValue="false"
+                    android:key="rtl"
+                    android:summary="@string/pref_summary_rtl"
+                    android:title="@string/pref_title_rtl" />
+                <CheckBoxPreference
+                    android:layout="@layout/preference_checkbox"
+                    android:defaultValue="false"
+                    android:key="contextualArabic"
+                    android:summary="@string/pref_summary_contextual_arabic"
+                    android:title="@string/pref_title_contextual_arabic" />
+                <EditTextPreference
+                    android:inputType="number"
+                    android:key="rtl_max_line_length"
+                    android:defaultValue="20"
+                    android:maxLength="159"
+                    android:title="@string/pref_rtl_max_line_length"
+                    android:summary="@string/pref_rtl_max_line_length_summary"/>
+            </PreferenceScreen>
+        </PreferenceScreen>
+
         <PreferenceScreen android:title="@string/pref_title_weather">
             <EditTextPreference
                 android:key="weather_city"
@@ -181,39 +216,6 @@
             android:title="@string/pref_title_notifications_timeout"
             android:summary="%s" />
 
-        <CheckBoxPreference
-            android:layout="@layout/preference_checkbox"
-            android:defaultValue="false"
-            android:key="transliteration"
-            android:summary="@string/pref_summary_transliteration"
-            android:title="@string/pref_title_transliteration"
-            />
-        <PreferenceScreen
-        android:title="@string/preferences_rtl_settings">
-            <CheckBoxPreference
-                android:layout="@layout/preference_checkbox"
-                android:defaultValue="false"
-                android:key="rtl"
-                android:summary="@string/pref_summary_rtl"
-                android:title="@string/pref_title_rtl"
-                />
-
-            <CheckBoxPreference
-                android:layout="@layout/preference_checkbox"
-                android:defaultValue="false"
-                android:key="contextualArabic"
-                android:summary="@string/pref_summary_contextual_arabic"
-                android:title="@string/pref_title_contextual_arabic"
-                />
-
-            <EditTextPreference
-                android:inputType="number"
-                android:key="rtl_max_line_length"
-                android:defaultValue="20"
-                android:maxLength="159"
-                android:title="@string/pref_rtl_max_line_length"
-                android:summary="@string/pref_rtl_max_line_length_summary"/>
-        </PreferenceScreen>
         <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
@@ -577,21 +579,21 @@
             <PreferenceCategory
                 android:title="@string/pref_header_development">
                 <CheckBoxPreference
-            android:layout="@layout/preference_checkbox"
                     android:defaultValue="false"
                     android:key="pebble_force_protocol"
+                    android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_pebble_forceprotocol"
                     android:title="@string/pref_title_pebble_forceprotocol" />
                 <CheckBoxPreference
-            android:layout="@layout/preference_checkbox"
                     android:defaultValue="false"
                     android:key="pebble_force_untested"
+                    android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_pebble_forceuntested"
                     android:title="@string/pref_title_pebble_forceuntested" />
                 <CheckBoxPreference
-            android:layout="@layout/preference_checkbox"
                     android:defaultValue="false"
                     android:key="pebble_force_le"
+                    android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_pebble_forcele"
                     android:title="@string/pref_title_pebble_forcele" />
                 <EditTextPreference
@@ -602,28 +604,28 @@
                     android:title="@string/pref_title_pebble_mtu_limit"
                     android:summary="@string/pref_summary_pebble_mtu_limit" />
                 <CheckBoxPreference
-            android:layout="@layout/preference_checkbox"
                     android:defaultValue="false"
                     android:key="pebble_gatt_clientonly"
-                    android:title="@string/pref_title_pebble_gatt_clientonly"
-                    android:summary="@string/pref_summary_pebble_gatt_clientonly" />
+                    android:layout="@layout/preference_checkbox"
+                    android:summary="@string/pref_summary_pebble_gatt_clientonly"
+                    android:title="@string/pref_title_pebble_gatt_clientonly" />
                 <CheckBoxPreference
-            android:layout="@layout/preference_checkbox"
                     android:defaultValue="false"
                     android:key="pebble_enable_applogs"
+                    android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_pebble_enable_applogs"
                     android:title="@string/pref_title_pebble_enable_applogs" />
                 <CheckBoxPreference
-            android:layout="@layout/preference_checkbox"
                     android:defaultValue="false"
                     android:key="pebble_always_ack_pebblekit"
+                    android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_pebble_always_ack_pebblekit"
                     android:title="@string/pref_title_pebble_always_ack_pebblekit" />
                 <CheckBoxPreference
-            android:layout="@layout/preference_checkbox"
                     android:defaultValue="false"
-                    android:key="pebble_enable_background_javascript"
                     android:dependency="pebble_force_untested"
+                    android:key="pebble_enable_background_javascript"
+                    android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_pebble_enable_bgjs"
                     android:title="@string/pref_title_pebble_enable_bgjs" />
                 <EditTextPreference
