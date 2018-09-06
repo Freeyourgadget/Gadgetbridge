@@ -253,6 +253,8 @@
   <string name="weeksleepchart_today_sleep_description">Сон сегодня, цель: %1$s</string>
   <string name="weekstepschart_steps_a_week">Шагов в неделю</string>
   <string name="activity_sleepchart_activity_and_sleep">Ваши активность и сон</string>
+  <string name="lack_of_sleep">Недосып: %1$s</string>
+  <string name="overslept">Пересып: %1$s</string>
   <string name="updating_firmware">Обновление прошивки…</string>
   <string name="fwapp_install_device_not_ready">Файл не может быть установлен, устройство не готово.</string>
   <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
@@ -273,6 +275,8 @@
   <string name="distance">Расстояние</string>
   <string name="liveactivity_live_activity">Жизненная активность</string>
   <string name="weeksteps_today_steps_description">Шагов сегодня, цель: %1$s</string>
+  <string name="lack_of_step">Недопройдено %1$d шагов.</string>
+  <string name="overstep">Пройдено на %1$d шагов больше.</string>
   <string name="pref_title_dont_ack_transfer">Не подтверждать передачу данных об активности</string>
   <string name="pref_summary_dont_ack_transfers">Если данные об активности не будут переданы на устройство, оно не будет очищено. Полезно, если GB используется с другими приложениями.</string>
   <string name="pref_summary_keep_data_on_device">Хранить данные о деятельности на Mi Band, даже после синхронизации. Полезно, если Mi Band используется совместно с другими приложениями.</string>
@@ -600,6 +604,7 @@
     <string name="share_log">Поделиться лог-файлом</string>
     <string name="share_log_warning">Файлы журнала Gadgetbridge могут содержать личную информацию, например уникальные идентификаторы: (устройство, MAC-адрес), предпочтения в музыке и т.д. Рассмотрите возможность редактирования файла и удаления этой информации перед отправкой файла общедоступное место.</string>
     <string name="warning">Внимание!</string>
+    <string name="no_data">Нет данных</string>
 
     <string name="pref_title_notifications_timeout">Минимальный интервал между уведомлениями</string>
     <string name="no_limit">Без ограничений</string>

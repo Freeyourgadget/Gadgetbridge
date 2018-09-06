@@ -356,6 +356,8 @@
     <string name="weeksleepchart_today_sleep_description">Sleep today, target: %1$s</string>
     <string name="weekstepschart_steps_a_week">Steps per week</string>
     <string name="activity_sleepchart_activity_and_sleep">Your activity and sleep</string>
+    <string name="lack_of_sleep">Lack of sleep: %1$s</string>
+    <string name="overslept">Overslept: %1$s</string>
     <string name="updating_firmware">Flashing firmware…</string>
     <string name="fwapp_install_device_not_ready">File cannot be installed, device not ready.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
@@ -390,6 +392,8 @@
 
     <string name="liveactivity_live_activity">Live activity</string>
     <string name="weeksteps_today_steps_description">Steps today, target: %1$s</string>
+    <string name="lack_of_step">Lack of step: %1$d</string>
+    <string name="overstep">Overstep: %1$d</string>
     <string name="pref_title_dont_ack_transfer">Do not ACK activity data transfer</string>
     <string name="pref_summary_dont_ack_transfers">If the activity data are not acked to the band, they will not be cleared. Useful if GB is used together with other apps.</string>
     <string name="pref_summary_keep_data_on_device">Will keep activity data on the Mi Band even after synchronization. Useful if GB is used together with other apps.</string>
@@ -652,6 +656,7 @@
     <string name="share_log">Share log</string>
     <string name="share_log_warning">Please keep in mind Gadgetbridge log files may contain lots of personal information, including but not limited to health data, unique identifiers (such as a device MAC address), music preferences, etc. Consider editing the file and removing this information before sending the file to a public issue report.</string>
     <string name="warning">Warning!</string>
+    <string name="no_data">No data</string>
 
     <!-- LED Color -->
     <string name="preferences_led_color">LED Color</string>
