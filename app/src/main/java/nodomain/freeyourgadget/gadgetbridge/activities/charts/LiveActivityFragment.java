@@ -71,7 +71,6 @@ public class LiveActivityFragment extends AbstractChartFragment {
     private static final int MAX_STEPS_PER_MINUTE = 300;
     private static final int MIN_STEPS_PER_MINUTE = 60;
     private static final int RESET_COUNT = 10; // reset the max steps per minute value every 10s
-    private static final int MIN_VALID_HEART_RATE = 10;
 
     private BarEntry totalStepsEntry;
     private BarEntry stepsPerMinuteEntry;
@@ -242,7 +241,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
         }
         mHistorySet.addEntry(new Entry(timestamp, stepsPerMinute));
         int hr = getCurrentHeartRate();
-        if (hr > MIN_VALID_HEART_RATE) {
+        if (hr > HeartRateUtils.getInstance().getMinHeartRate()) {
             mHeartRateSet.addEntry(new Entry(timestamp, hr));
         }
     }
@@ -485,8 +484,6 @@ public class LiveActivityFragment extends AbstractChartFragment {
         yAxisRight.setDrawLabels(true);
         yAxisRight.setDrawTopYLabelEntry(false);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
-        yAxisRight.setAxisMaximum(HeartRateUtils.getInstance().getMaxHeartRate());
-        yAxisRight.setAxisMinimum(HeartRateUtils.getInstance().getMinHeartRate());
 
         mHistorySet = new LineDataSet(new ArrayList<Entry>(), getString(R.string.live_activity_steps_history));
         mHistorySet.setAxisDependency(YAxis.AxisDependency.LEFT);
