@@ -26,6 +26,8 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 
 import org.slf4j.Logger;
@@ -38,6 +40,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
@@ -177,7 +180,11 @@ public final class BtLEQueue {
         BluetoothDevice remoteDevice = mBluetoothAdapter.getRemoteDevice(mGbDevice.getAddress());
         synchronized (mGattMonitor) {
             // connectGatt with true doesn't really work ;( too often connection problems
-            mBluetoothGatt = remoteDevice.connectGatt(mContext, false, internalGattCallback);
+            if (GBApplication.isRunningMarshmallowOrLater()) {
+                mBluetoothGatt = remoteDevice.connectGatt(mContext, false, internalGattCallback, BluetoothDevice.TRANSPORT_LE);
+            } else {
+                mBluetoothGatt = remoteDevice.connectGatt(mContext, false, internalGattCallback);
+            }
         }
         boolean result = mBluetoothGatt != null;
         if (result) {
@@ -371,8 +378,16 @@ public final class BtLEQueue {
                         LOG.info("Using cached services, skipping discovery");
                         onServicesDiscovered(gatt, BluetoothGatt.GATT_SUCCESS);
                     } else {
-                        LOG.info("Attempting to start service discovery:" +
-                                gatt.discoverServices());
+                        LOG.info("Attempting to start service discovery");
+                        // discover services in the main thread (appears to fix Samsung connection problems)
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (mBluetoothGatt != null) {
+                                    mBluetoothGatt.discoverServices();
+                                }
+                            }
+                        });
                     }
                     break;
                 case BluetoothProfile.STATE_DISCONNECTED:
