@@ -632,12 +632,12 @@
     <string name="activity_prefs_chart_max_heart_rate">דופק מרבי</string>
     <string name="activity_prefs_chart_min_heart_rate">דופק מזערי</string>
 
-    <string name="pref_title_rtl">כתיבה מימין לשמאל</string>
+    <string name="pref_title_rtl">מימין לשמאל</string>
     <string name="pref_summary_rtl">הפעל אפשרות זו אם להתקן אין תמיכה בשפות הנכתבות מימין לשמאל</string>
-    <string name="pref_rtl_max_line_length">גודל שורה מקסימלי מימין-לשמאל</string>
+    <string name="pref_rtl_max_line_length">גודל שורה מרבי מימין לשמאל</string>
     <string name="pref_rtl_max_line_length_summary">כאשר התמיכה בכתיבה מימין לשמאל מופעלת, הטקסט מופרד לשורות. שנה ערך זה אם השורות קצרות/ארוכות מדי.</string>
 
     <string name="pref_title_contextual_arabic">ערבית מחוברת</string>
-    <string name="pref_summary_contextual_arabic">הפעל אפשרות זו על מנת לתמוך בערבית מחוברת</string>
-    <string name="preferences_rtl_settings">תמיכה בכתיבה מימין לשמאל</string>
+    <string name="pref_summary_contextual_arabic">יש להפעיל אפשרות זו כדי לתמוך בערבית מחוברת</string>
+    <string name="preferences_rtl_settings">תמיכה בטקסט מימין לשמאל</string>
     </resources>
