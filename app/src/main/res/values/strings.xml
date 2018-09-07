@@ -660,4 +660,5 @@
     <string name="preferences_fm_frequency">FM Frequency</string>
     <string name="pref_invalid_frequency_title">Invalid frequency</string>
     <string name="pref_invalid_frequency_message">Please enter a frequency between 87.5 and 108.0</string>
+    <string name="language_and_region_prefs">Language and region settings</string>
 </resources>
