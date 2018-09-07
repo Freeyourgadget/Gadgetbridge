@@ -45,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.ZeTimeActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -120,8 +121,10 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         builder.notify(notifyCharacteristic, true);
         requestDeviceInfo(builder);
         requestBatteryInfo(builder);
+        setUserInfo(builder);
         setWrist(builder);
         setScreenTime(builder);
+        setUserGoals(builder);
         requestActivityInfo(builder);
         synchronizeTime(builder);
 
@@ -1183,6 +1186,10 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         {
             GB.toast(getContext(), "Value for screen on time is greater than 18h! ", Toast.LENGTH_LONG, GB.ERROR);
             value = ZeTimeConstants.MAX_SCREEN_ON_TIME;
+        } else if(value < ZeTimeConstants.MIN_SCREEN_ON_TIME)
+        {
+            GB.toast(getContext(), "Value for screen on time is lesser than 10s! ", Toast.LENGTH_LONG, GB.ERROR);
+            value = ZeTimeConstants.MIN_SCREEN_ON_TIME;
         }
 
         byte[] screentime = {ZeTimeConstants.CMD_PREAMBLE,
@@ -1195,5 +1202,85 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                             ZeTimeConstants.CMD_END};
 
         sendMsgToWatch(builder, screentime);
+    }
+
+    private void setUserInfo(TransactionBuilder builder)
+    {
+        ActivityUser activityUser = new ActivityUser();
+        byte gender = (byte)activityUser.getGender();
+        int age = activityUser.getAge();
+        int height = activityUser.getHeightCm();
+        int weight = activityUser.getWeightKg()*10; // weight is set and get in 100g granularity
+
+        if(gender == ActivityUser.GENDER_MALE) // translate gender for zetime
+        {
+            gender = 0;
+        } else if(gender == ActivityUser.GENDER_FEMALE)
+        {
+            gender = 1;
+        } else
+        {
+            gender = 2;
+        }
+
+        byte[] userinfo = {ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_USER_INFO,
+                ZeTimeConstants.CMD_SEND,
+                (byte)0x5,
+                (byte)0x0,
+                gender,
+                (byte)age,
+                (byte)height,
+                (byte)(weight & 0xff),
+                (byte)(weight >> 8),
+                ZeTimeConstants.CMD_END};
+        sendMsgToWatch(builder, userinfo);
+    }
+
+    private void setUserGoals(TransactionBuilder builder)
+    {
+        ActivityUser activityUser = new ActivityUser();
+        int steps = activityUser.getStepsGoal() / 100; // ZeTime expect the steps in 100 increment
+        int calories = activityUser.getCaloriesBurnt();
+        int distance = activityUser.getDistanceKMeters();
+        int sleep = activityUser.getSleepDuration();
+        int activeTime = activityUser.getActiveTimeMinutes();
+
+        // set steps goal
+        byte[] goal = {ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_GOALS,
+                ZeTimeConstants.CMD_SEND,
+                (byte)0x4,
+                (byte)0x0,
+                (byte)0x0,
+                (byte)(steps & 0xff),
+                (byte)(steps >> 8),
+                (byte)0x1,
+                ZeTimeConstants.CMD_END};
+        sendMsgToWatch(builder, goal);
+
+        // set calories goal
+        goal[5] = (byte)0x1;
+        goal[6] = (byte)(calories & 0xff);
+        goal[7] = (byte)(calories >> 8);
+        sendMsgToWatch(builder, goal);
+
+        // set distance goal
+        goal[5] = (byte)0x2;
+        goal[6] = (byte)(distance & 0xff);
+        goal[7] = (byte)(distance >> 8);
+        sendMsgToWatch(builder, goal);
+
+        // set sleep goal
+        goal[5] = (byte)0x3;
+        goal[6] = (byte)(sleep & 0xff);
+        goal[7] = (byte)(sleep >> 8);
+        sendMsgToWatch(builder, goal);
+
+        // set active time goal
+        goal[5] = (byte)0x4;
+        goal[6] = (byte)(activeTime & 0xff);
+        goal[7] = (byte)(activeTime >> 8);
+        sendMsgToWatch(builder, goal);
     }
 }

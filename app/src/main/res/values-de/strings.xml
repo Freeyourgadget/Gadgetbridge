@@ -571,6 +571,10 @@
     <string name="korean">Koreanisch</string>
     <string name="japanese">Japanisch</string>
 
+    <string name="activity_prefs_calories_burnt">Tägliches Ziel: verbrannte Kalorien</string>
+    <string name="activity_prefs_distance_km">Tägliches Ziel: zurückgelegte Strecke in km</string>
+    <string name="activity_prefs_activetime_minutes">Tägliches Ziel: aktive Zeit in Minuten</string>
+
     <!-- ZeTime Preferences -->
     <string name="zetime_title_settings">ZeTime Einstellungen</string>
     <string name="zetime_title_screentime">Bildschirm-An-Dauer in Sekunden</string>

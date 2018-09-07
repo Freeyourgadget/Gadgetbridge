@@ -41,6 +41,9 @@ public class ActivityUser {
     private int activityUserWeightKg;
     private int activityUserSleepDuration;
     private int activityUserStepsGoal;
+    private int activityUserCaloriesBurnt;
+    private int activityUserDistanceKMeters;
+    private int activityUserActiveTimeMinutes;
 
     private static final String defaultUserName = "gadgetbridge-user";
     public static final int defaultUserGender = GENDER_FEMALE;
@@ -50,6 +53,9 @@ public class ActivityUser {
     public static final int defaultUserWeightKg = 70;
     public static final int defaultUserSleepDuration = 7;
     public static final int defaultUserStepsGoal = 8000;
+    public static final int defaultUserCaloriesBurnt = 2000;
+    public static final int defaultUserDistanceKMeters = 5;
+    public static final int defaultUserActiveTimeMinutes = 60;
 
     public static final String PREF_USER_NAME = "mi_user_alias";
     public static final String PREF_USER_YEAR_OF_BIRTH = "activity_user_year_of_birth";
@@ -58,6 +64,9 @@ public class ActivityUser {
     public static final String PREF_USER_WEIGHT_KG = "activity_user_weight_kg";
     public static final String PREF_USER_SLEEP_DURATION = "activity_user_sleep_duration";
     public static final String PREF_USER_STEPS_GOAL = "mi_fitness_goal"; // FIXME: for compatibility
+    public static final String PREF_USER_CALORIES_BURNT = "activity_user_calories_burnt";
+    public static final String PREF_USER_DISTANCE_KMETERS = "activity_user_distance_kmeters";
+    public static final String PREF_USER_ACTIVETIME_MINUTES = "activity_user_activetime_minutes";
 
     public ActivityUser() {
         fetchPreferences();
@@ -127,11 +136,38 @@ public class ActivityUser {
         activityUserYearOfBirth = prefs.getInt(PREF_USER_YEAR_OF_BIRTH, defaultUserYearOfBirth);
         activityUserSleepDuration = prefs.getInt(PREF_USER_SLEEP_DURATION, defaultUserSleepDuration);
         activityUserStepsGoal = prefs.getInt(PREF_USER_STEPS_GOAL, defaultUserStepsGoal);
+        activityUserCaloriesBurnt = prefs.getInt(PREF_USER_CALORIES_BURNT, defaultUserCaloriesBurnt);
+        activityUserDistanceKMeters = prefs.getInt(PREF_USER_DISTANCE_KMETERS, defaultUserDistanceKMeters);
+        activityUserActiveTimeMinutes = prefs.getInt(PREF_USER_ACTIVETIME_MINUTES, defaultUserActiveTimeMinutes);
     }
 
     public Date getUserBirthday() {
         Calendar cal = DateTimeUtils.getCalendarUTC();
         cal.set(GregorianCalendar.YEAR, getYearOfBirth());
         return cal.getTime();
+    }
+
+    public int getCaloriesBurnt()
+    {
+        if (activityUserCaloriesBurnt < 0) {
+            activityUserCaloriesBurnt = defaultUserCaloriesBurnt;
+        }
+        return activityUserCaloriesBurnt;
+    }
+
+    public int getDistanceKMeters()
+    {
+        if (activityUserDistanceKMeters < 0) {
+            activityUserDistanceKMeters = defaultUserDistanceKMeters;
+        }
+        return activityUserDistanceKMeters;
+    }
+
+    public int getActiveTimeMinutes()
+    {
+        if (activityUserActiveTimeMinutes < 0) {
+            activityUserActiveTimeMinutes = defaultUserActiveTimeMinutes;
+        }
+        return activityUserActiveTimeMinutes;
     }
 }

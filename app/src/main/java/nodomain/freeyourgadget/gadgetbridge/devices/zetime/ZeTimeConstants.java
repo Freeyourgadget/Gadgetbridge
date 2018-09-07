@@ -113,5 +113,6 @@ public class ZeTimeConstants {
 
     public static final String PREF_SCREENTIME = "zetime_screentime";
     public static final int MAX_SCREEN_ON_TIME = 0xffff;
+    public static final int MIN_SCREEN_ON_TIME = 0x000a;
 
 }
