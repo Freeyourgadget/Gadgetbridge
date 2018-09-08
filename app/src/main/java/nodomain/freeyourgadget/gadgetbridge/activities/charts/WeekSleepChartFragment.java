@@ -59,6 +59,20 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
+    String getBalance() {
+        final long balance = this.mBalance;
+        this.mBalance = 0;
+        if (balance > 0) {
+            final long totalBalance = balance - (mTargetValue * TOTAL_DAYS);
+            if (totalBalance > 0)
+                return getString(R.string.overslept, getHM((int) totalBalance));
+            else
+                return getString(R.string.lack_of_sleep, getHM((int) Math.abs(totalBalance)));
+        } else
+            return getString(R.string.no_data);
+    }
+
+    @Override
     float[] getTotalsForActivityAmounts(ActivityAmounts activityAmounts) {
         long totalSecondsDeepSleep = 0;
         long totalSecondsLightSleep = 0;
@@ -69,7 +83,10 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
                 totalSecondsLightSleep += amount.getTotalSeconds();
             }
         }
-        return new float[]{(int) (totalSecondsDeepSleep / 60), (int) (totalSecondsLightSleep / 60)};
+        int totalMinutesDeepSleep = (int) (totalSecondsDeepSleep / 60);
+        int totalMinutesLightSleep = (int) (totalSecondsLightSleep / 60);
+        mBalance = mBalance + totalMinutesDeepSleep + totalMinutesLightSleep;
+        return new float[]{totalMinutesDeepSleep, totalMinutesLightSleep};
     }
 
     @Override
@@ -135,5 +152,11 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
         chart.getLegend().setWordWrapEnabled(true);
         chart.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+    }
+
+    private String getHM(int value) {
+        int hours = value / 60;
+        int minutes = value % 60;
+        return String.format("%d:%02d", hours, minutes);
     }
 }

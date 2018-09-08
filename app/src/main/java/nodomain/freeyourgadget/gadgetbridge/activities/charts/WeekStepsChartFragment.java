@@ -54,6 +54,7 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
         for (ActivityAmount amount : activityAmounts.getAmounts()) {
             totalSteps += amount.getTotalSteps();
             amount.getTotalSteps();
+            mBalance = mBalance + totalSteps;
         }
         return new float[]{totalSteps};
     }
@@ -92,5 +93,19 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     protected void setupLegend(Chart chart) {
         // no legend here, it is all about the steps here
         chart.getLegend().setEnabled(false);
+    }
+
+    @Override
+    String getBalance() {
+        final long balance = this.mBalance;
+        this.mBalance = 0;
+        if (balance > 0) {
+            final long totalBalance = balance - (mTargetValue * TOTAL_DAYS);
+            if (totalBalance > 0)
+                return getString(R.string.overstep, (int) Math.abs(totalBalance));
+            else
+                return getString(R.string.lack_of_step, (int) Math.abs(totalBalance));
+        } else
+            return getString(R.string.no_data);
     }
 }
