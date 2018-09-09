@@ -640,4 +640,5 @@
     <string name="pref_title_contextual_arabic">ערבית מחוברת</string>
     <string name="pref_summary_contextual_arabic">יש להפעיל אפשרות זו כדי לתמוך בערבית מחוברת</string>
     <string name="preferences_rtl_settings">תמיכה בטקסט מימין לשמאל</string>
-    </resources>
+    <string name="language_and_region_prefs">הגדרות שפה ואיזור</string>
+</resources>
