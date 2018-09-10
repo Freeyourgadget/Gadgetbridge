@@ -641,4 +641,10 @@
     <string name="pref_summary_contextual_arabic">יש להפעיל אפשרות זו כדי לתמוך בערבית מחוברת</string>
     <string name="preferences_rtl_settings">תמיכה בטקסט מימין לשמאל</string>
     <string name="language_and_region_prefs">הגדרות שפה ואיזור</string>
-</resources>
+<string name="lack_of_sleep">מחסור בשינה: %1$s</string>
+    <string name="overslept">עודף שינה: %1$s</string>
+    <string name="lack_of_step">מחסור בצעדים: %1$d</string>
+    <string name="overstep">עודף צעדים: %1$d</string>
+    <string name="no_data">אין נתונים</string>
+
+    </resources>
