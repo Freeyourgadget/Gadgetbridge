@@ -33,6 +33,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -60,8 +61,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
     protected final int TOTAL_DAYS = 7;
 
     private Locale mLocale;
-    protected int mTargetValue = 0;
-    protected long mBalance = 0;
+    private int mTargetValue = 0;
 
     private PieChart mTodayPieChart;
     private BarChart mWeekChart;
@@ -75,7 +75,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         day.setTime(chartsHost.getEndDate());
         //NB: we could have omitted the day, but this way we can move things to the past easily
         DayData dayData = refreshDayPie(db, day, device);
-        DefaultChartsData weekBeforeData = refreshWeekBeforeData(db, mWeekChart, day, device);
+        WeekChartsData weekBeforeData = refreshWeekBeforeData(db, mWeekChart, day, device);
 
         return new MyChartsData(dayData, weekBeforeData);
     }
@@ -91,24 +91,28 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         mWeekChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
         mWeekChart.setData(mcd.getWeekBeforeData().getData());
         mWeekChart.getXAxis().setValueFormatter(mcd.getWeekBeforeData().getXValueFormatter());
+
+        mBalanceView.setText(mcd.getWeekBeforeData().getBalanceMessage());
     }
 
     @Override
     protected void renderCharts() {
         mWeekChart.invalidate();
         mTodayPieChart.invalidate();
-        mBalanceView.setText(getBalance());
+//        mBalanceView.setText(getBalanceMessage(balance));
     }
 
-    private DefaultChartsData<BarData> refreshWeekBeforeData(DBHandler db, BarChart barChart, Calendar day, GBDevice device) {
+    private WeekChartsData<BarData> refreshWeekBeforeData(DBHandler db, BarChart barChart, Calendar day, GBDevice device) {
         day = (Calendar) day.clone(); // do not modify the caller's argument
         day.add(Calendar.DATE, -TOTAL_DAYS);
         List<BarEntry> entries = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<String>();
 
+        int balance = 0;
         for (int counter = 0; counter < TOTAL_DAYS; counter++) {
             ActivityAmounts amounts = getActivityAmountsForDay(db, day, device);
 
+            balance += calculateBalance(amounts);
             entries.add(new BarEntry(counter, getTotalsForActivityAmounts(amounts)));
             labels.add(day.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, mLocale));
             day.add(Calendar.DATE, 1);
@@ -126,7 +130,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         barChart.getAxisLeft().removeAllLimitLines();
         barChart.getAxisLeft().addLimitLine(target);
 
-        return new DefaultChartsData(barData, new PreformattedXIndexLabelFormatter(labels));
+        return new WeekChartsData(barData, new PreformattedXIndexLabelFormatter(labels), getBalanceMessage(balance, mTargetValue));
     }
 
     private DayData refreshDayPie(DBHandler db, Calendar day, GBDevice device) {
@@ -271,10 +275,10 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
     }
 
     private static class MyChartsData extends ChartsData {
-        private final DefaultChartsData<BarData> weekBeforeData;
+        private final WeekChartsData<BarData> weekBeforeData;
         private final DayData dayData;
 
-        MyChartsData(DayData dayData, DefaultChartsData<BarData> weekBeforeData) {
+        MyChartsData(DayData dayData, WeekChartsData<BarData> weekBeforeData) {
             this.dayData = dayData;
             this.weekBeforeData = weekBeforeData;
         }
@@ -283,7 +287,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
             return dayData;
         }
 
-        DefaultChartsData<BarData> getWeekBeforeData() {
+        WeekChartsData<BarData> getWeekBeforeData() {
             return weekBeforeData;
         }
     }
@@ -331,5 +335,20 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
 
     abstract String getPieDescription(int targetValue);
 
-    abstract String getBalance();
+    protected abstract int calculateBalance(ActivityAmounts amounts);
+
+    protected abstract String getBalanceMessage(int balance, int targetValue);
+
+    private class WeekChartsData<T extends ChartData<?>> extends DefaultChartsData<T> {
+        private final String balanceMessage;
+
+        public WeekChartsData(T data, PreformattedXIndexLabelFormatter xIndexLabelFormatter, String balanceMessage) {
+            super(data, xIndexLabelFormatter);
+            this.balanceMessage = balanceMessage;
+        }
+
+        public String getBalanceMessage() {
+            return balanceMessage;
+        }
+    }
 }

@@ -58,12 +58,23 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         return -12;
     }
 
+
     @Override
-    String getBalance() {
-        final long balance = this.mBalance;
-        this.mBalance = 0;
+    protected int calculateBalance(ActivityAmounts activityAmounts) {
+        long balance = 0;
+
+        for (ActivityAmount amount : activityAmounts.getAmounts()) {
+            if (amount.getActivityKind() == ActivityKind.TYPE_DEEP_SLEEP || amount.getActivityKind() == ActivityKind.TYPE_LIGHT_SLEEP) {
+                balance += amount.getTotalSeconds();
+            }
+        }
+        return (int) (balance / 60);
+    }
+
+    @Override
+    protected String getBalanceMessage(int balance, int targetValue) {
         if (balance > 0) {
-            final long totalBalance = balance - (mTargetValue * TOTAL_DAYS);
+            final long totalBalance = balance - (targetValue * TOTAL_DAYS);
             if (totalBalance > 0)
                 return getString(R.string.overslept, getHM((int) totalBalance));
             else
@@ -85,7 +96,6 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         }
         int totalMinutesDeepSleep = (int) (totalSecondsDeepSleep / 60);
         int totalMinutesLightSleep = (int) (totalSecondsLightSleep / 60);
-        mBalance = mBalance + totalMinutesDeepSleep + totalMinutesLightSleep;
         return new float[]{totalMinutesDeepSleep, totalMinutesLightSleep};
     }
 
@@ -155,8 +165,6 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     }
 
     private String getHM(int value) {
-        int hours = value / 60;
-        int minutes = value % 60;
-        return String.format("%d:%02d", hours, minutes);
+        return DateTimeUtils.formatDurationHoursMinutes(value, TimeUnit.MINUTES);
     }
 }
