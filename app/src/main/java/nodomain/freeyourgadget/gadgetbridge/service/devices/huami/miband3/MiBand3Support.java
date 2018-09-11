@@ -63,6 +63,10 @@ public class MiBand3Support extends AmazfitBipSupport {
                 command[1] |= 0x04;
                 command[5] = pos++;
             }
+            if (pages.contains("activity")) {
+                command[1] |= 0x08;
+                command[6] = pos++;
+            }
             if (pages.contains("more")) {
                 command[1] |= 0x10;
                 command[7] = pos++;

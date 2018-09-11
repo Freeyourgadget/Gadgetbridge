@@ -210,6 +210,7 @@
     <string-array name="pref_miband3_display_items">
         <item>@string/menuitem_notifications</item>
         <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_activity</item>
         <item>@string/menuitem_more</item>
         <item>@string/menuitem_status</item>
         <item>@string/heart_rate</item>
@@ -218,6 +219,7 @@
     <string-array name="pref_miband3_display_items_values">
         <item>@string/p_menuitem_notifications</item>
         <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_activity</item>
         <item>@string/p_menuitem_more</item>
         <item>@string/p_menuitem_status</item>
         <item>@string/p_heart_rate</item>
@@ -226,6 +228,7 @@
     <string-array name="pref_miband3_display_items_default">
         <item>@string/p_menuitem_notifications</item>
         <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_activity</item>
         <item>@string/p_menuitem_more</item>
         <item>@string/p_menuitem_status</item>
         <item>@string/p_heart_rate</item>
