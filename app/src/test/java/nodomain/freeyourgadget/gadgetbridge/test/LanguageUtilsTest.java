@@ -62,7 +62,7 @@ public class LanguageUtilsTest extends TestBase {
         String[] inputs = { "অনিরুদ্ধ", "বিজ্ঞানযাত্রা চলছে চলবে।", "আমি সব দেখেশুনে ক্ষেপে গিয়ে করি বাঙলায় চিৎকার!" };
         String[] outputs = { "oniruddho", "biggaanJaatraa cholochhe cholobe.",
                 "aami sob dekheshune kkhepe giye kori baanglaay chitkaar!" };
-
+2
         String result;
 
         for (int i = 0; i < inputs.length; i++) {
