@@ -172,7 +172,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
             setCurrentHeartRate(heartRate, timestamp);
         }
         int steps = sample.getSteps();
-        if (steps != ActivitySample.NOT_MEASURED) {
+        if (steps > 0) {
             addEntries(steps, timestamp);
         }
     }
