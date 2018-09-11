@@ -149,7 +149,9 @@ public class BengaliLanguageUtils extends LanguageUtils {
     };
 
     // The regex to extract Bengali characters in nested groups.
-    private final static String pattern = "(র্){0,1}(([অ-হড়-য়])(্([অ-মশ-হড়-য়]))*)((‍){0,1}(্([য-ল]))){0,1}([া-ৌ]){0,1}|([্ঁঃংৎ০-৯।])| ";
+    private final static String pattern = "(র্){0,1}(([অ-হড়-য়])(্([অ-মশ-হড়-য়]))*)((‍){0,1}(্([য-ল]))){0,1}([া-ৌ]){0,1}|([্ঁঃংৎ০-৯।])|(\\s)";
+
+
     private final static Pattern bengaliRegex = Pattern.compile(pattern);
 
     private static String getVal(String key) {
@@ -173,7 +175,13 @@ public class BengaliLanguageUtils extends LanguageUtils {
 
         Matcher m = bengaliRegex.matcher(txt);
         StringBuffer sb = new StringBuffer();
+        String lastChar = "";
+        Boolean lastHadComposition = false;
+        Boolean lastHadKaar = false;
+        Boolean nextNeedsO = false;
         while (m.find()) {
+            Boolean thisNeedsO = false;
+            Boolean changePronounciation = false;
             String appendableString = "";
             String reff = m.group(1);
             if (reff != null) {
@@ -200,6 +208,10 @@ public class BengaliLanguageUtils extends LanguageUtils {
                     g = g + 1;
                 }
             }
+            if (m.group(2) != null && m.group(2).equals("ক্ষ")) {
+                changePronounciation = true;
+                thisNeedsO = true;
+            }
             int g = 6;
             while (g < 10) {
                 String key = getVal(m.group(g));
@@ -209,16 +221,24 @@ public class BengaliLanguageUtils extends LanguageUtils {
                 }
                 g = g + 1;
             }
+            String phala = m.group(8);
+            if (phala != null && phala.equals("্য")) {
+                changePronounciation = true;
+                thisNeedsO = true;
+            }
+            String jukto = m.group(4);
+            if (jukto != null) {
+                thisNeedsO = true;
+            }
             String kaar = m.group(10);
             if (kaar != null) {
                 String kaarStr = letters.get(kaar);
                 if (kaarStr != null) {
                     appendableString = appendableString + kaarStr;
                 }
-            } else if (appendableString.length() > 0 && !vowelsAndHasants.containsKey(m.group(0))) {
-                // Adding 'a' like ITRANS if no vowel is present.
-                // TODO: Have to add it dynamically using Bengali grammer rules.
-                appendableString = appendableString + "a";
+                if (kaarStr.equals("i") || kaarStr.equals("ii") || kaarStr.equals("u") || kaarStr.equals("uu")) {
+                    changePronounciation = true;
+                }
             }
             String singleton = m.group(11);
             if (singleton != null) {
@@ -227,14 +247,47 @@ public class BengaliLanguageUtils extends LanguageUtils {
                     appendableString = appendableString + singleStr;
                 }
             }
+            if (changePronounciation && lastChar.equals("a")) {
+                sb.setCharAt(sb.length() - 1, 'o');
+            }
             String others = m.group(0);
             if (others != null) {
 
                 if (appendableString.length() <= 0) {
-                    appendableString = appendableString + others;
+                  appendableString = appendableString + others;
                 }
             }
+            String whitespace = m.group(12);
+            if(nextNeedsO && kaar == null && whitespace == null){
+              appendableString = appendableString + "o";
+              thisNeedsO = false;
+            }
+
+            if (whitespace != null && !lastHadKaar && sb.charAt(sb.length() - 1) == 'o' && !lastHadComposition){
+              sb.setCharAt(sb.length() - 1, Character.MIN_VALUE);
+            }
+            nextNeedsO = false;
+            if(thisNeedsO && kaar == null && whitespace == null){
+              appendableString = appendableString + "o";
+            }
+            if (appendableString.length() > 0 && !vowelsAndHasants.containsKey(m.group(0)) && kaar == null) {
+                nextNeedsO = true;
+            }
+            if (reff != null || m.group(4) != null || m.group(6) != null){
+                lastHadComposition = true;
+            } else {
+                lastHadComposition = false;
+            }
+            if (kaar != null){
+                lastHadKaar = true;
+            } else {
+                lastHadKaar = false;
+            }
             m.appendReplacement(sb, appendableString);
+            lastChar = appendableString;
+        }
+        if (!lastHadKaar && sb.charAt(sb.length() - 1) == 'o' && !lastHadComposition){
+          sb.setCharAt(sb.length() - 1, Character.MIN_VALUE);
         }
         m.appendTail(sb);
         return sb.toString();
