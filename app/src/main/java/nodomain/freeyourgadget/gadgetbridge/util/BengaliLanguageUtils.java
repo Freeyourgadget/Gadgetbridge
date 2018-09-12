@@ -176,12 +176,12 @@ public class BengaliLanguageUtils extends LanguageUtils {
         Matcher m = bengaliRegex.matcher(txt);
         StringBuffer sb = new StringBuffer();
         String lastChar = "";
-        Boolean lastHadComposition = false;
-        Boolean lastHadKaar = false;
-        Boolean nextNeedsO = false;
+        boolean lastHadComposition = false;
+        boolean lastHadKaar = false;
+        boolean nextNeedsO = false;
         while (m.find()) {
-            Boolean thisNeedsO = false;
-            Boolean changePronounciation = false;
+            boolean thisNeedsO = false;
+            boolean changePronounciation = false;
             String appendableString = "";
             String reff = m.group(1);
             if (reff != null) {
