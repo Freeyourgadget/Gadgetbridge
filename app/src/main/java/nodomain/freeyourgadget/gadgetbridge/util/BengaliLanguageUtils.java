@@ -179,8 +179,10 @@ public class BengaliLanguageUtils extends LanguageUtils {
         boolean lastHadComposition = false;
         boolean lastHadKaar = false;
         boolean nextNeedsO = false;
+        boolean addedOTolast = false;
         while (m.find()) {
             boolean thisNeedsO = false;
+            addedOTolast = false;
             boolean changePronounciation = false;
             String appendableString = "";
             String reff = m.group(1);
@@ -257,18 +259,19 @@ public class BengaliLanguageUtils extends LanguageUtils {
                   appendableString = appendableString + others;
                 }
             }
+            if (whitespace != null && !lastHadKaar && addedOToLast && sb.charAt(sb.length() - 1) == 'o' && !lastHadComposition){
+              sb.setCharAt(sb.length() - 1, Character.MIN_VALUE);
+            }
             String whitespace = m.group(12);
             if(nextNeedsO && kaar == null && whitespace == null){
               appendableString = appendableString + "o";
+              addedOToLast = true;
               thisNeedsO = false;
-            }
-
-            if (whitespace != null && !lastHadKaar && sb.charAt(sb.length() - 1) == 'o' && !lastHadComposition){
-              sb.setCharAt(sb.length() - 1, Character.MIN_VALUE);
             }
             nextNeedsO = false;
             if(thisNeedsO && kaar == null && whitespace == null){
               appendableString = appendableString + "o";
+              addedOToLast = true;
             }
             if (appendableString.length() > 0 && !vowelsAndHasants.containsKey(m.group(0)) && kaar == null) {
                 nextNeedsO = true;
@@ -286,7 +289,7 @@ public class BengaliLanguageUtils extends LanguageUtils {
             m.appendReplacement(sb, appendableString);
             lastChar = appendableString;
         }
-        if (!lastHadKaar && sb.charAt(sb.length() - 1) == 'o' && !lastHadComposition){
+        if (!lastHadKaar && addedOToLast && sb.charAt(sb.length() - 1) == 'o' && !lastHadComposition){
           sb.setCharAt(sb.length() - 1, Character.MIN_VALUE);
         }
         m.appendTail(sb);
