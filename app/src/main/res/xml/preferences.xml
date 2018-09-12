@@ -743,6 +743,18 @@
                     android:defaultValue="30"
                     android:key="zetime_screentime"
                     android:title="@string/zetime_title_screentime"/>
+                <ListPreference
+                    android:defaultValue="0"
+                    android:entries="@array/prefs_zetime_heartrate_measurement_interval"
+                    android:entryValues="@array/prefs_zetime_heartrate_measurement_interval_values"
+                    android:key="heartrate_measurement_interval"
+                    android:summary="%s"
+                    android:title="@string/prefs_title_heartrate_measurement_interval" />
+                <CheckBoxPreference
+                    android:key="zetime_dont_del_actdata"
+                    android:title="@string/pref_title_keep_data_on_device"
+                    android:summary="@string/pref_summary_keep_data_on_device"
+                    android:defaultValue="true" />
             </PreferenceCategory>
         </PreferenceScreen>
     </PreferenceCategory>

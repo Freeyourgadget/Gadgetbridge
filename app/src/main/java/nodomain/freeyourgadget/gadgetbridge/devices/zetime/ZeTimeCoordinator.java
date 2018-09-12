@@ -146,7 +146,7 @@ public class ZeTimeCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsRealtimeData() {
-        return false;
+        return true;
     }
 
     @Override

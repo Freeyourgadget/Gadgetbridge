@@ -61,6 +61,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 /**
  * Created by Kranz on 08.02.2018.
@@ -144,7 +145,15 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendConfiguration(String config) {
-
+        switch(config)
+        {
+            case ZeTimeConstants.PREF_WRIST:
+                break;
+            case ZeTimeConstants.PREF_SCREENTIME:
+                break;
+            case "heartrate_measurement_interval":
+                break;
+        }
     }
 
     @Override
@@ -174,7 +183,24 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetHeartRateMeasurementInterval(int seconds) {
+        int heartRateMeasurementIntervall = 0; // 0 means off
+        heartRateMeasurementIntervall = seconds/60; // zetime accepts only minutes
 
+        byte[] heartrate = {ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_AUTO_HEARTRATE,
+                ZeTimeConstants.CMD_SEND,
+                (byte)0x1,
+                (byte)0x0,
+                (byte)heartRateMeasurementIntervall,
+                ZeTimeConstants.CMD_END};
+
+        try {
+            TransactionBuilder builder = performInitialized("enableAutoHeartRate");
+            sendMsgToWatch(builder, heartrate);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error enable auto heart rate measurement: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
     }
 
     @Override
@@ -870,10 +896,27 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    private void deleteStepData()
+    {
+        try {
+            TransactionBuilder builder = performInitialized("deleteStepData");
+            sendMsgToWatch(builder, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
+                    ZeTimeConstants.CMD_DELETE_STEP_COUNT,
+                    ZeTimeConstants.CMD_SEND,
+                    0x01,
+                    0x00,
+                    0x00,
+                    ZeTimeConstants.CMD_END});
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error deleting activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
+    }
+
     private void getHeartRateData()
     {
         try {
-            TransactionBuilder builder = performInitialized("fetchStepData");
+            TransactionBuilder builder = performInitialized("fetchHeartRateData");
             builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_GET_HEARTRATE_EXDATA,
                 ZeTimeConstants.CMD_REQUEST,
@@ -884,14 +927,31 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
             builder.queue(getQueue());
         } catch (IOException e) {
-            GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast(getContext(), "Error fetching heart rate data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
+    }
+
+    private void deleteHeartRateData()
+    {
+        try {
+            TransactionBuilder builder = performInitialized("deleteHeartRateData");
+            sendMsgToWatch(builder, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
+                    ZeTimeConstants.CMD_DELETE_HEARTRATE_DATA,
+                    ZeTimeConstants.CMD_SEND,
+                    0x01,
+                    0x00,
+                    0x00,
+                    ZeTimeConstants.CMD_END});
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error deleting heart rate data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
     }
 
     private void getSleepData()
     {
         try {
-            TransactionBuilder builder = performInitialized("fetchStepData");
+            TransactionBuilder builder = performInitialized("fetchSleepData");
             builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_GET_SLEEP_DATA,
                 ZeTimeConstants.CMD_REQUEST,
@@ -903,7 +963,24 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
             builder.queue(getQueue());
         } catch (IOException e) {
-            GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast(getContext(), "Error fetching sleep data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
+    }
+
+    private void deleteSleepData()
+    {
+        try {
+            TransactionBuilder builder = performInitialized("deleteSleepData");
+            sendMsgToWatch(builder, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
+                    ZeTimeConstants.CMD_DELETE_SLEEP_DATA,
+                    ZeTimeConstants.CMD_SEND,
+                    0x01,
+                    0x00,
+                    0x00,
+                    ZeTimeConstants.CMD_END});
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error deleting sleep data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
     }
 
@@ -933,12 +1010,16 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         progressSteps = (msg[5]&0xff) | ((msg[6] << 8)&0xff00);
         GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSteps *100 / availableStepsData), getContext());
         if (progressSteps == availableStepsData) {
+            Prefs prefs = GBApplication.getPrefs();
             progressSteps = 0;
             availableStepsData = 0;
             GB.updateTransferNotification(null,"", false, 100, getContext());
             if (getDevice().isBusy()) {
                 getDevice().unsetBusyTask();
                 getDevice().sendDeviceUpdateIntent(getContext());
+            }
+            if (!prefs.getBoolean(ZeTimeConstants.PREF_ZETIME_DONT_DEL_ACTDATA, false)) {
+                deleteStepData();
             }
             if(availableHeartRateData > 0) {
                 getHeartRateData();
@@ -978,12 +1059,16 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         progressSleep = (msg[5]&0xff) | (msg[6] << 8)&0xff00;
         GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSleep *100 / availableSleepData), getContext());
         if (progressSleep == availableSleepData) {
+            Prefs prefs = GBApplication.getPrefs();
             progressSleep = 0;
             availableSleepData = 0;
             GB.updateTransferNotification(null,"", false, 100, getContext());
             if (getDevice().isBusy()) {
                 getDevice().unsetBusyTask();
                 getDevice().sendDeviceUpdateIntent(getContext());
+            }
+            if (!prefs.getBoolean(ZeTimeConstants.PREF_ZETIME_DONT_DEL_ACTDATA, false)) {
+                deleteSleepData();
             }
         }
     }
@@ -1008,13 +1093,39 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
         progressHeartRate = (msg[5]&0xff) | ((msg[6] << 8)&0xff00);
         GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressHeartRate *100 / availableHeartRateData), getContext());
+
+        if(((msg[4] << 8)&0xff00 | (msg[3]&0xff)) == 0xe) // if the message is longer than 0x7, than it has to measurements (payload = 0xe)
+        {
+            timestamp = (msg[17] << 24)&0xff000000 | (msg[16] << 16)&0xff0000 | (msg[15] << 8)&0xff00 | (msg[14]&0xff);
+            timestamp += sixHourOffset; // the timestamp from the watch has an offset of six hours, do not know why...
+            sample.setHeartRate(msg[18]);
+            sample.setTimestamp(timestamp);
+
+            try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                sample.setUserId(DBHelper.getUser(dbHandler.getDaoSession()).getId());
+                sample.setDeviceId(DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId());
+                ZeTimeSampleProvider provider = new ZeTimeSampleProvider(getDevice(), dbHandler.getDaoSession());
+                provider.addGBActivitySample(sample);
+            } catch (Exception ex) {
+                GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                GB.updateTransferNotification(null,"Data transfer failed", false, 0, getContext());
+            }
+
+            progressHeartRate = (msg[12]&0xff) | ((msg[13] << 8)&0xff00);
+            GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressHeartRate *100 / availableHeartRateData), getContext());
+        }
+
         if (progressHeartRate == availableHeartRateData) {
+            Prefs prefs = GBApplication.getPrefs();
             progressHeartRate = 0;
             availableHeartRateData = 0;
             GB.updateTransferNotification(null,"", false, 100, getContext());
             if (getDevice().isBusy()) {
                 getDevice().unsetBusyTask();
                 getDevice().sendDeviceUpdateIntent(getContext());
+            }
+            if (!prefs.getBoolean(ZeTimeConstants.PREF_ZETIME_DONT_DEL_ACTDATA, false)) {
+                deleteHeartRateData();
             }
             if(availableSleepData > 0)
             {
@@ -1247,7 +1358,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         int activeTime = activityUser.getActiveTimeMinutes();
 
         // set steps goal
-        byte[] goal = {ZeTimeConstants.CMD_PREAMBLE,
+        byte[] goal_steps = {ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_GOALS,
                 ZeTimeConstants.CMD_SEND,
                 (byte)0x4,
@@ -1257,30 +1368,39 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 (byte)(steps >> 8),
                 (byte)0x1,
                 ZeTimeConstants.CMD_END};
-        sendMsgToWatch(builder, goal);
+        sendMsgToWatch(builder, goal_steps);
 
+        byte[] goal_calories = new byte[goal_steps.length];
+        System.arraycopy(goal_steps, 0, goal_calories, 0, goal_steps.length);
         // set calories goal
-        goal[5] = (byte)0x1;
-        goal[6] = (byte)(calories & 0xff);
-        goal[7] = (byte)(calories >> 8);
-        sendMsgToWatch(builder, goal);
+        goal_calories[5] = (byte)0x1;
+        goal_calories[6] = (byte)(calories & 0xff);
+        goal_calories[7] = (byte)(calories >> 8);
+        sendMsgToWatch(builder, goal_calories);
 
+        byte[] goal_distance = new byte[goal_steps.length];
+        System.arraycopy(goal_steps, 0, goal_distance, 0, goal_steps.length);
         // set distance goal
-        goal[5] = (byte)0x2;
-        goal[6] = (byte)(distance & 0xff);
-        goal[7] = (byte)(distance >> 8);
-        sendMsgToWatch(builder, goal);
+        goal_distance[5] = (byte)0x2;
+        goal_distance[6] = (byte)(distance & 0xff);
+        goal_distance[7] = (byte)(distance >> 8);
+        sendMsgToWatch(builder, goal_distance);
 
+        byte[] goal_sleep = new byte[goal_steps.length];
+        System.arraycopy(goal_steps, 0, goal_sleep, 0, goal_steps.length);
         // set sleep goal
-        goal[5] = (byte)0x3;
-        goal[6] = (byte)(sleep & 0xff);
-        goal[7] = (byte)(sleep >> 8);
-        sendMsgToWatch(builder, goal);
+        goal_sleep[5] = (byte)0x3;
+        goal_sleep[6] = (byte)(sleep & 0xff);
+        goal_sleep[7] = (byte)(sleep >> 8);
+        sendMsgToWatch(builder, goal_sleep);
 
+        byte[] goal_activeTime = new byte[goal_steps.length];
+        System.arraycopy(goal_steps, 0, goal_activeTime, 0, goal_steps.length);
         // set active time goal
-        goal[5] = (byte)0x4;
-        goal[6] = (byte)(activeTime & 0xff);
-        goal[7] = (byte)(activeTime >> 8);
-        sendMsgToWatch(builder, goal);
+        goal_activeTime[5] = (byte)0x4;
+        goal_activeTime[6] = (byte)(activeTime & 0xff);
+        goal_activeTime[7] = (byte)(activeTime >> 8);
+        sendMsgToWatch(builder, goal_activeTime);
     }
+
 }

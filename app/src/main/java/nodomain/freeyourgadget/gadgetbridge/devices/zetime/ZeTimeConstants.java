@@ -115,4 +115,6 @@ public class ZeTimeConstants {
     public static final int MAX_SCREEN_ON_TIME = 0xffff;
     public static final int MIN_SCREEN_ON_TIME = 0x000a;
 
+    public static final String PREF_ZETIME_DONT_DEL_ACTDATA = "zetime_dont_del_actdata";
+
 }
