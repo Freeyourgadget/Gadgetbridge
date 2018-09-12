@@ -179,7 +179,7 @@ public class BengaliLanguageUtils extends LanguageUtils {
         boolean lastHadComposition = false;
         boolean lastHadKaar = false;
         boolean nextNeedsO = false;
-        boolean addedOTolast = false;
+        boolean addedOTOlast = false;
         while (m.find()) {
             boolean thisNeedsO = false;
             addedOTolast = false;
