@@ -117,4 +117,7 @@ public class ZeTimeConstants {
 
     public static final String PREF_ZETIME_DONT_DEL_ACTDATA = "zetime_dont_del_actdata";
 
+    public static final String PREF_ZETIME_MAX_HEARTRATE = "alarm_max_heart_rate";
+    public static final String PREF_ZETIME_MIN_HEARTRATE = "alarm_min_heart_rate";
+
 }

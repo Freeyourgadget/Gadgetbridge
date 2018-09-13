@@ -578,5 +578,7 @@
     <!-- ZeTime Preferences -->
     <string name="zetime_title_settings">ZeTime Einstellungen</string>
     <string name="zetime_title_screentime">Bildschirm-An-Dauer in Sekunden</string>
+    <string name="activity_prefs_alarm_max_heart_rate">Max Puls Alarm</string>
+    <string name="activity_prefs_alarm_min_heart_rate">Min Puls Alarm</string>
 
     </resources>

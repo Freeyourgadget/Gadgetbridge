@@ -750,6 +750,19 @@
                     android:key="heartrate_measurement_interval"
                     android:summary="%s"
                     android:title="@string/prefs_title_heartrate_measurement_interval" />
+                <EditTextPreference
+                    android:inputType="number"
+                    android:key="alarm_max_heart_rate"
+                    android:maxLength="3"
+                    android:defaultValue="180"
+                    android:title="@string/activity_prefs_alarm_max_heart_rate" />
+
+                <EditTextPreference
+                    android:inputType="number"
+                    android:key="alarm_min_heart_rate"
+                    android:maxLength="3"
+                    android:defaultValue="60"
+                    android:title="@string/activity_prefs_alarm_min_heart_rate" />
                 <CheckBoxPreference
                     android:key="zetime_dont_del_actdata"
                     android:title="@string/pref_title_keep_data_on_device"

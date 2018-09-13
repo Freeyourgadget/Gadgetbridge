@@ -58,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.Transaction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -126,17 +127,10 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         setWrist(builder);
         setScreenTime(builder);
         setUserGoals(builder);
+        setHeartRateLimits(builder);
         requestActivityInfo(builder);
         synchronizeTime(builder);
-
-        replyMsgToWatch(builder, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
-                ZeTimeConstants.CMD_MUSIC_CONTROL,
-                ZeTimeConstants.CMD_REQUEST_RESPOND,
-                0x02,
-                0x00,
-                0x02,
-                volume,
-                ZeTimeConstants.CMD_END});
+        initMusicVolume(builder);
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
         LOG.info("Initialization Done");
@@ -145,14 +139,20 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendConfiguration(String config) {
-        switch(config)
-        {
-            case ZeTimeConstants.PREF_WRIST:
-                break;
-            case ZeTimeConstants.PREF_SCREENTIME:
-                break;
-            case "heartrate_measurement_interval":
-                break;
+        try {
+            TransactionBuilder builder = performInitialized("sendConfiguration");
+            switch(config)
+            {
+                case ZeTimeConstants.PREF_WRIST:
+                    setWrist(builder);
+                    break;
+                case ZeTimeConstants.PREF_SCREENTIME:
+                    setScreenTime(builder);
+                    break;
+            }
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error sending configuration: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
     }
 
@@ -1403,4 +1403,34 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         sendMsgToWatch(builder, goal_activeTime);
     }
 
+    private void setHeartRateLimits(TransactionBuilder builder)
+    {
+        Prefs prefs = GBApplication.getPrefs();
+
+        int maxHR = prefs.getInt(ZeTimeConstants.PREF_ZETIME_MAX_HEARTRATE, 180);
+        int minHR = prefs.getInt(ZeTimeConstants.PREF_ZETIME_MIN_HEARTRATE, 60);
+
+        byte[] heartrateAlarm = {ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_HEARTRATE_ALARM_LIMITS,
+                ZeTimeConstants.CMD_SEND,
+                (byte)0x3,
+                (byte)0x0,
+                (byte)(maxHR & 0xff),
+                (byte)(minHR & 0xff),
+                (byte)0x1,  // activate alarm
+                ZeTimeConstants.CMD_END};
+        sendMsgToWatch(builder, heartrateAlarm);
+    }
+
+    private void initMusicVolume(TransactionBuilder builder)
+    {
+        replyMsgToWatch(builder, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_MUSIC_CONTROL,
+                ZeTimeConstants.CMD_REQUEST_RESPOND,
+                0x02,
+                0x00,
+                0x02,
+                volume,
+                ZeTimeConstants.CMD_END});
+    }
 }

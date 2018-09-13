@@ -208,6 +208,8 @@
     <!-- ZeTime Preferences -->
     <string name="zetime_title_settings">ZeTime settings</string>
     <string name="zetime_title_screentime">Screen on duration in seconds</string>
+    <string name="activity_prefs_alarm_max_heart_rate">Max heart rate alarm</string>
+    <string name="activity_prefs_alarm_min_heart_rate">Min heart rate alarm</string>
 
     <!-- Auto export preferences -->
     <string name="pref_header_auto_export">Auto export</string>
