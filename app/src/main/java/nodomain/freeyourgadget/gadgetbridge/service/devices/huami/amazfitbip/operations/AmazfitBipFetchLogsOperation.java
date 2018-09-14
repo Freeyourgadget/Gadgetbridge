@@ -16,6 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.operations;
 
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
@@ -30,17 +32,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbstractGattListenerWriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.AbstractFetchOperation;
+import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class AmazfitBipFetchLogsOperation extends AbstractFetchOperation {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitBipFetchLogsOperation.class);
@@ -72,15 +78,38 @@ public class AmazfitBipFetchLogsOperation extends AbstractFetchOperation {
             return;
         }
 
+        final String taskName = StringUtils.ensureNotNull(builder.getTaskName());
         GregorianCalendar sinceWhen = BLETypeConversions.createCalendar();
         sinceWhen.add(Calendar.DAY_OF_MONTH, -10);
-        builder.write(characteristicFetch, BLETypeConversions.join(new byte[]{
+        byte[] fetchBytes = BLETypeConversions.join(new byte[]{
                         HuamiService.COMMAND_ACTIVITY_DATA_START_DATE,
                         AmazfitBipService.COMMAND_ACTIVITY_DATA_TYPE_DEBUGLOGS},
-                getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES)));
-        builder.add(new WaitAction(1000)); // TODO: actually wait for the success-reply
-        builder.notify(characteristicActivityData, true);
-        builder.write(characteristicFetch, new byte[]{HuamiService.COMMAND_FETCH_DATA});
+                getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES));
+        builder.add(new AbstractGattListenerWriteAction(getQueue(), characteristicFetch, fetchBytes) {
+            @Override
+            protected boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+                UUID characteristicUUID = characteristic.getUuid();
+                if (HuamiService.UUID_UNKNOWN_CHARACTERISTIC4.equals(characteristicUUID)) {
+                    byte[] value = characteristic.getValue();
+
+                    if (ArrayUtils.equals(value, HuamiService.RESPONSE_ACTIVITY_DATA_START_DATE_SUCCESS, 0)) {
+                        handleActivityMetadata(value);
+                        TransactionBuilder newBuilder = createTransactionBuilder(taskName + " Step 2");
+                        newBuilder.notify(characteristicActivityData, true);
+                        newBuilder.write(characteristicFetch, new byte[]{HuamiService.COMMAND_FETCH_DATA});
+                        try {
+                            performImmediately(newBuilder);
+                        } catch (IOException ex) {
+                            GB.toast(getContext(), "Error fetching debug logs: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+                        }
+                        return true;
+                    } else {
+                        handleActivityMetadata(value);
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     @Override

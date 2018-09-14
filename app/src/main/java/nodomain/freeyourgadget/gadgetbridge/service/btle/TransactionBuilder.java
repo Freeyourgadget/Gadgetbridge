@@ -110,4 +110,8 @@ public class TransactionBuilder {
     public Transaction getTransaction() {
         return mTransaction;
     }
+
+    public String getTaskName() {
+        return mTransaction.getTaskName();
+    }
 }

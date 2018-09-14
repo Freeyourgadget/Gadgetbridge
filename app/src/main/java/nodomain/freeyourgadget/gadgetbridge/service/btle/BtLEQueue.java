@@ -107,6 +107,11 @@ public final class BtLEQueue {
                         if (LOG.isDebugEnabled()) {
                             LOG.debug("About to run action: " + action);
                         }
+                        if (action instanceof GattListenerAction) {
+                            // this special action overwrites the transaction gatt listener (if any), it must
+                            // always be the last action in the transaction
+                            internalGattCallback.setTransactionGattCallback(((GattListenerAction)action).getGattCallback());
+                        }
                         if (action.run(mBluetoothGatt)) {
                             // check again, maybe due to some condition, action did not need to write, so we can't wait
                             boolean waitForResult = action.expectsResult();
