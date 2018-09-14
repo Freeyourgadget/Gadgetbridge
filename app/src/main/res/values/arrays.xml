@@ -159,6 +159,15 @@
         <item>@string/p_scheduled</item>
     </string-array>
 
+    <string-array name="zetime_do_not_disturb">
+        <item>@string/mi2_dnd_off</item>
+        <item>@string/mi2_dnd_scheduled</item>
+    </string-array>
+    <string-array name="zetime_do_not_disturb_values">
+        <item>@string/p_off</item>
+        <item>@string/p_scheduled</item>
+    </string-array>
+
     <string-array name="activate_display_on_lift">
         <item>@string/off</item>
         <item>@string/on</item>
@@ -407,7 +416,9 @@
         <item name="0">@string/off</item>
         <item name="300">@string/interval_five_minutes</item>
         <item name="600">@string/interval_ten_minutes</item>
+        <item name="900">@string/interval_fifteen_minutes</item>
         <item name="1800">@string/interval_thirty_minutes</item>
+        <item name="2700">@string/interval_forty_five_minutes</item>
         <item name="3600">@string/interval_one_hour</item>
     </string-array>
 
@@ -415,7 +426,9 @@
         <item>0</item>
         <item>300</item>
         <item>600</item>
+        <item>900</item>
         <item>1800</item>
+        <item>2700</item>
         <item>3600</item>
     </string-array>
 
@@ -440,6 +453,42 @@
         <item>300</item>
         <item>600</item>
         <item>1800</item>
+    </string-array>
+
+    <!-- Note: ZeTime preferences -->
+    <string-array name="zetime_analog_mode">
+        <item name="0">@string/zetime_analog_mode_hands</item>
+        <item name="1">@string/zetime_analog_mode_handsandsteps</item>
+    </string-array>
+    <string-array name="zetime_analog_mode_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="zetime_calories_type">
+        <item name="0">@string/zetime_calories_type_active</item>
+        <item name="1">@string/zetime_calories_type_all</item>
+    </string-array>
+    <string-array name="zetime_calories_type_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="zetime_time_format">
+        <item name="1">@string/zetime_time_format_24h</item>
+        <item name="2">@string/zetime_time_format_12h</item>
+    </string-array>
+    <string-array name="zetime_time_format_values">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="zetime_date_format">
+        <item name="1">@string/zetime_date_format_1</item>
+        <item name="2">@string/zetime_date_format_2</item>
+        <item name="3">@string/zetime_date_format_3</item>
+    </string-array>
+    <string-array name="zetime_date_format_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
     </string-array>
 
 </resources>

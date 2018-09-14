@@ -722,54 +722,10 @@
                     android:summary="%s" />
             </PreferenceCategory>
         </PreferenceScreen>
-        <PreferenceScreen
+        <Preference
             android:icon="@drawable/ic_device_zetime"
             android:key="pref_key_zetime"
-            android:title="@string/zetime_title_settings">
-            <PreferenceCategory
-                android:key="pref_category_zetime_general"
-                android:title="@string/pref_header_general">
-
-                <ListPreference
-                    android:defaultValue="left"
-                    android:entries="@array/wearside"
-                    android:entryValues="@array/wearside_values"
-                    android:key="zetime_wrist"
-                    android:title="@string/miband_prefs_wearside"
-                    android:summary="%s" />
-                <EditTextPreference
-                    android:inputType="number"
-                    android:maxLength="5"
-                    android:defaultValue="30"
-                    android:key="zetime_screentime"
-                    android:title="@string/zetime_title_screentime"/>
-                <ListPreference
-                    android:defaultValue="0"
-                    android:entries="@array/prefs_zetime_heartrate_measurement_interval"
-                    android:entryValues="@array/prefs_zetime_heartrate_measurement_interval_values"
-                    android:key="heartrate_measurement_interval"
-                    android:summary="%s"
-                    android:title="@string/prefs_title_heartrate_measurement_interval" />
-                <EditTextPreference
-                    android:inputType="number"
-                    android:key="alarm_max_heart_rate"
-                    android:maxLength="3"
-                    android:defaultValue="180"
-                    android:title="@string/activity_prefs_alarm_max_heart_rate" />
-
-                <EditTextPreference
-                    android:inputType="number"
-                    android:key="alarm_min_heart_rate"
-                    android:maxLength="3"
-                    android:defaultValue="60"
-                    android:title="@string/activity_prefs_alarm_min_heart_rate" />
-                <CheckBoxPreference
-                    android:key="zetime_dont_del_actdata"
-                    android:title="@string/pref_title_keep_data_on_device"
-                    android:summary="@string/pref_summary_keep_data_on_device"
-                    android:defaultValue="true" />
-            </PreferenceCategory>
-        </PreferenceScreen>
+            android:title="@string/zetime_title_settings"/>
     </PreferenceCategory>
 
     <PreferenceCategory

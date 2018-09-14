@@ -55,6 +55,8 @@ public class ZeTimeConstants {
     public static final byte CMD_SCREEN_ON_TIME = (byte) 0x13;
     public static final byte CMD_SNOOZE = (byte) 0x14;
     public static final byte CMD_DO_NOT_DISTURB = (byte) 0x15;
+    public static final byte CMD_ANALOG_MODE = (byte) 0x17;
+    public static final byte CMD_CONTROL_DEVICE = (byte) 0x1A;
     public static final byte CMD_DISPLAY_TIMEOUT = (byte) 0x25;
     public static final byte CMD_USER_INFO = (byte) 0x30;
     public static final byte CMD_USAGE_HABITS = (byte) 0x31;
@@ -74,6 +76,7 @@ public class ZeTimeConstants {
     public static final byte CMD_GET_HEARTRATE_EXDATA = (byte) 0x61;
     public static final byte CMD_PUSH_EX_MSG = (byte) 0x76;
     public static final byte CMD_PUSH_WEATHER_DATA = (byte) 0x77;
+    public static final byte CMD_SWITCH_SETTINGS = (byte) 0x90;
     public static final byte CMD_PUSH_CALENDAR_DAY = (byte) 0x99;
     public static final byte CMD_MUSIC_CONTROL = (byte) 0xD0;
     // here are the action commands
@@ -120,4 +123,14 @@ public class ZeTimeConstants {
     public static final String PREF_ZETIME_MAX_HEARTRATE = "alarm_max_heart_rate";
     public static final String PREF_ZETIME_MIN_HEARTRATE = "alarm_min_heart_rate";
 
+    public static final String PREF_DO_NOT_DISTURB = "zetime_do_not_disturb";
+    public static final String PREF_DO_NOT_DISTURB_START = "zetime_do_not_disturb_start";
+    public static final String PREF_DO_NOT_DISTURB_END = "zetime_do_not_disturb_end";
+
+    public static final String PREF_ANALOG_MODE = "zetime_analog_mode";
+    public static final String PREF_ACTIVITY_TRACKING = "zetime_activity_tracking";
+    public static final String PREF_HANDMOVE_DISPLAY = "zetime_handmove_display";
+    public static final String PREF_CALORIES_TYPE = "zetime_calories_type";
+    public static final String PREF_TIME_FORMAT = "zetime_time_format";
+    public static final String PREF_DATE_FORMAT = "zetime_date_format";
 }

@@ -27,6 +27,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -124,8 +126,6 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         requestDeviceInfo(builder);
         requestBatteryInfo(builder);
         setUserInfo(builder);
-        setWrist(builder);
-        setScreenTime(builder);
         setUserGoals(builder);
         setHeartRateLimits(builder);
         requestActivityInfo(builder);
@@ -148,6 +148,27 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     break;
                 case ZeTimeConstants.PREF_SCREENTIME:
                     setScreenTime(builder);
+                    break;
+                case ZeTimeConstants.PREF_ANALOG_MODE:
+                    setAnalogMode(builder);
+                    break;
+                case ZeTimeConstants.PREF_ACTIVITY_TRACKING:
+                    setActivityTracking(builder);
+                    break;
+                case ZeTimeConstants.PREF_HANDMOVE_DISPLAY:
+                    setDisplayOnMovement(builder);
+                    break;
+                case ZeTimeConstants.PREF_DO_NOT_DISTURB:
+                    setDoNotDisturb(builder);
+                    break;
+                case ZeTimeConstants.PREF_CALORIES_TYPE:
+                    setCaloriesType(builder);
+                    break;
+                case ZeTimeConstants.PREF_TIME_FORMAT:
+                    setTimeFormate(builder);
+                    break;
+                case ZeTimeConstants.PREF_DATE_FORMAT:
+                    setDateFormate(builder);
                     break;
             }
             builder.queue(getQueue());
@@ -1432,5 +1453,165 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 0x02,
                 volume,
                 ZeTimeConstants.CMD_END});
+    }
+
+    private void setAnalogMode(TransactionBuilder builder)
+    {
+        Prefs prefs = GBApplication.getPrefs();
+        int mode = prefs.getInt(ZeTimeConstants.PREF_ANALOG_MODE, 0);
+
+        byte[] analog = {ZeTimeConstants.CMD_PREAMBLE,
+                    ZeTimeConstants.CMD_ANALOG_MODE,
+                    ZeTimeConstants.CMD_SEND,
+                    (byte)0x1,
+                    (byte)0x0,
+                    (byte)mode,
+                    ZeTimeConstants.CMD_END};
+
+        sendMsgToWatch(builder, analog);
+    }
+
+    private void setActivityTracking(TransactionBuilder builder)
+    {
+        Prefs prefs = GBApplication.getPrefs();
+        boolean tracking = prefs.getBoolean(ZeTimeConstants.PREF_ACTIVITY_TRACKING, false);
+
+        byte[] activity = {ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_CONTROL_DEVICE,
+                ZeTimeConstants.CMD_SEND,
+                (byte)0x1,
+                (byte)0x0,
+                (byte)0x9,
+                ZeTimeConstants.CMD_END};
+        if(tracking)
+        {
+            activity[5] = (byte)0xa;
+        }
+        sendMsgToWatch(builder, activity);
+    }
+
+    private void setDisplayOnMovement(TransactionBuilder builder)
+    {
+        Prefs prefs = GBApplication.getPrefs();
+        boolean movement = prefs.getBoolean(ZeTimeConstants.PREF_ACTIVITY_TRACKING, false);
+
+        byte[] handmove = {ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_SWITCH_SETTINGS,
+                ZeTimeConstants.CMD_SEND,
+                (byte)0x3,
+                (byte)0x0,
+                (byte)0x1,
+                (byte)0xe,
+                (byte)0x0,
+                ZeTimeConstants.CMD_END};
+        if(movement)
+        {
+            handmove[7] = (byte)0x1;
+        }
+        sendMsgToWatch(builder, handmove);
+    }
+
+    private void setDoNotDisturb(TransactionBuilder builder)
+    {
+        Prefs prefs = GBApplication.getPrefs();
+        String scheduled = prefs.getString(ZeTimeConstants.PREF_DO_NOT_DISTURB, "off");
+        String dndScheduled = getContext().getString(R.string.p_scheduled);
+        String start = prefs.getString(ZeTimeConstants.PREF_DO_NOT_DISTURB_START, "22:00");
+        String end = prefs.getString(ZeTimeConstants.PREF_DO_NOT_DISTURB_END, "07:00");
+        DateFormat df_start = new SimpleDateFormat("HH:mm");
+        DateFormat df_end = new SimpleDateFormat("HH:mm");
+        Calendar calendar = GregorianCalendar.getInstance();
+        Calendar calendar_end = GregorianCalendar.getInstance();
+
+        try {
+            calendar.setTime(df_start.parse(start));
+            try {
+                calendar_end.setTime(df_end.parse(end));
+
+                byte[] doNotDisturb = {ZeTimeConstants.CMD_PREAMBLE,
+                        ZeTimeConstants.CMD_DO_NOT_DISTURB,
+                        ZeTimeConstants.CMD_SEND,
+                        (byte)0x5,
+                        (byte)0x0,
+                        (byte)0x0,
+                        (byte)calendar.get(Calendar.HOUR_OF_DAY),
+                        (byte)calendar.get(Calendar.MINUTE),
+                        (byte)calendar_end.get(Calendar.HOUR_OF_DAY),
+                        (byte)calendar_end.get(Calendar.MINUTE),
+                        ZeTimeConstants.CMD_END};
+
+                if(scheduled.equals(dndScheduled))
+                {
+                    doNotDisturb[5] = (byte)0x1;
+                }
+                sendMsgToWatch(builder, doNotDisturb);
+            } catch(Exception e) {
+                LOG.error("Unexpected exception in ZeTimeDeviceSupport.setDoNotDisturb: " + e.getMessage());
+            }
+        } catch(Exception e) {
+            LOG.error("Unexpected exception in ZeTimeDeviceSupport.setDoNotDisturb: " + e.getMessage());
+        }
+    }
+
+    private void setCaloriesType(TransactionBuilder builder)
+    {
+        Prefs prefs = GBApplication.getPrefs();
+        int type = prefs.getInt(ZeTimeConstants.PREF_CALORIES_TYPE, 0);
+
+        byte[] calories = {ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_CALORIES_TYPE,
+                ZeTimeConstants.CMD_SEND,
+                (byte)0x1,
+                (byte)0x0,
+                (byte)type,
+                ZeTimeConstants.CMD_END};
+
+        sendMsgToWatch(builder, calories);
+    }
+
+    private void setTimeFormate(TransactionBuilder builder)
+    {
+        Prefs prefs = GBApplication.getPrefs();
+        int type = prefs.getInt(ZeTimeConstants.PREF_TIME_FORMAT, 0);
+
+        byte[] timeformat = {ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_TIME_SURFACE_SETTINGS,
+                ZeTimeConstants.CMD_SEND,
+                (byte)0x8,
+                (byte)0x0,
+                (byte)0xff, // set to ff to not change anything on the watch
+                (byte)type,
+                (byte)0xff, // set to ff to not change anything on the watch
+                (byte)0xff, // set to ff to not change anything on the watch
+                (byte)0xff, // set to ff to not change anything on the watch
+                (byte)0xff, // set to ff to not change anything on the watch
+                (byte)0xff, // set to ff to not change anything on the watch
+                (byte)0xff, // set to ff to not change anything on the watch
+                ZeTimeConstants.CMD_END};
+
+        sendMsgToWatch(builder, timeformat);
+    }
+
+    private void setDateFormate(TransactionBuilder builder)
+    {
+        Prefs prefs = GBApplication.getPrefs();
+        int type = prefs.getInt(ZeTimeConstants.PREF_TIME_FORMAT, 0);
+
+        byte[] dateformat = {ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_TIME_SURFACE_SETTINGS,
+                ZeTimeConstants.CMD_SEND,
+                (byte)0x8,
+                (byte)0x0,
+                (byte)type,
+                (byte)0xff, // set to ff to not change anything on the watch
+                (byte)0xff, // set to ff to not change anything on the watch
+                (byte)0xff, // set to ff to not change anything on the watch
+                (byte)0xff, // set to ff to not change anything on the watch
+                (byte)0xff, // set to ff to not change anything on the watch
+                (byte)0xff, // set to ff to not change anything on the watch
+                (byte)0xff, // set to ff to not change anything on the watch
+                ZeTimeConstants.CMD_END};
+
+        sendMsgToWatch(builder, dateformat);
     }
 }

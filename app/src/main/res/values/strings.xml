@@ -207,9 +207,27 @@
 
     <!-- ZeTime Preferences -->
     <string name="zetime_title_settings">ZeTime settings</string>
+    <string name="zetime_title_heartrate">Heart rate settings</string>
     <string name="zetime_title_screentime">Screen on duration in seconds</string>
     <string name="activity_prefs_alarm_max_heart_rate">Max heart rate alarm</string>
     <string name="activity_prefs_alarm_min_heart_rate">Min heart rate alarm</string>
+    <string name="zetime_analog_mode">Analog mode</string>
+    <string name="zetime_analog_mode_hands">Only hands</string>
+    <string name="zetime_analog_mode_handsandsteps">Hands and steps</string>
+    <string name="zetime_activity_tracking">Activity tracking</string>
+    <string name="zetime_activity_tracking_summary">Switching the activity tracking on, will count your steps and so on.</string>
+    <string name="zetime_handmove_display">Hand movement</string>
+    <string name="zetime_handmove_display_summary">Rotate your wrist to activate or deactivate the display.</string>
+    <string name="zetime_calories_type">Calories type</string>
+    <string name="zetime_calories_type_active">Only active burnt calories</string>
+    <string name="zetime_calories_type_all">Active and inactive burnt calories</string>
+    <string name="zetime_time_format">Time format</string>
+    <string name="zetime_time_format_24h">24h</string>
+    <string name="zetime_time_format_12h">12h</string>
+    <string name="zetime_date_format">Date format</string>
+    <string name="zetime_date_format_1">YY/MM/DD</string>
+    <string name="zetime_date_format_2">DD/MM/YY</string>
+    <string name="zetime_date_format_3">MM/DD/YY</string>
 
     <!-- Auto export preferences -->
     <string name="pref_header_auto_export">Auto export</string>
@@ -317,7 +335,9 @@
     <string name="interval_one_minute">once a minute</string>
     <string name="interval_five_minutes">every 5 minutes</string>
     <string name="interval_ten_minutes">every 10 minutes</string>
+    <string name="interval_fifteen_minutes">every 15 minutes</string>
     <string name="interval_thirty_minutes">every 30 minutes</string>
+    <string name="interval_forty_five_minutes">every 45 minutes</string>
     <string name="interval_one_hour">once an hour</string>
 
     <string name="stats_title">Speed zones</string>

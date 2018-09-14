@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_category_zetime_general"
+        android:title="@string/pref_header_general">
+
+        <ListPreference
+            android:defaultValue="left"
+            android:entries="@array/wearside"
+            android:entryValues="@array/wearside_values"
+            android:key="zetime_wrist"
+            android:title="@string/miband_prefs_wearside"
+            android:summary="%s" />
+        <EditTextPreference
+            android:inputType="number"
+            android:maxLength="5"
+            android:defaultValue="30"
+            android:key="zetime_screentime"
+            android:title="@string/zetime_title_screentime"/>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="zetime_activity_tracking"
+            android:title="@string/zetime_activity_tracking"
+            android:summary="@string/zetime_activity_tracking_summary" />
+
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/zetime_calories_type"
+            android:entryValues="@array/zetime_calories_type_values"
+            android:key="zetime_calories_type"
+            android:title="@string/zetime_calories_type"
+            android:summary="%s" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="zetime_handmove_display"
+            android:title="@string/zetime_handmove_display"
+            android:summary="@string/zetime_handmove_display_summary" />
+
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/zetime_analog_mode"
+            android:entryValues="@array/zetime_analog_mode_values"
+            android:key="zetime_analog_mode"
+            android:title="@string/zetime_analog_mode"
+            android:summary="%s" />
+
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/zetime_time_format"
+            android:entryValues="@array/zetime_time_format_values"
+            android:key="zetime_time_format"
+            android:title="@string/zetime_time_format"
+            android:summary="%s" />
+
+        <ListPreference
+            android:defaultValue="2"
+            android:entries="@array/zetime_date_format"
+            android:entryValues="@array/zetime_date_format_values"
+            android:key="zetime_date_format"
+            android:title="@string/zetime_date_format"
+            android:summary="%s" />
+
+        <CheckBoxPreference
+            android:key="zetime_dont_del_actdata"
+            android:title="@string/pref_title_keep_data_on_device"
+            android:summary="@string/pref_summary_keep_data_on_device"
+            android:defaultValue="true" />
+
+        <PreferenceScreen
+            android:key="zetime_do_not_disturb_key"
+            android:title="@string/mi2_prefs_do_not_disturb"
+            android:persistent="false"
+            android:summary="@string/mi2_prefs_do_not_disturb_summary">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/mi2_prefs_do_not_disturb"
+                />
+
+            <ListPreference
+                android:defaultValue="@string/p_off"
+                android:entries="@array/zetime_do_not_disturb"
+                android:entryValues="@array/zetime_do_not_disturb_values"
+                android:key="zetime_do_not_disturb"
+                android:title="@string/mi2_prefs_do_not_disturb"
+                android:summary="%s" />
+
+            <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
+                android:defaultValue="22:00"
+                android:key="zetime_do_not_disturb_start"
+                android:title="@string/mi2_prefs_do_not_disturb_start" />
+
+            <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
+                android:defaultValue="07:00"
+                android:key="zetime_do_not_disturb_end"
+                android:title="@string/mi2_prefs_do_not_disturb_end" />
+
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_category_zetime_heartrate"
+        android:title="@string/zetime_title_heartrate">
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/prefs_zetime_heartrate_measurement_interval"
+            android:entryValues="@array/prefs_zetime_heartrate_measurement_interval_values"
+            android:key="heartrate_measurement_interval"
+            android:summary="%s"
+            android:title="@string/prefs_title_heartrate_measurement_interval" />
+        <EditTextPreference
+            android:inputType="number"
+            android:key="alarm_max_heart_rate"
+            android:maxLength="3"
+            android:defaultValue="180"
+            android:title="@string/activity_prefs_alarm_max_heart_rate" />
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="alarm_min_heart_rate"
+            android:maxLength="3"
+            android:defaultValue="60"
+            android:title="@string/activity_prefs_alarm_min_heart_rate" />
+    </PreferenceCategory>
+</PreferenceScreen>
