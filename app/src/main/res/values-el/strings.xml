@@ -683,4 +683,6 @@
     <string name="preferences_fm_frequency">Συχνότητα FM</string>
     <string name="pref_invalid_frequency_title">Μη έγκυρη συχνότητα</string>
     <string name="pref_invalid_frequency_message">Παρακαλώ εισάγετε συχνότητα από 87.5 έως 108.0</string>
-</resources>
+<string name="pref_title_rtl">"Από δεξιά προς αριστερά "</string>
+    <string name="pref_summary_rtl">"Ενεργοποιήστε αυτή την επιλογή αν η συσκευή σας δεν έχει υποστήριξη για γλώσσες που γράφονται από δεξιά "</string>
+    </resources>
