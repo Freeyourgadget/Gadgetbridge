@@ -90,7 +90,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         y.setDrawGridLines(false);
 //        y.setDrawLabels(false);
         // TODO: make fixed max value optional
-        y.setAxisMaximum(1f);
+        //y.setAxisMaximum(200f);
         y.setAxisMinimum(0);
         y.setDrawTopYLabelEntry(false);
         y.setTextColor(CHART_TEXT_COLOR);

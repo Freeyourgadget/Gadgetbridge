@@ -42,6 +42,7 @@ public class GBPrefs {
 
     public static final String CHART_MAX_HEART_RATE = "chart_max_heart_rate";
     public static final String CHART_MIN_HEART_RATE = "chart_min_heart_rate";
+    public static final String CHART_VISUAL_DATA = "chart_visual_data";
 
     private final Prefs mPrefs;
 

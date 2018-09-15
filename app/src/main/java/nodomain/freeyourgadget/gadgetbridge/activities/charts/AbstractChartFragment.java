@@ -69,6 +69,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 
 /**
  * A base class fragment to be used with ChartsActivity. The fragment can supply
@@ -460,8 +461,14 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 //                    date = cal.getTime();
 //                    dateStringTo = dateFormat.format(date);
 //                }
-
-                float movement = sample.getIntensity();
+                int shownActivityType = GBApplication.getPrefs().getInt(GBPrefs.CHART_VISUAL_DATA, 0);
+                float movement = 0;
+                if (shownActivityType == 1){
+                    movement = sample.getSteps();
+                }
+                else{
+                    movement = sample.getIntensity();
+                }
 
                 float value = movement;
                 switch (type) {
