@@ -542,7 +542,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 break;
             }
             case ACTION_SET_HEARTRATE_MEASUREMENT_INTERVAL: {
-                Integer seconds = intent.getIntExtra(EXTRA_INTERVAL_SECONDS, 0);
+                int seconds = intent.getIntExtra(EXTRA_INTERVAL_SECONDS, 0);
                 mDeviceSupport.onSetHeartRateMeasurementInterval(seconds);
                 break;
             }

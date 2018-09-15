@@ -497,7 +497,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             title = notificationSpec.title;
         }
 
-        Long ts = System.currentTimeMillis();
+        long ts = System.currentTimeMillis();
         if (mFwMajor < 3) {
             ts += (SimpleTimeZone.getDefault().getOffset(ts));
         }
@@ -514,7 +514,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                     notificationSpec.sourceName, hasHandle, notificationSpec.cannedReplies);
         } else {
             // 1.x notification on FW 2.X
-            String[] parts = {title, notificationSpec.body, ts.toString(), subtitle};
+            String[] parts = {title, notificationSpec.body, String.valueOf(ts), subtitle};
             // be aware that type is at this point always NOTIFICATION_EMAIL
             return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_EMAIL, 0, parts);
         }
