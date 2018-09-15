@@ -79,32 +79,7 @@ public class FetchActivityOperation extends AbstractFetchOperation {
     protected void startFetching(TransactionBuilder builder) {
         final String taskName = StringUtils.ensureNotNull(builder.getTaskName());
         GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
-        byte[] fetchBytes = BLETypeConversions.join(new byte[] { HuamiService.COMMAND_ACTIVITY_DATA_START_DATE, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_ACTIVTY }, getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES));
-        builder.add(new AbstractGattListenerWriteAction(getQueue(), characteristicFetch, fetchBytes) {
-            @Override
-            protected boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-                UUID characteristicUUID = characteristic.getUuid();
-                if (HuamiService.UUID_UNKNOWN_CHARACTERISTIC4.equals(characteristicUUID)) {
-                    byte[] value = characteristic.getValue();
-
-                    if (ArrayUtils.equals(value, HuamiService.RESPONSE_ACTIVITY_DATA_START_DATE_SUCCESS, 0)) {
-                        handleActivityMetadata(value);
-                        TransactionBuilder newBuilder = createTransactionBuilder(taskName + " Step 2");
-                        newBuilder.notify(characteristicActivityData, true);
-                        newBuilder.write(characteristicFetch, new byte[] { HuamiService.COMMAND_FETCH_DATA});
-                        try {
-                            performImmediately(newBuilder);
-                        } catch (IOException ex) {
-                            GB.toast(getContext(), "Error fetching activity data: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
-                        }
-                        return true;
-                    } else {
-                        handleActivityMetadata(value);
-                    }
-                }
-                return false;
-            }
-        });
+        startFetching(builder, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_ACTIVTY, sinceWhen);
     }
 
     protected void handleActivityFetchFinish(boolean success) {

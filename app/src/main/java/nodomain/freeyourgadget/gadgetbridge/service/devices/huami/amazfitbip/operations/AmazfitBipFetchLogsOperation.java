@@ -78,38 +78,9 @@ public class AmazfitBipFetchLogsOperation extends AbstractFetchOperation {
             return;
         }
 
-        final String taskName = StringUtils.ensureNotNull(builder.getTaskName());
         GregorianCalendar sinceWhen = BLETypeConversions.createCalendar();
         sinceWhen.add(Calendar.DAY_OF_MONTH, -10);
-        byte[] fetchBytes = BLETypeConversions.join(new byte[]{
-                        HuamiService.COMMAND_ACTIVITY_DATA_START_DATE,
-                        AmazfitBipService.COMMAND_ACTIVITY_DATA_TYPE_DEBUGLOGS},
-                getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES));
-        builder.add(new AbstractGattListenerWriteAction(getQueue(), characteristicFetch, fetchBytes) {
-            @Override
-            protected boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-                UUID characteristicUUID = characteristic.getUuid();
-                if (HuamiService.UUID_UNKNOWN_CHARACTERISTIC4.equals(characteristicUUID)) {
-                    byte[] value = characteristic.getValue();
-
-                    if (ArrayUtils.equals(value, HuamiService.RESPONSE_ACTIVITY_DATA_START_DATE_SUCCESS, 0)) {
-                        handleActivityMetadata(value);
-                        TransactionBuilder newBuilder = createTransactionBuilder(taskName + " Step 2");
-                        newBuilder.notify(characteristicActivityData, true);
-                        newBuilder.write(characteristicFetch, new byte[]{HuamiService.COMMAND_FETCH_DATA});
-                        try {
-                            performImmediately(newBuilder);
-                        } catch (IOException ex) {
-                            GB.toast(getContext(), "Error fetching debug logs: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
-                        }
-                        return true;
-                    } else {
-                        handleActivityMetadata(value);
-                    }
-                }
-                return false;
-            }
-        });
+        startFetching(builder, AmazfitBipService.COMMAND_ACTIVITY_DATA_TYPE_DEBUGLOGS, sinceWhen);
     }
 
     @Override
