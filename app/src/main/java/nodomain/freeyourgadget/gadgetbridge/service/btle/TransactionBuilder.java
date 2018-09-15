@@ -68,6 +68,12 @@ public class TransactionBuilder {
         return new NotifyAction(characteristic, enable);
     }
 
+    /**
+     * Causes the queue to sleep for the specified time.
+     * Note that this is usually a bad idea, since it will not be able to process messages
+     * during that time. It is also likely to cause race conditions.
+     * @param millis the number of milliseconds to sleep
+     */
     public TransactionBuilder wait(int millis) {
         WaitAction action = new WaitAction(millis);
         return add(action);
