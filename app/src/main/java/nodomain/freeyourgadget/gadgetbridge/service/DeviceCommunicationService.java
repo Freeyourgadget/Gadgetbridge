@@ -339,6 +339,19 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     mGBDevice.sendDeviceUpdateIntent(this);
                 }
                 break;
+            default:
+                if (mDeviceSupport == null || mGBDevice == null) {
+                    LOG.warn("device support:" + mDeviceSupport + ", device: " + mGBDevice + ", aborting");
+                } else {
+                    handleAction(intent, action, prefs);
+                }
+                break;
+        }
+        return START_STICKY;
+    }
+
+    private void handleAction(Intent intent, String action, Prefs prefs) {
+        switch (action) {
             case ACTION_REQUEST_DEVICEINFO:
                 mGBDevice.sendDeviceUpdateIntent(this);
                 break;
@@ -567,8 +580,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 }
                 break;
         }
-
-        return START_STICKY;
     }
 
     /**
