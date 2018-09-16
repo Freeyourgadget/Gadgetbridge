@@ -244,7 +244,6 @@ public class LiveActivityFragment extends AbstractChartFragment {
         if (hr > HeartRateUtils.getInstance().getMinHeartRate()) {
             mHeartRateSet.addEntry(new Entry(timestamp, hr));
         }
-        mHeartRateSet.addEntry(new Entry(timestamp, hr));
     }
 
     private boolean addHistoryDataSet(boolean force) {
