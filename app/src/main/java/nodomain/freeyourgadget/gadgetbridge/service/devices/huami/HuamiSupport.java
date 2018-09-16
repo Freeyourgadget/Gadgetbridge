@@ -377,7 +377,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         LOG.info("Attempting to set Fitness Goal...");
         BluetoothGattCharacteristic characteristic = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_8_USER_SETTINGS);
         if (characteristic != null) {
-            int fitnessGoal = GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_STEPS_GOAL, 10000);
+            int fitnessGoal = GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_STEPS_GOAL, ActivityUser.defaultUserStepsGoal);
             byte[] bytes = ArrayUtils.addAll(
                     HuamiService.COMMAND_SET_FITNESS_GOAL_START,
                     BLETypeConversions.fromUint16(fitnessGoal));

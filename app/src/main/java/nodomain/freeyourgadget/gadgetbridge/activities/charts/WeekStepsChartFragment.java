@@ -40,7 +40,7 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
 
     @Override
     int getGoal() {
-        return GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_STEPS_GOAL, 10000);
+        return GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_STEPS_GOAL, ActivityUser.defaultUserStepsGoal);
     }
 
     @Override
