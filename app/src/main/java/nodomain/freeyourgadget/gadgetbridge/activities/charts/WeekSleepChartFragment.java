@@ -60,7 +60,7 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
 
 
     @Override
-    protected int calculateBalance(ActivityAmounts activityAmounts) {
+    protected long calculateBalance(ActivityAmounts activityAmounts) {
         long balance = 0;
 
         for (ActivityAmount amount : activityAmounts.getAmounts()) {
@@ -72,13 +72,13 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    protected String getBalanceMessage(int balance, int targetValue) {
+    protected String getBalanceMessage(long balance, int targetValue) {
         if (balance > 0) {
             final long totalBalance = balance - (targetValue * TOTAL_DAYS);
             if (totalBalance > 0)
-                return getString(R.string.overslept, getHM((int) totalBalance));
+                return getString(R.string.overslept, getHM(totalBalance));
             else
-                return getString(R.string.lack_of_sleep, getHM((int) Math.abs(totalBalance)));
+                return getString(R.string.lack_of_sleep, getHM(Math.abs(totalBalance)));
         } else
             return getString(R.string.no_data);
     }
@@ -100,8 +100,8 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    protected String formatPieValue(int value) {
-        return DateTimeUtils.formatDurationHoursMinutes((long) value, TimeUnit.MINUTES);
+    protected String formatPieValue(long value) {
+        return DateTimeUtils.formatDurationHoursMinutes(value, TimeUnit.MINUTES);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         return new IValueFormatter() {
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                return formatPieValue((int) value);
+                return formatPieValue((long) value);
             }
         };
     }
@@ -164,7 +164,7 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         chart.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
     }
 
-    private String getHM(int value) {
+    private String getHM(long value) {
         return DateTimeUtils.formatDurationHoursMinutes(value, TimeUnit.MINUTES);
     }
 }

@@ -108,7 +108,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         List<BarEntry> entries = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<String>();
 
-        int balance = 0;
+        long balance = 0;
         for (int counter = 0; counter < TOTAL_DAYS; counter++) {
             ActivityAmounts amounts = getActivityAmountsForDay(db, day, device);
 
@@ -171,7 +171,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
             set.setValueFormatter(getPieValueFormatter());
         }
 
-        return new DayData(data, formatPieValue((int) totalValue));
+        return new DayData(data, formatPieValue((long) totalValue));
     }
 
     @Override
@@ -321,7 +321,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
 
     abstract float[] getTotalsForActivityAmounts(ActivityAmounts activityAmounts);
 
-    abstract String formatPieValue(int value);
+    abstract String formatPieValue(long value);
 
     abstract String[] getPieLabels();
 
@@ -335,9 +335,9 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
 
     abstract String getPieDescription(int targetValue);
 
-    protected abstract int calculateBalance(ActivityAmounts amounts);
+    protected abstract long calculateBalance(ActivityAmounts amounts);
 
-    protected abstract String getBalanceMessage(int balance, int targetValue);
+    protected abstract String getBalanceMessage(long balance, int targetValue);
 
     private class WeekChartsData<T extends ChartData<?>> extends DefaultChartsData<T> {
         private final String balanceMessage;
