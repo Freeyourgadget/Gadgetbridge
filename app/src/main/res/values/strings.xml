@@ -107,9 +107,9 @@
     <string name="pref_summary_transliteration">Enable this if your device has no support for your language\'s font</string>
 
     <string name="pref_title_rtl">Right-To-Left</string>
-    <string name="pref_summary_rtl">Enable this if your device has no support in right-to-left languages</string>
+    <string name="pref_summary_rtl">Enable this if your device can not show right-to-left languages</string>
     <string name="pref_rtl_max_line_length">Right-To-Left Max Line Length</string>
-    <string name="pref_rtl_max_line_length_summary">When Right-To-Left is enable, the text is separated to lines. Change this value if the lines are to long/short.</string>
+    <string name="pref_rtl_max_line_length_summary">Lengthens or shortens the lines Right-To-Left text is seperated into</string>
 
     <string name="always">Always</string>
     <string name="when_screen_off">When screen is off</string>
