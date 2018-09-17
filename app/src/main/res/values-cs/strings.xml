@@ -5,7 +5,7 @@
   <string name="action_settings">Nastavení</string>
   <string name="action_debug">Ladění</string>
   <string name="action_quit">Ukončit</string>
-  <string name="controlcenter_fetch_activity_data">Načíst data</string>
+  <string name="controlcenter_fetch_activity_data">Synchronizovat</string>
   <string name="controlcenter_start_sleepmonitor">Monitor spánku (alfa)</string>
   <string name="controlcenter_find_device">Najít zařízení</string>
   <string name="controlcenter_take_screenshot">Pořídit snímek displeje</string>
@@ -44,31 +44,31 @@
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">Instalátor FW/App</string>
   <string name="fw_upgrade_notice">Instaluje firmvér %s do Mi Band místo stávajícího.</string>
-  <string name="fw_multi_upgrade_notice">Instaluje firmvér %1$s a %2$s do Mi Band místo stávajícího.</string>
-  <string name="miband_firmware_known">Tento firmvér byl testován a je kompatibilní s Gadgetbridge.</string>
+  <string name="fw_multi_upgrade_notice">Instaluje %1$s a %2$s firmvér, místo stávajícího.</string>
+  <string name="miband_firmware_known">Tento firmvér byl testován a je známa jeho kompatibilita s Gadgetbridge.</string>
   <string name="miband_firmware_unknown_warning">Tento firmvér nebyl testován a nemusí být kompatibilní s Gadgetbridge.
 \n
 \nNedoporučujeme jej nahrávat do Mi Band!</string>
-  <string name="miband_firmware_suggest_whitelist">Pokud budete prokračovat a vše bude fungovat běžně i potom, upozorněte vývojáře Gadgetbridge, aby označili tento firmvér: %s jako vyzkoušený</string>
+  <string name="miband_firmware_suggest_whitelist">Chcete-li stále pokračovat a bude-li vše správně fungovat i po aktualizaci, oznamte vývojářům Gadgetbridge, aby označili tuto verzi firmvéru: %s jako funkční..</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Nastavení</string>
-  <string name="pref_header_general">Základní nastavení</string>
-  <string name="pref_title_general_autoconnectonbluetooth">Připojit zařízení pokud je zapnutý BT</string>
+  <string name="pref_header_general">Obecná nastavení</string>
+  <string name="pref_title_general_autoconnectonbluetooth">Připojit Gadgetbridge k zařízení při zapnutí Bluetooth</string>
   <string name="pref_title_general_autostartonboot">Spouštět automaticky</string>
   <string name="pref_title_general_autoreconnect">Automatické znovupřipojení</string>
-  <string name="pref_title_audio_player">Preferovaný přehrávač zvuků</string>
+  <string name="pref_title_audio_player">Preferovaný přehrávač hudby</string>
   <string name="pref_default">Výchozí</string>
   <string name="pref_header_datetime">Datum a čas</string>
-  <string name="pref_title_datetime_syctimeonconnect">Nastavit čas</string>
-  <string name="pref_summary_datetime_syctimeonconnect">Nastavit čas během připojení a při změně času v Androidu</string>
+  <string name="pref_title_datetime_syctimeonconnect">Synchronizovat čas</string>
+  <string name="pref_summary_datetime_syctimeonconnect">Synchronizovat čas během připojení k zařízení a při změně času v Androidu</string>
   <string name="pref_title_theme">Téma</string>
   <string name="pref_theme_light">Světlé</string>
   <string name="pref_theme_dark">Tmavé</string>
   <string name="pref_title_language">Jazyk</string>
   <string name="pref_title_minimize_priority">Skrýt notifikace Gadgetbridge</string>
   <string name="pref_summary_minimize_priority_off">Ikona ve stavové liště a notifikace na zamčeném displeji budou zobrazeny</string>
-  <string name="pref_summary_minimize_priority_on">Ikona ve stavové liště a notifikace na zamčeném displeji nebudou zobrazeny</string>
-  <string name="pref_header_notifications">Notifikace</string>
+  <string name="pref_summary_minimize_priority_on">Ikona ve stavové liště a notifikace na zamčeném displeji budou skryty</string>
+  <string name="pref_header_notifications">Upozornění</string>
   <string name="pref_title_notifications_repetitions">Opakování</string>
   <string name="pref_title_notifications_call">Volání</string>
   <string name="pref_title_notifications_sms">SMS</string>
@@ -77,7 +77,7 @@
   <string name="pref_title_notifications_generic">Přístup k notifikacím</string>
   <string name="pref_title_whenscreenon">Upozornění i při zapnuté obrazovce</string>
   <string name="pref_title_notification_filter">Nerušit</string>
-  <string name="pref_summary_notification_filter">Neposílat nechtěné notifikace v režimu Nerušit</string>
+  <string name="pref_summary_notification_filter">Neposílat nechtěná upozornění v režimu Nerušit</string>
   <string name="pref_title_transliteration">Přepsání diakritiky</string>
   <string name="pref_summary_transliteration">Toto zapněte, pokud vaše zařízení nepodporuje písma pro vás jazyk</string>
   <string name="always">Vždy</string>
@@ -217,7 +217,7 @@
   <string name="pref_screen_notification_profile_sms">Notifikace SMS</string>
   <string name="pref_header_vibration_settings">Nastavení vibrací</string>
   <string name="pref_screen_notification_profile_generic">Obecné notifikace</string>
-  <string name="pref_screen_notification_profile_email">Notifikace emailu</string>
+  <string name="pref_screen_notification_profile_email">Upozornění emailu</string>
   <string name="pref_screen_notification_profile_incoming_call">Notifikace volání</string>
   <string name="pref_screen_notification_profile_generic_chat">Konverzace</string>
   <string name="pref_screen_notification_profile_generic_navigation">Navigace</string>
@@ -237,7 +237,7 @@
   <string name="alarm_sat_short">So</string>
   <string name="alarm_smart_wakeup">Chytré buzení</string>
   <string name="user_feedback_miband_set_alarms_failed">Nepodařilo se nastavit budík, zkuste to znovu!</string>
-  <string name="user_feedback_miband_set_alarms_ok">Budík zaslán do zařízení!</string>
+  <string name="user_feedback_miband_set_alarms_ok">Čas buzení odeslán do zařízení.</string>
   <string name="chart_no_data_synchronize">Chybí data, provést stažení?</string>
   <string name="user_feedback_miband_activity_data_transfer">Stahnout data %1$s z %2$s</string>
   <string name="miband_prefs_fitness_goal">Cílový počet kroků na den</string>
@@ -279,7 +279,7 @@
   <string name="pref_summary_dont_ack_transfers">Pokud není přenos dat potvrzen náramku, potom nebudou smazána. Užitečné pokud je GB používán dohromady s jinou aplikací.</string>
   <string name="pref_summary_keep_data_on_device">Zachová data o aktivitě v Mi Band i po synchronizaci. Užitečné pokud je GB používán dohromady s jinou aplikací.</string>
   <string name="pref_title_low_latency_fw_update">Použít režim z nízkým zpožděním pro aktualizace firmwaru</string>
-  <string name="pref_summary_low_latency_fw_update">Může to pomoci u zařízení, kde aktualizace firmwaru selhala</string>
+  <string name="pref_summary_low_latency_fw_update">Může to pomoci u zařízení, kde aktualizace firmwaru selhala.</string>
   <string name="live_activity_steps_history">Historie kroků</string>
   <string name="live_activity_current_steps_per_minute">Aktuálně kroků/min</string>
   <string name="live_activity_total_steps">Celkem kroků</string>
@@ -297,7 +297,7 @@
   <string name="miband_prefs_reserve_alarm_calendar">Budíky pro nadcházející události</string>
   <string name="miband_prefs_hr_sleep_detection">Použít sledování tepu pro zlepšení detekce spánku</string>
   <string name="miband_prefs_device_time_offset_hours">Časový posun zařízení v hodinách (pro zjišťování spánku směnařů)</string>
-  <string name="miband2_prefs_dateformat">Mi2: formát data</string>
+  <string name="miband2_prefs_dateformat">Formát data</string>
   <string name="dateformat_time">Čas</string>
   <string name="dateformat_date_time">Čas a dátum</string>
   <string name="mi2_prefs_activate_display_on_lift">Zapnout displej při zvednutí</string>
@@ -350,7 +350,7 @@
   <string name="title_activity_vibration">Vibrace</string>
   <!--Strings related to Pebble Pairing Activity-->
   <string name="title_activity_pebble_pairing">Párování Pebble</string>
-  <string name="pebble_pairing_hint">Dialog párování by se měl objevit na vašem zařízení s Androidem. Pokud se to nestane, zkontrolujte panel notifikací a potvrďte párování. Potom potvrďte párování na Pebble</string>
+  <string name="pebble_pairing_hint">Dialog párování by se měl objevit na vašem zařízení s Androidem. Pokud se to nestane, zkontrolujte panel notifikací a potvrďte párování. Poté potvrďte párování na Pebble.</string>
   <string name="weather_notification_label">Ujistěte se, že tento skin je povolen v aplikaci pro oznámení počasí pro získávání informací v Pebble.\n\nNení třeba nic nastavovat.\n\nAplikaci pro počasí Pebble je možné povolit ve správě aplikací.\n\nPodporované ciferníky ukáží počasí automaticky.</string>
   <string name="pref_title_setup_bt_pairing">Zapnout párování BT</string>
   <string name="pref_summary_setup_bt_pairing">Toto vypněte v případě problémů s připojením</string>
@@ -435,13 +435,13 @@
 \nDĚLÁTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="amazfitbip_firmware">"Firmware Amazfit Bipu  %1$s"</string>
 <string name="controlcenter_connect">Připojit</string>
-    <string name="fw_upgrade_notice_amazfitcor">Chystáte se nainstalovat firmvér %s do vašeho Amazfit Cor.
+    <string name="fw_upgrade_notice_amazfitcor">Chystáte se nainstalovat firmvér %s do vašeho Amazfit Cor. 
+\n 
+\nProsím, ujistěte se, že jste nainstalovali soubor .fw a potom soubor .res. Vaše hodinky se po instalaci souboru .fw restartují. 
+\n 
+\nPoznámka: Nemusíte instalovat soubor .res, pokud je stejný jako nainstalován dříve. 
 \n
-\nProsím, ujistěte se, že jste nainstalovali soubor .fw a potom soubor .res. Vaše hodinky se po instalaci souboru .fw restartují.
-\n
-\nPoznámka: Nemusíte instalovat soubor .res, pokud je stejný jako nainstalován dříve.
-\n
-\n NETESTOVÁNO, MŮŽE UMRTVIT VAŠE ZAŘÍZENÍ, DĚLÁTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="pref_title_charts_swipe">Zapnout možnost potažení vlevo/vpravo v grafech aktivit</string>
 
     <string name="pref_title_weather">Počasí</string>
@@ -473,7 +473,7 @@
 
     <string name="activity_web_view">Aktivity Webový pohled</string>
 
-    <string name="_pebble_watch_open_on_phone">Otevřít na telefonu</string>
+    <string name="_pebble_watch_open_on_phone">Otevřít na Android zařízení</string>
     <string name="_pebble_watch_mute">Ztlumit</string>
     <string name="_pebble_watch_reply">Znova</string>
 
@@ -532,4 +532,116 @@
     <string name="menuitem_compass">Kompas</string>
     <string name="menuitem_settings">Nastavení</string>
     <string name="menuitem_alipay">Alipay</string>
+<string name="controlcenter_change_led_color">Změnit barvu LED</string>
+    <string name="controlcenter_change_fm_frequency">Změnit FM frekvenci</string>
+    <string name="controlcenter_calibrate_device">Kalibrovat zařízení</string>
+
+
+    <string name="blacklist_all_for_notifications">Seznam všech zakázaných upozornění</string>
+    <string name="whitelist_all_for_notifications">Seznam všech povolených upozornění</string>
+
+
+    <string name="fw_upgrade_notice_miband3">Chystáte se nainstalovat firmvér %s do vašeho Mi Band 3.
+\n 
+\nProsím, ujistěte se, že jste nainstalovali soubor .fw a potom soubor .res. Vaše hodinky se po instalaci souboru .fw restartují. 
+\n 
+\nPoznámka: Nemusíte instalovat soubor .res, pokud je stejný jako nainstalován dříve. 
+\n
+\nNETESTOVÁNO, MŮŽE POŠKODIT VAŠE ZAŘÍZENÍ, POKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="pref_title_notifications_timeout">Minimální doba mezi upozorněními</string>
+    <string name="pref_title_rtl">Zprava doleva</string>
+    <string name="pref_summary_rtl">Povolte, podporuje-li vaše zařízení jazyky zprava doleva</string>
+    <string name="pref_rtl_max_line_length">Maximální délka řádku pro zprava doleva</string>
+    <string name="pref_rtl_max_line_length_summary">Je-li zapnuta podpora pro zleva doprava, text je rozdělen do řádků. Změňte tuto hodnotu jsou-li řádky příliš dlouhé/krátké.</string>
+
+    <string name="preferences_id115_settings">ID115 nastavení</string>
+    <string name="prefs_screen_orientation">Orientace displeje</string>
+
+    <string name="pref_auto_fetch">Synchronizovat automaticky</string>
+    <string name="pref_auto_fetch_summary">Synchronizovat při odemčení obrazovky. Musí být nastaven zámek obrazovky!</string>
+    <string name="pref_auto_fetch_limit_fetches">Minimální doba mezi synchronizacemi</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Synchronizovat každých %d minut</string>
+
+    <string name="preferences_miband2_settings">Mi Band 2 nastavení</string>
+    <string name="preferences_miband3_settings">Mi Band 3 nastavení</string>
+    <string name="preferences_amazfitcor_settings">Amazfit Cor nastavení</string>s
+    <string name="horizontal">Na šířku</string>
+    <string name="vertical">Na výšku</string>
+    <string name="watch9_pairing_tap_hint">Po zavibrování stiskněte tlačítko, nebo se zařízením zatřeste.</string>
+
+    <string name="notif_battery_low">%1$s nízký stav baterie</string>
+    <string name="notif_battery_low_extended">%1$s baterie vybitá: %2$s</string>
+    <string name="lack_of_sleep">Nedostatek spánku: %1$s</string>
+    <string name="overslept">Příliš mnoho spánku: %1$s</string>
+    <string name="no_limit">Bez omezení</string>
+    <string name="seconds_5">5 vteřin</string>
+    <string name="seconds_10">10 vteřin</string>
+    <string name="seconds_20">20 vteřin</string>
+    <string name="seconds_30">30 vteřin</string>
+    <string name="minutes_1">1 minuta</string>
+    <string name="minutes_5">5 minut</string>
+    <string name="minutes_10">10 minut</string>
+    <string name="minutes_30">30 minut</string>
+
+    <string name="lack_of_step">Příliš málo kroků: %1$d</string>
+    <string name="overstep">Příliš mnoho kroků: %1$d</string>
+    <string name="live_activity_max_heart_rate">Aktuální / Maximální tepová frekvence: %1$d / %2$d</string>
+    <string name="you_slept">Spánek od %1$s do %2$s</string>
+    <string name="you_did_not_sleep">Bez spánku</string>
+    <string name="mi3_prefs_band_screen_unlock">Odemčení obrazovky zařízení</string>
+    <string name="mi3_prefs_band_screen_unlock_summary">Přejeďte prstem pro odemčení obrazovky zařízení</string>
+    <string name="mi3_prefs_night_mode">Noční režim</string>
+    <string name="mi3_prefs_night_mode_summary">Nižší automatická intenzita displeje v noci</string>
+
+    <string name="norwegian_bokmal">Norsky Bokmål</string>
+    <string name="russian">Rusky</string>
+    <string name="german">Německy</string>
+    <string name="italian">Italsky</string>
+    <string name="french">Francouzky</string>
+    <string name="polish">Polsky</string>
+    <string name="korean">Korejsky</string>
+    <string name="japanese">Japonsky</string>
+
+    <string name="activity_prefs_charts">Nastavení grafů</string>
+    <string name="activity_prefs_chart_max_heart_rate">Maximální tepová frekvence</string>
+    <string name="activity_prefs_chart_min_heart_rate">Minimální tepová frekvence</string>
+
+    <string name="ok">Ok</string>
+
+    <string name="mi3_night_mode_sunset">Při západu slunce</string>
+    <string name="controlcenter_start_activity_tracks">Záznamy aktivit</string>
+    <string name="activity_type_treadmill">Běhací pás</string>
+    <string name="devicetype_miband3">Mi Band 3</string>
+    <string name="devicetype_q8">Q8</string>
+    <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
+    <string name="devicetype_id115">ID115</string>
+    <string name="devicetype_watch9">Watch 9</string>
+    <string name="devicetype_roidmi">Roidmi</string>
+    <string name="devicetype_roidmi3">Roidmi 3</string>
+
+    <string name="menuitem_notifications">Upozornění</string>
+    <string name="menuitem_music">Hudba</string>
+    <string name="menuitem_more">Více</string>
+
+    <string name="watch9_time_minutes">Minuty:</string>
+    <string name="watch9_time_hours">Hodiny:</string>
+    <string name="watch9_time_seconds">Vteřiny:</string>
+    <string name="watch9_calibration_hint">Nastavit čas aktuálně zobrazený na zařízení.</string>
+    <string name="watch9_calibration_button">Kalibrovat</string>
+    <string name="title_activity_watch9_pairing">Párování Watch 9</string>
+    <string name="title_activity_watch9_calibration">Kalibrace Watch 9</string>
+    <string name="pref_title_contextual_arabic">Kontextuální Arabština</string>
+    <string name="pref_summary_contextual_arabic">Zapnout podporu pro kontextuální arabštinu</string>
+    <string name="preferences_rtl_settings">Podpora zprava doleva</string>
+    <string name="share_log">Sdílet záznam</string>
+    <string name="share_log_warning">Prosím nezapomeňte, že ladící záznamy Gadgetbridge mohou obsahovat osobní informace, zahrnující například zdravotní data, identifikátory (MAC adresu), hudební preference a podobně. Tyto informace můžete vymazat před odesláním souboru do veřejného reportu.</string>
+    <string name="warning">Upozornění!</string>
+    <string name="no_data">Žádná data</string>
+
+    <string name="preferences_led_color">Barva LED</string>
+
+    <string name="preferences_fm_frequency">Frekvence FM</string>
+    <string name="pref_invalid_frequency_title">Neplatná frekvence</string>
+    <string name="pref_invalid_frequency_message">Nastavte frekvenci mezi 87.5 a 108.0</string>
+    <string name="language_and_region_prefs">Jazyk a místní nastavení</string>
 </resources>
