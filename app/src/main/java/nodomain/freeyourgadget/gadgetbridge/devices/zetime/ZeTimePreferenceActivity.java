@@ -130,6 +130,167 @@ public class ZeTimePreferenceActivity extends AbstractSettingsActivity {
                 return true;
             }
         });
+
+        final Preference inactivityAlert = findPreference(ZeTimeConstants.PREF_INACTIVITY_ENABLE);
+        inactivityAlert.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                    GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityAlertStart = findPreference(ZeTimeConstants.PREF_INACTIVITY_START);
+        inactivityAlertStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityAlertEnd = findPreference(ZeTimeConstants.PREF_INACTIVITY_END);
+        inactivityAlertEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityAlertThreshold = findPreference(ZeTimeConstants.PREF_INACTIVITY_THRESHOLD);
+        inactivityAlertThreshold.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityAlertMo = findPreference(ZeTimeConstants.PREF_INACTIVITY_MO);
+        inactivityAlertMo.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityAlertTu = findPreference(ZeTimeConstants.PREF_INACTIVITY_TU);
+        inactivityAlertTu.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityAlertWe = findPreference(ZeTimeConstants.PREF_INACTIVITY_WE);
+        inactivityAlertWe.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityAlertTh = findPreference(ZeTimeConstants.PREF_INACTIVITY_TH);
+        inactivityAlertTh.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityAlertFr = findPreference(ZeTimeConstants.PREF_INACTIVITY_FR);
+        inactivityAlertFr.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityAlertSa = findPreference(ZeTimeConstants.PREF_INACTIVITY_SA);
+        inactivityAlertSa.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityAlertSu = findPreference(ZeTimeConstants.PREF_INACTIVITY_SU);
+        inactivityAlertSu.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
+                    }
+                });
+                return true;
+            }
+        });
+    }
+
+    /**
+     * delayed execution so that the preferences are applied first
+     */
+    private void invokeLater(Runnable runnable) {
+        getListView().post(runnable);
     }
 
 //    private void addTryListeners() {

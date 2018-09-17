@@ -209,8 +209,11 @@
     <string name="zetime_title_settings">ZeTime settings</string>
     <string name="zetime_title_heartrate">Heart rate settings</string>
     <string name="zetime_title_screentime">Screen on duration in seconds</string>
-    <string name="activity_prefs_alarm_max_heart_rate">Max heart rate alarm</string>
-    <string name="activity_prefs_alarm_min_heart_rate">Min heart rate alarm</string>
+    <string name="zetime_title_heart_rate_alarm">Heart rate alarm</string>
+    <string name="zetime_title_heart_rate_alarm_summary">The watch will warn you when your heart rate exceeds the limits.</string>
+    <string name="zetime_heart_rate_alarm_enable">Enable the heart rate alarm</string>
+    <string name="activity_prefs_alarm_max_heart_rate">Max heart rate</string>
+    <string name="activity_prefs_alarm_min_heart_rate">Min heart rate</string>
     <string name="zetime_analog_mode">Analog mode</string>
     <string name="zetime_analog_mode_hands">Only hands</string>
     <string name="zetime_analog_mode_handsandsteps">Hands and steps</string>

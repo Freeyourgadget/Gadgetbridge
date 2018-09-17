@@ -170,6 +170,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 case ZeTimeConstants.PREF_DATE_FORMAT:
                     setDateFormate(builder);
                     break;
+                case ZeTimeConstants.PREF_INACTIVITY_KEY:
+                    setInactivityAlert(builder);
+                    break;
             }
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -1428,6 +1431,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     {
         Prefs prefs = GBApplication.getPrefs();
 
+        boolean alarmEnabled = prefs.getBoolean(ZeTimeConstants.PREF_ZETIME_HEARTRATE_ALARM, false);
         int maxHR = prefs.getInt(ZeTimeConstants.PREF_ZETIME_MAX_HEARTRATE, 180);
         int minHR = prefs.getInt(ZeTimeConstants.PREF_ZETIME_MIN_HEARTRATE, 60);
 
@@ -1438,7 +1442,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 (byte)0x0,
                 (byte)(maxHR & 0xff),
                 (byte)(minHR & 0xff),
-                (byte)0x1,  // activate alarm
+                (byte)(alarmEnabled ? 1 : 0),  // activate alarm
                 ZeTimeConstants.CMD_END};
         sendMsgToWatch(builder, heartrateAlarm);
     }
@@ -1646,16 +1650,39 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
         if(enabled)
         {
+            String start = prefs.getString(ZeTimeConstants.PREF_INACTIVITY_START, "06:00");
+            String end = prefs.getString(ZeTimeConstants.PREF_INACTIVITY_END, "22:00");
+            DateFormat df_start = new SimpleDateFormat("HH:mm");
+            DateFormat df_end = new SimpleDateFormat("HH:mm");
+            Calendar calendar = GregorianCalendar.getInstance();
+            Calendar calendar_end = GregorianCalendar.getInstance();
+
             int reps = (1 << 7); // set inactivity active: set bit 7
-            reps |= prefs.getInt(ZeTimeConstants.PREF_INACTIVITY_MO, 0);
-            reps |= (prefs.getInt(ZeTimeConstants.PREF_INACTIVITY_TU, 0) << 1);
-            reps |= (prefs.getInt(ZeTimeConstants.PREF_INACTIVITY_WE, 0) << 2);
-            reps |= (prefs.getInt(ZeTimeConstants.PREF_INACTIVITY_TH, 0) << 3);
-            reps |= (prefs.getInt(ZeTimeConstants.PREF_INACTIVITY_FR, 0) << 4);
-            reps |= (prefs.getInt(ZeTimeConstants.PREF_INACTIVITY_SA, 0) << 5);
-            reps |= (prefs.getInt(ZeTimeConstants.PREF_INACTIVITY_SU, 0) << 6);
+            reps |= (prefs.getBoolean(ZeTimeConstants.PREF_INACTIVITY_MO, false) ? 1 : 0);
+            reps |= ((prefs.getBoolean(ZeTimeConstants.PREF_INACTIVITY_TU, false) ? 1 : 0) << 1);
+            reps |= ((prefs.getBoolean(ZeTimeConstants.PREF_INACTIVITY_WE, false) ? 1 : 0) << 2);
+            reps |= ((prefs.getBoolean(ZeTimeConstants.PREF_INACTIVITY_TH, false) ? 1 : 0) << 3);
+            reps |= ((prefs.getBoolean(ZeTimeConstants.PREF_INACTIVITY_FR, false) ? 1 : 0) << 4);
+            reps |= ((prefs.getBoolean(ZeTimeConstants.PREF_INACTIVITY_SA, false) ? 1 : 0) << 5);
+            reps |= ((prefs.getBoolean(ZeTimeConstants.PREF_INACTIVITY_SU, false) ? 1 : 0) << 6);
 
             inactivity[5] = (byte)reps;
+
+            try {
+                calendar.setTime(df_start.parse(start));
+                try {
+                    calendar_end.setTime(df_end.parse(end));
+
+                    inactivity[7] = (byte)calendar.get(Calendar.HOUR_OF_DAY);
+                    inactivity[8] = (byte)calendar.get(Calendar.MINUTE);
+                    inactivity[9] = (byte)calendar_end.get(Calendar.HOUR_OF_DAY);
+                    inactivity[10] = (byte)calendar_end.get(Calendar.MINUTE);
+                } catch(Exception e) {
+                    LOG.error("Unexpected exception in ZeTimeDeviceSupport.setInactivityAlert: " + e.getMessage());
+                }
+            } catch(Exception e) {
+                LOG.error("Unexpected exception in ZeTimeDeviceSupport.setInactivityAlert: " + e.getMessage());
+            }
         }
 
         sendMsgToWatch(builder, inactivity);

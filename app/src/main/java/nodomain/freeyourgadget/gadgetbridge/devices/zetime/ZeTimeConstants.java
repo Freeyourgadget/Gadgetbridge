@@ -120,6 +120,7 @@ public class ZeTimeConstants {
 
     public static final String PREF_ZETIME_DONT_DEL_ACTDATA = "zetime_dont_del_actdata";
 
+    public static final String PREF_ZETIME_HEARTRATE_ALARM = "zetime_heartrate_alarm_enable";
     public static final String PREF_ZETIME_MAX_HEARTRATE = "alarm_max_heart_rate";
     public static final String PREF_ZETIME_MIN_HEARTRATE = "alarm_min_heart_rate";
 
@@ -127,6 +128,7 @@ public class ZeTimeConstants {
     public static final String PREF_DO_NOT_DISTURB_START = "zetime_do_not_disturb_start";
     public static final String PREF_DO_NOT_DISTURB_END = "zetime_do_not_disturb_end";
 
+    public static final String PREF_INACTIVITY_KEY =  "zetime_inactivity_warning_key";
     public static final String PREF_INACTIVITY_ENABLE = "zetime_inactivity_warnings";
     public static final String PREF_INACTIVITY_START = "zetime_inactivity_warnings_start";
     public static final String PREF_INACTIVITY_END = "zetime_inactivity_warnings_end";

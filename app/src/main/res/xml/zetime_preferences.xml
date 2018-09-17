@@ -180,18 +180,38 @@
             android:key="heartrate_measurement_interval"
             android:summary="%s"
             android:title="@string/prefs_title_heartrate_measurement_interval" />
-        <EditTextPreference
-            android:inputType="number"
-            android:key="alarm_max_heart_rate"
-            android:maxLength="3"
-            android:defaultValue="180"
-            android:title="@string/activity_prefs_alarm_max_heart_rate" />
+        <PreferenceScreen
+            android:key="zetime_heartrate_alarm_key"
+            android:summary="@string/zetime_title_heart_rate_alarm_summary"
+            android:title="@string/zetime_title_heart_rate_alarm"
+            android:persistent="false">
 
-        <EditTextPreference
-            android:inputType="number"
-            android:key="alarm_min_heart_rate"
-            android:maxLength="3"
-            android:defaultValue="60"
-            android:title="@string/activity_prefs_alarm_min_heart_rate" />
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/zetime_title_heart_rate_alarm"
+                />
+
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="zetime_heartrate_alarm_enable"
+                android:summary="@string/zetime_title_heart_rate_alarm_summary"
+                android:title="@string/zetime_heart_rate_alarm_enable" />
+
+            <EditTextPreference
+                android:inputType="number"
+                android:dependency="zetime_heartrate_alarm_enable"
+                android:key="alarm_max_heart_rate"
+                android:maxLength="3"
+                android:defaultValue="180"
+                android:title="@string/activity_prefs_alarm_max_heart_rate" />
+
+            <EditTextPreference
+                android:inputType="number"
+                android:dependency="zetime_heartrate_alarm_enable"
+                android:key="alarm_min_heart_rate"
+                android:maxLength="3"
+                android:defaultValue="60"
+                android:title="@string/activity_prefs_alarm_min_heart_rate" />
+        </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen>
