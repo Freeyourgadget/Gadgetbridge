@@ -1614,4 +1614,50 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
         sendMsgToWatch(builder, dateformat);
     }
+
+    private void setInactivityAlert(TransactionBuilder builder)
+    {
+        Prefs prefs = GBApplication.getPrefs();
+        boolean enabled = prefs.getBoolean(ZeTimeConstants.PREF_INACTIVITY_ENABLE, false);
+        int threshold = prefs.getInt(ZeTimeConstants.PREF_INACTIVITY_THRESHOLD, 60);
+
+        if(threshold > 0xff)
+        {
+            threshold = 0xff;
+            GB.toast(getContext(), "Value for inactivity threshold is greater than 255min! ", Toast.LENGTH_LONG, GB.ERROR);
+        }
+
+        byte[] inactivity = {
+                ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_INACTIVITY_ALERT,
+                ZeTimeConstants.CMD_SEND,
+                (byte)0x8,
+                (byte)0x0,
+                (byte)0x0,
+                (byte)threshold,
+                (byte)0x0,
+                (byte)0x0,
+                (byte)0x0,
+                (byte)0x0,
+                (byte)0x64,
+                (byte)0x0,
+                ZeTimeConstants.CMD_END
+        };
+
+        if(enabled)
+        {
+            int reps = (1 << 7); // set inactivity active: set bit 7
+            reps |= prefs.getInt(ZeTimeConstants.PREF_INACTIVITY_MO, 0);
+            reps |= (prefs.getInt(ZeTimeConstants.PREF_INACTIVITY_TU, 0) << 1);
+            reps |= (prefs.getInt(ZeTimeConstants.PREF_INACTIVITY_WE, 0) << 2);
+            reps |= (prefs.getInt(ZeTimeConstants.PREF_INACTIVITY_TH, 0) << 3);
+            reps |= (prefs.getInt(ZeTimeConstants.PREF_INACTIVITY_FR, 0) << 4);
+            reps |= (prefs.getInt(ZeTimeConstants.PREF_INACTIVITY_SA, 0) << 5);
+            reps |= (prefs.getInt(ZeTimeConstants.PREF_INACTIVITY_SU, 0) << 6);
+
+            inactivity[5] = (byte)reps;
+        }
+
+        sendMsgToWatch(builder, inactivity);
+    }
 }

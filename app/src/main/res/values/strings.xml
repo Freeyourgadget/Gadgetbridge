@@ -228,6 +228,14 @@
     <string name="zetime_date_format_1">YY/MM/DD</string>
     <string name="zetime_date_format_2">DD/MM/YY</string>
     <string name="zetime_date_format_3">MM/DD/YY</string>
+    <string name="zetime_prefs_inactivity_repetitions">Repetitions</string>
+    <string name="zetime_prefs_inactivity_mo">Monday</string>
+    <string name="zetime_prefs_inactivity_tu">Tuesday</string>
+    <string name="zetime_prefs_inactivity_we">Wednesday</string>
+    <string name="zetime_prefs_inactivity_th">Thursday</string>
+    <string name="zetime_prefs_inactivity_fr">Friday</string>
+    <string name="zetime_prefs_inactivity_sa">Saturday</string>
+    <string name="zetime_prefs_inactivity_su">Sunday</string>
 
     <!-- Auto export preferences -->
     <string name="pref_header_auto_export">Auto export</string>

@@ -127,6 +127,18 @@ public class ZeTimeConstants {
     public static final String PREF_DO_NOT_DISTURB_START = "zetime_do_not_disturb_start";
     public static final String PREF_DO_NOT_DISTURB_END = "zetime_do_not_disturb_end";
 
+    public static final String PREF_INACTIVITY_ENABLE = "zetime_inactivity_warnings";
+    public static final String PREF_INACTIVITY_START = "zetime_inactivity_warnings_start";
+    public static final String PREF_INACTIVITY_END = "zetime_inactivity_warnings_end";
+    public static final String PREF_INACTIVITY_THRESHOLD = "zetime_inactivity_warnings_threshold";
+    public static final String PREF_INACTIVITY_MO = "zetime_prefs_inactivity_repetitions_mo";
+    public static final String PREF_INACTIVITY_TU = "zetime_prefs_inactivity_repetitions_tu";
+    public static final String PREF_INACTIVITY_WE = "zetime_prefs_inactivity_repetitions_we";
+    public static final String PREF_INACTIVITY_TH = "zetime_prefs_inactivity_repetitions_th";
+    public static final String PREF_INACTIVITY_FR = "zetime_prefs_inactivity_repetitions_fr";
+    public static final String PREF_INACTIVITY_SA = "zetime_prefs_inactivity_repetitions_sa";
+    public static final String PREF_INACTIVITY_SU = "zetime_prefs_inactivity_repetitions_su";
+
     public static final String PREF_ANALOG_MODE = "zetime_analog_mode";
     public static final String PREF_ACTIVITY_TRACKING = "zetime_activity_tracking";
     public static final String PREF_HANDMOVE_DISPLAY = "zetime_handmove_display";
