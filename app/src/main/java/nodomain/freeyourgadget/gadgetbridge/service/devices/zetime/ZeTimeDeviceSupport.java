@@ -229,7 +229,38 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
+        byte[] alarmMessage = null;
+        try {
+            TransactionBuilder builder = performInitialized("setAlarms");
 
+            Prefs prefs = GBApplication.getPrefs();
+
+            for (Alarm alarm : alarms) {
+                alarmMessage = new byte[]{
+                        ZeTimeConstants.CMD_PREAMBLE,
+                        ZeTimeConstants.CMD_REMINDERS,
+                        ZeTimeConstants.CMD_SEND,
+                        (byte) 0xb,
+                        (byte) 0x0,
+                        (byte) alarm.getIndex(), // index
+                        ZeTimeConstants.REMINDER_ALARM,
+                        (byte) 0x0, // year low byte
+                        (byte) 0x0, // year high byte
+                        (byte) 0x0, // month
+                        (byte) 0x0, // day
+                        (byte) alarm.getAlarmCal().get(Calendar.HOUR_OF_DAY),
+                        (byte) alarm.getAlarmCal().get(Calendar.MINUTE),
+                        (byte) alarm.getRepetitionMask(),
+                        (byte) (alarm.isEnabled() ? 1 : 0),
+                        (byte) prefs.getInt(ZeTimeConstants.PREF_ALARM_SIGNALING, 11), // reminder signaling
+                        ZeTimeConstants.CMD_END
+                };
+                sendMsgToWatch(builder, alarmMessage);
+            }
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error set alarms: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
     }
 
     @Override

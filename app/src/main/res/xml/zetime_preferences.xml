@@ -18,6 +18,14 @@
             android:key="zetime_screentime"
             android:title="@string/zetime_title_screentime"/>
 
+        <ListPreference
+            android:defaultValue="11"
+            android:entries="@array/zetime_signaling_types"
+            android:entryValues="@array/zetime_signaling_types_values"
+            android:key="zetime_alarm_signaling"
+            android:title="@string/zetime_title_alarm_signaling"
+            android:summary="%s" />
+
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="zetime_activity_tracking"

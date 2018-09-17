@@ -77,6 +77,7 @@ public class ZeTimeConstants {
     public static final byte CMD_PUSH_EX_MSG = (byte) 0x76;
     public static final byte CMD_PUSH_WEATHER_DATA = (byte) 0x77;
     public static final byte CMD_SWITCH_SETTINGS = (byte) 0x90;
+    public static final byte CMD_REMINDERS = (byte) 0x97;
     public static final byte CMD_PUSH_CALENDAR_DAY = (byte) 0x99;
     public static final byte CMD_MUSIC_CONTROL = (byte) 0xD0;
     // here are the action commands
@@ -109,6 +110,8 @@ public class ZeTimeConstants {
     public static final byte NOTIFICATION_UBER = (byte) 0x13;
     public static final byte NOTIFICATION_LINE = (byte) 0x14;
     public static final byte NOTIFICATION_SKYPE = (byte) 0x15;
+    // reminders types
+    public static final byte REMINDER_ALARM = (byte) 0x04;
     // watch settings
     public static final String PREF_WRIST = "zetime_wrist";
     public static final byte WEAR_ON_LEFT_WRIST = (byte) 0x00;
@@ -147,4 +150,6 @@ public class ZeTimeConstants {
     public static final String PREF_CALORIES_TYPE = "zetime_calories_type";
     public static final String PREF_TIME_FORMAT = "zetime_time_format";
     public static final String PREF_DATE_FORMAT = "zetime_date_format";
+
+    public static final String PREF_ALARM_SIGNALING = "zetime_alarm_signaling";
 }

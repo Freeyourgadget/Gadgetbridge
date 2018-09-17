@@ -239,6 +239,10 @@
     <string name="zetime_prefs_inactivity_fr">Friday</string>
     <string name="zetime_prefs_inactivity_sa">Saturday</string>
     <string name="zetime_prefs_inactivity_su">Sunday</string>
+    <string name="zetime_title_alarm_signaling">Set type of signaling for the alarm</string>
+    <string name="zetime_signaling_vibrate">Vibrate</string>
+    <string name="zetime_signaling_buzzer">Buzzer</string>
+    <string name="zetime_signaling_vibrate_buzzer">Vibrate and Buzzer</string>
 
     <!-- Auto export preferences -->
     <string name="pref_header_auto_export">Auto export</string>

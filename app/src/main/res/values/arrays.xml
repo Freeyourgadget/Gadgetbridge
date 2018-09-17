@@ -490,5 +490,15 @@
         <item>2</item>
         <item>3</item>
     </string-array>
+    <string-array name="zetime_signaling_types">
+        <item name="7">@string/zetime_signaling_vibrate</item>
+        <item name="11">@string/zetime_signaling_buzzer</item>
+        <item name="13">@string/zetime_signaling_vibrate_buzzer</item>
+    </string-array>
+    <string-array name="zetime_signaling_types_values">
+        <item>7</item>
+        <item>11</item>
+        <item>13</item>
+    </string-array>
 
 </resources>
