@@ -8,8 +8,8 @@
 * Mi Band 3: Support for night mode configuration
 * Huami devices: fix seldom activity/sports synchronization problem (#1264)
 * Preferences: Make minimum heart rate configurable (lower values will be disregarded) 
-* Preferences: Group language settings
 * Preferences: Configure minimum time between notifications
+* Preferences: Group language settings
 * Attempt to fix BLE connection issues on Samsung S devices
 * Week sleep and steps charts: display balance (actual value vs. desired value) 
 * Live Activity: show current/maximum heart rate, display minute steps and total steps and more improvements

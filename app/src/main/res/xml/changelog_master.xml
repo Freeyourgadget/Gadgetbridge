@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.30.0" versioncode="138">
+        <change>Amazfit Bip + Mi Band 3: Support for right to left display (configurable) (#976)</change>
+        <change>Add Arabic, Bengali Farsi, Persian, Scandinavian transliteration</change>
+        <change>Add support for some Roidmi FM receivers</change>
+        <change>Mi Band 3: Allow enabling the "Workout" menu item</change>
+        <change>Mi Band 3: Support for night mode configuration</change>
+        <change>Huami devices: fix seldom activity/sports synchronization problem (#1264)</change>
+        <change>Preferences: Make minimum heart rate configurable (lower values will be disregarded)</change>
+        <change>Preferences: Configure minimum time between notifications</change>
+        <change>Preferences: Group language settings</change>
+        <change>Attempt to fix BLE connection issues on Samsung S devices</change>
+        <change>Week sleep and steps charts: display balance (actual value vs. desired value)</change>
+        <change>Live Activity: show current/maximum heart rate, display minute steps and total steps and more improvements</change>
+        <change>Live Activity: fix discrepancy between number of steps in Gadgetbridge and wearable device</change>
+        <change>Fix missing caller ID for incoming calls on Android 9</change>
+        <change>Support for easy sharing of log files via the Debug screen</change>
+        <change>Misc small bugfixes</change>
+    </release>
     <release version="0.29.1" versioncode="137">
         <change>Mi Band 3: Support setting language to to German, Italian, French, Polish, Japanese, Korean (read wiki)</change>
         <change>Mi Band 3: Support flashing latest RES files</change>
