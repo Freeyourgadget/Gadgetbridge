@@ -179,6 +179,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     private boolean isMusicAppStarted = false;
     private MusicSpec bufferMusicSpec = null;
     private MusicStateSpec bufferMusicStateSpec = null;
+    private boolean heartRateNotifyEnabled;
 
     public HuamiSupport() {
         this(LOG);
@@ -207,6 +208,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         try {
+            heartRateNotifyEnabled = false;
             boolean authenticate = needsAuth;
             needsAuth = false;
             byte authFlags = HuamiService.AUTH_BYTE;
@@ -871,9 +873,12 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
         try {
             TransactionBuilder builder = performInitialized("Enable realtime heart rate measurement");
-            BluetoothGattCharacteristic heartrateCharacteristic = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT);
-            if (heartrateCharacteristic != null) {
-                builder.notify(heartrateCharacteristic, enable);
+            if (heartRateNotifyEnabled != enable) {
+                BluetoothGattCharacteristic heartrateCharacteristic = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT);
+                if (heartrateCharacteristic != null) {
+                    builder.notify(heartrateCharacteristic, enable);
+                    heartRateNotifyEnabled = enable;
+                }
             }
             if (enable) {
                 builder.write(characteristicHRControlPoint, stopHeartMeasurementManual);
