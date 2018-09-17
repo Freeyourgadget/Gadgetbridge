@@ -85,7 +85,6 @@ public class LiveActivityFragment extends AbstractChartFragment {
     private final Steps mSteps = new Steps();
     private ScheduledExecutorService pulseScheduler;
     private int maxStepsResetCounter;
-    private List<Measurement> heartRateValues;
     private LineDataSet mHeartRateSet;
     private int mHeartRate;
     private int mMaxHeartRate = 0;
@@ -266,14 +265,13 @@ public class LiveActivityFragment extends AbstractChartFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(DeviceService.ACTION_REALTIME_SAMPLES);
-        heartRateValues = new ArrayList<>();
         tsTranslation = new TimestampTranslation();
 
         View rootView = inflater.inflate(R.layout.fragment_live_activity, container, false);
 
-        mStepsPerMinuteCurrentChart = (CustomBarChart) rootView.findViewById(R.id.livechart_steps_per_minute_current);
-        mTotalStepsChart = (CustomBarChart) rootView.findViewById(R.id.livechart_steps_total);
-        mStepsPerMinuteHistoryChart = (BarLineChartBase) rootView.findViewById(R.id.livechart_steps_per_minute_history);
+        mStepsPerMinuteCurrentChart = rootView.findViewById(R.id.livechart_steps_per_minute_current);
+        mTotalStepsChart = rootView.findViewById(R.id.livechart_steps_total);
+        mStepsPerMinuteHistoryChart = rootView.findViewById(R.id.livechart_steps_per_minute_history);
 
         totalStepsEntry = new BarEntry(1, 0);
         stepsPerMinuteEntry = new BarEntry(1, 0);
