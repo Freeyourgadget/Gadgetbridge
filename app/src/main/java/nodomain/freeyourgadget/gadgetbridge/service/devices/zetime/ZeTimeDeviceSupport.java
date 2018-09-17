@@ -197,7 +197,22 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFindDevice(boolean start) {
-
+        try {
+            TransactionBuilder builder = performInitialized("onFindDevice");
+            byte[] testSignaling = {
+                    ZeTimeConstants.CMD_PREAMBLE,
+                    ZeTimeConstants.CMD_TEST_SIGNALING,
+                    ZeTimeConstants.CMD_SEND,
+                    (byte)0x1,
+                    (byte)0x0,
+                    (byte)(start ? 1 : 0),
+                    ZeTimeConstants.CMD_END
+            };
+            sendMsgToWatch(builder, testSignaling);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error on function onFindDevice: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
     }
 
     @Override
@@ -1528,7 +1543,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private void setDisplayOnMovement(TransactionBuilder builder)
     {
         Prefs prefs = GBApplication.getPrefs();
-        boolean movement = prefs.getBoolean(ZeTimeConstants.PREF_ACTIVITY_TRACKING, false);
+        boolean movement = prefs.getBoolean(ZeTimeConstants.PREF_HANDMOVE_DISPLAY, false);
 
         byte[] handmove = {ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_SWITCH_SETTINGS,

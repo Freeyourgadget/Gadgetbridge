@@ -80,6 +80,7 @@ public class ZeTimeConstants {
     public static final byte CMD_REMINDERS = (byte) 0x97;
     public static final byte CMD_PUSH_CALENDAR_DAY = (byte) 0x99;
     public static final byte CMD_MUSIC_CONTROL = (byte) 0xD0;
+    public static final byte CMD_TEST_SIGNALING = (byte) 0xFA;
     // here are the action commands
     public static final byte CMD_REQUEST = (byte) 0x70;
     public static final byte CMD_SEND = (byte) 0x71;
