@@ -464,7 +464,7 @@
     <string name="interval_thirty_minutes">Každých 30 minut</string>
     <string name="interval_one_hour">Jednou za hodinu</string>
 
-    <string name="notif_export_failed_title">Export databáze selhal! Zkontrolujte svá nastavení.</string>
+    <string name="notif_export_failed_title">Export databáze selhal! Zkontrolujte nastavení.</string>
     <string name="automatic">Automaticky</string>
     <string name="simplified_chinese">Zjednodušená Čínština</string>
     <string name="traditional_chinese">Tradiční Čísština</string>
