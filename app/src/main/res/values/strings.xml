@@ -240,9 +240,15 @@
     <string name="zetime_prefs_inactivity_sa">Saturday</string>
     <string name="zetime_prefs_inactivity_su">Sunday</string>
     <string name="zetime_title_alarm_signaling">Set type of signaling for the alarm</string>
-    <string name="zetime_signaling_vibrate">Vibrate</string>
-    <string name="zetime_signaling_buzzer">Buzzer</string>
-    <string name="zetime_signaling_vibrate_buzzer">Vibrate and Buzzer</string>
+    <string name="zetime_signaling_none">Silent</string>
+    <string name="zetime_signaling_vibrate">Continuous vibration</string>
+    <string name="zetime_signaling_beep">Continuous beeping</string>
+    <string name="zetime_signaling_vibrate_beep">Continuous vibration and beeping</string>
+    <string name="zetime_signaling_vibrate_once">Vibrate once</string>
+    <string name="zetime_signaling_vibrate_twice">Vibrate twice</string>
+    <string name="zetime_signaling_beep_once">Beep once</string>
+    <string name="zetime_signaling_beep_twice">Beep twice</string>
+    <string name="zetime_signaling_vibrate_beep_once">Vibrate and beep once</string>
 
     <!-- Auto export preferences -->
     <string name="pref_header_auto_export">Auto export</string>
@@ -342,9 +348,14 @@
     <string name="pref_screen_notification_profile_generic">Generic notification</string>
     <string name="pref_screen_notification_profile_email">E-mail notification</string>
     <string name="pref_screen_notification_profile_incoming_call">Incoming call notification</string>
+    <string name="pref_screen_notification_profile_missed_call">Missed call notification</string>
     <string name="pref_screen_notification_profile_generic_chat">Chat</string>
     <string name="pref_screen_notification_profile_generic_navigation">Navigation</string>
     <string name="pref_screen_notification_profile_generic_social">Social network</string>
+    <string name="pref_screen_notification_profile_calendar">Calendar notification</string>
+    <string name="pref_screen_notification_profile_inactivity">Inactivity notification</string>
+    <string name="pref_screen_notification_profile_low_power">Low power warning</string>
+    <string name="pref_screen_notification_profile_anti_loss">Anti-loss warning</string>
 
     <string name="prefs_title_heartrate_measurement_interval">Whole day HR measurement</string>
     <string name="interval_one_minute">once a minute</string>

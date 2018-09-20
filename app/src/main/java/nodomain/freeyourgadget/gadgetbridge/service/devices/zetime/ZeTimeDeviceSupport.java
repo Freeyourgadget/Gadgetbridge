@@ -173,6 +173,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 case ZeTimeConstants.PREF_INACTIVITY_KEY:
                     setInactivityAlert(builder);
                     break;
+                case ZeTimeConstants.PREF_SMS_SIGNALING:
+                    setSMSSignaling(builder);
+                    break;
+                case ZeTimeConstants.PREF_SHOCK_STRENGTH:
+                    setShockStrength(builder);
+                    break;
             }
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -426,7 +432,22 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onTestNewFunction() {
-
+        byte[] strength = {
+                ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_SHOCK_STRENGTH,
+                ZeTimeConstants.CMD_REQUEST,
+                (byte)0x1,
+                (byte)0x0,
+                (byte)0x0,
+                ZeTimeConstants.CMD_END
+        };
+        try {
+            TransactionBuilder builder = performInitialized("testNewFunction");
+            sendMsgToWatch(builder, strength);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error on testing new function: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
     }
 
     @Override
@@ -1732,5 +1753,42 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
 
         sendMsgToWatch(builder, inactivity);
+    }
+
+    private void setShockStrength(TransactionBuilder builder)
+    {
+        Prefs prefs = GBApplication.getPrefs();
+        int shockStrength = prefs.getInt(ZeTimeConstants.PREF_SHOCK_STRENGTH, 255);
+
+        byte[] strength = {
+                ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_SHOCK_STRENGTH,
+                ZeTimeConstants.CMD_SEND,
+                (byte)0x1,
+                (byte)0x0,
+                (byte)shockStrength,
+                ZeTimeConstants.CMD_END
+        };
+
+        sendMsgToWatch(builder, strength);
+    }
+
+    private void setSMSSignaling(TransactionBuilder builder)
+    {
+        Prefs prefs = GBApplication.getPrefs();
+        int signalType = prefs.getInt(ZeTimeConstants.PREF_SMS_SIGNALING, 0);
+
+        byte[] signaling = {
+                ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_SHOCK_MODE,
+                ZeTimeConstants.CMD_SEND,
+                (byte)0x2,
+                (byte)0x0,
+                (byte)0x4,
+                (byte)signalType,
+                ZeTimeConstants.CMD_END
+        };
+
+        sendMsgToWatch(builder, signaling);
     }
 }

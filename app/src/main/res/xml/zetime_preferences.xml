@@ -18,14 +18,6 @@
             android:key="zetime_screentime"
             android:title="@string/zetime_title_screentime"/>
 
-        <ListPreference
-            android:defaultValue="11"
-            android:entries="@array/zetime_signaling_types"
-            android:entryValues="@array/zetime_signaling_types_values"
-            android:key="zetime_alarm_signaling"
-            android:title="@string/zetime_title_alarm_signaling"
-            android:summary="%s" />
-
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="zetime_activity_tracking"
@@ -221,5 +213,241 @@
                 android:defaultValue="60"
                 android:title="@string/activity_prefs_alarm_min_heart_rate" />
         </PreferenceScreen>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_category_miband_notification"
+        android:title="@string/pref_header_vibration_settings">
+
+        <PreferenceScreen
+            android:key="vibration_profile_key"
+            android:title="@string/pref_screen_notification_profile_sms"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/pref_screen_notification_profile_sms"
+                />
+
+            <ListPreference
+                android:defaultValue="2"
+                android:entries="@array/zetime_signaling_types"
+                android:entryValues="@array/zetime_signaling_types_values"
+                android:key="zetime_sms_signaling"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+
+            <Preference
+                android:key="zetime_try_generic_sms"
+                android:persistent="false"
+                android:title="@string/vibration_try"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="vibration_profile_key"
+            android:title="@string/pref_screen_notification_profile_incoming_call"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/pref_screen_notification_profile_incoming_call"
+                />
+
+            <ListPreference
+                android:defaultValue="13"
+                android:entries="@array/zetime_signaling_types"
+                android:entryValues="@array/zetime_signaling_types_values"
+                android:key="zetime_vibration_profile_incoming_call"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="vibration_profile_key"
+            android:title="@string/pref_screen_notification_profile_missed_call"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/pref_screen_notification_profile_missed_call"
+                />
+
+            <ListPreference
+                android:defaultValue="12"
+                android:entries="@array/zetime_signaling_types"
+                android:entryValues="@array/zetime_signaling_types_values"
+                android:key="zetime_vibration_profile_missed_call"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="vibration_profile_key"
+            android:title="@string/pref_screen_notification_profile_email"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/pref_screen_notification_profile_email"
+                />
+
+            <ListPreference
+                android:defaultValue="12"
+                android:entries="@array/zetime_signaling_types"
+                android:entryValues="@array/zetime_signaling_types_values"
+                android:key="zetime_vibration_profile_generic_email"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+
+            <Preference
+                android:key="zetime_try_generic_email"
+                android:persistent="false"
+                android:title="@string/vibration_try"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="vibration_profile_key"
+            android:title="@string/pref_screen_notification_profile_generic_social"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/pref_screen_notification_profile_generic_social"
+                />
+
+            <ListPreference
+                android:defaultValue="12"
+                android:entries="@array/zetime_signaling_types"
+                android:entryValues="@array/zetime_signaling_types_values"
+                android:key="zetime_vibration_profile_generic_social"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+
+            <Preference
+                android:key="zetime_try_generic_social"
+                android:persistent="false"
+                android:title="@string/vibration_try"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="vibration_profile_key"
+            android:title="@string/pref_screen_notification_profile_alarm_clock"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/pref_screen_notification_profile_alarm_clock"
+                />
+
+            <ListPreference
+                android:defaultValue="11"
+                android:entries="@array/zetime_signaling_types"
+                android:entryValues="@array/zetime_signaling_types_values"
+                android:key="zetime_alarm_signaling"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+
+            <Preference
+                android:key="zetime_try_generic_alarm_clock"
+                android:persistent="false"
+                android:title="@string/vibration_try"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="vibration_profile_key"
+            android:title="@string/pref_screen_notification_profile_calendar"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/pref_screen_notification_profile_calendar"
+                />
+
+            <ListPreference
+                android:defaultValue="12"
+                android:entries="@array/zetime_signaling_types"
+                android:entryValues="@array/zetime_signaling_types_values"
+                android:key="zetime_vibration_profile_calendar"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+
+            <Preference
+                android:key="zetime_try_calendar"
+                android:persistent="false"
+                android:title="@string/vibration_try"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="vibration_profile_key"
+            android:title="@string/pref_screen_notification_profile_inactivity"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/pref_screen_notification_profile_inactivity"
+                />
+
+            <ListPreference
+                android:defaultValue="12"
+                android:entries="@array/zetime_signaling_types"
+                android:entryValues="@array/zetime_signaling_types_values"
+                android:key="zetime_vibration_profile_inactivity"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+
+            <Preference
+                android:key="zetime_try_inactivity"
+                android:persistent="false"
+                android:title="@string/vibration_try"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="vibration_profile_key"
+            android:title="@string/pref_screen_notification_profile_low_power"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/pref_screen_notification_profile_low_power"
+                />
+
+            <ListPreference
+                android:defaultValue="4"
+                android:entries="@array/zetime_signaling_types"
+                android:entryValues="@array/zetime_signaling_types_values"
+                android:key="zetime_vibration_profile_lowpower"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+
+            <Preference
+                android:key="zetime_try_lowpower"
+                android:persistent="false"
+                android:title="@string/vibration_try"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="vibration_profile_key"
+            android:title="@string/pref_screen_notification_profile_anti_loss"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/pref_screen_notification_profile_anti_loss"
+                />
+
+            <ListPreference
+                android:defaultValue="13"
+                android:entries="@array/zetime_signaling_types"
+                android:entryValues="@array/zetime_signaling_types_values"
+                android:key="zetime_vibration_profile_antiloss"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+
+            <Preference
+                android:key="zetime_try_antiloss"
+                android:persistent="false"
+                android:title="@string/vibration_try"/>
+        </PreferenceScreen>
+
     </PreferenceCategory>
 </PreferenceScreen>

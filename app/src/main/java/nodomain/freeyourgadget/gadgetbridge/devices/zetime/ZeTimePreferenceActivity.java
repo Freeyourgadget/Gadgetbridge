@@ -284,6 +284,15 @@ public class ZeTimePreferenceActivity extends AbstractSettingsActivity {
                 return true;
             }
         });
+
+        final Preference smsSignaling = findPreference(ZeTimeConstants.PREF_SMS_SIGNALING);
+        smsSignaling.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_SMS_SIGNALING);
+                return true;
+            }
+        });
     }
 
     /**

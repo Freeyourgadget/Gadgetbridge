@@ -153,4 +153,7 @@ public class ZeTimeConstants {
     public static final String PREF_DATE_FORMAT = "zetime_date_format";
 
     public static final String PREF_ALARM_SIGNALING = "zetime_alarm_signaling";
+    public static final String PREF_SMS_SIGNALING = "zetime_sms_signaling";
+    public static final String PREF_SHOCK_STRENGTH = "zetime_shock_strength";
+
 }
