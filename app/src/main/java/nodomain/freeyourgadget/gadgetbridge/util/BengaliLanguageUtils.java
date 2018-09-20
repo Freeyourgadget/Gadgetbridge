@@ -168,7 +168,7 @@ public class BengaliLanguageUtils extends LanguageUtils {
         return null;
     }
 
-    public static String transliterate(String txt) {
+        public static String transliterate(String txt) {
         if (txt.isEmpty()) {
             return txt;
         }
@@ -176,14 +176,12 @@ public class BengaliLanguageUtils extends LanguageUtils {
         Matcher m = bengaliRegex.matcher(txt);
         StringBuffer sb = new StringBuffer();
         String lastChar = "";
-        boolean lastHadComposition = false;
-        boolean lastHadKaar = false;
-        boolean nextNeedsO = false;
-        boolean addedOTOlast = false;
+        Boolean lastHadComposition = false;
+        Boolean lastHadKaar = false;
+        Boolean nextNeedsO = false;
         while (m.find()) {
-            boolean thisNeedsO = false;
-            addedOTolast = false;
-            boolean changePronounciation = false;
+            Boolean thisNeedsO = false;
+            Boolean changePronounciation = false;
             String appendableString = "";
             String reff = m.group(1);
             if (reff != null) {
@@ -256,32 +254,31 @@ public class BengaliLanguageUtils extends LanguageUtils {
             if (others != null) {
 
                 if (appendableString.length() <= 0) {
-                  appendableString = appendableString + others;
+                    appendableString = appendableString + others;
                 }
             }
-            if (whitespace != null && !lastHadKaar && addedOToLast && sb.charAt(sb.length() - 1) == 'o' && !lastHadComposition){
-              sb.setCharAt(sb.length() - 1, Character.MIN_VALUE);
-            }
             String whitespace = m.group(12);
-            if(nextNeedsO && kaar == null && whitespace == null){
-              appendableString = appendableString + "o";
-              addedOToLast = true;
-              thisNeedsO = false;
+            if (nextNeedsO && kaar == null && whitespace == null) {
+                appendableString = appendableString + "o";
+                thisNeedsO = false;
+            }
+
+            if (whitespace != null && !lastHadKaar && sb.length() > 0 && sb.charAt(sb.length() - 1) == 'o' && !lastHadComposition) {
+                sb.setCharAt(sb.length() - 1, Character.MIN_VALUE);
             }
             nextNeedsO = false;
-            if(thisNeedsO && kaar == null && whitespace == null){
-              appendableString = appendableString + "o";
-              addedOToLast = true;
+            if (thisNeedsO && kaar == null && whitespace == null) {
+                appendableString = appendableString + "o";
             }
             if (appendableString.length() > 0 && !vowelsAndHasants.containsKey(m.group(0)) && kaar == null) {
                 nextNeedsO = true;
             }
-            if (reff != null || m.group(4) != null || m.group(6) != null){
+            if (reff != null || m.group(4) != null || m.group(6) != null) {
                 lastHadComposition = true;
             } else {
                 lastHadComposition = false;
             }
-            if (kaar != null){
+            if (kaar != null) {
                 lastHadKaar = true;
             } else {
                 lastHadKaar = false;
@@ -289,8 +286,8 @@ public class BengaliLanguageUtils extends LanguageUtils {
             m.appendReplacement(sb, appendableString);
             lastChar = appendableString;
         }
-        if (!lastHadKaar && addedOToLast && sb.charAt(sb.length() - 1) == 'o' && !lastHadComposition){
-          sb.setCharAt(sb.length() - 1, Character.MIN_VALUE);
+        if (!lastHadKaar && sb.length() > 0 && sb.charAt(sb.length() - 1) == 'o' && !lastHadComposition) {
+            sb.setCharAt(sb.length() - 1, Character.MIN_VALUE);
         }
         m.appendTail(sb);
         return sb.toString();
