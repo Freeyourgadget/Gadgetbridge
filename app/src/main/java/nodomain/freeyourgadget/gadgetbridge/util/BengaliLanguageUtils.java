@@ -263,7 +263,7 @@ public class BengaliLanguageUtils extends LanguageUtils {
             }
 
             if (whitespace != null && !lastHadKaar && sb.length() > 0 && sb.charAt(sb.length() - 1) == 'o' && !lastHadComposition) {
-                sb.setCharAt(sb.length() - 1, Character.MIN_VALUE);
+                sb.deleteCharAt(sb.length() - 1);
             }
             nextNeedsO = false;
             if (thisNeedsO && kaar == null && whitespace == null) {
@@ -286,7 +286,7 @@ public class BengaliLanguageUtils extends LanguageUtils {
             lastChar = appendableString;
         }
         if (!lastHadKaar && sb.length() > 0 && sb.charAt(sb.length() - 1) == 'o' && !lastHadComposition) {
-            sb.setCharAt(sb.length() - 1, Character.MIN_VALUE);
+            sb.deleteCharAt(sb.length() - 1);
         }
         m.appendTail(sb);
         return sb.toString();
