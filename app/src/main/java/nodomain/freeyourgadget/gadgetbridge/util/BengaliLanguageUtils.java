@@ -22,7 +22,7 @@ import java.util.regex.*;
 // What's the reason to extending LanguageUtils?
 // Just doing it because already done in the previous code.
 public class BengaliLanguageUtils extends LanguageUtils {
-    // Composite Letters.
+        // Composite Letters.
     private final static HashMap<String, String> composites = new HashMap<String, String>() {
         {
             put("ক্ষ", "kkh");
@@ -151,7 +151,6 @@ public class BengaliLanguageUtils extends LanguageUtils {
     // The regex to extract Bengali characters in nested groups.
     private final static String pattern = "(র্){0,1}(([অ-হড়-য়])(্([অ-মশ-হড়-য়]))*)((‍){0,1}(্([য-ল]))){0,1}([া-ৌ]){0,1}|([্ঁঃংৎ০-৯।])|(\\s)";
 
-
     private final static Pattern bengaliRegex = Pattern.compile(pattern);
 
     private static String getVal(String key) {
@@ -168,7 +167,7 @@ public class BengaliLanguageUtils extends LanguageUtils {
         return null;
     }
 
-        public static String transliterate(String txt) {
+    public static String transliterate(String txt) {
         if (txt.isEmpty()) {
             return txt;
         }
