@@ -275,8 +275,8 @@
   <string name="distance">Расстояние</string>
   <string name="liveactivity_live_activity">Жизненная активность</string>
   <string name="weeksteps_today_steps_description">Шагов сегодня, цель: %1$s</string>
-  <string name="lack_of_step">Недопройдено %1$d шагов.</string>
-  <string name="overstep">Пройдено на %1$d шагов больше.</string>
+  <string name="lack_of_step">Не хватает: %1$d шагов</string>
+  <string name="overstep">Пройдено на %1$d шагов больше</string>
   <string name="pref_title_dont_ack_transfer">Не подтверждать передачу данных об активности</string>
   <string name="pref_summary_dont_ack_transfers">Если данные об активности не будут переданы на устройство, оно не будет очищено. Полезно, если GB используется с другими приложениями.</string>
   <string name="pref_summary_keep_data_on_device">Хранить данные о деятельности на Mi Band, даже после синхронизации. Полезно, если Mi Band используется совместно с другими приложениями.</string>
@@ -641,4 +641,12 @@
     <string name="activity_prefs_chart_max_heart_rate">Максимальный пульс</string>
     <string name="activity_prefs_chart_min_heart_rate">Минимальный пульс</string>
 
-</resources>
+<string name="pref_title_rtl">Справа налево</string>
+    <string name="pref_summary_rtl">Включите, если ваше устройство поддерживает ввод справа налево</string>
+    <string name="pref_rtl_max_line_length">Максимальная длина строки при вводе справа налево</string>
+    <string name="pref_rtl_max_line_length_summary">Изменяет длину строк, на которые разбит текст при вводе справа налево</string>
+
+    <string name="pref_title_contextual_arabic">Контекстные формы для арабского языка</string>
+    <string name="pref_summary_contextual_arabic">Включает поддержку контекстных форм арабского языка</string>
+    <string name="preferences_rtl_settings">Поддержка ввода справа налево</string>
+    </resources>
