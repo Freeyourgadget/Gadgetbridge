@@ -686,7 +686,7 @@
 <string name="pref_title_rtl">"Από δεξιά προς αριστερά "</string>
     <string name="pref_summary_rtl">"Ενεργοποιήστε αυτή την επιλογή αν η συσκευή σας δεν έχει υποστήριξη για γλώσσες που γράφονται από δεξιά "</string>
     <string name="pref_rtl_max_line_length">Μέγιστο μήκος γραμμής στις γλώσσες που γράφονται από δεξιά</string>
-    <string name="pref_rtl_max_line_length_summary">Όταν η γραφή από δεξιά είναι ενεργοποιημένη , το κείμενο χωρίζεται σε γραμμές. Αλλάξτε αυτή τη τιμή αν οι γραμμές είναι πολύ μακριές ή κοντές.</string>
+    <string name="pref_rtl_max_line_length_summary">Μακραίνει ή κονταίνει τις γραμμές στις γλώσσες που γράφονται από δεξιά</string>
 
     <string name="notif_battery_low">%1$s χαμηλή μπαταρία</string>
     <string name="notif_battery_low_extended">%1$s χαμηλή μπαταρία: %2$s
