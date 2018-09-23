@@ -522,7 +522,9 @@ public final class BtLEQueue {
 
         private void checkWaitingCharacteristic(BluetoothGattCharacteristic characteristic, int status) {
             if (status != BluetoothGatt.GATT_SUCCESS) {
-                LOG.debug("failed btle action, aborting transaction: " + characteristic.getUuid() + getStatusString(status));
+                if (characteristic != null) {
+                    LOG.debug("failed btle action, aborting transaction: " + characteristic.getUuid() + getStatusString(status));
+                }
                 mAbortTransaction = true;
             }
             if (characteristic != null && BtLEQueue.this.mWaitCharacteristic != null && characteristic.getUuid().equals(BtLEQueue.this.mWaitCharacteristic.getUuid())) {
