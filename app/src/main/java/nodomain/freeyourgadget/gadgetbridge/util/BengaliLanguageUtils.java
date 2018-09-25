@@ -178,9 +178,11 @@ public class BengaliLanguageUtils extends LanguageUtils {
         Boolean lastHadComposition = false;
         Boolean lastHadKaar = false;
         Boolean nextNeedsO = false;
+        Integer lastHadO = 0;
         while (m.find()) {
             Boolean thisNeedsO = false;
             Boolean changePronounciation = false;
+            Boolean thisHadKaar = false;
             String appendableString = "";
             String reff = m.group(1);
             if (reff != null) {
@@ -259,15 +261,19 @@ public class BengaliLanguageUtils extends LanguageUtils {
             String whitespace = m.group(12);
             if (nextNeedsO && kaar == null && whitespace == null) {
                 appendableString = appendableString + "o";
+                lastHadO++;
                 thisNeedsO = false;
             }
 
-            if (whitespace != null && !lastHadKaar && sb.length() > 0 && sb.charAt(sb.length() - 1) == 'o' && !lastHadComposition) {
+            if (((kaar != null && lastHadO > 1) || whitespace != null) && !lastHadKaar && sb.length() > 0
+                    && sb.charAt(sb.length() - 1) == 'o' && !lastHadComposition) {
                 sb.deleteCharAt(sb.length() - 1);
+                lastHadO = 0;
             }
             nextNeedsO = false;
             if (thisNeedsO && kaar == null && whitespace == null) {
                 appendableString = appendableString + "o";
+                lastHadO++;
             }
             if (appendableString.length() > 0 && !vowelsAndHasants.containsKey(m.group(0)) && kaar == null) {
                 nextNeedsO = true;

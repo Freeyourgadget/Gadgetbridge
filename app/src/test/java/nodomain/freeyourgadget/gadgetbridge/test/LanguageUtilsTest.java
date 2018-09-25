@@ -61,7 +61,7 @@ public class LanguageUtilsTest extends TestBase {
     public void testStringTransliterateBengali() throws Exception {
         // input with cyrillic and diacritic letters
         String[] inputs = { "অনিরুদ্ধ", "বিজ্ঞানযাত্রা চলছে চলবে।", "আমি সব দেখেশুনে ক্ষেপে গিয়ে করি বাঙলায় চিৎকার!" };
-        String[] outputs = { "oniruddho", "biggaanJaatraa cholochhe cholobe.",
+        String[] outputs = { "oniruddho", "biggaanJaatraa cholchhe cholbe.",
                 "aami sob dekheshune kkhepe giye kori baanglaay chitkaar!" };
 
         String result;
