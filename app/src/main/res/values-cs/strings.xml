@@ -550,9 +550,9 @@
 \nNETESTOVÁNO, MŮŽE POŠKODIT VAŠE ZAŘÍZENÍ, POKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="pref_title_notifications_timeout">Minimální doba mezi upozorněními</string>
     <string name="pref_title_rtl">Zprava doleva</string>
-    <string name="pref_summary_rtl">Povolte, podporuje-li vaše zařízení jazyky zprava doleva</string>
+    <string name="pref_summary_rtl">Povolte, nepodporuje-li vaše zařízení jazyky zprava doleva</string>
     <string name="pref_rtl_max_line_length">Maximální délka řádku pro zprava doleva</string>
-    <string name="pref_rtl_max_line_length_summary">Je-li zapnuta podpora pro zleva doprava, text je rozdělen do řádků. Změňte tuto hodnotu jsou-li řádky příliš dlouhé/krátké.</string>
+    <string name="pref_rtl_max_line_length_summary">Prodlužuje/zkracuje text řádků jazyků zleva doprava</string>
 
     <string name="preferences_id115_settings">ID115 nastavení</string>
     <string name="prefs_screen_orientation">Orientace displeje</string>
