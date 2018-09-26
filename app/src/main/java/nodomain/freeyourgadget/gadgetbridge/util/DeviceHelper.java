@@ -51,7 +51,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2Coordin
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2HRXCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.id115.ID115Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.jyou.TeclastH30Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.jyou.TeclastH30.TeclastH30Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.jyou.y5.Y5Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi1Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.liveview.LiveviewCoordinator;
@@ -221,7 +222,7 @@ public class DeviceHelper {
         result.add(new Watch9DeviceCoordinator());
         result.add(new Roidmi1Coordinator());
         result.add(new Roidmi3Coordinator());
-
+        result.add(new Y5Coordinator());
         return result;
     }
 

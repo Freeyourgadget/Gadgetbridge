@@ -1,24 +1,10 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Sami Alaoui
-
-    This file is part of Gadgetbridge.
-
-    Gadgetbridge is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as published
-    by the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    Gadgetbridge is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.jyou;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.jyou.y5;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -31,34 +17,47 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.jyou.JYouConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.jyou.JYouSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.JYouActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.jyou.RealtimeSamplesSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
-public class TeclastH30Support extends AbstractBTLEDeviceSupport {
-
-    private static final Logger LOG = LoggerFactory.getLogger(TeclastH30Support.class);
+public class Y5Support extends AbstractBTLEDeviceSupport {
+    private static final Logger LOG = LoggerFactory.getLogger(Y5Support.class);
 
     public BluetoothGattCharacteristic ctrlCharacteristic = null;
     public BluetoothGattCharacteristic measureCharacteristic = null;
 
+    private RealtimeSamplesSupport realtimeSamplesSupport;
+
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
 
-    public TeclastH30Support() {
+    public Y5Support() {
         super(LOG);
         addSupportedService(JYouConstants.UUID_SERVICE_JYOU);
     }
@@ -99,7 +98,19 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
             return true;
 
         switch (data[0]) {
+            case JYouConstants.RECEIVE_HISTORY_SLEEP_COUNT:
+                LOG.info("onCharacteristicChanged: " + data[0]);
+                return true;
+            case JYouConstants.RECEIVE_BLOOD_PRESSURE:
+                int heartRate = data[2];
+                int bloodPressureHigh = data[3];
+                int bloodPressureLow = data[4];
+                int bloodOxygen = data[5];
+                int Fatigue = data[6];
+                LOG.info("RECEIVE_BLOOD_PRESSURE: Heart rate: " + heartRate + " Pressure high: " + bloodPressureHigh+ " pressure low: " + bloodPressureLow);
+                return true;
             case JYouConstants.RECEIVE_DEVICE_INFO:
+                int model = data[7];
                 int fwVerNum = data[4] & 0xFF;
                 versionCmd.fwVersion = (fwVerNum / 100) + "." + ((fwVerNum % 100) / 10) + "." + ((fwVerNum % 100) % 10);
                 handleGBDeviceEvent(versionCmd);
@@ -113,14 +124,101 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
             case JYouConstants.RECEIVE_STEPS_DATA:
                 int steps = ByteBuffer.wrap(data, 5, 4).getInt();
                 LOG.info("Number of walked steps: " + steps);
+                handleRealtimeSteps(steps);
                 return true;
             case JYouConstants.RECEIVE_HEARTRATE:
-                LOG.info("Current heart rate: " + data[8]);
+                handleHeartrate(data[8]);
+                return true;
+            case JYouConstants.RECEIVE_WATCH_MAC:
+                return true;
+            case JYouConstants.RECEIVE_GET_PHOTO:
                 return true;
             default:
                 LOG.info("Unhandled characteristic change: " + characteristicUUID + " code: " + String.format("0x%1x ...", data[0]));
                 return true;
         }
+    }
+
+    private void handleRealtimeSteps(int value) {
+        //todo Call on connect the device
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("realtime steps: " + value);
+        }
+        getRealtimeSamplesSupport().setSteps(value);
+    }
+
+    private void handleHeartrate(int value) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("heart rate: " + value);
+        }
+        RealtimeSamplesSupport realtimeSamplesSupport = getRealtimeSamplesSupport();
+        realtimeSamplesSupport.setHeartrateBpm(value);
+        if (!realtimeSamplesSupport.isRunning()) {
+            // single shot measurement, manually invoke storage and result publishing
+            realtimeSamplesSupport.triggerCurrentSample();
+        }
+    }
+
+    public JYouActivitySample createActivitySample(Device device, User user, int timestampInSeconds, SampleProvider provider) {
+        JYouActivitySample sample = new JYouActivitySample();
+        sample.setDevice(device);
+        sample.setUser(user);
+        sample.setTimestamp(timestampInSeconds);
+        sample.setProvider(provider);
+        return sample;
+    }
+
+    private void enableRealtimeSamplesTimer(boolean enable) {
+        if (enable) {
+            getRealtimeSamplesSupport().start();
+        } else {
+            if (realtimeSamplesSupport != null) {
+                realtimeSamplesSupport.stop();
+            }
+        }
+    }
+
+    private RealtimeSamplesSupport getRealtimeSamplesSupport() {
+        if (realtimeSamplesSupport == null) {
+            realtimeSamplesSupport = new RealtimeSamplesSupport(1000, 1000) {
+                @Override
+                public void doCurrentSample() {
+
+                    try (DBHandler handler = GBApplication.acquireDB()) {
+                        DaoSession session = handler.getDaoSession();
+                        int ts = (int) (System.currentTimeMillis() / 1000);
+                        JYouSampleProvider provider = new JYouSampleProvider(gbDevice, session);
+                        JYouActivitySample sample = createActivitySample(DBHelper.getDevice(getDevice(), session), DBHelper.getUser(session), ts, provider);
+                        sample.setHeartRate(getHeartrateBpm());
+                        sample.setRawIntensity(ActivitySample.NOT_MEASURED);
+                        sample.setRawKind(JYouSampleProvider.TYPE_ACTIVITY); // to make it visible in the charts TODO: add a MANUAL kind for that?
+
+                        provider.addGBActivitySample(sample);
+
+                        // set the steps only afterwards, since realtime steps are also recorded
+                        // in the regular samples and we must not count them twice
+                        // Note: we know that the DAO sample is never committed again, so we simply
+                        // change the value here in memory.
+                        sample.setSteps(getSteps());
+                        if(steps > 1){
+                            LOG.debug("Have steps: " + getSteps());
+                        }
+
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("realtime sample: " + sample);
+                        }
+
+                        Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                                .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
+                        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+
+                    } catch (Exception e) {
+                        LOG.warn("Unable to acquire db for saving realtime samples", e);
+                    }
+                }
+            };
+        }
+        return realtimeSamplesSupport;
     }
 
     private void syncDateAndTime(TransactionBuilder builder) {
@@ -144,43 +242,6 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
 
     private void syncSettings(TransactionBuilder builder) {
         syncDateAndTime(builder);
-
-        // TODO: unhardcode and separate stuff
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                JYouConstants.CMD_SET_HEARTRATE_WARNING_VALUE, 0, 152
-        ));
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                JYouConstants.CMD_SET_TARGET_STEPS, 0, 10000
-        ));
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                JYouConstants.CMD_GET_STEP_COUNT, 0, 0
-        ));
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                JYouConstants.CMD_GET_SLEEP_TIME, 0, 0
-        ));
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                JYouConstants.CMD_SET_NOON_TIME, 12 * 60 * 60, 14 * 60 * 60 // 12:00 - 14:00
-        ));
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                JYouConstants.CMD_SET_SLEEP_TIME, 21 * 60 * 60, 8 * 60 * 60 // 21:00 - 08:00
-        ));
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                JYouConstants.CMD_SET_INACTIVITY_WARNING_TIME, 0, 0
-        ));
-
-        // do not disturb and a couple more features
-        byte dndStartHour = 22;
-        byte dndStartMin = 0;
-        byte dndEndHour = 8;
-        byte dndEndMin = 0;
-        boolean dndToggle = false;
-        boolean vibrationToggle = true;
-        boolean wakeOnRaiseToggle = true;
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                JYouConstants.CMD_SET_DND_SETTINGS,
-                (dndStartHour << 24) | (dndStartMin << 16) | (dndEndHour << 8) | dndEndMin,
-                ((dndToggle ? 0 : 1) << 2) | ((vibrationToggle ? 1 : 0) << 1) | (wakeOnRaiseToggle ? 1 : 0)
-        ));
     }
 
     private void showNotification(byte icon, String title, String message) {
@@ -253,7 +314,6 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onDeleteNotification(int id) {
-
     }
 
     @Override
@@ -363,7 +423,12 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFetchRecordedData(int dataTypes) {
+    }
 
+    @Override
+    public void dispose() {
+        LOG.info("Dispose");
+        super.dispose();
     }
 
     @Override
@@ -384,7 +449,8 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("HeartRateTest");
             builder.write(ctrlCharacteristic, commandWithChecksum(
-                    JYouConstants.CMD_ACTION_HEARTRATE_SWITCH, 0, 1
+                    JYouConstants.CMD_SET_HEARTRATE_AUTO, 0, 0
+
             ));
             performConnected(builder.getTransaction());
         } catch(Exception e) {
@@ -394,14 +460,14 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
-        // TODO: test
         try {
             TransactionBuilder builder = performInitialized("RealTimeHeartMeasurement");
             builder.write(ctrlCharacteristic, commandWithChecksum(
-                    JYouConstants.CMD_SET_HEARTRATE_AUTO, 0, enable ? 1 : 0
+                    JYouConstants.CMD_ACTION_HEARTRATE_SWITCH, 0, enable ? 1 : 0
             ));
             performConnected(builder.getTransaction());
-        } catch(Exception e) {
+            enableRealtimeSamplesTimer(enable);
+        } catch (Exception e) {
             LOG.warn(e.getMessage());
         }
     }
@@ -451,7 +517,6 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onTestNewFunction() {
-
     }
 
     @Override

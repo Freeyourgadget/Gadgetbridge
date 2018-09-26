@@ -45,7 +45,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(18, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(19, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -71,7 +71,7 @@ public class GBDaoGenerator {
         addXWatchActivitySample(schema, user, device);
         addZeTimeActivitySample(schema, user, device);
         addID115ActivitySample(schema, user, device);
-
+        addJYouActivitySample(schema, user, device);
         addCalendarSyncState(schema, device);
 
         addBipActivitySummary(schema, user, device);
@@ -311,6 +311,19 @@ public class GBDaoGenerator {
         activitySample.addIntProperty("caloriesBurnt");
         activitySample.addIntProperty("distanceMeters");
         activitySample.addIntProperty("activeTimeMinutes");
+        return activitySample;
+    }
+
+    private static Entity addJYouActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "JYouActivitySample");
+        activitySample.implementsSerializable();
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty("caloriesBurnt");
+        activitySample.addIntProperty("distanceMeters");
+        activitySample.addIntProperty("activeTimeMinutes");
+        addHeartRateProperties(activitySample);
         return activitySample;
     }
 

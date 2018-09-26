@@ -36,12 +36,17 @@ public final class JYouConstants {
     public static final byte CMD_SET_SLEEP_TIME = 0x27;
     public static final byte CMD_SET_DND_SETTINGS = 0x39;
     public static final byte CMD_SET_INACTIVITY_WARNING_TIME = 0x24;
+
     public static final byte CMD_ACTION_HEARTRATE_SWITCH = 0x0D;
     public static final byte CMD_ACTION_SHOW_NOTIFICATION = 0x2C;
     public static final byte CMD_ACTION_REBOOT_DEVICE = 0x0E;
 
-    public static final byte RECEIVE_BATTERY_LEVEL = (byte)0xF7;
+    public static final byte RECEIVE_HISTORY_SLEEP_COUNT = 0x32;
+    public static final byte RECEIVE_BLOOD_PRESSURE = (byte) 0xE8;
+    public static final byte RECEIVE_WATCH_MAC = (byte)0xEC;
+    public static final byte RECEIVE_GET_PHOTO = (byte)0xF3;
     public static final byte RECEIVE_DEVICE_INFO = (byte)0xF6;
+    public static final byte RECEIVE_BATTERY_LEVEL = (byte)0xF7;
     public static final byte RECEIVE_STEPS_DATA = (byte)0xF9;
     public static final byte RECEIVE_HEARTRATE = (byte)0xFC;
 
