@@ -175,14 +175,14 @@ public class BengaliLanguageUtils extends LanguageUtils {
         Matcher m = bengaliRegex.matcher(txt);
         StringBuffer sb = new StringBuffer();
         String lastChar = "";
-        Boolean lastHadComposition = false;
-        Boolean lastHadKaar = false;
-        Boolean nextNeedsO = false;
-        Integer lastHadO = 0;
+        boolean lastHadComposition = false;
+        boolean lastHadKaar = false;
+        boolean nextNeedsO = false;
+        int lastHadO = 0;
         while (m.find()) {
-            Boolean thisNeedsO = false;
-            Boolean changePronounciation = false;
-            Boolean thisHadKaar = false;
+            boolean thisNeedsO = false;
+            boolean changePronounciation = false;
+            boolean thisHadKaar = false;
             String appendableString = "";
             String reff = m.group(1);
             if (reff != null) {
