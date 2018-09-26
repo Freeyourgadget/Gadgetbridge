@@ -57,8 +57,7 @@ public class Y5Coordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsActivityDataFetching() {
-        //return true; // Аккум, обновление, будильник, график
-        return false; // Аккум,          будильник, график, нет кнопки обновления в табах, активный режим работает
+        return false;
     }
 
     @Override
