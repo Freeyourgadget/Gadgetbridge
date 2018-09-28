@@ -491,7 +491,6 @@
         <item>3</item>
     </string-array>
     <string-array name="zetime_signaling_types">
-        <item name="0">@string/zetime_signaling_none</item>
         <item name="2">@string/zetime_signaling_vibrate_once</item>
         <item name="4">@string/zetime_signaling_vibrate_twice</item>
         <item name="7">@string/zetime_signaling_vibrate</item>
@@ -500,9 +499,9 @@
         <item name="11">@string/zetime_signaling_beep</item>
         <item name="12">@string/zetime_signaling_vibrate_beep_once</item>
         <item name="13">@string/zetime_signaling_vibrate_beep</item>
+        <item name="14">@string/zetime_signaling_none</item>
     </string-array>
     <string-array name="zetime_signaling_types_values">
-        <item>0</item>
         <item>2</item>
         <item>4</item>
         <item>7</item>
@@ -511,6 +510,7 @@
         <item>11</item>
         <item>12</item>
         <item>13</item>
+        <item>14</item>
     </string-array>
 
 </resources>

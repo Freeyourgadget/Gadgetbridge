@@ -113,6 +113,16 @@ public class ZeTimeConstants {
     public static final byte NOTIFICATION_SKYPE = (byte) 0x15;
     // reminders types
     public static final byte REMINDER_ALARM = (byte) 0x04;
+    // signaling types
+    public static final byte ANTI_LOSS_TYPE = (byte) 0x00;
+    public static final byte CALL_TYPE = (byte) 0x02;
+    public static final byte MISSED_CALL_TYPE = (byte) 0x03;
+    public static final byte SMS_TYPE = (byte) 0x04;
+    public static final byte SOCIAL_TYPE = (byte) 0x05;
+    public static final byte EMAIL_TYPE = (byte) 0x06;
+    public static final byte CALENDAR_TYPE = (byte) 0x07;
+    public static final byte INACTIVITY_TYPE = (byte) 0x08;
+    public static final byte LOW_POWER_TYPE = (byte) 0x09;
     // watch settings
     public static final String PREF_WRIST = "zetime_wrist";
     public static final byte WEAR_ON_LEFT_WRIST = (byte) 0x00;
@@ -153,7 +163,16 @@ public class ZeTimeConstants {
     public static final String PREF_DATE_FORMAT = "zetime_date_format";
 
     public static final String PREF_ALARM_SIGNALING = "zetime_alarm_signaling";
-    public static final String PREF_SMS_SIGNALING = "zetime_sms_signaling";
+    public static final String PREF_SMS_SIGNALING = "zetime_vibration_profile_sms";
+    public static final String PREF_CALL_SIGNALING = "zetime_vibration_profile_incoming_call";
+    public static final String PREF_MISSED_CALL_SIGNALING = "zetime_vibration_profile_missed_call";
+    public static final String PREF_EMAIL_SIGNALING = "zetime_vibration_profile_generic_email";
+    public static final String PREF_SOCIAL_SIGNALING = "zetime_vibration_profile_generic_social";
+    public static final String PREF_CALENDAR_SIGNALING = "zetime_vibration_profile_calendar";
+    public static final String PREF_INACTIVITY_SIGNALING = "zetime_vibration_profile_inactivity";
+    public static final String PREF_LOW_POWER_SIGNALING = "zetime_vibration_profile_lowpower";
+    public static final String PREF_ANTI_LOSS_SIGNALING = "zetime_vibration_profile_antiloss";
+
     public static final String PREF_SHOCK_STRENGTH = "zetime_shock_strength";
 
 }

@@ -174,7 +174,15 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     setInactivityAlert(builder);
                     break;
                 case ZeTimeConstants.PREF_SMS_SIGNALING:
-                    setSMSSignaling(builder);
+                case ZeTimeConstants.PREF_CALL_SIGNALING:
+                case ZeTimeConstants.PREF_MISSED_CALL_SIGNALING:
+                case ZeTimeConstants.PREF_EMAIL_SIGNALING:
+                case ZeTimeConstants.PREF_SOCIAL_SIGNALING:
+                case ZeTimeConstants.PREF_CALENDAR_SIGNALING:
+                case ZeTimeConstants.PREF_INACTIVITY_SIGNALING:
+                case ZeTimeConstants.PREF_LOW_POWER_SIGNALING:
+                case ZeTimeConstants.PREF_ANTI_LOSS_SIGNALING:
+                    setSignaling(builder, config);
                     break;
                 case ZeTimeConstants.PREF_SHOCK_STRENGTH:
                     setShockStrength(builder);
@@ -1773,10 +1781,10 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         sendMsgToWatch(builder, strength);
     }
 
-    private void setSMSSignaling(TransactionBuilder builder)
+    private void setSignaling(TransactionBuilder builder, String signalingType)
     {
         Prefs prefs = GBApplication.getPrefs();
-        int signalType = prefs.getInt(ZeTimeConstants.PREF_SMS_SIGNALING, 0);
+        int signalType = prefs.getInt(signalingType, 0);
 
         byte[] signaling = {
                 ZeTimeConstants.CMD_PREAMBLE,
@@ -1784,10 +1792,41 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 ZeTimeConstants.CMD_SEND,
                 (byte)0x2,
                 (byte)0x0,
-                (byte)0x4,
+                (byte)0x0,
                 (byte)signalType,
                 ZeTimeConstants.CMD_END
         };
+
+        switch(signalingType)
+        {
+            case ZeTimeConstants.PREF_SMS_SIGNALING:
+                signaling[5] = ZeTimeConstants.SMS_TYPE;
+                break;
+            case ZeTimeConstants.PREF_CALL_SIGNALING:
+                signaling[5] = ZeTimeConstants.CALL_TYPE;
+                break;
+            case ZeTimeConstants.PREF_MISSED_CALL_SIGNALING:
+                signaling[5] = ZeTimeConstants.MISSED_CALL_TYPE;
+                break;
+            case ZeTimeConstants.PREF_EMAIL_SIGNALING:
+                signaling[5] = ZeTimeConstants.EMAIL_TYPE;
+                break;
+            case ZeTimeConstants.PREF_SOCIAL_SIGNALING:
+                signaling[5] = ZeTimeConstants.SOCIAL_TYPE;
+                break;
+            case ZeTimeConstants.PREF_CALENDAR_SIGNALING:
+                signaling[5] = ZeTimeConstants.CALENDAR_TYPE;
+                break;
+            case ZeTimeConstants.PREF_INACTIVITY_SIGNALING:
+                signaling[5] = ZeTimeConstants.INACTIVITY_TYPE;
+                break;
+            case ZeTimeConstants.PREF_LOW_POWER_SIGNALING:
+                signaling[5] = ZeTimeConstants.LOW_POWER_TYPE;
+                break;
+            case ZeTimeConstants.PREF_ANTI_LOSS_SIGNALING:
+                signaling[5] = ZeTimeConstants.ANTI_LOSS_TYPE;
+                break;
+        }
 
         sendMsgToWatch(builder, signaling);
     }

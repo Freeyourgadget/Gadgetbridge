@@ -293,6 +293,70 @@ public class ZeTimePreferenceActivity extends AbstractSettingsActivity {
                 return true;
             }
         });
+        final Preference antiSignaling = findPreference(ZeTimeConstants.PREF_ANTI_LOSS_SIGNALING);
+        antiSignaling.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_ANTI_LOSS_SIGNALING);
+                return true;
+            }
+        });
+        final Preference calendarSignaling = findPreference(ZeTimeConstants.PREF_CALENDAR_SIGNALING);
+        calendarSignaling.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_CALENDAR_SIGNALING);
+                return true;
+            }
+        });
+        final Preference callSignaling = findPreference(ZeTimeConstants.PREF_CALL_SIGNALING);
+        callSignaling.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_CALL_SIGNALING);
+                return true;
+            }
+        });
+        final Preference missedSignaling = findPreference(ZeTimeConstants.PREF_MISSED_CALL_SIGNALING);
+        missedSignaling.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_MISSED_CALL_SIGNALING);
+                return true;
+            }
+        });
+        final Preference emailSignaling = findPreference(ZeTimeConstants.PREF_EMAIL_SIGNALING);
+        emailSignaling.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_EMAIL_SIGNALING);
+                return true;
+            }
+        });
+        final Preference inactivitySignaling = findPreference(ZeTimeConstants.PREF_INACTIVITY_SIGNALING);
+        inactivitySignaling.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_SIGNALING);
+                return true;
+            }
+        });
+        final Preference powerSignaling = findPreference(ZeTimeConstants.PREF_LOW_POWER_SIGNALING);
+        powerSignaling.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_LOW_POWER_SIGNALING);
+                return true;
+            }
+        });
+        final Preference socialSignaling = findPreference(ZeTimeConstants.PREF_SOCIAL_SIGNALING);
+        socialSignaling.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_SOCIAL_SIGNALING);
+                return true;
+            }
+        });
     }
 
     /**

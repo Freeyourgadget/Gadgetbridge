@@ -233,7 +233,7 @@
                 android:defaultValue="2"
                 android:entries="@array/zetime_signaling_types"
                 android:entryValues="@array/zetime_signaling_types_values"
-                android:key="zetime_sms_signaling"
+                android:key="zetime_vibration_profile_sms"
                 android:title="@string/miband_prefs_vibration"
                 android:summary="%s" />
 
