@@ -132,4 +132,9 @@ public abstract class RoidmiCoordinator extends AbstractDeviceCoordinator {
     public boolean supportsLedColor() {
         return true;
     }
+
+    @Override
+    public int[] getColorPresets() {
+        return RoidmiConst.COLOR_PRESETS;
+    }
 }

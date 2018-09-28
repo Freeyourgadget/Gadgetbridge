@@ -146,7 +146,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             }
         } else if (BatteryState.NO_BATTERY.equals(batteryState) && batteryVoltage != GBDevice.BATTERY_UNKNOWN) {
             holder.batteryStatusBox.setVisibility(View.VISIBLE);
-            holder.batteryStatusLabel.setText(String.format(Locale.getDefault(), "%.1fV", batteryVoltage));
+            holder.batteryStatusLabel.setText(String.format(Locale.getDefault(), "%.2f", batteryVoltage));
             holder.batteryIcon.setImageLevel(200);
         }
 
@@ -378,16 +378,23 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                     ColorPickerDialog.Builder builder = ColorPickerDialog.newBuilder();
                     builder.setDialogTitle(R.string.preferences_led_color);
 
+                    int[] presets = coordinator.getColorPresets();
+
                     builder.setColor((int) device.getExtraInfo("led_color"));
+                    builder.setShowAlphaSlider(false);
+                    builder.setShowColorShades(false);
                     if (coordinator.supportsRgbLedColor()) {
                         builder.setAllowCustom(true);
-                        builder.setShowAlphaSlider(false);
-                        builder.setAllowPresets(true);
+                        if (presets.length == 0) {
+                            builder.setDialogType(ColorPickerDialog.TYPE_CUSTOM);
+                        }
                     } else {
                         builder.setAllowCustom(false);
+                    }
+
+                    if (presets.length > 0) {
                         builder.setAllowPresets(true);
-                        builder.setShowColorShades(false);
-                        builder.setPresets(coordinator.getColorPresets());
+                        builder.setPresets(presets);
                     }
 
                     ColorPickerDialog dialog = builder.create();

@@ -36,8 +36,7 @@ public class Roidmi3Coordinator extends RoidmiCoordinator {
             String name = device.getName();
 
             if (name != null && name.contains("Roidmi Music Blue C")) {
-                LOG.warn("Found a Roidmi 3, but support is disabled.");
-                return DeviceType.UNKNOWN; // TODO Roidmi 3 is not working atm
+                return DeviceType.ROIDMI3;
             }
         } catch (Exception ex) {
             LOG.error("unable to check device support", ex);

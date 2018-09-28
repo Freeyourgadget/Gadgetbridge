@@ -216,7 +216,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
 
     protected void handleGBDeviceEvent(GBDeviceEventLEDColor colorEvent) {
         Context context = getContext();
-        LOG.info("Got event for LED Color");
+        LOG.info("Got event for LED Color: #" + Integer.toHexString(colorEvent.color).toUpperCase());
         if (gbDevice == null) {
             return;
         }
