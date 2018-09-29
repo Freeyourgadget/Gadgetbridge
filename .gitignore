@@ -31,4 +31,6 @@ proguard/
 MPChartLib
 
 fw.dirs
-.project
+**/.project
+**/.settings
+**/.classpath
