@@ -39,7 +39,25 @@ public class BengaliLanguageUtils extends LanguageUtils {
             put("্ব", "w");
         }
     };
+
     // Vowels Only
+    private final static HashMap<String, String> vowels = new HashMap<String, String>() {
+        {
+            put("আ", "aa");
+            put("অ", "a");
+            put("ই", "i");
+            put("ঈ", "ii");
+            put("উ", "u");
+            put("ঊ", "uu");
+            put("ঋ", "ri");
+            put("এ", "e");
+            put("ঐ", "oi");
+            put("ও", "o");
+            put("ঔ", "ou");
+        }
+    };
+
+    // Vowels and Hasants
     private final static HashMap<String, String> vowelsAndHasants = new HashMap<String, String>() {
         {
             put("আ", "aa");
@@ -259,7 +277,7 @@ public class BengaliLanguageUtils extends LanguageUtils {
                 }
             }
             String whitespace = m.group(12);
-            if (nextNeedsO && kaar == null && whitespace == null) {
+            if (nextNeedsO && kaar == null && whitespace == null && !vowels.containsKey(m.group(0))) {
                 appendableString = appendableString + "o";
                 lastHadO++;
                 thisNeedsO = false;
@@ -271,7 +289,7 @@ public class BengaliLanguageUtils extends LanguageUtils {
                 lastHadO = 0;
             }
             nextNeedsO = false;
-            if (thisNeedsO && kaar == null && whitespace == null) {
+            if (thisNeedsO && kaar == null && whitespace == null && !vowels.containsKey(m.group(0))) {
                 appendableString = appendableString + "o";
                 lastHadO++;
             }
