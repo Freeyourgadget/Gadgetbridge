@@ -663,7 +663,7 @@
 <string name="ok">OK</string>
 
     <string name="share_log">Del logg</string>
-    <string name="share_log_warning">Ha i minnet at Gadgetbridge-loggfiler kan inneholde mye personlig informasjon, inkludert, og ikke begrenset til helsedata, unike indetifikatorer (som enhetens MAC-adresse), musikkpreferanser, osv. Overvei å redigere filen for fjerning av denne infoen før du sender filen til som offentlig feilrapport.</string>
+    <string name="share_log_warning">Ha i minnet at Gadgetbridge-loggfiler kan inneholde mye personlig info, inkludert, og ikke begrenset til helsedata, unike identifikatorer (som enhetens MAC-adresse), musikkpreferanser, osv. Overvei å redigere filen for fjerning av denne info-en før du sender filen til som offentlig feilrapport.</string>
     <string name="warning">Advarsel!</string>
 <string name="controlcenter_change_led_color">Endre LED-farge</string>
     <string name="controlcenter_change_fm_frequency">Endre FM-frekvens</string>
@@ -676,9 +676,9 @@
     <string name="pref_invalid_frequency_title">Ugyldig frekvens</string>
     <string name="pref_invalid_frequency_message">Skriv inn en frekvens mellom 87.5 og 108.0</string>
 <string name="pref_title_rtl">Høyre-til-venstre</string>
-    <string name="pref_summary_rtl">Skru på dette hvis din enhet ikke kan vise høyre til venstre-språk.</string>
+    <string name="pref_summary_rtl">Skru på dette hvis din enhet ikke kan vise høyre til venstre-språk</string>
     <string name="pref_rtl_max_line_length">Maksimal linjelengde for høyre-til-venstre</string>
-    <string name="pref_rtl_max_line_length_summary">Strekker eller korter ned linjene høyre-til-venstre tekst inndeles i.</string>
+    <string name="pref_rtl_max_line_length_summary">Strekker eller korter ned linjene høyre-til-venstre tekst inndeles i</string>
 
     <string name="notif_battery_low">%1$s batteri snart tomt</string>
     <string name="notif_battery_low_extended">%1$s batteri snart tomt: %2$s</string>
