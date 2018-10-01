@@ -4,18 +4,28 @@
     tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity$PlaceholderFragment"
     android:orientation="horizontal">
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/todaystepschart"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="40">
-    </com.github.mikephil.charting.charts.PieChart>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="40"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/todaystepschart"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="40" />
+
+    </LinearLayout>
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/weekstepschart"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-
         android:layout_weight="20" />
 
     <!--<TextView-->

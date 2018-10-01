@@ -62,7 +62,7 @@
   <string name="pref_default">Par défaut</string>
   <string name="pref_header_datetime">Date et heure</string>
   <string name="pref_title_datetime_syctimeonconnect">Synchroniser l\'heure</string>
-  <string name="pref_summary_datetime_syctimeonconnect">Synchroniser l\'heure à l\'appareil lors de la connexion et lorsque l\'heure ou le fuseau horaire changent sur Android</string>
+  <string name="pref_summary_datetime_syctimeonconnect">Synchroniser l\'heure sur l\'appareil lors de la connexion, et lorsque l\'heure ou le fuseau horaire changent sur Android</string>
   <string name="pref_title_theme">Thème</string>
   <string name="pref_theme_light">Clair</string>
   <string name="pref_theme_dark">Sombre</string>
@@ -79,7 +79,7 @@
   <string name="pref_title_notifications_generic">Support des notifications génériques</string>
   <string name="pref_title_whenscreenon">...y compris quand l\'écran est allumé</string>
   <string name="pref_title_notification_filter">Ne Pas Déranger</string>
-  <string name="pref_summary_notification_filter">Arrêter l’envoi des notifications non désirées en mode Ne Pas Déranger</string>
+  <string name="pref_summary_notification_filter">Les notifications non-sollicitées sont suspendues dans ce mode</string>
   <string name="pref_title_transliteration">Transcription</string>
   <string name="pref_summary_transliteration">Activez ceci si votre appareil ne supporte pas la police de caractères</string>
   <string name="always">Toujours</string>
@@ -242,7 +242,7 @@
   <string name="alarm_sat_short">Sam</string>
   <string name="alarm_smart_wakeup">Réveil intelligent</string>
   <string name="user_feedback_miband_set_alarms_failed">Une erreur s\'est produite lors du paramétrage des alarmes, veuillez réessayer !</string>
-  <string name="user_feedback_miband_set_alarms_ok">Alarmes envoyées à l\'appareil !</string>
+  <string name="user_feedback_miband_set_alarms_ok">Alarmes envoyées à l\'appareil.</string>
   <string name="chart_no_data_synchronize">Aucune donnée. Synchroniser l\'appareil ?</string>
   <string name="user_feedback_miband_activity_data_transfer">Sur le point de transférer %1$s de données à partir de %2$s</string>
   <string name="miband_prefs_fitness_goal">Objectif de pas par jour</string>
@@ -566,4 +566,72 @@ NOTE : la base de données sera bien évidement plus grande !</string>
     <string name="menuitem_notifications">Notifications</string>
     <string name="menuitem_music">Musique</string>
     <string name="menuitem_more">Suite</string>
+<string name="controlcenter_change_led_color">Changer la couleur de la LED</string>
+    <string name="controlcenter_change_fm_frequency">Changer la fréquence FM</string>
+    <string name="controlcenter_calibrate_device">Calibrer votre appareil</string>
+
+
+    <string name="pref_title_notifications_timeout">Temps minimum entre deux notifications</string>
+    <string name="pref_title_rtl">De droite à gauche</string>
+    <string name="pref_summary_rtl">Cocher ceci si votre appareil n\'est pas compatible avec les langues \"droite-à-gauche\"</string>
+    <string name="pref_rtl_max_line_length">Longueur max. d\'une ligne en mode Droite-à-Gauche</string>
+    <string name="watch9_pairing_tap_hint">Lorsque votre bracelet vibre, secouez-le ou pressez son bouton.</string>
+
+    <string name="notif_battery_low">%1$s niveau de batterie bas</string>
+    <string name="notif_battery_low_extended">%1$s niveau de batterie bas: %2$s</string>
+    <string name="lack_of_sleep">Manque de sommeil: %1$s</string>
+    <string name="overslept">Excès de sommeil: %1$s</string>
+    <string name="no_limit">Sans limite</string>
+    <string name="seconds_5">5 secondes</string>
+    <string name="seconds_10">10 secondes</string>
+    <string name="seconds_20">20 secondes</string>
+    <string name="seconds_30">30 secondes</string>
+    <string name="minutes_1">1 minute</string>
+    <string name="minutes_5">5 minutes</string>
+    <string name="minutes_10">10 minutes</string>
+    <string name="minutes_30">30 minutes</string>
+
+    <string name="lack_of_step">Manque d\'activité: %1$d</string>
+    <string name="overstep">Trop d\'activité: %1$d</string>
+    <string name="live_activity_max_heart_rate">Mesure cardiaque actuelle / maximum: %1$d / %2$d</string>
+    <string name="you_slept">Vous avez dormi de %1$s à %2$s</string>
+    <string name="you_did_not_sleep">Vous n\'avez pas dormi</string>
+    <string name="mi3_prefs_band_screen_unlock_summary">Glisser le doigt vers le haut pour débloquer l\'écran du bracelet</string>
+    <string name="mi3_prefs_night_mode">Mode nuit</string>
+    <string name="mi3_prefs_night_mode_summary">Diminuer la luminosité de l\'écran du bracelet automatiquement lorsqu\'il fait sombre</string>
+
+    <string name="german">Allemand</string>
+    <string name="italian">Italien</string>
+    <string name="french">Français</string>
+    <string name="polish">Polonais</string>
+    <string name="korean">Koréen</string>
+    <string name="japanese">Japonais</string>
+
+    <string name="activity_prefs_charts">Paramètres des graphiques</string>
+    <string name="activity_prefs_chart_max_heart_rate">Fréquence cardiaque maximum</string>
+    <string name="activity_prefs_chart_min_heart_rate">Fréquence cardiaque minimum</string>
+
+    <string name="ok">Ok</string>
+
+    <string name="mi3_night_mode_sunset">Au coucher du soleil</string>
+    <string name="devicetype_watch9">Watch 9</string>
+    <string name="watch9_time_minutes">Minutes:</string>
+    <string name="watch9_time_hours">Heures:</string>
+    <string name="watch9_time_seconds">Secondes:</string>
+    <string name="watch9_calibration_hint">Régler l\'heure que votre appareil indique actuellement.</string>
+    <string name="watch9_calibration_button">Calibrer</string>
+    <string name="title_activity_watch9_pairing">Appairage de la Watch 9</string>
+    <string name="title_activity_watch9_calibration">Calibration de la Watch 9</string>
+    <string name="preferences_rtl_settings">Support Droite-à-Gauche</string>
+    <string name="share_log">Partager les logs</string>
+    <string name="share_log_warning">Veuillez garder en tête que les fichiers logs de Gadgetbridge peuvent contenir des tas d\'informations personnelles, incluant entre autre des données relatives à la santé, des identifiants uniques (telles que des adresses MAC), des préférences musicales, etc. Pensez à modifier le fichier et retirer ces informations personnelles avant toute publication sur un rapport de bug public.</string>
+    <string name="warning">Attention!</string>
+    <string name="no_data">Pas de données</string>
+
+    <string name="preferences_led_color">Couleur de la LED</string>
+
+    <string name="preferences_fm_frequency">Fréquence FM</string>
+    <string name="pref_invalid_frequency_title">Fréquence non-valide</string>
+    <string name="pref_invalid_frequency_message">Veuillez introduire une fréquence entre 87.5 et 108.0</string>
+    <string name="language_and_region_prefs">Paramètres de langue et de région</string>
 </resources>

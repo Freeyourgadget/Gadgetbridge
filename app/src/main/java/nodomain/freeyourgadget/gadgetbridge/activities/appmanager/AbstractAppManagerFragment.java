@@ -88,7 +88,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
 
     protected void refreshList() {
         appList.clear();
-        ArrayList uuids = AppManagerActivity.getUuidsFromFile(getSortFilename());
+        ArrayList<UUID> uuids = AppManagerActivity.getUuidsFromFile(getSortFilename());
         List<GBDeviceApp> systemApps = getSystemAppsInCategory();
         boolean needsRewrite = false;
         for (GBDeviceApp systemApp : systemApps) {
@@ -106,11 +106,11 @@ public abstract class AbstractAppManagerFragment extends Fragment {
     private void refreshListFromPebble(Intent intent) {
         appList.clear();
         int appCount = intent.getIntExtra("app_count", 0);
-        for (Integer i = 0; i < appCount; i++) {
-            String appName = intent.getStringExtra("app_name" + i.toString());
-            String appCreator = intent.getStringExtra("app_creator" + i.toString());
-            UUID uuid = UUID.fromString(intent.getStringExtra("app_uuid" + i.toString()));
-            GBDeviceApp.Type appType = GBDeviceApp.Type.values()[intent.getIntExtra("app_type" + i.toString(), 0)];
+        for (int i = 0; i < appCount; i++) {
+            String appName = intent.getStringExtra("app_name" + i);
+            String appCreator = intent.getStringExtra("app_creator" + i);
+            UUID uuid = UUID.fromString(intent.getStringExtra("app_uuid" + i));
+            GBDeviceApp.Type appType = GBDeviceApp.Type.values()[intent.getIntExtra("app_type" + i, 0)];
 
             GBDeviceApp app = new GBDeviceApp(uuid, appName, appCreator, "", appType);
             app.setOnDevice(true);

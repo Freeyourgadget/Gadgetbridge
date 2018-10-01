@@ -74,7 +74,11 @@ public abstract class RealtimeSamplesSupport {
     }
 
     public synchronized void setSteps(int stepsPerMinute) {
-        this.steps = stepsPerMinute;
+        if (stepsPerMinute == ActivitySample.NOT_MEASURED || stepsPerMinute >= 0) {
+            this.steps = stepsPerMinute;
+        } else {
+            this.steps = ActivitySample.NOT_MEASURED;
+        }
     }
 
     /**

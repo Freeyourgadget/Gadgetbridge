@@ -626,4 +626,26 @@
     <string name="preferences_fm_frequency">תדר FM</string>
     <string name="pref_invalid_frequency_title">תדר שגוי</string>
     <string name="pref_invalid_frequency_message">נא לבחור בתדר בין 87.5 לבין 108.0</string>
-</resources>
+<string name="notif_battery_low">הסוללה של %1$s חלשה</string>
+    <string name="notif_battery_low_extended">הסוללה של %1$s חלשה: %2$s</string>
+    <string name="activity_prefs_charts">הגדרות תרשימים</string>
+    <string name="activity_prefs_chart_max_heart_rate">דופק מרבי</string>
+    <string name="activity_prefs_chart_min_heart_rate">דופק מזערי</string>
+
+    <string name="pref_title_rtl">מימין לשמאל</string>
+    <string name="pref_summary_rtl">יש להפעיל אפשרות זו אם ההתקן לא יכול להציג שפות מימין לשמאל</string>
+    <string name="pref_rtl_max_line_length">גודל שורה מרבי מימין לשמאל</string>
+    <string name="pref_rtl_max_line_length_summary">קיצור או הארכת השורות של טקסט מימין לשמאל</string>
+
+    <string name="pref_title_contextual_arabic">ערבית מחוברת</string>
+    <string name="pref_summary_contextual_arabic">יש להפעיל אפשרות זו כדי לתמוך בערבית מחוברת</string>
+    <string name="preferences_rtl_settings">תמיכה בטקסט מימין לשמאל</string>
+    <string name="language_and_region_prefs">הגדרות שפה ואיזור</string>
+<string name="lack_of_sleep">מחסור בשינה: %1$s</string>
+    <string name="overslept">עודף שינה: %1$s</string>
+    <string name="lack_of_step">מחסור בצעדים: %1$d</string>
+    <string name="overstep">עודף צעדים: %1$d</string>
+    <string name="no_data">אין נתונים</string>
+
+    <string name="live_activity_max_heart_rate">דופק נוכחי / מרבי: %1$d ‏/ %2$d</string>
+    </resources>

@@ -107,9 +107,9 @@
     <string name="pref_summary_transliteration">Enable this if your device has no support for your language\'s font</string>
 
     <string name="pref_title_rtl">Right-To-Left</string>
-    <string name="pref_summary_rtl">Enable this if your device has no support in right-to-left languages</string>
+    <string name="pref_summary_rtl">Enable this if your device can not show right-to-left languages</string>
     <string name="pref_rtl_max_line_length">Right-To-Left Max Line Length</string>
-    <string name="pref_rtl_max_line_length_summary">When Right-To-Left is enable, the text is separated to lines. Change this value if the lines are to long/short.</string>
+    <string name="pref_rtl_max_line_length_summary">Lengthens or shortens the lines Right-To-Left text is seperated into</string>
 
     <string name="always">Always</string>
     <string name="when_screen_off">When screen is off</string>
@@ -408,6 +408,8 @@
     <string name="weeksleepchart_today_sleep_description">Sleep today, target: %1$s</string>
     <string name="weekstepschart_steps_a_week">Steps per week</string>
     <string name="activity_sleepchart_activity_and_sleep">Your activity and sleep</string>
+    <string name="lack_of_sleep">Lack of sleep: %1$s</string>
+    <string name="overslept">Overslept: %1$s</string>
     <string name="updating_firmware">Flashing firmware…</string>
     <string name="fwapp_install_device_not_ready">File cannot be installed, device not ready.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
@@ -442,6 +444,8 @@
 
     <string name="liveactivity_live_activity">Live activity</string>
     <string name="weeksteps_today_steps_description">Steps today, target: %1$s</string>
+    <string name="lack_of_step">Lack of steps: %1$d</string>
+    <string name="overstep">Overstep: %1$d</string>
     <string name="pref_title_dont_ack_transfer">Do not ACK activity data transfer</string>
     <string name="pref_summary_dont_ack_transfers">If the activity data are not acked to the band, they will not be cleared. Useful if GB is used together with other apps.</string>
     <string name="pref_summary_keep_data_on_device">Will keep activity data on the Mi Band even after synchronization. Useful if GB is used together with other apps.</string>
@@ -453,6 +457,7 @@
     <string name="live_activity_total_steps">Total steps</string>
     <string name="live_activity_steps_per_minute_history">Steps per minute history</string>
     <string name="live_activity_start_your_activity">Start your activity</string>
+    <string name="live_activity_max_heart_rate">Current / Max heart rate: %1$d / %2$d</string>
     <string name="abstract_chart_fragment_kind_activity">Activity</string>
     <string name="abstract_chart_fragment_kind_light_sleep">Light sleep</string>
     <string name="abstract_chart_fragment_kind_deep_sleep">Deep sleep</string>
@@ -708,6 +713,7 @@
     <string name="share_log">Share log</string>
     <string name="share_log_warning">Please keep in mind Gadgetbridge log files may contain lots of personal information, including but not limited to health data, unique identifiers (such as a device MAC address), music preferences, etc. Consider editing the file and removing this information before sending the file to a public issue report.</string>
     <string name="warning">Warning!</string>
+    <string name="no_data">No data</string>
 
     <!-- LED Color -->
     <string name="preferences_led_color">LED Color</string>
@@ -716,4 +722,5 @@
     <string name="preferences_fm_frequency">FM Frequency</string>
     <string name="pref_invalid_frequency_title">Invalid frequency</string>
     <string name="pref_invalid_frequency_message">Please enter a frequency between 87.5 and 108.0</string>
+    <string name="language_and_region_prefs">Language and region settings</string>
 </resources>

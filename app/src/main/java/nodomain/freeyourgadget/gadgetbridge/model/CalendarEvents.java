@@ -71,9 +71,9 @@ public class CalendarEvents {
     private boolean fetchSystemEvents(Context mContext) {
 
         Calendar cal = GregorianCalendar.getInstance();
-        Long dtStart = cal.getTimeInMillis();
+        long dtStart = cal.getTimeInMillis();
         cal.add(Calendar.DATE, lookahead_days);
-        Long dtEnd = cal.getTimeInMillis();
+        long dtEnd = cal.getTimeInMillis();
 
         Uri.Builder eventsUriBuilder = Instances.CONTENT_URI.buildUpon();
         ContentUris.appendId(eventsUriBuilder, dtStart);

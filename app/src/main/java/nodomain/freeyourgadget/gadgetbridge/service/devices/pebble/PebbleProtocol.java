@@ -497,7 +497,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             title = notificationSpec.title;
         }
 
-        Long ts = System.currentTimeMillis();
+        long ts = System.currentTimeMillis();
         if (mFwMajor < 3) {
             ts += (SimpleTimeZone.getDefault().getOffset(ts));
         }
@@ -514,7 +514,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                     notificationSpec.sourceName, hasHandle, notificationSpec.cannedReplies);
         } else {
             // 1.x notification on FW 2.X
-            String[] parts = {title, notificationSpec.body, ts.toString(), subtitle};
+            String[] parts = {title, notificationSpec.body, String.valueOf(ts), subtitle};
             // be aware that type is at this point always NOTIFICATION_EMAIL
             return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_EMAIL, 0, parts);
         }
@@ -636,14 +636,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
         byte attributes_count = 0;
 
         int length = 21 + 10 + actions_length;
-        if (parts != null) {
-            for (String s : parts) {
-                if (s == null || s.equals("")) {
-                    continue;
-                }
-                attributes_count++;
-                length += (3 + s.getBytes().length);
+        for (String s : parts) {
+            if (s == null || s.equals("")) {
+                continue;
             }
+            attributes_count++;
+            length += (3 + s.getBytes().length);
         }
 
         // Encode Prefix
@@ -667,19 +665,17 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         byte attribute_id = 0;
         // Encode Pascal-Style Strings
-        if (parts != null) {
-            for (String s : parts) {
-                attribute_id++;
-                if (s == null || s.equals("")) {
-                    continue;
-                }
-
-                int partlength = s.getBytes().length;
-                if (partlength > 255) partlength = 255;
-                buf.put(attribute_id);
-                buf.putShort((short) partlength);
-                buf.put(s.getBytes(), 0, partlength);
+        for (String s : parts) {
+            attribute_id++;
+            if (s == null || s.equals("")) {
+                continue;
             }
+
+            int partlength = s.getBytes().length;
+            if (partlength > 255) partlength = 255;
+            buf.put(attribute_id);
+            buf.putShort((short) partlength);
+            buf.put(s.getBytes(), 0, partlength);
         }
 
 
@@ -981,14 +977,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         byte attributes_count = 2; // icon
         short attributes_length = (short) (11 + actions_length);
-        if (parts != null) {
-            for (String s : parts) {
-                if (s == null || s.equals("")) {
-                    continue;
-                }
-                attributes_count++;
-                attributes_length += (3 + s.getBytes().length);
+        for (String s : parts) {
+            if (s == null || s.equals("")) {
+                continue;
             }
+            attributes_count++;
+            attributes_length += (3 + s.getBytes().length);
         }
 
         short pin_length = (short) (NOTIFICATION_PIN_LENGTH + attributes_length);
@@ -1013,19 +1007,17 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         byte attribute_id = 0;
         // Encode Pascal-Style Strings
-        if (parts != null) {
-            for (String s : parts) {
-                attribute_id++;
-                if (s == null || s.equals("")) {
-                    continue;
-                }
-
-                int partlength = s.getBytes().length;
-                if (partlength > 512) partlength = 512;
-                buf.put(attribute_id);
-                buf.putShort((short) partlength);
-                buf.put(s.getBytes(), 0, partlength);
+        for (String s : parts) {
+            attribute_id++;
+            if (s == null || s.equals("")) {
+                continue;
             }
+
+            int partlength = s.getBytes().length;
+            if (partlength > 512) partlength = 512;
+            buf.put(attribute_id);
+            buf.putShort((short) partlength);
+            buf.put(s.getBytes(), 0, partlength);
         }
 
         buf.put((byte) 4); // icon
@@ -1116,14 +1108,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         byte attributes_count = 3;
         short attributes_length = (short) (21 + actions_length);
-        if (parts != null) {
-            for (String s : parts) {
-                if (s == null || s.equals("")) {
-                    continue;
-                }
-                attributes_count++;
-                attributes_length += (3 + s.getBytes().length);
+        for (String s : parts) {
+            if (s == null || s.equals("")) {
+                continue;
             }
+            attributes_count++;
+            attributes_length += (3 + s.getBytes().length);
         }
 
         UUID uuid = UUID.fromString("61b22bc8-1e29-460d-a236-3fe409a43901");
@@ -1150,27 +1140,25 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         byte attribute_id = 0;
         // Encode Pascal-Style Strings
-        if (parts != null) {
-            for (String s : parts) {
-                attribute_id++;
-                if (s == null || s.equals("")) {
-                    continue;
-                }
-
-                int partlength = s.getBytes().length;
-                if (partlength > 512) partlength = 512;
-                if (attribute_id == 4) {
-                    buf.put((byte) 11);
-                } else if (attribute_id == 5) {
-                    buf.put((byte) 25);
-                } else if (attribute_id == 6) {
-                    buf.put((byte) 26);
-                } else {
-                    buf.put(attribute_id);
-                }
-                buf.putShort((short) partlength);
-                buf.put(s.getBytes(), 0, partlength);
+        for (String s : parts) {
+            attribute_id++;
+            if (s == null || s.equals("")) {
+                continue;
             }
+
+            int partlength = s.getBytes().length;
+            if (partlength > 512) partlength = 512;
+            if (attribute_id == 4) {
+                buf.put((byte) 11);
+            } else if (attribute_id == 5) {
+                buf.put((byte) 25);
+            } else if (attribute_id == 6) {
+                buf.put((byte) 26);
+            } else {
+                buf.put(attribute_id);
+            }
+            buf.putShort((short) partlength);
+            buf.put(s.getBytes(), 0, partlength);
         }
 
         buf.put((byte) 4); // icon
@@ -1254,13 +1242,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         // Calculate length first
         short attributes_length = 0;
-        if (parts != null) {
-            for (String s : parts) {
-                if (s == null || s.equals("")) {
-                    continue;
-                }
-                attributes_length += (2 + s.getBytes().length);
+        for (String s : parts) {
+            if (s == null || s.equals("")) {
+                continue;
             }
+            attributes_length += (2 + s.getBytes().length);
         }
 
         short pin_length = (short) (WEATHER_FORECAST_LENGTH + attributes_length);
@@ -1280,17 +1266,15 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putShort(attributes_length);
 
         // Encode Pascal-Style Strings
-        if (parts != null) {
-            for (String s : parts) {
-                if (s == null || s.equals("")) {
-                    continue;
-                }
-
-                int partlength = s.getBytes().length;
-                if (partlength > 512) partlength = 512;
-                buf.putShort((short) partlength);
-                buf.put(s.getBytes(), 0, partlength);
+        for (String s : parts) {
+            if (s == null || s.equals("")) {
+                continue;
             }
+
+            int partlength = s.getBytes().length;
+            if (partlength > 512) partlength = 512;
+            buf.putShort((short) partlength);
+            buf.put(s.getBytes(), 0, partlength);
         }
 
         return encodeBlobdb(UUID_LOCATION, BLOBDB_INSERT, BLOBDB_WEATHER, buf.array());
@@ -1434,14 +1418,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
         } else {
             // Calculate length first
             int length = LENGTH_PREFIX + 9;
-            if (parts != null) {
-                for (String s : parts) {
-                    if (s == null || s.equals("")) {
-                        length++; // encode null or empty strings as 0x00 later
-                        continue;
-                    }
-                    length += (1 + s.getBytes().length);
+            for (String s : parts) {
+                if (s == null || s.equals("")) {
+                    length++; // encode null or empty strings as 0x00 later
+                    continue;
                 }
+                length += (1 + s.getBytes().length);
             }
 
             // Encode Prefix

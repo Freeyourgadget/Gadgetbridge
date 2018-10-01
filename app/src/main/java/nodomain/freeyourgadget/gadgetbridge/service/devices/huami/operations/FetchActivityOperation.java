@@ -16,6 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
 
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.text.format.DateUtils;
 import android.widget.Toast;
 
@@ -24,9 +26,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -34,6 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -41,10 +46,14 @@ import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbstractGattListenerWriteAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.PlainAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 /**
  * An operation that fetches activity data. For every fetch, a new operation must
@@ -68,11 +77,9 @@ public class FetchActivityOperation extends AbstractFetchOperation {
 
     @Override
     protected void startFetching(TransactionBuilder builder) {
+        final String taskName = StringUtils.ensureNotNull(builder.getTaskName());
         GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
-        builder.write(characteristicFetch, BLETypeConversions.join(new byte[] { HuamiService.COMMAND_ACTIVITY_DATA_START_DATE, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_ACTIVTY }, getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES)));
-        builder.add(new WaitAction(1000)); // TODO: actually wait for the success-reply
-        builder.notify(characteristicActivityData, true);
-        builder.write(characteristicFetch, new byte[] { HuamiService.COMMAND_FETCH_DATA});
+        startFetching(builder, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_ACTIVTY, sinceWhen);
     }
 
     protected void handleActivityFetchFinish(boolean success) {

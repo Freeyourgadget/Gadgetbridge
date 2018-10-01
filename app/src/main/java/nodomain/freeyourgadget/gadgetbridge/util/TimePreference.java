@@ -85,7 +85,11 @@ public class TimePreference extends DialogPreference {
                 time = getPersistedString(defaultValue.toString());
             }
         } else {
-            time = defaultValue.toString();
+            if (defaultValue != null) {
+                time = defaultValue.toString();
+            } else {
+                time = "00:00";
+            }
         }
 
         String[] pieces = time.split(":");

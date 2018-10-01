@@ -121,7 +121,7 @@ class ActivityAnalysis {
         for (ActivitySample sample : samples) {
             int steps = sample.getSteps();
             if (steps > 0) {
-                totalSteps += sample.getSteps();
+                totalSteps += steps;
             }
         }
         return totalSteps;

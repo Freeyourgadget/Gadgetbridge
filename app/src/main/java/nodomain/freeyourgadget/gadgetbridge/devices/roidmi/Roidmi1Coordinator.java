@@ -49,9 +49,4 @@ public class Roidmi1Coordinator extends RoidmiCoordinator {
     public DeviceType getDeviceType() {
         return DeviceType.ROIDMI;
     }
-
-    @Override
-    public int[] getColorPresets() {
-        return RoidmiConst.COLOR_PRESETS;
-    }
 }

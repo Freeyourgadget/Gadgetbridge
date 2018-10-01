@@ -272,9 +272,9 @@ public class NotificationListener extends NotificationListenerService {
 
         // Ignore too frequent notifications, according to user preference
         long min_timeout = prefs.getInt("notifications_timeout", 0) * 1000;
-        Long cur_time = System.currentTimeMillis();
+        long cur_time = System.currentTimeMillis();
         if (notificationTimes.containsKey(source)) {
-            Long last_time = notificationTimes.get(source);
+            long last_time = notificationTimes.get(source);
             if (cur_time - last_time < min_timeout) {
                 LOG.info("Ignoring frequent notification, last one was " + (cur_time - last_time) + "ms ago");
                 return;

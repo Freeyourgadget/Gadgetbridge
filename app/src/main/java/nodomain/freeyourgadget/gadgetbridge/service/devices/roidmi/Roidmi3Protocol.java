@@ -24,6 +24,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInf
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFmFrequency;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventLEDColor;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class Roidmi3Protocol extends RoidmiProtocol {
@@ -40,7 +41,7 @@ public class Roidmi3Protocol extends RoidmiProtocol {
     private static final byte[] COMMAND_GET_VOLTAGE = new byte[]{0x06, (byte) 0x81};
 
     private static final byte[] COMMAND_SET_COLOR = new byte[]{0x02, 0x01, 0x00, 0x00, 0x00};
-    private static final byte[] COMMAND_SET_FREQUENCY = new byte[]{0x05, (byte) 0x81, 0x09, 0x64};
+    private static final byte[] COMMAND_SET_FREQUENCY = new byte[]{0x05, 0x01, 0x09, 0x64};
     private static final byte[] COMMAND_DENOISE_ON = new byte[]{0x05, 0x06, 0x12};
     private static final byte[] COMMAND_DENOISE_OFF = new byte[]{0x05, 0x06, 0x00};
 
@@ -58,7 +59,7 @@ public class Roidmi3Protocol extends RoidmiProtocol {
             return null;
         }
 
-        if (calcChecksum(res) != res[res.length - 2]) {
+        if (calcChecksum(res) != res[res.length - 1]) {
             LOG.info("Invalid response checksum");
             return null;
         }
@@ -68,21 +69,22 @@ public class Roidmi3Protocol extends RoidmiProtocol {
             return null;
         }
 
-        if (res[1] != (byte) 0x81) {
-            LOG.error("Unrecognized response" + GB.hexdump(res, 0, res.length));
-            return null;
+        if (res[2] != (byte) 0x81) {
+            LOG.warn("Potentially unsupported response: " + GB.hexdump(res, 0, res.length));
         }
 
         if (res[1] == RESPONSE_VOLTAGE) {
             String voltageHex = GB.hexdump(res, 3, 2);
-            float voltage = Float.valueOf(voltageHex) / 10.0f;
+            float voltage = Float.valueOf(voltageHex) / 100.0f;
             LOG.debug("Got voltage: " + voltage);
             GBDeviceEventBatteryInfo evBattery = new GBDeviceEventBatteryInfo();
+            evBattery.state = BatteryState.NO_BATTERY;
+            evBattery.level = GBDevice.BATTERY_UNKNOWN;
             evBattery.voltage = voltage;
             return new GBDeviceEvent[]{evBattery};
         } else if (res[1] == RESPONSE_COLOR) {
-            LOG.debug("Got color: " + GB.hexdump(res, 3, 3));
-            int color = res[3] << 16 | res[4] << 8 | res[4];
+            LOG.debug("Got color: #" + GB.hexdump(res, 3, 3));
+            int color = 0xFF000000 | ((res[3] << 16) & 0xFF0000) | ((res[4] << 8) & 0xFF00) | (res[5] & 0xFF);
             GBDeviceEventLEDColor evColor = new GBDeviceEventLEDColor();
             evColor.color = color;
             return new GBDeviceEvent[]{evColor};
@@ -94,7 +96,7 @@ public class Roidmi3Protocol extends RoidmiProtocol {
             evFrequency.frequency = frequency;
             return new GBDeviceEvent[]{evFrequency};
         } else {
-            LOG.error("Unrecognized response" + GB.hexdump(res, 0, res.length));
+            LOG.error("Unrecognized response: " + GB.hexdump(res, 0, res.length));
             return null;
         }
     }
@@ -103,9 +105,9 @@ public class Roidmi3Protocol extends RoidmiProtocol {
     public byte[] encodeLedColor(int color) {
         byte[] cmd = COMMAND_SET_COLOR.clone();
 
-        cmd[2] = (byte) color;
+        cmd[2] = (byte) (color >> 16);
         cmd[3] = (byte) (color >> 8);
-        cmd[4] = (byte) (color >> 16);
+        cmd[4] = (byte) color;
 
         return encodeCommand(cmd);
     }
@@ -144,7 +146,7 @@ public class Roidmi3Protocol extends RoidmiProtocol {
     }
 
     public byte[] encodeGetVoltage() {
-        return COMMAND_GET_VOLTAGE;
+        return encodeCommand(COMMAND_GET_VOLTAGE);
     }
 
     public byte[] encodeDenoise(boolean enabled) {

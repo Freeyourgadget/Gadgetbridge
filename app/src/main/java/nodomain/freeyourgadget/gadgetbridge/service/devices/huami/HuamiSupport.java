@@ -179,6 +179,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     private boolean isMusicAppStarted = false;
     private MusicSpec bufferMusicSpec = null;
     private MusicStateSpec bufferMusicStateSpec = null;
+    private boolean heartRateNotifyEnabled;
 
     public HuamiSupport() {
         this(LOG);
@@ -207,6 +208,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         try {
+            heartRateNotifyEnabled = false;
             boolean authenticate = needsAuth;
             needsAuth = false;
             byte authFlags = HuamiService.AUTH_BYTE;
@@ -377,7 +379,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         LOG.info("Attempting to set Fitness Goal...");
         BluetoothGattCharacteristic characteristic = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_8_USER_SETTINGS);
         if (characteristic != null) {
-            int fitnessGoal = GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_STEPS_GOAL, 10000);
+            int fitnessGoal = GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_STEPS_GOAL, ActivityUser.defaultUserStepsGoal);
             byte[] bytes = ArrayUtils.addAll(
                     HuamiService.COMMAND_SET_FITNESS_GOAL_START,
                     BLETypeConversions.fromUint16(fitnessGoal));
@@ -871,9 +873,12 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
         try {
             TransactionBuilder builder = performInitialized("Enable realtime heart rate measurement");
-            BluetoothGattCharacteristic heartrateCharacteristic = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT);
-            if (heartrateCharacteristic != null) {
-                builder.notify(heartrateCharacteristic, enable);
+            if (heartRateNotifyEnabled != enable) {
+                BluetoothGattCharacteristic heartrateCharacteristic = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT);
+                if (heartrateCharacteristic != null) {
+                    builder.notify(heartrateCharacteristic, enable);
+                    heartRateNotifyEnabled = enable;
+                }
             }
             if (enable) {
                 builder.write(characteristicHRControlPoint, stopHeartMeasurementManual);
@@ -1343,7 +1348,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                         MiBand2SampleProvider provider = new MiBand2SampleProvider(gbDevice, session);
                         MiBandActivitySample sample = createActivitySample(device, user, ts, provider);
                         sample.setHeartRate(getHeartrateBpm());
-                        sample.setSteps(getSteps());
+//                        sample.setSteps(getSteps());
                         sample.setRawIntensity(ActivitySample.NOT_MEASURED);
                         sample.setRawKind(HuamiConst.TYPE_ACTIVITY); // to make it visible in the charts TODO: add a MANUAL kind for that?
 

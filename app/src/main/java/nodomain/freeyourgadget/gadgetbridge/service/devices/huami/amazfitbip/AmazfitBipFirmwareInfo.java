@@ -45,6 +45,11 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
             (byte) 0x8c, 0x36, 0x2e, (byte) 0x8c, (byte) 0x9c, 0x08, 0x54, (byte) 0xa6
     };
 
+    private static final byte[] GPS_HEADER5 = new byte[]{
+            (byte) 0xec, 0x51, 0x73, 0x22 , 0x60 ,0x02 ,0x14, (byte) 0xb7,
+            (byte) 0xb5, (byte) 0xea, 0x4b, 0x22 , 0x5d, 0x23, (byte) 0xe5, 0x4f
+    };
+
     // this is the same as Cor
     private static final byte[] FW_HEADER = new byte[]{
             0x00, (byte) 0x98, 0x00, 0x20, (byte) 0xA5, 0x04, 0x00, 0x20, (byte) 0xAD, 0x04, 0x00, 0x20, (byte) 0xC5, 0x04, 0x00, 0x20
@@ -123,6 +128,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(8784,  "9565,dfbd8fa,0,0,");
         crcToVersion.put(16716, "9565,dfbd8faf42,0");
         crcToVersion.put(54154, "9567,8b05506,0,0,");
+        crcToVersion.put(15717, "15974,e61dd16,126");
 
         // font
         crcToVersion.put(61054, "8");
@@ -141,7 +147,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
             }
             return HuamiFirmwareType.RES;
         }
-        if (ArrayUtils.startsWith(bytes, GPS_HEADER) || ArrayUtils.startsWith(bytes, GPS_HEADER2) || ArrayUtils.startsWith(bytes, GPS_HEADER3) || ArrayUtils.startsWith(bytes, GPS_HEADER4)) {
+        if (ArrayUtils.startsWith(bytes, GPS_HEADER) || ArrayUtils.startsWith(bytes, GPS_HEADER2) || ArrayUtils.startsWith(bytes, GPS_HEADER3) || ArrayUtils.startsWith(bytes, GPS_HEADER4) || ArrayUtils.startsWith(bytes, GPS_HEADER5)) {
             return HuamiFirmwareType.GPS;
         }
         if (ArrayUtils.startsWith(bytes, GPS_ALMANAC_HEADER)) {

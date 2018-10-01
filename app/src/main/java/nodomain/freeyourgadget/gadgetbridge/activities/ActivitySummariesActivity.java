@@ -183,7 +183,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
 
                                 BaseActivitySummary item = getItemAdapter().getItem(checked.keyAt(i));
                                 if (item != null) {
-                                    ActivitySummary summary = (ActivitySummary) item;
+                                    ActivitySummary summary = item;
 
                                     String gpxTrack = summary.getGpxTrack();
                                     if (gpxTrack != null) {
@@ -238,7 +238,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                 Calendar date = Calendar.getInstance();
                 date.set(year, monthOfYear, dayOfMonth);
 
-                Long timestamp = date.getTimeInMillis() - 1000;
+                long timestamp = date.getTimeInMillis() - 1000;
                 SharedPreferences.Editor editor = GBApplication.getPrefs().getPreferences().edit();
                 editor.remove(mGBDevice.getAddress() + "_" + "lastSportsActivityTimeMillis"); //FIXME: key reconstruction is BAD
                 editor.putLong(mGBDevice.getAddress() + "_" + "lastSportsActivityTimeMillis", timestamp);

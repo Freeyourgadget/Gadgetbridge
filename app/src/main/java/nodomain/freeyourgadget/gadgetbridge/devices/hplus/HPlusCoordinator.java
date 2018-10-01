@@ -255,7 +255,7 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static byte getAllDayHR(String address) {
-        Boolean value = (prefs.getBoolean(HPlusConstants.PREF_HPLUS_ALLDAYHR, true));
+        boolean value = (prefs.getBoolean(HPlusConstants.PREF_HPLUS_ALLDAYHR, true));
 
         if(value){
             return HPlusConstants.ARG_HEARTRATE_ALLDAY_ON;

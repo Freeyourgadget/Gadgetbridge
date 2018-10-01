@@ -274,6 +274,7 @@ public class GBDevice implements Parcelable {
         setFirmwareVersion(null);
         setFirmwareVersion2(null);
         setRssi(RSSI_UNKNOWN);
+        resetExtraInfos();
         if (mBusyTask != null) {
             unsetBusyTask();
         }
@@ -401,6 +402,13 @@ public class GBDevice implements Parcelable {
         }
 
         mExtraInfos.put(key, info);
+    }
+
+    /**
+     * Deletes all the extra infos
+     */
+    public void resetExtraInfos() {
+        mExtraInfos = null;
     }
 
     /**

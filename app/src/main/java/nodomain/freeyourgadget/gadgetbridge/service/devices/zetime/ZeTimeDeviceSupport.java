@@ -315,14 +315,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             music[5] = musicState;
             System.arraycopy(songtitle.getBytes(StandardCharsets.UTF_8), 0, music, 6, songtitle.getBytes(StandardCharsets.UTF_8).length);
             music[music.length - 1] = ZeTimeConstants.CMD_END;
-            if (music != null) {
-                try {
-                    TransactionBuilder builder = performInitialized("setMusicStateInfo");
-                    replyMsgToWatch(builder, music);
-                    builder.queue(getQueue());
-                } catch (IOException e) {
-                    GB.toast(getContext(), "Error setting music state and info: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-                }
+            try {
+                TransactionBuilder builder = performInitialized("setMusicStateInfo");
+                replyMsgToWatch(builder, music);
+                builder.queue(getQueue());
+            } catch (IOException e) {
+                GB.toast(getContext(), "Error setting music state and info: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
             }
         }
     }
@@ -475,14 +473,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             }
             System.arraycopy(songtitle.getBytes(StandardCharsets.UTF_8), 0, music, 6, songtitle.getBytes(StandardCharsets.UTF_8).length);
             music[music.length - 1] = ZeTimeConstants.CMD_END;
-            if (music != null) {
-                try {
-                    TransactionBuilder builder = performInitialized("setMusicStateInfo");
-                    replyMsgToWatch(builder, music);
-                    builder.queue(getQueue());
-                } catch (IOException e) {
-                    GB.toast(getContext(), "Error setting music state and info: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-                }
+            try {
+                TransactionBuilder builder = performInitialized("setMusicStateInfo");
+                replyMsgToWatch(builder, music);
+                builder.queue(getQueue());
+            } catch (IOException e) {
+                GB.toast(getContext(), "Error setting music state and info: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
             }
         }
     }
@@ -509,15 +505,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         CalendarEvent[14] = (byte) calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length;
         System.arraycopy(calendarEventSpec.title.getBytes(StandardCharsets.UTF_8), 0, CalendarEvent, 15, calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length);
         CalendarEvent[CalendarEvent.length-1] = ZeTimeConstants.CMD_END;
-        if(CalendarEvent != null)
-        {
-            try {
-                TransactionBuilder builder = performInitialized("sendCalendarEvenr");
-                sendMsgToWatch(builder, CalendarEvent);
-                builder.queue(getQueue());
-            } catch (IOException e) {
-                GB.toast(getContext(), "Error sending calendar event: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-            }
+        try {
+            TransactionBuilder builder = performInitialized("sendCalendarEvenr");
+            sendMsgToWatch(builder, CalendarEvent);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error sending calendar event: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
     }
 
@@ -587,15 +580,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
         System.arraycopy(weatherSpec.location.getBytes(StandardCharsets.UTF_8), 0, weather, 25, weatherSpec.location.getBytes(StandardCharsets.UTF_8).length);
         weather[weather.length-1] = ZeTimeConstants.CMD_END;
-        if(weather != null)
-        {
-            try {
-                TransactionBuilder builder = performInitialized("sendWeahter");
-                sendMsgToWatch(builder, weather);
-                builder.queue(getQueue());
-            } catch (IOException e) {
-                GB.toast(getContext(), "Error sending weather: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-            }
+        try {
+            TransactionBuilder builder = performInitialized("sendWeahter");
+            sendMsgToWatch(builder, weather);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error sending weather: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
     }
 
@@ -758,15 +748,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 notification[5] = ZeTimeConstants.NOTIFICATION_SOCIAL;
                 break;
         }
-        if(notification != null)
-        {
         try {
             TransactionBuilder builder = performInitialized("sendNotification");
             sendMsgToWatch(builder, notification);
             builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error sending notification: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-        }
         }
     }
 

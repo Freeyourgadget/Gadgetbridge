@@ -71,14 +71,7 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
         LOG.info("start " + getName());
         buffer = new ByteArrayOutputStream(1024);
         GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
-
-        builder.write(characteristicFetch, BLETypeConversions.join(new byte[] {
-                HuamiService.COMMAND_ACTIVITY_DATA_START_DATE,
-                AmazfitBipService.COMMAND_ACTIVITY_DATA_TYPE_SPORTS_DETAILS},
-                getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES)));
-        builder.add(new WaitAction(1000)); // TODO: actually wait for the success-reply
-        builder.notify(characteristicActivityData, true);
-        builder.write(characteristicFetch, new byte[] { HuamiService.COMMAND_FETCH_DATA });
+        startFetching(builder, AmazfitBipService.COMMAND_ACTIVITY_DATA_TYPE_SPORTS_DETAILS, sinceWhen);
     }
 
     @Override

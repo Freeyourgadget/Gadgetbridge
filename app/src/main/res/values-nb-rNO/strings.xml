@@ -675,4 +675,26 @@
     <string name="preferences_fm_frequency">FM-frekvens</string>
     <string name="pref_invalid_frequency_title">Ugyldig frekvens</string>
     <string name="pref_invalid_frequency_message">Skriv inn en frekvens mellom 87.5 og 108.0</string>
+<string name="pref_title_rtl">Høyre-til-venstre</string>
+    <string name="pref_summary_rtl">Skru på dette hvis din enhet ikke kan vise høyre til venstre-språk.</string>
+    <string name="pref_rtl_max_line_length">Maksimal linjelengde for høyre-til-venstre</string>
+    <string name="pref_rtl_max_line_length_summary">Strekker eller korter ned linjene høyre-til-venstre tekst inndeles i.</string>
+
+    <string name="notif_battery_low">%1$s batteri snart tomt</string>
+    <string name="notif_battery_low_extended">%1$s batteri snart tomt: %2$s</string>
+    <string name="lack_of_sleep">Søvnmangel: %1$s</string>
+    <string name="overslept">Sovet for lenge: %1$s</string>
+    <string name="lack_of_step">Ikke nok steg: %1$d</string>
+    <string name="overstep">For mange steg: %1$d</string>
+    <string name="live_activity_max_heart_rate">Nåværende / maksimal puls: %1$d /%2$d</string>
+    <string name="activity_prefs_charts">Diagraminnstillinger</string>
+    <string name="activity_prefs_chart_max_heart_rate">Makspuls</string>
+    <string name="activity_prefs_chart_min_heart_rate">Minimumspuls</string>
+
+    <string name="pref_title_contextual_arabic">Kontekstuell arabisk</string>
+    <string name="pref_summary_contextual_arabic">Skru på dette for kontekstuell arabisk støtte</string>
+    <string name="preferences_rtl_settings">Høyre-til-venstre -støtte</string>
+    <string name="no_data">Ingen data</string>
+
+    <string name="language_and_region_prefs">Språk og stedsinnstillinger</string>
 </resources>

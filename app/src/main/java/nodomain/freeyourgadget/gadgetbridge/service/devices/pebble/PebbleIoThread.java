@@ -464,7 +464,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                 mOutStream.flush();
             }
         } catch (IOException e) {
-            LOG.error("Error writing.", e.getMessage());
+            LOG.error("Error writing.", e);
         }
         try {
             Thread.sleep(100);

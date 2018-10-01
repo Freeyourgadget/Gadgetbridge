@@ -60,8 +60,8 @@ public class GPXExporter implements ActivityTrackExporter {
     public void performExport(ActivityTrack track, File targetFile) throws IOException, GPXTrackEmptyException {
         String encoding = StandardCharsets.UTF_8.name();
         XmlSerializer ser = Xml.newSerializer();
-        try {
-            ser.setOutput(new FileOutputStream(targetFile), encoding);
+        try (FileOutputStream outputStream = new FileOutputStream(targetFile)) {
+            ser.setOutput(outputStream, encoding);
             ser.startDocument(encoding, Boolean.TRUE);
             ser.setPrefix("xsi", NS_XSI_URI);
             ser.setPrefix(NS_TRACKPOINT_EXTENSION, NS_TRACKPOINT_EXTENSION_URI);
@@ -77,7 +77,6 @@ public class GPXExporter implements ActivityTrackExporter {
 
             ser.endTag(NS_DEFAULT, "gpx");
             ser.endDocument();
-        } finally {
             ser.flush();
         }
     }
