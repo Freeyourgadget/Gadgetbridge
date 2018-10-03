@@ -37,6 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Coordin
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3FWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -45,6 +46,14 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 public class MiBand3Support extends AmazfitBipSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(MiBand3Support.class);
+
+    @Override
+    protected byte getAuthFlags() {
+        if (gbDevice.getType() == DeviceType.MIBAND3) {
+            return 0x00;
+        }
+        return super.getAuthFlags();
+    }
 
     @Override
     protected MiBand3Support setDisplayItems(TransactionBuilder builder) {

@@ -211,10 +211,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             heartRateNotifyEnabled = false;
             boolean authenticate = needsAuth;
             needsAuth = false;
-            byte authFlags = HuamiService.AUTH_BYTE;
-            if (gbDevice.getType() == DeviceType.MIBAND3) {
-                authFlags = 0x00;
-            }
+            byte authFlags = getAuthFlags();
             new InitOperation(authenticate, authFlags, this, builder).perform();
             characteristicHRControlPoint = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT);
             characteristicChunked = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER);
@@ -222,6 +219,10 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             GB.toast(getContext(), "Initializing Mi Band 2 failed", Toast.LENGTH_SHORT, GB.ERROR, e);
         }
         return builder;
+    }
+
+    protected byte getAuthFlags() {
+        return HuamiService.AUTH_BYTE;
     }
 
     /**
