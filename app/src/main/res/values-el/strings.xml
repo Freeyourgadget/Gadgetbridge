@@ -668,7 +668,7 @@
     <string name="mi3_prefs_night_mode">Λειτουργία \"νύχτας\"</string>
     <string name="mi3_prefs_night_mode_summary">Μείωση φωτεινότητας της οθόνης του Mi band 3 κατά τη διάρκεια της νύχτας</string>
 
-    <string name="ok">Οκ</string>
+    <string name="ok">ΟΚ</string>
 
     <string name="mi3_night_mode_sunset">Στη δύση του ηλίου</string>
     <string name="devicetype_roidmi">"Roidmi "</string>
