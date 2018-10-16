@@ -107,8 +107,8 @@
   <string name="pref_title_enable_pebblekit">Povolit přístup třetích stran k aplikaci Android</string>
   <string name="pref_summary_enable_pebblekit">Povolit experimentální podporu pro aplikace Androidu přes PebbleKit</string>
   <string name="pref_title_sunrise_sunset">Východ a západ slunce</string>
-  <string name="pref_summary_sunrise_sunset">Zasílat časy východu a západu slunce podle umístění do Pebble časové osi</string>
-  <string name="pref_title_autoremove_notifications">Odstraňovat skryté notifikace automaticky</string>
+  <string name="pref_summary_sunrise_sunset">Zasílat časy východu a západu slunce podle umístění do časové osy Pebble</string>
+  <string name="pref_title_autoremove_notifications">Automaticky odstraňovat skryté notifikace</string>
   <string name="pref_summary_autoremove_notifications">Notifikace budou z Pebble odstraněny automaticky, pokud byly skryty na zařízení s Androidem</string>
   <string name="pref_title_pebble_privacy_mode">Soukromý režim</string>
   <string name="pref_pebble_privacy_mode_off">Běžné notifikace</string>
@@ -149,7 +149,7 @@
   <string name="_unknown_">(neznámé)</string>
   <string name="test">Test</string>
   <string name="test_notification">Test notifikací</string>
-  <string name="this_is_a_test_notification_from_gadgetbridge">Toto je notifikace z Gadgetbridge</string>
+  <string name="this_is_a_test_notification_from_gadgetbridge">Toto je testovací notifikace z Gadgetbridge. Diakritika: ěščřžýáíéúů</string>
   <string name="bluetooth_is_not_supported_">BT není podporován.</string>
   <string name="bluetooth_is_disabled_">BT je vypnutý.</string>
   <string name="tap_connected_device_for_app_mananger">Dotkněte se zařízení pro App Manager</string>
@@ -188,8 +188,8 @@
   <string name="male">Muž</string>
   <string name="female">Žena</string>
   <string name="other">Jiný</string>
-  <string name="left">Vlevo</string>
-  <string name="right">Vpravo</string>
+  <string name="left">Levá</string>
+  <string name="right">Pravá</string>
   <string name="miband_pairing_using_dummy_userdata">Data uživatele nejsou platná, nyní používám vzorová.</string>
   <string name="miband_pairing_tap_hint">Když Mi Band zavibruje a blikne, dotkněte se jej několikrát po sobě.</string>
   <string name="appinstaller_install">Instalovat</string>
@@ -223,7 +223,7 @@
   <string name="pref_screen_notification_profile_generic_navigation">Navigace</string>
   <string name="pref_screen_notification_profile_generic_social">Sociální sítě</string>
   <string name="control_center_find_lost_device">Najit ztracené zařízení</string>
-  <string name="control_center_cancel_to_stop_vibration">Zrušit pro zastavení vibrací.</string>
+  <string name="control_center_cancel_to_stop_vibration">Zastavit vibrací.</string>
   <string name="title_activity_charts">Vaše aktivita</string>
   <string name="title_activity_set_alarm">Nastavit buzení</string>
   <string name="controlcenter_start_configure_alarms">Nastavit buzení</string>
@@ -326,13 +326,15 @@
   <string name="pref_summary_pebble_health_store_raw">Pokud je zatrženo, tak jsou data uložena v původní podobě pro pozdější vyhodnocení. Databáze bude v tom případě větší!</string>
   <string name="action_db_management">Správa databáze</string>
   <string name="title_activity_db_management">Správa databáze</string>
-  <string name="activity_db_management_import_export_explanation">Operace s databází použití následující cestu v zařízení. \nTato cesta je dostupní pro ostatní aplikace Androidu a váš počítač. \nExportovanou databázi (nebo místo pro importovanou databázi) naleznete tady:</string>
+  <string name="activity_db_management_import_export_explanation">Operace s databází použijí následující cestu v zařízení. 
+\nTato cesta je dostupná pro ostatní aplikace Androidu a váš počítač. 
+\nExportovanou databázi (nebo místo pro importovanou databázi) naleznete zde:</string>
   <string name="activity_db_management_merge_old_title">Smazat původní databázi</string>
   <string name="dbmanagementactivvity_cannot_access_export_path">Nelze přistoupit na zadanou cestu. Kontaktujte vývojáře.</string>
   <string name="dbmanagementactivity_exported_to">Exportováno do: %1$s</string>
   <string name="dbmanagementactivity_error_exporting_db">Chyba při exportu DB: %1$s</string>
   <string name="dbmanagementactivity_import_data_title">Importovat data?</string>
-  <string name="dbmanagementactivity_overwrite_database_confirmation">Opravdu chcete přepsat aktuální databázi? Všechna uložená data o aktivitě se ztratí.</string>
+  <string name="dbmanagementactivity_overwrite_database_confirmation">Opravdu chcete přepsat aktuální databázi\? Všechna uložená data aktivit budou ztracena.</string>
   <string name="dbmanagementactivity_import_successful">Importováno.</string>
   <string name="dbmanagementactivity_error_importing_db">Chyba při importu DB: %1$s</string>
   <string name="dbmanagementactivity_delete_activity_data_title">Smazat data o aktivitách?</string>
@@ -368,7 +370,7 @@
     <string name="pref_call_privacy_mode_number">Skrýť číslo, ale zobrazit jméno</string>
     <string name="pref_blacklist_calendars">Zakázané kalendáře</string>
 
-    <string name="pref_header_pebble_timeline">Časová os Pebble</string>
+    <string name="pref_header_pebble_timeline">Časová osa Pebble</string>
     <string name="pref_title_enable_calendar_sync">Synchronizace kalendáře</string>
     <string name="pref_summary_enable_calendar_sync">Odesílat události kalendáře na časovou osu</string>
 
@@ -389,7 +391,7 @@
     <string name="mi2_prefs_do_not_disturb">Nerušit</string>
     <string name="mi2_prefs_do_not_disturb_summary">Náramek nebude přijímat upozornění, pokud je aktivní režim Nerušit</string>
     <string name="mi2_prefs_inactivity_warnings">Upozornění na nečinnost</string>
-    <string name="mi2_prefs_inactivity_warnings_summary">Náramek zavibruje, když budete zadaný čas bez pohybu</string>
+    <string name="mi2_prefs_inactivity_warnings_summary">Náramek zavibruje po určité době neaktivity</string>
     <string name="mi2_prefs_inactivity_warnings_threshold">Limit času bez pohybu (v minutách)</string>
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">Vypnutí upozornění na nečinnost během zadaného časového intervalu</string>
     <string name="mi2_prefs_do_not_disturb_start">Od</string>
@@ -467,7 +469,7 @@
     <string name="notif_export_failed_title">Export databáze selhal! Zkontrolujte nastavení.</string>
     <string name="automatic">Automaticky</string>
     <string name="simplified_chinese">Zjednodušená Čínština</string>
-    <string name="traditional_chinese">Tradiční Čísština</string>
+    <string name="traditional_chinese">Tradiční Čínština</string>
     <string name="english">Angličtina</string>
     <string name="spanish">Španělština</string>
 
@@ -537,8 +539,8 @@
     <string name="controlcenter_calibrate_device">Kalibrovat zařízení</string>
 
 
-    <string name="blacklist_all_for_notifications">Seznam všech zakázaných upozornění</string>
-    <string name="whitelist_all_for_notifications">Seznam všech povolených upozornění</string>
+    <string name="blacklist_all_for_notifications">Zakázat všechny aplikace</string>
+    <string name="whitelist_all_for_notifications">Povolit všechny aplikace</string>
 
 
     <string name="fw_upgrade_notice_miband3">Chystáte se nainstalovat firmvér %s do vašeho Mi Band 3.
@@ -562,9 +564,9 @@
     <string name="pref_auto_fetch_limit_fetches">Minimální doba mezi synchronizacemi</string>
     <string name="pref_auto_fetch_limit_fetches_summary">Synchronizovat každých %d minut</string>
 
-    <string name="preferences_miband2_settings">Mi Band 2 nastavení</string>
-    <string name="preferences_miband3_settings">Mi Band 3 nastavení</string>
-    <string name="preferences_amazfitcor_settings">Amazfit Cor nastavení</string>s
+    <string name="preferences_miband2_settings">Nastavení Mi Band 2</string>
+    <string name="preferences_miband3_settings">Nastavení Mi Band 3</string>
+    <string name="preferences_amazfitcor_settings">Nastavení Amazfit Cor</string>s
     <string name="horizontal">Na šířku</string>
     <string name="vertical">Na výšku</string>
     <string name="watch9_pairing_tap_hint">Po zavibrování stiskněte tlačítko, nebo se zařízením zatřeste.</string>
@@ -588,7 +590,7 @@
     <string name="live_activity_max_heart_rate">Aktuální / Maximální tepová frekvence: %1$d / %2$d</string>
     <string name="you_slept">Spánek od %1$s do %2$s</string>
     <string name="you_did_not_sleep">Bez spánku</string>
-    <string name="mi3_prefs_band_screen_unlock">Odemčení obrazovky zařízení</string>
+    <string name="mi3_prefs_band_screen_unlock">Odemknutí obrazovky zařízení</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Přejeďte prstem pro odemčení obrazovky zařízení</string>
     <string name="mi3_prefs_night_mode">Noční režim</string>
     <string name="mi3_prefs_night_mode_summary">Nižší automatická intenzita displeje v noci</string>
@@ -632,7 +634,7 @@
     <string name="title_activity_watch9_calibration">Kalibrace Watch 9</string>
     <string name="pref_title_contextual_arabic">Kontextuální Arabština</string>
     <string name="pref_summary_contextual_arabic">Zapnout podporu pro kontextuální arabštinu</string>
-    <string name="preferences_rtl_settings">Podpora zprava doleva</string>
+    <string name="preferences_rtl_settings">Podpora jazyků zprava doleva</string>
     <string name="share_log">Sdílet záznam</string>
     <string name="share_log_warning">Prosím nezapomeňte, že ladící záznamy Gadgetbridge mohou obsahovat osobní informace, zahrnující například zdravotní data, identifikátory (MAC adresu), hudební preference a podobně. Tyto informace můžete vymazat před odesláním souboru do veřejného reportu.</string>
     <string name="warning">Upozornění!</string>
