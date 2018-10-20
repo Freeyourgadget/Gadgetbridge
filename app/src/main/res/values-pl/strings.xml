@@ -7,7 +7,7 @@
   <string name="action_quit">Zakończ</string>
   <string name="controlcenter_fetch_activity_data">Synchronizuj</string>
   <string name="controlcenter_start_sleepmonitor">Monitor snu (ALPHA)</string>
-  <string name="controlcenter_find_device">Odnajdź zagubione urządzenie</string>
+  <string name="controlcenter_find_device">Znajdź zgubione urządzenie</string>
   <string name="controlcenter_take_screenshot">Zrób zrzut ekranu</string>
   <string name="controlcenter_disconnect">Rozłącz</string>
   <string name="controlcenter_delete_device">Usuń urządzenie</string>
@@ -272,15 +272,15 @@
     <string name="controlcenter_snackbar_requested_screenshot">Tworzenie zrzutu ekranu urządzenia</string>
 
 
-    <string name="appmanager_weather_activate">Aktywuj systemową aplikację pogodową</string>
-    <string name="appmanager_weather_deactivate">Dezaktywuj systemową aplikację pogodową</string>
-    <string name="appmanager_weather_install_provider">Zainstaluj powiadomienia pogodowe</string>
+    <string name="appmanager_weather_activate">Aktywuj Systemową Aplikację Pogody</string>
+    <string name="appmanager_weather_deactivate">Dezaktywuj Systemową Aplikację Pogody</string>
+    <string name="appmanager_weather_install_provider">Zainstaluj aplikację Powiadomienia o pogodzie</string>
     <string name="title_activity_calblacklist">Czarna lista kalendarzy</string>
 
     <string name="pref_title_general_autostartonboot">Uruchom automatycznie</string>
     <string name="pref_title_minimize_priority">Ukryj powiadomienia z Gadgetbridge</string>
-    <string name="pref_summary_minimize_priority_off">Ikona na pasku stanu i powiadomienia na zablokowanym ekranie wyświetlają się</string>
-    <string name="pref_summary_minimize_priority_on">Ikona na pasku stanu i powiadomienia na zablokowanym ekranie są ukryte</string>
+    <string name="pref_summary_minimize_priority_off">"Ikona na pasku stanu i powiadomienia pokazują się na zablokowanym ekranie "</string>
+    <string name="pref_summary_minimize_priority_on">Ikona na pasku stanu i powiadomienia jest ukryta na zablokowanym ekranie</string>
 
     <string name="pref_summary_notification_filter">Niechciane powiadomienia są wyłączone w tym trybie</string>
     <string name="pref_title_transliteration">Transliteracja</string>
@@ -408,4 +408,6 @@
     <string name="pref_pebble_privacy_mode_content">Przesuń tekst powiadomienia poza ekran</string>
     <string name="pref_summary_location_keep_uptodate">Spróbuj uzyskać obecną lokalizację podczas biegu, używaj zapisanej lokalizacji jako rezerwowej</string>
 
+    <string name="controlcenter_change_led_color">Zmień kolor diody LED</string>
+    <string name="controlcenter_change_fm_frequency">Zmień częstotliwość FM</string>
     </resources>
