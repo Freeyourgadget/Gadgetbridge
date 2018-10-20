@@ -58,7 +58,7 @@
   <string name="pref_title_notifications_call">Rozmowy telefoniczne</string>
   <string name="pref_title_notifications_sms">SMS</string>
   <string name="pref_title_notifications_pebblemsg">Wiadomości Pebble</string>
-  <string name="pref_title_notifications_generic">Obsługa ogólnych powiadomień</string>
+  <string name="pref_title_notifications_generic">Obsługa powiadomień generycznych</string>
   <string name="pref_title_whenscreenon">...także gdy ekran jest włączony</string>
   <string name="pref_title_notification_filter">Nie przeszkadzać</string>
   <string name="always">Zawsze</string>
