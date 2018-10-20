@@ -58,7 +58,7 @@
   <string name="pref_title_notifications_call">Rozmowy telefoniczne</string>
   <string name="pref_title_notifications_sms">SMS</string>
   <string name="pref_title_notifications_pebblemsg">Wiadomości Pebble</string>
-  <string name="pref_title_notifications_generic">Obsługa powiadomień generycznych</string>
+  <string name="pref_title_notifications_generic">Ogólna obsługa powiadomień</string>
   <string name="pref_title_whenscreenon">...także gdy ekran jest włączony</string>
   <string name="pref_title_notification_filter">Nie przeszkadzać</string>
   <string name="always">Zawsze</string>
@@ -71,14 +71,14 @@
   <string name="pref_header_development">Ustawienia programisty</string>
   <string name="pref_title_development_miaddr">Adres Mi Band</string>
   <string name="pref_title_pebble_settings">Ustawienia Pebble</string>
-  <string name="pref_header_activitytrackers">Monitory aktywności</string>
+  <string name="pref_header_activitytrackers">Monitorowanie aktywności</string>
   <string name="pref_title_pebble_activitytracker">Preferowany monitor aktywności</string>
   <string name="pref_title_pebble_sync_health">Synchronizuj Pebble Health</string>
   <string name="pref_title_pebble_sync_misfit">Synchronizuj Misfit</string>
   <string name="pref_title_pebble_sync_morpheuz">Synchronizuj Morpheuz</string>
   <string name="pref_title_enable_pebblekit">Zezwól zewnętrznym aplikacjom Android na dostęp</string>
-  <string name="pref_summary_enable_pebblekit">Włącz eksperymentalną obsługę aplikacji Android przez PebbleKit</string>
-  <string name="pref_title_sunrise_sunset">Wschód i zachód</string>
+  <string name="pref_summary_enable_pebblekit">Włącz eksperymentalną obsługę aplikacji Android za pomocą PebbleKit</string>
+  <string name="pref_title_sunrise_sunset">Wschód i zachód słońca</string>
   <string name="pref_summary_sunrise_sunset">Wyślij czas wschodu i zachodu bazując na lokazliacji do ośi czasu Pebble</string>
   <string name="pref_header_location">Lokalizacja</string>
   <string name="pref_title_location_aquire">Uzyskaj lokalizację</string>
@@ -269,7 +269,7 @@
     <string name="controlcenter_snackbar_need_longpress">Przytrzymaj aby rozłączyć</string>
     <string name="controlcenter_snackbar_disconnecting">Rozłączanie</string>
     <string name="controlcenter_snackbar_connecting">Łączenie</string>
-    <string name="controlcenter_snackbar_requested_screenshot">Tworzenie zrzutu ekranu urządzenia</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Wykonaj zrzut ekranu urządzenia</string>
 
 
     <string name="appmanager_weather_activate">Aktywuj Systemową Aplikację Pogody</string>
@@ -284,7 +284,7 @@
 
     <string name="pref_summary_notification_filter">Niechciane powiadomienia są wyłączone w tym trybie</string>
     <string name="pref_title_transliteration">Transliteracja</string>
-    <string name="pref_summary_transliteration">Włącz tą opcję jeśli twoje urządzenie nie wspiera czcionki w twoim języku</string>
+    <string name="pref_summary_transliteration">Włącz tę opcję, jeśli twoje urządzenie nie obsługuje czcionki twojego języka</string>
 
     <string name="pref_header_privacy">Prywatność</string>
     <string name="pref_call_privacy_mode_off">Wyświetl nazwę i numer</string>
@@ -343,9 +343,9 @@
     <string name="mi2_prefs_button_press_count_match_delay">Opóźnienie po wciśnięciu przycisku akcji</string>
     <string name="mi2_prefs_goal_notification_summary">Opaska zawibruje gdy zostanie osiągnięty dzienny cel korków</string>
     <string name="mi2_prefs_do_not_disturb">Nie przeszkadzać</string>
-    <string name="pref_summary_notifications_pebblemsg">Obsługa aplikacji, które wysyłają powiadomienia na Pebble przy użyciu PebbleKit.</string>
+    <string name="pref_summary_notifications_pebblemsg">Obsługa aplikacji wysyłających powiadomienia do Pebble za pośrednictwem PebbleKit.</string>
     <string name="pref_title_weather">Pogoda</string>
-    <string name="pref_title_canned_messages_dismisscall">Odrzucanie połączeń</string>
+    <string name="pref_title_canned_messages_dismisscall">Odrzuć połączenie</string>
     <string name="prefs_title_all_day_heart_rate">Całodobowy pomiar tętna</string>
     <string name="pref_header_auto_export">Automatyczny eksport</string>
     <string name="pref_summary_auto_export_interval">Eksportować co %d godzin</string>
@@ -369,7 +369,7 @@
     <string name="controlcenter_calibrate_device">Kalibracja urządzenia</string>
 
 
-    <string name="blacklist_all_for_notifications">Czarna lista dla wszystkich powiadomień</string>
+    <string name="blacklist_all_for_notifications">Czarna lista dla powiadomień</string>
     <string name="whitelist_all_for_notifications">Biała lista dla wszystkich powiadomień</string>
 
 
@@ -398,10 +398,10 @@
     <string name="pref_title_charts_swipe">Włącz gesty lewo/prawo w wykresie aktywności</string>
 
     <string name="pref_title_notifications_timeout">Minimalny czas pomiędzy powiadomieniami</string>
-    <string name="pref_title_call_privacy_mode">Włącz tryb prywatny</string>
-    <string name="pref_title_weather_location">Lokalizacja pogody</string>
+    <string name="pref_title_call_privacy_mode">Tryb prywatności połączeń telefonicznych</string>
+    <string name="pref_title_weather_location">Lokalizacja pogody (CM/LOS)</string>
 
-    <string name="pref_summary_enable_outgoing_call">Wyłączenie tej opcji zatrzyma również Pebble 2/LE w wibracjach połączeń wychodzących</string>
+    <string name="pref_summary_enable_outgoing_call">Wyłączenie tej opcji spowoduje również, że Pebble 2/LE przestanie wibrować przy połączeniach wychodzących</string>
 
     <string name="pref_summary_autoremove_notifications">Powiadomienia są automatycznie usuwane z Pebble po usunięciu ich z urządzenia Android</string>
 
@@ -410,4 +410,7 @@
 
     <string name="controlcenter_change_led_color">Zmień kolor diody LED</string>
     <string name="controlcenter_change_fm_frequency">Zmień częstotliwość FM</string>
+    <string name="pref_title_rtl">Od prawej do lewej</string>
+    <string name="pref_summary_rtl">Włącz tę opcję, jeśli Twoje urządzenie nie może wyświetlać języków z pisownią od prawej do lewej</string>
+    <string name="pref_rtl_max_line_length">Max. Długość linii od prawej do lewej</string>
     </resources>
