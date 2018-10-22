@@ -174,6 +174,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         switch (deviceEvent.event) {
             case START:
                 Intent startIntent = new Intent(getContext(), FindPhoneActivity.class);
+                startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(startIntent);
                 break;
             case STOP:
