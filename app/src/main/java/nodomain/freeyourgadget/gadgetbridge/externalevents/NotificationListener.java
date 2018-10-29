@@ -209,9 +209,12 @@ public class NotificationListener extends NotificationListenerService {
 
         String source = sbn.getPackageName().toLowerCase();
         Notification notification = sbn.getNotification();
-        if (notification.when < (sbn.getPostTime() - 1000)) {
-            LOG.info("NOT processing notification, too old. notification.when: " + notification.when + " post time: " + sbn.getPostTime() + " now: " + System.currentTimeMillis());
-            return;
+        if (notificationTimes.containsKey(source)) {
+            long last_time = notificationTimes.get(source);
+            if (notification.when <= last_time) {
+                LOG.info("NOT processing notification, too old. notification.when: " + notification.when + " last notification for this source: " + last_time);
+                return;
+            }
         }
         NotificationSpec notificationSpec = new NotificationSpec();
         notificationSpec.id = (int) sbn.getPostTime(); //FIXME: a truly unique id would be better
