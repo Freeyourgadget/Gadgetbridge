@@ -16,11 +16,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class NotificationSpec {
-    public static final int FLAG_WEARABLE_REPLY = 0x00000001;
+    public static final int FLAG_WEARABLE_ACTIONS = 0x00000001;
 
     public int flags;
-    public int id;
+    private static final AtomicInteger c = new AtomicInteger((int) (System.currentTimeMillis()/1000));
+    private int id;
     public String sender;
     public String phoneNumber;
     public String title;
@@ -29,7 +34,10 @@ public class NotificationSpec {
     public NotificationType type;
     public String sourceName;
     public String[] cannedReplies;
-
+    /**
+     * Wearable actions that were attached to the incoming notifications and will be passed to the gadget (includes the "reply" action)
+     */
+    public ArrayList<Action> attachedActions;
     /**
      * The application that generated the notification.
      */
@@ -39,4 +47,24 @@ public class NotificationSpec {
      * The color that should be assigned to this notification when displayed on a Pebble
      */
     public byte pebbleColor;
+
+    public NotificationSpec() {
+        this.id = c.incrementAndGet();
+    }
+
+    public NotificationSpec(int id) {
+        if (id != -1)
+            this.id = id;
+        else
+            this.id = c.incrementAndGet();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public static class Action implements Serializable {
+        public boolean isReply = false;
+        public String title;
+    }
 }

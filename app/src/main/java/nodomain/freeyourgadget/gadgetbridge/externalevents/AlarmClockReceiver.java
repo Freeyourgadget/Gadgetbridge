@@ -64,10 +64,10 @@ public class AlarmClockReceiver extends BroadcastReceiver {
     private synchronized void sendAlarm(boolean on) {
         dismissLastAlarm();
         if (on) {
-            lastId = generateId();
             NotificationSpec spec = new NotificationSpec();
+            //TODO: can we attach a dismiss action to the notification and not use the notification ID explicitly?
+            lastId = spec.getId();
             spec.type = NotificationType.GENERIC_ALARM_CLOCK;
-            spec.id = lastId;
             spec.sourceName = "ALARMCLOCKRECEIVER";
             // can we get the alarm title somehow?
             GBApplication.deviceService().onNotification(spec);
@@ -81,8 +81,4 @@ public class AlarmClockReceiver extends BroadcastReceiver {
         }
     }
 
-    private int generateId() {
-        // lacks negative values, but should be sufficient
-        return (int) (Math.random() * Integer.MAX_VALUE);
-    }
 }

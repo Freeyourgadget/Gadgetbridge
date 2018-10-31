@@ -50,7 +50,6 @@ public class SMSReceiver extends BroadcastReceiver {
         }
 
         NotificationSpec notificationSpec = new NotificationSpec();
-        notificationSpec.id = -1;
         notificationSpec.type = NotificationType.GENERIC_SMS;
 
         Bundle bundle = intent.getExtras();

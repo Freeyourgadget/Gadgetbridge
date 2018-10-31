@@ -147,6 +147,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUS
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACK;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACKCOUNT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACKNR;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_ACTIONS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_BODY;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_FLAGS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_ID;
@@ -356,7 +357,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mGBDevice.sendDeviceUpdateIntent(this);
                 break;
             case ACTION_NOTIFICATION: {
-                NotificationSpec notificationSpec = new NotificationSpec();
+                int desiredId = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
+                NotificationSpec notificationSpec = new NotificationSpec(desiredId);
                 notificationSpec.phoneNumber = intent.getStringExtra(EXTRA_NOTIFICATION_PHONENUMBER);
                 notificationSpec.sender = intent.getStringExtra(EXTRA_NOTIFICATION_SENDER);
                 notificationSpec.subject = intent.getStringExtra(EXTRA_NOTIFICATION_SUBJECT);
@@ -364,17 +366,17 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 notificationSpec.body = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
                 notificationSpec.sourceName = intent.getStringExtra(EXTRA_NOTIFICATION_SOURCENAME);
                 notificationSpec.type = (NotificationType) intent.getSerializableExtra(EXTRA_NOTIFICATION_TYPE);
+                notificationSpec.attachedActions = (ArrayList<NotificationSpec.Action>) intent.getSerializableExtra(EXTRA_NOTIFICATION_ACTIONS);
                 notificationSpec.pebbleColor = (byte) intent.getSerializableExtra(EXTRA_NOTIFICATION_PEBBLE_COLOR);
-                notificationSpec.id = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
                 notificationSpec.flags = intent.getIntExtra(EXTRA_NOTIFICATION_FLAGS, 0);
                 notificationSpec.sourceAppId = intent.getStringExtra(EXTRA_NOTIFICATION_SOURCEAPPID);
 
                 if (notificationSpec.type == NotificationType.GENERIC_SMS && notificationSpec.phoneNumber != null) {
-                    notificationSpec.id = mRandom.nextInt(); // FIXME: add this in external SMS Receiver?
-                    GBApplication.getIDSenderLookup().add(notificationSpec.id, notificationSpec.phoneNumber);
+                    GBApplication.getIDSenderLookup().add(notificationSpec.getId(), notificationSpec.phoneNumber);
                 }
 
-                if (((notificationSpec.flags & NotificationSpec.FLAG_WEARABLE_REPLY) > 0)
+                //TODO: check if at least one of the attached actions is a reply action instead?
+                if (((notificationSpec.flags & NotificationSpec.FLAG_WEARABLE_ACTIONS) > 0)
                         || (notificationSpec.type == NotificationType.GENERIC_SMS && notificationSpec.phoneNumber != null)) {
                     // NOTE: maybe not where it belongs
                     if (prefs.getBoolean("pebble_force_untested", false)) {

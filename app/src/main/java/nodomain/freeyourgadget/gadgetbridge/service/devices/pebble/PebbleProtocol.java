@@ -60,6 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec.Action;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
@@ -484,8 +485,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeNotification(NotificationSpec notificationSpec) {
-        boolean hasHandle = notificationSpec.id != -1 && notificationSpec.phoneNumber == null;
-        int id = notificationSpec.id != -1 ? notificationSpec.id : mRandom.nextInt();
+        //TODO: simplify this logic? is hasHandle still needed?
+        boolean hasHandle = notificationSpec.getId() != -1 && notificationSpec.phoneNumber == null;
+        int id = notificationSpec.getId() != -1 ? notificationSpec.getId() : mRandom.nextInt();
         String title;
         String subtitle = null;
 
@@ -507,11 +509,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
             // 3.x notification
             return encodeBlobdbNotification(id, (int) (ts & 0xffffffffL), title, subtitle, notificationSpec.body,
                     notificationSpec.sourceName, hasHandle, notificationSpec.type, notificationSpec.pebbleColor,
-                    notificationSpec.cannedReplies);
+                    notificationSpec.cannedReplies, notificationSpec.attachedActions);
         } else if (mForceProtocol || notificationSpec.type != NotificationType.GENERIC_EMAIL) {
             // 2.x notification
             return encodeExtensibleNotification(id, (int) (ts & 0xffffffffL), title, subtitle, notificationSpec.body,
-                    notificationSpec.sourceName, hasHandle, notificationSpec.cannedReplies);
+                    notificationSpec.sourceName, hasHandle, notificationSpec.cannedReplies, notificationSpec.attachedActions);
         } else {
             // 1.x notification on FW 2.X
             String[] parts = {title, notificationSpec.body, String.valueOf(ts), subtitle};
@@ -594,7 +596,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
         */
     }
 
-    private byte[] encodeExtensibleNotification(int id, int timestamp, String title, String subtitle, String body, String sourceName, boolean hasHandle, String[] cannedReplies) {
+    //TODO: add support for attachedActions
+    private byte[] encodeExtensibleNotification(int id, int timestamp, String title, String subtitle, String body, String sourceName, boolean hasHandle, String[] cannedReplies, ArrayList attachedActions) {
         final short ACTION_LENGTH_MIN = 10;
 
         String[] parts = {title, subtitle, body};
@@ -930,7 +933,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     private byte[] encodeBlobdbNotification(int id, int timestamp, String title, String subtitle, String body, String sourceName,
                                             boolean hasHandle, NotificationType notificationType, byte backgroundColor,
-                                            String[] cannedReplies) {
+                                            String[] cannedReplies, ArrayList<Action> attachedActions) {
         final short NOTIFICATION_PIN_LENGTH = 46;
         final short ACTION_LENGTH_MIN = 10;
 
@@ -943,36 +946,43 @@ public class PebbleProtocol extends GBDeviceProtocol {
         int icon_id = notificationType.icon;
 
         // Calculate length first
-        byte actions_count;
-        short actions_length;
+        byte actions_count = 0;
+        short actions_length = 0;
         String dismiss_string;
         String open_string = "Open on phone";
         String mute_string = "Mute";
-        String reply_string = "Reply";
         if (sourceName != null) {
             mute_string += " " + sourceName;
         }
 
         byte dismiss_action_id;
         if (hasHandle && !"ALARMCLOCKRECEIVER".equals(sourceName)) {
-            actions_count = 3;
+            actions_count += 3;
             dismiss_string = "Dismiss";
             dismiss_action_id = 0x02;
-            actions_length = (short) (ACTION_LENGTH_MIN * actions_count + dismiss_string.getBytes().length + open_string.getBytes().length + mute_string.getBytes().length);
+            //TODO: ACTION_LENGTH_MIN disagrees with my observation of the needed bytes. I used 6 instead of 10
+            actions_length += (short) (6 * 3 + dismiss_string.getBytes().length + open_string.getBytes().length + mute_string.getBytes().length);
         } else {
-            actions_count = 1;
+            actions_count += 1;
             dismiss_string = "Dismiss all";
             dismiss_action_id = 0x03;
-            actions_length = (short) (ACTION_LENGTH_MIN * actions_count + dismiss_string.getBytes().length);
+            actions_length += (short) (ACTION_LENGTH_MIN + dismiss_string.getBytes().length);
+        }
+        if (attachedActions != null && attachedActions.size() > 0) {
+            for (Action act : attachedActions) {
+                actions_count++;
+                actions_length += (short) (6 + act.title.getBytes().length);
+            }
         }
 
         int replies_length = -1;
         if (cannedReplies != null && cannedReplies.length > 0) {
-            actions_count++;
+            //do not increment actions_count! reply is an action and was already added above
             for (String reply : cannedReplies) {
                 replies_length += reply.getBytes().length + 1;
             }
-            actions_length += ACTION_LENGTH_MIN + reply_string.getBytes().length + replies_length + 3; // 3 = attribute id (byte) + length(short)
+            //similarly, only the replies lenght has to be added, the lenght for the bare action was already added above
+            actions_length += replies_length + 3; // 3 = attribute id (byte) + length(short)
         }
 
         byte attributes_count = 2; // icon
@@ -1053,21 +1063,31 @@ public class PebbleProtocol extends GBDeviceProtocol {
             buf.put(mute_string.getBytes());
         }
 
-        if (cannedReplies != null && replies_length > 0) {
-            buf.put((byte) 0x05);
-            buf.put((byte) 0x03); // reply action
-            buf.put((byte) 0x02); // number attributes
-            buf.put((byte) 0x01); // title
-            buf.putShort((short) reply_string.getBytes().length);
-            buf.put(reply_string.getBytes());
-            buf.put((byte) 0x08); // canned replies
-            buf.putShort((short) replies_length);
-            for (int i = 0; i < cannedReplies.length - 1; i++) {
-                buf.put(cannedReplies[i].getBytes());
-                buf.put((byte) 0x00);
+        if (attachedActions != null && attachedActions.size() > 0) {
+            for (int ai = 0 ; ai<attachedActions.size(); ai++) {
+                Action act = attachedActions.get(ai);
+                buf.put((byte) (0x05 + ai));
+                if(act.isReply) {
+                    buf.put((byte) 0x03); // reply action
+                    buf.put((byte) 0x02); // number attributes
+                } else {
+                    buf.put((byte) 0x02); // generic action, dismiss did not do anything
+                    buf.put((byte) 0x01); // number attributes
+                }
+                buf.put((byte) 0x01); // attribute id (title)
+                buf.putShort((short) act.title.getBytes().length);
+                buf.put(act.title.getBytes());
+                if(act.isReply && cannedReplies != null ) {
+                    buf.put((byte) 0x08); // canned replies
+                    buf.putShort((short) replies_length);
+                    for (int i = 0; i < cannedReplies.length - 1; i++) {
+                        buf.put(cannedReplies[i].getBytes());
+                        buf.put((byte) 0x00);
+                    }
+                    // last one must not be zero terminated, else we get an additional emply reply
+                    buf.put(cannedReplies[cannedReplies.length - 1].getBytes());
+                }
             }
-            // last one must not be zero terminated, else we get an additional emply reply
-            buf.put(cannedReplies[cannedReplies.length - 1].getBytes());
         }
 
         return encodeBlobdb(UUID.randomUUID(), BLOBDB_INSERT, BLOBDB_NOTIFICATION, buf.array());
@@ -2096,7 +2116,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 id = buf.getInt();
             }
             byte action = buf.get();
-            if (action >= 0x00 && action <= 0x05) {
+            if (action >= 0x00 && action <= 0xf) {
                 GBDeviceEventNotificationControl devEvtNotificationControl = new GBDeviceEventNotificationControl();
                 devEvtNotificationControl.handle = id;
                 String caption = "undefined";
@@ -2125,6 +2145,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         caption = "Muted";
                         icon_id = PebbleIconID.RESULT_MUTE;
                         break;
+                        //TODO: 0x05 is not a special case anymore, and reply action might have an index that is higher. see default below
                     case 0x05:
                     case 0x00:
                         boolean failed = true;
@@ -2145,12 +2166,26 @@ public class PebbleProtocol extends GBDeviceProtocol {
                                 }
                                 devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
                                 devEvtNotificationControl.reply = new String(reply);
+                                devEvtNotificationControl.handle = (devEvtNotificationControl.handle << 4) + 1;
                                 caption = "SENT";
                                 icon_id = PebbleIconID.RESULT_SENT;
                                 failed = false;
                             }
                         }
                         if (failed) {
+                            caption = "FAILED";
+                            icon_id = PebbleIconID.RESULT_FAILED;
+                            devEvtNotificationControl = null; // error
+                        }
+                        break;
+                    default:
+                        if (action > 0x05) {
+                            int simpleActionId = action - 0x05;
+                            caption = "EXECUTED";
+                            devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
+                            devEvtNotificationControl.handle = (devEvtNotificationControl.handle << 4) + simpleActionId;
+                            LOG.info("detected simple action, subId:" + simpleActionId + " title:" + devEvtNotificationControl.title);
+                        } else {
                             caption = "FAILED";
                             icon_id = PebbleIconID.RESULT_FAILED;
                             devEvtNotificationControl = null; // error

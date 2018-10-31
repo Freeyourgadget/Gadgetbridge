@@ -52,8 +52,8 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFmFrequency;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFmFrequency;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventLEDColor;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
@@ -337,6 +337,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         if (action != null) {
             Intent notificationListenerIntent = new Intent(action);
             notificationListenerIntent.putExtra("handle", deviceEvent.handle);
+            notificationListenerIntent.putExtra("title", deviceEvent.title);
             if (deviceEvent.reply != null) {
                 Prefs prefs = GBApplication.getPrefs();
                 String suffix = prefs.getString("canned_reply_suffix", null);

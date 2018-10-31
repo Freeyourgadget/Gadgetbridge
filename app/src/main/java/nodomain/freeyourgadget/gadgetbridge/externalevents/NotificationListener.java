@@ -50,6 +50,7 @@ import android.support.v7.graphics.Palette;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -87,7 +88,8 @@ public class NotificationListener extends NotificationListenerService {
 
     private LimitedQueue mActionLookup = new LimitedQueue(16);
 
-    private HashMap<String, Long> notificationTimes = new HashMap<>();
+    private HashMap<String, Long> notificationBurstPrevention = new HashMap<>();
+    private HashMap<String, Long> notificationOldRepeatPrevention = new HashMap<>();
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
@@ -145,19 +147,20 @@ public class NotificationListener extends NotificationListenerService {
                     break;
                 case ACTION_REPLY:
                     int id = intent.getIntExtra("handle", -1);
+                    NotificationCompat.Action wearableAction = (NotificationCompat.Action) mActionLookup.lookup(id);
                     String reply = intent.getStringExtra("reply");
-                    NotificationCompat.Action replyAction = (NotificationCompat.Action) mActionLookup.lookup(id);
-                    if (replyAction != null && replyAction.getRemoteInputs() != null) {
-                        RemoteInput[] remoteInputs = replyAction.getRemoteInputs();
-                        PendingIntent actionIntent = replyAction.getActionIntent();
+                    if (wearableAction != null) {
+                        PendingIntent actionIntent = wearableAction.getActionIntent();
                         Intent localIntent = new Intent();
                         localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        Bundle extras = new Bundle();
-                        extras.putCharSequence(remoteInputs[0].getResultKey(), reply);
-                        RemoteInput.addResultsToIntent(remoteInputs, localIntent, extras);
-
+                        if(wearableAction.getRemoteInputs()!=null) {
+                            RemoteInput[] remoteInputs = wearableAction.getRemoteInputs();
+                            Bundle extras = new Bundle();
+                            extras.putCharSequence(remoteInputs[0].getResultKey(), reply);
+                            RemoteInput.addResultsToIntent(remoteInputs, localIntent, extras);
+                        }
                         try {
-                            LOG.info("will send reply intent to remote application");
+                            LOG.info("will send exec intent to remote application");
                             actionIntent.send(context, 0, localIntent);
                             mActionLookup.remove(id);
                         } catch (PendingIntent.CanceledException e) {
@@ -209,15 +212,13 @@ public class NotificationListener extends NotificationListenerService {
 
         String source = sbn.getPackageName().toLowerCase();
         Notification notification = sbn.getNotification();
-        if (notificationTimes.containsKey(source)) {
-            long last_time = notificationTimes.get(source);
-            if (notification.when <= last_time) {
-                LOG.info("NOT processing notification, too old. notification.when: " + notification.when + " last notification for this source: " + last_time);
+        if (notificationOldRepeatPrevention.containsKey(source)) {
+            if (notification.when <= notificationOldRepeatPrevention.get(source)) {
+                LOG.info("NOT processing notification, already sent newer notifications from this source.");
                 return;
             }
         }
         NotificationSpec notificationSpec = new NotificationSpec();
-        notificationSpec.id = (int) sbn.getPostTime(); //FIXME: a truly unique id would be better
 
         // determinate Source App Name ("Label")
         PackageManager pm = getPackageManager();
@@ -249,7 +250,7 @@ public class NotificationListener extends NotificationListenerService {
         // Get color
         notificationSpec.pebbleColor = getPebbleColorForNotification(notificationSpec);
 
-        LOG.info("Processing notification " + notificationSpec.id + " from source " + source + " with flags: " + notification.flags);
+        LOG.info("Processing notification " + notificationSpec.getId() + " age: " + (System.currentTimeMillis() - notification.when) + " from source " + source + " with flags: " + notification.flags);
 
         dissectNotificationTo(notification, notificationSpec, preferBigText);
 
@@ -263,16 +264,23 @@ public class NotificationListener extends NotificationListenerService {
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender(notification);
         List<NotificationCompat.Action> actions = wearableExtender.getActions();
 
+        notificationSpec.attachedActions = new ArrayList<>();
         for (NotificationCompat.Action act : actions) {
-            if (act != null && act.getRemoteInputs() != null) {
-                LOG.info("found wearable action: " + act.getTitle() + "  " + sbn.getTag());
-                mActionLookup.add(notificationSpec.id, act);
-                notificationSpec.flags |= NotificationSpec.FLAG_WEARABLE_REPLY;
-                break;
+            if (act != null) {
+                NotificationSpec.Action wearableAction = new NotificationSpec.Action();
+                wearableAction.title = act.getTitle().toString();
+                if(act.getRemoteInputs()!=null) {
+                    wearableAction.isReply = true;
+                }
+                notificationSpec.flags |= NotificationSpec.FLAG_WEARABLE_ACTIONS;
+                notificationSpec.attachedActions.add(wearableAction);
+                mActionLookup.add((notificationSpec.getId()<<4) + notificationSpec.attachedActions.size(), act);
+                LOG.info("found wearable action: " + notificationSpec.attachedActions.size() + " - "+ act.getTitle() + "  " + sbn.getTag());
             }
         }
 
-        if ((notificationSpec.flags & NotificationSpec.FLAG_WEARABLE_REPLY) == 0 && NotificationCompat.isGroupSummary(notification)) { //this could cause #395 to come back
+
+        if ((notificationSpec.flags & NotificationSpec.FLAG_WEARABLE_ACTIONS) == 0 && NotificationCompat.isGroupSummary(notification)) { //this could cause #395 to come back
             LOG.info("Not forwarding notification, FLAG_GROUP_SUMMARY is set and no wearable action present. Notification flags: " + notification.flags);
             return;
         }
@@ -280,14 +288,15 @@ public class NotificationListener extends NotificationListenerService {
         // Ignore too frequent notifications, according to user preference
         long min_timeout = prefs.getInt("notifications_timeout", 0) * 1000;
         long cur_time = System.currentTimeMillis();
-        if (notificationTimes.containsKey(source)) {
-            long last_time = notificationTimes.get(source);
+        if (notificationBurstPrevention.containsKey(source)) {
+            long last_time = notificationBurstPrevention.get(source);
             if (cur_time - last_time < min_timeout) {
                 LOG.info("Ignoring frequent notification, last one was " + (cur_time - last_time) + "ms ago");
                 return;
             }
         }
-        notificationTimes.put(source, cur_time);
+        notificationBurstPrevention.put(source, cur_time);
+        notificationOldRepeatPrevention.put(source, notification.when);
 
         GBApplication.deviceService().onNotification(notificationSpec);
     }
