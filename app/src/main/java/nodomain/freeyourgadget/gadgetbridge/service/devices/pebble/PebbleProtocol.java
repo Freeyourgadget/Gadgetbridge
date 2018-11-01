@@ -2144,46 +2144,37 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         icon_id = PebbleIconID.RESULT_MUTE;
                         break;
                         //TODO: 0x05 is not a special case anymore, and reply action might have an index that is higher. see default below
-                    case 0x05:
                     case 0x00:
+                    default:
                         boolean failed = true;
                         byte attribute_count = buf.get();
                         if (attribute_count > 0) {
-                            byte attribute = buf.get();
-                            if (attribute == 0x01) { // reply string is in attribute 0x01
-                                short length = buf.getShort();
-                                if (length > 64) length = 64;
-                                byte[] reply = new byte[length];
-                                buf.get(reply);
-                                devEvtNotificationControl.phoneNumber = null;
-                                if (buf.remaining() > 1 && buf.get() == 0x0c) {
-                                    short phoneNumberLength = buf.getShort();
-                                    byte[] phoneNumberBytes = new byte[phoneNumberLength];
-                                    buf.get(phoneNumberBytes);
-                                    devEvtNotificationControl.phoneNumber = new String(phoneNumberBytes);
+                                byte attribute = buf.get();
+                                if (attribute == 0x01) { // reply string is in attribute 0x01
+                                    short length = buf.getShort();
+                                    if (length > 64) length = 64;
+                                    byte[] reply = new byte[length];
+                                    buf.get(reply);
+                                    devEvtNotificationControl.phoneNumber = null;
+                                    if (buf.remaining() > 1 && buf.get() == 0x0c) {
+                                        short phoneNumberLength = buf.getShort();
+                                        byte[] phoneNumberBytes = new byte[phoneNumberLength];
+                                        buf.get(phoneNumberBytes);
+                                        devEvtNotificationControl.phoneNumber = new String(phoneNumberBytes);
+                                    }
+                                    devEvtNotificationControl.reply = new String(reply);
+                                    caption = "SENT";
+                                    icon_id = PebbleIconID.RESULT_SENT;
+                                    failed = false;
                                 }
-                                devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
-                                devEvtNotificationControl.reply = new String(reply);
-                                devEvtNotificationControl.handle = (devEvtNotificationControl.handle << 4) + 1;
-                                caption = "SENT";
-                                icon_id = PebbleIconID.RESULT_SENT;
-                                failed = false;
-                            }
-                        }
-                        if (failed) {
-                            caption = "FAILED";
-                            icon_id = PebbleIconID.RESULT_FAILED;
-                            devEvtNotificationControl = null; // error
-                        }
-                        break;
-                    default:
-                        if (action > 0x05) {
-                            int simpleActionId = action - 0x05;
-                            caption = "EXECUTED";
-                            devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
-                            devEvtNotificationControl.handle = (devEvtNotificationControl.handle << 4) + simpleActionId;
-                            LOG.info("detected simple action, subId:" + simpleActionId + " title:" + devEvtNotificationControl.title);
                         } else {
+                            icon_id = PebbleIconID.GENERIC_CONFIRMATION;
+                            caption = "EXECUTED";
+                            failed = false;
+                        }
+                        devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
+                        devEvtNotificationControl.handle = (devEvtNotificationControl.handle << 4) + action - 0x04;
+                        if (failed) {
                             caption = "FAILED";
                             icon_id = PebbleIconID.RESULT_FAILED;
                             devEvtNotificationControl = null; // error

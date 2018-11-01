@@ -103,7 +103,7 @@ public class NotificationListener extends NotificationListenerService {
                 case ACTION_MUTE:
                 case ACTION_OPEN: {
                     StatusBarNotification[] sbns = NotificationListener.this.getActiveNotifications();
-                    int handle = intent.getIntExtra("handle", -1);
+                    int handle = (int) intent.getLongExtra("handle", -1);
                     for (StatusBarNotification sbn : sbns) {
                         if ((int) sbn.getPostTime() == handle) {
                             if (action.equals(ACTION_OPEN)) {
@@ -126,7 +126,7 @@ public class NotificationListener extends NotificationListenerService {
                 }
                 case ACTION_DISMISS: {
                     StatusBarNotification[] sbns = NotificationListener.this.getActiveNotifications();
-                    int handle = intent.getIntExtra("handle", -1);
+                    int handle = (int) intent.getLongExtra("handle", -1);
                     for (StatusBarNotification sbn : sbns) {
                         if ((int) sbn.getPostTime() == handle) {
                             if (GBApplication.isRunningLollipopOrLater()) {
@@ -146,7 +146,7 @@ public class NotificationListener extends NotificationListenerService {
                     NotificationListener.this.cancelAllNotifications();
                     break;
                 case ACTION_REPLY:
-                    int id = intent.getIntExtra("handle", -1);
+                    int id = (int)intent.getLongExtra("handle", -1);
                     NotificationCompat.Action wearableAction = (NotificationCompat.Action) mActionLookup.lookup(id);
                     String reply = intent.getStringExtra("reply");
                     if (wearableAction != null) {
