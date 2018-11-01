@@ -379,18 +379,16 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 if (((notificationSpec.flags & NotificationSpec.FLAG_WEARABLE_ACTIONS) > 0)
                         || (notificationSpec.type == NotificationType.GENERIC_SMS && notificationSpec.phoneNumber != null)) {
                     // NOTE: maybe not where it belongs
-                    if (prefs.getBoolean("pebble_force_untested", false)) {
-                        // I would rather like to save that as an array in SharedPreferences
-                        // this would work but I dont know how to do the same in the Settings Activity's xml
-                        ArrayList<String> replies = new ArrayList<>();
-                        for (int i = 1; i <= 16; i++) {
-                            String reply = prefs.getString("canned_reply_" + i, null);
-                            if (reply != null && !reply.equals("")) {
-                                replies.add(reply);
-                            }
+                    // I would rather like to save that as an array in SharedPreferences
+                    // this would work but I dont know how to do the same in the Settings Activity's xml
+                    ArrayList<String> replies = new ArrayList<>();
+                    for (int i = 1; i <= 16; i++) {
+                        String reply = prefs.getString("canned_reply_" + i, null);
+                        if (reply != null && !reply.equals("")) {
+                            replies.add(reply);
                         }
-                        notificationSpec.cannedReplies = replies.toArray(new String[replies.size()]);
                     }
+                    notificationSpec.cannedReplies = replies.toArray(new String[replies.size()]);
                 }
 
                 mDeviceSupport.onNotification(notificationSpec);
