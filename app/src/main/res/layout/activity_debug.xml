@@ -125,6 +125,13 @@
                 grid:layout_gravity="fill_horizontal"
                 android:text="create test notification" />
             <Button
+                android:id="@+id/testPebbleKitNotificationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal"
+                android:text="create PebbleKit test notification" />
+            <Button
                 android:id="@+id/fetchDebugLogsButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

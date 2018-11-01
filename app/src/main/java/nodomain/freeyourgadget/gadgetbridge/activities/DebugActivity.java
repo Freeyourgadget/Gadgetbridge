@@ -224,6 +224,14 @@ public class DebugActivity extends AbstractGBActivity {
             }
         });
 
+        Button testPebbleKitNotificationButton = findViewById(R.id.testPebbleKitNotificationButton);
+        testPebbleKitNotificationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testPebbleKitNotification();
+            }
+        });
+
         Button fetchDebugLogsButton = findViewById(R.id.fetchDebugLogsButton);
         fetchDebugLogsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -326,6 +334,13 @@ public class DebugActivity extends AbstractGBActivity {
         if (nManager != null) {
             nManager.notify((int) System.currentTimeMillis(), ncomp.build());
         }
+    }
+
+    private void testPebbleKitNotification() {
+        Intent pebbleKitIntent = new Intent("com.getpebble.action.SEND_NOTIFICATION");
+        pebbleKitIntent.putExtra("messageType", "PEBBLE_ALERT");
+        pebbleKitIntent.putExtra("notificationData", "[{\"title\":\"PebbleKitTest\",\"body\":\"sent from Gadgetbridge\"}]");
+        getApplicationContext().sendBroadcast(pebbleKitIntent);
     }
 
     @Override
