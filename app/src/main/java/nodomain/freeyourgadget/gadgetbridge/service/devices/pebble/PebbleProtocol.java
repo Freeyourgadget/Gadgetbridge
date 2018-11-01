@@ -485,8 +485,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeNotification(NotificationSpec notificationSpec) {
-        //TODO: simplify this logic? is hasHandle still needed?
-        boolean hasHandle = notificationSpec.getId() != -1 && notificationSpec.phoneNumber == null;
+        boolean hasHandle = notificationSpec.sourceAppId != null;
         int id = notificationSpec.getId() != -1 ? notificationSpec.getId() : mRandom.nextInt();
         String title;
         String subtitle = null;
