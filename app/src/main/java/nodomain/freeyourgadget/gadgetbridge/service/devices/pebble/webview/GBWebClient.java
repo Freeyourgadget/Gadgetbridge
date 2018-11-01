@@ -232,9 +232,9 @@ public class GBWebClient extends WebViewClient {
             main.put("temp_min", (int) main.get("temp_min") - 273);
             main.put("temp_max", (int) main.get("temp_max") - 273);
         } else if ("imperial".equals(units)) { //it's 2017... this is so sad
-            main.put("temp", ((int) (main.get("temp")) - 273.15f) * 1.8f + 32);
-            main.put("temp_min", ((int) (main.get("temp_min")) - 273.15f) * 1.8f + 32);
-            main.put("temp_max", ((int) (main.get("temp_max")) - 273.15f) * 1.8f + 32);
+            main.put("temp", ((int) (main.get("temp")) - 273.15f) * 1.8f + 32);         // lgtm [java/integer-multiplication-cast-to-long]
+            main.put("temp_min", ((int) (main.get("temp_min")) - 273.15f) * 1.8f + 32); // lgtm [java/integer-multiplication-cast-to-long]
+            main.put("temp_max", ((int) (main.get("temp_max")) - 273.15f) * 1.8f + 32); // lgtm [java/integer-multiplication-cast-to-long]
         }
     }
 

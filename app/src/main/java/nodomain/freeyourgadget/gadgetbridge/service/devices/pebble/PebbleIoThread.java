@@ -387,7 +387,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                         gbDevice.setState(GBDevice.State.WAITING_FOR_RECONNECT);
                         gbDevice.sendDeviceUpdateIntent(getContext());
 
-                        int delaySeconds = 1;
+                        long delaySeconds = 1;
                         while (reconnectAttempts-- > 0 && !mQuit && !mIsConnected) {
                             LOG.info("Trying to reconnect (attempts left " + reconnectAttempts + ")");
                             mIsConnected = connect();

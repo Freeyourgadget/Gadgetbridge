@@ -196,7 +196,7 @@ public class FetchActivityOperation extends AbstractFetchOperation {
         }
 
         for (int i = 1; i < len; i+=4) {
-            MiBandActivitySample sample = createSample(value[i], value[i + 1], value[i + 2], value[i + 3]);
+            MiBandActivitySample sample = createSample(value[i], value[i + 1], value[i + 2], value[i + 3]); // lgtm [java/index-out-of-bounds]
             samples.add(sample);
         }
     }

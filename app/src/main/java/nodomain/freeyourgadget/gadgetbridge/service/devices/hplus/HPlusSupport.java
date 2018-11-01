@@ -800,7 +800,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     private byte[] encodeStringToDevice(String s) {
 
         List<Byte> outBytes = new ArrayList<Byte>();
-        Boolean unicode = HPlusCoordinator.getUnicodeSupport(this.gbDevice.getAddress());
+        boolean unicode = HPlusCoordinator.getUnicodeSupport(this.gbDevice.getAddress());
         LOG.info("Encode String: Unicode=" + unicode);
 
         for (int i = 0; i < s.length(); i++) {
@@ -827,7 +827,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 outBytes.add(cs[j]);
         }
 
-        return ArrayUtils.toPrimitive(outBytes.toArray(new Byte[outBytes.size()]));
+        return ArrayUtils.toPrimitive(outBytes.toArray(new Byte[0]));
     }
 
     @Override

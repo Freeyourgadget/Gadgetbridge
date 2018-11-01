@@ -632,7 +632,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             for (String reply : cannedReplies) {
                 replies_length += reply.getBytes().length + 1;
             }
-            actions_length += ACTION_LENGTH_MIN + reply_string.getBytes().length + replies_length + 3; // 3 = attribute id (byte) + length(short)
+            actions_length += (short) (ACTION_LENGTH_MIN + reply_string.getBytes().length + replies_length + 3); // 3 = attribute id (byte) + length(short)
         }
 
         byte attributes_count = 0;
@@ -788,10 +788,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
             buf.order(ByteOrder.LITTLE_ENDIAN);
 
             ActivityUser activityUser = new ActivityUser();
-            Integer heightMm = activityUser.getHeightCm() * 10;
-            buf.putShort(heightMm.shortValue());
-            Integer weigthDag = activityUser.getWeightKg() * 100;
-            buf.putShort(weigthDag.shortValue());
+            int heightMm = activityUser.getHeightCm() * 10;
+            buf.putShort((short) heightMm);
+            int weigthDag = activityUser.getWeightKg() * 100;
+            buf.putShort((short) weigthDag);
             buf.put((byte) 0x01); //activate tracking
             buf.put((byte) 0x00); //activity Insights
             buf.put((byte) 0x00); //sleep Insights
@@ -945,7 +945,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         int icon_id = notificationType.icon;
 
         // Calculate length first
-        byte actions_count = 0;
+        int actions_count = 0;
         short actions_length = 0;
         String dismiss_string;
         String open_string = "Open on phone";
@@ -979,8 +979,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
             for (String reply : cannedReplies) {
                 replies_length += reply.getBytes().length + 1;
             }
-            //similarly, only the replies lenght has to be added, the lenght for the bare action was already added above
-            actions_length += replies_length + 3; // 3 = attribute id (byte) + length(short)
+            //similarly, only the replies length has to be added, the length for the bare action was already added above
+            actions_length += (short) (replies_length + 3); // 3 = attribute id (byte) + length(short)
         }
 
         byte attributes_count = 2; // icon
@@ -990,7 +990,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 continue;
             }
             attributes_count++;
-            attributes_length += (3 + s.getBytes().length);
+            attributes_length += (short) (3 + s.getBytes().length);
         }
 
         short pin_length = (short) (NOTIFICATION_PIN_LENGTH + attributes_length);
@@ -1011,7 +1011,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put((byte) 0x04); // layout (0x04 = notification?)
         buf.putShort(attributes_length); // total length of all attributes and actions in bytes
         buf.put(attributes_count);
-        buf.put(actions_count);
+        buf.put((byte) actions_count);
 
         byte attribute_id = 0;
         // Encode Pascal-Style Strings
@@ -1131,7 +1131,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 continue;
             }
             attributes_count++;
-            attributes_length += (3 + s.getBytes().length);
+            attributes_length += (short) (3 + s.getBytes().length);
         }
 
         UUID uuid = UUID.fromString("61b22bc8-1e29-460d-a236-3fe409a43901");
@@ -1264,7 +1264,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             if (s == null || s.equals("")) {
                 continue;
             }
-            attributes_length += (2 + s.getBytes().length);
+            attributes_length += (short) (2 + s.getBytes().length);
         }
 
         short pin_length = (short) (WEATHER_FORECAST_LENGTH + attributes_length);
@@ -1667,7 +1667,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         if (type == PUTBYTES_TYPE_FILE && filename != null) {
-            length += filename.getBytes().length + 1;
+            length += (short) filename.getBytes().length + 1;
         }
 
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
@@ -2545,8 +2545,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
                             } else {
                                 appType = GBDeviceApp.Type.APP_GENERIC;
                             }
-                            Short appVersion = buf.getShort();
-                            appInfoCmd.apps[i] = new GBDeviceApp(tmpUUIDS.get(i), appName, appCreator, appVersion.toString(), appType);
+                            short appVersion = buf.getShort();
+                            appInfoCmd.apps[i] = new GBDeviceApp(tmpUUIDS.get(i), appName, appCreator, String.valueOf(appVersion), appType);
                         }
                         for (int i = 0; i < slotCount; i++) {
                             if (!slotInUse[i]) {

@@ -254,9 +254,9 @@ public class BengaliLanguageUtils extends LanguageUtils {
                 String kaarStr = letters.get(kaar);
                 if (kaarStr != null) {
                     appendableString = appendableString + kaarStr;
-                }
-                if (kaarStr.equals("i") || kaarStr.equals("ii") || kaarStr.equals("u") || kaarStr.equals("uu")) {
-                    changePronounciation = true;
+                    if (kaarStr.equals("i") || kaarStr.equals("ii") || kaarStr.equals("u") || kaarStr.equals("uu")) {
+                        changePronounciation = true;
+                    }
                 }
             }
             String singleton = m.group(11);
