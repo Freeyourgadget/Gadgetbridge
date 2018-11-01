@@ -323,7 +323,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                 break;
             case REPLY:
                 if (deviceEvent.phoneNumber == null) {
-                    deviceEvent.phoneNumber = (String) GBApplication.getIDSenderLookup().lookup(deviceEvent.handle);
+                    deviceEvent.phoneNumber = (String) GBApplication.getIDSenderLookup().lookup((int) (deviceEvent.handle >> 4));
                 }
                 if (deviceEvent.phoneNumber != null) {
                     LOG.info("Got notification reply for SMS from " + deviceEvent.phoneNumber + " : " + deviceEvent.reply);

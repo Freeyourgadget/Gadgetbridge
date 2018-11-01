@@ -17,7 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.deviceevents;
 
 public class GBDeviceEventNotificationControl extends GBDeviceEvent {
-    public int handle;
+    public long handle;
     public String phoneNumber;
     public String reply;
     public String title;
