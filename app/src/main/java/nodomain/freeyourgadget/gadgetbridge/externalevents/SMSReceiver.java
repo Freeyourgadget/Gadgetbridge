@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.telephony.SmsMessage;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -72,6 +73,12 @@ public class SMSReceiver extends BroadcastReceiver {
                     if (originatingAddress != null) {
                         notificationSpec.body = entry.getValue().toString();
                         notificationSpec.phoneNumber = originatingAddress;
+                        notificationSpec.attachedActions = new ArrayList<>();
+                        NotificationSpec.Action replyAction = new NotificationSpec.Action();
+                        replyAction.title = "Reply";
+                        replyAction.isReply = true;
+                        notificationSpec.attachedActions.add(replyAction);
+
                         switch (GBApplication.getGrantedInterruptionFilter()) {
                             case NotificationManager.INTERRUPTION_FILTER_ALL:
                                 break;
