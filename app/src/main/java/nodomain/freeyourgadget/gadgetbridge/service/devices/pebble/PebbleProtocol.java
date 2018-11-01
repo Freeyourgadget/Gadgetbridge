@@ -597,7 +597,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     //TODO: add support for attachedActions
     private byte[] encodeExtensibleNotification(int id, int timestamp, String title, String subtitle, String body, String sourceName, boolean hasHandle, String[] cannedReplies, ArrayList attachedActions) {
-        final short ACTION_LENGTH_MIN = 10;
+        final short ACTION_LENGTH_MIN = 6;
 
         String[] parts = {title, subtitle, body};
 
@@ -934,7 +934,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                                             boolean hasHandle, NotificationType notificationType, byte backgroundColor,
                                             String[] cannedReplies, ArrayList<Action> attachedActions) {
         final short NOTIFICATION_PIN_LENGTH = 46;
-        final short ACTION_LENGTH_MIN = 10;
+        final short ACTION_LENGTH_MIN = 6;
 
         String[] parts = {title, subtitle, body};
 
@@ -959,8 +959,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             actions_count += 3;
             dismiss_string = "Dismiss";
             dismiss_action_id = 0x02;
-            //TODO: ACTION_LENGTH_MIN disagrees with my observation of the needed bytes. I used 6 instead of 10
-            actions_length += (short) (6 * 3 + dismiss_string.getBytes().length + open_string.getBytes().length + mute_string.getBytes().length);
+            actions_length += (short) (ACTION_LENGTH_MIN * 3 + dismiss_string.getBytes().length + open_string.getBytes().length + mute_string.getBytes().length);
         } else {
             actions_count += 1;
             dismiss_string = "Dismiss all";
@@ -970,7 +969,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         if (attachedActions != null && attachedActions.size() > 0) {
             for (Action act : attachedActions) {
                 actions_count++;
-                actions_length += (short) (6 + act.title.getBytes().length);
+                actions_length += (short) (ACTION_LENGTH_MIN + act.title.getBytes().length);
             }
         }
 
@@ -1115,7 +1114,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     private byte[] encodeWeatherPin(int timestamp, String title, String subtitle, String body, String location, int iconId) {
         final short NOTIFICATION_PIN_LENGTH = 46;
-        final short ACTION_LENGTH_MIN = 10;
+        final short ACTION_LENGTH_MIN = 6;
 
         String[] parts = {title, subtitle, body, location, "test", "test"};
 
