@@ -1,6 +1,6 @@
 var reportedPositionFailures = 0;
 navigator.geolocation.getCurrentPosition = function(success, failure, options) { //override because default implementation requires GPS permission
-    var geoposition = JSON.parse(GBjs.getCurrentPosition());
+    geoposition = JSON.parse(GBjs.getCurrentPosition());
 
     if(options && options.maximumAge && (geoposition.timestamp < Date.now() - options.maximumAge) && reportedPositionFailures <= 10 ) {
         reportedPositionFailures++;
