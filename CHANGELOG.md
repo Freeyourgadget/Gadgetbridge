@@ -3,12 +3,14 @@
 #### Version 0.31.0 (NEXT)
 * Pebble: Send all wearable notification actions (not only reply)
 * Pebble: Always allow reply action even if untested features are turned off
+* Pebble: Temporarily disable broken autoremove notification feature
 * Amazfit Bip: Allow flashing latest gps firmware (Mili_dth.gps)
 * Mi Band 3/Amazfit Bip/Amazfit Cor: Send Fahrenheit if units are set to imperial
 * Roidmi 3: Fix and enable support
 * Mi Band 3/Amazfit Bip: fix find phone crash
 * Prevent re-sending old notifications to the wearable
 * Enhancement and Fixes for Bengali Transliteration
+
 
 #### Version 0.30.0
 * Amazfit Bip + Mi Band 3: Support for right to left display (configurable) (#976)

@@ -396,7 +396,7 @@ public class NotificationListener extends NotificationListenerService {
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
-        if (shouldIgnore(sbn))
+        if (shouldIgnore(sbn) || true)  // FIXME: DISABLED for now
             return;
 
         Prefs prefs = GBApplication.getPrefs();

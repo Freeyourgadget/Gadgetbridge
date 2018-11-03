@@ -379,12 +379,14 @@
                     android:key="pebble_reconnect_attempts"
                     android:maxLength="4"
                     android:title="@string/pref_title_pebble_reconnect_attempts" />
+<!--
                 <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
                     android:defaultValue="false"
                     android:key="autoremove_notifications"
                     android:summary="@string/pref_summary_autoremove_notifications"
                     android:title="@string/pref_title_autoremove_notifications" />
+-->
                 <ListPreference
                     android:key="pebble_pref_privacy_mode"
                     android:title="@string/pref_title_pebble_privacy_mode"
