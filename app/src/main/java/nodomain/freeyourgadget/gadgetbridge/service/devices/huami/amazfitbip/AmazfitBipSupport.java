@@ -34,12 +34,15 @@ import java.util.Set;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 
+import cyanogenmod.weather.util.WeatherUtils;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiWeatherConditions;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -258,6 +261,8 @@ public class AmazfitBipSupport extends HuamiSupport {
         if (version.compareTo(new Version("0.0.8.74")) >= 0) {
             supportsConditionString = true;
         }
+
+        MiBandConst.DistanceUnit unit = HuamiCoordinator.getDistanceUnit();
         int tz_offset_hours = SimpleTimeZone.getDefault().getOffset(weatherSpec.timestamp * 1000L) / (1000 * 60 * 60);
         try {
             TransactionBuilder builder;
@@ -276,7 +281,12 @@ public class AmazfitBipSupport extends HuamiSupport {
             buf.putInt(weatherSpec.timestamp);
             buf.put((byte) (tz_offset_hours * 4));
             buf.put(condition);
-            buf.put((byte) (weatherSpec.currentTemp - 273));
+
+            int currentTemp = weatherSpec.currentTemp - 273;
+            if (unit == MiBandConst.DistanceUnit.IMPERIAL) {
+                currentTemp = (int) WeatherUtils.celsiusToFahrenheit(currentTemp);
+            }
+            buf.put((byte) currentTemp);
 
             if (supportsConditionString) {
                 buf.put(weatherSpec.currentCondition.getBytes());
@@ -354,8 +364,16 @@ public class AmazfitBipSupport extends HuamiSupport {
             byte condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.currentConditionCode);
             buf.put(condition);
             buf.put(condition);
-            buf.put((byte) (weatherSpec.todayMaxTemp - 273));
-            buf.put((byte) (weatherSpec.todayMinTemp - 273));
+
+            int todayMaxTemp = weatherSpec.todayMaxTemp - 273;
+            int todayMinTemp = weatherSpec.todayMinTemp - 273;
+            if (unit == MiBandConst.DistanceUnit.IMPERIAL) {
+                todayMaxTemp = (int) WeatherUtils.celsiusToFahrenheit(todayMaxTemp);
+                todayMinTemp = (int) WeatherUtils.celsiusToFahrenheit(todayMinTemp);
+            }
+            buf.put((byte) todayMaxTemp);
+            buf.put((byte) todayMinTemp);
+
             if (supportsConditionString) {
                 buf.put(weatherSpec.currentCondition.getBytes());
                 buf.put((byte) 0);
@@ -365,8 +383,16 @@ public class AmazfitBipSupport extends HuamiSupport {
                 condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(forecast.conditionCode);
                 buf.put(condition);
                 buf.put(condition);
-                buf.put((byte) (forecast.maxTemp - 273));
-                buf.put((byte) (forecast.minTemp - 273));
+
+                int forecastMaxTemp = forecast.maxTemp - 273;
+                int forecastMinTemp = forecast.minTemp - 273;
+                if (unit == MiBandConst.DistanceUnit.IMPERIAL) {
+                    forecastMaxTemp = (int) WeatherUtils.celsiusToFahrenheit(forecastMaxTemp);
+                    forecastMinTemp = (int) WeatherUtils.celsiusToFahrenheit(forecastMinTemp);
+                }
+                buf.put((byte) forecastMaxTemp);
+                buf.put((byte) forecastMinTemp);
+
                 if (supportsConditionString) {
                     buf.put(Weather.getConditionString(forecast.conditionCode).getBytes());
                     buf.put((byte) 0);

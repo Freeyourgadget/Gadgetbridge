@@ -4,6 +4,7 @@
 * Pebble: Send all wearable notification actions (not only reply)
 * Pebble: Always allow reply action even if untested features are turned off
 * Amazfit Bip: Allow flashing latest gps firmware (Mili_dth.gps)
+* Mi Band 3/Amazfit Bip/Amazfit Cor: Send Fahrenheit if units are set to imperial
 * Roidmi 3: Fix and enable support
 * Mi Band 3/Amazfit Bip: fix find phone crash
 * Prevent re-sending old notifications to the wearable
