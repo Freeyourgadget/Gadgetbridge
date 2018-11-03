@@ -1,7 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -476,17 +475,16 @@ public class RtlUtils {
      * The function get a string and fix the rtl words.
      * since simple reverse puts the beginning of the text at the end, the text should have been from bottom to top.
      * To avoid that, we save the text in lines (line max size can be change in the settings)
-     * @param s - the string to fix.
+     * @param oldString - the string to fix.
      * @return a fix string.
      */
-    public static String fixRtl(String s) {
-        if (s == null || s.isEmpty()){
-            return s;
+    public static String fixRtl(String oldString) {
+        if (oldString == null || oldString.isEmpty()){
+            return oldString;
         }
-        Log.d("ROIGR", "before: |" + org.apache.commons.lang3.StringEscapeUtils.escapeJava(s) + "|");
+        debug("before: |" + org.apache.commons.lang3.StringEscapeUtils.escapeJava(oldString) + "|");
 
-        int length = s.length();
-        String oldString = s.substring(0, length);
+        int length = oldString.length();
         String newString = "";
         List<String> lines = new ArrayList<>();
         char[] newWord = new char[length];
@@ -507,8 +505,8 @@ public class RtlUtils {
         for (int i = 0; i < length; i++) {
             c = oldString.charAt(i);
             addCharToWord = false;
-            Log.d("ROIGR", "char: " + c + " :" + Character.getDirectionality(c));
-//            Log.d("ROIGR", "hex : " + (int)c);
+            debug("char: " + c + " :" + Character.getDirectionality(c));
+//            debug( "hex : " + (int)c);
 
             if (isLtr(c)){
                 CurRtlType = characterType.ltr;
@@ -517,7 +515,7 @@ public class RtlUtils {
             }
 
             if ((CurRtlType == PhraseRtlType) && !(isSpaceSign(c) || isEndLineSign(c))){
-                Log.d("ROIGR", "add: " + c + " to: " + word);
+                debug("add: " + c + " to: " + word);
                 word.append(c);
                 addCharToWord = true;
                 if (i < length - 1) {
@@ -545,7 +543,7 @@ public class RtlUtils {
 
 
                 phraseString = phrase.toString();
-                Log.d("ROIGR", "phrase:   |" + phraseString + "|");
+                debug("phrase:   |" + phraseString + "|");
                 if (PhraseRtlType == characterType.rtl) {
                     if (contextualSupport()) {
                         phraseString = convertToContextual(phraseString);
@@ -554,7 +552,7 @@ public class RtlUtils {
                 }
 
                 line.insert(0, fixWhitespace(phraseString));
-                Log.d("ROIGR", "line now: |" + line + "|");
+                debug("line now: |" + line + "|");
                 phrase.setLength(0);
 
                 if (word.length() > 0){
@@ -572,7 +570,7 @@ public class RtlUtils {
                 }
 
                 lines.add(line.toString());
-                Log.d("ROIGR", "line: |" + line + "|");
+                debug("line: |" + line + "|");
                 line.setLength(0);
 
                 if (word.length() == 0){
@@ -587,8 +585,12 @@ public class RtlUtils {
 
         newString = TextUtils.join("", lines);
 
-        Log.d("ROIGR", "after : |" + org.apache.commons.lang3.StringEscapeUtils.escapeJava(newString) + "|");
+        debug("after : |" + org.apache.commons.lang3.StringEscapeUtils.escapeJava(newString) + "|");
 
         return newString;
+    }
+
+    private static void debug(String s) {
+//        Log.d("ROIGR", s);
     }
 }
