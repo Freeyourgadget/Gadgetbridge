@@ -577,4 +577,7 @@
     <string name="pref_invalid_frequency_title">Niewłaściwa częstotliwość</string>
     <string name="pref_invalid_frequency_message">Podaj częstotliwość z zakresu od 87.5 do 108.0 Mhz</string>
     <string name="language_and_region_prefs">Ustawienia językowe i regionalne</string>
-</resources>
+<string name="pref_title_auto_export_interval">Częstość eksportowania</string>
+    <string name="unit_imperial">imperialne</string>
+
+    </resources>
