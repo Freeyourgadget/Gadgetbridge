@@ -614,7 +614,7 @@
     <string name="ok">אישור</string>
 
     <string name="share_log">שיתוף יומן</string>
-    <string name="share_log_warning">נא לשים לב שקובץ היומן של Gadgetbridge עשוי להכיל פרטים אישיים רבים, לרבות אך לא רק נתונים רפואיים, מזהים יחודיים (כגון כתובת החומרה של המכשיר), העדפות מוזיקליות וכו׳. מוטב לערוך את הקובץ ולהסיר את המידע הזה בטרם הגשתו באופן ציבורי כדי לדווח על תקלה.</string>
+    <string name="share_log_warning">נא לשים לב שקובצי היומן של Gadgetbridge עשויים להכיל פרטים אישיים רבים, לרבות אך לא רק נתונים רפואיים, מזהים ייחודיים (כגון כתובת החומרה של המכשיר), העדפות מוזיקליות וכו׳. מוטב לערוך את הקובץ ולהסיר את המידע הזה בטרם הגשתו באופן ציבורי כדי לדווח על תקלה.</string>
     <string name="warning">אזהרה!</string>
 <string name="controlcenter_change_led_color">החלפת צבע נורית</string>
     <string name="controlcenter_change_fm_frequency">החלפת תדירות FM</string>
