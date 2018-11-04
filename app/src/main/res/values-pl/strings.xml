@@ -38,11 +38,11 @@
   <string name="miband_firmware_unknown_warning">Ten firmware nie jest przetestowany i może być nie kompatybilny z Gadgetbridge. 
 \n 
 \nNie zalecamy wgrywania na twój Mi Band!</string>
-  <string name="miband_firmware_suggest_whitelist">Jeśli nadal chcesz kontynuować i po instalacji wszystko działa prawidłowo, proszę powiadom programistów Gadgetbridge by dodali wersję firmware: %s do białej listy</string>
+  <string name="miband_firmware_suggest_whitelist">Jeśli nadal chcesz kontynuować i po instalacji wszystko będzie działać prawidłowo, proszę powiadom programistów Gadgetbridge aby dodali wersję %s firmware do białej listy.</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Ustawienia</string>
   <string name="pref_header_general">Ustawienia ogólne</string>
-  <string name="pref_title_general_autoconnectonbluetooth">Połącz z urządzeniem gdy Bluetooth jest włączone</string>
+  <string name="pref_title_general_autoconnectonbluetooth">Połącz z urządzeniem gdy Bluetooth jest zostanie włączony</string>
   <string name="pref_title_general_autoreconnect">Automatycznie ponawiaj połączenie</string>
   <string name="pref_title_audio_player">Preferowany odtwarzacz muzyki</string>
   <string name="pref_default">Domyślny</string>
@@ -79,32 +79,32 @@
   <string name="pref_title_enable_pebblekit">Zezwól zewnętrznym aplikacjom Android na dostęp</string>
   <string name="pref_summary_enable_pebblekit">Włącz eksperymentalną obsługę aplikacji Android za pomocą PebbleKit</string>
   <string name="pref_title_sunrise_sunset">Wschód i zachód słońca</string>
-  <string name="pref_summary_sunrise_sunset">Wyślij czas wschodu i zachodu bazując na lokazliacji do ośi czasu Pebble</string>
+  <string name="pref_summary_sunrise_sunset">Wyślij czas wschodu i zachodu słońca bazując na lokalizacji do osi czasu Pebble</string>
   <string name="pref_header_location">Lokalizacja</string>
   <string name="pref_title_location_aquire">Uzyskaj lokalizację</string>
   <string name="pref_title_location_latitude">Szerokość</string>
   <string name="pref_title_location_longitude">Długość</string>
   <string name="pref_title_location_keep_uptodate">Utrzymuj aktualną lokalizację</string>
-  <string name="toast_enable_networklocationprovider">Włącz usługę lokalizacji</string>
-  <string name="toast_aqurired_networklocation">Lokalizacja otrzymana</string>
-  <string name="pref_title_pebble_forceprotocol">Wymuś protokół komunikacji</string>
-  <string name="pref_summary_pebble_forceprotocol">Ta opcja wymusza użycie najnowszego protokołu powiadomień w zależności od wersji firmware. WŁĄCZ JEDYNIE JEŚLI WIESZ CO ROBISZ!</string>
+  <string name="toast_enable_networklocationprovider">Włącz usługę lokalizacji sieciowej</string>
+  <string name="toast_aqurired_networklocation">Lokalizacja ustalona</string>
+  <string name="pref_title_pebble_forceprotocol">Wymuś protokół powiadomień</string>
+  <string name="pref_summary_pebble_forceprotocol">Ta opcja wymusza użycie najnowszego protokołu powiadomień w zależności od wersji firmware. MUSISZ WIEDZIEĆ CO ROBISZ!</string>
   <string name="pref_title_pebble_forceuntested">Włącz nietestowane funkcje</string>
-  <string name="pref_summary_pebble_forceuntested">Włącz nie testowane funkcje. WŁĄCZ JEDYNIE JEŚLI WIESZ CO ROBISZ!</string>
-  <string name="pref_title_pebble_forcele">Preferuj BLE</string>
-  <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT limit MTU</string>
+  <string name="pref_summary_pebble_forceuntested">Włącz nie testowane funkcje. MUSISZ WIEDZIEĆ CO ROBISZ!</string>
+  <string name="pref_title_pebble_forcele">Zawsze preferuj BLE</string>
+  <string name="pref_title_pebble_mtu_limit">Limit MTU Pebble 2/LE GATT</string>
   <string name="pref_summary_pebble_mtu_limit">Jeśli Twój Pebble 2/ Pebble LE nie działa jak należy spróbuj ustawić ten limit MTU (zakres 20-512)</string>
-  <string name="pref_title_pebble_enable_applogs">Włącz logi w aplikacji</string>
+  <string name="pref_title_pebble_enable_applogs">Włącz logi aplikacji zegarka/opaski</string>
   <string name="pref_title_pebble_reconnect_attempts">Próby ponownego połączenia</string>
   <string name="not_connected">Nie połączony</string>
   <string name="connecting">Łączenie</string>
   <string name="connected">Połączony</string>
   <string name="unknown_state">Nieznany stan</string>
   <string name="_unknown_">(nieznane)</string>
-  <string name="test">Test</string>
+  <string name="test">Testuj</string>
   <string name="test_notification">Test powiadomień</string>
   <string name="this_is_a_test_notification_from_gadgetbridge">To jest testowe powiadomienie z Gadgetbridge</string>
-  <string name="bluetooth_is_not_supported_">Bluetooth nie jest obsługiwane.</string>
+  <string name="bluetooth_is_not_supported_">Bluetooth nie jest obsługiwany.</string>
   <string name="bluetooth_is_disabled_">Bluetooth jest wyłączony.</string>
   <string name="tap_connected_device_for_app_mananger">Kliknij połączone urządzenie, aby uruchomić menadżer aplikacji</string>
   <string name="tap_a_device_to_connect">Dotknij urządzenie aby połączyć</string>
@@ -112,7 +112,7 @@
   <string name="gadgetbridge_running">Gadgetbridge działa</string>
   <string name="installing_binary_d_d">Instalowanie binarki %1$d/%2$d</string>
   <string name="installation_failed_">Instalacja nie powiodła się</string>
-  <string name="installation_successful">Instalacja powiodła się</string>
+  <string name="installation_successful">Zainstalowano</string>
   <string name="firmware_install_warning">PRÓBUJESZ ZAINSTALOWAĆ FIRMWARE, POSTĘPUJESZ NA WŁASNĄ ODPOWIEDZIALNOŚĆ .
 \n
 \n
@@ -299,7 +299,7 @@
     <string name="pref_title_enable_outgoing_call">Wspieraj rozmowy wychodzące</string>
     <string name="pref_header_pebble_timeline">Oś czasu Pebble</string>
     <string name="pref_title_enable_calendar_sync">Synchronizuj kalendarz</string>
-    <string name="pref_summary_enable_calendar_sync">Wyślij zdarzenie z kalendarza do ośi czasu</string>
+    <string name="pref_summary_enable_calendar_sync">Wyślij zdarzenie z kalendarza do osi czasu</string>
 
     <string name="pref_title_autoremove_notifications">Automatycznie usuń odrzucone powiadomienia</string>
     <string name="pref_title_pebble_privacy_mode">Tryb prywatny</string>
@@ -348,7 +348,7 @@
     <string name="pref_title_canned_messages_dismisscall">Odrzuć połączenie</string>
     <string name="prefs_title_all_day_heart_rate">Całodobowy pomiar tętna</string>
     <string name="pref_header_auto_export">Automatyczny eksport</string>
-    <string name="pref_summary_auto_export_interval">Eksportować co %d godzin</string>
+    <string name="pref_summary_auto_export_interval">Eksportowanie co %d godzin</string>
 
     <string name="preferences_amazfitbip_settings">Ustawienia Amazfit Bip</string>
     <string name="prefs_title_heartrate_measurement_interval">Całodobowy pomiar tętna</string>
@@ -360,7 +360,7 @@
 
     <string name="activity_type_light_sleep">Sen płytki</string>
     <string name="activity_type_deep_sleep">Sen głęboki</string>
-    <string name="activity_type_running">Bieg</string>
+    <string name="activity_type_running">Bieganie</string>
     <string name="activity_type_swimming">Pływanie</string>
     <string name="activity_type_treadmill">Bieżnia</string>
     <string name="controlcenter_connect">Połącz</string>
@@ -373,29 +373,29 @@
     <string name="whitelist_all_for_notifications">Biała lista dla wszystkich powiadomień</string>
 
 
-    <string name="fw_upgrade_notice_amazfitbip">Zamierzasz zainstalować oprogramowanie %s na Twoim Amazfit Bip.
-\n
-\nUpewnij się aby zainstalować plik .fw, potem .res oraz .gps. Twój zegarek zresetuje się po instalacji pliku .fw.
-\n
-\nPodpowiedź: Nie instaluj plików .res i .gps jeśli są takie same jak poprzednio zainstalowane.
-\n
+    <string name="fw_upgrade_notice_amazfitbip">Zamierzasz zainstalować firmware %s na Twoim Amazfit Bip. 
+\n 
+\nPamiętaj, aby instalować pliki w kolejności: .fw, potem .res i na końcu .gps. Twój zegarek zresetuje się po instalacji pliku .fw. 
+\n 
+\nUwaga: Nie instaluj plików .res i .gps jeśli są takie same jak poprzednio zainstalowane w zegarku.
+\n 
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Zamierzasz zainstalować oprogramowanie %s na Twoim Amazfit Cor.
-\n
-\nUpewnij się aby zainstalować plik .fw oraz .res. Twój zegarek zresetuje się po instalacji pliku .fw.
-\n
-\nPodpowiedź: Nie instaluj pliku .res jeśli jest taki sam jak poprzednio zainstalowany.
-\n
+    <string name="fw_upgrade_notice_amazfitcor">Zamierzasz zainstalować firmware %s na Twoim Amazfit Cor. 
+\n 
+\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie plik .res. Twój zegarek zresetuje się po instalacji pliku .fw. 
+\n 
+\nUwaga: Nie instaluj pliku .res jeśli jest taki sam jak poprzednio zainstalowany. 
+\n 
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
-    <string name="fw_upgrade_notice_miband3">Zamierzasz zainstalować oprogramowanie %s na Twoim Mi Band 3.
-\n
-\nUpewnij się aby zainstalować plik .fw oraz .res. Twój zegarek zresetuje się po instalacji pliku .fw
-\n
-\nPodpowiedź: Nie instaluj plików .res jeśli jest taki sam jak poprzednio zainstalowany.
-\n
+    <string name="fw_upgrade_notice_miband3">Zamierzasz zainstalować oprogramowanie %s na Twoim Mi Band 3. 
+\n 
+\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie .res. Twój zegarek zresetuje się po instalacji pliku .fw 
+\n 
+\nUwaga: Nie instaluj plików .res jeśli jest taki sam jak poprzednio zainstalowany. 
+\n 
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
     <string name="fw_multi_upgrade_notice">Zamierzasz zainstalować oprogramowanie %1$s oraz %2$s, na miejsce obecnie zainstalowanego na Twoim Mi Band.</string>
-    <string name="pref_title_charts_swipe">Włącz gesty lewo/prawo w wykresie aktywności</string>
+    <string name="pref_title_charts_swipe">Włącz gesty przesuwania lewo/prawo na wykresach aktywności</string>
 
     <string name="pref_title_notifications_timeout">Minimalny czas pomiędzy powiadomieniami</string>
     <string name="pref_title_call_privacy_mode">Tryb prywatności połączeń telefonicznych</string>
@@ -412,5 +412,169 @@
     <string name="controlcenter_change_fm_frequency">Zmień częstotliwość FM</string>
     <string name="pref_title_rtl">Od prawej do lewej</string>
     <string name="pref_summary_rtl">Włącz tę opcję, jeśli Twoje urządzenie nie może wyświetlać języków z pisownią od prawej do lewej</string>
-    <string name="pref_rtl_max_line_length">Max. Długość linii od prawej do lewej</string>
-    </resources>
+    <string name="pref_rtl_max_line_length">Maks. długość linii od prawej do lewej</string>
+    <string name="pref_rtl_max_line_length_summary">Wydłuża lub skraca linie separatora tekstu pisanego od prawej do lewej</string>
+
+    <string name="pref_summary_pebble_forcele">Użyj eksperymentalnego wsparcia Pebble LE (Low Energy), zamiast Bluetooth Classic, dla wszystkich typów Pebble. Wymaga sparowania poprzez BT Classic, a następnie LE</string>
+    <string name="pref_title_pebble_gatt_clientonly">Tylko klient GATT</string>
+    <string name="pref_summary_pebble_gatt_clientonly">Ta eksperymentalna opcja przeznaczona jest wyłącznie dla Pebble 2. Wypróbuj ją jeżeli masz problemy z połączeniem</string>
+    <string name="pref_summary_pebble_enable_applogs">Spowoduje, że logi z aplikacji zegarka będą zapisywane przez Gadgetbridge (wymaga ponownego połączenia)</string>
+    <string name="pref_title_pebble_always_ack_pebblekit">Natychmiastowe potwierdzenia PebbleKit</string>
+    <string name="pref_summary_pebble_always_ack_pebblekit">Spowoduje, że wiadomości wysyłane do zewnętrznych aplikacji będą zawsze natychmiast potwierdzane</string>
+    <string name="pref_title_screentime">Czas włączenia ekranu</string>
+    <string name="preferences_id115_settings">Ustawienia ID115</string>
+    <string name="prefs_screen_orientation">Orientacja ekranu</string>
+
+    <string name="pref_title_auto_export_enabled">Auto eksport włączony</string>
+    <string name="pref_title_auto_export_location">Ścieżka eksportu</string>
+    <string name="pref_auto_fetch">Automatycznie pobieraj dane o aktywności</string>
+    <string name="pref_auto_fetch_summary">Pobranie danych nastąpi przy odblokowaniu urządzenia. Działa tylko jeśli blokowanie jest włączone!</string>
+    <string name="pref_auto_fetch_limit_fetches">Minimalny odstęp czasu pomiędzy pobraniami</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Pobieranie co %d minut(y)</string>
+
+    <string name="preferences_miband2_settings">Ustawienia Mi Band 2</string>
+    <string name="preferences_miband3_settings">Ustawienia Mi Band 3</string>
+    <string name="preferences_amazfitcor_settings">Ustawienia Amazfit Cor</string>s
+    <string name="horizontal">Poziomo</string>
+    <string name="vertical">Pionowo</string>
+    <string name="discovery_connected_devices_hint">Upewnij się, że urządzenie (opaska/smartwatch) jest wykrywalne. Aktualnie połączone urządzenia prawdopodobnie nie będą wykrywalne. Na Androidzie 6+ włącz dostęp do lokalizacji (GPS). Wyłącz Privacy Guard dla Gadgetbridge, ponieważ mogą ze sobą kolidować. Jeżeli urządzenie nie zostanie wykryte w przeciągu paru minut, spróbuj ponownie po ponownym uruchomieniu telefonu.</string>
+    <string name="watch9_pairing_tap_hint">Jeśli Twój zegarek (opaska) wibruje, potrząśnij nim lub wciśnij na nim przycisk.</string>
+
+    <string name="stats_x_axis_label">Całkowicie minut</string>
+    <string name="notif_battery_low">%1$s rozładowana bateria</string>
+    <string name="notif_battery_low_extended">%1$s rozładowana bateria: %2$s</string>
+    <string name="notif_export_failed_title">Eksport bazy danych nie udał się! Proszę sprawdź ustawienia.</string>
+    <string name="weeksleepchart_sleep_a_week">Sen (tyg.)</string>
+    <string name="weeksleepchart_today_sleep_description">Sen dzisiaj, cel: %1$s</string>
+    <string name="lack_of_sleep">Brak snu: %1$s</string>
+    <string name="no_limit">Bez ograniczeń</string>
+    <string name="seconds_5">5 sekund</string>
+    <string name="seconds_10">10 sekund</string>
+    <string name="seconds_20">20 sekund</string>
+    <string name="seconds_30">30 sekund</string>
+    <string name="minutes_1">1 minuta</string>
+    <string name="minutes_5">5 minut</string>
+    <string name="minutes_10">10 minut</string>
+    <string name="minutes_30">30 minut</string>
+
+    <string name="lack_of_step">Pozostało kroków: %1$d</string>
+    <string name="pref_title_low_latency_fw_update">Użyj trybu o niskiej latencji przy aktualizacji firmware</string>
+    <string name="live_activity_max_heart_rate">"Aktualny / Maks. puls:  %1$d / %2$d"</string>
+    <string name="you_slept">Sen trwał od %1$s do %2$s</string>
+    <string name="miband_prefs_device_time_offset_hours">Offset snu w godzinach (do detekcji snu pracowników zmianowych)</string>
+    <string name="mi2_prefs_button_action_summary">Włącz akcję po naciśnięciu przycisku określoną ilość razy</string>
+    <string name="mi2_prefs_button_action_vibrate_summary">Włącz wibrację zegarka (opaski) przy uruchomieniu akcji przycisku</string>
+    <string name="mi2_prefs_goal_notification">Powiadomienie o osiągnięciu celu</string>
+    <string name="mi2_prefs_display_items">Wyświetlane pozycje</string>
+    <string name="mi2_prefs_display_items_summary">Wybierz pozycje wyświetlane na ekranie zegarka (opaski)</string>
+    <string name="mi2_prefs_activate_display_on_lift">Aktywuj ekran po podniesieniu nadgarstka</string>
+    <string name="mi2_prefs_rotate_wrist_to_switch_info">Przekręć nadgarstek, aby przełączyć informacje</string>
+    <string name="mi2_prefs_inactivity_warnings">Ostrzeżenia o nieaktywności</string>
+    <string name="mi2_prefs_inactivity_warnings_summary">Zegarek (opaska) będzie wibrować, jeśli byłeś(-aś) nieaktywny przez pewien czas</string>
+    <string name="mi2_prefs_inactivity_warnings_threshold">Okres nieaktywności (w minutach)</string>
+    <string name="mi2_prefs_inactivity_warnings_dnd_summary">Wyłącz ostrzeżenie o nieaktywności dla zadanego przedziału czasu</string>
+    <string name="mi3_prefs_night_mode">Tryb nocny</string>
+    <string name="mi3_prefs_night_mode_summary">Automatycznie zmniejsz jasność wyświetlacza w nocy</string>
+
+    <string name="automatic">Automatycznie</string>
+    <string name="simplified_chinese">Chiński (uproszczony)</string>
+    <string name="traditional_chinese">Chiński (tradycyjny)</string>
+    <string name="english">Angielski</string>
+    <string name="spanish">Hiszpański</string>
+    <string name="russian">Rosyjski</string>
+    <string name="german">Niemiecki</string>
+    <string name="italian">Włoski</string>
+    <string name="french">Francuski</string>
+    <string name="polish">Polski</string>
+    <string name="korean">Koreański</string>
+    <string name="japanese">Japoński</string>
+
+    <string name="activity_prefs_charts">Ustawienia wykresów</string>
+    <string name="activity_prefs_chart_max_heart_rate">Puls maksymalny</string>
+    <string name="activity_prefs_chart_min_heart_rate">Puls minimalny</string>
+
+    <string name="authenticating">Uwierzytelnianie</string>
+    <string name="authentication_required">Wymagane uwierzytelnienie</string>
+
+    <string name="appwidget_text"></string>
+    <string name="updatefirmwareoperation_firmware_not_sent">Firmware nie zostało wysłane</string>
+    <string name="pref_title_pebble_health_store_raw">Przechowuj \"surowe\" rekordy w bazie danych</string>
+    <string name="pref_summary_pebble_health_store_raw">Zapisuje dane bez przetwarzania, zwiększając użycie bazy danych i umożliwiając ich późniejszą interpretację.</string>
+    <string name="dbmanagementactivvity_cannot_access_export_path">Brak dostępu do ścieżki eksportu. Prosimy o kontakt z developerami.</string>
+    <string name="dbmanagementactivity_import_successful">Zaimportowano.</string>
+    <string name="dbmanagementactivity_delete_activity_data_title">Skasować dane o aktywności\?</string>
+    <string name="dbmanagementactivity_really_delete_entire_db">Czy na pewno usunąć całą bazę danych\? Skasuje to wszystkie dane o aktywności i urządzeniach.</string>
+    <string name="dbmanagementactivity_database_successfully_deleted">Dane zostały usunięte.</string>
+    <string name="dbmanagementactivity_db_deletion_failed">Usuwanie bazy danych nie powiodło się.</string>
+    <string name="dbmanagementactivity_delete_old_activity_db">Czy skasować starą bazę danych aktywności\?</string>
+    <string name="dbmanagementactivity_delete_old_activitydb_confirmation">Czy na pewno skasować starą bazę danych aktywności\? Wszystkie dane, które nie zostały zaimportowane zostaną utracone.</string>
+    <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Stara baza danych aktywności została usunięta.</string>
+    <string name="dbmanagementactivity_old_activity_db_deletion_failed">Usuwanie starej bazy danych aktywności nie powiodło się.</string>
+    <string name="title_activity_pebble_pairing">Parowanie Pebble</string>
+    <string name="pebble_pairing_hint">Komunikat o parowaniu pojawi się na Twoim urządzeniu z Androidem. W przeciwnym wypadku sprawdź powiadomienia i zaakceptuj żądanie parowania. Następnie zaakceptuj parowanie również na Twoim Pebble.</string>
+
+    <string name="pref_title_setup_bt_pairing">Włącz parowanie Bluetooth</string>
+    <string name="pref_summary_setup_bt_pairing">Wyłącz to jeżeli masz problemy z połączeniem</string>
+
+    <string name="unit_metric">Metryczne</string>
+    <string name="find_device_you_found_it">Znalezione!</string>
+    <string name="mi2_fw_installhandler_fw53_hint">Zanim wgrasz to firmware, musisz wgrać wersję %1$s!</string>
+    <string name="mi2_enable_text_notifications">Powiadomienia tekstowe</string>
+    <string name="mi2_enable_text_notifications_summary">Wymaga firmware w wersji &gt;= 1.0.1.28 i zainstalowanego Mili_pro.ft*.</string>
+    <string name="on">Wł.</string>
+    <string name="off">Wył.</string>
+    <string name="mi2_dnd_off">Wył.</string>
+    <string name="mi3_night_mode_sunset">O zachodzie słońca</string>
+    <string name="mi2_dnd_automatic">Automatycznie (wykrywanie snu)</string>
+    <string name="mi2_dnd_scheduled">Zaplanowane (przedział czasu)</string>
+    <string name="discovery_attempting_to_pair">Próba sparowania z %1$s</string>
+    <string name="discovery_trying_to_connect_to">Próba połączenia z: %1$s</string>
+    <string name="discovery_enable_bluetooth">Włącz Bluetooth aby wykryć urządzenia.</string>
+    <string name="discovery_pair_title">Sparować z %1$s\?</string>
+    <string name="discovery_yes_pair">Paruj</string>
+    <string name="discovery_dont_pair">Nie paruj</string>
+
+    <string name="_pebble_watch_open_on_phone">Otwórz na urządzeniu z Androidem</string>
+    <string name="_pebble_watch_mute">Wycisz</string>
+    <string name="_pebble_watch_reply">Odpowiedz</string>
+
+    <string name="activity_type_not_measured">Nie zmierzono</string>
+    <string name="activity_type_activity">Aktywność</string>
+    <string name="activity_type_not_worn">Urządzenie nie noszone</string>
+    <string name="activity_type_walking">Chodzenie</string>
+    <string name="activity_type_unknown">Nieznana aktywność</string>
+    <string name="activity_summaries">Aktywności</string>
+    <string name="activity_type_biking">Jazda na rowerze</string>
+    <string name="select_all">Zaznacz wszystko</string>
+    <string name="share">Udostępnij</string>
+    <string name="kind_invalid">Niepoprawne dane</string>
+    <string name="kind_font">Czcionka</string>
+    <string name="kind_gps">Firmware GPS</string>
+    <string name="kind_gps_almanac">Almanach GPS</string>
+    <string name="kind_gps_cep">Korekcja błędów GPS</string>
+    <string name="kind_resources">Zasoby</string>
+    <string name="kind_watchface">Tarcza zegarka</string>
+
+    <string name="devicetype_unknown">Nieznane urządzenie</string>
+    <string name="choose_auto_export_location">Wybierz ścieżkę do eksportu</string>
+    <string name="notification_channel_name">Powiadomienia Gadgetbridge</string>
+
+    <string name="menuitem_shortcut_alipay">Alipay (Skrót)</string>
+    <string name="menuitem_shortcut_weather">Pogoda (Skrót)</string>
+    <string name="menuitem_more">Więcej</string>
+
+    <string name="watch9_time_minutes">Minuty:</string>
+    <string name="watch9_time_hours">Godziny:</string>
+    <string name="watch9_time_seconds">Sekundy:</string>
+    <string name="watch9_calibration_button">Kalibruj</string>
+    <string name="share_log_warning">Prosimy pamiętać, że logi Gadgetbridge mogą zawierać wiele informacji osobistych, w tym dane dotyczące zdrowia, unikalne identyfikatory (takie jak adresy MAC urządzeń), preferencje muzyczne itd. Rozważ edycję logów i usunięcie takich informacji zanim wyślesz je przy zgłaszaniu problemu.</string>
+    <string name="warning">Ostrzeżenie!</string>
+    <string name="no_data">Brak danych</string>
+
+    <string name="preferences_led_color">Kolor LED</string>
+
+    <string name="preferences_fm_frequency">Częstotliwość FM</string>
+    <string name="pref_invalid_frequency_title">Niewłaściwa częstotliwość</string>
+    <string name="pref_invalid_frequency_message">Podaj częstotliwość z zakresu od 87.5 do 108.0 Mhz</string>
+    <string name="language_and_region_prefs">Ustawienia językowe i regionalne</string>
+</resources>
