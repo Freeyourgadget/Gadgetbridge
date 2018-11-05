@@ -59,7 +59,6 @@ public interface DeviceService extends EventHandler {
     String ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT = PREFIX + ".action.realtime_hr_measurement";
     String ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT = PREFIX + ".action.enable_heartrate_sleep_support";
     String ACTION_SET_HEARTRATE_MEASUREMENT_INTERVAL = PREFIX + ".action.set_heartrate_measurement_intervarl";
-    String ACTION_HEARTRATE_MEASUREMENT = PREFIX + ".action.hr_measurement";
     String ACTION_ADD_CALENDAREVENT = PREFIX + ".action.add_calendarevent";
     String ACTION_DELETE_CALENDAREVENT = PREFIX + ".action.delete_calendarevent";
     String ACTION_SEND_CONFIGURATION = PREFIX + ".action.send_configuration";

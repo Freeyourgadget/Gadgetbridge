@@ -20,10 +20,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.format.DateFormat;
@@ -88,7 +86,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -105,11 +102,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.IntentListener;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.heartrate.HeartRateProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.actions.StopNotificationAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.Mi2NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.Mi2TextNotificationStrategy;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.actions.StopNotificationAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSportsSummaryOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.InitOperation;
@@ -151,7 +147,6 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(HuamiSupport.class);
     private final DeviceInfoProfile<HuamiSupport> deviceInfoProfile;
-    private final HeartRateProfile<HuamiSupport> heartRateProfile;
     private final IntentListener mListener = new IntentListener() {
         @Override
         public void notify(Intent intent) {
@@ -201,8 +196,6 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         deviceInfoProfile = new DeviceInfoProfile<>(this);
         deviceInfoProfile.addListener(mListener);
         addSupportedProfile(deviceInfoProfile);
-        heartRateProfile = new HeartRateProfile<>(this);
-        addSupportedProfile(heartRateProfile);
     }
 
     @Override
@@ -858,6 +851,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
         try {
             TransactionBuilder builder = performInitialized("HeartRateTest");
+            enableNotifyHeartRateMeasurements(true, builder);
             builder.write(characteristicHRControlPoint, stopHeartMeasurementContinuous);
             builder.write(characteristicHRControlPoint, stopHeartMeasurementManual);
             builder.write(characteristicHRControlPoint, startHeartMeasurementManual);
@@ -874,13 +868,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
         try {
             TransactionBuilder builder = performInitialized("Enable realtime heart rate measurement");
-            if (heartRateNotifyEnabled != enable) {
-                BluetoothGattCharacteristic heartrateCharacteristic = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT);
-                if (heartrateCharacteristic != null) {
-                    builder.notify(heartrateCharacteristic, enable);
-                    heartRateNotifyEnabled = enable;
-                }
-            }
+            enableNotifyHeartRateMeasurements(enable, builder);
             if (enable) {
                 builder.write(characteristicHRControlPoint, stopHeartMeasurementManual);
                 builder.write(characteristicHRControlPoint, startHeartMeasurementContinuous);
@@ -891,6 +879,16 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             enableRealtimeSamplesTimer(enable);
         } catch (IOException ex) {
             LOG.error("Unable to enable realtime heart rate measurement", ex);
+        }
+    }
+
+    private void enableNotifyHeartRateMeasurements(boolean enable, TransactionBuilder builder) {
+        if (heartRateNotifyEnabled != enable) {
+            BluetoothGattCharacteristic heartrateCharacteristic = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT);
+            if (heartrateCharacteristic != null) {
+                builder.notify(heartrateCharacteristic, enable);
+                heartRateNotifyEnabled = enable;
+            }
         }
     }
 

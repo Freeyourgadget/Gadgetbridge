@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.RemoteInput;
@@ -44,11 +45,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
@@ -82,12 +85,22 @@ public class DebugActivity extends AbstractGBActivity {
                     GB.toast(context, "got wearable reply: " + reply, Toast.LENGTH_SHORT, GB.INFO);
                     break;
                 }
+                case DeviceService.ACTION_REALTIME_SAMPLES:
+                    handleRealtimeSample(intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE));
+                    break;
                 default:
                     LOG.info("ignoring intent action " + intent.getAction());
                     break;
             }
         }
     };
+
+    private void handleRealtimeSample(Serializable extra) {
+        if (extra instanceof ActivitySample) {
+            ActivitySample sample = (ActivitySample) extra;
+            GB.toast(this, "Heart Rate measured: " + sample.getHeartRate(), Toast.LENGTH_LONG, GB.INFO);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +109,7 @@ public class DebugActivity extends AbstractGBActivity {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_REPLY);
-        filter.addAction(DeviceService.ACTION_HEARTRATE_MEASUREMENT);
+        filter.addAction(DeviceService.ACTION_REALTIME_SAMPLES);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
         registerReceiver(mReceiver, filter); // for ACTION_REPLY
 

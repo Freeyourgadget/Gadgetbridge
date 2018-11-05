@@ -71,7 +71,6 @@ public class FindPhoneActivity extends AbstractGBActivity {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_FOUND);
-        filter.addAction(DeviceService.ACTION_HEARTRATE_MEASUREMENT);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
         registerReceiver(mReceiver, filter); // for ACTION_FOUND
 
