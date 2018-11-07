@@ -975,7 +975,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 buf.put((byte) 0x01); // attribute id (title)
                 buf.putShort((short) act.title.getBytes().length);
                 buf.put(act.title.getBytes());
-                if(act.isReply && cannedReplies != null ) {
+                if (act.isReply && cannedReplies != null && cannedReplies.length > 0) {
                     buf.put((byte) 0x08); // canned replies
                     buf.putShort((short) replies_length);
                     for (int i = 0; i < cannedReplies.length - 1; i++) {
