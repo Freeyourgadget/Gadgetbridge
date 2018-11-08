@@ -167,7 +167,8 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         BaseActivitySummary summary = new BaseActivitySummary();
         ByteBuffer buffer = ByteBuffer.wrap(stream.toByteArray()).order(ByteOrder.LITTLE_ENDIAN);
 //        summary.setVersion(BLETypeConversions.toUnsigned(buffer.getShort()));
-        buffer.getShort(); // version
+        short version = buffer.getShort(); // version
+        LOG.debug("Got verison " + version);
         int activityKind = ActivityKind.TYPE_UNKNOWN;
         try {
             int rawKind = BLETypeConversions.toUnsigned(buffer.getShort());
