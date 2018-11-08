@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release version="0.31.1" versioncode="140">
-        <change>Pebble: fix crash when no canned replies have been set</change>
+        <change>Pebble: Fix crash when no canned replies have been set</change>
+        <change>Pebble: Let the firmware show localized default canned replies if none have been set</change>
+        <change>Amazfit Bip: Fix importing GPS tracks that have been recorded with Firmware 1.1.5.02</change>
         <change>Display measured hr value in debug screen</change>
     </release>
     <release version="0.31.0" versioncode="139">

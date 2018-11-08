@@ -1,7 +1,9 @@
 ### Changelog
 
 #### Version 0.31.1
-* Pebble: fix crash when no canned replies have been set
+* Pebble: Fix crash when no canned replies have been set
+* Pebble: Let the firmware show localized default canned replies if none have been set
+* Amazfit Bip: Fix importing GPS tracks that have been recorded with Firmware 1.1.5.02
 * Display measured hr value in debug screen
 
 #### Version 0.31.0
