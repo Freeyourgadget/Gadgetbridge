@@ -830,21 +830,26 @@ public class PebbleProtocol extends GBDeviceProtocol {
             dismiss_action_id = 0x03;
             actions_length += (short) (ACTION_LENGTH_MIN + dismiss_string.getBytes().length);
         }
-        if (attachedActions != null && attachedActions.size() > 0) {
-            for (Action act : attachedActions) {
-                actions_count++;
-                actions_length += (short) (ACTION_LENGTH_MIN + act.title.getBytes().length);
-            }
-        }
 
-        int replies_length = -1;
+        int replies_length = 0;
         if (cannedReplies != null && cannedReplies.length > 0) {
             //do not increment actions_count! reply is an action and was already added above
             for (String reply : cannedReplies) {
                 replies_length += reply.getBytes().length + 1;
             }
+            replies_length--;
             //similarly, only the replies length has to be added, the length for the bare action was already added above
-            actions_length += (short) (replies_length + 3); // 3 = attribute id (byte) + length(short)
+
+        }
+
+        if (attachedActions != null && attachedActions.size() > 0) {
+            for (Action act : attachedActions) {
+                actions_count++;
+                actions_length += (short) (ACTION_LENGTH_MIN + act.title.getBytes().length);
+                if (act.isReply) {
+                    actions_length += (short) replies_length + 3;  // 3 = attribute id (byte) + length(short)
+                }
+            }
         }
 
         byte attributes_count = 0;
@@ -969,21 +974,23 @@ public class PebbleProtocol extends GBDeviceProtocol {
                     buf.put((byte) 0x03); // reply action
                     buf.put((byte) 0x02); // number attributes
                 } else {
-                    buf.put((byte) 0x02); // generic action, dismiss did not do anything
+                    buf.put((byte) 0x02); // generic action
                     buf.put((byte) 0x01); // number attributes
                 }
                 buf.put((byte) 0x01); // attribute id (title)
                 buf.putShort((short) act.title.getBytes().length);
                 buf.put(act.title.getBytes());
-                if (act.isReply && cannedReplies != null && cannedReplies.length > 0) {
+                if (act.isReply) {
                     buf.put((byte) 0x08); // canned replies
                     buf.putShort((short) replies_length);
-                    for (int i = 0; i < cannedReplies.length - 1; i++) {
-                        buf.put(cannedReplies[i].getBytes());
-                        buf.put((byte) 0x00);
+                    if (cannedReplies != null && cannedReplies.length > 0) {
+                        for (int i = 0; i < cannedReplies.length - 1; i++) {
+                            buf.put(cannedReplies[i].getBytes());
+                            buf.put((byte) 0x00);
+                        }
+                        // last one must not be zero terminated, else we get an additional emply reply
+                        buf.put(cannedReplies[cannedReplies.length - 1].getBytes());
                     }
-                    // last one must not be zero terminated, else we get an additional emply reply
-                    buf.put(cannedReplies[cannedReplies.length - 1].getBytes());
                 }
             }
         }
