@@ -1,5 +1,9 @@
 ### Changelog
 
+#### Version 0.31.1
+* Pebble: fix crash when no canned replies have been set
+* Display measured hr value in debug screen
+
 #### Version 0.31.0
 * Pebble: Send all wearable notification actions (not only reply)
 * Pebble: Always allow reply action even if untested features are turned off
