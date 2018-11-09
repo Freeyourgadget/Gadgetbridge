@@ -13,7 +13,7 @@
 
     <string-array name="pref_language_options">
         <item name="default">System Default</item>
-        <item name="cz">Čeština</item>
+        <item name="cs">Čeština</item>
         <item name="de">Deutsch</item>
         <item name="en">English</item>
         <item name="es">Español</item>
@@ -31,7 +31,7 @@
 
     <string-array name="pref_language_values">
         <item>default</item>
-        <item>cz</item>
+        <item>cs</item>
         <item>de</item>
         <item>en</item>
         <item>es</item>
