@@ -539,13 +539,13 @@
     <string name="devicetype_hplus">HPlus</string>
     <string name="choose_auto_export_location">选择导出位置</string>
 <string name="notification_channel_name">Gadgetbridge 通知</string>
-<string name="controlcenter_change_led_color">更换LED灯颜色</string>
-    <string name="controlcenter_change_fm_frequency">调整FM频率</string>
+<string name="controlcenter_change_led_color">切换 LED 灯颜色</string>
+    <string name="controlcenter_change_fm_frequency">更改 FM 频率</string>
     <string name="controlcenter_calibrate_device">校准设备</string>
 
 
-    <string name="blacklist_all_for_notifications">屏蔽所有通知</string>
-    <string name="whitelist_all_for_notifications">开启所有通知</string>
+    <string name="blacklist_all_for_notifications">添加所有通知到黑名单</string>
+    <string name="whitelist_all_for_notifications">添加所有通知到白名单</string>
 
 
     </resources>
