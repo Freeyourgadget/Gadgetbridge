@@ -100,6 +100,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(2602,  "1.0.2.00");
         crcToVersion.put(36157, "1.1.2.05");
         crcToVersion.put(26444, "1.1.5.02");
+        crcToVersion.put(60002, "1.1.5.04");
 
         // resources
         crcToVersion.put(12586, "0.0.8.74");
@@ -123,7 +124,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(23073, "0.1.1.45");
         crcToVersion.put(59245, "1.0.2.00");
         crcToVersion.put(20591, "1.1.2.05");
-        crcToVersion.put(5341,  "1.1.5.02");
+        crcToVersion.put(5341,  "1.1.5.02-04");
 
         // gps
         crcToVersion.put(61520, "9367,8f79a91,0,0,");
