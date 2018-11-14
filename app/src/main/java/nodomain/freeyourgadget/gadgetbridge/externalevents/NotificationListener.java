@@ -239,7 +239,12 @@ public class NotificationListener extends NotificationListenerService {
 
         notificationSpec.type = AppNotificationType.getInstance().get(source);
 
+        //FIXME: some quirks lookup table would be the minor evil here
         if (source.startsWith("com.fsck.k9")) {
+            if (NotificationCompat.isGroupSummary(notification)) {
+                LOG.info("ignore K9 group summary");
+                return;
+            }
             preferBigText = true;
         }
 
