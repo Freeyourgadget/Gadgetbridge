@@ -47,7 +47,7 @@
     <string name="title_activity_calblacklist">阻止记录</string>
 
     <string name="title_activity_fw_app_insaller">FW/App 安装器</string>
-    <string name="fw_upgrade_notice">您即将安装固件 %s ，代替当前在Mi Band上的固件。</string>
+    <string name="fw_upgrade_notice">您即将安装固件 %s ，代替当前在小米手环上的固件。</string>
     <string name="fw_upgrade_notice_amazfitbip">即将在您的米动手表青春版(Amazfit Bip)上安装固件 %s 。 
 \n 
 \n请确保安装.fw文件，然后安装.res文件，最后安装.gps文件。 安装.fw文件后，手表将重新启动。 
@@ -62,7 +62,7 @@
 \n注意：如果这些文件与之前安装的完全一样，则不必安装.res。 
 \n 
 \n您需要自行承担风险！</string>
-    <string name="fw_multi_upgrade_notice">您即将安装固件 %1$s 和 %2$s，代替当前在Mi Band上的固件。</string>
+    <string name="fw_multi_upgrade_notice">您即将安装固件 %1$s 和 %2$s，代替当前在小米手环上的固件。</string>
     <string name="miband_firmware_known">该固件已经过测试，并且已知与 Gadgetbridge 兼容。</string>
     <string name="miband_firmware_unknown_warning">此固件未经测试，可能与 Gadgetbridge 不兼容。 
 \n 
@@ -126,7 +126,7 @@
     <string name="pref_title_canned_replies">回复</string>
     <string name="pref_title_canned_messages_dismisscall">未接来电</string>
     <string name="pref_header_development">开发者选项</string>
-    <string name="pref_title_development_miaddr">Mi Band地址</string>
+    <string name="pref_title_development_miaddr">小米手环地址</string>
 
     <string name="pref_title_pebble_settings">Pebble 设置</string>
 
@@ -222,7 +222,7 @@
     <string name="device_with_rssi">%1$s (%2$s)</string>
     <string name="title_activity_android_pairing">配对设备</string>
     <string name="android_pairing_hint">使用 Android 蓝牙配对对话框来配对设备。</string>
-    <string name="title_activity_mi_band_pairing">配对你的Mi Band</string>
+    <string name="title_activity_mi_band_pairing">配对您的小米手环</string>
     <string name="pairing">与 %s 配对中…</string>
     <string name="pairing_creating_bond_with">与 %1$s (%2$s) 配对</string>
     <string name="pairing_unable_to_pair_with">无法与 %1$s (%2$s) 配对</string>
@@ -238,7 +238,7 @@
     <string name="left">左</string>
     <string name="right">右</string>
     <string name="miband_pairing_using_dummy_userdata">没有提供有效的用户数据, 现在使用虚拟用户数据。</string>
-    <string name="miband_pairing_tap_hint">当您的Mi Band振动并闪烁时，请连续点击几下。</string>
+    <string name="miband_pairing_tap_hint">当您的小米手环振动并闪烁时，请连续点击几下。</string>
     <string name="appinstaller_install">安装</string>
     <string name="discovery_connected_devices_hint">请设置并使您的设备可被发现。 当前连接的设备可能不会被发现。 对于 Android 6 及更高版本，您需要启用位置信息（如 GPS ）。 若禁用权限， Gadgetbridge 可能会崩溃并重新启动。 如果几分钟后没有找到设备，请重新启动您的移动设备后再试。</string>
     <string name="discovery_note">注意:</string>
@@ -325,7 +325,7 @@
     <string name="pbwinstallhandler_correct_hw_revision">正确的硬件修订</string>
     <string name="pbwinstallhandler_incorrect_hw_revision">硬件版本不匹配！</string>
     <string name="pbwinstallhandler_app_item">%1$s (%2$s)</string>
-    <string name="updatefirmwareoperation_updateproblem_do_not_reboot">固件传输出现问题。请不要重新启动您的 Mi Band！</string>
+    <string name="updatefirmwareoperation_updateproblem_do_not_reboot">固件传输出现问题。请不要重新启动您的小米手环！</string>
     <string name="updatefirmwareoperation_metadata_updateproblem">固件元数据传输出现问题</string>
     <string name="updatefirmwareoperation_update_complete">固件安装完成</string>
     <string name="updatefirmwareoperation_update_complete_rebooting">固件安装完成, 重新启动设备…</string>
@@ -339,8 +339,8 @@
     <string name="liveactivity_live_activity">实时活动数据</string>
     <string name="weeksteps_today_steps_description">今天的步数, 目标：%1$s</string>
     <string name="pref_title_dont_ack_transfer">不发送活动数据</string>
-    <string name="pref_summary_dont_ack_transfers">如果活动数据未传输到设备，则不会被清除。 GB与其他应用程序一起使用时很有用。</string>
-    <string name="pref_summary_keep_data_on_device">即使在同步之后, 也会将活动数据保留在 Mi Band上。如果 GB 与其他应用程序一起使用, 这将非常有用。</string>
+    <string name="pref_summary_dont_ack_transfers">如果活动数据未传输到设备，则不会被清除。 Gadgetbridge 与其他应用程序一起使用时很有用。</string>
+    <string name="pref_summary_keep_data_on_device">即使在同步之后, 也会将活动数据保留在小米手环上。如果 Gadgetbridge 与其他应用程序一起使用, 这将非常有用。</string>
     <string name="pref_title_low_latency_fw_update">使用低延迟模式进行固件更新</string>
     <string name="pref_summary_low_latency_fw_update">这可能对固件失败的设备有帮助。</string>
 
@@ -364,7 +364,7 @@
     <string name="dateformat_time">仅时间</string>
     <string name="dateformat_date_time">时间和日期</string>
     <string name="mi2_prefs_button_actions">按钮操作</string>
-    <string name="mi2_prefs_button_actions_summary">指定小米手环2按钮上的操作</string>
+    <string name="mi2_prefs_button_actions_summary">指定小米手环２按钮上的操作</string>
     <string name="mi2_prefs_button_press_count">按钮按下计数</string>
     <string name="mi2_prefs_button_press_count_summary">触发消息广播的按钮按数</string>
     <string name="mi2_prefs_button_action">启用按钮操作</string>
@@ -378,7 +378,7 @@
     <string name="mi2_prefs_goal_notification">达标提醒</string>
     <string name="mi2_prefs_goal_notification_summary">达成运动目标后, 手环/手表将会振动提醒</string>
     <string name="mi2_prefs_display_items">显示内容</string>
-    <string name="mi2_prefs_display_items_summary">选择在小米手环屏幕上显示的内容</string>
+    <string name="mi2_prefs_display_items_summary">选择在手环屏幕上显示的内容</string>
     <string name="mi2_prefs_activate_display_on_lift">抬腕亮屏</string>
     <string name="mi2_prefs_rotate_wrist_to_switch_info">旋转手腕以切换信息</string>
     <string name="mi2_prefs_do_not_disturb">勿扰模式</string>
@@ -503,7 +503,7 @@
     <string name="kind_resources">资源</string>
     <string name="devicetype_unknown">未知设备</string>
     <string name="devicetype_miband">小米手环</string>
-    <string name="devicetype_miband2">小米手环2</string>
+    <string name="devicetype_miband2">小米手环２</string>
     <string name="devicetype_amazfit_bip">米动手表青春版</string>
     <string name="devicetype_amazfit_cor">米动手环</string>
     <string name="pref_title_weather">天气</string>
@@ -554,7 +554,7 @@
 \n
 \n注意：如果您已经安装相同版本的 .res 文件了，则无需安装。
 \n
-\n未测试，可能会导致你的设备变砖，您必须自行承担风险！</string>
+\n未经测试，可能会导致您的设备变砖，您必须自行承担风险！</string>
     <string name="pref_title_notifications_timeout">通知间隔最短时间</string>
     <string name="pref_title_rtl">从右到左</string>
     <string name="pref_summary_rtl">如果您的设备无法显示从右到左的语言，请选中此选项</string>
