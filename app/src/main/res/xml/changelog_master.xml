@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.31.2" versioncode="141">
+        <change>Pebble: Fix a regression that caused non-working mute, open and dismiss actions</change>
+        <change>Fix setting language to Czech manually</change>
+        <change>Ignore summary notification from K-9 Mail (caused notification spamming)</change>
+    </release>
     <release version="0.31.1" versioncode="140">
         <change>Pebble: Fix crash when no canned replies have been set</change>
         <change>Pebble: Let the firmware show localized default canned replies if none have been set</change>

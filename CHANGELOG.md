@@ -1,5 +1,10 @@
 ### Changelog
 
+#### Version 0.31.2
+* Pebble: Fix a regression that caused non-working mute, open and dismiss actions
+* Fix setting language to Czech manually
+* Ignore summary notification from K-9 Mail (caused notification spamming)
+
 #### Version 0.31.1
 * Pebble: Fix crash when no canned replies have been set
 * Pebble: Let the firmware show localized default canned replies if none have been set

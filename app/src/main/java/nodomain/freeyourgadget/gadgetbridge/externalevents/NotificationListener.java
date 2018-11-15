@@ -342,7 +342,8 @@ public class NotificationListener extends NotificationListenerService {
         muteAction.type = NotificationSpec.Action.TYPE_SYNTECTIC_MUTE;
         notificationSpec.attachedActions.add(muteAction);
 
-        mNotificationHandleLookup.add(notificationSpec.getId(), sbn.getPostTime()); // for both DISMISS and OPEN
+        mNotificationHandleLookup.add(notificationSpec.getId(), sbn.getId()); // for both DISMISS and OPEN
+        //getPostTime()); // for both DISMISS and OPEN
         mPackageLookup.add(notificationSpec.getId(), sbn.getPackageName()); // for MUTE
 
         notificationBurstPrevention.put(source, cur_time);
