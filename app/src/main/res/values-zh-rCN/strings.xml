@@ -31,7 +31,7 @@
     <string name="appmananger_app_delete">删除</string>
     <string name="appmananger_app_delete_cache">删除并清空缓存</string>
     <string name="appmananger_app_reinstall">重新安装</string>
-    <string name="appmanager_app_openinstore">在Pebble Appstore中搜索</string>
+    <string name="appmanager_app_openinstore">在 Pebble Appstore 中搜索</string>
     <string name="appmanager_health_activate">启用</string>
     <string name="appmanager_health_deactivate">停用</string>
     <string name="appmanager_hrm_activate">打开心率检测</string>
@@ -63,10 +63,10 @@
 \n 
 \n您需要自行承担风险！</string>
     <string name="fw_multi_upgrade_notice">您即将安装固件 %1$s 和 %2$s，代替当前在Mi Band上的固件。</string>
-    <string name="miband_firmware_known">该固件已经过测试，并且已知与Gadgetbridge兼容。</string>
-    <string name="miband_firmware_unknown_warning">此固件未经测试，可能与Gadgetbridge不兼容。
-\n
-\n不建议把它安装到你的Mi Band！</string>
+    <string name="miband_firmware_known">该固件已经过测试，并且已知与 Gadgetbridge 兼容。</string>
+    <string name="miband_firmware_unknown_warning">此固件未经测试，可能与 Gadgetbridge 不兼容。 
+\n 
+\n不建议把它安装到你的小米手环！</string>
     <string name="miband_firmware_suggest_whitelist">如果您仍想继续并且此固件在安装之后能够正常工作，请告知 Gadgetbridge 开发者将固件 %s 列入白名单。</string>
 
     <string name="title_activity_settings">设置</string>
@@ -81,7 +81,7 @@
 
     <string name="pref_header_datetime">日期和时间</string>
     <string name="pref_title_datetime_syctimeonconnect">同步时间</string>
-    <string name="pref_summary_datetime_syctimeonconnect">当您Android设备的时区改变时，且连接到 Gadgetbridge 设备时同步时间</string>
+    <string name="pref_summary_datetime_syctimeonconnect">当您 Android 设备的时区改变时，且连接到 Gadgetbridge 设备时同步时间</string>
 
     <string name="pref_title_theme">主题</string>
     <string name="pref_theme_light">亮色</string>
@@ -97,7 +97,7 @@
     <string name="pref_title_notifications_repetitions">重复</string>
     <string name="pref_title_notifications_call">来电</string>
     <string name="pref_title_notifications_sms">短信</string>
-    <string name="pref_title_notifications_pebblemsg">Pebble消息</string>
+    <string name="pref_title_notifications_pebblemsg">Pebble 消息</string>
     <string name="pref_summary_notifications_pebblemsg">支持经由 PebbleKit 向 Pebble 应用发送通知。</string>
     <string name="pref_title_notifications_generic">通知使用权</string>
     <string name="pref_title_whenscreenon">即使屏幕开启时也通知</string>
@@ -128,28 +128,28 @@
     <string name="pref_header_development">开发者选项</string>
     <string name="pref_title_development_miaddr">Mi Band地址</string>
 
-    <string name="pref_title_pebble_settings">Pebble设置</string>
+    <string name="pref_title_pebble_settings">Pebble 设置</string>
 
     <string name="pref_header_activitytrackers">活动跟踪器</string>
     <string name="pref_title_pebble_activitytracker">首选活动跟踪器</string>
-    <string name="pref_title_pebble_sync_health">同步Pebble健康</string>
+    <string name="pref_title_pebble_sync_health">同步 Pebble 健康</string>
     <string name="pref_title_pebble_sync_misfit">同步到Misfit</string>
     <string name="pref_title_pebble_sync_morpheuz">同步到Morpheuz</string>
 
     <string name="pref_title_enable_outgoing_call">支持呼出</string>
-    <string name="pref_summary_enable_outgoing_call">禁用此功能也将停止Pebble 2 / LE在拨出电话时振动</string>
+    <string name="pref_summary_enable_outgoing_call">禁用此功能也将停止 Pebble 2 / LE 在拨出电话时振动</string>
 
     <string name="pref_title_enable_pebblekit">允许第三方 Android 应用程序访问</string>
     <string name="pref_summary_enable_pebblekit">使用 PebbleKit 为 Android 应用程序启用实验性支持</string>
 
-    <string name="pref_header_pebble_timeline">Pebble时间线</string>
+    <string name="pref_header_pebble_timeline">Pebble 时间线</string>
     <string name="pref_title_sunrise_sunset">日出和日落</string>
-    <string name="pref_summary_sunrise_sunset">基于Pebble时间表的位置发送日出和日落时间</string>
+    <string name="pref_summary_sunrise_sunset">基于 Pebble 时间表的位置发送日出和日落时间</string>
     <string name="pref_title_enable_calendar_sync">同步记录</string>
     <string name="pref_summary_enable_calendar_sync">将记录发送到时间表</string>
 
     <string name="pref_title_autoremove_notifications">自动删除已错过的通知</string>
-    <string name="pref_summary_autoremove_notifications">当您从Android设备上删除时，通知将自动从Pebble中删除</string>
+    <string name="pref_summary_autoremove_notifications">当您从 Android 设备上删除时，通知将自动从 Pebble 中删除</string>
 
     <string name="pref_title_pebble_privacy_mode">隐私模式</string>
     <string name="pref_pebble_privacy_mode_off">正常通知</string>
@@ -171,7 +171,7 @@
     <string name="pref_title_pebble_forceuntested">启用未经测试的功能</string>
     <string name="pref_summary_pebble_forceuntested">启用未经测试的功能。仅当你知道你在做什么时启用!</string>
     <string name="pref_title_pebble_enable_applogs">启用手表应用调试日志</string>
-    <string name="pref_summary_pebble_enable_applogs">应用程序日志将保存在Gadgetbridge中（需要重新连接）</string>
+    <string name="pref_summary_pebble_enable_applogs">应用程序日志将保存在 Gadgetbridge 中（需要重新连接）</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">这将导致发送到外部第三方应用程序的消息始终立即得到确认</string>
     <string name="pref_title_pebble_enable_bgjs">启用后台JS</string>
     <string name="pref_summary_pebble_enable_bgjs">启用后，将允许表盘显示天气，电池等信息。</string>
@@ -191,7 +191,7 @@
     <string name="_unknown_">(未知)</string>
     <string name="test">测试</string>
     <string name="test_notification">测试通知</string>
-    <string name="this_is_a_test_notification_from_gadgetbridge">这是来自Gadgetbridge的测试通知</string>
+    <string name="this_is_a_test_notification_from_gadgetbridge">这是来自 Gadgetbridge 的测试通知</string>
     <string name="bluetooth_is_not_supported_">不支持蓝牙。</string>
     <string name="bluetooth_is_disabled_">蓝牙已禁用。</string>
     <string name="tap_connected_device_for_activity">点按以激活已连接的设备</string>
@@ -221,7 +221,7 @@
     <string name="action_discover">连接新设备</string>
     <string name="device_with_rssi">%1$s (%2$s)</string>
     <string name="title_activity_android_pairing">配对设备</string>
-    <string name="android_pairing_hint">使用Android蓝牙配对对话框来配对设备。</string>
+    <string name="android_pairing_hint">使用 Android 蓝牙配对对话框来配对设备。</string>
     <string name="title_activity_mi_band_pairing">配对你的Mi Band</string>
     <string name="pairing">与 %s 配对中…</string>
     <string name="pairing_creating_bond_with">与 %1$s (%2$s) 配对</string>
@@ -240,7 +240,7 @@
     <string name="miband_pairing_using_dummy_userdata">没有提供有效的用户数据, 现在使用虚拟用户数据。</string>
     <string name="miband_pairing_tap_hint">当您的Mi Band振动并闪烁时，请连续点击几下。</string>
     <string name="appinstaller_install">安装</string>
-    <string name="discovery_connected_devices_hint">请设置并使您的设备可被发现。 当前连接的设备可能不会被发现。 对于Android 6及更高版本，您需要启用位置信息（如GPS）。 若禁用权限，Gadgetbridge可能会崩溃并重新启动。 如果几分钟后没有找到设备，请重新启动您的移动设备后再试。</string>
+    <string name="discovery_connected_devices_hint">请设置并使您的设备可被发现。 当前连接的设备可能不会被发现。 对于 Android 6 及更高版本，您需要启用位置信息（如 GPS ）。 若禁用权限， Gadgetbridge 可能会崩溃并重新启动。 如果几分钟后没有找到设备，请重新启动您的移动设备后再试。</string>
     <string name="discovery_note">注意:</string>
     <string name="candidate_item_device_image">设备图像</string>
     <string name="miband_prefs_alias">名称/别名</string>
@@ -303,7 +303,7 @@
     <string name="cannot_connect">无法连接: %1$s</string>
     <string name="installer_activity_unable_to_find_handler">无法找到安装此文件的处理程序。</string>
     <string name="pbw_install_handler_unable_to_install">无法安装指定的文件: %1$s</string>
-    <string name="pbw_install_handler_hw_revision_mismatch">无法安装指定的固件: 它与您的Pebble硬件版本不符。</string>
+    <string name="pbw_install_handler_hw_revision_mismatch">无法安装指定的固件: 它与您的 Pebble 硬件版本不符。</string>
     <string name="installer_activity_wait_while_determining_status">正在确定安装状态, 请稍候…</string>
     <string name="notif_battery_low_title">电量不足！</string>
     <string name="notif_battery_low_percent">%1$s 剩余电量：%2$s%%</string>
@@ -321,7 +321,7 @@
     <string name="miband_fwinstaller_compatible_version">兼容版本</string>
     <string name="miband_fwinstaller_untested_version">未经测试的版本!</string>
     <string name="fwappinstaller_connection_state">已连接设备：%1$s</string>
-    <string name="pbw_installhandler_pebble_firmware">Pebble固件 %1$s</string>
+    <string name="pbw_installhandler_pebble_firmware">Pebble 固件 %1$s</string>
     <string name="pbwinstallhandler_correct_hw_revision">正确的硬件修订</string>
     <string name="pbwinstallhandler_incorrect_hw_revision">硬件版本不匹配！</string>
     <string name="pbwinstallhandler_app_item">%1$s (%2$s)</string>
@@ -451,15 +451,15 @@
 
     <string name="title_activity_vibration">振动</string>
 
-    <string name="title_activity_pebble_pairing">Pebble配对中</string>
-    <string name="pebble_pairing_hint">您的 Android 设备上将会弹出一个配对对话框。如果没有出现, 请查看通知栏并接受配对请求。之后, 接受你的Pebble配对要求。</string>
+    <string name="title_activity_pebble_pairing">Pebble 配对中</string>
+    <string name="pebble_pairing_hint">您的 Android 设备上将会弹出一个配对对话框。如果没有出现, 请查看通知栏并接受配对请求。之后, 接受你的 Pebble 配对要求。</string>
 
-    <string name="weather_notification_label">请确保在天气通知应用程序中启用此外观，以获取您的Pebble上的天气信息。
-\n
-\n此处不需要配置。
-\n
-\n启用Pebble上的天气应用程序可以从“应用程序管理”中获得。
-\n
+    <string name="weather_notification_label">请确保在天气通知应用程序中启用此外观，以获取您的 Pebble 上的天气信息。 
+\n 
+\n此处不需要配置。 
+\n 
+\n启用 Pebble 上的天气应用程序可以从“应用程序管理”中获得。 
+\n 
 \n支持的表盘将会自动显示天气。</string>
     <string name="pref_title_setup_bt_pairing">启用蓝牙配对</string>
     <string name="pref_summary_setup_bt_pairing">如果连接有问题，请停用</string>
@@ -513,15 +513,15 @@
     <string name="kind_watchface">表盘</string>
 
     <string name="appmanager_cached_watchapps_watchfaces">在内存缓冲区中的应用程序</string>
-    <string name="pref_title_canned_messages_set">在Pebble上升级</string>
+    <string name="pref_title_canned_messages_set">在 Pebble 上升级</string>
 
     <string name="pref_screen_vibration_profile">振动配置</string>
 
     <string name="vibration_profile_ring">响铃</string>
     <string name="mi2_prefs_button_press_broadcast">要发送的广播消息</string>
     <string name="devicetype_pebble">Pebble</string>
-    <string name="pref_summary_pebble_forcele">使用实验性Pebble LE以支持所有Pebble，代替BT经典连接。 这首先需要以非LE配对，然后以Pebble LE连接</string>
-    <string name="pref_summary_pebble_mtu_limit">如果您的Pebble 2 / Pebble LE无法正常工作，请尝试使用此设置来限制MTU（有效范围20-512）</string>
+    <string name="pref_summary_pebble_forcele">使用实验性 Pebble LE 以支持所有 Pebble ，代替 BT 经典连接。 这首先需要以非 LE 配对，然后以 Pebble LE 连接</string>
+    <string name="pref_summary_pebble_mtu_limit">如果您的 Pebble 2 / Pebble LE 无法正常工作，请尝试使用此设置来限制 MTU （有效范围 20-512 ）</string>
     <string name="pref_header_auto_export">自动导出</string>
     <string name="pref_title_auto_export_enabled">启用自动导出</string>
     <string name="pref_title_auto_export_location">导出位置</string>
@@ -681,7 +681,7 @@
     <string name="pref_summary_contextual_arabic">启用此项以支持阿拉伯语语境</string>
     <string name="preferences_rtl_settings">从右到左支持</string>
     <string name="share_log">分享日志</string>
-    <string name="share_log_warning">请记住，Gadgetbridge 的日志文件包含许多个人信息，包括但不限于健康信息、独有身份（包括设备的MAC地址），音乐首选项等等。请在将日志发送到公共列表前仔细修改和删除这些信息。</string>
+    <string name="share_log_warning">请记住，Gadgetbridge 的日志文件包含许多个人信息，包括但不限于健康信息、独有身份（包括设备的 MAC 地址），音乐首选项等等。请在将日志发送到公共列表前仔细修改和删除这些信息。</string>
     <string name="warning">警告！</string>
     <string name="no_data">没有数据</string>
 
