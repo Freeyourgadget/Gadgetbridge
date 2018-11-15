@@ -230,7 +230,7 @@
     <string name="pairing_already_bonded">已与 %1$s (%2$s) 绑定，正在连接…</string>
     <string name="message_cannot_pair_no_mac">没有 MAC 地址通过, 不能配对。</string>
     <string name="preferences_category_device_specific_settings">设备特定设置</string>
-    <string name="preferences_miband_settings">小米手环/Amazfit手表设置</string>
+    <string name="preferences_miband_settings">小米手环/米动手环设置</string>
     <string name="preferences_amazfitbip_settings">米动手表青春版设置</string>
     <string name="male">男</string>
     <string name="female">女</string>
@@ -576,7 +576,7 @@
 
     <string name="preferences_miband2_settings">小米手环２ 设置</string>
     <string name="preferences_miband3_settings">小米手环３ 设置</string>
-    <string name="preferences_amazfitcor_settings">Amazfit Cor 设置</string>s
+    <string name="preferences_amazfitcor_settings">米动 Cor 设置</string>s
     <string name="horizontal">横向</string>
     <string name="vertical">纵向</string>
     <string name="watch9_pairing_tap_hint">当您的手环震动时，晃动设备或者按下按钮。</string>
