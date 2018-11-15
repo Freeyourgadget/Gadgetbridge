@@ -86,7 +86,9 @@ public class NotificationListener extends NotificationListenerService {
     public static final String ACTION_REPLY
             = "nodomain.freeyourgadget.gadgetbridge.notificationlistener.action.reply";
 
-    private LimitedQueue mActionLookup = new LimitedQueue(16);
+    private LimitedQueue mActionLookup = new LimitedQueue(32);
+    private LimitedQueue mPackageLookup = new LimitedQueue(64);
+    private LimitedQueue mNotificationHandleLookup = new LimitedQueue(128);
 
     private HashMap<String, Long> notificationBurstPrevention = new HashMap<>();
     private HashMap<String, Long> notificationOldRepeatPrevention = new HashMap<>();
@@ -96,39 +98,58 @@ public class NotificationListener extends NotificationListenerService {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            if (action == null) {
+                LOG.warn("no action");
+                return;
+            }
+
+            int handle = (int) intent.getLongExtra("handle", -1);
             switch (action) {
                 case GBApplication.ACTION_QUIT:
                     stopSelf();
                     break;
-                case ACTION_MUTE:
+
                 case ACTION_OPEN: {
                     StatusBarNotification[] sbns = NotificationListener.this.getActiveNotifications();
-                    int handle = (int) intent.getLongExtra("handle", -1);
+                    Long ts = (Long) mNotificationHandleLookup.lookup(handle);
+                    if (ts == null) {
+                        LOG.info("could not lookup handle for open action");
+                        break;
+                    }
+
                     for (StatusBarNotification sbn : sbns) {
-                        if ((int) sbn.getPostTime() == handle) {
-                            if (action.equals(ACTION_OPEN)) {
-                                try {
-                                    PendingIntent pi = sbn.getNotification().contentIntent;
-                                    if (pi != null) {
-                                        pi.send();
-                                    }
-                                } catch (PendingIntent.CanceledException e) {
-                                    e.printStackTrace();
+                        if (sbn.getPostTime() == ts) {
+                            try {
+                                PendingIntent pi = sbn.getNotification().contentIntent;
+                                if (pi != null) {
+                                    pi.send();
                                 }
-                            } else {
-                                // ACTION_MUTE
-                                LOG.info("going to mute " + sbn.getPackageName());
-                                GBApplication.addAppToNotifBlacklist(sbn.getPackageName());
+                            } catch (PendingIntent.CanceledException e) {
+                                e.printStackTrace();
                             }
                         }
                     }
                     break;
                 }
+                case ACTION_MUTE:
+                    String packageName = (String) mPackageLookup.lookup(handle);
+                    if (packageName == null) {
+                        LOG.info("could not lookup handle for mute action");
+                        break;
+                    }
+
+                    LOG.info("going to mute " + packageName);
+                    GBApplication.addAppToNotifBlacklist(packageName);
+                    break;
                 case ACTION_DISMISS: {
                     StatusBarNotification[] sbns = NotificationListener.this.getActiveNotifications();
-                    int handle = (int) intent.getLongExtra("handle", -1);
+                    Long ts = (Long) mNotificationHandleLookup.lookup(handle);
+                    if (ts == null) {
+                        LOG.info("could not lookup handle for dismiss action");
+                        break;
+                    }
                     for (StatusBarNotification sbn : sbns) {
-                        if ((int) sbn.getPostTime() == handle) {
+                        if (sbn.getPostTime() == ts) {
                             if (GBApplication.isRunningLollipopOrLater()) {
                                 String key = sbn.getKey();
                                 NotificationListener.this.cancelNotification(key);
@@ -146,8 +167,7 @@ public class NotificationListener extends NotificationListenerService {
                     NotificationListener.this.cancelAllNotifications();
                     break;
                 case ACTION_REPLY:
-                    int id = (int)intent.getLongExtra("handle", -1);
-                    NotificationCompat.Action wearableAction = (NotificationCompat.Action) mActionLookup.lookup(id);
+                    NotificationCompat.Action wearableAction = (NotificationCompat.Action) mActionLookup.lookup(handle);
                     String reply = intent.getStringExtra("reply");
                     if (wearableAction != null) {
                         PendingIntent actionIntent = wearableAction.getActionIntent();
@@ -162,14 +182,13 @@ public class NotificationListener extends NotificationListenerService {
                         try {
                             LOG.info("will send exec intent to remote application");
                             actionIntent.send(context, 0, localIntent);
-                            mActionLookup.remove(id);
+                            mActionLookup.remove(handle);
                         } catch (PendingIntent.CanceledException e) {
                             LOG.warn("replyToLastNotification error: " + e.getLocalizedMessage());
                         }
                     }
                     break;
             }
-
         }
     };
 
@@ -218,6 +237,18 @@ public class NotificationListener extends NotificationListenerService {
                 return;
             }
         }
+
+        // Ignore too frequent notifications, according to user preference
+        long min_timeout = prefs.getInt("notifications_timeout", 0) * 1000;
+        long cur_time = System.currentTimeMillis();
+        if (notificationBurstPrevention.containsKey(source)) {
+            long last_time = notificationBurstPrevention.get(source);
+            if (cur_time - last_time < min_timeout) {
+                LOG.info("Ignoring frequent notification, last one was " + (cur_time - last_time) + "ms ago");
+                return;
+            }
+        }
+
         NotificationSpec notificationSpec = new NotificationSpec();
 
         // determinate Source App Name ("Label")
@@ -269,37 +300,51 @@ public class NotificationListener extends NotificationListenerService {
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender(notification);
         List<NotificationCompat.Action> actions = wearableExtender.getActions();
 
+
+        if (actions.size() == 0 && NotificationCompat.isGroupSummary(notification)) { //this could cause #395 to come back
+            LOG.info("Not forwarding notification, FLAG_GROUP_SUMMARY is set and no wearable action present. Notification flags: " + notification.flags);
+            return;
+        }
+
         notificationSpec.attachedActions = new ArrayList<>();
+
+        // DISMISS action
+        NotificationSpec.Action dismissAction = new NotificationSpec.Action();
+        dismissAction.title = "Dismiss";
+        dismissAction.type = NotificationSpec.Action.TYPE_SYNTECTIC_DISMISS;
+        notificationSpec.attachedActions.add(dismissAction);
+
         for (NotificationCompat.Action act : actions) {
             if (act != null) {
                 NotificationSpec.Action wearableAction = new NotificationSpec.Action();
                 wearableAction.title = act.getTitle().toString();
                 if(act.getRemoteInputs()!=null) {
-                    wearableAction.isReply = true;
+                    wearableAction.type = NotificationSpec.Action.TYPE_WEARABLE_REPLY;
+                } else {
+                    wearableAction.type = NotificationSpec.Action.TYPE_WEARABLE_SIMPLE;
                 }
-                notificationSpec.flags |= NotificationSpec.FLAG_WEARABLE_ACTIONS;
+
                 notificationSpec.attachedActions.add(wearableAction);
                 mActionLookup.add((notificationSpec.getId()<<4) + notificationSpec.attachedActions.size(), act);
                 LOG.info("found wearable action: " + notificationSpec.attachedActions.size() + " - "+ act.getTitle() + "  " + sbn.getTag());
             }
         }
 
+        // OPEN action
+        NotificationSpec.Action openAction = new NotificationSpec.Action();
+        openAction.title = getString(R.string._pebble_watch_open_on_phone);
+        openAction.type = NotificationSpec.Action.TYPE_SYNTECTIC_OPEN;
+        notificationSpec.attachedActions.add(openAction);
 
-        if ((notificationSpec.flags & NotificationSpec.FLAG_WEARABLE_ACTIONS) == 0 && NotificationCompat.isGroupSummary(notification)) { //this could cause #395 to come back
-            LOG.info("Not forwarding notification, FLAG_GROUP_SUMMARY is set and no wearable action present. Notification flags: " + notification.flags);
-            return;
-        }
+        // MUTE action
+        NotificationSpec.Action muteAction = new NotificationSpec.Action();
+        muteAction.title = getString(R.string._pebble_watch_mute);
+        muteAction.type = NotificationSpec.Action.TYPE_SYNTECTIC_MUTE;
+        notificationSpec.attachedActions.add(muteAction);
 
-        // Ignore too frequent notifications, according to user preference
-        long min_timeout = prefs.getInt("notifications_timeout", 0) * 1000;
-        long cur_time = System.currentTimeMillis();
-        if (notificationBurstPrevention.containsKey(source)) {
-            long last_time = notificationBurstPrevention.get(source);
-            if (cur_time - last_time < min_timeout) {
-                LOG.info("Ignoring frequent notification, last one was " + (cur_time - last_time) + "ms ago");
-                return;
-            }
-        }
+        mNotificationHandleLookup.add(notificationSpec.getId(), sbn.getPostTime()); // for both DISMISS and OPEN
+        mPackageLookup.add(notificationSpec.getId(), sbn.getPackageName()); // for MUTE
+
         notificationBurstPrevention.put(source, cur_time);
         notificationOldRepeatPrevention.put(source, notification.when);
 
@@ -331,6 +376,9 @@ public class NotificationListener extends NotificationListenerService {
 
     private boolean isServiceRunning() {
         ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        if (manager == null) {
+            return false;
+        }
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (DeviceCommunicationService.class.getName().equals(service.service.getClassName())) {
                 return true;
@@ -401,7 +449,9 @@ public class NotificationListener extends NotificationListenerService {
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
-        if (shouldIgnore(sbn) || true)  // FIXME: DISABLED for now
+        // FIXME: DISABLED for now
+        /*
+        if (shouldIgnore(sbn))
             return;
 
         Prefs prefs = GBApplication.getPrefs();
@@ -409,8 +459,10 @@ public class NotificationListener extends NotificationListenerService {
             LOG.info("notification removed, will ask device to delete it");
             GBApplication.deviceService().onDeleteNotification((int) sbn.getPostTime());
         }
+        */
     }
 
+    /*
     private void dumpExtras(Bundle bundle) {
         for (String key : bundle.keySet()) {
             Object value = bundle.get(key);
@@ -420,6 +472,7 @@ public class NotificationListener extends NotificationListenerService {
             LOG.debug(String.format("Notification extra: %s %s (%s)", key, value.toString(), value.getClass().getName()));
         }
     }
+    */
 
     private boolean shouldIgnore(StatusBarNotification sbn) {
         /*
@@ -492,7 +545,7 @@ public class NotificationListener extends NotificationListenerService {
         Prefs prefs = GBApplication.getPrefs();
         if (!prefs.getBoolean("notifications_generic_whenscreenon", false)) {
             PowerManager powermanager = (PowerManager) getSystemService(POWER_SERVICE);
-            if (powermanager.isScreenOn()) {
+            if (powermanager != null && powermanager.isScreenOn()) {
 //                LOG.info("Not forwarding notification, screen seems to be on and settings do not allow this");
                 return true;
             }

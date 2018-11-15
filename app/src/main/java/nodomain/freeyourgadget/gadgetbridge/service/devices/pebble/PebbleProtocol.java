@@ -485,7 +485,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeNotification(NotificationSpec notificationSpec) {
-        boolean hasHandle = notificationSpec.sourceAppId != null;
         int id = notificationSpec.getId() != -1 ? notificationSpec.getId() : mRandom.nextInt();
         String title;
         String subtitle = null;
@@ -507,7 +506,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         if (mFwMajor >= 3 || mForceProtocol || notificationSpec.type != NotificationType.GENERIC_EMAIL) {
             // 3.x notification
             return encodeNotification(id, (int) (ts & 0xffffffffL), title, subtitle, notificationSpec.body,
-                    notificationSpec.sourceName, hasHandle, notificationSpec.type, notificationSpec.pebbleColor,
+                    notificationSpec.type, notificationSpec.pebbleColor,
                     notificationSpec.cannedReplies, notificationSpec.attachedActions);
         } else {
             // 1.x notification on FW 2.X
@@ -794,9 +793,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return encodeBlobdb(uuid, BLOBDB_INSERT, BLOBDB_PIN, buf.array());
     }
 
-    private byte[] encodeNotification(int id, int timestamp, String title, String subtitle, String body, String sourceName,
-                                      boolean hasHandle, NotificationType notificationType, byte backgroundColor,
-                                      String[] cannedReplies, ArrayList<Action> attachedActions) {
+    private byte[] encodeNotification(int id, int timestamp, String title, String subtitle, String body,
+                                      NotificationType notificationType, byte backgroundColor, String[] cannedReplies, ArrayList<Action> attachedActions) {
         final short NOTIFICATION_PIN_LENGTH = 46;
         final short ACTION_LENGTH_MIN = 6;
 
@@ -811,25 +809,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
         // Calculate length first
         int actions_count = 0;
         short actions_length = 0;
-        String dismiss_string;
-        String open_string = GBApplication.getContext().getString(R.string._pebble_watch_open_on_phone);
-        String mute_string = GBApplication.getContext().getString(R.string._pebble_watch_mute);
-        if (sourceName != null) {
-            mute_string += " " + sourceName;
-        }
-
-        byte dismiss_action_id;
-        if (hasHandle && !"ALARMCLOCKRECEIVER".equals(sourceName)) {
-            actions_count += 3;
-            dismiss_string = "Dismiss";
-            dismiss_action_id = 0x02;
-            actions_length += (short) (ACTION_LENGTH_MIN * 3 + dismiss_string.getBytes().length + open_string.getBytes().length + mute_string.getBytes().length);
-        } else {
-            actions_count += 1;
-            dismiss_string = "Dismiss all";
-            dismiss_action_id = 0x03;
-            actions_length += (short) (ACTION_LENGTH_MIN + dismiss_string.getBytes().length);
-        }
 
         int replies_length = 0;
         if (cannedReplies != null && cannedReplies.length > 0) {
@@ -846,7 +825,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             for (Action act : attachedActions) {
                 actions_count++;
                 actions_length += (short) (ACTION_LENGTH_MIN + act.title.getBytes().length);
-                if (act.isReply) {
+                if (act.type == Action.TYPE_WEARABLE_REPLY || act.type == Action.TYPE_SYNTECTIC_REPLY_PHONENR) {
                     actions_length += (short) replies_length + 3;  // 3 = attribute id (byte) + length(short)
                 }
             }
@@ -941,46 +920,42 @@ public class PebbleProtocol extends GBDeviceProtocol {
             buf.put(backgroundColor);
         }
 
-        // dismiss action
-        buf.put(dismiss_action_id);
-        buf.put(dismiss_action_type);
-        buf.put((byte) 0x01); // number attributes
-        buf.put((byte) 0x01); // attribute id (title)
-        buf.putShort((short) dismiss_string.getBytes().length);
-        buf.put(dismiss_string.getBytes());
-
-        // open and mute actions
-        if (hasHandle && !"ALARMCLOCKRECEIVER".equals(sourceName)) {
-            buf.put((byte) 0x01);
-            buf.put((byte) 0x02); // generic action
-            buf.put((byte) 0x01); // number attributes
-            buf.put((byte) 0x01); // attribute id (title)
-            buf.putShort((short) open_string.getBytes().length);
-            buf.put(open_string.getBytes());
-
-            buf.put((byte) 0x04);
-            buf.put((byte) 0x02); // generic action
-            buf.put((byte) 0x01); // number attributes
-            buf.put((byte) 0x01); // attribute id (title)
-            buf.putShort((short) mute_string.getBytes().length);
-            buf.put(mute_string.getBytes());
-        }
-
         if (attachedActions != null && attachedActions.size() > 0) {
             for (int ai = 0 ; ai<attachedActions.size(); ai++) {
                 Action act = attachedActions.get(ai);
-                buf.put((byte) (0x05 + ai));
-                if(act.isReply) {
+                switch (act.type) {
+                    case Action.TYPE_SYNTECTIC_OPEN:
+                        buf.put((byte) 0x01);
+                        break;
+                    case Action.TYPE_SYNTECTIC_DISMISS:
+                        buf.put((byte) 0x02);
+                        break;
+                    case Action.TYPE_SYNTECTIC_DISMISS_ALL:
+                        buf.put((byte) 0x03);
+                        break;
+                    case Action.TYPE_SYNTECTIC_MUTE:
+                        buf.put((byte) 0x04);
+                        break;
+                    default:
+                        buf.put((byte) (0x05 + ai));
+                }
+
+                if (act.type == Action.TYPE_WEARABLE_REPLY || act.type == Action.TYPE_SYNTECTIC_REPLY_PHONENR) {
                     buf.put((byte) 0x03); // reply action
                     buf.put((byte) 0x02); // number attributes
                 } else {
-                    buf.put((byte) 0x02); // generic action
+                    if (act.type == Action.TYPE_SYNTECTIC_DISMISS) {
+                        buf.put(dismiss_action_type);
+                    } else {
+                        buf.put((byte) 0x02); // generic action
+                    }
                     buf.put((byte) 0x01); // number attributes
                 }
+
                 buf.put((byte) 0x01); // attribute id (title)
                 buf.putShort((short) act.title.getBytes().length);
                 buf.put(act.title.getBytes());
-                if (act.isReply) {
+                if (act.type == Action.TYPE_WEARABLE_REPLY || act.type == Action.TYPE_SYNTECTIC_REPLY_PHONENR) {
                     buf.put((byte) 0x08); // canned replies
                     buf.putShort((short) replies_length);
                     if (cannedReplies != null && cannedReplies.length > 0) {

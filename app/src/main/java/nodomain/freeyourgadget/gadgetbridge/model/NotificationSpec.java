@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class NotificationSpec {
-    public static final int FLAG_WEARABLE_ACTIONS = 0x00000001;
-
     public int flags;
     private static final AtomicInteger c = new AtomicInteger((int) (System.currentTimeMillis()/1000));
     private int id;
@@ -64,7 +62,17 @@ public class NotificationSpec {
     }
 
     public static class Action implements Serializable {
-        public boolean isReply = false;
+        static final int TYPE_UNDEFINED = -1;
+        public static final int TYPE_WEARABLE_SIMPLE = 0;
+        public static final int TYPE_WEARABLE_REPLY = 1;
+        public static final int TYPE_SYNTECTIC_REPLY_PHONENR = 2;
+        public static final int TYPE_SYNTECTIC_DISMISS = 3;
+        public static final int TYPE_SYNTECTIC_DISMISS_ALL = 4;
+        public static final int TYPE_SYNTECTIC_MUTE = 5;
+        public static final int TYPE_SYNTECTIC_OPEN = 6;
+
+        public int type = TYPE_UNDEFINED;
+        public long handle;
         public String title;
     }
 }

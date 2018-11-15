@@ -376,7 +376,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 }
 
                 //TODO: check if at least one of the attached actions is a reply action instead?
-                if (((notificationSpec.flags & NotificationSpec.FLAG_WEARABLE_ACTIONS) > 0)
+                if ((notificationSpec.attachedActions != null && notificationSpec.attachedActions.size() > 0)
                         || (notificationSpec.type == NotificationType.GENERIC_SMS && notificationSpec.phoneNumber != null)) {
                     // NOTE: maybe not where it belongs
                     // I would rather like to save that as an array in SharedPreferences

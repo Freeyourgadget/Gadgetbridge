@@ -45,7 +45,7 @@ public class SMSReceiver extends BroadcastReceiver {
         }
         if ("when_screen_off".equals(prefs.getString("notification_mode_sms", "when_screen_off"))) {
             PowerManager powermanager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            if (powermanager.isScreenOn()) {
+            if (powermanager != null && powermanager.isScreenOn()) {
                 return;
             }
         }
@@ -74,10 +74,18 @@ public class SMSReceiver extends BroadcastReceiver {
                         notificationSpec.body = entry.getValue().toString();
                         notificationSpec.phoneNumber = originatingAddress;
                         notificationSpec.attachedActions = new ArrayList<>();
+
+                        // REPLY action
                         NotificationSpec.Action replyAction = new NotificationSpec.Action();
                         replyAction.title = "Reply";
-                        replyAction.isReply = true;
+                        replyAction.type = NotificationSpec.Action.TYPE_SYNTECTIC_REPLY_PHONENR;
                         notificationSpec.attachedActions.add(replyAction);
+
+                        // DISMISS ALL action
+                        NotificationSpec.Action dismissAllAction = new NotificationSpec.Action();
+                        dismissAllAction.title = "Dismiss All";
+                        dismissAllAction.type = NotificationSpec.Action.TYPE_SYNTECTIC_DISMISS_ALL;
+                        notificationSpec.attachedActions.add(dismissAllAction);
 
                         switch (GBApplication.getGrantedInterruptionFilter()) {
                             case NotificationManager.INTERRUPTION_FILTER_ALL:
