@@ -11,7 +11,7 @@
     <string name="controlcenter_find_device">查找丢失的设备</string>
     <string name="controlcenter_take_screenshot">截图</string>
     <string name="controlcenter_connect">连接</string>
-    <string name="controlcenter_disconnect">已断开</string>
+    <string name="controlcenter_disconnect">断开</string>
     <string name="controlcenter_delete_device">删除设备</string>
     <string name="controlcenter_delete_device_name">删除 %1$s</string>
     <string name="controlcenter_delete_device_dialogmessage">这将删除设备和所有相关的数据!</string>
