@@ -603,7 +603,7 @@
     <string name="japanese">Японский язык</string>
     <string name="norwegian_bokmal">Норвежский (литературный)</string>
     <string name="share_log">Поделиться лог-файлом</string>
-    <string name="share_log_warning">Файлы журнала Gadgetbridge могут содержать личную информацию, например уникальные идентификаторы: (устройство, MAC-адрес), предпочтения в музыке и т.д. Рассмотрите возможность редактирования файла и удаления этой информации перед отправкой файла общедоступное место.</string>
+    <string name="share_log_warning">Файлы журнала (log-файлы) Gadgetbridge могут содержать различную личную информацию, такую как уникальные идентификаторы (например, MAC-адрес устройства), информацию о музыкальных предпочтениях и т.д. Рекомендуется редактирование файла журнала и удаление личной информации перед отправкой в публичном отчете о проблеме.</string>
     <string name="warning">Внимание!</string>
     <string name="no_data">Нет данных</string>
 
@@ -622,7 +622,7 @@
     <string name="mi3_prefs_night_mode_summary">Автоматически снижать яркость экрана устройства по ночам</string>
 
     <string name="mi3_night_mode_sunset">На закате</string>
-    <string name="ok">ОК</string>
+    <string name="ok">Принято</string>
 
     <string name="controlcenter_change_led_color">Изменить цвет излучения светодиода</string>
     <string name="controlcenter_change_fm_frequency">Изменить частоту УКВ</string>
