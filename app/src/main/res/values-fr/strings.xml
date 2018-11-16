@@ -55,7 +55,7 @@
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Paramètres</string>
   <string name="pref_header_general">Paramètres généraux</string>
-  <string name="pref_title_general_autoconnectonbluetooth">Connecter votre appareil quand le Bluetooth est mis en marche</string>
+  <string name="pref_title_general_autoconnectonbluetooth">Connecter votre appareil quand le Bluetooth est activé</string>
   <string name="pref_title_general_autostartonboot">Démarrer automatiquement</string>
   <string name="pref_title_general_autoreconnect">Reconnexion automatique </string>
   <string name="pref_title_audio_player">Lecteur audio préféré</string>
