@@ -1,5 +1,8 @@
 ### Changelog
 
+#### Version 0.31.3
+* Pebble: Fix crash with DISMISS and OPEN actions
+
 #### Version 0.31.2
 * Pebble: Fix a regression that caused non-working mute, open and dismiss actions
 * Fix setting language to Czech manually

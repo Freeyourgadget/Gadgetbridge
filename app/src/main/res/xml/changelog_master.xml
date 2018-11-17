@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.31.3" versioncode="142">
+        <change>Pebble: Fix crash with DISMISS and OPEN actions</change>
+    </release>
     <release version="0.31.2" versioncode="141">
         <change>Pebble: Fix a regression that caused non-working mute, open and dismiss actions</change>
         <change>Fix setting language to Czech manually</change>

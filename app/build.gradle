@@ -25,8 +25,8 @@ android {
         targetSdkVersion 27
 
         // Note: always bump BOTH versionCode and versionName!
-        versionName "0.31.2"
-        versionCode 141
+        versionName "0.31.3"
+        versionCode 142
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
