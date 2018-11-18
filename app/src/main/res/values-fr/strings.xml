@@ -34,8 +34,8 @@
   <string name="appmanager_health_deactivate">Désactiver</string>
   <string name="appmanager_hrm_activate">Activer la mesure du rythme cardiaque</string>
   <string name="appmanager_hrm_deactivate">Désactiver la mesure du rythme cardiaque</string>
-  <string name="appmanager_weather_activate">Activer l\'application météo du système</string>
-  <string name="appmanager_weather_deactivate">Désactiver l\'application météo du système</string>
+  <string name="appmanager_weather_activate">Activer l\'application météo</string>
+  <string name="appmanager_weather_deactivate">Désactiver l\'application météo</string>
   <string name="appmanager_weather_install_provider">Installer l\'application de notification de la météo</string>
   <string name="app_configure">Configurer</string>
   <string name="app_move_to_top">Haut de page </string>
@@ -44,7 +44,7 @@
   <!--Strings related to CalBlacklist-->
   <string name="title_activity_calblacklist">Calendriers sur liste noire</string>
   <!--Strings related to FwAppInstaller-->
-  <string name="title_activity_fw_app_insaller">Installateur d\'applications/micrologiciel</string>
+  <string name="title_activity_fw_app_insaller">Installateur d\'applications/firmware</string>
   <string name="fw_upgrade_notice">Vous êtes sur le point d\'installer le micrologiciel %s à la place de celui qui est actuellement sur votre Mi Band.</string>
   <string name="fw_multi_upgrade_notice">Vous êtes sur le point d\'installer les micrologiciels %1$s et %2$s à la place de ceux qui sont actuellement sur votre Mi Band.</string>
   <string name="miband_firmware_known">Ce micrologiciel a été testé et est connu pour être compatible avec Gadgetbridge.</string>
@@ -130,9 +130,9 @@
   <string name="toast_enable_networklocationprovider">Veuillez activer la localisation réseau</string>
   <string name="toast_aqurired_networklocation">Emplacement obtenu</string>
   <string name="pref_title_pebble_forceprotocol">Forcer le protocole de notification</string>
-  <string name="pref_summary_pebble_forceprotocol">Cette option force l\'utilisation du plus récent protocole de notification qui dépend de la version du micrologiciel. ACTIVEZ-LA UNIQUEMENT SI VOUS SAVEZ CE QUE VOUS FAITES !</string>
+  <string name="pref_summary_pebble_forceprotocol">Cette option force l\'utilisation du protocole de notification le plus récent selon votre version du micrologiciel. A VOS PROPRES RISQUES!</string>
   <string name="pref_title_pebble_forceuntested">Activer les fonctionnalités non-testées</string>
-  <string name="pref_summary_pebble_forceuntested">Activer les fonctionnalités non-testées. ACTIVEZ UNIQUEMENT SI VOUS SAVEZ CE QUE VOUS FAITES !</string>
+  <string name="pref_summary_pebble_forceuntested">Activer les fonctionnalités non-testées. A VOS PROPRES RISQUES !</string>
   <string name="pref_title_pebble_forcele">Toujours préférer le BLE</string>
   <string name="pref_summary_pebble_forcele">Utiliser le support expérimental du LE pour toutes les Pebble au lieu du Bluetooth classique. Cela requiert le jumelage d\'une Pebble non LE, puis d\'une Pebble LE</string>
   <string name="pref_title_pebble_mtu_limit">Limite du GATT MTU de Pebble 2/LE</string>
@@ -241,7 +241,7 @@
   <string name="alarm_fri_short">Ven</string>
   <string name="alarm_sat_short">Sam</string>
   <string name="alarm_smart_wakeup">Réveil intelligent</string>
-  <string name="user_feedback_miband_set_alarms_failed">Une erreur s\'est produite lors du paramétrage des alarmes, veuillez réessayer !</string>
+  <string name="user_feedback_miband_set_alarms_failed">Une erreur s\'est produite lors du paramétrage des alarmes, veuillez réessayer.</string>
   <string name="user_feedback_miband_set_alarms_ok">Alarmes envoyées à l\'appareil.</string>
   <string name="chart_no_data_synchronize">Aucune donnée. Synchroniser l\'appareil ?</string>
   <string name="user_feedback_miband_activity_data_transfer">Sur le point de transférer %1$s de données à partir de %2$s</string>
@@ -289,7 +289,7 @@
   <string name="pref_summary_dont_ack_transfers">Les données d\'activités ne seront pas effacées du bracelet si elles ne sont pas confirmées. Utile si GB est utilisé avec d\'autres applications.</string>
   <string name="pref_summary_keep_data_on_device">Les données d\'activités seront conservées sur le Mi Band après la synchronisation. Utile si GB est utilisé avec d\'autres applications.</string>
   <string name="pref_title_low_latency_fw_update">Utilisez le mode basse latence pour installer un micrologiciel</string>
-  <string name="pref_summary_low_latency_fw_update">Cela peut aider sur les appareils où les installation de micrologiciel échouent</string>
+  <string name="pref_summary_low_latency_fw_update">Cela peut aider sur les appareils où les installations de micrologiciel échouent.</string>
   <string name="live_activity_steps_history">Historique de pas</string>
   <string name="live_activity_current_steps_per_minute">Pas/minute actuel</string>
   <string name="live_activity_total_steps">Nombre total de pas</string>
@@ -347,13 +347,12 @@ Temps de sommeil préféré en heures</string>
   <string name="charts_legend_heartrate">Fréquence cardiaque</string>
   <string name="live_activity_heart_rate">Fréquence cardiaque</string>
   <string name="pref_title_pebble_health_store_raw">Stockez les enregistrements brut dans la base de données</string>
-  <string name="pref_summary_pebble_health_store_raw">Si coché, les données sont stockées \"telles quelles\" et seront disponibles pour une interprétation ultérieure. 
-NOTE : la base de données sera bien évidement plus grande !</string>
+  <string name="pref_summary_pebble_health_store_raw">Si coché, les données \"brutes\" sont stockées pour une interprétation ultérieure, augmentant la taille de la base de données.</string>
   <string name="action_db_management">Gestion de base de données</string>
   <string name="title_activity_db_management">Gestion de base de données</string>
-  <string name="activity_db_management_import_export_explanation">Les opérations sur la base de donnée ont utilisé le chemin suivant sur votre appareil.
-\nCe chemin n\'est pas accessible par d\'autres applications Android ou par votre ordinateur.
-\nVous trouverez votre base de données (ou celle que vous souhaitez importer) ici :</string>
+  <string name="activity_db_management_import_export_explanation">Les opérations sur la base de données ont utilisé le chemin suivant sur votre appareil. 
+\nCe chemin est accessible par d\'autres applications Android ou par votre ordinateur. 
+\nVotre base de données (ou celle que vous souhaitez importer) se trouvera ici :</string>
   <string name="activity_db_management_merge_old_title">Effacer l\'ancienne base de données</string>
   <string name="dbmanagementactivvity_cannot_access_export_path">Impossible d\'accéder au fichier d\'export. Merci de contacter les développeurs.</string>
   <string name="dbmanagementactivity_exported_to">Exporter vers : %1$s</string>
@@ -379,7 +378,7 @@ NOTE : la base de données sera bien évidement plus grande !</string>
   <string name="title_activity_vibration">Vibration</string>
   <!--Strings related to Pebble Pairing Activity-->
   <string name="title_activity_pebble_pairing">Jumelage avec une Pebble</string>
-  <string name="pebble_pairing_hint">Une fenêtre de jumelage va s’afficher sur votre téléphone. Si cela ne se produit pas, regardez dans vos notifications et acceptez-la. Acceptez ensuite la demande de jumelage sur votre Pebble</string>
+  <string name="pebble_pairing_hint">Une fenêtre de jumelage va s’afficher sur votre téléphone. Si cela ne se produit pas, regardez dans vos notifications et acceptez-la. Acceptez ensuite la demande de jumelage sur votre Pebble.</string>
   <string name="weather_notification_label">Assurez vous que ce thème soit activé dans l\'application de notification de la météo pour recevoir les informations sur votre Pebble.\n\nAucune configuration n\'est requise.\n\nVous pouvez activer l\'application météo système de votre Pebble depuis la configuration de l\'application.\n\nLes watchfaces supportées afficheront la météo automatiquement.</string>
   <string name="pref_title_setup_bt_pairing">Activer le jumelage Bluetooth</string>
   <string name="pref_summary_setup_bt_pairing">Désactivez ceci si vous avez des problèmes de connexion</string>
@@ -430,7 +429,7 @@ NOTE : la base de données sera bien évidement plus grande !</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Délai maximum entre pressions en millisecondes</string>
     <string name="mi2_prefs_button_press_count_match_delay">Délai après action du bouton</string>
     <string name="mi2_prefs_button_press_count_match_delay_summary">Délai après une pression de bouton (le nombre est dans button_id intent extra) ou 0 pour immédiatement</string>
-    <string name="_pebble_watch_open_on_phone">Ouvrir sur le téléphone</string>
+    <string name="_pebble_watch_open_on_phone">Ouvrir sur le smartphone Android</string>
     <string name="_pebble_watch_mute">Silencieux</string>
     <string name="_pebble_watch_reply">Répondre</string>
 <string name="pref_title_pebble_enable_bgjs">Activer tâche de fond JS</string>
@@ -568,7 +567,7 @@ NOTE : la base de données sera bien évidement plus grande !</string>
     <string name="menuitem_more">Suite</string>
 <string name="controlcenter_change_led_color">Changer la couleur de la LED</string>
     <string name="controlcenter_change_fm_frequency">Changer la fréquence FM</string>
-    <string name="controlcenter_calibrate_device">Calibrer votre appareil</string>
+    <string name="controlcenter_calibrate_device">Calibrer l\'appareil</string>
 
 
     <string name="pref_title_notifications_timeout">Temps minimum entre deux notifications</string>
@@ -624,7 +623,7 @@ NOTE : la base de données sera bien évidement plus grande !</string>
     <string name="title_activity_watch9_calibration">Calibration de la Watch 9</string>
     <string name="preferences_rtl_settings">Support Droite-à-Gauche</string>
     <string name="share_log">Partager les logs</string>
-    <string name="share_log_warning">Veuillez garder en tête que les fichiers logs de Gadgetbridge peuvent contenir des tas d\'informations personnelles, incluant entre autre des données relatives à la santé, des identifiants uniques (telles que des adresses MAC), des préférences musicales, etc. Pensez à modifier le fichier et retirer ces informations personnelles avant toute publication sur un rapport de bug public.</string>
+    <string name="share_log_warning">Veuillez garder à l\'esprit que les fichiers logs de Gadgetbridge peuvent contenir des tas d\'informations personnelles, incluant entre autre des données relatives à la santé, des identifiants uniques (telles que des adresses MAC), des préférences musicales, etc. Pensez à modifier le fichier et retirer ces informations personnelles avant toute publication sur un rapport de bug public.</string>
     <string name="warning">Attention!</string>
     <string name="no_data">Pas de données</string>
 
@@ -634,4 +633,10 @@ NOTE : la base de données sera bien évidement plus grande !</string>
     <string name="pref_invalid_frequency_title">Fréquence non-valide</string>
     <string name="pref_invalid_frequency_message">Veuillez introduire une fréquence entre 87.5 et 108.0</string>
     <string name="language_and_region_prefs">Paramètres de langue et de région</string>
-</resources>
+<string name="norwegian_bokmal">Bokmål norvégien</string>
+    <string name="devicetype_roidmi">Roidmi</string>
+    <string name="devicetype_roidmi3">Roidmi 3</string>
+
+    <string name="pref_title_contextual_arabic">Arabe contextuel</string>
+    <string name="pref_summary_contextual_arabic">A cocher pour activer le support \"Arabe contextuel\"</string>
+    </resources>
