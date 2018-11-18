@@ -239,7 +239,7 @@
   <string name="dbaccess_error_executing">Erro ao executar \'%1$s\'</string>
   <string name="controlcenter_start_activitymonitor">A Sua Atividade (ALPHA)</string>
   <string name="cannot_connect">Não foi possível ligar: %1$s</string>
-  <string name="installer_activity_unable_to_find_handler">Não foi possível encontrar um manipulador para instalar o arquivo.</string>
+  <string name="installer_activity_unable_to_find_handler">Não foi possível encontrar um manipulador para instalar o ficheiro.</string>
   <string name="pbw_install_handler_unable_to_install">Não foi possível instalar o ficheiro: %1$s</string>
   <string name="pbw_install_handler_hw_revision_mismatch">Não foi possível instalar o firmware fornecido: ele não corresponde à versão de hardware do Pebble</string>
   <string name="installer_activity_wait_while_determining_status">Aguarde enquanto se determina o estado da instalação...</string>
@@ -253,7 +253,7 @@
   <string name="weekstepschart_steps_a_week">Passos na semana</string>
   <string name="activity_sleepchart_activity_and_sleep">A Sua Atividade e Sono</string>
   <string name="updating_firmware">Atualizando Firmware...</string>
-  <string name="fwapp_install_device_not_ready">Arquivo não pode ser instalado, o dispositivo não está pronto.</string>
+  <string name="fwapp_install_device_not_ready">O ficheiro não pode ser instalado, o dispositivo não está pronto.</string>
   <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
   <string name="miband_fwinstaller_compatible_version">Versão compatível</string>
   <string name="miband_fwinstaller_untested_version">Versão não testada!</string>
@@ -535,4 +535,3 @@
     <string name="pref_invalid_frequency_title">Frequência inválida</string>
     <string name="pref_invalid_frequency_message">Por favor introduza uma frequência entre 87.5 e 108.0</string>
 </resources>
-
