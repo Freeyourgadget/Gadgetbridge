@@ -114,7 +114,7 @@
     <string name="pref_title_call_privacy_mode">来电隐私模式</string>
     <string name="pref_call_privacy_mode_off">显示姓名和号码</string>
     <string name="pref_call_privacy_mode_name">隐藏姓名但显示号码</string>
-    <string name="pref_call_privacy_mode_number">显示号码但隐藏姓名</string>
+    <string name="pref_call_privacy_mode_number">隐藏号码但显示姓名</string>
     <string name="pref_call_privacy_mode_complete">隐藏姓名和号码</string>
 
     <string name="pref_title_weather_location">天气位置(CM/LOS)</string>
