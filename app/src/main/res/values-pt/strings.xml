@@ -9,6 +9,8 @@
   <string name="controlcenter_start_sleepmonitor">Monitor de sono (ALPHA)</string>
   <string name="controlcenter_find_device">Procurar dispositivo perdido</string>
   <string name="controlcenter_take_screenshot">Captura de ecrã</string>
+  <string name="controlcenter_change_led_color">Mudar cor do LED</string>
+  <string name="controlcenter_change_fm_frequency">Mudar frequência FM</string>
   <string name="controlcenter_disconnect">Desligar</string>
   <string name="controlcenter_delete_device">Apagar dispositivo</string>
   <string name="controlcenter_delete_device_name">Apagar %1$s</string>
@@ -523,4 +525,14 @@
     <string name="watch9_calibration_button">Calibrar</string>
     <string name="title_activity_watch9_pairing">Emparelhamento do Watch 9</string>
     <string name="title_activity_watch9_calibration">Calibração do Watch 9</string>
+
+
+    <!-- LED Color -->
+    <string name="preferences_led_color">Cor do LED</string>
+
+    <!-- FM transmitters -->
+    <string name="preferences_fm_frequency">Frequência FM</string>
+    <string name="pref_invalid_frequency_title">Frequência inválida</string>
+    <string name="pref_invalid_frequency_message">Por favor introduza uma frequência entre 87.5 e 108.0</string>
 </resources>
+

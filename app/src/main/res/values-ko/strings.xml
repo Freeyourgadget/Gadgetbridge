@@ -158,16 +158,16 @@
   <string name="installer_activity_wait_while_determining_status">설치 상태를 파악하는 동안 기다려주세요...</string>
   <string name="notif_battery_low_title">기기의 배터리 잔량이 적습니다!</string>
   <string name="notif_battery_low_percent">%1$s 배터리 남음: %2$s%%</string>
-  <string name="notif_battery_low_bigtext_last_charge_time">마지막 충전: %s \n</string>
+  <string name="notif_battery_low_bigtext_last_charge_time">마지막 충전: %s</string>
   <string name="notif_battery_low_bigtext_number_of_charges">충전 횟수: %s</string>
   <string name="sleepchart_your_sleep">당신의 수면</string>
-  <string name="weekstepschart_steps_a_week">주간 걸음 수</string>
+  <string name="weekstepschart_steps_a_week">"주간 걸음 수 "</string>
   <string name="activity_sleepchart_activity_and_sleep">당신의 활동과 수면</string>
-  <string name="updating_firmware">펌웨어 업데이트 중...</string>
+  <string name="updating_firmware">펌웨어 업데이트 중…</string>
   <string name="fwapp_install_device_not_ready">파일을 설치할 수 없습니다. 기기가 준비되어 있지 않습니다.</string>
   <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
   <string name="miband_fwinstaller_compatible_version">호환 버전</string>
-  <string name="miband_fwinstaller_untested_version">테스트를 거치지 않은 버전</string>
+  <string name="miband_fwinstaller_untested_version">테스트를 거치지 않은 버전!</string>
   <string name="fwappinstaller_connection_state">기기에 연결: %1$s</string>
   <string name="pbw_installhandler_pebble_firmware">Pebble 펌웨어 %1$s</string>
   <string name="pbwinstallhandler_correct_hw_revision">올바른 하드웨어 리비전</string>
@@ -371,7 +371,7 @@
     <string name="stats_x_axis_label">총 분수</string>
     <string name="stats_y_axis_label">분당 걸음 수</string>
 
-    <string name="weeksleepchart_sleep_a_week">주간 수면 시간</string>
+    <string name="weeksleepchart_sleep_a_week">"주간 수면 시간 "</string>
     <string name="weeksleepchart_today_sleep_description">오늘의 수면, 목표 수면 시간: %1$s</string>
     <string name="calories">칼로리</string>
     <string name="distance">거리</string>
@@ -556,4 +556,100 @@
     <string name="menuitem_settings">설정</string>
     <string name="menuitem_alipay">Alipay</string>
 
-    </resources>
+    <string name="controlcenter_change_led_color">LED 색상 변경</string>
+    <string name="controlcenter_change_fm_frequency">FM 주파수 변경</string>
+    <string name="controlcenter_calibrate_device">디바이스 조정하기</string>
+
+
+    <string name="blacklist_all_for_notifications">모든 알람 블랙리스트</string>
+    <string name="whitelist_all_for_notifications">모든 알람을 위한 화이트리스트</string>
+
+
+    <string name="fw_upgrade_notice_miband3">%s 펌웨어를 Mi Band 3에 설치하려고 합니다. 
+\n 
+\n.res 파일을 먼저 설치하고 .fw 파일을 설치하십시오. .fw 파일이 설치된 이후에 기기가 재시작될 것입니다. 
+\n 
+\n기존의 .res 파일과 설치하려는 .res 파일이 동일하다면, .res 파일을 다시 설치할 필요는 없습니다. 
+\n 
+\n테스트되지 않은 기능입니다. 기기가 고장날 가능성이 있습니다. 본인의 책임 하에 진행하십시오!</string>
+    <string name="pref_title_notifications_timeout">알람간 최소 시간</string>
+    <string name="pref_title_rtl">오른쪽에서 왼쪽으로</string>
+    <string name="pref_summary_rtl">만약 당신의 디바이스에서 좌우 언어가 보이지 않는다면 이것을 활성화하세요</string>
+    <string name="pref_rtl_max_line_length">좌우 최대 라인 길이</string>
+    <string name="pref_rtl_max_line_length_summary">텍스트 좌우 길이 조정은 분리된다</string>
+
+    <string name="pref_title_weather">날씨</string>
+    <string name="pref_title_pebble_gatt_clientonly">"GATT client 만 "</string>
+    <string name="pref_summary_pebble_gatt_clientonly">"이것은 Pebble2 만의 것이고 실험적입니다. 만약 연결 문제가 있다면 시도해보세요 "</string>
+    <string name="preferences_id115_settings">ID115 설정</string>
+    <string name="prefs_screen_orientation">화면 방향</string>
+
+    <string name="pref_header_auto_export">자동 추출</string>
+    <string name="pref_title_auto_export_enabled">자동 추출 활성화</string>
+    <string name="pref_title_auto_export_location">추출 장소</string>
+    <string name="pref_title_auto_export_interval">추출 간격</string>
+    <string name="pref_summary_auto_export_interval">"매 %d 시간 마다 추출 "</string>
+
+    <string name="pref_auto_fetch">활동 데이터 자동으로 가져오기</string>
+    <string name="pref_auto_fetch_summary">가져 오기는 화면 잠금 해제시 발생합니다. 잠금 메커니즘이 설정된 경우에만 작동합니다!</string>
+    <string name="pref_auto_fetch_limit_fetches">가져오는 최소 시간</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">매 %d 분마다 데이터 가져오기</string>
+
+    <string name="preferences_miband2_settings">Mi Band 2 설정</string>
+    <string name="preferences_miband3_settings">Mi Band 3 설정</string>
+    <string name="preferences_amazfitcor_settings">Amazfit Cor 설정</string>s
+    <string name="horizontal">수평</string>
+    <string name="vertical">수직</string>
+    <string name="watch9_pairing_tap_hint">시계가 진동하면 장치를 흔들거나 버튼을 누르십시오.</string>
+
+    <string name="notif_battery_low">%1$s 배터리 부족</string>
+    <string name="notif_battery_low_extended">%1$s 배터리 부족: %2$s</string>
+    <string name="notif_export_failed_title">데이터베이스 추출 실패! 당신의 설정을 확인해주세요.</string>
+    <string name="lack_of_sleep">수면 부족: %1$s</string>
+    <string name="overslept">늦잠: %1$s</string>
+    <string name="no_limit">제한 없음</string>
+    <string name="seconds_5">5초</string>
+    <string name="seconds_10">10초</string>
+    <string name="seconds_20">20초</string>
+    <string name="seconds_30">30초</string>
+    <string name="minutes_1">1분</string>
+    <string name="minutes_5">5분</string>
+    <string name="minutes_10">10분</string>
+    <string name="minutes_30">30분</string>
+
+    <string name="lack_of_step">걸음수 부족: %1$d</string>
+    <string name="overstep">걸음수 초과 : %1$d</string>
+    <string name="live_activity_max_heart_rate">현재 / 최대 심박수: %1$d / %2$d</string>
+    <string name="you_slept">당신의 수면시간은 %1$s 부터 %2$s 까지</string>
+    <string name="you_did_not_sleep">잠을 자지 않았습니다</string>
+    <string name="mi3_prefs_band_screen_unlock">밴드 스크린 언락</string>
+    <string name="mi3_prefs_band_screen_unlock_summary">슬어올려 밴드 스크린 화면 잠금 해제</string>
+    <string name="mi3_prefs_night_mode">야간 모드</string>
+    <string name="mi3_prefs_night_mode_summary">밤이 되면 자동으로 밴드 밝기 감소</string>
+
+    <string name="norwegian_bokmal">노르웨이</string>
+    <string name="spanish">스페인어</string>
+    <string name="russian">러시아어</string>
+    <string name="german">독일어</string>
+    <string name="italian">이탈리아어</string>
+    <string name="french">프랑스어(불어)</string>
+    <string name="polish">폴란드어</string>
+    <string name="korean">한국어</string>
+    <string name="japanese">일본어</string>
+
+    <string name="activity_prefs_charts">차트 설정</string>
+    <string name="activity_prefs_chart_max_heart_rate">최대 심박수</string>
+    <string name="activity_prefs_chart_min_heart_rate">최소 심박수</string>
+
+    <string name="ok">확인</string>
+
+    <string name="on">켜기</string>
+    <string name="mi3_night_mode_sunset">일몰</string>
+    <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
+    <string name="devicetype_watch9">"Watch 9 "</string>
+    <string name="devicetype_roidmi">"Roidmi "</string>
+    <string name="devicetype_roidmi3">"Roidmi 3 "</string>
+
+    <string name="menuitem_notifications">알람</string>
+    <string name="language_and_region_prefs">언어 및 지역 설정</string>
+</resources>

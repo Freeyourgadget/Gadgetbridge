@@ -18,6 +18,11 @@ package nodomain.freeyourgadget.gadgetbridge.service.btle.actions;
 
 import android.bluetooth.BluetoothGatt;
 
+/**
+ * An action that will cause the queue to sleep for the specified time.
+ * Note that this is usually a bad idea, since it will not be able to process messages
+ * during that time. It is also likely to cause race conditions.
+ */
 public class WaitAction extends PlainAction {
 
     private final int mMillis;

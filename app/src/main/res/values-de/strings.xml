@@ -45,15 +45,15 @@
   <string name="title_activity_calblacklist">Blockierte Kalenderbenachrichtigungen</string>
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">FW/App Installer</string>
-  <string name="fw_upgrade_notice">Es soll die Firmware %s anstelle der aktuell installierten Version auf das Mi Band gespielt werden.</string>
+  <string name="fw_upgrade_notice">Es soll die Firmware %s anstelle der aktuell installierten Version auf das Mi Band installiert werden.</string>
   <string name="fw_multi_upgrade_notice">Es sollen die Firmwares %1$s und %2$s anstelle der aktuell installierten Versionen auf das Mi Band gespielt werden.</string>
   <string name="miband_firmware_known">Diese Firmware ist getestet worden und ist mit Gadgetbridge kompatibel.</string>
   <string name="miband_firmware_unknown_warning">Diese Firmware ist nicht getestet und könnte inkompatibel mit Gadgetbridge sein.\n\nEs wird nicht empfohlen, sie auf dem Mi Band zu installieren!</string>
-  <string name="miband_firmware_suggest_whitelist">Wenn du dennoch fortfahren möchtest und das Gerät anschliessend korrekt funktioniert, melde bitte den Gadgetbridge Entwicklern, dass diese Firmwareversion %s funktioniert</string>
+  <string name="miband_firmware_suggest_whitelist">Wenn du dennoch fortfahren möchtest und das Gerät anschliessend korrekt funktioniert, melde bitte den Gadgetbridge-Entwicklern, dass diese Firmwareversion %s funktioniert</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Einstellungen</string>
   <string name="pref_header_general">Allgemeine Einstellungen</string>
-  <string name="pref_title_general_autoconnectonbluetooth">Verbinde, wenn Bluetooth eingeschaltet wird</string>
+  <string name="pref_title_general_autoconnectonbluetooth">Verbinde mit Gadgetbridge, wenn Bluetooth eingeschaltet wird</string>
   <string name="pref_title_general_autostartonboot">Automatisch starten</string>
   <string name="pref_title_general_autoreconnect">Verbindung automatisch wiederherstellen</string>
   <string name="pref_title_audio_player">Bevorzugter Audioplayer</string>
@@ -130,7 +130,7 @@
   <string name="pref_title_pebble_forceprotocol">Benachrichtigungsprotokoll erzwingen</string>
   <string name="pref_summary_pebble_forceprotocol">Diese Option erzwingt das neuste Benachrichtigungsprotokoll abhängig von der Firmwareversion. NUR EINSCHALTEN, WENN DU WEISST, WAS DU TUST!</string>
   <string name="pref_title_pebble_forceuntested">Ungetestete Features freischalten</string>
-  <string name="pref_summary_pebble_forceuntested">Schaltet ungetetestete Features frei. NUR EINSCHALTEN, WENN DU WEISST WAS DU TUST!</string>
+  <string name="pref_summary_pebble_forceuntested">Schaltet ungetestete Features frei. NUR EINSCHALTEN, WENN DU WEISST WAS DU TUST!</string>
   <string name="pref_title_pebble_forcele">BLE immer bevorzugen</string>
   <string name="pref_summary_pebble_forcele">Nutze den experimentellen LE support für alle Pebbles anstelle von klassischem BT. Setzt voraus, dass die \"Pebble LE\" gekoppelt wird, nachdem die nicht-LE Pebble einmal verbunden war.</string>
   <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU Limit</string>
@@ -285,15 +285,15 @@
   <string name="liveactivity_live_activity">Live Aktivität</string>
   <string name="weeksteps_today_steps_description">Schritte heute, Ziel: %1$s</string>
   <string name="pref_title_dont_ack_transfer">Transfer von Aktivitätsdaten nicht bestätigen (kein ACK)</string>
-  <string name="pref_summary_dont_ack_transfers">Wenn der Transfer der Aktivitätsdaten nicht bestätigt wird, werden die Daten nicht auf dem Mi Band gelöscht. Das ist sinnvoll, wenn neben Gadgetbridge noch andere Apps auf das Mi Band zugreifen.</string>
-  <string name="pref_summary_keep_data_on_device">Aktivitätsdaten verbleiben auf dem Mi Band, auch nach der Synchronisierung. Hilfreich, wenn das Mi Band mit weiteren Apps verwendet wird.</string>
+  <string name="pref_summary_dont_ack_transfers">Wenn der Transfer der Aktivitätsdaten nicht bestätigt wird, werden die Daten nicht auf dem MiBand gelöscht. Das ist sinnvoll, wenn neben Gadgetbridge noch andere Apps auf das MiBand zugreifen.</string>
+  <string name="pref_summary_keep_data_on_device">Aktivitätsdaten verbleiben auf dem MiBand, auch nach der Synchronisierung. Hilfreich, wenn das MiBand mit weiteren Apps verwendet wird.</string>
   <string name="pref_title_low_latency_fw_update">Benutze Modus mit niedriger Latenz für Firmware-Updates</string>
   <string name="pref_summary_low_latency_fw_update">Dies kann bei Geräten helfen, bei denen Firmwareupdates fehlschlagen</string>
   <string name="live_activity_steps_history">Schritteverlauf</string>
   <string name="live_activity_current_steps_per_minute">Akt. Schritte pro Minute</string>
   <string name="live_activity_total_steps">Schritte insgesamt</string>
   <string name="live_activity_steps_per_minute_history">Verlauf Schritte pro Minute</string>
-  <string name="live_activity_start_your_activity">Starte Deine Aktivität</string>
+  <string name="live_activity_start_your_activity">Starte deine Aktivität</string>
   <string name="abstract_chart_fragment_kind_activity">Aktivität</string>
   <string name="abstract_chart_fragment_kind_light_sleep">Leichter Schlaf</string>
   <string name="abstract_chart_fragment_kind_deep_sleep">Tiefschlaf</string>
@@ -306,7 +306,7 @@
   <string name="miband_prefs_reserve_alarm_calendar">Wecker für zukünftige Ereignisse vormerken</string>
   <string name="miband_prefs_hr_sleep_detection">Verwende den Herzfrequenzsensor, um die Schlaferkennung zu verbessern</string>
   <string name="miband_prefs_device_time_offset_hours">Zeitausgleich in Stunden (um den Schlaf von Schichtarbeitern zu erkennen)</string>
-  <string name="miband2_prefs_dateformat">Mi2: Datumsformat</string>
+  <string name="miband2_prefs_dateformat">Datumsformat</string>
   <string name="dateformat_time">Zeit</string>
   <string name="dateformat_date_time">Zeit &amp; Datum</string>
   <string name="mi2_prefs_goal_notification">Benachrichtigungen bei Schrittziel</string>
@@ -345,7 +345,7 @@
   <string name="charts_legend_heartrate">Puls</string>
   <string name="live_activity_heart_rate">Puls</string>
   <string name="pref_title_pebble_health_store_raw">Rohdaten in der Datenbank speichern</string>
-  <string name="pref_summary_pebble_health_store_raw">Wenn eingeschaltet, werden Daten so wie sie eingehen für eine spätere analyse gespeichert. Achtung: Die Datenbank wird dadurch größer!</string>
+  <string name="pref_summary_pebble_health_store_raw">Wenn eingeschaltet, werden Daten so wie sie eingehen für eine spätere Analyse gespeichert. Achtung: Die Datenbank wird dadurch grösser!</string>
   <string name="action_db_management">Datenbankverwaltung</string>
   <string name="title_activity_db_management">Datenbankverwaltung</string>
   <string name="activity_db_management_import_export_explanation">Die Datenbankoperationen verwenden den folgenden Pfad auf dem Gerät. \nDieser Pfad ist von anderen Android-Apps und ihrem Computer aus zugreifbar. \nSie finden die exportierte Datenbank hier (bzw. legen die zu importierende dort ab):</string>
@@ -353,7 +353,7 @@
   <string name="dbmanagementactivvity_cannot_access_export_path">Kann nicht auf den Exportpfad zugreifen. Bitte die Entwickler kontaktieren.</string>
   <string name="dbmanagementactivity_exported_to">Exportiert nach: %1$s</string>
   <string name="dbmanagementactivity_error_exporting_db">Fehler beim Exportieren der DB: %1$s</string>
-  <string name="dbmanagementactivity_error_exporting_shared">Fehler beim Exlortieren der Einstellungen: %1$s</string>
+  <string name="dbmanagementactivity_error_exporting_shared">Fehler beim Exportieren der Einstellungen: %1$s</string>
   <string name="dbmanagementactivity_import_data_title">Daten importieren?</string>
   <string name="dbmanagementactivity_overwrite_database_confirmation">Wirklich die aktuelle Datenbank überschreiben? Alle aktuellen Aktivitätsdaten (sofern vorhanden) gehen verloren.</string>
   <string name="dbmanagementactivity_import_successful">Import erfolgreich.</string>
@@ -374,7 +374,7 @@
   <string name="title_activity_vibration">Vibration</string>
   <!--Strings related to Pebble Pairing Activity-->
   <string name="title_activity_pebble_pairing">Pebble-Kopplung</string>
-  <string name="pebble_pairing_hint">Ein Kopplungsdialog sollte auf dem Android-Gerät aufpoppen. Falls das nicht passiert, schau in die Benachrichtigungen und akzeptiere die Kopplungsanfrage. Akzeptiere danach die Kopplungsanfrage auf Deiner Pebble</string>
+  <string name="pebble_pairing_hint">Ein Kopplungsdialog sollte auf dem Android-Gerät erscheinen. Falls das nicht passiert, schau in die Benachrichtigungen und akzeptiere die Kopplungsanfrage. Akzeptiere danach die Kopplungsanfrage auf deiner Pebble</string>
   <string name="weather_notification_label">Stelle sicher, dass dieses Skin in der Wetter-App aktiviert ist, damit du Wetterdaten auf deine Pebble erhältst. \n\nKeine Konfiguration nötig. \n\nDu kannst die System-Wetter-App deiner Pebble im App-Management aktivieren. \n\nUnterstützte Watchfaces werden die Wetterdaten automatisch anzeigen.</string>
   <string name="pref_title_setup_bt_pairing">Bluetooth-Kopplung aktivieren</string>
   <string name="pref_summary_setup_bt_pairing">Deaktiviere dies, falls du Probleme beim Verbinden hast</string>
@@ -387,7 +387,7 @@
   <string name="find_device_you_found_it">Gefunden!</string>
   <string name="miband2_prefs_timeformat">Mi2: Uhrzeitformat</string>
   <string name="mi2_fw_installhandler_fw53_hint">Installiere Version %1$s vor dem Installieren der Firmware!</string>
-  <string name="mi2_enable_text_notifications">Text Benachrichtigung</string>
+  <string name="mi2_enable_text_notifications">Text-Benachrichtigung</string>
   <string name="mi2_enable_text_notifications_summary"><![CDATA[Firmware >= 1.0.1.28 und installiertes Mili_pro.ft* benötigt.]]></string>
   <string name="off">Aus</string>
   <string name="mi2_dnd_off">Aus</string>
@@ -414,7 +414,7 @@
     <string name="mi2_prefs_button_actions">Aktion bei Tastendruck</string>
     <string name="mi2_prefs_button_actions_summary">Bestimmte Aktion bei Tastendruck auf dem Mi Band 2</string>
     <string name="mi2_prefs_button_press_count_summary">Anzahl der Tastendrücke, die einen Broadcast auslöst</string>
-    <string name="mi2_prefs_button_press_broadcast">Zu Sendende Broadcast-Nachricht</string>
+    <string name="mi2_prefs_button_press_broadcast">Zu sendende Broadcast-Nachricht</string>
     <string name="mi2_prefs_button_action">Aktiviere Tastenaktion</string>
     <string name="mi2_prefs_button_action_summary">Aktiviere Aktion bei einer bestimmten Anzahl an Tastendrücken</string>
     <string name="mi2_prefs_button_action_vibrate">Aktiviere Vibration</string>
@@ -453,7 +453,7 @@
     <string name="interval_one_hour">stündlich</string>
 
     <string name="automatic">automatisch</string>
-    <string name="activity_web_view">Web View Aktivität</string>
+    <string name="activity_web_view">Web-View Aktivität</string>
 
     <string name="pref_title_weather">Wetter</string>
     <string name="kind_firmware">Firmware</string>
@@ -572,4 +572,41 @@
     <string name="korean">Koreanisch</string>
     <string name="japanese">Japanisch</string>
 
+    <string name="controlcenter_change_led_color">LED Farbe wechseln</string>
+    <string name="controlcenter_change_fm_frequency">FM Frequenz wechseln</string>
+    <string name="pref_title_notifications_timeout">Minimale Zeit zwischen den Benachrichtigungen</string>
+    <string name="pref_title_rtl">Von rechts nach links</string>
+    <string name="pref_summary_rtl">Dies anschalten, wenn dein Gerät keine Sprachen von rechts nach links anzeigen kann</string>
+    <string name="pref_title_pebble_gatt_clientonly">Nur GATT-Client</string>
+    <string name="prefs_screen_orientation">Bildschirmausrichtung</string>
+
+    <string name="pref_auto_fetch_limit_fetches">Minimale Zeit zwischen den Abrufen</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Alle %d Minuten abrufen</string>
+
+    <string name="notif_battery_low">%1$s Batterie gering</string>
+    <string name="no_limit">Kein Limit</string>
+    <string name="seconds_5">5 Sekunden</string>
+    <string name="seconds_10">10 Sekunden</string>
+    <string name="seconds_20">20 Sekunden</string>
+    <string name="seconds_30">30 Sekunden</string>
+    <string name="minutes_1">1 Minute</string>
+    <string name="minutes_5">5 Minuten</string>
+    <string name="minutes_10">10 Minuten</string>
+    <string name="minutes_30">30 Minuten</string>
+
+    <string name="lack_of_step">Fehlende Schritte: %1$d</string>
+    <string name="overstep">Überschritte: %1$d</string>
+    <string name="live_activity_max_heart_rate">Aktueller / Maximaler Puls: %1$d / %2$d</string>
+    <string name="mi3_prefs_band_screen_unlock">MiBand-Bildschirm entsperren</string>
+    <string name="mi3_prefs_band_screen_unlock_summary">Wische nach oben, um den Bildschirm vom MiBand zu entriegeln.</string>
+    <string name="mi3_prefs_night_mode">Nachtmodus</string>
+    <string name="mi3_prefs_night_mode_summary">Niedrigere MiBand-Bildschirmhelligkeit nachts automatisch einstellen</string>
+
+    <string name="activity_prefs_charts">Diagrammeinstellungen</string>
+    <string name="activity_prefs_chart_max_heart_rate">Maximaler Puls</string>
+    <string name="activity_prefs_chart_min_heart_rate">Minimaler Puls</string>
+
+    <string name="ok">Akzeptieren</string>
+
+    <string name="mi3_night_mode_sunset">Bei Sonnenuntergang</string>
     </resources>

@@ -387,7 +387,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                         gbDevice.setState(GBDevice.State.WAITING_FOR_RECONNECT);
                         gbDevice.sendDeviceUpdateIntent(getContext());
 
-                        int delaySeconds = 1;
+                        long delaySeconds = 1;
                         while (reconnectAttempts-- > 0 && !mQuit && !mIsConnected) {
                             LOG.info("Trying to reconnect (attempts left " + reconnectAttempts + ")");
                             mIsConnected = connect();
@@ -464,7 +464,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                 mOutStream.flush();
             }
         } catch (IOException e) {
-            LOG.error("Error writing.", e.getMessage());
+            LOG.error("Error writing.", e);
         }
         try {
             Thread.sleep(100);

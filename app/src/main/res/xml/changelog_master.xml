@@ -1,5 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.31.3" versioncode="142">
+        <change>Pebble: Fix crash with DISMISS and OPEN actions</change>
+    </release>
+    <release version="0.31.2" versioncode="141">
+        <change>Pebble: Fix a regression that caused non-working mute, open and dismiss actions</change>
+        <change>Fix setting language to Czech manually</change>
+        <change>Ignore summary notification from K-9 Mail (caused notification spamming)</change>
+    </release>
+    <release version="0.31.1" versioncode="140">
+        <change>Pebble: Fix crash when no canned replies have been set</change>
+        <change>Pebble: Let the firmware show localized default canned replies if none have been set</change>
+        <change>Amazfit Bip: Fix importing GPS tracks that have been recorded with Firmware 1.1.5.02</change>
+        <change>Display measured hr value in debug screen</change>
+    </release>
+    <release version="0.31.0" versioncode="139">
+        <change>Pebble: Send all wearable notification actions (not only reply)</change>
+        <change>Pebble: Always allow reply action even if untested features are turned off</change>
+        <change>Pebble: Temporarily disable broken autoremove notification feature</change>
+        <change>Amazfit Bip: Allow flashing latest gps firmware (Mili_dth.gps)</change>
+        <change>Mi Band 3/Amazfit Bip/Amazfit Cor: Send Fahrenheit if units are set to imperial</change>
+        <change>Roidmi 3: Fix and enable support</change>
+        <change>Mi Band 3/Amazfit Bip: fix find phone crash</change>
+        <change>Prevent re-sending old notifications to the wearable</change>
+        <change>Enhancement and Fixes for Bengali Transliteration</change>
+        <change>Disable excessive logging in RTL support</change>
+    </release>
+    <release version="0.30.0" versioncode="138">
+        <change>Amazfit Bip + Mi Band 3: Support for right to left display (configurable) (#976)</change>
+        <change>Add Arabic, Bengali Farsi, Persian, Scandinavian transliteration</change>
+        <change>Add support for some Roidmi FM receivers</change>
+        <change>Mi Band 3: Allow enabling the "Workout" menu item</change>
+        <change>Mi Band 3: Support for night mode configuration</change>
+        <change>Huami devices: fix seldom activity/sports synchronization problem (#1264)</change>
+        <change>Preferences: Make minimum heart rate configurable (lower values will be disregarded)</change>
+        <change>Preferences: Configure minimum time between notifications</change>
+        <change>Preferences: Group language settings</change>
+        <change>Attempt to fix BLE connection issues on Samsung S devices</change>
+        <change>Week sleep and steps charts: display balance (actual value vs. desired value)</change>
+        <change>Live Activity: show current/maximum heart rate, display minute steps and total steps and more improvements</change>
+        <change>Live Activity: fix discrepancy between number of steps in Gadgetbridge and wearable device</change>
+        <change>Fix missing caller ID for incoming calls on Android 9</change>
+        <change>Support for easy sharing of log files via the Debug screen</change>
+        <change>Misc small bugfixes</change>
+    </release>
     <release version="0.29.1" versioncode="137">
         <change>Mi Band 3: Support setting language to to German, Italian, French, Polish, Japanese, Korean (read wiki)</change>
         <change>Mi Band 3: Support flashing latest RES files</change>

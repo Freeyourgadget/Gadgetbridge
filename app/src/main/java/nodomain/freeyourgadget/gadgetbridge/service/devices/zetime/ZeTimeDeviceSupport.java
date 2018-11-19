@@ -1,3 +1,20 @@
+/*  Copyright (C) 2015-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer,
+    Julien Pivotto, Kranz, Sebastian Kranz, Steffen Liebergeld
+
+    This file is part of Gadgetbridge.
+
+    Gadgetbridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Gadgetbridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.zetime;
 
 import android.bluetooth.BluetoothGatt;
@@ -183,14 +200,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             music[5] = musicState;
             System.arraycopy(songtitle.getBytes(StandardCharsets.UTF_8), 0, music, 6, songtitle.getBytes(StandardCharsets.UTF_8).length);
             music[music.length - 1] = ZeTimeConstants.CMD_END;
-            if (music != null) {
-                try {
-                    TransactionBuilder builder = performInitialized("setMusicStateInfo");
-                    replyMsgToWatch(builder, music);
-                    builder.queue(getQueue());
-                } catch (IOException e) {
-                    GB.toast(getContext(), "Error setting music state and info: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-                }
+            try {
+                TransactionBuilder builder = performInitialized("setMusicStateInfo");
+                replyMsgToWatch(builder, music);
+                builder.queue(getQueue());
+            } catch (IOException e) {
+                GB.toast(getContext(), "Error setting music state and info: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
             }
         }
     }
@@ -328,14 +343,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             }
             System.arraycopy(songtitle.getBytes(StandardCharsets.UTF_8), 0, music, 6, songtitle.getBytes(StandardCharsets.UTF_8).length);
             music[music.length - 1] = ZeTimeConstants.CMD_END;
-            if (music != null) {
-                try {
-                    TransactionBuilder builder = performInitialized("setMusicStateInfo");
-                    replyMsgToWatch(builder, music);
-                    builder.queue(getQueue());
-                } catch (IOException e) {
-                    GB.toast(getContext(), "Error setting music state and info: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-                }
+            try {
+                TransactionBuilder builder = performInitialized("setMusicStateInfo");
+                replyMsgToWatch(builder, music);
+                builder.queue(getQueue());
+            } catch (IOException e) {
+                GB.toast(getContext(), "Error setting music state and info: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
             }
         }
     }
@@ -362,15 +375,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         CalendarEvent[14] = (byte) calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length;
         System.arraycopy(calendarEventSpec.title.getBytes(StandardCharsets.UTF_8), 0, CalendarEvent, 15, calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length);
         CalendarEvent[CalendarEvent.length-1] = ZeTimeConstants.CMD_END;
-        if(CalendarEvent != null)
-        {
-            try {
-                TransactionBuilder builder = performInitialized("sendCalendarEvenr");
-                sendMsgToWatch(builder, CalendarEvent);
-                builder.queue(getQueue());
-            } catch (IOException e) {
-                GB.toast(getContext(), "Error sending calendar event: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-            }
+        try {
+            TransactionBuilder builder = performInitialized("sendCalendarEvenr");
+            sendMsgToWatch(builder, CalendarEvent);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error sending calendar event: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
     }
 
@@ -432,15 +442,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
         System.arraycopy(weatherSpec.location.getBytes(StandardCharsets.UTF_8), 0, weather, 25, weatherSpec.location.getBytes(StandardCharsets.UTF_8).length);
         weather[weather.length-1] = ZeTimeConstants.CMD_END;
-        if(weather != null)
-        {
-            try {
-                TransactionBuilder builder = performInitialized("sendWeahter");
-                sendMsgToWatch(builder, weather);
-                builder.queue(getQueue());
-            } catch (IOException e) {
-                GB.toast(getContext(), "Error sending weather: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-            }
+        try {
+            TransactionBuilder builder = performInitialized("sendWeahter");
+            sendMsgToWatch(builder, weather);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error sending weather: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
     }
 
@@ -603,15 +610,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 notification[5] = ZeTimeConstants.NOTIFICATION_SOCIAL;
                 break;
         }
-        if(notification != null)
-        {
         try {
             TransactionBuilder builder = performInitialized("sendNotification");
             sendMsgToWatch(builder, notification);
             builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error sending notification: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-        }
         }
     }
 

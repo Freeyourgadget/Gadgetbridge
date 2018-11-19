@@ -133,4 +133,12 @@ public abstract class GBDeviceProtocol {
     public byte[] encodeSendWeather(WeatherSpec weatherSpec) {
         return null;
     }
+
+    public byte[] encodeLedColor(int color) {
+        return null;
+    }
+
+    public byte[] encodeFmFrequency(float frequency) {
+        return null;
+    }
 }

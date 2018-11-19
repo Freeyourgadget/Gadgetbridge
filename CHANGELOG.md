@@ -1,5 +1,49 @@
 ### Changelog
 
+#### Version 0.31.3
+* Pebble: Fix crash with DISMISS and OPEN actions
+
+#### Version 0.31.2
+* Pebble: Fix a regression that caused non-working mute, open and dismiss actions
+* Fix setting language to Czech manually
+* Ignore summary notification from K-9 Mail (caused notification spamming)
+
+#### Version 0.31.1
+* Pebble: Fix crash when no canned replies have been set
+* Pebble: Let the firmware show localized default canned replies if none have been set
+* Amazfit Bip: Fix importing GPS tracks that have been recorded with Firmware 1.1.5.02
+* Display measured hr value in debug screen
+
+#### Version 0.31.0
+* Pebble: Send all wearable notification actions (not only reply)
+* Pebble: Always allow reply action even if untested features are turned off
+* Pebble: Temporarily disable broken autoremove notification feature
+* Amazfit Bip: Allow flashing latest gps firmware (Mili_dth.gps)
+* Mi Band 3/Amazfit Bip/Amazfit Cor: Send Fahrenheit if units are set to imperial
+* Roidmi 3: Fix and enable support
+* Mi Band 3/Amazfit Bip: fix find phone crash
+* Prevent re-sending old notifications to the wearable
+* Enhancement and Fixes for Bengali Transliteration
+* Disable excessive logging in RTL support
+
+#### Version 0.30.0
+* Amazfit Bip + Mi Band 3: Support for right to left display (configurable) (#976)
+* Add Arabic, Bengali Farsi, Persian, Scandinavian transliteration
+* Add support for some Roidmi FM receivers
+* Mi Band 3: Allow enabling the "Workout" menu item
+* Mi Band 3: Support for night mode configuration
+* Huami devices: fix seldom activity/sports synchronization problem (#1264)
+* Preferences: Make minimum heart rate configurable (lower values will be disregarded) 
+* Preferences: Configure minimum time between notifications
+* Preferences: Group language settings
+* Attempt to fix BLE connection issues on Samsung S devices
+* Week sleep and steps charts: display balance (actual value vs. desired value) 
+* Live Activity: show current/maximum heart rate, display minute steps and total steps and more improvements
+* Live Activity: fix discrepancy between number of steps in Gadgetbridge and wearable device
+* Fix missing caller ID for incoming calls on Android 9
+* Support for easy sharing of log files via the Debug screen
+* Misc small bugfixes
+
 #### Version 0.29.1
 * Mi Band 3: Support setting language to to German, Italian, French, Polish, Japanese, Korean (read wiki)
 * Mi Band 3: Support flashing latest RES files

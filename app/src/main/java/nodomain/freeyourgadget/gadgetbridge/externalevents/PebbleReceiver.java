@@ -62,7 +62,6 @@ public class PebbleReceiver extends BroadcastReceiver {
         }
 
         NotificationSpec notificationSpec = new NotificationSpec();
-        notificationSpec.id = -1;
 
         String notificationData = intent.getStringExtra("notificationData");
         try {

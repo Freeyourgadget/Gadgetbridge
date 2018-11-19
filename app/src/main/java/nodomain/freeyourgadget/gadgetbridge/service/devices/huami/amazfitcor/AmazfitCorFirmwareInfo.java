@@ -42,6 +42,7 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(54213, "1.0.6.76");
         crcToVersion.put(9458,  "1.0.7.52");
         crcToVersion.put(51575, "1.0.7.88");
+        crcToVersion.put(6346, "1.2.5.00");
 
         // resources
         crcToVersion.put(46341, "RES 1.0.5.60");
@@ -49,6 +50,7 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(64977, "RES 1.0.6.76");
         crcToVersion.put(60501, "RES 1.0.7.52-71");
         crcToVersion.put(31263, "RES 1.0.7.77-91");
+        crcToVersion.put(20920, "RES 1.2.5.00-65");
 
         // font
         crcToVersion.put(61054, "8");

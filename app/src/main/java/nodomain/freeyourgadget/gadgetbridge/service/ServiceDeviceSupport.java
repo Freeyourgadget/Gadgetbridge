@@ -378,4 +378,20 @@ public class ServiceDeviceSupport implements DeviceSupport {
         }
         delegate.onSendWeather(weatherSpec);
     }
+
+    @Override
+    public void onSetFmFrequency(float frequency) {
+        if (checkBusy("set frequency event")) {
+            return;
+        }
+        delegate.onSetFmFrequency(frequency);
+    }
+
+    @Override
+    public void onSetLedColor(int color) {
+        if (checkBusy("set led color event")) {
+            return;
+        }
+        delegate.onSetLedColor(color);
+    }
 }

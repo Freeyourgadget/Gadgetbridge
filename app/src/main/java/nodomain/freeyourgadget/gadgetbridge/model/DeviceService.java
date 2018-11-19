@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Frank Slezak,
-    ivanovlev, JohnnySun, Julien Pivotto, Kasha, Steffen Liebergeld
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, dakhnod,
+    Frank Slezak, ivanovlev, JohnnySun, Julien Pivotto, Kasha, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 
@@ -59,12 +59,13 @@ public interface DeviceService extends EventHandler {
     String ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT = PREFIX + ".action.realtime_hr_measurement";
     String ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT = PREFIX + ".action.enable_heartrate_sleep_support";
     String ACTION_SET_HEARTRATE_MEASUREMENT_INTERVAL = PREFIX + ".action.set_heartrate_measurement_intervarl";
-    String ACTION_HEARTRATE_MEASUREMENT = PREFIX + ".action.hr_measurement";
     String ACTION_ADD_CALENDAREVENT = PREFIX + ".action.add_calendarevent";
     String ACTION_DELETE_CALENDAREVENT = PREFIX + ".action.delete_calendarevent";
     String ACTION_SEND_CONFIGURATION = PREFIX + ".action.send_configuration";
     String ACTION_SEND_WEATHER = PREFIX + ".action.send_weather";
     String ACTION_TEST_NEW_FUNCTION = PREFIX + ".action.test_new_function";
+    String ACTION_SET_FM_FREQUENCY = PREFIX + ".action.set_fm_frequency";
+    String ACTION_SET_LED_COLOR = PREFIX + ".action.set_led_color";
     String EXTRA_NOTIFICATION_BODY = "notification_body";
     String EXTRA_NOTIFICATION_FLAGS = "notification_flags";
     String EXTRA_NOTIFICATION_ID = "notification_id";
@@ -75,6 +76,7 @@ public interface DeviceService extends EventHandler {
     String EXTRA_NOTIFICATION_SUBJECT = "notification_subject";
     String EXTRA_NOTIFICATION_TITLE = "notification_title";
     String EXTRA_NOTIFICATION_TYPE = "notification_type";
+    String EXTRA_NOTIFICATION_ACTIONS = "notification_actions";
     String EXTRA_NOTIFICATION_PEBBLE_COLOR = "notification_pebble_color";
     String EXTRA_FIND_START = "find_start";
     String EXTRA_VIBRATION_INTENSITY = "vibration_intensity";
@@ -106,6 +108,8 @@ public interface DeviceService extends EventHandler {
     String EXTRA_INTERVAL_SECONDS = "interval_seconds";
     String EXTRA_WEATHER = "weather";
     String EXTRA_RECORDED_DATA_TYPES = "data_types";
+    String EXTRA_FM_FREQUENCY = "fm_frequency";
+    String EXTRA_LED_COLOR = "led_color";
 
     /**
      * Use EXTRA_REALTIME_SAMPLE instead

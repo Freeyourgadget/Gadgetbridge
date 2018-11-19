@@ -203,4 +203,6 @@
     <string name="pref_title_location_latitude">Enlem</string>
     <string name="pref_title_location_longitude">Boylam</string>
     <string name="pref_title_location_keep_uptodate">Konumumu güncel tut</string>
+    <string name="controlcenter_change_led_color">"Türkçe "</string>
+    <string name="controlcenter_change_fm_frequency">Change FM Frequency</string>
     </resources>

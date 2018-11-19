@@ -17,15 +17,15 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
         minSdkVersion 19
         targetSdkVersion 27
 
         // Note: always bump BOTH versionCode and versionName!
-        versionName "0.29.1"
-        versionCode 137
+        versionName "0.31.3"
+        versionCode 142
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
@@ -81,13 +81,17 @@ dependencies {
     implementation 'net.e175.klaus:solarpositioning:0.0.9'
     // use pristine greendao instead of our custom version, since our custom jitpack-packaged
     // version contains way too much and our custom patches are in the generator only.
-    implementation 'org.greenrobot:greendao:2.2.1'
-    implementation 'org.apache.commons:commons-lang3:3.5'
-    implementation 'org.cyanogenmod:platform.sdk:6.0'
-    //    implementation project(":DaoCore")
+
     implementation 'com.twofortyfouram:android-plugin-client-sdk-for-locale:[4.0.3, 5.0['
     implementation 'com.twofortyfouram:android-plugin-host-sdk-for-locale:[2.0.3,3.0['
     implementation 'com.twofortyfouram:android-plugin-api-for-locale:[1.0.2,2.0['
+
+    implementation "org.greenrobot:greendao:2.2.1"
+    implementation "org.apache.commons:commons-lang3:3.5"
+    implementation "org.cyanogenmod:platform.sdk:6.0"
+    implementation 'com.jaredrummler:colorpicker:1.0.2'
+//    implementation project(":DaoCore")
+
 }
 
 preBuild.dependsOn(":GBDaoGenerator:genSources")
@@ -144,7 +148,7 @@ task findbugs(type: FindBugs) {
     effort = "default"
     reportLevel = "medium"
     excludeFilter = new File("${project.rootDir}/config/findbugs/findbugs-filter.xml")
-    classes = files("${project.rootDir}/app/build/intermediates/classes")
+    classes = files("${project.rootDir}/app/build/intermediates/javac/release/compileReleaseJavaWithJavac/classes")
     source = fileTree("src/main/java/")
     classpath = files()
     reports {

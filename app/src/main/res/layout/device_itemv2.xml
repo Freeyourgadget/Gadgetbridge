@@ -140,12 +140,57 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/device_fm_frequency_box"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/device_image"
+                android:layout_toEndOf="@id/device_battery_status_box"
+                android:layout_margin="4dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/device_fm_frequency"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="4dp"
+                    android:scaleType="fitXY"
+                    android:tint="@color/secondarytext"
+                    card_view:srcCompat="@drawable/ic_radio" />
+
+                <TextView
+                    android:id="@+id/fm_frequency"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:minWidth="36dp"
+                    android:textColor="@color/secondarytext"
+                    android:textStyle="bold"
+                    tools:text="107.8" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/device_led_color"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/device_image"
+                android:layout_margin="4dp"
+                android:layout_toEndOf="@id/device_fm_frequency_box"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:contentDescription="@string/controlcenter_take_screenshot"
+                android:padding="4dp"
+                android:scaleType="fitXY"
+                card_view:srcCompat="@drawable/ic_led_color"
+                android:focusable="true" />
+
+            <LinearLayout
                 android:id="@+id/device_action_fetch_activity_box"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/device_image"
                 android:layout_margin="4dp"
-                android:layout_toEndOf="@id/device_battery_status_box"
+                android:layout_toEndOf="@id/device_led_color"
                 android:gravity="center_vertical"
                 android:minWidth="36dp"
                 android:orientation="vertical">

@@ -397,4 +397,6 @@
   <string name="discovery_pair_question">Válaszd ki a Párosítást az eszköz párosításához. Ha ez nem sikerül, próbáld meg újra párosítás nélkül.</string>
   <string name="discovery_yes_pair">Párosítás</string>
   <string name="discovery_dont_pair">Nem párosított</string>
-</resources>
+<string name="action_donate">Támogatás</string>
+    <string name="controlcenter_connect">Csatlakoztatás</string>
+    </resources>

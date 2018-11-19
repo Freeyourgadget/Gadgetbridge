@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Vebryn
+    Gobbetti, Pavel Elagin, Vebryn
 
     This file is part of Gadgetbridge.
 
@@ -121,7 +121,7 @@ class ActivityAnalysis {
         for (ActivitySample sample : samples) {
             int steps = sample.getSteps();
             if (steps > 0) {
-                totalSteps += sample.getSteps();
+                totalSteps += steps;
             }
         }
         return totalSteps;

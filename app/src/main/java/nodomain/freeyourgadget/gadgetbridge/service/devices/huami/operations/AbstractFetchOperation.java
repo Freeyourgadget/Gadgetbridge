@@ -22,6 +22,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.SharedPreferences;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,18 +33,22 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbstractGattListenerWriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 /**
  * An operation that fetches activity data. For every fetch, a new operation must
@@ -87,6 +92,7 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
         }
         fetchCount++;
 
+        // TODO: this probably returns null when device is not connected/initialized yet!
         characteristicActivityData = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_5_ACTIVITY_DATA);
         builder.notify(characteristicActivityData, false);
 
@@ -136,6 +142,39 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
     protected abstract void handleActivityNotif(byte[] value);
 
     protected abstract void bufferActivityData(byte[] value);
+
+    protected void startFetching(TransactionBuilder builder, byte fetchType, GregorianCalendar sinceWhen) {
+        final String taskName = StringUtils.ensureNotNull(builder.getTaskName());
+        byte[] fetchBytes = BLETypeConversions.join(new byte[]{
+                        HuamiService.COMMAND_ACTIVITY_DATA_START_DATE,
+                        fetchType},
+                getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES));
+        builder.add(new AbstractGattListenerWriteAction(getQueue(), characteristicFetch, fetchBytes) {
+            @Override
+            protected boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+                UUID characteristicUUID = characteristic.getUuid();
+                if (HuamiService.UUID_UNKNOWN_CHARACTERISTIC4.equals(characteristicUUID)) {
+                    byte[] value = characteristic.getValue();
+
+                    if (ArrayUtils.equals(value, HuamiService.RESPONSE_ACTIVITY_DATA_START_DATE_SUCCESS, 0)) {
+                        handleActivityMetadata(value);
+                        TransactionBuilder newBuilder = createTransactionBuilder(taskName + " Step 2");
+                        newBuilder.notify(characteristicActivityData, true);
+                        newBuilder.write(characteristicFetch, new byte[]{HuamiService.COMMAND_FETCH_DATA});
+                        try {
+                            performImmediately(newBuilder);
+                        } catch (IOException ex) {
+                            GB.toast(getContext(), "Error fetching debug logs: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+                        }
+                        return true;
+                    } else {
+                        handleActivityMetadata(value);
+                    }
+                }
+                return false;
+            }
+        });
+    }
 
     protected void handleActivityMetadata(byte[] value) {
         if (value.length == 15) {

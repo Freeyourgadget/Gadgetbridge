@@ -3,7 +3,7 @@
   <string name="app_name">Gadgetbridge</string>
   <string name="title_activity_controlcenter">Gadgetbridge</string>
   <string name="action_settings">Налаштування</string>
-  <string name="action_debug">Зневадження</string>
+  <string name="action_debug">Відладка</string>
   <string name="action_quit">Вихід</string>
   <string name="controlcenter_fetch_activity_data">Синхронізувати</string>
   <string name="controlcenter_start_sleepmonitor">Аналіз сну (АЛЬФА)</string>
@@ -320,4 +320,78 @@
     <string name="miband2_prefs_dateformat">Mi2: Формат дати</string>
     <string name="DEVINFO_HR_VER">"HR: "</string>
     <string name="menuitem_alipay">Alipay</string>
-</resources>
+<string name="controlcenter_calibrate_device">Калібрувати пристрій</string>
+
+
+    <string name="pref_title_notifications_timeout">Мінімальний час між сповіщеннями</string>
+    <string name="pref_title_autoremove_notifications">Автоматично видаляти відхилені сповіщення</string>
+    <string name="pref_summary_autoremove_notifications">Сповіщення автоматично видаляються з Pebble коли звільняються з Android пристрою</string>
+
+    <string name="pref_title_pebble_privacy_mode">Приватний режим</string>
+    <string name="pref_pebble_privacy_mode_off">Звичайні сповіщення</string>
+    <string name="pref_pebble_privacy_mode_complete">Показувати лише іконку сповіщення</string>
+
+    <string name="pref_title_location_aquire">Отримати місцезнаходження</string>
+    <string name="pref_title_location_keep_uptodate">Оновлювати місцезнаходження</string>
+    <string name="pref_summary_location_keep_uptodate">Спробувати отримати поточне місцезнаходження під час виконання, використовувати збережене місце у випадку невдачі</string>
+
+    <string name="toast_enable_networklocationprovider">Будь ласка, включіть місце розташування мережі</string>
+    <string name="toast_aqurired_networklocation">місцезнаходження визначено</string>
+
+    <string name="pref_title_pebble_enable_applogs">Увімкнути логування додатку</string>
+    <string name="pref_title_pebble_enable_bgjs">Увімкнути фоновий JS</string>
+    <string name="prefs_title_all_day_heart_rate">Вимірювання серцевого ритму протягом дня</string>
+    <string name="prefs_screen_orientation">Орієнтація екрана</string>
+
+    <string name="pref_title_auto_export_enabled">Автоматичний експорт увімкнено</string>
+    <string name="tap_a_device_to_connect">Натисніть на пристрій для підключення</string>
+    <string name="preferences_miband2_settings">Налаштування Mi Band 2</string>
+    <string name="preferences_miband3_settings">Налаштування Mi Band 3</string>
+    <string name="preferences_amazfitbip_settings">Налаштування Amazfit Bip</string>
+    <string name="horizontal">Горизонтально</string>
+    <string name="vertical">Вертикально</string>
+    <string name="vibration_try">Спробувати</string>
+    <string name="pref_screen_notification_profile_email">E-mail повідомлення</string>
+    <string name="interval_one_minute">раз на хвилину</string>
+    <string name="interval_five_minutes">кожні 5 хвилин</string>
+    <string name="interval_ten_minutes">кожні 10 хвилин</string>
+    <string name="interval_thirty_minutes">кожні 30 хвилин</string>
+    <string name="interval_one_hour">раз на годину</string>
+
+    <string name="stats_y_axis_label">Кроки на хвилину</string>
+
+    <string name="calories">Калорії</string>
+    <string name="distance">Відстань</string>
+    <string name="clock">Годинник</string>
+    <string name="heart_rate">Пульс</string>
+    <string name="battery">Акумулятор</string>
+
+    <string name="no_limit">Без обмежень</string>
+    <string name="seconds_5">5 секунд</string>
+    <string name="seconds_10">10 секунд</string>
+    <string name="seconds_20">20 секунд</string>
+    <string name="seconds_30">30 секунд</string>
+    <string name="minutes_1">1 хвилина</string>
+    <string name="minutes_5">5 хвилин</string>
+    <string name="minutes_10">10 хвилин</string>
+    <string name="minutes_30">30 хвилин</string>
+
+    <string name="pref_summary_low_latency_fw_update">Це може допомогти на пристроях, де прошивання прошивки не вдається.</string>
+
+    <string name="you_did_not_sleep">Ви не спали</string>
+    <string name="miband_prefs_reserve_alarm_calendar">Сигнали для резервування для майбутніх подій</string>
+    <string name="miband_prefs_hr_sleep_detection">Використовувати датчик пульсу для поліпшення виявлення сну</string>
+	<string name="dateformat_time">Час</string>
+    <string name="dateformat_date_time">Дата і час</string>
+    <string name="pref_title_unit_system">Одиниці вимірювання</string>
+    <string name="tap_connected_device_for_vibration">Натисніть на під\'єднаний пристрій для вібрації</string>
+    <string name="pairing">Утворення пари з %s…</string>
+    <string name="pairing_unable_to_pair_with">Не вдалось утворити пару з %1$s (%2$s)</string>
+    <string name="pairing_in_progress">Зв\'язування в процесі: %1$s (%2$s)</string>
+    <string name="preferences_amazfitcor_settings">Налаштування Amazfit Cor</string>s
+    <string name="watch9_pairing_tap_hint">Коли ваш годинник вібруватиме, потрясіть пристрій або натисніть його кнопку.</string>
+
+    <string name="stats_x_axis_label">Всього хвилин</string>
+    <string name="weeksleepchart_sleep_a_week">Сон за тиждень</string>
+    <string name="weeksleepchart_today_sleep_description">Сон сьогодні, ціль: %1$s</string>
+    </resources>

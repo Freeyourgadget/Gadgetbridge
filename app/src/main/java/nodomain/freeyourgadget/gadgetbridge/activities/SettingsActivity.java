@@ -1,5 +1,6 @@
 /*  Copyright (C) 2015-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti, Felix Konstantin Maurer, Normano64
+    Daniele Gobbetti, Felix Konstantin Maurer, José Rebelo, Martin, Normano64,
+    Pavel Elagin
 
     This file is part of Gadgetbridge.
 
@@ -52,6 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.ConfigActivity;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
@@ -65,6 +67,11 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PR
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DISPLAY_ITEMS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ENABLE_TEXT_NOTIFICATIONS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI3_BAND_SCREEN_UNLOCK;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI3_NIGHT_MODE;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI3_NIGHT_MODE_END;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI3_NIGHT_MODE_OFF;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI3_NIGHT_MODE_SCHEDULED;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI3_NIGHT_MODE_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_HEIGHT_CM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_SLEEP_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_STEPS_GOAL;
@@ -87,6 +94,8 @@ public class SettingsActivity extends AbstractSettingsActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+
+        Prefs prefs = GBApplication.getPrefs();
 
         Preference pref = findPreference("notifications_generic");
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -420,6 +429,60 @@ public class SettingsActivity extends AbstractSettingsActivity {
                     @Override
                     public void run() {
                         GBApplication.deviceService().onSendConfiguration(PREF_MI2_DISPLAY_ITEMS);
+                    }
+                });
+                return true;
+            }
+        });
+
+        String nightModeState = prefs.getString(MiBandConst.PREF_MI3_NIGHT_MODE, PREF_MI3_NIGHT_MODE_OFF);
+        boolean nightModeScheduled = nightModeState.equals(PREF_MI3_NIGHT_MODE_SCHEDULED);
+
+        final Preference nightModeStart = findPreference(PREF_MI3_NIGHT_MODE_START);
+        nightModeStart.setEnabled(nightModeScheduled);
+        nightModeStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI3_NIGHT_MODE_START);
+                    }
+                });
+                return true;
+            }
+        });
+
+
+        final Preference nightModeEnd = findPreference(PREF_MI3_NIGHT_MODE_END);
+        nightModeEnd.setEnabled(nightModeScheduled);
+        nightModeEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI3_NIGHT_MODE_END);
+                    }
+                });
+                return true;
+            }
+        });
+
+
+        final Preference nightMode = findPreference(PREF_MI3_NIGHT_MODE);
+        nightMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                final boolean scheduled = PREF_MI3_NIGHT_MODE_SCHEDULED.equals(newVal.toString());
+
+                nightModeStart.setEnabled(scheduled);
+                nightModeEnd.setEnabled(scheduled);
+
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI3_NIGHT_MODE);
                     }
                 });
                 return true;

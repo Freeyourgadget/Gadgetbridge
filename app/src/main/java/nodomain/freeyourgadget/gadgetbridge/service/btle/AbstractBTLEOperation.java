@@ -108,6 +108,16 @@ public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport>
         return builder;
     }
 
+    public TransactionBuilder createTransactionBuilder(String taskName) {
+        TransactionBuilder builder = getSupport().createTransactionBuilder(taskName);
+        builder.setGattCallback(this);
+        return builder;
+    }
+
+    public void performImmediately(TransactionBuilder builder) throws IOException {
+        mSupport.performImmediately(builder);
+    }
+
     protected Context getContext() {
         return mSupport.getContext();
     }

@@ -40,7 +40,7 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
 
     @Override
     int getGoal() {
-        return GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_STEPS_GOAL, 10000);
+        return GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_STEPS_GOAL, ActivityUser.defaultUserStepsGoal);
     }
 
     @Override
@@ -50,16 +50,24 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
 
     @Override
     float[] getTotalsForActivityAmounts(ActivityAmounts activityAmounts) {
-        int totalSteps = 0;
+        long totalSteps = 0;
         for (ActivityAmount amount : activityAmounts.getAmounts()) {
             totalSteps += amount.getTotalSteps();
-            amount.getTotalSteps();
         }
         return new float[]{totalSteps};
     }
 
     @Override
-    protected String formatPieValue(int value) {
+    protected long calculateBalance(ActivityAmounts activityAmounts) {
+        long balance = 0;
+        for (ActivityAmount amount : activityAmounts.getAmounts()) {
+            balance += amount.getTotalSteps();
+        }
+        return balance;
+    }
+
+    @Override
+    protected String formatPieValue(long value) {
         return String.valueOf(value);
     }
 
@@ -92,5 +100,17 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     protected void setupLegend(Chart chart) {
         // no legend here, it is all about the steps here
         chart.getLegend().setEnabled(false);
+    }
+
+    @Override
+    protected String getBalanceMessage(long balance, int targetValue) {
+        if (balance > 0) {
+            final long totalBalance = balance - (targetValue * TOTAL_DAYS);
+            if (totalBalance > 0)
+                return getString(R.string.overstep, Math.abs(totalBalance));
+            else
+                return getString(R.string.lack_of_step, Math.abs(totalBalance));
+        } else
+            return getString(R.string.no_data);
     }
 }

@@ -50,11 +50,12 @@ public class ImportExportSharedPreferences {
 
     public static void exportToFile(SharedPreferences sharedPreferences, File outFile,
                                     Set<String> doNotExport) throws IOException {
-        export(sharedPreferences, new FileWriter(outFile), doNotExport);
+        try (FileWriter outputWriter = new FileWriter(outFile)) {
+            export(sharedPreferences, outputWriter, doNotExport);
+        }
     }
 
-
-    public static void export(SharedPreferences sharedPreferences, Writer writer,
+    private static void export(SharedPreferences sharedPreferences, Writer writer,
                               Set<String> doNotExport) throws IOException {
         XmlSerializer serializer = Xml.newSerializer();
         serializer.setOutput(writer);
@@ -75,11 +76,9 @@ public class ImportExportSharedPreferences {
             serializer.attribute("", NAME, key);
             serializer.text(value);
             serializer.endTag("", valueType);
-
         }
         serializer.endTag("", PREFERENCES);
         serializer.endDocument();
-        writer.close();
     }
 
     public static boolean importFromFile(SharedPreferences sharedPreferences, File inFile)
