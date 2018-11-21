@@ -424,8 +424,8 @@
     <string name="pref_title_pebble_enable_bgjs">Abilita background JS</string>
     <string name="pref_summary_pebble_enable_bgjs">Quando abilitato permette a watchface di visualizzare meteo, batteria, etc.</string>
 
-    <string name="pref_header_auto_export">Auto esporta le preferenze</string>
-    <string name="pref_title_auto_export_enabled">Auto esportazione abilitata</string>
+    <string name="pref_header_auto_export">Esporta automaticamente le preferenze</string>
+    <string name="pref_title_auto_export_enabled">Esportazione automatica abilitata</string>
     <string name="pref_title_auto_export_location">Esporta posizione</string>
     <string name="pref_title_auto_export_interval">Intervallo di esportazione</string>
     <string name="pref_summary_auto_export_interval">Esporta ogni %d ora/e</string>
@@ -546,4 +546,27 @@
     <string name="menuitem_compass">Bussola</string>
     <string name="menuitem_settings">Impostazioni</string>
     <string name="menuitem_alipay">Alipay</string>
-</resources>
+<string name="controlcenter_change_led_color">Cambia il colore dei LED</string>
+    <string name="controlcenter_change_fm_frequency">Cambia frequenza FM</string>
+    <string name="controlcenter_calibrate_device">Calibra Dispositivo</string>
+
+
+    <string name="pref_title_notifications_timeout">Tempo minimo tra 2 notifiche</string>
+    <string name="pref_title_rtl">Da destra a sinistra</string>
+    <string name="pref_summary_rtl">Abilita questo se il tuo dispositivo non mostra le lingue lette da destra a sinistra</string>
+    <string name="pref_rtl_max_line_length">Lunghezza massima delle linee</string>
+    <string name="pref_rtl_max_line_length_summary">Definisci il numero di caratteri da visualizzare per le lingue lette da destra a sinistra</string>
+
+    <string name="preferences_id115_settings">"impostazioni per ID115 "</string>
+    <string name="prefs_screen_orientation">Orientamento dello schermo</string>
+
+    <string name="pref_auto_fetch_limit_fetches">Tempo minimo tra le sincronizzazioni</string>
+    <string name="preferences_miband2_settings">Impostazioni per Mi Band 2</string>
+    <string name="preferences_miband3_settings">Impostazioni per Mi Band 3</string>
+    <string name="preferences_amazfitcor_settings">Impostazioni per Amazfit Cor</string>s
+    <string name="horizontal">Orizzontale</string>
+    <string name="vertical">Verticale</string>
+    <string name="watch9_pairing_tap_hint">Quando il tuo orologio vibra, scuotilo o premi il tasto.</string>
+
+    <string name="notif_battery_low">%1$s batteria scarica</string>
+    </resources>
