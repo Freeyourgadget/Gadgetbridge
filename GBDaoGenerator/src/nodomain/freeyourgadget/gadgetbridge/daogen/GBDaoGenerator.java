@@ -45,7 +45,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(18, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(19, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -73,6 +73,7 @@ public class GBDaoGenerator {
         addID115ActivitySample(schema, user, device);
 
         addCalendarSyncState(schema, device);
+        addAlarms(schema, user, device);
 
         addBipActivitySummary(schema, user, device);
 
@@ -340,6 +341,26 @@ public class GBDaoGenerator {
         calendarSyncState.addIndex(indexUnique);
         calendarSyncState.addToOne(device, deviceId);
         calendarSyncState.addIntProperty("hash").notNull();
+    }
+
+    private static void addAlarms(Schema schema, Entity user, Entity device) {
+        Entity alarm = addEntity(schema, "Alarm");
+        Property deviceId = alarm.addLongProperty("deviceId").notNull().getProperty();
+        Property userId = alarm.addLongProperty("userId").notNull().getProperty();
+        Property position = alarm.addIntProperty("position").notNull().getProperty();
+        Index indexUnique = new Index();
+        indexUnique.addProperty(deviceId);
+        indexUnique.addProperty(userId);
+        indexUnique.addProperty(position);
+        indexUnique.makeUnique();
+        alarm.addIndex(indexUnique);
+        alarm.addBooleanProperty("enabled").notNull();
+        alarm.addBooleanProperty("smartAlarm").notNull();
+        alarm.addIntProperty("repetition").notNull();
+        alarm.addIntProperty("hour").notNull();
+        alarm.addIntProperty("minute").notNull();
+        alarm.addToOne(user, userId);
+        alarm.addToOne(device, deviceId);
     }
 
     private static void addBipActivitySummary(Schema schema, Entity user, Entity device) {

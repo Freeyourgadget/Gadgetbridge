@@ -21,15 +21,13 @@ import android.os.Parcel;
 import android.support.annotation.NonNull;
 
 import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_ALARMS;
 
 
 public class GBAlarm implements Alarm {
@@ -40,11 +38,10 @@ public class GBAlarm implements Alarm {
     private int repetition;
     private int hour;
     private int minute;
+    private long deviceId;
 
-    public static final String[] DEFAULT_ALARMS = {"2,false,false,0,15,30", "1,false,false,96,8,0", "0,false,true,31,7,30"};
-
-
-    public GBAlarm(int index, boolean enabled, boolean smartWakeup, int repetition, int hour, int minute) {
+    public GBAlarm(Long deviceId, int index, boolean enabled, boolean smartWakeup, int repetition, int hour, int minute) {
+        this.deviceId = deviceId;
         this.index = index;
         this.enabled = enabled;
         this.smartWakeup = smartWakeup;
@@ -53,29 +50,19 @@ public class GBAlarm implements Alarm {
         this.minute = minute;
     }
 
-    public GBAlarm(String fromPreferences) {
-        String[] tokens = fromPreferences.split(",");
-        //TODO: sanify the string!
-        this.index = Integer.parseInt(tokens[0]);
-        this.enabled = Boolean.parseBoolean(tokens[1]);
-        this.smartWakeup = Boolean.parseBoolean(tokens[2]);
-        this.repetition = Integer.parseInt(tokens[3]);
-        this.hour = Integer.parseInt(tokens[4]);
-        this.minute = Integer.parseInt(tokens[5]);
-    }
-
-    public static GBAlarm createSingleShot(int index, boolean smartWakeup, Calendar calendar) {
-        return new GBAlarm(index, true, smartWakeup, Alarm.ALARM_ONCE, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+    public static GBAlarm createSingleShot(long deviceId, int index, boolean smartWakeup, Calendar calendar) {
+        return new GBAlarm(deviceId, index, true, smartWakeup, Alarm.ALARM_ONCE, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
     }
 
     private static GBAlarm readFromParcel(Parcel pc) {
+        long deviceId = pc.readLong();
         int index = pc.readInt();
         boolean enabled = Boolean.parseBoolean(pc.readString());
         boolean smartWakeup = Boolean.parseBoolean(pc.readString());
         int repetition = pc.readInt();
         int hour = pc.readInt();
         int minute = pc.readInt();
-        return new GBAlarm(index, enabled, smartWakeup, repetition, hour, minute);
+        return new GBAlarm(deviceId, index, enabled, smartWakeup, repetition, hour, minute);
     }
 
     @Override
@@ -100,6 +87,7 @@ public class GBAlarm implements Alarm {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(deviceId);
         dest.writeInt(this.index);
         dest.writeString(String.valueOf(this.enabled));
         dest.writeString(String.valueOf(this.smartWakeup));
@@ -125,7 +113,7 @@ public class GBAlarm implements Alarm {
 
     @Override
     public String getTime() {
-        return String.format("%02d", this.hour) + ":" + String.format("%02d", this.minute);
+        return String.format(Locale.US, "%02d", this.hour) + ":" + String.format(Locale.US, "%02d", this.minute);
     }
 
     public int getHour() {
@@ -175,22 +163,12 @@ public class GBAlarm implements Alarm {
         return getRepetitionMask() != ALARM_ONCE;
     }
 
-    public String toPreferences() {
-        return String.valueOf(this.index) + ',' +
-                String.valueOf(this.enabled) + ',' +
-                String.valueOf(this.smartWakeup) + ',' +
-                String.valueOf(this.repetition) + ',' +
-                String.valueOf(this.hour) + ',' +
-                String.valueOf(this.minute);
-    }
-
     public void setSmartWakeup(boolean smartWakeup) {
         this.smartWakeup = smartWakeup;
     }
 
     public void setRepetition(boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun) {
-        this.repetition = ALARM_ONCE |
-                (mon ? ALARM_MON : 0) |
+        this.repetition = (mon ? ALARM_MON : 0) |
                 (tue ? ALARM_TUE : 0) |
                 (wed ? ALARM_WED : 0) |
                 (thu ? ALARM_THU : 0) |
@@ -212,22 +190,14 @@ public class GBAlarm implements Alarm {
     }
 
     public void store() {
-        Prefs prefs = GBApplication.getPrefs();
-        Set<String> preferencesAlarmListSet = prefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
-        //the old Set cannot be updated in place see http://developer.android.com/reference/android/content/SharedPreferences.html#getStringSet%28java.lang.String,%20java.util.Set%3Cjava.lang.String%3E%29
-        Set<String> newPrefs = new HashSet<>(preferencesAlarmListSet);
-
-        Iterator<String> iterator = newPrefs.iterator();
-
-        while (iterator.hasNext()) {
-            String alarmString = iterator.next();
-            if (this.equals(new GBAlarm(alarmString))) {
-                iterator.remove();
-                break;
-            }
+        try (DBHandler db = GBApplication.acquireDB()) {
+            DaoSession daoSession = db.getDaoSession();
+            Long userId = DBHelper.getUser(daoSession).getId();
+            nodomain.freeyourgadget.gadgetbridge.entities.Alarm alarm = new nodomain.freeyourgadget.gadgetbridge.entities.Alarm(deviceId, userId, index, enabled, smartWakeup, repetition, hour, minute);
+            daoSession.insertOrReplace(alarm);
+        } catch (Exception e) {
+            // LOG.error("Error acquiring database", e);
         }
-        newPrefs.add(this.toPreferences());
-        prefs.getPreferences().edit().putStringSet(PREF_MIBAND_ALARMS, newPrefs).apply();
     }
 
     public static final Creator CREATOR = new Creator() {

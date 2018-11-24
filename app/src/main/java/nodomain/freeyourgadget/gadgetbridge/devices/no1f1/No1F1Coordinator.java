@@ -113,6 +113,11 @@ public class No1F1Coordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public int getAlarmSlotCount() {
+        return 3; // FIXME - check the real value
+    }
+
+    @Override
     public boolean supportsSmartWakeup(GBDevice device) {
         return false;
     }

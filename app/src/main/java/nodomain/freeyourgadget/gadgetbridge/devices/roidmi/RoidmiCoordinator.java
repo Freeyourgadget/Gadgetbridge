@@ -89,6 +89,11 @@ public abstract class RoidmiCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public int getAlarmSlotCount() {
+        return 0;
+    }
+
+    @Override
     public boolean supportsSmartWakeup(GBDevice device) {
         return false;
     }

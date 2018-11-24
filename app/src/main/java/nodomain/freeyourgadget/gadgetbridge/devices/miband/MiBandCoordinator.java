@@ -137,6 +137,11 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public int getAlarmSlotCount() {
+        return 3;
+    }
+
+    @Override
     public boolean supportsSmartWakeup(GBDevice device) {
         return true;
     }

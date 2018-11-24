@@ -1394,10 +1394,12 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     private void queueAlarm(Alarm alarm, TransactionBuilder builder, BluetoothGattCharacteristic characteristic) {
         Calendar calendar = alarm.getAlarmCal();
 
-        int maxAlarms = 5; // arbitrary at the moment...
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        int maxAlarms = coordinator.getAlarmSlotCount();
+
         if (alarm.getIndex() >= maxAlarms) {
             if (alarm.isEnabled()) {
-                GB.toast(getContext(), "Only 5 alarms are currently supported.", Toast.LENGTH_LONG, GB.WARN);
+                GB.toast(getContext(), "Only " + maxAlarms + " alarms are currently supported.", Toast.LENGTH_LONG, GB.WARN);
             }
             return;
         }
@@ -1465,7 +1467,16 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             CalendarEvents upcomingEvents = new CalendarEvents();
             List<CalendarEvents.CalendarEvent> mEvents = upcomingEvents.getCalendarEventList(getContext());
 
+            Long deviceId;
+            try (DBHandler handler = GBApplication.acquireDB()) {
+                DaoSession session = handler.getDaoSession();
+                deviceId = DBHelper.getDevice(getDevice(), session).getId();
+            } catch (Exception e) {
+                LOG.error("Could not acquire DB", e);
+                return this;
+            }
             int iteration = 0;
+
             for (CalendarEvents.CalendarEvent mEvt : mEvents) {
                 if (iteration >= availableSlots || iteration > 2) {
                     break;
@@ -1473,7 +1484,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 int slotToUse = 2 - iteration;
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(mEvt.getBegin());
-                Alarm alarm = GBAlarm.createSingleShot(slotToUse, false, calendar);
+                Alarm alarm = GBAlarm.createSingleShot(deviceId, slotToUse, false, calendar);
                 queueAlarm(alarm, builder, characteristic);
                 iteration++;
             }

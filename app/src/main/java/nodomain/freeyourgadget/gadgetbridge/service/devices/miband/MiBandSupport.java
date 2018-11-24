@@ -1225,6 +1225,15 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 CalendarEvents upcomingEvents = new CalendarEvents();
                 List<CalendarEvents.CalendarEvent> mEvents = upcomingEvents.getCalendarEventList(getContext());
 
+                Long deviceId;
+                try (DBHandler handler = GBApplication.acquireDB()) {
+                    DaoSession session = handler.getDaoSession();
+                    deviceId = DBHelper.getDevice(getDevice(), session).getId();
+                } catch (Exception e) {
+                    LOG.error("Could not acquire DB", e);
+                    return;
+                }
+
                 int iteration = 0;
                 for (CalendarEvents.CalendarEvent mEvt : mEvents) {
                     if (iteration >= availableSlots || iteration > 2) {
@@ -1233,7 +1242,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                     int slotToUse = 2 - iteration;
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(mEvt.getBegin());
-                    Alarm alarm = GBAlarm.createSingleShot(slotToUse, false, calendar);
+                    Alarm alarm = GBAlarm.createSingleShot(deviceId, slotToUse, false, calendar);
                     queueAlarm(alarm, builder, characteristic);
                     iteration++;
                 }

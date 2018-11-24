@@ -109,6 +109,11 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public int getAlarmSlotCount() {
+        return 10;
+    }
+
+    @Override
     public boolean supportsActivityDataFetching() {
         return true;
     }

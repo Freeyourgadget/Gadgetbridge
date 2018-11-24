@@ -189,6 +189,13 @@ public interface DeviceCoordinator {
     boolean supportsAlarmConfiguration();
 
     /**
+     * Returns the number of alarms this device/coordinator supports
+     *
+     * @return
+     */
+    int getAlarmSlotCount();
+
+    /**
      * Returns true if this device/coordinator supports alarms with smart wakeup
      * @return
      */
