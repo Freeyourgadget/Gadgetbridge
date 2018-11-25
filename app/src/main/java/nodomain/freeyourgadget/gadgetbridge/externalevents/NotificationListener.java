@@ -351,6 +351,11 @@ public class NotificationListener extends NotificationListenerService {
         GBApplication.deviceService().onNotification(notificationSpec);
     }
 
+    // Strip Unicode control sequences: some apps like Telegram add a lot of them for unknown reasons
+    private String sanitizeUnicode(String orig) {
+        return orig.replaceAll("\\p{C}", "");
+    }
+
     private void dissectNotificationTo(Notification notification, NotificationSpec notificationSpec, boolean preferBigText) {
 
         Bundle extras = NotificationCompat.getExtras(notification);
@@ -359,7 +364,7 @@ public class NotificationListener extends NotificationListenerService {
 
         CharSequence title = extras.getCharSequence(Notification.EXTRA_TITLE);
         if (title != null) {
-            notificationSpec.title = title.toString();
+            notificationSpec.title = sanitizeUnicode(title.toString());
         }
 
         CharSequence contentCS = null;
@@ -369,7 +374,7 @@ public class NotificationListener extends NotificationListenerService {
             contentCS = extras.getCharSequence(NotificationCompat.EXTRA_TEXT);
         }
         if (contentCS != null) {
-            notificationSpec.body = contentCS.toString();
+            notificationSpec.body = sanitizeUnicode(contentCS.toString());
         }
 
     }
