@@ -53,6 +53,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import io.wax911.emojify.EmojiManager;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
@@ -197,6 +198,8 @@ public class GBApplication extends Application {
             }
             startService(new Intent(this, NotificationCollectorMonitorService.class));
         }
+
+        EmojiManager.initEmojiData(getApplicationContext());
     }
 
     @Override

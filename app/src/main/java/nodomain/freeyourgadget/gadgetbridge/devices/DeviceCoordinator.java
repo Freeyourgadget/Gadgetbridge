@@ -278,4 +278,9 @@ public interface DeviceCoordinator {
      */
     @NonNull
     int[] getColorPresets();
+
+    /**
+     * Indicates whether the device supports unicode emojis.
+     */
+    boolean supportsUnicodeEmojis();
 }
