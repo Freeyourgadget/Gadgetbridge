@@ -87,6 +87,7 @@ dependencies {
     implementation "org.cyanogenmod:platform.sdk:6.0"
     implementation 'com.jaredrummler:colorpicker:1.0.2'
 //    implementation project(":DaoCore")
+    implementation 'com.github.wax911:android-emojify:0.1.7'
 }
 
 preBuild.dependsOn(":GBDaoGenerator:genSources")

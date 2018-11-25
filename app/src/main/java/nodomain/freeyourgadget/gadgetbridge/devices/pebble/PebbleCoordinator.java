@@ -175,4 +175,7 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     public boolean supportsMusicInfo() {
         return true;
     }
+
+    @Override
+    public boolean supportsUnicodeEmojis() { return true; }
 }

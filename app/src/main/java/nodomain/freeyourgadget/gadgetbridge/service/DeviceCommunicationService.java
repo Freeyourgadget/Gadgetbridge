@@ -73,6 +73,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBAutoFetchReceiver;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.util.EmojiConverter;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -175,6 +176,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private DeviceSupportFactory mFactory;
     private GBDevice mGBDevice = null;
     private DeviceSupport mDeviceSupport;
+    private DeviceCoordinator mCoordinator = null;
 
     private PhoneCallReceiver mPhoneCallReceiver = null;
     private SMSReceiver mSMSReceiver = null;
@@ -226,8 +228,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                 if (mGBDevice != null && mGBDevice.equals(device)) {
                     mGBDevice = device;
+                    mCoordinator = DeviceHelper.getInstance().getCoordinator(device);
                     boolean enableReceivers = mDeviceSupport != null && (mDeviceSupport.useAutoConnect() || mGBDevice.isInitialized());
-                    setReceiversEnableState(enableReceivers, mGBDevice.isInitialized(), DeviceHelper.getInstance().getCoordinator(device));
+                    setReceiversEnableState(enableReceivers, mGBDevice.isInitialized(), mCoordinator);
                 } else {
                     LOG.error("Got ACTION_DEVICE_CHANGED from unexpected device: " + device);
                 }
@@ -352,6 +355,20 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         return START_STICKY;
     }
 
+    /**
+     * @param text: original text
+     * @return 'text' or a new String without non supported chars like emoticons, etc.
+     */
+    private String sanitizeNotifText(String text) {
+        if (text == null || text.length() == 0)
+            return text;
+
+        if (!mCoordinator.supportsUnicodeEmojis())
+            return EmojiConverter.convertUnicodeEmojiToAscii(text);
+
+        return text;
+    }
+
     private void handleAction(Intent intent, String action, Prefs prefs) {
         switch (action) {
             case ACTION_REQUEST_DEVICEINFO:
@@ -361,10 +378,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 int desiredId = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
                 NotificationSpec notificationSpec = new NotificationSpec(desiredId);
                 notificationSpec.phoneNumber = intent.getStringExtra(EXTRA_NOTIFICATION_PHONENUMBER);
-                notificationSpec.sender = intent.getStringExtra(EXTRA_NOTIFICATION_SENDER);
-                notificationSpec.subject = intent.getStringExtra(EXTRA_NOTIFICATION_SUBJECT);
-                notificationSpec.title = intent.getStringExtra(EXTRA_NOTIFICATION_TITLE);
-                notificationSpec.body = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
+                notificationSpec.sender = sanitizeNotifText(intent.getStringExtra(EXTRA_NOTIFICATION_SENDER));
+                notificationSpec.subject = sanitizeNotifText(intent.getStringExtra(EXTRA_NOTIFICATION_SUBJECT));
+                notificationSpec.title = sanitizeNotifText(intent.getStringExtra(EXTRA_NOTIFICATION_TITLE));
+                notificationSpec.body = sanitizeNotifText(intent.getStringExtra(EXTRA_NOTIFICATION_BODY));
                 notificationSpec.sourceName = intent.getStringExtra(EXTRA_NOTIFICATION_SOURCENAME);
                 notificationSpec.type = (NotificationType) intent.getSerializableExtra(EXTRA_NOTIFICATION_TYPE);
                 notificationSpec.attachedActions = (ArrayList<NotificationSpec.Action>) intent.getSerializableExtra(EXTRA_NOTIFICATION_ACTIONS);
@@ -405,9 +422,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 calendarEventSpec.type = intent.getByteExtra(EXTRA_CALENDAREVENT_TYPE, (byte) -1);
                 calendarEventSpec.timestamp = intent.getIntExtra(EXTRA_CALENDAREVENT_TIMESTAMP, -1);
                 calendarEventSpec.durationInSeconds = intent.getIntExtra(EXTRA_CALENDAREVENT_DURATION, -1);
-                calendarEventSpec.title = intent.getStringExtra(EXTRA_CALENDAREVENT_TITLE);
-                calendarEventSpec.description = intent.getStringExtra(EXTRA_CALENDAREVENT_DESCRIPTION);
-                calendarEventSpec.location = intent.getStringExtra(EXTRA_CALENDAREVENT_LOCATION);
+                calendarEventSpec.title = sanitizeNotifText(intent.getStringExtra(EXTRA_CALENDAREVENT_TITLE));
+                calendarEventSpec.description = sanitizeNotifText(intent.getStringExtra(EXTRA_CALENDAREVENT_DESCRIPTION));
+                calendarEventSpec.location = sanitizeNotifText(intent.getStringExtra(EXTRA_CALENDAREVENT_LOCATION));
                 mDeviceSupport.onAddCalendarEvent(calendarEventSpec);
                 break;
             }
@@ -440,6 +457,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 setReceiversEnableState(false, false, null);
                 mGBDevice = null;
                 mDeviceSupport = null;
+                mCoordinator = null;
                 break;
             }
             case ACTION_FIND_DEVICE: {
@@ -456,7 +474,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 CallSpec callSpec = new CallSpec();
                 callSpec.command = intent.getIntExtra(EXTRA_CALL_COMMAND, CallSpec.CALL_UNDEFINED);
                 callSpec.number = intent.getStringExtra(EXTRA_CALL_PHONENUMBER);
-                callSpec.name = intent.getStringExtra(EXTRA_CALL_DISPLAYNAME);
+                callSpec.name = sanitizeNotifText(intent.getStringExtra(EXTRA_CALL_DISPLAYNAME));
                 mDeviceSupport.onSetCallState(callSpec);
                 break;
             case ACTION_SETCANNEDMESSAGES:
@@ -473,9 +491,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 break;
             case ACTION_SETMUSICINFO:
                 MusicSpec musicSpec = new MusicSpec();
-                musicSpec.artist = intent.getStringExtra(EXTRA_MUSIC_ARTIST);
-                musicSpec.album = intent.getStringExtra(EXTRA_MUSIC_ALBUM);
-                musicSpec.track = intent.getStringExtra(EXTRA_MUSIC_TRACK);
+                musicSpec.artist = sanitizeNotifText(intent.getStringExtra(EXTRA_MUSIC_ARTIST));
+                musicSpec.album = sanitizeNotifText(intent.getStringExtra(EXTRA_MUSIC_ALBUM));
+                musicSpec.track = sanitizeNotifText(intent.getStringExtra(EXTRA_MUSIC_TRACK));
                 musicSpec.duration = intent.getIntExtra(EXTRA_MUSIC_DURATION, 0);
                 musicSpec.trackCount = intent.getIntExtra(EXTRA_MUSIC_TRACKCOUNT, 0);
                 musicSpec.trackNr = intent.getIntExtra(EXTRA_MUSIC_TRACKNR, 0);
@@ -595,9 +613,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             mDeviceSupport.dispose();
             mDeviceSupport = null;
             mGBDevice = null;
+            mCoordinator = null;
         }
         mDeviceSupport = deviceSupport;
         mGBDevice = mDeviceSupport != null ? mDeviceSupport.getDevice() : null;
+        mCoordinator = mGBDevice != null ? DeviceHelper.getInstance().getCoordinator(mGBDevice) : null;
     }
 
     private void start() {

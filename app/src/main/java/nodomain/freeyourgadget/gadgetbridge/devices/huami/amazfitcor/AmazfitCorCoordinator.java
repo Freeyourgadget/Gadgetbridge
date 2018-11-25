@@ -73,4 +73,7 @@ public class AmazfitCorCoordinator extends HuamiCoordinator {
     public boolean supportsMusicInfo() {
         return true;
     }
+
+    @Override
+    public boolean supportsUnicodeEmojis() { return true; }
 }
