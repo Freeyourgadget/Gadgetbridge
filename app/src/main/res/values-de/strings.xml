@@ -608,4 +608,5 @@
     <string name="ok">Akzeptieren</string>
 
     <string name="mi3_night_mode_sunset">Bei Sonnenuntergang</string>
+    <string name="pref_rtl_max_line_length">Maximale Zeilenlänge von rechts nach links</string>
     </resources>
