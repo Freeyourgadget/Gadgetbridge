@@ -20,7 +20,53 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 import io.wax911.emojify.EmojiUtils;
 
 public class EmojiConverter {
+    private static final String[][] simpleEmojiMapping = {
+            {"\uD83D\uDE00", ":-D"},  // grinning
+            {"\uD83D\uDE01", ":-D"},  // grinning_face_with_smiling_eyes
+            {"\uD83D\uDE02", ":'D"},  // face_with_tears_of_joy
+            {"\uD83D\uDE03", ":-D"},  // smiling_face_with_open_mouth
+            {"\uD83D\uDE04", ":-D"},  // smiling_face_with_open_mouth_and_smiling_eyes
+            {"\uD83D\uDE05", ":'D"},  // smiling_face_with_open_mouth_and_cold_sweat
+            {"\uD83D\uDE06", "X-D"},  // smiling_face_with_open_mouth_and_tightly-closed_eyes
+            {"\uD83D\uDE07", "O:-)"}, // innocent
+            {"\uD83D\uDE09", ";-)"},  // wink
+            {"\uD83D\uDE0A", ":-)"},  // blush
+            {"\uD83D\uDE0B", ":-p"},  // yum
+            {"\uD83D\uDE0E", "B-)"},  // sunglasses
+            {"\uD83D\uDE15", ":-/"},  // confused
+            {"\uD83D\uDE16", ":-S"},  // confounded_face
+            {"\uD83D\uDE19", ":-*"},  // kissing_face_with_smiling_eyes
+            {"\uD83D\uDE17", ":*"},   // kissing_face
+            {"\uD83D\uDE1A", ":-*"},  // kissing_closed_eyes
+            {"\uD83D\uDE1B", ":-P"},  // stuck_out_tongue
+            {"\uD83D\uDE1C", ";-P"},  // stuck_out_tongue_winking_eye
+            {"\uD83D\uDE1D", "X-P"},  // stuck_out_tongue_and_tightly-closed_eyes
+            {"\uD83D\uDE1E", ":-S"},  // disappointed
+            {"\uD83D\uDE20", ":-@"},  // angry_face
+            {"\uD83D\uDE21", ":-@"},  // pouting_face
+            {"\uD83D\uDE22", ":'("},  // cry
+            {"\uD83D\uDE23", ":-("},  // preserving_face
+            {"\uD83D\uDE25", ":'("},  // disappointed_but_relieved_face
+            {"\uD83D\uDE2D", ":'("},  // loudly_crying_face
+            {"\uD83D\uDE2E", ":-O"},  // open_mouth
+            {"\uD83D\uDE32", "X-o"},  // astonished_face
+            {"\uD83D\uDE42", ":)"},   // slightly_smiling_face
+            {"\uD83D\uDE43", "(-:"},  // upside_down_face
+            {"\u2639", ":-("},        // frowning_face
+            {"\u2764", "<3"},         // heart
+    };
+
+    private static String convertSimpleEmojiToAscii(String text) {
+        for (String[] emojiMap : simpleEmojiMapping) {
+            text = text.replace(emojiMap[0], emojiMap[1]);
+        }
+        return text;
+    }
+
     public static String convertUnicodeEmojiToAscii(String text) {
+
+        text = convertSimpleEmojiToAscii(text);
+
         return EmojiUtils.shortCodify(text);
     }
 }
