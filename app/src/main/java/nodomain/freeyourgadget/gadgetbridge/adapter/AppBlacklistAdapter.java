@@ -28,6 +28,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -105,7 +106,7 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
             @Override
             public void onClick(View view) {
                 ((CheckedTextView) view).toggle();
-                if ( ((CheckedTextView)view).isChecked() ) {
+                if (((CheckedTextView) view).isChecked()) {
                     GBApplication.addAppToPebbleBlacklist(appInfo.packageName);
                 } else {
                     GBApplication.removeFromAppsPebbleBlacklist(appInfo.packageName);
@@ -123,6 +124,13 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
                 } else {
                     GBApplication.removeFromAppsNotifBlacklist(appInfo.packageName);
                 }
+            }
+        });
+
+        holder.btnConfigureApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext, "Configure clicked for: " + mNameMap.get(appInfo), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -163,15 +171,17 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
         final ImageView deviceImageView;
         final TextView deviceAppVersionAuthorLabel;
         final TextView deviceAppNameLabel;
+        final ImageView btnConfigureApp;
 
         AppBLViewHolder(View itemView) {
             super(itemView);
 
-            blacklist_checkbox = (CheckedTextView) itemView.findViewById(R.id.item_checkbox);
-            blacklist_pebble_checkbox = (CheckedTextView) itemView.findViewById(R.id.item_pebble_checkbox);
-            deviceImageView = (ImageView) itemView.findViewById(R.id.item_image);
-            deviceAppVersionAuthorLabel = (TextView) itemView.findViewById(R.id.item_details);
-            deviceAppNameLabel = (TextView) itemView.findViewById(R.id.item_name);
+            blacklist_checkbox = itemView.findViewById(R.id.item_checkbox);
+            blacklist_pebble_checkbox = itemView.findViewById(R.id.item_pebble_checkbox);
+            deviceImageView = itemView.findViewById(R.id.item_image);
+            deviceAppVersionAuthorLabel = itemView.findViewById(R.id.item_details);
+            deviceAppNameLabel = itemView.findViewById(R.id.item_name);
+            btnConfigureApp = itemView.findViewById(R.id.btn_configureApp);
         }
 
     }
