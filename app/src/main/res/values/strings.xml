@@ -419,7 +419,7 @@
     <string name="fwinstaller_firmware_not_compatible_to_device">This firmware is not compatible with the device</string>
     <string name="miband_prefs_reserve_alarm_calendar">Alarms to reserve for upcoming events</string>
     <string name="miband_prefs_hr_sleep_detection">Use heart rate sensor to improve sleep detection</string>
-	<string name="miband_prefs_device_time_offset_hours">Device time offset in hours (for detecting sleep of shift workers)</string>
+    <string name="miband_prefs_device_time_offset_hours">Device time offset in hours (for detecting sleep of shift workers)</string>
     <string name="miband2_prefs_dateformat">Date format</string>
     <string name="dateformat_time">Time</string>
     <string name="dateformat_date_time"><![CDATA[Time & date]]></string>
@@ -667,4 +667,17 @@
     <string name="pref_invalid_frequency_title">Invalid frequency</string>
     <string name="pref_invalid_frequency_message">Please enter a frequency between 87.5 and 108.0</string>
     <string name="language_and_region_prefs">Language and region settings</string>
+
+    <!--Notification Filter Black-/ Whitelist-->
+
+    <string name="title_activity_notification_filter">Notification Filter</string>
+    <string name="toast_app_must_not_be_blacklisted">App must not be blacklisted to be configured</string>
+    <string name="edittext_notification_filter_words_hint">Enter desired words, new line for each</string>
+    <string name="toast_notification_filter_saved_successfully">Notification Filter saved successfully</string>
+    <string name="filter_mode_none">Do not filter</string>
+    <string name="filter_mode_whitelist">Show when words are contained</string>
+    <string name="filter_mode_blacklist">Block when words are contained</string>
+    <string name="filter_submode_at_least_one">At least one of the words</string>
+    <string name="filter_submode_all">All of the words</string>
+    <string name="toast_notification_filter_words_empty_hint">Please enter at least one word</string>
 </resources>

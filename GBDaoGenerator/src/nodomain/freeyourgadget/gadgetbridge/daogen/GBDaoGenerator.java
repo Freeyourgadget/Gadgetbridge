@@ -45,7 +45,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(19, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(20, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -74,6 +74,10 @@ public class GBDaoGenerator {
 
         addCalendarSyncState(schema, device);
         addAlarms(schema, user, device);
+
+        Entity notificationFilter = addNotificationFilters(schema);
+
+        addNotificationFilterEntry(schema, notificationFilter);
 
         addBipActivitySummary(schema, user, device);
 
@@ -361,6 +365,30 @@ public class GBDaoGenerator {
         alarm.addIntProperty("minute").notNull();
         alarm.addToOne(user, userId);
         alarm.addToOne(device, deviceId);
+    }
+
+    private static void addNotificationFilterEntry(Schema schema, Entity notificationFilterEntity) {
+        Entity notificatonFilterEntry = addEntity(schema, "NotificationFilterEntry");
+        notificatonFilterEntry.addIdProperty().autoincrement();
+        Property notificationFilterId = notificatonFilterEntry.addLongProperty("notificationFilterId").notNull().getProperty();
+        notificatonFilterEntry.addStringProperty("notificationFilterContent").notNull().getProperty();
+        notificatonFilterEntry.addToOne(notificationFilterEntity, notificationFilterId);
+    }
+
+    private static Entity addNotificationFilters(Schema schema) {
+        Entity notificatonFilter = addEntity(schema, "NotificationFilter");
+        Property appIdentifier = notificatonFilter.addStringProperty("appIdentifier").notNull().getProperty();
+
+        notificatonFilter.addIdProperty().autoincrement();
+
+        Index indexUnique = new Index();
+        indexUnique.addProperty(appIdentifier);
+        indexUnique.makeUnique();
+        notificatonFilter.addIndex(indexUnique);
+
+        Property notificationFilterMode = notificatonFilter.addIntProperty("notificationFilterMode").notNull().getProperty();
+        Property notificationFilterSubMode = notificatonFilter.addIntProperty("notificationFilterSubMode").notNull().getProperty();
+        return notificatonFilter;
     }
 
     private static void addBipActivitySummary(Schema schema, Entity user, Entity device) {

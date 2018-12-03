@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,10 +41,13 @@ import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity;
 
 import static nodomain.freeyourgadget.gadgetbridge.GBApplication.packageNameToPebbleMsgSender;
 
 public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapter.AppBLViewHolder> implements Filterable {
+
+    public static final String STRING_EXTRA_PACKAGE_NAME = "packageName";
 
     private List<ApplicationInfo> applicationInfoList;
     private final int mLayoutId;
@@ -92,7 +96,7 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
     }
 
     @Override
-    public void onBindViewHolder(AppBlacklistAdapter.AppBLViewHolder holder, int position) {
+    public void onBindViewHolder(final AppBlacklistAdapter.AppBLViewHolder holder, int position) {
         final ApplicationInfo appInfo = applicationInfoList.get(position);
 
         holder.deviceAppVersionAuthorLabel.setText(appInfo.packageName);
@@ -117,7 +121,7 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CheckedTextView checkBox = ((CheckedTextView) v.findViewById(R.id.item_checkbox));
+                CheckedTextView checkBox = (v.findViewById(R.id.item_checkbox));
                 checkBox.toggle();
                 if (checkBox.isChecked()) {
                     GBApplication.addAppToNotifBlacklist(appInfo.packageName);
@@ -130,10 +134,16 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
         holder.btnConfigureApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, "Configure clicked for: " + mNameMap.get(appInfo), Toast.LENGTH_SHORT).show();
+
+                if (holder.blacklist_checkbox.isChecked()) {
+                    Toast.makeText(mContext, R.string.toast_app_must_not_be_blacklisted, Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intentStartNotificationFilterActivity = new Intent(mContext, NotificationFilterActivity.class);
+                    intentStartNotificationFilterActivity.putExtra(STRING_EXTRA_PACKAGE_NAME, appInfo.packageName);
+                    mContext.startActivity(intentStartNotificationFilterActivity);
+                }
             }
         });
-
     }
 
     public void blacklistAllNotif() {
