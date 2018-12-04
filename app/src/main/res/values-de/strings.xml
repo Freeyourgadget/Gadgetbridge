@@ -8,7 +8,7 @@
   <string name="action_donate">Spenden</string>
   <string name="controlcenter_fetch_activity_data">Synchronisieren</string>
   <string name="controlcenter_start_sleepmonitor">Schlafaufzeichnung (ALPHA)</string>
-  <string name="controlcenter_find_device">Suche verlegtes Gerät</string>
+  <string name="controlcenter_find_device">Verlorenes Gerät finden</string>
   <string name="controlcenter_take_screenshot">Bildschirmfoto machen</string>
   <string name="controlcenter_disconnect">Trennen</string>
   <string name="controlcenter_delete_device">Gerät löschen</string>
@@ -34,8 +34,8 @@
   <string name="appmanager_health_deactivate">Deaktivieren</string>
   <string name="appmanager_hrm_activate">HRM aktivieren</string>
   <string name="appmanager_hrm_deactivate">HRM deaktivieren</string>
-  <string name="appmanager_weather_activate">Wetter-App des Systems aktivieren</string>
-  <string name="appmanager_weather_deactivate">Wetter-App des Systems deaktivieren</string>
+  <string name="appmanager_weather_activate">System Wetter-App aktivieren</string>
+  <string name="appmanager_weather_deactivate">System Wetter-App deaktivieren</string>
   <string name="appmanager_weather_install_provider">Installiere die Wetter-Benachrichtigungs-App</string>
   <string name="app_configure">Konfigurieren</string>
   <string name="app_move_to_top">Nach oben</string>
@@ -240,7 +240,7 @@
   <string name="alarm_fri_short">Fr</string>
   <string name="alarm_sat_short">Sa</string>
   <string name="alarm_smart_wakeup">Intelligenter Wecker </string>
-  <string name="user_feedback_miband_set_alarms_failed">Beim Stellen der Wecker ist ein Fehler aufgetreten. Bitte erneut versuchen!</string>
+  <string name="user_feedback_miband_set_alarms_failed">Beim Stellen der Wecker ist ein Fehler aufgetreten. Bitte erneut versuchen.</string>
   <string name="user_feedback_miband_set_alarms_ok">Wecker wurden an das Gerät gesendet!</string>
   <string name="chart_no_data_synchronize">Keine Daten. Gerät synchronisieren?</string>
   <string name="user_feedback_miband_activity_data_transfer">%1$s an Daten werden übertragen, beginnend mit %2$s</string>
@@ -288,7 +288,7 @@
   <string name="pref_summary_dont_ack_transfers">Wenn der Transfer der Aktivitätsdaten nicht bestätigt wird, werden die Daten nicht auf dem MiBand gelöscht. Das ist sinnvoll, wenn neben Gadgetbridge noch andere Apps auf das MiBand zugreifen.</string>
   <string name="pref_summary_keep_data_on_device">Aktivitätsdaten verbleiben auf dem MiBand, auch nach der Synchronisierung. Hilfreich, wenn das MiBand mit weiteren Apps verwendet wird.</string>
   <string name="pref_title_low_latency_fw_update">Benutze Modus mit niedriger Latenz für Firmware-Updates</string>
-  <string name="pref_summary_low_latency_fw_update">Dies kann bei Geräten helfen, bei denen Firmwareupdates fehlschlagen</string>
+  <string name="pref_summary_low_latency_fw_update">Dies kann bei Geräten helfen, bei denen Firmwareupdates fehlschlagen.</string>
   <string name="live_activity_steps_history">Schritteverlauf</string>
   <string name="live_activity_current_steps_per_minute">Akt. Schritte pro Minute</string>
   <string name="live_activity_total_steps">Schritte insgesamt</string>
@@ -422,7 +422,7 @@
     <string name="mi2_prefs_button_press_count_max_delay">Maximale Verzögerung zwischen den Tastendrücken</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Maximale Verzögerung zwischen den Tastendrücken in Millisekunden</string>
     <string name="mi2_prefs_button_press_count_match_delay">Verzögerung nach Tastenaktion</string>
-    <string name="_pebble_watch_open_on_phone">Auf dem Smartphone öffnen</string>
+    <string name="_pebble_watch_open_on_phone">Auf Android Gerät öffnen</string>
     <string name="_pebble_watch_mute">Stummschalten</string>
     <string name="_pebble_watch_reply">Antwort</string>
 <string name="controlcenter_connect">Verbinden</string>
@@ -433,13 +433,13 @@
     <string name="traditional_chinese">Traditionelles Chinesisch</string>
     <string name="english">Englisch</string>
 
-    <string name="fw_upgrade_notice_amazfitcor">Es soll die Firmware %s auf das Amazfit Cor gespielt werden.
-\n
-\nBitte stelle sicher, dass du zuerst die .res-Datei und im Anschluss die .fw-Datei installierst. Nach der Installation der .fw-Datei startet deine Uhr neu.
-\n
-\nHinweis: Die .res-Datei muss nicht neu installiert werden, falls die exakt gleiche Datei bereits bei einer vorherigen Version installiert wurde.
-\n
-\nNICHT GETESTET, DIES KÖNNTE DEIN GERÄT UNBENUTZBAR MACHEN, INSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="fw_upgrade_notice_amazfitcor">Es soll die Firmware %s auf das Amazfit Cor gespielt werden. 
+\n 
+\nBitte stelle sicher, dass du zuerst die .res-Datei und im Anschluss die .fw-Datei installierst. Nach der Installation der .fw-Datei startet deine Uhr neu. 
+\n 
+\nHinweis: Die .res-Datei muss nicht neu installiert werden, falls die exakt gleiche Datei bereits bei einer vorherigen Version installiert wurde. 
+\n 
+\nFORTFAHREN AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_press_count">Anzahl an Tastendrücken</string>
     <string name="pref_title_charts_swipe">Seitwärts-Wischgesten in der Statistik-Anzeige aktivieren</string>
 
@@ -609,4 +609,18 @@
 
     <string name="mi3_night_mode_sunset">Bei Sonnenuntergang</string>
     <string name="pref_rtl_max_line_length">Maximale Zeilenlänge von rechts nach links</string>
-    </resources>
+    <string name="overslept">Verschlafen: %1$s</string>
+    <string name="menuitem_notifications">Benachrichtigungen</string>
+    <string name="menuitem_music">Musik</string>
+    <string name="menuitem_more">Mehr</string>
+
+    <string name="warning">Warnung!</string>
+    <string name="no_data">Keine Daten</string>
+
+    <string name="preferences_led_color">LED Farbe</string>
+
+    <string name="preferences_fm_frequency">FM Frequenz</string>
+    <string name="pref_invalid_frequency_title">Ungültige Frequenz</string>
+    <string name="pref_invalid_frequency_message">Bitte eine Frequenz zwischen 87,5 und 108,0 eingeben</string>
+    <string name="language_and_region_prefs">Sprach- und Gebietseinstellungen</string>
+</resources>
