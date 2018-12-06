@@ -414,7 +414,7 @@
         <activity
             android:name=".activities.NotificationFilterActivity"
             android:label="@string/title_activity_notification_filter"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan"
             android:parentActivityName=".activities.AppBlacklistActivity" />
         <activity
             android:name=".activities.FindPhoneActivity"
