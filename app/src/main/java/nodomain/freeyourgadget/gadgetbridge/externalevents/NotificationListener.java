@@ -378,7 +378,7 @@ public class NotificationListener extends NotificationListenerService {
         NotificationFilterDao notificationFilterDao = db.getDaoSession().getNotificationFilterDao();
         NotificationFilterEntryDao notificationFilterEntryDao = db.getDaoSession().getNotificationFilterEntryDao();
 
-        Query<NotificationFilter> query = notificationFilterDao.queryBuilder().where(NotificationFilterDao.Properties.AppIdentifier.eq(packageName)).build();
+        Query<NotificationFilter> query = notificationFilterDao.queryBuilder().where(NotificationFilterDao.Properties.AppIdentifier.eq(packageName.toLowerCase())).build();
         NotificationFilter notificationFilter = query.unique();
 
         if (notificationFilter == null) {

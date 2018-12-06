@@ -680,4 +680,7 @@
     <string name="filter_submode_at_least_one">At least one of the words</string>
     <string name="filter_submode_all">All of the words</string>
     <string name="toast_notification_filter_words_empty_hint">Please enter at least one word</string>
+    <string name="filter_mode">Filter Mode</string>
+    <string name="mode_configuration">Mode Configuration</string>
+    <string name="save_configuration">Save Configuration</string>
 </resources>

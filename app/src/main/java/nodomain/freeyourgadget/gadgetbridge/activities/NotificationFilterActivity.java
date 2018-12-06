@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+
 import de.greenrobot.dao.query.Query;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -14,6 +15,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilter;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterEntry;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterEntryDao;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,6 +55,8 @@ public class NotificationFilterActivity extends AbstractGBActivity {
         if (StringUtils.isBlank(packageName)) {
             this.finish();
         }
+
+        packageName = packageName.toLowerCase();
 
         try {
             db = GBApplication.acquireDB();
@@ -146,7 +150,6 @@ public class NotificationFilterActivity extends AbstractGBActivity {
             public void onClick(View view) {
 
                 // TODO: check for modifications, only save if something changed
-
                 String words = mEditTextWords.getText().toString();
 
                 if (StringUtils.isBlank(words) && mSpinnerFilterMode.getSelectedItemPosition() != NOTIFICATION_FILTER_MODE_NONE) {
@@ -172,6 +175,11 @@ public class NotificationFilterActivity extends AbstractGBActivity {
                     if (mNotificationFilter.getNotificationFilterMode() != NOTIFICATION_FILTER_MODE_NONE) {
                         String[] wordsSplitted = words.split("\n");
                         for (String temp : wordsSplitted) {
+
+                            if (StringUtils.isBlank(temp)) {
+                                continue;
+                            }
+
                             temp = temp.trim();
                             NotificationFilterEntry notificationFilterEntry = new NotificationFilterEntry();
                             notificationFilterEntry.setNotificationFilterContent(temp);
