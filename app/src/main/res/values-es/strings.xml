@@ -8,7 +8,7 @@
   <string name="action_donate">Hacer donación</string>
   <string name="controlcenter_fetch_activity_data">Sincronizar</string>
   <string name="controlcenter_start_sleepmonitor">Monitor de sueño (ALPHA)</string>
-  <string name="controlcenter_find_device">Encontrar dispositivo perdido</string>
+  <string name="controlcenter_find_device">Localiza dispositivo perdido</string>
   <string name="controlcenter_take_screenshot">Capturar pantalla</string>
   <string name="controlcenter_disconnect">Desconectar</string>
   <string name="controlcenter_delete_device">Borrar Dispositivo</string>
