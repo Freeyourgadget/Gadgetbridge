@@ -36,7 +36,7 @@
   <string name="appmanager_hrm_deactivate">Disattiva il monitor del battito cardiaco</string>
   <string name="appmanager_weather_activate">Attiva l\'Applicazione Meteo</string>
   <string name="appmanager_weather_deactivate">Disattiva l\'Applicazione Meteo</string>
-  <string name="appmanager_weather_install_provider">Installa l\'applicazione Notifiche Meteo</string>
+  <string name="appmanager_weather_install_provider">Installa l\'applicazione per le notifiche meteo</string>
   <string name="app_configure">Configura</string>
   <string name="app_move_to_top">Sposta in cima</string>
   <!--Strings related to AppBlacklist-->
@@ -51,7 +51,7 @@
   <string name="miband_firmware_unknown_warning">Questo firmware non è stato testato e potrebbe non essere compatibile con Gadgetbridge. 
 \n 
 \nNON è consigliato installarlo sulla Mi Band!</string>
-  <string name="miband_firmware_suggest_whitelist">Se si procede e tutto continua a funzionare ti invitiamo a contattare gli sviluppatori e dire loro di aggiungere il firmware %s all\'elenco di quelli testati.</string>
+  <string name="miband_firmware_suggest_whitelist">Se si procede e tutto continua a funzionare ti invitiamo a contattare gli sviluppatori e dire loro di aggiungere il firmware %s all\'elenco di quelli compatibili.</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Impostazioni</string>
   <string name="pref_header_general">Impostazioni</string>
@@ -551,7 +551,7 @@
     <string name="controlcenter_calibrate_device">Calibra Dispositivo</string>
 
 
-    <string name="pref_title_notifications_timeout">Tempo minimo tra 2 notifiche</string>
+    <string name="pref_title_notifications_timeout">Tempo minimo tra le notifiche</string>
     <string name="pref_title_rtl">Da destra a sinistra</string>
     <string name="pref_summary_rtl">Abilita questo se il tuo dispositivo non mostra le lingue lette da destra a sinistra</string>
     <string name="pref_rtl_max_line_length">Lunghezza massima delle linee</string>
@@ -569,7 +569,7 @@
     <string name="watch9_pairing_tap_hint">Quando il tuo orologio vibra, scuotilo o premi il tasto.</string>
 
     <string name="notif_battery_low">%1$s batteria scarica</string>
-    <string name="pref_auto_fetch_limit_fetches_summary">"Recupero ogni %d minuti "</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Sincronizza ogni %d minuti</string>
 
     <string name="no_limit">Nessun limite</string>
     <string name="seconds_5">5 secondi</string>
@@ -614,4 +614,23 @@
     <string name="title_activity_watch9_calibration">calibrazione Watch 9</string>
     <string name="preferences_rtl_settings">Supporto da destra a sinistra</string>
     <string name="share_log">Condividi log</string>
-    </resources>
+    <string name="notif_battery_low_extended">%1$s batteria scarica: %2$s</string>
+    <string name="lack_of_sleep">Debito di sonno: %1$s</string>
+    <string name="mi3_prefs_night_mode_summary">Riduci automaticamente la luminosità dello schermo della band di notte</string>
+
+    <string name="activity_prefs_charts">Impostazioni grafici</string>
+    <string name="devicetype_watch9">Watch 9</string>
+    <string name="devicetype_roidmi">Roidmi</string>
+    <string name="menuitem_more">Altro</string>
+
+    <string name="pref_title_contextual_arabic">Arabo Contestuale</string>
+    <string name="warning">Attenzione!</string>
+    <string name="no_data">Nessun dato</string>
+
+    <string name="preferences_led_color">Colore LED</string>
+
+    <string name="preferences_fm_frequency">Frequenze FM</string>
+    <string name="pref_invalid_frequency_title">Frequenza non valida</string>
+    <string name="pref_invalid_frequency_message">Per favore introdurre una frequenza compresa tra 87.5 e 108.0</string>
+    <string name="language_and_region_prefs">Impostazioni lingua e regione</string>
+</resources>
