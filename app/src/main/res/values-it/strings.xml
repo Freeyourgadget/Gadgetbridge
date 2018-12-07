@@ -34,9 +34,9 @@
   <string name="appmanager_health_deactivate">Disattiva</string>
   <string name="appmanager_hrm_activate">Attiva il monitor del battito cardiaco</string>
   <string name="appmanager_hrm_deactivate">Disattiva il monitor del battito cardiaco</string>
-  <string name="appmanager_weather_activate">Attiva l\'applicazione meteo</string>
-  <string name="appmanager_weather_deactivate">Disattiva l\'applicazione meteo</string>
-  <string name="appmanager_weather_install_provider">Installa l\'applicazione \"notifiche meteo\"</string>
+  <string name="appmanager_weather_activate">Attiva l\'Applicazione Meteo</string>
+  <string name="appmanager_weather_deactivate">Disattiva l\'Applicazione Meteo</string>
+  <string name="appmanager_weather_install_provider">Installa l\'applicazione Notifiche Meteo</string>
   <string name="app_configure">Configura</string>
   <string name="app_move_to_top">Sposta in cima</string>
   <!--Strings related to AppBlacklist-->
@@ -51,11 +51,11 @@
   <string name="miband_firmware_unknown_warning">Questo firmware non è stato testato e potrebbe non essere compatibile con Gadgetbridge. 
 \n 
 \nNON è consigliato installarlo sulla Mi Band!</string>
-  <string name="miband_firmware_suggest_whitelist">Se si procede e tutto continua a funzionare ti invitiamo a contattare gli sviluppatori e dire loro di aggiungere il firmware %s all\'elenco di quelli testati</string>
+  <string name="miband_firmware_suggest_whitelist">Se si procede e tutto continua a funzionare ti invitiamo a contattare gli sviluppatori e dire loro di aggiungere il firmware %s all\'elenco di quelli testati.</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Impostazioni</string>
   <string name="pref_header_general">Impostazioni</string>
-  <string name="pref_title_general_autoconnectonbluetooth">Collegati al dispositivo quando il bluetooth viene acceso</string>
+  <string name="pref_title_general_autoconnectonbluetooth">Collegati al dispositivo Gadgetbridge quando il bluetooth viene acceso</string>
   <string name="pref_title_general_autostartonboot">Avvio automatico</string>
   <string name="pref_title_general_autoreconnect">Riconnessione automatica</string>
   <string name="pref_title_audio_player">Applicazione musicale preferita</string>
@@ -71,13 +71,13 @@
   <string name="pref_summary_minimize_priority_off">L\'icona nella barra di stato e la notifica nella schermata di blocco vengono mostrate</string>
   <string name="pref_summary_minimize_priority_on">L\'icona nella barra di stato e la notifica nella schermata di blocco non vengono mostrate</string>
   <string name="pref_header_notifications">Notifiche</string>
-  <string name="pref_title_notifications_repetitions">Ripetizioni</string>
+  <string name="pref_title_notifications_repetitions">Ripetute</string>
   <string name="pref_title_notifications_call">Chiamate telefoniche</string>
   <string name="pref_title_notifications_sms">SMS</string>
   <string name="pref_title_notifications_pebblemsg">Messaggi Pebble</string>
   <string name="pref_summary_notifications_pebblemsg">Supporto per applicazioni che inviano le notifiche a Pebble usando PebbleKit.</string>
-  <string name="pref_title_notifications_generic">Notifiche generiche</string>
-  <string name="pref_title_whenscreenon">… anche se lo schermo è acceso</string>
+  <string name="pref_title_notifications_generic">Supporto Notifiche Generiche</string>
+  <string name="pref_title_whenscreenon">…anche se lo schermo è acceso</string>
   <string name="pref_title_notification_filter">Non disturbare</string>
   <string name="pref_summary_notification_filter">Non inviare notifiche nei periodi configurati come \"Non Disturbare\"</string>
   <string name="pref_title_transliteration">Traslitterazione</string>
@@ -569,4 +569,49 @@
     <string name="watch9_pairing_tap_hint">Quando il tuo orologio vibra, scuotilo o premi il tasto.</string>
 
     <string name="notif_battery_low">%1$s batteria scarica</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">"Recupero ogni %d minuti "</string>
+
+    <string name="no_limit">Nessun limite</string>
+    <string name="seconds_5">5 secondi</string>
+    <string name="seconds_10">10 secondi</string>
+    <string name="seconds_20">20 secondi</string>
+    <string name="seconds_30">30 secondi</string>
+    <string name="minutes_1">1 minuto</string>
+    <string name="minutes_5">5 minuti</string>
+    <string name="minutes_10">10 minuti</string>
+    <string name="minutes_30">30 minuti</string>
+
+    <string name="you_slept">Hai dormito dalle %1$s alle %2$s</string>
+    <string name="you_did_not_sleep">Non hai dormito</string>
+    <string name="mi3_prefs_band_screen_unlock_summary">Swipe up per sbloccare lo schermo della band</string>
+    <string name="mi3_prefs_night_mode">Modalità notturna</string>
+    <string name="norwegian_bokmal">Norvegese Bokmål</string>
+    <string name="russian">Russo</string>
+    <string name="german">Tedesco</string>
+    <string name="italian">Italiano</string>
+    <string name="french">Francese</string>
+    <string name="polish">Polacco</string>
+    <string name="korean">Coreano</string>
+    <string name="japanese">Giapponese</string>
+
+    <string name="activity_prefs_chart_max_heart_rate">Frequenza cardiaca massima</string>
+    <string name="activity_prefs_chart_min_heart_rate">Frequenza cardiaca minima</string>
+
+    <string name="ok">OK</string>
+
+    <string name="mi3_night_mode_sunset">Al tramonto</string>
+    <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
+    <string name="devicetype_id115">ID115</string>
+    <string name="devicetype_roidmi3">Roidmi 3</string>
+
+    <string name="menuitem_notifications">Notifiche</string>
+    <string name="menuitem_music">Musica</string>
+    <string name="watch9_time_minutes">Minuti:</string>
+    <string name="watch9_time_hours">Ore:</string>
+    <string name="watch9_time_seconds">Secondi:</string>
+    <string name="watch9_calibration_button">Calibra</string>
+    <string name="title_activity_watch9_pairing">accoppiamento Watch 9</string>
+    <string name="title_activity_watch9_calibration">calibrazione Watch 9</string>
+    <string name="preferences_rtl_settings">Supporto da destra a sinistra</string>
+    <string name="share_log">Condividi log</string>
     </resources>
