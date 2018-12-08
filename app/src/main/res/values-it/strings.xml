@@ -219,7 +219,7 @@
   <string name="pref_screen_notification_profile_generic">Notifiche generiche</string>
   <string name="pref_screen_notification_profile_email">Notifiche Email</string>
   <string name="pref_screen_notification_profile_incoming_call">Notifiche chiamata in arrivo</string>
-  <string name="pref_screen_notification_profile_generic_chat">Cha</string>
+  <string name="pref_screen_notification_profile_generic_chat">Chat</string>
   <string name="pref_screen_notification_profile_generic_navigation">Navigazione</string>
   <string name="pref_screen_notification_profile_generic_social">Social Network</string>
   <string name="stats_title">Zone di velocità</string>
@@ -555,7 +555,7 @@
     <string name="pref_title_rtl">Da destra a sinistra</string>
     <string name="pref_summary_rtl">Abilita questo se il tuo dispositivo non mostra le lingue lette da destra a sinistra</string>
     <string name="pref_rtl_max_line_length">Lunghezza massima delle linee</string>
-    <string name="pref_rtl_max_line_length_summary">Definisci il numero di caratteri da visualizzare per le lingue lette da destra a sinistra</string>
+    <string name="pref_rtl_max_line_length_summary">Aumenta o diminuisci il numero di righe con cui separare il testo da destra a sinistra</string>
 
     <string name="preferences_id115_settings">"Impostazioni per ID115 "</string>
     <string name="prefs_screen_orientation">Orientamento dello schermo</string>
@@ -638,4 +638,7 @@
     <string name="watch9_calibration_hint">Imposta l\'orario che il tuo dispositivo ti sta mostrando adesso.</string>
     <string name="pref_summary_contextual_arabic">Abilita questo per supportare la lingua Araba</string>
     <string name="share_log_warning">Tieni presente che i file di log di Gadgetbridge possono contenere molte informazioni personali, inclusi, a titolo esemplificativo, dati sulla salute, identificatori univoci (come l\'indirizzo MAC del dispositivo), preferenze musicali, ecc. Modifica il file per rimuovere queste informazioni prima di inviare il file in una segnalazione di errore visibile pubblicamente.</string>
+    <string name="overslept">Sonno extra: %1$s</string>
+    <string name="lack_of_step">Mancanza di passi: %1$d</string>
+    <string name="overstep">Passo extra: %1$d</string>
     </resources>
