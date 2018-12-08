@@ -62,7 +62,7 @@
   <string name="pref_default">Default</string>
   <string name="pref_header_datetime">Data e ora</string>
   <string name="pref_title_datetime_syctimeonconnect">Sincronizza l\'ora</string>
-  <string name="pref_summary_datetime_syctimeonconnect">Sincronizza l\'orario al collegamento e quando viene cambiato il fuso orario da Android</string>
+  <string name="pref_summary_datetime_syctimeonconnect">Sincronizza l\'orario al collegamento con il dispositivo Gadgetbridge, quando viene cambiato l\'orario o il fuso orario nel dispositivo Android</string>
   <string name="pref_title_theme">Tema</string>
   <string name="pref_theme_light">Chiaro</string>
   <string name="pref_theme_dark">Scuro</string>
@@ -108,7 +108,7 @@
   <string name="pref_title_enable_outgoing_call">Mostra le chiamate in uscita</string>
   <string name="pref_summary_enable_outgoing_call">Disabilitando questa funzionalità impedirá la vibrazione del Pebble 2 quando si effettua una chiamata</string>
   <string name="pref_title_enable_pebblekit">Consenti accesso ad altre applicazioni</string>
-  <string name="pref_summary_enable_pebblekit">Attiva l\'accesso sperimentale ad applicazioni Android che usano PebbleKit</string>
+  <string name="pref_summary_enable_pebblekit">Attiva il supporto sperimentale ad applicazioni Android con PebbleKit</string>
   <string name="pref_title_sunrise_sunset">Alba e tramonto</string>
   <string name="pref_summary_sunrise_sunset">Mostra gli orari calcolati per l\'alba e il tramonto sulla timeline</string>
   <string name="pref_title_enable_calendar_sync">Sincronizza calendario</string>
@@ -127,14 +127,14 @@
   <string name="toast_enable_networklocationprovider">Per cortesia abilita la localizzazione utilizzando la rete</string>
   <string name="toast_aqurired_networklocation">posizione acquisita</string>
   <string name="pref_title_pebble_forceprotocol">Forza protocollo delle notifiche</string>
-  <string name="pref_summary_pebble_forceprotocol">Questa opzione forza l\'utilizzo della versione più recente delle notifiche in dipendenza del firmware del tuo dispositivo. ABILITALO SOLO SE SAI COSA STAI FACENDO!</string>
+  <string name="pref_summary_pebble_forceprotocol">Questa opzione forza l\'utilizzo della versione più recente del protocollo delle notifiche legato al firmware del tuo dispositivo. ABILITALA SOLO SE SAI COSA STAI FACENDO!</string>
   <string name="pref_title_pebble_forceuntested">Abilita funzionalità non testate</string>
-  <string name="pref_summary_pebble_forceuntested">Abilita funzionalità non testate. ABILITARE SOLO SE SI SA QUELLO CHE SI STA FACENDO!</string>
+  <string name="pref_summary_pebble_forceuntested">Abilita funzionalità non testate. SAI QUELLO CHE STAI FACENDO!</string>
   <string name="pref_title_pebble_forcele">Usa sempre BLE</string>
   <string name="pref_summary_pebble_forcele">Utilizza il supporto sperimentale Pebble LE per tutti i Pebble in alternativa al BT. Questo richiede un nuovo accoppiamento a LE prima e poi al Pebble LE</string>
   <string name="pref_title_pebble_mtu_limit">Limita la MTU del Pebble 2/LE</string>
   <string name="pref_summary_pebble_mtu_limit">Se il tuo Pebble 2/LE non funziona come dovrebbe, prova a impostare un limite alla MTU (range valido 20-512)</string>
-  <string name="pref_title_pebble_enable_applogs">Abilita il log delle applicazioni che girano su Pebble</string>
+  <string name="pref_title_pebble_enable_applogs">Abilita il log delle applicazioni eseguite su Pebble</string>
   <string name="pref_summary_pebble_enable_applogs">Il log delle applicazioni che girano su Pebble verrà aggiunto a quello di Gadgetbridge (richiede riconessione)</string>
   <string name="pref_title_pebble_always_ack_pebblekit">Invia l\'ACK dei messaggi PebbleKit prematuramente</string>
   <string name="pref_summary_pebble_always_ack_pebblekit">I messaggi inviati alle applicazioni di terze parti verranno immediatamente confermate</string>
@@ -240,7 +240,7 @@
   <string name="alarm_sat_short">Sab</string>
   <string name="alarm_smart_wakeup">Sveglia intelligente</string>
   <string name="user_feedback_miband_set_alarms_failed">Errore nell\'impostazione delle sveglie, riprova di nuovo!</string>
-  <string name="user_feedback_miband_set_alarms_ok">Sveglie sincronizzate con il dispositivo!</string>
+  <string name="user_feedback_miband_set_alarms_ok">Sveglie inviate al dispositivo.</string>
   <string name="chart_no_data_synchronize">Non ci sono dati. Hai effettuato la sincronizzazione con il device?</string>
   <string name="user_feedback_miband_activity_data_transfer">Vengono trasferiti %1$s a partire dal %2$s</string>
   <string name="miband_prefs_fitness_goal">Traguardo giornaliero di passi</string>
@@ -306,7 +306,7 @@
   <string name="miband_prefs_reserve_alarm_calendar">Sveglie da riservare per i prossimi eventi del calendario</string>
   <string name="miband_prefs_hr_sleep_detection">Utilizza il sensore del battito cardiaco per migliorare il riconoscimento del sonno</string>
   <string name="miband_prefs_device_time_offset_hours">Sfasamento dell\'orario per il device (per consentire il rilevamento del sonno per chi lavora a turni)</string>
-  <string name="miband2_prefs_dateformat">Mi Band 2: Formato Data</string>
+  <string name="miband2_prefs_dateformat">Formato Data</string>
   <string name="dateformat_time">Ora</string>
   <string name="dateformat_date_time">Ora e data</string>
   <string name="mi2_prefs_goal_notification">Notifica raggiungimento obbiettivi</string>
@@ -320,7 +320,7 @@
   <string name="mi2_prefs_inactivity_warnings">Allarmi inattività</string>
   <string name="mi2_prefs_inactivity_warnings_summary">La band vibrerà dopo un determinato periodo di inattività</string>
   <string name="mi2_prefs_inactivity_warnings_threshold">Limite inattività (in minuti)</string>
-  <string name="mi2_prefs_inactivity_warnings_dnd_summary">Disabilita allarmi inattività per un dato intervallo di tempo</string>
+  <string name="mi2_prefs_inactivity_warnings_dnd_summary">Disabilita allarmi inattività per un intervallo di tempo</string>
   <string name="mi2_prefs_do_not_disturb_start">Ora inizio</string>
   <string name="mi2_prefs_do_not_disturb_end">Ora fine</string>
   <string name="FetchActivityOperation_about_to_transfer_since">Vengono trasferiti dati a partire dal %1$s</string>
@@ -633,4 +633,6 @@
     <string name="pref_invalid_frequency_title">Frequenza non valida</string>
     <string name="pref_invalid_frequency_message">Per favore introdurre una frequenza compresa tra 87.5 e 108.0</string>
     <string name="language_and_region_prefs">Impostazioni lingua e regione</string>
-</resources>
+<string name="live_activity_max_heart_rate">Attuale / Massima frequenza cardiaca: %1$d / %2$d</string>
+    <string name="mi3_prefs_band_screen_unlock">Sblocca lo schermo della band</string>
+    </resources>
