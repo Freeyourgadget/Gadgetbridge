@@ -48,17 +48,11 @@ Please see [FEATURES.md](https://github.com/Freeyourgadget/Gadgetbridge/blob/mas
 
 ## Getting Started (Pebble)
 
-1. Pair your Pebble through Gadgetbridge (tap on the + in Control Center)
-2. Start Gadgetbridge, tap on the device you want to connect to
-3. To test, choose "Debug" from the menu and play around
-
-For more information read [this wiki article](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble-Getting-Started) 
+Please [this wiki article](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble-Getting-Started) 
 
 ## How to use (Mi Band 1+2)
 
-* When starting Gadgetbridge the first time, it will automatically
-  attempt to discover and pair your Mi Band. Alternatively you can invoke discovery
-  manually via the "+" button. It will ask you for some personal info that appears
+* Invoke the discovery activity  manually via the "+" button. It will ask you for some personal info that appears
   to be needed for proper steps calculation on the band. If you do not provide these,
   some hardcoded default "dummy" values will be used instead. 
 
