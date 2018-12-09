@@ -62,7 +62,7 @@
   <string name="pref_default">Default</string>
   <string name="pref_header_datetime">Data e ora</string>
   <string name="pref_title_datetime_syctimeonconnect">Sincronizza l\'ora</string>
-  <string name="pref_summary_datetime_syctimeonconnect">Sincronizza l\'orario al collegamento con il dispositivo Gadgetbridge, quando viene cambiato l\'orario o il fuso orario nel dispositivo Android</string>
+  <string name="pref_summary_datetime_syctimeonconnect">Sincronizza l\'orario al collegamento con il dispositivo Gadgetbridge e quando viene cambiato l\'orario o il fuso orario nel dispositivo Android</string>
   <string name="pref_title_theme">Tema</string>
   <string name="pref_theme_light">Chiaro</string>
   <string name="pref_theme_dark">Scuro</string>
@@ -546,7 +546,7 @@
     <string name="menuitem_compass">Bussola</string>
     <string name="menuitem_settings">Impostazioni</string>
     <string name="menuitem_alipay">Alipay</string>
-<string name="controlcenter_change_led_color">Cambia il colore dei LED</string>
+<string name="controlcenter_change_led_color">Cambio colore LED</string>
     <string name="controlcenter_change_fm_frequency">Cambia frequenza FM</string>
     <string name="controlcenter_calibrate_device">Calibra Dispositivo</string>
 
