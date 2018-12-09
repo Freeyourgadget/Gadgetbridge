@@ -132,12 +132,7 @@ public class DeviceHelper {
             GB.toast(context, context.getString(R.string.bluetooth_is_disabled_), Toast.LENGTH_SHORT, GB.WARN);
         }
         List<GBDevice> dbDevices = getDatabaseDevices();
-        // these come first, as they have the most information already
         availableDevices.addAll(dbDevices);
-        if (btAdapter != null) {
-            List<GBDevice> bondedDevices = getBondedDevices(btAdapter);
-            availableDevices.addAll(bondedDevices);
-        }
 
         Prefs prefs = GBApplication.getPrefs();
         String miAddr = prefs.getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
@@ -262,29 +257,6 @@ public class DeviceHelper {
         }
 
         return gbDevice;
-    }
-
-    private @NonNull List<GBDevice> getBondedDevices(@NonNull BluetoothAdapter btAdapter) {
-        Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
-        if (pairedDevices == null) {
-            return Collections.emptyList();
-        }
-
-        List<GBDevice> result = new ArrayList<>(pairedDevices.size());
-        DeviceHelper deviceHelper = DeviceHelper.getInstance();
-        for (BluetoothDevice pairedDevice : pairedDevices) {
-            if (pairedDevice == null) {
-                continue; // just to be safe, see https://github.com/Freeyourgadget/Gadgetbridge/pull/1052
-            }
-            if (pairedDevice.getName() != null && (pairedDevice.getName().startsWith("Pebble-LE ") || pairedDevice.getName().startsWith("Pebble Time LE "))) {
-                continue; // ignore LE Pebble (this is part of the main device now (volatileAddress)
-            }
-            GBDevice device = deviceHelper.toSupportedDevice(pairedDevice);
-            if (device != null) {
-                result.add(device);
-            }
-        }
-        return result;
     }
 
     /**

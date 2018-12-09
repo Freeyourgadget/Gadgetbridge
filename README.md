@@ -48,7 +48,7 @@ Please see [FEATURES.md](https://github.com/Freeyourgadget/Gadgetbridge/blob/mas
 
 ## Getting Started (Pebble)
 
-1. Pair your Pebble through the Android's Bluetooth Settings or Gadgetbridge. Pebble 2 MUST be paired though Gadgetbridge (tap on the + in Control Center)
+1. Pair your Pebble through Gadgetbridge (tap on the + in Control Center)
 2. Start Gadgetbridge, tap on the device you want to connect to
 3. To test, choose "Debug" from the menu and play around
 
