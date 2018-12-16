@@ -118,6 +118,14 @@
                 android:text="reboot" />
 
             <Button
+                android:id="@+id/factoryResetButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal"
+                android:text="factory reset" />
+
+            <Button
                 android:id="@+id/testNotificationButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

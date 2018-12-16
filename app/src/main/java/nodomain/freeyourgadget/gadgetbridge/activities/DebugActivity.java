@@ -28,7 +28,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.RemoteInput;
@@ -59,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
+import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static android.content.Intent.EXTRA_SUBJECT;
@@ -183,9 +183,33 @@ public class DebugActivity extends AbstractGBActivity {
         rebootButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GBApplication.deviceService().onReboot();
+                GBApplication.deviceService().onReset(GBDeviceProtocol.RESET_FLAGS_REBOOT);
             }
         });
+
+        Button factoryResetButton = findViewById(R.id.factoryResetButton);
+        factoryResetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(DebugActivity.this)
+                        .setCancelable(true)
+                        .setTitle(R.string.debugactivity_really_factoryreset_title)
+                        .setMessage(R.string.debugactivity_really_factoryreset)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                GBApplication.deviceService().onReset(GBDeviceProtocol.RESET_FLAGS_FACTORY_RESET);
+                            }
+                        })
+                        .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
+            }
+        });
+
         Button heartRateButton = findViewById(R.id.HeartRateButton);
         heartRateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -278,14 +302,7 @@ public class DebugActivity extends AbstractGBActivity {
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String fileName = GBApplication.getLogPath();
-                        if (fileName != null && fileName.length() > 0) {
-                            Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-                            emailIntent.setType("*/*");
-                            emailIntent.putExtra(EXTRA_SUBJECT, "Gadgetbridge log file");
-                            emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(fileName)));
-                            startActivity(Intent.createChooser(emailIntent, "Share File"));
-                        }
+                        shareLog();
                     }
                 })
                 .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {

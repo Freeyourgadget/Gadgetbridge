@@ -1468,7 +1468,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     @Override
-    public byte[] encodeReboot() {
+    public byte[] encodeReset(int flags) {
         return encodeSimpleMessage(ENDPOINT_RESET, RESET_REBOOT);
     }
 

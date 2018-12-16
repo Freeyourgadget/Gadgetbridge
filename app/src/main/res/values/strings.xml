@@ -26,7 +26,10 @@
     <string name="controlcenter_calibrate_device">Calibrate Device</string>
 
 
+    <!-- Strings related to Debug Activity -->
     <string name="title_activity_debug">Debug</string>
+    <string name="debugactivity_really_factoryreset_title">Really factory reset?</string>
+    <string name="debugactivity_really_factoryreset">Doing a factory reset will delete all data from the connected device (if supported). In case of Xiaomi/Huami devices your Bluetooth MAC address will change, so it will appear as a new device to Gadgetbrige"</string>
 
     <!-- Strings related to AppManager -->
     <string name="title_activity_appmanager">App Manager</string>
@@ -109,7 +112,7 @@
     <string name="pref_title_rtl">Right-To-Left</string>
     <string name="pref_summary_rtl">Enable this if your device can not show right-to-left languages</string>
     <string name="pref_rtl_max_line_length">Right-To-Left Max Line Length</string>
-    <string name="pref_rtl_max_line_length_summary">Lengthens or shortens the lines Right-To-Left text is seperated into</string>
+    <string name="pref_rtl_max_line_length_summary">Lengthens or shortens the lines Right-To-Left text is separated into</string>
 
     <string name="always">Always</string>
     <string name="when_screen_off">When screen is off</string>

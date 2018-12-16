@@ -94,7 +94,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_FI
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_HEARTRATE_TEST;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_INSTALL;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_NOTIFICATION;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REBOOT;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_RESET;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_APPINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_DEVICEINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_SCREENSHOT;
@@ -160,6 +160,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOT
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_TITLE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_TYPE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_RECORDED_DATA_TYPES;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_RESET_FLAGS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_URI;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_VIBRATION_INTENSITY;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER;
@@ -416,8 +417,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mDeviceSupport.onDeleteCalendarEvent(type, id);
                 break;
             }
-            case ACTION_REBOOT: {
-                mDeviceSupport.onReboot();
+            case ACTION_RESET: {
+                int flags = intent.getIntExtra(EXTRA_RESET_FLAGS, 0);
+                mDeviceSupport.onReset(flags);
                 break;
             }
             case ACTION_HEARTRATE_TEST: {

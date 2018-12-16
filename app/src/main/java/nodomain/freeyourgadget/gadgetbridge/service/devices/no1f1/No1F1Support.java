@@ -296,7 +296,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
     }
 
     @Override

@@ -367,7 +367,7 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
         try {
             TransactionBuilder builder = performInitialized("Reboot");
             builder.write(ctrlCharacteristic, commandWithChecksum(
