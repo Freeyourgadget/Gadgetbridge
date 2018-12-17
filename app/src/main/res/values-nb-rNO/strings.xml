@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources><string name="action_settings">Innstillinger</string>
     <string name="action_debug">Feilretting</string>
     <string name="action_quit">Avslutt</string>
@@ -678,7 +678,7 @@
 <string name="pref_title_rtl">Høyre-til-venstre</string>
     <string name="pref_summary_rtl">Skru på dette hvis din enhet ikke kan vise høyre til venstre-språk</string>
     <string name="pref_rtl_max_line_length">Maksimal linjelengde for høyre-til-venstre</string>
-    <string name="pref_rtl_max_line_length_summary">Strekker eller korter ned linjene høyre-til-venstre tekst inndeles i</string>
+    <string name="pref_rtl_max_line_length_summary">Strekker eller korter ned linjene høyre-til-venstre -tekst inndeles i</string>
 
     <string name="notif_battery_low">%1$s batteri snart tomt</string>
     <string name="notif_battery_low_extended">%1$s batteri snart tomt: %2$s</string>
@@ -697,4 +697,6 @@
     <string name="no_data">Ingen data</string>
 
     <string name="language_and_region_prefs">Språk og stedsinnstillinger</string>
+    <string name="debugactivity_really_factoryreset_title">Vil du virkelig gjenopprette fabrikkinnstillinger\?</string>
+    <string name="debugactivity_really_factoryreset">Gjenoppretting til fabrikkinnstillinger vil slette all data fra den tilkoblede enheten (hvis støttet). Xiaomi/Huami-enheter endrer også MAC-adressen for Blåtann, og vil dermed framtre som nye enheter i Gadgetbridge.</string>
 </resources>
