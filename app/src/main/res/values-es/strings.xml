@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Gadgetbridge</string>
   <string name="title_activity_controlcenter">Gadgetbridge</string>
@@ -35,10 +35,10 @@
   <string name="appmanager_hrm_activate">Activar Monitor de Ritmo Cardíaco</string>
   <string name="appmanager_hrm_deactivate">Desactivar Monitor de Ritmo Cardíaco</string>
   <string name="appmanager_weather_activate">Activar la aplicación del tiempo del sistema</string>
-  <string name="appmanager_weather_deactivate">Desactivar la aplicación del tiempo del sistema</string>
-  <string name="appmanager_weather_install_provider">Instalar la aplicación de notificación del tiempo</string>
+  <string name="appmanager_weather_deactivate">Desactivar la aplicación interna del Tiempo</string>
+  <string name="appmanager_weather_install_provider">Instalar la aplicación de notificación del Tiempo</string>
   <string name="app_configure">Configurar</string>
-  <string name="app_move_to_top">Mover a la parte de arriba</string>
+  <string name="app_move_to_top">Mover arriba</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Lista negra de notificaciones</string>
   <!--Strings related to CalBlacklist-->
@@ -474,7 +474,7 @@
     <string name="kind_gps_almanac">Almanaque GPS</string>
     <string name="kind_gps_cep">Corrección de error del GPS</string>
     <string name="kind_resources">Recursos</string>
-    <string name="kind_watchface">Watchface</string>
+    <string name="kind_watchface">Esfera</string>
 
     <string name="devicetype_unknown">Dispositivo desconocido</string>
     <string name="devicetype_test">Dispositivo de prueba</string>
@@ -529,4 +529,5 @@
     <string name="watch9_time_hours">Horas:</string>
     <string name="watch9_time_seconds">Segundos:</string>
     <string name="watch9_calibration_button">Calibrar</string>
-    </resources>
+    <string name="watch9_pairing_tap_hint">Cuando el dispositivo vibre, agítelo o pulse un botón.</string>
+</resources>
