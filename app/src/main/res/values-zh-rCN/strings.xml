@@ -691,4 +691,5 @@
     <string name="pref_invalid_frequency_title">不正确的频率</string>
     <string name="pref_invalid_frequency_message">请输入一个在 87.5 至 108.0 之间的频率</string>
     <string name="language_and_region_prefs">语言和区域设置</string>
+    <string name="devicetype_no1_f18">No.1 F18</string>
 </resources>

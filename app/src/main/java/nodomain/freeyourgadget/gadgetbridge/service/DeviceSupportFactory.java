@@ -147,6 +147,9 @@ public class DeviceSupportFactory {
                     case Q8:
                         deviceSupport = new ServiceDeviceSupport(new HPlusSupport(DeviceType.Q8), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
+                    case NO1F18:
+                        deviceSupport = new ServiceDeviceSupport(new HPlusSupport(DeviceType.NO1F18), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
                     case NO1F1:
                         deviceSupport = new ServiceDeviceSupport(new No1F1Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
