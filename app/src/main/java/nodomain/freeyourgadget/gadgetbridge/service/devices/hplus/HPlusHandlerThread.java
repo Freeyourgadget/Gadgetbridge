@@ -463,7 +463,9 @@ class HPlusHandlerThread extends GBDeviceIoThread {
 
             Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
                     .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample)
-                    .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
+                    .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis())
+                    .putExtra("heartRate", sample.getHeartRate());
+            intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
             LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
 
 
