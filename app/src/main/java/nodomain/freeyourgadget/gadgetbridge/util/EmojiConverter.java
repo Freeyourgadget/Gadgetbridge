@@ -23,6 +23,7 @@ import io.wax911.emojify.EmojiManager;
 import io.wax911.emojify.EmojiUtils;
 
 public class EmojiConverter {
+
     private static final String[][] simpleEmojiMapping = {
             {"\uD83D\uDE00", ":-D"},  // grinning
             {"\uD83D\uDE01", ":-D"},  // grinning_face_with_smiling_eyes
@@ -38,8 +39,9 @@ public class EmojiConverter {
             {"\uD83D\uDE0E", "B-)"},  // sunglasses
             {"\uD83D\uDE15", ":-/"},  // confused
             {"\uD83D\uDE16", ":-S"},  // confounded_face
-            {"\uD83D\uDE19", ":-*"},  // kissing_face_with_smiling_eyes
             {"\uD83D\uDE17", ":*"},   // kissing_face
+            {"\uD83D\uDE18", ";-*"},  // face_throwing_a_kiss
+            {"\uD83D\uDE19", ":-*"},  // kissing_face_with_smiling_eyes
             {"\uD83D\uDE1A", ":-*"},  // kissing_closed_eyes
             {"\uD83D\uDE1B", ":-P"},  // stuck_out_tongue
             {"\uD83D\uDE1C", ";-P"},  // stuck_out_tongue_winking_eye
