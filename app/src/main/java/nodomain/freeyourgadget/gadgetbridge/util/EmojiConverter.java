@@ -70,7 +70,7 @@ public class EmojiConverter {
         return text;
     }
 
-    private static String convertAdvancedEmojiToAscii(String text, Context context) {
+    private static synchronized String convertAdvancedEmojiToAscii(String text, Context context) {
         // Do a lazy initialisation not to slowdown the startup and when it is needed
         if (!isInitialised) {
             EmojiManager.initEmojiData(context);
