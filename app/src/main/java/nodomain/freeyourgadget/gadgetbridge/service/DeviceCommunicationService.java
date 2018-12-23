@@ -364,7 +364,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             return text;
 
         if (!mCoordinator.supportsUnicodeEmojis())
-            return EmojiConverter.convertUnicodeEmojiToAscii(text);
+            return EmojiConverter.convertUnicodeEmojiToAscii(text, getApplicationContext());
 
         return text;
     }

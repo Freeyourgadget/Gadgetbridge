@@ -17,6 +17,9 @@
 
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import android.content.Context;
+
+import io.wax911.emojify.EmojiManager;
 import io.wax911.emojify.EmojiUtils;
 
 public class EmojiConverter {
@@ -56,6 +59,8 @@ public class EmojiConverter {
             {"\u2764", "<3"},         // heart
     };
 
+    private static boolean isInitialised = false;
+
     private static String convertSimpleEmojiToAscii(String text) {
         for (String[] emojiMap : simpleEmojiMapping) {
             text = text.replace(emojiMap[0], emojiMap[1]);
@@ -63,10 +68,21 @@ public class EmojiConverter {
         return text;
     }
 
-    public static String convertUnicodeEmojiToAscii(String text) {
-
-        text = convertSimpleEmojiToAscii(text);
+    private static String convertAdvancedEmojiToAscii(String text, Context context) {
+        // Do a lazy initialisation not to slowdown the startup and when it is needed
+        if (!isInitialised) {
+            EmojiManager.initEmojiData(context);
+            isInitialised = true;
+        }
 
         return EmojiUtils.shortCodify(text);
+    }
+
+    public static String convertUnicodeEmojiToAscii(String text, Context context) {
+        text = convertSimpleEmojiToAscii(text);
+
+        text = convertAdvancedEmojiToAscii(text, context);
+
+        return text;
     }
 }
