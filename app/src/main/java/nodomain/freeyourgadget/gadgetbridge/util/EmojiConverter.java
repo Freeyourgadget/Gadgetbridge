@@ -61,7 +61,7 @@ public class EmojiConverter {
             {"\u2764", "<3"},         // heart
     };
 
-    private static boolean isInitialised = false;
+    private static boolean isEmojiDataInitialised = false;
 
     private static String convertSimpleEmojiToAscii(String text) {
         for (String[] emojiMap : simpleEmojiMapping) {
@@ -70,12 +70,16 @@ public class EmojiConverter {
         return text;
     }
 
-    private static synchronized String convertAdvancedEmojiToAscii(String text, Context context) {
+    private static synchronized void initEmojiData(Context context) {
         // Do a lazy initialisation not to slowdown the startup and when it is needed
-        if (!isInitialised) {
+        if (!isEmojiDataInitialised) {
             EmojiManager.initEmojiData(context);
-            isInitialised = true;
+            isEmojiDataInitialised = true;
         }
+    }
+
+    private static String convertAdvancedEmojiToAscii(String text, Context context) {
+        initEmojiData(context);
 
         return EmojiUtils.shortCodify(text);
     }
