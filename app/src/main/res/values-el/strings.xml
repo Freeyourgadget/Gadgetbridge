@@ -707,5 +707,5 @@
 
     <string name="language_and_region_prefs">Ρυθμίσεις γλώσσας και περιοχής</string>
     <string name="debugactivity_really_factoryreset_title">Επαναφορά εργοστασιακών ρυθμίσεων;</string>
-    <string name="debugactivity_really_factoryreset">Κάνοντας επαναφορά εργοστασιακών ρυθμίσεων όλα τα δεδομένα θα διαγραφούν απο την συνδεδεμένη συσκευή (αν υποστηρίζεται). Για τις συσκευές Xiaomi/Huami η διεύθυνση MAC θα αλλάξει, και θα εμφανιστούν ως καινούργια συσκευή στην εφαρμογή</string>
+    <string name="debugactivity_really_factoryreset">Κάνοντας επαναφορά εργοστασιακών ρυθμίσεων όλα τα δεδομένα θα διαγραφούν απο την συνδεδεμένη συσκευή (αν υποστηρίζεται). Στις συσκευές Xiaomi/Huami η διεύθυνση MAC θα αλλάξει, έτσι θα εμφανιστούν ως καινούργια συσκευή στην εφαρμογή.</string>
 </resources>
