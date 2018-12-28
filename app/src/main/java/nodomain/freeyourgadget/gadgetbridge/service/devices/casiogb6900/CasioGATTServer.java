@@ -109,6 +109,9 @@ class CasioGATTServer extends BluetoothGattServerCallback {
             LOG.info("Button pressed: " + button);
             switch(button)
             {
+                case 3:
+                    musicCmd.event = GBDeviceEventMusicControl.Event.NEXT;
+                    break;
                 case 2:
                     musicCmd.event = GBDeviceEventMusicControl.Event.PREVIOUS;
                     break;
@@ -116,7 +119,7 @@ class CasioGATTServer extends BluetoothGattServerCallback {
                     musicCmd.event = GBDeviceEventMusicControl.Event.PLAYPAUSE;
                     break;
                 case 0:
-                    musicCmd.event = GBDeviceEventMusicControl.Event.NEXT;
+
                     break;
             }
             mDeviceSupport.evaluateGBDeviceEvent(musicCmd);
