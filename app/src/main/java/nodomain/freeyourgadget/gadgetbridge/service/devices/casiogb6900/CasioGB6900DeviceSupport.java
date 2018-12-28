@@ -57,6 +57,8 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
     public BluetoothGattCharacteristic mCasioCharact4 = null;
     public BluetoothGattCharacteristic mCasioCharact5 = null;
     private CasioGATTThread mThread = null;
+    private MusicSpec mBufferMusicSpec = null;
+    private MusicStateSpec mBufferMusicStateSpec = null;
 
     public CasioGB6900DeviceSupport() {
         super(LOG);
@@ -67,6 +69,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
         addSupportedService(CasioGB6900Constants.WATCH_CTRL_SERVICE_UUID);
         addSupportedService(CasioGB6900Constants.WATCH_FEATURES_SERVICE_UUID);
         addSupportedService(CasioGB6900Constants.CASIO_PHONE_ALERT_STATUS_SERVICE);
+        addSupportedService(CasioGB6900Constants.MORE_ALERT_SERVICE_UUID);
         mThread = new CasioGATTThread(getContext(), this);
     }
 
@@ -364,12 +367,53 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetMusicState(MusicStateSpec stateSpec) {
+        LOG.info("onSetMusicState");
+        if(stateSpec != mBufferMusicStateSpec)
+        {
+            mBufferMusicStateSpec = stateSpec;
+            sendMusicInfo();
+        }
+    }
 
+    private void sendMusicInfo()
+    {
+        try {
+            TransactionBuilder builder = performInitialized("sendMusicInfo");
+            String info = "";
+            if (mBufferMusicSpec.track != null && mBufferMusicSpec.track.length() > 0) {
+                info += mBufferMusicSpec.track;
+            }
+            if (mBufferMusicSpec.album != null && mBufferMusicSpec.album.length() > 0) {
+                info += mBufferMusicSpec.album;
+            }
+            if (mBufferMusicSpec.artist != null && mBufferMusicSpec.artist.length() > 0) {
+                info += mBufferMusicSpec.artist;
+            }
+            byte[] bInfo = info.getBytes(StandardCharsets.US_ASCII);
+            int len = bInfo.length > 17 ? 17 : bInfo.length;
+            byte[] arr = new byte[len + 3];
+            arr[0] = 0;
+            arr[1] = 10;
+            arr[2] = 1;
+            for(int i=0; i<len; i++)
+            {
+                arr[i+3] = bInfo[i];
+            }
+            builder.write(getCharacteristic(CasioGB6900Constants.MORE_ALERT_FOR_LONG_UUID), arr);
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+            LOG.warn(e.getMessage());
+        }
     }
 
     @Override
     public void onSetMusicInfo(MusicSpec musicSpec) {
-
+        LOG.info("onSetMusicInfo");
+        if(musicSpec != mBufferMusicSpec)
+        {
+            mBufferMusicSpec = musicSpec;
+            sendMusicInfo();
+        }
     }
 
     @Override
