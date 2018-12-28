@@ -104,6 +104,17 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 return true;
             }
         });
+
+        pref = findPreference("tasker");
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent enableIntent = new Intent(SettingsActivity.this, MiBandPreferencesActivity.class);
+                startActivity(enableIntent);
+                return true;
+            }
+        });
+
         pref = findPreference("pref_key_miband");
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
@@ -284,16 +295,16 @@ public class SettingsActivity extends AbstractSettingsActivity {
 
         pref = findPreference("weather_city");
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-           @Override
-           public boolean onPreferenceChange(Preference preference, Object newVal) {
-               // reset city id and force a new lookup
-               GBApplication.getPrefs().getPreferences().edit().putString("weather_cityid", null).apply();
-               preference.setSummary(newVal.toString());
-               Intent intent = new Intent("GB_UPDATE_WEATHER");
-               intent.setPackage(BuildConfig.APPLICATION_ID);
-               sendBroadcast(intent);
-               return true;
-           }
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                // reset city id and force a new lookup
+                GBApplication.getPrefs().getPreferences().edit().putString("weather_cityid", null).apply();
+                preference.setSummary(newVal.toString());
+                Intent intent = new Intent("GB_UPDATE_WEATHER");
+                intent.setPackage(BuildConfig.APPLICATION_ID);
+                sendBroadcast(intent);
+                return true;
+            }
         });
 
         pref = findPreference(GBPrefs.AUTO_EXPORT_LOCATION);
@@ -355,7 +366,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 getApplicationContext().getString(R.string.pref_auto_fetch_limit_fetches_summary),
                 autoFetchInterval);
         pref.setSummary(summary);
-
 
 
         final Preference displayPages = findPreference("bip_display_items");
@@ -563,8 +573,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 if (cursor != null && cursor.moveToFirst()) {
                     return cursor.getString(cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DISPLAY_NAME));
                 }
-            }
-            catch (Exception fdfsdfds) {
+            } catch (Exception fdfsdfds) {
                 LOG.warn("fuck");
             }
         }

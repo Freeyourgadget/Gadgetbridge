@@ -24,6 +24,7 @@
     <uses-permission android:name="cyanogenmod.permission.ACCESS_WEATHER_MANAGER" />
     <uses-permission android:name="cyanogenmod.permission.READ_WEATHER" />
     <uses-permission android:name="org.omnirom.omnijaws.READ_WEATHER" />
+    <uses-permission android:name="net.dinglisch.android.tasker.PERMISSION_RUN_TASKS" />
 
     <uses-feature
         android:name="android.hardware.bluetooth"
@@ -40,8 +41,8 @@
         android:allowBackup="false"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/GadgetbridgeTheme">
         <activity
             android:name=".activities.ControlCenterv2"
@@ -66,9 +67,9 @@
             android:label="@string/activity_summaries"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
-            android:launchMode="singleTop"
             android:name=".activities.appmanager.AppManagerActivity"
             android:label="@string/title_activity_appmanager"
+            android:launchMode="singleTop"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
             android:name=".activities.AppBlacklistActivity"
@@ -319,11 +320,12 @@
 
         <activity android:name=".externalevents.WeatherNotificationConfig">
             <intent-filter>
-                <action android:name="ru.gelin.android.weather.notification.ACTION_WEATHER_SKIN_PREFERENCES"/>
+                <action android:name="ru.gelin.android.weather.notification.ACTION_WEATHER_SKIN_PREFERENCES" />
             </intent-filter>
         </activity>
 
-        <receiver android:name=".externalevents.AutoStartReceiver"
+        <receiver
+            android:name=".externalevents.AutoStartReceiver"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -353,8 +355,8 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:enabled="true"
             android:name="nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter"
+            android:enabled="true"
             android:exported="false">
 
         </receiver>
@@ -390,10 +392,10 @@
             android:label="@string/title_activity_pebble_pairing" />
         <activity
             android:name=".devices.watch9.Watch9PairingActivity"
-            android:label="@string/title_activity_watch9_pairing"  />
+            android:label="@string/title_activity_watch9_pairing" />
         <activity
             android:name=".devices.watch9.Watch9CalibrationActivity"
-            android:label="@string/title_activity_watch9_calibration"  />
+            android:label="@string/title_activity_watch9_calibration" />
         <activity
             android:name=".activities.charts.ChartsActivity"
             android:label="@string/title_activity_charts"
@@ -405,8 +407,8 @@
         <activity
             android:name=".activities.AlarmDetails"
             android:label="@string/title_activity_alarm_details"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".activities.ConfigureAlarms" />
+            android:parentActivityName=".activities.ConfigureAlarms"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.VibrationActivity"
             android:label="@string/title_activity_vibration"
@@ -442,19 +444,21 @@
         </receiver>
 
         <activity
-            android:launchMode="singleTask"
+            android:name=".activities.ExternalPebbleJSActivity"
             android:allowTaskReparenting="true"
             android:clearTaskOnLaunch="true"
-            android:name=".activities.ExternalPebbleJSActivity"
             android:label="@string/app_configure"
+            android:launchMode="singleTask"
             android:parentActivityName=".activities.appmanager.AppManagerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2" />
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="gadgetbridge" />
             </intent-filter>
         </activity>

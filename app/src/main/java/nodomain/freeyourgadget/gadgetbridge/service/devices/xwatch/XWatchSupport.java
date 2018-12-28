@@ -18,10 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.xwatch;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.content.Context;
-import android.media.AudioManager;
 import android.net.Uri;
-import android.view.KeyEvent;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -58,6 +55,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.DeviceInfo;
+import nodomain.freeyourgadget.gadgetbridge.tasker.TaskerIntent;
+import nodomain.freeyourgadget.gadgetbridge.tasker.TaskerUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class XWatchSupport extends AbstractBTLEDeviceSupport {
@@ -260,7 +259,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onFetchRecordedData(int dataTypes) {
         try {
-            if(builder == null) {
+            if (builder == null) {
                 builder = performInitialized("fetchActivityData");
             }
             requestSummarizedData(builder);
@@ -451,7 +450,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
 
                 if (value[5] == 95) {
                     dayToFetch++;
-                    if(dayToFetch <= maxDayToFetch) {
+                    if (dayToFetch <= maxDayToFetch) {
                         try {
                             builder = performInitialized("fetchActivityData");
                             requestDetailedData(builder);
@@ -468,27 +467,29 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void handleButtonPressed(byte[] value) {
-        long currentTimestamp = System.currentTimeMillis();
+        TaskerUtil.sendTask();
 
-        AudioManager audioManager = (AudioManager)getContext().getSystemService(Context.AUDIO_SERVICE);
-        if(audioManager.isWiredHeadsetOn()) {
-            if (currentTimestamp - lastButtonTimestamp < 1000) {
-                if (audioManager.isMusicActive()) {
-                    audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT));
-                    audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_NEXT));
-                } else {
-                    audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE));
-                    audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE));
-                    audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT));
-                    audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_NEXT));
-                }
-            } else {
-                audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE));
-                audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE));
-            }
-        }
+        /**long currentTimestamp = System.currentTimeMillis();
 
-        lastButtonTimestamp = currentTimestamp;
+         AudioManager audioManager = (AudioManager)getContext().getSystemService(Context.AUDIO_SERVICE);
+         if(audioManager.isWiredHeadsetOn()) {
+         if (currentTimestamp - lastButtonTimestamp < 1000) {
+         if (audioManager.isMusicActive()) {
+         audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT));
+         audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_NEXT));
+         } else {
+         audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE));
+         audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE));
+         audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT));
+         audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_NEXT));
+         }
+         } else {
+         audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE));
+         audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE));
+         }
+         }
+
+         lastButtonTimestamp = currentTimestamp;**/
     }
 
     @Override
@@ -565,7 +566,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
                 minutes
         );
 
-        timestamp = (int)(cal.getTimeInMillis() / 1000);
+        timestamp = (int) (cal.getTimeInMillis() / 1000);
 
         return timestamp;
     }
