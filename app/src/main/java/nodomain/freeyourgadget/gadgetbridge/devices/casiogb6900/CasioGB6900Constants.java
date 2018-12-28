@@ -35,6 +35,12 @@ public final class CasioGB6900Constants {
     public static final UUID ALERT_CHARACTERISTIC_UUID = UUID.fromString("00002a46-0000-1000-8000-00805f9b34fb");
     public static final UUID ALERT_NOTIFICATION_CONTROL_POINT = UUID.fromString("00002a44-0000-1000-8000-00805f9b34fb");
 
+    // More Alert
+
+    public static final UUID MORE_ALERT_SERVICE_UUID = UUID.fromString("26eb001a-b012-49a8-b1f8-394fb2032b0f");
+    public static final UUID MORE_ALERT_UUID = UUID.fromString("26eb001b-b012-49a8-b1f8-394fb2032b0f");
+    public static final UUID MORE_ALERT_FOR_LONG_UUID = UUID.fromString("26eb001c-b012-49a8-b1f8-394fb2032b0f");
+
     // Phone Alert
     public static final UUID CASIO_PHONE_ALERT_STATUS_SERVICE = UUID.fromString("26eb0001-b012-49a8-b1f8-394fb2032b0f");
     public static final UUID RINGER_CONTROL_POINT = UUID.fromString("00002a40-0000-1000-8000-00805f9b34fb");
