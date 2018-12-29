@@ -29,8 +29,6 @@ import android.content.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.CountDownLatch;
-
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.casiogb6900.CasioGB6900Constants;
 
@@ -47,12 +45,15 @@ class CasioGATTServer extends BluetoothGattServerCallback {
         mDeviceSupport = deviceSupport;
     }
 
-    public void setContext(Context ctx)
-    {
+    public void setContext(Context ctx) {
         mContext = ctx;
     }
 
     boolean initialize() {
+        if(mContext == null) {
+            return false;
+        }
+
         BluetoothManager bluetoothManager = (BluetoothManager) mContext.getSystemService(Context.BLUETOOTH_SERVICE);
         if (bluetoothManager == null) {
             return false;
@@ -81,6 +82,7 @@ class CasioGATTServer extends BluetoothGattServerCallback {
         return true;
     }
 
+    @Override
     public void onCharacteristicReadRequest(BluetoothDevice device, int requestId, int offset, BluetoothGattCharacteristic characteristic) {
 
         if (!characteristic.getUuid().equals(CasioGB6900Constants.NAME_OF_APP_CHARACTERISTIC_UUID)) {
@@ -95,7 +97,7 @@ class CasioGATTServer extends BluetoothGattServerCallback {
         }
     }
 
-
+    @Override
     public void onCharacteristicWriteRequest(BluetoothDevice device, int requestId, BluetoothGattCharacteristic characteristic,
                                              boolean preparedWrite, boolean responseNeeded, int offset, byte[] value) {
 
@@ -103,12 +105,16 @@ class CasioGATTServer extends BluetoothGattServerCallback {
             LOG.warn("unexpected write request");
             return;
         }
-        if((value[0] & 0x03) == 0)
-        {
+
+        if(mDeviceSupport == null) {
+            LOG.warn("mDeviceSupport is null, did initialization complete?");
+            return;
+        }
+
+        if((value[0] & 0x03) == 0) {
             int button = value[1] & 0x0f;
             LOG.info("Button pressed: " + button);
-            switch(button)
-            {
+            switch(button) {
                 case 3:
                     musicCmd.event = GBDeviceEventMusicControl.Event.NEXT;
                     break;
@@ -118,18 +124,18 @@ class CasioGATTServer extends BluetoothGattServerCallback {
                 case 1:
                     musicCmd.event = GBDeviceEventMusicControl.Event.PLAYPAUSE;
                     break;
-                case 0:
-
-                    break;
+                default:
+                    LOG.warn("Unhandled button received: " + button);
+                    return;
             }
             mDeviceSupport.evaluateGBDeviceEvent(musicCmd);
         }
-        else
-        {
+        else {
             LOG.info("received from device: " + value.toString());
         }
     }
 
+    @Override
     public void onConnectionStateChange(BluetoothDevice device, int status, int newState) {
 
         LOG.info("Connection state change for device: " + device.getAddress() + "  status = " + status + " newState = " + newState);
@@ -138,6 +144,7 @@ class CasioGATTServer extends BluetoothGattServerCallback {
         }
     }
 
+    @Override
     public void onDescriptorWriteRequest(BluetoothDevice device, int requestId, BluetoothGattDescriptor descriptor,
                                          boolean preparedWrite, boolean responseNeeded, int offset, byte[] value) {
 
@@ -147,11 +154,12 @@ class CasioGATTServer extends BluetoothGattServerCallback {
         }
     }
 
-
+    @Override
     public void onServiceAdded(int status, BluetoothGattService service) {
         LOG.info("onServiceAdded() status = " + status + " service = " + service.getUuid());
     }
 
+    @Override
     public void onNotificationSent(BluetoothDevice bluetoothDevice, int status) {
         LOG.info("onNotificationSent() status = " + status + " to device " + bluetoothDevice.getAddress());
     }
@@ -160,6 +168,7 @@ class CasioGATTServer extends BluetoothGattServerCallback {
         if (mBluetoothGattServer != null) {
             mBluetoothGattServer.clearServices();
             mBluetoothGattServer.close();
+            mBluetoothGattServer = null;
         }
     }
 

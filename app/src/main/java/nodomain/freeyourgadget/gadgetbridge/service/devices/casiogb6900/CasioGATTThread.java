@@ -18,25 +18,31 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.casiogb6900;
 import android.content.Context;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class CasioGATTThread extends Thread {
     CasioGATTServer mServer = null;
+    private static final Logger LOG = LoggerFactory.getLogger(CasioGATTThread.class);
+    private boolean mStopFlag = false;
 
     public CasioGATTThread(Context context, CasioGB6900DeviceSupport deviceSupport)
     {
         mServer = new CasioGATTServer(context, deviceSupport);
     }
 
-    public void setContext(Context ctx)
-    {
+    public void setContext(Context ctx) {
         mServer.setContext(ctx);
     }
 
     @Override
     public void run()
     {
-        mServer.initialize();
-        while(true)
-        {
+        if(!mServer.initialize()) {
+            LOG.error("Error initializing CasioGATTServer. Has the context been set?");
+            return;
+        }
+        while(!mStopFlag) {
             try {
                 wait(100);
             } catch(Exception e)
@@ -44,5 +50,12 @@ public class CasioGATTThread extends Thread {
 
             }
         }
+        mServer.close();
     }
+
+    public void quit() {
+        mStopFlag = true;
+    }
+
+
 }
