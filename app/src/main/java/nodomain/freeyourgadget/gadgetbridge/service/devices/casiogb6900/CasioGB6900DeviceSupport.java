@@ -105,8 +105,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
         return builder;
     }
 
-    private void writeCasioCurrentTime(TransactionBuilder builder)
-    {
+    private void writeCasioCurrentTime(TransactionBuilder builder) {
         byte[] arr = new byte[10];
         Calendar cal = Calendar.getInstance();
 
@@ -135,8 +134,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void writeCasioLocalTimeInformation(TransactionBuilder builder)
-    {
+    private void writeCasioLocalTimeInformation(TransactionBuilder builder) {
         Calendar cal = Calendar.getInstance();
         int zoneOffset = (int)TimeUnit.MILLISECONDS.toMinutes(cal.get(Calendar.ZONE_OFFSET));
         int dstOffset = (int)TimeUnit.MILLISECONDS.toMinutes(cal.get(Calendar.DST_OFFSET));
@@ -152,8 +150,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
 
     }
 
-    private void writeCasioVirtualServerFeature(TransactionBuilder builder)
-    {
+    private void writeCasioVirtualServerFeature(TransactionBuilder builder) {
         byte byte0 = (byte)0;
         byte0 |= 1; // Casio Current Time Service
         byte0 |= 2; // Casio Alert Notification Service
@@ -169,58 +166,86 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private boolean handleCasioCom(byte[] data)
-    {
+    private boolean handleInitResponse(byte data) {
         boolean handled = false;
-        switch(data[0]) // ServiceID - actually an int
+        switch(data)
         {
-            case 0:
-                switch(data[2])
-                {
-                    case (byte) 1:
-                        LOG.info("Initialization done, setting state to INITIALIZED");
-                        gbDevice.setState(GBDevice.State.INITIALIZED);
-                        gbDevice.sendDeviceUpdateIntent(getContext());
-                        break;
-                }
+            case (byte) 1:
+                LOG.info("Initialization done, setting state to INITIALIZED");
+                gbDevice.setState(GBDevice.State.INITIALIZED);
+                gbDevice.sendDeviceUpdateIntent(getContext());
+                handled = true;
                 break;
-            case 2:
-                switch(data[2]) // Request Type
-                {
-                    case (byte) 1:
-                        try
-                        {
-                            TransactionBuilder builder = createTransactionBuilder("writeCasioCurrentTime");
-                            writeCasioCurrentTime(builder);
-                            performImmediately(builder);
-                            handled = true;
-                        } catch (IOException e) {
-                            LOG.warn(e.getMessage());
-                        }
-                        break;
-                    case (byte) 2:
-                        try
-                        {
-                            TransactionBuilder builder = createTransactionBuilder("writeCasioLocalTimeInformation");
-                            writeCasioLocalTimeInformation(builder);
-                            performImmediately(builder);
-                            handled = true;
-                        } catch (IOException e) {
-                            LOG.warn(e.getMessage());
-                        }
-                        break;
-                }
+            default:
+                LOG.warn("handleInitResponse: Error initializing device, received unexpected value: " + data);
+                gbDevice.setState(GBDevice.State.NOT_CONNECTED);
+                gbDevice.sendDeviceUpdateIntent(getContext());
+                handled = true;
                 break;
-            case 7:
+        }
+        return handled;
+    }
+
+    private boolean handleTimeRequests(byte data) {
+        boolean handled = false;
+        switch(data) // Request Type
+        {
+            case (byte) 1:
                 try
                 {
-                    TransactionBuilder builder = createTransactionBuilder("writeCasioVirtualServerFeature");
-                    writeCasioVirtualServerFeature(builder);
+                    TransactionBuilder builder = createTransactionBuilder("writeCasioCurrentTime");
+                    writeCasioCurrentTime(builder);
                     performImmediately(builder);
                     handled = true;
                 } catch (IOException e) {
-                    LOG.warn(e.getMessage());
+                    LOG.warn("handleTimeRequests::writeCasioCurrentTime failed: " + e.getMessage());
                 }
+                break;
+            case (byte) 2:
+                try
+                {
+                    TransactionBuilder builder = createTransactionBuilder("writeCasioLocalTimeInformation");
+                    writeCasioLocalTimeInformation(builder);
+                    performImmediately(builder);
+                    handled = true;
+                } catch (IOException e) {
+                    LOG.warn("handleTimeRequests::writeCasioLocalTimeInformation failed: " + e.getMessage());
+                }
+                break;
+        }
+        return handled;
+    }
+
+    private boolean handleServerFeatureRequests(byte data) {
+        try
+        {
+            TransactionBuilder builder = createTransactionBuilder("writeCasioVirtualServerFeature");
+            writeCasioVirtualServerFeature(builder);
+            performImmediately(builder);
+        } catch (IOException e) {
+            LOG.warn("handleServerFeatureRequests failed: " + e.getMessage());
+        }
+        return true;
+    }
+
+    private boolean handleCasioCom(byte[] data) {
+        boolean handled = false;
+
+        if(data.length < 3) {
+            LOG.warn("handleCasioCom failed: Received unexpected request (too short)");
+            return false;
+        }
+
+        switch(data[0]) // ServiceID
+        {
+            case 0:
+                handled = handleInitResponse(data[2]);
+                break;
+            case 2:
+                handled = handleTimeRequests(data[2]);
+                break;
+            case 7:
+                handled = handleServerFeatureRequests(data[2]);
                 break;
         }
         return handled;
@@ -240,32 +265,27 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
         if (data.length == 0)
             return true;
 
-        if(characteristicUUID.equals(CasioGB6900Constants.CASIO_A_NOT_W_REQ_NOT))
-        {
+        if(characteristicUUID.equals(CasioGB6900Constants.CASIO_A_NOT_W_REQ_NOT)) {
             handled = handleCasioCom(data);
         }
 
-        if(characteristicUUID.equals(CasioGB6900Constants.CASIO_A_NOT_COM_SET_NOT))
-        {
+        if(characteristicUUID.equals(CasioGB6900Constants.CASIO_A_NOT_COM_SET_NOT)) {
             handled = handleCasioCom(data);
         }
 
-        if(characteristicUUID.equals(CasioGB6900Constants.ALERT_LEVEL_CHARACTERISTIC_UUID))
-        {
+        if(characteristicUUID.equals(CasioGB6900Constants.ALERT_LEVEL_CHARACTERISTIC_UUID)) {
             GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
             if(data[0] == 0x02) {
                 findPhoneEvent.event = GBDeviceEventFindPhone.Event.START;
             }
-            else
-            {
+            else {
                 findPhoneEvent.event = GBDeviceEventFindPhone.Event.STOP;
             }
                 evaluateGBDeviceEvent(findPhoneEvent);
             handled = true;
         }
 
-        if(characteristicUUID.equals(CasioGB6900Constants.RINGER_CONTROL_POINT))
-        {
+        if(characteristicUUID.equals(CasioGB6900Constants.RINGER_CONTROL_POINT)) {
             if(data[0] == 0x02)
             {
                 LOG.info("Mute/ignore call event not yet supported by GB");
@@ -273,8 +293,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
             handled = true;
         }
 
-        if(!handled)
-        {
+        if(!handled) {
             LOG.info("Unhandled characteristic change: " + characteristicUUID + " code: " + String.format("0x%1x ...", data[0]));
         }
         return true;
@@ -299,7 +318,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
             LOG.info("Showing notification, title: " + title + " message (not sent): " + message);
             performConnected(builder.getTransaction());
         } catch (IOException e) {
-            LOG.warn(e.getMessage());
+            LOG.warn("showNotification failed: " + e.getMessage());
         }
     }
 
@@ -347,7 +366,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
             writeCasioCurrentTime(builder);
             performConnected(builder.getTransaction());
         } catch(IOException e) {
-            LOG.warn(e.getMessage());
+            LOG.warn("onSetTime failed: " + e.getMessage());
         }
     }
 
@@ -356,6 +375,9 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
         switch (callSpec.command) {
             case CallSpec.CALL_INCOMING:
                 showNotification(CasioGB6900Constants.CALL_NOTIFICATION_ID, callSpec.name, callSpec.number);
+                break;
+            default:
+                LOG.info("not sending CallSpec since only CALL_INCOMING is handled");
                 break;
         }
     }
@@ -367,7 +389,6 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetMusicState(MusicStateSpec stateSpec) {
-        LOG.info("onSetMusicState");
         if(stateSpec != mBufferMusicStateSpec)
         {
             mBufferMusicStateSpec = stateSpec;
@@ -402,13 +423,12 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
             builder.write(getCharacteristic(CasioGB6900Constants.MORE_ALERT_FOR_LONG_UUID), arr);
             performConnected(builder.getTransaction());
         } catch (IOException e) {
-            LOG.warn(e.getMessage());
+            LOG.warn("sendMusicInfo failed: " + e.getMessage());
         }
     }
 
     @Override
     public void onSetMusicInfo(MusicSpec musicSpec) {
-        LOG.info("onSetMusicInfo");
         if(musicSpec != mBufferMusicSpec)
         {
             mBufferMusicSpec = musicSpec;
@@ -457,11 +477,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onReset(int flags) {
-        try {
 
-        } catch(Exception e) {
-            LOG.warn(e.getMessage());
-        }
     }
 
     @Override
