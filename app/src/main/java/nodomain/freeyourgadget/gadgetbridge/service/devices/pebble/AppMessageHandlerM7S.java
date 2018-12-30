@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018 Sergio Lopez
+/*  Copyright (C) 2018 Johann C. Rode
 
     This file is part of Gadgetbridge.
 
@@ -71,12 +71,12 @@ class AppMessageHandlerM7S extends AppMessageHandler {
             KEY_WEATHER_ICON = appKeys.getInt("KEY_WEATHER_ICON");
             KEY_WEATHER_DATA_TIME = appKeys.getInt("KEY_WEATHER_DATA_TIME");
         } catch (JSONException e) {
-            GB.toast("There was an error accessing the Simply Light watchface configuration.", Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast("There was an error accessing the M7S watchface configuration.", Toast.LENGTH_LONG, GB.ERROR);
         } catch (IOException ignore) {
         }
     }
 
-    private int getConditionForConditionCode(int conditionCode) {
+    private int getIconForConditionCode(int conditionCode) {
         if (conditionCode == 800 || conditionCode == 951) {
             return CLEAR;
         } else if (conditionCode > 800 && conditionCode < 900) {
@@ -134,7 +134,7 @@ class AppMessageHandlerM7S extends AppMessageHandler {
         pairs.add(new Pair<>(KEY_WEATHER_DATA_TIME, (Object) (weatherSpec.timestamp)));
         pairs.add(new Pair<>(KEY_WEATHER_STRING_1, (Object) (wString1)));
         pairs.add(new Pair<>(KEY_WEATHER_STRING_2, (Object) (wString2)));
-        pairs.add(new Pair<>(KEY_WEATHER_ICON, (Object) (getConditionForConditionCode(weatherSpec.currentConditionCode))));
+        pairs.add(new Pair<>(KEY_WEATHER_ICON, (Object) (getIconForConditionCode(weatherSpec.currentConditionCode))));
         byte[] weatherMessage = mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs, null);
 
         ByteBuffer buf = ByteBuffer.allocate(weatherMessage.length);
