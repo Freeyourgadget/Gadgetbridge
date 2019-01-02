@@ -215,7 +215,7 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
                 }
                 builder.write(ctrlCharacteristic, currentPacket);
             }
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             LOG.warn(e.getMessage());
         }
@@ -284,7 +284,7 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
                         alarms.get(i).isEnabled() ? cal.get(Calendar.MINUTE) : -1
                 ));
             }
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
             GB.toast(getContext(), "Alarm settings applied - do note that the current device does not support day specification", Toast.LENGTH_LONG, GB.INFO);
         } catch(IOException e) {
             LOG.warn(e.getMessage());
@@ -296,7 +296,7 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("SetTime");
             syncDateAndTime(builder);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch(IOException e) {
             LOG.warn(e.getMessage());
         }
@@ -373,7 +373,7 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
             builder.write(ctrlCharacteristic, commandWithChecksum(
                     JYouConstants.CMD_ACTION_REBOOT_DEVICE, 0, 0
             ));
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch(Exception e) {
             LOG.warn(e.getMessage());
         }
@@ -386,7 +386,7 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
             builder.write(ctrlCharacteristic, commandWithChecksum(
                     JYouConstants.CMD_ACTION_HEARTRATE_SWITCH, 0, 1
             ));
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch(Exception e) {
             LOG.warn(e.getMessage());
         }
@@ -400,7 +400,7 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
             builder.write(ctrlCharacteristic, commandWithChecksum(
                     JYouConstants.CMD_SET_HEARTRATE_AUTO, 0, enable ? 1 : 0
             ));
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch(Exception e) {
             LOG.warn(e.getMessage());
         }

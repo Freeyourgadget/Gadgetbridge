@@ -101,7 +101,7 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("time");
             setTime(builder);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch(IOException e) {
             LOG.warn("Unable to send current time", e);
         }
@@ -193,7 +193,7 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
             builder.write(normalWriteCharacteristic, new byte[] {
                     ID115Constants.CMD_ID_DEVICE_RESTART, ID115Constants.CMD_KEY_REBOOT
             });
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch(Exception e) {
         }
     }
@@ -350,7 +350,7 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
                     ID115Constants.CMD_KEY_NOTIFY_STOP,
                     1
             });
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch(IOException e) {
             LOG.warn("Unable to stop call notification", e);
         }
