@@ -69,7 +69,7 @@ public interface EventHandler {
 
     void onFetchRecordedData(int dataTypes);
 
-    void onReboot();
+    void onReset(int flags);
 
     void onHeartRateTest();
 

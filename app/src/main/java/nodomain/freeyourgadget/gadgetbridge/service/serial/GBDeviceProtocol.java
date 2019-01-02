@@ -28,6 +28,9 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
 public abstract class GBDeviceProtocol {
 
+    public static final int RESET_FLAGS_REBOOT = 1;
+    public static final int RESET_FLAGS_FACTORY_RESET = 2;
+
     private GBDevice mDevice;
 
     protected GBDeviceProtocol(GBDevice device) {
@@ -90,7 +93,7 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
-    public byte[] encodeReboot() {
+    public byte[] encodeReset(int flags) {
         return null;
     }
 

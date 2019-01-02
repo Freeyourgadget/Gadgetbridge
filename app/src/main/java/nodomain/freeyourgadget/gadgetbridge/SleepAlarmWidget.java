@@ -94,9 +94,10 @@ public class SleepAlarmWidget extends AppWidgetProvider {
 
 
             // overwrite the first alarm and activate it
-            GBAlarm alarm = GBAlarm.createSingleShot(0, true, calendar);
+/*
+            GBAlarm alarm = GBAlarm.createSingleShot(0,0, true, calendar); // FIXME!!!!
             alarm.store();
-
+*/
             if (GBApplication.isRunningLollipopOrLater()) {
                 setAlarmViaAlarmManager(context, calendar.getTimeInMillis());
             }

@@ -149,4 +149,7 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     public int[] getColorPresets() {
         return new int[0];
     }
+
+    @Override
+    public boolean supportsUnicodeEmojis() { return false; }
 }

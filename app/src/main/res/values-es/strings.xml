@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Gadgetbridge</string>
   <string name="title_activity_controlcenter">Gadgetbridge</string>
@@ -8,7 +8,7 @@
   <string name="action_donate">Hacer donación</string>
   <string name="controlcenter_fetch_activity_data">Sincronizar</string>
   <string name="controlcenter_start_sleepmonitor">Monitor de sueño (ALPHA)</string>
-  <string name="controlcenter_find_device">Encontrar dispositivo perdido</string>
+  <string name="controlcenter_find_device">Localiza dispositivo perdido</string>
   <string name="controlcenter_take_screenshot">Capturar pantalla</string>
   <string name="controlcenter_disconnect">Desconectar</string>
   <string name="controlcenter_delete_device">Borrar Dispositivo</string>
@@ -35,10 +35,10 @@
   <string name="appmanager_hrm_activate">Activar Monitor de Ritmo Cardíaco</string>
   <string name="appmanager_hrm_deactivate">Desactivar Monitor de Ritmo Cardíaco</string>
   <string name="appmanager_weather_activate">Activar la aplicación del tiempo del sistema</string>
-  <string name="appmanager_weather_deactivate">Desactivar la aplicación del tiempo del sistema</string>
-  <string name="appmanager_weather_install_provider">Instalar la aplicación de notificación del tiempo</string>
+  <string name="appmanager_weather_deactivate">Desactivar la aplicación interna del Tiempo</string>
+  <string name="appmanager_weather_install_provider">Instalar la aplicación de notificación del Tiempo</string>
   <string name="app_configure">Configurar</string>
-  <string name="app_move_to_top">Mover a la parte de arriba</string>
+  <string name="app_move_to_top">Mover arriba</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Lista negra de notificaciones</string>
   <!--Strings related to CalBlacklist-->
@@ -395,7 +395,7 @@
   <string name="mi2_dnd_automatic">Automático (detección de sueño)</string>
   <string name="mi2_dnd_scheduled">Programado (intervalo de tiempo)</string>
   <string name="discovery_attempting_to_pair">Intento de emparejamiento con %1$s</string>
-  <string name="discovery_bonding_failed_immediately">El enlace con %1$s ha fallado.</string>
+  <string name="discovery_bonding_failed_immediately">El enlace con %1$s ha fallado inmediatamente.</string>
   <string name="discovery_trying_to_connect_to">Intentando conectar con: %1$s</string>
   <string name="discovery_enable_bluetooth">Activa el Bluetooth para encontrar dispositivos.</string>
   <string name="discovery_successfully_bonded">Enlazado con %1$s.</string>
@@ -474,7 +474,7 @@
     <string name="kind_gps_almanac">Almanaque GPS</string>
     <string name="kind_gps_cep">Corrección de error del GPS</string>
     <string name="kind_resources">Recursos</string>
-    <string name="kind_watchface">Watchface</string>
+    <string name="kind_watchface">Esfera</string>
 
     <string name="devicetype_unknown">Dispositivo desconocido</string>
     <string name="devicetype_test">Dispositivo de prueba</string>
@@ -503,4 +503,31 @@
     <string name="notification_channel_name">Notificaciones de Gadgetbridge</string>
 <string name="devicetype_xwatch">XWatch</string>
 
-    </resources>
+    <string name="controlcenter_change_led_color">Cambiar color del LED</string>
+    <string name="controlcenter_change_fm_frequency">Cambiar frecuencia de FM</string>
+    <string name="controlcenter_calibrate_device">Calibrar dispositivo</string>
+
+
+    <string name="pref_auto_fetch">Extracción automatica de datos de actividad</string>
+    <string name="pref_auto_fetch_limit_fetches">Tiempo minimo entre extracciones</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Extraer datos cada %d minutos</string>
+
+    <string name="activity_type_light_sleep">Sueño ligero</string>
+    <string name="activity_type_deep_sleep">Sueño profundo</string>
+    <string name="activity_summaries">Actividades</string>
+    <string name="menuitem_shortcut_weather">Tiempo (Shortcut)</string>
+    <string name="menuitem_notifications">Notificaciones</string>
+    <string name="menuitem_weather">Tiempo</string>
+    <string name="menuitem_alarm">Alarma</string>
+    <string name="menuitem_timer">Temporizador</string>
+    <string name="menuitem_compass">Brújula</string>
+    <string name="menuitem_settings">Ajustes</string>
+    <string name="menuitem_music">Musica</string>
+    <string name="menuitem_more">Mas</string>
+
+    <string name="watch9_time_minutes">Minutos:</string>
+    <string name="watch9_time_hours">Horas:</string>
+    <string name="watch9_time_seconds">Segundos:</string>
+    <string name="watch9_calibration_button">Calibrar</string>
+    <string name="watch9_pairing_tap_hint">Cuando el dispositivo vibre, agítelo o pulse un botón.</string>
+</resources>

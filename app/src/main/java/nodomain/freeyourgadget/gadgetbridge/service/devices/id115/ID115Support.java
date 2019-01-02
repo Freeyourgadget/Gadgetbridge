@@ -185,7 +185,7 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
         try {
             getQueue().clear();
 

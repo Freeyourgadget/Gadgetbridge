@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources><string name="app_name">Gadgetbridge</string>
 
     <string name="title_activity_controlcenter">Gadgetbridge</string>
@@ -114,7 +114,7 @@
     <string name="pref_title_call_privacy_mode">来电隐私模式</string>
     <string name="pref_call_privacy_mode_off">显示姓名和号码</string>
     <string name="pref_call_privacy_mode_name">隐藏姓名但显示号码</string>
-    <string name="pref_call_privacy_mode_number">显示号码但隐藏姓名</string>
+    <string name="pref_call_privacy_mode_number">隐藏号码但显示姓名</string>
     <string name="pref_call_privacy_mode_complete">隐藏姓名和号码</string>
 
     <string name="pref_title_weather_location">天气位置(CM/LOS)</string>
@@ -691,4 +691,6 @@
     <string name="pref_invalid_frequency_title">不正确的频率</string>
     <string name="pref_invalid_frequency_message">请输入一个在 87.5 至 108.0 之间的频率</string>
     <string name="language_and_region_prefs">语言和区域设置</string>
+    <string name="debugactivity_really_factoryreset_title">确定要恢复出厂设置？</string>
+    <string name="debugactivity_really_factoryreset">恢复出厂设置将会删除您已连接设备上的所有数据（如果支持的话）。小米／华米设备将会同时改变蓝牙MAC地址，对于Gadgetbrige来说，这将是一个新的设备。</string>
 </resources>

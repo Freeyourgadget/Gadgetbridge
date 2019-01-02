@@ -85,9 +85,9 @@ public class AmazfitBipSupport extends HuamiSupport {
             return;
         }
 
-        String senderOrTiltle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
+        String senderOrTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
 
-        String message = StringUtils.truncate(senderOrTiltle, 32) + "\0";
+        String message = StringUtils.truncate(senderOrTitle, 32) + "\0";
         if (notificationSpec.subject != null) {
             message += StringUtils.truncate(notificationSpec.subject, 128) + "\n\n";
         }

@@ -189,6 +189,13 @@ public interface DeviceCoordinator {
     boolean supportsAlarmConfiguration();
 
     /**
+     * Returns the number of alarms this device/coordinator supports
+     *
+     * @return
+     */
+    int getAlarmSlotCount();
+
+    /**
      * Returns true if this device/coordinator supports alarms with smart wakeup
      * @return
      */
@@ -271,4 +278,9 @@ public interface DeviceCoordinator {
      */
     @NonNull
     int[] getColorPresets();
+
+    /**
+     * Indicates whether the device supports unicode emojis.
+     */
+    boolean supportsUnicodeEmojis();
 }

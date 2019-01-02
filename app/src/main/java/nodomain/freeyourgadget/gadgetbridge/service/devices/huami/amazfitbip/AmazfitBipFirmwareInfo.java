@@ -27,27 +27,31 @@ import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
 public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
     // gps detection is totally bogus, just the first 16 bytes
-    private static final byte[] GPS_HEADER = new byte[]{
-            (byte) 0xcb, 0x51, (byte) 0xc1, 0x30, 0x41, (byte) 0x9e, 0x5e, (byte) 0xd3,
-            0x51, 0x35, (byte) 0xdf, 0x66, (byte) 0xed, (byte) 0xd9, 0x5f, (byte) 0xa7
-    };
-    private static final byte[] GPS_HEADER2 = new byte[]{
-            0x10, 0x50, 0x26, 0x76, (byte) 0x8f, 0x4a, (byte) 0xa1, 0x49,
-            (byte) 0xa7, 0x26, (byte) 0xd0, (byte) 0xe6, 0x4a, 0x21, (byte) 0x88, (byte) 0xd4
-    };
-    private static final byte[] GPS_HEADER3 = new byte[]{
-            (byte) 0xeb, (byte) 0xfa, (byte) 0xc5, (byte) 0x89, (byte) 0xf0, 0x5c, 0x2e, (byte) 0xcc,
-            (byte) 0xfa, (byte) 0xf3, 0x62, (byte) 0xeb, (byte) 0x92, (byte) 0xc6, (byte) 0xa1, (byte) 0xbb
-    };
-
-    private static final byte[] GPS_HEADER4 = new byte[]{
-            0x0b, 0x61, 0x53, (byte) 0xed, (byte) 0x83, (byte) 0xac, 0x07, 0x21,
-            (byte) 0x8c, 0x36, 0x2e, (byte) 0x8c, (byte) 0x9c, 0x08, 0x54, (byte) 0xa6
-    };
-
-    private static final byte[] GPS_HEADER5 = new byte[]{
-            (byte) 0xec, 0x51, 0x73, 0x22 , 0x60 ,0x02 ,0x14, (byte) 0xb7,
-            (byte) 0xb5, (byte) 0xea, 0x4b, 0x22 , 0x5d, 0x23, (byte) 0xe5, 0x4f
+    private static final byte[][] GPS_HEADERS = {
+            new byte[]{
+                    (byte) 0xcb, 0x51, (byte) 0xc1, 0x30, 0x41, (byte) 0x9e, 0x5e, (byte) 0xd3,
+                    0x51, 0x35, (byte) 0xdf, 0x66, (byte) 0xed, (byte) 0xd9, 0x5f, (byte) 0xa7
+            },
+            new byte[]{
+                    0x10, 0x50, 0x26, 0x76, (byte) 0x8f, 0x4a, (byte) 0xa1, 0x49,
+                    (byte) 0xa7, 0x26, (byte) 0xd0, (byte) 0xe6, 0x4a, 0x21, (byte) 0x88, (byte) 0xd4
+            },
+            new byte[]{
+                    (byte) 0xeb, (byte) 0xfa, (byte) 0xc5, (byte) 0x89, (byte) 0xf0, 0x5c, 0x2e, (byte) 0xcc,
+                    (byte) 0xfa, (byte) 0xf3, 0x62, (byte) 0xeb, (byte) 0x92, (byte) 0xc6, (byte) 0xa1, (byte) 0xbb
+            },
+            new byte[]{
+                    0x0b, 0x61, 0x53, (byte) 0xed, (byte) 0x83, (byte) 0xac, 0x07, 0x21,
+                    (byte) 0x8c, 0x36, 0x2e, (byte) 0x8c, (byte) 0x9c, 0x08, 0x54, (byte) 0xa6
+            },
+            new byte[]{
+                    (byte) 0xec, 0x51, 0x73, 0x22, 0x60, 0x02, 0x14, (byte) 0xb7,
+                    (byte) 0xb5, (byte) 0xea, 0x4b, 0x22, 0x5d, 0x23, (byte) 0xe5, 0x4f
+            },
+            new byte[]{
+                    0x73, 0x75, 0x68, (byte) 0xd0, 0x70, 0x73, (byte) 0xbb, 0x5a,
+                    0x3e, (byte) 0xc3, (byte) 0xd3, 0x09, (byte) 0x9e, 0x1d, (byte) 0xd3, (byte) 0xc9
+            }
     };
 
     // this is the same as Cor
@@ -132,6 +136,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(16716, "9565,dfbd8faf42,0");
         crcToVersion.put(54154, "9567,8b05506,0,0,");
         crcToVersion.put(15717, "15974,e61dd16,126");
+        crcToVersion.put(62532, "18344,eb2f43f,126");
 
         // font
         crcToVersion.put(61054, "8");
@@ -149,9 +154,6 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
                 return HuamiFirmwareType.INVALID;
             }
             return HuamiFirmwareType.RES;
-        }
-        if (ArrayUtils.startsWith(bytes, GPS_HEADER) || ArrayUtils.startsWith(bytes, GPS_HEADER2) || ArrayUtils.startsWith(bytes, GPS_HEADER3) || ArrayUtils.startsWith(bytes, GPS_HEADER4) || ArrayUtils.startsWith(bytes, GPS_HEADER5)) {
-            return HuamiFirmwareType.GPS;
         }
         if (ArrayUtils.startsWith(bytes, GPS_ALMANAC_HEADER)) {
             return HuamiFirmwareType.GPS_ALMANAC;
@@ -175,6 +177,12 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
                 return HuamiFirmwareType.FONT_LATIN;
             }
         }
+        for (byte[] gpsHeader : GPS_HEADERS) {
+            if (ArrayUtils.startsWith(bytes, gpsHeader)) {
+                return HuamiFirmwareType.GPS;
+            }
+        }
+
         return HuamiFirmwareType.INVALID;
     }
 

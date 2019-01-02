@@ -260,11 +260,11 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onReboot() {
-        if (checkBusy("reboot")) {
+    public void onReset(int flags) {
+        if (checkBusy("reset")) {
             return;
         }
-        delegate.onReboot();
+        delegate.onReset(flags);
     }
 
     @Override

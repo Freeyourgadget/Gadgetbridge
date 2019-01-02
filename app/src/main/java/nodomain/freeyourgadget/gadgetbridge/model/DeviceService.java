@@ -29,7 +29,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 public interface DeviceService extends EventHandler {
     String PREFIX = "nodomain.freeyourgadget.gadgetbridge.devices";
 
-    String ACTION_MIBAND2_AUTH = PREFIX + ".action.miban2_auth";
     String ACTION_START = PREFIX + ".action.start";
     String ACTION_CONNECT = PREFIX + ".action.connect";
     String ACTION_NOTIFICATION = PREFIX + ".action.notification";
@@ -47,7 +46,7 @@ public interface DeviceService extends EventHandler {
     String ACTION_APP_CONFIGURE = PREFIX + ".action.app_configure";
     String ACTION_APP_REORDER = PREFIX + ".action.app_reorder";
     String ACTION_INSTALL = PREFIX + ".action.install";
-    String ACTION_REBOOT = PREFIX + ".action.reboot";
+    String ACTION_RESET = PREFIX + ".action.reset";
     String ACTION_HEARTRATE_TEST = PREFIX + ".action.heartrate_test";
     String ACTION_FETCH_RECORDED_DATA = PREFIX + ".action.fetch_activity_data";
     String ACTION_DISCONNECT = PREFIX + ".action.disconnect";
@@ -110,6 +109,7 @@ public interface DeviceService extends EventHandler {
     String EXTRA_RECORDED_DATA_TYPES = "data_types";
     String EXTRA_FM_FREQUENCY = "fm_frequency";
     String EXTRA_LED_COLOR = "led_color";
+    String EXTRA_RESET_FLAGS = "reset_flags";
 
     /**
      * Use EXTRA_REALTIME_SAMPLE instead

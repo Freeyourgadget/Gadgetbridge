@@ -291,8 +291,9 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void onReboot() {
-        Intent intent = createIntent().setAction(ACTION_REBOOT);
+    public void onReset(int flags) {
+        Intent intent = createIntent().setAction(ACTION_RESET)
+                .putExtra(EXTRA_RESET_FLAGS, flags);
         invokeService(intent);
     }
 
