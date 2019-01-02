@@ -168,11 +168,11 @@ public class TimePicker extends AlertDialog.Builder {
                 if (degree < 0) degree = 360 + degree;
                 switch (controlledHand) {
                     case 1: {
-                        settings.setHour((short) (((degree + 15) / 30) * 30 % 360));
+                        settings.setHour((short) (((int)(degree + 15) / 30) * 30 % 360));
                         break;
                     }
                     case 2: {
-                        settings.setMin((short) (((degree + 15) / 30) * 30 % 360));
+                        settings.setMin((short) (((int)(degree + 15) / 30) * 30 % 360));
                         break;
                     }
                 }

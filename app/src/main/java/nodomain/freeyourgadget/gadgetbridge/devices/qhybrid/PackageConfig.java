@@ -32,8 +32,8 @@ public class PackageConfig implements Serializable {
         this.id = id;
     }
     public PackageConfig(String packageName, String appName) {
-        this.min = -1;
-        this.hour = -1;
+        this.min = 0;
+        this.hour = 0;
         this.packageName = packageName;
         this.appName = appName;
         this.respectSilentMode = false;
