@@ -422,7 +422,7 @@
     <string name="fwinstaller_firmware_not_compatible_to_device">This firmware is not compatible with the device</string>
     <string name="miband_prefs_reserve_alarm_calendar">Alarms to reserve for upcoming events</string>
     <string name="miband_prefs_hr_sleep_detection">Use heart rate sensor to improve sleep detection</string>
-	<string name="miband_prefs_device_time_offset_hours">Device time offset in hours (for detecting sleep of shift workers)</string>
+    <string name="miband_prefs_device_time_offset_hours">Device time offset in hours (for detecting sleep of shift workers)</string>
     <string name="miband2_prefs_dateformat">Date format</string>
     <string name="dateformat_time">Time</string>
     <string name="dateformat_date_time"><![CDATA[Time & date]]></string>
@@ -670,4 +670,16 @@
     <string name="pref_invalid_frequency_title">Invalid frequency</string>
     <string name="pref_invalid_frequency_message">Please enter a frequency between 87.5 and 108.0</string>
     <string name="language_and_region_prefs">Language and region settings</string>
+
+    <!-- Tasker -->
+    <string name="tasker">Tasker</string>
+    <string name="tasker_active">Active</string>
+    <string name="tasker_active_sum">Enables Tasker but disables media controls</string>
+    <string name="tasker_task_single">Task for single press</string>
+    <string name="tasker_task_double">Task for double press</string>
+    <string name="tasker_task_triple">Task for triple press</string>
+
+    <!-- XWatch -->
+    <string name="xwatch_settings">XWatch settings</string>
+
 </resources>

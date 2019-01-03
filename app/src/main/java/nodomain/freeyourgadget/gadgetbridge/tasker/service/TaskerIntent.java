@@ -11,7 +11,7 @@
 
 // For usage examples see http://tasker.dinglisch.net/invoketasks.html
 
-package nodomain.freeyourgadget.gadgetbridge.tasker;
+package nodomain.freeyourgadget.gadgetbridge.tasker.service;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

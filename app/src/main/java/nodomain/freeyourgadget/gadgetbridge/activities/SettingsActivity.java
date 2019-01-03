@@ -105,16 +105,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
             }
         });
 
-        pref = findPreference("tasker");
-        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                Intent enableIntent = new Intent(SettingsActivity.this, MiBandPreferencesActivity.class);
-                startActivity(enableIntent);
-                return true;
-            }
-        });
-
         pref = findPreference("pref_key_miband");
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {

@@ -1,6 +1,6 @@
-package nodomain.freeyourgadget.gadgetbridge.tasker;
+package nodomain.freeyourgadget.gadgetbridge.tasker.service;
 
-public class ActionCodes {
+public class TaskerActionCodes {
 
     public static final int NONE = -1;
     public final static int FIRST_PLUGIN_CODE = 1000; // higher are all plugins
