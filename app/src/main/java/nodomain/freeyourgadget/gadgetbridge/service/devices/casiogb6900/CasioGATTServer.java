@@ -17,6 +17,7 @@
         along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.casiogb6900;
 
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
@@ -25,12 +26,20 @@ import android.bluetooth.BluetoothGattServerCallback;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.casiogb6900.CasioGB6900Constants;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 class CasioGATTServer extends BluetoothGattServerCallback {
     private static final Logger LOG = LoggerFactory.getLogger(CasioGATTServer.class);
@@ -141,6 +150,18 @@ class CasioGATTServer extends BluetoothGattServerCallback {
         LOG.info("Connection state change for device: " + device.getAddress() + "  status = " + status + " newState = " + newState);
         if (newState == BluetoothGattServer.STATE_DISCONNECTED) {
 
+        }
+        if (newState == BluetoothGattServer.STATE_CONNECTED) {
+            GBDevice.State devState = mDeviceSupport.getDevice().getState();
+            Intent deviceCommunicationServiceIntent = new Intent(mContext, DeviceCommunicationService.class);
+            if (devState.equals(GBDevice.State.WAITING_FOR_RECONNECT) || devState.equals(GBDevice.State.NOT_CONNECTED)) {
+                LOG.info("Forcing re-connect because GATT server has been reconnected.");
+                deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_CONNECT);
+                deviceCommunicationServiceIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                LocalBroadcastManager.getInstance(mContext).sendBroadcast(deviceCommunicationServiceIntent);
+                //PendingIntent reconnectPendingIntent = PendingIntent.getService(mContext, 2, deviceCommunicationServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                //builder.addAction(R.drawable.ic_notification, context.getString(R.string.controlcenter_connect), reconnectPendingIntent);
+            }
         }
     }
 
