@@ -64,6 +64,17 @@ public final class CasioGB6900Constants {
     public static final UUID FUNCTION_SWITCH_CHARACTERISTIC = UUID.fromString("26eb001e-b012-49a8-b1f8-394fb2032b0f");
     public static final String MUSIC_MESSAGE = "Music";
 
+    // Link Loss
+
+    public static final UUID LINK_LOSS_SERVICE = UUID.fromString("00001803-0000-1000-8000-00805f9b34fb");
+
+    // TxPower
+
+    public static final UUID TX_POWER_SERVICE_UUID = UUID.fromString("00001804-0000-1000-8000-00805f9b34fb");
+    public static final UUID TX_POWER_LEVEL_CHARACTERISTIC_UUID = UUID.fromString("00002a07-0000-1000-8000-00805f9b34fb");
+    // Settings
+    public static final UUID CASIO_SETTING_FOR_BLE_CHARACTERISTIC_UUID = UUID.fromString("26eb000f-b012-49a8-b1f8-394fb2032b0f");
+
     // Notification Types
 
     public static final byte CALL_NOTIFICATION_ID = 3;

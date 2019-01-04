@@ -25,6 +25,7 @@ public class CasioGATTThread extends Thread {
     CasioGATTServer mServer = null;
     private static final Logger LOG = LoggerFactory.getLogger(CasioGATTThread.class);
     private boolean mStopFlag = false;
+    private final Object waitObject = new Object();
 
     public CasioGATTThread(Context context, CasioGB6900DeviceSupport deviceSupport)
     {
@@ -36,18 +37,25 @@ public class CasioGATTThread extends Thread {
     }
 
     @Override
-    public void run()
-    {
-        if(!mServer.initialize()) {
+    public void run() {
+        if (!mServer.initialize()) {
             LOG.error("Error initializing CasioGATTServer. Has the context been set?");
             return;
         }
-        while(!mStopFlag) {
-            try {
-                wait(100);
-            } catch(Exception e)
-            {
 
+        long waitTime = 60 * 1000;
+
+        while (!mStopFlag) {
+            synchronized (waitObject) {
+                try {
+                    waitObject.wait(waitTime);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (mStopFlag) {
+                break;
             }
         }
         mServer.close();
@@ -55,6 +63,9 @@ public class CasioGATTThread extends Thread {
 
     public void quit() {
         mStopFlag = true;
+        synchronized (waitObject) {
+            waitObject.notify();
+        }
     }
 
 
