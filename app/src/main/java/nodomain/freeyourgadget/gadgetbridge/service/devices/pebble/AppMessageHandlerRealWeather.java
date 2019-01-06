@@ -61,7 +61,7 @@ class AppMessageHandlerRealWeather extends AppMessageHandler {
             KEY_WEATHER_TEMP = appKeys.getInt("temperature");
             KEY_WEATHER_ICON = appKeys.getInt("icon");
         } catch (JSONException e) {
-            GB.toast("There was an error accessing the YWeather watchface configuration.", Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast("There was an error accessing the RealWeather watchface configuration.", Toast.LENGTH_LONG, GB.ERROR);
         } catch (IOException ignore) {
         }
     }
