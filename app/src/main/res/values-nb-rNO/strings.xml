@@ -699,4 +699,5 @@
     <string name="language_and_region_prefs">Språk og stedsinnstillinger</string>
     <string name="debugactivity_really_factoryreset_title">Vil du virkelig gjenopprette fabrikkinnstillinger\?</string>
     <string name="debugactivity_really_factoryreset">Gjenoppretting til fabrikkinnstillinger vil slette all data fra den tilkoblede enheten (hvis støttet). Xiaomi/Huami-enheter endrer også MAC-adressen for Blåtann, og vil dermed framtre som nye enheter i Gadgetbridge.</string>
+    <string name="devicetype_casiogb6900">Casio GB-6900</string>
 </resources>
