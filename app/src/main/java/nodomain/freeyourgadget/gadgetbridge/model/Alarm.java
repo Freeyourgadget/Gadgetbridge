@@ -16,11 +16,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-import android.os.Parcelable;
+import java.io.Serializable;
 
-import java.util.Calendar;
+public interface Alarm extends Serializable {
+    /**
+     * The {@link android.os.Bundle} name for transferring pacreled alarms.
+     */
+    String EXTRA_ALARM = "alarm";
 
-public interface Alarm extends Parcelable, Comparable<Alarm> {
     byte ALARM_ONCE = 0;
     byte ALARM_MON = 1;
     byte ALARM_TUE = 2;
@@ -30,19 +33,19 @@ public interface Alarm extends Parcelable, Comparable<Alarm> {
     byte ALARM_SAT = 32;
     byte ALARM_SUN = 64;
 
-    int getIndex();
+    int getPosition();
 
-    Calendar getAlarmCal();
+    boolean getEnabled();
 
-    String getTime();
+    boolean getSmartWakeup();
 
-    boolean isEnabled();
-
-    boolean isSmartWakeup();
-
-    int getRepetitionMask();
+    int getRepetition();
 
     boolean isRepetitive();
 
     boolean getRepetition(int dow);
+
+    int getHour();
+
+    int getMinute();
 }

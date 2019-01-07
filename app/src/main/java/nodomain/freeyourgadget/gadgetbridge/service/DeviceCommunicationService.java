@@ -548,7 +548,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 }
                 break;
             case ACTION_SET_ALARMS:
-                ArrayList<Alarm> alarms = intent.getParcelableArrayListExtra(EXTRA_ALARMS);
+                ArrayList<? extends Alarm> alarms = (ArrayList<? extends Alarm>) intent.getSerializableExtra(EXTRA_ALARMS);
                 mDeviceSupport.onSetAlarms(alarms);
                 break;
             case ACTION_ENABLE_REALTIME_STEPS: {
