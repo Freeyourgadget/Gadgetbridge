@@ -1,32 +1,47 @@
 package nodomain.freeyourgadget.gadgetbridge.tasker.event;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+
+import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class TaskerEventType {
 
-    public static TaskerEventType BUTTON = TaskerEventType.create("button");
-    public static TaskerEventType CONNECTION = TaskerEventType.create("connection");
-    public static TaskerEventType DATA = TaskerEventType.create("data");
+    public static TaskerEventType BUTTON = TaskerEventType.create("button").withLocalization(R.string.tasker_event_button);
+    public static TaskerEventType CONNECTION = TaskerEventType.create("connection").withLocalization(R.string.tasker_event_connection);
+    public static TaskerEventType DATA = TaskerEventType.create("data").withLocalization(R.string.tasker_event_data);
+    public static TaskerEventType NO_OP = TaskerEventType.create("no-op");
 
     private String type;
     private int index;
+    private int localization;
 
-    private TaskerEventType(String type) {
-        this.type = type;
-        this.index = 1;
+    private TaskerEventType() {
     }
 
-    private TaskerEventType(String type, int index) {
-        this.type = type;
-        this.index = index;
+    public TaskerEventType withLocalization(int localization) {
+        this.localization = localization;
+        return this;
     }
 
     public static TaskerEventType create(String type) {
-        return new TaskerEventType(type);
+        TaskerEventType taskerEventType = new TaskerEventType();
+        taskerEventType.index = 1;
+        taskerEventType.type = type;
+        return taskerEventType;
     }
 
-    public TaskerEventType setIndex(int index) {
-        return new TaskerEventType(this.type, index);
+    public TaskerEventType withIndex(int index) {
+        TaskerEventType taskerEventType = new TaskerEventType();
+        taskerEventType.type = this.type;
+        taskerEventType.index = index;
+        taskerEventType.localization = this.localization;
+        return taskerEventType;
+    }
+
+    public int getLocalization() {
+        return localization;
     }
 
     public String getType() {
@@ -35,6 +50,10 @@ public class TaskerEventType {
 
     public int getIndex() {
         return index;
+    }
+
+    public static List<TaskerEventType> getTypes() {
+        return Arrays.asList(BUTTON, CONNECTION, DATA);
     }
 
     @Override

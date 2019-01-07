@@ -627,8 +627,8 @@
     <!-- Tasker -->
 
     <string name="tasker">Tasker</string>
-    <string name="tasker_active">Aktiv</string>
-    <string name="tasker_active_sum">Aktiviert Tasker aber deaktiviert die Steuerung der Medien</string>
+    <string name="tasker_enabled">Aktiv</string>
+    <string name="tasker_enabled_sum">Aktiviert Tasker aber deaktiviert die Steuerung der Medien</string>
     <string name="tasker_task_single">Task für einzelnes drücken</string>
     <string name="tasker_task_double">Task für doppeltes drücken</string>
     <string name="tasker_task_triple">Task für dreifaches drücken</string>

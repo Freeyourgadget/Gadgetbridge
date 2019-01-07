@@ -60,6 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.DeviceInfo;
+import nodomain.freeyourgadget.gadgetbridge.tasker.service.TaskerBleProfile;
 import nodomain.freeyourgadget.gadgetbridge.tasker.task.TaskerTaskProvider;
 import nodomain.freeyourgadget.gadgetbridge.tasker.service.TaskerService;
 import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEvent;
@@ -74,29 +75,13 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     private byte dayToFetch; //0 = Today; 1 = Yesterday ...
     private byte maxDayToFetch;
     long lastButtonTimestamp;
-    private TaskerService taskerService;
 
     public XWatchSupport() {
         super(LOG);
-
         addSupportedService(XWatchService.UUID_SERVICE);
         addSupportedService(XWatchService.UUID_WRITE);
         addSupportedService(XWatchService.UUID_NOTIFY);
-        taskerService = TaskerService.withPreference(XWatchConstants.Tasker.TASKER_ACTIVE)
-                .withThreshold(TaskerEventType.BUTTON, 1000)
-                .withProvider(TaskerEventType.BUTTON, new TaskerTaskProvider() {
-                    @Override
-                    public String getTask(TaskerEvent event) {
-                        switch (event.getCount()) {
-                            case 1:
-                                return GBApplication.getPrefs().getString(XWatchConstants.Tasker.TASKER_TASK_DOUBLE, null);
-                            case 2:
-                                return GBApplication.getPrefs().getString(XWatchConstants.Tasker.TASKER_TASK_TRIPLE, null);
-                            default:
-                                return GBApplication.getPrefs().getString(XWatchConstants.Tasker.TASKER_TASK_SINGLE, null);
-                        }
-                    }
-                });
+        addSupportedProfile(new TaskerBleProfile<>(this, XWatchService.getTaskerSpec()));
     }
 
     public static byte[] crcChecksum(byte[] data) {

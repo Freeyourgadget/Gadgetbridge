@@ -56,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.tasker.service.TaskerConstants;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -492,6 +493,15 @@ public class SettingsActivity extends AbstractSettingsActivity {
                         GBApplication.deviceService().onSendConfiguration(PREF_MI2_DISPLAY_ITEMS);
                     }
                 });
+                return true;
+            }
+        });
+
+        findPreference(TaskerConstants.TASKER).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent enableIntent = new Intent(TaskerConstants.TASKER_PREFERENCES);
+                startActivity(enableIntent);
                 return true;
             }
         });

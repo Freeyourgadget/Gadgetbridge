@@ -16,9 +16,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.xwatch;
 
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEventType;
+import nodomain.freeyourgadget.gadgetbridge.tasker.settings.TaskerSettings;
+import nodomain.freeyourgadget.gadgetbridge.tasker.service.TaskerSpec;
 
 public class XWatchService {
     public static final UUID UUID_NOTIFY = UUID.fromString("0000fff7-0000-1000-8000-00805f9b34fb");
@@ -40,11 +47,40 @@ public class XWatchService {
         XWATCH_DEBUG.put(UUID_SERVICE, "Get service");
     }
 
+    public static TaskerSpec getTaskerSpec() {
+        return new XWatchTaskerSpec();
+    }
+
     public static String lookup(UUID uuid, String fallback) {
         String name = XWATCH_DEBUG.get(uuid);
         if (name == null) {
             name = fallback;
         }
         return name;
+    }
+
+    private static class XWatchTaskerSpec implements TaskerSpec {
+
+        @Override
+        public TaskerEventType getEventType(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+            if (UUID_NOTIFY.equals(characteristic.getUuid())) {
+                byte[] data = characteristic.getValue();
+                if (data[0] == XWatchService.COMMAND_ACTIVITY_DATA) {
+                    return TaskerEventType.DATA;
+                }
+                if (data[0] == XWatchService.COMMAND_ACTION_BUTTON) {
+                    return TaskerEventType.BUTTON;
+                }
+                if (data[0] == XWatchService.COMMAND_CONNECTED) {
+                    return TaskerEventType.CONNECTION;
+                }
+            }
+            return TaskerEventType.NO_OP;
+        }
+
+        @Override
+        public TaskerSettings getTaskerSettings(TaskerEventType eventType) {
+            return null;
+        }
     }
 }

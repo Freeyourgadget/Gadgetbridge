@@ -709,8 +709,8 @@
                     android:defaultValue="false"
                     android:key="tasker_active"
                     android:layout="@layout/preference_checkbox"
-                    android:summary="@string/tasker_active_sum"
-                    android:title="@string/tasker_active" />
+                    android:summary="@string/tasker_enabled_sum"
+                    android:title="@string/tasker_enabled" />
                 <EditTextPreference
                     android:key="tasker_task_single"
                     android:maxLength="255"
@@ -770,5 +770,8 @@
             android:key="log_to_file"
             android:layout="@layout/preference_checkbox"
             android:title="@string/pref_write_logfiles" />
+    </PreferenceCategory>
+    <PreferenceCategory android:key="pref_key_tasker">
+        <Preference android:key="pref_key_tasker" />
     </PreferenceCategory>
 </PreferenceScreen>
