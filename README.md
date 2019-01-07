@@ -26,7 +26,8 @@ vendor's servers.
 
 ## Supported Devices
 * Amazfit Bip [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
-* Amazfit Cor (no maintainer) [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor)
+* Amazfit Cor [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor)
+* Casio GB-6900B (WIP)
 * HPlus Devices (e.g. ZeBand) [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/HPlus)
 * ID115 (WIP)
 * Lenovo Watch 9 (WIP)
@@ -41,6 +42,7 @@ vendor's servers.
 * XWatch (Affordable Chinese Casio-like smartwatches)
 * Vibratissimo (experimental)
 * ZeTime (WIP)
+
 
 ## Features
 
@@ -89,7 +91,6 @@ Please [this wiki article](https://github.com/Freeyourgadget/Gadgetbridge/wiki/P
 * Daniele Gobbetti
 
 ### Additional device support
-
 * João Paulo Barraca (HPlus)
 * Vitaly Svyastyn (NO.1 F1)
 * Sami Alaoui (Teclast H30)
@@ -97,6 +98,7 @@ Please [this wiki article](https://github.com/Freeyourgadget/Gadgetbridge/wiki/P
 * Sebastian Kranz (ZeTime)
 * Vadim Kaushan (ID115)
 * "maxirnilian" (Lenovo Watch 9)
+* Andreas Böhler (Casio GB-6900B)
 
 ## Contribute
 
