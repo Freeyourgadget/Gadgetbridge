@@ -714,15 +714,15 @@
                 <EditTextPreference
                     android:key="tasker_task_single"
                     android:maxLength="255"
-                    android:title="@string/tasker_task_single"/>
+                    android:title="@string/tasker_task_single" />
                 <EditTextPreference
                     android:key="tasker_task_double"
                     android:maxLength="255"
-                    android:title="@string/tasker_task_double"/>
+                    android:title="@string/tasker_task_double" />
                 <EditTextPreference
                     android:key="tasker_task_triple"
                     android:maxLength="255"
-                    android:title="@string/tasker_task_triple"/>
+                    android:title="@string/tasker_task_triple" />
             </PreferenceCategory>
         </PreferenceScreen>
     </PreferenceCategory>

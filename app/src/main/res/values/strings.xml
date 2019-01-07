@@ -674,7 +674,18 @@
     <!-- Tasker -->
     <string name="tasker">Tasker</string>
     <string name="tasker_active">Active</string>
-    <string name="tasker_active_sum">Enables Tasker but disables media controls</string>
+    <string name="tasker_active_sum">Enables Tasker support</string>
+    <string name="tasker_add">Add</string>
+    <string name="tasker_remove">Remove</string>
+    <string name="tasker_event_button">Button Events</string>
+    <string name="tasker_event_connection">Connection Events</string>
+    <string name="tasker_event_data">Data Events</string>
+    <string name="tasker_threshold">Threshold milliseconds</string>
+    <string name="tasker_threshold_sum">Delay between task calls</string>
+    <string name="tasker_task">Task</string>
+    <string name="tasker_task_sum">Adds another threshold task</string>
+    <string name="tasker_task_name">Task name</string>
+    <string name="tasker_info">Add tasks to events by name and event count in threshold i.e. for threshold 1000: Double button event within one second triggers task number two.</string>
     <string name="tasker_task_single">Task for single press</string>
     <string name="tasker_task_double">Task for double press</string>
     <string name="tasker_task_triple">Task for triple press</string>

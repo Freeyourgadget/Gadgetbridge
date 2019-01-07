@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:summary="@string/tasker_info"
+        android:title="@string/tasker">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="tasker_active"
+            android:summary="@string/tasker_active_sum"
+            android:title="@string/tasker_active" />
+        <Preference
+            android:persistent="false"
+            android:selectable="false"
+            android:summary="@string/tasker_info" />
+    </PreferenceCategory>
+    <PreferenceScreen android:title="@string/tasker_event_button">
+        <EditTextPreference
+            android:inputType="number"
+            android:summary="@string/tasker_threshold_sum"
+            android:title="@string/tasker_threshold" />
+    </PreferenceScreen>
+    <EditTextPreference
+        android:inputType="number"
+        android:summary="@string/tasker_threshold_sum"
+        android:title="@string/tasker_threshold" />
+    <Preference
+        android:key="tasker_task_add"
+        android:summary="@string/tasker_task_sum"
+        android:title="@string/tasker_task"
+        android:widgetLayout="@layout/tasker_add_button"></Preference>
+    <EditTextPreference
+        android:key="tasker_task"
+        android:summary="@string/tasker_task_name"
+        android:widgetLayout="@layout/tasker_remove_button" />
+
+</PreferenceScreen>
