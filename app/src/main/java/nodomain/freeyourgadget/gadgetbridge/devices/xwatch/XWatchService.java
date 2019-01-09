@@ -19,7 +19,9 @@ package nodomain.freeyourgadget.gadgetbridge.devices.xwatch;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -76,6 +78,11 @@ public class XWatchService {
                 }
             }
             return TaskerEventType.NO_OP;
+        }
+
+        @Override
+        public List<TaskerEventType> getSupportedTypes() {
+            return Arrays.asList(TaskerEventType.BUTTON, TaskerEventType.DATA, TaskerEventType.CONNECTION);
         }
 
         @Override

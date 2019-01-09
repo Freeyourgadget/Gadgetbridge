@@ -18,7 +18,7 @@ public class TaskerActivity extends AbstractSettingsActivity {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.tasker_preferences);
         final PreferenceCategory group = (PreferenceCategory) findPreference(TaskerConstants.TASKER_PREF_GROUP);
-        for (GBDevice device : GBApplication.app().getDeviceManager().getDevices()) {
+        for (TaskerConstants.TaskerDevice device : TaskerConstants.TaskerDevice.values()) {
             group.addPreference(preference(device));
         }
     }
@@ -28,14 +28,14 @@ public class TaskerActivity extends AbstractSettingsActivity {
         super.onPostCreate(savedInstanceState);
     }
 
-    private Preference preference(final GBDevice device) {
+    private Preference preference(final TaskerConstants.TaskerDevice device) {
         Preference devicePreference = new Preference(this);
         devicePreference.setTitle(device.getType().getName());
         devicePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 Intent intent = new Intent(TaskerActivity.this, TaskerEventsActivity.class);
-                intent.putExtra(TaskerConstants.TASKER_DEVICE, device);
+                intent.putExtra(TaskerConstants.DEVICE_INTENT, device);
                 startActivity(intent);
                 return true;
             }

@@ -6,19 +6,23 @@
             android:persistent="false"
             android:selectable="false"
             android:summary="@string/tasker_info" />
-        <SwitchPreference android:title=""/>
+        <SwitchPreference
+            android:key="act_tasker_threshold_enabled"
+            android:title="@string/tasker_threshold_enable" />
         <EditTextPreference
             android:inputType="number"
-            android:key="tasker_threshold"
+            android:key="act_tasker_threshold"
             android:summary="@string/tasker_threshold_sum"
             android:title="@string/tasker_threshold" />
         <Preference
-            android:key="tasker_task_add"
+            android:key="act_tasker_task_add"
             android:summary="@string/tasker_task_sum"
             android:title="@string/tasker_task"
             android:widgetLayout="@layout/tasker_add_button"></Preference>
+    </PreferenceCategory>
+    <PreferenceCategory android:key="act_tasker_task_group">
         <EditTextPreference
-            android:key="tasker_task"
+            android:key="act_tasker_task_remove"
             android:summary="@string/tasker_task_name"
             android:widgetLayout="@layout/tasker_remove_button" />
     </PreferenceCategory>

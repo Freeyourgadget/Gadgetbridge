@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:key="tasker_group" android:title="@string/tasker">
+    <PreferenceCategory android:key="pref_key_tasker_group" android:title="@string/tasker">
         <Preference
             android:persistent="false"
             android:selectable="false"

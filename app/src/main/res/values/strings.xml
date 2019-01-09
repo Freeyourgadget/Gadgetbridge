@@ -690,9 +690,6 @@
     <string name="tasker_info">Tasker is an application for Android which performs tasks (sets of actions) based on contexts
         (application, time, date, location, event, gesture) in user-defined profiles or in clickable or timer home screen widgets.</string>
     <string name="tasker_no_task_defined">No task defined! Please define a task in settings.</string>
-    <string name="tasker_event_button">Button events</string>
-    <string name="tasker_event_connection">Connection events</string>
-    <string name="tasker_event_data">Data events</string>
 
     <!-- XWatch -->
     <string name="xwatch_settings">XWatch settings</string>

@@ -23,7 +23,7 @@ public class TaskerBleProfile<T extends AbstractBTLEDeviceSupport> extends Abstr
     public TaskerBleProfile(T support, TaskerSpec taskerSpec) {
         super(support);
         this.taskerSpec = taskerSpec;
-        taskerService = new TaskerService(taskerSpec.isEnabled());
+        taskerService = new TaskerService();
     }
 
     @Override

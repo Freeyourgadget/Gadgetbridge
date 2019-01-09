@@ -1,12 +1,13 @@
 package nodomain.freeyourgadget.gadgetbridge.tasker.event;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 
-public class TaskerEventType {
+public class TaskerEventType implements Serializable {
 
     public static TaskerEventType BUTTON = TaskerEventType.create("button").withLocalization(R.string.tasker_event_button);
     public static TaskerEventType CONNECTION = TaskerEventType.create("connection").withLocalization(R.string.tasker_event_connection);
