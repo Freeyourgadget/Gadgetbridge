@@ -106,14 +106,17 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             MediaSessionManager mediaSessionManager =
                     (MediaSessionManager) context.getSystemService(Context.MEDIA_SESSION_SERVICE);
-
-            List<MediaController> controllers = mediaSessionManager.getActiveSessions(
-                    new ComponentName(context, NotificationListener.class));
             try {
-                MediaController controller = controllers.get(0);
-                audioPlayer = controller.getPackageName();
-            } catch (IndexOutOfBoundsException e) {
-                LOG.error("No media controller available", e);
+                List<MediaController> controllers = mediaSessionManager.getActiveSessions(
+                        new ComponentName(context, NotificationListener.class));
+                try {
+                    MediaController controller = controllers.get(0);
+                    audioPlayer = controller.getPackageName();
+                } catch (IndexOutOfBoundsException e) {
+                    LOG.error("No media controller available", e);
+                }
+            } catch (SecurityException e) {
+                LOG.warn("No permission to get media sessions - did not grant notification access?", e);
             }
         }
         return audioPlayer;
