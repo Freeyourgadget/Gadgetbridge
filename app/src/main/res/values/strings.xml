@@ -671,4 +671,5 @@
     <string name="pref_invalid_frequency_title">Invalid frequency</string>
     <string name="pref_invalid_frequency_message">Please enter a frequency between 87.5 and 108.0</string>
     <string name="language_and_region_prefs">Language and region settings</string>
+    <string name="appwidget_not_connected">Not connected, alarm not set.</string>
 </resources>
