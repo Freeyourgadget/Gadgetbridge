@@ -313,7 +313,7 @@
   <string name="appwidget_text">Spí...</string>
   <string name="add_widget">Přidat widget</string>
   <string name="activity_prefs_sleep_duration">Preferovaná doba spánku v hodinách</string>
-  <string name="appwidget_alarms_set">Budík nastaven na %1$02d:%2$02d</string>
+  <string name="appwidget_setting_alarm">Budík nastaven na %1$02d:%2$02d</string>
   <string name="device_hw">Revize HW: %1$s</string>
   <string name="device_fw">Verze FW: %1$s</string>
   <string name="error_creating_directory_for_logfiles">Chyba při vytváření adresáře pro logy: %1$s</string>

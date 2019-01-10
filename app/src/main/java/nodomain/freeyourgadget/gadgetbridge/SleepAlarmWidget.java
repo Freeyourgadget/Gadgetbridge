@@ -32,12 +32,10 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
-import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
@@ -112,8 +110,16 @@ public class SleepAlarmWidget extends AppWidgetProvider {
                     GB.toast(context,
                             context.getString(R.string.appwidget_not_connected),
                             Toast.LENGTH_LONG, GB.WARN);
+                    return;
                 }
             }
+
+            int hours = calendar.get(Calendar.HOUR_OF_DAY);
+            int minutes = calendar.get(Calendar.MINUTE);
+
+            GB.toast(context,
+                    context.getString(R.string.appwidget_setting_alarm, hours, minutes),
+                    Toast.LENGTH_SHORT, GB.INFO);
 
             Alarm alarm = AlarmUtils.createSingleShot(0,true, calendar);
             ArrayList<Alarm> alarms = new ArrayList<>(1);
@@ -123,13 +129,6 @@ public class SleepAlarmWidget extends AppWidgetProvider {
 //            if (GBApplication.isRunningLollipopOrLater()) {
 //                setAlarmViaAlarmManager(context, calendar.getTimeInMillis());
 //            }
-
-//            int hours = calendar.get(Calendar.HOUR_OF_DAY);
-//            int minutes = calendar.get(Calendar.MINUTE);
-//
-//            GB.toast(context,
-//                    String.format(context.getString(R.string.appwidget_alarms_set), hours, minutes),
-//                    Toast.LENGTH_SHORT, GB.INFO);
         }
     }
 

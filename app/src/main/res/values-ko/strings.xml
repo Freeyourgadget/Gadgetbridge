@@ -211,7 +211,7 @@
   <string name="appwidget_text">Zzz</string>
   <string name="add_widget">위젯 추가</string>
   <string name="activity_prefs_sleep_duration">선호하는 수면 시간</string>
-  <string name="appwidget_alarms_set">%1$02d:%2$02d 알람이 설정되었습니다</string>
+  <string name="appwidget_setting_alarm">%1$02d:%2$02d 알람이 설정되었습니다</string>
   <string name="device_hw">하드웨어: %1$s</string>
   <string name="device_fw">펌웨어: %1$s</string>
   <string name="error_creating_directory_for_logfiles">기록 파일을 저장할 디렉토리 생성 오류: %1$s</string>

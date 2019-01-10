@@ -411,7 +411,7 @@
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">添加小部件</string>
     <string name="activity_prefs_sleep_duration">睡眠时间目标</string>
-    <string name="appwidget_alarms_set">已设置一个闹钟为 %1$02d:%2$02d</string>
+    <string name="appwidget_setting_alarm">已设置一个闹钟为 %1$02d:%2$02d</string>
     <string name="device_hw">硬件版本:%1$s</string>
     <string name="device_fw">固件版本:%1$s</string>
     <string name="error_creating_directory_for_logfiles">为日志文件创建目录时出错:%1$s</string>

@@ -391,7 +391,7 @@
     <string name="appwidget_text">ZzZ</string>
     <string name="add_widget">Engadir widget</string>
     <string name="activity_prefs_sleep_duration">Duración de sono preferida en horas</string>
-    <string name="appwidget_alarms_set">Unha alarma foi definida para %1$02d:%2$02d</string>
+    <string name="appwidget_setting_alarm">Unha alarma foi definida para %1$02d:%2$02d</string>
     <string name="device_hw">Revisión de hardware: %1$s</string>
     <string name="device_fw">Versión de firmware: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Erro creando un cartafol para os arquivos de rexistro: %1$s</string>

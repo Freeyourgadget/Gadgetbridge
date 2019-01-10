@@ -299,7 +299,7 @@
   <string name="appwidget_text">חררר</string>
   <string name="add_widget">הוספת וידג׳ט</string>
   <string name="activity_prefs_sleep_duration">משך השינה המועדף בשעות</string>
-  <string name="appwidget_alarms_set">הוגדרה התראה לשעה %1$02d:%2$02d</string>
+  <string name="appwidget_setting_alarm">הוגדרה התראה לשעה %1$02d:%2$02d</string>
   <string name="device_hw">מהדורת חומרה: %1$s</string>
   <string name="device_fw">מהדורת קושחה: %1$s</string>
   <string name="error_creating_directory_for_logfiles">אירעה שגיאה ביצירת תיקייה לקובצי הרישום: %1$s</string>

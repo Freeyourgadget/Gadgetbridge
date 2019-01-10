@@ -494,7 +494,7 @@
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Add widget</string>
     <string name="activity_prefs_sleep_duration">Preferred sleep duration in hours</string>
-    <string name="appwidget_alarms_set">An alarm was set for %1$02d:%2$02d</string>
+    <string name="appwidget_setting_alarm">Setting alarm for %1$02d:%2$02d</string>
     <string name="device_hw">Hardware revision: %1$s</string>
     <string name="device_fw">Firmware version: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Error creating directory for log files: %1$s</string>

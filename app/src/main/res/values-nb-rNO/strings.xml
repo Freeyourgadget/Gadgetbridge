@@ -407,7 +407,7 @@
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Legg til miniprogram</string>
     <string name="activity_prefs_sleep_duration">Foretrukket søvn i timer</string>
-    <string name="appwidget_alarms_set">En alarm ble satt for %1$02d:%2$02d</string>
+    <string name="appwidget_setting_alarm">En alarm ble satt for %1$02d:%2$02d</string>
     <string name="device_hw">Maskinvarerevisjon: %1$s</string>
     <string name="device_fw">Fastvareversjon: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Feil under opprettelse av mappe for loggfiler: %1$s</string>
