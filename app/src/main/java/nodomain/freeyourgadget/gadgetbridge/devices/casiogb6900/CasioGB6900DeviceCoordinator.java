@@ -117,13 +117,8 @@ public class CasioGB6900DeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAlarmConfiguration() {
-        return false;
-    }
-
-    @Override
     public int getAlarmSlotCount() {
-        return 5; // 4 regular and one snooze but not yet implemented
+        return 0; // 4 regular and one snooze but not yet implemented
     }
 
     @Override

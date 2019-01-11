@@ -106,11 +106,6 @@ public class ID115Coordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAlarmConfiguration() {
-        return false;
-    }
-
-    @Override
     public int getAlarmSlotCount() {
         return 0;
     }

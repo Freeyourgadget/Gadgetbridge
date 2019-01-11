@@ -117,11 +117,6 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAlarmConfiguration() {
-        return false;
-    }
-
-    @Override
     public int getAlarmSlotCount() {
         return 0;
     }
