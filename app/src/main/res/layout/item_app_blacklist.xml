@@ -45,17 +45,17 @@
         android:paddingTop="8dp" />
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/item_image"
-        android:layout_toLeftOf="@+id/btn_configureApp"
+        android:layout_toStartOf="@+id/btn_configureApp"
         android:orientation="vertical"
         android:padding="8dp">
 
         <TextView
             android:id="@+id/item_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:scrollHorizontally="false"
@@ -64,9 +64,11 @@
 
         <TextView
             android:id="@+id/item_details"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Item Description"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
     </LinearLayout>
 
