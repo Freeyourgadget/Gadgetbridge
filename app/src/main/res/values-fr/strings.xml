@@ -337,7 +337,7 @@
   <string name="add_widget">Ajouter un widget</string>
   <string name="activity_prefs_sleep_duration">
 Temps de sommeil préféré en heures</string>
-  <string name="appwidget_alarms_set">Une alarme a été enregistré pour %1$02d:%2$02d</string>
+  <string name="appwidget_setting_alarm">Une alarme a été enregistré pour %1$02d:%2$02d</string>
   <string name="device_hw">Révision matérielle : %1$s</string>
   <string name="device_fw">Version du micrologiciel : %1$s</string>
   <string name="error_creating_directory_for_logfiles">Erreur à la création de votre fichier log : %1$s</string>

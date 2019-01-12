@@ -182,14 +182,9 @@ public interface DeviceCoordinator {
     boolean supportsScreenshots();
 
     /**
-     * Returns true if this device/coordinator supports setting alarms.
-     *
-     * @return
-     */
-    boolean supportsAlarmConfiguration();
-
-    /**
      * Returns the number of alarms this device/coordinator supports
+     * Shall return 0 also if it is not possible to set alarms via
+     * protocol, but only on the smart device itself.
      *
      * @return
      */
@@ -278,4 +273,9 @@ public interface DeviceCoordinator {
      */
     @NonNull
     int[] getColorPresets();
+
+    /**
+     * Indicates whether the device supports unicode emojis.
+     */
+    boolean supportsUnicodeEmojis();
 }

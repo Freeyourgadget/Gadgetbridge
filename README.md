@@ -26,7 +26,8 @@ vendor's servers.
 
 ## Supported Devices
 * Amazfit Bip [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
-* Amazfit Cor (no maintainer) [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor)
+* Amazfit Cor [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor)
+* Casio GB-6900B (WIP)
 * HPlus Devices (e.g. ZeBand) [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/HPlus)
 * ID115 (WIP)
 * Lenovo Watch 9 (WIP)
@@ -42,23 +43,18 @@ vendor's servers.
 * Vibratissimo (experimental)
 * ZeTime (WIP)
 
+
 ## Features
 
 Please see [FEATURES.md](https://github.com/Freeyourgadget/Gadgetbridge/blob/master/FEATURES.md)
 
 ## Getting Started (Pebble)
 
-1. Pair your Pebble through the Android's Bluetooth Settings or Gadgetbridge. Pebble 2 MUST be paired though Gadgetbridge (tap on the + in Control Center)
-2. Start Gadgetbridge, tap on the device you want to connect to
-3. To test, choose "Debug" from the menu and play around
-
-For more information read [this wiki article](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble-Getting-Started) 
+Please [this wiki article](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble-Getting-Started) 
 
 ## How to use (Mi Band 1+2)
 
-* When starting Gadgetbridge the first time, it will automatically
-  attempt to discover and pair your Mi Band. Alternatively you can invoke discovery
-  manually via the "+" button. It will ask you for some personal info that appears
+* Invoke the discovery activity  manually via the "+" button. It will ask you for some personal info that appears
   to be needed for proper steps calculation on the band. If you do not provide these,
   some hardcoded default "dummy" values will be used instead. 
 
@@ -95,7 +91,6 @@ For more information read [this wiki article](https://github.com/Freeyourgadget/
 * Daniele Gobbetti
 
 ### Additional device support
-
 * João Paulo Barraca (HPlus)
 * Vitaly Svyastyn (NO.1 F1)
 * Sami Alaoui (Teclast H30)
@@ -103,6 +98,7 @@ For more information read [this wiki article](https://github.com/Freeyourgadget/
 * Sebastian Kranz (ZeTime)
 * Vadim Kaushan (ID115)
 * "maxirnilian" (Lenovo Watch 9)
+* Andreas Böhler (Casio GB-6900B)
 
 ## Contribute
 

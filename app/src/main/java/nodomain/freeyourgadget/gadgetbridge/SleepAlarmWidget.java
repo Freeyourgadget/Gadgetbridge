@@ -27,12 +27,15 @@ import android.os.Build;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
+import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
@@ -55,7 +58,8 @@ public class SleepAlarmWidget extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.sleep_alarm_widget);
 
         // Add our own click intent
-        Intent intent = new Intent(ACTION);
+        Intent intent = new Intent(context, SleepAlarmWidget.class);
+        intent.setAction(ACTION);
         PendingIntent clickPI = PendingIntent.getBroadcast(
                 context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.sleepalarmwidget_text, clickPI);
@@ -90,24 +94,41 @@ public class SleepAlarmWidget extends AppWidgetProvider {
             // current timestamp
             GregorianCalendar calendar = new GregorianCalendar();
             // add preferred sleep duration
-            calendar.add(Calendar.HOUR_OF_DAY, userSleepDuration);
+            if (userSleepDuration > 0) {
+                calendar.add(Calendar.HOUR_OF_DAY, userSleepDuration);
+            } else { // probably testing
+                calendar.add(Calendar.MINUTE, 1);
+            }
 
+            // overwrite the first alarm and activate it, without
 
-            // overwrite the first alarm and activate it
-/*
-            GBAlarm alarm = GBAlarm.createSingleShot(0,0, true, calendar); // FIXME!!!!
-            alarm.store();
-*/
-            if (GBApplication.isRunningLollipopOrLater()) {
-                setAlarmViaAlarmManager(context, calendar.getTimeInMillis());
+            Context appContext = context.getApplicationContext();
+            if (appContext instanceof GBApplication) {
+                GBApplication gbApp = (GBApplication) appContext;
+                GBDevice selectedDevice = gbApp.getDeviceManager().getSelectedDevice();
+                if (selectedDevice == null || !selectedDevice.isInitialized()) {
+                    GB.toast(context,
+                            context.getString(R.string.appwidget_not_connected),
+                            Toast.LENGTH_LONG, GB.WARN);
+                    return;
+                }
             }
 
             int hours = calendar.get(Calendar.HOUR_OF_DAY);
             int minutes = calendar.get(Calendar.MINUTE);
 
             GB.toast(context,
-                    String.format(context.getString(R.string.appwidget_alarms_set), hours, minutes),
+                    context.getString(R.string.appwidget_setting_alarm, hours, minutes),
                     Toast.LENGTH_SHORT, GB.INFO);
+
+            Alarm alarm = AlarmUtils.createSingleShot(0,true, calendar);
+            ArrayList<Alarm> alarms = new ArrayList<>(1);
+            alarms.add(alarm);
+            GBApplication.deviceService().onSetAlarms(alarms);
+
+//            if (GBApplication.isRunningLollipopOrLater()) {
+//                setAlarmViaAlarmManager(context, calendar.getTimeInMillis());
+//            }
         }
     }
 

@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.32.0" versioncode="143">
+        <change>Initial support for Casio GB-6900B</change>
+        <change>Increase number of alarms and store them per-device </change>
+        <change>Support factory reset in debug activity (Mi Band 1/2/3, Bip, Cor)</change>
+        <change>Filter out unicode control sequences (fixes problems with Telegram and probably others)</change>
+        <change>Fix endless loop resulting in OOM when RTL support is enabled</change>
+        <change>Recoginize p≡p as an email app</change>
+        <change>No longer display Android paired devices in that were not a paired with Gadgetbridge</change>
+        <change>Amazfit Bip: Allow flashing latest GPS firmware</change>
+        <change>Pebble: Native support for M7S watch face</change>
+        <change>No1 F1: Support for a Chinese clone</change>
+    </release>
     <release version="0.31.3" versioncode="142">
         <change>Pebble: Fix crash with DISMISS and OPEN actions</change>
     </release>

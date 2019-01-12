@@ -72,11 +72,11 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
+import nodomain.freeyourgadget.gadgetbridge.entities.AlarmDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
@@ -112,6 +112,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.Ini
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.RealtimeSamplesSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
+import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
@@ -613,7 +615,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("Set alarm");
             boolean anyAlarmEnabled = false;
             for (Alarm alarm : alarms) {
-                anyAlarmEnabled |= alarm.isEnabled();
+                anyAlarmEnabled |= alarm.getEnabled();
                 queueAlarm(alarm, builder, characteristic);
             }
             builder.queue(getQueue());
@@ -829,18 +831,27 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
         try {
-            TransactionBuilder builder = performInitialized("Reboot");
-            sendReboot(builder);
+            TransactionBuilder builder = performInitialized("Reset");
+            if ((flags & GBDeviceProtocol.RESET_FLAGS_FACTORY_RESET) != 0) {
+                sendFactoryReset(builder);
+            } else {
+                sendReboot(builder);
+            }
             builder.queue(getQueue());
         } catch (IOException ex) {
-            LOG.error("Unable to reboot MI", ex);
+            LOG.error("Unable to reset", ex);
         }
     }
 
     public HuamiSupport sendReboot(TransactionBuilder builder) {
         builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_FIRMWARE), new byte[] { HuamiService.COMMAND_FIRMWARE_REBOOT});
+        return this;
+    }
+
+    public HuamiSupport sendFactoryReset(TransactionBuilder builder) {
+        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), HuamiService.COMMAND_FACTORY_RESET);
         return this;
     }
 
@@ -1392,29 +1403,29 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
      * @param characteristic
      */
     private void queueAlarm(Alarm alarm, TransactionBuilder builder, BluetoothGattCharacteristic characteristic) {
-        Calendar calendar = alarm.getAlarmCal();
+        Calendar calendar = AlarmUtils.toCalendar(alarm);
 
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
         int maxAlarms = coordinator.getAlarmSlotCount();
 
-        if (alarm.getIndex() >= maxAlarms) {
-            if (alarm.isEnabled()) {
+        if (alarm.getPosition() >= maxAlarms) {
+            if (alarm.getEnabled()) {
                 GB.toast(getContext(), "Only " + maxAlarms + " alarms are currently supported.", Toast.LENGTH_LONG, GB.WARN);
             }
             return;
         }
 
         int base = 0;
-        if (alarm.isEnabled()) {
+        if (alarm.getEnabled()) {
             base = 128;
         }
-        int daysMask = alarm.getRepetitionMask();
+        int daysMask = alarm.getRepetition();
         if (!alarm.isRepetitive()) {
             daysMask = 128;
         }
         byte[] alarmMessage = new byte[] {
                 (byte) 0x2, // TODO what is this?
-                (byte) (base + alarm.getIndex()), // 128 is the base, alarm slot is added
+                (byte) (base + alarm.getPosition()), // 128 is the base, alarm slot is added
                 (byte) calendar.get(Calendar.HOUR_OF_DAY),
                 (byte) calendar.get(Calendar.MINUTE),
                 (byte) daysMask,
@@ -1467,14 +1478,6 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             CalendarEvents upcomingEvents = new CalendarEvents();
             List<CalendarEvents.CalendarEvent> mEvents = upcomingEvents.getCalendarEventList(getContext());
 
-            Long deviceId;
-            try (DBHandler handler = GBApplication.acquireDB()) {
-                DaoSession session = handler.getDaoSession();
-                deviceId = DBHelper.getDevice(getDevice(), session).getId();
-            } catch (Exception e) {
-                LOG.error("Could not acquire DB", e);
-                return this;
-            }
             int iteration = 0;
 
             for (CalendarEvents.CalendarEvent mEvt : mEvents) {
@@ -1484,7 +1487,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 int slotToUse = 2 - iteration;
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(mEvt.getBegin());
-                Alarm alarm = GBAlarm.createSingleShot(deviceId, slotToUse, false, calendar);
+                Alarm alarm = AlarmUtils.createSingleShot(slotToUse, false, calendar);
                 queueAlarm(alarm, builder, characteristic);
                 iteration++;
             }

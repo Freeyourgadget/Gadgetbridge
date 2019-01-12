@@ -233,7 +233,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
         //Not supported
     }
 
@@ -455,7 +455,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
                         try {
                             builder = performInitialized("fetchActivityData");
                             requestDetailedData(builder);
-                            performConnected(builder.getTransaction());
+                            builder.queue(getQueue());
                         } catch (IOException e) {
                             GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                         }

@@ -186,8 +186,8 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     }
 
     @Override
-    public void onReboot() {
-        byte[] bytes = gbDeviceProtocol.encodeReboot();
+    public void onReset(int flags) {
+        byte[] bytes = gbDeviceProtocol.encodeReset(flags);
         sendToDevice(bytes);
     }
 

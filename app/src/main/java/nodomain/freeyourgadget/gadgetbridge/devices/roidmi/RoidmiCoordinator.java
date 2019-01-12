@@ -17,7 +17,6 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.roidmi;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -80,11 +79,6 @@ public abstract class RoidmiCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsScreenshots() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsAlarmConfiguration() {
         return false;
     }
 

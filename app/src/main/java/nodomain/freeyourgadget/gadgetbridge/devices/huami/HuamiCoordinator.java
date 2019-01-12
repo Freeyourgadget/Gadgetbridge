@@ -104,11 +104,6 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAlarmConfiguration() {
-        return true;
-    }
-
-    @Override
     public int getAlarmSlotCount() {
         return 10;
     }

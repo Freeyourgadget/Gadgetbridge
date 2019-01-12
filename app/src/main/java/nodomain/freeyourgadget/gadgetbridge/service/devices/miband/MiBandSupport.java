@@ -56,7 +56,6 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -86,6 +85,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotificat
 import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.UpdateFirmwareOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
+import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
@@ -270,6 +271,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     static final byte[] reboot = new byte[]{MiBandService.COMMAND_REBOOT};
+    static final byte[] factoryReset = new byte[]{MiBandService.COMMAND_FACTORYRESET};
 
     static final byte[] startHeartMeasurementManual = new byte[]{0x15, MiBandService.COMMAND_SET_HR_MANUAL, 1};
     static final byte[] stopHeartMeasurementManual = new byte[]{0x15, MiBandService.COMMAND_SET_HR_MANUAL, 0};
@@ -558,7 +560,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("Set alarm");
             boolean anyAlarmEnabled = false;
             for (Alarm alarm : alarms) {
-                anyAlarmEnabled |= alarm.isEnabled();
+                anyAlarmEnabled |= alarm.getEnabled();
                 queueAlarm(alarm, builder, characteristic);
             }
             builder.queue(getQueue());
@@ -689,13 +691,17 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
         try {
-            TransactionBuilder builder = performInitialized("Reboot");
-            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), reboot);
+            TransactionBuilder builder = performInitialized("reset");
+            if ((flags & GBDeviceProtocol.RESET_FLAGS_FACTORY_RESET) != 0) {
+                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), factoryReset);
+            } else {
+                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), reboot);
+            }
             builder.queue(getQueue());
         } catch (IOException ex) {
-            LOG.error("Unable to reboot MI", ex);
+            LOG.error("Unable to reset", ex);
         }
     }
 
@@ -1128,20 +1134,20 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * @param characteristic
      */
     private void queueAlarm(Alarm alarm, TransactionBuilder builder, BluetoothGattCharacteristic characteristic) {
-        byte[] alarmCalBytes = MiBandDateConverter.calendarToRawBytes(alarm.getAlarmCal());
+        byte[] alarmCalBytes = MiBandDateConverter.calendarToRawBytes(AlarmUtils.toCalendar(alarm));
 
         byte[] alarmMessage = new byte[]{
                 MiBandService.COMMAND_SET_TIMER,
-                (byte) alarm.getIndex(),
-                (byte) (alarm.isEnabled() ? 1 : 0),
+                (byte) alarm.getPosition(),
+                (byte) (alarm.getEnabled() ? 1 : 0),
                 alarmCalBytes[0],
                 alarmCalBytes[1],
                 alarmCalBytes[2],
                 alarmCalBytes[3],
                 alarmCalBytes[4],
                 alarmCalBytes[5],
-                (byte) (alarm.isSmartWakeup() ? 30 : 0),
-                (byte) alarm.getRepetitionMask()
+                (byte) (alarm.getSmartWakeup() ? 30 : 0),
+                (byte) alarm.getRepetition()
         };
         builder.write(characteristic, alarmMessage);
     }
@@ -1225,15 +1231,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 CalendarEvents upcomingEvents = new CalendarEvents();
                 List<CalendarEvents.CalendarEvent> mEvents = upcomingEvents.getCalendarEventList(getContext());
 
-                Long deviceId;
-                try (DBHandler handler = GBApplication.acquireDB()) {
-                    DaoSession session = handler.getDaoSession();
-                    deviceId = DBHelper.getDevice(getDevice(), session).getId();
-                } catch (Exception e) {
-                    LOG.error("Could not acquire DB", e);
-                    return;
-                }
-
                 int iteration = 0;
                 for (CalendarEvents.CalendarEvent mEvt : mEvents) {
                     if (iteration >= availableSlots || iteration > 2) {
@@ -1242,7 +1239,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                     int slotToUse = 2 - iteration;
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(mEvt.getBegin());
-                    Alarm alarm = GBAlarm.createSingleShot(deviceId, slotToUse, false, calendar);
+                    Alarm alarm = AlarmUtils.createSingleShot(slotToUse, false, calendar);
                     queueAlarm(alarm, builder, characteristic);
                     iteration++;
                 }

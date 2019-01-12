@@ -244,7 +244,7 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         // Ignore too frequent notifications, according to user preference
-        long min_timeout = prefs.getInt("notifications_timeout", 0) * 1000;
+        long min_timeout = (long)prefs.getInt("notifications_timeout", 0) * 1000L;
         long cur_time = System.currentTimeMillis();
         if (notificationBurstPrevention.containsKey(source)) {
             long last_time = notificationBurstPrevention.get(source);

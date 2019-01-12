@@ -299,7 +299,7 @@
   <string name="appwidget_text">Zzz</string>
   <string name="add_widget">Adicionar widget</string>
   <string name="activity_prefs_sleep_duration">Preferir duração de sono em horas</string>
-  <string name="appwidget_alarms_set">Um alarme foi definido para %1$02d:%2$02d</string>
+  <string name="appwidget_setting_alarm">Um alarme foi definido para %1$02d:%2$02d</string>
   <string name="device_hw">HW: %1$s</string>
   <string name="device_fw">FW: %1$s</string>
   <string name="error_creating_directory_for_logfiles">Erro ao criar o diretório para arquivos de log: %1$s</string>

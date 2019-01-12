@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Gadgetbridge</string>
 
@@ -26,7 +26,10 @@
     <string name="controlcenter_calibrate_device">Calibrate Device</string>
 
 
+    <!-- Strings related to Debug Activity -->
     <string name="title_activity_debug">Debug</string>
+    <string name="debugactivity_really_factoryreset_title">Really factory reset?</string>
+    <string name="debugactivity_really_factoryreset">Doing a factory reset will delete all data from the connected device (if supported). Xiaomi/Huami devices also change Bluetooth MAC address, so they appear as a new devices to Gadgetbrige.</string>
 
     <!-- Strings related to AppManager -->
     <string name="title_activity_appmanager">App Manager</string>
@@ -109,7 +112,7 @@
     <string name="pref_title_rtl">Right-To-Left</string>
     <string name="pref_summary_rtl">Enable this if your device can not show right-to-left languages</string>
     <string name="pref_rtl_max_line_length">Right-To-Left Max Line Length</string>
-    <string name="pref_rtl_max_line_length_summary">Lengthens or shortens the lines Right-To-Left text is seperated into</string>
+    <string name="pref_rtl_max_line_length_summary">Lengthens or shortens the lines Right-To-Left text is separated into</string>
 
     <string name="always">Always</string>
     <string name="when_screen_off">When screen is off</string>
@@ -491,7 +494,7 @@
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Add widget</string>
     <string name="activity_prefs_sleep_duration">Preferred sleep duration in hours</string>
-    <string name="appwidget_alarms_set">An alarm was set for %1$02d:%2$02d</string>
+    <string name="appwidget_setting_alarm">Setting alarm for %1$02d:%2$02d</string>
     <string name="device_hw">Hardware revision: %1$s</string>
     <string name="device_fw">Firmware version: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Error creating directory for log files: %1$s</string>
@@ -625,6 +628,7 @@
     <string name="devicetype_watch9">Watch 9</string>
     <string name="devicetype_roidmi">Roidmi</string>
     <string name="devicetype_roidmi3">Roidmi 3</string>
+    <string name="devicetype_casiogb6900">Casio GB-6900</string>
 
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>
@@ -683,4 +687,5 @@
     <string name="filter_mode">Filter Mode</string>
     <string name="mode_configuration">Mode Configuration</string>
     <string name="save_configuration">Save Configuration</string>
+    <string name="appwidget_not_connected">Not connected, alarm not set.</string>
 </resources>

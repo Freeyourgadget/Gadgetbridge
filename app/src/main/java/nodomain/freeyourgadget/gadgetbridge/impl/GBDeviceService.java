@@ -176,7 +176,7 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         Intent intent = createIntent().setAction(ACTION_SET_ALARMS)
-                .putParcelableArrayListExtra(EXTRA_ALARMS, alarms);
+                .putExtra(EXTRA_ALARMS, alarms);
         invokeService(intent);
     }
 
@@ -291,8 +291,9 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void onReboot() {
-        Intent intent = createIntent().setAction(ACTION_REBOOT);
+    public void onReset(int flags) {
+        Intent intent = createIntent().setAction(ACTION_RESET)
+                .putExtra(EXTRA_RESET_FLAGS, flags);
         invokeService(intent);
     }
 

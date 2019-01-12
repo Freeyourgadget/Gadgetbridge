@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources><string name="app_name">"Gadgetbridge "</string>
 
     <string name="title_activity_controlcenter">Gadgetbridge</string>
@@ -437,7 +437,7 @@
     <string name="appwidget_text">Ζzz</string>
     <string name="add_widget">Πρόσθεση widget</string>
     <string name="activity_prefs_sleep_duration">Προτιμώμενος χρόνος ύπνου (σε ώρες)</string>
-    <string name="appwidget_alarms_set">Ένα ξυπνητήρι έχει οριστεί για τις %1$02d:%2$02d</string>
+    <string name="appwidget_setting_alarm">Ένα ξυπνητήρι έχει οριστεί για τις %1$02d:%2$02d</string>
     <string name="device_hw">Έκδοση υλικού: %1$s</string>
     <string name="device_fw">Έκδοση λογισμικού: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Σφάλμα κατά τη δημιουργία φακέλου για τα αρχεία καταγραφής: %1$s</string>
@@ -706,4 +706,6 @@
     <string name="no_data">Χωρίς δεδομένα</string>
 
     <string name="language_and_region_prefs">Ρυθμίσεις γλώσσας και περιοχής</string>
+    <string name="debugactivity_really_factoryreset_title">Επαναφορά εργοστασιακών ρυθμίσεων;</string>
+    <string name="debugactivity_really_factoryreset">Κάνοντας επαναφορά εργοστασιακών ρυθμίσεων όλα τα δεδομένα θα διαγραφούν απο την συνδεδεμένη συσκευή (αν υποστηρίζεται). Στις συσκευές Xiaomi/Huami η διεύθυνση MAC θα αλλάξει, έτσι θα εμφανιστούν ως καινούργια συσκευή στην εφαρμογή.</string>
 </resources>

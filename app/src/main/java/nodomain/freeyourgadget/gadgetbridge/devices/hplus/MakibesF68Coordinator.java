@@ -35,7 +35,7 @@ public class MakibesF68Coordinator extends HPlusCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
-        if(name != null && name.startsWith("SPORT")){
+        if(name != null && name.startsWith("SPORT") && !name.startsWith("SPORTAGE")){
             return DeviceType.MAKIBESF68;
         }
 

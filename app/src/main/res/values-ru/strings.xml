@@ -318,7 +318,7 @@
   <string name="appwidget_text">Хрр</string>
   <string name="add_widget">Добавить виджет</string>
   <string name="activity_prefs_sleep_duration">Желаемая продолжительность сна</string>
-  <string name="appwidget_alarms_set">Будильник был установлен на %1$02d:%2$02d</string>
+  <string name="appwidget_setting_alarm">Будильник был установлен на %1$02d:%2$02d</string>
   <string name="device_hw">Версия устройства: %1$s</string>
   <string name="device_fw">Версия прошивки: %1$s</string>
   <string name="error_creating_directory_for_logfiles">Ошибка создания каталога для лог-файлов: %1$s</string>

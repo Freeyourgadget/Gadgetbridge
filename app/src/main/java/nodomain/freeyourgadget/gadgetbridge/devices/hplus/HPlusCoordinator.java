@@ -36,7 +36,6 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -141,11 +140,6 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsScreenshots() {
         return false;
-    }
-
-    @Override
-    public boolean supportsAlarmConfiguration() {
-        return true;
     }
 
     @Override
