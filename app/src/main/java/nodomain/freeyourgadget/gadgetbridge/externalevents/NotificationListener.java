@@ -364,42 +364,41 @@ public class NotificationListener extends NotificationListenerService {
     private boolean checkNotificationContentForWhiteAndBlackList(String packageName, String body) {
         long start = System.currentTimeMillis();
 
-        DBHandler db;
+        List<String> wordsList = new ArrayList<>();
+        NotificationFilter notificationFilter;
 
-        try {
-            db = GBApplication.acquireDB();
-        } catch (GBException e) {
+        try (DBHandler db = GBApplication.acquireDB()) {
+
+            NotificationFilterDao notificationFilterDao = db.getDaoSession().getNotificationFilterDao();
+            NotificationFilterEntryDao notificationFilterEntryDao = db.getDaoSession().getNotificationFilterEntryDao();
+
+            Query<NotificationFilter> query = notificationFilterDao.queryBuilder().where(NotificationFilterDao.Properties.AppIdentifier.eq(packageName.toLowerCase())).build();
+            notificationFilter = query.unique();
+
+            if (notificationFilter == null) {
+                LOG.debug("No Notification Filter found");
+                return true;
+            }
+
+            LOG.debug("Loaded notification filter for '{}'", packageName);
+            Query<NotificationFilterEntry> queryEntries = notificationFilterEntryDao.queryBuilder().where(NotificationFilterEntryDao.Properties.NotificationFilterId.eq(notificationFilter.getId())).build();
+
+            List<NotificationFilterEntry> filterEntries = queryEntries.list();
+
+            if (BuildConfig.DEBUG) {
+                LOG.info("Database lookup took '{}' ms", System.currentTimeMillis() - start);
+            }
+
+            if (!filterEntries.isEmpty()) {
+                for (NotificationFilterEntry temp : filterEntries) {
+                    wordsList.add(temp.getNotificationFilterContent());
+                    LOG.debug("Loaded filter word: " + temp.getNotificationFilterContent());
+                }
+            }
+
+        } catch (Exception e) {
             LOG.error("Could not acquire DB.", e);
             return true;
-        }
-
-        List<String> wordsList = new ArrayList<>();
-
-        NotificationFilterDao notificationFilterDao = db.getDaoSession().getNotificationFilterDao();
-        NotificationFilterEntryDao notificationFilterEntryDao = db.getDaoSession().getNotificationFilterEntryDao();
-
-        Query<NotificationFilter> query = notificationFilterDao.queryBuilder().where(NotificationFilterDao.Properties.AppIdentifier.eq(packageName.toLowerCase())).build();
-        NotificationFilter notificationFilter = query.unique();
-
-        if (notificationFilter == null) {
-            LOG.debug("No Notification Filter found");
-            return true;
-        }
-
-        LOG.debug("Loaded notification filter for '{}'", packageName);
-        Query<NotificationFilterEntry> queryEntries = notificationFilterEntryDao.queryBuilder().where(NotificationFilterEntryDao.Properties.NotificationFilterId.eq(notificationFilter.getId())).build();
-
-        List<NotificationFilterEntry> filterEntries = queryEntries.list();
-
-        if (BuildConfig.DEBUG) {
-            LOG.info("Database lookup took '{}' ms", System.currentTimeMillis() - start);
-        }
-
-        if (!filterEntries.isEmpty()) {
-            for (NotificationFilterEntry temp : filterEntries) {
-                wordsList.add(temp.getNotificationFilterContent());
-                LOG.debug("Loaded filter word: " + temp.getNotificationFilterContent());
-            }
         }
 
         return shouldContinueAfterFilter(body, wordsList, notificationFilter);
@@ -423,13 +422,13 @@ public class NotificationListener extends NotificationListenerService {
                     LOG.info("Every word was found, blacklist has effect, processing stops.");
                     return false;
                 } else {
-                    boolean notContainsAny = !StringUtils.containsAny(body, wordsList.toArray(new CharSequence[0]));
-                    if (notContainsAny) {
-                        LOG.info("Not matching word was found, blacklist has no effect, processing continues.");
+                    boolean containsAny = StringUtils.containsAny(body, wordsList.toArray(new CharSequence[0]));
+                    if (!containsAny) {
+                        LOG.info("No matching word was found, blacklist has no effect, processing continues.");
                     } else {
                         LOG.info("At least one matching word was found, blacklist has effect, processing stops.");
                     }
-                    return notContainsAny;
+                    return !containsAny;
                 }
 
             case NOTIFICATION_FILTER_MODE_WHITELIST:

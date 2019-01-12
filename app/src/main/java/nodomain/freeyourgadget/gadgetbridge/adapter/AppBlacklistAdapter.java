@@ -42,6 +42,7 @@ import java.util.Set;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.GBApplication.packageNameToPebbleMsgSender;
 
@@ -136,7 +137,7 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
             public void onClick(View view) {
 
                 if (holder.blacklist_checkbox.isChecked()) {
-                    Toast.makeText(mContext, R.string.toast_app_must_not_be_blacklisted, Toast.LENGTH_SHORT).show();
+                    GB.toast(mContext, mContext.getString(R.string.toast_app_must_not_be_blacklisted), Toast.LENGTH_SHORT, GB.INFO);
                 } else {
                     Intent intentStartNotificationFilterActivity = new Intent(mContext, NotificationFilterActivity.class);
                     intentStartNotificationFilterActivity.putExtra(STRING_EXTRA_PACKAGE_NAME, appInfo.packageName);
