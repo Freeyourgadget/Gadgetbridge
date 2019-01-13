@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.32.1" versioncode="144">
+        <change>Fix db deadlock on alarm migration</change>
+    </release>
     <release version="0.32.0" versioncode="143">
         <change>Initial support for Casio GB-6900B</change>
         <change>Increase number of alarms and store them per-device </change>

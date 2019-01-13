@@ -1,5 +1,8 @@
 ### Changelog
 
+#### Version 0.32.1
+* Fix db deadlock on alarm migration
+
 #### Version 0.32.0
 * Initial support for Casio GB-6900B
 * Increase number of alarms and store them per-device 
