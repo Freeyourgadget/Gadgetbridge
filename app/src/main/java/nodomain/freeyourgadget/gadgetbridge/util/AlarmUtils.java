@@ -88,8 +88,7 @@ public class AlarmUtils {
         Set<String> stringAlarms = prefs.getStringSet(MiBandConst.PREF_MIBAND_ALARMS, new HashSet<String>());
         List<Alarm> alarms = new ArrayList<>(stringAlarms.size());
 
-        try {
-            DBHandler db = GBApplication.acquireDB();
+        try (DBHandler db = GBApplication.acquireDB()) {
             DaoSession daoSession = db.getDaoSession();
             User user = DBHelper.getUser(daoSession);
             Device device = DBHelper.getDevice(gbDevice, daoSession);
