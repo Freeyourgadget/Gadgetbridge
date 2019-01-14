@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="act_tasker_task_group">
     <PreferenceCategory android:key="tasker_event">
         <Preference
             android:key="tasker_info"
@@ -14,16 +15,13 @@
             android:key="act_tasker_threshold"
             android:summary="@string/tasker_threshold_sum"
             android:title="@string/tasker_threshold" />
-        <Preference
+        <nodomain.freeyourgadget.gadgetbridge.tasker.settings.ButtonPreference
             android:key="act_tasker_task_add"
             android:summary="@string/tasker_task_sum"
             android:title="@string/tasker_task"
-            android:widgetLayout="@layout/tasker_add_button"></Preference>
+            android:widgetLayout="@layout/tasker_add_button"></nodomain.freeyourgadget.gadgetbridge.tasker.settings.ButtonPreference>
     </PreferenceCategory>
-    <PreferenceCategory android:key="act_tasker_task_group">
-        <EditTextPreference
-            android:key="act_tasker_task_remove"
-            android:summary="@string/tasker_task_name"
-            android:widgetLayout="@layout/tasker_remove_button" />
-    </PreferenceCategory>
+    <EditTextPreference
+        android:key="act_tasker_task"
+        android:summary="@string/tasker_task_name" />
 </PreferenceScreen>

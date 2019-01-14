@@ -9,7 +9,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:onClick="resetearBD"
         android:text="@string/tasker_remove">
     </Button>
 </RelativeLayout >

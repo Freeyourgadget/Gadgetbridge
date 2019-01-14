@@ -23,7 +23,7 @@ public class TaskerConstants {
 
     public static final String ACTIVITY_THRESHOLD = "act_tasker_threshold";
     public static final String ACTIVITY_TASK_ADD = "act_tasker_task_add";
-    public static final String ACTIVITY_TASK_REMOVE = "act_tasker_task_remove";
+    public static final String ACTIVITY_TASK = "act_tasker_task";
     public static final String ACTIVITY_THESHOLD_ENABELD = "act_tasker_threshold_enabled";
     public static final String ACTIVITY_TASKS = "act_tasker_task_group";
 

@@ -5,11 +5,10 @@
     android:orientation="vertical">
 
     <Button xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/tasker_add_button"
+        android:id="@+id/tasker_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:onClick="resetearBD"
         android:text="@string/tasker_add">
     </Button>
 </RelativeLayout >
