@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.xwatch.XWatchConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.xwatch.XWatchService;
+import nodomain.freeyourgadget.gadgetbridge.devices.xwatch.XWatchTaskerSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class TaskerConstants {
@@ -30,7 +31,7 @@ public class TaskerConstants {
 
     public enum TaskerDevice implements Serializable {
 
-        XWATCH(DeviceType.XWATCH, XWatchService.getTaskerSpec());
+        XWATCH(DeviceType.XWATCH, new XWatchTaskerSpec());
 
         private DeviceType type;
         private TaskerSpec spec;

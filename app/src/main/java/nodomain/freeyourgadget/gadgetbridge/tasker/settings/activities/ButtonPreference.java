@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.tasker.settings;
+package nodomain.freeyourgadget.gadgetbridge.tasker.settings.activities;
 
 import android.content.Context;
 import android.preference.EditTextPreference;

@@ -15,11 +15,11 @@
             android:key="act_tasker_threshold"
             android:summary="@string/tasker_threshold_sum"
             android:title="@string/tasker_threshold" />
-        <nodomain.freeyourgadget.gadgetbridge.tasker.settings.ButtonPreference
+        <nodomain.freeyourgadget.gadgetbridge.tasker.settings.activities.ButtonPreference
             android:key="act_tasker_task_add"
             android:summary="@string/tasker_task_sum"
             android:title="@string/tasker_task"
-            android:widgetLayout="@layout/tasker_add_button"></nodomain.freeyourgadget.gadgetbridge.tasker.settings.ButtonPreference>
+            android:widgetLayout="@layout/tasker_add_button"></nodomain.freeyourgadget.gadgetbridge.tasker.settings.activities.ButtonPreference>
     </PreferenceCategory>
     <EditTextPreference
         android:key="act_tasker_task"

@@ -61,6 +61,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.tasker.service.TaskerBleProfile;
+import nodomain.freeyourgadget.gadgetbridge.tasker.service.TaskerConstants;
 import nodomain.freeyourgadget.gadgetbridge.tasker.task.TaskerTaskProvider;
 import nodomain.freeyourgadget.gadgetbridge.tasker.service.TaskerService;
 import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEvent;
@@ -81,7 +82,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
         addSupportedService(XWatchService.UUID_SERVICE);
         addSupportedService(XWatchService.UUID_WRITE);
         addSupportedService(XWatchService.UUID_NOTIFY);
-        addSupportedProfile(new TaskerBleProfile<>(this, XWatchService.getTaskerSpec()));
+        addSupportedProfile(new TaskerBleProfile<>(this, TaskerConstants.TaskerDevice.XWATCH));
     }
 
     public static byte[] crcChecksum(byte[] data) {

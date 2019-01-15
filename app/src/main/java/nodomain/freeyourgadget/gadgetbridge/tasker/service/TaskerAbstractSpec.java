@@ -6,7 +6,7 @@ import nodomain.freeyourgadget.gadgetbridge.tasker.settings.TaskerSettings;
 public abstract class TaskerAbstractSpec implements TaskerSpec {
 
     @Override
-    public TaskerSettings getTaskerSettings(TaskerEventType eventType) {
+    public TaskerSettings getSettings(TaskerEventType eventType) {
         return null;
     }
 }

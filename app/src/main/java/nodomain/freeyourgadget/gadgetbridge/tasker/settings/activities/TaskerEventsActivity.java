@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.tasker.settings;
+package nodomain.freeyourgadget.gadgetbridge.tasker.settings.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.preference.PreferenceCategory;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
-import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEvent;
 import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEventType;
 import nodomain.freeyourgadget.gadgetbridge.tasker.service.TaskerConstants;
 

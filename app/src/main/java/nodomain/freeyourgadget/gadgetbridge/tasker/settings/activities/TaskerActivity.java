@@ -1,14 +1,12 @@
-package nodomain.freeyourgadget.gadgetbridge.tasker.settings;
+package nodomain.freeyourgadget.gadgetbridge.tasker.settings.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.tasker.service.TaskerConstants;
 
 public class TaskerActivity extends AbstractSettingsActivity {

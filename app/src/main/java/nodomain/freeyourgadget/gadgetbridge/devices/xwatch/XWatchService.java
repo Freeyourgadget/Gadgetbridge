@@ -25,7 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEventType;
+import nodomain.freeyourgadget.gadgetbridge.tasker.service.AbstractTaskerSpec;
 import nodomain.freeyourgadget.gadgetbridge.tasker.settings.TaskerSettings;
 import nodomain.freeyourgadget.gadgetbridge.tasker.service.TaskerSpec;
 
@@ -49,10 +51,6 @@ public class XWatchService {
         XWATCH_DEBUG.put(UUID_SERVICE, "Get service");
     }
 
-    public static TaskerSpec getTaskerSpec() {
-        return new XWatchTaskerSpec();
-    }
-
     public static String lookup(UUID uuid, String fallback) {
         String name = XWATCH_DEBUG.get(uuid);
         if (name == null) {
@@ -61,33 +59,4 @@ public class XWatchService {
         return name;
     }
 
-    private static class XWatchTaskerSpec implements TaskerSpec {
-
-        @Override
-        public TaskerEventType getEventType(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-            if (UUID_NOTIFY.equals(characteristic.getUuid())) {
-                byte[] data = characteristic.getValue();
-                if (data[0] == XWatchService.COMMAND_ACTIVITY_DATA) {
-                    return TaskerEventType.DATA;
-                }
-                if (data[0] == XWatchService.COMMAND_ACTION_BUTTON) {
-                    return TaskerEventType.BUTTON;
-                }
-                if (data[0] == XWatchService.COMMAND_CONNECTED) {
-                    return TaskerEventType.CONNECTION;
-                }
-            }
-            return TaskerEventType.NO_OP;
-        }
-
-        @Override
-        public List<TaskerEventType> getSupportedTypes() {
-            return Arrays.asList(TaskerEventType.BUTTON, TaskerEventType.DATA, TaskerEventType.CONNECTION);
-        }
-
-        @Override
-        public TaskerSettings getTaskerSettings(TaskerEventType eventType) {
-            return null;
-        }
-    }
 }

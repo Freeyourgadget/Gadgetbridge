@@ -417,16 +417,16 @@
             android:name=".activities.FindPhoneActivity"
             android:label="Find Phone" />
         <activity
-            android:name=".tasker.settings.TaskerActivity"
+            android:name=".tasker.settings.activities.TaskerActivity"
             android:label="@string/tasker" />
         <activity
-            android:name=".tasker.settings.TaskerEventActivity"
+            android:name=".tasker.settings.activities.TaskerEventActivity"
             android:label="@string/tasker"
-            android:parentActivityName=".tasker.settings.TaskerEventsActivity" />
+            android:parentActivityName=".tasker.settings.activities.TaskerEventsActivity" />
         <activity
-            android:name=".tasker.settings.TaskerEventsActivity"
+            android:name=".tasker.settings.activities.TaskerEventsActivity"
             android:label="@string/tasker"
-            android:parentActivityName=".tasker.settings.TaskerActivity" />
+            android:parentActivityName=".tasker.settings.activities.TaskerActivity" />
 
         <provider
             android:name=".contentprovider.PebbleContentProvider"

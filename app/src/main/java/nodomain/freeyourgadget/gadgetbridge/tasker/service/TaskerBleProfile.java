@@ -17,33 +17,26 @@ import nodomain.freeyourgadget.gadgetbridge.tasker.settings.TaskerSettings;
  */
 public class TaskerBleProfile<T extends AbstractBTLEDeviceSupport> extends AbstractBleProfile<T> {
 
-    private TaskerService taskerService;
-    private TaskerSpec taskerSpec;
+    private SpecTaskerService taskerService;
+    private TaskerConstants.TaskerDevice taskerDevice;
 
-    public TaskerBleProfile(T support, TaskerSpec taskerSpec) {
+    public TaskerBleProfile(T support, TaskerConstants.TaskerDevice taskerDevice) {
         super(support);
-        this.taskerSpec = taskerSpec;
-        taskerService = new TaskerService();
+        this.taskerDevice = taskerDevice;
+        taskerService = new SpecTaskerService(taskerDevice.getSpec());
     }
 
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-        TaskerEventType eventType = taskerSpec.getEventType(gatt, characteristic);
+        TaskerEventType eventType = taskerDevice.getSpec().getEventType(gatt, characteristic);
         if (TaskerEventType.NO_OP.equals(eventType)) {
             return false;
         }
-        TaskerSettings settings = taskerSpec.getTaskerSettings(eventType);
+        TaskerSettings settings = taskerDevice.getSpec().getSettings(eventType);
         if (settings.isEnabled().isPresent() && settings.isEnabled().get()) {
-            TaskerService service = taskerService;
-            if (settings.getThreshold().isPresent()) {
-                service = service.withThreshold(eventType, settings.getThreshold().get());
-            }
-            if (settings.getTaskProvider().isPresent()) {
-                service = service.withProvider(eventType, settings.getTaskProvider().get());
-            }
             boolean run = false;
             try {
-                run = service.runForType(eventType);
+                run = taskerService.runForType(eventType);
             } catch (NoTaskDefinedException e) {
                 TaskerUtil.noTaskDefinedInformation().show();
             }

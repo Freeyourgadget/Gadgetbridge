@@ -14,6 +14,6 @@ public interface TaskerSpec {
 
     List<TaskerEventType> getSupportedTypes();
 
-    TaskerSettings getTaskerSettings(TaskerEventType eventType);
+    TaskerSettings getSettings(TaskerEventType eventType);
 
 }
