@@ -487,6 +487,9 @@
     <string name="activity_prefs_charts">Chart settings</string>
     <string name="activity_prefs_chart_max_heart_rate">Max heart rate</string>
     <string name="activity_prefs_chart_min_heart_rate">Min heart rate</string>
+    <string name="activity_prefs_chart_visual_description">Shown activity data on chart</string>
+    <string name="activity_prefs_chart_visual_activity">Activity</string>
+    <string name="activity_prefs_chart_visual_steps">Steps</string>
 
     <string name="authenticating">Authenticating</string>
     <string name="authentication_required">Authentication required</string>

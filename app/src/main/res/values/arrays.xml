@@ -429,4 +429,13 @@
         <item>1800</item>
     </string-array>
 
+    <string-array name="chart_visual">
+        <item>@string/activity_prefs_chart_visual_activity</item>
+        <item>@string/activity_prefs_chart_visual_steps</item>
+    </string-array>
+    <string-array name="chart_visual_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
 </resources>

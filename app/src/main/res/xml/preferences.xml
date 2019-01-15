@@ -153,6 +153,14 @@
                 android:maxLength="3"
                 android:defaultValue="10"
                 android:title="@string/activity_prefs_chart_min_heart_rate" />
+
+            <ListPreference
+                android:defaultValue="0"
+                android:entries="@array/chart_visual"
+                android:entryValues="@array/chart_visual_values"
+                android:key="chart_visual_data"
+                android:title="@string/activity_prefs_chart_visual_description"
+                android:summary="%s" />
         </PreferenceScreen>
         <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
