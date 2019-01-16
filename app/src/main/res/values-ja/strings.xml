@@ -624,4 +624,18 @@
     <string name="pref_invalid_frequency_title">周波数が正しくありません</string>
     <string name="pref_invalid_frequency_message">87.5 と 108.0 の間で周波数を入力してください</string>
     <string name="language_and_region_prefs">言語と地域の設定</string>
+    <string name="title_activity_notification_filter">通知フィルター</string>
+    <string name="toast_app_must_not_be_blacklisted">アプリをブラックリストに設定してはいけません</string>
+    <string name="edittext_notification_filter_words_hint">希望の単語を、それぞれ新しい行に入力してください</string>
+    <string name="toast_notification_filter_saved_successfully">通知フィルターを保存しました</string>
+    <string name="filter_mode_none">フィルターしない</string>
+    <string name="filter_mode_whitelist">言葉が含まれているときに表示する</string>
+    <string name="filter_mode_blacklist">言葉が含まれるときにブロックする</string>
+    <string name="filter_submode_at_least_one">いずれかの単語を含む</string>
+    <string name="filter_submode_all">すべての単語</string>
+    <string name="toast_notification_filter_words_empty_hint">少なくとも1つの単語を入力してください</string>
+    <string name="filter_mode">フィルターモード</string>
+    <string name="mode_configuration">モード設定</string>
+    <string name="save_configuration">設定を保存</string>
+    <string name="appwidget_not_connected">接続されていません。アラームは設定されません。</string>
 </resources>
