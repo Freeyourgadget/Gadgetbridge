@@ -677,7 +677,7 @@
     <string name="title_activity_notification_filter">Notification Filter</string>
     <string name="toast_app_must_not_be_blacklisted">App must not be blacklisted to be configured</string>
     <string name="edittext_notification_filter_words_hint">Enter desired words, new line for each</string>
-    <string name="toast_notification_filter_saved_successfully">Notification Filter saved successfully</string>
+    <string name="toast_notification_filter_saved_successfully">Notification filter saved</string>
     <string name="filter_mode_none">Do not filter</string>
     <string name="filter_mode_whitelist">Show when words are contained</string>
     <string name="filter_mode_blacklist">Block when words are contained</string>
