@@ -693,4 +693,19 @@
     <string name="language_and_region_prefs">语言和区域设置</string>
     <string name="debugactivity_really_factoryreset_title">确定要恢复出厂设置？</string>
     <string name="debugactivity_really_factoryreset">恢复出厂设置将会删除您已连接设备上的所有数据（如果支持的话）。小米／华米设备将会同时改变蓝牙MAC地址，对于Gadgetbrige来说，这将是一个新的设备。</string>
+    <string name="devicetype_casiogb6900">卡西欧 GB-6900</string>
+    <string name="title_activity_notification_filter">通知过滤器</string>
+    <string name="toast_app_must_not_be_blacklisted">只有不在黑名单中的应用才能够进行配置</string>
+    <string name="edittext_notification_filter_words_hint">输入期望的字词，一行一个</string>
+    <string name="toast_notification_filter_saved_successfully">已保存通知过滤器</string>
+    <string name="filter_mode_none">不要过滤</string>
+    <string name="filter_mode_whitelist">当包含时，进行显示</string>
+    <string name="filter_mode_blacklist">当包含时，屏蔽显示</string>
+    <string name="filter_submode_at_least_one">至少一个字</string>
+    <string name="filter_submode_all">所有字词</string>
+    <string name="toast_notification_filter_words_empty_hint">请输入至少一个字</string>
+    <string name="filter_mode">过滤模式</string>
+    <string name="mode_configuration">模式配置</string>
+    <string name="save_configuration">保存配置</string>
+    <string name="appwidget_not_connected">未连接，闹钟未设定。</string>
 </resources>
