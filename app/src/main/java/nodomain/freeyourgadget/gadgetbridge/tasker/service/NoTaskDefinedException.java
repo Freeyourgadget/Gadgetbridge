@@ -1,5 +1,8 @@
 package nodomain.freeyourgadget.gadgetbridge.tasker.service;
 
+/**
+ * Gets thrown if tasker is enabled but no task name is defined. Triggers {@link TaskerUtil#noTaskDefinedInformation()}.
+ */
 public class NoTaskDefinedException extends RuntimeException {
 
     public NoTaskDefinedException() {

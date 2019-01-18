@@ -1,11 +1,12 @@
 package nodomain.freeyourgadget.gadgetbridge.tasker.service;
 
-import nodomain.freeyourgadget.gadgetbridge.tasker.event.SettingSupplier;
+import nodomain.freeyourgadget.gadgetbridge.tasker.settings.SettingSupplier;
 import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEventType;
+import nodomain.freeyourgadget.gadgetbridge.tasker.spec.TaskerSpec;
 import nodomain.freeyourgadget.gadgetbridge.tasker.task.TaskerTaskProvider;
 
 /**
- * {@link TaskerSpec} impl for {@link AbstractTaskerService}.
+ * {@link TaskerSpec} implementation for {@link TaskerService}.
  */
 public class SpecTaskerService extends AbstractTaskerService {
 

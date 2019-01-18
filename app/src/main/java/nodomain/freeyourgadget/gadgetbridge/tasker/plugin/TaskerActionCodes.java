@@ -1,5 +1,10 @@
-package nodomain.freeyourgadget.gadgetbridge.tasker.service;
+package nodomain.freeyourgadget.gadgetbridge.tasker.plugin;
 
+/**
+ * Tasker action codes.
+ *
+ * @see <a herf="https://tasker.joaoapps.com/invoketasks.html">Tasker invoke tasks</a> for more information.
+ */
 public class TaskerActionCodes {
 
     public static final int NONE = -1;

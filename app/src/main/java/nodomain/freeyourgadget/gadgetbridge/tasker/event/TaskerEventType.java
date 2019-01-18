@@ -7,6 +7,14 @@ import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 
+/**
+ * Default set of tasker events.
+ * <p>
+ * Extend here if you want to add more events. Use {@link TaskerEventType#create(String)}
+ * and configure {@link TaskerEventType#withLocalization(int)} for {@link nodomain.freeyourgadget.gadgetbridge.tasker.settings.activities.TaskerEventsActivity}
+ * <p>
+ * Don't forget to add the new event to {@link #getTypes()} method.
+ */
 public class TaskerEventType implements Serializable {
 
     public static TaskerEventType BUTTON = TaskerEventType.create("button").withLocalization(R.string.tasker_event_button);
@@ -63,12 +71,11 @@ public class TaskerEventType implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         TaskerEventType that = (TaskerEventType) o;
         return index == that.index &&
-                type == that.type;
+                Objects.equals(type, that.type);
     }
 
     @Override
     public int hashCode() {
-
         return Objects.hash(type, index);
     }
 }

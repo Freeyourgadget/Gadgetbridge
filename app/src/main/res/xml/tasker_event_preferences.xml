@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="act_tasker_task_group">
-    <PreferenceCategory android:key="tasker_event">
-        <Preference
-            android:key="tasker_info"
-            android:persistent="false"
-            android:selectable="false"
-            android:summary="@string/tasker_info" />
-        <SwitchPreference
-            android:key="act_tasker_threshold_enabled"
-            android:title="@string/tasker_threshold_enable" />
-        <EditTextPreference
-            android:inputType="number"
-            android:key="act_tasker_threshold"
-            android:summary="@string/tasker_threshold_sum"
-            android:title="@string/tasker_threshold" />
-        <nodomain.freeyourgadget.gadgetbridge.tasker.settings.activities.ButtonPreference
-            android:key="act_tasker_task_add"
-            android:summary="@string/tasker_task_sum"
-            android:title="@string/tasker_task"
-            android:widgetLayout="@layout/tasker_add_button"></nodomain.freeyourgadget.gadgetbridge.tasker.settings.activities.ButtonPreference>
-    </PreferenceCategory>
+    <SwitchPreference
+        android:key="act_tasker_event_enabled"
+        android:title="@string/tasker_event_enabled" />
+    <SwitchPreference
+        android:key="act_tasker_threshold_enabled"
+        android:title="@string/tasker_threshold_enable" />
+    <EditTextPreference
+        android:inputType="number"
+        android:key="act_tasker_threshold"
+        android:summary="@string/tasker_threshold_sum"
+        android:title="@string/tasker_threshold" />
+    <nodomain.freeyourgadget.gadgetbridge.tasker.settings.activities.ButtonPreference
+        android:key="act_tasker_task_add"
+        android:summary="@string/tasker_task_sum"
+        android:title="@string/tasker_task"></nodomain.freeyourgadget.gadgetbridge.tasker.settings.activities.ButtonPreference>
     <EditTextPreference
         android:key="act_tasker_task"
         android:summary="@string/tasker_task_name" />

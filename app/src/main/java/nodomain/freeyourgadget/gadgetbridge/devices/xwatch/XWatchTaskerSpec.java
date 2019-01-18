@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEventType;
-import nodomain.freeyourgadget.gadgetbridge.tasker.service.AbstractTaskerSpec;
+import nodomain.freeyourgadget.gadgetbridge.tasker.spec.AbstractTaskerSpec;
 
 public class XWatchTaskerSpec extends AbstractTaskerSpec {
 

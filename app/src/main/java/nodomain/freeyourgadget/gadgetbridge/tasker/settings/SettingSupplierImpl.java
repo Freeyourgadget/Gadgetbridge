@@ -1,5 +1,10 @@
-package nodomain.freeyourgadget.gadgetbridge.tasker.event;
+package nodomain.freeyourgadget.gadgetbridge.tasker.settings;
 
+/**
+ * Default implementation for {@link SettingSupplier}.
+ *
+ * @param <T>
+ */
 public class SettingSupplierImpl<T> implements SettingSupplier<T> {
 
     private T object;
@@ -20,7 +25,9 @@ public class SettingSupplierImpl<T> implements SettingSupplier<T> {
     @Override
     public void set(T object) {
         this.object = object;
-        onChanged.changed(object);
+        if (onChanged != null) {
+            onChanged.changed(object);
+        }
     }
 
     @Override

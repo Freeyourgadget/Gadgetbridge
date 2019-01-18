@@ -56,7 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
-import nodomain.freeyourgadget.gadgetbridge.tasker.service.TaskerConstants;
+import nodomain.freeyourgadget.gadgetbridge.tasker.plugin.TaskerConstants;
 import nodomain.freeyourgadget.gadgetbridge.tasker.settings.activities.TaskerActivity;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -498,7 +498,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
             }
         });
 
-        findPreference(TaskerConstants.TASKER).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        findPreference(TaskerConstants.ACTIVITY_TASKER).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 Intent enableIntent = new Intent(SettingsActivity.this, TaskerActivity.class);

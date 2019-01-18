@@ -2,14 +2,22 @@ package nodomain.freeyourgadget.gadgetbridge.tasker.task;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.tasker.service.TaskerIntent;
+import nodomain.freeyourgadget.gadgetbridge.tasker.plugin.TaskerIntent;
+import nodomain.freeyourgadget.gadgetbridge.tasker.service.NoTaskDefinedException;
 import nodomain.freeyourgadget.gadgetbridge.tasker.service.TaskerService;
 import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEvent;
 import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEventType;
+import nodomain.freeyourgadget.gadgetbridge.tasker.service.TaskerUtil;
 
+/**
+ * Tasker task used by {@link TaskerService} to run a scheduled asynchronous task.
+ * <p>
+ * Uses {@link ScheduledExecutorService} with {@link Future} for scheduling.
+ */
 public class TaskerTask implements Runnable {
 
     private Future task;
@@ -39,10 +47,14 @@ public class TaskerTask implements Runnable {
 
     @Override
     public void run() {
-        if (TaskerService.ready()) {
-            if (task != null) {
-                GBApplication.getContext().sendBroadcast(new TaskerIntent(provider.getTask(new TaskerEvent(type, count))));
+        try {
+            if (TaskerService.isReady()) {
+                if (task != null) {
+                    GBApplication.getContext().sendBroadcast(new TaskerIntent(provider.getTask(new TaskerEvent(type, count))));
+                }
             }
+        } catch (NoTaskDefinedException e) {
+            TaskerUtil.noTaskDefinedInformation();
         }
     }
 

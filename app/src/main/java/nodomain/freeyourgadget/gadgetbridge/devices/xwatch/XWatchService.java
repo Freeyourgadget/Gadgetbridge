@@ -16,20 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.xwatch;
 
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCharacteristic;
-
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEventType;
-import nodomain.freeyourgadget.gadgetbridge.tasker.service.AbstractTaskerSpec;
-import nodomain.freeyourgadget.gadgetbridge.tasker.settings.TaskerSettings;
-import nodomain.freeyourgadget.gadgetbridge.tasker.service.TaskerSpec;
 
 public class XWatchService {
     public static final UUID UUID_NOTIFY = UUID.fromString("0000fff7-0000-1000-8000-00805f9b34fb");

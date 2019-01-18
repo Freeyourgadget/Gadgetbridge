@@ -4,6 +4,7 @@ import android.widget.Toast;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.tasker.plugin.TaskerIntent;
 
 /**
  * Tasker convenience methods for direct access to tasker without {@link TaskerService}.

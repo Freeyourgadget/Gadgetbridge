@@ -746,7 +746,7 @@
     </PreferenceCategory>
     <!--<PreferenceCategory android:key="pref_key_tasker_group">-->
     <Preference
-        android:key="pref_key_tasker"
+        android:key="act_tasker"
         android:title="@string/tasker" />
     <!--</PreferenceCategory>-->
 </PreferenceScreen>

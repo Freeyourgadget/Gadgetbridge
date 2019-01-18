@@ -8,6 +8,11 @@ import android.widget.Button;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 
+/**
+ * Simple {@link EditTextPreference} with an button.
+ * <p>
+ * Exposes only {@link Button#setOnClickListener(View.OnClickListener)} and {@link Button#setText(int)}
+ */
 public class ButtonPreference extends EditTextPreference {
 
     private View.OnClickListener onClickListener;
@@ -15,6 +20,7 @@ public class ButtonPreference extends EditTextPreference {
 
     public ButtonPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        setWidgetLayoutResource(R.layout.button_preference_layout);
     }
 
     public ButtonPreference(Context context, AttributeSet attrs) {
@@ -35,10 +41,20 @@ public class ButtonPreference extends EditTextPreference {
         }
     }
 
+    /**
+     * Sets an {@link View.OnClickListener} to the button.
+     *
+     * @param clickListener
+     */
     public void setOnClickListener(View.OnClickListener clickListener) {
         this.onClickListener = clickListener;
     }
 
+    /**
+     * Set button text with resource id.
+     *
+     * @param resourceId {@link R.string}
+     */
     public void setButtonText(int resourceId) {
         if (button != null) {
             button.setText(resourceId);

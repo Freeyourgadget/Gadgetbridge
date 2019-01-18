@@ -1,18 +1,21 @@
-package nodomain.freeyourgadget.gadgetbridge.tasker.service;
-
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+package nodomain.freeyourgadget.gadgetbridge.tasker.spec;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import nodomain.freeyourgadget.gadgetbridge.tasker.event.SettingSupplier;
-import nodomain.freeyourgadget.gadgetbridge.tasker.event.SettingSupplierImpl;
+import nodomain.freeyourgadget.gadgetbridge.tasker.settings.SettingSupplier;
+import nodomain.freeyourgadget.gadgetbridge.tasker.settings.SettingSupplierImpl;
 import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEventType;
 import nodomain.freeyourgadget.gadgetbridge.tasker.settings.TaskerSettings;
 import nodomain.freeyourgadget.gadgetbridge.tasker.task.TaskerTaskProvider;
 
+/**
+ * Abstract implementation that supplies a {@link TaskerSettings} object to gather user configuration
+ * via {@link nodomain.freeyourgadget.gadgetbridge.tasker.settings.activities.TaskerEventsActivity}.
+ * <p>
+ * Its recommended to use this implementation so you don't have to take care of user configurations yourself.
+ * Always provides a non null {@link TaskerSettings} object regardless of the {@link TaskerEventType}.
+ */
 public abstract class AbstractTaskerSpec implements TaskerSpec {
 
     private Map<TaskerEventType, TaskerSettings> settings = new HashMap<>();

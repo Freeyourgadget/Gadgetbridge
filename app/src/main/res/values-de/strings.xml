@@ -625,14 +625,26 @@
     <string name="language_and_region_prefs">Sprach- und Gebietseinstellungen</string>
 
     <!-- Tasker -->
-
     <string name="tasker">Tasker</string>
-    <string name="tasker_enabled">Aktiv</string>
-    <string name="tasker_enabled_sum">Aktiviert Tasker aber deaktiviert die Steuerung der Medien</string>
-    <string name="tasker_task_single">Task für einzelnes drücken</string>
-    <string name="tasker_task_double">Task für doppeltes drücken</string>
-    <string name="tasker_task_triple">Task für dreifaches drücken</string>
+    <string name="tasker_enabled">Aktiviert</string>
+    <string name="tasker_enabled_sum">Aktiviert die Tasker-Unterstützung</string>
+    <string name="tasker_add">Hinzufügen</string>
+    <string name="tasker_remove">Entfernen</string>
+    <string name="tasker_events">Ereignisse</string>
+    <string name="tasker_event_button">Knopfdruck-Ereignis</string>
+    <string name="tasker_event_connection">Verbindungs-Ereignis</string>
+    <string name="tasker_event_data">Daten-Ereignis</string>
+    <string name="tasker_event_enabled">Ereignistyp aktiviert</string>
+    <string name="tasker_threshold_enable">Schwellenwert aktiviert</string>
+    <string name="tasker_threshold_enable_sum">Aktiviert eine Verzögerung zwischen den Aufgaben</string>
+    <string name="tasker_threshold">Schwellenwert in Millisekunden</string>
+    <string name="tasker_threshold_sum">Verzögerung zwischen den Aufrufen der Aufgaben. Z.B. für Schwellenwert 1000: Doppelter Knopfdruck innerhalb einer Sekunde ruft die Aufgabe an zweiter Stelle auf.</string>
+    <string name="tasker_task">Aufgabe</string>
+    <string name="tasker_task_sum">Fügt eine Weitere Schwellwert-Aufgahinzube </string>
+    <string name="tasker_task_name">Aufgabenname</string>
+    <string name="tasker_info">Tasker ist eine Applikation für Android die Aufgaben (Ein Set von Aktionen)
+        anhand eines Kontexts (Applikation, Zeit, Datum, Ort, Ereignis, Geste) über benutzerdefinierte
+        Profile oder klickbare oder zeitgesteuerte Widgets ausfürt.</string>
+    <string name="tasker_no_task_defined">Tasker ist aktiviert aber es wurde keine Aufgabe angegeben! Bitte gehen sie in die Tasker Einstellungen und definieren sie Aufgaben.</string>
 
-    <!-- XWatch -->
-    <string name="xwatch_settings">XWatch Einstellungen</string>
 </resources>

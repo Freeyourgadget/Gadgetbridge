@@ -40,7 +40,6 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.xwatch.XWatchConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.xwatch.XWatchSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.xwatch.XWatchService;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -60,12 +59,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.DeviceInfo;
-import nodomain.freeyourgadget.gadgetbridge.tasker.service.TaskerBleProfile;
-import nodomain.freeyourgadget.gadgetbridge.tasker.service.TaskerConstants;
-import nodomain.freeyourgadget.gadgetbridge.tasker.task.TaskerTaskProvider;
-import nodomain.freeyourgadget.gadgetbridge.tasker.service.TaskerService;
-import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEvent;
-import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEventType;
+import nodomain.freeyourgadget.gadgetbridge.tasker.plugin.TaskerBleProfile;
+import nodomain.freeyourgadget.gadgetbridge.tasker.plugin.TaskerConstants;
+import nodomain.freeyourgadget.gadgetbridge.tasker.plugin.TaskerDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class XWatchSupport extends AbstractBTLEDeviceSupport {
@@ -82,7 +78,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
         addSupportedService(XWatchService.UUID_SERVICE);
         addSupportedService(XWatchService.UUID_WRITE);
         addSupportedService(XWatchService.UUID_NOTIFY);
-        addSupportedProfile(new TaskerBleProfile<>(this, TaskerConstants.TaskerDevice.XWATCH));
+        addSupportedProfile(new TaskerBleProfile<>(this, TaskerDevice.XWATCH));
     }
 
     public static byte[] crcChecksum(byte[] data) {

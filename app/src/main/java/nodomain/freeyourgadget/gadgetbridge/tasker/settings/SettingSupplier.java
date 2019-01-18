@@ -1,7 +1,7 @@
-package nodomain.freeyourgadget.gadgetbridge.tasker.event;
+package nodomain.freeyourgadget.gadgetbridge.tasker.settings;
 
 /**
- * Simple supplier.
+ * Simple setting supplier. Can listen to changes throw {@link SettingListener}.
  *
  * @param <T> Setting
  */
@@ -15,6 +15,11 @@ public interface SettingSupplier<T> {
 
     SettingSupplier<T> onChanged(SettingListener<T> onChanged);
 
+    /**
+     * Listen to changes in {@link SettingSupplier}.
+     *
+     * @param <T>
+     */
     interface SettingListener<T> {
         void changed(T object);
     }

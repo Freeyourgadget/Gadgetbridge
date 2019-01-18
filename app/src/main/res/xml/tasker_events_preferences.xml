@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:key="pref_key_tasker_event_group" android:title="@string/tasker">
-    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="act_event_group"
+        android:title="@string/tasker_events"></PreferenceCategory>
 </PreferenceScreen>

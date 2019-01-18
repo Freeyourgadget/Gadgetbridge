@@ -4,26 +4,38 @@ import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
+import android.preference.SwitchPreference;
 import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEvent;
 import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEventType;
-import nodomain.freeyourgadget.gadgetbridge.tasker.service.TaskerConstants;
+import nodomain.freeyourgadget.gadgetbridge.tasker.plugin.TaskerConstants;
+import nodomain.freeyourgadget.gadgetbridge.tasker.plugin.TaskerDevice;
+import nodomain.freeyourgadget.gadgetbridge.tasker.service.NoTaskDefinedException;
 import nodomain.freeyourgadget.gadgetbridge.tasker.settings.TaskerSettings;
+import nodomain.freeyourgadget.gadgetbridge.tasker.spec.TaskerSpec;
 import nodomain.freeyourgadget.gadgetbridge.tasker.task.TaskerTaskProvider;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
+/**
+ * Tasker event {@link AbstractSettingsActivity} takes {@link TaskerSpec} from {@link TaskerDevice#getSpec()}
+ * to configure its {@link TaskerSettings} via {@link TaskerSpec#getSettings(TaskerEventType)}.
+ * <p>
+ * If you extend {@link TaskerSettings} this is the point to implement the new features for user configuration.
+ */
 public class TaskerEventActivity extends AbstractSettingsActivity {
 
-    private TaskerConstants.TaskerDevice device;
+    private TaskerDevice device;
     private TaskerEventType eventType;
     private Prefs prefs = GBApplication.getPrefs();
-
-    public TaskerEventActivity() {
-    }
+    private List<EditTextPreference> taskPreferences = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,16 +46,31 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        device = (TaskerConstants.TaskerDevice) getIntent().getSerializableExtra(TaskerConstants.DEVICE_INTENT);
+        device = (TaskerDevice) getIntent().getSerializableExtra(TaskerConstants.INTENT_DEVICE);
+        eventType = (TaskerEventType) getIntent().getSerializableExtra(TaskerConstants.INTENT_EVENT);
         final TaskerSettings settings = device.getSpec().getSettings(eventType);
-        eventType = (TaskerEventType) getIntent().getSerializableExtra(TaskerConstants.EVENT_INTENT);
-        final PreferenceScreen tasks = (PreferenceScreen) findPreference(TaskerConstants.ACTIVITY_TASKS);
+        SwitchPreference enabled = (SwitchPreference) findPreference(scoped(TaskerConstants.ACTIVITY_EVENT_ENABLED));
+        settings.isEnabled().set(prefs.getBoolean(scoped(TaskerConstants.ACTIVITY_EVENT_ENABLED), false));
+        enabled.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                settings.isEnabled().set((Boolean) newValue);
+                return true;
+            }
+        });
+        eventType = (TaskerEventType) getIntent().getSerializableExtra(TaskerConstants.INTENT_EVENT);
+        final PreferenceScreen tasks = (PreferenceScreen) findPreference(scoped(TaskerConstants.ACTIVITY_TASKS));
         initThreshold(settings, tasks);
         initTasks(settings, tasks);
     }
 
+    private String scoped(TaskerConstants.ScopedString scopedString) {
+        return scopedString.withScope(device.name()).withScope(eventType.getType()).toString();
+    }
+
     private void initThreshold(final TaskerSettings settings, final PreferenceScreen tasks) {
-        EditTextPreference threshold = (EditTextPreference) findPreference(TaskerConstants.ACTIVITY_THRESHOLD);
+        final EditTextPreference threshold = (EditTextPreference) findPreference(scoped(TaskerConstants.ACTIVITY_THRESHOLD));
+        setThresholdIfDefined(settings);
         threshold.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -51,28 +78,43 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
                 return true;
             }
         });
-        final Preference thresholdEnabled = findPreference(TaskerConstants.ACTIVITY_THESHOLD_ENABELD);
+        final Preference thresholdEnabled = findPreference(scoped(TaskerConstants.ACTIVITY_THRESHOLD_ENABLED));
+        if (prefs.getBoolean(scoped(TaskerConstants.ACTIVITY_THRESHOLD_ENABLED), false)) {
+            settings.getThreshold().set(null);
+        }
         thresholdEnabled.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 if (newValue.equals(Boolean.FALSE)) {
-                    for (int i = 2; i < tasks.getPreferenceCount(); i++) {
-                        tasks.removePreference(tasks.getPreference(tasks.getPreferenceCount()));
+                    for (EditTextPreference taskPreference : taskPreferences) {
+                        if (!taskPreference.getKey().equals(scoped(TaskerConstants.ACTIVITY_TASK))) {
+                            tasks.removePreference(taskPreference);
+                        }
                     }
+                    settings.getThreshold().set(null);
+                    return true;
                 }
-                settings.getThreshold().set(null);
+                setThresholdIfDefined(settings);
                 return true;
             }
         });
     }
 
+    private void setThresholdIfDefined(TaskerSettings settings) {
+        long thresholdValue = prefs.getLong(scoped(TaskerConstants.ACTIVITY_THRESHOLD), 0L);
+        if (thresholdValue != 0L) {
+            settings.getThreshold().set(prefs.getLong(scoped(TaskerConstants.ACTIVITY_THRESHOLD), 50L));
+        }
+    }
+
     private void initTasks(final TaskerSettings settings, final PreferenceScreen tasks) {
         ButtonPreference addTaskButton = (ButtonPreference) findPreference(TaskerConstants.ACTIVITY_TASK_ADD);
-        final EditTextPreference taskNamePreference = (EditTextPreference) findPreference(TaskerConstants.ACTIVITY_TASK);
+        final EditTextPreference taskNamePreference = (EditTextPreference) findPreference(scoped(TaskerConstants.ACTIVITY_TASK));
+        taskPreferences.add(taskNamePreference);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (prefs.getBoolean(TaskerConstants.ACTIVITY_THESHOLD_ENABELD, false)) {
+                if (prefs.getBoolean(scoped(TaskerConstants.ACTIVITY_THRESHOLD_ENABLED), false)) {
                     tasks.addPreference(task(tasks, taskNamePreference));
                 }
             }
@@ -80,10 +122,12 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
         TaskerTaskProvider taskerTaskProvider = new TaskerTaskProvider() {
             @Override
             public String getTask(TaskerEvent event) {
-                for (int i = 1; i < tasks.getPreferenceCount(); i++) {
-                    if (event.getCount() == i - 1) {
-                        return ((EditTextPreference) tasks.getPreference(i)).getText();
+                if (event.getCount() < taskPreferences.size()) {
+                    String text = taskPreferences.get(event.getCount()).getText();
+                    if (StringUtils.isEmpty(text)) {
+                        throw new NoTaskDefinedException();
                     }
+                    return text;
                 }
                 return null;
             }
@@ -94,17 +138,18 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
 
     private Preference task(final PreferenceScreen tasks, Preference build) {
         final ButtonPreference task = new ButtonPreference(this);
-        task.setKey(TaskerConstants.ACTIVITY_TASK + "_" + tasks.getPreferenceCount());
+        task.setKey(scoped(TaskerConstants.ACTIVITY_TASK) + "_" + tasks.getPreferenceCount());
         task.setTitle(build.getTitle());
         task.setSummary(build.getSummary());
         task.setButtonText(R.string.tasker_remove);
-        task.setWidgetLayoutResource(R.layout.tasker_add_button);
+        task.setWidgetLayoutResource(R.layout.button_preference_layout);
         task.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 tasks.removePreference(task);
             }
         });
+        taskPreferences.add(task);
         return task;
     }
 

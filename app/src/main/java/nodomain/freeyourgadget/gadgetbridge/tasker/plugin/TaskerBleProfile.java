@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.tasker.service;
+package nodomain.freeyourgadget.gadgetbridge.tasker.plugin;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -6,7 +6,11 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.AbstractBleProfile;
 import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEventType;
+import nodomain.freeyourgadget.gadgetbridge.tasker.service.NoTaskDefinedException;
+import nodomain.freeyourgadget.gadgetbridge.tasker.service.SpecTaskerService;
+import nodomain.freeyourgadget.gadgetbridge.tasker.service.TaskerUtil;
 import nodomain.freeyourgadget.gadgetbridge.tasker.settings.TaskerSettings;
+import nodomain.freeyourgadget.gadgetbridge.tasker.spec.TaskerSpec;
 
 /**
  * Tasker plugin hook as BLE profile.
@@ -18,9 +22,9 @@ import nodomain.freeyourgadget.gadgetbridge.tasker.settings.TaskerSettings;
 public class TaskerBleProfile<T extends AbstractBTLEDeviceSupport> extends AbstractBleProfile<T> {
 
     private SpecTaskerService taskerService;
-    private TaskerConstants.TaskerDevice taskerDevice;
+    private TaskerDevice taskerDevice;
 
-    public TaskerBleProfile(T support, TaskerConstants.TaskerDevice taskerDevice) {
+    public TaskerBleProfile(T support, TaskerDevice taskerDevice) {
         super(support);
         this.taskerDevice = taskerDevice;
         taskerService = new SpecTaskerService(taskerDevice.getSpec());
