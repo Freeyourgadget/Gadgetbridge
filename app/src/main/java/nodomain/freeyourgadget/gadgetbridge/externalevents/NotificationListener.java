@@ -55,6 +55,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilter;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterEntry;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterEntryDao;
@@ -97,6 +98,8 @@ public class NotificationListener extends NotificationListenerService {
 
     private HashMap<String, Long> notificationBurstPrevention = new HashMap<>();
     private HashMap<String, Long> notificationOldRepeatPrevention = new HashMap<>();
+
+    private long activeCallPostTime;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
@@ -216,10 +219,29 @@ public class NotificationListener extends NotificationListenerService {
         super.onDestroy();
     }
 
+    public String getAppName(String pkg) {
+        // determinate Source App Name ("Label")
+        PackageManager pm = getPackageManager();
+        try {
+            return (String)pm.getApplicationLabel(pm.getApplicationInfo(pkg, 0));
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        if (shouldIgnore(sbn))
+        if ("call".equals(sbn.getNotification().category)) {
+            handleCallNotification(sbn);
             return;
+        }
+        if (shouldIgnore(sbn)) {
+            LOG.info("Ignore notification");
+            return;
+        }
+
+
 
         Prefs prefs = GBApplication.getPrefs();
 
@@ -257,15 +279,9 @@ public class NotificationListener extends NotificationListenerService {
         NotificationSpec notificationSpec = new NotificationSpec();
 
         // determinate Source App Name ("Label")
-        PackageManager pm = getPackageManager();
-        ApplicationInfo ai = null;
-        try {
-            ai = pm.getApplicationInfo(source, 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        if (ai != null) {
-            notificationSpec.sourceName = (String) pm.getApplicationLabel(ai);
+        String name = getAppName(source);
+        if (name != null) {
+            notificationSpec.sourceName = name;
         }
 
         boolean preferBigText = false;
@@ -402,6 +418,44 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         return shouldContinueAfterFilter(body, wordsList, notificationFilter);
+    }
+
+    private void handleCallNotification(StatusBarNotification sbn) {
+        String app = sbn.getPackageName();
+        LOG.debug("got call from: " + app);
+        if(app.equals("com.android.dialer")) {
+            LOG.debug("Ignoring non-voip call");
+            return;
+        }
+        Notification noti = sbn.getNotification();
+        dumpExtras(noti.extras);
+        if(noti.actions != null && noti.actions.length > 0) {
+            for (Notification.Action action : noti.actions) {
+                LOG.info("Found call action: " + action.title);
+            }
+            /*try {
+                LOG.info("Executing first action");
+                noti.actions[0].actionIntent.send();
+            } catch (PendingIntent.CanceledException e) {
+                e.printStackTrace();
+            }*/
+        }
+
+        // figure out sender
+        String number;
+        if(noti.extras.containsKey(Notification.EXTRA_PEOPLE)) {
+            number = noti.extras.getString(Notification.EXTRA_PEOPLE);
+        } else if(noti.extras.containsKey(Notification.EXTRA_TITLE)) {
+            number = noti.extras.getString(Notification.EXTRA_TITLE);
+        } else {
+            String appName = getAppName(app);
+            number = appName != null ? appName : app;
+        }
+        activeCallPostTime = sbn.getPostTime();
+        CallSpec callSpec = new CallSpec();
+        callSpec.number = number;
+        callSpec.command = CallSpec.CALL_INCOMING;
+        GBApplication.deviceService().onSetCallState(callSpec);
     }
 
     boolean shouldContinueAfterFilter(@NonNull String body, @NonNull List<String> wordsList, @NonNull NotificationFilter notificationFilter) {
@@ -560,6 +614,13 @@ public class NotificationListener extends NotificationListenerService {
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
+        LOG.info("Notification removed: " + sbn.getPackageName() + ": " + sbn.getNotification().category);
+        if(Notification.CATEGORY_CALL.equals(sbn.getNotification().category) && activeCallPostTime == sbn.getPostTime()) {
+            activeCallPostTime = 0;
+            CallSpec callSpec = new CallSpec();
+            callSpec.command = CallSpec.CALL_END;
+            GBApplication.deviceService().onSetCallState(callSpec);
+        }
         // FIXME: DISABLED for now
         /*
         if (shouldIgnore(sbn))
@@ -573,7 +634,7 @@ public class NotificationListener extends NotificationListenerService {
         */
     }
 
-    /*
+
     private void dumpExtras(Bundle bundle) {
         for (String key : bundle.keySet()) {
             Object value = bundle.get(key);
@@ -583,16 +644,16 @@ public class NotificationListener extends NotificationListenerService {
             LOG.debug(String.format("Notification extra: %s %s (%s)", key, value.toString(), value.getClass().getName()));
         }
     }
-    */
+
 
     private boolean shouldIgnore(StatusBarNotification sbn) {
         /*
-        * return early if DeviceCommunicationService is not running,
-        * else the service would get started every time we get a notification.
-        * unfortunately we cannot enable/disable NotificationListener at runtime like we do with
-        * broadcast receivers because it seems to invalidate the permissions that are
-        * necessary for NotificationListenerService
-        */
+         * return early if DeviceCommunicationService is not running,
+         * else the service would get started every time we get a notification.
+         * unfortunately we cannot enable/disable NotificationListener at runtime like we do with
+         * broadcast receivers because it seems to invalidate the permissions that are
+         * necessary for NotificationListenerService
+         */
         if (!isServiceRunning() || sbn == null) {
             return true;
         }
@@ -650,6 +711,7 @@ public class NotificationListener extends NotificationListenerService {
                 type != NotificationType.WECHAT &&
                 type != NotificationType.OUTLOOK &&
                 type != NotificationType.SKYPE) { //see https://github.com/Freeyourgadget/Gadgetbridge/issues/1109
+            LOG.info("local only");
             return true;
         }
 
