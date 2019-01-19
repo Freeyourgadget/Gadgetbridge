@@ -62,6 +62,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.no1f1.No1F1Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.vibratissimo.VibratissimoCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.watch9.Watch9DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.xm3.Xm3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xwatch.XWatchCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -218,6 +219,7 @@ public class DeviceHelper {
         result.add(new Roidmi1Coordinator());
         result.add(new Roidmi3Coordinator());
         result.add(new CasioGB6900DeviceCoordinator());
+        result.add(new Xm3Coordinator());
 
         return result;
     }
