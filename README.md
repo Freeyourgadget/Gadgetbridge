@@ -22,7 +22,7 @@ vendor's servers.
 
 [<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/app/nodomain.freeyourgadget.gadgetbridge)
 
-[List of changes](https://codeberg.org/Freeyourgadget/Gadgetbridge/blob/master/CHANGELOG.md)
+[List of changes](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/master/CHANGELOG.md)
 
 ## Supported Devices
 * Amazfit Bip [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
@@ -46,7 +46,7 @@ vendor's servers.
 
 ## Features
 
-Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/blob/master/FEATURES.md)
+Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/master/FEATURES.md)
 
 ## Getting Started (Pebble)
 
