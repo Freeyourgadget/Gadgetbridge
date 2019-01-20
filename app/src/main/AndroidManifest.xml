@@ -35,6 +35,8 @@
         android:name="android.hardware.telephony"
         android:required="false" />
 
+    <permission android:name="nodomain.freeyourgadget.gadgetbridge.realtimesamples.provider.ACCESS_DATA"/>
+
     <application
         android:name=".GBApplication"
         android:allowBackup="false"
@@ -423,6 +425,12 @@
         <provider
             android:name=".contentprovider.PebbleContentProvider"
             android:authorities="com.getpebble.android.provider"
+            android:exported="true" />
+
+        <provider
+            android:name=".contentprovider.HRContentProvider"
+            android:authorities="nodomain.freeyourgadget.gadgetbridge.realtimesamples.provider"
+            android:permission="nodomain.freeyourgadget.gadgetbridge.realtimesamples.provider.ACCESS_DATA"
             android:exported="true" />
 
         <provider
