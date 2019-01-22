@@ -54,7 +54,7 @@ public class TaskerTask implements Runnable {
                 }
             }
         } catch (NoTaskDefinedException e) {
-            TaskerUtil.noTaskDefinedInformation();
+            TaskerUtil.noTaskDefinedInformation().show();
         }
     }
 

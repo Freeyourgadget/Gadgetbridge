@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.tasker.settings.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
@@ -7,6 +9,11 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NavUtils;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -46,6 +53,19 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
                 taskerEventFragment).commit();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra(TaskerConstants.INTENT_DEVICE, getIntent().getSerializableExtra(TaskerConstants.INTENT_DEVICE));
+                setResult(Activity.RESULT_OK, resultIntent);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public static class TaskerEventFragment extends PreferenceFragment {
 
         private TaskerDevice device;
@@ -62,6 +82,7 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+            setPreferenceScreen(getPreferenceManager().createPreferenceScreen(getActivity()));
             device = (TaskerDevice) getArguments().get(TaskerConstants.INTENT_DEVICE);
             eventType = (TaskerEventType) getArguments().get(TaskerConstants.INTENT_EVENT);
             settings = device.getSpec().getSettings(eventType);
@@ -70,6 +91,11 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
             initEnableThreshold();
             initThreshold();
             initTasks();
+        }
+
+        @Override
+        public void onOptionsMenuClosed(Menu menu) {
+            super.onOptionsMenuClosed(menu);
         }
 
         private void initEnableEvent() {
@@ -190,7 +216,7 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
                 public String getTask(TaskerEvent event) {
                     if (event.getCount() < tasks.size()) {
                         String text = tasks.get(event.getCount()).getText();
-                        if (StringUtils.isEmpty(text)) {
+                        if (text == null || StringUtils.isEmpty(text)) {
                             throw new NoTaskDefinedException();
                         }
                         return text;
