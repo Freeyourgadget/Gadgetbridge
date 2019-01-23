@@ -708,4 +708,19 @@
     <string name="language_and_region_prefs">Ρυθμίσεις γλώσσας και περιοχής</string>
     <string name="debugactivity_really_factoryreset_title">Επαναφορά εργοστασιακών ρυθμίσεων;</string>
     <string name="debugactivity_really_factoryreset">Κάνοντας επαναφορά εργοστασιακών ρυθμίσεων όλα τα δεδομένα θα διαγραφούν απο την συνδεδεμένη συσκευή (αν υποστηρίζεται). Στις συσκευές Xiaomi/Huami η διεύθυνση MAC θα αλλάξει, έτσι θα εμφανιστούν ως καινούργια συσκευή στην εφαρμογή.</string>
+    <string name="devicetype_casiogb6900">Casio. GB-6900</string>
+    <string name="title_activity_notification_filter">Λίστα απο/επιλογής ειδοποιήσεων</string>
+    <string name="toast_app_must_not_be_blacklisted">Η εφαρμογή πρέπει να έχει επιλεχθεί για να ρυθμιστεί</string>
+    <string name="edittext_notification_filter_words_hint">Εισάγετε τις λέξεις που επιθυμείτε, μία γραμμή για κάθε λέξη</string>
+    <string name="toast_notification_filter_saved_successfully">Το φίλτρο ειδοποιήσεων αποθηκεύτηκε</string>
+    <string name="filter_mode_none">Να μην υπάρχει φιλτράρισμα</string>
+    <string name="filter_mode_whitelist">Να φαίνεται όταν εμπεριέχονται λέξεις</string>
+    <string name="filter_mode_blacklist">Να μπλοκάρεται όταν εμπεριέχονται λέξεις</string>
+    <string name="filter_submode_at_least_one">Τουλάχιστον μια από τις λέξεις</string>
+    <string name="filter_submode_all">Όλες οι λέξεις</string>
+    <string name="toast_notification_filter_words_empty_hint">Παρακαλώ εισάγετε τουλάχιστον μια λέξη</string>
+    <string name="filter_mode">Λειτουργία φιλτραρίσματος</string>
+    <string name="mode_configuration">Ρύθμιση λειτουργίας</string>
+    <string name="save_configuration">Απογοήτευση ρυθμίσεων</string>
+    <string name="appwidget_not_connected">Δεν υπάρχει σύνδεση, το ξυπνητήρι δεν ρυθμίστηκε.</string>
 </resources>
