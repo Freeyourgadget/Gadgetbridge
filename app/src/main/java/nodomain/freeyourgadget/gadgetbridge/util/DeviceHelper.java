@@ -53,6 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2HRXCoor
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.id115.ID115Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.jyou.TeclastH30Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.miscale2.MiScale2DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi1Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.liveview.LiveviewCoordinator;
@@ -196,6 +197,7 @@ public class DeviceHelper {
 
     private List<DeviceCoordinator> createCoordinators() {
         List<DeviceCoordinator> result = new ArrayList<>();
+        result.add(new MiScale2DeviceCoordinator()); // Note: must come before MiBand2 because detection is hacky, atm
         result.add(new AmazfitBipCoordinator()); // Note: must come before MiBand2 because detection is hacky, atm
         result.add(new AmazfitCorCoordinator()); // Note: must come before MiBand2 because detection is hacky, atm
         result.add(new MiBand3Coordinator());  // Note: must come before MiBand2 because detection is hacky, atm
