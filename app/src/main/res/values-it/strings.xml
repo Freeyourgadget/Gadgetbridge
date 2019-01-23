@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Gadgetbridge</string>
   <string name="title_activity_controlcenter">Gadgetbridge</string>
@@ -641,4 +641,21 @@
     <string name="overslept">Sonno extra: %1$s</string>
     <string name="lack_of_step">Mancanza di passi: %1$d</string>
     <string name="overstep">Passo extra: %1$d</string>
-    </resources>
+    <string name="debugactivity_really_factoryreset_title">Proseguire davvero con il reset totale\?</string>
+    <string name="debugactivity_really_factoryreset">Effettuando un reset totale si perderanno tutti i dati relativi ai dispositivi connessi (se supportati). I dispositivi Xiaomi/Huami potrebbero cambiare il proprio indirizzo MAC Bluetooth e Gadgetbridge potrebbe riconoscerli come dispositivi completamente nuovi.</string>
+    <string name="devicetype_casiogb6900">Casio GB-6900</string>
+    <string name="title_activity_notification_filter">Filtro Notifiche</string>
+    <string name="toast_app_must_not_be_blacklisted">L\'app non deve trovarsi nella blacklist per essere configurata</string>
+    <string name="edittext_notification_filter_words_hint">Inserisci le parole desiderate, una per linea</string>
+    <string name="toast_notification_filter_saved_successfully">Filtro Notifiche salvato</string>
+    <string name="filter_mode_none">Non filtrare</string>
+    <string name="filter_mode_whitelist">Mostra quando sono contenute le parole</string>
+    <string name="filter_mode_blacklist">Blocca quando sono contenute le parole</string>
+    <string name="filter_submode_at_least_one">Almeno una delle parole</string>
+    <string name="filter_submode_all">Tutte le parole</string>
+    <string name="toast_notification_filter_words_empty_hint">Per favore, inserisci almeno una parola</string>
+    <string name="filter_mode">Modalità filtro</string>
+    <string name="mode_configuration">Modalità Configurazione</string>
+    <string name="save_configuration">Salva Configurazione</string>
+    <string name="appwidget_not_connected">Non connesso, sveglia non impostata.</string>
+</resources>
