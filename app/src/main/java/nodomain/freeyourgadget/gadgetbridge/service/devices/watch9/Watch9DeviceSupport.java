@@ -1,3 +1,19 @@
+/*  Copyright (C) 2018 maxirnilian
+
+    This file is part of Gadgetbridge.
+
+    Gadgetbridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Gadgetbridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.watch9;
 
 import android.bluetooth.BluetoothGatt;
@@ -41,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.watch9.operations.InitOperation;
+import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
 public class Watch9DeviceSupport extends AbstractBTLEDeviceSupport {
@@ -315,7 +332,7 @@ public class Watch9DeviceSupport extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("setAlarms");
             for (Alarm alarm : alarms) {
-                setAlarm(alarm, alarm.getIndex() + 1, builder);
+                setAlarm(alarm, alarm.getPosition() + 1, builder);
             }
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -336,14 +353,14 @@ public class Watch9DeviceSupport extends AbstractBTLEDeviceSupport {
 
     private void setAlarm(Alarm alarm, int index, TransactionBuilder builder) {
         // Shift the GB internal repetition mask to match the device specific one.
-        byte repetitionMask = (byte) ((alarm.getRepetitionMask() << 1) | (alarm.isRepetitive() ? 0x80 : 0x00));
+        byte repetitionMask = (byte) ((alarm.getRepetition() << 1) | (alarm.isRepetitive() ? 0x80 : 0x00));
         repetitionMask |= (alarm.getRepetition(Alarm.ALARM_SUN) ? 0x01 : 0x00);
         if (0 < index && index < 4) {
             byte[] alarmValue = new byte[]{(byte) index,
-                    Conversion.toBcd8(alarm.getAlarmCal().get(Calendar.HOUR_OF_DAY)),
-                    Conversion.toBcd8(alarm.getAlarmCal().get(Calendar.MINUTE)),
+                    Conversion.toBcd8(AlarmUtils.toCalendar(alarm).get(Calendar.HOUR_OF_DAY)),
+                    Conversion.toBcd8(AlarmUtils.toCalendar(alarm).get(Calendar.MINUTE)),
                     repetitionMask,
-                    (byte) (alarm.isEnabled() ? 0x01 : 0x00),
+                    (byte) (alarm.getEnabled() ? 0x01 : 0x00),
                     0x00 // TODO: Unknown
             };
             builder.write(getCharacteristic(Watch9Constants.UUID_CHARACTERISTIC_WRITE),
@@ -424,7 +441,7 @@ public class Watch9DeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
 
     }
 

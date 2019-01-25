@@ -19,6 +19,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 
 import org.slf4j.Logger;
@@ -32,12 +34,15 @@ import java.util.Set;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 
+import cyanogenmod.weather.util.WeatherUtils;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiWeatherConditions;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -80,9 +85,9 @@ public class AmazfitBipSupport extends HuamiSupport {
             return;
         }
 
-        String senderOrTiltle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
+        String senderOrTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
 
-        String message = StringUtils.truncate(senderOrTiltle, 32) + "\0";
+        String message = StringUtils.truncate(senderOrTitle, 32) + "\0";
         if (notificationSpec.subject != null) {
             message += StringUtils.truncate(notificationSpec.subject, 128) + "\n\n";
         }
@@ -92,11 +97,8 @@ public class AmazfitBipSupport extends HuamiSupport {
 
         try {
             TransactionBuilder builder = performInitialized("new notification");
-            AlertNotificationProfile<?> profile = new AlertNotificationProfile(this);
-            profile.setMaxLength(230);
 
             byte customIconId = HuamiIcon.mapToIconId(notificationSpec.type);
-
             AlertCategory alertCategory = AlertCategory.CustomHuami;
 
             // The SMS icon for AlertCategory.SMS is unique and not available as iconId
@@ -108,8 +110,54 @@ public class AmazfitBipSupport extends HuamiSupport {
                 alertCategory = AlertCategory.Email;
             }
 
-            NewAlert alert = new NewAlert(alertCategory, 1, message, customIconId);
-            profile.newAlert(builder, alert);
+            int maxLength = 230;
+            if (characteristicChunked != null) {
+                int prefixlength = 2;
+
+                // We also need a (fake) source name for Mi Band 3 for SMS/EMAIL, else the message is not displayed
+                byte[] appSuffix = "\0 \0".getBytes();
+                int suffixlength = appSuffix.length;
+
+                if (alertCategory == AlertCategory.CustomHuami) {
+                    String appName;
+                    prefixlength = 3;
+                    final PackageManager pm = getContext().getPackageManager();
+                    ApplicationInfo ai = null;
+                    try {
+                        ai = pm.getApplicationInfo(notificationSpec.sourceAppId, 0);
+                    } catch (PackageManager.NameNotFoundException ignored) {
+                    }
+
+                    if (ai != null) {
+                        appName = "\0" + pm.getApplicationLabel(ai) + "\0";
+                    } else {
+                        appName = "\0" + "UNKNOWN" + "\0";
+                    }
+                    appSuffix = appName.getBytes();
+                    suffixlength = appSuffix.length;
+                }
+
+                byte[] rawmessage = message.getBytes();
+                int length = Math.min(rawmessage.length, maxLength - prefixlength);
+
+                byte[] command = new byte[length + prefixlength + suffixlength];
+
+                command[0] = (byte) alertCategory.getId();
+                command[1] = 1;
+                if (alertCategory == AlertCategory.CustomHuami) {
+                    command[2] = customIconId;
+                }
+
+                System.arraycopy(rawmessage, 0, command, prefixlength, length);
+                System.arraycopy(appSuffix, 0, command, prefixlength + length, appSuffix.length);
+
+                writeToChunked(builder, 0, command);
+            } else {
+                AlertNotificationProfile<?> profile = new AlertNotificationProfile(this);
+                NewAlert alert = new NewAlert(alertCategory, 1, message, customIconId);
+                profile.setMaxLength(maxLength);
+                profile.newAlert(builder, alert);
+            }
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to send notification to Amazfit Bip", ex);
@@ -213,6 +261,8 @@ public class AmazfitBipSupport extends HuamiSupport {
         if (version.compareTo(new Version("0.0.8.74")) >= 0) {
             supportsConditionString = true;
         }
+
+        MiBandConst.DistanceUnit unit = HuamiCoordinator.getDistanceUnit();
         int tz_offset_hours = SimpleTimeZone.getDefault().getOffset(weatherSpec.timestamp * 1000L) / (1000 * 60 * 60);
         try {
             TransactionBuilder builder;
@@ -231,7 +281,12 @@ public class AmazfitBipSupport extends HuamiSupport {
             buf.putInt(weatherSpec.timestamp);
             buf.put((byte) (tz_offset_hours * 4));
             buf.put(condition);
-            buf.put((byte) (weatherSpec.currentTemp - 273));
+
+            int currentTemp = weatherSpec.currentTemp - 273;
+            if (unit == MiBandConst.DistanceUnit.IMPERIAL) {
+                currentTemp = (int) WeatherUtils.celsiusToFahrenheit(currentTemp);
+            }
+            buf.put((byte) currentTemp);
 
             if (supportsConditionString) {
                 buf.put(weatherSpec.currentCondition.getBytes());
@@ -309,8 +364,16 @@ public class AmazfitBipSupport extends HuamiSupport {
             byte condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.currentConditionCode);
             buf.put(condition);
             buf.put(condition);
-            buf.put((byte) (weatherSpec.todayMaxTemp - 273));
-            buf.put((byte) (weatherSpec.todayMinTemp - 273));
+
+            int todayMaxTemp = weatherSpec.todayMaxTemp - 273;
+            int todayMinTemp = weatherSpec.todayMinTemp - 273;
+            if (unit == MiBandConst.DistanceUnit.IMPERIAL) {
+                todayMaxTemp = (int) WeatherUtils.celsiusToFahrenheit(todayMaxTemp);
+                todayMinTemp = (int) WeatherUtils.celsiusToFahrenheit(todayMinTemp);
+            }
+            buf.put((byte) todayMaxTemp);
+            buf.put((byte) todayMinTemp);
+
             if (supportsConditionString) {
                 buf.put(weatherSpec.currentCondition.getBytes());
                 buf.put((byte) 0);
@@ -320,8 +383,16 @@ public class AmazfitBipSupport extends HuamiSupport {
                 condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(forecast.conditionCode);
                 buf.put(condition);
                 buf.put(condition);
-                buf.put((byte) (forecast.maxTemp - 273));
-                buf.put((byte) (forecast.minTemp - 273));
+
+                int forecastMaxTemp = forecast.maxTemp - 273;
+                int forecastMinTemp = forecast.minTemp - 273;
+                if (unit == MiBandConst.DistanceUnit.IMPERIAL) {
+                    forecastMaxTemp = (int) WeatherUtils.celsiusToFahrenheit(forecastMaxTemp);
+                    forecastMinTemp = (int) WeatherUtils.celsiusToFahrenheit(forecastMinTemp);
+                }
+                buf.put((byte) forecastMaxTemp);
+                buf.put((byte) forecastMinTemp);
+
                 if (supportsConditionString) {
                     buf.put(Weather.getConditionString(forecast.conditionCode).getBytes());
                     buf.put((byte) 0);

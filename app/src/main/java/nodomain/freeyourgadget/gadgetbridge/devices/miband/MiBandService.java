@@ -163,6 +163,8 @@ public class MiBandService {
 
     public static final byte COMMAND_SEND_NOTIFICATION = 0x8;
 
+    public static final byte COMMAND_FACTORYRESET = 0x9;
+
     public static final byte COMMAND_CONFIRM_ACTIVITY_DATA_TRANSFER_COMPLETE = 0xa;
 
     public static final byte COMMAND_SYNC = 0xb;

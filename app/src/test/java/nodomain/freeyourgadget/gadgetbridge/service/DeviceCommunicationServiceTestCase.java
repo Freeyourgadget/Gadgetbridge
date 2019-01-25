@@ -14,6 +14,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.test.TestBase;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_BODY;
 import static org.junit.Assert.assertEquals;
@@ -113,5 +114,20 @@ public class DeviceCommunicationServiceTestCase extends TestBase {
         String result = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
 
         assertEquals("Transliteration support fail!", "Prosto tekct", result);
+    }
+
+    @Test
+    public void testRtlSupport() {
+        SharedPreferences settings = GBApplication.getPrefs().getPreferences();
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("transliteration", false);
+        editor.putBoolean(GBPrefs.RTL_SUPPORT, true);
+        editor.commit();
+
+        Intent intent = mDeviceService.createIntent().putExtra(EXTRA_NOTIFICATION_BODY, "English and עברית");
+        mDeviceService.invokeService(intent);
+        String result = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
+
+        assertEquals("Rtl support fail!", "תירבע English and", result);
     }
 }

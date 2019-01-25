@@ -17,7 +17,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
     compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
@@ -25,8 +25,8 @@ android {
         targetSdkVersion 27
 
         // Note: always bump BOTH versionCode and versionName!
-        versionName "0.29.0"
-        versionCode 136
+        versionName "0.32.1"
+        versionCode 144
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -60,6 +60,7 @@ pmd {
 dependencies {
 //    testImplementation "ch.qos.logback:logback-classic:1.1.3"
 //    testImplementation "ch.qos.logback:logback-core:1.1.3"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation "junit:junit:4.12"
     testImplementation "org.mockito:mockito-core:1.10.19"
     testImplementation "org.robolectric:robolectric:3.6.1"
@@ -85,8 +86,9 @@ dependencies {
     implementation "org.greenrobot:greendao:2.2.1"
     implementation "org.apache.commons:commons-lang3:3.5"
     implementation "org.cyanogenmod:platform.sdk:6.0"
-
+    implementation 'com.jaredrummler:colorpicker:1.0.2'
 //    implementation project(":DaoCore")
+    implementation 'com.github.wax911:android-emojify:0.1.7'
 }
 
 preBuild.dependsOn(":GBDaoGenerator:genSources")
@@ -143,7 +145,7 @@ task findbugs(type: FindBugs) {
     effort = "default"
     reportLevel = "medium"
     excludeFilter = new File("${project.rootDir}/config/findbugs/findbugs-filter.xml")
-    classes = files("${project.rootDir}/app/build/intermediates/classes")
+    classes = files("${project.rootDir}/app/build/intermediates/javac/release/compileReleaseJavaWithJavac/classes")
     source = fileTree("src/main/java/")
     classpath = files()
     reports {

@@ -137,12 +137,6 @@ public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
         }
     }
 
-    private TransactionBuilder createTransactionBuilder(String task) {
-        TransactionBuilder builder = getSupport().createTransactionBuilder(task);
-        builder.setGattCallback(this);
-        return builder;
-    }
-
     private byte[] getMD5(byte[] message) throws NoSuchAlgorithmException {
         MessageDigest md5 = MessageDigest.getInstance("MD5");
         return md5.digest(message);

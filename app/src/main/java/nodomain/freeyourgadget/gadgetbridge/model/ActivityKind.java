@@ -38,11 +38,13 @@ public class ActivityKind {
     public static final int TYPE_CYCLING = 128;
     public static final int TYPE_TREADMILL = 256;
 
+    private static final int TYPES_COUNT = 11;
+
     public static final int TYPE_SLEEP = TYPE_LIGHT_SLEEP | TYPE_DEEP_SLEEP;
     public static final int TYPE_ALL = TYPE_ACTIVITY | TYPE_SLEEP | TYPE_NOT_WORN;
 
     public static int[] mapToDBActivityTypes(int types, SampleProvider provider) {
-        int[] result = new int[3];
+        int[] result = new int[TYPES_COUNT];
         int i = 0;
         if ((types & ActivityKind.TYPE_ACTIVITY) != 0) {
             result[i++] = provider.toRawActivityKind(TYPE_ACTIVITY);

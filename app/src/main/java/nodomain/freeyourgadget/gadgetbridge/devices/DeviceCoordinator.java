@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, JohnnySun, Uwe Hermann
+    Gobbetti, JohnnySun, José Rebelo, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -182,11 +182,13 @@ public interface DeviceCoordinator {
     boolean supportsScreenshots();
 
     /**
-     * Returns true if this device/coordinator supports setting alarms.
+     * Returns the number of alarms this device/coordinator supports
+     * Shall return 0 also if it is not possible to set alarms via
+     * protocol, but only on the smart device itself.
      *
      * @return
      */
-    boolean supportsAlarmConfiguration();
+    int getAlarmSlotCount();
 
     /**
      * Returns true if this device/coordinator supports alarms with smart wakeup
@@ -254,4 +256,26 @@ public interface DeviceCoordinator {
      * like artist, title, album, play state etc.
      */
     boolean supportsMusicInfo();
+
+    /**
+     * Indicates whether the device has an led which supports custom colors
+     */
+    boolean supportsLedColor();
+
+    /**
+     * Indicates whether the device's led supports any RGB color,
+     * or only preset colors
+     */
+    boolean supportsRgbLedColor();
+
+    /**
+     * Returns the preset colors supported by the device, if any, in ARGB, with alpha = 255
+     */
+    @NonNull
+    int[] getColorPresets();
+
+    /**
+     * Indicates whether the device supports unicode emojis.
+     */
+    boolean supportsUnicodeEmojis();
 }

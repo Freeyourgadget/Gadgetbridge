@@ -21,7 +21,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -33,6 +32,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -44,8 +44,11 @@ import de.greenrobot.dao.query.QueryBuilder;
 import de.greenrobot.dao.query.WhereCondition;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.entities.ActivityDescription;
 import nodomain.freeyourgadget.gadgetbridge.entities.ActivityDescriptionDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.entities.AlarmDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributes;
@@ -62,6 +65,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ValidByDate;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
 /**
@@ -362,6 +366,13 @@ public class DBHelper {
         return true;
     }
 
+    /**
+     * Finds the corresponding Device entity for the given GBDevice.
+     * @param gbDevice
+     * @param session
+     * @return the corresponding Device entity, or null if none
+     */
+    @Nullable
     public static Device findDevice(GBDevice gbDevice, DaoSession session) {
         DeviceDao deviceDao = session.getDeviceDao();
         Query<Device> query = deviceDao.queryBuilder().where(DeviceDao.Properties.Identifier.eq(gbDevice.getAddress())).build();
@@ -559,6 +570,49 @@ public class DBHelper {
         tag.setDescription(description);
         session.getTagDao().insertOrReplace(tag);
         return tag;
+    }
+
+    /**
+     * Returns all user-configurable alarms for the given user and device. The list is sorted by
+     * {@link Alarm#position}. Calendar events that may also be modeled as alarms are not stored
+     * in the database and hence not returned by this method.
+     * @param gbDevice the device for which the alarms shall be loaded
+     * @return the list of alarms for the given device
+     */
+    @NonNull
+    public static List<Alarm> getAlarms(@NonNull GBDevice gbDevice) {
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        Prefs prefs = GBApplication.getPrefs();
+        // TODO: this alarm reservation is a device dependent detail
+        int reservedSlots = prefs.getInt(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, 0);
+        int alarmSlots = coordinator.getAlarmSlotCount();
+
+        try (DBHandler db = GBApplication.acquireDB()) {
+            DaoSession daoSession = db.getDaoSession();
+            User user = getUser(daoSession);
+            Device dbDevice = DBHelper.findDevice(gbDevice, daoSession);
+            if (dbDevice != null) {
+                AlarmDao alarmDao = daoSession.getAlarmDao();
+                Long deviceId = dbDevice.getId();
+                QueryBuilder<Alarm> qb = alarmDao.queryBuilder();
+                qb.where(
+                        AlarmDao.Properties.UserId.eq(user.getId()),
+                        AlarmDao.Properties.DeviceId.eq(deviceId)).orderAsc(AlarmDao.Properties.Position).limit(alarmSlots - reservedSlots);
+                return qb.build().list();
+            }
+        } catch (Exception e) {
+            LOG.warn("Error reading alarms from db", e);
+        }
+        return Collections.emptyList();
+    }
+
+    public static void store(Alarm alarm) {
+        try (DBHandler db = GBApplication.acquireDB()) {
+            DaoSession daoSession = db.getDaoSession();
+            daoSession.insertOrReplace(alarm);
+        } catch (Exception e) {
+             LOG.error("Error acquiring database", e);
+        }
     }
 
     public static void clearSession() {

@@ -1,6 +1,7 @@
-/*  Copyright (C) 2015-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti, João Paulo Barraca, ladbsoft, protomors, Quallenauge,
-    Sami Alaoui, tiparega, Taavi Eomäe
+/*  Copyright (C) 2015-2019 0nse, Andreas Shimokawa, Carsten Pfeiffer,
+    Daniele Gobbetti, João Paulo Barraca, Kranz, ladbsoft, maxirnilian,
+    protomors, Quallenauge, Sami Alaoui, tiparega, Vadim Kaushan,
+    Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -41,6 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.UnknownDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.casiogb6900.CasioGB6900DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.EXRIZUK8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.MakibesF68Coordinator;
@@ -53,6 +55,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.itag.ITagCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.id115.ID115Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.jyou.TeclastH30Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi1Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.liveview.LiveviewCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
@@ -131,12 +135,7 @@ public class DeviceHelper {
             GB.toast(context, context.getString(R.string.bluetooth_is_disabled_), Toast.LENGTH_SHORT, GB.WARN);
         }
         List<GBDevice> dbDevices = getDatabaseDevices();
-        // these come first, as they have the most information already
         availableDevices.addAll(dbDevices);
-        if (btAdapter != null) {
-            List<GBDevice> bondedDevices = getBondedDevices(btAdapter);
-            availableDevices.addAll(bondedDevices);
-        }
 
         Prefs prefs = GBApplication.getPrefs();
         String miAddr = prefs.getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
@@ -219,6 +218,10 @@ public class DeviceHelper {
         result.add(new ZeTimeCoordinator());
         result.add(new ID115Coordinator());
         result.add(new Watch9DeviceCoordinator());
+        result.add(new Roidmi1Coordinator());
+        result.add(new Roidmi3Coordinator());
+        result.add(new CasioGB6900DeviceCoordinator());
+
         return result;
     }
 
@@ -259,29 +262,6 @@ public class DeviceHelper {
         }
 
         return gbDevice;
-    }
-
-    private @NonNull List<GBDevice> getBondedDevices(@NonNull BluetoothAdapter btAdapter) {
-        Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
-        if (pairedDevices == null) {
-            return Collections.emptyList();
-        }
-
-        List<GBDevice> result = new ArrayList<>(pairedDevices.size());
-        DeviceHelper deviceHelper = DeviceHelper.getInstance();
-        for (BluetoothDevice pairedDevice : pairedDevices) {
-            if (pairedDevice == null) {
-                continue; // just to be safe, see https://github.com/Freeyourgadget/Gadgetbridge/pull/1052
-            }
-            if (pairedDevice.getName() != null && (pairedDevice.getName().startsWith("Pebble-LE ") || pairedDevice.getName().startsWith("Pebble Time LE "))) {
-                continue; // ignore LE Pebble (this is part of the main device now (volatileAddress)
-            }
-            GBDevice device = deviceHelper.toSupportedDevice(pairedDevice);
-            if (device != null) {
-                result.add(device);
-            }
-        }
-        return result;
     }
 
     /**

@@ -7,7 +7,7 @@
   <string name="action_quit">Sair</string>
   <string name="controlcenter_fetch_activity_data">Sincronizar</string>
   <string name="controlcenter_start_sleepmonitor">Monitor de sono (ALPHA)</string>
-  <string name="controlcenter_find_device">Buscando dispositivo desconectado</string>
+  <string name="controlcenter_find_device">Buscar dispositivo desconectado</string>
   <string name="controlcenter_take_screenshot">Print da tela</string>
   <string name="controlcenter_disconnect">Desconectar</string>
   <string name="controlcenter_delete_device">Apagar dispositivo</string>
@@ -33,7 +33,7 @@
   <string name="app_configure">Configurar</string>
   <string name="app_move_to_top">Mover para o topo</string>
   <!--Strings related to AppBlacklist-->
-  <string name="title_activity_appblacklist">Blacklist de notificações</string>
+  <string name="title_activity_appblacklist">Lista Negra de Notificações</string>
   <!--Strings related to CalBlacklist-->
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">Instalador FW/App</string>
@@ -299,7 +299,7 @@
   <string name="appwidget_text">Zzz</string>
   <string name="add_widget">Adicionar widget</string>
   <string name="activity_prefs_sleep_duration">Preferir duração de sono em horas</string>
-  <string name="appwidget_alarms_set">Um alarme foi definido para %1$02d:%2$02d</string>
+  <string name="appwidget_setting_alarm">Um alarme foi definido para %1$02d:%2$02d</string>
   <string name="device_hw">HW: %1$s</string>
   <string name="device_fw">FW: %1$s</string>
   <string name="error_creating_directory_for_logfiles">Erro ao criar o diretório para arquivos de log: %1$s</string>
@@ -356,7 +356,7 @@
 
     <string name="title_activity_calblacklist">Blacklist do Calendário</string>
 
-    <string name="fw_upgrade_notice_amazfitbip">Você está prestes a instalar o firmware %s no Amazip Bip. 
+    <string name="fw_upgrade_notice_amazfitbip">Você está prestes a instalar o firmware %s no seu Amazip Bip. 
 \n 
 \nCertifique-se de instalar o firmware .gps, depois o arquivo .res e, finalmente, o arquivo .fw. Seu relógio será reiniciado após a instalação do arquivo .fw. 
 \n 
@@ -420,4 +420,23 @@
     <string name="mi2_prefs_button_action">Ativar botão</string>
     <string name="mi2_prefs_button_action_vibrate">Ativar vibração</string>
     <string name="notification_channel_name">Notificações - Gadgetbridge</string>
-</resources>
+<string name="controlcenter_change_led_color">Alterar cor do LED</string>
+    <string name="controlcenter_change_fm_frequency">Alterar frequência FM</string>
+    <string name="controlcenter_calibrate_device">Calibrar Dispositivo</string>
+
+
+    <string name="blacklist_all_for_notifications">Bloquear todas as Notificações</string>
+    <string name="whitelist_all_for_notifications">Desbloquear todas as Notificações</string>
+
+
+    <string name="fw_upgrade_notice_miband3">Você está prestes a instalar o firmware %s na sua Mi Band 3. 
+\n 
+\nCertifique-se de instalar o arquivo .fw, e depois o arquivo .res. Seu relógio será reiniciado após a instalação do arquivo .fw. 
+\n 
+\nNota: você não precisa instalar .res se esse arquivo é exatamente o mesmo instalado anteriormente. 
+\n 
+\nNÃO FOI TESTADO, PODE QUEBRAR SEU DISPOSITIVO, PROSSIGA POR SUA CONTA E RISCO!</string>
+    <string name="pref_title_notifications_timeout">Tempo mínimo entre notificações</string>
+    <string name="pref_title_rtl">Da Direita para Esquerda</string>
+    <string name="pref_summary_rtl">Ative isto se seu dispositivo não pode mostrar linguagens da Direita para Esquerda</string>
+    </resources>

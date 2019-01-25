@@ -233,7 +233,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
         //Not supported
     }
 
@@ -455,7 +455,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
                         try {
                             builder = performInitialized("fetchActivityData");
                             requestDetailedData(builder);
-                            performConnected(builder.getTransaction());
+                            builder.queue(getQueue());
                         } catch (IOException e) {
                             GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                         }
@@ -548,9 +548,9 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
         int yearInt, monthInt, dayInt, hoursMinutesInt = 0;
         int hours, minutes = 0;
 
-        yearInt = Integer.valueOf(String.format("%02x", year, 16));
-        monthInt = Integer.valueOf(String.format("%02x", month, 16));
-        dayInt = Integer.valueOf(String.format("%02x", day, 16));
+        yearInt = Integer.valueOf(String.format("%02x", year), 16);
+        monthInt = Integer.valueOf(String.format("%02x", month), 16);
+        dayInt = Integer.valueOf(String.format("%02x", day), 16);
         hoursMinutesInt = Integer.valueOf(String.format("%02x", hoursminutes), 16);
 
         minutes = hoursMinutesInt % 4;

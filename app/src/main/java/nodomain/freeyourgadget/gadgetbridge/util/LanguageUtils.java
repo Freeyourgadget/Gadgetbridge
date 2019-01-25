@@ -1,5 +1,6 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Daniele Gobbetti, ivanovlev,
-    lazarosfs, McSym28, Ted Stein, Yaron Shahrabani
+/*  Copyright (C) 2017-2018 Andreas Shimokawa, Aniruddha Adhikary, Daniele
+    Gobbetti, ivanovlev, kalaee, lazarosfs, McSym28, Ted Stein, Thomas, Yaron
+    Shahrabani
 
     This file is part of Gadgetbridge.
 
@@ -26,12 +27,18 @@ import java.util.Map;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class LanguageUtils {
+
     //transliteration map with english equivalent for unsupported chars
     private static Map<Character, String> transliterateMap = new HashMap<Character, String>(){
         {
             //extended ASCII characters
-            put('æ', "ae"); put('œ', "oe"); put('ª', "a"); put('º', "o"); put('«',"\""); put('»',"\"");
-
+            put('œ', "oe"); put('ª', "a"); put('º', "o"); put('«',"\""); put('»',"\"");
+            
+            // Scandinavian characters
+            put('Æ',"Ae"); put('æ',"ae");
+            put('Ø',"Oe"); put('ø',"oe");
+            put('Å',"Aa"); put('å',"aa");
+            
             //german characters
             put('ä',"ae"); put('ö',"oe"); put('ü',"ue");
             put('Ä',"Ae"); put('Ö',"Oe"); put('Ü',"Üe");
@@ -71,9 +78,11 @@ public class LanguageUtils {
             put('و', "w"); put('ي', "y"); put('ى', "a"); put('ﺓ', "");
             put('آ', "2"); put('ئ', "2"); put('إ', "2"); put('ؤ', "2"); put('أ', "2"); put('ء', "2");
 
-            // Farsi
-            put('پ', "p"); put('چ', "ch"); put('ڜ', "ch"); put('ڤ', "v"); put('ڥ', "v");
-            put('ڨ', "g"); put('گ', "g"); put('ݣ', "g");
+            // Persian(Farsi)
+            put('پ', "p"); put('چ', "ch"); put('ژ', "zh"); put('ک', "k"); put('گ', "g"); put('ی', "y"); put('‌', " "); 
+            put('؟', "?"); put('٪', "%"); put('؛', ";"); put('،', ","); put('۱', "1"); put('۲', "2"); put('۳', "3"); 
+            put('۴', "4"); put('۵', "5"); put('۶', "6"); put('۷', "7"); put('۸', "8"); put('۹', "9"); put('۰', "0"); 
+	    put('»', "<"); put('«', ">"); put('ِ', "e"); put('َ', "a"); put('ُ', "o"); put('ّ', "");
 
             // Polish
             put('Ł', "L"); put('ł', "l");

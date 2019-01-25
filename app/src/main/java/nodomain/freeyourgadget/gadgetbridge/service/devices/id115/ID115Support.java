@@ -1,3 +1,19 @@
+/*  Copyright (C) 2018 Vadim Kaushan
+
+    This file is part of Gadgetbridge.
+
+    Gadgetbridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Gadgetbridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.id115;
 
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -85,7 +101,7 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("time");
             setTime(builder);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch(IOException e) {
             LOG.warn("Unable to send current time", e);
         }
@@ -169,7 +185,7 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
         try {
             getQueue().clear();
 
@@ -177,7 +193,7 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
             builder.write(normalWriteCharacteristic, new byte[] {
                     ID115Constants.CMD_ID_DEVICE_RESTART, ID115Constants.CMD_KEY_REBOOT
             });
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch(Exception e) {
         }
     }
@@ -334,7 +350,7 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
                     ID115Constants.CMD_KEY_NOTIFY_STOP,
                     1
             });
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch(IOException e) {
             LOG.warn("Unable to stop call notification", e);
         }

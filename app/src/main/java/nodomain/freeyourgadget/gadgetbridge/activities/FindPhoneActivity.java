@@ -25,7 +25,6 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.RemoteInput;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.Button;
@@ -36,8 +35,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 
 public class FindPhoneActivity extends AbstractGBActivity {
@@ -71,7 +68,6 @@ public class FindPhoneActivity extends AbstractGBActivity {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_FOUND);
-        filter.addAction(DeviceService.ACTION_HEARTRATE_MEASUREMENT);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
         registerReceiver(mReceiver, filter); // for ACTION_FOUND
 
@@ -101,9 +97,13 @@ public class FindPhoneActivity extends AbstractGBActivity {
             mp.prepare();
             mp.start();
         } catch (IOException ignore) {
+            LOG.warn("problem playing ringtone");
         }
-        mAudioManager.setStreamVolume(AudioManager.STREAM_ALARM, mAudioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM), AudioManager.FLAG_PLAY_SOUND);
 
+        if (mAudioManager != null) {
+            userVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_ALARM);
+            mAudioManager.setStreamVolume(AudioManager.STREAM_ALARM, mAudioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM), AudioManager.FLAG_PLAY_SOUND);
+        }
     }
 
     public void stopSound() {

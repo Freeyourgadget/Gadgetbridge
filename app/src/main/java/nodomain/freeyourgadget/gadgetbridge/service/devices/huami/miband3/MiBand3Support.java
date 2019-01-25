@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -24,6 +24,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Set;
 
@@ -34,6 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Coordin
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3FWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -42,6 +46,14 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 public class MiBand3Support extends AmazfitBipSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(MiBand3Support.class);
+
+    @Override
+    protected byte getAuthFlags() {
+        if (gbDevice.getType() == DeviceType.MIBAND3) {
+            return 0x00;
+        }
+        return super.getAuthFlags();
+    }
 
     @Override
     protected MiBand3Support setDisplayItems(TransactionBuilder builder) {
@@ -59,6 +71,10 @@ public class MiBand3Support extends AmazfitBipSupport {
             if (pages.contains("weather")) {
                 command[1] |= 0x04;
                 command[5] = pos++;
+            }
+            if (pages.contains("activity")) {
+                command[1] |= 0x08;
+                command[6] = pos++;
             }
             if (pages.contains("more")) {
                 command[1] |= 0x10;
@@ -93,6 +109,11 @@ public class MiBand3Support extends AmazfitBipSupport {
             switch (config) {
                 case MiBandConst.PREF_MI3_BAND_SCREEN_UNLOCK:
                     setBandScreenUnlock(builder);
+                    break;
+                case MiBandConst.PREF_MI3_NIGHT_MODE:
+                case MiBandConst.PREF_MI3_NIGHT_MODE_START:
+                case MiBandConst.PREF_MI3_NIGHT_MODE_END:
+                    setNightMode(builder);
                     break;
                 default:
                     super.onSendConfiguration(config);
@@ -140,11 +161,48 @@ public class MiBand3Support extends AmazfitBipSupport {
         return this;
     }
 
+    private MiBand3Support setNightMode(TransactionBuilder builder) {
+        String nightMode = MiBand3Coordinator.getNightMode();
+        LOG.info("Setting night mode to " + nightMode);
+
+        switch (nightMode) {
+            case MiBandConst.PREF_MI3_NIGHT_MODE_SUNSET:
+                builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand3Service.COMMAND_NIGHT_MODE_SUNSET);
+                break;
+            case MiBandConst.PREF_MI3_NIGHT_MODE_OFF:
+                builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand3Service.COMMAND_NIGHT_MODE_OFF);
+                break;
+            case MiBandConst.PREF_MI3_NIGHT_MODE_SCHEDULED:
+                byte[] cmd = MiBand3Service.COMMAND_NIGHT_MODE_SCHEDULED.clone();
+
+                Calendar calendar = GregorianCalendar.getInstance();
+
+                Date start = MiBand3Coordinator.getNightModeStart();
+                calendar.setTime(start);
+                cmd[2] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+                cmd[3] = (byte) calendar.get(Calendar.MINUTE);
+
+                Date end = MiBand3Coordinator.getNightModeEnd();
+                calendar.setTime(end);
+                cmd[4] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+                cmd[5] = (byte) calendar.get(Calendar.MINUTE);
+
+                builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), cmd);
+                break;
+            default:
+                LOG.error("Invalid night mode: " + nightMode);
+                break;
+        }
+
+        return this;
+    }
+
     @Override
     public void phase2Initialize(TransactionBuilder builder) {
         super.phase2Initialize(builder);
         LOG.info("phase2Initialize...");
         setBandScreenUnlock(builder);
+        setNightMode(builder);
     }
 
     @Override

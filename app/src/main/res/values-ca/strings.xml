@@ -425,7 +425,7 @@
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Afegeix un giny</string>
     <string name="activity_prefs_sleep_duration">Duració preferida del son en hores</string>
-    <string name="appwidget_alarms_set">S\'ha creat una alarma a les %1$02d:%2$02d</string>
+    <string name="appwidget_setting_alarm">S\'ha creat una alarma a les %1$02d:%2$02d</string>
     <string name="device_hw">Revisió del maquinari: %1$s</string>
     <string name="device_fw">Versió del microprogramari: %1$s</string>
     <string name="error_creating_directory_for_logfiles">S\'ha produït un error al crear un directori per als fitxers de registre: %1$s</string>

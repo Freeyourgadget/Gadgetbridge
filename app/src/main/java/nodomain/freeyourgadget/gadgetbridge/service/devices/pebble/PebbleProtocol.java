@@ -60,6 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec.Action;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
@@ -395,6 +396,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private static final UUID UUID_ZALEWSZCZAK_TALLY = UUID.fromString("abb51965-52e2-440a-b93c-843eeacb697d");
     private static final UUID UUID_OBSIDIAN = UUID.fromString("ef42caba-0c65-4879-ab23-edd2bde68824");
     private static final UUID UUID_SIMPLY_LIGHT = UUID.fromString("04a6e68a-42d6-4738-87b2-1c80a994dee4");
+    private static final UUID UUID_M7S = UUID.fromString("03adc57a-569b-4669-9a80-b505eaea314d");
+    private static final UUID UUID_YWEATHER = UUID.fromString("35a28a4d-0c9f-408f-9c6d-551e65f03186");
+    private static final UUID UUID_REALWEATHER = UUID.fromString("1f0b0701-cc8f-47ec-86e7-7181397f9a52");
 
     private static final UUID UUID_ZERO = new UUID(0, 0);
 
@@ -421,6 +425,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
             mAppMessageHandlers.put(UUID_OBSIDIAN, new AppMessageHandlerObsidian(UUID_OBSIDIAN, PebbleProtocol.this));
             mAppMessageHandlers.put(UUID_GBPEBBLE, new AppMessageHandlerGBPebble(UUID_GBPEBBLE, PebbleProtocol.this));
             mAppMessageHandlers.put(UUID_SIMPLY_LIGHT, new AppMessageHandlerSimplyLight(UUID_SIMPLY_LIGHT, PebbleProtocol.this));
+            mAppMessageHandlers.put(UUID_M7S, new AppMessageHandlerM7S(UUID_M7S, PebbleProtocol.this));
+            mAppMessageHandlers.put(UUID_YWEATHER, new AppMessageHandlerRealWeather(UUID_YWEATHER, PebbleProtocol.this));
+            mAppMessageHandlers.put(UUID_REALWEATHER, new AppMessageHandlerRealWeather(UUID_REALWEATHER, PebbleProtocol.this));
         }
     }
 
@@ -484,8 +491,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeNotification(NotificationSpec notificationSpec) {
-        boolean hasHandle = notificationSpec.id != -1 && notificationSpec.phoneNumber == null;
-        int id = notificationSpec.id != -1 ? notificationSpec.id : mRandom.nextInt();
+        int id = notificationSpec.getId() != -1 ? notificationSpec.getId() : mRandom.nextInt();
         String title;
         String subtitle = null;
 
@@ -497,24 +503,20 @@ public class PebbleProtocol extends GBDeviceProtocol {
             title = notificationSpec.title;
         }
 
-        Long ts = System.currentTimeMillis();
+        long ts = System.currentTimeMillis();
         if (mFwMajor < 3) {
             ts += (SimpleTimeZone.getDefault().getOffset(ts));
         }
         ts /= 1000;
 
-        if (mFwMajor >= 3) {
+        if (mFwMajor >= 3 || mForceProtocol || notificationSpec.type != NotificationType.GENERIC_EMAIL) {
             // 3.x notification
-            return encodeBlobdbNotification(id, (int) (ts & 0xffffffffL), title, subtitle, notificationSpec.body,
-                    notificationSpec.sourceName, hasHandle, notificationSpec.type, notificationSpec.pebbleColor,
-                    notificationSpec.cannedReplies);
-        } else if (mForceProtocol || notificationSpec.type != NotificationType.GENERIC_EMAIL) {
-            // 2.x notification
-            return encodeExtensibleNotification(id, (int) (ts & 0xffffffffL), title, subtitle, notificationSpec.body,
-                    notificationSpec.sourceName, hasHandle, notificationSpec.cannedReplies);
+            return encodeNotification(id, (int) (ts & 0xffffffffL), title, subtitle, notificationSpec.body,
+                    notificationSpec.type, notificationSpec.pebbleColor,
+                    notificationSpec.cannedReplies, notificationSpec.attachedActions);
         } else {
             // 1.x notification on FW 2.X
-            String[] parts = {title, notificationSpec.body, ts.toString(), subtitle};
+            String[] parts = {title, notificationSpec.body, String.valueOf(ts), subtitle};
             // be aware that type is at this point always NOTIFICATION_EMAIL
             return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_EMAIL, 0, parts);
         }
@@ -594,141 +596,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
         */
     }
 
-    private byte[] encodeExtensibleNotification(int id, int timestamp, String title, String subtitle, String body, String sourceName, boolean hasHandle, String[] cannedReplies) {
-        final short ACTION_LENGTH_MIN = 10;
-
-        String[] parts = {title, subtitle, body};
-
-        // Calculate length first
-        byte actions_count;
-        short actions_length;
-        String dismiss_string;
-        String open_string = GBApplication.getContext().getString(R.string._pebble_watch_open_on_phone);
-        String mute_string = GBApplication.getContext().getString(R.string._pebble_watch_mute);
-        String reply_string = GBApplication.getContext().getString(R.string._pebble_watch_reply);
-        if (sourceName != null) {
-            mute_string += " " + sourceName;
-        }
-
-        byte dismiss_action_id;
-
-        if (hasHandle && !"ALARMCLOCKRECEIVER".equals(sourceName)) {
-            actions_count = 3;
-            dismiss_string = "Dismiss";
-            dismiss_action_id = 0x02;
-            actions_length = (short) (ACTION_LENGTH_MIN * actions_count + dismiss_string.getBytes().length + open_string.getBytes().length + mute_string.getBytes().length);
-        } else {
-            actions_count = 1;
-            dismiss_string = "Dismiss all";
-            dismiss_action_id = 0x03;
-            actions_length = (short) (ACTION_LENGTH_MIN * actions_count + dismiss_string.getBytes().length);
-        }
-
-        int replies_length = -1;
-        if (cannedReplies != null && cannedReplies.length > 0) {
-            actions_count++;
-            for (String reply : cannedReplies) {
-                replies_length += reply.getBytes().length + 1;
-            }
-            actions_length += ACTION_LENGTH_MIN + reply_string.getBytes().length + replies_length + 3; // 3 = attribute id (byte) + length(short)
-        }
-
-        byte attributes_count = 0;
-
-        int length = 21 + 10 + actions_length;
-        if (parts != null) {
-            for (String s : parts) {
-                if (s == null || s.equals("")) {
-                    continue;
-                }
-                attributes_count++;
-                length += (3 + s.getBytes().length);
-            }
-        }
-
-        // Encode Prefix
-        ByteBuffer buf = ByteBuffer.allocate(length + LENGTH_PREFIX);
-
-        buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putShort((short) (length));
-        buf.putShort(ENDPOINT_EXTENSIBLENOTIFS);
-
-        buf.order(ByteOrder.LITTLE_ENDIAN); // !
-
-        buf.put((byte) 0x00); // ?
-        buf.put((byte) 0x01); // add notifications
-        buf.putInt(0x00000000); // flags - ?
-        buf.putInt(id);
-        buf.putInt(0x00000000); // ANCS id
-        buf.putInt(timestamp);
-        buf.put((byte) 0x01); // layout - ?
-        buf.put(attributes_count);
-        buf.put(actions_count);
-
-        byte attribute_id = 0;
-        // Encode Pascal-Style Strings
-        if (parts != null) {
-            for (String s : parts) {
-                attribute_id++;
-                if (s == null || s.equals("")) {
-                    continue;
-                }
-
-                int partlength = s.getBytes().length;
-                if (partlength > 255) partlength = 255;
-                buf.put(attribute_id);
-                buf.putShort((short) partlength);
-                buf.put(s.getBytes(), 0, partlength);
-            }
-        }
-
-
-        // dismiss action
-        buf.put(dismiss_action_id);
-        buf.put((byte) 0x04); // dismiss
-        buf.put((byte) 0x01); // number attributes
-        buf.put((byte) 0x01); // attribute id (title)
-        buf.putShort((short) dismiss_string.getBytes().length);
-        buf.put(dismiss_string.getBytes());
-
-        // open and mute actions
-        if (hasHandle && !"ALARMCLOCKRECEIVER".equals(sourceName)) {
-            buf.put((byte) 0x01);
-            buf.put((byte) 0x02); // generic
-            buf.put((byte) 0x01); // number attributes
-            buf.put((byte) 0x01); // attribute id (title)
-            buf.putShort((short) open_string.getBytes().length);
-            buf.put(open_string.getBytes());
-
-            buf.put((byte) 0x04);
-            buf.put((byte) 0x02); // generic
-            buf.put((byte) 0x01); // number attributes
-            buf.put((byte) 0x01); // attribute id (title)
-            buf.putShort((short) mute_string.getBytes().length);
-            buf.put(mute_string.getBytes());
-
-        }
-
-        if (cannedReplies != null && replies_length > 0) {
-            buf.put((byte) 0x05);
-            buf.put((byte) 0x03); // reply action
-            buf.put((byte) 0x02); // number attributes
-            buf.put((byte) 0x01); // title
-            buf.putShort((short) reply_string.getBytes().length);
-            buf.put(reply_string.getBytes());
-            buf.put((byte) 0x08); // canned replies
-            buf.putShort((short) replies_length);
-            for (int i = 0; i < cannedReplies.length - 1; i++) {
-                buf.put(cannedReplies[i].getBytes());
-                buf.put((byte) 0x00);
-            }
-            // last one must not be zero terminated, else we get an additional emply reply
-            buf.put(cannedReplies[cannedReplies.length - 1].getBytes());
-        }
-
-        return buf.array();
-    }
-
     private byte[] encodeBlobdb(Object key, byte command, byte db, byte[] blob) {
 
         int length = 5;
@@ -790,10 +657,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
             buf.order(ByteOrder.LITTLE_ENDIAN);
 
             ActivityUser activityUser = new ActivityUser();
-            Integer heightMm = activityUser.getHeightCm() * 10;
-            buf.putShort(heightMm.shortValue());
-            Integer weigthDag = activityUser.getWeightKg() * 100;
-            buf.putShort(weigthDag.shortValue());
+            int heightMm = activityUser.getHeightCm() * 10;
+            buf.putShort((short) heightMm);
+            int weigthDag = activityUser.getWeightKg() * 100;
+            buf.putShort((short) weigthDag);
             buf.put((byte) 0x01); //activate tracking
             buf.put((byte) 0x00); //activity Insights
             buf.put((byte) 0x00); //sleep Insights
@@ -932,11 +799,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return encodeBlobdb(uuid, BLOBDB_INSERT, BLOBDB_PIN, buf.array());
     }
 
-    private byte[] encodeBlobdbNotification(int id, int timestamp, String title, String subtitle, String body, String sourceName,
-                                            boolean hasHandle, NotificationType notificationType, byte backgroundColor,
-                                            String[] cannedReplies) {
+    private byte[] encodeNotification(int id, int timestamp, String title, String subtitle, String body,
+                                      NotificationType notificationType, byte backgroundColor, String[] cannedReplies, ArrayList<Action> attachedActions) {
         final short NOTIFICATION_PIN_LENGTH = 46;
-        final short ACTION_LENGTH_MIN = 10;
+        final short ACTION_LENGTH_MIN = 6;
 
         String[] parts = {title, subtitle, body};
 
@@ -947,138 +813,173 @@ public class PebbleProtocol extends GBDeviceProtocol {
         int icon_id = notificationType.icon;
 
         // Calculate length first
-        byte actions_count;
-        short actions_length;
-        String dismiss_string;
-        String open_string = "Open on phone";
-        String mute_string = "Mute";
-        String reply_string = "Reply";
-        if (sourceName != null) {
-            mute_string += " " + sourceName;
-        }
+        int actions_count = 0;
+        short actions_length = 0;
 
-        byte dismiss_action_id;
-        if (hasHandle && !"ALARMCLOCKRECEIVER".equals(sourceName)) {
-            actions_count = 3;
-            dismiss_string = "Dismiss";
-            dismiss_action_id = 0x02;
-            actions_length = (short) (ACTION_LENGTH_MIN * actions_count + dismiss_string.getBytes().length + open_string.getBytes().length + mute_string.getBytes().length);
-        } else {
-            actions_count = 1;
-            dismiss_string = "Dismiss all";
-            dismiss_action_id = 0x03;
-            actions_length = (short) (ACTION_LENGTH_MIN * actions_count + dismiss_string.getBytes().length);
-        }
-
-        int replies_length = -1;
+        int replies_length = 0;
         if (cannedReplies != null && cannedReplies.length > 0) {
-            actions_count++;
+            //do not increment actions_count! reply is an action and was already added above
             for (String reply : cannedReplies) {
                 replies_length += reply.getBytes().length + 1;
             }
-            actions_length += ACTION_LENGTH_MIN + reply_string.getBytes().length + replies_length + 3; // 3 = attribute id (byte) + length(short)
+            replies_length--;
+            //similarly, only the replies length has to be added, the length for the bare action was already added above
+
         }
 
-        byte attributes_count = 2; // icon
-        short attributes_length = (short) (11 + actions_length);
-        if (parts != null) {
-            for (String s : parts) {
-                if (s == null || s.equals("")) {
-                    continue;
+        if (attachedActions != null && attachedActions.size() > 0) {
+            for (Action act : attachedActions) {
+                actions_count++;
+                actions_length += (short) (ACTION_LENGTH_MIN + act.title.getBytes().length);
+                if (act.type == Action.TYPE_WEARABLE_REPLY || act.type == Action.TYPE_SYNTECTIC_REPLY_PHONENR) {
+                    actions_length += (short) replies_length + 3;  // 3 = attribute id (byte) + length(short)
                 }
-                attributes_count++;
-                attributes_length += (3 + s.getBytes().length);
             }
         }
 
-        short pin_length = (short) (NOTIFICATION_PIN_LENGTH + attributes_length);
+        byte attributes_count = 0;
+        short attributes_length = actions_length;
+        if (mFwMajor >= 3) {
+            attributes_count += 2; // icon
+            attributes_length += 11;
+        }
 
-        ByteBuffer buf = ByteBuffer.allocate(pin_length);
+        for (String s : parts) {
+            if (s == null || s.equals("")) {
+                continue;
+            }
+            attributes_count++;
+            attributes_length += (short) (3 + s.getBytes().length);
+        }
 
-        // pin - 46 bytes
+        short length;
+        int max_partlength;
+        byte dismiss_action_type;
+        ByteBuffer buf;
+        if (mFwMajor >= 3) {
+            length = (short) (NOTIFICATION_PIN_LENGTH + attributes_length);
+            max_partlength = 512;
+            dismiss_action_type = 0x02; // generic action, dismiss did not do anything
+            buf = ByteBuffer.allocate(length);
+        } else {
+            length = (short) (21 + attributes_length);
+            max_partlength = 256;
+            dismiss_action_type = 0x04; // dismiss
+            buf = ByteBuffer.allocate(length + LENGTH_PREFIX);
+        }
+
         buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putLong(GB_UUID_MASK);
-        buf.putLong(id);
-        buf.putLong(UUID_NOTIFICATIONS.getMostSignificantBits());
-        buf.putLong(UUID_NOTIFICATIONS.getLeastSignificantBits());
-        buf.order(ByteOrder.LITTLE_ENDIAN);
-        buf.putInt(timestamp); // 32-bit timestamp
-        buf.putShort((short) 0); // duration
-        buf.put((byte) 0x01); // type (0x01 = notification)
-        buf.putShort((short) 0x0001); // flags 0x0001 = ?
-        buf.put((byte) 0x04); // layout (0x04 = notification?)
-        buf.putShort(attributes_length); // total length of all attributes and actions in bytes
+
+        if (mFwMajor >= 3) {
+            // pin - 46 bytes
+            buf.putLong(GB_UUID_MASK);
+            buf.putLong(id);
+            buf.putLong(UUID_NOTIFICATIONS.getMostSignificantBits());
+            buf.putLong(UUID_NOTIFICATIONS.getLeastSignificantBits());
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+            buf.putInt(timestamp); // 32-bit timestamp
+            buf.putShort((short) 0); // duration
+            buf.put((byte) 0x01); // type (0x01 = notification)
+            buf.putShort((short) 0x0001); // flags 0x0001 = ?
+            buf.put((byte) 0x04); // layout (0x04 = notification?)
+            buf.putShort(attributes_length); // total length of all attributes and actions in bytes
+        } else {
+            buf.putShort(length);
+            buf.putShort(ENDPOINT_EXTENSIBLENOTIFS);
+
+            buf.order(ByteOrder.LITTLE_ENDIAN); // !
+
+            buf.put((byte) 0x00); // ?
+            buf.put((byte) 0x01); // add notifications
+            buf.putInt(0x00000000); // flags - ?
+            buf.putInt(id);
+            buf.putInt(0x00000000); // ANCS id
+            buf.putInt(timestamp);
+            buf.put((byte) 0x01); // layout - ?
+
+        }
         buf.put(attributes_count);
-        buf.put(actions_count);
+        buf.put((byte) actions_count);
 
         byte attribute_id = 0;
         // Encode Pascal-Style Strings
-        if (parts != null) {
-            for (String s : parts) {
-                attribute_id++;
-                if (s == null || s.equals("")) {
-                    continue;
+        for (String s : parts) {
+            attribute_id++;
+            if (s == null || s.equals("")) {
+                continue;
+            }
+
+            int partlength = s.getBytes().length;
+            if (partlength > max_partlength) partlength = max_partlength;
+            buf.put(attribute_id);
+            buf.putShort((short) partlength);
+            buf.put(s.getBytes(), 0, partlength);
+        }
+
+        if (mFwMajor >= 3) {
+            buf.put((byte) 4); // icon
+            buf.putShort((short) 4); // length of int
+            buf.putInt(0x80000000 | icon_id);
+
+            buf.put((byte) 28); // background_color
+            buf.putShort((short) 1); // length of int
+            buf.put(backgroundColor);
+        }
+
+        if (attachedActions != null && attachedActions.size() > 0) {
+            for (int ai = 0 ; ai<attachedActions.size(); ai++) {
+                Action act = attachedActions.get(ai);
+                switch (act.type) {
+                    case Action.TYPE_SYNTECTIC_OPEN:
+                        buf.put((byte) 0x01);
+                        break;
+                    case Action.TYPE_SYNTECTIC_DISMISS:
+                        buf.put((byte) 0x02);
+                        break;
+                    case Action.TYPE_SYNTECTIC_DISMISS_ALL:
+                        buf.put((byte) 0x03);
+                        break;
+                    case Action.TYPE_SYNTECTIC_MUTE:
+                        buf.put((byte) 0x04);
+                        break;
+                    default:
+                        buf.put((byte) (0x05 + ai));
                 }
 
-                int partlength = s.getBytes().length;
-                if (partlength > 512) partlength = 512;
-                buf.put(attribute_id);
-                buf.putShort((short) partlength);
-                buf.put(s.getBytes(), 0, partlength);
+                if (act.type == Action.TYPE_WEARABLE_REPLY || act.type == Action.TYPE_SYNTECTIC_REPLY_PHONENR) {
+                    buf.put((byte) 0x03); // reply action
+                    buf.put((byte) 0x02); // number attributes
+                } else {
+                    if (act.type == Action.TYPE_SYNTECTIC_DISMISS) {
+                        buf.put(dismiss_action_type);
+                    } else {
+                        buf.put((byte) 0x02); // generic action
+                    }
+                    buf.put((byte) 0x01); // number attributes
+                }
+
+                buf.put((byte) 0x01); // attribute id (title)
+                buf.putShort((short) act.title.getBytes().length);
+                buf.put(act.title.getBytes());
+                if (act.type == Action.TYPE_WEARABLE_REPLY || act.type == Action.TYPE_SYNTECTIC_REPLY_PHONENR) {
+                    buf.put((byte) 0x08); // canned replies
+                    buf.putShort((short) replies_length);
+                    if (cannedReplies != null && cannedReplies.length > 0) {
+                        for (int i = 0; i < cannedReplies.length - 1; i++) {
+                            buf.put(cannedReplies[i].getBytes());
+                            buf.put((byte) 0x00);
+                        }
+                        // last one must not be zero terminated, else we get an additional emply reply
+                        buf.put(cannedReplies[cannedReplies.length - 1].getBytes());
+                    }
+                }
             }
         }
-
-        buf.put((byte) 4); // icon
-        buf.putShort((short) 4); // length of int
-        buf.putInt(0x80000000 | icon_id);
-
-        buf.put((byte) 28); // background_color
-        buf.putShort((short) 1); // length of int
-        buf.put(backgroundColor);
-
-        // dismiss action
-        buf.put(dismiss_action_id);
-        buf.put((byte) 0x02); // generic action, dismiss did not do anything
-        buf.put((byte) 0x01); // number attributes
-        buf.put((byte) 0x01); // attribute id (title)
-        buf.putShort((short) dismiss_string.getBytes().length);
-        buf.put(dismiss_string.getBytes());
-
-        // open and mute actions
-        if (hasHandle && !"ALARMCLOCKRECEIVER".equals(sourceName)) {
-            buf.put((byte) 0x01);
-            buf.put((byte) 0x02); // generic action
-            buf.put((byte) 0x01); // number attributes
-            buf.put((byte) 0x01); // attribute id (title)
-            buf.putShort((short) open_string.getBytes().length);
-            buf.put(open_string.getBytes());
-
-            buf.put((byte) 0x04);
-            buf.put((byte) 0x02); // generic action
-            buf.put((byte) 0x01); // number attributes
-            buf.put((byte) 0x01); // attribute id (title)
-            buf.putShort((short) mute_string.getBytes().length);
-            buf.put(mute_string.getBytes());
+        if (mFwMajor >= 3) {
+            return encodeBlobdb(UUID.randomUUID(), BLOBDB_INSERT, BLOBDB_NOTIFICATION, buf.array());
+        } else {
+            return buf.array();
         }
-
-        if (cannedReplies != null && replies_length > 0) {
-            buf.put((byte) 0x05);
-            buf.put((byte) 0x03); // reply action
-            buf.put((byte) 0x02); // number attributes
-            buf.put((byte) 0x01); // title
-            buf.putShort((short) reply_string.getBytes().length);
-            buf.put(reply_string.getBytes());
-            buf.put((byte) 0x08); // canned replies
-            buf.putShort((short) replies_length);
-            for (int i = 0; i < cannedReplies.length - 1; i++) {
-                buf.put(cannedReplies[i].getBytes());
-                buf.put((byte) 0x00);
-            }
-            // last one must not be zero terminated, else we get an additional emply reply
-            buf.put(cannedReplies[cannedReplies.length - 1].getBytes());
-        }
-
-        return encodeBlobdb(UUID.randomUUID(), BLOBDB_INSERT, BLOBDB_NOTIFICATION, buf.array());
     }
 
     private byte[] encodeActionResponse2x(int id, byte actionId, int iconId, String caption) {
@@ -1104,7 +1005,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     private byte[] encodeWeatherPin(int timestamp, String title, String subtitle, String body, String location, int iconId) {
         final short NOTIFICATION_PIN_LENGTH = 46;
-        final short ACTION_LENGTH_MIN = 10;
+        final short ACTION_LENGTH_MIN = 6;
 
         String[] parts = {title, subtitle, body, location, "test", "test"};
 
@@ -1116,14 +1017,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         byte attributes_count = 3;
         short attributes_length = (short) (21 + actions_length);
-        if (parts != null) {
-            for (String s : parts) {
-                if (s == null || s.equals("")) {
-                    continue;
-                }
-                attributes_count++;
-                attributes_length += (3 + s.getBytes().length);
+        for (String s : parts) {
+            if (s == null || s.equals("")) {
+                continue;
             }
+            attributes_count++;
+            attributes_length += (short) (3 + s.getBytes().length);
         }
 
         UUID uuid = UUID.fromString("61b22bc8-1e29-460d-a236-3fe409a43901");
@@ -1150,27 +1049,25 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         byte attribute_id = 0;
         // Encode Pascal-Style Strings
-        if (parts != null) {
-            for (String s : parts) {
-                attribute_id++;
-                if (s == null || s.equals("")) {
-                    continue;
-                }
-
-                int partlength = s.getBytes().length;
-                if (partlength > 512) partlength = 512;
-                if (attribute_id == 4) {
-                    buf.put((byte) 11);
-                } else if (attribute_id == 5) {
-                    buf.put((byte) 25);
-                } else if (attribute_id == 6) {
-                    buf.put((byte) 26);
-                } else {
-                    buf.put(attribute_id);
-                }
-                buf.putShort((short) partlength);
-                buf.put(s.getBytes(), 0, partlength);
+        for (String s : parts) {
+            attribute_id++;
+            if (s == null || s.equals("")) {
+                continue;
             }
+
+            int partlength = s.getBytes().length;
+            if (partlength > 512) partlength = 512;
+            if (attribute_id == 4) {
+                buf.put((byte) 11);
+            } else if (attribute_id == 5) {
+                buf.put((byte) 25);
+            } else if (attribute_id == 6) {
+                buf.put((byte) 26);
+            } else {
+                buf.put(attribute_id);
+            }
+            buf.putShort((short) partlength);
+            buf.put(s.getBytes(), 0, partlength);
         }
 
         buf.put((byte) 4); // icon
@@ -1254,13 +1151,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         // Calculate length first
         short attributes_length = 0;
-        if (parts != null) {
-            for (String s : parts) {
-                if (s == null || s.equals("")) {
-                    continue;
-                }
-                attributes_length += (2 + s.getBytes().length);
+        for (String s : parts) {
+            if (s == null || s.equals("")) {
+                continue;
             }
+            attributes_length += (short) (2 + s.getBytes().length);
         }
 
         short pin_length = (short) (WEATHER_FORECAST_LENGTH + attributes_length);
@@ -1280,17 +1175,15 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putShort(attributes_length);
 
         // Encode Pascal-Style Strings
-        if (parts != null) {
-            for (String s : parts) {
-                if (s == null || s.equals("")) {
-                    continue;
-                }
-
-                int partlength = s.getBytes().length;
-                if (partlength > 512) partlength = 512;
-                buf.putShort((short) partlength);
-                buf.put(s.getBytes(), 0, partlength);
+        for (String s : parts) {
+            if (s == null || s.equals("")) {
+                continue;
             }
+
+            int partlength = s.getBytes().length;
+            if (partlength > 512) partlength = 512;
+            buf.putShort((short) partlength);
+            buf.put(s.getBytes(), 0, partlength);
         }
 
         return encodeBlobdb(UUID_LOCATION, BLOBDB_INSERT, BLOBDB_WEATHER, buf.array());
@@ -1434,14 +1327,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
         } else {
             // Calculate length first
             int length = LENGTH_PREFIX + 9;
-            if (parts != null) {
-                for (String s : parts) {
-                    if (s == null || s.equals("")) {
-                        length++; // encode null or empty strings as 0x00 later
-                        continue;
-                    }
-                    length += (1 + s.getBytes().length);
+            for (String s : parts) {
+                if (s == null || s.equals("")) {
+                    length++; // encode null or empty strings as 0x00 later
+                    continue;
                 }
+                length += (1 + s.getBytes().length);
             }
 
             // Encode Prefix
@@ -1583,7 +1474,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     @Override
-    public byte[] encodeReboot() {
+    public byte[] encodeReset(int flags) {
         return encodeSimpleMessage(ENDPOINT_RESET, RESET_REBOOT);
     }
 
@@ -1667,7 +1558,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         if (type == PUTBYTES_TYPE_FILE && filename != null) {
-            length += filename.getBytes().length + 1;
+            length += (short) filename.getBytes().length + 1;
         }
 
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
@@ -2114,7 +2005,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 id = buf.getInt();
             }
             byte action = buf.get();
-            if (action >= 0x00 && action <= 0x05) {
+            if (action >= 0x00 && action <= 0xf) {
                 GBDeviceEventNotificationControl devEvtNotificationControl = new GBDeviceEventNotificationControl();
                 devEvtNotificationControl.handle = id;
                 String caption = "undefined";
@@ -2143,31 +2034,37 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         caption = "Muted";
                         icon_id = PebbleIconID.RESULT_MUTE;
                         break;
-                    case 0x05:
+                        //TODO: 0x05 is not a special case anymore, and reply action might have an index that is higher. see default below
                     case 0x00:
+                    default:
                         boolean failed = true;
                         byte attribute_count = buf.get();
                         if (attribute_count > 0) {
-                            byte attribute = buf.get();
-                            if (attribute == 0x01) { // reply string is in attribute 0x01
-                                short length = buf.getShort();
-                                if (length > 64) length = 64;
-                                byte[] reply = new byte[length];
-                                buf.get(reply);
-                                devEvtNotificationControl.phoneNumber = null;
-                                if (buf.remaining() > 1 && buf.get() == 0x0c) {
-                                    short phoneNumberLength = buf.getShort();
-                                    byte[] phoneNumberBytes = new byte[phoneNumberLength];
-                                    buf.get(phoneNumberBytes);
-                                    devEvtNotificationControl.phoneNumber = new String(phoneNumberBytes);
+                                byte attribute = buf.get();
+                                if (attribute == 0x01) { // reply string is in attribute 0x01
+                                    short length = buf.getShort();
+                                    if (length > 64) length = 64;
+                                    byte[] reply = new byte[length];
+                                    buf.get(reply);
+                                    devEvtNotificationControl.phoneNumber = null;
+                                    if (buf.remaining() > 1 && buf.get() == 0x0c) {
+                                        short phoneNumberLength = buf.getShort();
+                                        byte[] phoneNumberBytes = new byte[phoneNumberLength];
+                                        buf.get(phoneNumberBytes);
+                                        devEvtNotificationControl.phoneNumber = new String(phoneNumberBytes);
+                                    }
+                                    devEvtNotificationControl.reply = new String(reply);
+                                    caption = "SENT";
+                                    icon_id = PebbleIconID.RESULT_SENT;
+                                    failed = false;
                                 }
-                                devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
-                                devEvtNotificationControl.reply = new String(reply);
-                                caption = "SENT";
-                                icon_id = PebbleIconID.RESULT_SENT;
-                                failed = false;
-                            }
+                        } else {
+                            icon_id = PebbleIconID.GENERIC_CONFIRMATION;
+                            caption = "EXECUTED";
+                            failed = false;
                         }
+                        devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
+                        devEvtNotificationControl.handle = (devEvtNotificationControl.handle << 4) + action - 0x04;
                         if (failed) {
                             caption = "FAILED";
                             icon_id = PebbleIconID.RESULT_FAILED;
@@ -2539,8 +2436,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
                             } else {
                                 appType = GBDeviceApp.Type.APP_GENERIC;
                             }
-                            Short appVersion = buf.getShort();
-                            appInfoCmd.apps[i] = new GBDeviceApp(tmpUUIDS.get(i), appName, appCreator, appVersion.toString(), appType);
+                            short appVersion = buf.getShort();
+                            appInfoCmd.apps[i] = new GBDeviceApp(tmpUUIDS.get(i), appName, appCreator, String.valueOf(appVersion), appType);
                         }
                         for (int i = 0; i < slotCount; i++) {
                             if (!slotInUse[i]) {

@@ -13,7 +13,7 @@
 
     <string-array name="pref_language_options">
         <item name="default">System Default</item>
-        <item name="cz">Čeština</item>
+        <item name="cs">Čeština</item>
         <item name="de">Deutsch</item>
         <item name="en">English</item>
         <item name="es">Español</item>
@@ -31,7 +31,7 @@
 
     <string-array name="pref_language_values">
         <item>default</item>
-        <item>cz</item>
+        <item>cs</item>
         <item>de</item>
         <item>en</item>
         <item>es</item>
@@ -170,6 +170,21 @@
         <item>@string/p_scheduled</item>
     </string-array>
 
+    <string-array name="mi3_night_mode">
+        <item>@string/off</item>
+        <!--
+        <item>@string/mi3_night_mode_sunset</item>
+        -->
+        <item>@string/mi2_dnd_scheduled</item>
+    </string-array>
+    <string-array name="mi3_night_mode_values">
+        <item>@string/p_off</item>
+        <!--
+        <item>@string/p_sunset</item>
+        -->
+        <item>@string/p_scheduled</item>
+    </string-array>
+
     <string-array name="pref_mi2_display_items">
         <item>@string/chart_steps</item>
         <item>@string/distance</item>
@@ -195,6 +210,7 @@
     <string-array name="pref_miband3_display_items">
         <item>@string/menuitem_notifications</item>
         <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_activity</item>
         <item>@string/menuitem_more</item>
         <item>@string/menuitem_status</item>
         <item>@string/heart_rate</item>
@@ -203,6 +219,7 @@
     <string-array name="pref_miband3_display_items_values">
         <item>@string/p_menuitem_notifications</item>
         <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_activity</item>
         <item>@string/p_menuitem_more</item>
         <item>@string/p_menuitem_status</item>
         <item>@string/p_heart_rate</item>
@@ -211,6 +228,7 @@
     <string-array name="pref_miband3_display_items_default">
         <item>@string/p_menuitem_notifications</item>
         <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_activity</item>
         <item>@string/p_menuitem_more</item>
         <item>@string/p_menuitem_status</item>
         <item>@string/p_heart_rate</item>
@@ -387,4 +405,39 @@
         <item>1800</item>
         <item>3600</item>
     </string-array>
+
+    <string-array name="notifications_timeout">
+        <item>@string/no_limit</item>
+        <item>@string/seconds_5</item>
+        <item>@string/seconds_10</item>
+        <item>@string/seconds_20</item>
+        <item>@string/seconds_30</item>
+        <item>@string/minutes_1</item>
+        <item>@string/minutes_5</item>
+        <item>@string/minutes_10</item>
+        <item>@string/minutes_30</item>
+    </string-array>
+    <string-array name="notifications_timeout_values">
+        <item>0</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>60</item>
+        <item>300</item>
+        <item>600</item>
+        <item>1800</item>
+    </string-array>
+
+    <string-array name="notification_filter_modes_entries">
+        <item>@string/filter_mode_none</item>
+        <item>@string/filter_mode_whitelist</item>
+        <item>@string/filter_mode_blacklist</item>
+    </string-array>
+
+    <string-array name="notification_filter_submodes_entries">
+        <item>@string/filter_submode_at_least_one</item>
+        <item>@string/filter_submode_all</item>
+    </string-array>
+
 </resources>

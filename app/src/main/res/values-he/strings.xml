@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Gadgetbridge</string>
   <string name="title_activity_controlcenter">Gadgetbridge</string>
@@ -28,7 +28,7 @@
   <string name="appmanager_hrm_activate">הפעלת מעקב דופק</string>
   <string name="appmanager_hrm_deactivate">נטרול מעקב דופק</string>
   <string name="appmanager_weather_activate">הפעלת יישומון מזג האוויר של המערכת</string>
-  <string name="appmanager_weather_deactivate">נטרול יישומון מזג האוויר של המערכת</string>
+  <string name="appmanager_weather_deactivate">השבתת יישומון מזג האוויר של המערכת</string>
   <string name="appmanager_weather_install_provider">התקנת יישומון דיווח מזג האוויר</string>
   <string name="app_configure">הגדרה</string>
   <string name="app_move_to_top">העברה למעלה</string>
@@ -41,18 +41,18 @@
   <string name="fw_multi_upgrade_notice">הקושחות המועמדות להתקנה הנן %1$s ו־%2$s במקום אלו המותקנת על ה־Mi Band שלך נכון לעכשיו.</string>
   <string name="miband_firmware_known">קושחה זו נבדקה וידוע כי היא נתמכת ב־Gadgetbridge.</string>
   <string name="miband_firmware_unknown_warning">קושחה זו לא נבדקה ויתכן כי אינה נתמכת ב־Gadgetbridge.\n\nלא מומלץ להתקין אותה על ה־Mi Band שלך!</string>
-  <string name="miband_firmware_suggest_whitelist">אם בכל זאת בחרת להמשיך והדברים ממשיכים לעבוד כרגיל, נא לספר למפתחים של Gadgetbridge להוסיף לרשימת ההיתר את גרסת הקושחה %s</string>
+  <string name="miband_firmware_suggest_whitelist">אם בכל זאת בחרת להמשיך והדברים ממשיכים לעבוד כרגיל, נא לספר למפתחים של Gadgetbridge להוסיף לרשימת ההיתר את גרסת הקושחה %s.</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">הגדרות</string>
   <string name="pref_header_general">הגדרות כלליות</string>
-  <string name="pref_title_general_autoconnectonbluetooth">התחברות להתקן כאשר ה־Bluetooth פועל</string>
+  <string name="pref_title_general_autoconnectonbluetooth">התחברות להתקן Gadgetbridge כאשר ה־Bluetooth פועל</string>
   <string name="pref_title_general_autostartonboot">התחלה אוטומטית</string>
   <string name="pref_title_general_autoreconnect">התחברות אוטומטית מחדש</string>
   <string name="pref_title_audio_player">נגן מדיה מועדף</string>
   <string name="pref_default">בררת מחדל</string>
   <string name="pref_header_datetime">שעה ותאריך</string>
   <string name="pref_title_datetime_syctimeonconnect">סנכרון השעה</string>
-  <string name="pref_summary_datetime_syctimeonconnect">סנכרון השעה בהתקן בעת ההתחברות וכאשר השעה או אזור הזמן משתנים באנדרואיד</string>
+  <string name="pref_summary_datetime_syctimeonconnect">סנכרון השעה בהתקן ה־Gadgetbridge בעת ההתחברות וכאשר השעה או אזור הזמן משתנים בהתקן ה־Android</string>
   <string name="pref_title_theme">ערכת עיצוב</string>
   <string name="pref_theme_light">בהירה</string>
   <string name="pref_theme_dark">כהה</string>
@@ -69,7 +69,7 @@
   <string name="pref_title_notifications_generic">תמיכה בדיווחים גנריים</string>
   <string name="pref_title_whenscreenon">…גם כאשר המסך פעיל</string>
   <string name="pref_title_notification_filter">לא להפריע</string>
-  <string name="pref_summary_notification_filter">חסימת שליחה של התראות בלתי רצויות בזמן שהמצב מכוון על לא להפריע</string>
+  <string name="pref_summary_notification_filter">התראות בלתי רצויות נחסמות במצב הזה</string>
   <string name="pref_title_transliteration">תעתיק</string>
   <string name="always">תמיד</string>
   <string name="when_screen_off">כאשר המסך כבוי</string>
@@ -96,7 +96,7 @@
   <string name="pref_title_enable_outgoing_call">תמיכה בשיחות יוצאות</string>
   <string name="pref_summary_enable_outgoing_call">נטרול אפשרות זו גם תנטרל את הרטט לשיחות יוצאות ב־Pebble 2/LE</string>
   <string name="pref_title_enable_pebblekit">לאפשר גישה ליישומוני צד שלישי באנדרואיד</string>
-  <string name="pref_summary_enable_pebblekit">הפעלת תמיכה ניסיונית ביישומוני אנדרואיד באמצעות PebbleKit</string>
+  <string name="pref_summary_enable_pebblekit">הפעלת תמיכה ניסיונית ביישומוני Android באמצעות PebbleKit</string>
   <string name="pref_title_sunrise_sunset">זריחה ושקיעה</string>
   <string name="pref_summary_sunrise_sunset">שליחת מועדי זריחה ושקיעה בהתבסס על המיקום לציר הזמן של Pebble</string>
   <string name="pref_title_autoremove_notifications">הסרה אוטומטית של דיווחים שהתעלמת מהם</string>
@@ -114,9 +114,9 @@
   <string name="toast_enable_networklocationprovider">נא להפעיל את החיבור לרשת</string>
   <string name="toast_aqurired_networklocation">המיקום התקבל</string>
   <string name="pref_title_pebble_forceprotocol">אילוץ פרוטוקול דיווח</string>
-  <string name="pref_summary_pebble_forceprotocol">אפשרות זו מאלצת את השימוש בפרוטוקול הדיווח העדכני ביותר בהתאם לגרסת החומרה. יש להפעיל רק אם ההשלכות ברורות לך לחלוטין!</string>
+  <string name="pref_summary_pebble_forceprotocol">אפשרות זו מאלצת את השימוש בפרוטוקול הדיווח העדכני ביותר בהתאם לגרסת החומרה. שההשלכות תהיינה ברורות לך לחלוטין!</string>
   <string name="pref_title_pebble_forceuntested">הפעלת תכונות שלא נבדקו</string>
-  <string name="pref_summary_pebble_forceuntested">הפעלת תכונות שלא נבדקו. יש להפעיל רק אם ההשלכות ברורות לך לחלוטין!!</string>
+  <string name="pref_summary_pebble_forceuntested">הפעלת תכונות שלא נבדקו. שההשלכות תהיינה ברורות לך לחלוטין!</string>
   <string name="pref_title_pebble_forcele">תמיד להעדיף BLE</string>
   <string name="pref_summary_pebble_forcele">שימוש בתמיכה ניסיונית ב־Pebble LE, עבור כל סוגי ה־Pebble במקום ה־Bluetooth הקלסי. נדרש צימוד שאינו LE תחילה ולאחר מכן צימוד מסוג „Pebble LE“</string>
   <string name="pref_title_pebble_mtu_limit">מגבלת ה־MTU של GATT ל־Pebble 2/LE</string>
@@ -213,7 +213,7 @@
   <string name="title_activity_charts">הפעילות שלך</string>
   <string name="title_activity_set_alarm">הגדרת שעון מעורר</string>
   <string name="controlcenter_start_configure_alarms">הגדרת שעון מעורר</string>
-  <string name="title_activity_alarm_details">פרטי ההתראה</string>
+  <string name="title_activity_alarm_details">פרטי השעון המעורר</string>
   <string name="alarm_sun_short">יום א׳</string>
   <string name="alarm_mon_short">יום ב׳</string>
   <string name="alarm_tue_short">יום ג׳</string>
@@ -222,8 +222,8 @@
   <string name="alarm_fri_short">יום ו׳</string>
   <string name="alarm_sat_short">שבת</string>
   <string name="alarm_smart_wakeup">השכמה חכמה</string>
-  <string name="user_feedback_miband_set_alarms_failed">אירעה שגיאה בעת הגדרת ההתראות, נא לנסות שוב!</string>
-  <string name="user_feedback_miband_set_alarms_ok">ההתראות נשלחו להתקן!</string>
+  <string name="user_feedback_miband_set_alarms_failed">אירעה שגיאה בעת הגדרת ההתראות, נא לנסות שוב.</string>
+  <string name="user_feedback_miband_set_alarms_ok">ההתראות נשלחו להתקן.</string>
   <string name="chart_no_data_synchronize">אין נתונים. לסנכרן מול ההתקן?</string>
   <string name="user_feedback_miband_activity_data_transfer">בהכנות להעברת %1$s של נתונים החל מ־%2$s</string>
   <string name="miband_prefs_fitness_goal">יעד צעדים יומי</string>
@@ -265,7 +265,7 @@
   <string name="pref_summary_dont_ack_transfers">אם נתוני הפעילות לא יקבלו אישור על ההעברה הם לא יימחקו. שימושי אם נעשה שימוש ביישומונים שונים למעט Gadgetbridge.</string>
   <string name="pref_summary_keep_data_on_device">תכונה זו תגרום לשמירת נתוני הפעילות על ה־Mi Band גם לאחר הסנכרון. שימושי אם נעשה שימוש ביישומונים שונים למעט Gadgetbridge.</string>
   <string name="pref_title_low_latency_fw_update">שימוש במצב חיבור מהיר לעדכוני קושחה</string>
-  <string name="pref_summary_low_latency_fw_update">הפעלת אפשרות זו עשויה לסייע במקרים שבהם עדכון הקושחה נכשל</string>
+  <string name="pref_summary_low_latency_fw_update">הפעלת אפשרות זו עשויה לסייע במקרים שבהם עדכון הקושחה נכשל.</string>
   <string name="live_activity_steps_history">היסטוריית הצעדים</string>
   <string name="live_activity_current_steps_per_minute">צעדים/דקה נכון לעכשיו</string>
   <string name="live_activity_total_steps">סך כל הצעדים</string>
@@ -299,7 +299,7 @@
   <string name="appwidget_text">חררר</string>
   <string name="add_widget">הוספת וידג׳ט</string>
   <string name="activity_prefs_sleep_duration">משך השינה המועדף בשעות</string>
-  <string name="appwidget_alarms_set">הוגדרה התראה לשעה %1$02d:%2$02d</string>
+  <string name="appwidget_setting_alarm">הוגדר שעון מעורר לשעה %1$02d:%2$02d</string>
   <string name="device_hw">מהדורת חומרה: %1$s</string>
   <string name="device_fw">מהדורת קושחה: %1$s</string>
   <string name="error_creating_directory_for_logfiles">אירעה שגיאה ביצירת תיקייה לקובצי הרישום: %1$s</string>
@@ -309,10 +309,12 @@
   <string name="charts_legend_heartrate">דופק</string>
   <string name="live_activity_heart_rate">דופק</string>
   <string name="pref_title_pebble_health_store_raw">אחסון נתונים גולמיים במסד הנתונים</string>
-  <string name="pref_summary_pebble_health_store_raw">אם אפשרות זו מסומנת הנתונים מאוחסנים כמו שהם ויהיו זמינים לפרשנות עתידית. לתשומת לבך: מסד הנתונים יהיה גדול יותר במצב כזה!</string>
+  <string name="pref_summary_pebble_health_store_raw">הנתונים מאוחסנים כמו שהם, מה שיגרום להגדלת נפח מסד הנתונים לצד אפשרות לפענוח בעתיד.</string>
   <string name="action_db_management">ניהול מסד נתונים</string>
   <string name="title_activity_db_management">ניהול מסד נתונים</string>
-  <string name="activity_db_management_import_export_explanation">פעולות מסד הנתונים משתמשות בנתיב הבא בהתקן שלך. \nנתיב זה נגיש ליישומונים אחרים של אנדרואיד ולמחשב שלך. \nאת הנתונים שייצאת ממסד הנתונים (ואת מסדי הנתונים שמיועדים לייבוא) ניתן למצוא שם:</string>
+  <string name="activity_db_management_import_export_explanation">פעולות מסד הנתונים משתמשות בנתיב הבא בהתקן שלך. 
+\nנתיב זה נגיש ליישומונים אחרים של Android ולמחשב שלך. 
+\nאת הנתונים שייצאת ממסד הנתונים (ואת מסדי הנתונים שמיועדים לייבוא) ניתן למצוא שם:</string>
   <string name="activity_db_management_merge_old_title">מחיקת מסד נתונים מיושן</string>
   <string name="dbmanagementactivvity_cannot_access_export_path">לא ניתן לגשת לנתיב הייצוא. נא ליצור קשר עם המפתחים.</string>
   <string name="dbmanagementactivity_exported_to">ייוצא אל: %1$s</string>
@@ -333,10 +335,10 @@
   <string name="Cancel">ביטול</string>
   <string name="Delete">מחיקה</string>
   <!--Strings related to Vibration Activity-->
-  <string name="title_activity_vibration">רטטרטט</string>
+  <string name="title_activity_vibration">רטט</string>
   <!--Strings related to Pebble Pairing Activity-->
   <string name="title_activity_pebble_pairing">צימוד Pebble</string>
-  <string name="pebble_pairing_hint">במסך של התקן האנדרואיד שלך אמורה לקפוץ חלונית צימוד. אם החלונית לא מופיעה, יש לחפש במגירת הדיווחים ולאשר את בקשת הצימוד. לאחר מכן יש לאשר את בקשת הצימוד ב־Pebble שלך</string>
+  <string name="pebble_pairing_hint">במסך של התקן האנדרואיד שלך אמורה לקפוץ חלונית צימוד. אם החלונית לא מופיעה, יש לחפש במגירת הדיווחים ולאשר את בקשת הצימוד. לאחר מכן יש לאשר את בקשת הצימוד ב־Pebble שלך.</string>
   <string name="weather_notification_label">נא לוודא שערכת עיצוב זו מופעלת ביישומון דיווח מזג האוויר כדי לקבל נתוני מזג אוויר ל־Pebble שלך.\n\nלא נדרשות כאן הגדרות.\n\nניתן להפעיל את יישומון מזג האוויר המערכתי של ה־Pebble שלך ממנהל היישומונים.\n\nמסיכות השעון התומכות יציגו את מזג האוויר אוטומטית.</string>
   <string name="pref_title_setup_bt_pairing">הפעלת צימוד Bluetooth</string>
   <string name="pref_summary_setup_bt_pairing">יש לנטרל זאת אם עולות תקלות בחיבור</string>
@@ -385,7 +387,7 @@
     <string name="mi2_prefs_inactivity_warnings">אזהרות חוסר פעילות</string>
     <string name="mi2_prefs_inactivity_warnings_summary">הצמיד ירטוט כשלא ביצעת פעילות במשך זמן מה</string>
     <string name="mi2_prefs_inactivity_warnings_threshold">סף חוסר פעילות (בדקות)</string>
-    <string name="mi2_prefs_inactivity_warnings_dnd_summary">השבתת אזהרות חוסר הפעילות לפרק זמן מסוים</string>
+    <string name="mi2_prefs_inactivity_warnings_dnd_summary">השבתת אזהרות חוסר פעילות לפרק זמן מסוים</string>
     <string name="mi2_prefs_do_not_disturb_start">מועד ההתחלה</string>
     <string name="mi2_prefs_do_not_disturb_end">מועד הסיום</string>
     <string name="fw_upgrade_notice_amazfitbip">פעולה זו תתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Amazfit Bip שלך. 
@@ -429,7 +431,7 @@
     <string name="mi2_prefs_button_press_count_max_delay">הפרש מרבי בין לחיצות</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">הפרש מרבי בין לחיצות על הכפתור במילישניות</string>
     <string name="mi2_prefs_button_press_count_match_delay">הפרש לאחר לחיצת כפתור</string>
-    <string name="_pebble_watch_open_on_phone">פתיחה בטלפון</string>
+    <string name="_pebble_watch_open_on_phone">פתיחה בהתקן Android</string>
     <string name="_pebble_watch_mute">השתקה</string>
     <string name="_pebble_watch_reply">תגובה</string>
 <string name="pref_title_pebble_enable_bgjs">הפעלת JS ברקע</string>
@@ -584,4 +586,83 @@
     <string name="title_activity_watch9_calibration">כיול Watch 9</string>
 <string name="mi3_prefs_band_screen_unlock">שחרור נעילת מסך הצמיד</string>
     <string name="mi3_prefs_band_screen_unlock_summary">יש לגרור כלפי מעלה כדי לשחרר את נעילת המסך של הצמיד</string>
-    </resources>
+    <string name="german">גרמנית</string>
+    <string name="italian">איטלקית</string>
+    <string name="french">צרפתית</string>
+    <string name="polish">פולנית</string>
+    <string name="korean">קוריאנית</string>
+    <string name="japanese">יפנית</string>
+
+    <string name="you_slept">שנתך החלה ב־%1$s ונמשכה עד %2$s</string>
+    <string name="you_did_not_sleep">לא ישנת</string>
+    <string name="norwegian_bokmal">נורווגית ספרותית</string>
+    <string name="pref_title_notifications_timeout">זמן מזערי בין התראות</string>
+    <string name="no_limit">ללא הגבלה</string>
+    <string name="seconds_5">5 שניות</string>
+    <string name="seconds_10">10 שניות</string>
+    <string name="seconds_20">20 שניות</string>
+    <string name="seconds_30">30 שניות</string>
+    <string name="minutes_1">דקה</string>
+    <string name="minutes_5">5 דקות</string>
+    <string name="minutes_10">10 דקות</string>
+    <string name="minutes_30">30 דקות</string>
+
+    <string name="mi3_prefs_night_mode">מצב לילה</string>
+    <string name="mi3_prefs_night_mode_summary">הנמכת בהירות המסך אוטומטית בלילה</string>
+
+    <string name="mi3_night_mode_sunset">בשקיעה</string>
+    <string name="ok">אישור</string>
+
+    <string name="share_log">שיתוף יומן</string>
+    <string name="share_log_warning">נא לשים לב שקובצי היומן של Gadgetbridge עשויים להכיל פרטים אישיים רבים, לרבות אך לא רק נתונים רפואיים, מזהים ייחודיים (כגון כתובת החומרה של המכשיר), העדפות מוזיקליות וכו׳. מוטב לערוך את הקובץ ולהסיר את המידע הזה בטרם הגשתו באופן ציבורי כדי לדווח על תקלה.</string>
+    <string name="warning">אזהרה!</string>
+<string name="controlcenter_change_led_color">החלפת צבע נורית</string>
+    <string name="controlcenter_change_fm_frequency">החלפת תדירות FM</string>
+    <string name="devicetype_roidmi">Roidmi</string>
+    <string name="devicetype_roidmi3">Roidmi 3</string>
+
+    <string name="preferences_led_color">צבע נורית</string>
+
+    <string name="preferences_fm_frequency">תדר FM</string>
+    <string name="pref_invalid_frequency_title">תדר שגוי</string>
+    <string name="pref_invalid_frequency_message">נא לבחור בתדר בין 87.5 לבין 108.0</string>
+<string name="notif_battery_low">הסוללה של %1$s חלשה</string>
+    <string name="notif_battery_low_extended">הסוללה של %1$s חלשה: %2$s</string>
+    <string name="activity_prefs_charts">הגדרות תרשימים</string>
+    <string name="activity_prefs_chart_max_heart_rate">דופק מרבי</string>
+    <string name="activity_prefs_chart_min_heart_rate">דופק מזערי</string>
+
+    <string name="pref_title_rtl">מימין לשמאל</string>
+    <string name="pref_summary_rtl">יש להפעיל אפשרות זו אם ההתקן לא יכול להציג שפות מימין לשמאל</string>
+    <string name="pref_rtl_max_line_length">גודל שורה מרבי מימין לשמאל</string>
+    <string name="pref_rtl_max_line_length_summary">קיצור או הארכת השורות שאליהן מופרד טקסט מימין לשמאל</string>
+
+    <string name="pref_title_contextual_arabic">ערבית מחוברת</string>
+    <string name="pref_summary_contextual_arabic">יש להפעיל אפשרות זו כדי לתמוך בערבית מחוברת</string>
+    <string name="preferences_rtl_settings">תמיכה בטקסט מימין לשמאל</string>
+    <string name="language_and_region_prefs">הגדרות שפה ואיזור</string>
+<string name="lack_of_sleep">מחסור בשינה: %1$s</string>
+    <string name="overslept">עודף שינה: %1$s</string>
+    <string name="lack_of_step">מחסור בצעדים: %1$d</string>
+    <string name="overstep">עודף צעדים: %1$d</string>
+    <string name="no_data">אין נתונים</string>
+
+    <string name="live_activity_max_heart_rate">דופק נוכחי / מרבי: %1$d ‏/ %2$d</string>
+    <string name="debugactivity_really_factoryreset_title">לאפס להגדרות יצרן\?</string>
+    <string name="debugactivity_really_factoryreset">איפוס להגדרות יצרן ימחק את כל הנתונים מההתקן המקושר (אם יש תמיכה בזה). מכשירים מבית Xiaomi/Huami גם משנים את כתובת החומרה (MAC), כך שבעיני Gadgetbridge הם נחשבים למכשירים חדשים.</string>
+    <string name="devicetype_casiogb6900">Casio GB-6900</string>
+    <string name="title_activity_notification_filter">מסנן התראות</string>
+    <string name="toast_app_must_not_be_blacklisted">יש להוציא את היישומון מהרשימה השחורה כדי להגדיר אותו</string>
+    <string name="edittext_notification_filter_words_hint">נא להקליד את המילים המבוקשות, אחת בכל שורה</string>
+    <string name="toast_notification_filter_saved_successfully">מסנן ההתראות נשמר</string>
+    <string name="filter_mode_none">לא לסנן</string>
+    <string name="filter_mode_whitelist">להציג כאשר המילים מופיעות</string>
+    <string name="filter_mode_blacklist">לחסום כאשר המילים מופיעות</string>
+    <string name="filter_submode_at_least_one">לפחות אחת מהמילים</string>
+    <string name="filter_submode_all">כל המילים</string>
+    <string name="toast_notification_filter_words_empty_hint">נא להקליד לפחות מילה אחת</string>
+    <string name="filter_mode">מצב מסנן</string>
+    <string name="mode_configuration">תצורת מצב</string>
+    <string name="save_configuration">שמירת תצורה</string>
+    <string name="appwidget_not_connected">לא מחובר, לא הוגדר שעון מעורר.</string>
+</resources>

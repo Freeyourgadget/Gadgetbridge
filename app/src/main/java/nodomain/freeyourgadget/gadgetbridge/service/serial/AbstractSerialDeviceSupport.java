@@ -186,8 +186,8 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     }
 
     @Override
-    public void onReboot() {
-        byte[] bytes = gbDeviceProtocol.encodeReboot();
+    public void onReset(int flags) {
+        byte[] bytes = gbDeviceProtocol.encodeReset(flags);
         sendToDevice(bytes);
     }
 
@@ -248,6 +248,18 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
         byte[] bytes = gbDeviceProtocol.encodeSendWeather(weatherSpec);
+        sendToDevice(bytes);
+    }
+
+    @Override
+    public void onSetFmFrequency(float frequency) {
+        byte[] bytes = gbDeviceProtocol.encodeFmFrequency(frequency);
+        sendToDevice(bytes);
+    }
+
+    @Override
+    public void onSetLedColor(int color) {
+        byte[] bytes = gbDeviceProtocol.encodeLedColor(color);
         sendToDevice(bytes);
     }
 }

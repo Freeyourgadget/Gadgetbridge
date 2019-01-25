@@ -197,7 +197,7 @@ public class VibratissimoSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
 
     }
 

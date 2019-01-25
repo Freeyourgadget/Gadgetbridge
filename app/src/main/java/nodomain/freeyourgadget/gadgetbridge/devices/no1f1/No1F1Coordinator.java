@@ -1,5 +1,5 @@
 /*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, protomors
+    Gobbetti, José Rebelo, protomors
 
     This file is part of Gadgetbridge.
 
@@ -32,7 +32,6 @@ import java.util.Collections;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
-import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -59,7 +58,7 @@ public class No1F1Coordinator extends AbstractDeviceCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
-        if (name != null && name.startsWith("X-RUN")) {
+        if (name != null && (name.startsWith("X-RUN") || name.startsWith("MH30"))) {
             return DeviceType.NO1F1;
         }
 
@@ -108,8 +107,8 @@ public class No1F1Coordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAlarmConfiguration() {
-        return true;
+    public int getAlarmSlotCount() {
+        return 3;
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Christian
-    Fischer, Daniele Gobbetti, Szymon Tomasz Stefanek
+    Fischer, Daniele Gobbetti, José Rebelo, Szymon Tomasz Stefanek
 
     This file is part of Gadgetbridge.
 
@@ -36,8 +36,6 @@ import java.util.Collections;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
-import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -132,8 +130,8 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAlarmConfiguration() {
-        return true;
+    public int getAlarmSlotCount() {
+        return 3;
     }
 
     @Override

@@ -17,14 +17,14 @@ import static org.junit.Assert.assertTrue;
 public class LanguageUtilsTest extends TestBase {
     @Test
     public void testStringTransliterateCyrillic() throws Exception {
-        //input with cyrillic and diacritic letters
+        // input with cyrillic and diacritic letters
         String input = "Прõсто текčт";
         String output = LanguageUtils.transliterate(input);
         String result = "Prosto tekct";
 
         assertEquals("Transliteration failed", result, output);
     }
-    
+
     @Test
     public void testStringTransliterateHebrew() throws Exception {
         String input = "בדיקה עברית";
@@ -51,19 +51,27 @@ public class LanguageUtilsTest extends TestBase {
         String hamzaActual = LanguageUtils.transliterate(hamza);
         assertEquals("hamza transliteration failed", hamzaExpected, hamzaActual);
 
-        String farsi = "پچڜڤڥڨگݣ";
-        String farsiExpected = "pchchvvggg";
+        String farsi = "گچپژ";
+        String farsiExpected = "gchpzh";
         String farsiActual = LanguageUtils.transliterate(farsi);
         assertEquals("Farsi transiteration failed", farsiExpected, farsiActual);
     }
 
+    @Test
     public void testStringTransliterateBengali() throws Exception {
-        //input with cyrillic and diacritic letters
-        String input = "অনিরুদ্ধ";
-        String output = LanguageUtils.transliterate(input);
-        String result = "oniruddho";
+        // input with cyrillic and diacritic letters
+        String[] inputs = { "অনিরুদ্ধ", "বিজ্ঞানযাত্রা চলছে চলবে।", "আমি সব দেখেশুনে ক্ষেপে গিয়ে করি বাঙলায় চিৎকার!",
+                "আমার জাভা কোড is so bad! কী আর বলবো!" };
+        String[] outputs = { "oniruddho", "biggaanJaatraa cholchhe cholbe.",
+                "aami sob dekheshune kkhepe giye kori baanglaay chitkaar!",
+                "aamaar jaabhaa koD is so bad! kii aar bolbo!"};
 
-        assertEquals("Transliteration failed", result, output);
+        String result;
+
+        for (int i = 0; i < inputs.length; i++) {
+            result = LanguageUtils.transliterate(inputs[i]);
+            assertEquals("Transliteration failed", outputs[i], result);
+        }
     }
 
     @Test
@@ -82,7 +90,8 @@ public class LanguageUtilsTest extends TestBase {
     @Test
     public void testTransliterateOption() throws Exception {
         setDefaultTransliteration();
-        assertFalse("Transliteration option fail! Expected 'Off' by default, but result is 'On'", LanguageUtils.transliterate());
+        assertFalse("Transliteration option fail! Expected 'Off' by default, but result is 'On'",
+                LanguageUtils.transliterate());
 
         enableTransliteration(true);
         assertTrue("Transliteration option fail! Expected 'On', but result is 'Off'", LanguageUtils.transliterate());

@@ -91,7 +91,7 @@ public class GB {
             text += ": " + context.getString(R.string.battery) + " " + device.getBatteryLevel() + "%";
         }
 
-        Boolean connected = device.isInitialized();
+        boolean connected = device.isInitialized();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
         builder.setContentTitle(deviceName)
                 .setTicker(deviceName + " - " + text)

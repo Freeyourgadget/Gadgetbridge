@@ -120,7 +120,7 @@ class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
 
     }
 
@@ -186,6 +186,16 @@ class TestDeviceSupport extends AbstractDeviceSupport {
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
+
+    }
+
+    @Override
+    public void onSetFmFrequency(float frequency) {
+
+    }
+
+    @Override
+    public void onSetLedColor(int color) {
 
     }
 }

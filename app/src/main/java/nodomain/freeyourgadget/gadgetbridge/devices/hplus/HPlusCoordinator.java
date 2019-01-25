@@ -1,5 +1,5 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, João
-    Paulo Barraca
+/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, João Paulo Barraca, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -36,7 +36,6 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -144,8 +143,8 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAlarmConfiguration() {
-        return true;
+    public int getAlarmSlotCount() {
+        return 3; // FIXME - check the real value
     }
 
     @Override
@@ -255,7 +254,7 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static byte getAllDayHR(String address) {
-        Boolean value = (prefs.getBoolean(HPlusConstants.PREF_HPLUS_ALLDAYHR, true));
+        boolean value = (prefs.getBoolean(HPlusConstants.PREF_HPLUS_ALLDAYHR, true));
 
         if(value){
             return HPlusConstants.ARG_HEARTRATE_ALLDAY_ON;

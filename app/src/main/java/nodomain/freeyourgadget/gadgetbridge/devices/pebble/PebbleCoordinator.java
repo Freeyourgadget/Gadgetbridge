@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+    Gobbetti, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -117,8 +117,8 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAlarmConfiguration() {
-        return false;
+    public int getAlarmSlotCount() {
+        return 0;
     }
 
     @Override
@@ -170,4 +170,7 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     public boolean supportsMusicInfo() {
         return true;
     }
+
+    @Override
+    public boolean supportsUnicodeEmojis() { return true; }
 }

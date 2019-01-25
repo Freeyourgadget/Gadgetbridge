@@ -60,8 +60,8 @@ public class GPXExporter implements ActivityTrackExporter {
     public void performExport(ActivityTrack track, File targetFile) throws IOException, GPXTrackEmptyException {
         String encoding = StandardCharsets.UTF_8.name();
         XmlSerializer ser = Xml.newSerializer();
-        try {
-            ser.setOutput(new FileOutputStream(targetFile), encoding);
+        try (FileOutputStream outputStream = new FileOutputStream(targetFile)) {
+            ser.setOutput(outputStream, encoding);
             ser.startDocument(encoding, Boolean.TRUE);
             ser.setPrefix("xsi", NS_XSI_URI);
             ser.setPrefix(NS_TRACKPOINT_EXTENSION, NS_TRACKPOINT_EXTENSION_URI);
@@ -77,7 +77,6 @@ public class GPXExporter implements ActivityTrackExporter {
 
             ser.endTag(NS_DEFAULT, "gpx");
             ser.endDocument();
-        } finally {
             ser.flush();
         }
     }
@@ -151,7 +150,7 @@ public class GPXExporter implements ActivityTrackExporter {
         }
 
         int hr = point.getHeartRate();
-        if (!HeartRateUtils.isValidHeartRateValue(hr)) {
+        if (!HeartRateUtils.getInstance().isValidHeartRateValue(hr)) {
             if (!includeHeartRateOfNearestSample) {
                 return;
             }
@@ -162,7 +161,7 @@ public class GPXExporter implements ActivityTrackExporter {
             }
 
             hr = closestPointItem.getHeartRate();
-            if (!HeartRateUtils.isValidHeartRateValue(hr)) {
+            if (!HeartRateUtils.getInstance().isValidHeartRateValue(hr)) {
                 return;
             }
         }
@@ -177,11 +176,12 @@ public class GPXExporter implements ActivityTrackExporter {
 
     private @Nullable ActivityPoint findClosestSensibleActivityPoint(Date time, List<ActivityPoint> trackPoints) {
         ActivityPoint closestPointItem = null;
+        HeartRateUtils heartRateUtilsInstance = HeartRateUtils.getInstance();
 
         long lowestDifference = 60 * 2 * 1000; // minimum distance is 2min
         for (ActivityPoint pointItem : trackPoints) {
             int hrItem = pointItem.getHeartRate();
-            if (HeartRateUtils.isValidHeartRateValue(hrItem)) {
+            if (heartRateUtilsInstance.isValidHeartRateValue(hrItem)) {
                 Date timeItem = pointItem.getTime();
                 if (timeItem.after(time) || timeItem.equals(time)) {
                     break; // we assume that the given trackPoints are sorted in time ascending order (oldest first)

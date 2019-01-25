@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer, Pavel Elagin
 
     This file is part of Gadgetbridge.
 
@@ -58,6 +58,31 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         return -12;
     }
 
+
+    @Override
+    protected long calculateBalance(ActivityAmounts activityAmounts) {
+        long balance = 0;
+
+        for (ActivityAmount amount : activityAmounts.getAmounts()) {
+            if (amount.getActivityKind() == ActivityKind.TYPE_DEEP_SLEEP || amount.getActivityKind() == ActivityKind.TYPE_LIGHT_SLEEP) {
+                balance += amount.getTotalSeconds();
+            }
+        }
+        return (int) (balance / 60);
+    }
+
+    @Override
+    protected String getBalanceMessage(long balance, int targetValue) {
+        if (balance > 0) {
+            final long totalBalance = balance - ((long)targetValue * TOTAL_DAYS);
+            if (totalBalance > 0)
+                return getString(R.string.overslept, getHM(totalBalance));
+            else
+                return getString(R.string.lack_of_sleep, getHM(Math.abs(totalBalance)));
+        } else
+            return getString(R.string.no_data);
+    }
+
     @Override
     float[] getTotalsForActivityAmounts(ActivityAmounts activityAmounts) {
         long totalSecondsDeepSleep = 0;
@@ -69,12 +94,14 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
                 totalSecondsLightSleep += amount.getTotalSeconds();
             }
         }
-        return new float[]{(int) (totalSecondsDeepSleep / 60), (int) (totalSecondsLightSleep / 60)};
+        int totalMinutesDeepSleep = (int) (totalSecondsDeepSleep / 60);
+        int totalMinutesLightSleep = (int) (totalSecondsLightSleep / 60);
+        return new float[]{totalMinutesDeepSleep, totalMinutesLightSleep};
     }
 
     @Override
-    protected String formatPieValue(int value) {
-        return DateTimeUtils.formatDurationHoursMinutes((long) value, TimeUnit.MINUTES);
+    protected String formatPieValue(long value) {
+        return DateTimeUtils.formatDurationHoursMinutes(value, TimeUnit.MINUTES);
     }
 
     @Override
@@ -87,7 +114,7 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         return new IValueFormatter() {
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                return formatPieValue((int) value);
+                return formatPieValue((long) value);
             }
         };
     }
@@ -135,5 +162,9 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
         chart.getLegend().setWordWrapEnabled(true);
         chart.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+    }
+
+    private String getHM(long value) {
+        return DateTimeUtils.formatDurationHoursMinutes(value, TimeUnit.MINUTES);
     }
 }

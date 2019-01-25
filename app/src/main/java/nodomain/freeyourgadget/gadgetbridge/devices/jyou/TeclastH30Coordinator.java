@@ -1,5 +1,5 @@
 /*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, protomors, Sami Alaoui
+    Gobbetti, Dougal19, José Rebelo, protomors, Sami Alaoui
 
     This file is part of Gadgetbridge.
 
@@ -26,9 +26,7 @@ import android.os.Build;
 import android.os.ParcelUuid;
 import android.support.annotation.NonNull;
 
-import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
-import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -37,7 +35,6 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 
 import org.slf4j.Logger;
@@ -145,8 +142,8 @@ public class TeclastH30Coordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAlarmConfiguration() {
-        return true;
+    public int getAlarmSlotCount() {
+        return 3;
     }
 
     @Override

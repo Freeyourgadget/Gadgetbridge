@@ -10,16 +10,16 @@
   <string name="controlcenter_start_sleepmonitor">Suivi du sommeil (ALPHA)</string>
   <string name="controlcenter_find_device">Retrouver votre appareil perdu</string>
   <string name="controlcenter_take_screenshot">Prendre une capture d\'écran</string>
-  <string name="controlcenter_disconnect">Déconnexion</string>
+  <string name="controlcenter_disconnect">Déconnecter</string>
   <string name="controlcenter_delete_device">Supprimer l’appareil</string>
   <string name="controlcenter_delete_device_name">Supprimer %1$s</string>
-  <string name="controlcenter_delete_device_dialogmessage">Ceci va supprimer l’appareil et toutes les données associées !</string>
+  <string name="controlcenter_delete_device_dialogmessage">Ceci va supprimer l’appareil et toutes les données associées !</string>
   <string name="controlcenter_navigation_drawer_open">Ouvrir le tiroir de navigation</string>
   <string name="controlcenter_navigation_drawer_close">Fermer le tiroir de navigation</string>
   <string name="controlcenter_snackbar_need_longpress">Presser longuement l\'icône pour déconnecter</string>
   <string name="controlcenter_snackbar_disconnecting">Déconnexion</string>
   <string name="controlcenter_snackbar_connecting">Connexion</string>
-  <string name="controlcenter_snackbar_requested_screenshot">Capture d\'écran de l\'appareil</string>
+  <string name="controlcenter_snackbar_requested_screenshot">Capturer l\'écran de l\'appareil</string>
   <string name="title_activity_debug">Déboguer</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">Gestionnaire d\'application</string>
@@ -34,8 +34,8 @@
   <string name="appmanager_health_deactivate">Désactiver</string>
   <string name="appmanager_hrm_activate">Activer la mesure du rythme cardiaque</string>
   <string name="appmanager_hrm_deactivate">Désactiver la mesure du rythme cardiaque</string>
-  <string name="appmanager_weather_activate">Activer l\'application météo du système</string>
-  <string name="appmanager_weather_deactivate">Désactiver l\'application météo du système</string>
+  <string name="appmanager_weather_activate">Activer l\'application météo</string>
+  <string name="appmanager_weather_deactivate">Désactiver l\'application météo</string>
   <string name="appmanager_weather_install_provider">Installer l\'application de notification de la météo</string>
   <string name="app_configure">Configurer</string>
   <string name="app_move_to_top">Haut de page </string>
@@ -44,25 +44,25 @@
   <!--Strings related to CalBlacklist-->
   <string name="title_activity_calblacklist">Calendriers sur liste noire</string>
   <!--Strings related to FwAppInstaller-->
-  <string name="title_activity_fw_app_insaller">Installateur d\'applications/micrologiciel</string>
+  <string name="title_activity_fw_app_insaller">Installateur d\'applications/firmware</string>
   <string name="fw_upgrade_notice">Vous êtes sur le point d\'installer le micrologiciel %s à la place de celui qui est actuellement sur votre Mi Band.</string>
   <string name="fw_multi_upgrade_notice">Vous êtes sur le point d\'installer les micrologiciels %1$s et %2$s à la place de ceux qui sont actuellement sur votre Mi Band.</string>
   <string name="miband_firmware_known">Ce micrologiciel a été testé et est connu pour être compatible avec Gadgetbridge.</string>
   <string name="miband_firmware_unknown_warning">Ce micrologiciel n\'a pas été testé et peut ne pas être compatible avec Gadgetbridge. 
 \n 
 \nIl n\'est PAS conseillé de le flasher sur votre Mi Band !</string>
-  <string name="miband_firmware_suggest_whitelist">Si vous désirez continuer et que tout fonctionne correctement par la suite, veuillez en informer les développeurs de Gadgetbridge pour demander l\'ajout du micrologiciel %s à leur liste</string>
+  <string name="miband_firmware_suggest_whitelist">Si vous désirez continuer et que tout fonctionne correctement par la suite, veuillez en informer les développeurs de Gadgetbridge pour demander l\'ajout du micrologiciel %s à leur liste.</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Paramètres</string>
   <string name="pref_header_general">Paramètres généraux</string>
-  <string name="pref_title_general_autoconnectonbluetooth">Connecter votre appareil quand le Bluetooth est mis en marche</string>
+  <string name="pref_title_general_autoconnectonbluetooth">Connecter votre appareil quand le Bluetooth est activé</string>
   <string name="pref_title_general_autostartonboot">Démarrer automatiquement</string>
   <string name="pref_title_general_autoreconnect">Reconnexion automatique </string>
   <string name="pref_title_audio_player">Lecteur audio préféré</string>
   <string name="pref_default">Par défaut</string>
   <string name="pref_header_datetime">Date et heure</string>
   <string name="pref_title_datetime_syctimeonconnect">Synchroniser l\'heure</string>
-  <string name="pref_summary_datetime_syctimeonconnect">Synchroniser l\'heure à l\'appareil lors de la connexion et lorsque l\'heure ou le fuseau horaire changent sur Android</string>
+  <string name="pref_summary_datetime_syctimeonconnect">Synchroniser l\'heure sur l\'appareil lors de la connexion, et lorsque l\'heure ou le fuseau horaire changent sur Android</string>
   <string name="pref_title_theme">Thème</string>
   <string name="pref_theme_light">Clair</string>
   <string name="pref_theme_dark">Sombre</string>
@@ -79,7 +79,7 @@
   <string name="pref_title_notifications_generic">Support des notifications génériques</string>
   <string name="pref_title_whenscreenon">...y compris quand l\'écran est allumé</string>
   <string name="pref_title_notification_filter">Ne Pas Déranger</string>
-  <string name="pref_summary_notification_filter">Arrêter l’envoi des notifications non désirées en mode Ne Pas Déranger</string>
+  <string name="pref_summary_notification_filter">Les notifications non-sollicitées sont suspendues dans ce mode</string>
   <string name="pref_title_transliteration">Transcription</string>
   <string name="pref_summary_transliteration">Activez ceci si votre appareil ne supporte pas la police de caractères</string>
   <string name="always">Toujours</string>
@@ -130,9 +130,9 @@
   <string name="toast_enable_networklocationprovider">Veuillez activer la localisation réseau</string>
   <string name="toast_aqurired_networklocation">Emplacement obtenu</string>
   <string name="pref_title_pebble_forceprotocol">Forcer le protocole de notification</string>
-  <string name="pref_summary_pebble_forceprotocol">Cette option force l\'utilisation du plus récent protocole de notification qui dépend de la version du micrologiciel. ACTIVEZ-LA UNIQUEMENT SI VOUS SAVEZ CE QUE VOUS FAITES !</string>
+  <string name="pref_summary_pebble_forceprotocol">Cette option force l\'utilisation du protocole de notification le plus récent selon votre version du micrologiciel. A VOS PROPRES RISQUES!</string>
   <string name="pref_title_pebble_forceuntested">Activer les fonctionnalités non-testées</string>
-  <string name="pref_summary_pebble_forceuntested">Activer les fonctionnalités non-testées. ACTIVEZ UNIQUEMENT SI VOUS SAVEZ CE QUE VOUS FAITES !</string>
+  <string name="pref_summary_pebble_forceuntested">Activer les fonctionnalités non-testées. A VOS PROPRES RISQUES !</string>
   <string name="pref_title_pebble_forcele">Toujours préférer le BLE</string>
   <string name="pref_summary_pebble_forcele">Utiliser le support expérimental du LE pour toutes les Pebble au lieu du Bluetooth classique. Cela requiert le jumelage d\'une Pebble non LE, puis d\'une Pebble LE</string>
   <string name="pref_title_pebble_mtu_limit">Limite du GATT MTU de Pebble 2/LE</string>
@@ -241,8 +241,8 @@
   <string name="alarm_fri_short">Ven</string>
   <string name="alarm_sat_short">Sam</string>
   <string name="alarm_smart_wakeup">Réveil intelligent</string>
-  <string name="user_feedback_miband_set_alarms_failed">Une erreur s\'est produite lors du paramétrage des alarmes, veuillez réessayer !</string>
-  <string name="user_feedback_miband_set_alarms_ok">Alarmes envoyées à l\'appareil !</string>
+  <string name="user_feedback_miband_set_alarms_failed">Une erreur s\'est produite lors du paramétrage des alarmes, veuillez réessayer.</string>
+  <string name="user_feedback_miband_set_alarms_ok">Alarmes envoyées à l\'appareil.</string>
   <string name="chart_no_data_synchronize">Aucune donnée. Synchroniser l\'appareil ?</string>
   <string name="user_feedback_miband_activity_data_transfer">Sur le point de transférer %1$s de données à partir de %2$s</string>
   <string name="miband_prefs_fitness_goal">Objectif de pas par jour</string>
@@ -289,7 +289,7 @@
   <string name="pref_summary_dont_ack_transfers">Les données d\'activités ne seront pas effacées du bracelet si elles ne sont pas confirmées. Utile si GB est utilisé avec d\'autres applications.</string>
   <string name="pref_summary_keep_data_on_device">Les données d\'activités seront conservées sur le Mi Band après la synchronisation. Utile si GB est utilisé avec d\'autres applications.</string>
   <string name="pref_title_low_latency_fw_update">Utilisez le mode basse latence pour installer un micrologiciel</string>
-  <string name="pref_summary_low_latency_fw_update">Cela peut aider sur les appareils où les installation de micrologiciel échouent</string>
+  <string name="pref_summary_low_latency_fw_update">Cela peut aider sur les appareils où les installations de micrologiciel échouent.</string>
   <string name="live_activity_steps_history">Historique de pas</string>
   <string name="live_activity_current_steps_per_minute">Pas/minute actuel</string>
   <string name="live_activity_total_steps">Nombre total de pas</string>
@@ -337,7 +337,7 @@
   <string name="add_widget">Ajouter un widget</string>
   <string name="activity_prefs_sleep_duration">
 Temps de sommeil préféré en heures</string>
-  <string name="appwidget_alarms_set">Une alarme a été enregistré pour %1$02d:%2$02d</string>
+  <string name="appwidget_setting_alarm">Une alarme a été enregistré pour %1$02d:%2$02d</string>
   <string name="device_hw">Révision matérielle : %1$s</string>
   <string name="device_fw">Version du micrologiciel : %1$s</string>
   <string name="error_creating_directory_for_logfiles">Erreur à la création de votre fichier log : %1$s</string>
@@ -347,13 +347,12 @@ Temps de sommeil préféré en heures</string>
   <string name="charts_legend_heartrate">Fréquence cardiaque</string>
   <string name="live_activity_heart_rate">Fréquence cardiaque</string>
   <string name="pref_title_pebble_health_store_raw">Stockez les enregistrements brut dans la base de données</string>
-  <string name="pref_summary_pebble_health_store_raw">Si coché, les données sont stockées \"telles quelles\" et seront disponibles pour une interprétation ultérieure. 
-NOTE : la base de données sera bien évidement plus grande !</string>
+  <string name="pref_summary_pebble_health_store_raw">Si coché, les données \"brutes\" sont stockées pour une interprétation ultérieure, augmentant la taille de la base de données.</string>
   <string name="action_db_management">Gestion de base de données</string>
   <string name="title_activity_db_management">Gestion de base de données</string>
-  <string name="activity_db_management_import_export_explanation">Les opérations sur la base de donnée ont utilisé le chemin suivant sur votre appareil.
-\nCe chemin n\'est pas accessible par d\'autres applications Android ou par votre ordinateur.
-\nVous trouverez votre base de données (ou celle que vous souhaitez importer) ici :</string>
+  <string name="activity_db_management_import_export_explanation">Les opérations sur la base de données ont utilisé le chemin suivant sur votre appareil. 
+\nCe chemin est accessible par d\'autres applications Android ou par votre ordinateur. 
+\nVotre base de données (ou celle que vous souhaitez importer) se trouvera ici :</string>
   <string name="activity_db_management_merge_old_title">Effacer l\'ancienne base de données</string>
   <string name="dbmanagementactivvity_cannot_access_export_path">Impossible d\'accéder au fichier d\'export. Merci de contacter les développeurs.</string>
   <string name="dbmanagementactivity_exported_to">Exporter vers : %1$s</string>
@@ -379,7 +378,7 @@ NOTE : la base de données sera bien évidement plus grande !</string>
   <string name="title_activity_vibration">Vibration</string>
   <!--Strings related to Pebble Pairing Activity-->
   <string name="title_activity_pebble_pairing">Jumelage avec une Pebble</string>
-  <string name="pebble_pairing_hint">Une fenêtre de jumelage va s’afficher sur votre téléphone. Si cela ne se produit pas, regardez dans vos notifications et acceptez-la. Acceptez ensuite la demande de jumelage sur votre Pebble</string>
+  <string name="pebble_pairing_hint">Une fenêtre de jumelage va s’afficher sur votre téléphone. Si cela ne se produit pas, regardez dans vos notifications et acceptez-la. Acceptez ensuite la demande de jumelage sur votre Pebble.</string>
   <string name="weather_notification_label">Assurez vous que ce thème soit activé dans l\'application de notification de la météo pour recevoir les informations sur votre Pebble.\n\nAucune configuration n\'est requise.\n\nVous pouvez activer l\'application météo système de votre Pebble depuis la configuration de l\'application.\n\nLes watchfaces supportées afficheront la météo automatiquement.</string>
   <string name="pref_title_setup_bt_pairing">Activer le jumelage Bluetooth</string>
   <string name="pref_summary_setup_bt_pairing">Désactivez ceci si vous avez des problèmes de connexion</string>
@@ -430,7 +429,7 @@ NOTE : la base de données sera bien évidement plus grande !</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Délai maximum entre pressions en millisecondes</string>
     <string name="mi2_prefs_button_press_count_match_delay">Délai après action du bouton</string>
     <string name="mi2_prefs_button_press_count_match_delay_summary">Délai après une pression de bouton (le nombre est dans button_id intent extra) ou 0 pour immédiatement</string>
-    <string name="_pebble_watch_open_on_phone">Ouvrir sur le téléphone</string>
+    <string name="_pebble_watch_open_on_phone">Ouvrir sur le smartphone Android</string>
     <string name="_pebble_watch_mute">Silencieux</string>
     <string name="_pebble_watch_reply">Répondre</string>
 <string name="pref_title_pebble_enable_bgjs">Activer tâche de fond JS</string>
@@ -550,7 +549,7 @@ NOTE : la base de données sera bien évidement plus grande !</string>
     <string name="pref_auto_fetch_limit_fetches_summary">Synchronisation toutes les %d minutes</string>
 
     <string name="preferences_miband2_settings">Réglages Mi Band 2</string>
-    <string name="preferences_miband3_settings">Régalges Mi Band 3</string>
+    <string name="preferences_miband3_settings">Réglages Mi Band 3</string>
     <string name="preferences_amazfitcor_settings">Réglages Amazfit Cor</string>s
     <string name="horizontal">Horizontal</string>
     <string name="vertical">Vertical</string>
@@ -566,4 +565,78 @@ NOTE : la base de données sera bien évidement plus grande !</string>
     <string name="menuitem_notifications">Notifications</string>
     <string name="menuitem_music">Musique</string>
     <string name="menuitem_more">Suite</string>
-</resources>
+<string name="controlcenter_change_led_color">Changer la couleur de la LED</string>
+    <string name="controlcenter_change_fm_frequency">Changer la fréquence FM</string>
+    <string name="controlcenter_calibrate_device">Calibrer l\'appareil</string>
+
+
+    <string name="pref_title_notifications_timeout">Temps minimum entre deux notifications</string>
+    <string name="pref_title_rtl">De droite à gauche</string>
+    <string name="pref_summary_rtl">Cocher ceci si votre appareil n\'est pas compatible avec les langues \"droite-à-gauche\"</string>
+    <string name="pref_rtl_max_line_length">Longueur max. d\'une ligne en mode Droite-à-Gauche</string>
+    <string name="watch9_pairing_tap_hint">Lorsque votre bracelet vibre, secouez-le ou pressez son bouton.</string>
+
+    <string name="notif_battery_low">%1$s niveau de batterie bas</string>
+    <string name="notif_battery_low_extended">%1$s niveau de batterie bas: %2$s</string>
+    <string name="lack_of_sleep">Manque de sommeil: %1$s</string>
+    <string name="overslept">Excès de sommeil: %1$s</string>
+    <string name="no_limit">Sans limite</string>
+    <string name="seconds_5">5 secondes</string>
+    <string name="seconds_10">10 secondes</string>
+    <string name="seconds_20">20 secondes</string>
+    <string name="seconds_30">30 secondes</string>
+    <string name="minutes_1">1 minute</string>
+    <string name="minutes_5">5 minutes</string>
+    <string name="minutes_10">10 minutes</string>
+    <string name="minutes_30">30 minutes</string>
+
+    <string name="lack_of_step">Manque d\'activité: %1$d</string>
+    <string name="overstep">Trop d\'activité: %1$d</string>
+    <string name="live_activity_max_heart_rate">Mesure cardiaque actuelle / maximum: %1$d / %2$d</string>
+    <string name="you_slept">Vous avez dormi de %1$s à %2$s</string>
+    <string name="you_did_not_sleep">Vous n\'avez pas dormi</string>
+    <string name="mi3_prefs_band_screen_unlock_summary">Glisser le doigt vers le haut pour débloquer l\'écran du bracelet</string>
+    <string name="mi3_prefs_night_mode">Mode nuit</string>
+    <string name="mi3_prefs_night_mode_summary">Diminuer la luminosité de l\'écran du bracelet automatiquement lorsqu\'il fait sombre</string>
+
+    <string name="german">Allemand</string>
+    <string name="italian">Italien</string>
+    <string name="french">Français</string>
+    <string name="polish">Polonais</string>
+    <string name="korean">Koréen</string>
+    <string name="japanese">Japonais</string>
+
+    <string name="activity_prefs_charts">Paramètres des graphiques</string>
+    <string name="activity_prefs_chart_max_heart_rate">Fréquence cardiaque maximum</string>
+    <string name="activity_prefs_chart_min_heart_rate">Fréquence cardiaque minimum</string>
+
+    <string name="ok">Ok</string>
+
+    <string name="mi3_night_mode_sunset">Au coucher du soleil</string>
+    <string name="devicetype_watch9">Watch 9</string>
+    <string name="watch9_time_minutes">Minutes:</string>
+    <string name="watch9_time_hours">Heures:</string>
+    <string name="watch9_time_seconds">Secondes:</string>
+    <string name="watch9_calibration_hint">Régler l\'heure que votre appareil indique actuellement.</string>
+    <string name="watch9_calibration_button">Calibrer</string>
+    <string name="title_activity_watch9_pairing">Appairage de la Watch 9</string>
+    <string name="title_activity_watch9_calibration">Calibration de la Watch 9</string>
+    <string name="preferences_rtl_settings">Support Droite-à-Gauche</string>
+    <string name="share_log">Partager les logs</string>
+    <string name="share_log_warning">Veuillez garder à l\'esprit que les fichiers logs de Gadgetbridge peuvent contenir des tas d\'informations personnelles, incluant entre autre des données relatives à la santé, des identifiants uniques (telles que des adresses MAC), des préférences musicales, etc. Pensez à modifier le fichier et retirer ces informations personnelles avant toute publication sur un rapport de bug public.</string>
+    <string name="warning">Attention!</string>
+    <string name="no_data">Pas de données</string>
+
+    <string name="preferences_led_color">Couleur de la LED</string>
+
+    <string name="preferences_fm_frequency">Fréquence FM</string>
+    <string name="pref_invalid_frequency_title">Fréquence non-valide</string>
+    <string name="pref_invalid_frequency_message">Veuillez introduire une fréquence entre 87.5 et 108.0</string>
+    <string name="language_and_region_prefs">Paramètres de langue et de région</string>
+<string name="norwegian_bokmal">Bokmål norvégien</string>
+    <string name="devicetype_roidmi">Roidmi</string>
+    <string name="devicetype_roidmi3">Roidmi 3</string>
+
+    <string name="pref_title_contextual_arabic">Arabe contextuel</string>
+    <string name="pref_summary_contextual_arabic">A cocher pour activer le support \"Arabe contextuel\"</string>
+    </resources>

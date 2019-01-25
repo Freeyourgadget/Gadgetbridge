@@ -1,5 +1,5 @@
 /*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+    Gobbetti, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -80,8 +80,8 @@ public class LiveviewCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAlarmConfiguration() {
-        return false;
+    public int getAlarmSlotCount() {
+        return 0;
     }
 
     @Override

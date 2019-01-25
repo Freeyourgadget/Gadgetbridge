@@ -25,12 +25,10 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.AppBlacklistAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class AppBlacklistActivity extends AbstractGBActivity {

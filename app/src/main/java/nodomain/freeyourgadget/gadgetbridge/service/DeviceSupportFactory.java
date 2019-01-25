@@ -1,6 +1,7 @@
-/*  Copyright (C) 2015-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti, João Paulo Barraca, ladbsoft, protomors, Quallenauge,
-    Sami Alaoui, Sergey Trofimov, tiparega, Taavi Eomäe
+/*  Copyright (C) 2015-2019 0nse, Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, João Paulo Barraca, José Rebelo, Kranz, ladbsoft, maxirnilian,
+    protomors, Quallenauge, Sami Alaoui, Sergey Trofimov, tiparega, Vadim Kaushan,
+    Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -29,6 +30,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casiogb6900.CasioGB6900DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitcor.AmazfitCorSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.itag.ITagSupport;
@@ -39,6 +41,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.Ama
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.no1f1.No1F1Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.roidmi.RoidmiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vibratissimo.VibratissimoSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.hplus.HPlusSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.jyou.TeclastH30Support;
@@ -159,7 +162,7 @@ public class DeviceSupportFactory {
                     case XWATCH:
                         deviceSupport = new ServiceDeviceSupport(new XWatchSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
-		            case ZETIME:
+		                case ZETIME:
                         deviceSupport = new ServiceDeviceSupport(new ZeTimeDeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
                     case ID115:
@@ -167,6 +170,15 @@ public class DeviceSupportFactory {
                         break;
                     case WATCH9:
                         deviceSupport = new ServiceDeviceSupport(new Watch9DeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
+                    case ROIDMI:
+                        deviceSupport = new ServiceDeviceSupport(new RoidmiSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
+                    case ROIDMI3:
+                        deviceSupport = new ServiceDeviceSupport(new RoidmiSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
+                    case CASIOGB6900:
+                        deviceSupport = new ServiceDeviceSupport(new CasioGB6900DeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
                 }
                 if (deviceSupport != null) {

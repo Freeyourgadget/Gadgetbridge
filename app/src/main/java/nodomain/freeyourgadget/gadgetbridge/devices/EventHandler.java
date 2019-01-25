@@ -69,7 +69,7 @@ public interface EventHandler {
 
     void onFetchRecordedData(int dataTypes);
 
-    void onReboot();
+    void onReset(int flags);
 
     void onHeartRateTest();
 
@@ -99,4 +99,12 @@ public interface EventHandler {
     void onTestNewFunction();
 
     void onSendWeather(WeatherSpec weatherSpec);
+
+    void onSetFmFrequency(float frequency);
+
+    /**
+     * Set the device's led color.
+     * @param color the new color, in ARGB, with alpha = 255
+     */
+    void onSetLedColor(int color);
 }

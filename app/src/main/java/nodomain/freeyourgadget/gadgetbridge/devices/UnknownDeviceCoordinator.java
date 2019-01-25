@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+    Gobbetti, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -138,8 +138,8 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAlarmConfiguration() {
-        return false;
+    public int getAlarmSlotCount() {
+        return 0;
     }
 
     @Override
@@ -185,5 +185,20 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsFindDevice() {
         return false;
+    }
+
+    @Override
+    public boolean supportsLedColor() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsRgbLedColor() {
+        return false;
+    }
+
+    @Override
+    public int[] getColorPresets() {
+        return new int[0];
     }
 }

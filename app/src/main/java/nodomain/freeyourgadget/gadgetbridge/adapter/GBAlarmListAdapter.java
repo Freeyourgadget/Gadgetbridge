@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,78 +31,49 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
-import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.entities.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 /**
  * Adapter for displaying GBAlarm instances.
  */
 public class GBAlarmListAdapter extends RecyclerView.Adapter<GBAlarmListAdapter.ViewHolder> {
 
-
     private final Context mContext;
-    private List<GBAlarm> alarmList;
+    private ArrayList<Alarm> alarmList;
 
-    public GBAlarmListAdapter(Context context, List<GBAlarm> alarmList) {
+    public GBAlarmListAdapter(Context context) {
         this.mContext = context;
-        this.alarmList = alarmList;
     }
 
-    public GBAlarmListAdapter(Context context, Set<String> preferencesAlarmListSet) {
-        this.mContext = context;
-        alarmList = new ArrayList<>();
-
-        for (String alarmString : preferencesAlarmListSet) {
-            alarmList.add(new GBAlarm(alarmString));
-        }
-
-        Collections.sort(alarmList);
+    public void setAlarmList(List<Alarm> alarms) {
+        this.alarmList = new ArrayList<>(alarms);
     }
 
-    public void setAlarmList(Set<String> preferencesAlarmListSet, int reservedSlots) {
-        alarmList = new ArrayList<>();
-
-        for (String alarmString : preferencesAlarmListSet) {
-            alarmList.add(new GBAlarm(alarmString));
-        }
-
-        Collections.sort(alarmList);
-
-        //cannot do this earlier because the Set is not guaranteed to be in order by ID
-        alarmList.subList(alarmList.size() - reservedSlots, alarmList.size()).clear();
+    public ArrayList<Alarm> getAlarmList() {
+        return alarmList;
     }
 
-    public ArrayList<? extends Alarm> getAlarmList() {
-        return (ArrayList) alarmList;
+    private void updateInDB(Alarm alarm) {
+        DBHelper.store(alarm);
     }
 
-
-    public void update(GBAlarm alarm) {
-        for (GBAlarm a : alarmList) {
-            if (alarm.equals(a)) {
-                a = alarm;
-            }
-        }
-        alarm.store();
-    }
-
+    @NonNull
     @Override
-    public GBAlarmListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public GBAlarmListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_alarm, parent, false);
-        ViewHolder vh = new ViewHolder(view);
-        return vh;
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
-        final GBAlarm alarm = alarmList.get(position);
+        final Alarm alarm = alarmList.get(position);
 
         holder.alarmDayMonday.setChecked(alarm.getRepetition(Alarm.ALARM_MON));
         holder.alarmDayTuesday.setChecked(alarm.getRepetition(Alarm.ALARM_TUE));
@@ -115,7 +87,7 @@ public class GBAlarmListAdapter extends RecyclerView.Adapter<GBAlarmListAdapter.
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 alarm.setEnabled(isChecked);
-                update(alarm);
+                updateInDB(alarm);
             }
         });
 
@@ -125,15 +97,14 @@ public class GBAlarmListAdapter extends RecyclerView.Adapter<GBAlarmListAdapter.
                 ((ConfigureAlarms) mContext).configureAlarm(alarm);
             }
         });
-        holder.alarmTime.setText(alarm.getTime());
-        holder.isEnabled.setChecked(alarm.isEnabled());
-        if (alarm.isSmartWakeup()) {
+        holder.alarmTime.setText(DateTimeUtils.formatTime(alarm.getHour(), alarm.getMinute()));
+        holder.isEnabled.setChecked(alarm.getEnabled());
+        if (alarm.getSmartWakeup()) {
             holder.isSmartWakeup.setVisibility(TextView.VISIBLE);
         } else {
             holder.isSmartWakeup.setVisibility(TextView.GONE);
         }
     }
-
 
     @Override
     public int getItemCount() {
@@ -159,21 +130,19 @@ public class GBAlarmListAdapter extends RecyclerView.Adapter<GBAlarmListAdapter.
         ViewHolder(View view) {
             super(view);
 
-            container = (CardView) view.findViewById(R.id.card_view);
+            container = view.findViewById(R.id.card_view);
 
-            alarmTime = (TextView) view.findViewById(R.id.alarm_item_time);
-            isEnabled = (Switch) view.findViewById(R.id.alarm_item_toggle);
-            isSmartWakeup = (TextView) view.findViewById(R.id.alarm_smart_wakeup);
+            alarmTime = view.findViewById(R.id.alarm_item_time);
+            isEnabled = view.findViewById(R.id.alarm_item_toggle);
+            isSmartWakeup = view.findViewById(R.id.alarm_smart_wakeup);
 
-            alarmDayMonday = (CheckedTextView) view.findViewById(R.id.alarm_item_monday);
-            alarmDayTuesday = (CheckedTextView) view.findViewById(R.id.alarm_item_tuesday);
-            alarmDayWednesday = (CheckedTextView) view.findViewById(R.id.alarm_item_wednesday);
-            alarmDayThursday = (CheckedTextView) view.findViewById(R.id.alarm_item_thursday);
-            alarmDayFriday = (CheckedTextView) view.findViewById(R.id.alarm_item_friday);
-            alarmDaySaturday = (CheckedTextView) view.findViewById(R.id.alarm_item_saturday);
-            alarmDaySunday = (CheckedTextView) view.findViewById(R.id.alarm_item_sunday);
-
-
+            alarmDayMonday = view.findViewById(R.id.alarm_item_monday);
+            alarmDayTuesday = view.findViewById(R.id.alarm_item_tuesday);
+            alarmDayWednesday = view.findViewById(R.id.alarm_item_wednesday);
+            alarmDayThursday = view.findViewById(R.id.alarm_item_thursday);
+            alarmDayFriday = view.findViewById(R.id.alarm_item_friday);
+            alarmDaySaturday = view.findViewById(R.id.alarm_item_saturday);
+            alarmDaySunday = view.findViewById(R.id.alarm_item_sunday);
         }
     }
 
