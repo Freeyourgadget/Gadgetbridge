@@ -363,7 +363,11 @@ public class NotificationListener extends NotificationListenerService {
         mPackageLookup.add(notificationSpec.getId(), sbn.getPackageName()); // for MUTE
 
         notificationBurstPrevention.put(source, cur_time);
-        notificationOldRepeatPrevention.put(source, notification.when);
+        if(0 != notification.when) {
+            notificationOldRepeatPrevention.put(source, notification.when);
+        }else {
+            LOG.info("This app might show old/duplicate notifications. notification.when is 0 for " + source);
+        }
 
         GBApplication.deviceService().onNotification(notificationSpec);
     }
