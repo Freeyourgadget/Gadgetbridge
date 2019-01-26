@@ -25,7 +25,6 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.Button;
 
@@ -34,6 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 

@@ -20,12 +20,12 @@ package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
@@ -41,14 +41,11 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.OR
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_ACTIVATE_DISPLAY_ON_LIFT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DISPLAY_ON_LIFT_END;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DISPLAY_ON_LIFT_START;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DATEFORMAT;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DISPLAY_ITEMS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_END;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_OFF;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_SCHEDULED;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_START;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ENABLE_TEXT_NOTIFICATIONS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_GOAL_NOTIFICATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND;

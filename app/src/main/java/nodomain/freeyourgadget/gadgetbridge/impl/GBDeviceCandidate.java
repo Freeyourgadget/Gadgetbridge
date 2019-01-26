@@ -20,7 +20,6 @@ import android.bluetooth.BluetoothDevice;
 import android.os.Parcel;
 import android.os.ParcelUuid;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +31,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;

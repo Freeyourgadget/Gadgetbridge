@@ -2,7 +2,19 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import de.greenrobot.dao.query.Query;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -14,12 +26,6 @@ import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterEntry;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterEntryDao;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class NotificationFilterActivity extends AbstractGBActivity {
 

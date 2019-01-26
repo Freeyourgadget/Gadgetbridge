@@ -1,7 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
-import android.support.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -10,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;

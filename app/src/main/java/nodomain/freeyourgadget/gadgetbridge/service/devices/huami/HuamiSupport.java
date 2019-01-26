@@ -23,7 +23,6 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.format.DateFormat;
 import android.widget.Toast;
 
@@ -45,6 +44,7 @@ import java.util.TimerTask;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -72,7 +72,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
-import nodomain.freeyourgadget.gadgetbridge.entities.AlarmDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;

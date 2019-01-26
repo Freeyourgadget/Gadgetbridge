@@ -25,9 +25,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.casiogb6900.CasioGB6900Constants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 
 public class CasioHandlerThread extends GBDeviceIoThread {

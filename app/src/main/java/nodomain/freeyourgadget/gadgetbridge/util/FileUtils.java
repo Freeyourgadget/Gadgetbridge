@@ -19,10 +19,8 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.icu.util.Output;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.annotation.NonNull;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -41,6 +39,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
 

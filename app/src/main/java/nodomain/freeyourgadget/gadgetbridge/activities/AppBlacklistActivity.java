@@ -18,17 +18,19 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.adapter.AppBlacklistAdapter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import androidx.appcompat.widget.SearchView;
+import androidx.core.app.NavUtils;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.adapter.AppBlacklistAdapter;
 
 
 public class AppBlacklistActivity extends AbstractGBActivity {

@@ -29,13 +29,11 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -44,9 +42,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.BipActivityType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.BipActivityType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**

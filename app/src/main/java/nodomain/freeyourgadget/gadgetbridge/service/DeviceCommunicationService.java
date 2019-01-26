@@ -33,9 +33,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -45,6 +42,9 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
@@ -95,10 +95,10 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_FI
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_HEARTRATE_TEST;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_INSTALL;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_NOTIFICATION;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_RESET;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_APPINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_DEVICEINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_SCREENSHOT;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_RESET;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SEND_CONFIGURATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SEND_WEATHER;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETCANNEDMESSAGES;

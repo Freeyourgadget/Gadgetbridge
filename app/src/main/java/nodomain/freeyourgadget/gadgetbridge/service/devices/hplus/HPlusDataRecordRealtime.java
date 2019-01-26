@@ -24,7 +24,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.hplus;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmount;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 

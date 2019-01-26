@@ -17,11 +17,11 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.roidmi;
 
 import android.bluetooth.BluetoothDevice;
-import android.support.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 

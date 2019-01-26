@@ -22,8 +22,6 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -38,6 +36,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 
+import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;

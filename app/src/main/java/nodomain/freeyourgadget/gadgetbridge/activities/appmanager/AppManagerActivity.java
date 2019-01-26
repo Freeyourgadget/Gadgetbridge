@@ -20,13 +20,10 @@ package nodomain.freeyourgadget.gadgetbridge.activities.appmanager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.NavUtils;
-import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +37,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import androidx.core.app.NavUtils;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.ViewPager;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractFragmentPagerAdapter;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragmentActivity;

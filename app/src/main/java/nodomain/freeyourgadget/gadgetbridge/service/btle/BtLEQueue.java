@@ -28,7 +28,6 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +39,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;

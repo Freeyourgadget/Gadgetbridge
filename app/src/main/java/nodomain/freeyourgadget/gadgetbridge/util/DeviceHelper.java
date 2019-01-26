@@ -21,7 +21,6 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -53,13 +52,13 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2HRXCoor
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.id115.ID115Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.jyou.TeclastH30Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi1Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.liveview.LiveviewCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.no1f1.No1F1Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi1Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.vibratissimo.VibratissimoCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.watch9.Watch9DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xwatch.XWatchCoordinator;

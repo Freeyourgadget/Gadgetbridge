@@ -1,10 +1,10 @@
 package nodomain.freeyourgadget.gadgetbridge.test;
 
-import android.support.annotation.NonNull;
-
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import androidx.annotation.NonNull;
 
 class HexToBinaryInputStream extends FilterInputStream {
     HexToBinaryInputStream(InputStream in) {
