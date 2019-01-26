@@ -38,15 +38,12 @@ import android.os.PowerManager;
 import android.os.RemoteException;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.RemoteInput;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.support.v7.graphics.Palette;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,9 +52,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.RemoteInput;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.palette.graphics.Palette;
+import de.greenrobot.dao.query.Query;
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
+import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilter;
+import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterEntry;
+import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterEntryDao;
 import nodomain.freeyourgadget.gadgetbridge.model.AppNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
@@ -69,7 +78,10 @@ import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-import static android.support.v4.media.app.NotificationCompat.MediaStyle.getMediaSession;
+import static androidx.media.app.NotificationCompat.MediaStyle.getMediaSession;
+import static nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity.NOTIFICATION_FILTER_MODE_BLACKLIST;
+import static nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity.NOTIFICATION_FILTER_MODE_WHITELIST;
+import static nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity.NOTIFICATION_FILTER_SUBMODE_ALL;
 
 public class NotificationListener extends NotificationListenerService {
 
@@ -290,6 +302,11 @@ public class NotificationListener extends NotificationListenerService {
 
         dissectNotificationTo(notification, notificationSpec, preferBigText);
 
+        if (!checkNotificationContentForWhiteAndBlackList(sbn.getPackageName().toLowerCase(), notificationSpec.body)) {
+            return;
+        }
+
+
         // ignore Gadgetbridge's very own notifications, except for those from the debug screen
         if (getApplicationContext().getPackageName().equals(source)) {
             if (!getApplicationContext().getString(R.string.test_notification).equals(notificationSpec.title)) {
@@ -346,9 +363,108 @@ public class NotificationListener extends NotificationListenerService {
         mPackageLookup.add(notificationSpec.getId(), sbn.getPackageName()); // for MUTE
 
         notificationBurstPrevention.put(source, cur_time);
-        notificationOldRepeatPrevention.put(source, notification.when);
+        if(0 != notification.when) {
+            notificationOldRepeatPrevention.put(source, notification.when);
+        }else {
+            LOG.info("This app might show old/duplicate notifications. notification.when is 0 for " + source);
+        }
 
         GBApplication.deviceService().onNotification(notificationSpec);
+    }
+
+    private boolean checkNotificationContentForWhiteAndBlackList(String packageName, String body) {
+        long start = System.currentTimeMillis();
+
+        List<String> wordsList = new ArrayList<>();
+        NotificationFilter notificationFilter;
+
+        try (DBHandler db = GBApplication.acquireDB()) {
+
+            NotificationFilterDao notificationFilterDao = db.getDaoSession().getNotificationFilterDao();
+            NotificationFilterEntryDao notificationFilterEntryDao = db.getDaoSession().getNotificationFilterEntryDao();
+
+            Query<NotificationFilter> query = notificationFilterDao.queryBuilder().where(NotificationFilterDao.Properties.AppIdentifier.eq(packageName.toLowerCase())).build();
+            notificationFilter = query.unique();
+
+            if (notificationFilter == null) {
+                LOG.debug("No Notification Filter found");
+                return true;
+            }
+
+            LOG.debug("Loaded notification filter for '{}'", packageName);
+            Query<NotificationFilterEntry> queryEntries = notificationFilterEntryDao.queryBuilder().where(NotificationFilterEntryDao.Properties.NotificationFilterId.eq(notificationFilter.getId())).build();
+
+            List<NotificationFilterEntry> filterEntries = queryEntries.list();
+
+            if (BuildConfig.DEBUG) {
+                LOG.info("Database lookup took '{}' ms", System.currentTimeMillis() - start);
+            }
+
+            if (!filterEntries.isEmpty()) {
+                for (NotificationFilterEntry temp : filterEntries) {
+                    wordsList.add(temp.getNotificationFilterContent());
+                    LOG.debug("Loaded filter word: " + temp.getNotificationFilterContent());
+                }
+            }
+
+        } catch (Exception e) {
+            LOG.error("Could not acquire DB.", e);
+            return true;
+        }
+
+        return shouldContinueAfterFilter(body, wordsList, notificationFilter);
+    }
+
+    boolean shouldContinueAfterFilter(@NonNull String body, @NonNull List<String> wordsList, @NonNull NotificationFilter notificationFilter) {
+
+        LOG.debug("Mode: '{}' Submode: '{}' WordsList: '{}'", notificationFilter.getNotificationFilterMode(), notificationFilter.getNotificationFilterSubMode(), wordsList);
+
+        boolean allMode = notificationFilter.getNotificationFilterSubMode() == NOTIFICATION_FILTER_SUBMODE_ALL;
+
+        switch (notificationFilter.getNotificationFilterMode()) {
+            case NOTIFICATION_FILTER_MODE_BLACKLIST:
+                if (allMode) {
+                    for (String word : wordsList) {
+                        if (!body.contains(word)) {
+                            LOG.info("Not every word was found, blacklist has no effect, processing continues.");
+                            return true;
+                        }
+                    }
+                    LOG.info("Every word was found, blacklist has effect, processing stops.");
+                    return false;
+                } else {
+                    boolean containsAny = StringUtils.containsAny(body, wordsList.toArray(new CharSequence[0]));
+                    if (!containsAny) {
+                        LOG.info("No matching word was found, blacklist has no effect, processing continues.");
+                    } else {
+                        LOG.info("At least one matching word was found, blacklist has effect, processing stops.");
+                    }
+                    return !containsAny;
+                }
+
+            case NOTIFICATION_FILTER_MODE_WHITELIST:
+                if (allMode) {
+                    for (String word : wordsList) {
+                        if (!body.contains(word)) {
+                            LOG.info("Not every word was found, whitelist has no effect, processing stops.");
+                            return false;
+                        }
+                    }
+                    LOG.info("Every word was found, whitelist has effect, processing continues.");
+                    return true;
+                } else {
+                    boolean containsAny = StringUtils.containsAny(body, wordsList.toArray(new CharSequence[0]));
+                    if (containsAny) {
+                        LOG.info("At least one matching word was found, whitelist has effect, processing continues.");
+                    } else {
+                        LOG.info("No matching word was found, whitelist has no effect, processing stops.");
+                    }
+                    return containsAny;
+                }
+
+            default:
+                return true;
+        }
     }
 
     // Strip Unicode control sequences: some apps like Telegram add a lot of them for unknown reasons
@@ -356,7 +472,8 @@ public class NotificationListener extends NotificationListenerService {
         return orig.replaceAll("\\p{C}", "");
     }
 
-    private void dissectNotificationTo(Notification notification, NotificationSpec notificationSpec, boolean preferBigText) {
+    private void dissectNotificationTo(Notification notification, NotificationSpec notificationSpec,
+                                       boolean preferBigText) {
 
         Bundle extras = NotificationCompat.getExtras(notification);
 

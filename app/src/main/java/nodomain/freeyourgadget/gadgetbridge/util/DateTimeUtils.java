@@ -136,6 +136,11 @@ public class DateTimeUtils {
         return HOURS_MINUTES_FORMAT.format(date);
     }
 
+    public static String formatTime(int hours, int minutes) {
+        return String.format(Locale.US, "%02d", hours) + ":" + String.format(Locale.US, "%02d", minutes);
+    }
+
+
     public static Date todayUTC() {
         Calendar cal = getCalendarUTC();
         return cal.getTime();

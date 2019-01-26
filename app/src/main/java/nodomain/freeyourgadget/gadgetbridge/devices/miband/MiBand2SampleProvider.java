@@ -25,7 +25,10 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.*;
+
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.TYPE_IGNORE;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.TYPE_NO_CHANGE;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.TYPE_UNSET;
 
 public class MiBand2SampleProvider extends AbstractMiBandSampleProvider {
 

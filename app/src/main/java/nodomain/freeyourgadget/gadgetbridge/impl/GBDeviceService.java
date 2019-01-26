@@ -24,11 +24,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
-import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
+import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
@@ -176,7 +176,7 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         Intent intent = createIntent().setAction(ACTION_SET_ALARMS)
-                .putParcelableArrayListExtra(EXTRA_ALARMS, alarms);
+                .putExtra(EXTRA_ALARMS, alarms);
         invokeService(intent);
     }
 

@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public class StringUtils {
 

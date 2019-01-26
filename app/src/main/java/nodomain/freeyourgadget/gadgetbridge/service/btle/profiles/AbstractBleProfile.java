@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.btle.profiles;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
 
 import java.io.IOException;
 import java.util.ArrayList;

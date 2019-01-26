@@ -494,7 +494,7 @@
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Add widget</string>
     <string name="activity_prefs_sleep_duration">Preferred sleep duration in hours</string>
-    <string name="appwidget_alarms_set">An alarm was set for %1$02d:%2$02d</string>
+    <string name="appwidget_setting_alarm">Setting alarm for %1$02d:%2$02d</string>
     <string name="device_hw">Hardware revision: %1$s</string>
     <string name="device_fw">Firmware version: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Error creating directory for log files: %1$s</string>
@@ -629,6 +629,7 @@
     <string name="devicetype_watch9">Watch 9</string>
     <string name="devicetype_roidmi">Roidmi</string>
     <string name="devicetype_roidmi3">Roidmi 3</string>
+    <string name="devicetype_casiogb6900">Casio GB-6900</string>
 
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>
@@ -673,4 +674,21 @@
     <string name="pref_invalid_frequency_title">Invalid frequency</string>
     <string name="pref_invalid_frequency_message">Please enter a frequency between 87.5 and 108.0</string>
     <string name="language_and_region_prefs">Language and region settings</string>
+
+    <!--Notification Filter Black-/ Whitelist-->
+
+    <string name="title_activity_notification_filter">Notification Filter</string>
+    <string name="toast_app_must_not_be_blacklisted">App must not be blacklisted to be configured</string>
+    <string name="edittext_notification_filter_words_hint">Enter desired words, new line for each</string>
+    <string name="toast_notification_filter_saved_successfully">Notification filter saved</string>
+    <string name="filter_mode_none">Do not filter</string>
+    <string name="filter_mode_whitelist">Show when words are contained</string>
+    <string name="filter_mode_blacklist">Block when words are contained</string>
+    <string name="filter_submode_at_least_one">At least one of the words</string>
+    <string name="filter_submode_all">All of the words</string>
+    <string name="toast_notification_filter_words_empty_hint">Please enter at least one word</string>
+    <string name="filter_mode">Filter Mode</string>
+    <string name="mode_configuration">Mode Configuration</string>
+    <string name="save_configuration">Save Configuration</string>
+    <string name="appwidget_not_connected">Not connected, alarm not set.</string>
 </resources>

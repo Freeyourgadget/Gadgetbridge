@@ -16,11 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.export;
 
-import android.support.annotation.NonNull;
-
 import java.io.File;
 import java.io.IOException;
 
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityTrack;
 
 public interface ActivityTrackExporter {

@@ -19,9 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,35 +30,37 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
-import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.entities.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 /**
  * Adapter for displaying GBAlarm instances.
  */
 public class GBAlarmListAdapter extends RecyclerView.Adapter<GBAlarmListAdapter.ViewHolder> {
 
-
     private final Context mContext;
-    private List<GBAlarm> alarmList;
+    private ArrayList<Alarm> alarmList;
 
     public GBAlarmListAdapter(Context context) {
         this.mContext = context;
     }
 
-    public void setAlarmList(List<GBAlarm> alarmList) {
-        this.alarmList = alarmList;
+    public void setAlarmList(List<Alarm> alarms) {
+        this.alarmList = new ArrayList<>(alarms);
     }
 
-    public ArrayList getAlarmList() {
-        return (ArrayList) alarmList;
+    public ArrayList<Alarm> getAlarmList() {
+        return alarmList;
     }
 
-
-    public void update(GBAlarm alarm) {
-        alarm.store();
+    private void updateInDB(Alarm alarm) {
+        DBHelper.store(alarm);
     }
 
     @NonNull
@@ -74,7 +73,7 @@ public class GBAlarmListAdapter extends RecyclerView.Adapter<GBAlarmListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
-        final GBAlarm alarm = alarmList.get(position);
+        final Alarm alarm = alarmList.get(position);
 
         holder.alarmDayMonday.setChecked(alarm.getRepetition(Alarm.ALARM_MON));
         holder.alarmDayTuesday.setChecked(alarm.getRepetition(Alarm.ALARM_TUE));
@@ -88,7 +87,7 @@ public class GBAlarmListAdapter extends RecyclerView.Adapter<GBAlarmListAdapter.
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 alarm.setEnabled(isChecked);
-                update(alarm);
+                updateInDB(alarm);
             }
         });
 
@@ -98,15 +97,14 @@ public class GBAlarmListAdapter extends RecyclerView.Adapter<GBAlarmListAdapter.
                 ((ConfigureAlarms) mContext).configureAlarm(alarm);
             }
         });
-        holder.alarmTime.setText(alarm.getTime());
-        holder.isEnabled.setChecked(alarm.isEnabled());
-        if (alarm.isSmartWakeup()) {
+        holder.alarmTime.setText(DateTimeUtils.formatTime(alarm.getHour(), alarm.getMinute()));
+        holder.isEnabled.setChecked(alarm.getEnabled());
+        if (alarm.getSmartWakeup()) {
             holder.isSmartWakeup.setVisibility(TextView.VISIBLE);
         } else {
             holder.isSmartWakeup.setVisibility(TextView.GONE);
         }
     }
-
 
     @Override
     public int getItemCount() {

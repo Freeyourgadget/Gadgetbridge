@@ -20,11 +20,9 @@ package nodomain.freeyourgadget.gadgetbridge.devices.vibratissimo;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
-import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.VibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -77,11 +75,6 @@ public class VibratissimoCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsScreenshots() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsAlarmConfiguration() {
         return false;
     }
 

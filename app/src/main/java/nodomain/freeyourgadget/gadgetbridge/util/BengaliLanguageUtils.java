@@ -17,7 +17,8 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 import java.util.HashMap;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 // What's the reason to extending LanguageUtils?
 // Just doing it because already done in the previous code.

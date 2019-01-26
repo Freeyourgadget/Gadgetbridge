@@ -21,8 +21,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.hplus;
 */
 
 
-import android.support.annotation.NonNull;
-
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 

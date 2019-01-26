@@ -335,7 +335,7 @@
   <string name="appwidget_text">Zzz</string>
   <string name="add_widget">Widget hinzufügen</string>
   <string name="activity_prefs_sleep_duration">Gewünschte Schlafdauer in Stunden</string>
-  <string name="appwidget_alarms_set">Ein Wecker wurde auf %1$02d:%2$02d gestellt</string>
+  <string name="appwidget_setting_alarm">Ein Wecker wurde auf %1$02d:%2$02d gestellt</string>
   <string name="device_hw">Hardwarerevision: %1$s</string>
   <string name="device_fw">Firmware-Version: %1$s</string>
   <string name="error_creating_directory_for_logfiles">Fehler beim Erstellen des Verzeichnisses für Logdateien: %1$s</string>

@@ -17,15 +17,14 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.roidmi;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -80,11 +79,6 @@ public abstract class RoidmiCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsScreenshots() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsAlarmConfiguration() {
         return false;
     }
 

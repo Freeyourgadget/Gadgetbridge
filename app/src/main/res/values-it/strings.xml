@@ -335,7 +335,7 @@
   <string name="appwidget_text">Zzz</string>
   <string name="add_widget">Aggiungi widget</string>
   <string name="activity_prefs_sleep_duration">Ore di sonno preferite</string>
-  <string name="appwidget_alarms_set">Impostata sveglia per %1$02d:%2$02d</string>
+  <string name="appwidget_setting_alarm">Impostata sveglia per %1$02d:%2$02d</string>
   <string name="device_hw">Versione Hardware: %1$s</string>
   <string name="device_fw">Versione Firmware: %1$s</string>
   <string name="error_creating_directory_for_logfiles">Errore durante la creazione della directory per i file di log: %1$s</string>

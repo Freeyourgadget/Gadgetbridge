@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Gadgetbridge</string>
   <string name="title_activity_controlcenter">Gadgetbridge</string>
@@ -313,7 +313,7 @@
   <string name="appwidget_text">Spí...</string>
   <string name="add_widget">Přidat widget</string>
   <string name="activity_prefs_sleep_duration">Preferovaná doba spánku v hodinách</string>
-  <string name="appwidget_alarms_set">Budík nastaven na %1$02d:%2$02d</string>
+  <string name="appwidget_setting_alarm">Budík nastaven na %1$02d:%2$02d</string>
   <string name="device_hw">Revize HW: %1$s</string>
   <string name="device_fw">Verze FW: %1$s</string>
   <string name="error_creating_directory_for_logfiles">Chyba při vytváření adresáře pro logy: %1$s</string>
@@ -646,4 +646,7 @@
     <string name="pref_invalid_frequency_title">Neplatná frekvence</string>
     <string name="pref_invalid_frequency_message">Nastavte frekvenci mezi 87.5 a 108.0</string>
     <string name="language_and_region_prefs">Jazyk a místní nastavení</string>
+    <string name="debugactivity_really_factoryreset_title">Opravdu uvést do továrního nastavení\?</string>
+    <string name="debugactivity_really_factoryreset">Uvedení do továrního nastavení smaže z připojeného zařízení všechna data (je-li toto podporováno). Xiaomi/Huami také provedou změnu Bluetooth MAC adresy a budou se pro Gadgetbridge tvářit jako nová zařízení.</string>
+    <string name="devicetype_casiogb6900">Casio GB-6900</string>
 </resources>

@@ -26,8 +26,6 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NavUtils;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.InputType;
 import android.view.MenuItem;
 
@@ -36,6 +34,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Locale;
 
+import androidx.core.app.NavUtils;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 

@@ -18,10 +18,10 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 import android.content.Context;
-import android.support.annotation.DrawableRes;
 
 import java.util.Arrays;
 
+import androidx.annotation.DrawableRes;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 
