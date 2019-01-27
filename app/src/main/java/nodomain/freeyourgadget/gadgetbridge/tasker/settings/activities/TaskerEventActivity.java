@@ -70,7 +70,6 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
 
         private TaskerDevice device;
         private TaskerEventType eventType;
-        private TaskerSettings settings;
         private Prefs prefs = GBApplication.getPrefs();
 
         private SwitchPreference enableEvent;
@@ -85,7 +84,6 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
             setPreferenceScreen(getPreferenceManager().createPreferenceScreen(getActivity()));
             device = (TaskerDevice) getArguments().get(TaskerConstants.INTENT_DEVICE);
             eventType = (TaskerEventType) getArguments().get(TaskerConstants.INTENT_EVENT);
-            settings = device.getSpec().getSettings(eventType);
             initEnableEvent();
             initAddTask();
             initEnableThreshold();
@@ -103,14 +101,14 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
             enableEvent = new SwitchPreference(getActivity());
             enableEvent.setKey(key);
             enableEvent.setTitle(R.string.tasker_event_enabled);
-            enableEvent.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    settings.isEnabled().set((Boolean) newValue);
-                    return true;
-                }
-            });
-            settings.isEnabled().set(prefs.getBoolean(key, false));
+//            enableEvent.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+//                @Override
+//                public boolean onPreferenceChange(Preference preference, Object newValue) {
+//                    settings.isEnabled().set((Boolean) newValue);
+//                    return true;
+//                }
+//            });
+//            settings.isEnabled().set(prefs.getBoolean(key, false));
             getPreferenceScreen().addPreference(enableEvent);
         }
 
@@ -124,24 +122,24 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
         }
 
         private void initThreshold() {
-            String key = scoped(TaskerConstants.ACTIVITY_THRESHOLD);
+            final String key = scoped(TaskerConstants.ACTIVITY_THRESHOLD);
             threshold = new NumberPreference(getActivity());
             threshold.setKey(key);
             threshold.setTitle(R.string.tasker_threshold);
             threshold.setSummary(R.string.tasker_threshold_sum);
             threshold.getNumberPicker().setMinValue(50);
             threshold.getNumberPicker().setMaxValue(10000);
-            setThresholdIfDefined(settings);
-            threshold.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    settings.getThreshold().set(Long.valueOf(newValue.toString()));
-                    return true;
-                }
-            });
-            if (prefs.getBoolean(scoped(TaskerConstants.ACTIVITY_THRESHOLD_ENABLED), false)) {
-                settings.getThreshold().set(null);
-            }
+//            setThresholdIfDefined(settings);
+//            threshold.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+//                @Override
+//                public boolean onPreferenceChange(Preference preference, Object newValue) {
+//                    settings.getThreshold().set(Long.valueOf(newValue.toString()));
+//                    return true;
+//                }
+//            });
+//            if (prefs.getBoolean(scoped(TaskerConstants.ACTIVITY_THRESHOLD_ENABLED), false)) {
+//                settings.getThreshold().set(null);
+//            }
             enableThreshold.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -151,10 +149,8 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
                                 getPreferenceScreen().removePreference(taskPreference);
                             }
                         }
-                        settings.getThreshold().set(null);
-                        return true;
+                        prefs.getPreferences().edit().remove(key).commit();
                     }
-                    setThresholdIfDefined(settings);
                     return true;
                 }
             });
@@ -171,13 +167,6 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
 
         private String scoped(TaskerConstants.ScopedString scopedString) {
             return scopedString.withScope(device.name()).withScope(eventType.getType()).toString();
-        }
-
-        private void setThresholdIfDefined(TaskerSettings settings) {
-            long thresholdValue = prefs.getLong(scoped(TaskerConstants.ACTIVITY_THRESHOLD), 0L);
-            if (thresholdValue != 0L) {
-                settings.getThreshold().set(prefs.getLong(scoped(TaskerConstants.ACTIVITY_THRESHOLD), 50L));
-            }
         }
 
         private void loadTasks() {
@@ -211,21 +200,21 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
                     }
                 }
             });
-            TaskerTaskProvider taskerTaskProvider = new TaskerTaskProvider() {
-                @Override
-                public String getTask(TaskerEvent event) {
-                    if (event.getCount() < tasks.size()) {
-                        String text = tasks.get(event.getCount()).getText();
-                        if (text == null || StringUtils.isEmpty(text)) {
-                            throw new NoTaskDefinedException();
-                        }
-                        return text;
-                    }
-                    return null;
-                }
-
-            };
-            settings.getTaskProvider().set(taskerTaskProvider);
+//            TaskerTaskProvider taskerTaskProvider = new TaskerTaskProvider() {
+//                @Override
+//                public String getTask(TaskerEvent event) {
+//                    if (event.getCount() < tasks.size()) {
+//                        String text = tasks.get(event.getCount()).getText();
+//                        if (text == null || StringUtils.isEmpty(text)) {
+//                            throw new NoTaskDefinedException();
+//                        }
+//                        return text;
+//                    }
+//                    return null;
+//                }
+//
+//            };
+//            settings.getTaskProvider().set(taskerTaskProvider);
         }
 
         private EditTextPreference task(String key) {

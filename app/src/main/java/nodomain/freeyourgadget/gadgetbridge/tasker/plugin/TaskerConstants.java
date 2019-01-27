@@ -31,6 +31,7 @@ public class TaskerConstants {
      * Correspond to {@link nodomain.freeyourgadget.gadgetbridge.tasker.settings.activities.TaskerEventActivity}.
      */
     public static final String ACTIVITY_TASK_ADD = "act_tasker_task_add";
+    public static final ScopedString ACTIVITY_CONSUME_EVENT = new ScopedString("act_tasker_consume_event");
     public static final ScopedString ACTIVITY_THRESHOLD = new ScopedString("act_tasker_threshold");
     public static final ScopedString ACTIVITY_TASK = new ScopedString("act_tasker_task");
     public static final ScopedString ACTIVITY_THRESHOLD_ENABLED = new ScopedString("act_tasker_threshold_enabled");

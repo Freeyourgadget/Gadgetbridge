@@ -44,7 +44,7 @@ public class TaskerBleProfile<T extends AbstractBTLEDeviceSupport> extends Abstr
             } catch (NoTaskDefinedException e) {
                 TaskerUtil.noTaskDefinedInformation().show();
             }
-            if (settings.isConsumingEvents().isPresent() && settings.isConsumingEvents().get()) {
+            if (settings.isConsumeEvent().isPresent() && settings.isConsumeEvent().get()) {
                 return run;
             }
         }

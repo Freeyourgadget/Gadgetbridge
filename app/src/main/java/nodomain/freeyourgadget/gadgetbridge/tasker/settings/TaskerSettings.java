@@ -18,7 +18,7 @@ public interface TaskerSettings {
      *
      * @return True if consumes events.
      */
-    SettingSupplier<Boolean> isConsumingEvents();
+    SettingSupplier<Boolean> isConsumeEvent();
 
     /**
      * Enables the settings.

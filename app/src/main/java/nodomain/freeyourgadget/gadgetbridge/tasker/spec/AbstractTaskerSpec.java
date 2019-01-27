@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.tasker.spec;
 import java.util.HashMap;
 import java.util.Map;
 
+import nodomain.freeyourgadget.gadgetbridge.tasker.plugin.TaskerDevice;
 import nodomain.freeyourgadget.gadgetbridge.tasker.settings.SettingSupplier;
 import nodomain.freeyourgadget.gadgetbridge.tasker.settings.SettingSupplierImpl;
 import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEventType;
@@ -19,6 +20,11 @@ import nodomain.freeyourgadget.gadgetbridge.tasker.task.TaskerTaskProvider;
 public abstract class AbstractTaskerSpec implements TaskerSpec {
 
     private Map<TaskerEventType, TaskerSettings> settings = new HashMap<>();
+    private TaskerDevice device;
+
+    protected AbstractTaskerSpec(TaskerDevice device) {
+        this.device = device;
+    }
 
     @Override
     public TaskerSettings getSettings(TaskerEventType eventType) {
@@ -26,43 +32,15 @@ public abstract class AbstractTaskerSpec implements TaskerSpec {
             if (!getSupportedTypes().contains(eventType)) {
                 settings.put(eventType, new NoOpTaskerSettings());
             } else {
-                settings.put(eventType, new SimpleTaskerSettings());
+                settings.put(eventType, new PreferenceTaskerSettings(device, eventType));
             }
         }
         return settings.get(eventType);
     }
 
-    private class SimpleTaskerSettings implements TaskerSettings {
-        private SettingSupplier<Boolean> consumingEvents = new SettingSupplierImpl<>();
-        private SettingSupplier<Boolean> enabled = new SettingSupplierImpl<>();
-        private SettingSupplier<Long> threshold = new SettingSupplierImpl<>();
-        private SettingSupplier<TaskerTaskProvider> taskProvider = new SettingSupplierImpl<>();
-
-        @Override
-        public SettingSupplier<Boolean> isConsumingEvents() {
-            return consumingEvents;
-        }
-
-        @Override
-        public SettingSupplier<Boolean> isEnabled() {
-            return enabled;
-        }
-
-        @Override
-        public SettingSupplier<Long> getThreshold() {
-            return threshold;
-        }
-
-        @Override
-        public SettingSupplier<TaskerTaskProvider> getTaskProvider() {
-            return taskProvider;
-        }
-    }
-
-
     private class NoOpTaskerSettings implements TaskerSettings {
         @Override
-        public SettingSupplier<Boolean> isConsumingEvents() {
+        public SettingSupplier<Boolean> isConsumeEvent() {
             return new NoOpSupplier<>();
         }
 
