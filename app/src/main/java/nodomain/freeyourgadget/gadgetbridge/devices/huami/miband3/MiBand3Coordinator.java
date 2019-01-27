@@ -76,6 +76,11 @@ public class MiBand3Coordinator extends HuamiCoordinator {
         return true;
     }
 
+    @Override
+    public boolean supportsActivityTracks() {
+        return true;
+    }
+
     public static boolean getBandScreenUnlock() {
         Prefs prefs = GBApplication.getPrefs();
         return prefs.getBoolean(MiBandConst.PREF_MI3_BAND_SCREEN_UNLOCK, false);
