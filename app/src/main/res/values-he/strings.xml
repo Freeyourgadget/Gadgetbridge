@@ -665,4 +665,5 @@
     <string name="mode_configuration">תצורת מצב</string>
     <string name="save_configuration">שמירת תצורה</string>
     <string name="appwidget_not_connected">לא מחובר, לא הוגדר שעון מעורר.</string>
+    <string name="activity_type_exercise">אימון</string>
 </resources>
