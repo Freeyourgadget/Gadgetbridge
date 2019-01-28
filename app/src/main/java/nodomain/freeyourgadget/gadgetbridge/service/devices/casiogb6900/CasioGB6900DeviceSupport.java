@@ -60,6 +60,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
     private MusicSpec mBufferMusicSpec = null;
     private MusicStateSpec mBufferMusicStateSpec = null;
     private BluetoothGatt mBtGatt = null;
+    private CasioGB6900Constants.Model mModel = CasioGB6900Constants.Model.MODEL_CASIO_GENERIC;
 
     public CasioGB6900DeviceSupport() {
         super(LOG);
@@ -117,6 +118,16 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         LOG.info("Initializing");
 
+        String name = gbDevice.getName();
+
+        if(name.contains("5600B")) {
+            mModel = CasioGB6900Constants.Model.MODEL_CASIO_5600B;
+        } else if(name.contains("6900B")) {
+            mModel = CasioGB6900Constants.Model.MODEL_CASIO_6900B;
+        } else {
+            mModel = CasioGB6900Constants.Model.MODEL_CASIO_GENERIC;
+        }
+
         gbDevice.setState(GBDevice.State.INITIALIZING);
         gbDevice.sendDeviceUpdateIntent(getContext());
 
@@ -131,6 +142,10 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
         LOG.info("Initialization Done");
 
         return builder;
+    }
+
+    CasioGB6900Constants.Model getModel() {
+        return mModel;
     }
 
     // FIXME: Replace hardcoded values by configuration

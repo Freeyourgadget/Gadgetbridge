@@ -101,6 +101,40 @@ class CasioGATTServer extends BluetoothGattServerCallback {
             LOG.warn("error sending response");
         }
     }
+    private GBDeviceEventMusicControl.Event parse3Button(int button) {
+        GBDeviceEventMusicControl.Event event;
+        switch(button) {
+            case 3:
+                event = GBDeviceEventMusicControl.Event.NEXT;
+                break;
+            case 2:
+                event = GBDeviceEventMusicControl.Event.PREVIOUS;
+                break;
+            case 1:
+                event = GBDeviceEventMusicControl.Event.PLAYPAUSE;
+                break;
+            default:
+                LOG.warn("Unhandled button received: " + button);
+                event =  GBDeviceEventMusicControl.Event.UNKNOWN;
+        }
+        return event;
+    }
+
+    private GBDeviceEventMusicControl.Event parse2Button(int button) {
+        GBDeviceEventMusicControl.Event event;
+        switch(button) {
+            case 2:
+                event = GBDeviceEventMusicControl.Event.PLAYPAUSE;
+                break;
+            case 1:
+                event = GBDeviceEventMusicControl.Event.NEXT;
+                break;
+            default:
+                LOG.warn("Unhandled button received: " + button);
+                event =  GBDeviceEventMusicControl.Event.UNKNOWN;
+        }
+        return event;
+    }
 
     @Override
     public void onCharacteristicWriteRequest(BluetoothDevice device, int requestId, BluetoothGattCharacteristic characteristic,
@@ -119,20 +153,22 @@ class CasioGATTServer extends BluetoothGattServerCallback {
         if((value[0] & 0x03) == 0) {
             int button = value[1] & 0x0f;
             LOG.info("Button pressed: " + button);
-            switch(button) {
-                case 3:
-                    musicCmd.event = GBDeviceEventMusicControl.Event.NEXT;
+            switch(mDeviceSupport.getModel())
+            {
+                case MODEL_CASIO_5600B:
+                    musicCmd.event = parse2Button(button);
                     break;
-                case 2:
-                    musicCmd.event = GBDeviceEventMusicControl.Event.PREVIOUS;
+                case MODEL_CASIO_6900B:
+                    musicCmd.event = parse3Button(button);
                     break;
-                case 1:
-                    musicCmd.event = GBDeviceEventMusicControl.Event.PLAYPAUSE;
+                case MODEL_CASIO_GENERIC:
+                    musicCmd.event = parse3Button(button);
                     break;
                 default:
-                    LOG.warn("Unhandled button received: " + button);
+                    LOG.warn("Unhandled device");
                     return;
             }
+            mDeviceSupport.evaluateGBDeviceEvent(musicCmd);
             mDeviceSupport.evaluateGBDeviceEvent(musicCmd);
         }
         else {
@@ -145,7 +181,7 @@ class CasioGATTServer extends BluetoothGattServerCallback {
 
         LOG.info("Connection state change for device: " + device.getAddress() + "  status = " + status + " newState = " + newState);
         if (newState == BluetoothGattServer.STATE_DISCONNECTED) {
-
+            LOG.info("CASIO GATT server noticed disconnect.");
         }
         if (newState == BluetoothGattServer.STATE_CONNECTED) {
             GBDevice.State devState = mDeviceSupport.getDevice().getState();

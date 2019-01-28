@@ -88,5 +88,9 @@ public final class CasioGB6900Constants {
     public static final byte SNS_NOTIFICATION_ID = 13;
     public static final byte SMS_NOTIFICATION_ID = 5;
 
-
+    public enum Model {
+        MODEL_CASIO_GENERIC,
+        MODEL_CASIO_6900B,
+        MODEL_CASIO_5600B
+    }
 }
