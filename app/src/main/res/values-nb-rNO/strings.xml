@@ -714,4 +714,5 @@
     <string name="mode_configuration">Modusoppsett</string>
     <string name="save_configuration">Lagre oppsett</string>
     <string name="appwidget_not_connected">Ikke tilkoblet, alarm ikke satt.</string>
+    <string name="activity_type_exercise">Trening</string>
 </resources>
