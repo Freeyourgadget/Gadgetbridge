@@ -148,7 +148,6 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
         mCasioCharacteristics.clear();
         mCasioCharacteristics.add(getCharacteristic(CasioGB6900Constants.CASIO_A_NOT_COM_SET_NOT));
         mCasioCharacteristics.add(getCharacteristic(CasioGB6900Constants.CASIO_A_NOT_W_REQ_NOT));
-        mCasioCharacteristics.add(getCharacteristic(CasioGB6900Constants.FUNCTION_SWITCH_CHARACTERISTIC));
         mCasioCharacteristics.add(getCharacteristic(CasioGB6900Constants.ALERT_LEVEL_CHARACTERISTIC_UUID));
         mCasioCharacteristics.add(getCharacteristic(CasioGB6900Constants.RINGER_CONTROL_POINT));
     }
@@ -239,8 +238,8 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
                 LOG.info("Initialization done, setting state to INITIALIZED");
                 if(mHandlerThread == null) {
                     mHandlerThread = new CasioHandlerThread(getDevice(), getContext(), this);
-                    mHandlerThread.start();
                 }
+                mHandlerThread.start();
                 gbDevice.setState(GBDevice.State.INITIALIZED);
                 gbDevice.sendDeviceUpdateIntent(getContext());
                 handled = true;
@@ -445,7 +444,30 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
-
+        int alarmOffset = 4;
+        byte[] data = new byte[20];
+        for(int i=0; i<alarms.size(); i++)
+        {
+            Alarm alm = alarms.get(i);
+            if(alm.getEnabled()) {
+                data[i * alarmOffset] = 0x40;
+            } else {
+                data[i * alarmOffset] = 0;
+            }
+            if(alm.getRepetition(Alarm.ALARM_ONCE)) {
+                data[i * alarmOffset] |= 0x20;
+            }
+            data[i * alarmOffset + 1] = 0;
+            data[i * alarmOffset + 2] = (byte)alm.getHour();
+            data[i * alarmOffset + 3] = (byte)alm.getMinute();
+        }
+        try {
+            TransactionBuilder builder = performInitialized("setAlarm");
+            builder.write(getCharacteristic(CasioGB6900Constants.CASIO_SETTING_FOR_ALM_CHARACTERISTIC_UUID), data);
+            builder.queue(getQueue());
+        } catch(IOException e) {
+            LOG.error("Error setting alarm: " + e.getMessage());
+        }
     }
 
     @Override
