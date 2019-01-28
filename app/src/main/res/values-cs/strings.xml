@@ -649,4 +649,19 @@
     <string name="debugactivity_really_factoryreset_title">Opravdu uvést do továrního nastavení\?</string>
     <string name="debugactivity_really_factoryreset">Uvedení do továrního nastavení smaže z připojeného zařízení všechna data (je-li toto podporováno). Xiaomi/Huami také provedou změnu Bluetooth MAC adresy a budou se pro Gadgetbridge tvářit jako nová zařízení.</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
+    <string name="activity_type_exercise">Cvičení</string>
+    <string name="title_activity_notification_filter">Filtr notifikací</string>
+    <string name="toast_app_must_not_be_blacklisted">Pro konfiguraci nesmí být aplikace zakázána</string>
+    <string name="edittext_notification_filter_words_hint">Vložte požadovaná slova, jedno na řádek</string>
+    <string name="toast_notification_filter_saved_successfully">Filtr notifikací uložen</string>
+    <string name="filter_mode_none">Nefiltrovat</string>
+    <string name="filter_mode_whitelist">Zobrazit při výskytu slov</string>
+    <string name="filter_mode_blacklist">Nezobrazit při výskytu slov</string>
+    <string name="filter_submode_at_least_one">Alespoň jedno ze slov</string>
+    <string name="filter_submode_all">Všechna slova</string>
+    <string name="toast_notification_filter_words_empty_hint">Prosím vložte alespoň jedno slovo</string>
+    <string name="filter_mode">Filtrovací režim</string>
+    <string name="mode_configuration">Konfigurace režimu</string>
+    <string name="save_configuration">Uložit konfiguraci</string>
+    <string name="appwidget_not_connected">Nepřipojeno, budíky neodeslány.</string>
 </resources>
