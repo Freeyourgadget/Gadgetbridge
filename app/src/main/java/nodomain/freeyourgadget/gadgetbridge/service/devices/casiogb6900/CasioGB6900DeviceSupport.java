@@ -61,6 +61,9 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
     private MusicStateSpec mBufferMusicStateSpec = null;
     private BluetoothGatt mBtGatt = null;
     private CasioGB6900Constants.Model mModel = CasioGB6900Constants.Model.MODEL_CASIO_GENERIC;
+    private byte[] mBleSettings = null;
+
+    private static final int mCasioSleepTime = 80;
 
     public CasioGB6900DeviceSupport() {
         super(LOG);
@@ -158,6 +161,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
         BluetoothGattService llService = mBtGatt.getService(CasioGB6900Constants.LINK_LOSS_SERVICE);
         BluetoothGattCharacteristic charact = llService.getCharacteristic(CasioGB6900Constants.ALERT_LEVEL_CHARACTERISTIC_UUID);
         builder.write(charact, value);
+        builder.wait(mCasioSleepTime);
     }
 
     private void addCharacteristics() {
@@ -171,6 +175,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
     public boolean enableNotifications(TransactionBuilder builder, boolean enable) {
         for(BluetoothGattCharacteristic charact : mCasioCharacteristics) {
             builder.notify(charact, enable);
+            builder.wait(mCasioSleepTime);
         }
         return true;
     }
@@ -246,6 +251,39 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    private void readBleSettings() {
+        try {
+            TransactionBuilder builder = performInitialized("readBleSettings");
+            builder.read(getCharacteristic(CasioGB6900Constants.CASIO_SETTING_FOR_BLE_CHARACTERISTIC_UUID));
+            builder.queue(getQueue());
+        } catch(IOException e) {
+            LOG.error("Error reading BLE settings: " + e.getMessage());
+        }
+    }
+
+    private void configureBleSettings() {
+        // These values seem to improve connection stability _on my phone_
+        // Maybe they should be configurable?
+        int slaveLatency = 2;
+        int connInterval = 300;
+
+        mBleSettings[5] = (byte)(connInterval & 0xff);
+        mBleSettings[6] = (byte)((connInterval >> 8) & 0xff);
+        mBleSettings[7] = (byte)(slaveLatency & 0xff);
+        mBleSettings[8] = (byte)((slaveLatency >> 8) & 0xff);
+
+        mBleSettings[9] = 0; // Setting for Disconnect!?
+    }
+
+    private void writeBleSettings() {
+        try {
+            TransactionBuilder builder = performInitialized("writeBleSettings");
+            builder.write(getCharacteristic(CasioGB6900Constants.CASIO_SETTING_FOR_BLE_CHARACTERISTIC_UUID), mBleSettings);
+            builder.queue(getQueue());
+        } catch(IOException e) {
+            LOG.error("Error writing BLE settings: " + e.getMessage());
+        }
+    }
     private boolean handleInitResponse(byte data) {
         boolean handled = false;
         switch(data)
@@ -258,6 +296,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
                 mHandlerThread.start();
                 gbDevice.setState(GBDevice.State.INITIALIZED);
                 gbDevice.sendDeviceUpdateIntent(getContext());
+                readBleSettings();
                 handled = true;
                 break;
             default:
@@ -351,6 +390,63 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
                 str += String.format("0x%1x ", data[i]);
             }
             LOG.info(str);
+        }
+        else if(characteristicUUID.equals(CasioGB6900Constants.CASIO_SETTING_FOR_BLE_CHARACTERISTIC_UUID)) {
+            mBleSettings = data;
+            String str = "Read Casio Setting for BLE: ";
+            for(int i=0; i<data.length; i++) {
+                str += String.format("0x%1x ", data[i]);
+            }
+            /* Definition of parameters - for future reference */
+
+            // data[0]; // BLE alert for call, mail and other
+            // data[1]; // BLE alert for Calendar
+            // data[2]; // BLE alert for SNS
+            // data[3]; // BLE alert for vibration and alarm
+            // data[4]; // BLE alert for animation
+            // data[5]; // Connection Interval
+            // data[6]; // Connection Interval
+            // data[7]; // Slave Latency
+            // data[8]; // Slave Latency
+
+            // Alert definitions:
+            // 0 = Off
+            // 1 = Sound
+            // 2 = Vibration
+            // 3 = Sound and Vibration
+            //int callAlert = (data[0] >> 6) & 0x03;
+            //LOG.info("Call Alert: " + callAlert);
+            //int mailAlert = (data[0] >> 2) & 0x03;
+            //LOG.info("Mail Alert: " + mailAlert);
+            //int snsAlert = (data[2] >> 4) & 0x03;
+            //LOG.info("SNS Alert: " + snsAlert);
+            //int calAlert = (data[1] >> 6) & 0x03;
+            //LOG.info("Calendart Alert: " + calAlert);
+            //int otherAlert = (data[0] & 0x03);
+            //LOG.info("Other Alert: " + otherAlert);
+            //int vibrationValue = (data[3] & 0x0f);
+            //LOG.info("Vibration Value: " + vibrationValue);
+            //int alarmValue = (data[3] >> 4) & 0x0f;
+            // Vibration pattern; A = 0, B = 1, C = 2
+            //LOG.info("Alarm Value: " + alarmValue);
+            //int animationValue = data[4] & 0x40;
+            // Length of Alarm, only 2, 5 and 10 possible
+            //LOG.info("Animation Value: " + animationValue);
+            // 0 = on
+            // 64 = off
+            //int useDisableMtuReqBit = data[4] & 0x08;
+            // 8 = on
+            // 0 = off!?
+            //LOG.info("useDisableMtuReqBit: " + useDisableMtuReqBit);
+
+            //int slaveLatency = ((data[7] & 0xff) | ((data[8] & 0xff) << 8));
+            //int connInterval = ((data[5] & 0xff) | ((data[6] & 0xff) << 8));
+            //LOG.info("Slave Latency: " + slaveLatency);
+            //LOG.info("Connection Interval: " + connInterval);
+            //LOG.info(str);
+
+            configureBleSettings();
+            writeBleSettings();
         }
         else {
             return super.onCharacteristicRead(gatt, characteristic, status);
