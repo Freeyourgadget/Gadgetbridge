@@ -74,6 +74,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
         addSupportedService(CasioGB6900Constants.MORE_ALERT_SERVICE_UUID);
         addSupportedService(CasioGB6900Constants.TX_POWER_SERVICE_UUID);
         addSupportedService(CasioGB6900Constants.LINK_LOSS_SERVICE);
+        addSupportedService(CasioGB6900Constants.IMMEDIATE_ALERT_SERVICE_UUID);
         mThread = new CasioGATTThread(getContext(), this);
     }
 
@@ -605,7 +606,18 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onFindDevice(boolean start) {
         if(start) {
-            showNotification(CasioGB6900Constants.SNS_NOTIFICATION_ID, "You found it!", "");
+            try {
+                TransactionBuilder builder = performInitialized("findDevice");
+                byte value[] = new byte[]{GattCharacteristic.HIGH_ALERT};
+
+                BluetoothGattService service = mBtGatt.getService(CasioGB6900Constants.IMMEDIATE_ALERT_SERVICE_UUID);
+                BluetoothGattCharacteristic charact = service.getCharacteristic(CasioGB6900Constants.ALERT_LEVEL_CHARACTERISTIC_UUID);
+                builder.write(charact, value);
+                LOG.info("onFindDevice sent");
+                builder.queue(getQueue());
+            } catch (IOException e) {
+                LOG.warn("showNotification failed: " + e.getMessage());
+            }
         }
     }
 
