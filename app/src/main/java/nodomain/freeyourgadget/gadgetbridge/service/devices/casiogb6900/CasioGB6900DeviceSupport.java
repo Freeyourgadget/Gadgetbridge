@@ -60,6 +60,10 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
     private MusicSpec mBufferMusicSpec = null;
     private MusicStateSpec mBufferMusicStateSpec = null;
     private BluetoothGatt mBtGatt = null;
+    private CasioGB6900Constants.Model mModel = CasioGB6900Constants.Model.MODEL_CASIO_GENERIC;
+    private byte[] mBleSettings = null;
+
+    private static final int mCasioSleepTime = 80;
 
     public CasioGB6900DeviceSupport() {
         super(LOG);
@@ -74,6 +78,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
         addSupportedService(CasioGB6900Constants.MORE_ALERT_SERVICE_UUID);
         addSupportedService(CasioGB6900Constants.TX_POWER_SERVICE_UUID);
         addSupportedService(CasioGB6900Constants.LINK_LOSS_SERVICE);
+        addSupportedService(CasioGB6900Constants.IMMEDIATE_ALERT_SERVICE_UUID);
         mThread = new CasioGATTThread(getContext(), this);
     }
 
@@ -116,6 +121,16 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         LOG.info("Initializing");
 
+        String name = gbDevice.getName();
+
+        if(name.contains("5600B")) {
+            mModel = CasioGB6900Constants.Model.MODEL_CASIO_5600B;
+        } else if(name.contains("6900B")) {
+            mModel = CasioGB6900Constants.Model.MODEL_CASIO_6900B;
+        } else {
+            mModel = CasioGB6900Constants.Model.MODEL_CASIO_GENERIC;
+        }
+
         gbDevice.setState(GBDevice.State.INITIALIZING);
         gbDevice.sendDeviceUpdateIntent(getContext());
 
@@ -132,6 +147,10 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
         return builder;
     }
 
+    CasioGB6900Constants.Model getModel() {
+        return mModel;
+    }
+
     // FIXME: Replace hardcoded values by configuration
     private void configureWatch(TransactionBuilder builder) {
         if (mBtGatt == null)
@@ -142,13 +161,13 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
         BluetoothGattService llService = mBtGatt.getService(CasioGB6900Constants.LINK_LOSS_SERVICE);
         BluetoothGattCharacteristic charact = llService.getCharacteristic(CasioGB6900Constants.ALERT_LEVEL_CHARACTERISTIC_UUID);
         builder.write(charact, value);
+        builder.wait(mCasioSleepTime);
     }
 
     private void addCharacteristics() {
         mCasioCharacteristics.clear();
         mCasioCharacteristics.add(getCharacteristic(CasioGB6900Constants.CASIO_A_NOT_COM_SET_NOT));
         mCasioCharacteristics.add(getCharacteristic(CasioGB6900Constants.CASIO_A_NOT_W_REQ_NOT));
-        mCasioCharacteristics.add(getCharacteristic(CasioGB6900Constants.FUNCTION_SWITCH_CHARACTERISTIC));
         mCasioCharacteristics.add(getCharacteristic(CasioGB6900Constants.ALERT_LEVEL_CHARACTERISTIC_UUID));
         mCasioCharacteristics.add(getCharacteristic(CasioGB6900Constants.RINGER_CONTROL_POINT));
     }
@@ -156,6 +175,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
     public boolean enableNotifications(TransactionBuilder builder, boolean enable) {
         for(BluetoothGattCharacteristic charact : mCasioCharacteristics) {
             builder.notify(charact, enable);
+            builder.wait(mCasioSleepTime);
         }
         return true;
     }
@@ -231,6 +251,39 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    private void readBleSettings() {
+        try {
+            TransactionBuilder builder = performInitialized("readBleSettings");
+            builder.read(getCharacteristic(CasioGB6900Constants.CASIO_SETTING_FOR_BLE_CHARACTERISTIC_UUID));
+            builder.queue(getQueue());
+        } catch(IOException e) {
+            LOG.error("Error reading BLE settings: " + e.getMessage());
+        }
+    }
+
+    private void configureBleSettings() {
+        // These values seem to improve connection stability _on my phone_
+        // Maybe they should be configurable?
+        int slaveLatency = 2;
+        int connInterval = 300;
+
+        mBleSettings[5] = (byte)(connInterval & 0xff);
+        mBleSettings[6] = (byte)((connInterval >> 8) & 0xff);
+        mBleSettings[7] = (byte)(slaveLatency & 0xff);
+        mBleSettings[8] = (byte)((slaveLatency >> 8) & 0xff);
+
+        mBleSettings[9] = 0; // Setting for Disconnect!?
+    }
+
+    private void writeBleSettings() {
+        try {
+            TransactionBuilder builder = performInitialized("writeBleSettings");
+            builder.write(getCharacteristic(CasioGB6900Constants.CASIO_SETTING_FOR_BLE_CHARACTERISTIC_UUID), mBleSettings);
+            builder.queue(getQueue());
+        } catch(IOException e) {
+            LOG.error("Error writing BLE settings: " + e.getMessage());
+        }
+    }
     private boolean handleInitResponse(byte data) {
         boolean handled = false;
         switch(data)
@@ -239,10 +292,11 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
                 LOG.info("Initialization done, setting state to INITIALIZED");
                 if(mHandlerThread == null) {
                     mHandlerThread = new CasioHandlerThread(getDevice(), getContext(), this);
-                    mHandlerThread.start();
                 }
+                mHandlerThread.start();
                 gbDevice.setState(GBDevice.State.INITIALIZED);
                 gbDevice.sendDeviceUpdateIntent(getContext());
+                readBleSettings();
                 handled = true;
                 break;
             default:
@@ -336,6 +390,63 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
                 str += String.format("0x%1x ", data[i]);
             }
             LOG.info(str);
+        }
+        else if(characteristicUUID.equals(CasioGB6900Constants.CASIO_SETTING_FOR_BLE_CHARACTERISTIC_UUID)) {
+            mBleSettings = data;
+            String str = "Read Casio Setting for BLE: ";
+            for(int i=0; i<data.length; i++) {
+                str += String.format("0x%1x ", data[i]);
+            }
+            /* Definition of parameters - for future reference */
+
+            // data[0]; // BLE alert for call, mail and other
+            // data[1]; // BLE alert for Calendar
+            // data[2]; // BLE alert for SNS
+            // data[3]; // BLE alert for vibration and alarm
+            // data[4]; // BLE alert for animation
+            // data[5]; // Connection Interval
+            // data[6]; // Connection Interval
+            // data[7]; // Slave Latency
+            // data[8]; // Slave Latency
+
+            // Alert definitions:
+            // 0 = Off
+            // 1 = Sound
+            // 2 = Vibration
+            // 3 = Sound and Vibration
+            //int callAlert = (data[0] >> 6) & 0x03;
+            //LOG.info("Call Alert: " + callAlert);
+            //int mailAlert = (data[0] >> 2) & 0x03;
+            //LOG.info("Mail Alert: " + mailAlert);
+            //int snsAlert = (data[2] >> 4) & 0x03;
+            //LOG.info("SNS Alert: " + snsAlert);
+            //int calAlert = (data[1] >> 6) & 0x03;
+            //LOG.info("Calendart Alert: " + calAlert);
+            //int otherAlert = (data[0] & 0x03);
+            //LOG.info("Other Alert: " + otherAlert);
+            //int vibrationValue = (data[3] & 0x0f);
+            //LOG.info("Vibration Value: " + vibrationValue);
+            //int alarmValue = (data[3] >> 4) & 0x0f;
+            // Vibration pattern; A = 0, B = 1, C = 2
+            //LOG.info("Alarm Value: " + alarmValue);
+            //int animationValue = data[4] & 0x40;
+            // Length of Alarm, only 2, 5 and 10 possible
+            //LOG.info("Animation Value: " + animationValue);
+            // 0 = on
+            // 64 = off
+            //int useDisableMtuReqBit = data[4] & 0x08;
+            // 8 = on
+            // 0 = off!?
+            //LOG.info("useDisableMtuReqBit: " + useDisableMtuReqBit);
+
+            //int slaveLatency = ((data[7] & 0xff) | ((data[8] & 0xff) << 8));
+            //int connInterval = ((data[5] & 0xff) | ((data[6] & 0xff) << 8));
+            //LOG.info("Slave Latency: " + slaveLatency);
+            //LOG.info("Connection Interval: " + connInterval);
+            //LOG.info(str);
+
+            configureBleSettings();
+            writeBleSettings();
         }
         else {
             return super.onCharacteristicRead(gatt, characteristic, status);
@@ -445,7 +556,30 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
-
+        int alarmOffset = 4;
+        byte[] data = new byte[20];
+        for(int i=0; i<alarms.size(); i++)
+        {
+            Alarm alm = alarms.get(i);
+            if(alm.getEnabled()) {
+                data[i * alarmOffset] = 0x40;
+            } else {
+                data[i * alarmOffset] = 0;
+            }
+            if(alm.getRepetition(Alarm.ALARM_ONCE)) {
+                data[i * alarmOffset] |= 0x20;
+            }
+            data[i * alarmOffset + 1] = 0;
+            data[i * alarmOffset + 2] = (byte)alm.getHour();
+            data[i * alarmOffset + 3] = (byte)alm.getMinute();
+        }
+        try {
+            TransactionBuilder builder = performInitialized("setAlarm");
+            builder.write(getCharacteristic(CasioGB6900Constants.CASIO_SETTING_FOR_ALM_CHARACTERISTIC_UUID), data);
+            builder.queue(getQueue());
+        } catch(IOException e) {
+            LOG.error("Error setting alarm: " + e.getMessage());
+        }
     }
 
     @Override
@@ -583,7 +717,18 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onFindDevice(boolean start) {
         if(start) {
-            showNotification(CasioGB6900Constants.SNS_NOTIFICATION_ID, "You found it!", "");
+            try {
+                TransactionBuilder builder = performInitialized("findDevice");
+                byte value[] = new byte[]{GattCharacteristic.HIGH_ALERT};
+
+                BluetoothGattService service = mBtGatt.getService(CasioGB6900Constants.IMMEDIATE_ALERT_SERVICE_UUID);
+                BluetoothGattCharacteristic charact = service.getCharacteristic(CasioGB6900Constants.ALERT_LEVEL_CHARACTERISTIC_UUID);
+                builder.write(charact, value);
+                LOG.info("onFindDevice sent");
+                builder.queue(getQueue());
+            } catch (IOException e) {
+                LOG.warn("showNotification failed: " + e.getMessage());
+            }
         }
     }
 

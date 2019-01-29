@@ -118,7 +118,7 @@ public class CasioGB6900DeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public int getAlarmSlotCount() {
-        return 0; // 4 regular and one snooze but not yet implemented
+        return 5; // 4 regular and one snooze
     }
 
     @Override

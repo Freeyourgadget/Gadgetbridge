@@ -75,8 +75,11 @@ public class CasioHandlerThread extends GBDeviceIoThread {
                 break;
             }
 
-            if (gbDevice.getState() == GBDevice.State.NOT_CONNECTED) {
+            GBDevice.State state = gbDevice.getState();
+            if (state == GBDevice.State.NOT_CONNECTED || state == GBDevice.State.WAITING_FOR_RECONNECT) {
+                LOG.debug("Closing handler thread, state not connected or waiting for reconnect.");
                 quit();
+                continue;
             }
 
             Calendar now = GregorianCalendar.getInstance();
