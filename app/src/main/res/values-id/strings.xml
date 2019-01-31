@@ -1,2 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources><string name="app_name">Gadgetbridge</string>
+    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="action_settings">Pengaturan</string>
+    <string name="action_quit">Keluar</string>
+    <string name="action_donate">Donasi</string>
+    <string name="controlcenter_fetch_activity_data">Sinkronisasi</string>
+    <string name="controlcenter_find_device">Cari handphone hilang</string>
+    <string name="controlcenter_take_screenshot">Ambil gambar layar</string>
+    <string name="controlcenter_change_led_color">Ubah warna LED</string>
+    <string name="controlcenter_change_fm_frequency">Ubah frekuensi FM</string>
+    <string name="controlcenter_connect">Sambungkan</string>
+    <string name="controlcenter_disconnect">Putuskan</string>
+    <string name="controlcenter_delete_device">Hapus perangkat</string>
+    <string name="controlcenter_delete_device_name">Hapus %1$s</string>
+    <string name="controlcenter_delete_device_dialogmessage">"Tindakan ini akan menghapus semua perangkat dan data "</string>
+    <string name="controlcenter_navigation_drawer_open">Buka laci navigasi</string>
+    <string name="controlcenter_navigation_drawer_close">Tutup laci navigasi</string>
+    <string name="controlcenter_snackbar_need_longpress">Tekan lama kartu untuk memutuskan</string>
+    <string name="controlcenter_snackbar_disconnecting">Sedang memutuskan</string>
+    <string name="controlcenter_snackbar_connecting">Sedang menyambungkan</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Sedang mengambil gambar layar</string>
+    <string name="controlcenter_calibrate_device">Kalibrasi perangkat</string>
+    <string name="title_activity_debug">Perbaikan</string>
+    <string name="debugactivity_really_factoryreset_title">Kembalikan ke pengaturan pabrik\?</string>
+</resources>
