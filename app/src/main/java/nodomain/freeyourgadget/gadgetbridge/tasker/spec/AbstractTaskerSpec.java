@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.tasker.spec;
 import java.util.HashMap;
 import java.util.Map;
 
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.tasker.plugin.TaskerDevice;
 import nodomain.freeyourgadget.gadgetbridge.tasker.settings.SettingSupplier;
 import nodomain.freeyourgadget.gadgetbridge.tasker.settings.SettingSupplierImpl;
@@ -20,9 +21,9 @@ import nodomain.freeyourgadget.gadgetbridge.tasker.task.TaskerTaskProvider;
 public abstract class AbstractTaskerSpec implements TaskerSpec {
 
     private Map<TaskerEventType, TaskerSettings> settings = new HashMap<>();
-    private TaskerDevice device;
+    private DeviceType device;
 
-    protected AbstractTaskerSpec(TaskerDevice device) {
+    protected AbstractTaskerSpec(DeviceType device) {
         this.device = device;
     }
 

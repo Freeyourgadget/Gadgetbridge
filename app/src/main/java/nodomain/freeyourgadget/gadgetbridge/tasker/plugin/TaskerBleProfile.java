@@ -2,6 +2,9 @@ package nodomain.freeyourgadget.gadgetbridge.tasker.plugin;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.AbstractBleProfile;
@@ -42,7 +45,7 @@ public class TaskerBleProfile<T extends AbstractBTLEDeviceSupport> extends Abstr
             try {
                 run = taskerService.runForType(eventType);
             } catch (NoTaskDefinedException e) {
-                TaskerUtil.noTaskDefinedInformation().show();
+                TaskerUtil.noTaskDefinedInformation();
             }
             if (settings.isConsumeEvent().isPresent() && settings.isConsumeEvent().get()) {
                 return run;

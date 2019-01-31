@@ -85,9 +85,9 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
             device = (TaskerDevice) getArguments().get(TaskerConstants.INTENT_DEVICE);
             eventType = (TaskerEventType) getArguments().get(TaskerConstants.INTENT_EVENT);
             initEnableEvent();
-            initAddTask();
             initEnableThreshold();
             initThreshold();
+            initAddTask();
             initTasks();
         }
 
@@ -101,14 +101,6 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
             enableEvent = new SwitchPreference(getActivity());
             enableEvent.setKey(key);
             enableEvent.setTitle(R.string.tasker_event_enabled);
-//            enableEvent.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-//                @Override
-//                public boolean onPreferenceChange(Preference preference, Object newValue) {
-//                    settings.isEnabled().set((Boolean) newValue);
-//                    return true;
-//                }
-//            });
-//            settings.isEnabled().set(prefs.getBoolean(key, false));
             getPreferenceScreen().addPreference(enableEvent);
         }
 
@@ -129,17 +121,6 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
             threshold.setSummary(R.string.tasker_threshold_sum);
             threshold.getNumberPicker().setMinValue(50);
             threshold.getNumberPicker().setMaxValue(10000);
-//            setThresholdIfDefined(settings);
-//            threshold.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-//                @Override
-//                public boolean onPreferenceChange(Preference preference, Object newValue) {
-//                    settings.getThreshold().set(Long.valueOf(newValue.toString()));
-//                    return true;
-//                }
-//            });
-//            if (prefs.getBoolean(scoped(TaskerConstants.ACTIVITY_THRESHOLD_ENABLED), false)) {
-//                settings.getThreshold().set(null);
-//            }
             enableThreshold.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -160,6 +141,7 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
         private void initAddTask() {
             addTask = new ButtonPreference(getActivity());
             addTask.setTitle(R.string.tasker_task);
+            addTask.setButtonText(R.string.tasker_add);
             addTask.setSummary(R.string.tasker_task_sum);
             getPreferenceScreen().addPreference(addTask);
         }
@@ -191,7 +173,6 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
         }
 
         private void initTasks() {
-            loadTasks();
             addTask.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -200,29 +181,14 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
                     }
                 }
             });
-//            TaskerTaskProvider taskerTaskProvider = new TaskerTaskProvider() {
-//                @Override
-//                public String getTask(TaskerEvent event) {
-//                    if (event.getCount() < tasks.size()) {
-//                        String text = tasks.get(event.getCount()).getText();
-//                        if (text == null || StringUtils.isEmpty(text)) {
-//                            throw new NoTaskDefinedException();
-//                        }
-//                        return text;
-//                    }
-//                    return null;
-//                }
-//
-//            };
-//            settings.getTaskProvider().set(taskerTaskProvider);
+            loadTasks();
         }
 
         private EditTextPreference task(String key) {
             final ButtonPreference task = new ButtonPreference(getActivity());
             task.setKey(key);
-            task.setSummary(R.string.tasker_task_sum);
+            task.setSummary(R.string.tasker_task_name);
             task.setButtonText(R.string.tasker_remove);
-            task.setWidgetLayoutResource(R.layout.button_preference_layout);
             task.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

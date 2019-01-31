@@ -13,7 +13,7 @@ import nodomain.freeyourgadget.gadgetbridge.tasker.spec.TaskerSpec;
  */
 public enum TaskerDevice implements Serializable {
 
-    XWATCH(DeviceType.XWATCH, new XWatchTaskerSpec());
+    XWATCH(DeviceType.XWATCH, new XWatchTaskerSpec(DeviceType.XWATCH));
 
     private DeviceType type;
     private TaskerSpec spec;

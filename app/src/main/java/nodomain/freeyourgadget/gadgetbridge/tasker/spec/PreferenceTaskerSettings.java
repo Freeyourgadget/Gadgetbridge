@@ -3,10 +3,12 @@ package nodomain.freeyourgadget.gadgetbridge.tasker.spec;
 import android.content.SharedPreferences;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEvent;
 import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEventType;
 import nodomain.freeyourgadget.gadgetbridge.tasker.plugin.TaskerConstants;
 import nodomain.freeyourgadget.gadgetbridge.tasker.plugin.TaskerDevice;
+import nodomain.freeyourgadget.gadgetbridge.tasker.service.NoTaskDefinedException;
 import nodomain.freeyourgadget.gadgetbridge.tasker.settings.PreferenceSettingSupplier;
 import nodomain.freeyourgadget.gadgetbridge.tasker.settings.SettingSupplier;
 import nodomain.freeyourgadget.gadgetbridge.tasker.settings.TaskerSettings;
@@ -21,7 +23,7 @@ import nodomain.freeyourgadget.gadgetbridge.tasker.task.TaskerTaskProvider;
  */
 public class PreferenceTaskerSettings implements TaskerSettings {
 
-    private TaskerDevice device;
+    private DeviceType device;
     private TaskerEventType eventType;
     private SettingSupplier<Boolean> consumingEvents;
     private SettingSupplier<Boolean> enabled;
@@ -29,7 +31,7 @@ public class PreferenceTaskerSettings implements TaskerSettings {
     private SettingSupplier<TaskerTaskProvider> taskProvider;
     private SharedPreferences preferences;
 
-    public PreferenceTaskerSettings(TaskerDevice device, TaskerEventType eventType) {
+    public PreferenceTaskerSettings(DeviceType device, TaskerEventType eventType) {
         this.device = device;
         this.eventType = eventType;
         this.preferences = GBApplication.getPrefs().getPreferences();
@@ -67,15 +69,14 @@ public class PreferenceTaskerSettings implements TaskerSettings {
             public String getTask(TaskerEvent event) {
                 String key = scope(TaskerConstants.ACTIVITY_TASK).withScope(String.valueOf(event.getCount())).toString();
                 if (event.getType().equals(eventType) && preferences.contains(key)) {
-                    return preferences.getString(key, "");
+                    String taskName = preferences.getString(key, null);
+                    if(taskName != null && !taskName.isEmpty()){
+                        return taskName;
+                    }
                 }
-                return null;
+                throw new NoTaskDefinedException();
             }
 
-            @Override
-            public void addTask(TaskerEvent event, String task) {
-                preferences.edit().putString(scope(TaskerConstants.ACTIVITY_TASK).withScope(String.valueOf(event.getCount())).toString(), task).commit();
-            }
         };
 
         @Override

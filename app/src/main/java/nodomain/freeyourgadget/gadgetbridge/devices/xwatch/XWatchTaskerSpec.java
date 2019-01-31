@@ -6,13 +6,13 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import java.util.Arrays;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.tasker.event.TaskerEventType;
-import nodomain.freeyourgadget.gadgetbridge.tasker.plugin.TaskerDevice;
 import nodomain.freeyourgadget.gadgetbridge.tasker.spec.AbstractTaskerSpec;
 
 public class XWatchTaskerSpec extends AbstractTaskerSpec {
 
-    protected XWatchTaskerSpec(TaskerDevice device) {
+    public XWatchTaskerSpec(DeviceType device) {
         super(device);
     }
 

@@ -20,11 +20,11 @@ public final class PreferenceSettingSupplier<T> implements SettingSupplier<T> {
             throw new SettingsException("Undefined", "Key can not be empty!");
         }
         if (type == null ||
-                !Boolean.class.isAssignableFrom(type.getClass()) ||
-                !Long.class.isAssignableFrom(type.getClass()) ||
-                !Integer.class.isAssignableFrom(type.getClass()) ||
-                !Float.class.isAssignableFrom(type.getClass()) ||
-                !String.class.isAssignableFrom(type.getClass()) ||
+                !Boolean.class.isAssignableFrom(type.getClass()) &&
+                !Long.class.isAssignableFrom(type.getClass()) &&
+                !Integer.class.isAssignableFrom(type.getClass()) &&
+                !Float.class.isAssignableFrom(type.getClass()) &&
+                !String.class.isAssignableFrom(type.getClass()) &&
                 (Set.class.isAssignableFrom(type.getClass()) &&
                         !(((ParameterizedType) type).getActualTypeArguments()[0] instanceof Class) &&
                         !String.class.isAssignableFrom((Class<?>) ((ParameterizedType) type).getActualTypeArguments()[0]))) {
