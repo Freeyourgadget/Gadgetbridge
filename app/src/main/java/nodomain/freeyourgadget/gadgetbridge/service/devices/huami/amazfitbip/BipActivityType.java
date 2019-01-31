@@ -22,7 +22,8 @@ public enum BipActivityType {
     Outdoor(1),
     Treadmill(2),
     Walking(3),
-    Cycling(4);
+    Cycling(4),
+    Exercise(5);
 
     private final int code;
 
@@ -40,6 +41,8 @@ public enum BipActivityType {
                 return ActivityKind.TYPE_CYCLING;
             case Walking:
                 return ActivityKind.TYPE_WALKING;
+            case Exercise:
+                return ActivityKind.TYPE_EXERCISE;
         }
         throw new RuntimeException("Not mapped activity kind for: " + this);
     }
@@ -63,6 +66,8 @@ public enum BipActivityType {
                 return Cycling;
             case ActivityKind.TYPE_WALKING:
                 return Walking;
+            case ActivityKind.TYPE_EXERCISE:
+                return Exercise;
         }
         throw new RuntimeException("No matching activity activityKind: " + activityKind);
     }

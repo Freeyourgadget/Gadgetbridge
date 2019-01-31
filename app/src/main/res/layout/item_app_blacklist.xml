@@ -7,7 +7,7 @@
     android:minHeight="60dp">
 
 
-    <android.support.v7.widget.AppCompatCheckedTextView
+    <androidx.appcompat.widget.AppCompatCheckedTextView
         android:id="@+id/item_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/blacklist_checkboxes" />
 
-    <android.support.v7.widget.AppCompatCheckedTextView
+    <androidx.appcompat.widget.AppCompatCheckedTextView
         android:id="@+id/item_pebble_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -16,9 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-import android.support.annotation.Nullable;
-
 import java.util.Date;
+
+import androidx.annotation.Nullable;
 
 // https://www8.garmin.com/xmlschemas/TrackPointExtensionv1.xsd
 /*

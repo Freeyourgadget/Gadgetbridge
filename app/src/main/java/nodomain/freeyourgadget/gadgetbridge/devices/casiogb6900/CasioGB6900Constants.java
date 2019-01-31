@@ -29,6 +29,10 @@ public final class CasioGB6900Constants {
 
     public static final UUID CCC_DESCRIPTOR_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
 
+    // Immediate Alert
+
+    public static final UUID IMMEDIATE_ALERT_SERVICE_UUID = UUID.fromString("00001802-0000-1000-8000-00805f9b34fb");
+
     // Alert
 
     public static final UUID ALERT_SERVICE_UUID = UUID.fromString("26eb0000-b012-49a8-b1f8-394fb2032b0f");
@@ -74,6 +78,7 @@ public final class CasioGB6900Constants {
     public static final UUID TX_POWER_LEVEL_CHARACTERISTIC_UUID = UUID.fromString("00002a07-0000-1000-8000-00805f9b34fb");
     // Settings
     public static final UUID CASIO_SETTING_FOR_BLE_CHARACTERISTIC_UUID = UUID.fromString("26eb000f-b012-49a8-b1f8-394fb2032b0f");
+    public static final UUID CASIO_SETTING_FOR_ALM_CHARACTERISTIC_UUID = UUID.fromString("26eb0013-b012-49a8-b1f8-394fb2032b0f");
 
     // Notification Types
 
@@ -83,5 +88,9 @@ public final class CasioGB6900Constants {
     public static final byte SNS_NOTIFICATION_ID = 13;
     public static final byte SMS_NOTIFICATION_ID = 5;
 
-
+    public enum Model {
+        MODEL_CASIO_GENERIC,
+        MODEL_CASIO_6900B,
+        MODEL_CASIO_5600B
+    }
 }

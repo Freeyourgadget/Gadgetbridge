@@ -18,9 +18,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-import android.support.annotation.DrawableRes;
-import android.support.annotation.StringRes;
-
+import androidx.annotation.DrawableRes;
+import androidx.annotation.StringRes;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 /**

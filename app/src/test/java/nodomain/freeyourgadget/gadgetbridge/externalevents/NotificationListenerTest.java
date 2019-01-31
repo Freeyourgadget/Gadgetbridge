@@ -1,14 +1,16 @@
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
-import nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity;
-import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilter;
-import nodomain.freeyourgadget.gadgetbridge.test.TestBase;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity;
+import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilter;
+import nodomain.freeyourgadget.gadgetbridge.test.TestBase;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class NotificationListenerTest extends TestBase {
 

@@ -17,11 +17,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 
 /**

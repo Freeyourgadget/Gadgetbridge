@@ -30,23 +30,23 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casiogb6900.CasioGB6900DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.hplus.HPlusSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitcor.AmazfitCorSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband3.MiBand3Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.id115.ID115Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.jyou.TeclastH30Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.liveview.LiveviewSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miscale2.MiScale2DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.no1f1.No1F1Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.roidmi.RoidmiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vibratissimo.VibratissimoSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.hplus.HPlusSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.jyou.TeclastH30Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.watch9.Watch9DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xwatch.XWatchSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.zetime.ZeTimeDeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.watch9.Watch9DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class DeviceSupportFactory {

@@ -593,6 +593,7 @@
     <string name="activity_summaries">Activities</string>
     <string name="activity_type_biking">Biking</string>
     <string name="activity_type_treadmill">Treadmill</string>
+    <string name="activity_type_exercise">Exercise</string>
     <string name="select_all">Select all</string>
     <string name="share">Share</string>
     <string name="reset_index">Reset fetch date</string>

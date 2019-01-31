@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Gadgetbridge</string>
   <string name="title_activity_controlcenter">Gadgetbridge</string>
@@ -439,4 +439,5 @@
     <string name="pref_title_notifications_timeout">Tempo mínimo entre notificações</string>
     <string name="pref_title_rtl">Da Direita para Esquerda</string>
     <string name="pref_summary_rtl">Ative isto se seu dispositivo não pode mostrar linguagens da Direita para Esquerda</string>
-    </resources>
+    <string name="debugactivity_really_factoryreset_title">Gostaria realmente de restaurar as configurações de fábrica\?</string>
+</resources>

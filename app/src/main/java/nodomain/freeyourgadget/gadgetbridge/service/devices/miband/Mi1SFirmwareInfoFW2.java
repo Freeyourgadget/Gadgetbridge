@@ -16,10 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 
-import android.support.annotation.NonNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import androidx.annotation.NonNull;
 
 /**
  * FW1 is Mi Band firmware

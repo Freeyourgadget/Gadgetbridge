@@ -18,10 +18,10 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
 import java.io.IOException;
 
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWHelper;

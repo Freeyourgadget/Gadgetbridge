@@ -17,11 +17,11 @@
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.support.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.NotifyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ReadAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;

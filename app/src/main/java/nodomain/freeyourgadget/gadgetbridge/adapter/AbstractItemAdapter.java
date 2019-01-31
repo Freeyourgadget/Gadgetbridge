@@ -17,7 +17,6 @@
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 import android.content.Context;
-import android.support.annotation.DrawableRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +27,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.DrawableRes;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 /**

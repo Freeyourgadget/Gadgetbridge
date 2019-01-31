@@ -22,11 +22,11 @@ import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.support.v4.app.ActivityCompat;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import androidx.core.app.ActivityCompat;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 

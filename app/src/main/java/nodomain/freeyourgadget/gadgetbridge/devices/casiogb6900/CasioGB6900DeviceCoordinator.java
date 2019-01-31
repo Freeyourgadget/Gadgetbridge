@@ -20,11 +20,11 @@ package nodomain.freeyourgadget.gadgetbridge.devices.casiogb6900;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -118,7 +118,7 @@ public class CasioGB6900DeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public int getAlarmSlotCount() {
-        return 0; // 4 regular and one snooze but not yet implemented
+        return 5; // 4 regular and one snooze
     }
 
     @Override

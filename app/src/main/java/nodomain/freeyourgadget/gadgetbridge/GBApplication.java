@@ -39,7 +39,6 @@ import android.os.Build;
 import android.os.Build.VERSION;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract.PhoneLookup;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.util.TypedValue;
 
@@ -53,6 +52,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
