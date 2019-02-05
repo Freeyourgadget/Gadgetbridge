@@ -339,6 +339,13 @@
             </intent-filter>
         </receiver>
         <receiver
+            android:name=".externalevents.BluetoothScanCallbackReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="BluetoothDevice.ACTION_FOUND" />
+            </intent-filter>
+        </receiver>
+        <receiver
             android:name=".service.receivers.GBMusicControlReceiver"
             android:exported="false">
             <intent-filter>

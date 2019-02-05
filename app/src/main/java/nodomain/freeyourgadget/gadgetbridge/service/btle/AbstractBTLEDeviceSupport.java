@@ -74,6 +74,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
         if (mQueue == null) {
             mQueue = new BtLEQueue(getBluetoothAdapter(), getDevice(), this, this, getContext(), mSupportedServerServices);
             mQueue.setAutoReconnect(getAutoReconnect());
+            mQueue.setBleScannerForReconnect(useBleScannerForReconnect());
         }
         return mQueue.connect();
     }
@@ -383,6 +384,11 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
 
     @Override
     public boolean onDescriptorWriteRequest(BluetoothDevice device, int requestId, BluetoothGattDescriptor descriptor, boolean preparedWrite, boolean responseNeeded, int offset, byte[] value) {
+        return false;
+    }
+
+    @Override
+    public boolean useBleScannerForReconnect() {
         return false;
     }
 }

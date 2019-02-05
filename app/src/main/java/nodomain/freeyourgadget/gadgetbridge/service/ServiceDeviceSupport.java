@@ -93,6 +93,11 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public boolean useBleScannerForReconnect() {
+        return delegate.useBleScannerForReconnect();
+    }
+
+    @Override
     public void dispose() {
         delegate.dispose();
     }
