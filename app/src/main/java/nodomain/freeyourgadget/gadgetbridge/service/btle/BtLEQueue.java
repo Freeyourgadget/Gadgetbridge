@@ -88,12 +88,13 @@ public final class BtLEQueue {
 
             while (!mDisposed && !mCrashed) {
                 try {
-                    LOG.info("waiting...");
-                    synchronized (mTransactionMonitor) {
-                        try {
-                            mTransactionMonitor.wait();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                    if(mTransactions.isEmpty() && mServerTransactions.isEmpty()) {
+                        synchronized (mTransactionMonitor) {
+                            try {
+                                mTransactionMonitor.wait();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                     Transaction transaction = mTransactions.poll();
