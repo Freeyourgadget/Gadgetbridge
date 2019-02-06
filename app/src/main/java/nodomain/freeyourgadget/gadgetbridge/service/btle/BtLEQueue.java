@@ -18,8 +18,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
 import android.annotation.TargetApi;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -38,7 +36,6 @@ import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -98,7 +95,23 @@ public final class BtLEQueue {
 
     private BluetoothLeScanner mBluetoothScanner;
     private boolean mUseBleScannerForReconnect = false;
-    private String mLastScanCallbackUUID = UUID.randomUUID().toString();
+    private PendingIntent mScanCallbackIntent = null;
+
+    private Runnable mRestartRunnable = new Runnable() {
+        @Override
+        public void run() {
+            LOG.info("Restarting background scan due to Android N limitations...");
+            startBleBackgroundScan();
+        }
+    };
+
+    private Runnable mReduceBleScanIntervalRunnable = new Runnable() {
+        @Override
+        public void run() {
+            LOG.info("Restarting BLE background scan with lower priority...");
+            startBleBackgroundScan(false);
+        }
+    };
 
     private Thread dispatchThread = new Thread("Gadgetbridge GATT Dispatcher") {
 
@@ -260,9 +273,6 @@ public final class BtLEQueue {
         }
         LOG.info("Attempting to connect to " + mGbDevice.getName());
         mBluetoothAdapter.cancelDiscovery();
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && mUseBleScannerForReconnect && mBluetoothScanner != null) {
-            mBluetoothScanner.stopScan(getScanCallbackIntent(false));
-        }
         BluetoothDevice remoteDevice = mBluetoothAdapter.getRemoteDevice(mGbDevice.getAddress());
         if(!mSupportedServerServices.isEmpty()) {
             BluetoothManager bluetoothManager = (BluetoothManager) mContext.getSystemService(Context.BLUETOOTH_SERVICE);
@@ -381,48 +391,55 @@ public final class BtLEQueue {
 
     @TargetApi(Build.VERSION_CODES.O)
     PendingIntent getScanCallbackIntent(boolean newUuid) {
-        Intent intent = new Intent(mContext, BluetoothScanCallbackReceiver.class);
-        intent.setAction("BluetoothDevice.ACTION_FOUND");
-        intent.putExtra("address", mGbDevice.getAddress());
-        if(newUuid)
-            mLastScanCallbackUUID = UUID.randomUUID().toString();
-        intent.putExtra("uuid", mLastScanCallbackUUID);
-        return PendingIntent.getBroadcast(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        if(newUuid || mScanCallbackIntent == null) {
+            String uuid = UUID.randomUUID().toString();
+            mScanCallbackIntent = BluetoothScanCallbackReceiver.getScanCallbackIntent(mContext, mGbDevice.getAddress(), uuid);
+        }
+        return mScanCallbackIntent;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void startBleBackgroundScan() {
+        startBleBackgroundScan(true);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void startBleBackgroundScan(boolean highPowerMode) {
         if(mBluetoothScanner == null)
             mBluetoothScanner = mBluetoothAdapter.getBluetoothLeScanner();
 
-        ScanSettings settings = new ScanSettings.Builder()
-                .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
-                //.setScanMode(ScanSettings.SCAN_MODE_BALANCED)
-                //.setScanMode(ScanSettings.SCAN_MODE_LOW_POWER)
-                //.setReportDelay(0)
-                .build();
+        ScanSettings settings;
+        if(highPowerMode) {
+            settings = new ScanSettings.Builder()
+                    .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
+                    .build();
+        } else {
+            settings = new ScanSettings.Builder()
+                    .setScanMode(ScanSettings.SCAN_MODE_BALANCED)
+                    .build();
+        }
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             LOG.info("Using Android O+ BLE scanner");
             List<ScanFilter> filters = Arrays.asList(new ScanFilter[]{new ScanFilter.Builder().build() });
             //List<ScanFilter> filters = Arrays.asList(new ScanFilter[]{new ScanFilter.Builder().setDeviceAddress(mGbDevice.getAddress()).build()});
+            mBluetoothScanner.stopScan(getScanCallbackIntent(false));
             mBluetoothScanner.startScan(filters, settings, getScanCallbackIntent(true));
+            // If high power mode is requested, we scan for 5 minutes
+            // and then continue scanning with lower priority (scan mode balanced) in order
+            // to conserve power.
+            if(highPowerMode) {
+                mHandler.postDelayed(mReduceBleScanIntervalRunnable, 5 * 60 * 1000);
+            }
         }
         else {
             LOG.info("Using Android L-N BLE scanner");
             List<ScanFilter> filters = Arrays.asList(new ScanFilter[]{ new ScanFilter.Builder().setDeviceAddress(mGbDevice.getAddress()).build() });
             mBluetoothScanner.stopScan(mScanCallback);
             mBluetoothScanner.startScan(filters, settings, mScanCallback);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (!isConnected()) {
-                            LOG.info("Restarting background scan due to Android N limitations...");
-                            startBleBackgroundScan();
-                        }
-                    }
-                }, 25 * 60 * 1000);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                mHandler.postDelayed(mRestartRunnable, 25 * 60 * 1000);
+            }
         }
     }
 
@@ -436,6 +453,7 @@ public final class BtLEQueue {
             LOG.info("Scanner: Found: " + deviceName + " " + deviceAddress);
             // The filter already filtered for our specific device, so it is enough to connect to it
             mBluetoothScanner.stopScan(mScanCallback);
+            mHandler.removeCallbacks(mRestartRunnable);
             connect();
             setDeviceConnectionState(State.CONNECTING);
         }

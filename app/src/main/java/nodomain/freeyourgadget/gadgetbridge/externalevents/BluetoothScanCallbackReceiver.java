@@ -17,6 +17,8 @@
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 import android.annotation.TargetApi;
+import android.app.PendingIntent;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanResult;
@@ -48,9 +50,6 @@ public class BluetoothScanCallbackReceiver extends BroadcastReceiver {
 
         String wantedAddress = intent.getExtras().getString("address");
         String uuid = intent.getExtras().getString("uuid");
-        //if (!action.equals(BluetoothDevice.ACTION_ACL_CONNECTED) || !intent.hasExtra(BluetoothDevice.EXTRA_DEVICE)) {
-        //    return;
-        //}
 
         int bleCallbackType = intent.getIntExtra(BluetoothLeScanner.EXTRA_CALLBACK_TYPE, -1);
         if(bleCallbackType != -1) {
@@ -61,9 +60,19 @@ public class BluetoothScanCallbackReceiver extends BroadcastReceiver {
                 if(device.getAddress().equals(wantedAddress) && !mSeenScanCallbackUUIDs.contains(uuid)) {
                     mSeenScanCallbackUUIDs.add(uuid);
                     LOG.info("ScanCallbackReceiver has found " + device.getAddress() + "(" + device.getName() + ")");
+                    BluetoothAdapter.getDefaultAdapter().getBluetoothLeScanner().stopScan(getScanCallbackIntent(GBApplication.getContext(), wantedAddress, uuid));
                     GBApplication.deviceService().connect();
                 }
             }
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    public static PendingIntent getScanCallbackIntent(Context context, String address, String uuid) {
+        Intent intent = new Intent(context, BluetoothScanCallbackReceiver.class);
+        intent.setAction("BluetoothDevice.ACTION_FOUND");
+        intent.putExtra("address", address);
+        intent.putExtra("uuid", uuid);
+        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 }
