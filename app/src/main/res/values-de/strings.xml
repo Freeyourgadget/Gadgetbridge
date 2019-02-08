@@ -647,7 +647,6 @@
     <string name="lack_of_sleep">Schlafmangel: %1$s</string>
     <string name="mode_configuration">Modus-Konfiguration</string>
     <string name="notif_battery_low_extended">%1$s Akku schwach: %2$s</string>
-    <string name="pref_rtl_max_line_length">Maximale Zeilenlänge von rechts nach links</string>
     <string name="pref_rtl_max_line_length_summary">Verlängert oder verkürzt die Zeilen Rechts-nach-links wird getrennt</string>
     <string name="pref_rtl_max_line_length_summary">Verlängert oder verkürzt die Zeilen von Rechts-nach-Links, Text wird getrennt in</string>
     <string name="pref_summary_contextual_arabic">Aktivieren Sie dies, um kontextabhängiges Arabisch zu unterstützen.</string>
