@@ -623,4 +623,48 @@
     <string name="pref_invalid_frequency_title">Ungültige Frequenz</string>
     <string name="pref_invalid_frequency_message">Bitte eine Frequenz zwischen 87,5 und 108,0 eingeben</string>
     <string name="language_and_region_prefs">Sprach- und Gebietseinstellungen</string>
+  
+  <!-- Neu -->
+
+    <string name="blacklist_all_for_notifications">Blacklist für alle Benachrichtigungen</string>
+    <string name="controlcenter_calibrate_device">Gerät kalibrieren</string>
+    <string name="controlcenter_change_led_color">Ändern der LED-Farbe</string>
+    <string name="controlcenter_find_device">Verlorenes Gerät finden</string>
+    <string name="debugactivity_really_factoryreset">Wenn Sie einen Factory-Reset durchführen, werden alle Daten vom angeschlossenen Gerät gelöscht (falls unterstützt). Xiaomi/Huami-Geräte ändern auch die Bluetooth-MAC-Adresse, so dass sie als neue Geräte bei Gadgetbrige erscheinen.</string>
+    <string name="debugactivity_really_factoryreset_title">Wirklich auf Werkseinstellung zurücksetzen?</string>
+    <string name="edittext_notification_filter_words_hint">Gewünschte Wörter eingeben, neue Zeile für jedes Wort</string>
+    <string name="filter_mode">Filtermodus</string>
+    <string name="filter_mode_blacklist">Blockieren, wenn Wörter enthalten sind</string>
+    <string name="filter_mode_none">Nicht filtern</string>
+    <string name="filter_mode_whitelist">Zeigen, wann Wörter enthalten sind</string>
+    <string name="filter_submode_all">Alle Wörter</string>
+    <string name="filter_submode_at_least_one">Mindestens eines der Wörter</string>
+    
+    <string name="fw_upgrade_notice_amazfitbip">You are about to install the %s firmware on your Amazfit Bip.\n\nPlease make sure to install the .fw file, then the .res file, and finally the .gps file. Your watch will reboot after installing the .fw file.\n\nNote: You do not have to install .res and .gps if these files are exactly the same as the ones previously installed.\n\nPROCEED AT YOUR OWN RISK!</string>
+    <string name="fw_upgrade_notice_amazfitcor">You are about to install the %s firmware on your Amazfit Cor.\n\nPlease make sure to install the .fw file, and after that the .res file. Your watch will reboot after installing the .fw file.\n\nNote: You do not have to install .res if it is exactly the same as the one previously installed.\n\nPROCEED AT YOUR OWN RISK!</string>
+    <string name="fw_upgrade_notice_miband3">You are about to install the %s firmware on your Mi Band 3.\n\nPlease make sure to install the .fw file, and after that the .res file. Your watch will reboot after installing the .fw file.\n\nNote: You do not have to install .res if it is exactly the same as the one previously installed.\n\nUNTESTED, MAY BRICK YOUR DEVICE, PROCEED AT YOUR OWN RISK!</string>
+
+    <string name="lack_of_sleep">Schlafmangel: %1$s</string>
+    <string name="mode_configuration">Modus-Konfiguration</string>
+    <string name="notif_battery_low_extended">%1$s Akku schwach: %2$s</string>
+    <string name="pref_rtl_max_line_length">Maximale Zeilenlänge von rechts nach links</string>
+    <string name="pref_rtl_max_line_length_summary">Verlängert oder verkürzt die Zeilen Rechts-nach-links wird getrennt</string>
+    <string name="pref_rtl_max_line_length_summary">Verlängert oder verkürzt die Zeilen von Rechts-nach-Links, Text wird getrennt in</string>
+    <string name="pref_summary_contextual_arabic">Aktivieren Sie dies, um kontextabhängiges Arabisch zu unterstützen.</string>
+    <string name="pref_summary_pebble_gatt_clientonly">Dies ist nur für Pebble 2 und experimentell, versuchen Sie dies, wenn Sie Verbindungsprobleme haben</string>
+    <string name="pref_summary_rtl">Aktivieren Sie dies, wenn Ihr Gerät keine Sprachen von rechts nach links anzeigen kann</string>
+    <string name="pref_title_charts_swipe">Wischen nach links/rechts in der Chartsaktivität aktivieren</string>
+    <string name="pref_title_contextual_arabic">Kontextabhängiges Arabisch</string>
+    <string name="pref_title_notifications_timeout">Mindestzeit zwischen den Benachrichtigungen</string>
+    <string name="pref_title_pebble_gatt_clientonly">Nur GATT-Client</string>
+    <string name="pref_title_rtl">Rechts-nach-Links</string>
+    <string name="preferences_rtl_settings">Unterstützung von rechts nach links</string>
+    <string name="share_log">Protokoll teilen</string>
+    <string name="share_log_warning">Bitte beachten Sie, dass Gadgetbridge Dateien protokolliert, die viele persönliche Informationen enthalten können, einschließlich, aber nicht beschränkt auf Gesundheitsdaten, eindeutige Identifikatoren (wie die MAC-Adresse eines Geräts), Musikpräferenzen usw. Erwägen Sie, die Datei zu bearbeiten und diese Informationen zu entfernen, bevor Sie die Datei an einen Bericht über öffentliche Probleme senden.
+    <string name="title_activity_notification_filter">Benachrichtigungsfilter</string>
+    <string name="toast_app_must_not_be_blacklisted">App darf nicht auf die Blacklist gesetzt werden, um konfiguriert zu werden</string>
+    <string name="toast_notification_filter_saved_successfully">Benachrichtigungsfilter gespeichert</string>
+    <string name="toast_notification_filter_words_empty_hint">Bitte mindestens ein Wort eingeben</string>
+    <string name="whitelist_all_for_notifications">Whitelist für alle Benachrichtigungen</string>
+  
 </resources>
