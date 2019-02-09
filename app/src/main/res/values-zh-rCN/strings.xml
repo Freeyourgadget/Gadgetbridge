@@ -708,4 +708,5 @@
     <string name="mode_configuration">模式配置</string>
     <string name="save_configuration">保存配置</string>
     <string name="appwidget_not_connected">未连接，闹钟未设定。</string>
+    <string name="activity_type_exercise">锻炼</string>
 </resources>
