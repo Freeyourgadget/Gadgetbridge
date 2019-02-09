@@ -18,7 +18,7 @@
   <string name="controlcenter_navigation_drawer_close">Navigationsmenü schließen</string>
   <string name="controlcenter_snackbar_need_longpress">Langes Drücken der Karte trennt die Verbindung</string>
   <string name="controlcenter_snackbar_disconnecting">Trennen</string>
-  <string name="controlcenter_snackbar_connecting">Verbinden</string>
+  <string name="controlcenter_snackbar_connecting">Verbinden…</string>
   <string name="controlcenter_snackbar_requested_screenshot">Einen Screenshot des Gerätes erstellen</string>
   <string name="title_activity_debug">Debug</string>
   <!--Strings related to AppManager-->
@@ -86,7 +86,7 @@
   <string name="when_screen_off">Wenn der Bildschirm aus ist</string>
   <string name="never">Niemals</string>
   <string name="pref_header_privacy">Privatsphäre</string>
-  <string name="pref_title_call_privacy_mode">Datenschutzmodus aufrufen</string>
+  <string name="pref_title_call_privacy_mode">Datenschutz beim Anrufen</string>
   <string name="pref_call_privacy_mode_off">Name und Telefonnummer anzeigen</string>
   <string name="pref_call_privacy_mode_name">Name ausblenden, aber Nummer anzeigen</string>
   <string name="pref_call_privacy_mode_number">Nummer ausblenden, aber Name anzeigen</string>
