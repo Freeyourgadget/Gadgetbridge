@@ -47,16 +47,23 @@ public abstract class AbstractTaskerService {
      * <p>
      * Uses {@link #DEFAULT_THRESHOLD} of '50' milliseconds if threshold is not set.
      *
+     * Not thread safe, but that should be no problem.
+     *
      * @param type
      * @return
      */
-    public boolean runForType(TaskerEventType type) {
+    public boolean runForType(final TaskerEventType type) {
         if (type != null && !TaskerEventType.NO_OP.equals(type) && isEnabled() && isReady()) {
             if (!tasks.containsKey(type)) {
                 SettingSupplier<TaskerTaskProvider> taskProvider = taskProvider(type);
                 if (taskProvider.isPresent()) {
                     SettingSupplier<Long> threshold = threshold(type);
-                    tasks.put(type, new TaskerTask(type, taskProvider.get(), threshold.isPresent() ? threshold.get() : DEFAULT_THRESHOLD));
+                    tasks.put(type, new TaskerTask(type, taskProvider.get(), threshold.isPresent() ? threshold.get() : DEFAULT_THRESHOLD, new TaskerTask.OnDoneListener() {
+                        @Override
+                        public void done(TaskerTask task) {
+                            tasks.remove(type);
+                        }
+                    }));
                 }
             }
             tasks.get(type).schedule(executor);

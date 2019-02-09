@@ -4,6 +4,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.tasker.plugin.TaskerIntent;
@@ -26,11 +27,13 @@ public class TaskerTask implements Runnable {
     private TaskerEventType type;
     private TaskerTaskProvider provider;
     private long threshold;
+    private OnDoneListener onDone;
 
-    public TaskerTask(TaskerEventType type, TaskerTaskProvider provider, long threshold) {
+    public TaskerTask(TaskerEventType type, TaskerTaskProvider provider, long threshold, OnDoneListener onDone) {
         this.type = type;
         this.provider = provider;
         this.threshold = threshold;
+        this.onDone = onDone;
     }
 
     public TaskerTask schedule(ScheduledExecutorService executeService) {
@@ -56,6 +59,7 @@ public class TaskerTask implements Runnable {
         } catch (NoTaskDefinedException e) {
             TaskerUtil.noTaskDefinedInformation();
         }
+        onDone.done(this);
     }
 
     public int getCount() {
@@ -64,6 +68,10 @@ public class TaskerTask implements Runnable {
 
     public boolean cancel() {
         return task.cancel(true);
+    }
+
+    public interface OnDoneListener {
+        void done(TaskerTask task);
     }
 
 }
