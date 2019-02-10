@@ -1,5 +1,12 @@
 ### Changelog
 
+#### Version 0.32.2
+* Fix setting alarms under some circumstances
+* Support calls notifications for some VoIP apps
+* Mi Band 3: Enable fetching sports activities (currently only useful for flushing activities)
+* Casio: Improve stability
+* Casio: Add explicit support for GB-6900B, GB-X6900B and GB-5600B
+
 #### Version 0.32.1
 * Fix db deadlock on alarm migration
 

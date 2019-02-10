@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.32.2" versioncode="145">
+        <change>Fix setting alarms under some circumstances</change>
+        <change>Support calls notifications for some VoIP apps</change>
+        <change>Mi Band 3: Enable fetching sports activities (currently only useful for flushing activities)</change>
+        <change>Casio: Improve stability</change>
+        <change>Casio: Add explicit support for GB-6900B, GB-X6900B and GB-5600B</change>
+    </release>
     <release version="0.32.1" versioncode="144">
         <change>Fix db deadlock on alarm migration</change>
     </release>
