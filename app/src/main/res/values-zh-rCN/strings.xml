@@ -19,7 +19,7 @@
     <string name="controlcenter_navigation_drawer_close">关闭导航菜单</string>
     <string name="controlcenter_snackbar_need_longpress">长按此卡片以断开连接</string>
     <string name="controlcenter_snackbar_disconnecting">断开中</string>
-    <string name="controlcenter_snackbar_connecting">连接中</string>
+    <string name="controlcenter_snackbar_connecting">连接中…</string>
     <string name="controlcenter_snackbar_requested_screenshot">获取设备的屏幕截图</string>
 
 
