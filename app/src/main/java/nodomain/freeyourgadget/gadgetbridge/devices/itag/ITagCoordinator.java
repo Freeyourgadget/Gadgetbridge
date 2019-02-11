@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele Gobbetti, Taavi Eomäe
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele Gobbetti, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -15,22 +15,23 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-package nodomain.freeyourgadget.gadgetbridge.devices.itag;
+package ee.aegrel.gadgetbridge.devices.itag;
 
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
-import nodomain.freeyourgadget.gadgetbridge.entities.Device;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import androidx.annotation.NonNull;
+
+import ee.aegrel.gadgetbridge.devices.AbstractDeviceCoordinator;
+import ee.aegrel.gadgetbridge.devices.InstallHandler;
+import ee.aegrel.gadgetbridge.devices.SampleProvider;
+import ee.aegrel.gadgetbridge.entities.DaoSession;
+import ee.aegrel.gadgetbridge.entities.Device;
+import ee.aegrel.gadgetbridge.impl.GBDevice;
+import ee.aegrel.gadgetbridge.impl.GBDeviceCandidate;
+import ee.aegrel.gadgetbridge.model.ActivitySample;
+import ee.aegrel.gadgetbridge.model.DeviceType;
 
 public class ITagCoordinator extends AbstractDeviceCoordinator {
     @Override
@@ -79,8 +80,8 @@ public class ITagCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAlarmConfiguration() {
-        return false;
+    public int getAlarmSlotCount() {
+        return 0;
     }
 
     @Override
