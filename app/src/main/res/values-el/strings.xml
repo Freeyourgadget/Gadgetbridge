@@ -17,7 +17,7 @@
     <string name="controlcenter_delete_device_dialogmessage">Αυτό θα διαγράψει την συσκευή και όλα τα δεδομένα σχετικά με αυτή!</string>
     <string name="controlcenter_snackbar_need_longpress">Πατήστε συνεχόμενα στη καρτέλα της συσκευής για αποσύνδεση</string>
     <string name="controlcenter_snackbar_disconnecting">Γίνεται αποσύνδεση</string>
-    <string name="controlcenter_snackbar_connecting">Γίνεται σύνδεση</string>
+    <string name="controlcenter_snackbar_connecting">Συνδέστε…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Λήψη στιγμιότυπου από τη συσκευή</string>
 
 
@@ -723,4 +723,5 @@
     <string name="mode_configuration">Ρύθμιση λειτουργίας</string>
     <string name="save_configuration">Απογοήτευση ρυθμίσεων</string>
     <string name="appwidget_not_connected">Δεν υπάρχει σύνδεση, το ξυπνητήρι δεν ρυθμίστηκε.</string>
+    <string name="activity_type_exercise">Ασκηση</string>
 </resources>
