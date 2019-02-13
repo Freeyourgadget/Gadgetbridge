@@ -15,7 +15,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-package ee.aegrel.gadgetbridge.devices.itag;
+package nodomain.freeyourgadget.gadgetbridge.devices.itag;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,15 +23,15 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
-import ee.aegrel.gadgetbridge.devices.AbstractDeviceCoordinator;
-import ee.aegrel.gadgetbridge.devices.InstallHandler;
-import ee.aegrel.gadgetbridge.devices.SampleProvider;
-import ee.aegrel.gadgetbridge.entities.DaoSession;
-import ee.aegrel.gadgetbridge.entities.Device;
-import ee.aegrel.gadgetbridge.impl.GBDevice;
-import ee.aegrel.gadgetbridge.impl.GBDeviceCandidate;
-import ee.aegrel.gadgetbridge.model.ActivitySample;
-import ee.aegrel.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.devices.AbstractDeviceCoordinator;
+import nodomain.freeyourgadget.devices.InstallHandler;
+import nodomain.freeyourgadget.devices.SampleProvider;
+import nodomain.freeyourgadget.entities.DaoSession;
+import nodomain.freeyourgadget.entities.Device;
+import nodomain.freeyourgadget.impl.GBDevice;
+import nodomain.freeyourgadget.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.model.ActivitySample;
+import nodomain.freeyourgadget.model.DeviceType;
 
 public class ITagCoordinator extends AbstractDeviceCoordinator {
     @Override
