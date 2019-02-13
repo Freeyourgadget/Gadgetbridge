@@ -1,4 +1,5 @@
-/*  Copyright (C) 2018 José Rebelo
+/*  Copyright (C) 2017-2019 Daniele Gobbetti, João Paulo Barraca, José
+    Rebelo, Quallenauge
 
     This file is part of Gadgetbridge.
 

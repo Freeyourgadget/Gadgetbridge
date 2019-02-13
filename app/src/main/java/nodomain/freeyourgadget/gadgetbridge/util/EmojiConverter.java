@@ -1,4 +1,5 @@
-/*  Copyright (C) 2018 Andreas Shimokawa, Matthieu Baerts
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Matthieu Baerts
 
     This file is part of Gadgetbridge.
 

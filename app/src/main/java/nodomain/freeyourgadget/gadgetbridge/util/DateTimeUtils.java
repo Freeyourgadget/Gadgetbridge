@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, AndrewH, Carsten Pfeiffer,
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, AndrewH, Carsten Pfeiffer,
     Daniele Gobbetti, Pavel Elagin
 
     This file is part of Gadgetbridge.

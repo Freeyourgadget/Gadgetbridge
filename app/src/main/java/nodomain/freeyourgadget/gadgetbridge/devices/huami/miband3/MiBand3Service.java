@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, José Rebelo
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, José Rebelo
 
     This file is part of Gadgetbridge.
 

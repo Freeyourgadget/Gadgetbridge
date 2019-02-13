@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Christian
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Christian
     Fischer, Daniele Gobbetti, JohnnySun, José Rebelo, Julien Pivotto, Kasha,
     Michal Novotny, Sergey Trofimov, Steffen Liebergeld
 

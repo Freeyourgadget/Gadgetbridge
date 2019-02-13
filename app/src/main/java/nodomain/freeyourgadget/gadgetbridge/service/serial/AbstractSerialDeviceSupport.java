@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Julien
-    Pivotto, Steffen Liebergeld
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, José Rebelo,
+    Julien Pivotto, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 

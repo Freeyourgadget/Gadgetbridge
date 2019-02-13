@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2018 Carsten Pfeiffer, João Paulo Barraca
+/*  Copyright (C) 2017-2019 Carsten Pfeiffer, Daniele Gobbetti, João Paulo
+    Barraca, Roi
 
     This file is part of Gadgetbridge.
 

@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Felix
-    Konstantin Maurer, JohnnySun, Taavi Eomäe
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Felix Konstantin Maurer, JohnnySun, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer, Michal Novotny
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer, Michal Novotny
 
     This file is part of Gadgetbridge.
 
