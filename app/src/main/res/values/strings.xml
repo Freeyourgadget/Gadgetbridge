@@ -426,6 +426,7 @@
     <string name="miband2_prefs_dateformat">Date format</string>
     <string name="dateformat_time">Time</string>
     <string name="dateformat_date_time"><![CDATA[Time & date]]></string>
+    <string name="prefs_disconnect_notification">Disconnect notification</string>
     <string name="mi2_prefs_button_actions">Button actions</string>
     <string name="mi2_prefs_button_actions_summary">Specify actions on Mi Band 2 button press</string>
     <string name="mi2_prefs_button_press_count">Button press count</string>
