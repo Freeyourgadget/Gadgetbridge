@@ -1,5 +1,5 @@
 /*  Copyright (C) 2017-2019 Carsten Pfeiffer, Daniele Gobbetti, João Paulo
-    Barraca, Roi
+    Barraca, Roi Greenberg
 
     This file is part of Gadgetbridge.
 

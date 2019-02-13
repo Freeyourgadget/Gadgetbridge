@@ -1,5 +1,5 @@
 /*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, José Rebelo, Mormegil, protomors
+    Gobbetti, José Rebelo, Petr Kadlec, protomors
 
     This file is part of Gadgetbridge.
 

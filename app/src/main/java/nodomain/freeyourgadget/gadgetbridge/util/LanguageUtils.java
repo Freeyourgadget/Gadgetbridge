@@ -1,5 +1,5 @@
 /*  Copyright (C) 2017-2019 Andreas Shimokawa, Aniruddha Adhikary, Daniele
-    Gobbetti, ivanovlev, kalaee, lazarosfs, McSym28, M. Hadi, Roi, Roi Greenberg,
+    Gobbetti, ivanovlev, kalaee, lazarosfs, McSym28, M. Hadi, Roi Greenberg,
     Ted Stein, Thomas, Yaron Shahrabani
 
     This file is part of Gadgetbridge.
