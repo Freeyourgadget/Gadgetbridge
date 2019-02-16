@@ -1,5 +1,10 @@
 ### Changelog
 
+#### Version 0.32.3
+* Fix a crash in charts due to a broken German translation
+* Fix a crash when transliterating emoji
+* Amazfit Bip/Cor: Support disconnect notification (must be configured in Bip settings for Cor also for now)
+
 #### Version 0.32.2
 * Fix setting alarms under some circumstances
 * Support calls notifications for some VoIP apps
