@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
-import android.support.annotation.Nullable;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
@@ -29,7 +28,7 @@ public class TaskerActivity extends AbstractSettingsActivity {
     public static class TaskerFragment extends PreferenceFragment {
 
         @Override
-        public void onCreate(@Nullable Bundle savedInstanceState) {
+        public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.tasker_preferences);
             final PreferenceCategory group = (PreferenceCategory) findPreference(TaskerConstants.ACTIVITY_TASKER_GROUP);

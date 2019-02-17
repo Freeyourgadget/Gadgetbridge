@@ -8,8 +8,6 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NavUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -82,7 +80,7 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
         private List<ButtonPreference> tasks = new ArrayList<>();
 
         @Override
-        public void onCreate(@Nullable Bundle savedInstanceState) {
+        public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setPreferenceScreen(getPreferenceManager().createPreferenceScreen(getActivity()));
             device = (TaskerDevice) getArguments().get(TaskerConstants.INTENT_DEVICE);
