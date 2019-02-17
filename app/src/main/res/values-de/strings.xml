@@ -644,4 +644,5 @@
     <string name="mode_configuration">Modus-Konfiguration</string>
     <string name="save_configuration">Konfiguration speichern</string>
     <string name="appwidget_not_connected">Nicht verbunden, Alarm nicht eingestellt.</string>
+    <string name="prefs_disconnect_notification">Benachichtigung beim Verbindung trennen</string>
 </resources>
