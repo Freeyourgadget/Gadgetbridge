@@ -19,6 +19,10 @@ public class ButtonPreference extends EditTextPreference {
 
     private View.OnClickListener onClickListener;
     private int buttonTextResource;
+    private boolean buttonDisabled;
+    private Button button;
+    private View parent;
+    private boolean disableDialog;
 
     public ButtonPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -38,19 +42,24 @@ public class ButtonPreference extends EditTextPreference {
     @Override
     protected void onBindView(final View view) {
         Button button = view.findViewById(R.id.tasker_button);
+        parent = view;
         if (button != null) {
+            this.button = button;
             button.setOnClickListener(onClickListener);
             button.setText(buttonTextResource);
+            disableButton();
         }
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getDialog() != null && getDialog().isShowing()) {
-                    return;
+        if (!disableDialog) {
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (getDialog() != null && getDialog().isShowing()) {
+                        return;
+                    }
+                    showDialog(null);
                 }
-                showDialog(null);
-            }
-        });
+            });
+        }
         super.onBindView(view);
     }
 
@@ -66,6 +75,9 @@ public class ButtonPreference extends EditTextPreference {
      */
     public void setOnClickListener(View.OnClickListener clickListener) {
         this.onClickListener = clickListener;
+        if (button != null) {
+            button.setOnClickListener(onClickListener);
+        }
     }
 
     /**
@@ -75,5 +87,32 @@ public class ButtonPreference extends EditTextPreference {
      */
     public void setButtonText(int resourceId) {
         buttonTextResource = resourceId;
+        if (button != null) {
+            button.setText(buttonTextResource);
+        }
     }
+
+    public void setButtonDisabled(boolean buttonDisabled) {
+        this.buttonDisabled = buttonDisabled;
+        if (button != null) {
+            disableButton();
+        }
+    }
+
+    public void setDisableDialog(boolean disableDialog) {
+        this.disableDialog = disableDialog;
+        if (parent != null) {
+            parent.setOnClickListener(null);
+        }
+    }
+
+    private void disableButton() {
+        if (buttonDisabled) {
+            button.setAlpha(.5f);
+        } else {
+            button.setAlpha(1f);
+        }
+        button.setClickable(!buttonDisabled);
+    }
+
 }

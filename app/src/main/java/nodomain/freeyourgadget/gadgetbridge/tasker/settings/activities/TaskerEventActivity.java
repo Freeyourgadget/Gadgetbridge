@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -68,6 +69,8 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
 
     public static class TaskerEventFragment extends PreferenceFragment {
 
+        private static final int thresholdStep = 200;
+
         private TaskerDevice device;
         private TaskerEventType eventType;
         private Prefs prefs = GBApplication.getPrefs();
@@ -76,7 +79,7 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
         private SwitchPreference enableThreshold;
         private NumberPreference threshold;
         private ButtonPreference addTask;
-        private List<EditTextPreference> tasks = new ArrayList<>();
+        private List<ButtonPreference> tasks = new ArrayList<>();
 
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,22 +118,21 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
 
         private void initThreshold() {
             final String key = scoped(TaskerConstants.ACTIVITY_THRESHOLD);
-            threshold = new NumberPreference(getActivity());
+            String[] values = new String[(10000 / thresholdStep)];
+            for (int i = 0; i < values.length; i++) {
+                values[i] = Integer.toString((i + 1) * thresholdStep);
+            }
+            threshold = new NumberPreference(getActivity(), values, thresholdStep);
             threshold.setKey(key);
             threshold.setTitle(R.string.tasker_threshold);
             threshold.setSummary(R.string.tasker_threshold_sum);
-            threshold.getNumberPicker().setMinValue(50);
-            threshold.getNumberPicker().setMaxValue(10000);
             enableThreshold.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     if (newValue.equals(Boolean.FALSE)) {
-                        for (EditTextPreference taskPreference : tasks) {
-                            if (!taskPreference.getKey().equals(scoped(TaskerConstants.ACTIVITY_TASK))) {
-                                getPreferenceScreen().removePreference(taskPreference);
-                            }
+                        for (ButtonPreference task : new ArrayList<>(tasks.subList(1, tasks.size()))) {
+                            removeTask(task);
                         }
-                        prefs.getPreferences().edit().remove(key).commit();
                     }
                     return true;
                 }
@@ -140,6 +142,7 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
 
         private void initAddTask() {
             addTask = new ButtonPreference(getActivity());
+            addTask.setDisableDialog(true);
             addTask.setTitle(R.string.tasker_task);
             addTask.setButtonText(R.string.tasker_add);
             addTask.setSummary(R.string.tasker_task_sum);
@@ -159,15 +162,21 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
                 }
                 String key = scoped(TaskerConstants.ACTIVITY_TASK) + "_" + i;
                 if (prefs.getPreferences().contains(key)) {
-                    EditTextPreference task = task(key);
-                    tasks.add(task);
+                    ButtonPreference task = task(key);
+                    task.setTitle(prefs.getPreferences().getString(key, ""));
+                    if (i == 0) {
+                        task.setButtonDisabled(true);
+                    }
+                    if (i == 9) {
+                        addTask.setButtonDisabled(true);
+                    }
                     getPreferenceScreen().addPreference(task);
                 }
             }
             // Add default task
             if (tasks.isEmpty()) {
-                EditTextPreference task = task(scoped(TaskerConstants.ACTIVITY_TASK) + "_" + 0);
-                tasks.add(task);
+                ButtonPreference task = task(scoped(TaskerConstants.ACTIVITY_TASK) + "_" + 0);
+                task.setButtonDisabled(true);
                 getPreferenceScreen().addPreference(task);
             }
         }
@@ -176,26 +185,42 @@ public class TaskerEventActivity extends AbstractSettingsActivity {
             addTask.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (prefs.getBoolean(scoped(TaskerConstants.ACTIVITY_THRESHOLD_ENABLED), false)) {
-                        getPreferenceScreen().addPreference(task(scoped(TaskerConstants.ACTIVITY_TASK) + "_" + (tasks.size() - 1)));
+                    if (prefs.getBoolean(scoped(TaskerConstants.ACTIVITY_THRESHOLD_ENABLED), false) && tasks.size() < 9 || tasks.size() < 1) {
+                        getPreferenceScreen().addPreference(task(scoped(TaskerConstants.ACTIVITY_TASK) + "_" + tasks.size()));
                     }
                 }
             });
             loadTasks();
         }
 
-        private EditTextPreference task(String key) {
+        private ButtonPreference task(String key) {
             final ButtonPreference task = new ButtonPreference(getActivity());
             task.setKey(key);
             task.setSummary(R.string.tasker_task_name);
             task.setButtonText(R.string.tasker_remove);
+            task.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    task.setTitle(newValue.toString());
+                    return true;
+                }
+            });
             task.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getPreferenceScreen().removePreference(task);
+                    removeTask(task);
                 }
             });
+            tasks.add(task);
             return task;
+        }
+
+        private void removeTask(ButtonPreference task) {
+            tasks.remove(task);
+            getPreferenceScreen().removePreference(task);
+            prefs.getPreferences().edit().remove(task.getKey()).commit();
+            addTask.setButtonDisabled(false);
+            tasks.get(0).setButtonDisabled(true);
         }
 
     }

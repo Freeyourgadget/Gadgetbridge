@@ -69,13 +69,13 @@ public class TaskerConstants {
             StringBuilder builder = new StringBuilder(constant);
             if (scopes != null && !scopes.isEmpty()) {
                 for (String scope : scopes) {
-                    if (!StringUtils.isEmpty(scope)) {
+                    if (StringUtils.isEmpty(scope)) {
                         continue;
                     }
-                    if (scopes.indexOf(scope) < scope.length() - 1) {
-                        builder.append("_");
-                    }
-                    builder.append(scopes);
+//                    if (scopes.indexOf(scope) <= scopes.size() - 1) {
+                    builder.append("_");
+//                    }
+                    builder.append(scope.toLowerCase());
                 }
             }
             return builder.toString();
