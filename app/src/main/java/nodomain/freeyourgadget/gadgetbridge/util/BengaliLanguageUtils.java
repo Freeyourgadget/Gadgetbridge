@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2018 Aniruddha Adhikary
+/*  Copyright (C) 2017-2019 Aniruddha Adhikary, Carsten Pfeiffer, Daniele
+    Gobbetti, Utsob Roy
 
     This file is part of Gadgetbridge.
 
@@ -17,7 +18,8 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 import java.util.HashMap;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 // What's the reason to extending LanguageUtils?
 // Just doing it because already done in the previous code.

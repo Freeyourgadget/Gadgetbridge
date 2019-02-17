@@ -1,5 +1,6 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, dakhnod,
-    Frank Slezak, ivanovlev, JohnnySun, Julien Pivotto, Kasha, Steffen Liebergeld
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, dakhnod,
+    Daniele Gobbetti, Frank Slezak, ivanovlev, JohnnySun, José Rebelo, Julien
+    Pivotto, Kasha, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 
@@ -17,8 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-import android.support.annotation.Nullable;
-
+import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;

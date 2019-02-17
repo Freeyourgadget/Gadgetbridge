@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Lem Dulfo
 
     This file is part of Gadgetbridge.
@@ -26,14 +26,16 @@ import android.widget.TimePicker;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
+import nodomain.freeyourgadget.gadgetbridge.entities.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 public class AlarmDetails extends AbstractGBActivity {
 
-    private GBAlarm alarm;
+    private Alarm alarm;
     private TimePicker timePicker;
     private CheckedTextView cbSmartWakeup;
     private CheckedTextView cbMonday;
@@ -50,7 +52,7 @@ public class AlarmDetails extends AbstractGBActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_details);
 
-        alarm = getIntent().getParcelableExtra("alarm");
+        alarm = (Alarm) getIntent().getSerializableExtra(nodomain.freeyourgadget.gadgetbridge.model.Alarm.EXTRA_ALARM);
         device = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
 
         timePicker = findViewById(R.id.alarm_time_picker);
@@ -109,17 +111,17 @@ public class AlarmDetails extends AbstractGBActivity {
         timePicker.setCurrentHour(alarm.getHour());
         timePicker.setCurrentMinute(alarm.getMinute());
 
-        cbSmartWakeup.setChecked(alarm.isSmartWakeup());
+        cbSmartWakeup.setChecked(alarm.getSmartWakeup());
         int smartAlarmVisibility = supportsSmartWakeup() ? View.VISIBLE : View.GONE;
         cbSmartWakeup.setVisibility(smartAlarmVisibility);
 
-        cbMonday.setChecked(alarm.getRepetition(GBAlarm.ALARM_MON));
-        cbTuesday.setChecked(alarm.getRepetition(GBAlarm.ALARM_TUE));
-        cbWednesday.setChecked(alarm.getRepetition(GBAlarm.ALARM_WED));
-        cbThursday.setChecked(alarm.getRepetition(GBAlarm.ALARM_THU));
-        cbFriday.setChecked(alarm.getRepetition(GBAlarm.ALARM_FRI));
-        cbSaturday.setChecked(alarm.getRepetition(GBAlarm.ALARM_SAT));
-        cbSunday.setChecked(alarm.getRepetition(GBAlarm.ALARM_SUN));
+        cbMonday.setChecked(alarm.getRepetition(Alarm.ALARM_MON));
+        cbTuesday.setChecked(alarm.getRepetition(Alarm.ALARM_TUE));
+        cbWednesday.setChecked(alarm.getRepetition(Alarm.ALARM_WED));
+        cbThursday.setChecked(alarm.getRepetition(Alarm.ALARM_THU));
+        cbFriday.setChecked(alarm.getRepetition(Alarm.ALARM_FRI));
+        cbSaturday.setChecked(alarm.getRepetition(Alarm.ALARM_SAT));
+        cbSunday.setChecked(alarm.getRepetition(Alarm.ALARM_SUN));
 
     }
 
@@ -144,10 +146,11 @@ public class AlarmDetails extends AbstractGBActivity {
 
     private void updateAlarm() {
         alarm.setSmartWakeup(supportsSmartWakeup() && cbSmartWakeup.isChecked());
-        alarm.setRepetition(cbMonday.isChecked(), cbTuesday.isChecked(), cbWednesday.isChecked(), cbThursday.isChecked(), cbFriday.isChecked(), cbSaturday.isChecked(), cbSunday.isChecked());
+        int repetitionMask = AlarmUtils.createRepetitionMassk(cbMonday.isChecked(), cbTuesday.isChecked(), cbWednesday.isChecked(), cbThursday.isChecked(), cbFriday.isChecked(), cbSaturday.isChecked(), cbSunday.isChecked());
+        alarm.setRepetition(repetitionMask);
         alarm.setHour(timePicker.getCurrentHour());
         alarm.setMinute(timePicker.getCurrentMinute());
-        alarm.store();
+        DBHelper.store(alarm);
     }
 
     @Override

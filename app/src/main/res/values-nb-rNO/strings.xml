@@ -407,7 +407,7 @@
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Legg til miniprogram</string>
     <string name="activity_prefs_sleep_duration">Foretrukket søvn i timer</string>
-    <string name="appwidget_alarms_set">En alarm ble satt for %1$02d:%2$02d</string>
+    <string name="appwidget_setting_alarm">En alarm ble satt for %1$02d:%2$02d</string>
     <string name="device_hw">Maskinvarerevisjon: %1$s</string>
     <string name="device_fw">Fastvareversjon: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Feil under opprettelse av mappe for loggfiler: %1$s</string>
@@ -699,4 +699,20 @@
     <string name="language_and_region_prefs">Språk og stedsinnstillinger</string>
     <string name="debugactivity_really_factoryreset_title">Vil du virkelig gjenopprette fabrikkinnstillinger\?</string>
     <string name="debugactivity_really_factoryreset">Gjenoppretting til fabrikkinnstillinger vil slette all data fra den tilkoblede enheten (hvis støttet). Xiaomi/Huami-enheter endrer også MAC-adressen for Blåtann, og vil dermed framtre som nye enheter i Gadgetbridge.</string>
+    <string name="devicetype_casiogb6900">Casio GB-6900</string>
+    <string name="title_activity_notification_filter">Merknadsfilter</string>
+    <string name="toast_app_must_not_be_blacklisted">Programmet kan ikke være svartelistet når det settes opp</string>
+    <string name="edittext_notification_filter_words_hint">Skriv inn ønskede ord, ett ord per linje</string>
+    <string name="toast_notification_filter_saved_successfully">Merknadsfilter lagret</string>
+    <string name="filter_mode_none">Ikke filtrer</string>
+    <string name="filter_mode_whitelist">Vis når ordene er å finne på hvitlisten</string>
+    <string name="filter_mode_blacklist">Blokker når ordene er å finne på svartelisten</string>
+    <string name="filter_submode_at_least_one">Minst ett av ordene</string>
+    <string name="filter_submode_all">Hvert av ordene</string>
+    <string name="toast_notification_filter_words_empty_hint">Skriv inn minst ett ord</string>
+    <string name="filter_mode">Filtermodus</string>
+    <string name="mode_configuration">Modusoppsett</string>
+    <string name="save_configuration">Lagre oppsett</string>
+    <string name="appwidget_not_connected">Ikke tilkoblet, alarm ikke satt.</string>
+    <string name="activity_type_exercise">Trening</string>
 </resources>

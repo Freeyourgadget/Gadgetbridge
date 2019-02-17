@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, JohnnySun
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, JohnnySun, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -30,7 +30,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -110,9 +109,14 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     /**
      * Send commands like this to the device:
      * <p>
-     * <code>perform("sms notification").write(someCharacteristic, someByteArray).queue(getQueue());</code>
+     * <code>performInitialized("sms notification").write(someCharacteristic, someByteArray).queue(getQueue());</code>
      * </p>
-     * TODO: support orchestration of multiple reads and writes depending on returned values
+     * This will asynchronously
+     * <ul>
+     * <li>connect to the device (if necessary)</li>
+     * <li>initialize the device (if necessary)</li>
+     * <li>execute the commands collected with the returned transaction builder</li>
+     * </ul>
      *
      * @see #performConnected(Transaction)
      * @see #initializeDevice(TransactionBuilder)
@@ -133,6 +137,11 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     }
 
     /**
+     * Ensures that the device is connected and (only then) performs the actions of the given
+     * transaction builder.
+     *
+     * In contrast to {@link #performInitialized(String)}, no initialization sequence is performed
+     * with the device, only the actions of the given builder are executed.
      * @param transaction
      * @throws IOException
      * @see {@link #performInitialized(String)}

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Gadgetbridge</string>
   <string name="title_activity_controlcenter">Gadgetbridge</string>
@@ -18,7 +18,7 @@
   <string name="controlcenter_navigation_drawer_close">Fermer le tiroir de navigation</string>
   <string name="controlcenter_snackbar_need_longpress">Presser longuement l\'icône pour déconnecter</string>
   <string name="controlcenter_snackbar_disconnecting">Déconnexion</string>
-  <string name="controlcenter_snackbar_connecting">Connexion</string>
+  <string name="controlcenter_snackbar_connecting">Connexion…</string>
   <string name="controlcenter_snackbar_requested_screenshot">Capturer l\'écran de l\'appareil</string>
   <string name="title_activity_debug">Déboguer</string>
   <!--Strings related to AppManager-->
@@ -337,7 +337,7 @@
   <string name="add_widget">Ajouter un widget</string>
   <string name="activity_prefs_sleep_duration">
 Temps de sommeil préféré en heures</string>
-  <string name="appwidget_alarms_set">Une alarme a été enregistré pour %1$02d:%2$02d</string>
+  <string name="appwidget_setting_alarm">Une alarme a été enregistré pour %1$02d:%2$02d</string>
   <string name="device_hw">Révision matérielle : %1$s</string>
   <string name="device_fw">Version du micrologiciel : %1$s</string>
   <string name="error_creating_directory_for_logfiles">Erreur à la création de votre fichier log : %1$s</string>
@@ -577,7 +577,7 @@ Temps de sommeil préféré en heures</string>
     <string name="watch9_pairing_tap_hint">Lorsque votre bracelet vibre, secouez-le ou pressez son bouton.</string>
 
     <string name="notif_battery_low">%1$s niveau de batterie bas</string>
-    <string name="notif_battery_low_extended">%1$s niveau de batterie bas: %2$s</string>
+    <string name="notif_battery_low_extended">%1$s niveau de batterie base : %2$s</string>
     <string name="lack_of_sleep">Manque de sommeil: %1$s</string>
     <string name="overslept">Excès de sommeil: %1$s</string>
     <string name="no_limit">Sans limite</string>
@@ -639,4 +639,23 @@ Temps de sommeil préféré en heures</string>
 
     <string name="pref_title_contextual_arabic">Arabe contextuel</string>
     <string name="pref_summary_contextual_arabic">A cocher pour activer le support \"Arabe contextuel\"</string>
-    </resources>
+    <string name="debugactivity_really_factoryreset_title">Confirmer la réinitialisation usine \?</string>
+    <string name="debugactivity_really_factoryreset">Procéder à une réinitialisation usine supprimera toutes es données de l\'appareil connecté (si cela est supporté). Les appareils Xiami/Huami changeront aussi leur adresse MAC Bluetooth, ils apparaîtront donc comme de nouveau appareils dans GadgetBridge.</string>
+    <string name="mi3_prefs_band_screen_unlock">Déverrouillage de l\'écran du Band</string>
+    <string name="activity_type_exercise">Activité physique</string>
+    <string name="devicetype_casiogb6900">Casio GB-6900</string>
+    <string name="title_activity_notification_filter">Filtre de notifications</string>
+    <string name="toast_app_must_not_be_blacklisted">L\'application ne doit pas être en liste noire pour pouvoir être configurée</string>
+    <string name="edittext_notification_filter_words_hint">Saisissez les mot désirés, chacun sur une ligne</string>
+    <string name="toast_notification_filter_saved_successfully">Filtre des notifications sauvegardé</string>
+    <string name="filter_mode_none">Ne pas filtrer</string>
+    <string name="filter_mode_whitelist">Montrer lorsque contient les mots</string>
+    <string name="filter_mode_blacklist">Bloquer lorsque contient les mots</string>
+    <string name="filter_submode_at_least_one">Au moins un des mots</string>
+    <string name="filter_submode_all">Tous les mots</string>
+    <string name="toast_notification_filter_words_empty_hint">Veuillez entrer au moins un mot</string>
+    <string name="filter_mode">Mode Filtre</string>
+    <string name="mode_configuration">Mode Configuration</string>
+    <string name="save_configuration">Sauvegarder la configuration</string>
+    <string name="appwidget_not_connected">Non connecté, l\'alarme n\'est pas définie</string>
+</resources>

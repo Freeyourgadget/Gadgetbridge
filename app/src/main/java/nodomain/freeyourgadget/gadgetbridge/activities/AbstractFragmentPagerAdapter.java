@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Carsten Pfeiffer
+/*  Copyright (C) 2015-2019 Carsten Pfeiffer, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -16,12 +16,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 public abstract class AbstractFragmentPagerAdapter extends FragmentStatePagerAdapter {
     private final Set<AbstractGBFragment> fragments = new HashSet<>();

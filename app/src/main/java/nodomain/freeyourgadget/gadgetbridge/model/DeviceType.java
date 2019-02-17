@@ -1,6 +1,7 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, João Paulo Barraca, José Rebelo, Kranz, ladbsoft, maxirnilian,
-    protomors, Quallenauge, Sami Alaoui, tiparega, Vadim Kaushan
+/*  Copyright (C) 2015-2019 Andreas Böhler, Andreas Shimokawa, Carsten
+    Pfeiffer, Daniele Gobbetti, João Paulo Barraca, José Rebelo, Kranz,
+    ladbsoft, maxirnilian, protomors, Quallenauge, Sami Alaoui, tiparega,
+    Vadim Kaushan
 
     This file is part of Gadgetbridge.
 
@@ -18,9 +19,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-import android.support.annotation.DrawableRes;
-import android.support.annotation.StringRes;
-
+import androidx.annotation.DrawableRes;
+import androidx.annotation.StringRes;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 /**
@@ -51,6 +51,7 @@ public enum DeviceType {
     WATCH9(100, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_watch9),
     ROIDMI(110, R.drawable.ic_device_roidmi, R.drawable.ic_device_roidmi_disabled, R.string.devicetype_roidmi),
     ROIDMI3(112, R.drawable.ic_device_roidmi, R.drawable.ic_device_roidmi_disabled, R.string.devicetype_roidmi3),
+    CASIOGB6900(120, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_casiogb6900),
     TEST(1000, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_test);
 
     private final int key;

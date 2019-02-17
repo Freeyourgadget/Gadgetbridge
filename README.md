@@ -22,33 +22,35 @@ vendor's servers.
 
 [<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/app/nodomain.freeyourgadget.gadgetbridge)
 
-[List of changes](https://github.com/Freeyourgadget/Gadgetbridge/blob/master/CHANGELOG.md)
+[List of changes](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/master/CHANGELOG.md)
 
 ## Supported Devices
-* Amazfit Bip [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
-* Amazfit Cor (no maintainer) [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor)
-* HPlus Devices (e.g. ZeBand) [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/HPlus)
+* Amazfit Bip [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
+* Amazfit Cor [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor)
+* Casio GB-6900B (WIP)
+* HPlus Devices (e.g. ZeBand) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
 * ID115 (WIP)
 * Lenovo Watch 9 (WIP)
 * Liveview (WIP)
-* Mi Band, Mi Band 1A, Mi Band 1S [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band)
-* Mi Band 2 [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2)
-* Mi Band 3 [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-3)
+* Mi Band, Mi Band 1A, Mi Band 1S [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band)
+* Mi Band 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2)
+* Mi Band 3 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-3)
 * NO.1 F1 (WIP)
-* Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble)
-* Pebble 2 [Wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble)
+* Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
+* Pebble 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
 * Teclast H10, H30 (WIP)
 * XWatch (Affordable Chinese Casio-like smartwatches)
 * Vibratissimo (experimental)
 * ZeTime (WIP)
 
+
 ## Features
 
-Please see [FEATURES.md](https://github.com/Freeyourgadget/Gadgetbridge/blob/master/FEATURES.md)
+Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/master/FEATURES.md)
 
 ## Getting Started (Pebble)
 
-Please [this wiki article](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble-Getting-Started) 
+Please [this wiki article](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble-Getting-Started) 
 
 ## How to use (Mi Band 1+2)
 
@@ -72,9 +74,9 @@ Please [this wiki article](https://github.com/Freeyourgadget/Gadgetbridge/wiki/P
 * If you use other apps like Mi Fit, and "bonding" with Gadgetbridge does not work, please
   try to unpair the band in the other app and try again with Gadgetbridge.
 * While all Mi Band devices are supported, some firmware versions might work better than others.
-  You can consult the [projects wiki pages](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band) 
+  You can consult the [projects wiki pages](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band) 
   to check if your firmware version is fully supported or if an upgrade/downgrade might be beneficial.
-* In order to display text notifications on the Mi Band 2, you have to [install a font on the band](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2).
+* In order to display text notifications on the Mi Band 2, you have to [install a font on the band](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2).
 
 ## Features (Liveview)
 
@@ -89,7 +91,6 @@ Please [this wiki article](https://github.com/Freeyourgadget/Gadgetbridge/wiki/P
 * Daniele Gobbetti
 
 ### Additional device support
-
 * João Paulo Barraca (HPlus)
 * Vitaly Svyastyn (NO.1 F1)
 * Sami Alaoui (Teclast H30)
@@ -97,6 +98,7 @@ Please [this wiki article](https://github.com/Freeyourgadget/Gadgetbridge/wiki/P
 * Sebastian Kranz (ZeTime)
 * Vadim Kaushan (ID115)
 * "maxirnilian" (Lenovo Watch 9)
+* Andreas Böhler (Casio GB-6900B)
 
 ## Contribute
 

@@ -21,7 +21,7 @@
     <string name="controlcenter_navigation_drawer_close">Close navigation drawer</string>
     <string name="controlcenter_snackbar_need_longpress">Long press the card to disconnect</string>
     <string name="controlcenter_snackbar_disconnecting">Disconnecting</string>
-    <string name="controlcenter_snackbar_connecting">Connecting</string>
+    <string name="controlcenter_snackbar_connecting">Connecting…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Taking a screenshot of the device</string>
     <string name="controlcenter_calibrate_device">Calibrate Device</string>
 
@@ -426,6 +426,7 @@
     <string name="miband2_prefs_dateformat">Date format</string>
     <string name="dateformat_time">Time</string>
     <string name="dateformat_date_time"><![CDATA[Time & date]]></string>
+    <string name="prefs_disconnect_notification">Disconnect notification</string>
     <string name="mi2_prefs_button_actions">Button actions</string>
     <string name="mi2_prefs_button_actions_summary">Specify actions on Mi Band 2 button press</string>
     <string name="mi2_prefs_button_press_count">Button press count</string>
@@ -494,7 +495,7 @@
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Add widget</string>
     <string name="activity_prefs_sleep_duration">Preferred sleep duration in hours</string>
-    <string name="appwidget_alarms_set">An alarm was set for %1$02d:%2$02d</string>
+    <string name="appwidget_setting_alarm">Setting alarm for %1$02d:%2$02d</string>
     <string name="device_hw">Hardware revision: %1$s</string>
     <string name="device_fw">Firmware version: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Error creating directory for log files: %1$s</string>
@@ -593,6 +594,7 @@
     <string name="activity_summaries">Activities</string>
     <string name="activity_type_biking">Biking</string>
     <string name="activity_type_treadmill">Treadmill</string>
+    <string name="activity_type_exercise">Exercise</string>
     <string name="select_all">Select all</string>
     <string name="share">Share</string>
     <string name="reset_index">Reset fetch date</string>
@@ -628,6 +630,7 @@
     <string name="devicetype_watch9">Watch 9</string>
     <string name="devicetype_roidmi">Roidmi</string>
     <string name="devicetype_roidmi3">Roidmi 3</string>
+    <string name="devicetype_casiogb6900">Casio GB-6900</string>
 
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>
@@ -671,6 +674,23 @@
     <string name="pref_invalid_frequency_message">Please enter a frequency between 87.5 and 108.0</string>
     <string name="language_and_region_prefs">Language and region settings</string>
 
+    <!--Notification Filter Black-/ Whitelist-->
+
+    <string name="title_activity_notification_filter">Notification Filter</string>
+    <string name="toast_app_must_not_be_blacklisted">App must not be blacklisted to be configured</string>
+    <string name="edittext_notification_filter_words_hint">Enter desired words, new line for each</string>
+    <string name="toast_notification_filter_saved_successfully">Notification filter saved</string>
+    <string name="filter_mode_none">Do not filter</string>
+    <string name="filter_mode_whitelist">Show when words are contained</string>
+    <string name="filter_mode_blacklist">Block when words are contained</string>
+    <string name="filter_submode_at_least_one">At least one of the words</string>
+    <string name="filter_submode_all">All of the words</string>
+    <string name="toast_notification_filter_words_empty_hint">Please enter at least one word</string>
+    <string name="filter_mode">Filter Mode</string>
+    <string name="mode_configuration">Mode Configuration</string>
+    <string name="save_configuration">Save Configuration</string>
+    <string name="appwidget_not_connected">Not connected, alarm not set.</string>
+
     <!-- Tasker -->
     <string name="tasker">Tasker</string>
     <string name="tasker_enabled">Enabled</string>
@@ -692,5 +712,4 @@
     <string name="tasker_info">Tasker is an application for Android which performs tasks (sets of actions) based on contexts
         (application, time, date, location, event, gesture) in user-defined profiles or in clickable or timer home screen widgets.</string>
     <string name="tasker_no_task_defined">No task defined! Please define a task in settings.</string>
-
 </resources>

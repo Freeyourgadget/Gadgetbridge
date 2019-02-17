@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Christian
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Christian
     Fischer, Daniele Gobbetti, José Rebelo, Szymon Tomasz Stefanek
 
     This file is part of Gadgetbridge.
@@ -25,7 +25,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelUuid;
-import android.support.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,11 +32,10 @@ import org.slf4j.LoggerFactory;
 import java.util.Collection;
 import java.util.Collections;
 
+import androidx.annotation.NonNull;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
-import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -129,11 +127,6 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsScreenshots() {
         return false;
-    }
-
-    @Override
-    public boolean supportsAlarmConfiguration() {
-        return true;
     }
 
     @Override

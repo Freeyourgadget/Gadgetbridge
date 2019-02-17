@@ -330,7 +330,7 @@
   <string name="appwidget_text">Zzz</string>
   <string name="add_widget">Widget hozzáadása</string>
   <string name="activity_prefs_sleep_duration">Preferált alvási idő órában</string>
-  <string name="appwidget_alarms_set">Ébresztő beállítva: %1$02d:%2$02d</string>
+  <string name="appwidget_setting_alarm">Ébresztő beállítva: %1$02d:%2$02d</string>
   <string name="device_hw">HW: %1$s</string>
   <string name="device_fw">FW: %1$s</string>
   <string name="error_creating_directory_for_logfiles">Hiba a könyvtár létrehozásakor a naplófájlok számára: %1$s</string>

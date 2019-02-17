@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources><string name="app_name">Gadgetbridge</string>
 
     <string name="title_activity_controlcenter">Gadgetbridge</string>
@@ -7,7 +7,7 @@
     <string name="action_quit">Iesire</string>
     <string name="action_donate">Doneaza</string>
     <string name="controlcenter_fetch_activity_data">Sincronizeaza</string>
-    <string name="controlcenter_find_device">Gaseste bratara</string>
+    <string name="controlcenter_find_device">Găsește brățara</string>
     <string name="controlcenter_connect">Conecteaza</string>
     <string name="controlcenter_disconnect">Deconecteaza</string>
     <string name="controlcenter_delete_device">Sterge bratara</string>
@@ -22,8 +22,8 @@
     <string name="appmanager_health_deactivate">Dezactiveaza</string>
     <string name="appmanager_hrm_activate">Activeaza Masurare ritm cardiac</string>
     <string name="appmanager_hrm_deactivate">Dezactiveaza Masurare ritm cardiac</string>
-    <string name="appmanager_weather_activate">Activeaza Aplicatie meteo</string>
-    <string name="appmanager_weather_deactivate">Dezactiveaza Aplicatie meteo</string>
+    <string name="appmanager_weather_activate">Activare Aplicație Meteo</string>
+    <string name="appmanager_weather_deactivate">Dezactivare Aplicație Meteo</string>
     <string name="app_configure">Configureaza</string>
     <string name="title_activity_appblacklist">Notificari blocate</string>
     <string name="blacklist_all_for_notifications">Blocheaza toate notificarile</string>
@@ -67,7 +67,7 @@
     <string name="pref_title_weather">Meteo</string>
     <string name="controlcenter_take_screenshot">Captura ecran</string>
     <string name="controlcenter_snackbar_disconnecting">Se deconecteaza</string>
-    <string name="controlcenter_snackbar_connecting">Se conecteaza</string>
+    <string name="controlcenter_snackbar_connecting">Conectare…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Capturez ecranul dispozitivului</string>
 
 
@@ -77,10 +77,10 @@
     <string name="appmanager_installed_watchfaces">Fete de ceas instalate</string>
     <string name="appmananger_app_delete">Sterge</string>
     <string name="appmanager_app_openinstore">Cauta in magazinul Pebble</string>
-    <string name="appmanager_weather_install_provider">Instaleaza aplicatie notificari meteo</string>
+    <string name="appmanager_weather_install_provider">Instalare aplicație Notificări Meteo</string>
     <string name="app_move_to_top">Muta la inceput</string>
 
-    <string name="fw_upgrade_notice">Esti pe punctul de a instala firmware-ul %s in locul celui deja instalat pe Mi Band.</string>
+    <string name="fw_upgrade_notice">Ești pe punctul de a instala firmware-ul %s în locul celui deja instalat pe Mi Band.</string>
     <string name="fw_upgrade_notice_amazfitbip">Esti pe punctul de a instala firmware-ul %s pe Amazfit Bip.
 \n
 \nAi grija sa instalezi fisierul .fw, apoi fisierul .res, si in final fisierul .gps. Ceasul va reporni dupa ce se instaleaza fisierul .fw.
@@ -124,4 +124,23 @@
     <string name="menuitem_compass">Compas</string>
     <string name="menuitem_settings">Setari</string>
     <string name="menuitem_alipay">Alipay</string>
+    <string name="controlcenter_change_led_color">Modificare Culoare LED</string>
+    <string name="controlcenter_change_fm_frequency">Modificare Frecvență FM</string>
+    <string name="controlcenter_calibrate_device">Calibrare Dispozitiv</string>
+    <string name="pref_title_audio_player">Aplicație Redare Audio Preferată</string>
+    <string name="pref_title_minimize_priority">Ascunde notificarea Gadgetbridge</string>
+    <string name="pref_summary_minimize_priority_off">Icoana din bara de stare și notificarea din ecranul de blocare sunt afișate</string>
+    <string name="pref_summary_minimize_priority_on">Icoana din bara de stare și notificarea din ecranul de blocare sunt ascunse</string>
+    <string name="pref_title_notifications_repetitions">Repetiții</string>
+    <string name="pref_title_notifications_timeout">Timp minim dintre notificări</string>
+    <string name="pref_title_notifications_pebblemsg">Mesaje Pebble</string>
+    <string name="pref_title_notification_filter">Nu Deranja</string>
+    <string name="pref_summary_notification_filter">Notificările nedorite sunt dezactivate în acest mod</string>
+    <string name="pref_title_rtl">Dreapta-La-Stanga</string>
+    <string name="pref_header_privacy">Intimitate</string>
+    <string name="pref_title_canned_replies">Răspunsuri</string>
+    <string name="filter_submode_at_least_one">Cel puțin unul dintre cuvintele</string>
+    <string name="filter_submode_all">Toate cuvintele</string>
+    <string name="save_configuration">Salvare Configurație</string>
+    <string name="appwidget_not_connected">Deconectat(ă), alarma nu este setată.</string>
 </resources>

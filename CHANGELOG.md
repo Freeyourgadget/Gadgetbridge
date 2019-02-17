@@ -1,6 +1,22 @@
 ### Changelog
 
-#### Version 0.32.0 (NEXT)
+#### Version 0.32.3
+* Fix a crash in charts due to a broken German translation
+* Fix a crash when transliterating emoji
+* Amazfit Bip/Cor: Support disconnect notification (must be configured in Bip settings for Cor also for now)
+
+#### Version 0.32.2
+* Fix setting alarms under some circumstances
+* Support calls notifications for some VoIP apps
+* Mi Band 3: Enable fetching sports activities (currently only useful for flushing activities)
+* Casio: Improve stability
+* Casio: Add explicit support for GB-6900B, GB-X6900B and GB-5600B
+
+#### Version 0.32.1
+* Fix db deadlock on alarm migration
+
+#### Version 0.32.0
+* Initial support for Casio GB-6900B
 * Increase number of alarms and store them per-device 
 * Support factory reset in debug activity (Mi Band 1/2/3, Bip, Cor)
 * Filter out unicode control sequences (fixes problems with Telegram and probably others)
@@ -8,7 +24,8 @@
 * Recoginize p≡p as an email app
 * No longer display Android paired devices in that were not a paired with Gadgetbridge
 * Amazfit Bip: Allow flashing latest GPS firmware
-* Enable No1 F1 support for a Chinese clone
+* Pebble: Native support for M7S watch face
+* No1 F1: Support for a Chinese clone
 
 #### Version 0.31.3
 * Pebble: Fix crash with DISMISS and OPEN actions

@@ -1,4 +1,4 @@
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_swipe_layout"
@@ -19,7 +19,7 @@
             android:layout_weight="1"
             tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity">
 
-            <android.support.design.widget.TabLayout
+            <com.google.android.material.tabs.TabLayout
                 android:id="@+id/charts_pagerTabStrip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,4 +56,4 @@
 
         </LinearLayout>
     </LinearLayout>
-</android.support.v4.widget.SwipeRefreshLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

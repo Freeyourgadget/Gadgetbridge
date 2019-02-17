@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -105,6 +105,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(36157, "1.1.2.05");
         crcToVersion.put(26444, "1.1.5.02");
         crcToVersion.put(60002, "1.1.5.04");
+        crcToVersion.put(5229,  "1.1.5.12");
 
         // resources
         crcToVersion.put(12586, "0.0.8.74");
@@ -128,7 +129,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(23073, "0.1.1.45");
         crcToVersion.put(59245, "1.0.2.00");
         crcToVersion.put(20591, "1.1.2.05");
-        crcToVersion.put(5341,  "1.1.5.02-04");
+        crcToVersion.put(5341,  "1.1.5.02-12");
 
         // gps
         crcToVersion.put(61520, "9367,8f79a91,0,0,");

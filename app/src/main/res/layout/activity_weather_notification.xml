@@ -13,7 +13,7 @@
         android:textStyle="bold"
         android:textSize="20dp" />
 
-    <android.support.v4.widget.Space
+    <androidx.legacy.widget.Space
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_vertical_margin" />
 

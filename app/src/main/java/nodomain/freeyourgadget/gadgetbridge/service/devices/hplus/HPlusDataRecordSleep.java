@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 João Paulo Barraca
+/*  Copyright (C) 2017-2019 João Paulo Barraca
 
     This file is part of Gadgetbridge.
 
