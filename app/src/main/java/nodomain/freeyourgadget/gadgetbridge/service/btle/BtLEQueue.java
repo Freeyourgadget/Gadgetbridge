@@ -502,7 +502,9 @@ public final class BtLEQueue {
         mDisposed = true;
 //        try {
         disconnect();
-        stopBleBackgroundScan();
+        if(mUseBleScannerForReconnect) {
+            stopBleBackgroundScan();
+        }
         dispatchThread.interrupt();
         dispatchThread = null;
 //            dispatchThread.join();

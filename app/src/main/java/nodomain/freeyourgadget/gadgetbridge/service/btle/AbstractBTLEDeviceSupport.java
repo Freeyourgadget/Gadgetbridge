@@ -34,11 +34,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.CheckInitializedAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.AbstractBleProfile;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 
 /**
  * Abstract base class for all devices connected through Bluetooth Low Energy (LE) aka
@@ -74,7 +76,14 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
         if (mQueue == null) {
             mQueue = new BtLEQueue(getBluetoothAdapter(), getDevice(), this, this, getContext(), mSupportedServerServices);
             mQueue.setAutoReconnect(getAutoReconnect());
-            mQueue.setBleScannerForReconnect(useBleScannerForReconnect());
+            GBPrefs prefs = GBApplication.getGBPrefs();
+            boolean autoReconnectScan = GBPrefs.AUTO_RECONNECT_SCAN_DEFAULT;
+            if (prefs != null) {
+                autoReconnectScan = prefs.getAutoReconnectScan();
+            }
+            // Override the user preference if required by the device
+            autoReconnectScan = autoReconnectScan || useBleScannerForReconnect();
+            mQueue.setBleScannerForReconnect(autoReconnectScan);
         }
         return mQueue.connect();
     }

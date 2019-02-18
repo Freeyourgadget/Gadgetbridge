@@ -690,4 +690,5 @@
     <string name="mode_configuration">Mode Configuration</string>
     <string name="save_configuration">Save Configuration</string>
     <string name="appwidget_not_connected">Not connected, alarm not set.</string>
+    <string name="pref_title_general_autoreconnectscan">Use BLE Scanner for Reconnect</string>
 </resources>
