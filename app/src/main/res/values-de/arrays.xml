@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="notification_mode_values">
+        <item>Immer</item>
+        <item>Wenn Bildschirm an</item>
+        <item>Nie</item>
+    </string-array>    
+    
+      <string-array name="notification_mode_values_toggle">
+        <item>immer</item>
+        <item>nie</item>
+    </string-array>  
+    
+    <string-array name="orientation_values">
+        <item>horizontal</item>
+        <item>vertikal</item>
+    </string-array>  
+    
     <string-array name="pref_language_options">
         <item name="default">System Standard</item>
         <item name="cs">Čeština</item>
@@ -50,4 +66,9 @@
         <item>ja_JP</item>
         <item>ko_KO</item>
     </string-array>
+    
+    <string-array name="wearside_values">
+        <item>links</item>
+        <item>rechts</item>
+    </string-array>    
 </resources>
