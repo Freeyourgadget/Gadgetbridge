@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_language_options">
+        <item name="default">System Standard</item>
+        <item name="cs">Čeština</item>
+        <item name="de">Deutsch</item>
+        <item name="en">English</item>
+        <item name="es">Español</item>
+        <item name="fr">Français</item>
+        <item name="pl">Polski</item>
+        <item name="ru">Русский</item>
+        <item name="vi">Tiếng Việt</item>
+        <item name="tr">Türkçe</item>
+        <item name="uk">Українська</item>
+        <item name="ko">한국어</item>
+        <item name="ja">日本語</item>
+        <item name="hu">Magyar</item>
+        <item name="sk">Slovenčina</item>
+    </string-array>
+
+    <string-array name="pref_language_values">
+        <item>System Standard</item>
+        <item>cs</item>
+        <item>de</item>
+        <item>en</item>
+        <item>es</item>
+        <item>fr</item>
+        <item>pl</item>
+        <item>ru</item>
+        <item>vi</item>
+        <item>tr</item>
+        <item>uk</item>
+        <item>ko</item>
+        <item>ja</item>
+        <item>hu</item>
+        <item>sk</item>
+    </string-array>
+
+    <string-array name="pref_miband3_language_values">
+        <item>Auto</item>
+        <item>zh_CH</item>
+        <item>zh_TW</item>
+        <item>en_US</item>
+        <item>es_ES</item>
+        <item>ru_RU</item>
+        <item>de_DE</item>
+        <item>it_IT</item>
+        <item>fr_FR</item>
+        <item>pl_PL</item>
+        <item>ja_JP</item>
+        <item>ko_KO</item>
+    </string-array>
