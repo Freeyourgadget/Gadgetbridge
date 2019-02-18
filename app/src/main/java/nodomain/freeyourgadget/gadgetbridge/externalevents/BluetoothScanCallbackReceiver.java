@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa
+/*  Copyright (C) 2019 Andreas Böhler
 
     This file is part of Gadgetbridge.
 
@@ -31,20 +31,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 public class BluetoothScanCallbackReceiver extends BroadcastReceiver {
 
     private static final Logger LOG = LoggerFactory.getLogger(BluetoothScanCallbackReceiver.class);
-    private List<String> mSeenScanCallbackUUIDs = new ArrayList<String>();
+    private String mSeenScanCallbackUUID = "";
 
     @TargetApi(Build.VERSION_CODES.O)
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        if(!action.equals("BluetoothDevice.ACTION_FOUND") || !intent.hasExtra("address") || !intent.hasExtra("uuid")) {
+        if(!action.equals("nodomain.freeyourgadget.gadgetbridge.blescancallback") || !intent.hasExtra("address") || !intent.hasExtra("uuid")) {
             return;
         }
 
@@ -57,11 +58,12 @@ public class BluetoothScanCallbackReceiver extends BroadcastReceiver {
             ArrayList<ScanResult> scanResults = intent.getParcelableArrayListExtra(BluetoothLeScanner.EXTRA_LIST_SCAN_RESULT);
             for(ScanResult result: scanResults) {
                 BluetoothDevice device = result.getDevice();
-                if(device.getAddress().equals(wantedAddress) && !mSeenScanCallbackUUIDs.contains(uuid)) {
-                    mSeenScanCallbackUUIDs.add(uuid);
+                if(device.getAddress().equals(wantedAddress) && !mSeenScanCallbackUUID.equals(uuid)) {
+                    mSeenScanCallbackUUID = uuid;
                     LOG.info("ScanCallbackReceiver has found " + device.getAddress() + "(" + device.getName() + ")");
                     BluetoothAdapter.getDefaultAdapter().getBluetoothLeScanner().stopScan(getScanCallbackIntent(GBApplication.getContext(), wantedAddress, uuid));
-                    GBApplication.deviceService().connect();
+                    GBApplication.deviceService().connect(DeviceHelper.getInstance().toSupportedDevice(device));
+
                 }
             }
         }
@@ -70,7 +72,7 @@ public class BluetoothScanCallbackReceiver extends BroadcastReceiver {
     @TargetApi(Build.VERSION_CODES.O)
     public static PendingIntent getScanCallbackIntent(Context context, String address, String uuid) {
         Intent intent = new Intent(context, BluetoothScanCallbackReceiver.class);
-        intent.setAction("BluetoothDevice.ACTION_FOUND");
+        intent.setAction("nodomain.freeyourgadget.gadgetbridge.blescancallback");
         intent.putExtra("address", address);
         intent.putExtra("uuid", uuid);
         return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);

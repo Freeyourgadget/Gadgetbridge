@@ -142,11 +142,6 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         return context;
     }
 
-    @Override
-    public boolean useBleScannerForReconnect() {
-        return false;
-    }
-
     public void evaluateGBDeviceEvent(GBDeviceEvent deviceEvent) {
         if (deviceEvent instanceof GBDeviceEventMusicControl) {
             handleGBDeviceEvent((GBDeviceEventMusicControl) deviceEvent);

@@ -342,7 +342,7 @@
             android:name=".externalevents.BluetoothScanCallbackReceiver"
             android:exported="false">
             <intent-filter>
-                <action android:name="BluetoothDevice.ACTION_FOUND" />
+                <action android:name="nodomain.freeyourgadget.gadgetbridge.blescancallback" />
             </intent-filter>
         </receiver>
         <receiver

@@ -130,9 +130,4 @@ public interface DeviceSupport extends EventHandler {
      * Returns the Android context to use, e.g. to look up resources.
      */
     Context getContext();
-
-    /**
-     * Use a BLE scanner for reconnect instead of automatic BLE reconnect
-     */
-    boolean useBleScannerForReconnect();
 }

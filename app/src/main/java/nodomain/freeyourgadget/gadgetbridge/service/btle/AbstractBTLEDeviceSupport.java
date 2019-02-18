@@ -387,7 +387,6 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
         return false;
     }
 
-    @Override
     public boolean useBleScannerForReconnect() {
         return false;
     }
