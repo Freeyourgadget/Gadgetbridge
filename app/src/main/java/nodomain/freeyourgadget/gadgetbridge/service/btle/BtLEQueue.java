@@ -416,10 +416,14 @@ public final class BtLEQueue {
     private void stopBleBackgroundScan() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mHandler.removeCallbacks(mReduceBleScanIntervalRunnable);
-            mBluetoothScanner.stopScan(getScanCallbackIntent(false));
+            if(mBluetoothScanner != null) {
+                mBluetoothScanner.stopScan(getScanCallbackIntent(false));
+            }
         } else {
             mHandler.removeCallbacks(mRestartRunnable);
-            mBluetoothScanner.stopScan(mScanCallback);
+            if(mBluetoothScanner != null) {
+                mBluetoothScanner.stopScan(mScanCallback);
+            }
         }
     }
 
