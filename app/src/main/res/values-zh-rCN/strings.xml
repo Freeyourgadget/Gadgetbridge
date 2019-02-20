@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources><string name="app_name">Gadgetbridge</string>
 
     <string name="title_activity_controlcenter">Gadgetbridge</string>
@@ -10,8 +10,8 @@
     <string name="controlcenter_start_sleepmonitor">睡眠检测器（ALPHA测试）</string>
     <string name="controlcenter_find_device">查找丢失的设备</string>
     <string name="controlcenter_take_screenshot">截图</string>
-    <string name="controlcenter_connect">已连接</string>
-    <string name="controlcenter_disconnect">未连接</string>
+    <string name="controlcenter_connect">连接</string>
+    <string name="controlcenter_disconnect">断开</string>
     <string name="controlcenter_delete_device">删除设备</string>
     <string name="controlcenter_delete_device_name">删除 %1$s</string>
     <string name="controlcenter_delete_device_dialogmessage">这将删除设备和所有相关的数据!</string>
@@ -19,7 +19,7 @@
     <string name="controlcenter_navigation_drawer_close">关闭导航菜单</string>
     <string name="controlcenter_snackbar_need_longpress">长按此卡片以断开连接</string>
     <string name="controlcenter_snackbar_disconnecting">断开中</string>
-    <string name="controlcenter_snackbar_connecting">连接中</string>
+    <string name="controlcenter_snackbar_connecting">连接中…</string>
     <string name="controlcenter_snackbar_requested_screenshot">获取设备的屏幕截图</string>
 
 
@@ -31,13 +31,13 @@
     <string name="appmananger_app_delete">删除</string>
     <string name="appmananger_app_delete_cache">删除并清空缓存</string>
     <string name="appmananger_app_reinstall">重新安装</string>
-    <string name="appmanager_app_openinstore">在Pebble Appstore中搜索</string>
+    <string name="appmanager_app_openinstore">在 Pebble Appstore 中搜索</string>
     <string name="appmanager_health_activate">启用</string>
     <string name="appmanager_health_deactivate">停用</string>
     <string name="appmanager_hrm_activate">打开心率检测</string>
     <string name="appmanager_hrm_deactivate">关闭心率检测</string>
-    <string name="appmanager_weather_activate">启用系统天气预报应用</string>
-    <string name="appmanager_weather_deactivate">禁用系统天气预报应用</string>
+    <string name="appmanager_weather_activate">启用系统天气应用</string>
+    <string name="appmanager_weather_deactivate">禁用系统天气应用</string>
     <string name="appmanager_weather_install_provider">安装天气通知应用</string>
     <string name="app_configure">配置</string>
     <string name="app_move_to_top">移至顶部</string>
@@ -47,7 +47,7 @@
     <string name="title_activity_calblacklist">阻止记录</string>
 
     <string name="title_activity_fw_app_insaller">FW/App 安装器</string>
-    <string name="fw_upgrade_notice">您即将安装固件 %s ，代替当前在Mi Band上的固件。</string>
+    <string name="fw_upgrade_notice">您即将安装固件 %s ，代替当前在小米手环上的固件。</string>
     <string name="fw_upgrade_notice_amazfitbip">即将在您的米动手表青春版(Amazfit Bip)上安装固件 %s 。 
 \n 
 \n请确保安装.fw文件，然后安装.res文件，最后安装.gps文件。 安装.fw文件后，手表将重新启动。 
@@ -61,18 +61,18 @@
 \n 
 \n注意：如果这些文件与之前安装的完全一样，则不必安装.res。 
 \n 
-\n***未经测试的固件，可能会使您的设备发生故障，由您自行承担风险！</string>
-    <string name="fw_multi_upgrade_notice">您即将安装固件 %1$s 和 %2$s，代替当前在Mi Band上的固件。</string>
-    <string name="miband_firmware_known">该固件已经过测试，并且已知与Gadgetbridge兼容。</string>
-    <string name="miband_firmware_unknown_warning">此固件未经测试，可能与Gadgetbridge不兼容。
-\n
-\n不建议把它安装到你的Mi Band！</string>
-    <string name="miband_firmware_suggest_whitelist">如果您仍想继续并且此固件在安装之后能够正常工作，请告知Gadgetbridge开发者将固件%s列入白名单</string>
+\n您需要自行承担风险！</string>
+    <string name="fw_multi_upgrade_notice">您即将安装固件 %1$s 和 %2$s，代替当前在小米手环上的固件。</string>
+    <string name="miband_firmware_known">该固件已经过测试，并且已知与 Gadgetbridge 兼容。</string>
+    <string name="miband_firmware_unknown_warning">此固件未经测试，可能与 Gadgetbridge 不兼容。 
+\n 
+\n不建议把它安装到你的小米手环！</string>
+    <string name="miband_firmware_suggest_whitelist">如果您仍想继续并且此固件在安装之后能够正常工作，请告知 Gadgetbridge 开发者将固件 %s 列入白名单。</string>
 
     <string name="title_activity_settings">设置</string>
 
     <string name="pref_header_general">常规设置</string>
-    <string name="pref_title_general_autoconnectonbluetooth">蓝牙打开时连接设备</string>
+    <string name="pref_title_general_autoconnectonbluetooth">当蓝牙打开时连接到 Gadgetbridge 设备</string>
     <string name="pref_title_general_autostartonboot">自动启动</string>
     <string name="pref_title_general_autoreconnect">自动重新连接</string>
     <string name="pref_title_audio_player">首选音频播放器</string>
@@ -81,7 +81,7 @@
 
     <string name="pref_header_datetime">日期和时间</string>
     <string name="pref_title_datetime_syctimeonconnect">同步时间</string>
-    <string name="pref_summary_datetime_syctimeonconnect">设备或手机时区变更时同步变更到设备</string>
+    <string name="pref_summary_datetime_syctimeonconnect">当您 Android 设备的时区改变时，且连接到 Gadgetbridge 设备时同步时间</string>
 
     <string name="pref_title_theme">主题</string>
     <string name="pref_theme_light">亮色</string>
@@ -97,12 +97,12 @@
     <string name="pref_title_notifications_repetitions">重复</string>
     <string name="pref_title_notifications_call">来电</string>
     <string name="pref_title_notifications_sms">短信</string>
-    <string name="pref_title_notifications_pebblemsg">Pebble消息</string>
-    <string name="pref_summary_notifications_pebblemsg">支持通过PebbleKit向Pebble发送通知的应用程序。</string>
+    <string name="pref_title_notifications_pebblemsg">Pebble 消息</string>
+    <string name="pref_summary_notifications_pebblemsg">支持经由 PebbleKit 向 Pebble 应用发送通知。</string>
     <string name="pref_title_notifications_generic">通知使用权</string>
     <string name="pref_title_whenscreenon">即使屏幕开启时也通知</string>
     <string name="pref_title_notification_filter">勿扰模式</string>
-    <string name="pref_summary_notification_filter">基于勿扰模式停用不需要的通知</string>
+    <string name="pref_summary_notification_filter">此模式下将停止“不想要的通知”</string>
     <string name="pref_title_transliteration">音译</string>
     <string name="pref_summary_transliteration">如果您的设备不支持您语言的字体, 请启用此功能</string>
 
@@ -114,7 +114,7 @@
     <string name="pref_title_call_privacy_mode">来电隐私模式</string>
     <string name="pref_call_privacy_mode_off">显示姓名和号码</string>
     <string name="pref_call_privacy_mode_name">隐藏姓名但显示号码</string>
-    <string name="pref_call_privacy_mode_number">显示号码但隐藏姓名</string>
+    <string name="pref_call_privacy_mode_number">隐藏号码但显示姓名</string>
     <string name="pref_call_privacy_mode_complete">隐藏姓名和号码</string>
 
     <string name="pref_title_weather_location">天气位置(CM/LOS)</string>
@@ -126,30 +126,30 @@
     <string name="pref_title_canned_replies">回复</string>
     <string name="pref_title_canned_messages_dismisscall">未接来电</string>
     <string name="pref_header_development">开发者选项</string>
-    <string name="pref_title_development_miaddr">Mi Band地址</string>
+    <string name="pref_title_development_miaddr">小米手环地址</string>
 
-    <string name="pref_title_pebble_settings">Pebble设置</string>
+    <string name="pref_title_pebble_settings">Pebble 设置</string>
 
     <string name="pref_header_activitytrackers">活动跟踪器</string>
     <string name="pref_title_pebble_activitytracker">首选活动跟踪器</string>
-    <string name="pref_title_pebble_sync_health">同步Pebble健康</string>
+    <string name="pref_title_pebble_sync_health">同步 Pebble 健康</string>
     <string name="pref_title_pebble_sync_misfit">同步到Misfit</string>
     <string name="pref_title_pebble_sync_morpheuz">同步到Morpheuz</string>
 
     <string name="pref_title_enable_outgoing_call">支持呼出</string>
-    <string name="pref_summary_enable_outgoing_call">禁用此功能也将停止Pebble 2 / LE在拨出电话时振动</string>
+    <string name="pref_summary_enable_outgoing_call">禁用此功能也将停止 Pebble 2 / LE 在拨出电话时振动</string>
 
     <string name="pref_title_enable_pebblekit">允许第三方 Android 应用程序访问</string>
     <string name="pref_summary_enable_pebblekit">使用 PebbleKit 为 Android 应用程序启用实验性支持</string>
 
-    <string name="pref_header_pebble_timeline">Pebble时间线</string>
+    <string name="pref_header_pebble_timeline">Pebble 时间线</string>
     <string name="pref_title_sunrise_sunset">日出和日落</string>
-    <string name="pref_summary_sunrise_sunset">基于Pebble时间表的位置发送日出和日落时间</string>
+    <string name="pref_summary_sunrise_sunset">基于 Pebble 时间表的位置发送日出和日落时间</string>
     <string name="pref_title_enable_calendar_sync">同步记录</string>
     <string name="pref_summary_enable_calendar_sync">将记录发送到时间表</string>
 
     <string name="pref_title_autoremove_notifications">自动删除已错过的通知</string>
-    <string name="pref_summary_autoremove_notifications">当您从Android设备上删除时，通知将自动从Pebble中删除</string>
+    <string name="pref_summary_autoremove_notifications">当您从 Android 设备上删除时，通知将自动从 Pebble 中删除</string>
 
     <string name="pref_title_pebble_privacy_mode">隐私模式</string>
     <string name="pref_pebble_privacy_mode_off">正常通知</string>
@@ -167,11 +167,11 @@
     <string name="toast_aqurired_networklocation">位置已确定</string>
 
     <string name="pref_title_pebble_forceprotocol">强制通知协议</string>
-    <string name="pref_summary_pebble_forceprotocol">此选项强制使用最新的通知协议, 具体取决于固件版本。仅当你知道你在做什么时启用!</string>
+    <string name="pref_summary_pebble_forceprotocol">此选项强制使用最新的通知协议, 具体取决于固件版本。请确保知道您自己知道您在做什么！</string>
     <string name="pref_title_pebble_forceuntested">启用未经测试的功能</string>
     <string name="pref_summary_pebble_forceuntested">启用未经测试的功能。仅当你知道你在做什么时启用!</string>
-    <string name="pref_title_pebble_enable_applogs">启用手表调试日志</string>
-    <string name="pref_summary_pebble_enable_applogs">应用程序日志将保存在Gadgetbridge中（需要重新连接）</string>
+    <string name="pref_title_pebble_enable_applogs">启用手表应用调试日志</string>
+    <string name="pref_summary_pebble_enable_applogs">应用程序日志将保存在 Gadgetbridge 中（需要重新连接）</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">这将导致发送到外部第三方应用程序的消息始终立即得到确认</string>
     <string name="pref_title_pebble_enable_bgjs">启用后台JS</string>
     <string name="pref_summary_pebble_enable_bgjs">启用后，将允许表盘显示天气，电池等信息。</string>
@@ -191,7 +191,7 @@
     <string name="_unknown_">(未知)</string>
     <string name="test">测试</string>
     <string name="test_notification">测试通知</string>
-    <string name="this_is_a_test_notification_from_gadgetbridge">这是来自Gadgetbridge的测试通知</string>
+    <string name="this_is_a_test_notification_from_gadgetbridge">这是来自 Gadgetbridge 的测试通知</string>
     <string name="bluetooth_is_not_supported_">不支持蓝牙。</string>
     <string name="bluetooth_is_disabled_">蓝牙已禁用。</string>
     <string name="tap_connected_device_for_activity">点按以激活已连接的设备</string>
@@ -221,8 +221,8 @@
     <string name="action_discover">连接新设备</string>
     <string name="device_with_rssi">%1$s (%2$s)</string>
     <string name="title_activity_android_pairing">配对设备</string>
-    <string name="android_pairing_hint">使用Android蓝牙配对对话框来配对设备。</string>
-    <string name="title_activity_mi_band_pairing">配对你的Mi Band</string>
+    <string name="android_pairing_hint">使用 Android 蓝牙配对对话框来配对设备。</string>
+    <string name="title_activity_mi_band_pairing">配对您的小米手环</string>
     <string name="pairing">与 %s 配对中…</string>
     <string name="pairing_creating_bond_with">与 %1$s (%2$s) 配对</string>
     <string name="pairing_unable_to_pair_with">无法与 %1$s (%2$s) 配对</string>
@@ -230,7 +230,7 @@
     <string name="pairing_already_bonded">已与 %1$s (%2$s) 绑定，正在连接…</string>
     <string name="message_cannot_pair_no_mac">没有 MAC 地址通过, 不能配对。</string>
     <string name="preferences_category_device_specific_settings">设备特定设置</string>
-    <string name="preferences_miband_settings">小米手环/Amazfit手表设置</string>
+    <string name="preferences_miband_settings">小米手环/米动手环设置</string>
     <string name="preferences_amazfitbip_settings">米动手表青春版设置</string>
     <string name="male">男</string>
     <string name="female">女</string>
@@ -238,9 +238,9 @@
     <string name="left">左</string>
     <string name="right">右</string>
     <string name="miband_pairing_using_dummy_userdata">没有提供有效的用户数据, 现在使用虚拟用户数据。</string>
-    <string name="miband_pairing_tap_hint">当您的Mi Band振动并闪烁时，请连续点击几下。</string>
+    <string name="miband_pairing_tap_hint">当您的小米手环振动并闪烁时，请连续点击几下。</string>
     <string name="appinstaller_install">安装</string>
-    <string name="discovery_connected_devices_hint">请设置并使您的设备可被发现。 当前连接的设备可能不会被发现。 对于Android 6及更高版本，您需要启用位置信息（如GPS）。 若禁用权限，Gadgetbridge可能会崩溃并重新启动。 如果几分钟后没有找到设备，请重新启动您的移动设备后再试。</string>
+    <string name="discovery_connected_devices_hint">请设置并使您的设备可被发现。 当前连接的设备可能不会被发现。 对于 Android 6 及更高版本，您需要启用位置信息（如 GPS ）。 若禁用权限， Gadgetbridge 可能会崩溃并重新启动。 如果几分钟后没有找到设备，请重新启动您的移动设备后再试。</string>
     <string name="discovery_note">注意:</string>
     <string name="candidate_item_device_image">设备图像</string>
     <string name="miband_prefs_alias">名称/别名</string>
@@ -293,8 +293,8 @@
     <string name="alarm_fri_short">周五</string>
     <string name="alarm_sat_short">周六</string>
     <string name="alarm_smart_wakeup">智能唤醒</string>
-    <string name="user_feedback_miband_set_alarms_failed">设置闹钟时出现错误, 请重试!</string>
-    <string name="user_feedback_miband_set_alarms_ok">闹钟已发送到设备!</string>
+    <string name="user_feedback_miband_set_alarms_failed">设置闹钟时出现错误, 请重试。</string>
+    <string name="user_feedback_miband_set_alarms_ok">闹钟已发送到设备。</string>
     <string name="chart_no_data_synchronize">没有数据。立即同步？</string>
     <string name="user_feedback_miband_activity_data_transfer">即将从 %2$s 开始传输 %1$s 数据</string>
     <string name="miband_prefs_fitness_goal">每天步数目标</string>
@@ -303,7 +303,7 @@
     <string name="cannot_connect">无法连接: %1$s</string>
     <string name="installer_activity_unable_to_find_handler">无法找到安装此文件的处理程序。</string>
     <string name="pbw_install_handler_unable_to_install">无法安装指定的文件: %1$s</string>
-    <string name="pbw_install_handler_hw_revision_mismatch">无法安装指定的固件: 它与您的Pebble硬件版本不符。</string>
+    <string name="pbw_install_handler_hw_revision_mismatch">无法安装指定的固件: 它与您的 Pebble 硬件版本不符。</string>
     <string name="installer_activity_wait_while_determining_status">正在确定安装状态, 请稍候…</string>
     <string name="notif_battery_low_title">电量不足！</string>
     <string name="notif_battery_low_percent">%1$s 剩余电量：%2$s%%</string>
@@ -321,11 +321,11 @@
     <string name="miband_fwinstaller_compatible_version">兼容版本</string>
     <string name="miband_fwinstaller_untested_version">未经测试的版本!</string>
     <string name="fwappinstaller_connection_state">已连接设备：%1$s</string>
-    <string name="pbw_installhandler_pebble_firmware">Pebble固件 %1$s</string>
+    <string name="pbw_installhandler_pebble_firmware">Pebble 固件 %1$s</string>
     <string name="pbwinstallhandler_correct_hw_revision">正确的硬件修订</string>
     <string name="pbwinstallhandler_incorrect_hw_revision">硬件版本不匹配！</string>
     <string name="pbwinstallhandler_app_item">%1$s (%2$s)</string>
-    <string name="updatefirmwareoperation_updateproblem_do_not_reboot">固件传输出现问题。请不要重新启动您的 Mi Band！</string>
+    <string name="updatefirmwareoperation_updateproblem_do_not_reboot">固件传输出现问题。请不要重新启动您的小米手环！</string>
     <string name="updatefirmwareoperation_metadata_updateproblem">固件元数据传输出现问题</string>
     <string name="updatefirmwareoperation_update_complete">固件安装完成</string>
     <string name="updatefirmwareoperation_update_complete_rebooting">固件安装完成, 重新启动设备…</string>
@@ -339,10 +339,10 @@
     <string name="liveactivity_live_activity">实时活动数据</string>
     <string name="weeksteps_today_steps_description">今天的步数, 目标：%1$s</string>
     <string name="pref_title_dont_ack_transfer">不发送活动数据</string>
-    <string name="pref_summary_dont_ack_transfers">如果活动数据未传输到设备，则不会被清除。 GB与其他应用程序一起使用时很有用。</string>
-    <string name="pref_summary_keep_data_on_device">即使在同步之后, 也会将活动数据保留在 Mi Band上。如果 GB 与其他应用程序一起使用, 这将非常有用。</string>
+    <string name="pref_summary_dont_ack_transfers">如果活动数据未传输到设备，则不会被清除。 Gadgetbridge 与其他应用程序一起使用时很有用。</string>
+    <string name="pref_summary_keep_data_on_device">即使在同步之后, 也会将活动数据保留在小米手环上。如果 Gadgetbridge 与其他应用程序一起使用, 这将非常有用。</string>
     <string name="pref_title_low_latency_fw_update">使用低延迟模式进行固件更新</string>
-    <string name="pref_summary_low_latency_fw_update">这可能对固件失败的设备有帮助</string>
+    <string name="pref_summary_low_latency_fw_update">这可能对固件失败的设备有帮助。</string>
 
     <string name="live_activity_steps_history">步数历史</string>
     <string name="live_activity_current_steps_per_minute">当前每分钟步数</string>
@@ -360,11 +360,11 @@
     <string name="fwinstaller_firmware_not_compatible_to_device">此固件与设备不兼容</string>
     <string name="miband_prefs_hr_sleep_detection">使用心率检测以提高睡眠检测精度</string>
 	<string name="miband_prefs_device_time_offset_hours">设备时间偏移 (用于检测倒班工作人员的睡眠)</string>
-    <string name="miband2_prefs_dateformat">小米手环2: 日期格式</string>
+    <string name="miband2_prefs_dateformat">日期格式</string>
     <string name="dateformat_time">仅时间</string>
     <string name="dateformat_date_time">时间和日期</string>
     <string name="mi2_prefs_button_actions">按钮操作</string>
-    <string name="mi2_prefs_button_actions_summary">指定小米手环2按钮上的操作</string>
+    <string name="mi2_prefs_button_actions_summary">指定小米手环２按钮上的操作</string>
     <string name="mi2_prefs_button_press_count">按钮按下计数</string>
     <string name="mi2_prefs_button_press_count_summary">触发消息广播的按钮按数</string>
     <string name="mi2_prefs_button_action">启用按钮操作</string>
@@ -378,7 +378,7 @@
     <string name="mi2_prefs_goal_notification">达标提醒</string>
     <string name="mi2_prefs_goal_notification_summary">达成运动目标后, 手环/手表将会振动提醒</string>
     <string name="mi2_prefs_display_items">显示内容</string>
-    <string name="mi2_prefs_display_items_summary">选择在小米手环2屏幕上显示的内容</string>
+    <string name="mi2_prefs_display_items_summary">选择在手环屏幕上显示的内容</string>
     <string name="mi2_prefs_activate_display_on_lift">抬腕亮屏</string>
     <string name="mi2_prefs_rotate_wrist_to_switch_info">旋转手腕以切换信息</string>
     <string name="mi2_prefs_do_not_disturb">勿扰模式</string>
@@ -411,7 +411,7 @@
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">添加小部件</string>
     <string name="activity_prefs_sleep_duration">睡眠时间目标</string>
-    <string name="appwidget_alarms_set">已设置一个闹钟为 %1$02d:%2$02d</string>
+    <string name="appwidget_setting_alarm">已设置一个闹钟为 %1$02d:%2$02d</string>
     <string name="device_hw">硬件版本:%1$s</string>
     <string name="device_fw">固件版本:%1$s</string>
     <string name="error_creating_directory_for_logfiles">为日志文件创建目录时出错:%1$s</string>
@@ -421,11 +421,11 @@
     <string name="live_activity_heart_rate">心率</string>
 
     <string name="pref_title_pebble_health_store_raw">在数据库中存储原始记录</string>
-    <string name="pref_summary_pebble_health_store_raw">如果选中该复选框，则数据保持原样，并且稍后可以处理。注意：在这种情况下，数据将占用更多的空间！</string>
+    <string name="pref_summary_pebble_health_store_raw">以“原样”保存数据，增加数据库使用量以允许稍后翻译。</string>
     <string name="action_db_management">数据库管理</string>
     <string name="title_activity_db_management">数据库管理</string>
     <string name="activity_db_management_import_export_explanation">数据库操作会使用此路径在您的设备上进行。 
-\n此路径可用于其它Android应用程序和您的计算机。 
+\n此路径可用于其它 Android 应用程序和您的计算机。 
 \n您可以在这里找到导出的数据库（或放置您要导入的数据库）：</string>
     <string name="activity_db_management_merge_old_title">删除旧版数据库</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">无法访问导出路径。请与开发者联系。</string>
@@ -451,15 +451,15 @@
 
     <string name="title_activity_vibration">振动</string>
 
-    <string name="title_activity_pebble_pairing">Pebble配对中</string>
-    <string name="pebble_pairing_hint">您的 Android 设备上将会弹出一个配对对话框。如果没有出现, 请查看通知栏并接受配对请求。之后, 接受你的Pebble配对要求</string>
+    <string name="title_activity_pebble_pairing">Pebble 配对中</string>
+    <string name="pebble_pairing_hint">您的 Android 设备上将会弹出一个配对对话框。如果没有出现, 请查看通知栏并接受配对请求。之后, 接受你的 Pebble 配对要求。</string>
 
-    <string name="weather_notification_label">请确保在天气通知应用程序中启用此外观，以获取您的Pebble上的天气信息。
-\n
-\n此处不需要配置。
-\n
-\n启用Pebble上的天气应用程序可以从“应用程序管理”中获得。
-\n
+    <string name="weather_notification_label">请确保在天气通知应用程序中启用此外观，以获取您的 Pebble 上的天气信息。 
+\n 
+\n此处不需要配置。 
+\n 
+\n启用 Pebble 上的天气应用程序可以从“应用程序管理”中获得。 
+\n 
 \n支持的表盘将会自动显示天气。</string>
     <string name="pref_title_setup_bt_pairing">启用蓝牙配对</string>
     <string name="pref_summary_setup_bt_pairing">如果连接有问题，请停用</string>
@@ -492,7 +492,7 @@
     <string name="discovery_yes_pair">配对</string>
     <string name="discovery_dont_pair">不配对</string>
 
-    <string name="_pebble_watch_open_on_phone">在手机上打开</string>
+    <string name="_pebble_watch_open_on_phone">在 Android 设备上打开</string>
     <string name="_pebble_watch_mute">静音</string>
     <string name="_pebble_watch_reply">回复</string>
     <string name="kind_firmware">固件</string>
@@ -503,7 +503,7 @@
     <string name="kind_resources">资源</string>
     <string name="devicetype_unknown">未知设备</string>
     <string name="devicetype_miband">小米手环</string>
-    <string name="devicetype_miband2">小米手环2</string>
+    <string name="devicetype_miband2">小米手环２</string>
     <string name="devicetype_amazfit_bip">米动手表青春版</string>
     <string name="devicetype_amazfit_cor">米动手环</string>
     <string name="pref_title_weather">天气</string>
@@ -513,15 +513,15 @@
     <string name="kind_watchface">表盘</string>
 
     <string name="appmanager_cached_watchapps_watchfaces">在内存缓冲区中的应用程序</string>
-    <string name="pref_title_canned_messages_set">在Pebble上升级</string>
+    <string name="pref_title_canned_messages_set">在 Pebble 上升级</string>
 
     <string name="pref_screen_vibration_profile">振动配置</string>
 
     <string name="vibration_profile_ring">响铃</string>
     <string name="mi2_prefs_button_press_broadcast">要发送的广播消息</string>
     <string name="devicetype_pebble">Pebble</string>
-    <string name="pref_summary_pebble_forcele">使用实验性Pebble LE以支持所有Pebble，代替BT经典连接。 这首先需要以非LE配对，然后以Pebble LE连接</string>
-    <string name="pref_summary_pebble_mtu_limit">如果您的Pebble 2 / Pebble LE无法正常工作，请尝试使用此设置来限制MTU（有效范围20-512）</string>
+    <string name="pref_summary_pebble_forcele">使用实验性 Pebble LE 以支持所有 Pebble ，代替 BT 经典连接。 这首先需要以非 LE 配对，然后以 Pebble LE 连接</string>
+    <string name="pref_summary_pebble_mtu_limit">如果您的 Pebble 2 / Pebble LE 无法正常工作，请尝试使用此设置来限制 MTU （有效范围 20-512 ）</string>
     <string name="pref_header_auto_export">自动导出</string>
     <string name="pref_title_auto_export_enabled">启用自动导出</string>
     <string name="pref_title_auto_export_location">导出位置</string>
@@ -539,4 +539,174 @@
     <string name="devicetype_hplus">HPlus</string>
     <string name="choose_auto_export_location">选择导出位置</string>
 <string name="notification_channel_name">Gadgetbridge 通知</string>
+<string name="controlcenter_change_led_color">切换 LED 灯颜色</string>
+    <string name="controlcenter_change_fm_frequency">更改 FM 频率</string>
+    <string name="controlcenter_calibrate_device">校准设备</string>
+
+
+    <string name="blacklist_all_for_notifications">添加所有通知到黑名单</string>
+    <string name="whitelist_all_for_notifications">添加所有通知到白名单</string>
+
+
+    <string name="fw_upgrade_notice_miband3">您即将安装小米手环３的固件 %s 。
+\n
+\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装 .fw 文件后重启。
+\n
+\n注意：如果您已经安装相同版本的 .res 文件了，则无需安装。
+\n
+\n未经测试，可能会导致您的设备变砖，您必须自行承担风险！</string>
+    <string name="pref_title_notifications_timeout">通知间隔最短时间</string>
+    <string name="pref_title_rtl">从右到左</string>
+    <string name="pref_summary_rtl">如果您的设备无法显示从右到左的语言，请选中此选项</string>
+    <string name="pref_rtl_max_line_length">从右到左最长字数</string>
+    <string name="pref_rtl_max_line_length_summary">延长或缩短行从右到左文本分割</string>
+
+    <string name="pref_title_canned_reply_suffix">常见后缀</string>
+    <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU 限制</string>
+    <string name="pref_title_pebble_gatt_clientonly">仅限 GATT 客户端</string>
+    <string name="pref_summary_pebble_gatt_clientonly">这是仅为 Pebble 2 的选项，且为试验性质，如果您遇到连接性问题，请尝试</string>
+    <string name="pref_title_pebble_always_ack_pebblekit">提前 ACK PebbleKit</string>
+    <string name="preferences_id115_settings">ID115 设置</string>
+    <string name="prefs_screen_orientation">屏幕朝向</string>
+
+    <string name="pref_auto_fetch">自动获取活动数据</string>
+    <string name="pref_auto_fetch_summary">屏幕解锁时会自动获取。仅在设置了锁定机制才会有效！</string>
+    <string name="pref_auto_fetch_limit_fetches">刷新最小间隔</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">每隔 %d 分钟刷新</string>
+
+    <string name="preferences_miband2_settings">小米手环２ 设置</string>
+    <string name="preferences_miband3_settings">小米手环３ 设置</string>
+    <string name="preferences_amazfitcor_settings">米动 Cor 设置</string>s
+    <string name="horizontal">横向</string>
+    <string name="vertical">纵向</string>
+    <string name="watch9_pairing_tap_hint">当您的手环震动时，晃动设备或者按下按钮。</string>
+
+    <string name="vibration_profile_staccato">间断</string>
+    <string name="notif_battery_low">%1$s 电量低</string>
+    <string name="notif_battery_low_extended">%1$s 电量低：%2$s</string>
+    <string name="lack_of_sleep">睡眠不足：%1$s</string>
+    <string name="overslept">睡过头：%1$s</string>
+    <string name="no_limit">没有限制</string>
+    <string name="seconds_5">5 秒</string>
+    <string name="seconds_10">10 秒</string>
+    <string name="seconds_20">20 秒</string>
+    <string name="seconds_30">30 秒</string>
+    <string name="minutes_1">1 分钟</string>
+    <string name="minutes_5">5 分钟</string>
+    <string name="minutes_10">10 分钟</string>
+    <string name="minutes_30">30 分钟</string>
+
+    <string name="lack_of_step">缺少步数：%1$d</string>
+    <string name="overstep">超过步数：%1$d</string>
+    <string name="live_activity_max_heart_rate">当前／最大心率：%1$d / %2$d</string>
+    <string name="you_slept">您睡了 %1$s 到 %2$s</string>
+    <string name="you_did_not_sleep">您没有睡觉</string>
+    <string name="mi3_prefs_band_screen_unlock">手环屏幕解锁</string>
+    <string name="mi3_prefs_band_screen_unlock_summary">滑动以解锁手环屏幕</string>
+    <string name="mi3_prefs_night_mode">夜晚模式</string>
+    <string name="mi3_prefs_night_mode_summary">到夜晚时自动降低手环屏幕亮度</string>
+
+    <string name="norwegian_bokmal">挪威语</string>
+    <string name="spanish">西班牙语</string>
+    <string name="russian">俄语</string>
+    <string name="german">德语</string>
+    <string name="italian">意大利语</string>
+    <string name="french">法语</string>
+    <string name="polish">波兰语</string>
+    <string name="korean">韩语</string>
+    <string name="japanese">日语</string>
+
+    <string name="activity_prefs_charts">图表设置</string>
+    <string name="activity_prefs_chart_max_heart_rate">最高心率</string>
+    <string name="activity_prefs_chart_min_heart_rate">最低心率</string>
+
+    <string name="ok">好</string>
+
+    <string name="on">开</string>
+    <string name="mi3_night_mode_sunset">在日落时</string>
+    <string name="controlcenter_start_activity_tracks">您的活动跟踪</string>
+    <string name="activity_type_not_measured">没有测量</string>
+    <string name="activity_type_activity">活动</string>
+    <string name="activity_type_light_sleep">浅睡眠</string>
+    <string name="activity_type_deep_sleep">深睡眠</string>
+    <string name="activity_type_not_worn">设备没有磨损</string>
+    <string name="activity_type_running">跑步</string>
+    <string name="activity_type_walking">走路</string>
+    <string name="activity_type_swimming">游泳</string>
+    <string name="activity_type_unknown">未知活动</string>
+    <string name="activity_summaries">活动</string>
+    <string name="activity_type_biking">自行车</string>
+    <string name="activity_type_treadmill">跑步机</string>
+    <string name="select_all">选择全部</string>
+    <string name="share">分享</string>
+    <string name="reset_index">重设刷新日期</string>
+
+    <string name="kind_gps_almanac">GPS 历史</string>
+    <string name="devicetype_miband3">小米手环３</string>
+    <string name="devicetype_liveview">实时查看</string>
+    <string name="devicetype_makibes_f68">Makibes F68</string>
+    <string name="devicetype_exrizu_k8">Exrizu K8</string>
+    <string name="devicetype_q8">Q8</string>
+    <string name="devicetype_no1_f1">No.1 F1</string>
+    <string name="devicetype_teclast_h30">Teclast H30</string>
+    <string name="devicetype_xwatch">XWatch</string>
+    <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
+    <string name="devicetype_id115">ID115</string>
+    <string name="devicetype_watch9">Watch 9</string>
+    <string name="devicetype_roidmi">睿米</string>
+    <string name="devicetype_roidmi3">睿米３</string>
+
+    <string name="menuitem_shortcut_alipay">支付宝（快捷方式）</string>
+    <string name="menuitem_shortcut_weather">天气（快捷方式）</string>
+    <string name="menuitem_status">状态</string>
+    <string name="menuitem_notifications">通知</string>
+    <string name="menuitem_activity">活动</string>
+    <string name="menuitem_weather">天气</string>
+    <string name="menuitem_alarm">闹钟</string>
+    <string name="menuitem_timer">计时器</string>
+    <string name="menuitem_compass">指南针</string>
+    <string name="menuitem_settings">设置</string>
+    <string name="menuitem_alipay">支付宝</string>
+    <string name="menuitem_music">音乐</string>
+    <string name="menuitem_more">更多</string>
+
+    <string name="watch9_time_minutes">分：</string>
+    <string name="watch9_time_hours">时：</string>
+    <string name="watch9_time_seconds">秒：</string>
+    <string name="watch9_calibration_hint">设置设备现在向您显示的时间。</string>
+    <string name="watch9_calibration_button">校准</string>
+    <string name="title_activity_watch9_pairing">Watch 9 配对</string>
+    <string name="title_activity_watch9_calibration">Watch 9 校准</string>
+    <string name="pref_title_contextual_arabic">阿拉伯语语境</string>
+    <string name="pref_summary_contextual_arabic">启用此项以支持阿拉伯语语境</string>
+    <string name="preferences_rtl_settings">从右到左支持</string>
+    <string name="share_log">分享日志</string>
+    <string name="share_log_warning">请记住，Gadgetbridge 的日志文件包含许多个人信息，包括但不限于健康信息、独有身份（包括设备的 MAC 地址），音乐首选项等等。请在将日志发送到公共列表前仔细修改和删除这些信息。</string>
+    <string name="warning">警告！</string>
+    <string name="no_data">没有数据</string>
+
+    <string name="preferences_led_color">LED 颜色</string>
+
+    <string name="preferences_fm_frequency">FM 频率</string>
+    <string name="pref_invalid_frequency_title">不正确的频率</string>
+    <string name="pref_invalid_frequency_message">请输入一个在 87.5 至 108.0 之间的频率</string>
+    <string name="language_and_region_prefs">语言和区域设置</string>
+    <string name="debugactivity_really_factoryreset_title">确定要恢复出厂设置？</string>
+    <string name="debugactivity_really_factoryreset">恢复出厂设置将会删除您已连接设备上的所有数据（如果支持的话）。小米／华米设备将会同时改变蓝牙MAC地址，对于Gadgetbrige来说，这将是一个新的设备。</string>
+    <string name="devicetype_casiogb6900">卡西欧 GB-6900</string>
+    <string name="title_activity_notification_filter">通知过滤器</string>
+    <string name="toast_app_must_not_be_blacklisted">只有不在黑名单中的应用才能够进行配置</string>
+    <string name="edittext_notification_filter_words_hint">输入期望的字词，一行一个</string>
+    <string name="toast_notification_filter_saved_successfully">已保存通知过滤器</string>
+    <string name="filter_mode_none">不要过滤</string>
+    <string name="filter_mode_whitelist">当包含时，进行显示</string>
+    <string name="filter_mode_blacklist">当包含时，屏蔽显示</string>
+    <string name="filter_submode_at_least_one">至少一个字</string>
+    <string name="filter_submode_all">所有字词</string>
+    <string name="toast_notification_filter_words_empty_hint">请输入至少一个字</string>
+    <string name="filter_mode">过滤模式</string>
+    <string name="mode_configuration">模式配置</string>
+    <string name="save_configuration">保存配置</string>
+    <string name="appwidget_not_connected">未连接，闹钟未设定。</string>
+    <string name="activity_type_exercise">锻炼</string>
 </resources>

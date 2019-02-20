@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018 José Rebelo
+/*  Copyright (C) 2018-2019 José Rebelo
 
     This file is part of Gadgetbridge.
 

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 João Paulo Barraca
+/*  Copyright (C) 2017-2019 Daniele Gobbetti, João Paulo Barraca
 
     This file is part of Gadgetbridge.
 
@@ -23,8 +23,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.hplus;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +34,7 @@ import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;

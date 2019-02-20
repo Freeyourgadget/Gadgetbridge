@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Kasha
 
     This file is part of Gadgetbridge.
@@ -162,6 +162,8 @@ public class MiBandService {
     public static final byte COMMAND_SEND_FIRMWARE_INFO = 0x7;
 
     public static final byte COMMAND_SEND_NOTIFICATION = 0x8;
+
+    public static final byte COMMAND_FACTORYRESET = 0x9;
 
     public static final byte COMMAND_CONFIRM_ACTIVITY_DATA_TRANSFER_COMPLETE = 0xa;
 

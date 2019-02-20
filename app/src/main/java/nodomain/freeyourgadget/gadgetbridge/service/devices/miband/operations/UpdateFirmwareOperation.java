@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti
 
     This file is part of Gadgetbridge.
@@ -41,6 +41,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAc
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.AbstractMiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -155,7 +156,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand1Operation {
                 } else if (updateCoordinator.needsReboot()) {
                     displayMessage(getContext(), getContext().getString(R.string.updatefirmwareoperation_update_complete_rebooting), Toast.LENGTH_LONG, GB.INFO);
                     GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_update_complete), false, 100, getContext());
-                    getSupport().onReboot();
+                    getSupport().onReset(GBDeviceProtocol.RESET_FLAGS_REBOOT);
                 } else {
                     LOG.error("BUG: Successful firmware update without reboot???");
                 }

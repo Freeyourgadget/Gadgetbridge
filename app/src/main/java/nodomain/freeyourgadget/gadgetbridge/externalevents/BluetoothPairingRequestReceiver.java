@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, João Paulo Barraca
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Daniele Gobbetti, João
+    Paulo Barraca
 
     This file is part of Gadgetbridge.
 
@@ -26,7 +27,6 @@ import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 

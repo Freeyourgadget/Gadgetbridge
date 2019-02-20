@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Gadgetbridge</string>
   <string name="title_activity_controlcenter">Gadgetbridge</string>
@@ -213,7 +213,7 @@
   <string name="title_activity_charts">הפעילות שלך</string>
   <string name="title_activity_set_alarm">הגדרת שעון מעורר</string>
   <string name="controlcenter_start_configure_alarms">הגדרת שעון מעורר</string>
-  <string name="title_activity_alarm_details">פרטי ההתראה</string>
+  <string name="title_activity_alarm_details">פרטי השעון המעורר</string>
   <string name="alarm_sun_short">יום א׳</string>
   <string name="alarm_mon_short">יום ב׳</string>
   <string name="alarm_tue_short">יום ג׳</string>
@@ -299,7 +299,7 @@
   <string name="appwidget_text">חררר</string>
   <string name="add_widget">הוספת וידג׳ט</string>
   <string name="activity_prefs_sleep_duration">משך השינה המועדף בשעות</string>
-  <string name="appwidget_alarms_set">הוגדרה התראה לשעה %1$02d:%2$02d</string>
+  <string name="appwidget_setting_alarm">הוגדר שעון מעורר לשעה %1$02d:%2$02d</string>
   <string name="device_hw">מהדורת חומרה: %1$s</string>
   <string name="device_fw">מהדורת קושחה: %1$s</string>
   <string name="error_creating_directory_for_logfiles">אירעה שגיאה ביצירת תיקייה לקובצי הרישום: %1$s</string>
@@ -614,7 +614,7 @@
     <string name="ok">אישור</string>
 
     <string name="share_log">שיתוף יומן</string>
-    <string name="share_log_warning">נא לשים לב שקובץ היומן של Gadgetbridge עשוי להכיל פרטים אישיים רבים, לרבות אך לא רק נתונים רפואיים, מזהים יחודיים (כגון כתובת החומרה של המכשיר), העדפות מוזיקליות וכו׳. מוטב לערוך את הקובץ ולהסיר את המידע הזה בטרם הגשתו באופן ציבורי כדי לדווח על תקלה.</string>
+    <string name="share_log_warning">נא לשים לב שקובצי היומן של Gadgetbridge עשויים להכיל פרטים אישיים רבים, לרבות אך לא רק נתונים רפואיים, מזהים ייחודיים (כגון כתובת החומרה של המכשיר), העדפות מוזיקליות וכו׳. מוטב לערוך את הקובץ ולהסיר את המידע הזה בטרם הגשתו באופן ציבורי כדי לדווח על תקלה.</string>
     <string name="warning">אזהרה!</string>
 <string name="controlcenter_change_led_color">החלפת צבע נורית</string>
     <string name="controlcenter_change_fm_frequency">החלפת תדירות FM</string>
@@ -635,7 +635,7 @@
     <string name="pref_title_rtl">מימין לשמאל</string>
     <string name="pref_summary_rtl">יש להפעיל אפשרות זו אם ההתקן לא יכול להציג שפות מימין לשמאל</string>
     <string name="pref_rtl_max_line_length">גודל שורה מרבי מימין לשמאל</string>
-    <string name="pref_rtl_max_line_length_summary">קיצור או הארכת השורות של טקסט מימין לשמאל</string>
+    <string name="pref_rtl_max_line_length_summary">קיצור או הארכת השורות שאליהן מופרד טקסט מימין לשמאל</string>
 
     <string name="pref_title_contextual_arabic">ערבית מחוברת</string>
     <string name="pref_summary_contextual_arabic">יש להפעיל אפשרות זו כדי לתמוך בערבית מחוברת</string>
@@ -648,4 +648,22 @@
     <string name="no_data">אין נתונים</string>
 
     <string name="live_activity_max_heart_rate">דופק נוכחי / מרבי: %1$d ‏/ %2$d</string>
-    </resources>
+    <string name="debugactivity_really_factoryreset_title">לאפס להגדרות יצרן\?</string>
+    <string name="debugactivity_really_factoryreset">איפוס להגדרות יצרן ימחק את כל הנתונים מההתקן המקושר (אם יש תמיכה בזה). מכשירים מבית Xiaomi/Huami גם משנים את כתובת החומרה (MAC), כך שבעיני Gadgetbridge הם נחשבים למכשירים חדשים.</string>
+    <string name="devicetype_casiogb6900">Casio GB-6900</string>
+    <string name="title_activity_notification_filter">מסנן התראות</string>
+    <string name="toast_app_must_not_be_blacklisted">יש להוציא את היישומון מהרשימה השחורה כדי להגדיר אותו</string>
+    <string name="edittext_notification_filter_words_hint">נא להקליד את המילים המבוקשות, אחת בכל שורה</string>
+    <string name="toast_notification_filter_saved_successfully">מסנן ההתראות נשמר</string>
+    <string name="filter_mode_none">לא לסנן</string>
+    <string name="filter_mode_whitelist">להציג כאשר המילים מופיעות</string>
+    <string name="filter_mode_blacklist">לחסום כאשר המילים מופיעות</string>
+    <string name="filter_submode_at_least_one">לפחות אחת מהמילים</string>
+    <string name="filter_submode_all">כל המילים</string>
+    <string name="toast_notification_filter_words_empty_hint">נא להקליד לפחות מילה אחת</string>
+    <string name="filter_mode">מצב מסנן</string>
+    <string name="mode_configuration">תצורת מצב</string>
+    <string name="save_configuration">שמירת תצורה</string>
+    <string name="appwidget_not_connected">לא מחובר, לא הוגדר שעון מעורר.</string>
+    <string name="activity_type_exercise">אימון</string>
+</resources>

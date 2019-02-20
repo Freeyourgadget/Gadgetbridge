@@ -409,12 +409,17 @@
         <activity
             android:name=".activities.AlarmDetails"
             android:label="@string/title_activity_alarm_details"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".activities.ConfigureAlarms" />
+            android:parentActivityName=".activities.ConfigureAlarms"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.VibrationActivity"
             android:label="@string/title_activity_vibration"
             android:parentActivityName=".activities.ControlCenterv2" />
+        <activity
+            android:name=".activities.NotificationFilterActivity"
+            android:label="@string/title_activity_notification_filter"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:parentActivityName=".activities.AppBlacklistActivity" />
         <activity
             android:name=".activities.FindPhoneActivity"
             android:label="Find Phone" />
@@ -425,7 +430,7 @@
             android:exported="true" />
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.screenshot_provider"
             android:exported="false"
             android:grantUriPermissions="true">

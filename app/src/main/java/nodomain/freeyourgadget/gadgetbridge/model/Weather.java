@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Daniele Gobbetti, Sebastian
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Daniele Gobbetti, Sebastian
     Kranz
 
     This file is part of Gadgetbridge.

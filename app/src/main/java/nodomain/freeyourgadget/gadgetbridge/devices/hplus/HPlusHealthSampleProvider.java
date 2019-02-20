@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, João Paulo Barraca
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, Daniele Gobbetti, João
+    Paulo Barraca
 
     This file is part of Gadgetbridge.
 
@@ -20,15 +21,13 @@ package nodomain.freeyourgadget.gadgetbridge.devices.hplus;
 * @author João Paulo Barraca &lt;jpbarraca@gmail.com&gt;
 */
 
-import android.support.annotation.NonNull;
-import android.util.Log;
-
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import de.greenrobot.dao.query.QueryBuilder;

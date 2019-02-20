@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 João Paulo Barraca
+/*  Copyright (C) 2017-2019 Daniele Gobbetti, João Paulo Barraca
 
     This file is part of Gadgetbridge.
 
@@ -24,7 +24,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.hplus;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmount;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 

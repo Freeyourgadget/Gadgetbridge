@@ -1,6 +1,6 @@
-/*  Copyright (C) 2015-2018 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
-    criogenic, dakhnod, Frank Slezak, ivanovlev, Julien Pivotto, Kasha, Steffen
-    Liebergeld
+/*  Copyright (C) 2015-2019 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
+    criogenic, dakhnod, Daniele Gobbetti, Frank Slezak, ivanovlev, José Rebelo,
+    Julien Pivotto, Kasha, Roi Greenberg, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 
@@ -24,11 +24,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
-import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
+import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
@@ -150,8 +150,9 @@ public class GBDeviceService implements DeviceService {
                 .putExtra(EXTRA_NOTIFICATION_SUBJECT, notificationSpec.subject)
                 .putExtra(EXTRA_NOTIFICATION_TITLE, notificationSpec.title)
                 .putExtra(EXTRA_NOTIFICATION_BODY, notificationSpec.body)
-                .putExtra(EXTRA_NOTIFICATION_ID, notificationSpec.id)
+                .putExtra(EXTRA_NOTIFICATION_ID, notificationSpec.getId())
                 .putExtra(EXTRA_NOTIFICATION_TYPE, notificationSpec.type)
+                .putExtra(EXTRA_NOTIFICATION_ACTIONS, notificationSpec.attachedActions)
                 .putExtra(EXTRA_NOTIFICATION_SOURCENAME, notificationSpec.sourceName)
                 .putExtra(EXTRA_NOTIFICATION_PEBBLE_COLOR, notificationSpec.pebbleColor)
                 .putExtra(EXTRA_NOTIFICATION_SOURCEAPPID, notificationSpec.sourceAppId);
@@ -175,7 +176,7 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         Intent intent = createIntent().setAction(ACTION_SET_ALARMS)
-                .putParcelableArrayListExtra(EXTRA_ALARMS, alarms);
+                .putExtra(EXTRA_ALARMS, alarms);
         invokeService(intent);
     }
 
@@ -290,8 +291,9 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void onReboot() {
-        Intent intent = createIntent().setAction(ACTION_REBOOT);
+    public void onReset(int flags) {
+        Intent intent = createIntent().setAction(ACTION_RESET)
+                .putExtra(EXTRA_RESET_FLAGS, flags);
         invokeService(intent);
     }
 

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Christian
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Christian
     Fischer, Daniele Gobbetti, José Rebelo, Michal Novotny, Szymon Tomasz Stefanek
 
     This file is part of Gadgetbridge.
@@ -49,9 +49,6 @@ public final class MiBandConst {
 	public static final String PREF_MI2_DISPLAY_ITEM_CALORIES = "calories";
 	public static final String PREF_MI2_DISPLAY_ITEM_HEART_RATE = "heart_rate";
 	public static final String PREF_MI2_DISPLAY_ITEM_BATTERY = "battery";
-	public static final String PREF_ACTIVATE_DISPLAY_ON_LIFT = "activate_display_on_lift_wrist";
-    public static final String PREF_DISPLAY_ON_LIFT_START = "display_on_lift_start";
-    public static final String PREF_DISPLAY_ON_LIFT_END = "display_on_lift_end";
     public static final String PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO = "mi2_rotate_wrist_to_switch_info";
 	public static final String PREF_MI2_ENABLE_TEXT_NOTIFICATIONS = "mi2_enable_text_notifications";
     public static final String PREF_MI2_DO_NOT_DISTURB = "mi2_do_not_disturb";

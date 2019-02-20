@@ -1,6 +1,6 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, AnthonyDiGirolamo, Daniele
-    Gobbetti, Frank Slezak, Kaz Wolfe, Kevin Richter, Lukas Veneziano, michaelneu,
-    NotAFIle, Tomas Radej
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, AnthonyDiGirolamo, Daniele
+    Gobbetti, Frank Slezak, Kaz Wolfe, Kevin Richter, Lukas Veneziano, Matthieu
+    Baerts, michaelneu, NotAFIle, Tomas Radej
 
     This file is part of Gadgetbridge.
 
@@ -39,6 +39,7 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
         put("com.imaeses.squeaky", NotificationType.GENERIC_EMAIL);
         put("com.android.email", NotificationType.GENERIC_EMAIL);
         put("ch.protonmail.android", NotificationType.GENERIC_EMAIL);
+        put("security.pEp", NotificationType.GENERIC_EMAIL);
 
         // Generic SMS
         put("com.moez.QKSMS", NotificationType.GENERIC_SMS);

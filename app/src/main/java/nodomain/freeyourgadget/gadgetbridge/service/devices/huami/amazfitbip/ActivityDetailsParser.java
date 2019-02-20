@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, AndrewH, Carsten Pfeiffer,
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, AndrewH, Carsten Pfeiffer,
     szilardx
 
     This file is part of Gadgetbridge.
@@ -124,6 +124,9 @@ public class ActivityDetailsParser {
                     case TYPE_GPS_SPEED6:
                         i += consumeSpeed6(bytes, i);
                         break;
+                    default:
+                        LOG.warn("unknown packet type" + type);
+                        i+=6;
                 }
             }
         } catch (IndexOutOfBoundsException ex) {

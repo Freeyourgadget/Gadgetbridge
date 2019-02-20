@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2018 AndrewH, Carsten Pfeiffer, Daniele Gobbetti
+/*  Copyright (C) 2017-2019 AndrewH, Carsten Pfeiffer, Daniele Gobbetti,
+    Dikay900
 
     This file is part of Gadgetbridge.
 
@@ -16,8 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.export;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlSerializer;
@@ -31,6 +30,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityTrack;

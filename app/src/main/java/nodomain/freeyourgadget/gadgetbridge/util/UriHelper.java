@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Carsten Pfeiffer
+/*  Copyright (C) 2016-2019 Carsten Pfeiffer, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -21,14 +21,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class UriHelper {
     @NonNull

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018 maxirnilian
+/*  Copyright (C) 2018-2019 Daniele Gobbetti, maxirnilian
 
     This file is part of Gadgetbridge.
 
@@ -19,11 +19,11 @@ package nodomain.freeyourgadget.gadgetbridge.devices.watch9;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;

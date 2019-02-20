@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Normano64, Zhong Jianxin
+/*  Copyright (C) 2015-2019 0nse, Andreas Shimokawa, Carsten Pfeiffer,
+    Daniele Gobbetti, Normano64, Zhong Jianxin
 
     This file is part of Gadgetbridge.
 
@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.telephony.SmsMessage;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -44,13 +45,12 @@ public class SMSReceiver extends BroadcastReceiver {
         }
         if ("when_screen_off".equals(prefs.getString("notification_mode_sms", "when_screen_off"))) {
             PowerManager powermanager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            if (powermanager.isScreenOn()) {
+            if (powermanager != null && powermanager.isScreenOn()) {
                 return;
             }
         }
 
         NotificationSpec notificationSpec = new NotificationSpec();
-        notificationSpec.id = -1;
         notificationSpec.type = NotificationType.GENERIC_SMS;
 
         Bundle bundle = intent.getExtras();
@@ -73,6 +73,20 @@ public class SMSReceiver extends BroadcastReceiver {
                     if (originatingAddress != null) {
                         notificationSpec.body = entry.getValue().toString();
                         notificationSpec.phoneNumber = originatingAddress;
+                        notificationSpec.attachedActions = new ArrayList<>();
+
+                        // REPLY action
+                        NotificationSpec.Action replyAction = new NotificationSpec.Action();
+                        replyAction.title = "Reply";
+                        replyAction.type = NotificationSpec.Action.TYPE_SYNTECTIC_REPLY_PHONENR;
+                        notificationSpec.attachedActions.add(replyAction);
+
+                        // DISMISS ALL action
+                        NotificationSpec.Action dismissAllAction = new NotificationSpec.Action();
+                        dismissAllAction.title = "Dismiss All";
+                        dismissAllAction.type = NotificationSpec.Action.TYPE_SYNTECTIC_DISMISS_ALL;
+                        notificationSpec.attachedActions.add(dismissAllAction);
+
                         switch (GBApplication.getGrantedInterruptionFilter()) {
                             case NotificationManager.INTERRUPTION_FILTER_ALL:
                                 break;

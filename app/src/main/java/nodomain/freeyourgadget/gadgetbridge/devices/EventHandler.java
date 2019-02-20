@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Julien Pivotto, Kasha, Steffen Liebergeld, Uwe Hermann
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, José Rebelo, Julien Pivotto, Kasha, Steffen Liebergeld, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -69,7 +69,7 @@ public interface EventHandler {
 
     void onFetchRecordedData(int dataTypes);
 
-    void onReboot();
+    void onReset(int flags);
 
     void onHeartRateTest();
 

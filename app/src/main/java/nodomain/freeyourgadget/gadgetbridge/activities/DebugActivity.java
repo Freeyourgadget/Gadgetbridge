@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Frank Slezak, ivanovlev, Kasha, Lem Dulfo, Pavel Elagin, Steffen
     Liebergeld
 
@@ -28,10 +28,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.RemoteInput;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -44,11 +40,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import androidx.core.app.NavUtils;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.RemoteInput;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
@@ -56,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
+import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static android.content.Intent.EXTRA_SUBJECT;
@@ -82,12 +85,22 @@ public class DebugActivity extends AbstractGBActivity {
                     GB.toast(context, "got wearable reply: " + reply, Toast.LENGTH_SHORT, GB.INFO);
                     break;
                 }
+                case DeviceService.ACTION_REALTIME_SAMPLES:
+                    handleRealtimeSample(intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE));
+                    break;
                 default:
                     LOG.info("ignoring intent action " + intent.getAction());
                     break;
             }
         }
     };
+
+    private void handleRealtimeSample(Serializable extra) {
+        if (extra instanceof ActivitySample) {
+            ActivitySample sample = (ActivitySample) extra;
+            GB.toast(this, "Heart Rate measured: " + sample.getHeartRate(), Toast.LENGTH_LONG, GB.INFO);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +109,7 @@ public class DebugActivity extends AbstractGBActivity {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_REPLY);
-        filter.addAction(DeviceService.ACTION_HEARTRATE_MEASUREMENT);
+        filter.addAction(DeviceService.ACTION_REALTIME_SAMPLES);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
         registerReceiver(mReceiver, filter); // for ACTION_REPLY
 
@@ -122,7 +135,6 @@ public class DebugActivity extends AbstractGBActivity {
                 notificationSpec.subject = testString;
                 notificationSpec.type = NotificationType.values()[sendTypeSpinner.getSelectedItemPosition()];
                 notificationSpec.pebbleColor = notificationSpec.type.color;
-                notificationSpec.id = -1;
                 GBApplication.deviceService().onNotification(notificationSpec);
             }
         });
@@ -171,9 +183,33 @@ public class DebugActivity extends AbstractGBActivity {
         rebootButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GBApplication.deviceService().onReboot();
+                GBApplication.deviceService().onReset(GBDeviceProtocol.RESET_FLAGS_REBOOT);
             }
         });
+
+        Button factoryResetButton = findViewById(R.id.factoryResetButton);
+        factoryResetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(DebugActivity.this)
+                        .setCancelable(true)
+                        .setTitle(R.string.debugactivity_really_factoryreset_title)
+                        .setMessage(R.string.debugactivity_really_factoryreset)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                GBApplication.deviceService().onReset(GBDeviceProtocol.RESET_FLAGS_FACTORY_RESET);
+                            }
+                        })
+                        .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
+            }
+        });
+
         Button heartRateButton = findViewById(R.id.HeartRateButton);
         heartRateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,6 +261,14 @@ public class DebugActivity extends AbstractGBActivity {
             }
         });
 
+        Button testPebbleKitNotificationButton = findViewById(R.id.testPebbleKitNotificationButton);
+        testPebbleKitNotificationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testPebbleKitNotification();
+            }
+        });
+
         Button fetchDebugLogsButton = findViewById(R.id.fetchDebugLogsButton);
         fetchDebugLogsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,14 +302,7 @@ public class DebugActivity extends AbstractGBActivity {
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String fileName = GBApplication.getLogPath();
-                        if (fileName != null && fileName.length() > 0) {
-                            Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-                            emailIntent.setType("*/*");
-                            emailIntent.putExtra(EXTRA_SUBJECT, "Gadgetbridge log file");
-                            emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(fileName)));
-                            startActivity(Intent.createChooser(emailIntent, "Share File"));
-                        }
+                        shareLog();
                     }
                 })
                 .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
@@ -327,6 +364,13 @@ public class DebugActivity extends AbstractGBActivity {
         if (nManager != null) {
             nManager.notify((int) System.currentTimeMillis(), ncomp.build());
         }
+    }
+
+    private void testPebbleKitNotification() {
+        Intent pebbleKitIntent = new Intent("com.getpebble.action.SEND_NOTIFICATION");
+        pebbleKitIntent.putExtra("messageType", "PEBBLE_ALERT");
+        pebbleKitIntent.putExtra("notificationData", "[{\"title\":\"PebbleKitTest\",\"body\":\"sent from Gadgetbridge\"}]");
+        getApplicationContext().sendBroadcast(pebbleKitIntent);
     }
 
     @Override

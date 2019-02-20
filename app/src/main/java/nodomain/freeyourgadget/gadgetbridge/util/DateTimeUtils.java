@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, AndrewH, Carsten Pfeiffer,
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, AndrewH, Carsten Pfeiffer,
     Daniele Gobbetti, Pavel Elagin
 
     This file is part of Gadgetbridge.
@@ -135,6 +135,11 @@ public class DateTimeUtils {
     public static String timeToString(Date date) {
         return HOURS_MINUTES_FORMAT.format(date);
     }
+
+    public static String formatTime(int hours, int minutes) {
+        return String.format(Locale.US, "%02d", hours) + ":" + String.format(Locale.US, "%02d", minutes);
+    }
+
 
     public static Date todayUTC() {
         Calendar cal = getCalendarUTC();

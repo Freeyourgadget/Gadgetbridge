@@ -120,7 +120,7 @@ class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
 
     }
 

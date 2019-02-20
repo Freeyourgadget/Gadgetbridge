@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -47,6 +47,14 @@ public class HuamiConst {
     public static final String MI_BAND2_NAME = "MI Band 2";
     public static final String MI_BAND2_NAME_HRX = "Mi Band HRX";
     public static final String MI_BAND3_NAME = "Mi Band 3";
+
+    public static final String PREF_ACTIVATE_DISPLAY_ON_LIFT = "activate_display_on_lift_wrist";
+    public static final String PREF_DISPLAY_ON_LIFT_START = "display_on_lift_start";
+    public static final String PREF_DISPLAY_ON_LIFT_END = "display_on_lift_end";
+
+    public static final String PREF_DISCONNECT_NOTIFICATION = "disconnect_notification";
+    public static final String PREF_DISCONNECT_NOTIFICATION_START = "disconnect_notification_start";
+    public static final String PREF_DISCONNECT_NOTIFICATION_END = "disconnect_notification_end";
 
     public static int toActivityKind(int rawType) {
         switch (rawType) {

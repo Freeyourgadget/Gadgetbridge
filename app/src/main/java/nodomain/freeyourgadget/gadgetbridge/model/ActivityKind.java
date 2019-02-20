@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti
 
     This file is part of Gadgetbridge.
@@ -18,10 +18,10 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 import android.content.Context;
-import android.support.annotation.DrawableRes;
 
 import java.util.Arrays;
 
+import androidx.annotation.DrawableRes;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 
@@ -37,12 +37,15 @@ public class ActivityKind {
     public static final int TYPE_SWIMMING = 64;
     public static final int TYPE_CYCLING = 128;
     public static final int TYPE_TREADMILL = 256;
+    public static final int TYPE_EXERCISE = 512;
+
+    private static final int TYPES_COUNT = 12;
 
     public static final int TYPE_SLEEP = TYPE_LIGHT_SLEEP | TYPE_DEEP_SLEEP;
     public static final int TYPE_ALL = TYPE_ACTIVITY | TYPE_SLEEP | TYPE_NOT_WORN;
 
     public static int[] mapToDBActivityTypes(int types, SampleProvider provider) {
-        int[] result = new int[3];
+        int[] result = new int[TYPES_COUNT];
         int i = 0;
         if ((types & ActivityKind.TYPE_ACTIVITY) != 0) {
             result[i++] = provider.toRawActivityKind(TYPE_ACTIVITY);
@@ -71,6 +74,9 @@ public class ActivityKind {
         if ((types & ActivityKind.TYPE_TREADMILL) != 0) {
             result[i++] = provider.toRawActivityKind(TYPE_TREADMILL);
         }
+        if ((types & ActivityKind.TYPE_EXERCISE) != 0) {
+            result[i++] = provider.toRawActivityKind(TYPE_EXERCISE);
+        }
         return Arrays.copyOf(result, i);
     }
 
@@ -96,6 +102,8 @@ public class ActivityKind {
                 return context.getString(R.string.activity_type_biking);
             case TYPE_TREADMILL:
                 return context.getString(R.string.activity_type_treadmill);
+            case TYPE_EXERCISE:
+                return context.getString(R.string.activity_type_exercise);
             case TYPE_UNKNOWN:
             default:
                 return context.getString(R.string.activity_type_unknown);
@@ -119,6 +127,7 @@ public class ActivityKind {
                 return R.drawable.ic_activity_biking;
             case TYPE_TREADMILL:
                 return R.drawable.ic_activity_walking;
+            case TYPE_EXERCISE: // fall through
             case TYPE_SWIMMING: // fall through
             case TYPE_NOT_WORN: // fall through
             case TYPE_ACTIVITY: // fall through

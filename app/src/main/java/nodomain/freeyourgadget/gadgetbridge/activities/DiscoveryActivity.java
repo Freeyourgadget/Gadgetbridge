@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, boun, Carsten Pfeiffer,
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, boun, Carsten Pfeiffer,
     Daniele Gobbetti, JohnnySun, jonnsoft, Lem Dulfo, Taavi Eomäe, Uwe Hermann
 
     This file is part of Gadgetbridge.
@@ -42,7 +42,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.ParcelUuid;
 import android.os.Parcelable;
-import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -57,6 +56,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import androidx.core.app.ActivityCompat;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.DeviceCandidateAdapter;

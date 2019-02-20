@@ -1,5 +1,5 @@
-/*  Copyright (C) 2016-2018 Carsten Pfeiffer, Daniele Gobbetti, Felix
-    Konstantin Maurer
+/*  Copyright (C) 2016-2019 Carsten Pfeiffer, Daniele Gobbetti, Dikay900,
+    Felix Konstantin Maurer
 
     This file is part of Gadgetbridge.
 

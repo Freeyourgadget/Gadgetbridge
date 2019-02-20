@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 João Paulo Barraca, Quallenauge
+/*  Copyright (C) 2017-2019 Daniele Gobbetti, João Paulo Barraca, Quallenauge
 
     This file is part of Gadgetbridge.
 
@@ -21,8 +21,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.hplus;
 */
 
 
-import android.support.annotation.NonNull;
-
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 

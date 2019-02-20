@@ -13,7 +13,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
 
-        <android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <androidx.gridlayout.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:grid="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -118,12 +118,27 @@
                 android:text="reboot" />
 
             <Button
+                android:id="@+id/factoryResetButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal"
+                android:text="factory reset" />
+
+            <Button
                 android:id="@+id/testNotificationButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 grid:layout_columnSpan="2"
                 grid:layout_gravity="fill_horizontal"
                 android:text="create test notification" />
+            <Button
+                android:id="@+id/testPebbleKitNotificationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal"
+                android:text="create PebbleKit test notification" />
             <Button
                 android:id="@+id/fetchDebugLogsButton"
                 android:layout_width="wrap_content"
@@ -145,7 +160,7 @@
                 grid:layout_columnSpan="2"
                 grid:layout_gravity="fill_horizontal"
                 android:text="@string/share_log" />
-        </android.support.v7.widget.GridLayout>
+        </androidx.gridlayout.widget.GridLayout>
     </ScrollView>
 
 </RelativeLayout>

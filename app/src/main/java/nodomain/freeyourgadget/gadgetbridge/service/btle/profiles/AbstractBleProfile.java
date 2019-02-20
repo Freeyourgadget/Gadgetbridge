@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Carsten Pfeiffer
+/*  Copyright (C) 2016-2019 Carsten Pfeiffer, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.btle.profiles;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
 
 import java.io.IOException;
 import java.util.ArrayList;

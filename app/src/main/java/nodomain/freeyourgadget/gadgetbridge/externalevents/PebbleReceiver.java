@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti
 
     This file is part of Gadgetbridge.
@@ -62,7 +62,6 @@ public class PebbleReceiver extends BroadcastReceiver {
         }
 
         NotificationSpec notificationSpec = new NotificationSpec();
-        notificationSpec.id = -1;
 
         String notificationData = intent.getStringExtra("notificationData");
         try {

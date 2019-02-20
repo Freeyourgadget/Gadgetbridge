@@ -13,7 +13,7 @@
 
     <string-array name="pref_language_options">
         <item name="default">System Default</item>
-        <item name="cz">Čeština</item>
+        <item name="cs">Čeština</item>
         <item name="de">Deutsch</item>
         <item name="en">English</item>
         <item name="es">Español</item>
@@ -31,7 +31,7 @@
 
     <string-array name="pref_language_values">
         <item>default</item>
-        <item>cz</item>
+        <item>cs</item>
         <item>de</item>
         <item>en</item>
         <item>es</item>
@@ -456,6 +456,17 @@
         <item>300</item>
         <item>600</item>
         <item>1800</item>
+    </string-array>
+
+    <string-array name="notification_filter_modes_entries">
+        <item>@string/filter_mode_none</item>
+        <item>@string/filter_mode_whitelist</item>
+        <item>@string/filter_mode_blacklist</item>
+    </string-array>
+
+    <string-array name="notification_filter_submodes_entries">
+        <item>@string/filter_submode_at_least_one</item>
+        <item>@string/filter_submode_all</item>
     </string-array>
 
     <!-- Note: ZeTime preferences -->

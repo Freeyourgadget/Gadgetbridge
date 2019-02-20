@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, JohnnySun,
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, JohnnySun,
     José Rebelo, Uwe Hermann
 
     This file is part of Gadgetbridge.
@@ -149,6 +149,9 @@ public class HuamiService {
     public static final byte[] COMMAND_DISTANCE_UNIT_METRIC = new byte[] { ENDPOINT_DISPLAY, 0x03, 0x00, 0x00 };
     public static final byte[] COMMAND_DISTANCE_UNIT_IMPERIAL = new byte[] { ENDPOINT_DISPLAY, 0x03, 0x00, 0x01 };
     public static final byte[] COMMAND_SET_LANGUAGE_NEW_TEMPLATE = new byte[]{ENDPOINT_DISPLAY, 0x17, 0x00, 0, 0, 0, 0, 0};
+    public static final byte[] COMMAND_FACTORY_RESET = new byte[]{ENDPOINT_DISPLAY, 0x0b, 0x00, 0x01};
+    public static final byte[] COMMAND_ENABLE_DISCONNECT_NOTIFCATION = new byte[]{ENDPOINT_DISPLAY, 0x0c, 0x00, 0x01, 0, 0, 0, 0};
+    public static final byte[] COMMAND_DISABLE_DISCONNECT_NOTIFCATION = new byte[]{ENDPOINT_DISPLAY, 0x0c, 0x00, 0x00, 0, 0, 0, 0};
 
     // The third byte controls the threshold, in minutes
     // The last 8 bytes represent 2 separate time intervals for the inactivity warnings

@@ -1,5 +1,5 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Daniele Gobbetti, Pavel
-    Elagin, protomors
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Pavel Elagin, protomors
 
     This file is part of Gadgetbridge.
 
@@ -58,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
+import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static org.apache.commons.lang3.math.NumberUtils.min;
@@ -176,7 +177,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("setTime");
             setTime(builder);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error setting time: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -188,20 +189,20 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("Set alarm");
             boolean anyAlarmEnabled = false;
             for (Alarm alarm : alarms) {
-                anyAlarmEnabled |= alarm.isEnabled();
-                Calendar calendar = alarm.getAlarmCal();
+                anyAlarmEnabled |= alarm.getEnabled();
+                Calendar calendar = AlarmUtils.toCalendar(alarm);
 
                 int maxAlarms = 3;
-                if (alarm.getIndex() >= maxAlarms) {
-                    if (alarm.isEnabled()) {
+                if (alarm.getPosition() >= maxAlarms) {
+                    if (alarm.getEnabled()) {
                         GB.toast(getContext(), "Only 3 alarms are supported.", Toast.LENGTH_LONG, GB.WARN);
                     }
                     return;
                 }
 
                 int daysMask = 0;
-                if (alarm.isEnabled()) {
-                    daysMask = alarm.getRepetitionMask();
+                if (alarm.getEnabled()) {
+                    daysMask = alarm.getRepetition();
                     // Mask for this device starts from sunday and not from monday.
                     daysMask = (daysMask / 64) + (daysMask >> 1);
                 }
@@ -210,11 +211,11 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                         (byte) daysMask,
                         (byte) calendar.get(Calendar.HOUR_OF_DAY),
                         (byte) calendar.get(Calendar.MINUTE),
-                        (byte) (alarm.isEnabled() ? 2 : 0), // vibration duration
-                        (byte) (alarm.isEnabled() ? 10 : 0), // vibration count
-                        (byte) (alarm.isEnabled() ? 2 : 0), // unknown
+                        (byte) (alarm.getEnabled() ? 2 : 0), // vibration duration
+                        (byte) (alarm.getEnabled() ? 10 : 0), // vibration count
+                        (byte) (alarm.getEnabled() ? 2 : 0), // unknown
                         (byte) 0,
-                        (byte) (alarm.getIndex() + 1)
+                        (byte) (alarm.getPosition() + 1)
                 };
                 builder.write(ctrlCharacteristic, alarmMessage);
             }
@@ -296,7 +297,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
     }
 
     @Override
@@ -308,7 +309,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     (byte) 0x11
             };
             builder.write(ctrlCharacteristic, msg);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error starting heart rate measurement: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -505,7 +506,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     1
             };
             builder.write(ctrlCharacteristic, msg);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             LOG.warn("Unable to set vibration", e);
         }
@@ -519,7 +520,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     (byte) iconId
             };
             builder.write(ctrlCharacteristic, msg);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error showing icon: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -551,7 +552,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             System.arraycopy(bytes, 0, msg, 2, length);
             builder.write(ctrlCharacteristic, msg);
 
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error showing notificaton: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -565,7 +566,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     No1F1Constants.NOTIFICATION_STOP
             };
             builder.write(ctrlCharacteristic, msg);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             LOG.warn("Unable to stop notification", e);
         }
@@ -583,7 +584,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     (byte) 0xfa
             };
             builder.write(ctrlCharacteristic, msg);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }

@@ -1,5 +1,58 @@
 ### Changelog
 
+#### Version 0.32.3
+* Fix a crash in charts due to a broken German translation
+* Fix a crash when transliterating emoji
+* Amazfit Bip/Cor: Support disconnect notification (must be configured in Bip settings for Cor also for now)
+
+#### Version 0.32.2
+* Fix setting alarms under some circumstances
+* Support calls notifications for some VoIP apps
+* Mi Band 3: Enable fetching sports activities (currently only useful for flushing activities)
+* Casio: Improve stability
+* Casio: Add explicit support for GB-6900B, GB-X6900B and GB-5600B
+
+#### Version 0.32.1
+* Fix db deadlock on alarm migration
+
+#### Version 0.32.0
+* Initial support for Casio GB-6900B
+* Increase number of alarms and store them per-device 
+* Support factory reset in debug activity (Mi Band 1/2/3, Bip, Cor)
+* Filter out unicode control sequences (fixes problems with Telegram and probably others)
+* Fix endless loop resulting in OOM when RTL support is enabled
+* Recoginize p≡p as an email app
+* No longer display Android paired devices in that were not a paired with Gadgetbridge
+* Amazfit Bip: Allow flashing latest GPS firmware
+* Pebble: Native support for M7S watch face
+* No1 F1: Support for a Chinese clone
+
+#### Version 0.31.3
+* Pebble: Fix crash with DISMISS and OPEN actions
+
+#### Version 0.31.2
+* Pebble: Fix a regression that caused non-working mute, open and dismiss actions
+* Fix setting language to Czech manually
+* Ignore summary notification from K-9 Mail (caused notification spamming)
+
+#### Version 0.31.1
+* Pebble: Fix crash when no canned replies have been set
+* Pebble: Let the firmware show localized default canned replies if none have been set
+* Amazfit Bip: Fix importing GPS tracks that have been recorded with Firmware 1.1.5.02
+* Display measured hr value in debug screen
+
+#### Version 0.31.0
+* Pebble: Send all wearable notification actions (not only reply)
+* Pebble: Always allow reply action even if untested features are turned off
+* Pebble: Temporarily disable broken autoremove notification feature
+* Amazfit Bip: Allow flashing latest gps firmware (Mili_dth.gps)
+* Mi Band 3/Amazfit Bip/Amazfit Cor: Send Fahrenheit if units are set to imperial
+* Roidmi 3: Fix and enable support
+* Mi Band 3/Amazfit Bip: fix find phone crash
+* Prevent re-sending old notifications to the wearable
+* Enhancement and Fixes for Bengali Transliteration
+* Disable excessive logging in RTL support
+
 #### Version 0.30.0
 * Amazfit Bip + Mi Band 3: Support for right to left display (configurable) (#976)
 * Add Arabic, Bengali Farsi, Persian, Scandinavian transliteration
