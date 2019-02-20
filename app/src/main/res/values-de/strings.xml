@@ -250,7 +250,7 @@
     <string name="alarm_sat_short">Sa</string>
     <string name="alarm_smart_wakeup">Intelligentes Aufwecken</string>
     <string name="user_feedback_miband_set_alarms_failed">Beim Einstellen der Alarme ist ein Fehler aufgetreten. Bitte erneut versuchen.</string>
-    <string name="user_feedback_miband_set_alarms_ok">An das Gerät gesendete Alarme.</string>
+    <string name="user_feedback_miband_set_alarms_ok">Wecker ans Gerät gesendet.</string>
     <string name="chart_no_data_synchronize">Keine Daten. Gerät synchronisieren?</string>
     <string name="user_feedback_miband_activity_data_transfer">Im Begriff %1$s Daten zu übertragen, beginnend mit %2$s</string>
     <string name="miband_prefs_fitness_goal">Tägliches Schrittziel</string>
