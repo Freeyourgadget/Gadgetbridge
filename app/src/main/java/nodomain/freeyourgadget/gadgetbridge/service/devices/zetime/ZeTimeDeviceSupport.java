@@ -64,6 +64,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.Transaction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -272,16 +273,16 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                         ZeTimeConstants.CMD_SEND,
                         (byte) 0xb,
                         (byte) 0x0,
-                        (byte) alarm.getIndex(), // index
+                        (byte) alarm.getPosition(), // index
                         ZeTimeConstants.REMINDER_ALARM,
                         (byte) 0x0, // year low byte
                         (byte) 0x0, // year high byte
                         (byte) 0x0, // month
                         (byte) 0x0, // day
-                        (byte) alarm.getAlarmCal().get(Calendar.HOUR_OF_DAY),
-                        (byte) alarm.getAlarmCal().get(Calendar.MINUTE),
-                        (byte) alarm.getRepetitionMask(),
-                        (byte) (alarm.isEnabled() ? 1 : 0),
+                        (byte) AlarmUtils.toCalendar(alarm).get(Calendar.HOUR_OF_DAY),
+                        (byte) AlarmUtils.toCalendar(alarm).get(Calendar.MINUTE),
+                        (byte) alarm.getRepetition(),
+                        (byte) (alarm.getEnabled() ? 1 : 0),
                         (byte) prefs.getInt(ZeTimeConstants.PREF_ALARM_SIGNALING, 11), // reminder signaling
                         ZeTimeConstants.CMD_END
                 };
