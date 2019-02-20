@@ -23,7 +23,7 @@ public class ZeTimePreferenceActivity extends AbstractSettingsActivity {
 
         Prefs prefs = GBApplication.getPrefs();
 
-        final Preference heartrateMeasurementInterval = findPreference("heartrate_measurement_interval");
+        final Preference heartrateMeasurementInterval = findPreference(ZeTimeConstants.PREF_ZETIME_HEARTRATE_INTERVAL);
         heartrateMeasurementInterval.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newVal) {
@@ -357,6 +357,8 @@ public class ZeTimePreferenceActivity extends AbstractSettingsActivity {
                 return true;
             }
         });
+
+        GBApplication.deviceService().onReadConfiguration("do_it");
     }
 
     /**

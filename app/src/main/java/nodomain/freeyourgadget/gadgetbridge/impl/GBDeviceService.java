@@ -378,6 +378,13 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
+    public void onReadConfiguration(String config) {
+        Intent intent = createIntent().setAction(ACTION_READ_CONFIGURATION)
+                .putExtra(EXTRA_CONFIG, config);
+        invokeService(intent);
+    }
+
+    @Override
     public void onTestNewFunction() {
         Intent intent = createIntent().setAction(ACTION_TEST_NEW_FUNCTION);
         invokeService(intent);

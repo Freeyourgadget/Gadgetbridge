@@ -99,6 +99,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_RE
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_DEVICEINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_SCREENSHOT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SEND_CONFIGURATION;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_READ_CONFIGURATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SEND_WEATHER;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETCANNEDMESSAGES;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETMUSICINFO;
@@ -554,6 +555,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             case ACTION_SEND_CONFIGURATION: {
                 String config = intent.getStringExtra(EXTRA_CONFIG);
                 mDeviceSupport.onSendConfiguration(config);
+                break;
+            }
+            case ACTION_READ_CONFIGURATION: {
+                String config = intent.getStringExtra(EXTRA_CONFIG);
+                mDeviceSupport.onReadConfiguration(config);
                 break;
             }
             case ACTION_TEST_NEW_FUNCTION: {

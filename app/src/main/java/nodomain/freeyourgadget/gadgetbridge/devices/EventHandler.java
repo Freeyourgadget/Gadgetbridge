@@ -96,6 +96,13 @@ public interface EventHandler {
      */
     void onSendConfiguration(String config);
 
+    /**
+     * Gets the given option from the device, sets the values in the preferences.
+     * The config name is device specific.
+     * @param config the device specific option to get from the device
+     */
+    void onReadConfiguration(String config);
+
     void onTestNewFunction();
 
     void onSendWeather(WeatherSpec weatherSpec);
