@@ -77,7 +77,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final GBDeviceEventMusicControl musicCmd = new GBDeviceEventMusicControl();
-    private final int sixHourOffset = 21600;
+    private final int sevenHourOffset = 25200;
     private byte[] lastMsg;
     private byte msgPart;
     private int availableSleepData;
@@ -1120,7 +1120,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     {
         ZeTimeActivitySample sample = new ZeTimeActivitySample();
         int timestamp = (msg[10] << 24)&0xff000000 | (msg[9] << 16)&0xff0000 | (msg[8] << 8)&0xff00 | (msg[7]&0xff);
-        timestamp += sixHourOffset; // the timestamp from the watch has an offset of six hours, do not know why...
+        timestamp += sevenHourOffset; // the timestamp from the watch has an offset of six hours, do not know why...
         sample.setTimestamp(timestamp);
         sample.setSteps((msg[14] << 24)&0xff000000 | (msg[13] << 16)&0xff0000 | (msg[12] << 8)&0xff00 | (msg[11]&0xff));
         sample.setCaloriesBurnt((msg[18] << 24)&0xff000000 | (msg[17] << 16)&0xff0000 | (msg[16] << 8)&0xff00 | (msg[15]&0xff));
@@ -1166,7 +1166,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     {
         ZeTimeActivitySample sample = new ZeTimeActivitySample();
         int timestamp = (msg[10] << 24)&0xff000000 | (msg[9] << 16)&0xff0000 | (msg[8] << 8)&0xff00 | (msg[7]&0xff);
-        timestamp += sixHourOffset; // the timestamp from the watch has an offset of six hours, do not know why...
+        timestamp += sevenHourOffset; // the timestamp from the watch has an offset of six hours, do not know why...
         sample.setTimestamp(timestamp);
         if(msg[11] == 0) {
             sample.setRawKind(ActivityKind.TYPE_DEEP_SLEEP);
@@ -1209,7 +1209,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     {
         ZeTimeActivitySample sample = new ZeTimeActivitySample();
         int timestamp = (msg[10] << 24)&0xff000000 | (msg[9] << 16)&0xff0000 | (msg[8] << 8)&0xff00 | (msg[7]&0xff);
-        timestamp += sixHourOffset; // the timestamp from the watch has an offset of six hours, do not know why...
+        timestamp += sevenHourOffset; // the timestamp from the watch has an offset of six hours, do not know why...
         sample.setHeartRate(msg[11]);
         sample.setTimestamp(timestamp);
 
@@ -1229,7 +1229,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         if(((msg[4] << 8)&0xff00 | (msg[3]&0xff)) == 0xe) // if the message is longer than 0x7, than it has to measurements (payload = 0xe)
         {
             timestamp = (msg[17] << 24)&0xff000000 | (msg[16] << 16)&0xff0000 | (msg[15] << 8)&0xff00 | (msg[14]&0xff);
-            timestamp += sixHourOffset; // the timestamp from the watch has an offset of six hours, do not know why...
+            timestamp += sevenHourOffset; // the timestamp from the watch has an offset of six hours, do not know why...
             sample.setHeartRate(msg[18]);
             sample.setTimestamp(timestamp);
 
