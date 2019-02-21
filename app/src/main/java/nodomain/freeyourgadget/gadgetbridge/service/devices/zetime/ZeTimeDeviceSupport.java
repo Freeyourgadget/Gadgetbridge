@@ -129,7 +129,6 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         requestBatteryInfo(builder);
         setUserInfo(builder);
         setUserGoals(builder);
-        setHeartRateLimits(builder);
         requestActivityInfo(builder);
         synchronizeTime(builder);
         initMusicVolume(builder);
@@ -188,6 +187,17 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     break;
                 case ZeTimeConstants.PREF_SHOCK_STRENGTH:
                     setShockStrength(builder);
+                case ZeTimeConstants.PREF_ZETIME_HEARTRATE_ALARM:
+                case ZeTimeConstants.PREF_ZETIME_MAX_HEARTRATE:
+                case ZeTimeConstants.PREF_ZETIME_MIN_HEARTRATE:
+                    setHeartRateLimits(builder);
+                    break;
+                case ZeTimeConstants.PREF_USER_FITNESS_GOAL:
+                case ZeTimeConstants.PREF_USER_SLEEP_GOAL:
+                case ZeTimeConstants.PREF_USER_CALORIES_GOAL:
+                case ZeTimeConstants.PREF_USER_DISTANCE_GOAL:
+                case ZeTimeConstants.PREF_USER_ACTIVETIME_GOAL:
+                    setUserGoals(builder);
                     break;
             }
             builder.queue(getQueue());
