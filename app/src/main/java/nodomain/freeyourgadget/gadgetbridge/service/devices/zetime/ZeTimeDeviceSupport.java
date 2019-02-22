@@ -61,7 +61,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.Transaction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
@@ -92,6 +91,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private byte musicState = -1;
     public byte[] music = null;
     public byte volume = 50;
+    public byte[][] remindersOnWatch = new byte[3][10];
 
     public BluetoothGattCharacteristic notifyCharacteristic = null;
     public BluetoothGattCharacteristic writeCharacteristic = null;
@@ -132,6 +132,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         requestActivityInfo(builder);
         synchronizeTime(builder);
         initMusicVolume(builder);
+        onReadReminders(builder);
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
         LOG.info("Initialization Done");
@@ -277,25 +278,60 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             Prefs prefs = GBApplication.getPrefs();
 
             for (Alarm alarm : alarms) {
-                alarmMessage = new byte[]{
-                        ZeTimeConstants.CMD_PREAMBLE,
-                        ZeTimeConstants.CMD_REMINDERS,
-                        ZeTimeConstants.CMD_SEND,
-                        (byte) 0xb,
-                        (byte) 0x0,
-                        (byte) alarm.getPosition(), // index
-                        ZeTimeConstants.REMINDER_ALARM,
-                        (byte) 0x0, // year low byte
-                        (byte) 0x0, // year high byte
-                        (byte) 0x0, // month
-                        (byte) 0x0, // day
-                        (byte) AlarmUtils.toCalendar(alarm).get(Calendar.HOUR_OF_DAY),
-                        (byte) AlarmUtils.toCalendar(alarm).get(Calendar.MINUTE),
-                        (byte) alarm.getRepetition(),
-                        (byte) (alarm.getEnabled() ? 1 : 0),
-                        (byte) prefs.getInt(ZeTimeConstants.PREF_ALARM_SIGNALING, 11), // reminder signaling
-                        ZeTimeConstants.CMD_END
-                };
+                if(remindersOnWatch[alarm.getPosition()][0] == 0)
+                {
+                    alarmMessage = new byte[]{
+                            ZeTimeConstants.CMD_PREAMBLE,
+                            ZeTimeConstants.CMD_REMINDERS,
+                            ZeTimeConstants.CMD_SEND,
+                            (byte) 0xb,
+                            (byte) 0x0,
+                            (byte) 0x0,//(byte) alarm.getPosition(), // index
+                            ZeTimeConstants.REMINDER_ALARM,
+                            (byte) 0x0, // year low byte
+                            (byte) 0x0, // year high byte
+                            (byte) 0x0, // month
+                            (byte) 0x0, // day
+                            (byte) AlarmUtils.toCalendar(alarm).get(Calendar.HOUR_OF_DAY),
+                            (byte) AlarmUtils.toCalendar(alarm).get(Calendar.MINUTE),
+                            (byte) alarm.getRepetition(),
+                            (byte) (alarm.getEnabled() ? 1 : 0),
+                            (byte) prefs.getInt(ZeTimeConstants.PREF_ALARM_SIGNALING, 11), // reminder signaling
+                            ZeTimeConstants.CMD_END
+                    };
+                    System.arraycopy(alarmMessage, 6, remindersOnWatch[alarm.getPosition()], 0, 10);
+                } else {
+                    alarmMessage = new byte[]{
+                            ZeTimeConstants.CMD_PREAMBLE,
+                            ZeTimeConstants.CMD_REMINDERS,
+                            ZeTimeConstants.CMD_SEND,
+                            (byte) 0x15,
+                            (byte) 0x0,
+                            (byte) 0x1, // edit alarm
+                            remindersOnWatch[alarm.getPosition()][0],
+                            remindersOnWatch[alarm.getPosition()][1],
+                            remindersOnWatch[alarm.getPosition()][2],
+                            remindersOnWatch[alarm.getPosition()][3],
+                            remindersOnWatch[alarm.getPosition()][4],
+                            remindersOnWatch[alarm.getPosition()][5],
+                            remindersOnWatch[alarm.getPosition()][6],
+                            remindersOnWatch[alarm.getPosition()][7],
+                            remindersOnWatch[alarm.getPosition()][8],
+                            remindersOnWatch[alarm.getPosition()][9],
+                            ZeTimeConstants.REMINDER_ALARM,
+                            (byte) 0x0, // year low byte
+                            (byte) 0x0, // year high byte
+                            (byte) 0x0, // month
+                            (byte) 0x0, // day
+                            (byte) AlarmUtils.toCalendar(alarm).get(Calendar.HOUR_OF_DAY),
+                            (byte) AlarmUtils.toCalendar(alarm).get(Calendar.MINUTE),
+                            (byte) alarm.getRepetition(),
+                            (byte) (alarm.getEnabled() ? 1 : 0),
+                            (byte) prefs.getInt(ZeTimeConstants.PREF_ALARM_SIGNALING, 11), // reminder signaling
+                            ZeTimeConstants.CMD_END
+                    };
+                    System.arraycopy(alarmMessage, 16, remindersOnWatch[alarm.getPosition()], 0, 10);
+                }
                 sendMsgToWatch(builder, alarmMessage);
             }
             builder.queue(getQueue());
@@ -838,6 +874,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     case ZeTimeConstants.CMD_SWITCH_SETTINGS:
                         getDisplayOnMovement(data);
                         break;
+                    case ZeTimeConstants.CMD_REMINDERS:
+                        storeActualReminders(data);
+                        break;
                 }
             }
             return true;
@@ -1120,7 +1159,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     {
         ZeTimeActivitySample sample = new ZeTimeActivitySample();
         int timestamp = (msg[10] << 24)&0xff000000 | (msg[9] << 16)&0xff0000 | (msg[8] << 8)&0xff00 | (msg[7]&0xff);
-        timestamp += sevenHourOffset; // the timestamp from the watch has an offset of six hours, do not know why...
+        timestamp += sevenHourOffset; // the timestamp from the watch has an offset of seven hours, do not know why...
         sample.setTimestamp(timestamp);
         sample.setSteps((msg[14] << 24)&0xff000000 | (msg[13] << 16)&0xff0000 | (msg[12] << 8)&0xff00 | (msg[11]&0xff));
         sample.setCaloriesBurnt((msg[18] << 24)&0xff000000 | (msg[17] << 16)&0xff0000 | (msg[16] << 8)&0xff00 | (msg[15]&0xff));
@@ -1166,7 +1205,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     {
         ZeTimeActivitySample sample = new ZeTimeActivitySample();
         int timestamp = (msg[10] << 24)&0xff000000 | (msg[9] << 16)&0xff0000 | (msg[8] << 8)&0xff00 | (msg[7]&0xff);
-        timestamp += sevenHourOffset; // the timestamp from the watch has an offset of six hours, do not know why...
+        timestamp += sevenHourOffset; // the timestamp from the watch has an offset of seven hours, do not know why...
         sample.setTimestamp(timestamp);
         if(msg[11] == 0) {
             sample.setRawKind(ActivityKind.TYPE_DEEP_SLEEP);
@@ -1209,7 +1248,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     {
         ZeTimeActivitySample sample = new ZeTimeActivitySample();
         int timestamp = (msg[10] << 24)&0xff000000 | (msg[9] << 16)&0xff0000 | (msg[8] << 8)&0xff00 | (msg[7]&0xff);
-        timestamp += sevenHourOffset; // the timestamp from the watch has an offset of six hours, do not know why...
+        timestamp += sevenHourOffset; // the timestamp from the watch has an offset of seven hours, do not know why...
         sample.setHeartRate(msg[11]);
         sample.setTimestamp(timestamp);
 
@@ -1229,7 +1268,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         if(((msg[4] << 8)&0xff00 | (msg[3]&0xff)) == 0xe) // if the message is longer than 0x7, than it has to measurements (payload = 0xe)
         {
             timestamp = (msg[17] << 24)&0xff000000 | (msg[16] << 16)&0xff0000 | (msg[15] << 8)&0xff00 | (msg[14]&0xff);
-            timestamp += sevenHourOffset; // the timestamp from the watch has an offset of six hours, do not know why...
+            timestamp += sevenHourOffset; // the timestamp from the watch has an offset of seven hours, do not know why...
             sample.setHeartRate(msg[18]);
             sample.setTimestamp(timestamp);
 
@@ -1945,9 +1984,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void onReadReminders() {
-        try {
-            TransactionBuilder builder = performInitialized("readReminders");
+    private void onReadReminders(TransactionBuilder builder) {
+//        try {
+//            TransactionBuilder builder = performInitialized("readReminders");
 
             byte[] reminders = {
                     ZeTimeConstants.CMD_PREAMBLE,
@@ -1961,9 +2000,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             sendMsgToWatch(builder, reminders);
 
             builder.queue(getQueue());
-        } catch (IOException e) {
-            GB.toast(getContext(), "Error reading reminders: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-        }
+//        } catch (IOException e) {
+//            GB.toast(getContext(), "Error reading reminders: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+//        }
     }
 
     private void getDateTimeFormat(byte[] msg)
@@ -2141,6 +2180,14 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         if (getDevice().isBusy()) {
             getDevice().unsetBusyTask();
             getDevice().sendDeviceUpdateIntent(getContext());
+        }
+    }
+
+    private void storeActualReminders(byte[] msg)
+    {
+        if(msg[3] == 0xb) // there is a reminder on the watch
+        {
+            System.arraycopy(msg, 6, remindersOnWatch[msg[5]-1], 0, 10);
         }
     }
 }
