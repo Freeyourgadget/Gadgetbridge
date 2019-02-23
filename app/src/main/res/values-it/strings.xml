@@ -18,7 +18,7 @@
     <string name="controlcenter_navigation_drawer_close">Chiudi menu</string>
     <string name="controlcenter_snackbar_need_longpress">Pressione prolungata sulla scheda per scollegare</string>
     <string name="controlcenter_snackbar_disconnecting">Disconnessione</string>
-    <string name="controlcenter_snackbar_connecting">Connessione</string>
+    <string name="controlcenter_snackbar_connecting">Connessione …</string>
     <string name="controlcenter_snackbar_requested_screenshot">Screenshot del dispositivo</string>
     <string name="title_activity_debug">Debug</string>
     <!--Strings related to AppManager-->
@@ -396,7 +396,7 @@
     <string name="discovery_trying_to_connect_to">Tentativo di connessione con: %1$s</string>
     <string name="discovery_enable_bluetooth">Abilitare Bluetooth per l\'individuazione dei dispositivi.</string>
     <string name="discovery_dont_pair">Non connettersi</string>
-    <string name="controlcenter_connect">Connetti</string>
+    <string name="controlcenter_connect">Connetti …</string>
     <string name="fw_upgrade_notice_amazfitbip">Si sta per installare il firmware %s sul tuo Amazfit Bip.
 \n
 \nSi prega di installare prima il file .fw, poi il file .res e in fine il file .gps. Il tuo smartwatch si riavvierà appena dopo aver installato il file .fw.
@@ -626,4 +626,5 @@
     <string name="mode_configuration">Modalità Configurazione</string>
     <string name="save_configuration">Salva Configurazione</string>
     <string name="appwidget_not_connected">Non connesso, sveglia non impostata.</string>
+    <string name="activity_type_exercise">Esercizio</string>
 </resources>
