@@ -14,6 +14,7 @@
     <string name="controlcenter_delete_device_name">Apagar %1$s</string>
     <string name="controlcenter_delete_device_dialogmessage">Isto irá apagar o dispositivo e todos os dados associados!</string>
     <string name="title_activity_debug">Depurar</string>
+    
     <!--Strings related to AppManager-->
     <string name="title_activity_appmanager">Gerenciador de App</string>
     <string name="appmanager_cached_watchapps_watchfaces">Apps em cache</string>
@@ -32,9 +33,12 @@
     <string name="appmanager_weather_install_provider">Instalar notificações do app de clima</string>
     <string name="app_configure">Configurar</string>
     <string name="app_move_to_top">Mover para o topo</string>
+    
     <!--Strings related to AppBlacklist-->
     <string name="title_activity_appblacklist">Lista Negra de Notificações</string>
+    
     <!--Strings related to CalBlacklist-->
+    
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">Instalador FW/App</string>
     <string name="fw_upgrade_notice">Você está prestes a instalar o firmware %s no lugar do atual em sua Mi Band.</string>
@@ -44,6 +48,7 @@
 \n
 \nNÃO recomendamos que instale em sua Mi Band!</string>
     <string name="miband_firmware_suggest_whitelist">Se você ainda desejar continuar e tudo funcionar corretamente, por favor, diga aos desenvolvedores do Gadgetbridge para incluírem essa versão de firmware na lista: %s</string>
+    
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Configurações</string>
     <string name="pref_header_general">Configurações Gerais</string>
@@ -180,7 +185,7 @@
     <string name="left">esquerda</string>
     <string name="right">direita</string>
     <string name="miband_pairing_using_dummy_userdata">Nenhum dado válido informado, usando dados fictícios por enquanto.</string>
-    <string name="miband_pairing_tap_hint">Quando a sua Mi Band vibra e pisca, toque nele algumas vezes seguidas.</string>
+    <string name="miband_pairing_tap_hint">Quando a sua Mi Band vibrar e piscar, toque nele algumas vezes seguidas.</string>
     <string name="appinstaller_install">Instalar</string>
     <string name="discovery_note">Nota:</string>
     <string name="candidate_item_device_image">Imagem do Dispositivo</string>
@@ -253,7 +258,7 @@
     <string name="pbwinstallhandler_correct_hw_revision">Corrigir a revisão do hardware</string>
     <string name="pbwinstallhandler_incorrect_hw_revision">Incompatibilidade de revisão de hardware!</string>
     <string name="pbwinstallhandler_app_item">%1$s (%2$s)</string>
-    <string name="updatefirmwareoperation_updateproblem_do_not_reboot">Problema com a transferência do firmware. NÃO REBOTAR sua Mi Band!</string>
+    <string name="updatefirmwareoperation_updateproblem_do_not_reboot">Problema com a transferência do firmware. NÃO REINICIAR sua Mi Band!</string>
     <string name="updatefirmwareoperation_metadata_updateproblem">Problemas ao transferir os metadados do firmware</string>
     <string name="updatefirmwareoperation_update_complete">Instalação do Firmware completa</string>
     <string name="updatefirmwareoperation_update_complete_rebooting">Instalação do Firmware completa, reiniciando o dispositivo…</string>
@@ -290,7 +295,7 @@
     <string name="FetchActivityOperation_about_to_transfer_since">Sobre para transferir dados desde %1$s</string>
     <string name="waiting_for_reconnect">aguarde para reconectar</string>
     <string name="activity_prefs_about_you">Sobre você</string>
-    <string name="activity_prefs_year_birth">Ano de anoversário</string>
+    <string name="activity_prefs_year_birth">Ano de aniversário</string>
     <string name="activity_prefs_gender">Gênero</string>
     <string name="activity_prefs_height_cm">Altura em cm</string>
     <string name="activity_prefs_weight_kg">Peso em kg</string>
@@ -331,14 +336,16 @@
     <string name="dbmanagementactivity_overwrite">Sobrepor</string>
     <string name="Cancel">Cancelar</string>
     <string name="Delete">Apagar</string>
+    
     <!--Strings related to Vibration Activity-->
     <string name="title_activity_vibration">Vibração</string>
+    
     <!--Strings related to Pebble Pairing Activity-->
     <string name="title_activity_pebble_pairing">Pareando Pebble</string>
     <string name="pebble_pairing_hint">Espera-se que um diálogo de emparelhamento apareça no seu dispositivo Android. Se isso não acontecer, procure na gaveta de notificação e aceite o pedido de emparelhamento. Depois que aceitar o pedido de emparelhamento em seu Pebble</string>
     <string name="weather_notification_label">Certifique-se de que esta capa está ativada no aplicativo Notificação de Tempo para obter informações sobre o tempo em seu Pebble.\n\nNão é necessário configurar aqui.\n\nVocê pode ativar o aplicativo de tempo do sistema de seu Pebble do gerenciamento de aplicativos.\n\nOs relógios assistidos mostrarão o tempo automaticamente.</string>
     <string name="pref_title_setup_bt_pairing">Ativar o emparelhamento Bluetooth</string>
-    <string name="pref_summary_setup_bt_pairing">Desactive esta opção se tiver problemas para</string>
+    <string name="pref_summary_setup_bt_pairing">Desative esta opção se tiver problemas para</string>
     <string name="unit_metric">Métrico</string>
     <string name="unit_imperial">Imperial</string>
     <string name="timeformat_24h">24H</string>
