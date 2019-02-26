@@ -58,14 +58,14 @@
     <string name="pref_default">По умолчанию</string>
     <string name="pref_header_datetime">Дата и время</string>
     <string name="pref_title_datetime_syctimeonconnect">Синхронизировать время при подключении</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Синхронизировать время при подключении к зарегистрированному стройству, а также при изменении времени или временной зоны в системных настройках</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Синхронизировать время при подключении к зарегистрированному устройству, а также при изменении времени или временной зоны в системных настройках</string>
     <string name="pref_title_theme">Тема</string>
     <string name="pref_theme_light">Светлая</string>
     <string name="pref_theme_dark">Темная</string>
     <string name="pref_title_language">Язык</string>
-    <string name="pref_title_minimize_priority">Прятать уведомления от Gadgetbridge</string>
-    <string name="pref_summary_minimize_priority_off">Показывать значок в строке состояния и уведомления на экране блокировки</string>
-    <string name="pref_summary_minimize_priority_on">Не показывать значок в строке состояния и уведомления на экране блокировки</string>
+    <string name="pref_title_minimize_priority">Прятать уведомление Gadgetbridge</string>
+    <string name="pref_summary_minimize_priority_off">Показывать значок в строке состояния и уведомление на экране блокировки</string>
+    <string name="pref_summary_minimize_priority_on">Не показывать значок в строке состояния и уведомление на экране блокировки</string>
     <string name="pref_header_notifications">Уведомления</string>
     <string name="pref_title_notifications_repetitions">Повторы</string>
     <string name="pref_title_notifications_call">Вызовы</string>
@@ -279,7 +279,7 @@
     <string name="overstep">Пройдено на %1$d шагов больше</string>
     <string name="pref_title_dont_ack_transfer">Не подтверждать передачу данных об активности</string>
     <string name="pref_summary_dont_ack_transfers">Если данные об активности не будут переданы на устройство, оно не будет очищено. Полезно, если GB используется с другими приложениями.</string>
-    <string name="pref_summary_keep_data_on_device">Хранить данные о деятельности на Mi Band, даже после синхронизации. Полезно, если Mi Band используется совместно с другими приложениями.</string>
+    <string name="pref_summary_keep_data_on_device">Сохранять данные об активности на Mi Band даже после синхронизации. Полезно, если GB используется совместно с другими приложениями.</string>
     <string name="pref_title_low_latency_fw_update">Использовать режим с низкими задержками для обновления прошивки</string>
     <string name="pref_summary_low_latency_fw_update">Это может пригодиться в случае неудачного обновления прошивки.</string>
     <string name="live_activity_steps_history">История шагов</string>
@@ -461,7 +461,7 @@
     <string name="simplified_chinese">Упрощённый китайский язык</string>
     <string name="traditional_chinese">Традиционный китайский язык</string>
     <string name="english">Английский язык</string>
-    <string name="prefs_title_heartrate_measurement_interval">Измерение пульса в течение целого дня</string>
+    <string name="prefs_title_heartrate_measurement_interval">Измерение пульса в течение дня</string>
     <string name="interval_one_minute">раз в минуту</string>
     <string name="interval_five_minutes">раз в 5 минут</string>
     <string name="interval_ten_minutes">раз в 10 минут</string>
@@ -535,8 +535,8 @@
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
     <string name="preferences_id115_settings">Настройки ID115</string>
     <string name="prefs_screen_orientation">Ориентация экрана</string>
-    <string name="pref_auto_fetch">Загружать данные об активности автоматически</string>
-    <string name="pref_auto_fetch_summary">Загрузка данных каждый раз, когда экран разблокируют. Это работает только если настроена блокировка экрана!</string>
+    <string name="pref_auto_fetch">Автозагрузка данных об активности</string>
+    <string name="pref_auto_fetch_summary">Загрузка данных при каждой разблокировке экрана. Это работает только при включенной блокировке экрана!</string>
     <string name="pref_auto_fetch_limit_fetches">Минимальный интервал между загрузками</string>
     <string name="pref_auto_fetch_limit_fetches_summary">Загружать каждые %d минут(ы)</string>
     <string name="horizontal">Горизонтально</string>
@@ -560,7 +560,7 @@
     <string name="menuitem_music">Музыка</string>
     <string name="controlcenter_calibrate_device">Калибровать устройство</string>
     <string name="watch9_pairing_tap_hint">Когда устройство завибрирует, встряхните его или нажмите на кнопку.</string>
-    <string name="devicetype_watch9">Калибровать устройство</string>
+    <string name="devicetype_watch9">Watch 9</string>
     <string name="watch9_time_minutes">Минут:</string>
     <string name="watch9_time_hours">Часов:</string>
     <string name="watch9_time_seconds">Секунд:</string>
@@ -616,4 +616,11 @@
     <string name="pref_title_contextual_arabic">Контекстные формы для арабского языка</string>
     <string name="pref_summary_contextual_arabic">Включает поддержку контекстных форм арабского языка</string>
     <string name="preferences_rtl_settings">Поддержка ввода справа налево</string>
+    <string name="prefs_disconnect_notification">Уведомление об отключении</string>
+    <string name="activity_type_exercise">Упражнения</string>
+    <string name="devicetype_casiogb6900">Casio GB-6900</string>
+    <string name="title_activity_notification_filter">Фильтр уведомлений</string>
+    <string name="filter_submode_at_least_one">Минимум одно из слов</string>
+    <string name="filter_submode_all">Все слова</string>
+    <string name="toast_notification_filter_words_empty_hint">Введите хотя бы одно слово</string>
 </resources>
