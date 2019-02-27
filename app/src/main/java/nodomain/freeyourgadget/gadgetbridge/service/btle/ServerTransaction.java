@@ -16,10 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -31,20 +29,14 @@ import androidx.annotation.Nullable;
  *
  * @author TREND
  */
-public class ServerTransaction {
-    private final String mName;
+public class ServerTransaction extends AbstractTransaction {
     private final List<BtLEServerAction> mActions = new ArrayList<>(4);
-    private final long creationTimestamp = System.currentTimeMillis();
     private
     @Nullable
     GattServerCallback gattCallback;
 
     public ServerTransaction(String taskName) {
-        this.mName = taskName;
-    }
-
-    public String getTaskName() {
-        return mName;
+        super(taskName);
     }
 
     public void add(BtLEServerAction action) {
@@ -57,10 +49,6 @@ public class ServerTransaction {
 
     public boolean isEmpty() {
         return mActions.isEmpty();
-    }
-
-    protected String getCreationTime() {
-        return DateFormat.getTimeInstance(DateFormat.MEDIUM).format(new Date(creationTimestamp));
     }
 
     @Override
@@ -79,5 +67,10 @@ public class ServerTransaction {
     @Nullable
     GattServerCallback getGattCallback() {
         return gattCallback;
+    }
+
+    @Override
+    public int getActionSize() {
+        return mActions.size();
     }
 }
