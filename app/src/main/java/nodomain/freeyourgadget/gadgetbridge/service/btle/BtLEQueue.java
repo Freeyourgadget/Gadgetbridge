@@ -38,10 +38,10 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -57,15 +57,13 @@ public final class BtLEQueue {
     private static final Logger LOG = LoggerFactory.getLogger(BtLEQueue.class);
 
     private final Object mGattMonitor = new Object();
-    private final Object mTransactionMonitor = new Object();
     private final GBDevice mGbDevice;
     private final BluetoothAdapter mBluetoothAdapter;
     private BluetoothGatt mBluetoothGatt;
     private BluetoothGattServer mBluetoothGattServer;
     private final Set<BluetoothGattService> mSupportedServerServices;
 
-    private final Queue<Transaction> mTransactions = new ConcurrentLinkedQueue<>();
-    private final Queue<ServerTransaction> mServerTransactions = new ConcurrentLinkedQueue<>();
+    private final BlockingQueue<AbstractTransaction> mTransactions = new LinkedBlockingQueue<>();
     private volatile boolean mDisposed;
     private volatile boolean mCrashed;
     private volatile boolean mAbortTransaction;
@@ -88,17 +86,7 @@ public final class BtLEQueue {
 
             while (!mDisposed && !mCrashed) {
                 try {
-                    if(mTransactions.isEmpty() && mServerTransactions.isEmpty()) {
-                        synchronized (mTransactionMonitor) {
-                            try {
-                                mTransactionMonitor.wait();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                    Transaction transaction = mTransactions.poll();
-                    ServerTransaction serverTransaction = mServerTransactions.poll();
+                    AbstractTransaction qTransaction = mTransactions.take();
 
                     if (!isConnected()) {
                         LOG.debug("not connected, waiting for connection...");
@@ -115,7 +103,8 @@ public final class BtLEQueue {
                         mConnectionLatch = null;
                     }
 
-                    if(serverTransaction != null) {
+                    if(qTransaction instanceof ServerTransaction) {
+                        ServerTransaction serverTransaction = (ServerTransaction)qTransaction;
                         internalGattServerCallback.setTransactionGattCallback(serverTransaction.getGattCallback());
                         mAbortServerTransaction = false;
 
@@ -144,7 +133,8 @@ public final class BtLEQueue {
                         }
                     }
 
-                    if(transaction != null) {
+                    if(qTransaction instanceof Transaction) {
+                        Transaction transaction = (Transaction)qTransaction;
                         internalGattCallback.setTransactionGattCallback(transaction.getGattCallback());
                         mAbortTransaction = false;
                         // Run all actions of the transaction until one doesn't succeed
@@ -308,10 +298,9 @@ public final class BtLEQueue {
         if (mWaitForServerActionResultLatch != null) {
             mWaitForServerActionResultLatch.countDown();
         }
-        synchronized(mTransactionMonitor) {
-            mTransactionMonitor.notify();
-        }
+
         boolean wasInitialized = mGbDevice.isInitialized();
+
         setDeviceConnectionState(State.NOT_CONNECTED);
 
         // either we've been disconnected because the device is out of range
@@ -368,9 +357,6 @@ public final class BtLEQueue {
         LOG.debug("about to add: " + transaction);
         if (!transaction.isEmpty()) {
             mTransactions.add(transaction);
-            synchronized(mTransactionMonitor) {
-                mTransactionMonitor.notify();
-            }
         }
     }
 
@@ -382,10 +368,7 @@ public final class BtLEQueue {
     public void add(ServerTransaction transaction) {
         LOG.debug("about to add: " + transaction);
         if(!transaction.isEmpty()) {
-            mServerTransactions.add(transaction);
-            synchronized(mTransactionMonitor) {
-                mTransactionMonitor.notify();
-            }
+            mTransactions.add(transaction);
         }
     }
 
@@ -399,26 +382,19 @@ public final class BtLEQueue {
     public void insert(Transaction transaction) {
         LOG.debug("about to insert: " + transaction);
         if (!transaction.isEmpty()) {
-            List<Transaction> tail = new ArrayList<>(mTransactions.size() + 2);
+            List<AbstractTransaction> tail = new ArrayList<>(mTransactions.size() + 2);
             //mTransactions.drainTo(tail);
-            for( Transaction t : mTransactions) {
+            for( AbstractTransaction t : mTransactions) {
                 tail.add(t);
             }
             mTransactions.clear();
             mTransactions.add(transaction);
             mTransactions.addAll(tail);
-            synchronized(mTransactionMonitor) {
-                mTransactionMonitor.notify();
-            }
         }
     }
 
     public void clear() {
         mTransactions.clear();
-        mServerTransactions.clear();
-        synchronized(mTransactionMonitor) {
-            mTransactionMonitor.notify();
-        }
     }
 
     /**
