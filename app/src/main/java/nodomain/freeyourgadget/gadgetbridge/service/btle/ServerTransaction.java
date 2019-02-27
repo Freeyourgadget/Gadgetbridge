@@ -1,5 +1,4 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -20,30 +19,31 @@ package nodomain.freeyourgadget.gadgetbridge.service.btle;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.Nullable;
 
 /**
- * Groups a bunch of {@link BtLEAction actions} together, making sure
+ * Groups a bunch of {@link BtLEServerAction actions} together, making sure
  * that upon failure of one action, all subsequent actions are discarded.
  *
  * @author TREND
  */
-public class Transaction extends AbstractTransaction {
-    private final List<BtLEAction> mActions = new ArrayList<>(4);
+public class ServerTransaction extends AbstractTransaction {
+    private final List<BtLEServerAction> mActions = new ArrayList<>(4);
     private
     @Nullable
-    GattCallback gattCallback;
+    GattServerCallback gattCallback;
 
-    public Transaction(String taskName) {
+    public ServerTransaction(String taskName) {
         super(taskName);
     }
 
-    public void add(BtLEAction action) {
+    public void add(BtLEServerAction action) {
         mActions.add(action);
     }
 
-    public List<BtLEAction> getActions() {
+    public List<BtLEServerAction> getActions() {
         return Collections.unmodifiableList(mActions);
     }
 
@@ -51,16 +51,21 @@ public class Transaction extends AbstractTransaction {
         return mActions.isEmpty();
     }
 
-    public void setGattCallback(@Nullable GattCallback callback) {
+    @Override
+    public String toString() {
+        return String.format(Locale.US, "%s: Transaction task: %s with %d actions", getCreationTime(), getTaskName(), mActions.size());
+    }
+
+    public void setGattCallback(@Nullable GattServerCallback callback) {
         gattCallback = callback;
     }
 
     /**
-     * Returns the GattCallback for this transaction, or null if none.
+     * Returns the GattServerCallback for this transaction, or null if none.
      */
     public
     @Nullable
-    GattCallback getGattCallback() {
+    GattServerCallback getGattCallback() {
         return gattCallback;
     }
 
