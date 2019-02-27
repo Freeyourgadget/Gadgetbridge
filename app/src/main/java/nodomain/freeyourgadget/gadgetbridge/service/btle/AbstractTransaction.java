@@ -24,7 +24,6 @@ public abstract class AbstractTransaction {
     private final String mName;
     private final long creationTimestamp = System.currentTimeMillis();
 
-
     public AbstractTransaction(String taskName) {
         this.mName = taskName;
     }
@@ -37,13 +36,11 @@ public abstract class AbstractTransaction {
         return DateFormat.getTimeInstance(DateFormat.MEDIUM).format(new Date(creationTimestamp));
     }
 
-    public int getActionSize() {
-        return 0;
-    }
+    public abstract int getActionCount();
 
     @Override
     public String toString() {
-        return String.format(Locale.US, "%s: Transaction task: %s with %d actions", getCreationTime(), getTaskName(), getActionSize());
+        return String.format(Locale.US, "%s: Transaction task: %s with %d actions", getCreationTime(), getTaskName(), getActionCount());
     }
 
 }
