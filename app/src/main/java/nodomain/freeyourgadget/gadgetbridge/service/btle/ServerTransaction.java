@@ -70,7 +70,7 @@ public class ServerTransaction extends AbstractTransaction {
     }
 
     @Override
-    public int getActionSize() {
+    public int getActionCount() {
         return mActions.size();
     }
 }

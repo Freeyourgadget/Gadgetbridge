@@ -65,7 +65,7 @@ public class Transaction extends AbstractTransaction {
     }
 
     @Override
-    public int getActionSize() {
+    public int getActionCount() {
         return mActions.size();
     }
 }
