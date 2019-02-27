@@ -443,7 +443,7 @@
     <string name="_pebble_watch_open_on_phone">Auf Android-Gerät öffnen</string>
     <string name="_pebble_watch_mute">Lautlos</string>
     <string name="_pebble_watch_reply">Antworten</string>
-    <string name="controlcenter_connect">Verbinden</string>
+    <string name="controlcenter_connect">Verbinden…</string>
     <string name="pref_title_pebble_enable_bgjs">Hintergrund JS aktivieren</string>
     <string name="preferences_amazfitbip_settings">Amazfit Bip Einstellungen</string>
     <string name="amazfitcor_firmware">Amazfit Cor Firmware %1$s</string>
