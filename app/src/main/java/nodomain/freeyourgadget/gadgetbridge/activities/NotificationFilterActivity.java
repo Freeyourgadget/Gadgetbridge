@@ -185,7 +185,7 @@ public class NotificationFilterActivity extends AbstractGBActivity {
 
             notificationFilterEntryDao.deleteByKeyInTx(mFilterEntryIds);
 
-            Long filterId = notificationFilterDao.insertOrReplace(mNotificationFilter);
+           long filterId = notificationFilterDao.insertOrReplace(mNotificationFilter);
 
             // only save words if filter mode != none
             if (mNotificationFilter.getNotificationFilterMode() != NOTIFICATION_FILTER_MODE_NONE) {
