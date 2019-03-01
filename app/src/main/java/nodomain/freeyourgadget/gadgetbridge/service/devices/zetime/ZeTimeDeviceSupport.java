@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer,
+/*  Copyright (C) 2015-2019 0nse, Andreas Shimokawa, Carsten Pfeiffer,
     Julien Pivotto, Kranz, Sebastian Kranz, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
@@ -1044,12 +1044,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     if (musicControlMsg[6] > volume) {
                         musicCmd.event = GBDeviceEventMusicControl.Event.VOLUMEUP;
                         if(volume < 90) {
-                            volume += 10;
+                            volume += (byte) 10;
                         }
                     } else {
                         musicCmd.event = GBDeviceEventMusicControl.Event.VOLUMEDOWN;
                         if(volume > 10) {
-                            volume -= 10;
+                            volume -= (byte) 10;
                         }
                     }
                     try {

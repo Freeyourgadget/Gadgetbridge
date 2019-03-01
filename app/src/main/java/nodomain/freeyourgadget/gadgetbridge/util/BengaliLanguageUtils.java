@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2018 Aniruddha Adhikary
+/*  Copyright (C) 2017-2019 Aniruddha Adhikary, Carsten Pfeiffer, Daniele
+    Gobbetti, Utsob Roy
 
     This file is part of Gadgetbridge.
 

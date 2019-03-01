@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Frank Slezak, ivanovlev, Kasha, Lem Dulfo, Pavel Elagin, Steffen
     Liebergeld
 
@@ -321,10 +321,16 @@ public class DebugActivity extends AbstractGBActivity {
     private void shareLog() {
         String fileName = GBApplication.getLogPath();
         if(fileName != null && fileName.length() > 0) {
+            File logFile = new File(fileName);
+            if (!logFile.exists()) {
+                GB.toast("File does not exist", Toast.LENGTH_LONG, GB.INFO);
+                return;
+            }
+
             Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
             emailIntent.setType("*/*");
             emailIntent.putExtra(EXTRA_SUBJECT, "Gadgetbridge log file");
-            emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(fileName)));
+            emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(logFile));
             startActivity(Intent.createChooser(emailIntent, "Share File"));
         }
     }

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, AndrewH, Carsten Pfeiffer,
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, AndrewH, Carsten Pfeiffer,
     szilardx
 
     This file is part of Gadgetbridge.
@@ -91,8 +91,8 @@ public class ActivityDetailsParser {
                     i++;
                 }
 
-                byte type = bytes[i++];
-                int timeOffset = BLETypeConversions.toUnsigned(bytes[i++]);
+                byte type = bytes[i++]; // lgtm [java/index-out-of-bounds]]
+                int timeOffset = BLETypeConversions.toUnsigned(bytes[i++]); // lgtm [java/index-out-of-bounds]
                 // handle timeOffset overflows (1 byte, always increasing, relative to base)
                 if (lastTimeOffset <= timeOffset) {
                     timeOffset = timeOffset - lastTimeOffset;

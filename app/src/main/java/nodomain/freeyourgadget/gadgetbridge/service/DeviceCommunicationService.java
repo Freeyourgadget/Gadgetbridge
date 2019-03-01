@@ -1,7 +1,7 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Avamander, Carsten Pfeiffer,
-    dakhnod, Daniele Gobbetti, Daniel Hauck, Frank Slezak, ivanovlev, João Paulo
-    Barraca, Julien Pivotto, Kasha, Martin, Sergey Trofimov, Steffen Liebergeld,
-    Taavi Eomäe, Uwe Hermann
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Avamander, Carsten Pfeiffer,
+    dakhnod, Daniele Gobbetti, Daniel Hauck, Dikay900, Frank Slezak, ivanovlev,
+    João Paulo Barraca, José Rebelo, Julien Pivotto, Kasha, Martin, Matthieu
+    Baerts, Sergey Trofimov, Steffen Liebergeld, Taavi Eomäe, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -356,7 +356,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     }
 
     /**
-     * @param text: original text
+     * @param text original text
      * @return 'text' or a new String without non supported chars like emoticons, etc.
      */
     private String sanitizeNotifText(String text) {

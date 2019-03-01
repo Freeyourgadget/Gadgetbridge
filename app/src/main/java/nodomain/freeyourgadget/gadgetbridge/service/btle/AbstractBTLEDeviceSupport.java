@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, JohnnySun
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, JohnnySun, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
@@ -44,16 +45,17 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.AbstractBlePro
  * Bluetooth Smart.
  * <p/>
  * The connection to the device and all communication is made with a generic {@link BtLEQueue}.
- * Messages to the device are encoded as {@link BtLEAction actions} that are grouped with a
- * {@link Transaction} and sent via {@link BtLEQueue}.
+ * Messages to the device are encoded as {@link BtLEAction actions} or {@link BtLEServerAction actions}
+ * that are grouped with a {@link Transaction} or {@link ServerTransaction} and sent via {@link BtLEQueue}.
  *
  * @see TransactionBuilder
  * @see BtLEQueue
  */
-public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport implements GattCallback {
+public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport implements GattCallback, GattServerCallback {
     private BtLEQueue mQueue;
     private Map<UUID, BluetoothGattCharacteristic> mAvailableCharacteristics;
     private final Set<UUID> mSupportedServices = new HashSet<>(4);
+    private final Set<BluetoothGattService> mSupportedServerServices = new HashSet<>(4);
     private Logger logger;
 
     private final List<AbstractBleProfile<?>> mSupportedProfiles = new ArrayList<>();
@@ -70,7 +72,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     @Override
     public boolean connect() {
         if (mQueue == null) {
-            mQueue = new BtLEQueue(getBluetoothAdapter(), getDevice(), this, getContext());
+            mQueue = new BtLEQueue(getBluetoothAdapter(), getDevice(), this, this, getContext(), mSupportedServerServices);
             mQueue.setAutoReconnect(getAutoReconnect());
         }
         return mQueue.connect();
@@ -136,6 +138,19 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
         return createTransactionBuilder(taskName);
     }
 
+    public ServerTransactionBuilder createServerTransactionBuilder(String taskName) {
+        return new ServerTransactionBuilder(taskName);
+    }
+
+    public ServerTransactionBuilder performServer(String taskName) throws IOException {
+        if (!isConnected()) {
+            if(!connect()) {
+                throw new IOException("1: Unable to connect to device: " + getDevice());
+            }
+        }
+        return createServerTransactionBuilder(taskName);
+    }
+
     /**
      * Ensures that the device is connected and (only then) performs the actions of the given
      * transaction builder.
@@ -185,6 +200,14 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
 
     protected void addSupportedProfile(AbstractBleProfile<?> profile) {
         mSupportedProfiles.add(profile);
+    }
+
+    /**
+     * Subclasses should call this method to add server services they support.
+     * @param service
+     */
+    protected void addSupportedServerService(BluetoothGattService service) {
+        mSupportedServerServices.add(service);
     }
 
     /**
@@ -336,5 +359,30 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     @Override
     public void onSetLedColor(int color) {
 
+    }
+
+    @Override
+    public void onConnectionStateChange(BluetoothDevice device, int status, int newState) {
+
+    }
+
+    @Override
+    public boolean onCharacteristicReadRequest(BluetoothDevice device, int requestId, int offset, BluetoothGattCharacteristic characteristic) {
+        return false;
+    }
+
+    @Override
+    public boolean onCharacteristicWriteRequest(BluetoothDevice device, int requestId, BluetoothGattCharacteristic characteristic, boolean preparedWrite, boolean responseNeeded, int offset, byte[] value) {
+        return false;
+    }
+
+    @Override
+    public boolean onDescriptorReadRequest(BluetoothDevice device, int requestId, int offset, BluetoothGattDescriptor descriptor) {
+        return false;
+    }
+
+    @Override
+    public boolean onDescriptorWriteRequest(BluetoothDevice device, int requestId, BluetoothGattDescriptor descriptor, boolean preparedWrite, boolean responseNeeded, int offset, byte[] value) {
+        return false;
     }
 }

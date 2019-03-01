@@ -1,6 +1,6 @@
-/*  Copyright (C) 2015-2018 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
-    criogenic, dakhnod, Frank Slezak, ivanovlev, Julien Pivotto, Kasha, Steffen
-    Liebergeld
+/*  Copyright (C) 2015-2019 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
+    criogenic, dakhnod, Daniele Gobbetti, Frank Slezak, ivanovlev, José Rebelo,
+    Julien Pivotto, Kasha, Roi Greenberg, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 

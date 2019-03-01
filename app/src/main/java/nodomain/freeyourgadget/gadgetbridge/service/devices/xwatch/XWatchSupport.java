@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018 Andreas Shimokawa, ladbsoft
+/*  Copyright (C) 2018-2019 Andreas Shimokawa, Carsten Pfeiffer, ladbsoft
 
     This file is part of Gadgetbridge.
 

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Daniele Gobbetti, Lukas
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, Daniele Gobbetti, Lukas
     Veneziano
 
     This file is part of Gadgetbridge.

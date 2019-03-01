@@ -1,4 +1,5 @@
-/*  Copyright (C) 2018 Andreas Shimokawa, Matthieu Baerts
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Matthieu Baerts, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -19,10 +20,14 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.content.Context;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.wax911.emojify.EmojiManager;
 import io.wax911.emojify.EmojiUtils;
 
 public class EmojiConverter {
+    private static final Logger LOG = LoggerFactory.getLogger(EmojiConverter.class);
 
     private static final String[][] simpleEmojiMapping = {
             {"\uD83D\uDE00", ":-D"},  // grinning
@@ -80,8 +85,12 @@ public class EmojiConverter {
 
     private static String convertAdvancedEmojiToAscii(String text, Context context) {
         initEmojiData(context);
-
-        return EmojiUtils.shortCodify(text);
+        try {
+            return EmojiUtils.shortCodify(text);
+        } catch (Exception e){
+            LOG.warn("An exception occured when converting advanced emoji to ASCII: " + text);
+            return text;
+        }
     }
 
     public static String convertUnicodeEmojiToAscii(String text, Context context) {

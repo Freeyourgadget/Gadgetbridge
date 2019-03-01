@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 0nse, Alberto, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti
+/*  Copyright (C) 2015-2019 0nse, Alberto, Andreas Shimokawa, Carsten Pfeiffer,
+    Daniele Gobbetti, Pavel Elagin
 
     This file is part of Gadgetbridge.
 
