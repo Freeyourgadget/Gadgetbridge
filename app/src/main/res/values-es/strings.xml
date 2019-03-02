@@ -51,7 +51,7 @@
     <string name="miband_firmware_unknown_warning">Este firmware no ha sido probado y puede que no sea compatible con Gadgetbridge. 
 \n 
 \n¡NO se recomienda la instalación en tu Mi Band!</string>
-    <string name="miband_firmware_suggest_whitelist">Si aun así quieres seguir y las cosas continúan funcionando correctamente, por favor indícales a los desarrolladores de Gadgetbridge que la versión %s del firmware funciona bien</string>
+    <string name="miband_firmware_suggest_whitelist">"Si aún desea continuar y  después las cosas continúan funcionando correctamente, pida a los desarrolladores de Gadgetbridge que incluyan en la lista blanca la versión de firmware de% s."</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Ajustes</string>
     <string name="pref_header_general">Ajustes generales</string>
@@ -598,12 +598,12 @@
     <string name="devicetype_mykronoz_zetime">"MyKronoz ZeTime "</string>
     <string name="devicetype_id115">ID115</string>
     <string name="devicetype_watch9">"Watch 9 "</string>
-    <string name="devicetype_roidmi"></string>
-    <string name="devicetype_roidmi3"></string>
+    <string name="devicetype_roidmi">Roidmi</string>
+    <string name="devicetype_roidmi3">Roidmi 3</string>
     <string name="devicetype_casiogb6900">"Casio GB-6900 "</string>
     <string name="menuitem_status">Estado</string>
     <string name="menuitem_activity">Actividad</string>
-    <string name="menuitem_alipay"></string>
+    <string name="menuitem_alipay">Alipay</string>
     <string name="watch9_calibration_hint">Establezca la hora que su dispositivo le está mostrando en este momento.</string>
     <string name="share_log_warning">Tenga en cuenta que Gadgetbridge registra archivos que pueden contener mucha información personal, incluidos, entre otros, datos de salud, identificadores únicos (como la dirección MAC de un dispositivo), preferencias de música, etc. Considere editar el archivo y eliminar esta información antes de enviar el archivo a un informe público.</string>
     <string name="no_data">No hay datos</string>
@@ -626,4 +626,9 @@
     <string name="mode_configuration">Modo de Configuración</string>
     <string name="save_configuration">Guardar Configuración</string>
     <string name="appwidget_not_connected">No conectado, alarma no configurada.</string>
+    <string name="title_activity_watch9_pairing">Emparejando Watch 9</string>
+    <string name="title_activity_watch9_calibration">Calibrando Watch 9</string>
+    <string name="preferences_rtl_settings">Soporte para Derecha a Izquierda</string>
+    <string name="share_log">Compartir registro</string>
+    <string name="warning">¡Advertencia!</string>
 </resources>
