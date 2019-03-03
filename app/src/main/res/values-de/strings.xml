@@ -250,7 +250,7 @@
     <string name="alarm_sat_short">Sa</string>
     <string name="alarm_smart_wakeup">Intelligentes Aufwecken</string>
     <string name="user_feedback_miband_set_alarms_failed">Beim Einstellen der Alarme ist ein Fehler aufgetreten. Bitte erneut versuchen.</string>
-    <string name="user_feedback_miband_set_alarms_ok">An das Gerät gesendete Alarme.</string>
+    <string name="user_feedback_miband_set_alarms_ok">Wecker ans Gerät gesendet.</string>
     <string name="chart_no_data_synchronize">Keine Daten. Gerät synchronisieren?</string>
     <string name="user_feedback_miband_activity_data_transfer">Im Begriff %1$s Daten zu übertragen, beginnend mit %2$s</string>
     <string name="miband_prefs_fitness_goal">Tägliches Schrittziel</string>
@@ -443,7 +443,7 @@
     <string name="_pebble_watch_open_on_phone">Auf Android-Gerät öffnen</string>
     <string name="_pebble_watch_mute">Lautlos</string>
     <string name="_pebble_watch_reply">Antworten</string>
-    <string name="controlcenter_connect">Verbinden</string>
+    <string name="controlcenter_connect">Verbinden…</string>
     <string name="pref_title_pebble_enable_bgjs">Hintergrund JS aktivieren</string>
     <string name="preferences_amazfitbip_settings">Amazfit Bip Einstellungen</string>
     <string name="amazfitcor_firmware">Amazfit Cor Firmware %1$s</string>
@@ -668,4 +668,5 @@
         Profile oder klickbare oder zeitgesteuerte Widgets ausfürt.</string>
     <string name="tasker_no_task_defined">Tasker ist aktiviert aber es wurde keine Aufgabe angegeben! Bitte gehen sie in die Tasker Einstellungen und definieren sie Aufgaben.</string>
 
+    <string name="prefs_disconnect_notification">Benachichtigung beim Verbindung trennen</string>
 </resources>

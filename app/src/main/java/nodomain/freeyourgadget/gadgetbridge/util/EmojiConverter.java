@@ -88,7 +88,7 @@ public class EmojiConverter {
         try {
             return EmojiUtils.shortCodify(text);
         } catch (Exception e){
-            LOG.warn("An exception occured when converting advanced emoji to ASCII", text);
+            LOG.warn("An exception occured when converting advanced emoji to ASCII: " + text);
             return text;
         }
     }

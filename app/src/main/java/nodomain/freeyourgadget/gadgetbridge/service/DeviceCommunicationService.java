@@ -356,7 +356,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     }
 
     /**
-     * @param text: original text
+     * @param text original text
      * @return 'text' or a new String without non supported chars like emoticons, etc.
      */
     private String sanitizeNotifText(String text) {
