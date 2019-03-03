@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.tasker.service;
 
+import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
@@ -7,6 +8,7 @@ import android.widget.Toast;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.tasker.plugin.TaskerIntent;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
  * Tasker convenience methods for direct access to tasker without {@link TaskerService}.
@@ -37,12 +39,7 @@ public class TaskerUtil {
      * Creates a {@link android.widget.Toast} for the user to show that Tasker is enabled but no task is defined.
      */
     public static void noTaskDefinedInformation() {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(GBApplication.getContext(), R.string.tasker_no_task_defined, Toast.LENGTH_LONG).show();
-            }
-        });
+        GB.toast(Resources.getSystem().getString(R.string.tasker_no_task_defined), Toast.LENGTH_LONG, GB.INFO);
     }
 
 }

@@ -194,10 +194,12 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         //TODO: Implement
+        System.out.println("A");
     }
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
+        System.out.println("YO");
         //TODO: Implement
     }
 

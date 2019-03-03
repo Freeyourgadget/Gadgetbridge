@@ -10,42 +10,41 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 /**
  * Default set of tasker events.
  * <p>
- * Extend here if you want to add more events. Use {@link TaskerEventType#create(String)}
- * and configure {@link TaskerEventType#withLocalization(int)} for {@link nodomain.freeyourgadget.gadgetbridge.tasker.settings.activities.TaskerEventsActivity}
+ * Extend here if you want to add more events. Use {@link TaskerEventType#(String, int)} if you want to use the event together with
+ * {@link nodomain.freeyourgadget.gadgetbridge.tasker.settings.activities.TaskerEventsActivity}.
  * <p>
  * Don't forget to add the new event to {@link #getTypes()} method.
  */
 public class TaskerEventType implements Serializable {
 
-    public static TaskerEventType BUTTON = TaskerEventType.create("button").withLocalization(R.string.tasker_event_button);
-    public static TaskerEventType CONNECTION = TaskerEventType.create("connection").withLocalization(R.string.tasker_event_connection);
-    public static TaskerEventType DATA = TaskerEventType.create("data").withLocalization(R.string.tasker_event_data);
-    public static TaskerEventType NO_OP = TaskerEventType.create("no-op");
+    public static TaskerEventType BUTTON = new TaskerEventType("button", R.string.tasker_event_button);
+    public static TaskerEventType CONNECTION = new TaskerEventType("connection", R.string.tasker_event_connection);
+    public static TaskerEventType DATA = new TaskerEventType("data", R.string.tasker_event_data);
+    public static TaskerEventType NO_OP = new TaskerEventType("no-op");
 
     private String type;
     private int index;
     private int localization;
 
-    private TaskerEventType() {
+    public TaskerEventType(String type) {
+        this.type = type;
+        this.index = 1;
     }
 
-    public TaskerEventType withLocalization(int localization) {
+    public TaskerEventType(String type, int localization) {
+        this(type);
         this.localization = localization;
-        return this;
     }
 
-    public static TaskerEventType create(String type) {
-        TaskerEventType taskerEventType = new TaskerEventType();
-        taskerEventType.index = 1;
-        taskerEventType.type = type;
-        return taskerEventType;
-    }
-
+    /**
+     * Scopes the event with an index. I.e. for two buttons.
+     *
+     * @param index Event index
+     * @return Scoped {@link TaskerEventType}
+     */
     public TaskerEventType withIndex(int index) {
-        TaskerEventType taskerEventType = new TaskerEventType();
-        taskerEventType.type = this.type;
-        taskerEventType.index = index;
-        taskerEventType.localization = this.localization;
+        TaskerEventType taskerEventType = new TaskerEventType(type, localization);
+        taskerEventType.index = this.index;
         return taskerEventType;
     }
 
@@ -68,7 +67,7 @@ public class TaskerEventType implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || !getClass().isAssignableFrom(o.getClass())) return false;
         TaskerEventType that = (TaskerEventType) o;
         return index == that.index &&
                 Objects.equals(type, that.type);
