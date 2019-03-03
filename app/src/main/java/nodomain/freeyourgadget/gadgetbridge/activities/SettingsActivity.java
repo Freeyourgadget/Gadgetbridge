@@ -56,6 +56,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.tasker.plugin.TaskerConstants;
+import nodomain.freeyourgadget.gadgetbridge.tasker.settings.activities.TaskerActivity;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -292,16 +294,16 @@ public class SettingsActivity extends AbstractSettingsActivity {
 
         pref = findPreference("weather_city");
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-           @Override
-           public boolean onPreferenceChange(Preference preference, Object newVal) {
-               // reset city id and force a new lookup
-               GBApplication.getPrefs().getPreferences().edit().putString("weather_cityid", null).apply();
-               preference.setSummary(newVal.toString());
-               Intent intent = new Intent("GB_UPDATE_WEATHER");
-               intent.setPackage(BuildConfig.APPLICATION_ID);
-               sendBroadcast(intent);
-               return true;
-           }
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                // reset city id and force a new lookup
+                GBApplication.getPrefs().getPreferences().edit().putString("weather_cityid", null).apply();
+                preference.setSummary(newVal.toString());
+                Intent intent = new Intent("GB_UPDATE_WEATHER");
+                intent.setPackage(BuildConfig.APPLICATION_ID);
+                sendBroadcast(intent);
+                return true;
+            }
         });
 
         pref = findPreference(GBPrefs.AUTO_EXPORT_LOCATION);
@@ -556,6 +558,16 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 return true;
             }
         });
+
+        findPreference(TaskerConstants.ACTIVITY_TASKER).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent enableIntent = new Intent(SettingsActivity.this, TaskerActivity.class);
+                startActivity(enableIntent);
+                return true;
+            }
+        });
+
 
         // Get all receivers of Media Buttons
         Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);

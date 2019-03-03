@@ -21,6 +21,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -58,6 +59,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.DeviceInfo;
+import nodomain.freeyourgadget.gadgetbridge.tasker.plugin.TaskerBleProfile;
+import nodomain.freeyourgadget.gadgetbridge.tasker.plugin.TaskerConstants;
+import nodomain.freeyourgadget.gadgetbridge.tasker.plugin.TaskerDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class XWatchSupport extends AbstractBTLEDeviceSupport {
@@ -71,10 +75,10 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
 
     public XWatchSupport() {
         super(LOG);
-
         addSupportedService(XWatchService.UUID_SERVICE);
         addSupportedService(XWatchService.UUID_WRITE);
         addSupportedService(XWatchService.UUID_NOTIFY);
+        addSupportedProfile(new TaskerBleProfile<>(this, TaskerDevice.XWATCH));
     }
 
     public static byte[] crcChecksum(byte[] data) {
@@ -190,10 +194,12 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         //TODO: Implement
+        System.out.println("A");
     }
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
+        System.out.println("YO");
         //TODO: Implement
     }
 
@@ -260,7 +266,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onFetchRecordedData(int dataTypes) {
         try {
-            if(builder == null) {
+            if (builder == null) {
                 builder = performInitialized("fetchActivityData");
             }
             requestSummarizedData(builder);
@@ -309,7 +315,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     public boolean onCharacteristicChanged(BluetoothGatt gatt,
                                            BluetoothGattCharacteristic characteristic) {
         super.onCharacteristicChanged(gatt, characteristic);
-
+        Log.d("BLE", "V: " + characteristic.getValue().toString());
         UUID characteristicUUID = characteristic.getUuid();
         if (XWatchService.UUID_NOTIFY.equals(characteristicUUID)) {
             byte[] data = characteristic.getValue();
@@ -451,7 +457,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
 
                 if (value[5] == 95) {
                     dayToFetch++;
-                    if(dayToFetch <= maxDayToFetch) {
+                    if (dayToFetch <= maxDayToFetch) {
                         try {
                             builder = performInitialized("fetchActivityData");
                             requestDetailedData(builder);
@@ -469,9 +475,10 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
 
     private void handleButtonPressed(byte[] value) {
         long currentTimestamp = System.currentTimeMillis();
+        AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
+        if (audioManager.isWiredHeadsetOn())
 
-        AudioManager audioManager = (AudioManager)getContext().getSystemService(Context.AUDIO_SERVICE);
-        if(audioManager.isWiredHeadsetOn()) {
+        {
             if (currentTimestamp - lastButtonTimestamp < 1000) {
                 if (audioManager.isMusicActive()) {
                     audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT));
@@ -487,7 +494,6 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
                 audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE));
             }
         }
-
         lastButtonTimestamp = currentTimestamp;
     }
 
@@ -565,7 +571,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
                 minutes
         );
 
-        timestamp = (int)(cal.getTimeInMillis() / 1000);
+        timestamp = (int) (cal.getTimeInMillis() / 1000);
 
         return timestamp;
     }

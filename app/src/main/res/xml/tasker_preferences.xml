@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:key="act_tasker_group" android:title="@string/tasker">
+        <Preference
+            android:persistent="false"
+            android:selectable="false"
+            android:summary="@string/tasker_info" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="act_tasker_enabled"
+            android:summary="@string/tasker_enabled_sum"
+            android:title="@string/tasker_enabled" />
+    </PreferenceCategory>
+</PreferenceScreen>

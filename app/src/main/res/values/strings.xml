@@ -616,4 +616,26 @@
     <string name="mode_configuration">Mode Configuration</string>
     <string name="save_configuration">Save Configuration</string>
     <string name="appwidget_not_connected">Not connected, alarm not set.</string>
+
+    <!-- Tasker -->
+    <string name="tasker">Tasker</string>
+    <string name="tasker_enabled">Enabled</string>
+    <string name="tasker_enabled_sum">Enables Tasker support</string>
+    <string name="tasker_add">Add</string>
+    <string name="tasker_remove">Remove</string>
+    <string name="tasker_events">Events</string>
+    <string name="tasker_event_button">Button Events</string>
+    <string name="tasker_event_connection">Connection Events</string>
+    <string name="tasker_event_data">Data Events</string>
+    <string name="tasker_event_enabled">Enable event type</string>
+    <string name="tasker_threshold_enable">Enable threshold</string>
+    <string name="tasker_threshold_enable_sum">Enables delay between task</string>
+    <string name="tasker_threshold">Threshold in milliseconds</string>
+    <string name="tasker_threshold_sum">Delay between task calls. I.e for threshold 1000: Double button event within one second triggers task number two.</string>
+    <string name="tasker_task">Task</string>
+    <string name="tasker_task_sum">Adds another threshold task</string>
+    <string name="tasker_task_name">Task name</string>
+    <string name="tasker_info">Tasker is an application for Android which performs tasks (sets of actions) based on contexts
+        (application, time, date, location, event, gesture) in user-defined profiles or in clickable or timer home screen widgets.</string>
+    <string name="tasker_no_task_defined">No task defined! Please define a task in settings.</string>
 </resources>

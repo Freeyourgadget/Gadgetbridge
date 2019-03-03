@@ -358,8 +358,8 @@
     <string name="pref_summary_pebble_health_store_raw">Speichert Daten \"wie sie sind\" und erhöht die Datenbanknutzung, um eine spätere Auswertung zu ermöglichen.</string>
     <string name="action_db_management">Datenbankverwaltung</string>
     <string name="title_activity_db_management">Datenbankverwaltung</string>
-    <string name="activity_db_management_import_export_explanation">Die Datenbankoperationen verwenden den folgenden Pfad auf deinem Gerät. 
-\nDieser Pfad ist für andere Android-Apps und deinem Computer zugänglich. 
+    <string name="activity_db_management_import_export_explanation">Die Datenbankoperationen verwenden den folgenden Pfad auf deinem Gerät.
+\nDieser Pfad ist für andere Android-Apps und deinem Computer zugänglich.
 \nDu findest die exportierte Datenbank hier (bzw. lege die zu importierende dort ab):</string>
     <string name="activity_db_management_merge_old_title">Legacy-Datenbank löschen</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Kann nicht auf den Exportpfad zugreifen. Bitte die Entwickler kontaktieren.</string>
@@ -422,11 +422,11 @@
     <string name="discovery_dont_pair">Nicht koppeln</string>
     <string name="stats_title">Geschwindigkeitszonen</string>
     <string name="fw_upgrade_notice_amazfitbip">Du bist dabei, die Firmware %s auf deine Amazfit Bip zu installieren.
-\n 
+\n
 \nBitte stelle sicher, dass du die .fw Datei, dann die .res Datei und schließlich die .gps Datei installierst. Deine Uhr wird nach der Installation der .fw Datei neu gestartet.
-\n 
+\n
 \nHinweis: Du musst die .res und .gps nicht installieren, wenn diese Dateien genau die gleichen sind wie die zuvor installierten.
-\n 
+\n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="amazfitbip_firmware">Amazfit Bip Firmware %1$s</string>
     <string name="mi2_prefs_button_actions">Tastenaktionen</string>
@@ -451,11 +451,11 @@
     <string name="traditional_chinese">Traditionelles Chinesisch</string>
     <string name="english">Englisch</string>
     <string name="fw_upgrade_notice_amazfitcor">Du bist dabei, die Firmware %s auf deine Amazfit Cor zu installieren.
-\n 
+\n
 \nBitte stelle sicher, dass du die .fw Datei und die .res Datei installierst. Deine Uhr wird nach der Installation der .fw Datei neu gestartet.
-\n 
+\n
 \nHinweis: Du musst die .res nicht installieren, wenn diese Dateie genau die gleiche ist wie die zuvor installierte.
-\n 
+\n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_press_count">Anzahl der Tastendrücke</string>
     <string name="pref_title_charts_swipe">Streichen nach links/rechts im Diagrammbetrieb aktivieren</string>
@@ -530,11 +530,11 @@
     <string name="menuitem_settings">Einstellungen</string>
     <string name="menuitem_alipay">Alipay</string>
     <string name="fw_upgrade_notice_miband3">Du bist dabei, die Firmware %s auf dein Mi Band 3 zu installieren.
-\n 
+\n
 \nBitte stelle sicher, dass du die .fw Datei und die .res Datei installierst. Deine Uhr wird nach der Installation der .fw Datei neu gestartet.
-\n 
+\n
 \nHinweis: Du musst die .res nicht installieren, wenn diese Dateie genau die gleiche ist wie die zuvor installiert
-\n 
+\n
 \nNICHT GETESTET, DIES KÖNNTE DEIN GERÄT UNBENUTZBAR MACHEN, INSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="pref_summary_pebble_gatt_clientonly">Dies ist nur für Pebble 2 und experimentell, versuche dies, wenn du Verbindungsprobleme hast</string>
     <string name="pref_auto_fetch">Aktivitätsdaten automatisch abrufen</string>
@@ -644,5 +644,29 @@
     <string name="mode_configuration">Modus-Konfiguration</string>
     <string name="save_configuration">Konfiguration speichern</string>
     <string name="appwidget_not_connected">Nicht verbunden, Alarm nicht eingestellt.</string>
+
+    <!-- Tasker -->
+    <string name="tasker">Tasker</string>
+    <string name="tasker_enabled">Aktiviert</string>
+    <string name="tasker_enabled_sum">Aktiviert die Tasker-Unterstützung</string>
+    <string name="tasker_add">Hinzufügen</string>
+    <string name="tasker_remove">Entfernen</string>
+    <string name="tasker_events">Ereignisse</string>
+    <string name="tasker_event_button">Knopfdruck-Ereignis</string>
+    <string name="tasker_event_connection">Verbindungs-Ereignis</string>
+    <string name="tasker_event_data">Daten-Ereignis</string>
+    <string name="tasker_event_enabled">Ereignistyp aktiviert</string>
+    <string name="tasker_threshold_enable">Schwellenwert aktiviert</string>
+    <string name="tasker_threshold_enable_sum">Aktiviert eine Verzögerung zwischen den Aufgaben</string>
+    <string name="tasker_threshold">Schwellenwert in Millisekunden</string>
+    <string name="tasker_threshold_sum">Verzögerung zwischen den Aufrufen der Aufgaben. Z.B. für Schwellenwert 1000: Doppelter Knopfdruck innerhalb einer Sekunde ruft die Aufgabe an zweiter Stelle auf.</string>
+    <string name="tasker_task">Aufgabe</string>
+    <string name="tasker_task_sum">Fügt eine Weitere Schwellwert-Aufgahinzube </string>
+    <string name="tasker_task_name">Aufgabenname</string>
+    <string name="tasker_info">Tasker ist eine Applikation für Android die Aufgaben (Ein Set von Aktionen)
+        anhand eines Kontexts (Applikation, Zeit, Datum, Ort, Ereignis, Geste) über benutzerdefinierte
+        Profile oder klickbare oder zeitgesteuerte Widgets ausfürt.</string>
+    <string name="tasker_no_task_defined">Tasker ist aktiviert aber es wurde keine Aufgabe angegeben! Bitte gehen sie in die Tasker Einstellungen und definieren sie Aufgaben.</string>
+
     <string name="prefs_disconnect_notification">Benachichtigung beim Verbindung trennen</string>
 </resources>
