@@ -135,6 +135,27 @@
                 android:key="activity_user_sleep_duration"
                 android:maxLength="2"
                 android:title="@string/activity_prefs_sleep_duration" />
+
+            <EditTextPreference
+                android:defaultValue="2000"
+                android:inputType="number"
+                android:key="activity_user_calories_burnt"
+                android:maxLength="4"
+                android:title="@string/activity_prefs_calories_burnt" />
+
+            <EditTextPreference
+                android:defaultValue="5"
+                android:inputType="number"
+                android:key="activity_user_distance_meters"
+                android:maxLength="5"
+                android:title="@string/activity_prefs_distance_meters" />
+
+            <EditTextPreference
+                android:defaultValue="60"
+                android:inputType="number"
+                android:key="activity_user_activetime_minutes"
+                android:maxLength="3"
+                android:title="@string/activity_prefs_activetime_minutes" />
         </PreferenceScreen>
         <PreferenceScreen
             android:key="pref_charts"
@@ -732,6 +753,10 @@
                     android:summary="%s" />
             </PreferenceCategory>
         </PreferenceScreen>
+        <Preference
+            android:icon="@drawable/ic_device_zetime"
+            android:key="pref_key_zetime"
+            android:title="@string/zetime_title_settings"/>
     </PreferenceCategory>
 
     <PreferenceCategory

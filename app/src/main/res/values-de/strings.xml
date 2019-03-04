@@ -645,4 +645,14 @@
     <string name="save_configuration">Konfiguration speichern</string>
     <string name="appwidget_not_connected">Nicht verbunden, Alarm nicht eingestellt.</string>
     <string name="prefs_disconnect_notification">Benachichtigung beim Verbindung trennen</string>
+
+    <string name="activity_prefs_calories_burnt">Tägliches Ziel: verbrannte Kalorien</string>
+    <string name="activity_prefs_distance_meters">Tägliches Ziel: zurückgelegte Strecke in Meter</string>
+    <string name="activity_prefs_activetime_minutes">Tägliches Ziel: aktive Zeit in Minuten</string>
+
+    <!-- ZeTime Preferences -->
+    <string name="zetime_title_settings">ZeTime Einstellungen</string>
+    <string name="zetime_title_screentime">Bildschirm-An-Dauer in Sekunden</string>
+    <string name="activity_prefs_alarm_max_heart_rate">Max Puls Alarm</string>
+    <string name="activity_prefs_alarm_min_heart_rate">Min Puls Alarm</string>
 </resources>

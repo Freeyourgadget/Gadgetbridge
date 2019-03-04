@@ -360,6 +360,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public void onReadConfiguration(String config) {
+        if (checkBusy("read configuration: " + config)) {
+            return;
+        }
+        delegate.onReadConfiguration(config);
+    }
+
+    @Override
     public void onTestNewFunction() {
         if (checkBusy("test new function event")) {
             return;

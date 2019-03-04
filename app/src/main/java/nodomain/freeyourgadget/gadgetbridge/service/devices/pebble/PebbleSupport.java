@@ -239,6 +239,11 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     }
 
     @Override
+    public void onReadConfiguration(String config) {
+
+    }
+
+    @Override
     public void onTestNewFunction() {
         if (reconnect()) {
             super.onTestNewFunction();

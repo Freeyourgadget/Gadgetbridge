@@ -55,6 +55,9 @@ public class ZeTimeConstants {
     public static final byte CMD_SCREEN_ON_TIME = (byte) 0x13;
     public static final byte CMD_SNOOZE = (byte) 0x14;
     public static final byte CMD_DO_NOT_DISTURB = (byte) 0x15;
+    public static final byte CMD_ANALOG_MODE = (byte) 0x17;
+    public static final byte CMD_CONTROL_DEVICE = (byte) 0x1A;
+    public static final byte CMD_DISPLAY_TIMEOUT = (byte) 0x25;
     public static final byte CMD_USER_INFO = (byte) 0x30;
     public static final byte CMD_USAGE_HABITS = (byte) 0x31;
     public static final byte CMD_USER_NAME = (byte) 0x32;
@@ -73,8 +76,11 @@ public class ZeTimeConstants {
     public static final byte CMD_GET_HEARTRATE_EXDATA = (byte) 0x61;
     public static final byte CMD_PUSH_EX_MSG = (byte) 0x76;
     public static final byte CMD_PUSH_WEATHER_DATA = (byte) 0x77;
+    public static final byte CMD_SWITCH_SETTINGS = (byte) 0x90;
+    public static final byte CMD_REMINDERS = (byte) 0x97;
     public static final byte CMD_PUSH_CALENDAR_DAY = (byte) 0x99;
     public static final byte CMD_MUSIC_CONTROL = (byte) 0xD0;
+    public static final byte CMD_TEST_SIGNALING = (byte) 0xFA;
     // here are the action commands
     public static final byte CMD_REQUEST = (byte) 0x70;
     public static final byte CMD_SEND = (byte) 0x71;
@@ -105,4 +111,75 @@ public class ZeTimeConstants {
     public static final byte NOTIFICATION_UBER = (byte) 0x13;
     public static final byte NOTIFICATION_LINE = (byte) 0x14;
     public static final byte NOTIFICATION_SKYPE = (byte) 0x15;
+    // reminders types
+    public static final byte REMINDER_ALARM = (byte) 0x04;
+    // signaling types
+    public static final byte ANTI_LOSS_TYPE = (byte) 0x00;
+    public static final byte CALL_TYPE = (byte) 0x02;
+    public static final byte MISSED_CALL_TYPE = (byte) 0x03;
+    public static final byte SMS_TYPE = (byte) 0x04;
+    public static final byte SOCIAL_TYPE = (byte) 0x05;
+    public static final byte EMAIL_TYPE = (byte) 0x06;
+    public static final byte CALENDAR_TYPE = (byte) 0x07;
+    public static final byte INACTIVITY_TYPE = (byte) 0x08;
+    public static final byte LOW_POWER_TYPE = (byte) 0x09;
+    // watch settings
+    public static final String PREF_WRIST = "zetime_wrist";
+    public static final byte WEAR_ON_LEFT_WRIST = (byte) 0x00;
+    public static final byte WEAR_ON_RIGHT_WRIST = (byte) 0x01;
+
+    public static final String PREF_SCREENTIME = "zetime_screentime";
+    public static final int MAX_SCREEN_ON_TIME = 0xffff;
+    public static final int MIN_SCREEN_ON_TIME = 0x000a;
+
+    public static final String PREF_ZETIME_DONT_DEL_ACTDATA = "zetime_dont_del_actdata";
+
+    public static final String PREF_ZETIME_HEARTRATE_ALARM = "zetime_heartrate_alarm_enable";
+    public static final String PREF_ZETIME_MAX_HEARTRATE = "alarm_max_heart_rate";
+    public static final String PREF_ZETIME_MIN_HEARTRATE = "alarm_min_heart_rate";
+    public static final String PREF_ZETIME_HEARTRATE_INTERVAL = "heartrate_measurement_interval";
+
+    public static final String PREF_DO_NOT_DISTURB = "zetime_do_not_disturb";
+    public static final String PREF_DO_NOT_DISTURB_START = "zetime_do_not_disturb_start";
+    public static final String PREF_DO_NOT_DISTURB_END = "zetime_do_not_disturb_end";
+
+    public static final String PREF_INACTIVITY_KEY =  "zetime_inactivity_warning_key";
+    public static final String PREF_INACTIVITY_ENABLE = "zetime_inactivity_warnings";
+    public static final String PREF_INACTIVITY_START = "zetime_inactivity_warnings_start";
+    public static final String PREF_INACTIVITY_END = "zetime_inactivity_warnings_end";
+    public static final String PREF_INACTIVITY_THRESHOLD = "zetime_inactivity_warnings_threshold";
+    public static final String PREF_INACTIVITY_MO = "zetime_prefs_inactivity_repetitions_mo";
+    public static final String PREF_INACTIVITY_TU = "zetime_prefs_inactivity_repetitions_tu";
+    public static final String PREF_INACTIVITY_WE = "zetime_prefs_inactivity_repetitions_we";
+    public static final String PREF_INACTIVITY_TH = "zetime_prefs_inactivity_repetitions_th";
+    public static final String PREF_INACTIVITY_FR = "zetime_prefs_inactivity_repetitions_fr";
+    public static final String PREF_INACTIVITY_SA = "zetime_prefs_inactivity_repetitions_sa";
+    public static final String PREF_INACTIVITY_SU = "zetime_prefs_inactivity_repetitions_su";
+
+    public static final String PREF_ANALOG_MODE = "zetime_analog_mode";
+    public static final String PREF_ACTIVITY_TRACKING = "zetime_activity_tracking";
+    public static final String PREF_HANDMOVE_DISPLAY = "zetime_handmove_display";
+    public static final String PREF_CALORIES_TYPE = "zetime_calories_type";
+    public static final String PREF_TIME_FORMAT = "zetime_time_format";
+    public static final String PREF_DATE_FORMAT = "zetime_date_format";
+
+    public static final String PREF_ALARM_SIGNALING = "zetime_alarm_signaling";
+    public static final String PREF_SMS_SIGNALING = "zetime_vibration_profile_sms";
+    public static final String PREF_CALL_SIGNALING = "zetime_vibration_profile_incoming_call";
+    public static final String PREF_MISSED_CALL_SIGNALING = "zetime_vibration_profile_missed_call";
+    public static final String PREF_EMAIL_SIGNALING = "zetime_vibration_profile_generic_email";
+    public static final String PREF_SOCIAL_SIGNALING = "zetime_vibration_profile_generic_social";
+    public static final String PREF_CALENDAR_SIGNALING = "zetime_vibration_profile_calendar";
+    public static final String PREF_INACTIVITY_SIGNALING = "zetime_vibration_profile_inactivity";
+    public static final String PREF_LOW_POWER_SIGNALING = "zetime_vibration_profile_lowpower";
+    public static final String PREF_ANTI_LOSS_SIGNALING = "zetime_vibration_profile_antiloss";
+
+    public static final String PREF_USER_FITNESS_GOAL = "mi_fitness_goal";
+    public static final String PREF_USER_SLEEP_GOAL = "activity_user_sleep_duration";
+    public static final String PREF_USER_CALORIES_GOAL = "activity_user_calories_burnt";
+    public static final String PREF_USER_DISTANCE_GOAL = "activity_user_distance_meters";
+    public static final String PREF_USER_ACTIVETIME_GOAL = "activity_user_activetime_minutes";
+
+    public static final String PREF_SHOCK_STRENGTH = "zetime_shock_strength";
+
 }

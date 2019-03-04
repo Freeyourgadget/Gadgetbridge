@@ -124,4 +124,9 @@ public class LiveviewSupport extends AbstractSerialDeviceSupport {
     public void onTestNewFunction() {
         //nothing to do ATM
     }
+
+    @Override
+    public void onReadConfiguration(String config) {
+
+    }
 }
