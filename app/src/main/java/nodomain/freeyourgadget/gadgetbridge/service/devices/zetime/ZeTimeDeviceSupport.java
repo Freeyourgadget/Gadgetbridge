@@ -161,6 +161,8 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     setDisplayOnMovement(builder);
                     break;
                 case ZeTimeConstants.PREF_DO_NOT_DISTURB:
+                case ZeTimeConstants.PREF_DO_NOT_DISTURB_START:
+                case ZeTimeConstants.PREF_DO_NOT_DISTURB_END:
                     setDoNotDisturb(builder);
                     break;
                 case ZeTimeConstants.PREF_CALORIES_TYPE:
@@ -173,6 +175,17 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     setDateFormate(builder);
                     break;
                 case ZeTimeConstants.PREF_INACTIVITY_KEY:
+                case ZeTimeConstants.PREF_INACTIVITY_ENABLE:
+                case ZeTimeConstants.PREF_INACTIVITY_START:
+                case ZeTimeConstants.PREF_INACTIVITY_END:
+                case ZeTimeConstants.PREF_INACTIVITY_THRESHOLD:
+                case ZeTimeConstants.PREF_INACTIVITY_MO:
+                case ZeTimeConstants.PREF_INACTIVITY_TU:
+                case ZeTimeConstants.PREF_INACTIVITY_WE:
+                case ZeTimeConstants.PREF_INACTIVITY_TH:
+                case ZeTimeConstants.PREF_INACTIVITY_FR:
+                case ZeTimeConstants.PREF_INACTIVITY_SA:
+                case ZeTimeConstants.PREF_INACTIVITY_SU:
                     setInactivityAlert(builder);
                     break;
                 case ZeTimeConstants.PREF_SMS_SIGNALING:

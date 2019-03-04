@@ -35,394 +35,66 @@ public class ZeTimePreferenceActivity extends AbstractSettingsActivity {
             }
         });
 
-        final Preference screenOnDuration = findPreference(ZeTimeConstants.PREF_SCREENTIME);
-        screenOnDuration.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_SCREENTIME);
-                return true;
-            }
-        });
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_SCREENTIME);
 
-        final Preference wearSide = findPreference(ZeTimeConstants.PREF_WRIST);
-        wearSide.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_WRIST);
-                return true;
-            }
-        });
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_WRIST);
 
-        final Preference analogMode = findPreference(ZeTimeConstants.PREF_ANALOG_MODE);
-        analogMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_ANALOG_MODE);
-                return true;
-            }
-        });
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_ANALOG_MODE);
 
-        final Preference activity = findPreference(ZeTimeConstants.PREF_ACTIVITY_TRACKING);
-        activity.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_ACTIVITY_TRACKING);
-                return true;
-            }
-        });
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_ACTIVITY_TRACKING);
 
-        final Preference handmove = findPreference(ZeTimeConstants.PREF_HANDMOVE_DISPLAY);
-        handmove.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_HANDMOVE_DISPLAY);
-                return true;
-            }
-        });
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_HANDMOVE_DISPLAY);
 
-        final Preference dnd = findPreference(ZeTimeConstants.PREF_DO_NOT_DISTURB);
-        dnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_DO_NOT_DISTURB);
-                return true;
-            }
-        });
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_DO_NOT_DISTURB);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_DO_NOT_DISTURB_START);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_DO_NOT_DISTURB_END);
 
-        final Preference dnd_start = findPreference(ZeTimeConstants.PREF_DO_NOT_DISTURB_START);
-        dnd_start.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_DO_NOT_DISTURB);
-                return true;
-            }
-        });
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_CALORIES_TYPE);
 
-        final Preference dnd_end = findPreference(ZeTimeConstants.PREF_DO_NOT_DISTURB_END);
-        dnd_end.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_DO_NOT_DISTURB);
-                return true;
-            }
-        });
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_TIME_FORMAT);
 
-        final Preference caloriesType = findPreference(ZeTimeConstants.PREF_CALORIES_TYPE);
-        caloriesType.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_CALORIES_TYPE);
-                return true;
-            }
-        });
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_DATE_FORMAT);
 
-        final Preference timeFormat = findPreference(ZeTimeConstants.PREF_TIME_FORMAT);
-        timeFormat.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_TIME_FORMAT);
-                return true;
-            }
-        });
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_ENABLE);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_START);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_END);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_THRESHOLD);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_MO);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_TU);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_WE);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_TH);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_FR);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_SA);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_SU);
 
-        final Preference dateFormat = findPreference(ZeTimeConstants.PREF_DATE_FORMAT);
-        dateFormat.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_DATE_FORMAT);
-                return true;
-            }
-        });
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_SMS_SIGNALING);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_ANTI_LOSS_SIGNALING);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_CALENDAR_SIGNALING);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_CALL_SIGNALING);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_MISSED_CALL_SIGNALING);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_EMAIL_SIGNALING);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_SIGNALING);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_LOW_POWER_SIGNALING);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_SOCIAL_SIGNALING);
 
-        final Preference inactivityAlert = findPreference(ZeTimeConstants.PREF_INACTIVITY_ENABLE);
-        inactivityAlert.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                    GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
-                    }
-                });
-                return true;
-            }
-        });
 
-        final Preference inactivityAlertStart = findPreference(ZeTimeConstants.PREF_INACTIVITY_START);
-        inactivityAlertStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
-                    }
-                });
-                return true;
-            }
-        });
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_ZETIME_HEARTRATE_ALARM);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_ZETIME_MAX_HEARTRATE);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_ZETIME_MIN_HEARTRATE);
 
-        final Preference inactivityAlertEnd = findPreference(ZeTimeConstants.PREF_INACTIVITY_END);
-        inactivityAlertEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
-                    }
-                });
-                return true;
-            }
-        });
 
-        final Preference inactivityAlertThreshold = findPreference(ZeTimeConstants.PREF_INACTIVITY_THRESHOLD);
-        inactivityAlertThreshold.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
-                    }
-                });
-                return true;
-            }
-        });
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_USER_FITNESS_GOAL);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_USER_SLEEP_GOAL);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_USER_CALORIES_GOAL);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_USER_DISTANCE_GOAL);
+        addPreferenceHandlerFor(ZeTimeConstants.PREF_USER_ACTIVETIME_GOAL);
+    }
 
-        final Preference inactivityAlertMo = findPreference(ZeTimeConstants.PREF_INACTIVITY_MO);
-        inactivityAlertMo.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference inactivityAlertTu = findPreference(ZeTimeConstants.PREF_INACTIVITY_TU);
-        inactivityAlertTu.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference inactivityAlertWe = findPreference(ZeTimeConstants.PREF_INACTIVITY_WE);
-        inactivityAlertWe.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference inactivityAlertTh = findPreference(ZeTimeConstants.PREF_INACTIVITY_TH);
-        inactivityAlertTh.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference inactivityAlertFr = findPreference(ZeTimeConstants.PREF_INACTIVITY_FR);
-        inactivityAlertFr.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference inactivityAlertSa = findPreference(ZeTimeConstants.PREF_INACTIVITY_SA);
-        inactivityAlertSa.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference inactivityAlertSu = findPreference(ZeTimeConstants.PREF_INACTIVITY_SU);
-        inactivityAlertSu.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_KEY);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference smsSignaling = findPreference(ZeTimeConstants.PREF_SMS_SIGNALING);
-        smsSignaling.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_SMS_SIGNALING);
-                return true;
-            }
-        });
-        final Preference antiSignaling = findPreference(ZeTimeConstants.PREF_ANTI_LOSS_SIGNALING);
-        antiSignaling.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_ANTI_LOSS_SIGNALING);
-                return true;
-            }
-        });
-        final Preference calendarSignaling = findPreference(ZeTimeConstants.PREF_CALENDAR_SIGNALING);
-        calendarSignaling.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_CALENDAR_SIGNALING);
-                return true;
-            }
-        });
-        final Preference callSignaling = findPreference(ZeTimeConstants.PREF_CALL_SIGNALING);
-        callSignaling.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_CALL_SIGNALING);
-                return true;
-            }
-        });
-        final Preference missedSignaling = findPreference(ZeTimeConstants.PREF_MISSED_CALL_SIGNALING);
-        missedSignaling.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_MISSED_CALL_SIGNALING);
-                return true;
-            }
-        });
-        final Preference emailSignaling = findPreference(ZeTimeConstants.PREF_EMAIL_SIGNALING);
-        emailSignaling.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_EMAIL_SIGNALING);
-                return true;
-            }
-        });
-        final Preference inactivitySignaling = findPreference(ZeTimeConstants.PREF_INACTIVITY_SIGNALING);
-        inactivitySignaling.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_INACTIVITY_SIGNALING);
-                return true;
-            }
-        });
-        final Preference powerSignaling = findPreference(ZeTimeConstants.PREF_LOW_POWER_SIGNALING);
-        powerSignaling.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_LOW_POWER_SIGNALING);
-                return true;
-            }
-        });
-        final Preference socialSignaling = findPreference(ZeTimeConstants.PREF_SOCIAL_SIGNALING);
-        socialSignaling.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_SOCIAL_SIGNALING);
-                return true;
-            }
-        });
-
-        final Preference heartrateAlarm = findPreference(ZeTimeConstants.PREF_ZETIME_HEARTRATE_ALARM);
-        heartrateAlarm.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_ZETIME_HEARTRATE_ALARM);
-                return true;
-            }
-        });
-        final Preference heartrateAlarmMax = findPreference(ZeTimeConstants.PREF_ZETIME_MAX_HEARTRATE);
-        heartrateAlarmMax.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_ZETIME_MAX_HEARTRATE);
-                return true;
-            }
-        });
-        final Preference heartrateAlarmMin = findPreference(ZeTimeConstants.PREF_ZETIME_MIN_HEARTRATE);
-        heartrateAlarmMin.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_ZETIME_MIN_HEARTRATE);
-                return true;
-            }
-        });
-
-        final Preference fitnessGoal = findPreference(ZeTimeConstants.PREF_USER_FITNESS_GOAL);
-        fitnessGoal.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_USER_FITNESS_GOAL);
-                return true;
-            }
-        });
-        final Preference sleepGoal = findPreference(ZeTimeConstants.PREF_USER_SLEEP_GOAL);
-        sleepGoal.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_USER_SLEEP_GOAL);
-                return true;
-            }
-        });
-        final Preference caloriesGoal = findPreference(ZeTimeConstants.PREF_USER_CALORIES_GOAL);
-        caloriesGoal.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_USER_CALORIES_GOAL);
-                return true;
-            }
-        });
-        final Preference distanceGoal = findPreference(ZeTimeConstants.PREF_USER_DISTANCE_GOAL);
-        distanceGoal.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_USER_DISTANCE_GOAL);
-                return true;
-            }
-        });
-        final Preference activeTimeGoal = findPreference(ZeTimeConstants.PREF_USER_ACTIVETIME_GOAL);
-        activeTimeGoal.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSendConfiguration(ZeTimeConstants.PREF_USER_ACTIVETIME_GOAL);
+    private void addPreferenceHandlerFor(final String preferenceKey) {
+        Preference pref = findPreference(preferenceKey);
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    GBApplication.deviceService().onSendConfiguration(preferenceKey);
                 return true;
             }
         });
@@ -431,9 +103,9 @@ public class ZeTimePreferenceActivity extends AbstractSettingsActivity {
     /**
      * delayed execution so that the preferences are applied first
      */
-    private void invokeLater(Runnable runnable) {
-        getListView().post(runnable);
-    }
+//    private void invokeLater(Runnable runnable) {
+//        getListView().post(runnable);
+//    }
 
 //    private void addTryListeners() {
 //        for (final NotificationType type : NotificationType.values()) {
