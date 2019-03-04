@@ -1537,7 +1537,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         ActivityUser activityUser = new ActivityUser();
         int steps = activityUser.getStepsGoal() / 100; // ZeTime expect the steps in 100 increment
         int calories = activityUser.getCaloriesBurnt();
-        int distance = activityUser.getDistanceKMeters();
+        int distance = activityUser.getDistanceMeters() / 1000;  // ZeTime only accepts km goals
         int sleep = activityUser.getSleepDuration();
         int activeTime = activityUser.getActiveTimeMinutes();
 
@@ -2193,6 +2193,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         if (getDevice().isBusy()) {
             getDevice().unsetBusyTask();
             getDevice().sendDeviceUpdateIntent(getContext());
+
         }
     }
 

@@ -177,7 +177,7 @@ public class ZeTimeConstants {
     public static final String PREF_USER_FITNESS_GOAL = "mi_fitness_goal";
     public static final String PREF_USER_SLEEP_GOAL = "activity_user_sleep_duration";
     public static final String PREF_USER_CALORIES_GOAL = "activity_user_calories_burnt";
-    public static final String PREF_USER_DISTANCE_GOAL = "activity_user_distance_kmeters";
+    public static final String PREF_USER_DISTANCE_GOAL = "activity_user_distance_meters";
     public static final String PREF_USER_ACTIVETIME_GOAL = "activity_user_activetime_minutes";
 
     public static final String PREF_SHOCK_STRENGTH = "zetime_shock_strength";

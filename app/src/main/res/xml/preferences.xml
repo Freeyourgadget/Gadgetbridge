@@ -146,9 +146,9 @@
             <EditTextPreference
                 android:defaultValue="5"
                 android:inputType="number"
-                android:key="activity_user_distance_kmeters"
-                android:maxLength="3"
-                android:title="@string/activity_prefs_distance_km" />
+                android:key="activity_user_distance_meters"
+                android:maxLength="5"
+                android:title="@string/activity_prefs_distance_meters" />
 
             <EditTextPreference
                 android:defaultValue="60"

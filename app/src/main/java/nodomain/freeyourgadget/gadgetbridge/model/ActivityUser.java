@@ -42,7 +42,7 @@ public class ActivityUser {
     private int activityUserSleepDuration;
     private int activityUserStepsGoal;
     private int activityUserCaloriesBurnt;
-    private int activityUserDistanceKMeters;
+    private int activityUserDistanceMeters;
     private int activityUserActiveTimeMinutes;
 
     private static final String defaultUserName = "gadgetbridge-user";
@@ -54,7 +54,7 @@ public class ActivityUser {
     public static final int defaultUserSleepDuration = 7;
     public static final int defaultUserStepsGoal = 8000;
     public static final int defaultUserCaloriesBurnt = 2000;
-    public static final int defaultUserDistanceKMeters = 5;
+    public static final int defaultUserDistanceMeters = 5000;
     public static final int defaultUserActiveTimeMinutes = 60;
 
     public static final String PREF_USER_NAME = "mi_user_alias";
@@ -65,7 +65,7 @@ public class ActivityUser {
     public static final String PREF_USER_SLEEP_DURATION = "activity_user_sleep_duration";
     public static final String PREF_USER_STEPS_GOAL = "mi_fitness_goal"; // FIXME: for compatibility
     public static final String PREF_USER_CALORIES_BURNT = "activity_user_calories_burnt";
-    public static final String PREF_USER_DISTANCE_KMETERS = "activity_user_distance_kmeters";
+    public static final String PREF_USER_DISTANCE_METERS = "activity_user_distance_meters";
     public static final String PREF_USER_ACTIVETIME_MINUTES = "activity_user_activetime_minutes";
 
     public ActivityUser() {
@@ -137,7 +137,7 @@ public class ActivityUser {
         activityUserSleepDuration = prefs.getInt(PREF_USER_SLEEP_DURATION, defaultUserSleepDuration);
         activityUserStepsGoal = prefs.getInt(PREF_USER_STEPS_GOAL, defaultUserStepsGoal);
         activityUserCaloriesBurnt = prefs.getInt(PREF_USER_CALORIES_BURNT, defaultUserCaloriesBurnt);
-        activityUserDistanceKMeters = prefs.getInt(PREF_USER_DISTANCE_KMETERS, defaultUserDistanceKMeters);
+        activityUserDistanceMeters = prefs.getInt(PREF_USER_DISTANCE_METERS, defaultUserDistanceMeters);
         activityUserActiveTimeMinutes = prefs.getInt(PREF_USER_ACTIVETIME_MINUTES, defaultUserActiveTimeMinutes);
     }
 
@@ -155,12 +155,12 @@ public class ActivityUser {
         return activityUserCaloriesBurnt;
     }
 
-    public int getDistanceKMeters()
+    public int getDistanceMeters()
     {
-        if (activityUserDistanceKMeters < 0) {
-            activityUserDistanceKMeters = defaultUserDistanceKMeters;
+        if (activityUserDistanceMeters < 0) {
+            activityUserDistanceMeters = defaultUserDistanceMeters;
         }
-        return activityUserDistanceKMeters;
+        return activityUserDistanceMeters;
     }
 
     public int getActiveTimeMinutes()
