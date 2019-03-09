@@ -623,4 +623,8 @@
     <string name="filter_submode_at_least_one">Минимум одно из слов</string>
     <string name="filter_submode_all">Все слова</string>
     <string name="toast_notification_filter_words_empty_hint">Введите хотя бы одно слово</string>
+    <string name="debugactivity_really_factoryreset_title">Точно сбросить до заводских настроек\?</string>
+    <string name="filter_mode">Режим фильтрации</string>
+    <string name="save_configuration">Сохранить конфигурацию</string>
+    <string name="appwidget_not_connected">Не подключено, будильник не установлено.</string>
 </resources>
