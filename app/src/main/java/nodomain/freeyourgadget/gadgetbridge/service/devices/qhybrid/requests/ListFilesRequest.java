@@ -30,7 +30,6 @@ public class ListFilesRequest extends FileRequest{
                 size = buffer2.getInt(1);
             }
         }else if(uuid.equals("3dda0003-957f-7d4a-34a6-74696673696d")){
-
             if(buffer == null){
                 buffer = ByteBuffer.allocate(128);
             }else{

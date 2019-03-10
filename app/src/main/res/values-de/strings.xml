@@ -543,16 +543,12 @@
     <string name="menuitem_shortcut_alipay">Alipay (Schnellzugriff)</string>
     <string name="menuitem_shortcut_weather">Wetter (Schnellzugriff)</string>
     <string name="blacklist_all_for_notifications">Blacklist für alle Benachrichtigungen</string>
-    <string name="whitelist_all_for_notifications">Whitelist für alle Benachrichtigungen</string>
-    <string name="pref_auto_fetch_summary">Abruf erfolgt beim Entsperren des Bildschirms. Funktioniert nur, wenn ein Sperrmechanismus eingestellt ist!</string>
     <string name="watch9_pairing_tap_hint">Wenn deine Uhr vibriert, schüttel das Gerät oder drücke die Taste.</string>
-    <string name="blacklist_all_for_notifications">Sperrliste alle für Benachrichtigungen</string>
     <string name="whitelist_all_for_notifications">Positivliste alle für Benachrichtigungen</string>
 
 
     <string name="pref_auto_fetch_summary">Das Abrufen erfolgt beim Entsperren des Bildschirms. Funktioniert nur, wenn ein Sperrmechanismus eingestellt ist!</string>
     <string name="preferences_qhybrid_settings">Q Hybrid Einstellungen</string>
-    <string name="watch9_pairing_tap_hint">Sobald die Uhr vibriert, den Knopf betätigen oder kurz schütteln.</string>
     <string name="watch9_calibration_button">Kalibrieren</string>
     <string name="title_activity_watch9_pairing">Watch 9 koppeln</string>
     <string name="watch9_time_minutes">Minuten:</string>

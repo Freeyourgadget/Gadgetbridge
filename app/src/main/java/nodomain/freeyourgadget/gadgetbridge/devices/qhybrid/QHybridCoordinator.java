@@ -8,14 +8,14 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelUuid;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -84,7 +84,6 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
         return false;
     }
 
-    @Override
     public boolean supportsAlarmConfiguration() {
         return false;
     }

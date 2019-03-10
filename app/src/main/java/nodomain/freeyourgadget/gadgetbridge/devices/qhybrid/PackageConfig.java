@@ -13,7 +13,7 @@ public class PackageConfig implements Serializable {
     private boolean respectSilentMode;
     private long id = -1;
 
-    public PackageConfig(short min, short hour, String packageName, String appName, boolean respectSilentMode, int vibration) {
+    PackageConfig(short min, short hour, String packageName, String appName, boolean respectSilentMode, int vibration) {
         this.min = min;
         this.hour = hour;
         this.packageName = packageName;
@@ -22,7 +22,7 @@ public class PackageConfig implements Serializable {
         this.vibration = vibration;
     }
 
-    public PackageConfig(short min, short hour, String packageName, String appName, boolean respectSilentMode, int vibration, long id) {
+    PackageConfig(short min, short hour, String packageName, String appName, boolean respectSilentMode, int vibration, long id) {
         this.min = min;
         this.hour = hour;
         this.packageName = packageName;
@@ -31,7 +31,7 @@ public class PackageConfig implements Serializable {
         this.vibration = vibration;
         this.id = id;
     }
-    public PackageConfig(String packageName, String appName) {
+    PackageConfig(String packageName, String appName) {
         this.min = 0;
         this.hour = 0;
         this.packageName = packageName;

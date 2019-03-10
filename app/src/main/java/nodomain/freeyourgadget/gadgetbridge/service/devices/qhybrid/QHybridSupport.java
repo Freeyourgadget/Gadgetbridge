@@ -11,13 +11,11 @@ import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.util.SparseArray;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -25,19 +23,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfig;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
-import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -46,8 +43,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.Transaction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.BatteryLevelRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.AnimationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.BatteryLevelRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.DownloadFileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.EraseFileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.FileRequest;
@@ -65,9 +62,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Set
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.VibrateRequest;
 
 public class QHybridSupport extends AbstractBTLEDeviceSupport {
-    static final Logger logger = LoggerFactory.getLogger(QHybridSupport.class);
+    private static final Logger logger = LoggerFactory.getLogger(QHybridSupport.class);
 
-    PackageConfigHelper helper;
+    private PackageConfigHelper helper;
 
 
     private volatile boolean searchDevice = false;
@@ -76,10 +73,10 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
         super(logger);
     }
 
-    SparseArray<Request> responseFilters = new SparseArray<>();
+    private SparseArray<Request> responseFilters = new SparseArray<>();
 
-    OnVibrationStrengthListener vibrationStrengthListener;
-    OnGoalListener goalListener;
+    private OnVibrationStrengthListener vibrationStrengthListener;
+    private OnGoalListener goalListener;
 
     public static final String commandControl = "qhybrid_command_control";
     public static final String commandUncontrol = "qhybrid_command_uncontrol";
@@ -88,15 +85,15 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
     public static final String commandUpdate = "qhybrid_command_update";
     public static final String commandNotification = "qhybrid_command_notification";
 
-    public static final String ITEM_STEP_GOAL = "STEP_GOAL";
-    public static final String ITEM_VIBRATION_STRENGTH = "VIBRATION_STRENGTH";
+    private static final String ITEM_STEP_GOAL = "STEP_GOAL";
+    private static final String ITEM_VIBRATION_STRENGTH = "VIBRATION_STRENGTH";
 
-    Request fileRequest = null;
+    private Request fileRequest = null;
     //int fileIndex = -1;
 
-    boolean dumpInited = false;
+    private boolean dumpInited = false;
 
-    long timeOffset;
+    private long timeOffset;
 
     public QHybridSupport() {
         super(logger);
@@ -108,6 +105,7 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
         commandFilter.addAction(commandUpdate);
         commandFilter.addAction(commandNotification);
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(commandReceiver, commandFilter);
+
 
         fillResponseList();
 
@@ -182,14 +180,14 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
         return super.connect();
     }
 
-    BroadcastReceiver dumpReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver dumpReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d("Dump", "dumping...");
             downloadActivityFiles();
         }
     };
-    PendingIntent dumpIntent;
+    private PendingIntent dumpIntent;
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
@@ -420,6 +418,11 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onReadConfiguration(String config) {
+
+    }
+
+    @Override
     public void onTestNewFunction() {
         downloadActivityFiles();
     }
@@ -545,9 +548,9 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
         String s = "";
         final String chars = "0123456789ABCDEF";
         for(byte b : bytes){
-            s += chars.charAt((b >> 4) & 0xF);
-            s += chars.charAt((b >> 0) & 0xF);
-            s += " ";
+            s += chars.charAt((b >> 4) & 0xF)
+            + chars.charAt(b & 0xF)
+            + " ";
         }
         return s.substring(0, s.length() - 1) + "\n";
     }
@@ -571,7 +574,7 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
         queueWrite(new PlayNotificationRequest(vibration, -1, -1));
     }
 
-    BroadcastReceiver commandReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver commandReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Bundle extras = intent.getExtras();
