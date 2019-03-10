@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Avamander, Carsten Pfeiffer,
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Avamander, Carsten Pfeiffer,
     Daniele Gobbetti, Steffen Liebergeld
 
     This file is part of Gadgetbridge.

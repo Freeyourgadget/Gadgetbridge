@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018 Vadim Kaushan
+/*  Copyright (C) 2018-2019 Andreas Shimokawa, Carsten Pfeiffer, Vadim Kaushan
 
     This file is part of Gadgetbridge.
 
@@ -245,6 +245,11 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendConfiguration(String config) {
+
+    }
+
+    @Override
+    public void onReadConfiguration(String config) {
 
     }
 

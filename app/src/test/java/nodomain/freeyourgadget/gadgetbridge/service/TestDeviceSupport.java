@@ -180,6 +180,11 @@ class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
+    public void onReadConfiguration(String config) {
+
+    }
+
+    @Override
     public void onTestNewFunction() {
 
     }

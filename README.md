@@ -43,7 +43,7 @@ vendor's servers.
 * Teclast H10, H30 (WIP)
 * XWatch (Affordable Chinese Casio-like smartwatches)
 * Vibratissimo (experimental)
-* ZeTime (WIP)
+* ZeTime (WIP) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/MyKronoz-ZeTime)
 
 
 ## Features

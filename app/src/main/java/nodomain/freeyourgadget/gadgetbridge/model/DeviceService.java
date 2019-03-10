@@ -1,5 +1,6 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, dakhnod,
-    Frank Slezak, ivanovlev, JohnnySun, Julien Pivotto, Kasha, Steffen Liebergeld
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, dakhnod,
+    Daniele Gobbetti, Frank Slezak, ivanovlev, JohnnySun, José Rebelo, Julien
+    Pivotto, Kasha, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 
@@ -60,6 +61,7 @@ public interface DeviceService extends EventHandler {
     String ACTION_ADD_CALENDAREVENT = PREFIX + ".action.add_calendarevent";
     String ACTION_DELETE_CALENDAREVENT = PREFIX + ".action.delete_calendarevent";
     String ACTION_SEND_CONFIGURATION = PREFIX + ".action.send_configuration";
+    String ACTION_READ_CONFIGURATION = PREFIX + ".action.read_configuration";
     String ACTION_SEND_WEATHER = PREFIX + ".action.send_weather";
     String ACTION_TEST_NEW_FUNCTION = PREFIX + ".action.test_new_function";
     String ACTION_SET_FM_FREQUENCY = PREFIX + ".action.set_fm_frequency";

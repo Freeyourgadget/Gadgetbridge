@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Julien Pivotto, Kasha, Steffen Liebergeld, Uwe Hermann
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, José Rebelo, Julien Pivotto, Kasha, Steffen Liebergeld, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -95,6 +95,13 @@ public interface EventHandler {
      * @param config the device specific option to set on the device
      */
     void onSendConfiguration(String config);
+
+    /**
+     * Gets the given option from the device, sets the values in the preferences.
+     * The config name is device specific.
+     * @param config the device specific option to get from the device
+     */
+    void onReadConfiguration(String config);
 
     void onTestNewFunction();
 

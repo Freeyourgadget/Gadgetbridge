@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Daniele Gobbetti
+/*  Copyright (C) 2015-2019 Daniele Gobbetti, José Rebelo
 
     This file is part of Gadgetbridge.
 

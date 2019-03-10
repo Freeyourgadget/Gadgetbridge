@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Christian
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Christian
     Fischer, Daniele Gobbetti, José Rebelo, Szymon Tomasz Stefanek
 
     This file is part of Gadgetbridge.
@@ -36,11 +36,11 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISPLAY_ON_LIFT_END;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISPLAY_ON_LIFT_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_ALARM_CLOCK;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_INCOMING_CALL;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_ACTIVATE_DISPLAY_ON_LIFT;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DISPLAY_ON_LIFT_END;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DISPLAY_ON_LIFT_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_END;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_OFF;
@@ -120,7 +120,7 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
             }
         });
 
-        String displayOnLiftState = prefs.getString(MiBandConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, PREF_MI2_DO_NOT_DISTURB_OFF);
+        String displayOnLiftState = prefs.getString(PREF_ACTIVATE_DISPLAY_ON_LIFT, PREF_MI2_DO_NOT_DISTURB_OFF);
         boolean displayOnLiftScheduled = displayOnLiftState.equals(PREF_MI2_DO_NOT_DISTURB_SCHEDULED);
 
         final Preference rotateWristCycleInfo = findPreference(PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO);

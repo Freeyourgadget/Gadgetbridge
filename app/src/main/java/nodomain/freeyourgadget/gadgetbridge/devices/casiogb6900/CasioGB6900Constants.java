@@ -1,20 +1,20 @@
-/*      Copyright (C) 2018 Andreas Böhler
+/*      Copyright (C) 2018-2019 Andreas Böhler
         based on code from BlueWatcher, https://github.com/masterjc/bluewatcher
 
-        This file is part of Gadgetbridge.
+    This file is part of Gadgetbridge.
 
-        Gadgetbridge is free software: you can redistribute it and/or modify
-        it under the terms of the GNU Affero General Public License as published
-        by the Free Software Foundation, either version 3 of the License, or
-        (at your option) any later version.
+    Gadgetbridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-        Gadgetbridge is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-        GNU Affero General Public License for more details.
+    Gadgetbridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
 
-        You should have received a copy of the GNU Affero General Public License
-        along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.casiogb6900;
 
 import java.util.UUID;
@@ -28,6 +28,10 @@ public final class CasioGB6900Constants {
     public static final UUID CASIO_A_NOT_COM_SET_NOT = UUID.fromString( "26eb000a-b012-49a8-b1f8-394fb2032b0f");
 
     public static final UUID CCC_DESCRIPTOR_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+
+    // Immediate Alert
+
+    public static final UUID IMMEDIATE_ALERT_SERVICE_UUID = UUID.fromString("00001802-0000-1000-8000-00805f9b34fb");
 
     // Alert
 
@@ -74,6 +78,7 @@ public final class CasioGB6900Constants {
     public static final UUID TX_POWER_LEVEL_CHARACTERISTIC_UUID = UUID.fromString("00002a07-0000-1000-8000-00805f9b34fb");
     // Settings
     public static final UUID CASIO_SETTING_FOR_BLE_CHARACTERISTIC_UUID = UUID.fromString("26eb000f-b012-49a8-b1f8-394fb2032b0f");
+    public static final UUID CASIO_SETTING_FOR_ALM_CHARACTERISTIC_UUID = UUID.fromString("26eb0013-b012-49a8-b1f8-394fb2032b0f");
 
     // Notification Types
 
@@ -83,5 +88,9 @@ public final class CasioGB6900Constants {
     public static final byte SNS_NOTIFICATION_ID = 13;
     public static final byte SMS_NOTIFICATION_ID = 5;
 
-
+    public enum Model {
+        MODEL_CASIO_GENERIC,
+        MODEL_CASIO_6900B,
+        MODEL_CASIO_5600B
+    }
 }

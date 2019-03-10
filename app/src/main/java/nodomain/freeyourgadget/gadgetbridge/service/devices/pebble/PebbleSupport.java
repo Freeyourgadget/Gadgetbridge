@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Kasha, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
@@ -236,6 +236,11 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
         if (reconnect()) {
             super.onSendConfiguration(config);
         }
+    }
+
+    @Override
+    public void onReadConfiguration(String config) {
+
     }
 
     @Override

@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Martin, Normano64, Pavel Elagin, Taavi Eomäe
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Martin, Matthieu Baerts, Normano64, Pavel Elagin, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -399,7 +399,7 @@ public class GBApplication extends Application {
 
     private static void loadAppsNotifBlackList() {
         GB.log("Loading apps_notification_blacklist", GB.INFO, null);
-        apps_notification_blacklist = (HashSet<String>) sharedPrefs.getStringSet(GBPrefs.PACKAGE_BLACKLIST, null);
+        apps_notification_blacklist = (HashSet<String>) sharedPrefs.getStringSet(GBPrefs.PACKAGE_BLACKLIST, null); // lgtm [java/abstract-to-concrete-cast]
         if (apps_notification_blacklist == null) {
             apps_notification_blacklist = new HashSet<>();
         }
@@ -451,7 +451,7 @@ public class GBApplication extends Application {
 
     private static void loadAppsPebbleBlackList() {
         GB.log("Loading apps_pebblemsg_blacklist", GB.INFO, null);
-        apps_pebblemsg_blacklist = (HashSet<String>) sharedPrefs.getStringSet(GBPrefs.PACKAGE_PEBBLEMSG_BLACKLIST, null);
+        apps_pebblemsg_blacklist = (HashSet<String>) sharedPrefs.getStringSet(GBPrefs.PACKAGE_PEBBLEMSG_BLACKLIST, null); // lgtm [java/abstract-to-concrete-cast]
         if (apps_pebblemsg_blacklist == null) {
             apps_pebblemsg_blacklist = new HashSet<>();
         }
@@ -523,7 +523,7 @@ public static String packageNameToPebbleMsgSender(String packageName) {
 
     private static void loadCalendarsBlackList() {
         GB.log("Loading calendars_blacklist", GB.INFO, null);
-        calendars_blacklist = (HashSet<String>) sharedPrefs.getStringSet(GBPrefs.CALENDAR_BLACKLIST, null);
+        calendars_blacklist = (HashSet<String>) sharedPrefs.getStringSet(GBPrefs.CALENDAR_BLACKLIST, null); // lgtm [java/abstract-to-concrete-cast]
         if (calendars_blacklist == null) {
             calendars_blacklist = new HashSet<>();
         }

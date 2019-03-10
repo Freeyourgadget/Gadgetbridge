@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
+/*  Copyright (C) 2016-2019 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
     ivanovlev, João Paulo Barraca, Pavel Motyrev, Quallenauge
 
     This file is part of Gadgetbridge.
@@ -641,6 +641,11 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         } catch (IOException e) {
             GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR, e);
         }
+    }
+
+    @Override
+    public void onReadConfiguration(String config) {
+
     }
 
     @Override

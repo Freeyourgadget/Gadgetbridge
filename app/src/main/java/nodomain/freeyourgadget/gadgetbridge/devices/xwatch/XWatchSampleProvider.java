@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 ladbsoft, protomors
+/*  Copyright (C) 2017-2019 Daniele Gobbetti, ladbsoft, protomors
 
     This file is part of Gadgetbridge.
 

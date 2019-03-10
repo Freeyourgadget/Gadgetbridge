@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, José Rebelo
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -139,7 +140,7 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         String liftOn = context.getString(R.string.p_on);
         String liftScheduled = context.getString(R.string.p_scheduled);
 
-        String pref = prefs.getString(MiBandConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, liftOff);
+        String pref = prefs.getString(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, liftOff);
 
         if (liftOn.equals(pref)) {
             return ActivateDisplayOnLift.ON;
@@ -151,11 +152,37 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static Date getDisplayOnLiftStart() {
-        return getTimePreference( MiBandConst.PREF_DISPLAY_ON_LIFT_START, "00:00");
+        return getTimePreference(HuamiConst.PREF_DISPLAY_ON_LIFT_START, "00:00");
     }
 
     public static Date getDisplayOnLiftEnd() {
-        return getTimePreference( MiBandConst.PREF_DISPLAY_ON_LIFT_END, "00:00");
+        return getTimePreference(HuamiConst.PREF_DISPLAY_ON_LIFT_END, "00:00");
+    }
+
+    public static DisconnectNotificationSetting getDisconnectNotificationSetting(Context context) {
+        Prefs prefs = GBApplication.getPrefs();
+
+        String liftOff = context.getString(R.string.p_off);
+        String liftOn = context.getString(R.string.p_on);
+        String liftScheduled = context.getString(R.string.p_scheduled);
+
+        String pref = prefs.getString(HuamiConst.PREF_DISCONNECT_NOTIFICATION, liftOff);
+
+        if (liftOn.equals(pref)) {
+            return DisconnectNotificationSetting.ON;
+        } else if (liftScheduled.equals(pref)) {
+            return DisconnectNotificationSetting.SCHEDULED;
+        }
+
+        return DisconnectNotificationSetting.OFF;
+    }
+
+    public static Date getDisconnectNotificationStart() {
+        return getTimePreference(HuamiConst.PREF_DISCONNECT_NOTIFICATION_START, "00:00");
+    }
+
+    public static Date getDisconnectNotificationEnd() {
+        return getTimePreference(HuamiConst.PREF_DISCONNECT_NOTIFICATION_END, "00:00");
     }
 
     public static Set<String> getDisplayItems() {

@@ -236,7 +236,7 @@
   <string name="alarm_fri_short">Pá</string>
   <string name="alarm_sat_short">So</string>
   <string name="alarm_smart_wakeup">Chytré buzení</string>
-  <string name="user_feedback_miband_set_alarms_failed">Nepodařilo se nastavit budík, zkuste to znovu!</string>
+  <string name="user_feedback_miband_set_alarms_failed">Došlo k chybě při nastavování budíku, zkuste to znovu.</string>
   <string name="user_feedback_miband_set_alarms_ok">Čas buzení odeslán do zařízení.</string>
   <string name="chart_no_data_synchronize">Chybí data, provést stažení?</string>
   <string name="user_feedback_miband_activity_data_transfer">Stahnout %1$s dat z %2$s</string>
@@ -323,7 +323,7 @@
   <string name="charts_legend_heartrate">Srdeční tep</string>
   <string name="live_activity_heart_rate">Srdeční tep</string>
   <string name="pref_title_pebble_health_store_raw">Uložit hrubý záznam do databáze</string>
-  <string name="pref_summary_pebble_health_store_raw">Pokud je zatrženo, tak jsou data uložena v původní podobě pro pozdější vyhodnocení. Databáze bude v tom případě větší!</string>
+  <string name="pref_summary_pebble_health_store_raw">Ukládá data v původní podobě, takže je databáze větší, ale umožňuje to pozdější vyhodnocení.</string>
   <string name="action_db_management">Správa databáze</string>
   <string name="title_activity_db_management">Správa databáze</string>
   <string name="activity_db_management_import_export_explanation">Operace s databází použijí následující cestu v zařízení. 
@@ -649,4 +649,19 @@
     <string name="debugactivity_really_factoryreset_title">Opravdu uvést do továrního nastavení\?</string>
     <string name="debugactivity_really_factoryreset">Uvedení do továrního nastavení smaže z připojeného zařízení všechna data (je-li toto podporováno). Xiaomi/Huami také provedou změnu Bluetooth MAC adresy a budou se pro Gadgetbridge tvářit jako nová zařízení.</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
+    <string name="activity_type_exercise">Cvičení</string>
+    <string name="title_activity_notification_filter">Filtr notifikací</string>
+    <string name="toast_app_must_not_be_blacklisted">Pro konfiguraci nesmí být aplikace zakázána</string>
+    <string name="edittext_notification_filter_words_hint">Vložte požadovaná slova, jedno na řádek</string>
+    <string name="toast_notification_filter_saved_successfully">Filtr notifikací uložen</string>
+    <string name="filter_mode_none">Nefiltrovat</string>
+    <string name="filter_mode_whitelist">Zobrazit při výskytu slov</string>
+    <string name="filter_mode_blacklist">Nezobrazit při výskytu slov</string>
+    <string name="filter_submode_at_least_one">Alespoň jedno ze slov</string>
+    <string name="filter_submode_all">Všechna slova</string>
+    <string name="toast_notification_filter_words_empty_hint">Prosím vložte alespoň jedno slovo</string>
+    <string name="filter_mode">Filtrovací režim</string>
+    <string name="mode_configuration">Konfigurace režimu</string>
+    <string name="save_configuration">Uložit konfiguraci</string>
+    <string name="appwidget_not_connected">Nepřipojeno, budíky neodeslány.</string>
 </resources>

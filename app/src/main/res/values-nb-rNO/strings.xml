@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources><string name="action_settings">Innstillinger</string>
+<resources>
+    <string name="action_settings">Innstillinger</string>
     <string name="action_debug">Feilretting</string>
     <string name="action_quit">Avslutt</string>
     <string name="action_donate">Doner</string>
@@ -15,12 +16,9 @@
     <string name="controlcenter_navigation_drawer_close">Lukk navigasjonsskuf</string>
     <string name="controlcenter_snackbar_need_longpress">Trykk lenge på kortet for å koble fra</string>
     <string name="controlcenter_snackbar_disconnecting">Kobler fra</string>
-    <string name="controlcenter_snackbar_connecting">Kobler til</string>
+    <string name="controlcenter_snackbar_connecting">Kobler til…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Utfører skjermavbildning av enheten</string>
-
-
     <string name="title_activity_debug">Feilretting</string>
-
     <string name="title_activity_appmanager">Programbehandler</string>
     <string name="appmanager_cached_watchapps_watchfaces">Programmer i hurtiglager</string>
     <string name="appmanager_installed_watchapps">Installerte programmer</string>
@@ -38,15 +36,11 @@
     <string name="appmanager_weather_install_provider">Installer værmeldingsprogrammet</string>
     <string name="app_configure">Sett opp</string>
     <string name="app_move_to_top">Flytt til toppen</string>
-
     <string name="title_activity_appblacklist">Merknadssvarteliste</string>
-
     <string name="title_activity_calblacklist">Svartelistede kalendere</string>
-
     <string name="title_activity_fw_app_insaller">Fastvare-/program-installerer</string>
     <string name="fw_upgrade_notice">Du er i ferd med å installere %s-fastvaren i stedet for den som er installert på ditt Mi Band nå.</string>
     <string name="app_name">Gadgetbru</string>
-
     <string name="title_activity_controlcenter">Gadgetbru</string>
     <string name="controlcenter_delete_device_dialogmessage">Dette vil slette enheten og all tilknyttet data!</string>
     <string name="fw_upgrade_notice_amazfitbip">Du er i ferd med å installere %s-fastvaren på din Amazfit Bip. 
@@ -69,9 +63,7 @@
 \n
 \nDu FRARÅDES fra å skrive den til ditt Mi Band!</string>
     <string name="miband_firmware_suggest_whitelist">Hvis du fremdeles ønsker å fortsette og ting fungerer etterpå, fortell Gadgetbru-utviklerne at de skal hvitliste %s-fastvareversjonen.</string>
-
     <string name="title_activity_settings">Innstillinger</string>
-
     <string name="pref_header_general">Hovedinnstillinger</string>
     <string name="pref_title_general_autoconnectonbluetooth">Koble til Gadgetbridge-enhet når Blåtann slås på</string>
     <string name="pref_title_general_autostartonboot">Start automatisk</string>
@@ -81,17 +73,13 @@
     <string name="pref_header_datetime">Dato og tid</string>
     <string name="pref_title_datetime_syctimeonconnect">Synkroniser tid</string>
     <string name="pref_summary_datetime_syctimeonconnect">Synkroniser tid til Gadgetbridge-enhet ved tilkobling, og når tid eller tidssone endres på Android-enheten</string>
-
     <string name="pref_title_theme">Drakt</string>
     <string name="pref_theme_light">Lys</string>
     <string name="pref_theme_dark">Mørk</string>
-
     <string name="pref_title_language">Språk</string>
-
     <string name="pref_title_minimize_priority">Skjul Gadgetbro-merknaden</string>
     <string name="pref_summary_minimize_priority_off">Ikonet i statusfeltet og merknaden på låseskjermen vises</string>
     <string name="pref_summary_minimize_priority_on">Ikonet i statusfeltet og merknaden på låseskjermen er skjult</string>
-
     <string name="pref_header_notifications">Merknader</string>
     <string name="pref_title_notifications_repetitions">Gjentakelser</string>
     <string name="pref_title_notifications_call">Telefonsamtaler</string>
@@ -104,66 +92,50 @@
     <string name="pref_summary_notification_filter">Modus der uønskede merkander stoppes</string>
     <string name="pref_title_transliteration">Translitterasjon</string>
     <string name="pref_summary_transliteration">Skru på hvis din enhet ikke har noen støtte for ditt språks skrift</string>
-
     <string name="always">Alltid</string>
     <string name="when_screen_off">Når skjermen er av</string>
     <string name="never">Aldri</string>
-
     <string name="pref_header_privacy">Personvern</string>
     <string name="pref_title_call_privacy_mode">Ringepersonvernsmodus</string>
     <string name="pref_call_privacy_mode_off">Vis navn og nummer</string>
     <string name="pref_call_privacy_mode_name">Skjul navn, men vis nummer</string>
     <string name="pref_call_privacy_mode_number">Skjul nummer, men vis navn</string>
     <string name="pref_call_privacy_mode_complete">Skjul navn og nummer</string>
-
-
     <string name="pref_blacklist">Svartelist programmer</string>
     <string name="pref_blacklist_calendars">Svartelist kalendre</string>
-
     <string name="pref_title_canned_replies">Svar</string>
     <string name="pref_title_canned_messages_set">Oppdater på Pebble</string>
-
     <string name="pref_header_development">Utviklervalg</string>
     <string name="pref_title_development_miaddr">Mi Band-adresse</string>
-
     <string name="pref_title_pebble_settings">Pebble-innstillinger</string>
-
     <string name="pref_header_activitytrackers">Aktivitetssporere</string>
     <string name="pref_title_pebble_activitytracker">Foretrukket aktivitetssporer</string>
     <string name="pref_title_pebble_sync_health">Synkroniser Pebble-helse</string>
     <string name="pref_title_pebble_sync_misfit">Misfit-synkronisering</string>
     <string name="pref_title_pebble_sync_morpheuz">Morpheuz-synkronisering</string>
-
     <string name="pref_title_enable_outgoing_call">Støtte for utgående anrop</string>
     <string name="pref_summary_enable_outgoing_call">Å skru av dette vil også forhindre Pebble 2/LE fra å vibrere under utgående anrop</string>
-
     <string name="pref_title_enable_pebblekit">Tillat tredjepartstilgang fra Android-programmer</string>
     <string name="pref_summary_enable_pebblekit">Skru på eksperimentell støte for Androidprogrammer som bruker PebbleKit</string>
-
     <string name="pref_header_pebble_timeline">Pebble-tidslinje</string>
     <string name="pref_title_sunrise_sunset">Soloppgang og solnedgang</string>
     <string name="pref_summary_sunrise_sunset">Send soloppgang og solnedgangstider basert på plasseringen til Pebble-tidslinjen</string>
     <string name="pref_title_enable_calendar_sync">Synkroniser kalender</string>
     <string name="pref_summary_enable_calendar_sync">Send kalenderhendelser til tidslinjen</string>
-
     <string name="pref_title_autoremove_notifications">Fjern forkastede merknader automatisk</string>
     <string name="pref_summary_autoremove_notifications">Merknader blir automatisk fjernet fra Pebble-enheten når de forkastes fra Android-enheten</string>
-
     <string name="pref_title_pebble_privacy_mode">Personvernsmodus</string>
     <string name="pref_pebble_privacy_mode_off">Normale merknader</string>
     <string name="pref_pebble_privacy_mode_content">Vis merknadsteksten utenfor skjermen</string>
     <string name="pref_pebble_privacy_mode_complete">Kun vis merknadsikoner</string>
-
     <string name="pref_header_location">Plassering</string>
     <string name="pref_title_location_aquire">Hent plassering</string>
     <string name="pref_title_location_latitude">Breddegrad</string>
     <string name="pref_title_location_longitude">Lengdegrad</string>
     <string name="pref_title_location_keep_uptodate">Hold plasseringen oppdatert</string>
     <string name="pref_summary_location_keep_uptodate">Prøv å hent gjeldende plassering ved kjøring, bruk lagret plassering som andrevalg</string>
-
     <string name="toast_enable_networklocationprovider">Skru på nettverksplassering</string>
     <string name="toast_aqurired_networklocation">plassering innhentet</string>
-
     <string name="pref_title_pebble_forceprotocol">Tving gjennom merknadsprotokoll</string>
     <string name="pref_summary_pebble_forceprotocol">Dette valget tvinger bruk av siste merknadskotroll avhengig av fastvareversjon. TA REDE PÅ HVA DU DRIVER PÅ MED!</string>
     <string name="pref_title_pebble_forceuntested">Skru på utestede funksjoner</string>
@@ -174,14 +146,11 @@
     <string name="pref_summary_pebble_mtu_limit">Hvis din Pebble 2/Pebble LE ikke fungerer som forventet, prøv å sette denne grensen for å begrense MTU (gyldig rekkevidde 20-512)</string>
     <string name="pref_title_pebble_enable_bgjs">Skru på bakgrunns-JS</string>
     <string name="pref_summary_pebble_enable_bgjs">Tillater når påskrudd, værvarsel på urskive, batteriinfo, osv.</string>
-
     <string name="pref_title_pebble_reconnect_attempts">Forsøk på tilkoblingsgjenopprettelse</string>
-
     <string name="pref_title_unit_system">Enheter</string>
     <string name="pref_title_timeformat">Tidsformat</string>
     <string name="prefs_title_all_day_heart_rate">Heldagspulsmåling</string>
     <string name="preferences_hplus_settings">HPlus/Makibes-innstillinger</string>
-
     <string name="not_connected">Ikke tilkoblet</string>
     <string name="connecting">Kobler til</string>
     <string name="connected">Tilkoblet</string>
@@ -212,7 +181,6 @@
     <string name="initialized">igangsatt</string>
     <string name="appversion_by_creator">%1$s av %2$s</string>
     <string name="title_activity_discovery">Enhetsoppdaging</string>
-
     <string name="discovery_stop_scanning">Stopp skanning</string>
     <string name="discovery_start_scanning">Start oppdagning</string>
     <string name="action_discover">Koble til ny enhet</string>
@@ -242,7 +210,6 @@
     <string name="candidate_item_device_image">Enhetsavbildning</string>
     <string name="miband_prefs_alias">Navn/alias</string>
     <string name="pref_header_vibration_count">Vibrasjonsantall</string>
-
     <string name="title_activity_sleepmonitor">Søvnmonitor</string>
     <string name="pref_write_logfiles">Skriv loggfiler</string>
     <string name="initializing">Igangsetter</string>
@@ -250,7 +217,6 @@
     <string name="sleep_activity_date_range">Fra %1$s til %2$s</string>
     <string name="miband_prefs_wearside">Venstre- eller høyre-hånd?</string>
     <string name="pref_screen_vibration_profile">Vibrasjonsprofil</string>
-
     <string name="vibration_profile_staccato">Stakkato</string>
     <string name="vibration_profile_short">Kort</string>
     <string name="vibration_profile_medium">Middels</string>
@@ -259,7 +225,6 @@
     <string name="vibration_profile_ring">Ring</string>
     <string name="vibration_profile_alarm_clock">Alarmklokke</string>
     <string name="miband_prefs_vibration">Vibrasjon</string>
-
     <string name="vibration_try">Prøv</string>
     <string name="pref_screen_notification_profile_sms">SMS-merknad</string>
     <string name="pref_header_vibration_settings">Vibrasjonsinnstillinger</string>
@@ -269,18 +234,15 @@
     <string name="pref_screen_notification_profile_generic_chat">Sludre</string>
     <string name="pref_screen_notification_profile_generic_navigation">Navigasjon</string>
     <string name="pref_screen_notification_profile_generic_social">Sosialt nettverk</string>
-
     <string name="prefs_title_heartrate_measurement_interval">Heldagspulsmåling</string>
     <string name="interval_one_minute">én gang i minuttet</string>
     <string name="interval_five_minutes">hvert femte minutt</string>
     <string name="interval_ten_minutes">hvert tiende minutt</string>
     <string name="interval_thirty_minutes">hver halvtime</string>
     <string name="interval_one_hour">én gang i timen</string>
-
     <string name="stats_title">Fartssoner</string>
     <string name="stats_x_axis_label">Totalt antall minutter</string>
     <string name="stats_y_axis_label">Steg per minutt</string>
-
     <string name="control_center_find_lost_device">Finn tapt enhet</string>
     <string name="control_center_cancel_to_stop_vibration">Avbryt for å stoppe vibrasjon.</string>
     <string name="title_activity_charts">Din aktivitet</string>
@@ -347,7 +309,6 @@
     <string name="pref_summary_keep_data_on_device">Beholder aktivitetsdata på Mi Band-et, selv etter synkronisering. Nyttig hvis Gb brukes sammen med andre programmer.</string>
     <string name="pref_title_low_latency_fw_update">Bruk lav-latens-modus for fastvareoppgraderinger</string>
     <string name="pref_summary_low_latency_fw_update">Dette kan hjelpe på enheter der fastvareoppgraderinger mislykkes.</string>
-
     <string name="live_activity_steps_history">Steghistorikk</string>
     <string name="live_activity_current_steps_per_minute">Gjeldende steg/min</string>
     <string name="live_activity_total_steps">Totalt antall steg</string>
@@ -364,7 +325,7 @@
     <string name="fwinstaller_firmware_not_compatible_to_device">Fastvaren er ikke kompatibel med enheten</string>
     <string name="miband_prefs_reserve_alarm_calendar">Alarmer å holde av for kommende hendelser</string>
     <string name="miband_prefs_hr_sleep_detection">Bruk pulsmåler for å forbedre bestemmelse av søvnmønster</string>
-	<string name="miband2_prefs_dateformat">Datoformat</string>
+    <string name="miband2_prefs_dateformat">Datoformat</string>
     <string name="dateformat_time">Tid</string>
     <string name="dateformat_date_time">Tid og dato</string>
     <string name="mi2_prefs_button_actions">Knappevalg</string>
@@ -385,25 +346,19 @@
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">Skru av inaktivitetsadvarsler for en tidsperiode</string>
     <string name="mi2_prefs_do_not_disturb_start">Starttid</string>
     <string name="mi2_prefs_do_not_disturb_end">Sluttid</string>
-
     <string name="automatic">Automatisk</string>
     <string name="simplified_chinese">Forenklet kinesisk</string>
     <string name="traditional_chinese">Tradisjonell kinesisk</string>
     <string name="english">Engelsk</string>
-
     <string name="FetchActivityOperation_about_to_transfer_since">I ferd med å overføre data siden %1$s</string>
-
     <string name="waiting_for_reconnect">Venter på ny tilkobling</string>
-
     <string name="activity_prefs_about_you">Om deg</string>
     <string name="activity_prefs_year_birth">Fødselsår</string>
     <string name="activity_prefs_gender">Kjønn</string>
     <string name="activity_prefs_height_cm">Høyde i cm</string>
     <string name="activity_prefs_weight_kg">Vekt i kg</string>
-
     <string name="authenticating">Autentiserer</string>
     <string name="authentication_required">Autentisering kreves</string>
-
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Legg til miniprogram</string>
     <string name="activity_prefs_sleep_duration">Foretrukket søvn i timer</string>
@@ -416,7 +371,6 @@
     <string name="updatefirmwareoperation_firmware_not_sent">Fastvare ikke sendt</string>
     <string name="charts_legend_heartrate">Puls</string>
     <string name="live_activity_heart_rate">Puls</string>
-
     <string name="pref_title_pebble_health_store_raw">Lagre rådata i databasen</string>
     <string name="pref_summary_pebble_health_store_raw">Hvis valgt blir dataen lagret \"som den er\", noe som øker databasebruk for senere fortolkning.</string>
     <string name="action_db_management">Databasebehandling</string>
@@ -440,23 +394,16 @@
     <string name="dbmanagementactivity_overwrite">Overskriv</string>
     <string name="Cancel">Avbryt</string>
     <string name="Delete">Slett</string>
-
     <string name="title_activity_vibration">Vibrasjon</string>
-
     <string name="title_activity_pebble_pairing">Pebble-parring</string>
     <string name="pebble_pairing_hint">En parringslogg vil sprette opp på din Android-enhet. Hvis ikke, se i navigasjonsskuffen, og godta parringsforespørselen. Godta den også på din Pebble etterpå.</string>
-
     <string name="pref_title_setup_bt_pairing">Skru på Blåtannsparring</string>
     <string name="pref_summary_setup_bt_pairing">Skru dette av hvis du har problemer med å koble til</string>
-
     <string name="unit_metric">Metrisk</string>
     <string name="unit_imperial">Imperial</string>
-
     <string name="timeformat_24h">24t</string>
     <string name="timeformat_am_pm">AM/PM</string>
-
     <string name="pref_screen_notification_profile_alarm_clock">Ringeklokke</string>
-
     <string name="StringUtils_sender">(%1$s)</string>
     <string name="find_device_you_found_it">Du fant den!</string>
     <string name="miband2_prefs_timeformat">Mi2: Tidsformat</string>
@@ -476,27 +423,23 @@
     <string name="discovery_pair_question">Velg \"Parr\" for å parre enhetene dine. Hvis dette mislykkes, prøv igjen uten å parre.</string>
     <string name="discovery_yes_pair">Parr</string>
     <string name="discovery_dont_pair">Ikke parr</string>
-
     <string name="_pebble_watch_open_on_phone">Åpne på Android-enhet</string>
     <string name="_pebble_watch_mute">Forstum</string>
     <string name="_pebble_watch_reply">Svar</string>
-<string name="pref_title_weather">Vær</string>
+    <string name="pref_title_weather">Vær</string>
     <string name="kind_firmware">Fastvare</string>
     <string name="kind_invalid">Ugyldig data</string>
     <string name="kind_font">Skrift</string>
     <string name="kind_gps">GPS-fastvare</string>
     <string name="kind_resources">Ressurser</string>
     <string name="kind_watchface">Urskive</string>
-
     <string name="devicetype_unknown">Ukjent enhet</string>
     <string name="devicetype_test">Test enhet</string>
     <string name="devicetype_pebble">Pebble</string>
     <string name="devicetype_miband">Mi Band</string>
     <string name="devicetype_miband2">Mi Band 2</string>
     <string name="pref_title_charts_swipe">Skru på</string>
-
     <string name="pref_title_weather_location">Vær-plassering (CM/LOS)</string>
-
     <string name="pref_header_cannned_messages">Forhåndsutfylte meldinger</string>
     <string name="pref_title_canned_reply_suffix">Vanlig endelse</string>
     <string name="pref_title_canned_messages_dismisscall">Legg på røret</string>
@@ -529,7 +472,6 @@
 \n
 \nStøttede urskiver vil vise vær automatisk.</string>
     <string name="activity_web_view">Web View-aktivitet</string>
-
     <string name="kind_gps_almanac">GPS-almanakk</string>
     <string name="kind_gps_cep">GPS-korrigering</string>
     <string name="devicetype_amazfit_bip">Amazfit Bip</string>
@@ -541,19 +483,16 @@
     <string name="devicetype_exrizu_k8">Exrizu K8</string>
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
-<string name="pref_header_auto_export">Automatisk eksport</string>
+    <string name="pref_header_auto_export">Automatisk eksport</string>
     <string name="pref_title_auto_export_enabled">Automatisk eksport mislyktes</string>
     <string name="pref_title_auto_export_location">Eksporteringsplassering</string>
     <string name="pref_title_auto_export_interval">Eksporteringsintervall</string>
     <string name="pref_summary_auto_export_interval">Eksporter hver %d time</string>
-
     <string name="notif_export_failed_title">Eksport av database mislyktes. Sjekk innstillingene dine.</string>
     <string name="choose_auto_export_location">Velg eksportplassering</string>
-<string name="spanish">Spansk</string>
-
+    <string name="spanish">Spansk</string>
     <string name="notification_channel_name">Gadgetbridge-merknader</string>
-<string name="devicetype_xwatch">XWatch</string>
-
+    <string name="devicetype_xwatch">XWatch</string>
     <string name="on">På</string>
     <string name="controlcenter_start_activity_tracks">Dine aktivitetsspor</string>
     <string name="activity_type_not_measured">Ikke målt</string>
@@ -571,7 +510,6 @@
     <string name="select_all">Velg alle</string>
     <string name="share">Del</string>
     <string name="reset_index">Tilbakestill innhentingsdato</string>
-
     <string name="menuitem_status">Status</string>
     <string name="menuitem_activity">Aktivitet</string>
     <string name="menuitem_weather">Vær</string>
@@ -580,7 +518,7 @@
     <string name="menuitem_compass">Kompass</string>
     <string name="menuitem_settings">Innstillinger</string>
     <string name="menuitem_alipay">Alipay</string>
-<string name="pref_title_pebble_gatt_clientonly">Kun GATT-klient</string>
+    <string name="pref_title_pebble_gatt_clientonly">Kun GATT-klient</string>
     <string name="pref_summary_pebble_gatt_clientonly">Dette er kun for Pebble 2 og eksperimentelt, prøv dette hvis du har tilkoblingsproblemer</string>
     <string name="menuitem_shortcut_alipay">Alipay (snarvei)</string>
     <string name="menuitem_shortcut_weather">Vær (snarvei)</string>
@@ -595,29 +533,20 @@
     <string name="devicetype_q8">Q8</string>
     <string name="blacklist_all_for_notifications">Svartelist merknader fra alle disse</string>
     <string name="whitelist_all_for_notifications">Hvitlist merknader fra alle disse</string>
-
-
     <string name="pref_auto_fetch">Hent aktivitetsdata automatisk</string>
-
     <string name="pref_auto_fetch_summary">Henting skjer ved skjermopplåsing, og fungerer kun hvis en låsemekanisme er valgt!</string>
-
     <string name="pref_auto_fetch_limit_fetches">Minimumstid mellom innhentinger</string>
     <string name="pref_auto_fetch_limit_fetches_summary">Henter hvert %d minutt</string>
-
     <string name="controlcenter_calibrate_device">Kalibrer enhet</string>
-
-
     <string name="pref_title_notifications_timeout">Minimumstid mellom merknad</string>
     <string name="preferences_id115_settings">ID115-innstillinger</string>
     <string name="prefs_screen_orientation">Skjermretning</string>
-
     <string name="preferences_miband2_settings">Mi Band 2-innstillinger</string>
     <string name="preferences_miband3_settings">Mi Band 3-innstillinger</string>
     <string name="preferences_amazfitcor_settings">Amazfit Cor-inntillinger</string>s
     <string name="horizontal">Vannrett</string>
     <string name="vertical">Loddrett</string>
     <string name="watch9_pairing_tap_hint">Når din klokke vibrerer, rist enheten eller på dens knapp.</string>
-
     <string name="no_limit">Ingen grense</string>
     <string name="seconds_5">5 sekunder</string>
     <string name="seconds_10">10 sekunder</string>
@@ -627,14 +556,12 @@
     <string name="minutes_5">5 minutter</string>
     <string name="minutes_10">10 minutter</string>
     <string name="minutes_30">30 minutter</string>
-
     <string name="you_slept">Du sov fra %1$s til %2$s</string>
     <string name="you_did_not_sleep">Du sov ikke</string>
     <string name="mi3_prefs_band_screen_unlock">Band-skjermopplåsing</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Dra oppover for å låse opp band-ens skjerm</string>
     <string name="mi3_prefs_night_mode">Nattmodus</string>
     <string name="mi3_prefs_night_mode_summary">Senk band-lysstyrke automatisk om natten</string>
-
     <string name="norwegian_bokmal">Norsk bokmål</string>
     <string name="russian">Russisk</string>
     <string name="german">Tysk</string>
@@ -643,16 +570,13 @@
     <string name="polish">Polsk</string>
     <string name="korean">Koreansk</string>
     <string name="japanese">Japansk</string>
-
     <string name="mi3_night_mode_sunset">Ved solnedgang</string>
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
     <string name="devicetype_id115">ID115</string>
     <string name="devicetype_watch9">Watch 9</string>
-
     <string name="menuitem_notifications">Merknader</string>
     <string name="menuitem_music">Musikk</string>
     <string name="menuitem_more">Mer</string>
-
     <string name="watch9_time_minutes">Minutter:</string>
     <string name="watch9_time_hours">Timer:</string>
     <string name="watch9_time_seconds">Sekunder:</string>
@@ -660,26 +584,22 @@
     <string name="watch9_calibration_button">Kalibrer</string>
     <string name="title_activity_watch9_pairing">Watch 9-parring</string>
     <string name="title_activity_watch9_calibration">Watch 9-kalibrering</string>
-<string name="ok">OK</string>
-
+    <string name="ok">OK</string>
     <string name="share_log">Del logg</string>
     <string name="share_log_warning">Ha i minnet at Gadgetbridge-loggfiler kan inneholde mye personlig info, inkludert, og ikke begrenset til helsedata, unike identifikatorer (som enhetens MAC-adresse), musikkpreferanser, osv. Overvei å redigere filen for fjerning av denne info-en før du sender filen til som offentlig feilrapport.</string>
     <string name="warning">Advarsel!</string>
-<string name="controlcenter_change_led_color">Endre LED-farge</string>
+    <string name="controlcenter_change_led_color">Endre LED-farge</string>
     <string name="controlcenter_change_fm_frequency">Endre FM-frekvens</string>
     <string name="devicetype_roidmi">Roidmi</string>
     <string name="devicetype_roidmi3">Roidmi 3</string>
-
     <string name="preferences_led_color">LED-farge</string>
-
     <string name="preferences_fm_frequency">FM-frekvens</string>
     <string name="pref_invalid_frequency_title">Ugyldig frekvens</string>
     <string name="pref_invalid_frequency_message">Skriv inn en frekvens mellom 87.5 og 108.0</string>
-<string name="pref_title_rtl">Høyre-til-venstre</string>
+    <string name="pref_title_rtl">Høyre-til-venstre</string>
     <string name="pref_summary_rtl">Skru på dette hvis din enhet ikke kan vise høyre til venstre-språk</string>
     <string name="pref_rtl_max_line_length">Maksimal linjelengde for høyre-til-venstre</string>
     <string name="pref_rtl_max_line_length_summary">Strekker eller korter ned linjene høyre-til-venstre -tekst inndeles i</string>
-
     <string name="notif_battery_low">%1$s batteri snart tomt</string>
     <string name="notif_battery_low_extended">%1$s batteri snart tomt: %2$s</string>
     <string name="lack_of_sleep">Søvnmangel: %1$s</string>
@@ -690,12 +610,10 @@
     <string name="activity_prefs_charts">Diagraminnstillinger</string>
     <string name="activity_prefs_chart_max_heart_rate">Makspuls</string>
     <string name="activity_prefs_chart_min_heart_rate">Minimumspuls</string>
-
     <string name="pref_title_contextual_arabic">Kontekstuell arabisk</string>
     <string name="pref_summary_contextual_arabic">Skru på dette for kontekstuell arabisk støtte</string>
     <string name="preferences_rtl_settings">Høyre-til-venstre -støtte</string>
     <string name="no_data">Ingen data</string>
-
     <string name="language_and_region_prefs">Språk og stedsinnstillinger</string>
     <string name="debugactivity_really_factoryreset_title">Vil du virkelig gjenopprette fabrikkinnstillinger\?</string>
     <string name="debugactivity_really_factoryreset">Gjenoppretting til fabrikkinnstillinger vil slette all data fra den tilkoblede enheten (hvis støttet). Xiaomi/Huami-enheter endrer også MAC-adressen for Blåtann, og vil dermed framtre som nye enheter i Gadgetbridge.</string>
@@ -714,4 +632,6 @@
     <string name="mode_configuration">Modusoppsett</string>
     <string name="save_configuration">Lagre oppsett</string>
     <string name="appwidget_not_connected">Ikke tilkoblet, alarm ikke satt.</string>
+    <string name="activity_type_exercise">Trening</string>
+    <string name="prefs_disconnect_notification">Frakoblingsmerknad</string>
 </resources>

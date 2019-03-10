@@ -1,5 +1,5 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Daniele Gobbetti, Pavel
-    Elagin, protomors
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Pavel Elagin, protomors
 
     This file is part of Gadgetbridge.
 
@@ -372,6 +372,11 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
         } catch (IOException e) {
             GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR, e);
         }
+    }
+
+    @Override
+    public void onReadConfiguration(String config) {
+
     }
 
     @Override

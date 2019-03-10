@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources><string name="app_name">"Gadgetbridge "</string>
-
+<resources>
+    <string name="app_name">"Gadgetbridge "</string>
     <string name="title_activity_controlcenter">Gadgetbridge</string>
     <string name="action_settings">Ρυθμίσεις</string>
     <string name="action_debug">Αποσφαλμάτωση</string>
@@ -17,12 +17,9 @@
     <string name="controlcenter_delete_device_dialogmessage">Αυτό θα διαγράψει την συσκευή και όλα τα δεδομένα σχετικά με αυτή!</string>
     <string name="controlcenter_snackbar_need_longpress">Πατήστε συνεχόμενα στη καρτέλα της συσκευής για αποσύνδεση</string>
     <string name="controlcenter_snackbar_disconnecting">Γίνεται αποσύνδεση</string>
-    <string name="controlcenter_snackbar_connecting">Γίνεται σύνδεση</string>
+    <string name="controlcenter_snackbar_connecting">Συνδέστε…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Λήψη στιγμιότυπου από τη συσκευή</string>
-
-
     <string name="title_activity_debug">Αποσφαλμάτωση</string>
-
     <string name="controlcenter_navigation_drawer_open">Άνοιγμα συρταριού πλοήγησης</string>
     <string name="controlcenter_navigation_drawer_close">Κλείσιμο συρταριού πλοήγησης</string>
     <string name="appmanager_cached_watchapps_watchfaces">Εφαρμογές στην προσωρινή μνήμη</string>
@@ -41,11 +38,8 @@
     <string name="appmanager_weather_install_provider">Εγκαταστείστε την εφαρμογή ειδοποίησης Καιρού</string>
     <string name="app_configure">Επιλογές</string>
     <string name="app_move_to_top">Μετακίνηση στη κορυφή</string>
-
     <string name="title_activity_appblacklist">Αποκλεισμένες ειδοποιήσεις</string>
-
     <string name="title_activity_calblacklist">Αποκλεισμένα ημερολόγια</string>
-
     <string name="title_activity_fw_app_insaller">Εγκαταστάτης εφαρμογών/FW</string>
     <string name="fw_upgrade_notice">Πρόκειται να εγκαταστήσετε την έκδοση λογισμικού %s αντί για αυτή που έχετε τώρα στο Mi Band σας.</string>
     <string name="fw_upgrade_notice_amazfitbip">"Πρόκειται να εγκαταστήστε το λογισμικό έκδοσης %s στο Amazfit Bip σας. 
@@ -73,9 +67,7 @@
 \nΔΕΝ συνίσταται η εγκατάσταση του στο Mi Band σας!</string>
     <string name="title_activity_appmanager">Διαχειριστής εφαρμογών</string>
     <string name="miband_firmware_suggest_whitelist">Αν ακόμη θέλετε να προχωρήσετε και μετά όλα λειτουργούν κανονικά, παρακαλούμε ενημερώστε τους δημιουργούς του Gadgetbridge σχετικά με την %s έκδοση.</string>
-
     <string name="title_activity_settings">Ρυθμίσεις</string>
-
     <string name="pref_header_general">Γενικές ρυθμίσεις</string>
     <string name="pref_title_general_autoconnectonbluetooth">Σύνδεση με την φορετή συσκευή όταν το Bluetooth στο κινητό ενεργοποιείται</string>
     <string name="pref_title_general_autostartonboot">Αυτόματη έναρξη</string>
@@ -83,21 +75,16 @@
     <string name="pref_title_audio_player">Προτιμώμενο πρόγραμμα ήχου</string>
     <string name="pref_default">Προεπιλογή</string>
     <string name="pref_title_charts_swipe">Σύρετε αριστερά/δεξιά για τα διαγράμματα της δραστηριότητας</string>
-
     <string name="pref_header_datetime">Ημερομηνία και ώρα</string>
     <string name="pref_title_datetime_syctimeonconnect">Συγχρονισμός ώρας</string>
     <string name="pref_summary_datetime_syctimeonconnect">Συγχρονισμός ώρας στη φορετή συσκευή όταν αυτή συνδέεται με το κινητό ή όταν αλλάζετε ζώνη ώρας</string>
-
     <string name="pref_title_theme">Θέμα</string>
     <string name="pref_theme_light">Ανοιχτόχρωμο</string>
     <string name="pref_theme_dark">Σκούρο</string>
-
     <string name="pref_title_language">Γλώσσα</string>
-
     <string name="pref_title_minimize_priority">Απόκρυψη του εικονιδίου της εφαρμογής Gadgetbridge από τη μπάρα ειδοποιήσεων</string>
     <string name="pref_summary_minimize_priority_off">Το εικονίδιο θα φαίνεται στη γραμμή κατάστασης και οι ειδοποιήσεις στην οθόνη κλειδώματος</string>
     <string name="pref_summary_minimize_priority_on">Απόκρυψη του εικονίδιου από τη γραμμή κατάστασης και των ειδοποιήσεων από την οθόνη κλειδώματος</string>
-
     <string name="pref_header_notifications">Ειδοποιήσεις</string>
     <string name="pref_title_notifications_repetitions">Επαναλήψεις</string>
     <string name="pref_title_notifications_call">Τηλεφωνικές κλήσεις</string>
@@ -110,69 +97,53 @@
     <string name="pref_summary_notification_filter">"Μη επιθυμητές ειδοποιήσεις δεν στελνονται σε αυτή τη λειτουργία "</string>
     <string name="pref_title_transliteration">Αλλαγή χαρακτήρων</string>
     <string name="pref_summary_transliteration">Ενεργοποιήστε αυτή την επιλογή αν η συσκευή σας δεν υποστηρίζει τις γραμματοσειρές της γλώσσας σας</string>
-
     <string name="always">Πάντα</string>
     <string name="when_screen_off">Όταν η οθόνη είναι σβηστή</string>
     <string name="never">Ποτέ</string>
-
     <string name="pref_header_privacy">Ιδιωτικότητα</string>
     <string name="pref_title_call_privacy_mode">Λειτουργία ιδιωτικότητας στη διάρκεια των κλήσεων</string>
     <string name="pref_call_privacy_mode_off">Να φαίνεται όνομα κι αριθμός</string>
     <string name="pref_call_privacy_mode_name">Να φαίνεται μόνο ο αριθμός</string>
     <string name="pref_call_privacy_mode_number">Να φαίνεται μόνο το όνομα</string>
     <string name="pref_call_privacy_mode_complete">Απόκρυψη ονόματος και αριθμού</string>
-
-
     <string name="pref_blacklist">Αποκλεισμένες εφαρμογές</string>
     <string name="pref_blacklist_calendars">Αποκλεισμένα ημερολόγια</string>
-
     <string name="pref_header_cannned_messages">Προκαθορισμένα μηνύματα</string>
     <string name="pref_title_canned_replies">Απαντήσεις</string>
     <string name="pref_title_canned_reply_suffix">Κοινή κατάληξη</string>
     <string name="pref_title_canned_messages_dismisscall">Απόρριψη κλήσης</string>
     <string name="pref_title_canned_messages_set">Αναβάθμιση στο Pebble</string>
-
     <string name="pref_header_development">Επιλογές προγραμματιστή</string>
     <string name="pref_title_development_miaddr">Διεύθυνση Bluetooth του Mi Band</string>
-
     <string name="pref_title_pebble_settings">Ρυθμίσεις για Pebble</string>
-
     <string name="pref_header_activitytrackers">Ανιχνευτές δραστηριότητας</string>
     <string name="pref_title_pebble_activitytracker">Προτιμώμενοι ανιχνευτές δραστηριότητας</string>
     <string name="pref_title_pebble_sync_health">Συγχρονισμός Pebble Heath</string>
     <string name="pref_title_pebble_sync_misfit">Συγχρονισμός Misfit</string>
     <string name="pref_title_pebble_sync_morpheuz">Συγχρονισμός Morpheuz</string>
-
     <string name="pref_title_enable_outgoing_call">Υποστήριξη εξερχομένων κλήσεων</string>
     <string name="pref_summary_enable_outgoing_call">Απενεργοποιώντας αυτό θα απενεργοποιηθεί και η δόνηση στο Pebble2/LE στις εξερχόμενες κλήσεις</string>
-
     <string name="pref_title_enable_pebblekit">Να επιτραπεί η πρόσβαση σε εφαρμογές τρίτων</string>
     <string name="pref_summary_enable_pebblekit">"Να επιτραπεί η δοκιμαστική υποστήριξη για τις Android  εφαρμογές χρησιμοποιώντας το PebbleKit"</string>
-
     <string name="pref_header_pebble_timeline">Χρονολόγιο Pebble</string>
     <string name="pref_title_sunrise_sunset">Ανατολή και Δύση του ήλιου</string>
     <string name="pref_summary_sunrise_sunset">Αποστολή της ώρας ανατολής και δύσης, βασισμένη στη τοποθεσία, στο χρονολόγιο Pebble</string>
     <string name="pref_title_enable_calendar_sync">Συγχρονισμός ημερολογίου</string>
     <string name="pref_summary_enable_calendar_sync">Αποστολή των γεγονότων του ημερολογίου στο χρονολόγιο</string>
-
     <string name="pref_title_autoremove_notifications">Αυτόματη αφαίρεση ειδοποιήσεων που έχουν απορριφθεί</string>
     <string name="pref_summary_autoremove_notifications">Οι ειδοποιήσεις να αφαιρούνται από το Pebble αυτόματα, όταν απορρίπτονται στο τηλέφωνο</string>
-
     <string name="pref_title_pebble_privacy_mode">Λειτουργία ιδιωτικότητας</string>
     <string name="pref_pebble_privacy_mode_off">Ειδοποιήσεις</string>
     <string name="pref_pebble_privacy_mode_content">Μετατόπιση της ειδοποίησης εκτός οθόνης</string>
     <string name="pref_pebble_privacy_mode_complete">Να φαίνεται μόνο το εικονίδιο της ειδοποίησης</string>
-
     <string name="pref_header_location">Τοποθεσία</string>
     <string name="pref_title_location_aquire">Ανάκτηση τοποθεσίας</string>
     <string name="pref_title_location_latitude">Γεωγραφικό πλάτος</string>
     <string name="pref_title_location_longitude">Γεωγραφικό μήκος</string>
     <string name="pref_title_location_keep_uptodate">Να κρατείτε η τοποθεσία ενημερωμένη</string>
     <string name="pref_summary_location_keep_uptodate">Προσπάθεια χρήσης της παρούσας τοποθεσίας κατά τον χρόνο εκτέλεσης, εναλλακτικά χρήση της αποθηκευμένης τοποθεσίας</string>
-
     <string name="toast_enable_networklocationprovider">Παρακαλώ ενεργοποιήστε τις υπηρεσίες τοποθεσίας</string>
     <string name="toast_aqurired_networklocation">Η τοποθεσία βρέθηκε</string>
-
     <string name="pref_title_pebble_forceprotocol">Πρωτόκολλο υποχρεωτικών ειδοποιήσεων</string>
     <string name="pref_summary_pebble_forceprotocol">Αυτή η επιλογή υποχρεώνει την χρήση του πιο πρόσφατου πρωτοκόλλου ειδοποιήσεων ανάλογα με την έκδοση του λογισμικού. ΕΝΕΡΓΟΠΟΙΗΣΤΕ ΜΟΝΟ ΑΝ ΞΕΡΕΤΕ ΤΙ ΚΑΝΕΤΕ!</string>
     <string name="pref_title_pebble_forceuntested">Να επιτρέπονται τα μη δοκιμασμένα χαρακτηριστικά</string>
@@ -187,15 +158,12 @@
     <string name="pref_summary_pebble_always_ack_pebblekit">"Θα αναγκάσει τα μηνύματα που στέλνονται από εφαρμογές τρίτων να  γνωστοποιούνται πάντα και άμεσα"</string>
     <string name="pref_title_pebble_enable_bgjs">Χρήση JS στο παρασκήνιο</string>
     <string name="pref_summary_pebble_enable_bgjs">Αν επιλεχθεί, θα επιτρέπει στα watchfaces να δείχνουν το καιρό, την μπαταρία κλπ.</string>
-
     <string name="pref_title_pebble_reconnect_attempts">Προσπάθειες επανασύνδεσης</string>
-
     <string name="pref_title_unit_system">Μονάδες</string>
     <string name="pref_title_timeformat">Μορφή ώρας</string>
     <string name="pref_title_screentime">Διάρκεια ανάμματος οθόνης</string>
     <string name="prefs_title_all_day_heart_rate">Μέτρηση καρδιακού σφυγμού όλη τη μέρα</string>
     <string name="preferences_hplus_settings">Ρυθμίσεις για HPlus/Makibes</string>
-
     <string name="not_connected">Μη συνδεδεμένο</string>
     <string name="connecting">Γίνεται σύνδεση</string>
     <string name="connected">Συνδεδεμένο</string>
@@ -228,7 +196,6 @@
     <string name="initialized">Αρχικοποίηση</string>
     <string name="appversion_by_creator">%1$s από %2$s</string>
     <string name="title_activity_discovery">Εύρεση συσκευής</string>
-
     <string name="discovery_stop_scanning">Σταμάτημα σάρωσης</string>
     <string name="discovery_start_scanning">Έναρξη ανεύρεσης</string>
     <string name="action_discover">Σύνδεση νέας συσκευής</string>
@@ -258,7 +225,6 @@
     <string name="candidate_item_device_image">Εικόνα της συσκευής</string>
     <string name="miband_prefs_alias">Όνομα/Ψευδώνυμο</string>
     <string name="pref_header_vibration_count">Αριθμός δονήσεων</string>
-
     <string name="title_activity_sleepmonitor">Καταγραφή ύπνου</string>
     <string name="pref_write_logfiles">Ενεργοποίηση αρχείων καταγραφής</string>
     <string name="initializing">Αρχικοποίηση</string>
@@ -266,7 +232,6 @@
     <string name="sleep_activity_date_range">Από %1$s έως %2$s</string>
     <string name="miband_prefs_wearside">Σε ποιο χέρι το φοράτε;</string>
     <string name="pref_screen_vibration_profile">Προφίλ δόνησης</string>
-
     <string name="vibration_profile_staccato">Κοφτή</string>
     <string name="vibration_profile_short">Σύντομη</string>
     <string name="vibration_profile_medium">Μέτρια</string>
@@ -275,30 +240,25 @@
     <string name="vibration_profile_ring">Κουδούνισμα</string>
     <string name="vibration_profile_alarm_clock">Ξυπνητήρι</string>
     <string name="miband_prefs_vibration">Δόνηση</string>
-
     <string name="vibration_try">Δοκιμή</string>
     <string name="pref_screen_notification_profile_sms">Ειδοποιήσεις SMS</string>
     <string name="pref_header_vibration_settings">Ρυθμίσεις δόνησης</string>
     <string name="pref_screen_notification_profile_generic">Γενικές ειδοποιήσεις</string>
     <string name="pref_screen_notification_profile_email">Ειδοποιήσεις email</string>
     <string name="pref_title_weather_location">Τοποθεσία καιρού (για τις ROM Cyanogenmod ή LineageOS)</string>
-
     <string name="pref_screen_notification_profile_incoming_call">Ειδοποιήσεις εισερχομένων κλήσεων</string>
     <string name="pref_screen_notification_profile_generic_chat">Συζήτηση</string>
     <string name="pref_screen_notification_profile_generic_navigation">Πλοήγηση</string>
     <string name="pref_screen_notification_profile_generic_social">Κοινωνικά δίκτυα</string>
-
     <string name="prefs_title_heartrate_measurement_interval">Μέτρηση υγείας όλη τη μέρα</string>
     <string name="interval_one_minute">κάθε λεπτό</string>
     <string name="interval_five_minutes">κάθε 5 λεπτά</string>
     <string name="interval_ten_minutes">κάθε 10 λεπτά</string>
     <string name="interval_thirty_minutes">κάθε 30 λεπτά</string>
     <string name="interval_one_hour">κάθε ώρα</string>
-
     <string name="stats_title">Ζώνες ταχύτητας</string>
     <string name="stats_x_axis_label">Λεπτά σε σύνολο</string>
     <string name="stats_y_axis_label">Βήματα ανά λεπτό</string>
-
     <string name="control_center_find_lost_device">Εντοπισμός συσκευής</string>
     <string name="control_center_cancel_to_stop_vibration">Ακυρώστε για να σταματήσει η δόνηση.</string>
     <string name="title_activity_charts">Η δραστηριότητά σας</string>
@@ -366,7 +326,6 @@
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
     <string name="pref_title_low_latency_fw_update">Χρήση της λειτουργίας χαμηλής καθυστέρησης για τις αναβαθμίσεις λογισμικού</string>
     <string name="pref_summary_low_latency_fw_update">Αυτό μπορεί να βοηθήσει για συσκευές που η αναβάθμιση λογισμικού αποτυγχάνει.</string>
-
     <string name="live_activity_steps_history">Ιστορικό βημάτων</string>
     <string name="live_activity_current_steps_per_minute">Τρέχων ρυθμός βημάτων/λεπτό</string>
     <string name="live_activity_total_steps">Συνολικός αριθμός βημάτων</string>
@@ -383,7 +342,7 @@
     <string name="fwinstaller_firmware_not_compatible_to_device">Αυτό το λογισμικό δεν είναι συμβατό με τη συσκευή</string>
     <string name="miband_prefs_reserve_alarm_calendar">Ξυπνητήρια που θα \"κρατηθούν\" για τα επερχόμενα συμβάντα του ημερολογίου</string>
     <string name="miband_prefs_hr_sleep_detection">Χρήση του αισθητήρα παλμών για να βελτιωθεί η ανίχνευση του ύπνου</string>
-	<string name="miband_prefs_device_time_offset_hours">Αντιστάθμιση χρόνου σε ώρες (για να ανιχνευθεί ο ύπνος, σε εργαζόμενους που δουλεύουν βράδυ)</string>
+    <string name="miband_prefs_device_time_offset_hours">Αντιστάθμιση χρόνου σε ώρες (για να ανιχνευθεί ο ύπνος, σε εργαζόμενους που δουλεύουν βράδυ)</string>
     <string name="miband2_prefs_dateformat">Μορφή ημερομηνίας</string>
     <string name="dateformat_time">Ώρα</string>
     <string name="dateformat_date_time">Ώρα και ημερομηνία</string>
@@ -415,25 +374,19 @@
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">Απενεργοποιήστε την προειδοποίηση αδράνειας για κάποιο χρόνο</string>
     <string name="mi2_prefs_do_not_disturb_start">Ώρα έναρξης</string>
     <string name="mi2_prefs_do_not_disturb_end">Ώρα λήξης</string>
-
     <string name="automatic">Αυτόματα</string>
     <string name="simplified_chinese">Απλοποιημένα Κινεζικά</string>
     <string name="traditional_chinese">Παραδοσιακά Κινεζικά</string>
     <string name="english">Αγγλικά</string>
-
     <string name="FetchActivityOperation_about_to_transfer_since">"Θα μεταφέρετε δεδομένα από  %1$s"</string>
-
     <string name="waiting_for_reconnect">Αναμονή για επανασύνδεση</string>
-
     <string name="activity_prefs_about_you">Σχετικά με εσάς</string>
     <string name="activity_prefs_year_birth">Έτος γέννησης</string>
     <string name="activity_prefs_gender">Φύλλο</string>
     <string name="activity_prefs_height_cm">Ύψος σε εκατοστά</string>
     <string name="activity_prefs_weight_kg">Βάρος σε κιλά</string>
-
     <string name="authenticating">Επαλήθευση ταυτότητας</string>
     <string name="authentication_required">Απαιτείται επαλήθευση ταυτότητας</string>
-
     <string name="appwidget_text">Ζzz</string>
     <string name="add_widget">Πρόσθεση widget</string>
     <string name="activity_prefs_sleep_duration">Προτιμώμενος χρόνος ύπνου (σε ώρες)</string>
@@ -446,7 +399,6 @@
     <string name="updatefirmwareoperation_firmware_not_sent">Το λογισμικό δεν απεστάλη στη συσκευή</string>
     <string name="charts_legend_heartrate">Σφυγμοί</string>
     <string name="live_activity_heart_rate">Σφυγμοί</string>
-
     <string name="pref_title_pebble_health_store_raw">Αποθήκευση των ακατέργαστων εγγραφών στη βάση δεδομένων</string>
     <string name="pref_summary_pebble_health_store_raw">Με αυτή την επιλογή θα αποθηκευτούν τα δεδομένα \"ως έχουν\", μεγαλώνοντας τη χρήση της βάσης δεδομένων για να είναι διαθέσιμα για ερμηνεία αργότερα.</string>
     <string name="action_db_management">Διαχείριση βάσης δεδομένων</string>
@@ -475,12 +427,9 @@
     <string name="dbmanagementactivity_overwrite">Αντικατάσταση</string>
     <string name="Cancel">Ακύρωση</string>
     <string name="Delete">Διαγραφή</string>
-
     <string name="title_activity_vibration">Δόνηση</string>
-
     <string name="title_activity_pebble_pairing">Σύζευξη Pebble</string>
     <string name="pebble_pairing_hint">Ένα παράθυρο σύζευξης θα εμφανιστεί στην Abdroid συσκευή σας. Αν αυτό δεν συμβεί, δείτε στη περιοχή ειδοποιήσεων και δεχθείτε την σύζευξη. Επίσης μετά δεχθείτε την σύζευξη και στο Pebble σας.</string>
-
     <string name="weather_notification_label">Βεβαιωθείτε ότι αυτό το θέμα είναι ενεργοποιημένο στην εφαρμογή του καιρού ώστε να λάβει τις πληροφορίες το Pebble.
 \n
 \nΔεν χρειάζονται εδώ ρυθμίσεις.
@@ -490,17 +439,12 @@
 \nΤα watchfaces που υποστηρίζουν την εφαρμογή του καιρού, θα δείξουν τον καιρό αυτόματα.</string>
     <string name="pref_title_setup_bt_pairing">Ενεργοποίηση σύζευξης Bluetooth</string>
     <string name="pref_summary_setup_bt_pairing">Απενεργοποιήστε αυτή την επιλογή αν έχετε προβλήματα σύνδεσης</string>
-
     <string name="unit_metric">Μετρικό (S.I.)</string>
     <string name="unit_imperial">Αγγλοσαξωνικό</string>
-
     <string name="timeformat_24h">24ωρο</string>
     <string name="timeformat_am_pm">πμ/μμ</string>
-
     <string name="pref_screen_notification_profile_alarm_clock">Ξυπνητήρι</string>
-
     <string name="activity_web_view">Δραστηριότητα προβολής ιστού</string>
-
     <string name="StringUtils_sender">(%1$s)</string>
     <string name="find_device_you_found_it">Το βρήκατε!</string>
     <string name="miband2_prefs_timeformat">Mi Band 2: Μορφή ώρας</string>
@@ -520,7 +464,6 @@
     <string name="discovery_pair_question">Διαλέξτε \"Σύζευξη\" για να γίνει η σύζευξη των συσκευών. Αν αυτό αποτύχει, προσπαθήστε πάλι χωρίς σύζευξη.</string>
     <string name="discovery_yes_pair">Σύζευξη</string>
     <string name="discovery_dont_pair">Μη γίνει Σύζευξη</string>
-
     <string name="_pebble_watch_open_on_phone">Άνοιγμα στο τηλέφωνο</string>
     <string name="_pebble_watch_mute">Σίγαση</string>
     <string name="_pebble_watch_reply">Απάντηση</string>
@@ -546,20 +489,17 @@
     <string name="devicetype_exrizu_k8">Exrizu K8</string>
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
-<string name="pref_title_weather">Καιρός</string>
+    <string name="pref_title_weather">Καιρός</string>
     <string name="pref_header_auto_export">Αυτόματη εξαγωγή ρυθμίσεων</string>
     <string name="pref_title_auto_export_enabled">Η αυτόματη εξαγωγή είναι ενεργοποιημένη</string>
     <string name="pref_title_auto_export_location">Διαδρομή εξαγωγής</string>
     <string name="pref_title_auto_export_interval">Κάθε πότε θα γίνεται η εξαγωγή</string>
     <string name="pref_summary_auto_export_interval">Εξαγωγή κάθε %d ώρες</string>
-
     <string name="notif_export_failed_title">Η εξαγωγή της βάσης δεδομένων απέτυχε! Παρακαλώ ελέγξτε τις ρυθμίσεις σας.</string>
     <string name="choose_auto_export_location">Διαλέξτε διαδρομή εξαγωγής</string>
-<string name="spanish">Ισπανικά</string>
-
+    <string name="spanish">Ισπανικά</string>
     <string name="notification_channel_name">Ειδοποιήσεις Gadgetbridge</string>
-<string name="devicetype_xwatch">"XWatch "</string>
-
+    <string name="devicetype_xwatch">"XWatch "</string>
     <string name="on">Ανοιχτό</string>
     <string name="controlcenter_start_activity_tracks">Η δραστηριότητα σας καταγράφεται</string>
     <string name="activity_type_not_measured">Δεν μετρήθηκε</string>
@@ -574,11 +514,9 @@
     <string name="activity_summaries">Δραστηριότητες</string>
     <string name="activity_type_biking">Ποδηλασία</string>
     <string name="activity_type_treadmill">Διάδρομος</string>
-
     <string name="select_all">Επιλογή όλων</string>
     <string name="share">Διαμοιρασμός</string>
     <string name="reset_index">Επαναφορά ημερομηνίας λήψης</string>
-
     <string name="pref_title_pebble_gatt_clientonly">μόνο GATT πελάτες</string>
     <string name="pref_summary_pebble_gatt_clientonly">Αυτό είναι πειραματικό χαρακτηριστικό και μόνο για το Pebble 2 , δοκιμάστε το μόνο αν έχετε προβλήματα συνδεσιμότητας</string>
     <string name="menuitem_shortcut_alipay">Alipay (συντόμευση)</string>
@@ -591,11 +529,9 @@
     <string name="menuitem_compass">Πυξίδα</string>
     <string name="menuitem_settings">Ρυθμίσεις</string>
     <string name="menuitem_alipay">"Alipay "</string>
-<string name="devicetype_q8">"Q8 "</string>
+    <string name="devicetype_q8">"Q8 "</string>
     <string name="blacklist_all_for_notifications">Μαύρη λίστα για όλες τις ειδοποιήσεις</string>
     <string name="whitelist_all_for_notifications">Να ειδοποιήσει όλες οι ειδοποιήσεις</string>
-
-
     <string name="fw_upgrade_notice_miband3">—Πρόκειται να εγκαταστήσετε το λογισμικό %s για το Mi Band 3. 
 \n 
 \nΠαρακαλώ βεβαιωθείτε ότι θα εγκαταστήσετε το αρχείο .fw και μετά το αρχείο .res. Το smartwatch θα επανεκκινήσει μετά την εγκατάσταση του .fw αρχείου. 
@@ -605,25 +541,19 @@
 \nΜΗ ΕΠΑΡΚΩΣ ΔΟΚΙΜΑΣΜΕΝΟ, ΜΠΟΡΕΙ ΝΑ ΧΑΛΑΣΕΙ Η ΣΥΣΚΕΥΗ ΣΑΣ,
 \nΠΡΟΧΩΡΗΣΤΕ ΜΕ ΔΙΚΗ ΣΑΣ ΕΥΘΥΝΗ!</string>
     <string name="pref_auto_fetch">Αυτόματη λήψη δεδομένων δραστηριότητας</string>
-
     <string name="devicetype_miband3">"Mi Band 3 "</string>
     <string name="pref_auto_fetch_summary">Η λήψη των δεδομένων γίνεται μόνο όταν ξεκλειδώσετε την οθόνη. Δουλεύει μόνο όταν έχετε ορίσει έναν τρόπο κλειδώματος οθόνης!</string>
     <string name="pref_auto_fetch_limit_fetches">Ελάχιστος χρόνος μεταξύ λήψης δεδομένων</string>
     <string name="pref_auto_fetch_limit_fetches_summary">Λήψη δεδομένων κάθε %d λεπτά</string>
-
     <string name="controlcenter_calibrate_device">Ρύθμιση (καλιμπράρισμα) συσκευής</string>
-
-
     <string name="preferences_id115_settings">Ρυθμίσεις ID115</string>
     <string name="prefs_screen_orientation">Προσανατολισμός οθόνης</string>
-
     <string name="preferences_miband2_settings">Ρυθμίσεις Mi Band 2</string>
     <string name="preferences_miband3_settings">Ρυθμίσεις Mi Band 3</string>
     <string name="preferences_amazfitcor_settings">Ρυθμίσεις Amazfit Cor</string>s
     <string name="horizontal">Οριζόντια</string>
     <string name="vertical">Κάθετα</string>
     <string name="watch9_pairing_tap_hint">Όταν το smartwatch δονείται, κουνήστε το ή πατήστε το κουμπί του.</string>
-
     <string name="mi3_prefs_band_screen_unlock">Ξεκλείδωμα οθόνης Mi Band</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Σύρετε προς τα πάνω για να ξεκλειδώσετε την οθόνη του Mi Band</string>
     <string name="russian">Ρώσικα</string>
@@ -633,15 +563,12 @@
     <string name="polish">Πολωνικά</string>
     <string name="korean">Κορεάτικα</string>
     <string name="japanese">Ιαπωνικά</string>
-
     <string name="devicetype_mykronoz_zetime">"MyKronoz ZeTime "</string>
     <string name="devicetype_id115">"ID115 "</string>
     <string name="devicetype_watch9">Watch9</string>
-
     <string name="menuitem_notifications">Ειδοποιήσεις</string>
     <string name="menuitem_music">Μουσική</string>
     <string name="menuitem_more">Περισσότερα</string>
-
     <string name="watch9_time_minutes">Λεπτά:</string>
     <string name="watch9_time_hours">Ώρες:</string>
     <string name="watch9_time_seconds">Δευτερόλεπτα:</string>
@@ -649,7 +576,7 @@
     <string name="watch9_calibration_button">Αρχική ρύθμιση (καλιμπράρισμα)</string>
     <string name="title_activity_watch9_pairing">Σύζευξη Watch 9</string>
     <string name="title_activity_watch9_calibration">Αρχική ρύθμιση (καλιμπράρισμα) Watch 9</string>
-<string name="pref_title_notifications_timeout">Ελάχιστος χρόνος μεταξύ ειδοποιήσεων</string>
+    <string name="pref_title_notifications_timeout">Ελάχιστος χρόνος μεταξύ ειδοποιήσεων</string>
     <string name="no_limit">Χωρίς όριο</string>
     <string name="seconds_5">5 δευτερόλεπτα</string>
     <string name="seconds_10">10 δευτερόλεπτα</string>
@@ -659,7 +586,6 @@
     <string name="minutes_5">5 λεπτά</string>
     <string name="minutes_10">10 λεπτά</string>
     <string name="minutes_30">30 λεπτά</string>
-
     <string name="you_slept">"Κοιμηθήκατε  %1$s έως %2$s"</string>
     <string name="you_did_not_sleep">Δεν κοιμηθήκατε</string>
     <string name="norwegian_bokmal">Νορβηγικά (Bokmål)</string>
@@ -667,27 +593,21 @@
     <string name="controlcenter_change_fm_frequency">Αλλαγή συχνότητας FM</string>
     <string name="mi3_prefs_night_mode">Λειτουργία \"νύχτας\"</string>
     <string name="mi3_prefs_night_mode_summary">Μείωση φωτεινότητας της οθόνης του Mi band 3 κατά τη διάρκεια της νύχτας</string>
-
     <string name="ok">ΟΚ</string>
-
     <string name="mi3_night_mode_sunset">Στη δύση του ηλίου</string>
     <string name="devicetype_roidmi">"Roidmi "</string>
     <string name="devicetype_roidmi3">Roidmi3</string>
-
     <string name="share_log">Αποστολή αρχείου καταγραφής</string>
     <string name="share_log_warning">Παρακαλώ έχετε υπ\'όψιν σας ότι τα αρχεία καταγραφής του Gedgetbridge ενδέχεται να περιέχουν προσωπικά δεδομένα συμπεριλαμβανομένων δεδομένα υγείας, μοναδικά χαρακτηριστικά (όπως διευθύνσεις MAC), μουσικές επιλογές κλπ. προσπαθήστε να επεξεργαστείτε το αρχείο καταγραφής και να αφαιρέσετε αυτές τις πληροφορίες πριν το στείλετε για την αναφορά προβλήματος.</string>
     <string name="warning">Προσοχή!</string>
-
     <string name="preferences_led_color">Χρώμα LED</string>
-
     <string name="preferences_fm_frequency">Συχνότητα FM</string>
     <string name="pref_invalid_frequency_title">Μη έγκυρη συχνότητα</string>
     <string name="pref_invalid_frequency_message">Παρακαλώ εισάγετε συχνότητα από 87.5 έως 108.0</string>
-<string name="pref_title_rtl">"Από δεξιά προς αριστερά "</string>
+    <string name="pref_title_rtl">"Από δεξιά προς αριστερά "</string>
     <string name="pref_summary_rtl">"Ενεργοποιήστε αυτή την επιλογή αν η συσκευή σας δεν έχει υποστήριξη για γλώσσες που γράφονται από δεξιά "</string>
     <string name="pref_rtl_max_line_length">Μέγιστο μήκος γραμμής στις γλώσσες που γράφονται από δεξιά</string>
     <string name="pref_rtl_max_line_length_summary">Μακραίνει ή κονταίνει τις γραμμές στις γλώσσες που γράφονται από δεξιά</string>
-
     <string name="notif_battery_low">%1$s χαμηλή μπαταρία</string>
     <string name="notif_battery_low_extended">%1$s χαμηλή μπαταρία: %2$s
 \n</string>
@@ -699,13 +619,28 @@
     <string name="activity_prefs_charts">"Ρυθμίσεις γραφήματος "</string>
     <string name="activity_prefs_chart_max_heart_rate">Μέγιστοι παλμοί</string>
     <string name="activity_prefs_chart_min_heart_rate">Ελάχιστοι παλμοί</string>
-
     <string name="pref_title_contextual_arabic">Συμφραζόμενα Αραβικά</string>
     <string name="pref_summary_contextual_arabic">Ενεργοποιήστε αυτή την επιλογή για υποστήριξη συμφραζόμενων Αραβικών</string>
     <string name="preferences_rtl_settings">Υποστήριξη γλωσσών γραφής από τα δεξιά</string>
     <string name="no_data">Χωρίς δεδομένα</string>
-
     <string name="language_and_region_prefs">Ρυθμίσεις γλώσσας και περιοχής</string>
     <string name="debugactivity_really_factoryreset_title">Επαναφορά εργοστασιακών ρυθμίσεων;</string>
     <string name="debugactivity_really_factoryreset">Κάνοντας επαναφορά εργοστασιακών ρυθμίσεων όλα τα δεδομένα θα διαγραφούν απο την συνδεδεμένη συσκευή (αν υποστηρίζεται). Στις συσκευές Xiaomi/Huami η διεύθυνση MAC θα αλλάξει, έτσι θα εμφανιστούν ως καινούργια συσκευή στην εφαρμογή.</string>
+    <string name="devicetype_casiogb6900">Casio. GB-6900</string>
+    <string name="title_activity_notification_filter">Λίστα απο/επιλογής ειδοποιήσεων</string>
+    <string name="toast_app_must_not_be_blacklisted">Η εφαρμογή πρέπει να έχει επιλεχθεί για να ρυθμιστεί</string>
+    <string name="edittext_notification_filter_words_hint">Εισάγετε τις λέξεις που επιθυμείτε, μία γραμμή για κάθε λέξη</string>
+    <string name="toast_notification_filter_saved_successfully">Το φίλτρο ειδοποιήσεων αποθηκεύτηκε</string>
+    <string name="filter_mode_none">Να μην υπάρχει φιλτράρισμα</string>
+    <string name="filter_mode_whitelist">Να φαίνεται όταν εμπεριέχονται λέξεις</string>
+    <string name="filter_mode_blacklist">Να μπλοκάρεται όταν εμπεριέχονται λέξεις</string>
+    <string name="filter_submode_at_least_one">Τουλάχιστον μια από τις λέξεις</string>
+    <string name="filter_submode_all">Όλες οι λέξεις</string>
+    <string name="toast_notification_filter_words_empty_hint">Παρακαλώ εισάγετε τουλάχιστον μια λέξη</string>
+    <string name="filter_mode">Λειτουργία φιλτραρίσματος</string>
+    <string name="mode_configuration">Ρύθμιση λειτουργίας</string>
+    <string name="save_configuration">Απογοήτευση ρυθμίσεων</string>
+    <string name="appwidget_not_connected">Δεν υπάρχει σύνδεση, το ξυπνητήρι δεν ρυθμίστηκε.</string>
+    <string name="activity_type_exercise">Ασκηση</string>
+    <string name="prefs_disconnect_notification">Ειδοποίηση αποσύνδεσης</string>
 </resources>

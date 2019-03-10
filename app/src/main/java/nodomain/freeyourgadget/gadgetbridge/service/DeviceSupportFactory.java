@@ -1,6 +1,7 @@
-/*  Copyright (C) 2015-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, João Paulo Barraca, José Rebelo, Kranz, ladbsoft, maxirnilian,
-    protomors, Quallenauge, Sami Alaoui, Sergey Trofimov, tiparega, Vadim Kaushan
+/*  Copyright (C) 2015-2019 0nse, Andreas Böhler, Andreas Shimokawa,
+    Carsten Pfeiffer, Daniele Gobbetti, João Paulo Barraca, José Rebelo, Kranz,
+    ladbsoft, maxirnilian, protomors, Quallenauge, Sami Alaoui, Sergey Trofimov,
+    tiparega, Vadim Kaushan
 
     This file is part of Gadgetbridge.
 
@@ -39,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.id115.ID115Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.jyou.TeclastH30Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.liveview.LiveviewSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miscale2.MiScale2DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.no1f1.No1F1Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
@@ -178,6 +180,9 @@ public class DeviceSupportFactory {
                         break;
                     case CASIOGB6900:
                         deviceSupport = new ServiceDeviceSupport(new CasioGB6900DeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
+		    case MISCALE2:
+                        deviceSupport = new ServiceDeviceSupport(new MiScale2DeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
                 }
                 if (deviceSupport != null) {

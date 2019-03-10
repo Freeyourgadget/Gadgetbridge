@@ -1,6 +1,7 @@
-/*  Copyright (C) 2015-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti, João Paulo Barraca, Kranz, ladbsoft, maxirnilian,
-    protomors, Quallenauge, Sami Alaoui, tiparega, Vadim Kaushan
+/*  Copyright (C) 2015-2019 0nse, Andreas Böhler, Andreas Shimokawa,
+    Carsten Pfeiffer, Daniele Gobbetti, João Paulo Barraca, José Rebelo,
+    Kranz, ladbsoft, maxirnilian, protomors, Quallenauge, Sami Alaoui, tiparega,
+    Vadim Kaushan
 
     This file is part of Gadgetbridge.
 
@@ -52,6 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2HRXCoor
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.id115.ID115Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.jyou.TeclastH30Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.miscale2.MiScale2DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.liveview.LiveviewCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
@@ -196,6 +198,7 @@ public class DeviceHelper {
 
     private List<DeviceCoordinator> createCoordinators() {
         List<DeviceCoordinator> result = new ArrayList<>();
+        result.add(new MiScale2DeviceCoordinator()); // Note: must come before MiBand2 because detection is hacky, atm
         result.add(new AmazfitBipCoordinator()); // Note: must come before MiBand2 because detection is hacky, atm
         result.add(new AmazfitCorCoordinator()); // Note: must come before MiBand2 because detection is hacky, atm
         result.add(new MiBand3Coordinator());  // Note: must come before MiBand2 because detection is hacky, atm
