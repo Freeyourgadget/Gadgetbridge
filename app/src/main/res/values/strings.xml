@@ -435,6 +435,10 @@
     <string name="prefs_disconnect_notification">Disconnect notification</string>
     <string name="mi2_prefs_button_actions">Button actions</string>
     <string name="mi2_prefs_button_actions_summary">Specify actions on Mi Band 2 button press</string>
+    <string name="mi2_prefs_button_action_menu">Custom Menu</string>
+    <string name="mi2_prefs_button_action_menu_summary">Create a custom menu on Mi Band 2</string>
+    <string name="mi2_prefs_menu_elements">Menu Elements</string>
+    <string name="mi2_prefs_menu_elements_summary">The elements of your menu (label1:message1;label2:message2;...)</string>
     <string name="mi2_prefs_button_press_count">Button press count</string>
     <string name="mi2_prefs_button_press_count_summary">Number of button presses to trigger message broadcast</string>
     <string name="mi2_prefs_button_press_broadcast">Broadcast message to send</string>

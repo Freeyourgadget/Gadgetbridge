@@ -84,6 +84,32 @@
                 android:key="mi_button_press_count_match_delay"
                 android:summary="@string/mi2_prefs_button_press_count_match_delay_summary"
                 android:title="@string/mi2_prefs_button_press_count_match_delay" />
+
+            <PreferenceScreen
+                android:key="mi2_button_action_menu_key"
+                android:summary="@string/mi2_prefs_button_action_menu_summary"
+                android:title="@string/mi2_prefs_button_action_menu"
+                android:persistent="false">
+
+                <!-- workaround for missing toolbar -->
+                <PreferenceCategory
+                    android:title="@string/mi2_prefs_button_action_menu"
+                    />
+          
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="mi2_enable_button_action_menu"
+                    android:summary="@string/mi2_prefs_button_action_menu_summary"
+                    android:title="@string/mi2_prefs_button_action_menu" />
+          
+                <EditTextPreference
+                    android:defaultValue="Menu1:ee.aegrel.gadgetbridge.mibandMenu1Selected"
+                    android:dependency="mi2_enable_button_action_menu"
+                    android:key="mi2_menu_elements"
+                    android:summary="@string/mi2_prefs_menu_elements_summary"
+                    android:title="@string/mi2_prefs_menu_elements" />
+
+            </PreferenceScreen>
         </PreferenceScreen>
 
         <EditTextPreference
