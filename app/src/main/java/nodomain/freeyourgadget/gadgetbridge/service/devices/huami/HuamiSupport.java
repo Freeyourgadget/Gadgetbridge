@@ -1072,7 +1072,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             if (currentButtonTimerActivationTime != currentButtonPressTime) {
                 return;
             }
-
+            currentButtonActionId = 0;
             this.displayCustomMenuOption(0);
         }
     }
@@ -1123,14 +1123,13 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to send notification to MI device", ex);
+        } finally {
+            browsingCustomMenu = false;
+            currentButtonActionId = 0;
+
+            currentButtonPressCount = 0;
+            currentButtonPressTime = System.currentTimeMillis();
         }
-
-        browsingCustomMenu = false;
-
-        currentButtonActionId = 0;
-
-        currentButtonPressCount = 0;
-        currentButtonPressTime = System.currentTimeMillis();
     }
 
     // TODO custom separator ?
@@ -1377,6 +1376,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                             currentButtonActionId++;
                             currentButtonPressCount = 0;
                         } else if (currentButtonPressCount == validateTapCount) {
+                            currentButtonTimerActivationTime = currentButtonPressTime;
                             customMenuTimerTimeout.cancel();
                             LOG.info("Selected action on custom menu");
                             runCustomMenuCurrentAction();
