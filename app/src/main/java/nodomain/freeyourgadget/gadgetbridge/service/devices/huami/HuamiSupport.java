@@ -1068,10 +1068,11 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
 
         if(this.getCustomMenuElements().length > 0) {
-            browsingCustomMenu = true;
-            if (currentButtonTimerActivationTime != currentButtonPressTime) {
+            /*if (currentButtonTimerActivationTime != currentButtonPressTime) {
                 return;
-            }
+            }*/
+            LOG.info("Running custom menu");
+            browsingCustomMenu = true;
             currentButtonActionId = 0;
             this.displayCustomMenuOption(0);
         }
@@ -1320,36 +1321,39 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                     LOG.info("Activating timer");
 
                     final Timer buttonActionTimer = new Timer("Mi Band Button Action Timer");
-                    buttonActionTimer.scheduleAtFixedRate(new TimerTask() {
+                    buttonActionTimer.schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            if (isCustomMenuEnabled) {
-                                if(isWakelockEnabled) {
-                                    LOG.info("Acquiring wakelock");
-                                    PowerManager pm = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
-                                    deviceWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport:wakelock");
-                                    deviceWakeLock.acquire();
-                                }
-
-                                resetCustomMenuTimerTimeout();
-                                runCustomMenu();
-                            } else {
-                                runButtonAction();
-                            }
+                            runButtonAction();
                             buttonActionTimer.cancel();
                         }
-                    }, buttonActionDelay, buttonActionDelay);
+                    }, buttonActionDelay);
                 }
                 else {
-                    if (isCustomMenuEnabled) {
-                        LOG.info("Activating custom menu");
-                        runCustomMenu();
-                    } else {
-                        LOG.info("Activating button action");
-                        runButtonAction();
-                    }
+                    LOG.info("Activating button action");
+                    runButtonAction();
                 }
-                
+
+                if (isCustomMenuEnabled) {
+                    final Timer customMenuTimer = new Timer("Mi Band Button Action Custom Menu");
+                    customMenuTimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            LOG.info("Activating custom menu");
+                            if(isWakelockEnabled) {
+                                LOG.info("Acquiring wakelock");
+                                PowerManager pm = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
+                                deviceWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport:wakelock");
+                                deviceWakeLock.acquire();
+                            }
+
+                            resetCustomMenuTimerTimeout();
+                            runCustomMenu();
+                            customMenuTimer.cancel();
+                        }
+                    }, buttonActionDelay);
+                }
+
                 currentButtonActionId++;
                 currentButtonPressCount = 0;
             } else if (browsingCustomMenu) {
