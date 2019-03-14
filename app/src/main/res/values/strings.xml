@@ -445,6 +445,8 @@
     <string name="mi2_prefs_menu_backward_summary">How many taps to move backward in the menu</string>
     <string name="mi2_prefs_menu_validate">Validate current option</string>
     <string name="mi2_prefs_menu_validate_summary">How many taps to confirm selected menu option</string>
+    <string name="mi2_prefs_menu_wakelock">Enable WakeLock</string>
+    <string name="mi2_prefs_menu_wakelock_summary">Enable if you have issues when phone sleeps. WARNING : this may reduce your battery life.</string>
     <string name="mi2_prefs_button_press_count">Button press count</string>
     <string name="mi2_prefs_button_press_count_summary">Number of button presses to trigger message broadcast</string>
     <string name="mi2_prefs_button_press_broadcast">Broadcast message to send</string>

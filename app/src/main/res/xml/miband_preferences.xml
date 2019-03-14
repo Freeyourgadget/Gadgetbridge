@@ -133,6 +133,12 @@
                     android:summary="@string/mi2_prefs_menu_validate_summary"
                     android:title="@string/mi2_prefs_menu_validate" />
 
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="mi2_menu_wakelock"
+                    android:summary="@string/mi2_prefs_menu_wakelock_summary"
+                    android:title="@string/mi2_prefs_menu_wakelock" />
+
             </PreferenceScreen>
         </PreferenceScreen>
 

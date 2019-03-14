@@ -37,6 +37,7 @@ public final class MiBandConst {
     public static final String PREF_MIBAND_MENU_FORWARD = "mi2_menu_forward";
     public static final String PREF_MIBAND_MENU_BACKWARD = "mi2_menu_backward";
     public static final String PREF_MIBAND_MENU_VALIDATE = "mi2_menu_validate";
+    public static final String PREF_MIBAND_MENU_WAKELOCK = "mi2_menu_wakelock";
     public static final String PREF_MIBAND_BUTTON_ACTION_ENABLE = "mi2_enable_button_action";
     public static final String PREF_MIBAND_BUTTON_ACTION_VIBRATE = "mi2_button_action_vibrate";
     public static final String PREF_MIBAND_BUTTON_PRESS_COUNT = "mi_button_press_count";
