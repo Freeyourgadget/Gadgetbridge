@@ -1323,19 +1323,23 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                     customMenuTimer.cancel();
                 }
                 customMenuTimer =  new Timer("Mi Band Button Action Custom Menu Timer");
+                final int moveForwardTapCount = prefs.getInt(MiBandConst.PREF_MIBAND_MENU_FORWARD, 1);
+                final int moveBackwardTapCount = prefs.getInt(MiBandConst.PREF_MIBAND_MENU_BACKWARD, 2);
+                final int validateTapCount = prefs.getInt(MiBandConst.PREF_MIBAND_MENU_VALIDATE, 3);
+
                 final Timer buttonActionCustomMenuTimer = customMenuTimer;
                 buttonActionCustomMenuTimer.scheduleAtFixedRate(new TimerTask() {
                     @Override
                     public void run() {
-                        if (currentButtonPressCount == 1) {
+                        if (currentButtonPressCount == moveForwardTapCount) {
                             displayCustomMenuOption(getCustomMenuNextOptionId());
                             currentButtonActionId++;
                             currentButtonPressCount = 0;
-                        } else if (currentButtonPressCount == 2) {
+                        } else if (currentButtonPressCount == moveBackwardTapCount) {
                             displayCustomMenuOption(getCustomMenuPreviousOptionId());
                             currentButtonActionId++;
                             currentButtonPressCount = 0;
-                        } else if (currentButtonPressCount == 3) {
+                        } else if (currentButtonPressCount == validateTapCount) {
                             LOG.info("Selected action on custom menu");
                             runCustomMenuCurrentAction();
                             currentButtonActionId++;

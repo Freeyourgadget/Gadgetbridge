@@ -103,11 +103,35 @@
                     android:title="@string/mi2_prefs_button_action_menu" />
           
                 <EditTextPreference
-                    android:defaultValue="Menu1:ee.aegrel.gadgetbridge.mibandMenu1Selected"
+                    android:defaultValue="Menu1:ee.aegrel.gadgetbridge.mibandMenu1Selected;Menu2:ee.aegrel.gadgetbridge.mibandMenu2Selected"
                     android:dependency="mi2_enable_button_action_menu"
                     android:key="mi2_menu_elements"
                     android:summary="@string/mi2_prefs_menu_elements_summary"
                     android:title="@string/mi2_prefs_menu_elements" />
+
+                <EditTextPreference
+                    android:defaultValue="1"
+                    android:dependency="mi2_enable_button_action_menu"
+                    android:key="mi2_menu_forward"
+                    android:inputType="number"
+                    android:summary="@string/mi2_prefs_menu_forward_summary"
+                    android:title="@string/mi2_prefs_menu_forward" />
+
+                <EditTextPreference
+                    android:defaultValue="2"
+                    android:dependency="mi2_enable_button_action_menu"
+                    android:key="mi2_menu_backward"
+                    android:inputType="number"
+                    android:summary="@string/mi2_prefs_menu_backward_summary"
+                    android:title="@string/mi2_prefs_menu_backward" />
+
+                <EditTextPreference
+                    android:defaultValue="3"
+                    android:dependency="mi2_enable_button_action_menu"
+                    android:key="mi2_menu_validate"
+                    android:inputType="number"
+                    android:summary="@string/mi2_prefs_menu_validate_summary"
+                    android:title="@string/mi2_prefs_menu_validate" />
 
             </PreferenceScreen>
         </PreferenceScreen>
