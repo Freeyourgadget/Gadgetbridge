@@ -49,6 +49,8 @@ public enum DeviceType {
     ZETIME(80, R.drawable.ic_device_zetime, R.drawable.ic_device_zetime_disabled, R.string.devicetype_mykronoz_zetime),
     ID115(90, R.drawable.ic_device_h30_h10, R.drawable.ic_device_h30_h10_disabled, R.string.devicetype_id115),
     WATCH9(100, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_watch9),
+    WATCHX(101, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_watchx),
+    WATCHXPLUS(102, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_watchxplus),
     ROIDMI(110, R.drawable.ic_device_roidmi, R.drawable.ic_device_roidmi_disabled, R.string.devicetype_roidmi),
     ROIDMI3(112, R.drawable.ic_device_roidmi, R.drawable.ic_device_roidmi_disabled, R.string.devicetype_roidmi3),
     CASIOGB6900(120, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_casiogb6900),

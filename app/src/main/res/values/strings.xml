@@ -619,6 +619,8 @@
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
     <string name="devicetype_id115">ID115</string>
     <string name="devicetype_watch9">Watch 9</string>
+    <string name="devicetype_watchx">Watch X</string>
+    <string name="devicetype_watchxplus">Watch X Plus</string>
     <string name="devicetype_roidmi">Roidmi</string>
     <string name="devicetype_roidmi3">Roidmi 3</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
