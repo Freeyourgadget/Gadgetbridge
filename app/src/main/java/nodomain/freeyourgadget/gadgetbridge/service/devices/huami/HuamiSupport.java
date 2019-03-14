@@ -1321,13 +1321,13 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                     LOG.info("Activating timer");
 
                     final Timer buttonActionTimer = new Timer("Mi Band Button Action Timer");
-                    buttonActionTimer.schedule(new TimerTask() {
+                    buttonActionTimer.scheduleAtFixedRate(new TimerTask() {
                         @Override
                         public void run() {
                             runButtonAction();
                             buttonActionTimer.cancel();
                         }
-                    }, buttonActionDelay);
+                    }, buttonActionDelay, buttonActionDelay);
                 }
                 else {
                     LOG.info("Activating button action");
@@ -1335,18 +1335,17 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 }
 
                 if (isCustomMenuEnabled) {
+                    if(isWakelockEnabled) {
+                        LOG.info("Acquiring wakelock");
+                        PowerManager pm = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
+                        deviceWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport:wakelock");
+                        deviceWakeLock.acquire();
+                    }
                     final Timer customMenuTimer = new Timer("Mi Band Button Action Custom Menu");
                     customMenuTimer.schedule(new TimerTask() {
                         @Override
                         public void run() {
                             LOG.info("Activating custom menu");
-                            if(isWakelockEnabled) {
-                                LOG.info("Acquiring wakelock");
-                                PowerManager pm = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
-                                deviceWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport:wakelock");
-                                deviceWakeLock.acquire();
-                            }
-
                             resetCustomMenuTimerTimeout();
                             runCustomMenu();
                             customMenuTimer.cancel();
