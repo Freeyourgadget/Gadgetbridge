@@ -1068,9 +1068,6 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             }
 
             this.displayCustomMenuOption(0);
-
-            currentButtonPressCount = 0;
-            currentButtonPressTime = System.currentTimeMillis();
         }
     }
 
@@ -1090,6 +1087,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to send notification to MI device", ex);
+        } finally {
+            currentButtonPressCount = 0;
+            currentButtonPressTime = System.currentTimeMillis();
         }
     }
 
