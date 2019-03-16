@@ -40,9 +40,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 public class GPXExporter implements ActivityTrackExporter {
-    private static final String NS_DEFAULT = "";
-    private static final String NS_DEFAULT_URI = "http://www.topografix.com/GPX/1/1";
-    private static final String NS_DEFAULT_PREFIX = "";
+    private static final String NS_GPX_URI = "http://www.topografix.com/GPX/1/1";
+    private static final String NS_GPX_PREFIX = "";
     private static final String NS_TRACKPOINT_EXTENSION = "gpxtpx";
     private static final String NS_TRACKPOINT_EXTENSION_URI = "http://www.garmin.com/xmlschemas/TrackPointExtension/v1";
     private static final String NS_XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
@@ -66,33 +65,33 @@ public class GPXExporter implements ActivityTrackExporter {
             ser.startDocument(encoding, Boolean.TRUE);
             ser.setPrefix("xsi", NS_XSI_URI);
             ser.setPrefix(NS_TRACKPOINT_EXTENSION, NS_TRACKPOINT_EXTENSION_URI);
-            ser.setPrefix(NS_DEFAULT_PREFIX, NS_DEFAULT);
+            ser.setPrefix(NS_GPX_PREFIX, NS_GPX_URI);
 
-            ser.startTag(NS_DEFAULT, "gpx");
-            ser.attribute(NS_DEFAULT, "version", "1.1");
-            ser.attribute(NS_DEFAULT, "creator", getCreator());
-            ser.attribute(NS_XSI_URI, "schemaLocation", NS_DEFAULT_URI + " " + "http://www.topografix.com/GPX/1/1/gpx.xsd");
+            ser.startTag(NS_GPX_URI, "gpx");
+            ser.attribute(null,"version", "1.1");
+            ser.attribute(null, "creator", getCreator());
+            ser.attribute(NS_XSI_URI, "schemaLocation", NS_GPX_URI + " " + "http://www.topografix.com/GPX/1/1/gpx.xsd");
 
             exportMetadata(ser, track);
             exportTrack(ser, track);
 
-            ser.endTag(NS_DEFAULT, "gpx");
+            ser.endTag(NS_GPX_URI, "gpx");
             ser.endDocument();
             ser.flush();
         }
     }
 
     private void exportMetadata(XmlSerializer ser, ActivityTrack track) throws IOException {
-        ser.startTag(NS_DEFAULT, "metadata");
-        ser.startTag(NS_DEFAULT, "name").text(track.getName()).endTag(NS_DEFAULT, "name");
+        ser.startTag(NS_GPX_URI, "metadata");
+        ser.startTag(NS_GPX_URI, "name").text(track.getName()).endTag(NS_GPX_URI, "name");
 
-        ser.startTag(NS_DEFAULT, "author");
-        ser.startTag(NS_DEFAULT, "name").text(track.getUser().getName()).endTag(NS_DEFAULT, "name");
-        ser.endTag(NS_DEFAULT, "author");
+        ser.startTag(NS_GPX_URI, "author");
+        ser.startTag(NS_GPX_URI, "name").text(track.getUser().getName()).endTag(NS_GPX_URI, "name");
+        ser.endTag(NS_GPX_URI, "author");
 
-        ser.startTag(NS_DEFAULT, "time").text(formatTime(new Date())).endTag(NS_DEFAULT, "time");
+        ser.startTag(NS_GPX_URI, "time").text(formatTime(new Date())).endTag(NS_GPX_URI, "time");
 
-        ser.endTag(NS_DEFAULT, "metadata");
+        ser.endTag(NS_GPX_URI, "metadata");
     }
 
     private String formatTime(Date date) {
@@ -100,8 +99,8 @@ public class GPXExporter implements ActivityTrackExporter {
     }
 
     private void exportTrack(XmlSerializer ser, ActivityTrack track) throws IOException, GPXTrackEmptyException {
-        ser.startTag(NS_DEFAULT, "trk");
-        ser.startTag(NS_DEFAULT, "trkseg");
+        ser.startTag(NS_GPX_URI, "trk");
+        ser.startTag(NS_GPX_URI, "trkseg");
 
         List<ActivityPoint> trackPoints = track.getTrackPoints();
         String source = getSource(track);
@@ -114,8 +113,8 @@ public class GPXExporter implements ActivityTrackExporter {
             throw new GPXTrackEmptyException();
         }
 
-        ser.endTag(NS_DEFAULT, "trkseg");
-        ser.endTag(NS_DEFAULT, "trk");
+        ser.endTag(NS_GPX_URI, "trkseg");
+        ser.endTag(NS_GPX_URI, "trk");
     }
 
     private String getSource(ActivityTrack track) {
@@ -127,20 +126,21 @@ public class GPXExporter implements ActivityTrackExporter {
         if (location == null) {
             return false; // skip invalid points, that just contain hr data, for example
         }
-        ser.startTag(NS_DEFAULT, "trkpt");
-        ser.attribute(NS_DEFAULT, "lon", formatLocation(location.getLongitude()));
-        ser.attribute(NS_DEFAULT, "lat", formatLocation(location.getLatitude()));
-        ser.startTag(NS_DEFAULT, "ele").text(formatLocation(location.getAltitude())).endTag(NS_DEFAULT, "ele");
-        ser.startTag(NS_DEFAULT, "time").text(DateTimeUtils.formatIso8601UTC(point.getTime())).endTag(NS_DEFAULT, "time");
+        ser.startTag(NS_GPX_URI, "trkpt");
+        // lon and lat attributes do not have an explicit namespace
+        ser.attribute(null, "lon", formatLocation(location.getLongitude()));
+        ser.attribute(null, "lat", formatLocation(location.getLatitude()));
+        ser.startTag(NS_GPX_URI, "ele").text(formatLocation(location.getAltitude())).endTag(NS_GPX_URI, "ele");
+        ser.startTag(NS_GPX_URI, "time").text(DateTimeUtils.formatIso8601UTC(point.getTime())).endTag(NS_GPX_URI, "time");
         String description = point.getDescription();
         if (description != null) {
-            ser.startTag(NS_DEFAULT, "desc").text(description).endTag(NS_DEFAULT, "desc");
+            ser.startTag(NS_GPX_URI, "desc").text(description).endTag(NS_GPX_URI, "desc");
         }
-        //ser.startTag(NS_DEFAULT, "src").text(source).endTag(NS_DEFAULT, "src");
+        //ser.startTag(NS_GPX_URI, "src").text(source).endTag(NS_GPX_URI, "src");
 
         exportTrackpointExtensions(ser, point, trackPoints);
 
-        ser.endTag(NS_DEFAULT, "trkpt");
+        ser.endTag(NS_GPX_URI, "trkpt");
 
         return true;
     }
@@ -167,12 +167,12 @@ public class GPXExporter implements ActivityTrackExporter {
             }
         }
 
-        ser.startTag(NS_DEFAULT, "extensions");
+        ser.startTag(NS_GPX_URI, "extensions");
         ser.setPrefix(NS_TRACKPOINT_EXTENSION, NS_TRACKPOINT_EXTENSION_URI);
         ser.startTag(NS_TRACKPOINT_EXTENSION_URI, "TrackPointExtension");
         ser.startTag(NS_TRACKPOINT_EXTENSION_URI, "hr").text(String.valueOf(hr)).endTag(NS_TRACKPOINT_EXTENSION_URI, "hr");
         ser.endTag(NS_TRACKPOINT_EXTENSION_URI, "TrackPointExtension");
-        ser.endTag(NS_DEFAULT, "extensions");
+        ser.endTag(NS_GPX_URI, "extensions");
     }
 
     private @Nullable ActivityPoint findClosestSensibleActivityPoint(Date time, List<ActivityPoint> trackPoints) {
