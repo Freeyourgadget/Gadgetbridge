@@ -645,14 +645,31 @@
     <string name="save_configuration">Konfiguration speichern</string>
     <string name="appwidget_not_connected">Nicht verbunden, Alarm nicht eingestellt.</string>
     <string name="prefs_disconnect_notification">Benachichtigung beim Verbindung trennen</string>
-
     <string name="activity_prefs_calories_burnt">Tägliches Ziel: verbrannte Kalorien</string>
     <string name="activity_prefs_distance_meters">Tägliches Ziel: zurückgelegte Strecke in Meter</string>
     <string name="activity_prefs_activetime_minutes">Tägliches Ziel: aktive Zeit in Minuten</string>
-
     <!-- ZeTime Preferences -->
     <string name="zetime_title_settings">ZeTime Einstellungen</string>
     <string name="zetime_title_screentime">Bildschirm-An-Dauer in Sekunden</string>
     <string name="activity_prefs_alarm_max_heart_rate">Max Puls Alarm</string>
     <string name="activity_prefs_alarm_min_heart_rate">Min Puls Alarm</string>
+    <string name="zetime_title_heartrate">Herzfrequenz Einstellungen</string>
+    <string name="zetime_title_heart_rate_alarm">Herzfrequenz Alarm</string>
+    <string name="zetime_heart_rate_alarm_enable">Herzfrequenz Alarm aktivieren</string>
+    <string name="zetime_time_format">Zeitformat</string>
+    <string name="zetime_time_format_24h">24h</string>
+    <string name="zetime_time_format_12h">12h</string>
+    <string name="zetime_date_format">Datumsformat</string>
+    <string name="zetime_date_format_1">JJ/MM/TT</string>
+    <string name="zetime_date_format_2">TT/MM/JJ</string>
+    <string name="zetime_date_format_3">MM/TT/JJ</string>
+    <string name="zetime_prefs_inactivity_mo">Montag</string>
+    <string name="zetime_prefs_inactivity_tu">Dienstag</string>
+    <string name="zetime_prefs_inactivity_we">Mittwoch</string>
+    <string name="zetime_prefs_inactivity_th">Donnerstag</string>
+    <string name="zetime_prefs_inactivity_fr">Freitag</string>
+    <string name="zetime_prefs_inactivity_sa">Samstag</string>
+    <string name="zetime_prefs_inactivity_su">Sonntag</string>
+    <string name="zetime_signaling_none">Lautlos</string>
+    <string name="devicetype_miscale2">Mi Scale 2</string>
 </resources>
