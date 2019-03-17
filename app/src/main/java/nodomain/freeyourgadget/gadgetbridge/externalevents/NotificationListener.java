@@ -240,7 +240,9 @@ public class NotificationListener extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        if ("call".equals(sbn.getNotification().category)) {
+        Prefs prefs = GBApplication.getPrefs();
+
+        if ("call".equals(sbn.getNotification().category) && prefs.getBoolean("notification_support_voip_calls", false)) {
             handleCallNotification(sbn);
             return;
         }
@@ -248,10 +250,6 @@ public class NotificationListener extends NotificationListenerService {
             LOG.info("Ignore notification");
             return;
         }
-
-
-
-        Prefs prefs = GBApplication.getPrefs();
 
         switch (GBApplication.getGrantedInterruptionFilter()) {
             case NotificationManager.INTERRUPTION_FILTER_ALL:

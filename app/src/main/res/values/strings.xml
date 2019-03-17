@@ -83,6 +83,7 @@
     <string name="pref_header_notifications">Notifications</string>
     <string name="pref_title_notifications_repetitions">Repetitions</string>
     <string name="pref_title_notifications_call">Phone Calls</string>
+    <string name="pref_title_support_voip_calls">Enable VoIP app calls</string>
     <string name="pref_title_notifications_sms">SMS</string>
     <string name="pref_title_notifications_timeout">Minimum time between notifications</string>
     <string name="pref_title_notifications_pebblemsg">Pebble Messages</string>
