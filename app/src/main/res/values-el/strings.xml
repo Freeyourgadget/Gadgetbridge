@@ -643,4 +643,8 @@
     <string name="appwidget_not_connected">Δεν υπάρχει σύνδεση, το ξυπνητήρι δεν ρυθμίστηκε.</string>
     <string name="activity_type_exercise">Ασκηση</string>
     <string name="prefs_disconnect_notification">Ειδοποίηση αποσύνδεσης</string>
+    <string name="zetime_title_settings">Ρυθμίσεις ZeTime</string>
+    <string name="zetime_title_heartrate">Δεδομένα καρδιακών παλμών</string>
+    <string name="zetime_title_screentime">Διάρκεια ανάμματος οθόνης (σε δευτερόλεπτα)</string>
+    <string name="zetime_title_heart_rate_alarm">προειδοποίηση καρδιακού ρυθμού</string>
 </resources>
