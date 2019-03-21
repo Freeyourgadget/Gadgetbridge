@@ -1,0 +1,6 @@
+* Make voip call support optional (disabled by default)
+* Amazfit Bip: GPX export corrections
+* ZeTime: Fix setting alarms
+* ZeTime: Fix wrong activity timestamps
+* ZeTime: Set HR alarm limits when changed, not only on connect
+* ZeTime: Sync preferences from the watch to Gadgetbridge settings

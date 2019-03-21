@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.32.4" versioncode="147">
+       <change>Make voip call support optional (disabled by default)</change>
+       <change>Amazfit Bip: GPX export corrections</change>
+       <change>ZeTime: Fix setting alarms</change>
+       <change>ZeTime: Fix wrong activity timestamps</change>
+       <change>ZeTime: Set HR alarm limits when changed, not only on connect</change>
+       <change>ZeTime: Sync preferences from the watch to Gadgetbridge settings</change>
+    </release>
     <release version="0.32.3" versioncode="146">
         <change>Fix a crash in charts due to a broken German translation</change>
         <change>Fix a crash when transliterating emoji</change>

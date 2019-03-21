@@ -202,6 +202,11 @@
             android:key="notification_mode_calls"
             android:title="@string/pref_title_notifications_call"
             android:summary="%s" />
+        <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
+            android:defaultValue="false"
+            android:key="notification_support_voip_calls"
+            android:title="@string/pref_title_support_voip_calls" />
 
         <ListPreference
             android:defaultValue="when_screen_off"
