@@ -47,7 +47,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Ani
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.BatteryLevelRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.DownloadFileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.EraseFileRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.EventStreamRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.FileRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.GetCurrentStepCountRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.GetStepGoalRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.GetVibrationStrengthRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.ListFilesRequest;
@@ -116,7 +118,8 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
         Class<? extends Request>[] classes = new Class[]{
                 BatteryLevelRequest.class,
                 GetStepGoalRequest.class,
-                GetVibrationStrengthRequest.class
+                GetVibrationStrengthRequest.class,
+                GetCurrentStepCountRequest.class
         };
         for (Class<? extends Request> c : classes) {
             try {
@@ -144,6 +147,8 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(commandReceiver);
         getContext().unregisterReceiver(dumpReceiver);
         ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE)).cancel(dumpIntent);
+        getContext().unregisterReceiver(stepReceiver);
+        ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE)).cancel(stepIntent);
         dumpInited = false;
     }
 
@@ -180,6 +185,13 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
         return super.connect();
     }
 
+    private BroadcastReceiver stepReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            queueWrite(new GetCurrentStepCountRequest());
+        }
+    };
+
     private BroadcastReceiver dumpReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -188,6 +200,7 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
         }
     };
     private PendingIntent dumpIntent;
+    private PendingIntent stepIntent;
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
@@ -195,13 +208,7 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
 
         for (int i = 2; i <= 7; i++)
             builder.notify(getCharacteristic(UUID.fromString("3dda000" + i + "-957f-7d4a-34a6-74696673696d")), true);
-        /*
-        builder.notify(getCharacteristic(UUID.fromString("3dda0003-957f-7d4a-34a6-74696673696d")), true);
-        builder.notify(getCharacteristic(UUID.fromString("3dda0004-957f-7d4a-34a6-74696673696d")), true);
-        builder.notify(getCharacteristic(UUID.fromString("3dda0005-957f-7d4a-34a6-74696673696d")), true);
-        builder.notify(getCharacteristic(UUID.fromString("3dda0006-957f-7d4a-34a6-74696673696d")), true);
-        builder.notify(getCharacteristic(UUID.fromString("3dda0007-957f-7d4a-34a6-74696673696d")), true);
-        */
+
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
 
@@ -210,8 +217,11 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
 
         if (!dumpInited) {
             getContext().registerReceiver(dumpReceiver, new IntentFilter("dumpReceiver2"));
+            getContext().registerReceiver(stepReceiver, new IntentFilter("stepDumpReceiver"));
             dumpIntent = PendingIntent.getBroadcast(getContext(), 0, new Intent("dumpReceiver2"), PendingIntent.FLAG_UPDATE_CURRENT);
+            stepIntent = PendingIntent.getBroadcast(getContext(), 0, new Intent("stepDumpReceiver"), PendingIntent.FLAG_UPDATE_CURRENT);
             ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, AlarmManager.INTERVAL_HOUR, dumpIntent);
+            ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, AlarmManager.INTERVAL_HOUR / 60, stepIntent);
             dumpInited = true;
         }
         getTimeOffset();
@@ -424,7 +434,9 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onTestNewFunction() {
-        downloadActivityFiles();
+        //downloadActivityFiles();
+        //queueWrite(new GetCurrentStepCountRequest());
+        queueWrite(new EventStreamRequest((short)4));
     }
 
     private void downloadActivityFiles(){
@@ -451,6 +463,10 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
             fos.write(request.file);
             fos.close();
             logger.debug("file written.");
+
+            FileOutputStream fos2 = new FileOutputStream("/sdcard/qFiles/steps", true);
+            fos2.write(("file " + request.timeStamp + " cut\n\n").getBytes());
+            fos2.close();
 
             queueWrite(new EraseFileRequest((short)request.fileHandle));
         }catch (Exception e){
@@ -522,7 +538,25 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
                     this.fileRequest = null;
                 }
                 //}
+            } else if (request instanceof GetCurrentStepCountRequest){
+                int steps = ((GetCurrentStepCountRequest)request).steps;
+                logger.debug("get current steps: " + steps);
+                try {
+                    File f = new File("/sdcard/qFiles/");
+                    if(!f.exists()) f.mkdir();
 
+                    File file = new File("/sdcard/qFiles/steps");
+                    if(!file.exists()){
+                        file.createNewFile();
+                    }
+                    logger.debug("Writing file " + file.getPath());
+                    FileOutputStream fos = new FileOutputStream(file, true);
+                    fos.write((System.currentTimeMillis() + ": " + steps + "\n").getBytes());
+                    fos.close();
+                    logger.debug("file written.");
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         } else {
             Log.d("Service", "unknown shit on " + characteristic.getUuid().toString() + ":  " + characteristic.getValue()[1]);
