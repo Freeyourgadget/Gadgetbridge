@@ -47,7 +47,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Ani
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.BatteryLevelRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.DownloadFileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.EraseFileRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.EventStreamRequest;
+//import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.EventStreamRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.FileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.GetCurrentStepCountRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.GetStepGoalRequest;
@@ -436,7 +436,7 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
     public void onTestNewFunction() {
         //downloadActivityFiles();
         //queueWrite(new GetCurrentStepCountRequest());
-        queueWrite(new EventStreamRequest((short)4));
+        // queueWrite(new EventStreamRequest((short)4));
     }
 
     private void downloadActivityFiles(){
