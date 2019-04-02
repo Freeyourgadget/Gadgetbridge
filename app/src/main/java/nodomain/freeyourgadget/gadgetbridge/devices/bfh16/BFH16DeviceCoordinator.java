@@ -43,9 +43,11 @@ public class BFH16DeviceCoordinator extends AbstractDeviceCoordinator
     public Collection<? extends ScanFilter> createBLEScanFilters() {
 
         ParcelUuid bfhService = new ParcelUuid(BFH16Constants.BFH16_IDENTIFICATION_SERVICE1);
+        ParcelUuid bfhService2 = new ParcelUuid(BFH16Constants.BFH16_IDENTIFICATION_SERVICE2);
 
         ScanFilter filter = new ScanFilter.Builder()
                 .setServiceUuid(bfhService)
+                .setServiceUuid(bfhService2)
                 .build();
 
         return Collections.singletonList(filter);
