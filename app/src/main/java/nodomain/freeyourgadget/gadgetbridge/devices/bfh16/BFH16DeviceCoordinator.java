@@ -69,7 +69,7 @@ public class BFH16DeviceCoordinator extends AbstractDeviceCoordinator
 
     @Override
     public int getBondingStyle(GBDevice deviceCandidate){
-        return BONDING_STYLE_NONE;  //Might be wrong?
+        return BONDING_STYLE_NONE;
     }
 
     @Override
@@ -77,187 +77,116 @@ public class BFH16DeviceCoordinator extends AbstractDeviceCoordinator
         return null;
     }
 
-    //Additional required functions
+    //Additional required functions ______________________________________
 
-    /**
-     * Hook for subclasses to perform device-specific deletion logic, e.g. db cleanup.
-     * @param gbDevice the GBDevice
-     * @param device the corresponding database Device
-     * @param session the session to use
-     * @throws GBException
-     */
-    protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException
-    {
+    @Override
+    protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
 
     }
 
-    /**
-     * Returns the sample provider for the device being supported.
-     *
-     * @return
-     */
-    public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session)
-    {
-        return null; //FIXME
+    @Override
+    public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
+        return null;
     }
 
-    /**
-     * Finds an install handler for the given uri that can install the given
-     * uri on the device being managed.
-     *
-     * @param uri
-     * @param context
-     * @return the install handler or null if that uri cannot be installed on the device
-     */
-    public InstallHandler findInstallHandler(Uri uri, Context context)
-    {
-        return null; //FIXME
+    @Override
+    public InstallHandler findInstallHandler(Uri uri, Context context) {
+        return null;
     }
 
+    @Override
+    public Class<? extends Activity> getAppsManagementActivity()
+    {
+        return null;
+    }
 
-    //SupportsXXX
+    //SupportsXXX ________________________________________________________
 
-    /**
-     * Returns true if activity data fetching is supported by the device
-     * (with this coordinator).
-     *
-     * @return
-     */
+    @Override
+    public int getAlarmSlotCount()
+    {
+        return 3;
+    }
+
+    @Override
     public boolean supportsActivityDataFetching(){
         return false;
     }
 
-    /**
-     * Returns true if activity tracking is supported by the device
-     * (with this coordinator).
-     *
-     * @return
-     */
+    @Override
     public boolean supportsActivityTracking()
     {
-        return true;
-    }
-
-    /**
-     * Returns true if this device/coordinator supports taking screenshots.
-     *
-     * @return
-     */
-    public boolean supportsScreenshots()
-    {
         return false;
     }
 
-    /**
-     * Returns the number of alarms this device/coordinator supports
-     * Shall return 0 also if it is not possible to set alarms via
-     * protocol, but only on the smart device itself.
-     *
-     * @return
-     */
-    public int getAlarmSlotCount()
-    {
-        return 0; //FIXME
-    }
-
-    /**
-     * Returns true if this device/coordinator supports alarms with smart wakeup
-     * @return
-     */
-    public boolean supportsSmartWakeup(GBDevice device)
-    {
-        return false;
-    }
-
-    /**
-     * Returns true if the given device supports heart rate measurements.
-     * @return
-     */
-    public boolean supportsHeartRateMeasurement(GBDevice device)
-    {
-        return true;
-    }
-
-    /**
-     * Returns true if this device/coordinator supports managing device apps.
-     *
-     * @return
-     */
+    @Override
     public boolean supportsAppsManagement()
     {
         return false;
     }
 
-    /**
-     * Returns the Activity class that will be used to manage device apps.
-     *
-     * @return
-     */
-    public Class<? extends Activity> getAppsManagementActivity()
-    {
-        return null; //FIXME
-    }
-
-    /**
-     * Indicates whether the device has some kind of calender we can sync to.
-     * Also used for generated sunrise/sunset events
-     */
+    @Override
     public boolean supportsCalendarEvents()
     {
         return false;
     }
 
-    /**
-     * Indicates whether the device supports getting a stream of live data.
-     * This can be live HR, steps etc.
-     */
-    public boolean supportsRealtimeData()
-    {
-        return false;
-    }
-
-    /**
-     * Indicates whether the device supports current weather and/or weather
-     * forecast display.
-     */
-    public boolean supportsWeather()
-    {
-        return false;
-    }
-
-    /**
-     * Indicates whether the device supports being found by vibrating,
-     * making some sound or lighting up
-     */
+    @Override
     public boolean supportsFindDevice()
     {
         return false;
     }
 
-    /**
-     * Indicates whether the device supports displaying music information
-     * like artist, title, album, play state etc.
-     */
-    public boolean supportsMusicInfo()
+    @Override
+    public boolean supportsHeartRateMeasurement(GBDevice device)
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Indicates whether the device has an led which supports custom colors
-     */
+    @Override
     public boolean supportsLedColor()
     {
         return false;
     }
 
-    /**
-     * Indicates whether the device's led supports any RGB color,
-     * or only preset colors
-     */
+    @Override
+    public boolean supportsMusicInfo()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean supportsRealtimeData()
+    {
+        return true;
+    }
+
+    @Override
     public boolean supportsRgbLedColor()
     {
         return false;
     }
+
+    @Override
+    public boolean supportsScreenshots() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsSmartWakeup(GBDevice device)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean supportsWeather()
+    {
+        return false;
+    }
+
+
+
+
+
 
 }
