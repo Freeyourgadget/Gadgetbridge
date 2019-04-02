@@ -41,6 +41,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.UnknownDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.bfh16.BFH16DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.casiogb6900.CasioGB6900DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.EXRIZUK8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
@@ -220,6 +221,7 @@ public class DeviceHelper {
         result.add(new Roidmi1Coordinator());
         result.add(new Roidmi3Coordinator());
         result.add(new CasioGB6900DeviceCoordinator());
+        result.add(new BFH16DeviceCoordinator());
 
         return result;
     }
