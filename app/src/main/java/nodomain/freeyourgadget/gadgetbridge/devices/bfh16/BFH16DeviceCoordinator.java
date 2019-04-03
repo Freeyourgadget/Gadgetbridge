@@ -42,11 +42,11 @@ public class BFH16DeviceCoordinator extends AbstractDeviceCoordinator
     @Override
     public Collection<? extends ScanFilter> createBLEScanFilters() {
 
-        ParcelUuid bfhService = new ParcelUuid(BFH16Constants.BFH16_IDENTIFICATION_SERVICE1);
+        ParcelUuid bfhService1 = new ParcelUuid(BFH16Constants.BFH16_IDENTIFICATION_SERVICE1);
         ParcelUuid bfhService2 = new ParcelUuid(BFH16Constants.BFH16_IDENTIFICATION_SERVICE2);
 
         ScanFilter filter = new ScanFilter.Builder()
-                .setServiceUuid(bfhService)
+                .setServiceUuid(bfhService1)
                 .setServiceUuid(bfhService2)
                 .build();
 
@@ -134,7 +134,7 @@ public class BFH16DeviceCoordinator extends AbstractDeviceCoordinator
     @Override
     public boolean supportsFindDevice()
     {
-        return false;
+        return true;
     }
 
     @Override

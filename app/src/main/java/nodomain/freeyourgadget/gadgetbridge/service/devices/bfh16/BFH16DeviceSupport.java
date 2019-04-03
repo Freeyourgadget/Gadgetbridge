@@ -44,18 +44,19 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
 
     public BFH16DeviceSupport() {
         super(LOG);
-        addSupportedService(BFH16Constants.UUID_SERVICE_JYOU);
+        addSupportedService(BFH16Constants.BFH16_SERVICE1);
+        addSupportedService(BFH16Constants.BFH16_SERVICE2);
     }
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
-        LOG.info("Initializing");
+        LOG.info("Initializing BFH16");
 
         gbDevice.setState(GBDevice.State.INITIALIZING);
         gbDevice.sendDeviceUpdateIntent(getContext());
 
-        measureCharacteristic = getCharacteristic(BFH16Constants.UUID_CHARACTERISTIC_MEASURE);
-        ctrlCharacteristic = getCharacteristic(BFH16Constants.UUID_CHARACTERISTIC_CONTROL);
+        measureCharacteristic = getCharacteristic(BFH16Constants.BFH16_SERVICE1_NOTIFY);
+        ctrlCharacteristic = getCharacteristic(BFH16Constants.BFH16_SERVICE1_WRITE);
 
         builder.setGattCallback(this);
         builder.notify(measureCharacteristic, true);
@@ -65,7 +66,7 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
         gbDevice.setState(GBDevice.State.INITIALIZED);
         gbDevice.sendDeviceUpdateIntent(getContext());
 
-        LOG.info("Initialization Done");
+        LOG.info("Initialization BFH16 Done");
 
         return builder;
     }
@@ -98,10 +99,13 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
                 int steps = ByteBuffer.wrap(data, 5, 4).getInt();
                 LOG.info("Number of walked steps: " + steps);
                 return true;
-            case BFH16Constants.RECEIVE_HEARTRATE:
-                LOG.info("Current heart rate: " + data[1]);
-                LOG.info("Current blood presure: " + data[3] + "/" + data[2]);
-                LOG.info("Current satiation: " + data[4]);
+            case BFH16Constants.RECEIVE_HEART_DATA:
+                LOG.info("Current heart rate: "     + data[1]);
+                LOG.info("Current blood pressure: " + data[2] + "/" + data[3]);
+                LOG.info("Current satiation: "      + data[4]);
+                return true;
+            case BFH16Constants.RECEIVE_PHOTO_TRIGGER:
+                LOG.info("Received photo trigger: " + data[8]);
                 return true;
             default:
                 LOG.info("Unhandled characteristic change: " + characteristicUUID + " code: " + String.format("0x%1x ...", data[0]));
@@ -109,6 +113,7 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    //Fully working
     private void syncDateAndTime(TransactionBuilder builder) {
         Calendar cal = Calendar.getInstance();
         String strYear = String.valueOf(cal.get(Calendar.YEAR));
@@ -128,6 +133,7 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
         ));
     }
 
+    //TODO: not checked yet
     private void syncSettings(TransactionBuilder builder) {
         syncDateAndTime(builder);
 
@@ -139,7 +145,7 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
                 BFH16Constants.CMD_SET_TARGET_STEPS, 0, 10000
         ));
         builder.write(ctrlCharacteristic, commandWithChecksum(
-                BFH16Constants.CMD_GET_STEP_COUNT, 0, 0
+                BFH16Constants.CMD_SWITCH_METRIC_IMPERIAL, 0, 0
         ));
         builder.write(ctrlCharacteristic, commandWithChecksum(
                 BFH16Constants.CMD_GET_SLEEP_TIME, 0, 0
@@ -169,6 +175,7 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
         ));
     }
 
+    //TODO: not checked yet + needs rework
     private void showNotification(byte icon, String title, String message) {
         try {
             TransactionBuilder builder = performInitialized("ShowNotification");
@@ -212,6 +219,7 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
         return true;
     }
 
+    //TODO: not checked yet + needs rework
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
         String notificationTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
@@ -242,6 +250,7 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
 
     }
 
+    //fully working
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         try {
@@ -288,6 +297,7 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    //TODO: not checked yet
     @Override
     public void onSetCallState(CallSpec callSpec) {
         switch (callSpec.command) {
@@ -370,7 +380,7 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("HeartRateTest");
             builder.write(ctrlCharacteristic, commandWithChecksum(
-                    BFH16Constants.CMD_ACTION_HEARTRATE_SWITCH, 0, 1
+                    BFH16Constants.CMD_MEASURE_HEART, 0, 1
             ));
             builder.queue(getQueue());
         } catch(Exception e) {
@@ -384,7 +394,7 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("RealTimeHeartMeasurement");
             builder.write(ctrlCharacteristic, commandWithChecksum(
-                    BFH16Constants.CMD_SET_HEARTRATE_AUTO, 0, enable ? 1 : 0
+                    BFH16Constants.CMD_MEASURE_HEART, 0, enable ? 1 : 0
             ));
             builder.queue(getQueue());
         } catch(Exception e) {
@@ -392,6 +402,7 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    //working
     @Override
     public void onFindDevice(boolean start) {
         if (start) {
@@ -402,7 +413,15 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetConstantVibration(int integer) {
-
+        try {
+            TransactionBuilder builder = performInitialized("Vibrate");
+            builder.write(ctrlCharacteristic, commandWithChecksum(
+                    BFH16Constants.CMD_VIBRATE, 0, 1
+            ));
+            builder.queue(getQueue());
+        } catch(Exception e) {
+            LOG.warn(e.getMessage());
+        }
     }
 
     @Override
@@ -443,11 +462,71 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onTestNewFunction() {
 
+        try {
+            TransactionBuilder builder = performInitialized("TestNewFunction");
+
+            //byte cmd = BFH16Constants.CMD_GET_STEP_COUNT;
+
+            //Wakeup? Photo?
+            //builder.write(ctrlCharacteristic, commandWithChecksum((byte) 0x25, 0, 0));
+            //builder.write(ctrlCharacteristic, commandWithChecksum((byte) 0x25, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00));
+
+            builder.write(ctrlCharacteristic, commandWithChecksum( (byte)1, 0, 200));
+
+//            builder.write(ctrlCharacteristic, commandWithChecksum((byte) 0xF, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00));
+
+
+//            builder.write(ctrlCharacteristic, commandWithChecksum(
+//                    (byte) 39, (byte) 0, (byte) 0,
+//                    (byte) 189, (byte) 216, (byte) 0,
+//                    (byte) 0, (byte) 196, (byte) 224));
+
+
+            builder.queue(getQueue());
+
+            GB.toast(getContext(), "TestNewFunction executed!", Toast.LENGTH_LONG, GB.INFO);
+
+        } catch(IOException e) {
+            LOG.warn(e.getMessage());
+        }
+
     }
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
 
+    }
+
+    /**
+     * Checksum is calculated by the sum of bytes 0 to 8 and send as byte 9
+     */
+    private byte[] commandWithChecksum(byte s0, byte s1, byte s2, byte s3, byte s4, byte s5, byte s6, byte s7, byte s8)
+    {
+        ByteBuffer buf = ByteBuffer.allocate(10);
+        buf.put(s0);
+        buf.put(s1);
+        buf.put(s2);
+        buf.put(s3);
+        buf.put(s4);
+        buf.put(s5);
+        buf.put(s6);
+        buf.put(s7);
+        buf.put(s8);
+
+        byte[] bytesToWrite = buf.array();
+
+        byte checksum = 0;
+        for (byte b : bytesToWrite) {
+            checksum += b;
+        }
+
+        //checksum = (byte) ((byte) checksum & (byte) 0xFF);  //TODO EXPERIMENTAL
+
+        LOG.debug("Checksum = " + checksum);
+
+        bytesToWrite[9] = checksum;
+
+        return bytesToWrite;
     }
 
     private byte[] commandWithChecksum(byte cmd, int argSlot1, int argSlot2)
@@ -493,4 +572,5 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
         }
         return null;
     }
+
 }
