@@ -50,7 +50,6 @@ public final class BFH16Constants {
 
 
     public static final byte CMD_SWITCH_PHOTO_MODE = (byte)0x25;        //param1: 0, param2: 0 -> OFF | 1 -> ON
-
     public static final byte CMD_SWITCH_12HOUR_MODE = (byte)0x3E;       //byte1: 1 -> 12HourMode | 0 -> 24HourMode
     public static final byte CMD_SWITCH_METRIC_IMPERIAL = (byte)0x3A;   //param1: 0, param2: 0 -> METRIC | 1 -> IMPERIAL //Also requests walked steps
 
