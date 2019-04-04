@@ -113,13 +113,35 @@ public class BFH16DeviceCoordinator extends AbstractDeviceCoordinator
         return null;
     }
 
-    //SupportsXXX ________________________________________________________
+
+    //Supported ________________________________________________________
 
     @Override
     public int getAlarmSlotCount()
     {
         return 3;
     }
+
+    @Override
+    public boolean supportsFindDevice()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean supportsHeartRateMeasurement(GBDevice device)
+    {
+        return true;
+    }
+
+    @Override
+    public boolean supportsRealtimeData()
+    {
+        return true;
+    }
+
+
+    //NOT Supported ________________________________________________________
 
     @Override
     public boolean supportsActivityDataFetching(){
@@ -145,18 +167,6 @@ public class BFH16DeviceCoordinator extends AbstractDeviceCoordinator
     }
 
     @Override
-    public boolean supportsFindDevice()
-    {
-        return true;
-    }
-
-    @Override
-    public boolean supportsHeartRateMeasurement(GBDevice device)
-    {
-        return true;
-    }
-
-    @Override
     public boolean supportsLedColor()
     {
         return false;
@@ -166,12 +176,6 @@ public class BFH16DeviceCoordinator extends AbstractDeviceCoordinator
     public boolean supportsMusicInfo()
     {
         return false;
-    }
-
-    @Override
-    public boolean supportsRealtimeData()
-    {
-        return true;
     }
 
     @Override
