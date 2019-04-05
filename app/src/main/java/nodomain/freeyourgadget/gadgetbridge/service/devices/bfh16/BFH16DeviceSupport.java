@@ -33,7 +33,7 @@
     Set sitting reminder                    ()      ()      (X)     ()
     Trigger a photo                         ()      ()      (X)     ()
 
-    Switch automated heartbeat detection    ()      ()      (X)     ()
+    Switch automated heartbeat detection    (X)     ()      (X)     ()
     Switch display illumination             ()      ()      (X)     ()
     Switch vibration                        ()      ()      (X)     ()
     Switch notifications                    ()      ()      (X)     ()
@@ -131,6 +131,7 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
     //onXYZ
     //______________________________________________________________________________________________
 
+    //TODO check TODOs in method
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt,
                                            BluetoothGattCharacteristic characteristic) {
@@ -214,8 +215,35 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    //working
+    @Override
+    public void onSetTime() {
+        try {
+            TransactionBuilder builder = performInitialized("SetTime");
+            syncDateAndTime(builder);
+            builder.queue(getQueue());
+        } catch(IOException e) {
+            LOG.warn(e.getMessage());
+        }
+    }
 
-    //TODO: not checked yet + needs rework
+    //working
+    @Override
+    public void onFindDevice(boolean start) {
+        try {
+            TransactionBuilder builder = performInitialized("FindDevice");
+            builder.write(ctrlCharacteristic, commandWithChecksum(
+                    BFH16Constants.CMD_VIBRATE, 0, start ? 1 : 0
+            ));
+            builder.queue(getQueue());
+        } catch(Exception e) {
+            LOG.warn(e.getMessage());
+        }
+        GB.toast(getContext(), "Your device will vibrate 3 times!", Toast.LENGTH_LONG, GB.INFO);
+    }
+
+
+    //TODO: checked + rework
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
         String notificationTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
@@ -246,24 +274,76 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
 
     }
 
-    @Override
-    public void onSetTime() {
-        try {
-            TransactionBuilder builder = performInitialized("SetTime");
-            syncDateAndTime(builder);
-            builder.queue(getQueue());
-        } catch(IOException e) {
-            LOG.warn(e.getMessage());
-        }
-    }
-
-    //TODO: not checked yet
+    //TODO: check
     @Override
     public void onSetCallState(CallSpec callSpec) {
         switch (callSpec.command) {
             case CallSpec.CALL_INCOMING:
                 showNotification(BFH16Constants.ICON_CALL, callSpec.name, callSpec.number);
                 break;
+        }
+    }
+
+    //TODO: check
+    @Override
+    public void onEnableRealtimeSteps(boolean enable) {
+        onEnableRealtimeHeartRateMeasurement(enable);
+    }
+
+    //TODO: check
+    @Override
+    public void onReset(int flags) {
+        try {
+            TransactionBuilder builder = performInitialized("Reboot");
+            builder.write(ctrlCharacteristic, commandWithChecksum(
+                    BFH16Constants.CMD_ACTION_REBOOT_DEVICE, 0, 0
+            ));
+            builder.queue(getQueue());
+        } catch(Exception e) {
+            LOG.warn(e.getMessage());
+        }
+    }
+
+    //TODO: check
+    @Override
+    public void onHeartRateTest() {
+        try {
+            TransactionBuilder builder = performInitialized("HeartRateTest");
+            builder.write(ctrlCharacteristic, commandWithChecksum(
+                    BFH16Constants.CMD_MEASURE_HEART, 0, 1
+            ));
+            builder.queue(getQueue());
+        } catch(Exception e) {
+            LOG.warn(e.getMessage());
+        }
+    }
+
+    //TODO: check
+    @Override
+    public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
+        // TODO: test
+        try {
+            TransactionBuilder builder = performInitialized("RealTimeHeartMeasurement");
+            builder.write(ctrlCharacteristic, commandWithChecksum(
+                    BFH16Constants.CMD_MEASURE_HEART, 0, enable ? 1 : 0
+            ));
+            builder.queue(getQueue());
+        } catch(Exception e) {
+            LOG.warn(e.getMessage());
+        }
+    }
+
+    //TODO: check
+    @Override
+    public void onSetConstantVibration(int integer) {
+        try {
+            TransactionBuilder builder = performInitialized("Vibrate");
+            builder.write(ctrlCharacteristic, commandWithChecksum(
+                    BFH16Constants.CMD_VIBRATE, 0, 1
+            ));
+            builder.queue(getQueue());
+        } catch(Exception e) {
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -280,11 +360,6 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetMusicInfo(MusicSpec musicSpec) {
 
-    }
-
-    @Override
-    public void onEnableRealtimeSteps(boolean enable) {
-        onEnableRealtimeHeartRateMeasurement(enable);
     }
 
     @Override
@@ -323,74 +398,6 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReset(int flags) {
-        try {
-            TransactionBuilder builder = performInitialized("Reboot");
-            builder.write(ctrlCharacteristic, commandWithChecksum(
-                    BFH16Constants.CMD_ACTION_REBOOT_DEVICE, 0, 0
-            ));
-            builder.queue(getQueue());
-        } catch(Exception e) {
-            LOG.warn(e.getMessage());
-        }
-    }
-
-    @Override
-    public void onHeartRateTest() {
-        try {
-            TransactionBuilder builder = performInitialized("HeartRateTest");
-            builder.write(ctrlCharacteristic, commandWithChecksum(
-                    BFH16Constants.CMD_MEASURE_HEART, 0, 1
-            ));
-            builder.queue(getQueue());
-        } catch(Exception e) {
-            LOG.warn(e.getMessage());
-        }
-    }
-
-    @Override
-    public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
-        // TODO: test
-        try {
-            TransactionBuilder builder = performInitialized("RealTimeHeartMeasurement");
-            builder.write(ctrlCharacteristic, commandWithChecksum(
-                    BFH16Constants.CMD_MEASURE_HEART, 0, enable ? 1 : 0
-            ));
-            builder.queue(getQueue());
-        } catch(Exception e) {
-            LOG.warn(e.getMessage());
-        }
-    }
-
-    //working
-    @Override
-    public void onFindDevice(boolean start) {
-        try {
-            TransactionBuilder builder = performInitialized("FindDevice");
-            builder.write(ctrlCharacteristic, commandWithChecksum(
-                    BFH16Constants.CMD_VIBRATE, 0, start ? 1 : 0
-            ));
-            builder.queue(getQueue());
-        } catch(Exception e) {
-            LOG.warn(e.getMessage());
-        }
-        GB.toast(getContext(), "Your device will vibrate 3 times!", Toast.LENGTH_LONG, GB.INFO);
-    }
-
-    @Override
-    public void onSetConstantVibration(int integer) {
-        try {
-            TransactionBuilder builder = performInitialized("Vibrate");
-            builder.write(ctrlCharacteristic, commandWithChecksum(
-                    BFH16Constants.CMD_VIBRATE, 0, 1
-            ));
-            builder.queue(getQueue());
-        } catch(Exception e) {
-            LOG.warn(e.getMessage());
-        }
-    }
-
-    @Override
     public void onScreenshotReq() {
 
     }
@@ -426,6 +433,11 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onSendWeather(WeatherSpec weatherSpec) {
+
+    }
+
+    @Override
     public void onTestNewFunction() {
 
         showNotification((byte)0xFF, "", "");
@@ -445,10 +457,7 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
 
     }
 
-    @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
 
-    }
 
 
 
@@ -492,27 +501,6 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
         } catch (IOException e) {
             LOG.warn(e.getMessage());
         }
-    }
-
-
-    //working
-    private void syncDateAndTime(TransactionBuilder builder) {
-        Calendar cal = Calendar.getInstance();
-        String strYear = String.valueOf(cal.get(Calendar.YEAR));
-        byte year1 = (byte)Integer.parseInt(strYear.substring(0, 2));
-        byte year2 = (byte)Integer.parseInt(strYear.substring(2, 4));
-        byte month = (byte)cal.get(Calendar.MONTH);
-        byte day = (byte)cal.get(Calendar.DAY_OF_MONTH);
-        byte hour = (byte)cal.get(Calendar.HOUR_OF_DAY);
-        byte minute = (byte)cal.get(Calendar.MINUTE);
-        byte second = (byte)cal.get(Calendar.SECOND);
-        byte weekDay = (byte)cal.get(Calendar.DAY_OF_WEEK);
-
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                BFH16Constants.CMD_SET_DATE_AND_TIME,
-                (year1 << 24) | (year2 << 16) | (month << 8) | day,
-                (hour << 24) | (minute << 16) | (second << 8) | weekDay
-        ));
     }
 
 
@@ -560,6 +548,26 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
 
 
     //working
+    private void syncDateAndTime(TransactionBuilder builder) {
+        Calendar cal = Calendar.getInstance();
+        String strYear = String.valueOf(cal.get(Calendar.YEAR));
+        byte year1 = (byte)Integer.parseInt(strYear.substring(0, 2));
+        byte year2 = (byte)Integer.parseInt(strYear.substring(2, 4));
+        byte month = (byte)cal.get(Calendar.MONTH);
+        byte day = (byte)cal.get(Calendar.DAY_OF_MONTH);
+        byte hour = (byte)cal.get(Calendar.HOUR_OF_DAY);
+        byte minute = (byte)cal.get(Calendar.MINUTE);
+        byte second = (byte)cal.get(Calendar.SECOND);
+        byte weekDay = (byte)cal.get(Calendar.DAY_OF_WEEK);
+
+        builder.write(ctrlCharacteristic, commandWithChecksum(
+                BFH16Constants.CMD_SET_DATE_AND_TIME,
+                (year1 << 24) | (year2 << 16) | (month << 8) | day,
+                (hour << 24) | (minute << 16) | (second << 8) | weekDay
+        ));
+    }
+
+    //working
     private byte[] commandWithChecksum(byte cmd, int argSlot1, int argSlot2)
     {
         ByteBuffer buf = ByteBuffer.allocate(10);
@@ -578,7 +586,6 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
 
         return bytesToWrite;
     }
-
 
     /**
      * Checksum is calculated by the sum of bytes 0 to 8 and send as byte 9
@@ -611,7 +618,6 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
 
         return bytesToWrite;
     }
-
 
     private byte[] stringToUTF8Bytes(String src, int byteCount) {
         try {
