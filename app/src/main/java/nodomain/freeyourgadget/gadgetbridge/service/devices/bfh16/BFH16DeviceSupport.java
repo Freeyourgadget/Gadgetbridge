@@ -445,7 +445,7 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
 //        try {
 //            TransactionBuilder builder = performInitialized("TestNewFunction");
 //
-//            //Test get sleep time
+//            //Test new command
 //            builder.write(ctrlCharacteristic, commandWithChecksum( (byte)0x32, 0, 0));
 //            builder.queue(getQueue());
 //
@@ -457,9 +457,7 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
 
     }
 
-
-
-
+    
 
     //FUNCTIONS
     //______________________________________________________________________________________________
