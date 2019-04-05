@@ -15,6 +15,38 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
+/*
+    Features:
+                                            Working
+                                                    work in progress
+                                                            possible
+                                                                    not supported
+    Get firmware version                    (X)     ()      (X)     ()
+    Get battery level                       (X)     ()      (X)     ()
+
+    Set alarms (1-3)                        (X)     ()      (X)     ()
+    Sync date and time                      (X)     ()      (X)     ()
+    Find device                             (X)     ()      (X)     ()
+
+    Switch 12/24 hour mode                  ()      ()      (X)     ()
+    Set step goal                           ()      ()      (X)     ()
+    Set sitting reminder                    ()      ()      (X)     ()
+    Trigger a photo                         ()      ()      (X)     ()
+
+    Switch automated heartbeat detection    ()      ()      (X)     ()
+    Switch display illumination             ()      ()      (X)     ()
+    Switch vibration                        ()      ()      (X)     ()
+    Switch notifications                    ()      ()      (X)     ()
+    Set do not distract time                ()      ()      (X)     ()
+
+    Get Steps                               ()      ()      (X)     ()
+    Get Heart Rate                          ()      ()      (X)     ()
+    Get Blood Pressure                      ()      ()      (x)     ()
+    Get Blood Satiation                     ()      ()      (X)     ()
+
+    Send Notification                       ()      ()      (X)     ()
+
+ */
 
 
 package nodomain.freeyourgadget.gadgetbridge.service.devices.bfh16;
@@ -36,6 +68,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.pebble.GBDeviceEventDataLogging;
 import nodomain.freeyourgadget.gadgetbridge.devices.bfh16.BFH16Constants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
@@ -68,6 +101,11 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public boolean useAutoConnect() {
+        return true;
+    }
+
+    @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         LOG.info("Initializing BFH16");
 
@@ -89,6 +127,9 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
 
         return builder;
     }
+
+    //onXYZ
+    //______________________________________________________________________________________________
 
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt,
@@ -116,160 +157,28 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
                 return true;
             case BFH16Constants.RECEIVE_STEPS_DATA:
                 int steps = ByteBuffer.wrap(data, 5, 4).getInt();
+                //TODO handle step data
                 LOG.info("Number of walked steps: " + steps);
                 return true;
             case BFH16Constants.RECEIVE_HEART_DATA:
+                //TODO handle heart data
                 LOG.info("Current heart rate: "     + data[1]);
                 LOG.info("Current blood pressure: " + data[2] + "/" + data[3]);
                 LOG.info("Current satiation: "      + data[4]);
                 return true;
             case BFH16Constants.RECEIVE_PHOTO_TRIGGER:
+                //TODO handle photo trigger
                 LOG.info("Received photo trigger: " + data[8]);
                 return true;
             default:
                 LOG.info("Unhandled characteristic change: " + characteristicUUID + " code: " + String.format("0x%1x ...", data[0]));
+                LOG.info("Unhandled characteristic data: "+ data[0]+" "+data[1]+" "+data[2]+" "+data[3]+" "+data[4]+" "+data[5]+" "+data[6]+" "+data[7]+" "+data[8]);
                 return true;
         }
     }
 
-    //Fully working
-    private void syncDateAndTime(TransactionBuilder builder) {
-        Calendar cal = Calendar.getInstance();
-        String strYear = String.valueOf(cal.get(Calendar.YEAR));
-        byte year1 = (byte)Integer.parseInt(strYear.substring(0, 2));
-        byte year2 = (byte)Integer.parseInt(strYear.substring(2, 4));
-        byte month = (byte)cal.get(Calendar.MONTH);
-        byte day = (byte)cal.get(Calendar.DAY_OF_MONTH);
-        byte hour = (byte)cal.get(Calendar.HOUR_OF_DAY);
-        byte minute = (byte)cal.get(Calendar.MINUTE);
-        byte second = (byte)cal.get(Calendar.SECOND);
-        byte weekDay = (byte)cal.get(Calendar.DAY_OF_WEEK);
 
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                BFH16Constants.CMD_SET_DATE_AND_TIME,
-                (year1 << 24) | (year2 << 16) | (month << 8) | day,
-                (hour << 24) | (minute << 16) | (second << 8) | weekDay
-        ));
-    }
-
-    //TODO: not checked yet
-    private void syncSettings(TransactionBuilder builder) {
-        syncDateAndTime(builder);
-
-        // TODO: unhardcode and separate stuff
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                BFH16Constants.CMD_SET_HEARTRATE_WARNING_VALUE, 0, 152
-        ));
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                BFH16Constants.CMD_SET_TARGET_STEPS, 0, 10000
-        ));
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                BFH16Constants.CMD_SWITCH_METRIC_IMPERIAL, 0, 0
-        ));
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                BFH16Constants.CMD_GET_SLEEP_TIME, 0, 0
-        ));
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                BFH16Constants.CMD_SET_NOON_TIME, 12 * 60 * 60, 14 * 60 * 60 // 12:00 - 14:00
-        ));
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                BFH16Constants.CMD_SET_SLEEP_TIME, 21 * 60 * 60, 8 * 60 * 60 // 21:00 - 08:00
-        ));
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                BFH16Constants.CMD_SET_INACTIVITY_WARNING_TIME, 0, 0
-        ));
-
-        // do not disturb and a couple more features
-        byte dndStartHour = 22;
-        byte dndStartMin = 0;
-        byte dndEndHour = 8;
-        byte dndEndMin = 0;
-        boolean dndToggle = false;
-        boolean vibrationToggle = true;
-        boolean wakeOnRaiseToggle = true;
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                BFH16Constants.CMD_SET_DND_SETTINGS,
-                (dndStartHour << 24) | (dndStartMin << 16) | (dndEndHour << 8) | dndEndMin,
-                ((dndToggle ? 0 : 1) << 2) | ((vibrationToggle ? 1 : 0) << 1) | (wakeOnRaiseToggle ? 1 : 0)
-        ));
-    }
-
-    //TODO: not checked yet + needs rework
-    private void showNotification(byte icon, String title, String message) {
-        try {
-            TransactionBuilder builder = performInitialized("ShowNotification");
-
-            byte[] titleBytes = stringToUTF8Bytes(title, 16);
-            byte[] messageBytes = stringToUTF8Bytes(message, 80);
-
-            for (int i = 1; i <= 7; i++)
-            {
-                byte[] currentPacket = new byte[20];
-                currentPacket[0] = BFH16Constants.CMD_ACTION_SHOW_NOTIFICATION;
-                currentPacket[1] = 7;
-                currentPacket[2] = (byte)i;
-                switch(i) {
-                    case 1:
-                        currentPacket[4] = icon;
-                        break;
-                    case 2:
-                        if (titleBytes != null) {
-                            System.arraycopy(titleBytes, 0, currentPacket, 3, 6);
-                            System.arraycopy(titleBytes, 6, currentPacket, 10, 10);
-                        }
-                        break;
-                    default:
-                        if (messageBytes != null) {
-                            System.arraycopy(messageBytes, 16 * (i - 3), currentPacket, 3, 6);
-                            System.arraycopy(messageBytes, 6 + 16 * (i - 3), currentPacket, 10, 10);
-                        }
-                        break;
-                }
-                builder.write(ctrlCharacteristic, currentPacket);
-            }
-            builder.queue(getQueue());
-        } catch (IOException e) {
-            LOG.warn(e.getMessage());
-        }
-    }
-
-    @Override
-    public boolean useAutoConnect() {
-        return true;
-    }
-
-    //TODO: not checked yet + needs rework
-    @Override
-    public void onNotification(NotificationSpec notificationSpec) {
-        String notificationTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
-        byte icon;
-        switch (notificationSpec.type) {
-            case GENERIC_SMS:
-                icon = BFH16Constants.ICON_SMS;
-                break;
-            case FACEBOOK:
-            case FACEBOOK_MESSENGER:
-                icon = BFH16Constants.ICON_FACEBOOK;
-                break;
-            case TWITTER:
-                icon = BFH16Constants.ICON_TWITTER;
-                break;
-            case WHATSAPP:
-                icon = BFH16Constants.ICON_WHATSAPP;
-                break;
-            default:
-                icon = BFH16Constants.ICON_LINE;
-                break;
-        }
-        showNotification(icon, notificationTitle, notificationSpec.body);
-    }
-
-    @Override
-    public void onDeleteNotification(int id) {
-
-    }
-
-    //fully working
+    //working
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         try {
@@ -303,6 +212,38 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
         } catch(IOException e) {
             LOG.warn(e.getMessage());
         }
+    }
+
+
+    //TODO: not checked yet + needs rework
+    @Override
+    public void onNotification(NotificationSpec notificationSpec) {
+        String notificationTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
+        byte icon;
+        switch (notificationSpec.type) {
+            case GENERIC_SMS:
+                icon = BFH16Constants.ICON_SMS;
+                break;
+            case FACEBOOK:
+            case FACEBOOK_MESSENGER:
+                icon = BFH16Constants.ICON_FACEBOOK;
+                break;
+            case TWITTER:
+                icon = BFH16Constants.ICON_TWITTER;
+                break;
+            case WHATSAPP:
+                icon = BFH16Constants.ICON_WHATSAPP;
+                break;
+            default:
+                icon = BFH16Constants.ICON_LINE;
+                break;
+        }
+        showNotification(icon, notificationTitle, notificationSpec.body);
+    }
+
+    @Override
+    public void onDeleteNotification(int id) {
+
     }
 
     @Override
@@ -424,10 +365,16 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
     //working
     @Override
     public void onFindDevice(boolean start) {
-        if (start) {
-            showNotification(BFH16Constants.ICON_QQ, "Gadgetbridge", "Bzzt! Bzzt!");
-            GB.toast(getContext(), "As your device doesn't have sound, it will only vibrate 3 times consecutively", Toast.LENGTH_LONG, GB.INFO);
+        try {
+            TransactionBuilder builder = performInitialized("FindDevice");
+            builder.write(ctrlCharacteristic, commandWithChecksum(
+                    BFH16Constants.CMD_VIBRATE, 0, start ? 1 : 0
+            ));
+            builder.queue(getQueue());
+        } catch(Exception e) {
+            LOG.warn(e.getMessage());
         }
+        GB.toast(getContext(), "Your device will vibrate 3 times!", Toast.LENGTH_LONG, GB.INFO);
     }
 
     @Override
@@ -481,33 +428,20 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onTestNewFunction() {
 
-        try {
-            TransactionBuilder builder = performInitialized("TestNewFunction");
+        showNotification((byte)0xFF, "", "");
 
-            //byte cmd = BFH16Constants.CMD_GET_STEP_COUNT;
-
-            //Wakeup? Photo?
-            //builder.write(ctrlCharacteristic, commandWithChecksum((byte) 0x25, 0, 0));
-            //builder.write(ctrlCharacteristic, commandWithChecksum((byte) 0x25, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00));
-
-            builder.write(ctrlCharacteristic, commandWithChecksum( (byte)1, 0, 200));
-
-//            builder.write(ctrlCharacteristic, commandWithChecksum((byte) 0xF, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00));
-
-
-//            builder.write(ctrlCharacteristic, commandWithChecksum(
-//                    (byte) 39, (byte) 0, (byte) 0,
-//                    (byte) 189, (byte) 216, (byte) 0,
-//                    (byte) 0, (byte) 196, (byte) 224));
-
-
-            builder.queue(getQueue());
-
-            GB.toast(getContext(), "TestNewFunction executed!", Toast.LENGTH_LONG, GB.INFO);
-
-        } catch(IOException e) {
-            LOG.warn(e.getMessage());
-        }
+//        try {
+//            TransactionBuilder builder = performInitialized("TestNewFunction");
+//
+//            //Test get sleep time
+//            builder.write(ctrlCharacteristic, commandWithChecksum( (byte)0x32, 0, 0));
+//            builder.queue(getQueue());
+//
+//            GB.toast(getContext(), "TestNewFunction executed!", Toast.LENGTH_LONG, GB.INFO);
+//
+//        } catch(IOException e) {
+//            LOG.warn(e.getMessage());
+//        }
 
     }
 
@@ -515,6 +449,136 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
     public void onSendWeather(WeatherSpec weatherSpec) {
 
     }
+
+
+
+    //FUNCTIONS
+    //______________________________________________________________________________________________
+
+    //TODO: check
+    private void showNotification(byte icon, String title, String message) {
+        try {
+            TransactionBuilder builder = performInitialized("ShowNotification");
+
+            byte[] titleBytes = stringToUTF8Bytes(title, 16);
+            byte[] messageBytes = stringToUTF8Bytes(message, 80);
+
+            for (int i = 1; i <= 7; i++)
+            {
+                byte[] currentPacket = new byte[20];
+                currentPacket[0] = BFH16Constants.CMD_ACTION_SHOW_NOTIFICATION;
+                currentPacket[1] = 7;
+                currentPacket[2] = (byte)i;
+                switch(i) {
+                    case 1:
+                        currentPacket[4] = icon;
+                        break;
+                    case 2:
+                        if (titleBytes != null) {
+                            System.arraycopy(titleBytes, 0, currentPacket, 3, 6);
+                            System.arraycopy(titleBytes, 6, currentPacket, 10, 10);
+                        }
+                        break;
+                    default:
+                        if (messageBytes != null) {
+                            System.arraycopy(messageBytes, 16 * (i - 3), currentPacket, 3, 6);
+                            System.arraycopy(messageBytes, 6 + 16 * (i - 3), currentPacket, 10, 10);
+                        }
+                        break;
+                }
+                builder.write(ctrlCharacteristic, currentPacket);
+            }
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.warn(e.getMessage());
+        }
+    }
+
+
+    //working
+    private void syncDateAndTime(TransactionBuilder builder) {
+        Calendar cal = Calendar.getInstance();
+        String strYear = String.valueOf(cal.get(Calendar.YEAR));
+        byte year1 = (byte)Integer.parseInt(strYear.substring(0, 2));
+        byte year2 = (byte)Integer.parseInt(strYear.substring(2, 4));
+        byte month = (byte)cal.get(Calendar.MONTH);
+        byte day = (byte)cal.get(Calendar.DAY_OF_MONTH);
+        byte hour = (byte)cal.get(Calendar.HOUR_OF_DAY);
+        byte minute = (byte)cal.get(Calendar.MINUTE);
+        byte second = (byte)cal.get(Calendar.SECOND);
+        byte weekDay = (byte)cal.get(Calendar.DAY_OF_WEEK);
+
+        builder.write(ctrlCharacteristic, commandWithChecksum(
+                BFH16Constants.CMD_SET_DATE_AND_TIME,
+                (year1 << 24) | (year2 << 16) | (month << 8) | day,
+                (hour << 24) | (minute << 16) | (second << 8) | weekDay
+        ));
+    }
+
+
+    //TODO: check
+    private void syncSettings(TransactionBuilder builder) {
+        syncDateAndTime(builder);
+
+        // TODO: unhardcode and separate stuff
+        builder.write(ctrlCharacteristic, commandWithChecksum(
+                BFH16Constants.CMD_SET_HEARTRATE_WARNING_VALUE, 0, 152
+        ));
+        builder.write(ctrlCharacteristic, commandWithChecksum(
+                BFH16Constants.CMD_SET_TARGET_STEPS, 0, 10000
+        ));
+        builder.write(ctrlCharacteristic, commandWithChecksum(
+                BFH16Constants.CMD_SWITCH_METRIC_IMPERIAL, 0, 0
+        ));
+        builder.write(ctrlCharacteristic, commandWithChecksum(
+                BFH16Constants.CMD_GET_SLEEP_TIME, 0, 0
+        ));
+        builder.write(ctrlCharacteristic, commandWithChecksum(
+                BFH16Constants.CMD_SET_NOON_TIME, 12 * 60 * 60, 14 * 60 * 60 // 12:00 - 14:00
+        ));
+        builder.write(ctrlCharacteristic, commandWithChecksum(
+                BFH16Constants.CMD_SET_SLEEP_TIME, 21 * 60 * 60, 8 * 60 * 60 // 21:00 - 08:00
+        ));
+        builder.write(ctrlCharacteristic, commandWithChecksum(
+                BFH16Constants.CMD_SET_INACTIVITY_WARNING_TIME, 0, 0
+        ));
+
+        // do not disturb and a couple more features
+        byte dndStartHour = 22;
+        byte dndStartMin = 0;
+        byte dndEndHour = 8;
+        byte dndEndMin = 0;
+        boolean dndToggle = false;
+        boolean vibrationToggle = true;
+        boolean wakeOnRaiseToggle = true;
+        builder.write(ctrlCharacteristic, commandWithChecksum(
+                BFH16Constants.CMD_SET_DND_SETTINGS,
+                (dndStartHour << 24) | (dndStartMin << 16) | (dndEndHour << 8) | dndEndMin,
+                ((dndToggle ? 0 : 1) << 2) | ((vibrationToggle ? 1 : 0) << 1) | (wakeOnRaiseToggle ? 1 : 0)
+        ));
+    }
+
+
+    //working
+    private byte[] commandWithChecksum(byte cmd, int argSlot1, int argSlot2)
+    {
+        ByteBuffer buf = ByteBuffer.allocate(10);
+        buf.put(cmd);
+        buf.putInt(argSlot1);
+        buf.putInt(argSlot2);
+
+        byte[] bytesToWrite = buf.array();
+
+        byte checksum = 0;
+        for (byte b : bytesToWrite) {
+            checksum += b;
+        }
+
+        bytesToWrite[9] = checksum;
+
+        return bytesToWrite;
+    }
+
 
     /**
      * Checksum is calculated by the sum of bytes 0 to 8 and send as byte 9
@@ -548,24 +612,6 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
         return bytesToWrite;
     }
 
-    private byte[] commandWithChecksum(byte cmd, int argSlot1, int argSlot2)
-    {
-        ByteBuffer buf = ByteBuffer.allocate(10);
-        buf.put(cmd);
-        buf.putInt(argSlot1);
-        buf.putInt(argSlot2);
-
-        byte[] bytesToWrite = buf.array();
-
-        byte checksum = 0;
-        for (byte b : bytesToWrite) {
-            checksum += b;
-        }
-
-        bytesToWrite[9] = checksum;
-
-        return bytesToWrite;
-    }
 
     private byte[] stringToUTF8Bytes(String src, int byteCount) {
         try {
