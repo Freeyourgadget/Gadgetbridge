@@ -59,10 +59,24 @@ public final class BFH16Constants {
 
 
     //Verified receive bytes
+    public static final byte RECEIVE_DEVICE_INFO = (byte)0xF6;
     public static final byte RECEIVE_BATTERY_LEVEL = (byte)0xF7;
     public static final byte RECEIVE_STEPS_DATA = (byte)0xF9;
     public static final byte RECEIVE_HEART_DATA = (byte)0xE8;
     public static final byte RECEIVE_PHOTO_TRIGGER = (byte)0xF3;
+
+    //Verified icon bytes
+    public static final byte ICON_CALL = (byte)0x00;
+    public static final byte ICON_SMS = (byte)0x01;
+    public static final byte ICON_WECHAT = (byte)0x02;
+    public static final byte ICON_QQ = (byte)0x03;
+    public static final byte ICON_FACEBOOK = (byte)0x04;
+    public static final byte ICON_SKYPE = (byte)0x05;
+    public static final byte ICON_TWITTER = (byte)0x06;
+    public static final byte ICON_WHATSAPP = (byte)0x07;
+    public static final byte ICON_LINE = (byte)0x08;
+    public static final byte ICON_TALK = (byte)0x09;
+    public static final byte ICON_RUNNER = (byte)0x0A;
 
 
 
@@ -110,19 +124,4 @@ public final class BFH16Constants {
     public static final byte CMD_ACTION_HEARTRATE_SWITCH = 0x0D;
     public static final byte CMD_ACTION_SHOW_NOTIFICATION = 0x2C;
     public static final byte CMD_ACTION_REBOOT_DEVICE = 0x0E;
-
-
-    public static final byte RECEIVE_DEVICE_INFO = (byte)0xF6;
-
-
-    public static final byte ICON_CALL = 0;
-    public static final byte ICON_SMS = 1;
-    public static final byte ICON_WECHAT = 2;
-    public static final byte ICON_QQ = 3;
-    public static final byte ICON_FACEBOOK = 4;
-    public static final byte ICON_SKYPE = 5;
-    public static final byte ICON_TWITTER = 6;
-    public static final byte ICON_WHATSAPP = 7;
-    public static final byte ICON_LINE = 8;
-
 }
