@@ -1,2 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">گجت‌بریج</string>
+    <string name="title_activity_controlcenter">گجت‌بریج</string>
+    <string name="action_settings">تنظیمات</string>
+    <string name="action_debug">اشکال‌زدایی</string>
+    <string name="action_quit">خروج</string>
+    <string name="action_donate">اهدای کمک مالی</string>
+    <string name="controlcenter_fetch_activity_data">همگام‌سازی</string>
+    <string name="controlcenter_find_device">پیدا کردن دستگاه گم شده</string>
+    <string name="controlcenter_take_screenshot">گرفتن عکس از صفحه نمایش</string>
+    <string name="controlcenter_change_led_color">تغییر رنگ ال‌ای‌دی</string>
+    <string name="controlcenter_change_fm_frequency">تغییر فرکانس رادیو اف‌ام</string>
+    <string name="controlcenter_connect">اتصال…</string>
+    <string name="controlcenter_disconnect">قطع</string>
+    <string name="controlcenter_delete_device">پاک کردن دستگاه</string>
+    <string name="controlcenter_delete_device_name">پاک کردن %1$‌ها</string>
+    <string name="controlcenter_delete_device_dialogmessage">این اقدام دستگاه و تمام اطلاعات مربوط را پاک خواهد کرد!</string>
+    <string name="controlcenter_navigation_drawer_open">باز کردن نوار منو</string>
+    <string name="controlcenter_navigation_drawer_close">بستن نوار منو</string>
+    <string name="controlcenter_snackbar_need_longpress">روی نوار طولانی فشار دهید تا قطع شود</string>
+    <string name="controlcenter_snackbar_disconnecting">در حال قطع</string>
+    <string name="controlcenter_snackbar_connecting">در حال اتصال…</string>
+    <string name="controlcenter_snackbar_requested_screenshot">گرفتن عکس از صفحه نمایش دستگاه</string>
+    <string name="controlcenter_calibrate_device">کالیبره کردن دستگاه</string>
+    <string name="title_activity_debug">اشکال‌زدایی</string>
+    <string name="debugactivity_really_factoryreset_title">آیا از بازنشانی دستگاه به حالت کارخانه مطمئنید؟</string>
+    <string name="debugactivity_really_factoryreset">انجام دادن بازنشانی به نسخه‌ی کارخانه تمام اطلاعات دستگاه‌های متصل را پاک خواهد کرد (اگر دستگاه این فرمان را پشتیبانی کند). کد MAC address بلوتوث دستگاه‌های Xiaomi/Huami هم تغییر خواهد کرد و به صورت دستگاه جدید در گجت‌بریج شناسایی خواهند شد.</string>
+    <string name="title_activity_appmanager">مدیر برنامه</string>
+    <string name="appmanager_cached_watchapps_watchfaces">برنامه‌های درون حافظه‌ی پنهان (cache)</string>
+    <string name="appmanager_installed_watchapps">برنامه‌های نصب شده</string>
+    <string name="appmanager_installed_watchfaces">نمایه‌های ساعت نصب شده</string>
+    <string name="appmananger_app_delete">پاک کردن</string>
+    <string name="appmananger_app_delete_cache">پاک کردن و حذف از حافظه‌ی پنهان (cache)</string>
+    <string name="appmananger_app_reinstall">بازنصب</string>
+    <string name="appmanager_app_openinstore">جستجو در فروشگاه اپ Pebble</string>
+    <string name="appmanager_health_activate">فعال‌سازی</string>
+    <string name="appmanager_health_deactivate">غیرفعال‌سازی</string>
+    <string name="appmanager_hrm_activate">فعال‌سازی ضربان‌سنج (HRM)</string>
+    <string name="appmanager_hrm_deactivate">غیرفعال‌سازی ضربان‌سنج (HRM)</string>
+    <string name="appmanager_weather_activate">فعال‌سازی برنامه‌ی هواشناسی سیستم</string>
+    <string name="appmanager_weather_deactivate">غیرفعال‌سازی برنامه‌ی هواشناسی سیستم</string>
+    <string name="appmanager_weather_install_provider">نصب برنامه‌ی آگاهی (Notification) هواشناسی</string>
+    <string name="app_configure">پیکربندی</string>
+    <string name="app_move_to_top">انتقال به بالا</string>
+    <string name="title_activity_appblacklist">لیست سیاه آکاهی ها (Notification blacklist)</string>
+    <string name="blacklist_all_for_notifications">همه را به لیست سیاه آگاهی‌ها اضافه کن</string>
+    <string name="whitelist_all_for_notifications">همه را از لیست سیاه آگاهی خارج کن</string>
+    <string name="title_activity_calblacklist">رخدادهای درون لیست سیاه</string>
+    <string name="title_activity_fw_app_insaller">نصب کننده‌ی فرم‌ویر (FW)/برنامه</string>
+</resources>
