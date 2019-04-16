@@ -676,16 +676,17 @@
     <string name="activity_prefs_activetime_minutes">Daglig mål: Aktiv tid i minutter</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
     <string name="zetime_title_heartrate">Hjertefrekvensinnstillinger</string>
-    <string name="zetime_title_screentime">Skjerm på varighet i sekunder</string>
+    <string name="zetime_title_screentime">Skjermaktivitetsvarighet, i sekunder</string>
     <string name="zetime_title_heart_rate_alarm">Hjertefrekvensalarm</string>
     <string name="zetime_title_heart_rate_alarm_summary">Klokken vil advare deg når hjertefrekvensen overskrider grensene.</string>
     <string name="zetime_heart_rate_alarm_enable">Aktiver hjertefrekvensalarmen</string>
     <string name="activity_prefs_alarm_max_heart_rate">Maks hjertefrekvens</string>
     <string name="activity_prefs_alarm_min_heart_rate">Min hjertefrekvens</string>
     <string name="zetime_analog_mode_handsandsteps">Hender og trinn</string>
-    <string name="zetime_activity_tracking_summary">Hvis du slår aktivitetssporing på, teller trinnene dine og så videre.</string>
-    <string name="zetime_handmove_display_summary">Vri håndleddet for å aktivere eller deaktivere skjermen.</string>
-    <string name="zetime_calories_type_active">Bare brenne aktive kalorier</string>
-    <string name="zetime_calories_type_all">Aktiv og inaktiv brent kalorier</string>
+    <string name="zetime_activity_tracking_summary">Påslag av aktivitetssporing vil telle skrittene dine, osv.</string>
+    <string name="zetime_handmove_display_summary">Vri håndleddet for å skru på eller av skjermen.</string>
+    <string name="zetime_calories_type_active">Kun aktivt forbrente kalorier</string>
+    <string name="zetime_calories_type_all">Aktivt og inaktivt -forbrente kalorier</string>
     <string name="pref_screen_notification_profile_anti_loss">Advarsel om tap</string>
+    <string name="pref_title_support_voip_calls">Skru på VoIP-programsamtaler</string>
 </resources>
