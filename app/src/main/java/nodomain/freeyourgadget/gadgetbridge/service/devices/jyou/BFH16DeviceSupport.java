@@ -49,7 +49,7 @@
  */
 
 
-package nodomain.freeyourgadget.gadgetbridge.service.devices.bfh16;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.jyou;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -68,8 +68,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.pebble.GBDeviceEventDataLogging;
-import nodomain.freeyourgadget.gadgetbridge.devices.bfh16.BFH16Constants;
+import nodomain.freeyourgadget.gadgetbridge.devices.jyou.BFH16Constants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
