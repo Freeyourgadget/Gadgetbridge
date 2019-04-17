@@ -700,4 +700,5 @@
     <string name="pref_screen_notification_profile_anti_loss">Warnung vor Verlust</string>
     <string name="interval_fifteen_minutes">alle 15 Minuten</string>
     <string name="interval_forty_five_minutes">alle 45 Minuten</string>
+    <string name="pref_title_support_voip_calls">VoIP App-Anrufe aktivieren</string>
 </resources>
