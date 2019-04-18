@@ -11,33 +11,33 @@
     <string name="controlcenter_take_screenshot">Captura de ecrã</string>
     <string name="controlcenter_change_led_color">Mudar cor do LED</string>
     <string name="controlcenter_change_fm_frequency">Mudar frequência FM</string>
-    <string name="controlcenter_disconnect">Desligar</string>
+    <string name="controlcenter_disconnect">Desconectar</string>
     <string name="controlcenter_delete_device">Apagar dispositivo</string>
     <string name="controlcenter_delete_device_name">Apagar %1$s</string>
     <string name="controlcenter_delete_device_dialogmessage">Isto irá apagar o dispositivo e apagar todos os dados associados!</string>
     <string name="controlcenter_navigation_drawer_open">Abrir gaveta de navegação</string>
     <string name="controlcenter_navigation_drawer_close">Fechar gaveta de navegação</string>
-    <string name="controlcenter_snackbar_need_longpress">Pressione o cartão longamente para desligar</string>
-    <string name="controlcenter_snackbar_disconnecting">A desligar</string>
-    <string name="controlcenter_snackbar_connecting">A ligar…</string>
+    <string name="controlcenter_snackbar_need_longpress">Pressione longo no cartão para desconectar</string>
+    <string name="controlcenter_snackbar_disconnecting">A desconectar</string>
+    <string name="controlcenter_snackbar_connecting">A conectar…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Capturar o ecrã do dispositivo</string>
     <string name="title_activity_debug">Depurar</string>
     <!--Strings related to AppManager-->
-    <string name="title_activity_appmanager">Gestor de Aplicações</string>
-    <string name="appmanager_cached_watchapps_watchfaces">Apps em cache</string>
+    <string name="title_activity_appmanager">Gestor de aplicações</string>
+    <string name="appmanager_cached_watchapps_watchfaces">Aplicações em cache</string>
     <string name="appmanager_installed_watchapps">Aplicações instaladas</string>
     <string name="appmanager_installed_watchfaces">Temas instalados</string>
     <string name="appmananger_app_delete">Apagar</string>
-    <string name="appmananger_app_delete_cache">Apagar e remover do cache</string>
+    <string name="appmananger_app_delete_cache">Apagar e remover da cache</string>
     <string name="appmananger_app_reinstall">Reinstalar</string>
     <string name="appmanager_app_openinstore">Procurar na loja Pebble</string>
     <string name="appmanager_health_activate">Ativar</string>
     <string name="appmanager_health_deactivate">Desativar</string>
-    <string name="appmanager_hrm_activate">Ativar Mon. Ritmo Cardíaco</string>
-    <string name="appmanager_hrm_deactivate">Desativar Mon. Ritmo Cardíaco</string>
+    <string name="appmanager_hrm_activate">Ativar monitor de ritmo cardíaco</string>
+    <string name="appmanager_hrm_deactivate">Desativar monitor de ritmo cardíaco</string>
     <string name="appmanager_weather_activate">Ativar aplicação de meteorologia do sistema</string>
     <string name="appmanager_weather_deactivate">Desativar aplicação de meteorologia do sistema</string>
-    <string name="appmanager_weather_install_provider">Instalar notificações da aplicação de meteorologia</string>
+    <string name="appmanager_weather_install_provider">Instalar a aplicação de notificação de meteorologia</string>
     <string name="app_configure">Configurar</string>
     <string name="app_move_to_top">Mover para o topo</string>
     <!--Strings related to AppBlacklist-->
@@ -388,8 +388,8 @@
     <string name="discovery_yes_pair">Emparelhar</string>
     <string name="discovery_dont_pair">Não emparelhar</string>
     <string name="action_donate">Doar</string>
-    <string name="controlcenter_connect">Ligar…</string>
-    <string name="title_activity_calblacklist">Calendários Bloqueados</string>
+    <string name="controlcenter_connect">Conectar…</string>
+    <string name="title_activity_calblacklist">Calendários bloqueados</string>
     <string name="fw_upgrade_notice_amazfitbip">Está prestes a instalar o firmware %s na sua Amazfit Bip. 
 \n
 \nPor favor garanta que instala o firmware .fw, o ficheiro .res e finalmente o ficheiro .gps. O seu relógio vai reiniciar depois de instalar o ficheiro .fw .
