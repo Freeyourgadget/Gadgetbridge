@@ -697,4 +697,5 @@
     <string name="activity_prefs_distance_meters">Καθημερινός στόχος: απόσταση σε μέτρα</string>
     <string name="activity_prefs_activetime_minutes">Καθημερινός στόχος: ενεργός χρόνος σε λεπτά</string>
     <string name="devicetype_miscale2">"Mi Scale 2 "</string>
+    <string name="pref_title_support_voip_calls">Ενεργοποίηση κλήσεων εφαρμογής VoIP</string>
 </resources>
