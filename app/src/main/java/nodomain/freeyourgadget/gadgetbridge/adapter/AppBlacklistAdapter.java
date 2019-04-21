@@ -223,7 +223,7 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
 
                 for (ApplicationInfo ai : originalList) {
                     CharSequence name = mPm.getApplicationLabel(ai);
-                    if (name.toString().contains(filterPattern) ||
+                    if (name.toString().toLowerCase().contains(filterPattern) ||
                             (ai.packageName.contains(filterPattern))) {
                         filteredList.add(ai);
                     }
