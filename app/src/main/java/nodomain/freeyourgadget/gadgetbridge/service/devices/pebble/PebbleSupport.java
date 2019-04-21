@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Kasha, Steffen Liebergeld
+    Gobbetti, Kasha, Sebastian Kranz, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 

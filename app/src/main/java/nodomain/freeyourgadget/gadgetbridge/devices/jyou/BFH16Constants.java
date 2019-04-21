@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2019 Sami Alaoui
+/*  Copyright (C) 2019 Sophanimus
 
     This file is part of Gadgetbridge.
 

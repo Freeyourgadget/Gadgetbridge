@@ -1,5 +1,5 @@
 /*  Copyright (C) 2017-2019 AndrewH, Carsten Pfeiffer, Daniele Gobbetti,
-    Dikay900
+    Dikay900, Nick Spacek
 
     This file is part of Gadgetbridge.
 

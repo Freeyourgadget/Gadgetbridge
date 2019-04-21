@@ -1,7 +1,8 @@
 /*  Copyright (C) 2015-2019 Andreas Shimokawa, Avamander, Carsten Pfeiffer,
     dakhnod, Daniele Gobbetti, Daniel Hauck, Dikay900, Frank Slezak, ivanovlev,
     João Paulo Barraca, José Rebelo, Julien Pivotto, Kasha, Martin, Matthieu
-    Baerts, Sergey Trofimov, Steffen Liebergeld, Taavi Eomäe, Uwe Hermann
+    Baerts, Sebastian Kranz, Sergey Trofimov, Steffen Liebergeld, Taavi Eomäe,
+    Uwe Hermann
 
     This file is part of Gadgetbridge.
 

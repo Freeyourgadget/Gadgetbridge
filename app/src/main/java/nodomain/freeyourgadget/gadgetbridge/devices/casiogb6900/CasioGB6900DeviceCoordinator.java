@@ -1,4 +1,4 @@
-/*      Copyright (C) 2018-2019 Andreas Böhler, Andreas Shimokawa, Carsten
+/*  Copyright (C) 2016-2019 Andreas Böhler, Andreas Shimokawa, Carsten
     Pfeiffer, Daniele Gobbetti, José Rebelo
         based on code from BlueWatcher, https://github.com/masterjc/bluewatcher
 

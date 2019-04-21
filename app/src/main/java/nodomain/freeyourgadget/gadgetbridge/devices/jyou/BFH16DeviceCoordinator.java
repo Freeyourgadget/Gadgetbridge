@@ -1,5 +1,4 @@
-/*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Dougal19, José Rebelo, protomors, Sami Alaoui
+/*  Copyright (C) 2019 Sophanimus
 
     This file is part of Gadgetbridge.
 

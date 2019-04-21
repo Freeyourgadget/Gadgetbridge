@@ -1,7 +1,7 @@
-/*  Copyright (C) 2015-2019 0nse, Andreas Böhler, Andreas Shimokawa,
-    Carsten Pfeiffer, Daniele Gobbetti, João Paulo Barraca, José Rebelo, Kranz,
-    ladbsoft, maxirnilian, protomors, Quallenauge, Sami Alaoui, Sergey Trofimov,
-    tiparega, Vadim Kaushan
+/*  Copyright (C) 2015-2019 0nse, Andreas Böhler, Andreas Shimokawa, Carsten
+    Pfeiffer, criogenic, Daniele Gobbetti, Jean-François Greffier, João Paulo
+    Barraca, José Rebelo, Kranz, ladbsoft, maxirnilian, protomors, Quallenauge,
+    Sami Alaoui, Sergey Trofimov, Sophanimus, tiparega, Vadim Kaushan
 
     This file is part of Gadgetbridge.
 

@@ -1,5 +1,5 @@
 /*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Pavel Elagin, protomors
+    Gobbetti, Pavel Elagin, protomors, Sebastian Kranz
 
     This file is part of Gadgetbridge.
 

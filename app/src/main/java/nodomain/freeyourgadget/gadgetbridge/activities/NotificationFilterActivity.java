@@ -1,4 +1,5 @@
-/*  Copyright (C) 2018-2019 abettenburg, AndrewBedscastle, Daniele Gobbetti
+/*  Copyright (C) 2018-2019 abettenburg, AndrewBedscastle, Carsten Pfeiffer,
+    Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 

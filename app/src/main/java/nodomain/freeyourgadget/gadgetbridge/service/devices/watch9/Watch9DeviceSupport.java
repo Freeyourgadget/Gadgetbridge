@@ -1,5 +1,5 @@
 /*  Copyright (C) 2018-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, maxirnilian
+    Gobbetti, maxirnilian, Sebastian Kranz
 
     This file is part of Gadgetbridge.
 

@@ -1,5 +1,6 @@
 /*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, José Rebelo, Julien Pivotto, Kasha, Steffen Liebergeld, Uwe Hermann
+    Gobbetti, José Rebelo, Julien Pivotto, Kasha, Sebastian Kranz, Steffen
+    Liebergeld, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
