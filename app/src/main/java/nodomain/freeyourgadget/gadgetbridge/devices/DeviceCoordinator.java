@@ -278,4 +278,9 @@ public interface DeviceCoordinator {
      * Indicates whether the device supports unicode emojis.
      */
     boolean supportsUnicodeEmojis();
+
+    /**
+     * Indicates whether the device supports device specific settings (not per device type or family, but unique per device).
+     */
+    boolean supportsDeviceSpecificSettings(GBDevice device);
 }

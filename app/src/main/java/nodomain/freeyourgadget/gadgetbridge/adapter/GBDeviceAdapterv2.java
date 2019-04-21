@@ -150,6 +150,9 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             holder.batteryIcon.setImageLevel(200);
         }
 
+        //device specific settings
+        holder.deviceSpecificSettingsView.setVisibility(coordinator.supportsDeviceSpecificSettings(device) ? View.VISIBLE : View.GONE);
+
         //fetch activity data
         holder.fetchActivityDataBox.setVisibility((device.isInitialized() && coordinator.supportsActivityDataFetching()) ? View.VISIBLE : View.GONE);
         holder.fetchActivityData.setOnClickListener(new View.OnClickListener()
@@ -472,6 +475,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         LinearLayout batteryStatusBox;
         TextView batteryStatusLabel;
         ImageView batteryIcon;
+        ImageView deviceSpecificSettingsView;
         LinearLayout fetchActivityDataBox;
         ImageView fetchActivityData;
         ProgressBar busyIndicator;
@@ -504,6 +508,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             batteryStatusBox = view.findViewById(R.id.device_battery_status_box);
             batteryStatusLabel = view.findViewById(R.id.battery_status);
             batteryIcon = view.findViewById(R.id.device_battery_status);
+            deviceSpecificSettingsView = view.findViewById(R.id.device_specific_settings);
             fetchActivityDataBox = view.findViewById(R.id.device_action_fetch_activity_box);
             fetchActivityData = view.findViewById(R.id.device_action_fetch_activity);
             busyIndicator = view.findViewById(R.id.device_busy_indicator);
