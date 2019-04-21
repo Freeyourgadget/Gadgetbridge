@@ -29,6 +29,7 @@ import java.util.Collection;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsFragment;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
@@ -283,4 +284,9 @@ public interface DeviceCoordinator {
      * Indicates whether the device supports device specific settings (not per device type or family, but unique per device).
      */
     boolean supportsDeviceSpecificSettings(GBDevice device);
+
+    /**
+     * Creates and returns a device specific settings fragment, or null if there is none
+     */
+    DeviceSpecificSettingsFragment getDeviceSpecificSettingsFragment(GBDevice device);
 }

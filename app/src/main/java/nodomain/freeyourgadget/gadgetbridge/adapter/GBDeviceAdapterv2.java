@@ -55,6 +55,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.ActivitySummariesActivity
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
 import nodomain.freeyourgadget.gadgetbridge.activities.VibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.watch9.Watch9CalibrationActivity;
@@ -152,6 +153,18 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
 
         //device specific settings
         holder.deviceSpecificSettingsView.setVisibility(coordinator.supportsDeviceSpecificSettings(device) ? View.VISIBLE : View.GONE);
+        holder.deviceSpecificSettingsView.setOnClickListener(new View.OnClickListener()
+
+                                                {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        Intent startIntent;
+                                                        startIntent = new Intent(context, DeviceSettingsActivity.class);
+                                                        startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                                                        context.startActivity(startIntent);
+                                                    }
+                                                }
+        );
 
         //fetch activity data
         holder.fetchActivityDataBox.setVisibility((device.isInitialized() && coordinator.supportsActivityDataFetching()) ? View.VISIBLE : View.GONE);

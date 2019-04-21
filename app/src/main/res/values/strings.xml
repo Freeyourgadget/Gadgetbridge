@@ -219,6 +219,11 @@
     <string name="zetime_signaling_beep_twice">Beep twice</string>
     <string name="zetime_signaling_vibrate_beep_once">Vibrate and beep once</string>
 
+    <!-- Device specific settings -->
+    <string name="title_activity_device_specific_settings">Device specific settings</string>
+    <string name="pref_title_authkey">Auth Key</string>
+    <string name="pref_summary_authkey">Change the auth key to a common key on all your Android devices from which you would like to connect from. The previous default key for all devices is 0123456789@ABCDE</string>
+
     <!-- Auto export preferences -->
     <string name="pref_header_auto_export">Auto export</string>
     <string name="pref_title_auto_export_enabled">Auto export enabled</string>

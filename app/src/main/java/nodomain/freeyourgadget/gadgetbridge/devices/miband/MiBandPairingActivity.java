@@ -23,16 +23,19 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
@@ -116,7 +119,7 @@ public class MiBandPairingActivity extends AbstractGBActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mi_band_pairing);
 
-        message = (TextView) findViewById(R.id.miband_pair_message);
+        message = findViewById(R.id.miband_pair_message);
         Intent intent = getIntent();
         deviceCandidate = intent.getParcelableExtra(DeviceCoordinator.EXTRA_DEVICE_CANDIDATE);
         if (deviceCandidate == null && savedInstanceState != null) {
@@ -127,6 +130,21 @@ public class MiBandPairingActivity extends AbstractGBActivity {
             startActivity(new Intent(this, DiscoveryActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             finish();
             return;
+        }
+
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(deviceCandidate);
+        GBDevice device = DeviceHelper.getInstance().toSupportedDevice(deviceCandidate);
+
+        if (coordinator.supportsDeviceSpecificSettings(device)) {
+            SharedPreferences sharedPrefs = getSharedPreferences("devicesettings_" + device.getAddress(), Context.MODE_PRIVATE);
+            String authKey = sharedPrefs.getString("authkey", null);
+            if (authKey == null || authKey.isEmpty()) {
+                SharedPreferences.Editor editor = sharedPrefs.edit();
+
+                String randomAuthkey = RandomStringUtils.random(16, true, true);
+                editor.putString("authkey", randomAuthkey);
+                editor.apply();
+            }
         }
 
         if (!MiBandCoordinator.hasValidUserInfo()) {

@@ -31,6 +31,7 @@ import androidx.annotation.NonNull;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsFragment;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -157,4 +158,10 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     public boolean supportsDeviceSpecificSettings(GBDevice device) {
         return false;
     }
+
+    @Override
+    public DeviceSpecificSettingsFragment getDeviceSpecificSettingsFragment(GBDevice device) {
+        return null;
+    }
+
 }
