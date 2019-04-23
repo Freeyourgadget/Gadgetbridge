@@ -62,7 +62,7 @@
     <string name="pref_default">Default</string>
     <string name="pref_header_datetime">Data e ora</string>
     <string name="pref_title_datetime_syctimeonconnect">Sincronizza l\'ora</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Sincronizza l\'orario al collegamento con il dispositivo Gadgetbridge e quando viene cambiato l\'orario o il fuso orario nel dispositivo Android</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Sincronizza l\'orario del dispositivo al collegamento con Gadgetbridge e quando viene cambiato l\'orario o il fuso orario nel dispositivo Android</string>
     <string name="pref_title_theme">Tema</string>
     <string name="pref_theme_light">Chiaro</string>
     <string name="pref_theme_dark">Scuro</string>
@@ -627,4 +627,23 @@
     <string name="save_configuration">Salva Configurazione</string>
     <string name="appwidget_not_connected">Non connesso, sveglia non impostata.</string>
     <string name="activity_type_exercise">Esercizio</string>
+    <string name="zetime_title_heartrate">Impostazioni frequenza cardiaca</string>
+    <string name="zetime_title_screentime">Durata schermo acceso in secondi</string>
+    <string name="zetime_title_heart_rate_alarm_summary">L\'orologio mostrerà un avviso se la frequenza cardiaca supererà i limiti.</string>
+    <string name="activity_prefs_alarm_max_heart_rate">Frequenza cardiaca massima</string>
+    <string name="activity_prefs_alarm_min_heart_rate">Frequenza cardiaca minima</string>
+    <string name="zetime_handmove_display_summary">Ruota il polso per attivare o disattivare il display.</string>
+    <string name="zetime_time_format_24h">24h</string>
+    <string name="zetime_time_format_12h">12h</string>
+    <string name="zetime_date_format">Formato data</string>
+    <string name="zetime_date_format_1">AA/MM/GG</string>
+    <string name="zetime_date_format_2">GG/MM/AA</string>
+    <string name="zetime_date_format_3">MM/GG/AA</string>
+    <string name="zetime_prefs_inactivity_mo">Lunedì</string>
+    <string name="zetime_prefs_inactivity_tu">Martedì</string>
+    <string name="zetime_prefs_inactivity_we">Mercoledì</string>
+    <string name="zetime_prefs_inactivity_th">Giovedì</string>
+    <string name="zetime_prefs_inactivity_fr">Venerdì</string>
+    <string name="zetime_prefs_inactivity_sa">Sabato</string>
+    <string name="zetime_prefs_inactivity_su">Domenica</string>
 </resources>
