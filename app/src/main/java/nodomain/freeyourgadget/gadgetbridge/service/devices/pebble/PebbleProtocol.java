@@ -2156,7 +2156,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 break;
             case APPRUNSTATE_STOP:
                 LOG.info(ENDPOINT_NAME + ": stopped " + uuid);
-                break;
+
+                GBDeviceEventAppManagement gbDeviceEventAppManagement = new GBDeviceEventAppManagement();
+                gbDeviceEventAppManagement.uuid = uuid;
+                gbDeviceEventAppManagement.type = GBDeviceEventAppManagement.EventType.STOP;
+                gbDeviceEventAppManagement.event = GBDeviceEventAppManagement.Event.SUCCESS;
+                return new GBDeviceEvent[]{gbDeviceEventAppManagement};
             default:
                 LOG.info(ENDPOINT_NAME + ": (cmd:" + command + ")" + uuid);
                 break;

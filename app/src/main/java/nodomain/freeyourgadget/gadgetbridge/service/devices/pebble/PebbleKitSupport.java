@@ -44,6 +44,8 @@ class PebbleKitSupport {
     private static final String PEBBLEKIT_ACTION_APP_START = "com.getpebble.action.app.START";
     private static final String PEBBLEKIT_ACTION_APP_STOP = "com.getpebble.action.app.STOP";
 
+    private static final String PEBBLEKIT_EXTRA_REOPEN_LAST_APP = "com.getpebble.action.app.REOPEN_LAST_APP";
+
     private static final String PEBBLEKIT_ACTION_DL_RECEIVE_DATA_NEW = "com.getpebble.action.dl.RECEIVE_DATA_NEW";
     //private static final String PEBBLEKIT_ACTION_DL_RECEIVE_DATA = "com.getpebble.action.dl.RECEIVE_DATA";
     private static final String PEBBLEKIT_ACTION_DL_ACK_DATA = "com.getpebble.action.dl.ACK_DATA";
@@ -73,7 +75,12 @@ class PebbleKitSupport {
                 case PEBBLEKIT_ACTION_APP_STOP:
                     uuid = (UUID) intent.getSerializableExtra("uuid");
                     if (uuid != null) {
-                        mPebbleIoThread.write(mPebbleProtocol.encodeAppStart(uuid, action.equals(PEBBLEKIT_ACTION_APP_START)));
+                        if (action.equals(PEBBLEKIT_ACTION_APP_STOP) &&
+                                intent.getBooleanExtra(PEBBLEKIT_EXTRA_REOPEN_LAST_APP, false)) {
+                            mPebbleIoThread.reopenLastApp(uuid);
+                        } else {
+                            mPebbleIoThread.write(mPebbleProtocol.encodeAppStart(uuid, action.equals(PEBBLEKIT_ACTION_APP_START)));
+                        }
                     }
                     break;
                 case PEBBLEKIT_ACTION_APP_SEND:
