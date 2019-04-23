@@ -609,8 +609,8 @@
     <string name="overslept">Sonno extra: %1$s</string>
     <string name="lack_of_step">Passi mancanti: %1$d</string>
     <string name="overstep">Passi eccedenti: %1$d</string>
-    <string name="debugactivity_really_factoryreset_title">Proseguire davvero con il reset totale\?</string>
-    <string name="debugactivity_really_factoryreset">Effettuando un reset totale si perderanno tutti i dati relativi ai dispositivi connessi (se supportati). I dispositivi Xiaomi/Huami potrebbero cambiare il proprio indirizzo MAC Bluetooth e Gadgetbridge potrebbe riconoscerli come dispositivi completamente nuovi.</string>
+    <string name="debugactivity_really_factoryreset_title">Confermare il ripristino delle impostazioni di fabbrica\?</string>
+    <string name="debugactivity_really_factoryreset">Effettuare il ripristino delle impostazioni di fabbrica cancellerà tutti i dati presenti sul dispositivo connesso (se supportato). I dispositivi Xiaomi/Huami cambieranno anche il proprio MAC Address Bluetooth, in modo da risultare dispositivi nuovi per Gadgetbrige.</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="title_activity_notification_filter">Filtro Notifiche</string>
     <string name="toast_app_must_not_be_blacklisted">L\'app non deve trovarsi nella blacklist per essere configurata</string>
