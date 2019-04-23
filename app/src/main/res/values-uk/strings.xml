@@ -214,7 +214,7 @@
     <string name="abstract_chart_fragment_kind_activity">Активність</string>
     <string name="abstract_chart_fragment_kind_light_sleep">Швидкий сон</string>
     <string name="abstract_chart_fragment_kind_deep_sleep">Глибокий сон</string>
-    <string name="abstract_chart_fragment_kind_not_worn"></string>
+    <string name="abstract_chart_fragment_kind_not_worn"/>
     <string name="device_not_connected">Не з\'єднано.</string>
     <string name="user_feedback_all_alarms_disabled">Всі будильники вимкнено</string>
     <string name="pref_title_keep_data_on_device">Лишати дані на пристрої</string>
@@ -280,7 +280,7 @@
     <string name="pref_summary_minimize_priority_off">Значок в рядку стану та сповіщення на екрані блокування відображаються</string>
     <string name="pref_summary_minimize_priority_on">Значок в рядку стану та сповіщення на екрані блокування не відображаються</string>
     <string name="pref_summary_notifications_pebblemsg">Підтримка застосунків, які відправляють повідомлення Pebble через PebbleKit.</string>
-    <string name="pref_summary_notification_filter">Припинить надсилання небажаних сповіщень у режимі \"Не турбувати\"</string>
+    <string name="pref_summary_notification_filter">Запобігати надсилання небажаних сповіщень у режимі \"Не турбувати\"</string>
     <string name="pref_title_transliteration">Транслітерація</string>
     <string name="pref_summary_transliteration">"Увімкніть цей параметр, якщо пристрій не підтримує шрифт вашої мови "</string>
     <string name="pref_title_call_privacy_mode">Режим приватності</string>
