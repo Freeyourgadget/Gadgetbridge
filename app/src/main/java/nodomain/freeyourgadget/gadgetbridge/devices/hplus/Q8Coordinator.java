@@ -34,7 +34,7 @@ public class Q8Coordinator extends HPlusCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
-        if(name != null && name.startsWith("Q8")){
+        if(name != null && name.startsWith("SmartDevice")){
             return DeviceType.Q8;
         }
 
@@ -48,7 +48,7 @@ public class Q8Coordinator extends HPlusCoordinator {
 
     @Override
     public String getManufacturer() {
-        return "Makibes";
+        return "No.1";
     }
 
 }
