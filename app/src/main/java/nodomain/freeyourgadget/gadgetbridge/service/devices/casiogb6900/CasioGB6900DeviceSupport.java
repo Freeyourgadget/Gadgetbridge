@@ -67,6 +67,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
     private MusicStateSpec mBufferMusicStateSpec = null;
     private BluetoothGatt mBtGatt = null;
     private CasioGB6900Constants.Model mModel = CasioGB6900Constants.Model.MODEL_CASIO_GENERIC;
+    private boolean mFirstConnect = false;
 
     private static final int mCasioSleepTime = 50;
 
@@ -104,6 +105,13 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public boolean connectFirstTime() {
+        GB.toast(getContext(), "After first connect, disable and enable bluetooth on your Casio watch to really connect", Toast.LENGTH_SHORT, GB.INFO);
+        mFirstConnect = true;
+        return super.connect();
+    }
+
+    @Override
     public void dispose() {
         LOG.info("Dispose");
         close();
@@ -128,6 +136,14 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         LOG.info("Initializing");
+
+        if(mFirstConnect) {
+            gbDevice.setState(GBDevice.State.INITIALIZED);
+            gbDevice.sendDeviceUpdateIntent(getContext());
+            getDevice().setFirmwareVersion("N/A");
+            getDevice().setFirmwareVersion2("N/A");
+            return builder;
+        }
 
         String name = gbDevice.getName();
 
