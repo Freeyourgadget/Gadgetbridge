@@ -48,7 +48,8 @@ public class AmazfitCorCoordinator extends HuamiCoordinator {
         try {
             BluetoothDevice device = candidate.getDevice();
             String name = device.getName();
-            if (name != null && (name.equalsIgnoreCase("Amazfit Band") || name.equalsIgnoreCase("Amazfit Cor") || name.equalsIgnoreCase("Amazfit Cor 2"))) {
+            if (name != null && (name.equalsIgnoreCase("Amazfit Band") || name.equalsIgnoreCase("Amazfit Cor")
+                    || name.equalsIgnoreCase("Amazfit Band 2") || name.equalsIgnoreCase("Amazfit Cor 2"))) {
                 return DeviceType.AMAZFITCOR;
             }
         } catch (Exception ex) {
