@@ -21,10 +21,11 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;

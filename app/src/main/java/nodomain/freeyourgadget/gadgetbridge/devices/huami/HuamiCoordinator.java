@@ -40,6 +40,8 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.HuamiSettingsFragment;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.DateTimeDisplay;
@@ -117,6 +119,16 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsActivityTracking() {
         return true;
+    }
+
+    @Override
+    public boolean supportsDeviceSpecificSettings(GBDevice device) {
+        return true;
+    }
+
+    @Override
+    public DeviceSpecificSettingsFragment getDeviceSpecificSettingsFragment(GBDevice device) {
+        return HuamiSettingsFragment.newInstance(device.getAddress());
     }
 
     @Override
