@@ -689,4 +689,8 @@
     <string name="zetime_calories_type_all">Aktivt og inaktivt -forbrente kalorier</string>
     <string name="pref_screen_notification_profile_anti_loss">Advarsel om tap</string>
     <string name="pref_title_support_voip_calls">Skru på VoIP-programsamtaler</string>
+    <string name="title_activity_device_specific_settings">Enhetsspesifikke innstillinger</string>
+    <string name="pref_title_authkey">Identitetsbekreftelsesnøkkel</string>
+    <string name="pref_summary_authkey">Endre identitetsbekreftelsesnøkkelen til en vanlig nøkkel på alle Android-enhetene du ønsker å koble til fra. Forrige forvalgte nøkkel for alle enheter var 0123456789@ABCDE</string>
+    <string name="devicetype_bfh16">BFH-16</string>
 </resources>
