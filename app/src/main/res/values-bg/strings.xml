@@ -80,7 +80,7 @@
     <string name="pref_header_general">Общи настройки</string>
     <string name="pref_title_general_autoconnectonbluetooth">Свързване с Gadgetbridge устройството при включване на Bluetoooth</string>
     <string name="pref_title_general_autostartonboot">Автоматично стартиране</string>
-    <string name="pref_title_general_autoreconnect">Автоматичен reconnect</string>
+    <string name="pref_title_general_autoreconnect">Автоматично възстановяване на връзката</string>
     <string name="pref_title_audio_player">Предпочитан музикален player</string>
     <string name="pref_default">По подразбиране</string>
     <string name="pref_title_charts_swipe">Включване на плъзгане в ляво/дясно в графиката за активности</string>
@@ -132,7 +132,7 @@
     <string name="pref_header_development">Настройки за разработчици</string>
     <string name="pref_title_development_miaddr">Mi Band адрес</string>
     <string name="pref_title_pebble_settings">Pebble настройки</string>
-    <string name="pref_header_activitytrackers">Активити trackers</string>
+    <string name="pref_header_activitytrackers">Активити тракери</string>
     <string name="pref_title_pebble_activitytracker">Предпочитан активити tracker</string>
     <string name="pref_title_pebble_sync_health">Синхронизиране с Pebble Health</string>
     <string name="pref_title_pebble_sync_misfit">Синхронизиране с Misfit</string>
@@ -210,9 +210,9 @@
     <string name="installing_binary_d_d">Инсталиране на двоичен файл %1$d/%2$d</string>
     <string name="installation_failed_">Инсталацията пропадна</string>
     <string name="installation_successful">Инсталирано</string>
-    <string name="firmware_install_warning">ОПИТВАТЕ СЕ ДА ИНСТАЛИРАТЕ FIRMWARE, ПРОДЪЛЖЕТЕ НА СОБСТВЕН РИСК.
-\n
-\n
+    <string name="firmware_install_warning">ОПИТВАТЕ СЕ ДА ИНСТАЛИРАТЕ FIRMWARE, ПРОДЪЛЖЕТЕ НА СВОЯ ОТГОВОРНОСТ. 
+\n 
+\n 
 \n Този firmware е за HW Revision: %s</string>
     <string name="app_install_info">Ще се инсталира следното приложение:
 \n
@@ -235,7 +235,7 @@
     <string name="pairing_unable_to_pair_with">Не може да се сдвои с/със %1$s (%2$s)</string>
     <string name="pairing_in_progress">Установява се връзка: %1$s (%2$s)</string>
     <string name="pairing_already_bonded">Установена е връзка с/със %1$s (%2$s), свързване…</string>
-    <string name="message_cannot_pair_no_mac">Липсва MAC адрес, не може да се свърже</string>
+    <string name="message_cannot_pair_no_mac">Липсва MAC адрес, не може да се установи връзка</string>
     <string name="preferences_category_device_specific_settings">Специфични настройки за устройствата</string>
     <string name="preferences_miband_settings">Mi Band / Amazfit настройки</string>
     <string name="preferences_miband2_settings">Mi Band 2 настройки</string>
@@ -257,7 +257,7 @@
     <string name="candidate_item_device_image">Изображение на устройството</string>
     <string name="miband_prefs_alias">Име/Псевдоним</string>
     <string name="pref_header_vibration_count">Брой на вибрациите</string>
-    <string name="watch9_pairing_tap_hint">Когато часовникът вибрира, разклатете устройството или натиснете бутона</string>
+    <string name="watch9_pairing_tap_hint">Когато часовникът завибрира, разклатете устройството или натиснете бутона</string>
     <string name="title_activity_sleepmonitor">Наблюдение/анализ на съня</string>
     <string name="pref_write_logfiles">Съхраняване на log файлове</string>
     <string name="initializing">Инициализиране</string>
@@ -279,7 +279,7 @@
     <string name="pref_screen_notification_profile_generic">Обща поддръжка на известия</string>
     <string name="pref_screen_notification_profile_email">Имейл известяване</string>
     <string name="pref_screen_notification_profile_incoming_call">Известяване за входящо обаждане</string>
-    <string name="pref_screen_notification_profile_generic_chat">Лаф</string>
+    <string name="pref_screen_notification_profile_generic_chat">Чат</string>
     <string name="pref_screen_notification_profile_generic_navigation">Навигация</string>
     <string name="pref_screen_notification_profile_generic_social">Социални мрежи</string>
     <string name="prefs_title_heartrate_measurement_interval">Измерване на сърдечния ритъм през целия ден</string>
@@ -342,7 +342,7 @@
     <string name="stats_x_axis_label">Общо минути</string>
     <string name="stats_y_axis_label">Крачки в минута</string>
     <string name="control_center_find_lost_device">Търсене на загубено устройство</string>
-    <string name="control_center_cancel_to_stop_vibration">Спиране на вибрацията</string>
+    <string name="control_center_cancel_to_stop_vibration">Отменете за спиране на вибрацията</string>
     <string name="title_activity_charts">Вашата активност</string>
     <string name="title_activity_set_alarm">Настройка на алармите</string>
     <string name="controlcenter_start_configure_alarms">Настройка на алармите</string>
@@ -374,4 +374,46 @@
     <string name="notif_battery_low_bigtext_number_of_charges">Брой зареждания: %s</string>
     <string name="notif_battery_low">%1$s батерията е разредена</string>
     <string name="notif_battery_low_extended">%1$s батерията е разредена: %2$s</string>
+    <string name="pref_title_support_voip_calls">Активиране на обаждане от VoIP приложения</string>
+    <string name="notif_export_failed_title">Експортът на базата данни пропадна! Моля, проверете си настройките.</string>
+    <string name="sleepchart_your_sleep">Вашият сън</string>
+    <string name="weekstepschart_steps_a_week">Крачки за седмица</string>
+    <string name="activity_sleepchart_activity_and_sleep">Вашите активност и сън</string>
+    <string name="lack_of_sleep">Недоспиване: %1$s</string>
+    <string name="updating_firmware">Обновяване на firmware…</string>
+    <string name="fwapp_install_device_not_ready">Файлът не може да бъде инсталиран, устройството не е готово.</string>
+    <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
+    <string name="miband_fwinstaller_compatible_version">Съвместима версия</string>
+    <string name="miband_fwinstaller_untested_version">Нетествана версия!</string>
+    <string name="fwappinstaller_connection_state">Свързване с устройство: %1$s</string>
+    <string name="pbw_installhandler_pebble_firmware">Pebble Firmware %1$s</string>
+    <string name="pbwinstallhandler_correct_hw_revision">Коректна хардуерна ревизия</string>
+    <string name="pbwinstallhandler_incorrect_hw_revision">Несъответствие на хардуерната ревизия!</string>
+    <string name="pbwinstallhandler_app_item">%1$s (%2$s)</string>
+    <string name="updatefirmwareoperation_updateproblem_do_not_reboot">Проблем при зареждането на firmware. НЕ РЕСТАРТИРАЙТЕ вашия Mi Band!</string>
+    <string name="updatefirmwareoperation_metadata_updateproblem">Проблем при зареждането на метаданните на фърмуера</string>
+    <string name="updatefirmwareoperation_update_complete">Инсталирането на firmware завърши</string>
+    <string name="updatefirmwareoperation_update_complete_rebooting">Инсталирането на firmware завърши, устройството се рестартира…</string>
+    <string name="updatefirmwareoperation_write_failed">Firmware обноваването е неуспешно</string>
+    <string name="chart_steps">Крачки</string>
+    <string name="calories">Калории</string>
+    <string name="distance">Разстояние</string>
+    <string name="clock">Часовник</string>
+    <string name="heart_rate">Сърдечен ритъм</string>
+    <string name="battery">Батерия</string>
+    <string name="no_limit">Без ограничение</string>
+    <string name="seconds_5">5 секунди</string>
+    <string name="seconds_10">10 секунди</string>
+    <string name="seconds_20">20 секунди</string>
+    <string name="seconds_30">30 секунди</string>
+    <string name="minutes_1">1 минута</string>
+    <string name="minutes_5">5 минути</string>
+    <string name="minutes_10">10 минути</string>
+    <string name="minutes_30">30 минути</string>
+    <string name="liveactivity_live_activity">Активност в реално време</string>
+    <string name="weeksteps_today_steps_description">Крачки днес, цел: %1$s</string>
+    <string name="lack_of_step">Недостиг на крачки: %1$d</string>
+    <string name="overstep">Крачки в повече: %1$d</string>
+    <string name="pref_summary_dont_ack_transfers">Ако данните за активност не са потвърени от устройството, те няма да се изчистят. Полезно е, когато GB се използва заедно с други приложения.</string>
+    <string name="pref_summary_keep_data_on_device">Данните за активност ще се пазят на Mi Band дори след синхронизация. Полезно е, когато GB се използва заедно с други приложения.</string>
 </resources>
