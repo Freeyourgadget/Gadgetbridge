@@ -698,4 +698,8 @@
     <string name="activity_prefs_activetime_minutes">Καθημερινός στόχος: ενεργός χρόνος σε λεπτά</string>
     <string name="devicetype_miscale2">"Mi Scale 2 "</string>
     <string name="pref_title_support_voip_calls">Ενεργοποίηση κλήσεων εφαρμογής VoIP</string>
+    <string name="title_activity_device_specific_settings">Μοναδικές ρυθμίσεις συσκευών</string>
+    <string name="pref_title_authkey">Κλειδί εξουσιοδότησης</string>
+    <string name="pref_summary_authkey">Αλλαγή του κλειδιού εξουσιοδότησης σε ένα κοινό για όλες σας τις συσκευές Android από τις οποίες θέλετε να συνδεθείτε. Το προηγούμενο προεπιλεγμένο κλειδί για όλες τις συσκευές είναι 0123456789@ABCDE</string>
+    <string name="devicetype_bfh16">BFH - 16</string>
 </resources>
