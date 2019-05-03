@@ -682,4 +682,8 @@
     <string name="activity_prefs_activetime_minutes">יעד יומי: זמן פעילות בדקות</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
     <string name="pref_title_support_voip_calls">הפעלת שיחות VoIP מהיישומון</string>
+    <string name="title_activity_device_specific_settings">הגדרות ייחודיות למכשיר</string>
+    <string name="pref_title_authkey">מפתח אימות</string>
+    <string name="pref_summary_authkey">ניתן להחליף את מפתח האימות למפתח משותף בכל מכשירי ה־Android שלך מהם ברצונך להתחבר. מפתח בררת המחדל הקודם לכל המכשירים הוא 0123456789@ABCDE</string>
+    <string name="devicetype_bfh16">BFH-16</string>
 </resources>
