@@ -373,11 +373,19 @@
         <item name="zh_TW">@string/traditional_chinese</item>
         <item name="en_US">@string/english</item>
         <item name="es_ES">@string/spanish</item>
-        <item name="ru_RU">@string/russian</item>
         <item name="de_DE">@string/german</item>
         <item name="it_IT">@string/italian</item>
         <item name="fr_FR">@string/french</item>
+        <item name="pt_PT">@string/portuguese</item>
+        <item name="nl_NL">@string/dutch</item>
         <item name="pl_PL">@string/polish</item>
+        <item name="tr_TR">@string/turkish</item>
+        <item name="ru_RU">@string/russian</item>
+        <item name="uk_UA">@string/ukrainian</item>
+        <item name="ar_SA">@string/arabic</item>
+        <item name="id_ID">@string/indonesian</item>
+        <item name="th_TH">@string/thai</item>
+        <item name="vi_VN">@string/vietnamese</item>
         <item name="ja_JP">@string/japanese</item>
         <item name="ko_KO">@string/korean</item>
     </string-array>
@@ -388,11 +396,19 @@
         <item>zh_TW</item>
         <item>en_US</item>
         <item>es_ES</item>
-        <item>ru_RU</item>
         <item>de_DE</item>
         <item>it_IT</item>
         <item>fr_FR</item>
+        <item>pt_PT</item>
+        <item>nl_NL</item>
         <item>pl_PL</item>
+        <item>tr_TR</item>
+        <item>ru_RU</item>
+        <item>uk_UA</item>
+        <item>ar_SA</item>
+        <item>id_ID</item>
+        <item>th_TH</item>
+        <item>vi_VN</item>
         <item>ja_JP</item>
         <item>ko_KO</item>
     </string-array>

@@ -485,6 +485,14 @@
     <string name="polish">Polish</string>
     <string name="korean">Korean</string>
     <string name="japanese">Japanese</string>
+    <string name="dutch">Dutch</string>
+    <string name="turkish">Turkish</string>
+    <string name="ukrainian">Ukrainian</string>
+    <string name="arabic">Arabic</string>
+    <string name="indonesian">Indonesian</string>
+    <string name="thai">Thai</string>
+    <string name="vietnamese">Vietnamese</string>
+    <string name="portuguese">Portuguese</string>
     <string name="FetchActivityOperation_about_to_transfer_since">About to transfer data since %1$s</string>
     <string name="waiting_for_reconnect">Waiting for reconnect</string>
     <string name="activity_prefs_about_you">About you</string>
