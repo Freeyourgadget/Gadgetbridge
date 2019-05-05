@@ -1,3 +1,6 @@
+**IF YOU WANT TO EDIT THE WIKI**, do so on [codeberg.org](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki)
+The wiki on github.com is a read-only mirror, as is the git repo itself. Issues and PRs will move to codeberg summer 2019, if you want your issue/PR comments migrated properly, please create a codeberg acount before we will migrate.
+
 Gadgetbridge
 ============
 
