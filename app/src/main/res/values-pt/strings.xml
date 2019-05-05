@@ -194,7 +194,7 @@
     <string name="miband_prefs_alias">Nome/Apelido</string>
     <string name="pref_header_vibration_count">Quantidade de vibrações</string>
     <string name="title_activity_sleepmonitor">Monitor de sono</string>
-    <string name="pref_write_logfiles">Escrever arquivos de registo</string>
+    <string name="pref_write_logfiles">Escrever ficheiros de registo</string>
     <string name="initializing">Inicializando</string>
     <string name="busy_task_fetch_activity_data">A Descarregar Dados de Atividade</string>
     <string name="sleep_activity_date_range">De %1$s até %2$s</string>
@@ -217,7 +217,7 @@
     <string name="pref_screen_notification_profile_generic_chat">Conversas</string>
     <string name="pref_screen_notification_profile_generic_navigation">Navegação</string>
     <string name="pref_screen_notification_profile_generic_social">Rede social</string>
-    <string name="control_center_find_lost_device">Encontrar dispositivo perdido</string>
+    <string name="control_center_find_lost_device">Encontrar aparelho perdido</string>
     <string name="control_center_cancel_to_stop_vibration">Cancele para parar a vibração.</string>
     <string name="title_activity_charts">A sua atividade</string>
     <string name="title_activity_set_alarm">Configurar Alarmes</string>
@@ -248,7 +248,7 @@
     <string name="notif_battery_low_bigtext_last_charge_time">Última carga: %s \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Número de cargas: %s</string>
     <string name="sleepchart_your_sleep">O Seu Sono</string>
-    <string name="weeksleepchart_sleep_a_week">Sono na semana</string>
+    <string name="weeksleepchart_sleep_a_week">Dormir por semana</string>
     <string name="weeksleepchart_today_sleep_description">Sono hoje, objetivo: %1$s</string>
     <string name="weekstepschart_steps_a_week">Passos na semana</string>
     <string name="activity_sleepchart_activity_and_sleep">A Sua Atividade e Sono</string>
@@ -271,7 +271,7 @@
     <string name="calories">Calorias</string>
     <string name="distance">Distância</string>
     <string name="clock">Relógio</string>
-    <string name="heart_rate">Ritmo Cardíaco</string>
+    <string name="heart_rate">Ritmo cardíaco</string>
     <string name="battery">Bateria</string>
     <string name="liveactivity_live_activity">Atividade em tempo real</string>
     <string name="weeksteps_today_steps_description">Passos hoje, objetivo: %1$s</string>
@@ -378,7 +378,7 @@
     <string name="mi2_fw_installhandler_fw53_hint">Deve instalar a versão %1$s antes de instalar este firmware!</string>
     <string name="mi2_enable_text_notifications">Notificações de texto</string>
     <string name="mi2_enable_text_notifications_summary"><![CDATA[Necessita de firmware >= 1.0.1.28 e Mili_pro.ft* instalado.]]></string>
-    <string name="off">desligado</string>
+    <string name="off">Desligado</string>
     <string name="mi2_dnd_off">Desligado</string>
     <string name="mi2_dnd_automatic">Automático (deteção de sono)</string>
     <string name="mi2_dnd_scheduled">Agendado (intervalo de tempo)</string>
@@ -520,4 +520,14 @@
     <string name="pref_summary_rtl">Ative isto se o seu dispositivo pode mostrar idiomas que se escrevem da direita para a esquerda</string>
     <string name="pref_rtl_max_line_length">Comprimento máximo da linha da direita para a esquerda</string>
     <string name="pref_rtl_max_line_length_summary">Alonga ou encurta as linhas da direita para a esquerda em que o texto é cortado</string>
+    <string name="pref_summary_enable_calendar_sync">Enviar eventos do calendário para linha do tempo</string>
+    <string name="pref_title_pebble_enable_bgjs">Ativar JS em segundo plano</string>
+    <string name="pref_summary_pebble_enable_bgjs">Quando ativado, permite que as mostradores mostrem o clima, informações da bateria, etc.</string>
+    <string name="prefs_title_heartrate_measurement_interval">Medição diária dos batimentos cardíacos</string>
+    <string name="mi2_prefs_button_press_count">Contagem de acionamento do botão</string>
+    <string name="mi2_prefs_button_press_count_summary">Número de toques no botão para enviar a mensagem</string>
+    <string name="mi2_prefs_button_press_broadcast">Mensagem para enviar</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Enviar mensagem após um número definido de toques no botão</string>
+    <string name="mi2_prefs_button_action">Ativar botão</string>
+    <string name="mi2_prefs_button_action_vibrate">Ativar vibração</string>
 </resources>
