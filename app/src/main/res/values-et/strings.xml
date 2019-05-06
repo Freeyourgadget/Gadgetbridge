@@ -1,6 +1,6 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<resources><string name="app_name">Gadgetbridge</string>
-
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gadgetbridge</string>
     <string name="title_activity_controlcenter">Gadgetbridge</string>
     <string name="action_settings">Seaded</string>
     <string name="action_debug">Silumine</string>
@@ -9,7 +9,7 @@
     <string name="controlcenter_fetch_activity_data">Sünkrooni</string>
     <string name="controlcenter_find_device">Leia kadunud seade</string>
     <string name="controlcenter_take_screenshot">Tee ekraanipilt</string>
-    <string name="controlcenter_connect">Ühenda</string>
+    <string name="controlcenter_connect">Ühenda…</string>
     <string name="controlcenter_disconnect">Ühenda lahti</string>
     <string name="controlcenter_delete_device">Kustuta seade</string>
     <string name="controlcenter_delete_device_name">Kustuta %1$s</string>
@@ -20,10 +20,7 @@
     <string name="controlcenter_snackbar_disconnecting">Ühendan lahti</string>
     <string name="controlcenter_snackbar_connecting">Ühendan</string>
     <string name="controlcenter_snackbar_requested_screenshot">Teen seadme ekraanist pilti</string>
-
-
     <string name="title_activity_debug">Silumine</string>
-
     <string name="title_activity_appmanager">Rakendustehaldur</string>
     <string name="appmanager_cached_watchapps_watchfaces">Rakendused vahemälus</string>
     <string name="appmanager_installed_watchapps">Paigaldatud rakendused</string>
@@ -41,11 +38,8 @@
     <string name="appmanager_weather_install_provider">Paigalda ilmateavituste rakendus</string>
     <string name="app_configure">Seadista</string>
     <string name="app_move_to_top">Liiguta kõige üles</string>
-
     <string name="title_activity_appblacklist">Teavituste must nimekiri</string>
-
     <string name="title_activity_calblacklist">Kalendrite must nimekiri</string>
-
     <string name="title_activity_fw_app_insaller">Püsivara/rakenduse paigaldaja</string>
     <string name="fw_upgrade_notice">Olete installeerimas püsivara %s selle asemel, mis praegu teie Mi Bandil on.</string>
     <string name="fw_upgrade_notice_amazfitbip">Olete installimas %s püsivara enda Amazfit Bip\'ile.
@@ -68,7 +62,6 @@
 \n
 \nSoovitame mitte seda teie Mi Bandile paigaldada!</string>
     <string name="title_activity_settings">Seaded</string>
-
     <string name="pref_header_general">Üldised seaded</string>
     <string name="pref_title_general_autoconnectonbluetooth">Ühendu seadmega kui Bluetooth lülitatakse sisse</string>
     <string name="pref_title_general_autostartonboot">Käivitu automaatselt</string>
@@ -78,17 +71,12 @@
     <string name="pref_header_datetime">Kuupäev ja kellaaeg</string>
     <string name="pref_title_datetime_syctimeonconnect">Sünkrooni aega</string>
     <string name="pref_summary_datetime_syctimeonconnect">"Sünkrooni aeg seadmega ühendumise ajal või kui Androidis aeg või ajatsoon muutub "</string>
-
     <string name="miband_firmware_suggest_whitelist">Kui te siiski soovite jätkata ja seade jätkab tööd ka hiljem palun andke Gadgetbridge\'i arendajatele teada, et nad lisaksid %s versiooni toetatud püsivarade nimekirja.</string>
-
     <string name="pref_title_charts_swipe">Luba viiped vasakule/paremale graafikute vaates</string>
-
     <string name="pref_title_theme">Teema</string>
     <string name="pref_theme_light">Hele</string>
     <string name="pref_theme_dark">Tume</string>
-
     <string name="pref_title_language">Keel</string>
-
     <string name="pref_title_minimize_priority">Peida Gadgetbridge\'i teavitus</string>
     <string name="pref_header_notifications">Teavitused</string>
     <string name="pref_title_notifications_repetitions">Korduseid</string>
@@ -101,26 +89,20 @@
     <string name="always">Alati</string>
     <string name="when_screen_off">Kui ekraan on väljalülitatud</string>
     <string name="never">Mitte kunagi</string>
-
     <string name="pref_header_privacy">Privaatsus</string>
     <string name="pref_call_privacy_mode_off">Kuva nimi ja number</string>
     <string name="pref_call_privacy_mode_number">Peida number kuid kuva nimi</string>
     <string name="pref_call_privacy_mode_complete">Peida nimi ja number</string>
-
     <string name="pref_title_weather">Ilm</string>
     <string name="pref_title_weather_location">Ilma asukohta (CM/LOS)</string>
-
     <string name="pref_blacklist">Rakenduste must nimekiri</string>
     <string name="pref_blacklist_calendars">Kalendrite must nimekiri</string>
-
     <string name="pref_summary_minimize_priority_off">Olekuriba ikooni ja lukustusekraani märguandeid kuvatakse</string>
     <string name="pref_summary_minimize_priority_on">Olekuriba ikoon ja lukustuserkaani märguanded on peidetud</string>
-
     <string name="pref_summary_notifications_pebblemsg">Tugi rakendustele, mis saadavad PebbleKit\'i kaudu märguandeid Pebble\'le.</string>
     <string name="pref_title_whenscreenon">...ka sisse lülitatud ekraaniga</string>
     <string name="pref_summary_notification_filter">Peata soovimatute märguannete saatmine \"Ära sega\" režiimis</string>
     <string name="pref_summary_transliteration">Luba see, kui su seadmel puudub su keele fondi tugi</string>
-
     <string name="pref_title_call_privacy_mode">Kõne privaatrežiim</string>
     <string name="pref_call_privacy_mode_name">Peida nimi, kuva ainult number</string>
     <string name="pref_header_cannned_messages">Talletatud sõnumid</string>
@@ -128,22 +110,15 @@
     <string name="pref_title_canned_reply_suffix">Ühine järelliide</string>
     <string name="pref_header_development">Arendajate seaded</string>
     <string name="pref_title_development_miaddr">Mi Band\'i aadress</string>
-
     <string name="pref_title_canned_messages_set">Uuenda Pebble\'l</string>
-
     <string name="pref_title_pebble_settings">Pebble\'i seaded</string>
-
     <string name="pref_header_activitytrackers">Aktiivsusmonitorid</string>
     <string name="pref_title_pebble_activitytracker">Eelistatud aktiivsusmonitor</string>
     <string name="pref_title_pebble_sync_health">Sünkrooni Pebble\'i terviseandmeid</string>
     <string name="pref_title_pebble_sync_misfit">Sünkrooni Misfit\'i</string>
     <string name="controlcenter_calibrate_device">Kalibreeri seade</string>
-
-
     <string name="blacklist_all_for_notifications">Lisa kõikide nende teatised musta nimekirja</string>
     <string name="whitelist_all_for_notifications">Lisa kõikide nende teatised valgesse nimekirja</string>
-
-
     <string name="fw_upgrade_notice_miband3">Te kavatsete installida %s püsivara enda Mi Band 3le.
 \n
 \nVeenduge, et installite .fw faili ja seejärel .res fail. Kell taaskäivitub pärast .fw faili installimist.
@@ -153,43 +128,35 @@
 \nTESTIMATA, TEIE SEADE VÕIB MUUTUDA PABERIRASKUSEKS, JÄTKATE OMAL RIISIKOL!</string>
     <string name="pref_title_canned_messages_dismisscall">Kõne hargile panek</string>
     <string name="pref_title_pebble_sync_morpheuz">Sünkrooni Morpheuz</string>
-
     <string name="pref_title_enable_outgoing_call">Toeta väljaminevaid kõnesid</string>
     <string name="pref_summary_enable_outgoing_call">Selle valiku väljalülitamine lülitab välja ka Pebble 2/LE värisemise väljaminevate kõnede puhul</string>
-
     <string name="pref_title_enable_pebblekit">Luba kolmanda osapoolte rakenduste ligipääs</string>
     <string name="pref_summary_enable_pebblekit">Lülita sisse eksperimentaalne PebbleKit\'i kasutavate rakenduste tugi</string>
-
     <string name="pref_header_pebble_timeline">Pebble ajajoon</string>
     <string name="pref_title_sunrise_sunset">Päikesetõus ja päikeseloojang</string>
     <string name="pref_summary_sunrise_sunset">Saada päikesetõusu ja päikeseloojangu ajad asukoha järgi Pebble ajajoonele</string>
     <string name="pref_title_enable_calendar_sync">Sünkrooni kalender</string>
     <string name="pref_summary_enable_calendar_sync">Saada kalendri sündmused ajajoonele</string>
-
     <string name="pref_title_autoremove_notifications">Eemalda automaatselt eemaldatud teatised</string>
     <string name="pref_summary_autoremove_notifications">Teatised eemaldatakse automaatselt Pebble\'st kui need eemaldatakse Androidi seadmest</string>
-
     <string name="pref_title_pebble_privacy_mode">Privaatsusrežiim</string>
     <string name="pref_pebble_privacy_mode_off">Tavalised teatised</string>
     <string name="pref_pebble_privacy_mode_content">Nihuta teatise tekst ekraanilt välja</string>
     <string name="pref_pebble_privacy_mode_complete">Näita ainult teatise ikooni</string>
-
     <string name="pref_header_location">Asukoht</string>
     <string name="pref_title_location_aquire">Küsi asukoht</string>
     <string name="pref_title_location_latitude">Laiuskraad</string>
     <string name="pref_title_location_longitude">Pikkuskraad</string>
     <string name="pref_title_location_keep_uptodate">Hoia asukoht ajakohasena</string>
     <string name="pref_summary_location_keep_uptodate">Proovi küsida ajakohast asukohta jooksvalt, kasuta eelnevalt salvestatut kui eelnev ei õnnestu</string>
-
     <string name="toast_enable_networklocationprovider">Palun lülita sisse võrgu järgi seatud asukoht</string>
     <string name="toast_aqurired_networklocation">asukoht leitud</string>
-
     <string name="pref_title_pebble_forceprotocol">Sunniviisiliselt kasuta teatiste protokolli</string>
     <string name="pref_summary_pebble_forceprotocol">See valik sunnib kõige uuema teatiste protokolli kasutamise vastavalt püsivara versioonile. KASUTA AINULT KUI SA TEAD MIDA SA TEED!</string>
     <string name="pref_title_pebble_forceuntested">Lülita sisse testimata funktsioonid</string>
     <string name="pref_summary_pebble_forceuntested">Lülita sisse testimata funktsioonid. TEA, MIDA SA TEED!</string>
     <string name="pref_title_pebble_forcele">Alati eelista Bluetooth LE\'d</string>
-    <string name="pref_auto_fetch_summary">Allalaadimine käivitatakse ekraani lahtilukustamise ajal. Töötab ainult sellel juhul kui lukustusmehhanism on seatud!</string>
+    <string name="pref_auto_fetch_summary">Import käivitatakse ekraani lahtilukustamise ajal. Töötab ainult sellel juhul kui lukustusmehhanism on seatud!</string>
     <string name="DEVINFO_HR_VER">"Pulss: "</string>
     <string name="pref_title_notifications_timeout">Lühim aeg teavituste vahel</string>
     <string name="pref_summary_pebble_forcele">Kasuta eksperimentaalset Pebble LE tuge kõikide Pebble\'de jaoks tavalise Bluetoothi asemel. See nõuab sidumist tavalise Bluetoothi kaudu ja seejärel Bluetooth LE sidumist</string>
@@ -198,4 +165,121 @@
     <string name="pref_title_pebble_enable_applogs">Lülita sisse kellarakenduste logimine</string>
     <string name="pref_title_pebble_gatt_clientonly">Ainult GATT klient</string>
     <string name="pref_summary_pebble_gatt_clientonly">See on ainult Pebble 2le ja eksperimentaalne, katseta kui on ilmnenud ühenduvusprobleeme</string>
-    </resources>
+    <string name="controlcenter_change_led_color">Muuda LED värvi</string>
+    <string name="controlcenter_change_fm_frequency">Muuda FM sagedus</string>
+    <string name="debugactivity_really_factoryreset_title">Kas taastada algseaded\?</string>
+    <string name="debugactivity_really_factoryreset">Alseadete taastamine kustutab kõik andmed ühendatud seadmetest (kui see on toetatud). Xiaomi/Huami seadmed muudavad ka Bluetooth MAC aadressi ja Gadgetbrige tuvastab need uute seadmetena.</string>
+    <string name="pref_title_support_voip_calls">Luba VoIP rakenduse kõned</string>
+    <string name="pref_title_rtl">Paremalt vasakule</string>
+    <string name="pref_summary_rtl">Luba see, kui seade ei saa kuvada paremalt vasakule keeli</string>
+    <string name="pref_rtl_max_line_length">Paremalt vasakule suurim rea pikkus</string>
+    <string name="pref_title_pebble_enable_bgjs">Luba taust JS</string>
+    <string name="pref_summary_pebble_enable_bgjs">Kui lubatud, võimaldab kellal kuvada ilma, aku andmeid jne.</string>
+    <string name="pref_title_pebble_reconnect_attempts">Taasühendamise katsed</string>
+    <string name="pref_title_unit_system">Ühikud</string>
+    <string name="pref_title_timeformat">Kellaaja vorming</string>
+    <string name="pref_title_screentime">Ekraani avatuse kestus</string>
+    <string name="prefs_title_all_day_heart_rate">Kogu päeva südame löögisageduse mõõtmine</string>
+    <string name="preferences_hplus_settings">HPlus/Makibes seaded</string>
+    <string name="preferences_id115_settings">ID115 seaded</string>
+    <string name="prefs_screen_orientation">Ekraani suund</string>
+    <string name="zetime_title_settings">ZeTime seaded</string>
+    <string name="zetime_title_heartrate">Südame löögisageduse seaded</string>
+    <string name="zetime_title_screentime">Ekraani avatuse kestus sekundites</string>
+    <string name="zetime_title_heart_rate_alarm">Südame löögisageduse alarm</string>
+    <string name="zetime_title_heart_rate_alarm_summary">Kell hoiatab, kui südame löögisagedus ületab piirid.</string>
+    <string name="zetime_heart_rate_alarm_enable">Luba südame löögisageduse alarm</string>
+    <string name="activity_prefs_alarm_max_heart_rate">Suurim südame löögisagedus</string>
+    <string name="activity_prefs_alarm_min_heart_rate">Vähim südame löögisagedus</string>
+    <string name="zetime_analog_mode">Analoog režiim</string>
+    <string name="zetime_analog_mode_hands">Ainult käed</string>
+    <string name="zetime_analog_mode_handsandsteps">Käed ja sammud</string>
+    <string name="zetime_activity_tracking">Tegevuse jälgimine</string>
+    <string name="zetime_activity_tracking_summary">Tegevuse jälgimise sisselülitamisel loetakse sammude arvu jne.</string>
+    <string name="zetime_handmove_display">Käte liikumine</string>
+    <string name="zetime_handmove_display_summary">Pööra rannet, et ekraan aktiveerida või deaktiveerida.</string>
+    <string name="zetime_calories_type">Kalorite tüüp</string>
+    <string name="zetime_calories_type_active">Ainult aktiivselt põletatud kalorid</string>
+    <string name="zetime_calories_type_all">Aktiivselt ja passiivselt põletatud kalorid</string>
+    <string name="zetime_time_format">Kellaaja vorming</string>
+    <string name="zetime_time_format_24h">24h</string>
+    <string name="zetime_time_format_12h">12h</string>
+    <string name="zetime_date_format">Kuupäeva vorming</string>
+    <string name="zetime_prefs_inactivity_repetitions">Kordused</string>
+    <string name="zetime_prefs_inactivity_mo">Esmaspäev</string>
+    <string name="zetime_prefs_inactivity_tu">Teisipäev</string>
+    <string name="zetime_prefs_inactivity_we">Kolmapäev</string>
+    <string name="zetime_prefs_inactivity_th">Neljapäev</string>
+    <string name="zetime_prefs_inactivity_fr">Reede</string>
+    <string name="zetime_prefs_inactivity_sa">Laupäev</string>
+    <string name="zetime_prefs_inactivity_su">Pühapäev</string>
+    <string name="zetime_title_alarm_signaling">Määra alarmi märguande tüüp</string>
+    <string name="zetime_signaling_none">Vaikne</string>
+    <string name="zetime_signaling_vibrate">Pidev värin</string>
+    <string name="zetime_signaling_beep">Pidev piiksumine</string>
+    <string name="zetime_signaling_vibrate_beep">Pidev värin ja piiksumine</string>
+    <string name="zetime_signaling_vibrate_once">Vibreeri üks kord</string>
+    <string name="zetime_signaling_vibrate_twice">Vibreeri kaks korda</string>
+    <string name="zetime_signaling_beep_once">Üks piiks</string>
+    <string name="zetime_signaling_beep_twice">Kaks piiksu</string>
+    <string name="zetime_signaling_vibrate_beep_once">Vibreeri ja piiksu üks kord</string>
+    <string name="title_activity_device_specific_settings">Seadme spetsiifilised sätted</string>
+    <string name="pref_header_auto_export">Automaatne eksport</string>
+    <string name="pref_title_auto_export_enabled">Automaatne eksport lubatud</string>
+    <string name="pref_title_auto_export_location">Ekspordi asukoht</string>
+    <string name="pref_title_auto_export_interval">Ekspordi intervall</string>
+    <string name="pref_summary_auto_export_interval">Eksport iga %d tunni järel</string>
+    <string name="pref_auto_fetch">Tegevuste andmete automaatne import</string>
+    <string name="pref_auto_fetch_limit_fetches">Vähim importimise vahemik</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Import iga %d minuti järel</string>
+    <string name="not_connected">Pole ühendatud</string>
+    <string name="connecting">Ühendamine</string>
+    <string name="connected">Ühendatud</string>
+    <string name="unknown_state">Tundmatu olek</string>
+    <string name="_unknown_">(teadmata)</string>
+    <string name="test">Test</string>
+    <string name="test_notification">Testi märguande</string>
+    <string name="this_is_a_test_notification_from_gadgetbridge">See on Gadgetbridge test teavitus</string>
+    <string name="bluetooth_is_not_supported_">Bluetooth ei ole toetatud.</string>
+    <string name="bluetooth_is_disabled_">Bluetooth on keelatud.</string>
+    <string name="tap_connected_device_for_app_mananger">Puuduta rakenduste halduri jaoks ühendatud seadet</string>
+    <string name="tap_connected_device_for_activity">Puuduta ühendatud seadet tegevuse jaoks</string>
+    <string name="tap_connected_device_for_vibration">Puuduta ühendatud seadet värina tekitamiseks</string>
+    <string name="tap_a_device_to_connect">Puuduta seadet, et ühendada</string>
+    <string name="cannot_connect_bt_address_invalid_">Ei saa ühendust. Vigane bluetooth aadress\?</string>
+    <string name="gadgetbridge_running">Gadgetbridge töötab</string>
+    <string name="installing_binary_d_d">Binaarfaili %1$d/%2$d paigaldamine</string>
+    <string name="installation_failed_">Paigaldamine nurjus</string>
+    <string name="installation_successful">Paigaldatud</string>
+    <string name="firmware_install_warning">ÜRITAD PAIGALDADA PÜSIVARA, JÄTKA OMAL VASTUTUSEL
+\n
+\n
+\nSee püsivara on sobilik HW Revision: %s</string>
+    <string name="app_install_info">Kavas on paigaldada rakendus:
+\n
+\n
+\n%1$s versioon %2$s / %3$s
+\n</string>
+    <string name="appversion_by_creator">%1$s / %2$s</string>
+    <string name="title_activity_discovery">Seadme tuvastamine</string>
+    <string name="discovery_stop_scanning">Peata skannimine</string>
+    <string name="discovery_start_scanning">Alusta avastamist</string>
+    <string name="action_discover">Ühenda uus seade</string>
+    <string name="device_with_rssi">%1$s (%2$s)</string>
+    <string name="title_activity_android_pairing">Seadme sidumine</string>
+    <string name="android_pairing_hint">Kasuta seadme sidumiseks Androidi Bluetoothi sidumise dialoogi.</string>
+    <string name="title_activity_mi_band_pairing">Seo oma Mi Band</string>
+    <string name="pairing">Sidumine %s…</string>
+    <string name="pairing_creating_bond_with">Sideme loomine - %1$s (%2$s)</string>
+    <string name="pairing_unable_to_pair_with">Sidumine nurjus - %1$s (%2$s)</string>
+    <string name="pairing_in_progress">Toimub sidumine: %1$s (%2$s)</string>
+    <string name="pref_header_vibration_count">Värinate arv</string>
+    <string name="pref_screen_vibration_profile">Värina profiil</string>
+    <string name="miband_prefs_vibration">Värin</string>
+    <string name="pref_header_vibration_settings">Värina seaded</string>
+    <string name="control_center_cancel_to_stop_vibration">Tühista värina peatamiseks.</string>
+    <string name="mi2_prefs_button_action_vibrate">Luba võru värin</string>
+    <string name="mi2_prefs_button_action_vibrate_summary">Luba värin nupu abil</string>
+    <string name="title_activity_vibration">Värin</string>
+    <string name="reset_index">Lähtesta impordi aeg</string>
+</resources>
