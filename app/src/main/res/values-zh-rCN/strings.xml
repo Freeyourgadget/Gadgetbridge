@@ -688,4 +688,9 @@
     <string name="activity_prefs_distance_meters">每日目标：距离（米）</string>
     <string name="activity_prefs_activetime_minutes">每日目标：运动时长（分钟）</string>
     <string name="devicetype_miscale2">小米手环2</string>
+    <string name="pref_title_support_voip_calls">启用 VoIP 应用呼叫</string>
+    <string name="title_activity_device_specific_settings">设备特殊设置</string>
+    <string name="pref_title_authkey">认证密钥</string>
+    <string name="pref_summary_authkey">将您想要连接的所有 Android 设备上的认证密钥更改为通用的密钥。默认所有设备的密钥是 0123456789@ABCDE</string>
+    <string name="devicetype_bfh16">BFH-16</string>
 </resources>
