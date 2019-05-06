@@ -456,4 +456,22 @@
     <string name="toast_notification_filter_words_empty_hint">Введіть хоча б одне слово</string>
     <string name="filter_mode">Режим фільтрації</string>
     <string name="save_configuration">Зберегти конфігурацію</string>
+    <string name="pref_title_pebble_forcele">Завжди надавати перевагу BLE</string>
+    <string name="pref_title_screentime">Тривалість роботи екрану</string>
+    <string name="preferences_hplus_settings">Налаштування HPlus/Makibes</string>
+    <string name="preferences_id115_settings">Налаштування ID115</string>
+    <string name="zetime_title_settings">Налаштування ZeTime</string>
+    <string name="zetime_title_heartrate">Налаштування серцебиття</string>
+    <string name="zetime_title_screentime">Тривалість екрану в секундах</string>
+    <string name="activity_prefs_alarm_max_heart_rate">Максимальне серцебиття</string>
+    <string name="activity_prefs_alarm_min_heart_rate">Мінімальне серцебиття</string>
+    <string name="zetime_analog_mode">Аналоговий режим</string>
+    <string name="zetime_analog_mode_hands">Лише вручну</string>
+    <string name="zetime_time_format">Формат часу</string>
+    <string name="zetime_time_format_24h">24г</string>
+    <string name="zetime_time_format_12h">12г</string>
+    <string name="zetime_date_format">Формат дати</string>
+    <string name="zetime_date_format_1">РР/ММ/ДД</string>
+    <string name="zetime_date_format_2">ДД/ММ/РР</string>
+    <string name="zetime_date_format_3">ММ/ДД/РР</string>
 </resources>
