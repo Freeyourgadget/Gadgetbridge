@@ -70,6 +70,8 @@ public class MiBand3FirmwareInfo extends HuamiFirmwareInfo {
 
         // font
         crcToVersion.put(19775, "1");
+        crcToVersion.put(42959, "2 (old Jap/Kor)");
+        crcToVersion.put(12052, "1 (Jap/Kor)");
     }
 
     public MiBand3FirmwareInfo(byte[] bytes) {
@@ -79,7 +81,7 @@ public class MiBand3FirmwareInfo extends HuamiFirmwareInfo {
     @Override
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
         if (ArrayUtils.startsWith(bytes, FT_HEADER)) {
-            if (bytes[FONT_TYPE_OFFSET] == 0x03 || bytes[FONT_TYPE_OFFSET] == 0x04) {
+            if (bytes[FONT_TYPE_OFFSET] >= 0x03 && bytes[FONT_TYPE_OFFSET] <= 0x05) {
                 return HuamiFirmwareType.FONT;
             }
             return HuamiFirmwareType.INVALID;
