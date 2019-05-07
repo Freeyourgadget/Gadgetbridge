@@ -57,6 +57,7 @@ public class MiBand3FirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(40344, "2.2.0.14");
         crcToVersion.put(4467,  "2.2.0.42");
         crcToVersion.put(61657, "2.3.0.2");
+        crcToVersion.put(62735, "2.3.0.6");
 
         // resources
         crcToVersion.put(54724, "1.2.0.8");
