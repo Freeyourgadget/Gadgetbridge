@@ -1,5 +1,15 @@
 ### Changelog
 
+#### NEXT
+* BFH-16: Initial support
+* Mi Band 2/3/Bip/Cor: Generate random per-device secutiry keys when pairing, allow manual override to still support multiple android devices connecting to the same device
+* Mi Band 3: Add Indonesian, Thai, Arabic, Vietnamese, Portuguese, Dutch, Turkish and Ukrainian to language settings
+* Mi Band 3: Support flashing latest Japanese-Korean font
+* Amazfit Cor 2: Inital experimental support (untested)
+* Casio: Bugfixes and improvements
+* Lookup contacts also in work profile
+* Fix searching in application name when blacklisting
+
 #### Version 0.32.4
 * Make voip call support optional (disabled by default)
 * Amazfit Bip: GPX export corrections
