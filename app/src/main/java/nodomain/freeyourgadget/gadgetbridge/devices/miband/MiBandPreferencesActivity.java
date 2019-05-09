@@ -43,6 +43,7 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.OR
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_INCOMING_CALL;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_END;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_LIFT_WRIST;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_OFF;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_SCHEDULED;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_START;
@@ -238,6 +239,22 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
 
         String doNotDisturbState = prefs.getString(MiBandConst.PREF_MI2_DO_NOT_DISTURB, PREF_MI2_DO_NOT_DISTURB_OFF);
         boolean doNotDisturbScheduled = doNotDisturbState.equals(PREF_MI2_DO_NOT_DISTURB_SCHEDULED);
+        boolean doNotDisturbOff = doNotDisturbState.equals(PREF_MI2_DO_NOT_DISTURB_OFF);
+
+        final Preference doNotDisturbLiftWrist = findPreference(PREF_MI2_DO_NOT_DISTURB_LIFT_WRIST);
+        doNotDisturbLiftWrist.setEnabled(!doNotDisturbOff);
+        doNotDisturbLiftWrist.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DO_NOT_DISTURB_LIFT_WRIST);
+                    }
+                });
+                return true;
+            }
+        });
 
         final Preference doNotDisturbStart = findPreference(PREF_MI2_DO_NOT_DISTURB_START);
         doNotDisturbStart.setEnabled(doNotDisturbScheduled);
@@ -274,9 +291,11 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newVal) {
                 final boolean scheduled = PREF_MI2_DO_NOT_DISTURB_SCHEDULED.equals(newVal.toString());
+                final boolean off = PREF_MI2_DO_NOT_DISTURB_OFF.equals(newVal.toString());
 
                 doNotDisturbStart.setEnabled(scheduled);
                 doNotDisturbEnd.setEnabled(scheduled);
+                doNotDisturbLiftWrist.setEnabled(!off);
 
                 invokeLater(new Runnable() {
                     @Override
