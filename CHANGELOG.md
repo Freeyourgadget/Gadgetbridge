@@ -2,7 +2,7 @@
 
 #### Version 0.33.0
 * BFH-16: Initial support
-* Mi Band 2/3/Bip/Cor: Generate random per-device secutiry keys when pairing, allow manual override to still support multiple android devices connecting to the same device
+* Mi Band 2/3/Bip/Cor: Generate random per-device security keys when pairing, allow manual override to still support multiple android devices connecting to the same device
 * Mi Band 3: Add Indonesian, Thai, Arabic, Vietnamese, Portuguese, Dutch, Turkish and Ukrainian to language settings
 * Mi Band 3: Support flashing latest Japanese-Korean font
 * Amazfit Cor 2: Initial experimental support (untested)
