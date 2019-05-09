@@ -58,6 +58,7 @@ public class MiBand3FirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(4467,  "2.2.0.42");
         crcToVersion.put(61657, "2.3.0.2");
         crcToVersion.put(62735, "2.3.0.6");
+        crcToVersion.put(40949, "2.3.0.28");
 
         // resources
         crcToVersion.put(54724, "1.2.0.8");
@@ -66,7 +67,8 @@ public class MiBand3FirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(25278, "1.4.0.12-1.6.0.16");
         crcToVersion.put(23249, "1.8.0.0");
         crcToVersion.put(1815,  "2.0.0.4");
-        crcToVersion.put(7225,  "2.2.0.12-2.3.0.2");
+        crcToVersion.put(7225, "2.2.0.12-2.3.0.6");
+        crcToVersion.put(52754, "2.3.0.28");
 
         // font
         crcToVersion.put(19775, "1");
