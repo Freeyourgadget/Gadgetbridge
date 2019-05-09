@@ -60,6 +60,9 @@ public class MiBand3FirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(62735, "2.3.0.6");
         crcToVersion.put(40949, "2.3.0.28");
 
+        // firmware (Mi Band 3 NFC)
+        crcToVersion.put(46724, "1.7.0.4");
+
         // resources
         crcToVersion.put(54724, "1.2.0.8");
         crcToVersion.put(52589, "1.3.0.4");
