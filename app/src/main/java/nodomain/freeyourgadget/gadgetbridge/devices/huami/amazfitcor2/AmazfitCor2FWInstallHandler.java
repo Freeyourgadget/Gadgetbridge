@@ -34,7 +34,7 @@ class AmazfitCor2FWInstallHandler extends AbstractMiBandFWInstallHandler {
 
     @Override
     protected String getFwUpgradeNotice() {
-        return mContext.getString(R.string.fw_upgrade_notice_amazfitcor, helper.getHumanFirmwareVersion());
+        return mContext.getString(R.string.fw_upgrade_notice_amazfitcor2, helper.getHumanFirmwareVersion());
     }
 
     @Override
