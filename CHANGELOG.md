@@ -6,9 +6,11 @@
 * Mi Band 3: Add Indonesian, Thai, Arabic, Vietnamese, Portuguese, Dutch, Turkish and Ukrainian to language settings
 * Mi Band 3: Support flashing latest Japanese-Korean font
 * Amazfit Cor 2: Inital experimental support (untested)
+* Pebble: Add pebblekit extension for reopening last app
 * Casio: Bugfixes and improvements
 * Lookup contacts also in work profile
 * Fix searching in application name when blacklisting
+* Remove misleading title from database management activity when no legacy database is available
 
 #### Version 0.32.4
 * Make voip call support optional (disabled by default)

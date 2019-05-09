@@ -136,7 +136,7 @@ public class MiBandPairingActivity extends AbstractGBActivity {
         GBDevice device = DeviceHelper.getInstance().toSupportedDevice(deviceCandidate);
 
         if (coordinator.supportsDeviceSpecificSettings(device)) {
-            SharedPreferences sharedPrefs = getSharedPreferences("devicesettings_" + device.getAddress(), Context.MODE_PRIVATE);
+            SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress());
             String authKey = sharedPrefs.getString("authkey", null);
             if (authKey == null || authKey.isEmpty()) {
                 SharedPreferences.Editor editor = sharedPrefs.edit();

@@ -42,6 +42,8 @@ import android.provider.ContactsContract.PhoneLookup;
 import android.util.Log;
 import android.util.TypedValue;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
@@ -52,7 +54,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
@@ -620,6 +621,13 @@ public static String packageNameToPebbleMsgSender(String packageName) {
                 break;
         }
         editor.apply();
+    }
+
+    public static SharedPreferences getDeviceSpecificSharedPrefs(String deviceIdentifier) {
+        if (deviceIdentifier == null || deviceIdentifier.isEmpty()) {
+            return null;
+        }
+        return context.getSharedPreferences("devicesettings_" + deviceIdentifier, Context.MODE_PRIVATE);
     }
 
     public static void setLanguage(String lang) {
