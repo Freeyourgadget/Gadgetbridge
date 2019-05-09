@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor2;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -32,12 +32,12 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-public class AmazfitCorCoordinator extends HuamiCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(AmazfitCorCoordinator.class);
+public class AmazfitCor2Coordinator extends HuamiCoordinator {
+    private static final Logger LOG = LoggerFactory.getLogger(AmazfitCor2Coordinator.class);
 
     @Override
     public DeviceType getDeviceType() {
-        return DeviceType.AMAZFITCOR;
+        return DeviceType.AMAZFITCOR2;
     }
 
     @NonNull
@@ -46,8 +46,8 @@ public class AmazfitCorCoordinator extends HuamiCoordinator {
         try {
             BluetoothDevice device = candidate.getDevice();
             String name = device.getName();
-            if (name != null && (name.equalsIgnoreCase("Amazfit Band") || name.equalsIgnoreCase("Amazfit Cor"))) {
-                return DeviceType.AMAZFITCOR;
+            if (name != null && (name.equalsIgnoreCase("Amazfit Band 2") || name.equalsIgnoreCase("Amazfit Cor 2"))) {
+                return DeviceType.AMAZFITCOR2;
             }
         } catch (Exception ex) {
             LOG.error("unable to check device support", ex);
@@ -57,7 +57,7 @@ public class AmazfitCorCoordinator extends HuamiCoordinator {
 
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
-        AmazfitCorFWInstallHandler handler = new AmazfitCorFWInstallHandler(uri, context);
+        AmazfitCor2FWInstallHandler handler = new AmazfitCor2FWInstallHandler(uri, context);
         return handler.isValid() ? handler : null;
     }
 
@@ -77,5 +77,7 @@ public class AmazfitCorCoordinator extends HuamiCoordinator {
     }
 
     @Override
-    public boolean supportsUnicodeEmojis() { return true; }
+    public boolean supportsUnicodeEmojis() {
+        return true;
+    }
 }

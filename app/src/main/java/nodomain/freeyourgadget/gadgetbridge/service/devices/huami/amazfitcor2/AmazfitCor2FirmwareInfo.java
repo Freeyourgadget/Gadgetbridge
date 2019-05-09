@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitcor;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitcor2;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,51 +25,38 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareI
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
-public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
+public class AmazfitCor2FirmwareInfo extends HuamiFirmwareInfo {
     // this is the same as Bip
     private static final byte[] FW_HEADER = new byte[]{
             0x00, (byte) 0x98, 0x00, 0x20, (byte) 0xA5, 0x04, 0x00, 0x20, (byte) 0xAD, 0x04, 0x00, 0x20, (byte) 0xC5, 0x04, 0x00, 0x20
     };
 
     private static final int COMPRESSED_RES_HEADER_OFFSET = 0x9;
+    private static final int COMPRESSED_RES_HEADER_OFFSET_NEW = 0xd;
 
     private static Map<Integer, String> crcToVersion = new HashMap<>();
 
     static {
-        // firmware
-        crcToVersion.put(39948, "1.0.5.60");
-        crcToVersion.put(62147, "1.0.5.78");
-        crcToVersion.put(54213, "1.0.6.76");
-        crcToVersion.put(9458,  "1.0.7.52");
-        crcToVersion.put(51575, "1.0.7.88");
-        crcToVersion.put(6346, "1.2.5.00");
-        crcToVersion.put(24277, "1.2.7.20");
-
-        // resources
-        crcToVersion.put(46341, "RES 1.0.5.60");
-        crcToVersion.put(21770, "RES 1.0.5.78");
-        crcToVersion.put(64977, "RES 1.0.6.76");
-        crcToVersion.put(60501, "RES 1.0.7.52-71");
-        crcToVersion.put(31263, "RES 1.0.7.77-91");
-        crcToVersion.put(20920, "RES 1.2.5.00-69");
-        crcToVersion.put(25397, "RES 1.2.7.20");
-
         // font
         crcToVersion.put(61054, "8");
         crcToVersion.put(62291, "9 (Latin)");
     }
 
-    public AmazfitCorFirmwareInfo(byte[] bytes) {
+    public AmazfitCor2FirmwareInfo(byte[] bytes) {
         super(bytes);
     }
 
     @Override
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
-        if (ArrayUtils.equals(bytes, RES_HEADER, COMPRESSED_RES_HEADER_OFFSET) || ArrayUtils.equals(bytes, NEWRES_HEADER, COMPRESSED_RES_HEADER_OFFSET)) {
+        if (ArrayUtils.equals(bytes, RES_HEADER, COMPRESSED_RES_HEADER_OFFSET) || ArrayUtils.equals(bytes, NEWRES_HEADER, COMPRESSED_RES_HEADER_OFFSET_NEW) || ArrayUtils.equals(bytes, NEWRES_HEADER, COMPRESSED_RES_HEADER_OFFSET)) {
             return HuamiFirmwareType.RES_COMPRESSED;
         }
         if (ArrayUtils.startsWith(bytes, FW_HEADER)) {
-            if (searchString32BitAligned(bytes, "Amazfit Cor")) {
+            // FIXME: It would certainly better if we could check for "Cor 2" when the device name is "Cor 2" and for "Band 2" when it is "Band 2"
+            if (searchString32BitAligned(bytes, "Amazfit Cor 2")) {
+                return HuamiFirmwareType.FIRMWARE;
+            }
+            if (searchString32BitAligned(bytes, "Amazfit Band 2")) {
                 return HuamiFirmwareType.FIRMWARE;
             }
             return HuamiFirmwareType.INVALID;
@@ -84,6 +71,7 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
                 return HuamiFirmwareType.FONT_LATIN;
             }
         }
+        // somebody might have unpacked the compressed res
         if (ArrayUtils.startsWith(bytes, RES_HEADER)) {
             return HuamiFirmwareType.RES;
         }
@@ -92,7 +80,7 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
 
     @Override
     public boolean isGenerallyCompatibleWith(GBDevice device) {
-        return isHeaderValid() && device.getType() == DeviceType.AMAZFITCOR;
+        return isHeaderValid() && device.getType() == DeviceType.AMAZFITCOR2;
     }
 
     @Override

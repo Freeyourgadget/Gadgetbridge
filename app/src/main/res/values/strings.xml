@@ -621,6 +621,7 @@
     <string name="devicetype_miband3">Mi Band 3</string>
     <string name="devicetype_amazfit_bip">Amazfit Bip</string>
     <string name="devicetype_amazfit_cor">Amazfit Cor</string>
+    <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="devicetype_vibratissimo">Vibratissimo</string>
     <string name="devicetype_liveview">LiveView</string>
     <string name="devicetype_hplus">HPlus</string>
