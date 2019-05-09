@@ -30,6 +30,7 @@ vendor's servers.
 ## Supported Devices
 * Amazfit Bip [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
 * Amazfit Cor [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor)
+* BFH-16
 * Casio GB-6900B (WIP)
 * HPlus Devices (e.g. ZeBand) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
 * ID115 (WIP)
@@ -102,6 +103,7 @@ Please [this wiki article](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki
 * Vadim Kaushan (ID115)
 * "maxirnilian" (Lenovo Watch 9)
 * Andreas Böhler (Casio GB-6900B)
+* Johannes Schmitt (BFH-16)
 
 ## Contribute
 
@@ -117,6 +119,7 @@ Feel free to open an issue on our issue tracker, but please:
 - do not use the issue tracker as a forum, do not ask for ETAs and read the issue conversation before posting
 - use the search functionality to ensure that your question wasn't already answered. Don't forget to check the **closed** issues as well!
 - remember that this is a community project, people are contributing in their free time because they like doing so: don't take the fun away! Be kind and constructive.
+- Do not ask for help regarding your own projects, unless they are Gadgetbridge related
 
 ## Having problems?
 
