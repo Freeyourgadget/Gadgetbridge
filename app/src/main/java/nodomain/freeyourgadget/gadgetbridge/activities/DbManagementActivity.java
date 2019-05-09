@@ -75,6 +75,9 @@ public class DbManagementActivity extends AbstractGBActivity {
 
         int oldDBVisibility = hasOldActivityDatabase() ? View.VISIBLE : View.GONE;
 
+        TextView deleteOldActivityTitle = findViewById(R.id.mergeOldActivityDataTitle);
+        deleteOldActivityTitle.setVisibility(oldDBVisibility);
+
         Button deleteOldActivityDBButton = findViewById(R.id.deleteOldActivityDB);
         deleteOldActivityDBButton.setVisibility(oldDBVisibility);
         deleteOldActivityDBButton.setOnClickListener(new View.OnClickListener() {
