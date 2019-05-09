@@ -17,6 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
+import android.annotation.TargetApi;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -28,7 +30,13 @@ import android.bluetooth.BluetoothGattServerCallback;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
+import android.bluetooth.le.BluetoothLeScanner;
+import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanFilter;
+import android.bluetooth.le.ScanResult;
+import android.bluetooth.le.ScanSettings;
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -39,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -46,6 +55,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothScanCallbackReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
@@ -69,6 +79,8 @@ public final class BtLEQueue {
     private volatile boolean mAbortTransaction;
     private volatile boolean mAbortServerTransaction;
 
+    private final Handler mHandler = new Handler();
+
     private final Context mContext;
     private CountDownLatch mWaitForActionResultLatch;
     private CountDownLatch mWaitForServerActionResultLatch;
@@ -76,7 +88,27 @@ public final class BtLEQueue {
     private BluetoothGattCharacteristic mWaitCharacteristic;
     private final InternalGattCallback internalGattCallback;
     private final InternalGattServerCallback internalGattServerCallback;
-    private boolean mAutoReconnect;
+    private boolean mAutoReconnect = false;
+
+    private BluetoothLeScanner mBluetoothScanner;
+    private boolean mUseBleScannerForReconnect = false;
+    private PendingIntent mScanCallbackIntent = null;
+
+    private Runnable mRestartRunnable = new Runnable() {
+        @Override
+        public void run() {
+            LOG.info("Restarting background scan due to Android N limitations...");
+            startBleBackgroundScan();
+        }
+    };
+
+    private Runnable mReduceBleScanIntervalRunnable = new Runnable() {
+        @Override
+        public void run() {
+            LOG.info("Restarting BLE background scan with lower priority...");
+            startBleBackgroundScan(false);
+        }
+    };
 
     private Thread dispatchThread = new Thread("Gadgetbridge GATT Dispatcher") {
 
@@ -200,6 +232,10 @@ public final class BtLEQueue {
         mAutoReconnect = enable;
     }
 
+    public void setBleScannerForReconnect(boolean enable) {
+        mUseBleScannerForReconnect = enable;
+    }
+
     protected boolean isConnected() {
         return mGbDevice.isConnected();
     }
@@ -269,6 +305,23 @@ public final class BtLEQueue {
     public void disconnect() {
         synchronized (mGattMonitor) {
             LOG.debug("disconnect()");
+
+            BluetoothGattServer gattServer = mBluetoothGattServer;
+            if (gattServer != null) {
+                mBluetoothGattServer = null;
+                BluetoothManager bluetoothManager = (BluetoothManager) mContext.getSystemService(Context.BLUETOOTH_SERVICE);
+                if (bluetoothManager == null) {
+                    LOG.error("Error getting bluetoothManager");
+                } else {
+                    List<BluetoothDevice> devices = bluetoothManager.getConnectedDevices(BluetoothProfile.GATT_SERVER);
+                    for(BluetoothDevice device : devices) {
+                        LOG.debug("Disconnecting device: " + device.getAddress());
+                        gattServer.cancelConnection(device);
+                    }
+                }
+                gattServer.clearServices();
+                gattServer.close();
+            }
             BluetoothGatt gatt = mBluetoothGatt;
             if (gatt != null) {
                 mBluetoothGatt = null;
@@ -276,12 +329,6 @@ public final class BtLEQueue {
                 gatt.disconnect();
                 gatt.close();
                 setDeviceConnectionState(State.NOT_CONNECTED);
-            }
-            BluetoothGattServer gattServer = mBluetoothGattServer;
-            if (gattServer != null) {
-                mBluetoothGattServer = null;
-                gattServer.clearServices();
-                gattServer.close();
             }
         }
     }
@@ -299,8 +346,6 @@ public final class BtLEQueue {
             mWaitForServerActionResultLatch.countDown();
         }
 
-        boolean wasInitialized = mGbDevice.isInitialized();
-
         setDeviceConnectionState(State.NOT_CONNECTED);
 
         // either we've been disconnected because the device is out of range
@@ -310,7 +355,7 @@ public final class BtLEQueue {
         // reconnecting automatically, so we try to fix this by re-creating mBluetoothGatt.
         // Not sure if this actually works without re-initializing the device...
         if (mBluetoothGatt != null) {
-            if (!wasInitialized || !maybeReconnect()) {
+            if (!maybeReconnect()) {
                 disconnect(); // ensure that we start over cleanly next time
             }
         }
@@ -323,15 +368,120 @@ public final class BtLEQueue {
      */
     private boolean maybeReconnect() {
         if (mAutoReconnect && mBluetoothGatt != null) {
-            LOG.info("Enabling automatic ble reconnect...");
-            boolean result = mBluetoothGatt.connect();
-            if (result) {
-                setDeviceConnectionState(State.WAITING_FOR_RECONNECT);
+            if(!mUseBleScannerForReconnect) {
+                LOG.info("Enabling automatic ble reconnect...");
+                boolean result = mBluetoothGatt.connect();
+                if (result) {
+                    setDeviceConnectionState(State.WAITING_FOR_RECONNECT);
+                }
+                return result;
+            } else {
+                if (GBApplication.isRunningLollipopOrLater()) {
+                    LOG.info("Enabling BLE background scan");
+                    disconnect(); // ensure that we start over cleanly next time
+                    startBleBackgroundScan();
+                    setDeviceConnectionState(State.WAITING_FOR_RECONNECT);
+                    return true;
+                }
             }
-            return result;
         }
         return false;
     }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    PendingIntent getScanCallbackIntent(boolean newUuid) {
+        if(newUuid || mScanCallbackIntent == null) {
+            String uuid = UUID.randomUUID().toString();
+            mScanCallbackIntent = BluetoothScanCallbackReceiver.getScanCallbackIntent(mContext, mGbDevice.getAddress(), uuid);
+        }
+        return mScanCallbackIntent;
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void stopBleBackgroundScan() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mHandler.removeCallbacks(mReduceBleScanIntervalRunnable);
+            if(mBluetoothScanner != null) {
+                mBluetoothScanner.stopScan(getScanCallbackIntent(false));
+            }
+        } else {
+            mHandler.removeCallbacks(mRestartRunnable);
+            if(mBluetoothScanner != null) {
+                mBluetoothScanner.stopScan(mScanCallback);
+            }
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void startBleBackgroundScan() {
+        startBleBackgroundScan(true);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void startBleBackgroundScan(boolean highPowerMode) {
+        if(mBluetoothScanner == null)
+            mBluetoothScanner = mBluetoothAdapter.getBluetoothLeScanner();
+
+        ScanSettings settings;
+        if(highPowerMode) {
+            settings = new ScanSettings.Builder()
+                 .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
+                 .build();
+        } else {
+            settings = new ScanSettings.Builder()
+                .setScanMode(ScanSettings.SCAN_MODE_BALANCED)
+                .build();
+        }
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            LOG.info("Using Android O+ BLE scanner");
+            List<ScanFilter> filters = Collections.singletonList(new ScanFilter.Builder().build());
+            mBluetoothScanner.stopScan(getScanCallbackIntent(false));
+            mBluetoothScanner.startScan(filters, settings, getScanCallbackIntent(true));
+            // If high power mode is requested, we scan for 5 minutes
+            // and then continue scanning with lower priority (scan mode balanced) in order
+            // to conserve power.
+            if(highPowerMode) {
+                mHandler.postDelayed(mReduceBleScanIntervalRunnable, 5 * 60 * 1000);
+            }
+        }
+        else {
+            LOG.info("Using Android L-N BLE scanner");
+            List<ScanFilter> filters = Collections.singletonList(new ScanFilter.Builder().setDeviceAddress(mGbDevice.getAddress()).build());            mBluetoothScanner.stopScan(mScanCallback);
+            mBluetoothScanner.startScan(filters, settings, mScanCallback);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                mHandler.postDelayed(mRestartRunnable, 25 * 60 * 1000);
+            }
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private ScanCallback mScanCallback = new ScanCallback() {
+        @Override
+        public void onScanResult(int callbackType, ScanResult result) {
+            String deviceName = result.getDevice().getName();
+            String deviceAddress = result.getDevice().getAddress();
+
+            LOG.info("Scanner: Found: " + deviceName + " " + deviceAddress);
+            // The filter already filtered for our specific device, so it is enough to connect to it
+            mBluetoothScanner.stopScan(mScanCallback);
+            mHandler.removeCallbacks(mRestartRunnable);
+            connect();
+            setDeviceConnectionState(State.CONNECTING);
+        }
+
+        @Override
+        public void onBatchScanResults(List<ScanResult> results) {
+            for (ScanResult sr : results) {
+                LOG.info("ScanCallback.onBatchScanResults.each:" + sr.toString());
+            }
+        }
+
+        @Override
+        public void onScanFailed(int errorCode) {
+            LOG.error("ScanCallback.onScanFailed:" + errorCode);
+        }
+    };
 
     public void dispose() {
         if (mDisposed) {
@@ -340,6 +490,9 @@ public final class BtLEQueue {
         mDisposed = true;
 //        try {
         disconnect();
+        if(mUseBleScannerForReconnect) {
+            stopBleBackgroundScan();
+        }
         dispatchThread.interrupt();
         dispatchThread = null;
 //            dispatchThread.join();
