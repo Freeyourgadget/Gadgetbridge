@@ -693,4 +693,22 @@
     <string name="pref_title_authkey">Identitetsbekreftelsesnøkkel</string>
     <string name="pref_summary_authkey">Endre identitetsbekreftelsesnøkkelen til en vanlig nøkkel på alle Android-enhetene du ønsker å koble til fra. Forrige forvalgte nøkkel for alle enheter var 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
+    <string name="fw_upgrade_notice_amazfitcor2">Du er i ferd med å installere %s-fastvaren på din Amazfit Cor 2.
+\n
+\nInstaller .fw-filen, og deretter .res-filen. Ditt bånd vil starte på ny etter installering av .fw-filen.
+\n
+\nMerk: Du trenger ikke å installere .res hvis denne er den samme versjon som den som finnes på båndet.
+\n
+\nFORTSETT PÅ EGEN RISIKO!
+\n
+\nHELT UTESTET, DU MÅ ANTAGELIG BRENNE INN FLASH A BEATS_W -FASTVARE HVIS ENHETSNAVNET DITT ER \"Amazfit Band 2\"</string>
+    <string name="dutch">Hollandsk</string>
+    <string name="turkish">Tyrkisk</string>
+    <string name="ukrainian">Ukrainsk</string>
+    <string name="arabic">Arabisk</string>
+    <string name="indonesian">Indonesisk</string>
+    <string name="thai">Thai</string>
+    <string name="vietnamese">Vietnamesisk</string>
+    <string name="portuguese">Portugisisk</string>
+    <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
 </resources>
