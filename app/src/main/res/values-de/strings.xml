@@ -705,4 +705,13 @@
     <string name="pref_title_authkey">Auth-Schlüssel</string>
     <string name="pref_summary_authkey">Ändere den Authentifizierungsschlüssel in einen gemeinsamen Schlüssel auf all deinen Android-Geräten, von denen aus du eine Verbindung herstellen möchtet. Der bisherige Standardschlüssel für alle Geräte ist 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
+    <string name="fw_upgrade_notice_amazfitcor2">Sie sind dabei, die %s-Firmware auf Ihrem Amazfit Cor 2 zu installieren.
+\n
+\nBitte stellen Sie sicher, dass Sie die.fw-Datei und danach die.res-Datei installieren. Ihr Band wird nach der Installation der.fw-Datei neu gestartet.
+\n
+\nHinweis: Sie müssen .res nicht installieren, wenn es genau das gleiche ist wie das zuvor installierte.
+\n
+\nAUF EIGENE GEFAHR!
+\n
+\nVOLLSTÄNDIG UNTESTED, PROBABLY SIE BRAUCHEN, EIN BEATS_W FIRMWARE zu blinken, wenn Ihr Gerätename \"Amazfit Band 2\" ist</string>
 </resources>
