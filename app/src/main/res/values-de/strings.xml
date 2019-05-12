@@ -714,4 +714,13 @@
 \nAUF EIGENE GEFAHR!
 \n
 \nVOLLSTÄNDIG UNTESTED, PROBABLY SIE BRAUCHEN, EIN BEATS_W FIRMWARE zu blinken, wenn Ihr Gerätename \"Amazfit Band 2\" ist</string>
+    <string name="dutch">Niederländisch</string>
+    <string name="turkish">Türkisch</string>
+    <string name="ukrainian">Ukrainisch</string>
+    <string name="arabic">Arabisch</string>
+    <string name="indonesian">Indonesisch</string>
+    <string name="thai">Thailändisch</string>
+    <string name="vietnamese">Vietnamesisch</string>
+    <string name="portuguese">Portugiesisch</string>
+    <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
 </resources>
