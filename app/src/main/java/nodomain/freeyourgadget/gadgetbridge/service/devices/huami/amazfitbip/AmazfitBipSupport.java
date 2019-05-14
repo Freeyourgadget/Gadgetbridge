@@ -515,6 +515,22 @@ public class AmazfitBipSupport extends HuamiSupport {
                 command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
                 localeString = "ru_RU";
                 break;
+            case 5:
+                command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                localeString = "de_DE";
+                break;
+            case 6:
+                command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                localeString = "it_IT";
+                break;
+            case 7:
+                command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                localeString = "fr_FR";
+                break;
+            case 8:
+                command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                localeString = "tr_TR";
+                break;
             default:
                 switch (language) {
                     case "zh":
@@ -533,6 +549,22 @@ public class AmazfitBipSupport extends HuamiSupport {
                     case "ru":
                         command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
                         localeString = "ru_RU";
+                        break;
+                    case "de":
+                        command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                        localeString = "de_DE";
+                        break;
+                    case "it":
+                        command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                        localeString = "it_IT";
+                        break;
+                    case "fr":
+                        command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                        localeString = "fr_FR";
+                        break;
+                    case "tr":
+                        command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                        localeString = "tr_TR";
                         break;
                     default:
                         command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;

@@ -356,6 +356,10 @@
         <item name="2">@string/english</item>
         <item name="3">@string/spanish</item>
         <item name="4">@string/russian</item>
+        <item name="5">@string/german</item>
+        <item name="6">@string/italian</item>
+        <item name="7">@string/french</item>
+        <item name="8">@string/turkish</item>
     </string-array>
 
     <string-array name="pref_amazfitbip_language_values">
@@ -365,6 +369,10 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
     </string-array>
 
     <string-array name="pref_miband3_language">
