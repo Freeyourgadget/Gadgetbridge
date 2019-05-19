@@ -473,6 +473,8 @@
     <string name="mi3_prefs_band_screen_unlock_summary">Swipe up to unlock the band\'s screen</string>
     <string name="mi3_prefs_night_mode">Night mode</string>
     <string name="mi3_prefs_night_mode_summary">Lower band screen brightness automatically at night</string>
+    <string name="mi3_prefs_bluetooth_visibility">Bluetooth visibility</string>
+    <string name="mi3_prefs_bluetooth_visibility_summary">Make the band visible to other Bluetooth devices (may impact battery life)</string>
     <string name="automatic">Automatic</string>
     <string name="simplified_chinese">Simplified Chinese</string>
     <string name="traditional_chinese">Traditional Chinese</string>

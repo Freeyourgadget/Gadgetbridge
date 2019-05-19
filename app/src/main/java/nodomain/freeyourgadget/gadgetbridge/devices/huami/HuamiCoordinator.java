@@ -145,6 +145,11 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return DateTimeDisplay.DATE_TIME;
     }
 
+    public static boolean getBluetoothVisibility() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getBoolean(HuamiConst.PREF_BLUETOOTH_VISIBILITY, true);
+    }
+
     public static ActivateDisplayOnLift getActivateDisplayOnLiftWrist(Context context) {
         Prefs prefs = GBApplication.getPrefs();
 

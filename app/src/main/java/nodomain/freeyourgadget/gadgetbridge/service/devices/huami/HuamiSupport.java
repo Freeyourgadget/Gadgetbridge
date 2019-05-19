@@ -1517,6 +1517,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case HuamiConst.PREF_DISCONNECT_NOTIFICATION_END:
                     setDisconnectNotification(builder);
                     break;
+                case HuamiConst.PREF_BLUETOOTH_VISIBILITY:
+                    setBluetoothVisibility(builder);
+                    break;
                 case MiBandConst.PREF_MI2_DISPLAY_ITEMS:
                     setDisplayItems(builder);
                     break;
@@ -1809,6 +1812,17 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    private HuamiSupport setBluetoothVisibility(TransactionBuilder builder) {
+        boolean enable = HuamiCoordinator.getBluetoothVisibility();
+        LOG.info("Setting bluetooth visibility to " + enable);
+        if (enable) {
+            builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), HuamiService.COMMAND_ENABLE_BLUETOOTH_VISIBILITY);
+        } else {
+            builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), HuamiService.COMMAND_DISABLE_BLUETOOTH_VISIBILITY);
+        }
+        return this;
+    }
+
     protected void writeToChunked(TransactionBuilder builder, int type, byte[] data) {
         final int MAX_CHUNKLENGTH = 17;
         int remaining = data.length;
@@ -1854,6 +1868,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         setDoNotDisturb(builder);
         setRotateWristToSwitchInfo(builder);
         setActivateDisplayOnLiftWrist(builder);
+        setBluetoothVisibility(builder);
         setDisplayCaller(builder);
         setGoalNotification(builder);
         setInactivityWarnings(builder);

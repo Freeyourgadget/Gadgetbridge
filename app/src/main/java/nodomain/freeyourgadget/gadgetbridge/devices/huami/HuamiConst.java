@@ -48,6 +48,8 @@ public class HuamiConst {
     public static final String MI_BAND2_NAME_HRX = "Mi Band HRX";
     public static final String MI_BAND3_NAME = "Mi Band 3";
 
+    public static final String PREF_BLUETOOTH_VISIBILITY = "mi_bluetooth_visibility";
+
     public static final String PREF_ACTIVATE_DISPLAY_ON_LIFT = "activate_display_on_lift_wrist";
     public static final String PREF_DISPLAY_ON_LIFT_START = "display_on_lift_start";
     public static final String PREF_DISPLAY_ON_LIFT_END = "display_on_lift_end";

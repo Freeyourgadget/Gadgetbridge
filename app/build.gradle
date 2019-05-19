@@ -128,17 +128,6 @@ task pmd(type: Pmd) {
     source "src"
     include "**/*.java"
     exclude "**/gen/**"
-
-    reports {
-        xml.enabled = false
-        html.enabled = true
-        xml {
-            destination "$project.buildDir/reports/pmd/pmd.xml"
-        }
-        html {
-            destination "$project.buildDir/reports/pmd/pmd.html"
-        }
-    }
 }
 
 task findbugs(type: FindBugs) {
@@ -149,14 +138,4 @@ task findbugs(type: FindBugs) {
     classes = files("${project.rootDir}/app/build/intermediates/javac/release/compileReleaseJavaWithJavac/classes")
     source = fileTree("src/main/java/")
     classpath = files()
-    reports {
-        xml.enabled = false
-        html.enabled = true
-        xml {
-            destination "$project.buildDir/reports/findbugs/findbugs-output.xml"
-        }
-        html {
-            destination "$project.buildDir/reports/findbugs/findbugs-output.html"
-        }
-    }
 }

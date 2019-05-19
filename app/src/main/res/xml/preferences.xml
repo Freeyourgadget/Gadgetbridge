@@ -349,6 +349,11 @@
                     android:title="@string/mi2_prefs_do_not_disturb_end" />
 
             </PreferenceScreen>
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="mi_bluetooth_visibility"
+                android:summary="@string/mi3_prefs_bluetooth_visibility_summary"
+                android:title="@string/mi3_prefs_bluetooth_visibility" />
         </PreferenceScreen>
         <PreferenceScreen
             android:icon="@drawable/ic_device_hplus"
