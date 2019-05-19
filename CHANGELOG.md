@@ -1,5 +1,9 @@
 ### Changelog
 
+#### Version 0.33.1
+* Mi Band 3: Recognize "Xiaomi Band 3"
+* Amazfit Bip: Add German, Italian, French and Turkish to language settings
+
 #### Version 0.33.0
 * BFH-16: Initial support
 * Mi Band 2/3/Bip/Cor: Generate random per-device security keys when pairing, allow manual override to still support multiple android devices connecting to the same device
