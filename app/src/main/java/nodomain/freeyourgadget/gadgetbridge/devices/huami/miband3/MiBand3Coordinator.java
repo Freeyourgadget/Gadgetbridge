@@ -29,6 +29,8 @@ import org.slf4j.LoggerFactory;
 import java.util.Date;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.huami.MiBand3SettingsFragment;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
@@ -100,5 +102,10 @@ public class MiBand3Coordinator extends HuamiCoordinator {
 
     public static Date getNightModeEnd() {
         return getTimePreference(MiBandConst.PREF_MI3_NIGHT_MODE_END, "07:00");
+    }
+
+    @Override
+    public DeviceSpecificSettingsFragment getDeviceSpecificSettingsFragment(GBDevice device) {
+        return MiBand3SettingsFragment.newInstance(device.getAddress());
     }
 }

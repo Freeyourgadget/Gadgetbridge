@@ -56,7 +56,7 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
 
     private ByteArrayOutputStream buffer;
 
-    public FetchSportsDetailsOperation(@NonNull BaseActivitySummary summary, @NonNull HuamiSupport support, @NonNull String lastSyncTimeKey) {
+    FetchSportsDetailsOperation(@NonNull BaseActivitySummary summary, @NonNull HuamiSupport support, @NonNull String lastSyncTimeKey) {
         super(support);
         setName("fetching sport details");
         this.summary = summary;
@@ -131,7 +131,7 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
         super.handleActivityFetchFinish(success);
     }
 
-    protected ActivityTrackExporter createExporter() {
+    private ActivityTrackExporter createExporter() {
         GPXExporter exporter = new GPXExporter();
         exporter.setCreator(GBApplication.app().getNameAndVersion());
         return exporter;
@@ -169,7 +169,6 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
         } else {
             GB.toast("Error " + getName() + ", invalid package counter: " + value[0] + ", last was: " + lastPacketCounter, Toast.LENGTH_LONG, GB.ERROR);
             handleActivityFetchFinish(false);
-            return;
         }
     }
 

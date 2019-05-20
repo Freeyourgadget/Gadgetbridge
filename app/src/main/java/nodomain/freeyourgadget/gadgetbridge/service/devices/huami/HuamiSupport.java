@@ -26,6 +26,8 @@ import android.net.Uri;
 import android.text.format.DateFormat;
 import android.widget.Toast;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,13 +40,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -86,6 +88,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -98,6 +101,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbortTransactionAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ConditionalWriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.IntentListener;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
@@ -274,7 +278,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
      * @param builder
      */
     public void setInitialized(TransactionBuilder builder) {
-        builder.add(new SetDeviceStateAction(getDevice(), State.INITIALIZED, getContext()));
+        builder.add(new SetDeviceStateAction(gbDevice, State.INITIALIZED, getContext()));
     }
 
     // MB2: AVL
@@ -333,7 +337,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     public NotificationStrategy getNotificationStrategy() {
-        String firmwareVersion = getDevice().getFirmwareVersion();
+        String firmwareVersion = gbDevice.getFirmwareVersion();
         if (firmwareVersion != null) {
             Version ver = new Version(firmwareVersion);
             if (MiBandConst.MI2_FW_VERSION_MIN_TEXT_NOTIFICATIONS.compareTo(ver) > 0) {
@@ -461,7 +465,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         BluetoothGattCharacteristic characteristic = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_8_USER_SETTINGS);
         if (characteristic != null) {
             builder.notify(characteristic, true);
-            int location = MiBandCoordinator.getWearLocation(getDevice().getAddress());
+            int location = MiBandCoordinator.getWearLocation(gbDevice.getAddress());
             switch (location) {
                 case 0: // left hand
                     builder.write(characteristic, HuamiService.WEAR_LOCATION_LEFT_WRIST);
@@ -516,7 +520,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
      * @param builder
      */
     private HuamiSupport setHeartrateSleepSupport(TransactionBuilder builder) {
-        final boolean enableHrSleepSupport = MiBandCoordinator.getHeartrateSleepSupport(getDevice().getAddress());
+        final boolean enableHrSleepSupport = MiBandCoordinator.getHeartrateSleepSupport(gbDevice.getAddress());
         if (characteristicHRControlPoint != null) {
             builder.notify(characteristicHRControlPoint, true);
             if (enableHrSleepSupport) {
@@ -1352,7 +1356,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                     try (DBHandler handler = GBApplication.acquireDB()) {
                         DaoSession session = handler.getDaoSession();
 
-                        Device device = DBHelper.getDevice(getDevice(), session);
+                        Device device = DBHelper.getDevice(gbDevice, session);
                         User user = DBHelper.getUser(session);
                         int ts = (int) (System.currentTimeMillis() / 1000);
                         MiBand2SampleProvider provider = new MiBand2SampleProvider(gbDevice, session);
@@ -1517,7 +1521,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case HuamiConst.PREF_DISCONNECT_NOTIFICATION_END:
                     setDisconnectNotification(builder);
                     break;
-                case MiBandConst.PREF_MI2_DISPLAY_ITEMS:
+                case HuamiConst.PREF_DISPLAY_ITEMS:
                     setDisplayItems(builder);
                     break;
                 case MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO:
@@ -1637,7 +1641,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     protected HuamiSupport setDisplayItems(TransactionBuilder builder) {
-        Set<String> pages = HuamiCoordinator.getDisplayItems();
+        Set<String> pages = HuamiCoordinator.getDisplayItems(gbDevice.getAddress());
         LOG.info("Setting display items to " + (pages == null ? "none" : pages));
 
         byte[] data = HuamiService.COMMAND_CHANGE_SCREENS.clone();
@@ -1806,6 +1810,54 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         } else {
             builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), HuamiService.COMMAND_DISTANCE_UNIT_IMPERIAL);
         }
+        return this;
+    }
+
+    protected HuamiSupport setLanguage(TransactionBuilder builder) {
+        String localeString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString("language", "auto");
+        if (localeString == null || localeString.equals("auto")) {
+            String language = Locale.getDefault().getLanguage();
+            String country = Locale.getDefault().getCountry();
+
+            if (country == null) {
+                // sometimes country is null, no idea why, guess it.
+                country = language;
+            }
+            localeString = language + "_" + country.toUpperCase();
+        }
+        LOG.info("Setting device to locale: " + localeString);
+        final byte[] command_new = HuamiService.COMMAND_SET_LANGUAGE_NEW_TEMPLATE.clone();
+        System.arraycopy(localeString.getBytes(), 0, command_new, 3, localeString.getBytes().length);
+
+        byte[] command_old;
+        switch (localeString.substring(0, 2)) {
+            case "es":
+                command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_SPANISH;
+                break;
+            case "zh":
+                if (localeString.equals("zh_CN")) {
+                    command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_SIMPLIFIED_CHINESE;
+                } else {
+                    command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_TRADITIONAL_CHINESE;
+
+                }
+                break;
+            default:
+                command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+        }
+        final byte[] finalCommand_old = command_old;
+        builder.add(new ConditionalWriteAction(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION)) {
+            @Override
+            protected byte[] checkCondition() {
+                if ((gbDevice.getType() == DeviceType.AMAZFITBIP && new Version(gbDevice.getFirmwareVersion()).compareTo(new Version("0.1.0.77")) >= 0) ||
+                        (gbDevice.getType() == DeviceType.AMAZFITCOR && new Version(gbDevice.getFirmwareVersion()).compareTo(new Version("1.0.7.23")) >= 0)) {
+                    return command_new;
+                } else {
+                    return finalCommand_old;
+                }
+            }
+        });
+
         return this;
     }
 

@@ -59,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothStateChangeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
@@ -72,6 +73,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.fromKey;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
 
 /**
@@ -89,7 +91,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 2;
+    private static final int CURRENT_PREFS_VERSION = 3;
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
     private static GBPrefs gbPrefs;
@@ -166,7 +168,7 @@ public class GBApplication extends Application {
         // slf4j may be implicitly initialized before we properly configured it.
         setupLogging(isFileLoggingEnabled());
 
-        if (getPrefsFileVersion() != CURRENT_PREFS_VERSION) {
+         if (getPrefsFileVersion() != CURRENT_PREFS_VERSION) {
             migratePrefs(getPrefsFileVersion());
         }
 
@@ -582,44 +584,80 @@ public static String packageNameToPebbleMsgSender(String packageName) {
 
     private void migratePrefs(int oldVersion) {
         SharedPreferences.Editor editor = sharedPrefs.edit();
-        switch (oldVersion) {
-            case 0:
-                String legacyGender = sharedPrefs.getString("mi_user_gender", null);
-                String legacyHeight = sharedPrefs.getString("mi_user_height_cm", null);
-                String legacyWeight = sharedPrefs.getString("mi_user_weight_kg", null);
-                String legacyYOB = sharedPrefs.getString("mi_user_year_of_birth", null);
-                if (legacyGender != null) {
-                    int gender = "male".equals(legacyGender) ? 1 : "female".equals(legacyGender) ? 0 : 2;
-                    editor.putString(ActivityUser.PREF_USER_GENDER, Integer.toString(gender));
-                    editor.remove("mi_user_gender");
-                }
-                if (legacyHeight != null) {
-                    editor.putString(ActivityUser.PREF_USER_HEIGHT_CM, legacyHeight);
-                    editor.remove("mi_user_height_cm");
-                }
-                if (legacyWeight != null) {
-                    editor.putString(ActivityUser.PREF_USER_WEIGHT_KG, legacyWeight);
-                    editor.remove("mi_user_weight_kg");
-                }
-                if (legacyYOB != null) {
-                    editor.putString(ActivityUser.PREF_USER_YEAR_OF_BIRTH, legacyYOB);
-                    editor.remove("mi_user_year_of_birth");
-                }
-                editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
-                break;
-            case 1:
-                //migrate the integer version of gender introduced in version 1 to a string value, needed for the way Android accesses the shared preferences
-                int legacyGender_1 = 2;
-                try {
-                    legacyGender_1 = sharedPrefs.getInt(ActivityUser.PREF_USER_GENDER, 2);
-                } catch (Exception e) {
-                    Log.e(TAG, "Could not access legacy activity gender", e);
-                }
-                editor.putString(ActivityUser.PREF_USER_GENDER, Integer.toString(legacyGender_1));
-                //also silently migrate the version to a string value
-                editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
-                break;
+        if (oldVersion == 0) {
+            String legacyGender = sharedPrefs.getString("mi_user_gender", null);
+            String legacyHeight = sharedPrefs.getString("mi_user_height_cm", null);
+            String legacyWeight = sharedPrefs.getString("mi_user_weight_kg", null);
+            String legacyYOB = sharedPrefs.getString("mi_user_year_of_birth", null);
+            if (legacyGender != null) {
+                int gender = "male".equals(legacyGender) ? 1 : "female".equals(legacyGender) ? 0 : 2;
+                editor.putString(ActivityUser.PREF_USER_GENDER, Integer.toString(gender));
+                editor.remove("mi_user_gender");
+            }
+            if (legacyHeight != null) {
+                editor.putString(ActivityUser.PREF_USER_HEIGHT_CM, legacyHeight);
+                editor.remove("mi_user_height_cm");
+            }
+            if (legacyWeight != null) {
+                editor.putString(ActivityUser.PREF_USER_WEIGHT_KG, legacyWeight);
+                editor.remove("mi_user_weight_kg");
+            }
+            if (legacyYOB != null) {
+                editor.putString(ActivityUser.PREF_USER_YEAR_OF_BIRTH, legacyYOB);
+                editor.remove("mi_user_year_of_birth");
+            }
         }
+        if (oldVersion < 2) {
+            //migrate the integer version of gender introduced in version 1 to a string value, needed for the way Android accesses the shared preferences
+            int legacyGender_1 = 2;
+            try {
+                legacyGender_1 = sharedPrefs.getInt(ActivityUser.PREF_USER_GENDER, 2);
+            } catch (Exception e) {
+                Log.e(TAG, "Could not access legacy activity gender", e);
+            }
+            editor.putString(ActivityUser.PREF_USER_GENDER, Integer.toString(legacyGender_1));
+        }
+        if (oldVersion < 3) {
+            List<Device> activeDevices = DBHelper.getActiveDevices(lockHandler.getDaoSession());
+            for (Device dbDevice : activeDevices) {
+                SharedPreferences.Editor deviceSharedPrefsEdit = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier()).edit();
+                if (sharedPrefs != null) {
+                    String preferenceKey = dbDevice.getIdentifier() + "_lastSportsActivityTimeMillis";
+                    long lastSportsActivityTimeMillis = sharedPrefs.getLong(preferenceKey, 0);
+                    if (lastSportsActivityTimeMillis != 0) {
+                        deviceSharedPrefsEdit.putLong("lastSportsActivityTimeMillis", lastSportsActivityTimeMillis);
+                        editor.remove(preferenceKey);
+                    }
+                    preferenceKey = dbDevice.getIdentifier() + "_lastSyncTimeMillis";
+                    long lastSyncTimeMillis = sharedPrefs.getLong(preferenceKey, 0);
+                    if (lastSyncTimeMillis != 0) {
+                        deviceSharedPrefsEdit.putLong("lastSyncTimeMillis", lastSyncTimeMillis);
+                        editor.remove(preferenceKey);
+                    }
+                    switch (fromKey(dbDevice.getType())) {
+                        case AMAZFITCOR:
+                        case AMAZFITBIP:
+                        case AMAZFITCOR2:
+                            int oldLanguage = prefs.getInt("amazfitbip_language", -1);
+                            String newLanguage = "auto";
+                            String[] oldLanguageLookup = {"zh_CN", "zh_TW", "en_US", "es_ES", "ru_RU", "de_DE", "it_IT", "fr_FR", "tr_TR"};
+                            if (oldLanguage >= 0 && oldLanguage < oldLanguageLookup.length) {
+                                newLanguage = oldLanguageLookup[oldLanguage];
+                            }
+                            deviceSharedPrefsEdit.putString("language", newLanguage);
+                            break;
+                        case MIBAND3:
+                            String language = sharedPrefs.getString("miband3_language", "auto");
+                            deviceSharedPrefsEdit.putString("language", language);
+                    }
+                }
+
+                deviceSharedPrefsEdit.apply();
+            }
+            editor.remove("miband3_language");
+            editor.remove("amazfitbip_language");
+        }
+        editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
         editor.apply();
     }
 

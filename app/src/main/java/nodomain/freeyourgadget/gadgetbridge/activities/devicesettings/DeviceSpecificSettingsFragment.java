@@ -6,7 +6,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 abstract public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
 
-    void setSettingsFileSuffix(String settingsFileSuffix) {
+    public void setSettingsFileSuffix(String settingsFileSuffix) {
         Bundle args = new Bundle();
         args.putString("settingsFileSuffix", settingsFileSuffix);
         setArguments(args);

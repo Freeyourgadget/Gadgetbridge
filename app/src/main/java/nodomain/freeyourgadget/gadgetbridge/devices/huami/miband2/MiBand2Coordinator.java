@@ -26,6 +26,8 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.huami.MiBand2SettingsFragment;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
@@ -77,5 +79,10 @@ public class MiBand2Coordinator extends HuamiCoordinator {
     @Override
     public boolean supportsWeather() {
         return false;
+    }
+
+    @Override
+    public DeviceSpecificSettingsFragment getDeviceSpecificSettingsFragment(GBDevice device) {
+        return MiBand2SettingsFragment.newInstance(device.getAddress());
     }
 }

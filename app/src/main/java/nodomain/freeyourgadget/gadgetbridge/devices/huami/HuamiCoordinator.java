@@ -21,8 +21,11 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.ParcelUuid;
+
+import androidx.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,14 +37,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
 
-import androidx.annotation.NonNull;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsFragment;
-import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.HuamiSettingsFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.huami.HuamiSettingsFragment;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.DateTimeDisplay;
@@ -197,9 +199,9 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return getTimePreference(HuamiConst.PREF_DISCONNECT_NOTIFICATION_END, "00:00");
     }
 
-    public static Set<String> getDisplayItems() {
-        Prefs prefs = GBApplication.getPrefs();
-        return prefs.getStringSet(MiBandConst.PREF_MI2_DISPLAY_ITEMS, null);
+    public static Set<String> getDisplayItems(String deviceAddress) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
+        return prefs.getStringSet(HuamiConst.PREF_DISPLAY_ITEMS, null);
     }
 
     public static boolean getGoalNotification() {

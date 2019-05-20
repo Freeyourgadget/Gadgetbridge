@@ -26,6 +26,8 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.huami.AmazfitCorSettingsFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsFragment;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -78,4 +80,9 @@ public class AmazfitCorCoordinator extends HuamiCoordinator {
 
     @Override
     public boolean supportsUnicodeEmojis() { return true; }
+
+    @Override
+    public DeviceSpecificSettingsFragment getDeviceSpecificSettingsFragment(GBDevice device) {
+        return AmazfitCorSettingsFragment.newInstance(device.getAddress());
+    }
 }

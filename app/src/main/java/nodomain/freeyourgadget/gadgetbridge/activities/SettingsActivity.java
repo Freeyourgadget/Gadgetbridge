@@ -38,6 +38,9 @@ import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,8 +49,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.core.app.ActivityCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -63,14 +64,10 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION_END;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION_START;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISPLAY_ON_LIFT_END;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISPLAY_ON_LIFT_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DATEFORMAT;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DISPLAY_ITEMS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_OFF;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_SCHEDULED;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ENABLE_TEXT_NOTIFICATIONS;
@@ -374,22 +371,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 autoFetchInterval);
         pref.setSummary(summary);
 
-
-
-        final Preference displayPages = findPreference("bip_display_items");
-        displayPages.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DISPLAY_ITEMS);
-                    }
-                });
-                return true;
-            }
-        });
-
         final Preference setDateFormat = findPreference(PREF_MI2_DATEFORMAT);
         setDateFormat.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -404,20 +385,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
             }
         });
 
-        final Preference miBand2DisplayItems = findPreference(PREF_MI2_DISPLAY_ITEMS);
-        miBand2DisplayItems.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DISPLAY_ITEMS);
-                    }
-                });
-                return true;
-            }
-        });
-
         final Preference miBand3ScreenUnlock = findPreference(PREF_MI3_BAND_SCREEN_UNLOCK);
         miBand3ScreenUnlock.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -426,20 +393,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
                     @Override
                     public void run() {
                         GBApplication.deviceService().onSendConfiguration(PREF_MI3_BAND_SCREEN_UNLOCK);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference miBand3DisplayItems = findPreference("miband3_display_items");
-        miBand3DisplayItems.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DISPLAY_ITEMS);
                     }
                 });
                 return true;
@@ -494,20 +447,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
                     @Override
                     public void run() {
                         GBApplication.deviceService().onSendConfiguration(PREF_MI3_NIGHT_MODE);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference corDisplayItems = findPreference("cor_display_items");
-        corDisplayItems.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DISPLAY_ITEMS);
                     }
                 });
                 return true;

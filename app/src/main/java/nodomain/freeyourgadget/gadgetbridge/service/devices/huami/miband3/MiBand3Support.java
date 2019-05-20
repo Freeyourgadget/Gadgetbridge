@@ -125,29 +125,6 @@ public class MiBand3Support extends AmazfitBipSupport {
         }
     }
 
-    @Override
-    protected MiBand3Support setLanguage(TransactionBuilder builder) {
-        String localeString = GBApplication.getPrefs().getString("miband3_language", "auto");
-
-        if (localeString.equals("auto")) {
-            String language = Locale.getDefault().getLanguage();
-            String country = Locale.getDefault().getCountry();
-
-            if (country == null) {
-                // sometimes country is null, no idea why, guess it.
-                country = language;
-            }
-            localeString = language + "_" + country.toUpperCase();
-        }
-        LOG.info("Setting device to locale: " + localeString);
-        byte[] command_new = HuamiService.COMMAND_SET_LANGUAGE_NEW_TEMPLATE.clone();
-        System.arraycopy(localeString.getBytes(), 0, command_new, 3, localeString.getBytes().length);
-
-        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), command_new);
-
-        return this;
-    }
-
     private MiBand3Support setBandScreenUnlock(TransactionBuilder builder) {
         boolean enable = MiBand3Coordinator.getBandScreenUnlock();
         LOG.info("Setting band screen unlock to " + enable);
