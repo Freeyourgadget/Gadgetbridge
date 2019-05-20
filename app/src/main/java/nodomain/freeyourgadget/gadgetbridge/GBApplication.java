@@ -59,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothStateChangeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -168,7 +169,7 @@ public class GBApplication extends Application {
         // slf4j may be implicitly initialized before we properly configured it.
         setupLogging(isFileLoggingEnabled());
 
-         if (getPrefsFileVersion() != CURRENT_PREFS_VERSION) {
+        if (getPrefsFileVersion() != CURRENT_PREFS_VERSION) {
             migratePrefs(getPrefsFileVersion());
         }
 
@@ -618,44 +619,49 @@ public static String packageNameToPebbleMsgSender(String packageName) {
             editor.putString(ActivityUser.PREF_USER_GENDER, Integer.toString(legacyGender_1));
         }
         if (oldVersion < 3) {
-            List<Device> activeDevices = DBHelper.getActiveDevices(lockHandler.getDaoSession());
-            for (Device dbDevice : activeDevices) {
-                SharedPreferences.Editor deviceSharedPrefsEdit = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier()).edit();
-                if (sharedPrefs != null) {
-                    String preferenceKey = dbDevice.getIdentifier() + "_lastSportsActivityTimeMillis";
-                    long lastSportsActivityTimeMillis = sharedPrefs.getLong(preferenceKey, 0);
-                    if (lastSportsActivityTimeMillis != 0) {
-                        deviceSharedPrefsEdit.putLong("lastSportsActivityTimeMillis", lastSportsActivityTimeMillis);
-                        editor.remove(preferenceKey);
+            try (DBHandler db = acquireDB()) {
+                DaoSession daoSession = db.getDaoSession();
+                List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+                for (Device dbDevice : activeDevices) {
+                    SharedPreferences.Editor deviceSharedPrefsEdit = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier()).edit();
+                    if (sharedPrefs != null) {
+                        String preferenceKey = dbDevice.getIdentifier() + "_lastSportsActivityTimeMillis";
+                        long lastSportsActivityTimeMillis = sharedPrefs.getLong(preferenceKey, 0);
+                        if (lastSportsActivityTimeMillis != 0) {
+                            deviceSharedPrefsEdit.putLong("lastSportsActivityTimeMillis", lastSportsActivityTimeMillis);
+                            editor.remove(preferenceKey);
+                        }
+                        preferenceKey = dbDevice.getIdentifier() + "_lastSyncTimeMillis";
+                        long lastSyncTimeMillis = sharedPrefs.getLong(preferenceKey, 0);
+                        if (lastSyncTimeMillis != 0) {
+                            deviceSharedPrefsEdit.putLong("lastSyncTimeMillis", lastSyncTimeMillis);
+                            editor.remove(preferenceKey);
+                        }
+                        switch (fromKey(dbDevice.getType())) {
+                            case AMAZFITCOR:
+                            case AMAZFITBIP:
+                            case AMAZFITCOR2:
+                                int oldLanguage = prefs.getInt("amazfitbip_language", -1);
+                                String newLanguage = "auto";
+                                String[] oldLanguageLookup = {"zh_CN", "zh_TW", "en_US", "es_ES", "ru_RU", "de_DE", "it_IT", "fr_FR", "tr_TR"};
+                                if (oldLanguage >= 0 && oldLanguage < oldLanguageLookup.length) {
+                                    newLanguage = oldLanguageLookup[oldLanguage];
+                                }
+                                deviceSharedPrefsEdit.putString("language", newLanguage);
+                                break;
+                            case MIBAND3:
+                                String language = sharedPrefs.getString("miband3_language", "auto");
+                                deviceSharedPrefsEdit.putString("language", language);
+                        }
                     }
-                    preferenceKey = dbDevice.getIdentifier() + "_lastSyncTimeMillis";
-                    long lastSyncTimeMillis = sharedPrefs.getLong(preferenceKey, 0);
-                    if (lastSyncTimeMillis != 0) {
-                        deviceSharedPrefsEdit.putLong("lastSyncTimeMillis", lastSyncTimeMillis);
-                        editor.remove(preferenceKey);
-                    }
-                    switch (fromKey(dbDevice.getType())) {
-                        case AMAZFITCOR:
-                        case AMAZFITBIP:
-                        case AMAZFITCOR2:
-                            int oldLanguage = prefs.getInt("amazfitbip_language", -1);
-                            String newLanguage = "auto";
-                            String[] oldLanguageLookup = {"zh_CN", "zh_TW", "en_US", "es_ES", "ru_RU", "de_DE", "it_IT", "fr_FR", "tr_TR"};
-                            if (oldLanguage >= 0 && oldLanguage < oldLanguageLookup.length) {
-                                newLanguage = oldLanguageLookup[oldLanguage];
-                            }
-                            deviceSharedPrefsEdit.putString("language", newLanguage);
-                            break;
-                        case MIBAND3:
-                            String language = sharedPrefs.getString("miband3_language", "auto");
-                            deviceSharedPrefsEdit.putString("language", language);
-                    }
-                }
 
-                deviceSharedPrefsEdit.apply();
+                    deviceSharedPrefsEdit.apply();
+                }
+                editor.remove("miband3_language");
+                editor.remove("amazfitbip_language");
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
             }
-            editor.remove("miband3_language");
-            editor.remove("amazfitbip_language");
         }
         editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
         editor.apply();
