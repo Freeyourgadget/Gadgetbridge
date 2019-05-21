@@ -42,8 +42,6 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsFragment;
-import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.huami.HuamiSettingsFragment;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.DateTimeDisplay;
@@ -124,13 +122,8 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsDeviceSpecificSettings(GBDevice device) {
-        return true;
-    }
-
-    @Override
-    public DeviceSpecificSettingsFragment getDeviceSpecificSettingsFragment(GBDevice device) {
-        return HuamiSettingsFragment.newInstance(device.getAddress());
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{R.xml.devicesettings_pairingkey};
     }
 
     @Override
@@ -173,8 +166,8 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return getTimePreference(HuamiConst.PREF_DISPLAY_ON_LIFT_END, "00:00");
     }
 
-    public static DisconnectNotificationSetting getDisconnectNotificationSetting(Context context) {
-        Prefs prefs = GBApplication.getPrefs();
+    public static DisconnectNotificationSetting getDisconnectNotificationSetting(Context context, String deviceAddress) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
 
         String liftOff = context.getString(R.string.p_off);
         String liftOn = context.getString(R.string.p_on);
@@ -251,6 +244,11 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
 
     public static Date getDoNotDisturbEnd() {
         return getTimePreference(MiBandConst.PREF_MI2_DO_NOT_DISTURB_END, "06:00");
+    }
+
+    public static boolean getBandScreenUnlock(String deviceAddress) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getBoolean(MiBandConst.PREF_SWIPE_UNLOCK, false);
     }
 
     public static Date getTimePreference(String key, String defaultValue) {

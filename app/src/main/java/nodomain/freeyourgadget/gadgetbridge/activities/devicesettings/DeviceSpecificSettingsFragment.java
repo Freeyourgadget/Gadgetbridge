@@ -2,21 +2,193 @@ package nodomain.freeyourgadget.gadgetbridge.activities.devicesettings;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-abstract public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.XTimePreference;
+import nodomain.freeyourgadget.gadgetbridge.util.XTimePreferenceFragment;
 
-    public void setSettingsFileSuffix(String settingsFileSuffix) {
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION_END;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION_START;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_OFF;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_SCHEDULED;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_SWIPE_UNLOCK;
+
+public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
+
+    static final String FRAGMENT_TAG = "DEVICE_SPECIFIC_SETTINGS_FRAGMENT";
+
+    private void setSettingsFileSuffix(String settingsFileSuffix, @NonNull int[] supportedSettings) {
         Bundle args = new Bundle();
         args.putString("settingsFileSuffix", settingsFileSuffix);
+        args.putIntArray("supportedSettings", supportedSettings);
         setArguments(args);
     }
 
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        String settingsFileSuffix = getArguments().getString("settingsFileSuffix", "_bug");
+        Bundle arguments = getArguments();
+        if (arguments == null) {
+            return;
+        }
+        String settingsFileSuffix = arguments.getString("settingsFileSuffix", null);
+        int[] supportedSettings = arguments.getIntArray("supportedSettings");
+        if (settingsFileSuffix == null || supportedSettings == null) {
+            return;
+        }
+
         getPreferenceManager().setSharedPreferencesName("devicesettings_" + settingsFileSuffix);
+
+        if (rootKey == null) {
+            // we are the main preference screen
+            boolean first = true;
+            for (int setting : supportedSettings) {
+                if (first) {
+                    setPreferencesFromResource(setting, null);
+                    first = false;
+                } else {
+                    addPreferencesFromResource(setting);
+                }
+            }
+        } else {
+            // Now, this is ugly: search all the xml files for the rootKey
+            for (int setting : supportedSettings) {
+                try {
+                    setPreferencesFromResource(setting, rootKey);
+                } catch (Exception ignore) {
+                    continue;
+                }
+                break;
+            }
+        }
+        setChangeListener();
+    }
+
+    /*
+     * delayed execution so that the preferences are applied first
+     */
+    private void invokeLater(Runnable runnable) {
+        getListView().post(runnable);
+    }
+
+    private void setChangeListener() {
+        final Preference displayItems = findPreference("display_items");
+        if (displayItems != null) {
+            displayItems.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(HuamiConst.PREF_DISPLAY_ITEMS);
+                        }
+                    });
+                    return true;
+                }
+            });
+        }
+
+        Prefs prefs = new Prefs(getPreferenceManager().getSharedPreferences());
+        String disconnectNotificationState = prefs.getString(PREF_DISCONNECT_NOTIFICATION, PREF_MI2_DO_NOT_DISTURB_OFF);
+        boolean disconnectNotificationScheduled = disconnectNotificationState.equals(PREF_MI2_DO_NOT_DISTURB_SCHEDULED);
+
+        final Preference disconnectNotificationStart = findPreference(PREF_DISCONNECT_NOTIFICATION_START);
+        if (disconnectNotificationStart != null) {
+            disconnectNotificationStart.setEnabled(disconnectNotificationScheduled);
+            disconnectNotificationStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(PREF_DISCONNECT_NOTIFICATION_START);
+                        }
+                    });
+                    return true;
+                }
+            });
+        }
+
+        final Preference disconnectNotificationEnd = findPreference(PREF_DISCONNECT_NOTIFICATION_END);
+        if (disconnectNotificationEnd != null) {
+            disconnectNotificationEnd.setEnabled(disconnectNotificationScheduled);
+            disconnectNotificationEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(PREF_DISCONNECT_NOTIFICATION_END);
+                        }
+                    });
+                    return true;
+                }
+            });
+        }
+
+        final Preference disconnectNotification = findPreference(PREF_DISCONNECT_NOTIFICATION);
+        if (disconnectNotification != null) {
+            disconnectNotification.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    final boolean scheduled = PREF_MI2_DO_NOT_DISTURB_SCHEDULED.equals(newVal.toString());
+
+                    disconnectNotificationStart.setEnabled(scheduled);
+                    disconnectNotificationEnd.setEnabled(scheduled);
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(PREF_DISCONNECT_NOTIFICATION);
+                        }
+                    });
+                    return true;
+                }
+            });
+
+        }
+        final Preference swipeUnlock = findPreference(PREF_SWIPE_UNLOCK);
+        if (swipeUnlock != null) {
+            swipeUnlock.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(PREF_SWIPE_UNLOCK);
+                        }
+                    });
+                    return true;
+                }
+            });
+        }
+    }
+
+    static DeviceSpecificSettingsFragment newInstance(String settingsFileSuffix, @NonNull int[] supportedSettings) {
+        DeviceSpecificSettingsFragment fragment = new DeviceSpecificSettingsFragment();
+        fragment.setSettingsFileSuffix(settingsFileSuffix, supportedSettings);
+
+        return fragment;
+    }
+
+    @Override
+    public void onDisplayPreferenceDialog(Preference preference) {
+        DialogFragment dialogFragment = null;
+        if (preference instanceof XTimePreference) {
+            dialogFragment = new XTimePreferenceFragment();
+            Bundle bundle = new Bundle(1);
+            bundle.putString("key", preference.getKey());
+            dialogFragment.setArguments(bundle);
+            dialogFragment.setTargetFragment(this, 0);
+            dialogFragment.show(getFragmentManager(), "androidx.preference.PreferenceFragment.DIALOG");
+        } else {
+            super.onDisplayPreferenceDialog(preference);
+        }
     }
 }
-

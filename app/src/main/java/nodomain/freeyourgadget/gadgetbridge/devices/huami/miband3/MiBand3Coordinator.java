@@ -29,8 +29,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Date;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsFragment;
-import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.huami.MiBand3SettingsFragment;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
@@ -85,10 +84,6 @@ public class MiBand3Coordinator extends HuamiCoordinator {
         return true;
     }
 
-    public static boolean getBandScreenUnlock() {
-        Prefs prefs = GBApplication.getPrefs();
-        return prefs.getBoolean(MiBandConst.PREF_MI3_BAND_SCREEN_UNLOCK, false);
-    }
 
     public static String getNightMode() {
         Prefs prefs = GBApplication.getPrefs();
@@ -105,7 +100,11 @@ public class MiBand3Coordinator extends HuamiCoordinator {
     }
 
     @Override
-    public DeviceSpecificSettingsFragment getDeviceSpecificSettingsFragment(GBDevice device) {
-        return MiBand3SettingsFragment.newInstance(device.getAddress());
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_miband3,
+                R.xml.devicesettings_swipeunlock,
+                R.xml.devicesettings_pairingkey
+        };
     }
 }

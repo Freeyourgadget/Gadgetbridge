@@ -281,12 +281,7 @@ public interface DeviceCoordinator {
     boolean supportsUnicodeEmojis();
 
     /**
-     * Indicates whether the device supports device specific settings (not per device type or family, but unique per device).
+     * Indicates which device specific settings the device supports (not per device type or family, but unique per device).
      */
-    boolean supportsDeviceSpecificSettings(GBDevice device);
-
-    /**
-     * Creates and returns a device specific settings fragment, or null if there is none
-     */
-    DeviceSpecificSettingsFragment getDeviceSpecificSettingsFragment(GBDevice device);
+    int[] getSupportedDeviceSpecificSettings(GBDevice device);
 }

@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -107,9 +106,6 @@ public class MiBand3Support extends AmazfitBipSupport {
         try {
             builder = performInitialized("Sending configuration for option: " + config);
             switch (config) {
-                case MiBandConst.PREF_MI3_BAND_SCREEN_UNLOCK:
-                    setBandScreenUnlock(builder);
-                    break;
                 case MiBandConst.PREF_MI3_NIGHT_MODE:
                 case MiBandConst.PREF_MI3_NIGHT_MODE_START:
                 case MiBandConst.PREF_MI3_NIGHT_MODE_END:
@@ -123,19 +119,6 @@ public class MiBand3Support extends AmazfitBipSupport {
         } catch (IOException e) {
             GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR, e);
         }
-    }
-
-    private MiBand3Support setBandScreenUnlock(TransactionBuilder builder) {
-        boolean enable = MiBand3Coordinator.getBandScreenUnlock();
-        LOG.info("Setting band screen unlock to " + enable);
-
-        if (enable) {
-            builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand3Service.COMMAND_ENABLE_BAND_SCREEN_UNLOCK);
-        } else {
-            builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand3Service.COMMAND_DISABLE_BAND_SCREEN_UNLOCK);
-        }
-
-        return this;
     }
 
     private MiBand3Support setNightMode(TransactionBuilder builder) {
@@ -178,6 +161,7 @@ public class MiBand3Support extends AmazfitBipSupport {
     public void phase2Initialize(TransactionBuilder builder) {
         super.phase2Initialize(builder);
         LOG.info("phase2Initialize...");
+        setLanguage(builder);
         setBandScreenUnlock(builder);
         setNightMode(builder);
     }

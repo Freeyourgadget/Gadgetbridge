@@ -19,10 +19,10 @@ package nodomain.freeyourgadget.gadgetbridge.activities.devicesettings;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceScreen;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,31 +34,46 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 
-public class DeviceSettingsActivity extends AbstractGBActivity {
+public class DeviceSettingsActivity extends AbstractGBActivity implements
+        PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceSettingsActivity.class);
 
-    private GBDevice device;
+    GBDevice device;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         device = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_settings);
+        if (savedInstanceState == null) {
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag(DeviceSpecificSettingsFragment.FRAGMENT_TAG);
+            if (fragment == null) {
+                DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+                fragment = DeviceSpecificSettingsFragment.newInstance(device.getAddress(), coordinator.getSupportedDeviceSpecificSettings(device));
+            }
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.settings_container, fragment, DeviceSpecificSettingsFragment.FRAGMENT_TAG)
+                    .commit();
 
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
-        PreferenceFragmentCompat fragment = coordinator.getDeviceSpecificSettingsFragment(device);
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.settings_container, fragment)
-                .commit();
-    }
-
-
-    public class DoesNotExistSettingsFragment extends PreferenceFragmentCompat {
-        @Override
-        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         }
     }
 
+    @Override
+    public boolean onPreferenceStartScreen(PreferenceFragmentCompat caller, PreferenceScreen preferenceScreen) {
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+
+        PreferenceFragmentCompat fragment = DeviceSpecificSettingsFragment.newInstance(device.getAddress(), coordinator.getSupportedDeviceSpecificSettings(device));
+        Bundle args = fragment.getArguments();
+        args.putString(PreferenceFragmentCompat.ARG_PREFERENCE_ROOT, preferenceScreen.getKey());
+        fragment.setArguments(args);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.settings_container, fragment, preferenceScreen.getKey())
+                .addToBackStack(preferenceScreen.getKey())
+                .commit();
+        return true;
+    }
 }

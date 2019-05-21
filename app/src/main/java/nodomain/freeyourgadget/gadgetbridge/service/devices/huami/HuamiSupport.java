@@ -68,6 +68,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2FWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.DateTimeDisplay;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.DoNotDisturb;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2SampleProvider;
@@ -110,6 +112,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotific
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.actions.StopNotificationAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.Mi2NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.Mi2TextNotificationStrategy;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband3.MiBand3Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSportsSummaryOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.InitOperation;
@@ -1547,6 +1550,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case SettingsActivity.PREF_MEASUREMENT_SYSTEM:
                     setDistanceUnit(builder);
                     break;
+                case MiBandConst.PREF_SWIPE_UNLOCK:
+                    setBandScreenUnlock(builder);
+                    break;
             }
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -1772,7 +1778,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HuamiSupport setDisconnectNotification(TransactionBuilder builder) {
-        DisconnectNotificationSetting disconnectNotificationSetting = HuamiCoordinator.getDisconnectNotificationSetting(getContext());
+        DisconnectNotificationSetting disconnectNotificationSetting = HuamiCoordinator.getDisconnectNotificationSetting(getContext(), gbDevice.getAddress());
         LOG.info("Setting disconnect notification to " + disconnectNotificationSetting);
 
         switch (disconnectNotificationSetting) {
@@ -1812,6 +1818,20 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
         return this;
     }
+
+    protected HuamiSupport setBandScreenUnlock(TransactionBuilder builder) {
+        boolean enable = MiBand3Coordinator.getBandScreenUnlock(gbDevice.getAddress());
+        LOG.info("Setting band screen unlock to " + enable);
+
+        if (enable) {
+            builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand3Service.COMMAND_ENABLE_BAND_SCREEN_UNLOCK);
+        } else {
+            builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand3Service.COMMAND_DISABLE_BAND_SCREEN_UNLOCK);
+        }
+
+        return this;
+    }
+
 
     protected HuamiSupport setLanguage(TransactionBuilder builder) {
         String localeString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString("language", "auto");
