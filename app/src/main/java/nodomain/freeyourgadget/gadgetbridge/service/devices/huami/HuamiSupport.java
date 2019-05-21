@@ -23,6 +23,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.PowerManager;
 import android.text.format.DateFormat;
 import android.widget.Toast;
 
@@ -108,6 +109,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotificat
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.actions.StopNotificationAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.Mi2CustomMenuNotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.Mi2NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.Mi2TextNotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchActivityOperation;
@@ -150,6 +152,15 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     private static int currentButtonPressCount = 0;
     private static long currentButtonPressTime = 0;
     private static long currentButtonTimerActivationTime = 0;
+
+    private static Boolean browsingCustomMenu = false;
+    private static int currentOptionId = 0;
+    private static Timer customMenuTimer = null;
+    private static Timer customMenuTimerTimeout = null;
+
+    // To make Timers work correctly when Android device is in deep sleep
+    // @see https://stackoverflow.com/questions/47472741/timer-not-expiring-precisely-during-sleep-state-in-android
+    private static PowerManager.WakeLock deviceWakeLock = null;
 
     private static final Logger LOG = LoggerFactory.getLogger(HuamiSupport.class);
     private final DeviceInfoProfile<HuamiSupport> deviceInfoProfile;
@@ -344,7 +355,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 return new Mi2NotificationStrategy(this);
             }
         }
-        if (GBApplication.getPrefs().getBoolean(MiBandConst.PREF_MI2_ENABLE_TEXT_NOTIFICATIONS, true)) {
+        if (browsingCustomMenu) {
+            return new Mi2CustomMenuNotificationStrategy(this);
+        } else if (GBApplication.getPrefs().getBoolean(MiBandConst.PREF_MI2_ENABLE_TEXT_NOTIFICATIONS, true)) {
             return new Mi2TextNotificationStrategy(this);
         }
         return new Mi2NotificationStrategy(this);
@@ -1054,6 +1067,123 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         currentButtonPressTime = System.currentTimeMillis();
     }
 
+    public void runCustomMenu() {
+        Prefs prefs = GBApplication.getPrefs();
+
+
+        if(this.getCustomMenuElements().length > 0) {
+            /*if (currentButtonTimerActivationTime != currentButtonPressTime) {
+                return;
+            }*/
+            LOG.info("Running custom menu");
+            browsingCustomMenu = true;
+            currentButtonActionId = 0;
+            this.displayCustomMenuOption(0);
+        }
+    }
+
+    private void displayCustomMenuOption(int optionId) {
+        Prefs prefs = GBApplication.getPrefs();
+
+        currentOptionId = optionId;
+
+        String eltLabel = this.getCustomMenuCurrentElement()[0];
+        LOG.info("Sending Menu Option " + eltLabel);
+        try {
+            TransactionBuilder builder = performInitialized("sending menu option #" + eltLabel);
+            VibrationProfile profile = getPreferredVibrateProfile("Custom Menu", prefs, (short) 0);
+            profile.setAlertLevel(HuamiService.ALERT_LEVEL_MESSAGE);
+            SimpleNotification simpleNotification = new SimpleNotification(eltLabel, null, null/*NotificationType.UNKNOWN*/);
+            sendCustomNotification(profile, simpleNotification, 0, 0, 0, 0, null, builder);
+            builder.queue(getQueue());
+        } catch (IOException ex) {
+            LOG.error("Unable to send notification to MI device", ex);
+        } finally {
+            currentButtonPressCount = 0;
+            currentButtonPressTime = System.currentTimeMillis();
+        }
+    }
+
+    private void runCustomMenuCurrentAction() {
+        Prefs prefs = GBApplication.getPrefs();
+
+        /*if (currentButtonTimerActivationTime != currentButtonPressTime) {
+            return;
+        }*/
+
+        String elementMessage = this.getCustomMenuCurrentElement()[1];
+        Intent in = new Intent();
+        in.setAction(elementMessage);
+        in.putExtra("button_id", currentButtonActionId);
+        LOG.info("Sending " + elementMessage + " with button_id " + currentButtonActionId);
+        this.getContext().getApplicationContext().sendBroadcast(in);
+
+        LOG.info("Sending Confirmation");
+        try {
+            TransactionBuilder builder = performInitialized("sending custom menu action confirmation");
+            VibrationProfile profile = getPreferredVibrateProfile("Custom Menu", prefs, (short) 0);
+            profile.setAlertLevel(HuamiService.ALERT_LEVEL_MESSAGE);
+            SimpleNotification simpleNotification = new SimpleNotification("OK", null, null/*NotificationType.UNKNOWN*/);
+            sendCustomNotification(profile, simpleNotification, 0, 0, 0, 0, null, builder);
+            builder.queue(getQueue());
+        } catch (IOException ex) {
+            LOG.error("Unable to send notification to MI device", ex);
+        } finally {
+            browsingCustomMenu = false;
+            currentButtonActionId = 0;
+
+            currentButtonPressCount = 0;
+            currentButtonPressTime = System.currentTimeMillis();
+        }
+    }
+
+    // TODO custom separator ?
+    private String[] getCustomMenuElements() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getString(MiBandConst.PREF_MIBAND_MENU_ELEMENTS, "").split(";");
+    }
+    
+    // TODO custom separator ?
+    private String[] getCustomMenuCurrentElement() {
+        return getCustomMenuElements()[currentOptionId].split(":");
+    }
+
+    private int getCustomMenuNextOptionId() {
+        int menuElementCount = this.getCustomMenuElements().length;
+        return (currentOptionId + 1) % menuElementCount;
+    }
+
+    private int getCustomMenuPreviousOptionId() {
+        int menuElementCount = this.getCustomMenuElements().length;
+        return (menuElementCount + currentOptionId - 1) % menuElementCount;
+    }
+
+    private Timer resetCustomMenuTimerTimeout() {
+        Prefs prefs = GBApplication.getPrefs();
+        final Boolean isWakelockEnabled = prefs.getBoolean(MiBandConst.PREF_MIBAND_MENU_WAKELOCK, false);
+
+        if(customMenuTimerTimeout != null) {
+            customMenuTimerTimeout.cancel();
+        }
+
+        // TODO Mi band 2 seems to display notifications only during 5 secs
+        // This isn't very clean, but i couldn't find anything else.
+        customMenuTimerTimeout = new Timer("Mi Band Button Action Custom Menu Timeout Timer");
+        customMenuTimerTimeout.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                LOG.info("Deactivating custom menu due to timeout");
+                browsingCustomMenu = false;
+                if (isWakelockEnabled && deviceWakeLock != null && deviceWakeLock.isHeld()) {
+                    LOG.info("Releasing Wakelock");
+                    deviceWakeLock.release();
+                }
+                customMenuTimerTimeout.cancel();
+            }
+        }, 5000);
+        return customMenuTimerTimeout;
+    }
+
     public void handleDeviceEvent(byte[] value) {
         if (value == null || value.length == 0) {
             return;
@@ -1173,6 +1303,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         int buttonActionDelay = prefs.getInt(MiBandConst.PREF_MIBAND_BUTTON_ACTION_DELAY, 0);
         int requiredButtonPressCount = prefs.getInt(MiBandConst.PREF_MIBAND_BUTTON_PRESS_COUNT, 0);
 
+        final Boolean isCustomMenuEnabled = prefs.getBoolean(MiBandConst.PREF_MIBAND_BUTTON_ACTION_MENU_ENABLE, false);
+        final Boolean isWakelockEnabled = prefs.getBoolean(MiBandConst.PREF_MIBAND_MENU_WAKELOCK, false);
+
         if (requiredButtonPressCount > 0) {
             long timeSinceLastPress = System.currentTimeMillis() - currentButtonPressTime;
 
@@ -1185,10 +1318,12 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             }
 
             currentButtonPressTime = System.currentTimeMillis();
-            if (currentButtonPressCount == requiredButtonPressCount) {
+            if (currentButtonPressCount == requiredButtonPressCount && !browsingCustomMenu) {
                 currentButtonTimerActivationTime = currentButtonPressTime;
+
                 if (buttonActionDelay > 0) {
                     LOG.info("Activating timer");
+
                     final Timer buttonActionTimer = new Timer("Mi Band Button Action Timer");
                     buttonActionTimer.scheduleAtFixedRate(new TimerTask() {
                         @Override
@@ -1202,8 +1337,66 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                     LOG.info("Activating button action");
                     runButtonAction();
                 }
+
+                if (isCustomMenuEnabled) {
+                    if(isWakelockEnabled) {
+                        LOG.info("Acquiring wakelock");
+                        PowerManager pm = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
+                        deviceWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport:wakelock");
+                        deviceWakeLock.acquire();
+                    }
+                    final Timer customMenuTimer = new Timer("Mi Band Button Action Custom Menu");
+                    customMenuTimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            LOG.info("Activating custom menu");
+                            resetCustomMenuTimerTimeout();
+                            runCustomMenu();
+                            customMenuTimer.cancel();
+                        }
+                    }, buttonActionDelay);
+                }
+
                 currentButtonActionId++;
                 currentButtonPressCount = 0;
+            } else if (browsingCustomMenu) {
+                if (customMenuTimer != null) {
+                    customMenuTimer.cancel();
+                }
+
+                final int moveForwardTapCount = prefs.getInt(MiBandConst.PREF_MIBAND_MENU_FORWARD, 1);
+                final int moveBackwardTapCount = prefs.getInt(MiBandConst.PREF_MIBAND_MENU_BACKWARD, 2);
+                final int validateTapCount = prefs.getInt(MiBandConst.PREF_MIBAND_MENU_VALIDATE, 3);
+
+                customMenuTimer = new Timer("Mi Band Button Action Custom Menu Timer");
+                customMenuTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        if (currentButtonPressCount == moveForwardTapCount) {
+                            resetCustomMenuTimerTimeout();
+                            displayCustomMenuOption(getCustomMenuNextOptionId());
+                            currentButtonActionId++;
+                            currentButtonPressCount = 0;
+                        } else if (currentButtonPressCount == moveBackwardTapCount) {
+                            resetCustomMenuTimerTimeout();
+                            displayCustomMenuOption(getCustomMenuPreviousOptionId());
+                            currentButtonActionId++;
+                            currentButtonPressCount = 0;
+                        } else if (currentButtonPressCount == validateTapCount) {
+                            currentButtonTimerActivationTime = currentButtonPressTime;
+                            customMenuTimerTimeout.cancel();
+                            LOG.info("Selected action on custom menu");
+                            runCustomMenuCurrentAction();
+                            currentButtonActionId++;
+                            currentButtonPressCount = 0;
+                            if (isWakelockEnabled && deviceWakeLock != null && deviceWakeLock.isHeld()) {
+                                LOG.info("Releasing wakelock");
+                                deviceWakeLock.release();
+                            }
+                        }
+                        customMenuTimer.cancel();
+                    }
+                }, buttonPressMaxDelay);
             }
         }
     }
