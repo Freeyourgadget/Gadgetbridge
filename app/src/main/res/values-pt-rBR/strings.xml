@@ -14,7 +14,6 @@
     <string name="controlcenter_delete_device_name">Apagar %1$s</string>
     <string name="controlcenter_delete_device_dialogmessage">Isto irá apagar o dispositivo e todos os dados associados!</string>
     <string name="title_activity_debug">Depurar</string>
-    
     <!--Strings related to AppManager-->
     <string name="title_activity_appmanager">Gerenciador de App</string>
     <string name="appmanager_cached_watchapps_watchfaces">Apps em cache</string>
@@ -33,22 +32,18 @@
     <string name="appmanager_weather_install_provider">Instalar notificações do app de clima</string>
     <string name="app_configure">Configurar</string>
     <string name="app_move_to_top">Mover para o topo</string>
-    
     <!--Strings related to AppBlacklist-->
     <string name="title_activity_appblacklist">Lista Negra de Notificações</string>
-    
     <!--Strings related to CalBlacklist-->
-    
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">Instalador FW/App</string>
     <string name="fw_upgrade_notice">Você está prestes a instalar o firmware %s no lugar do atual em sua Mi Band.</string>
     <string name="fw_multi_upgrade_notice">Você está prestes a instalar os firmwares %1$s e %2$s no lugar dos que estão atualmente na sua Mi Band.</string>
     <string name="miband_firmware_known">O firmware foi testado e é compatível com Gadgetbridge.</string>
-    <string name="miband_firmware_unknown_warning">Este firmware não foi testado e pode não ser compatível com o Gadgetbridge.
-\n
-\nNÃO recomendamos que instale em sua Mi Band!</string>
+    <string name="miband_firmware_unknown_warning">Este firmware não foi testado e pode não ser compatível com o Gadgetbridge. 
+\n 
+\nNÃO É RECOMENDADO que você instale-o!</string>
     <string name="miband_firmware_suggest_whitelist">Se você ainda desejar continuar e tudo funcionar corretamente, por favor, diga aos desenvolvedores do Gadgetbridge para incluírem essa versão de firmware na lista: %s</string>
-    
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Configurações</string>
     <string name="pref_header_general">Configurações Gerais</string>
@@ -336,10 +331,8 @@
     <string name="dbmanagementactivity_overwrite">Sobrepor</string>
     <string name="Cancel">Cancelar</string>
     <string name="Delete">Apagar</string>
-    
     <!--Strings related to Vibration Activity-->
     <string name="title_activity_vibration">Vibração</string>
-    
     <!--Strings related to Pebble Pairing Activity-->
     <string name="title_activity_pebble_pairing">Pareando Pebble</string>
     <string name="pebble_pairing_hint">Espera-se que um diálogo de emparelhamento apareça no seu dispositivo Android. Se isso não acontecer, procure na gaveta de notificação e aceite o pedido de emparelhamento. Depois que aceitar o pedido de emparelhamento em seu Pebble</string>
@@ -352,12 +345,12 @@
     <string name="timeformat_am_pm">AM/PM</string>
     <string name="pref_screen_notification_profile_alarm_clock">Alarme</string>
     <string name="action_donate">Doar</string>
-    <string name="controlcenter_connect">Conectar</string>
+    <string name="controlcenter_connect">Conectar…</string>
     <string name="controlcenter_navigation_drawer_open">Abrir gaveta de navegação</string>
     <string name="controlcenter_navigation_drawer_close">Fechar gaveta de navegação</string>
     <string name="controlcenter_snackbar_need_longpress">Pressione prolongadamente o cartão para desconectar</string>
     <string name="controlcenter_snackbar_disconnecting">Desconectando</string>
-    <string name="controlcenter_snackbar_connecting">Conectando...</string>
+    <string name="controlcenter_snackbar_connecting">Conectando…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Tirar captura de tela do dispositivo</string>
     <string name="title_activity_calblacklist">Blacklist do Calendário</string>
     <string name="fw_upgrade_notice_amazfitbip">Você está prestes a instalar o firmware %s no seu Amazip Bip. 
@@ -367,13 +360,13 @@
 \nNota: você não precisa instalar .res e .gps se esses arquivos forem exatamente os mesmos que os instalados anteriormente. 
 \n 
 \nPROSSIGA POR SUA CONTA E RISCO!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Você está prestes a instalar o firmware %s no seu Amazfit Cor.
-\n
-\nCertifique-se de instalar o arquivo .res, e depois disso o arquivo .fw. Seu relógio será reiniciado após a instalação do arquivo .fw.
-\n
-\nNota: você não precisa instalar .res se for exatamente o mesmo que o instalado anteriormente.
-\n
-\nNÃO TESTADO, PODE DANIFICAR SEU DISPOSITIVO, PROSSIGA AO SEU PRÓPRIO RISCO!</string>
+    <string name="fw_upgrade_notice_amazfitcor">Você está prestes a instalar o firmware %s no seu Amazfit Cor. 
+\n 
+\nCertifique-se de instalar o arquivo .fw, e depois disso o arquivo .res. Sua pulseira será reiniciado após a instalação do arquivo .fw. 
+\n 
+\nNota: você não precisa instalar .res se for exatamente o mesmo que o instalado anteriormente. 
+\n 
+\nPROSSIGA AO SEU PRÓPRIO RISCO!</string>
     <string name="pref_title_charts_swipe">Ativar deslizar para a esquerda/direita no gráfico de atividades</string>
     <string name="pref_call_privacy_mode_number">Ocultar número e exibir nome</string>
     <string name="pref_blacklist_calendars">Calendários na Blacklist</string>
@@ -427,7 +420,7 @@
 \n 
 \nNota: você não precisa instalar .res se esse arquivo é exatamente o mesmo instalado anteriormente. 
 \n 
-\nNÃO FOI TESTADO, PODE QUEBRAR SEU DISPOSITIVO, PROSSIGA POR SUA CONTA E RISCO!</string>
+\nPROSSIGA POR SUA CONTA E RISCO!</string>
     <string name="pref_title_notifications_timeout">Tempo mínimo entre notificações</string>
     <string name="pref_title_rtl">Da Direita para Esquerda</string>
     <string name="pref_summary_rtl">Ative isto se seu dispositivo não pode mostrar linguagens da Direita para Esquerda</string>
