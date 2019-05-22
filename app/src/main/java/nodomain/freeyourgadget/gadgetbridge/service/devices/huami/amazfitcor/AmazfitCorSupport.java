@@ -79,13 +79,6 @@ public class AmazfitCorSupport extends AmazfitBipSupport {
     }
 
     @Override
-    public void phase2Initialize(TransactionBuilder builder) {
-        super.phase2Initialize(builder);
-        LOG.info("phase2Initialize...");
-        setBandScreenUnlock(builder);
-    }
-
-    @Override
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
         return new AmazfitCorFWHelper(uri, context);
     }

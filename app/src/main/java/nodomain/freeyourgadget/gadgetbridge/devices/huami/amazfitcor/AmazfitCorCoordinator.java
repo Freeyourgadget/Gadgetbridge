@@ -85,7 +85,6 @@ public class AmazfitCorCoordinator extends HuamiCoordinator {
         return new int[]{
                 R.xml.devicesettings_amazfitcor,
                 R.xml.devicesettings_disconnectnotification,
-                R.xml.devicesettings_swipeunlock,
                 R.xml.devicesettings_pairingkey};
     }
 }
