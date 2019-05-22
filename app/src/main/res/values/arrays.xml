@@ -375,6 +375,24 @@
         <item>ru_RU</item>
     </string-array>
 
+    <string-array name="pref_amazfitcor_language">
+        <item name="auto">@string/automatic</item>
+        <item name="zh_CH">@string/simplified_chinese</item>
+        <item name="zh_TW">@string/traditional_chinese</item>
+        <item name="en_US">@string/english</item>
+        <item name="es_ES">@string/spanish</item>
+        <item name="ru_RU">@string/russian</item>
+    </string-array>
+
+    <string-array name="pref_amazfitcor_language_values">
+        <item>auto</item>
+        <item>zh_CH</item>
+        <item>zh_TW</item>
+        <item>en_US</item>
+        <item>es_ES</item>
+        <item>ru_RU</item>
+    </string-array>
+
     <string-array name="pref_miband3_language">
         <item name="auto">@string/automatic</item>
         <item name="zh_CH">@string/simplified_chinese</item>

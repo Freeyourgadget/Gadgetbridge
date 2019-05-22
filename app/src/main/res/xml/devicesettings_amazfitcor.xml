@@ -12,8 +12,8 @@
     <ListPreference
         android:icon="@drawable/ic_language"
         android:defaultValue="auto"
-        android:entries="@array/pref_amazfitbip_language"
-        android:entryValues="@array/pref_amazfitbip_language_values"
+        android:entries="@array/pref_amazfitcor_language"
+        android:entryValues="@array/pref_amazfitcor_language_values"
         android:key="language"
         android:summary="%s"
         android:title="@string/pref_title_language" />
