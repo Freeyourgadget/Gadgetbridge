@@ -184,12 +184,12 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return DisconnectNotificationSetting.OFF;
     }
 
-    public static Date getDisconnectNotificationStart() {
-        return getTimePreference(HuamiConst.PREF_DISCONNECT_NOTIFICATION_START, "00:00");
+    public static Date getDisconnectNotificationStart(String deviceAddress) {
+        return getTimePreference(HuamiConst.PREF_DISCONNECT_NOTIFICATION_START, "00:00", deviceAddress);
     }
 
-    public static Date getDisconnectNotificationEnd() {
-        return getTimePreference(HuamiConst.PREF_DISCONNECT_NOTIFICATION_END, "00:00");
+    public static Date getDisconnectNotificationEnd(String deviceAddress) {
+        return getTimePreference(HuamiConst.PREF_DISCONNECT_NOTIFICATION_END, "00:00", deviceAddress);
     }
 
     public static Set<String> getDisplayItems(String deviceAddress) {
@@ -251,8 +251,14 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return prefs.getBoolean(MiBandConst.PREF_SWIPE_UNLOCK, false);
     }
 
-    public static Date getTimePreference(String key, String defaultValue) {
-        Prefs prefs = GBApplication.getPrefs();
+    protected static Date getTimePreference(String key, String defaultValue, String deviceAddress) {
+        Prefs prefs;
+
+        if (deviceAddress == null) {
+            prefs = GBApplication.getPrefs();
+        } else {
+            prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        }
         String time = prefs.getString(key, defaultValue);
 
         DateFormat df = new SimpleDateFormat("HH:mm");
@@ -263,6 +269,10 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         }
 
         return new Date();
+    }
+
+    protected static Date getTimePreference(String key, String defaultValue) {
+        return getTimePreference(key, defaultValue, null);
     }
 
     public static MiBandConst.DistanceUnit getDistanceUnit() {

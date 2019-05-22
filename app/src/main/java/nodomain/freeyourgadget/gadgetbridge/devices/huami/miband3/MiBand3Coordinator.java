@@ -85,24 +85,25 @@ public class MiBand3Coordinator extends HuamiCoordinator {
     }
 
 
-    public static String getNightMode() {
-        Prefs prefs = GBApplication.getPrefs();
+    public static String getNightMode(String deviceAddress) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
 
-        return prefs.getString(MiBandConst.PREF_MI3_NIGHT_MODE, MiBandConst.PREF_MI3_NIGHT_MODE_OFF);
+        return prefs.getString(MiBandConst.PREF_NIGHT_MODE, MiBandConst.PREF_NIGHT_MODE_OFF);
     }
 
-    public static Date getNightModeStart() {
-        return getTimePreference( MiBandConst.PREF_MI3_NIGHT_MODE_START, "16:00");
+    public static Date getNightModeStart(String deviceAddress) {
+        return getTimePreference(MiBandConst.PREF_NIGHT_MODE_START, "16:00", deviceAddress);
     }
 
-    public static Date getNightModeEnd() {
-        return getTimePreference(MiBandConst.PREF_MI3_NIGHT_MODE_END, "07:00");
+    public static Date getNightModeEnd(String deviceAddress) {
+        return getTimePreference(MiBandConst.PREF_NIGHT_MODE_END, "07:00", deviceAddress);
     }
 
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_miband3,
+                R.xml.devicesettings_nightmode,
                 R.xml.devicesettings_swipeunlock,
                 R.xml.devicesettings_pairingkey
         };

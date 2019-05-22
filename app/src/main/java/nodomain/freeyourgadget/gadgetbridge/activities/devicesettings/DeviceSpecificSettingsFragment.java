@@ -9,6 +9,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreference;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreferenceFragment;
@@ -18,6 +19,11 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_OFF;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_SCHEDULED;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE_END;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE_OFF;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE_SCHEDULED;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_SWIPE_UNLOCK;
 
 public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
@@ -153,6 +159,66 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
             });
 
         }
+
+        String nightModeState = prefs.getString(MiBandConst.PREF_NIGHT_MODE, PREF_NIGHT_MODE_OFF);
+        boolean nightModeScheduled = nightModeState.equals(PREF_NIGHT_MODE_SCHEDULED);
+
+        final Preference nightModeStart = findPreference(PREF_NIGHT_MODE_START);
+        if (nightModeStart != null) {
+            nightModeStart.setEnabled(nightModeScheduled);
+            nightModeStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(PREF_NIGHT_MODE_START);
+                        }
+                    });
+                    return true;
+                }
+            });
+        }
+
+        final Preference nightModeEnd = findPreference(PREF_NIGHT_MODE_END);
+        if (nightModeEnd != null) {
+            nightModeEnd.setEnabled(nightModeScheduled);
+            nightModeEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(PREF_NIGHT_MODE_END);
+                        }
+                    });
+                    return true;
+                }
+            });
+        }
+
+        final Preference nightMode = findPreference(PREF_NIGHT_MODE);
+        if (nightMode != null) {
+
+            nightMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    final boolean scheduled = PREF_NIGHT_MODE_SCHEDULED.equals(newVal.toString());
+
+                    nightModeStart.setEnabled(scheduled);
+                    nightModeEnd.setEnabled(scheduled);
+
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(PREF_NIGHT_MODE);
+                        }
+                    });
+                    return true;
+                }
+            });
+        }
+
         final Preference swipeUnlock = findPreference(PREF_SWIPE_UNLOCK);
         if (swipeUnlock != null) {
             swipeUnlock.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

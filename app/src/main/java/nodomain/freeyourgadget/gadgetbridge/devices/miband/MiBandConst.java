@@ -66,12 +66,12 @@ public final class MiBandConst {
     public static final String PREF_MIBAND_SETUP_BT_PAIRING = "mi_setup_bt_pairing";
 
     public static final String PREF_SWIPE_UNLOCK = "swipe_unlock";
-    public static final String PREF_MI3_NIGHT_MODE = "mi3_night_mode";
-    public static final String PREF_MI3_NIGHT_MODE_START = "mi3_night_mode_start";
-    public static final String PREF_MI3_NIGHT_MODE_END = "mi3_night_mode_end";
-    public static final String PREF_MI3_NIGHT_MODE_OFF = "off";
-    public static final String PREF_MI3_NIGHT_MODE_SUNSET = "sunset";
-    public static final String PREF_MI3_NIGHT_MODE_SCHEDULED = "scheduled";
+    public static final String PREF_NIGHT_MODE = "night_mode";
+    public static final String PREF_NIGHT_MODE_START = "night_mode_start";
+    public static final String PREF_NIGHT_MODE_END = "night_mode_end";
+    public static final String PREF_NIGHT_MODE_OFF = "off";
+    public static final String PREF_NIGHT_MODE_SUNSET = "sunset";
+    public static final String PREF_NIGHT_MODE_SCHEDULED = "scheduled";
 
     public static final String ORIGIN_INCOMING_CALL = "incoming_call";
     public static final String ORIGIN_ALARM_CLOCK = "alarm_clock";

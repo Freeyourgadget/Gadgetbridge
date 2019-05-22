@@ -1793,12 +1793,12 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
                 Calendar calendar = GregorianCalendar.getInstance();
 
-                Date start = HuamiCoordinator.getDisconnectNotificationStart();
+                Date start = HuamiCoordinator.getDisconnectNotificationStart(gbDevice.getAddress());
                 calendar.setTime(start);
                 cmd[4] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
                 cmd[5] = (byte) calendar.get(Calendar.MINUTE);
 
-                Date end = HuamiCoordinator.getDisconnectNotificationEnd();
+                Date end = HuamiCoordinator.getDisconnectNotificationEnd(gbDevice.getAddress());
                 calendar.setTime(end);
                 cmd[6] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
                 cmd[7] = (byte) calendar.get(Calendar.MINUTE);

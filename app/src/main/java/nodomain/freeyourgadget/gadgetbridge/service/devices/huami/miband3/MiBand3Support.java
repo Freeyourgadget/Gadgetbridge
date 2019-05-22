@@ -106,9 +106,9 @@ public class MiBand3Support extends AmazfitBipSupport {
         try {
             builder = performInitialized("Sending configuration for option: " + config);
             switch (config) {
-                case MiBandConst.PREF_MI3_NIGHT_MODE:
-                case MiBandConst.PREF_MI3_NIGHT_MODE_START:
-                case MiBandConst.PREF_MI3_NIGHT_MODE_END:
+                case MiBandConst.PREF_NIGHT_MODE:
+                case MiBandConst.PREF_NIGHT_MODE_START:
+                case MiBandConst.PREF_NIGHT_MODE_END:
                     setNightMode(builder);
                     break;
                 default:
@@ -122,27 +122,27 @@ public class MiBand3Support extends AmazfitBipSupport {
     }
 
     private MiBand3Support setNightMode(TransactionBuilder builder) {
-        String nightMode = MiBand3Coordinator.getNightMode();
+        String nightMode = MiBand3Coordinator.getNightMode(gbDevice.getAddress());
         LOG.info("Setting night mode to " + nightMode);
 
         switch (nightMode) {
-            case MiBandConst.PREF_MI3_NIGHT_MODE_SUNSET:
+            case MiBandConst.PREF_NIGHT_MODE_SUNSET:
                 builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand3Service.COMMAND_NIGHT_MODE_SUNSET);
                 break;
-            case MiBandConst.PREF_MI3_NIGHT_MODE_OFF:
+            case MiBandConst.PREF_NIGHT_MODE_OFF:
                 builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand3Service.COMMAND_NIGHT_MODE_OFF);
                 break;
-            case MiBandConst.PREF_MI3_NIGHT_MODE_SCHEDULED:
+            case MiBandConst.PREF_NIGHT_MODE_SCHEDULED:
                 byte[] cmd = MiBand3Service.COMMAND_NIGHT_MODE_SCHEDULED.clone();
 
                 Calendar calendar = GregorianCalendar.getInstance();
 
-                Date start = MiBand3Coordinator.getNightModeStart();
+                Date start = MiBand3Coordinator.getNightModeStart(gbDevice.getAddress());
                 calendar.setTime(start);
                 cmd[2] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
                 cmd[3] = (byte) calendar.get(Calendar.MINUTE);
 
-                Date end = MiBand3Coordinator.getNightModeEnd();
+                Date end = MiBand3Coordinator.getNightModeEnd(gbDevice.getAddress());
                 calendar.setTime(end);
                 cmd[4] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
                 cmd[5] = (byte) calendar.get(Calendar.MINUTE);
