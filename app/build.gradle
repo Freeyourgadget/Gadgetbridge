@@ -64,6 +64,7 @@ dependencies {
     testImplementation "junit:junit:4.12"
     testImplementation "org.mockito:mockito-core:1.10.19"
     testImplementation "org.robolectric:robolectric:3.6.1"
+    testImplementation "com.google.code.gson:gson:2.8.5"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "androidx.appcompat:appcompat:1.0.2"
