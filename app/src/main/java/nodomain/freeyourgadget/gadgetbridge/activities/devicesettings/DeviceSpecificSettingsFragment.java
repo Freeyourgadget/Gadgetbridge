@@ -17,6 +17,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.XTimePreferenceFragment;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION_END;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION_START;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DATEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_OFF;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_SCHEDULED;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE;
@@ -228,6 +229,21 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
                         @Override
                         public void run() {
                             GBApplication.deviceService().onSendConfiguration(PREF_SWIPE_UNLOCK);
+                        }
+                    });
+                    return true;
+                }
+            });
+        }
+        final Preference setDateFormat = findPreference(PREF_MI2_DATEFORMAT);
+        if (setDateFormat != null) {
+            setDateFormat.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(PREF_MI2_DATEFORMAT);
                         }
                     });
                     return true;

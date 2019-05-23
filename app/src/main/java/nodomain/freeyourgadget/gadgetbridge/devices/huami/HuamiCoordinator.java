@@ -131,10 +131,10 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return new MiBand2SampleProvider(device, session);
     }
 
-    public static DateTimeDisplay getDateDisplay(Context context) throws IllegalArgumentException {
-        Prefs prefs = GBApplication.getPrefs();
+    public static DateTimeDisplay getDateDisplay(Context context, String deviceAddress) throws IllegalArgumentException {
+        SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
         String dateFormatTime = context.getString(R.string.p_dateformat_time);
-        if (dateFormatTime.equals(prefs.getString(MiBandConst.PREF_MI2_DATEFORMAT, dateFormatTime))) {
+        if (dateFormatTime.equals(sharedPrefs.getString(MiBandConst.PREF_MI2_DATEFORMAT, dateFormatTime))) {
             return DateTimeDisplay.TIME;
         }
         return DateTimeDisplay.DATE_TIME;

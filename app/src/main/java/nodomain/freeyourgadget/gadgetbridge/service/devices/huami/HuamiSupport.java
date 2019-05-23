@@ -347,7 +347,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 return new Mi2NotificationStrategy(this);
             }
         }
-        if (GBApplication.getPrefs().getBoolean(MiBandConst.PREF_MI2_ENABLE_TEXT_NOTIFICATIONS, true)) {
+        if (GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(MiBandConst.PREF_MI2_ENABLE_TEXT_NOTIFICATIONS, true)) {
             return new Mi2TextNotificationStrategy(this);
         }
         return new Mi2NotificationStrategy(this);
@@ -1580,7 +1580,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HuamiSupport setDateDisplay(TransactionBuilder builder) {
-        DateTimeDisplay dateTimeDisplay = HuamiCoordinator.getDateDisplay(getContext());
+        DateTimeDisplay dateTimeDisplay = HuamiCoordinator.getDateDisplay(getContext(), gbDevice.getAddress());
         LOG.info("Setting date display to " + dateTimeDisplay);
         switch (dateTimeDisplay) {
             case TIME:

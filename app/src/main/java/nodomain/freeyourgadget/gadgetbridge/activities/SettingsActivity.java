@@ -63,8 +63,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DATEFORMAT;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ENABLE_TEXT_NOTIFICATIONS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_HEIGHT_CM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_SLEEP_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_STEPS_GOAL;
@@ -359,20 +357,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 autoFetchInterval);
         pref.setSummary(summary);
 
-        final Preference setDateFormat = findPreference(PREF_MI2_DATEFORMAT);
-        setDateFormat.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DATEFORMAT);
-                    }
-                });
-                return true;
-            }
-        });
-
         // Get all receivers of Media Buttons
         Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
 
@@ -501,7 +485,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 PREF_USER_WEIGHT_KG,
                 PREF_USER_SLEEP_DURATION,
                 PREF_USER_STEPS_GOAL,
-                PREF_MI2_ENABLE_TEXT_NOTIFICATIONS,
                 "weather_city",
         };
     }
