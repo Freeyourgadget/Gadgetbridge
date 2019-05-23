@@ -66,6 +66,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.NotificationCollectorMonitorService;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -74,6 +75,9 @@ import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITBIP;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITCOR;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITCOR2;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.fromKey;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
 
@@ -637,28 +641,72 @@ public static String packageNameToPebbleMsgSender(String packageName) {
                             deviceSharedPrefsEdit.putLong("lastSyncTimeMillis", lastSyncTimeMillis);
                             editor.remove(preferenceKey);
                         }
-                        switch (fromKey(dbDevice.getType())) {
+
+                        String newLanguage = null;
+                        Set<String> displayItems = null;
+
+                        DeviceType deviceType = fromKey(dbDevice.getType());
+
+                        if (deviceType == AMAZFITBIP || deviceType == AMAZFITCOR || deviceType == AMAZFITCOR2) {
+                            int oldLanguage = prefs.getInt("amazfitbip_language", -1);
+                            newLanguage = "auto";
+                            String[] oldLanguageLookup = {"zh_CN", "zh_TW", "en_US", "es_ES", "ru_RU", "de_DE", "it_IT", "fr_FR", "tr_TR"};
+                            if (oldLanguage >= 0 && oldLanguage < oldLanguageLookup.length) {
+                                newLanguage = oldLanguageLookup[oldLanguage];
+                            }
+                        }
+
+                        if (deviceType == AMAZFITBIP || deviceType == AMAZFITCOR) {
+                            deviceSharedPrefsEdit.putString("disconnect_notification", prefs.getString("disconnect_notification", "off"));
+                            deviceSharedPrefsEdit.putString("disconnect_notification_start", prefs.getString("disconnect_notification_start", "8:00"));
+                            deviceSharedPrefsEdit.putString("disconnect_notification_end", prefs.getString("disconnect_notification_end", "22:00"));
+                        }
+                        switch (deviceType) {
                             case AMAZFITCOR:
+                                displayItems = prefs.getStringSet("cor_display_items", null);
+                                break;
                             case AMAZFITBIP:
-                            case AMAZFITCOR2:
-                                int oldLanguage = prefs.getInt("amazfitbip_language", -1);
-                                String newLanguage = "auto";
-                                String[] oldLanguageLookup = {"zh_CN", "zh_TW", "en_US", "es_ES", "ru_RU", "de_DE", "it_IT", "fr_FR", "tr_TR"};
-                                if (oldLanguage >= 0 && oldLanguage < oldLanguageLookup.length) {
-                                    newLanguage = oldLanguageLookup[oldLanguage];
-                                }
-                                deviceSharedPrefsEdit.putString("language", newLanguage);
+                                displayItems = prefs.getStringSet("bip_display_items", null);
+                                break;
+                            case MIBAND2:
+                                displayItems = prefs.getStringSet("mi2_display_items", null);
+                                deviceSharedPrefsEdit.putBoolean("mi2_enable_text_notifications", prefs.getBoolean("mi2_enable_text_notifications", true));
+                                deviceSharedPrefsEdit.putString("mi2_dateformat", prefs.getString("mi2_dateformat", "dateformat_time"));
                                 break;
                             case MIBAND3:
-                                String language = sharedPrefs.getString("miband3_language", "auto");
-                                deviceSharedPrefsEdit.putString("language", language);
+                                newLanguage = prefs.getString("miband3_language", "auto");
+                                displayItems = prefs.getStringSet("miband3_display_items", null);
+                                deviceSharedPrefsEdit.putBoolean("swipe_unlock", prefs.getBoolean("mi3_band_screen_unlock", false));
+                                deviceSharedPrefsEdit.putString("night_mode", prefs.getString("mi3_night_mode", "off"));
+                                deviceSharedPrefsEdit.putString("night_mode_start", prefs.getString("mi3_night_mode_start", "16:00"));
+                                deviceSharedPrefsEdit.putString("night_mode_end", prefs.getString("mi3_night_mode_end", "7:00"));
+
+                        }
+                        if (displayItems != null) {
+                            deviceSharedPrefsEdit.putStringSet("display_items", displayItems);
+                        }
+                        if (newLanguage != null) {
+                            deviceSharedPrefsEdit.putString("language", newLanguage);
                         }
                     }
 
                     deviceSharedPrefsEdit.apply();
                 }
-                editor.remove("miband3_language");
                 editor.remove("amazfitbip_language");
+                editor.remove("bip_display_items");
+                editor.remove("cor_display_items");
+                editor.remove("disconnect_notification");
+                editor.remove("disconnect_notification_start");
+                editor.remove("disconnect_notification_end");
+                editor.remove("mi2_dateformat");
+                editor.remove("mi2_display_items");
+                editor.remove("mi2_enable_text_notifications");
+                editor.remove("mi3_band_screen_unlock");
+                editor.remove("mi3_night_mode");
+                editor.remove("mi3_night_mode_start");
+                editor.remove("mi3_night_mode_end");
+                editor.remove("miband3_language");
+
             } catch (Exception e) {
                 Log.w(TAG, "error acquiring DB lock");
             }

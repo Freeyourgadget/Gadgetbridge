@@ -29,7 +29,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Set;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Coordinator;
@@ -40,7 +40,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class MiBand3Support extends AmazfitBipSupport {
 
@@ -56,8 +55,8 @@ public class MiBand3Support extends AmazfitBipSupport {
 
     @Override
     protected MiBand3Support setDisplayItems(TransactionBuilder builder) {
-        Prefs prefs = GBApplication.getPrefs();
-        Set<String> pages = prefs.getStringSet("miband3_display_items", null);
+        Set<String> pages = HuamiCoordinator.getDisplayItems(gbDevice.getAddress());
+
         LOG.info("Setting display items to " + (pages == null ? "none" : pages));
         byte[] command = MiBand3Service.COMMAND_CHANGE_SCREENS.clone();
 
