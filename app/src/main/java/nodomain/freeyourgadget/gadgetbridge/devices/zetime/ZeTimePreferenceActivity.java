@@ -18,15 +18,10 @@ package nodomain.freeyourgadget.gadgetbridge.devices.zetime;
 
 import android.os.Bundle;
 import android.preference.Preference;
-import android.widget.Toast;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
-import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class ZeTimePreferenceActivity extends AbstractSettingsActivity {
     @Override
@@ -34,13 +29,8 @@ public class ZeTimePreferenceActivity extends AbstractSettingsActivity {
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.zetime_preferences);
-        addPreferencesFromResource(R.xml.preferences);
 
         GBApplication.deviceService().onReadConfiguration("do_it");
-
-        //addTryListeners();
-
-        Prefs prefs = GBApplication.getPrefs();
 
         final Preference heartrateMeasurementInterval = findPreference(ZeTimeConstants.PREF_ZETIME_HEARTRATE_INTERVAL);
         heartrateMeasurementInterval.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
