@@ -104,6 +104,7 @@ public class MiBand3Coordinator extends HuamiCoordinator {
         return new int[]{
                 R.xml.devicesettings_miband3,
                 R.xml.devicesettings_nightmode,
+                R.xml.devicesettings_donotdisturb_withauto,
                 R.xml.devicesettings_swipeunlock,
                 R.xml.devicesettings_pairingkey
         };

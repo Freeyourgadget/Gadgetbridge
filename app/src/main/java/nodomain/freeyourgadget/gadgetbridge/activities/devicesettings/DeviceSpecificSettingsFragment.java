@@ -17,9 +17,12 @@ import nodomain.freeyourgadget.gadgetbridge.util.XTimePreferenceFragment;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION_END;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION_START;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB_END;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB_OFF;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB_SCHEDULED;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DATEFORMAT;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_OFF;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_SCHEDULED;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE_END;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE_OFF;
@@ -103,8 +106,8 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
         }
 
         Prefs prefs = new Prefs(getPreferenceManager().getSharedPreferences());
-        String disconnectNotificationState = prefs.getString(PREF_DISCONNECT_NOTIFICATION, PREF_MI2_DO_NOT_DISTURB_OFF);
-        boolean disconnectNotificationScheduled = disconnectNotificationState.equals(PREF_MI2_DO_NOT_DISTURB_SCHEDULED);
+        String disconnectNotificationState = prefs.getString(PREF_DISCONNECT_NOTIFICATION, PREF_DO_NOT_DISTURB_OFF);
+        boolean disconnectNotificationScheduled = disconnectNotificationState.equals(PREF_DO_NOT_DISTURB_SCHEDULED);
 
         final Preference disconnectNotificationStart = findPreference(PREF_DISCONNECT_NOTIFICATION_START);
         if (disconnectNotificationStart != null) {
@@ -145,7 +148,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
             disconnectNotification.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    final boolean scheduled = PREF_MI2_DO_NOT_DISTURB_SCHEDULED.equals(newVal.toString());
+                    final boolean scheduled = PREF_DO_NOT_DISTURB_SCHEDULED.equals(newVal.toString());
 
                     disconnectNotificationStart.setEnabled(scheduled);
                     disconnectNotificationEnd.setEnabled(scheduled);
@@ -213,6 +216,65 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
                         @Override
                         public void run() {
                             GBApplication.deviceService().onSendConfiguration(PREF_NIGHT_MODE);
+                        }
+                    });
+                    return true;
+                }
+            });
+        }
+
+
+        String doNotDisturbState = prefs.getString(MiBandConst.PREF_DO_NOT_DISTURB, PREF_DO_NOT_DISTURB_OFF);
+        boolean doNotDisturbScheduled = doNotDisturbState.equals(PREF_DO_NOT_DISTURB_SCHEDULED);
+
+        final Preference doNotDisturbStart = findPreference(PREF_DO_NOT_DISTURB_START);
+        if (doNotDisturbStart != null) {
+            doNotDisturbStart.setEnabled(doNotDisturbScheduled);
+            doNotDisturbStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(PREF_DO_NOT_DISTURB_START);
+                        }
+                    });
+                    return true;
+                }
+            });
+        }
+
+        final Preference doNotDisturbEnd = findPreference(PREF_DO_NOT_DISTURB_END);
+        if (doNotDisturbEnd != null) {
+            doNotDisturbEnd.setEnabled(doNotDisturbScheduled);
+            doNotDisturbEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(PREF_DO_NOT_DISTURB_END);
+                        }
+                    });
+                    return true;
+                }
+            });
+        }
+
+        final Preference doNotDisturb = findPreference(PREF_DO_NOT_DISTURB);
+        if (doNotDisturb != null) {
+            doNotDisturb.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    final boolean scheduled = PREF_DO_NOT_DISTURB_SCHEDULED.equals(newVal.toString());
+
+                    doNotDisturbStart.setEnabled(scheduled);
+                    doNotDisturbEnd.setEnabled(scheduled);
+
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(PREF_DO_NOT_DISTURB);
                         }
                     });
                     return true;

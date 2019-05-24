@@ -112,7 +112,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotific
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.actions.StopNotificationAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.Mi2NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.Mi2TextNotificationStrategy;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband3.MiBand3Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSportsSummaryOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.InitOperation;
@@ -1533,9 +1532,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case ActivityUser.PREF_USER_STEPS_GOAL:
                     setFitnessGoal(builder);
                     break;
-                case MiBandConst.PREF_MI2_DO_NOT_DISTURB:
-                case MiBandConst.PREF_MI2_DO_NOT_DISTURB_START:
-                case MiBandConst.PREF_MI2_DO_NOT_DISTURB_END:
+                case MiBandConst.PREF_DO_NOT_DISTURB:
+                case MiBandConst.PREF_DO_NOT_DISTURB_START:
+                case MiBandConst.PREF_DO_NOT_DISTURB_END:
                     setDoNotDisturb(builder);
                     break;
                 case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS:
@@ -1691,7 +1690,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HuamiSupport setDoNotDisturb(TransactionBuilder builder) {
-        DoNotDisturb doNotDisturb = HuamiCoordinator.getDoNotDisturb(getContext());
+        DoNotDisturb doNotDisturb = HuamiCoordinator.getDoNotDisturb(gbDevice.getAddress());
         LOG.info("Setting do not disturb to " + doNotDisturb);
         switch (doNotDisturb) {
             case OFF:
@@ -1705,12 +1704,12 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
                 Calendar calendar = GregorianCalendar.getInstance();
 
-                Date start = HuamiCoordinator.getDoNotDisturbStart();
+                Date start = HuamiCoordinator.getDoNotDisturbStart(gbDevice.getAddress());
                 calendar.setTime(start);
                 data[HuamiService.DND_BYTE_START_HOURS] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
                 data[HuamiService.DND_BYTE_START_MINUTES] = (byte) calendar.get(Calendar.MINUTE);
 
-                Date end = HuamiCoordinator.getDoNotDisturbEnd();
+                Date end = HuamiCoordinator.getDoNotDisturbEnd(gbDevice.getAddress());
                 calendar.setTime(end);
                 data[HuamiService.DND_BYTE_END_HOURS] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
                 data[HuamiService.DND_BYTE_END_MINUTES] = (byte) calendar.get(Calendar.MINUTE);

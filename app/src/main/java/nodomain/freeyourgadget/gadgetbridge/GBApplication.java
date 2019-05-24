@@ -78,6 +78,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITBIP;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITCOR;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITCOR2;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND2;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND3;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.fromKey;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
 
@@ -661,6 +663,11 @@ public static String packageNameToPebbleMsgSender(String packageName) {
                             deviceSharedPrefsEdit.putString("disconnect_notification_start", prefs.getString("disconnect_notification_start", "8:00"));
                             deviceSharedPrefsEdit.putString("disconnect_notification_end", prefs.getString("disconnect_notification_end", "22:00"));
                         }
+                        if (deviceType == MIBAND2 || deviceType == MIBAND3) {
+                            deviceSharedPrefsEdit.putString("mi2_do_not_disturb", prefs.getString("do_not_disturb", "off"));
+                            deviceSharedPrefsEdit.putString("mi2_do_not_disturb_start", prefs.getString("do_not_disturb_start", "1:00"));
+                            deviceSharedPrefsEdit.putString("mi2_do_not_disturb_end", prefs.getString("do_not_disturb_end", "6:00"));
+                        }
                         switch (deviceType) {
                             case AMAZFITCOR:
                                 displayItems = prefs.getStringSet("cor_display_items", null);
@@ -698,6 +705,9 @@ public static String packageNameToPebbleMsgSender(String packageName) {
                 editor.remove("disconnect_notification");
                 editor.remove("disconnect_notification_start");
                 editor.remove("disconnect_notification_end");
+                editor.remove("mi2_do_not_disturb");
+                editor.remove("mi2_do_not_disturb_start");
+                editor.remove("mi2_do_not_disturb_end");
                 editor.remove("mi2_dateformat");
                 editor.remove("mi2_display_items");
                 editor.remove("mi2_enable_text_notifications");

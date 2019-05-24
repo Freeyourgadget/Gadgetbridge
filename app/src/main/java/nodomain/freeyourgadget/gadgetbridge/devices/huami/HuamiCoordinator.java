@@ -238,12 +238,12 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return getTimePreference(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_END, "14:00");
     }
 
-    public static Date getDoNotDisturbStart() {
-        return getTimePreference(MiBandConst.PREF_MI2_DO_NOT_DISTURB_START, "01:00");
+    public static Date getDoNotDisturbStart(String deviceAddress) {
+        return getTimePreference(MiBandConst.PREF_DO_NOT_DISTURB_START, "01:00", deviceAddress);
     }
 
-    public static Date getDoNotDisturbEnd() {
-        return getTimePreference(MiBandConst.PREF_MI2_DO_NOT_DISTURB_END, "06:00");
+    public static Date getDoNotDisturbEnd(String deviceAddress) {
+        return getTimePreference(MiBandConst.PREF_DO_NOT_DISTURB_END, "06:00", deviceAddress);
     }
 
     public static boolean getBandScreenUnlock(String deviceAddress) {
@@ -264,7 +264,7 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         DateFormat df = new SimpleDateFormat("HH:mm");
         try {
             return df.parse(time);
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOG.error("Unexpected exception in MiBand2Coordinator.getTime: " + e.getMessage());
         }
 
@@ -285,18 +285,14 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         }
     }
 
-    public static DoNotDisturb getDoNotDisturb(Context context) {
-        Prefs prefs = GBApplication.getPrefs();
+    public static DoNotDisturb getDoNotDisturb(String deviceAddress) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
 
-        String dndOff = context.getString(R.string.p_off);
-        String dndAutomatic = context.getString(R.string.p_automatic);
-        String dndScheduled = context.getString(R.string.p_scheduled);
+        String pref = prefs.getString(MiBandConst.PREF_DO_NOT_DISTURB, MiBandConst.PREF_DO_NOT_DISTURB_OFF);
 
-        String pref = prefs.getString(MiBandConst.PREF_MI2_DO_NOT_DISTURB, dndOff);
-
-        if (dndAutomatic.equals(pref)) {
+        if (MiBandConst.PREF_DO_NOT_DISTURB_AUTOMATIC.equals(pref)) {
             return DoNotDisturb.AUTOMATIC;
-        } else if (dndScheduled.equals(pref)) {
+        } else if (MiBandConst.PREF_DO_NOT_DISTURB_SCHEDULED.equals(pref)) {
             return DoNotDisturb.SCHEDULED;
         }
 
