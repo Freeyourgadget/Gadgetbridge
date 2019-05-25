@@ -686,6 +686,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 IntentFilter filter = new IntentFilter();
                 filter.addAction("android.intent.action.PHONE_STATE");
                 filter.addAction("android.intent.action.NEW_OUTGOING_CALL");
+                filter.addAction("nodomain.freeyourgadget.gadgetbridge.MUTE_CALL");
                 registerReceiver(mPhoneCallReceiver, filter);
             }
             if (mSMSReceiver == null) {

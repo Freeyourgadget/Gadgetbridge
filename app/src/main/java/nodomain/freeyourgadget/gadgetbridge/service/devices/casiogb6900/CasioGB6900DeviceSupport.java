@@ -35,6 +35,7 @@ import java.util.Calendar;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.casiogb6900.CasioGB6900Constants;
@@ -437,7 +438,9 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
         if(characteristicUUID.equals(CasioGB6900Constants.RINGER_CONTROL_POINT)) {
             if(data[0] == 0x02)
             {
-                LOG.info("Mute/ignore call event not yet supported by GB");
+                GBDeviceEventCallControl callControlEvent = new GBDeviceEventCallControl();
+                callControlEvent.event = GBDeviceEventCallControl.Event.IGNORE;
+                evaluateGBDeviceEvent(callControlEvent);
             }
             handled = true;
         }
