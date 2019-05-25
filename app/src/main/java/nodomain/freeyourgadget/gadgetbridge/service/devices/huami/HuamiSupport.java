@@ -1056,7 +1056,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         currentButtonPressTime = System.currentTimeMillis();
     }
 
-    public void handleDeviceEvent(byte[] value) {
+    private void handleDeviceEvent(byte[] value) {
         if (value == null || value.length == 0) {
             return;
         }
@@ -1064,13 +1064,14 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
         switch (value[0]) {
             case HuamiDeviceEvent.CALL_REJECT:
+                LOG.info("call rejected");
                 callCmd.event = GBDeviceEventCallControl.Event.REJECT;
                 evaluateGBDeviceEvent(callCmd);
                 break;
             case HuamiDeviceEvent.CALL_IGNORE:
-                LOG.info("ignore call (not yet supported)");
-                //callCmd.event = GBDeviceEventCallControl.Event.IGNORE;
-                //evaluateGBDeviceEvent(callCmd);
+                LOG.info("call ignored");
+                callCmd.event = GBDeviceEventCallControl.Event.IGNORE;
+                evaluateGBDeviceEvent(callCmd);
                 break;
             case HuamiDeviceEvent.BUTTON_PRESSED:
                 LOG.info("button pressed");
