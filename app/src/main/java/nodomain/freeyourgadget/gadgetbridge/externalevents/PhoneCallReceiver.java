@@ -23,6 +23,7 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.telephony.TelephonyManager;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -34,12 +35,23 @@ public class PhoneCallReceiver extends BroadcastReceiver {
 
     private static int mLastState = TelephonyManager.CALL_STATE_IDLE;
     private static String mSavedNumber;
+    private boolean mRestoreMutedCall = false;
+    private int mLastRingerMode;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Service.TELEPHONY_SERVICE);
         if (intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
             mSavedNumber = intent.getExtras().getString("android.intent.extra.PHONE_NUMBER");
+        } else if(intent.getAction().equals("nodomain.freeyourgadget.gadgetbridge.MUTE_CALL")) {
+            // Handle the mute request only if the phone is currently ringing
+            if(mLastState != TelephonyManager.CALL_STATE_RINGING)
+                return;
+
+            AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            mLastRingerMode = audioManager.getRingerMode();
+            audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+            mRestoreMutedCall = true;
         } else {
             if (intent.hasExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)) {
                 String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
@@ -74,6 +86,11 @@ public class PhoneCallReceiver extends BroadcastReceiver {
                     callCommand = CallSpec.CALL_END;
                 } else {
                     callCommand = CallSpec.CALL_END;
+                }
+                if(mRestoreMutedCall) {
+                    mRestoreMutedCall = false;
+                    AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                    audioManager.setRingerMode(mLastRingerMode);
                 }
                 break;
         }
