@@ -223,6 +223,7 @@
         <item>@string/menuitem_more</item>
         <item>@string/menuitem_status</item>
         <item>@string/heart_rate</item>
+        <item>@string/menuitem_timer</item>
     </string-array>
 
     <string-array name="pref_miband3_display_items_values">
@@ -232,6 +233,7 @@
         <item>@string/p_menuitem_more</item>
         <item>@string/p_menuitem_status</item>
         <item>@string/p_heart_rate</item>
+        <item>@string/p_menuitem_timer</item>
     </string-array>
 
     <string-array name="pref_miband3_display_items_default">
