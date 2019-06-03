@@ -43,12 +43,12 @@
     <!--Strings related to CalBlacklist-->
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">Instalátor FW/App</string>
-    <string name="fw_upgrade_notice">Instaluje firmvér %s do Mi Band místo stávajícího.</string>
+    <string name="fw_upgrade_notice">Instaluje firmvér %s.</string>
     <string name="fw_multi_upgrade_notice">Instaluje %1$s a %2$s firmvér, místo stávajícího.</string>
     <string name="miband_firmware_known">Tento firmvér byl testován a je známa jeho kompatibilita s Gadgetbridge.</string>
-    <string name="miband_firmware_unknown_warning">Tento firmvér nebyl testován a nemusí být kompatibilní s Gadgetbridge.
-\n
-\nNedoporučujeme jej nahrávat do Mi Band!</string>
+    <string name="miband_firmware_unknown_warning">Tento firmvér nebyl testován a nemusí být kompatibilní s Gadgetbridge. 
+\n 
+\nNedoporučujeme jej nahrávat!</string>
     <string name="miband_firmware_suggest_whitelist">Chcete-li stále pokračovat a bude-li vše správně fungovat i po aktualizaci, oznamte vývojářům Gadgetbridge, aby označili tuto verzi firmvéru: %s jako funkční..</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Nastavení</string>
@@ -435,10 +435,10 @@
     <string name="controlcenter_connect">Připojit…</string>
     <string name="fw_upgrade_notice_amazfitcor">Chystáte se nainstalovat firmvér %s do vašeho Amazfit Cor. 
 \n 
-\nProsím, ujistěte se, že jste nainstalovali soubor .fw a potom soubor .res. Vaše hodinky se po instalaci souboru .fw restartují. 
+\nProsím, ujistěte se, že jste nainstalovali soubor .fw a potom soubor .res. Váš se po instalaci souboru .fw restartuje. 
 \n 
 \nPoznámka: Nemusíte instalovat soubor .res, pokud je stejný jako nainstalován dříve. 
-\n
+\n 
 \nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="pref_title_charts_swipe">Zapnout možnost potažení mezi grafy aktivit</string>
     <string name="pref_title_weather">Počasí</string>
@@ -476,7 +476,7 @@
     <string name="kind_resources">Zdroje</string>
     <string name="kind_watchface">Ciferník</string>
     <string name="devicetype_unknown">Neznámé zařízení</string>
-    <string name="devicetype_test">Testovací zařízení</string>
+    <string name="devicetype_test">Test zařízení</string>
     <string name="devicetype_pebble">Pebble</string>
     <string name="devicetype_miband">Mi Band</string>
     <string name="devicetype_miband2">Mi Band 2</string>
@@ -496,14 +496,14 @@
     <string name="pref_summary_pebble_gatt_clientonly">Pebble 2 experimentální nastavení, zkuste máte-li problémy se spojením</string>
     <string name="on">Zapnuto</string>
     <string name="activity_type_not_measured">Neměřeno</string>
-    <string name="activity_type_activity">Aktivita</string>
+    <string name="activity_type_activity">Činnost</string>
     <string name="activity_type_light_sleep">Lehký spánek</string>
     <string name="activity_type_deep_sleep">Hluboký spánek</string>
     <string name="activity_type_not_worn">Zařízení nepoužito</string>
     <string name="activity_type_running">Běh</string>
     <string name="activity_type_walking">Chůze</string>
     <string name="activity_type_swimming">Plavání</string>
-    <string name="activity_type_unknown">Neznámá aktivita</string>
+    <string name="activity_type_unknown">Neznámá činnost</string>
     <string name="activity_summaries">Aktivity</string>
     <string name="activity_type_biking">Cyklistika</string>
     <string name="select_all">Vybrat vše</string>
@@ -524,13 +524,13 @@
     <string name="controlcenter_calibrate_device">Kalibrovat zařízení</string>
     <string name="blacklist_all_for_notifications">Zakázat všechny aplikace</string>
     <string name="whitelist_all_for_notifications">Povolit všechny aplikace</string>
-    <string name="fw_upgrade_notice_miband3">Chystáte se nainstalovat firmvér %s do vašeho Mi Band 3.
+    <string name="fw_upgrade_notice_miband3">Chystáte se nainstalovat firmvér %s do vašeho Mi Band 3. 
 \n 
 \nProsím, ujistěte se, že jste nainstalovali soubor .fw a potom soubor .res. Vaše hodinky se po instalaci souboru .fw restartují. 
 \n 
 \nPoznámka: Nemusíte instalovat soubor .res, pokud je stejný jako nainstalován dříve. 
-\n
-\nNETESTOVÁNO, MŮŽE POŠKODIT VAŠE ZAŘÍZENÍ, POKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
+\n 
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="pref_title_notifications_timeout">Minimální doba mezi upozorněními</string>
     <string name="pref_title_rtl">Zprava doleva</string>
     <string name="pref_summary_rtl">Povolte, nepodporuje-li vaše zařízení jazyky zprava doleva</string>
@@ -584,7 +584,7 @@
     <string name="ok">Ok</string>
     <string name="mi3_night_mode_sunset">Při západu slunce</string>
     <string name="controlcenter_start_activity_tracks">Záznamy aktivit</string>
-    <string name="activity_type_treadmill">Běhací pás</string>
+    <string name="activity_type_treadmill">Běh na pásu</string>
     <string name="devicetype_miband3">Mi Band 3</string>
     <string name="devicetype_q8">Q8</string>
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
@@ -687,4 +687,27 @@
     <string name="activity_prefs_distance_meters">Denní cíl: vzdálenost v metrech</string>
     <string name="activity_prefs_activetime_minutes">Denní cíl: aktivita v minutách</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
+    <string name="pref_title_support_voip_calls">Povolit upozornění VOIP hovorů</string>
+    <string name="title_activity_device_specific_settings">Nastavení pro jednotlivá zařízení</string>
+    <string name="pref_title_authkey">Autorizační Klíč</string>
+    <string name="pref_summary_authkey">Nastavte stejný klíč na všech Vašich zařízeních s Androidem, ze kterých se budete připojovat. Výchozí klíč pro všechna zařízení je 0123456789@ABCDE</string>
+    <string name="devicetype_bfh16">BFH-16</string>
+    <string name="fw_upgrade_notice_amazfitcor2">Chystáte se nainstalovat firmvér %s do vašeho Amazfit Cor 2. 
+\n 
+\nProsím, ujistěte se, že jste nainstalovali soubor .fw a potom soubor .res. Váš se po instalaci souboru .fw restartuje. 
+\n 
+\nPoznámka: Nemusíte instalovat soubor .res, pokud je stejný jako nainstalován dříve. 
+\n 
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!
+\n
+\nABSOLUTNĚ NETESTOVÁNO, S VELKOU PRAVDĚPODOBNOSTÍ MUSÍTE NAINSTALOVAT BEATS_W FIRMVÉR, JMENUJE-LI SE VAŠE ZAŘÍZENÍ \"Amazfit Band 2\"</string>
+    <string name="dutch">Holandsky</string>
+    <string name="turkish">Turecky</string>
+    <string name="ukrainian">Ukrajinsky</string>
+    <string name="arabic">Arabsky</string>
+    <string name="indonesian">Indonézsky</string>
+    <string name="thai">Thaisky</string>
+    <string name="vietnamese">Vietnamsky</string>
+    <string name="portuguese">Portugalsky</string>
+    <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
 </resources>
