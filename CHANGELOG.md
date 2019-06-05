@@ -2,6 +2,7 @@
 
 #### Version 0.34.0
 * Mi Band 1/2/3/Bip/Cor: Migrate many settings to per-device settings (new settings icon in device card in main activity)
+* Mi Band 3: Fix setting menu items with 2.4 firmware and add support for the new timer menu
 * Amazfit Bip/Cor, Casio: Add support for muting incoming calls
 * ZeTime: Remove endless recursion in ZeTime settings
 * Recognize FairEmail notifications as generic email notifications
