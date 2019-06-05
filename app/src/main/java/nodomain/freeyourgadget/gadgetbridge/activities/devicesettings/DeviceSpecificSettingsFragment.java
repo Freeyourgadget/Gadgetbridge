@@ -89,22 +89,6 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
     }
 
     private void setChangeListener() {
-        final Preference displayItems = findPreference("display_items");
-        if (displayItems != null) {
-            displayItems.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(HuamiConst.PREF_DISPLAY_ITEMS);
-                        }
-                    });
-                    return true;
-                }
-            });
-        }
-
         Prefs prefs = new Prefs(getPreferenceManager().getSharedPreferences());
         String disconnectNotificationState = prefs.getString(PREF_DISCONNECT_NOTIFICATION, PREF_DO_NOT_DISTURB_OFF);
         boolean disconnectNotificationScheduled = disconnectNotificationState.equals(PREF_DO_NOT_DISTURB_SCHEDULED);
@@ -282,36 +266,9 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
             });
         }
 
-        final Preference swipeUnlock = findPreference(PREF_SWIPE_UNLOCK);
-        if (swipeUnlock != null) {
-            swipeUnlock.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_SWIPE_UNLOCK);
-                        }
-                    });
-                    return true;
-                }
-            });
-        }
-        final Preference setDateFormat = findPreference(PREF_MI2_DATEFORMAT);
-        if (setDateFormat != null) {
-            setDateFormat.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_MI2_DATEFORMAT);
-                        }
-                    });
-                    return true;
-                }
-            });
-        }
+        addPreferenceHandlerFor(PREF_SWIPE_UNLOCK);
+        addPreferenceHandlerFor(PREF_MI2_DATEFORMAT);
+        addPreferenceHandlerFor(HuamiConst.PREF_DISPLAY_ITEMS);
     }
 
     static DeviceSpecificSettingsFragment newInstance(String settingsFileSuffix, @NonNull int[] supportedSettings) {
@@ -333,6 +290,23 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
             dialogFragment.show(getFragmentManager(), "androidx.preference.PreferenceFragment.DIALOG");
         } else {
             super.onDisplayPreferenceDialog(preference);
+        }
+    }
+
+    private void addPreferenceHandlerFor(final String preferenceKey) {
+        Preference pref = findPreference(preferenceKey);
+        if (pref != null) {
+            pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(preferenceKey);
+                        }
+                    });
+                    return true;
+                }
+            });
         }
     }
 }
