@@ -33,7 +33,7 @@ public class Tryout extends TestBase {
     @Test
     public void testCalendarBytes() {
         GregorianCalendar calendar = MiBandDateConverter.createCalendar();
-        byte[] bytes = MiBandDateConverter.calendarToRawBytes(calendar);
+        byte[] bytes = MiBandDateConverter.calendarToRawBytes(calendar,"fake");
         LOG.info("Calender: " + DateTimeUtils.formatDateTime(calendar.getTime()));
         Logging.logBytes(LOG, bytes);
     }
