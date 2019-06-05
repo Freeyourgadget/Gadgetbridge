@@ -48,7 +48,7 @@ public final class MiBandConst {
 	public static final String PREF_MI2_DISPLAY_ITEM_CALORIES = "calories";
 	public static final String PREF_MI2_DISPLAY_ITEM_HEART_RATE = "heart_rate";
 	public static final String PREF_MI2_DISPLAY_ITEM_BATTERY = "battery";
-    public static final String PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO = "mi2_rotate_wrist_to_switch_info";
+    public static final String PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO = "rotate_wrist_to_cycle_info";
 	public static final String PREF_MI2_ENABLE_TEXT_NOTIFICATIONS = "mi2_enable_text_notifications";
     public static final String PREF_DO_NOT_DISTURB = "do_not_disturb";
     public static final String PREF_DO_NOT_DISTURB_OFF = "off";

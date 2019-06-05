@@ -140,8 +140,8 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return DateTimeDisplay.DATE_TIME;
     }
 
-    public static ActivateDisplayOnLift getActivateDisplayOnLiftWrist(Context context) {
-        Prefs prefs = GBApplication.getPrefs();
+    public static ActivateDisplayOnLift getActivateDisplayOnLiftWrist(Context context, String deviceAddress) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
 
         String liftOff = context.getString(R.string.p_off);
         String liftOn = context.getString(R.string.p_on);
@@ -158,12 +158,12 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return ActivateDisplayOnLift.OFF;
     }
 
-    public static Date getDisplayOnLiftStart() {
-        return getTimePreference(HuamiConst.PREF_DISPLAY_ON_LIFT_START, "00:00");
+    public static Date getDisplayOnLiftStart(String deviceAddress) {
+        return getTimePreference(HuamiConst.PREF_DISPLAY_ON_LIFT_START, "00:00", deviceAddress);
     }
 
-    public static Date getDisplayOnLiftEnd() {
-        return getTimePreference(HuamiConst.PREF_DISPLAY_ON_LIFT_END, "00:00");
+    public static Date getDisplayOnLiftEnd(String deviceAddress) {
+        return getTimePreference(HuamiConst.PREF_DISPLAY_ON_LIFT_END, "00:00", deviceAddress);
     }
 
     public static DisconnectNotificationSetting getDisconnectNotificationSetting(Context context, String deviceAddress) {
@@ -202,8 +202,8 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return prefs.getBoolean(MiBandConst.PREF_MI2_GOAL_NOTIFICATION, false);
     }
 
-    public static boolean getRotateWristToSwitchInfo() {
-        Prefs prefs = GBApplication.getPrefs();
+    public static boolean getRotateWristToSwitchInfo(String deviceAddress) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
         return prefs.getBoolean(MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO, false);
     }
 

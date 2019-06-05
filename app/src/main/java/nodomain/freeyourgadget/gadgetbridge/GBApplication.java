@@ -193,9 +193,9 @@ public class GBApplication extends Application {
         if (isRunningMarshmallowOrLater()) {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             //the following will ensure the notification manager is kept alive
-            if(isRunningOreoOrLater()) {
+            if (isRunningOreoOrLater()) {
                 NotificationChannel channel = notificationManager.getNotificationChannel(NOTIFICATION_CHANNEL_ID);
-                if(channel == null) {
+                if (channel == null) {
                     channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
                             getString(R.string.notification_channel_name),
                             NotificationManager.IMPORTANCE_LOW);
@@ -238,7 +238,7 @@ public class GBApplication extends Application {
         logging.setupLogging(enabled);
     }
 
-    public static String getLogPath(){
+    public static String getLogPath() {
         return logging.getLogPath();
     }
 
@@ -326,11 +326,12 @@ public class GBApplication extends Application {
     public static boolean isRunningMarshmallowOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
+
     public static boolean isRunningNougatOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.N;
     }
 
-    public static boolean isRunningOreoOrLater(){
+    public static boolean isRunningOreoOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.O;
     }
 
@@ -491,14 +492,14 @@ public class GBApplication extends Application {
         saveAppsPebbleBlackList();
     }
 
-public static String packageNameToPebbleMsgSender(String packageName) {
-    if ("eu.siacs.conversations".equals(packageName)){
-        return("Conversations");
-    } else if ("net.osmand.plus".equals(packageName)) {
-        return("OsmAnd");
+    public static String packageNameToPebbleMsgSender(String packageName) {
+        if ("eu.siacs.conversations".equals(packageName)) {
+            return ("Conversations");
+        } else if ("net.osmand.plus".equals(packageName)) {
+            return ("OsmAnd");
+        }
+        return packageName;
     }
-    return packageName;
-}
 
     private static HashSet<String> calendars_blacklist = null;
 
@@ -668,6 +669,11 @@ public static String packageNameToPebbleMsgSender(String packageName) {
                             deviceSharedPrefsEdit.putString("do_not_disturb_start", prefs.getString("mi2_do_not_disturb_start", "1:00"));
                             deviceSharedPrefsEdit.putString("do_not_disturb_end", prefs.getString("mi2_do_not_disturb_end", "6:00"));
                         }
+                        if (dbDevice.getManufacturer().equals("Huami")) {
+                            deviceSharedPrefsEdit.putString("activate_display_on_lift_wrist", prefs.getString("activate_display_on_lift_wrist", "off"));
+                            deviceSharedPrefsEdit.putString("display_on_lift_start", prefs.getString("display_on_lift_start", "0:00"));
+                            deviceSharedPrefsEdit.putString("display_on_lift_end", prefs.getString("display_on_lift_end", "0:00"));
+                        }
                         switch (deviceType) {
                             case MIBAND:
                                 deviceSharedPrefsEdit.putBoolean("low_latency_fw_update", prefs.getBoolean("mi_low_latency_fw_update", true));
@@ -683,6 +689,7 @@ public static String packageNameToPebbleMsgSender(String packageName) {
                                 displayItems = prefs.getStringSet("mi2_display_items", null);
                                 deviceSharedPrefsEdit.putBoolean("mi2_enable_text_notifications", prefs.getBoolean("mi2_enable_text_notifications", true));
                                 deviceSharedPrefsEdit.putString("mi2_dateformat", prefs.getString("mi2_dateformat", "dateformat_time"));
+                                deviceSharedPrefsEdit.putBoolean("rotate_wrist_to_cycle_info", prefs.getBoolean("mi2_rotate_wrist_to_switch_info", false));
                                 break;
                             case MIBAND3:
                                 newLanguage = prefs.getString("miband3_language", "auto");
@@ -709,6 +716,10 @@ public static String packageNameToPebbleMsgSender(String packageName) {
                 editor.remove("disconnect_notification");
                 editor.remove("disconnect_notification_start");
                 editor.remove("disconnect_notification_end");
+                editor.remove("activate_display_on_lift_wrist");
+                editor.remove("display_on_lift_start");
+                editor.remove("display_on_lift_end");
+
                 editor.remove("mi_low_latency_fw_update");
                 editor.remove("mi_device_time_offset_hours");
                 editor.remove("mi2_do_not_disturb");
@@ -716,6 +727,7 @@ public static String packageNameToPebbleMsgSender(String packageName) {
                 editor.remove("mi2_do_not_disturb_end");
                 editor.remove("mi2_dateformat");
                 editor.remove("mi2_display_items");
+                editor.remove("mi2_rotate_wrist_to_switch_info");
                 editor.remove("mi2_enable_text_notifications");
                 editor.remove("mi3_band_screen_unlock");
                 editor.remove("mi3_night_mode");

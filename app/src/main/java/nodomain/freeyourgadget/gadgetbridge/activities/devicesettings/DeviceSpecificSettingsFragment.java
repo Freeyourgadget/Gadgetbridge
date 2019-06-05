@@ -10,6 +10,11 @@ import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
@@ -17,15 +22,19 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreference;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreferenceFragment;
 
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION_END;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION_START;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISPLAY_ON_LIFT_END;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISPLAY_ON_LIFT_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB_END;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB_OFF;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB_SCHEDULED;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DATEFORMAT;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE_END;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE_OFF;
@@ -34,6 +43,8 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PR
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_SWIPE_UNLOCK;
 
 public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
+
+    private static final Logger LOG = LoggerFactory.getLogger(DeviceSpecificSettingsFragment.class);
 
     static final String FRAGMENT_TAG = "DEVICE_SPECIFIC_SETTINGS_FRAGMENT";
 
@@ -137,8 +148,8 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
                     final boolean scheduled = PREF_DO_NOT_DISTURB_SCHEDULED.equals(newVal.toString());
 
-                    disconnectNotificationStart.setEnabled(scheduled);
-                    disconnectNotificationEnd.setEnabled(scheduled);
+                    Objects.requireNonNull(disconnectNotificationStart).setEnabled(scheduled);
+                    Objects.requireNonNull(disconnectNotificationEnd).setEnabled(scheduled);
                     invokeLater(new Runnable() {
                         @Override
                         public void run() {
@@ -196,8 +207,8 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
                     final boolean scheduled = PREF_NIGHT_MODE_SCHEDULED.equals(newVal.toString());
 
-                    nightModeStart.setEnabled(scheduled);
-                    nightModeEnd.setEnabled(scheduled);
+                    Objects.requireNonNull(nightModeStart).setEnabled(scheduled);
+                    Objects.requireNonNull(nightModeEnd).setEnabled(scheduled);
 
                     invokeLater(new Runnable() {
                         @Override
@@ -255,8 +266,8 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
                     final boolean scheduled = PREF_DO_NOT_DISTURB_SCHEDULED.equals(newVal.toString());
 
-                    doNotDisturbStart.setEnabled(scheduled);
-                    doNotDisturbEnd.setEnabled(scheduled);
+                    Objects.requireNonNull(doNotDisturbStart).setEnabled(scheduled);
+                    Objects.requireNonNull(doNotDisturbEnd).setEnabled(scheduled);
 
                     invokeLater(new Runnable() {
                         @Override
@@ -272,6 +283,82 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
         addPreferenceHandlerFor(PREF_SWIPE_UNLOCK);
         addPreferenceHandlerFor(PREF_MI2_DATEFORMAT);
         addPreferenceHandlerFor(HuamiConst.PREF_DISPLAY_ITEMS);
+
+        String displayOnLiftState = prefs.getString(PREF_ACTIVATE_DISPLAY_ON_LIFT, PREF_DO_NOT_DISTURB_OFF);
+        boolean displayOnLiftScheduled = displayOnLiftState.equals(PREF_DO_NOT_DISTURB_SCHEDULED);
+
+        final Preference rotateWristCycleInfo = findPreference(PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO);
+        if (rotateWristCycleInfo != null) {
+            rotateWristCycleInfo.setEnabled(!PREF_DO_NOT_DISTURB_OFF.equals(displayOnLiftState));
+            rotateWristCycleInfo.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO);
+                        }
+                    });
+                    return true;
+                }
+            });
+        }
+
+        final Preference displayOnLiftStart = findPreference(PREF_DISPLAY_ON_LIFT_START);
+        if (displayOnLiftStart != null) {
+            displayOnLiftStart.setEnabled(displayOnLiftScheduled);
+            displayOnLiftStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(PREF_DISPLAY_ON_LIFT_START);
+                        }
+                    });
+                    return true;
+                }
+            });
+        }
+
+        final Preference displayOnLiftEnd = findPreference(PREF_DISPLAY_ON_LIFT_END);
+        if (displayOnLiftEnd != null) {
+            displayOnLiftEnd.setEnabled(displayOnLiftScheduled);
+            displayOnLiftEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(PREF_DISPLAY_ON_LIFT_END);
+                        }
+                    });
+                    return true;
+                }
+            });
+        }
+
+        final Preference displayOnLift = findPreference(PREF_ACTIVATE_DISPLAY_ON_LIFT);
+        if (displayOnLift != null) {
+            displayOnLift.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    final boolean scheduled = PREF_DO_NOT_DISTURB_SCHEDULED.equals(newVal.toString());
+                    Objects.requireNonNull(displayOnLiftStart).setEnabled(scheduled);
+                    Objects.requireNonNull(displayOnLiftEnd).setEnabled(scheduled);
+                    if (rotateWristCycleInfo != null) {
+                        rotateWristCycleInfo.setEnabled(!PREF_DO_NOT_DISTURB_OFF.equals(newVal.toString()));
+                    }
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(PREF_ACTIVATE_DISPLAY_ON_LIFT);
+                        }
+                    });
+                    return true;
+                }
+            });
+        }
 
         EditTextPreference pref = findPreference(MiBandConst.PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS);
         if (pref != null) {
@@ -293,14 +380,16 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {
-        DialogFragment dialogFragment = null;
+        DialogFragment dialogFragment;
         if (preference instanceof XTimePreference) {
             dialogFragment = new XTimePreferenceFragment();
             Bundle bundle = new Bundle(1);
             bundle.putString("key", preference.getKey());
             dialogFragment.setArguments(bundle);
             dialogFragment.setTargetFragment(this, 0);
-            dialogFragment.show(getFragmentManager(), "androidx.preference.PreferenceFragment.DIALOG");
+            if (getFragmentManager() != null) {
+                dialogFragment.show(getFragmentManager(), "androidx.preference.PreferenceFragment.DIALOG");
+            }
         } else {
             super.onDisplayPreferenceDialog(preference);
         }

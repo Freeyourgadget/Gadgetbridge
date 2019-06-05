@@ -1616,7 +1616,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HuamiSupport setActivateDisplayOnLiftWrist(TransactionBuilder builder) {
-        ActivateDisplayOnLift displayOnLift = HuamiCoordinator.getActivateDisplayOnLiftWrist(getContext());
+        ActivateDisplayOnLift displayOnLift = HuamiCoordinator.getActivateDisplayOnLiftWrist(getContext(), gbDevice.getAddress());
         LOG.info("Setting activate display on lift wrist to " + displayOnLift);
 
         switch (displayOnLift) {
@@ -1631,12 +1631,12 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
                 Calendar calendar = GregorianCalendar.getInstance();
 
-                Date start = HuamiCoordinator.getDisplayOnLiftStart();
+                Date start = HuamiCoordinator.getDisplayOnLiftStart(gbDevice.getAddress());
                 calendar.setTime(start);
                 cmd[4] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
                 cmd[5] = (byte) calendar.get(Calendar.MINUTE);
 
-                Date end = HuamiCoordinator.getDisplayOnLiftEnd();
+                Date end = HuamiCoordinator.getDisplayOnLiftEnd(gbDevice.getAddress());
                 calendar.setTime(end);
                 cmd[6] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
                 cmd[7] = (byte) calendar.get(Calendar.MINUTE);
@@ -1675,7 +1675,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HuamiSupport setRotateWristToSwitchInfo(TransactionBuilder builder) {
-        boolean enable = HuamiCoordinator.getRotateWristToSwitchInfo();
+        boolean enable = HuamiCoordinator.getRotateWristToSwitchInfo(gbDevice.getAddress());
         LOG.info("Setting rotate wrist to cycle info to " + enable);
         if (enable) {
             builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), HuamiService.COMMAND_ENABLE_ROTATE_WRIST_TO_SWITCH_INFO);

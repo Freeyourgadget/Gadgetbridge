@@ -107,37 +107,6 @@
             android:title="@string/prefs_title_heartrate_measurement_interval" />
 
         <PreferenceScreen
-            android:persistent="false"
-            android:title="@string/mi2_prefs_activate_display_on_lift">
-
-            <!-- workaround for missing toolbar -->
-            <PreferenceCategory android:title="@string/mi2_prefs_activate_display_on_lift" />
-
-            <ListPreference
-                android:defaultValue="@string/p_off"
-                android:entries="@array/activate_display_on_lift"
-                android:entryValues="@array/activate_display_on_lift_values"
-                android:key="activate_display_on_lift_wrist"
-                android:summary="%s"
-                android:title="@string/mi2_prefs_activate_display_on_lift" />
-
-            <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
-                android:defaultValue="00:00"
-                android:key="display_on_lift_start"
-                android:title="@string/mi2_prefs_do_not_disturb_start" />
-
-            <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
-                android:defaultValue="00:00"
-                android:key="display_on_lift_end"
-                android:title="@string/mi2_prefs_do_not_disturb_end" />
-
-        </PreferenceScreen>
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="mi2_rotate_wrist_to_switch_info"
-            android:title="@string/mi2_prefs_rotate_wrist_to_switch_info" />
-
-        <PreferenceScreen
             android:key="mi2_inactivity_warning_key"
             android:summary="@string/mi2_prefs_inactivity_warnings_summary"
             android:title="@string/mi2_prefs_inactivity_warnings"
