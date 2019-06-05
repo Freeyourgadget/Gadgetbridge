@@ -36,6 +36,7 @@ import androidx.annotation.NonNull;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -254,6 +255,13 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     public boolean supportsHeartRateMeasurement(GBDevice device) {
         String hwVersion = device.getModel();
         return isMi1S(hwVersion) || isMiPro(hwVersion);
+    }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_lowlatency_fwupdate
+        };
     }
 
     private boolean isMi1S(String hardwareVersion) {

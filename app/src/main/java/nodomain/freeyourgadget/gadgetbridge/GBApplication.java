@@ -664,11 +664,14 @@ public static String packageNameToPebbleMsgSender(String packageName) {
                             deviceSharedPrefsEdit.putString("disconnect_notification_end", prefs.getString("disconnect_notification_end", "22:00"));
                         }
                         if (deviceType == MIBAND2 || deviceType == MIBAND3) {
-                            deviceSharedPrefsEdit.putString("mi2_do_not_disturb", prefs.getString("do_not_disturb", "off"));
-                            deviceSharedPrefsEdit.putString("mi2_do_not_disturb_start", prefs.getString("do_not_disturb_start", "1:00"));
-                            deviceSharedPrefsEdit.putString("mi2_do_not_disturb_end", prefs.getString("do_not_disturb_end", "6:00"));
+                            deviceSharedPrefsEdit.putString("do_not_disturb", prefs.getString("mi2_do_not_disturb", "off"));
+                            deviceSharedPrefsEdit.putString("do_not_disturb_start", prefs.getString("mi2_do_not_disturb_start", "1:00"));
+                            deviceSharedPrefsEdit.putString("do_not_disturb_end", prefs.getString("mi2_do_not_disturb_end", "6:00"));
                         }
                         switch (deviceType) {
+                            case MIBAND:
+                                deviceSharedPrefsEdit.putBoolean("low_latency_fw_update", prefs.getBoolean("mi_low_latency_fw_update", true));
+                                break;
                             case AMAZFITCOR:
                                 displayItems = prefs.getStringSet("cor_display_items", null);
                                 break;
@@ -705,6 +708,7 @@ public static String packageNameToPebbleMsgSender(String packageName) {
                 editor.remove("disconnect_notification");
                 editor.remove("disconnect_notification_start");
                 editor.remove("disconnect_notification_end");
+                editor.remove("mi_low_latency_fw_update");
                 editor.remove("mi2_do_not_disturb");
                 editor.remove("mi2_do_not_disturb_start");
                 editor.remove("mi2_do_not_disturb_end");
