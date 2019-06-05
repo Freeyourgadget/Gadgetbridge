@@ -1,5 +1,11 @@
 ### Changelog
 
+#### Version 0.34.0
+* Mi Band 1/2/3/Bip/Cor: Migrate many settings to per-device settings (new settings icon in device card in main activity)
+* Amazfit Bip/Cor, Casio: Add support for muting incoming calls
+* ZeTime: Remove endless recursion in ZeTime settings
+* Recognize FairEmail notifications as generic email notifications
+
 #### Version 0.33.1
 * Mi Band 3: Recognize "Xiaomi Band 3"
 * Amazfit Bip: Add German, Italian, French and Turkish to language settings
