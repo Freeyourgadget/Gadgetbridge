@@ -237,9 +237,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     public byte[] getTimeBytes(Calendar calendar, TimeUnit precision) {
         byte[] bytes;
         if (precision == TimeUnit.MINUTES) {
-            bytes = BLETypeConversions.shortCalendarToRawBytes(calendar, true);
+            bytes = BLETypeConversions.shortCalendarToRawBytes(calendar);
         } else if (precision == TimeUnit.SECONDS) {
-            bytes = BLETypeConversions.calendarToRawBytes(calendar, true);
+            bytes = BLETypeConversions.calendarToRawBytes(calendar);
         } else {
             throw new IllegalArgumentException("Unsupported precision, only MINUTES and SECONDS are supported till now");
         }
@@ -251,7 +251,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     public Calendar fromTimeBytes(byte[] bytes) {
-        GregorianCalendar timestamp = BLETypeConversions.rawBytesToCalendar(bytes, true);
+        GregorianCalendar timestamp = BLETypeConversions.rawBytesToCalendar(bytes);
         return timestamp;
     }
 

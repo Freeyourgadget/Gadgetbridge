@@ -671,6 +671,7 @@ public static String packageNameToPebbleMsgSender(String packageName) {
                         switch (deviceType) {
                             case MIBAND:
                                 deviceSharedPrefsEdit.putBoolean("low_latency_fw_update", prefs.getBoolean("mi_low_latency_fw_update", true));
+                                deviceSharedPrefsEdit.putInt("device_time_offset_hours", prefs.getInt("mi_device_time_offset_hours", 0));
                                 break;
                             case AMAZFITCOR:
                                 displayItems = prefs.getStringSet("cor_display_items", null);
@@ -709,6 +710,7 @@ public static String packageNameToPebbleMsgSender(String packageName) {
                 editor.remove("disconnect_notification_start");
                 editor.remove("disconnect_notification_end");
                 editor.remove("mi_low_latency_fw_update");
+                editor.remove("mi_device_time_offset_hours");
                 editor.remove("mi2_do_not_disturb");
                 editor.remove("mi2_do_not_disturb_start");
                 editor.remove("mi2_do_not_disturb_end");

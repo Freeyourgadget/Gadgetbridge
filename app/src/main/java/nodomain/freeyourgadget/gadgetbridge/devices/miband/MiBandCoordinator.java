@@ -22,6 +22,7 @@ import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelUuid;
@@ -236,8 +237,8 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
         return location;
     }
 
-	public static int getDeviceTimeOffsetHours() throws IllegalArgumentException {
-		Prefs prefs = GBApplication.getPrefs();
+    public static int getDeviceTimeOffsetHours(String deviceAddress) throws IllegalArgumentException {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
 		return prefs.getInt(MiBandConst.PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS, 0);
 	}
 
@@ -260,7 +261,8 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
-                R.xml.devicesettings_lowlatency_fwupdate
+                R.xml.devicesettings_lowlatency_fwupdate,
+                R.xml.devicesettings_fake_timeoffset
         };
     }
 

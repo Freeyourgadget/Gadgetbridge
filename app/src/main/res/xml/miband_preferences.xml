@@ -106,13 +106,6 @@
             android:summary="%s"
             android:title="@string/prefs_title_heartrate_measurement_interval" />
 
-        <EditTextPreference
-			android:defaultValue="0"
-			android:inputType="numberSigned"
-			android:key="mi_device_time_offset_hours"
-			android:maxLength="2"
-			android:title="@string/miband_prefs_device_time_offset_hours" />
-
         <PreferenceScreen
             android:persistent="false"
             android:title="@string/mi2_prefs_activate_display_on_lift">
