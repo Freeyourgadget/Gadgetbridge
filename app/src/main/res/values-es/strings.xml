@@ -51,7 +51,7 @@
     <string name="miband_firmware_unknown_warning">Este firmware no ha sido probado y puede que no sea compatible con Gadgetbridge. 
 \n 
 \n¡NO se recomienda la instalación en tu Mi Band!</string>
-    <string name="miband_firmware_suggest_whitelist">"Si aún desea continuar y  después las cosas continúan funcionando correctamente, pida a los desarrolladores de Gadgetbridge que incluyan en la lista blanca la versión de firmware de% s."</string>
+    <string name="miband_firmware_suggest_whitelist">"Si aún desea continuar y  después las cosas continúan funcionando correctamente, pida a los desarrolladores de Gadgetbridge que incluyan en la lista blanca la versión de firmware de %s."</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Ajustes</string>
     <string name="pref_header_general">Ajustes generales</string>
