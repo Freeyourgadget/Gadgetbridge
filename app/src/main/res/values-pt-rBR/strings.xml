@@ -43,11 +43,11 @@
     <string name="miband_firmware_unknown_warning">Este firmware não foi testado e pode não ser compatível com o Gadgetbridge. 
 \n 
 \nNÃO É RECOMENDADO que você instale-o!</string>
-    <string name="miband_firmware_suggest_whitelist">Se você ainda desejar continuar e tudo funcionar corretamente, por favor, diga aos desenvolvedores do Gadgetbridge para incluírem essa versão de firmware na lista: %s</string>
+    <string name="miband_firmware_suggest_whitelist">Se você ainda desejar continuar e tudo funcionar corretamente, por favor, diga aos desenvolvedores do Gadgetbridge para incluírem a versão de firmware %s na lista.</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Configurações</string>
     <string name="pref_header_general">Configurações Gerais</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Conecta o dispositivo quando o Bluetooth estiver ligado</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Conecta o dispositivo Gadgetbridge quando o Bluetooth estiver ligado</string>
     <string name="pref_title_general_autostartonboot">Iniciar automaticamente</string>
     <string name="pref_title_general_autoreconnect">Reconectar automaticamente</string>
     <string name="pref_title_audio_player">Player de música preferencial</string>
