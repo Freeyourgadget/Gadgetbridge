@@ -706,4 +706,5 @@ Temps de sommeil préféré en heures</string>
     <string name="vietnamese">Vietnamien</string>
     <string name="portuguese">Portugais</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
+    <string name="pref_rtl_max_line_length_summary">Allonge ou raccourcis les lignes dans les textes écrits de droite à gauche</string>
 </resources>
