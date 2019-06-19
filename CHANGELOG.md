@@ -1,5 +1,10 @@
 ### Changelog
 
+#### master
+* Mi Band 4: Unconfirmed and probably completely broken initial support
+* Mi Band 1: Fix crash when entering per-device settings
+* Fix a crash when flashing an non-whitelisted firmware while using Gadgetbridge in Spanish
+
 #### Version 0.34.0
 * Mi Band 1/2/3/Bip/Cor: Migrate many settings to per-device settings (new settings icon in device card in main activity)
 * Mi Band 3: Fix setting menu items with 2.4 firmware and add support for the new timer menu
