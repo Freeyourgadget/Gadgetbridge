@@ -706,4 +706,5 @@
     <string name="vietnamese">וייטנאמית</string>
     <string name="portuguese">פורטוגלית</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
+    <string name="devicetype_miband4">Mi Band 4</string>
 </resources>
