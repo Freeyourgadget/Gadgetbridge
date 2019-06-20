@@ -434,4 +434,5 @@
     <string name="pref_screen_notification_profile_missed_call">Nem fogadott hívás értesítés</string>
     <string name="pref_screen_notification_profile_calendar">Naptár értesítés</string>
     <string name="title_activity_device_specific_settings">Eszköz specifikus beállítások</string>
+    <string name="controlcenter_calibrate_device">Eszköz kalibrálása</string>
 </resources>
