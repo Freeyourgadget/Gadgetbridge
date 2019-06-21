@@ -718,4 +718,5 @@
     <string name="vietnamese">Βιετναμέζικα</string>
     <string name="portuguese">Πορτογαλικά</string>
     <string name="devicetype_amazfit_cor2">"Amazfit Cor  2"</string>
+    <string name="devicetype_miband4">"Mi Band  4"</string>
 </resources>
