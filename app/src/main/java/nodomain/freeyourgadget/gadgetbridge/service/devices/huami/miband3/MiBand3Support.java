@@ -47,10 +47,7 @@ public class MiBand3Support extends AmazfitBipSupport {
 
     @Override
     protected byte getAuthFlags() {
-        if (gbDevice.getType() == DeviceType.MIBAND3) {
-            return 0x00;
-        }
-        return super.getAuthFlags();
+        return 0x00;
     }
 
     @Override
