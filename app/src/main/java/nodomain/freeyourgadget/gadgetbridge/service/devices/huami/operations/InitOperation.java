@@ -67,7 +67,7 @@ public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
         if (needsAuth) {
             builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.AUTHENTICATING, getContext()));
             // write key to miband2
-            byte[] sendKey = org.apache.commons.lang3.ArrayUtils.addAll(new byte[]{HuamiService.AUTH_SEND_KEY, authFlags}, getSecretKey());
+            byte[] sendKey = org.apache.commons.lang3.ArrayUtils.addAll(new byte[]{HuamiService.AUTH_SEND_KEY, authFlags});
             builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_AUTH), sendKey);
         } else {
             builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
@@ -77,7 +77,7 @@ public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
     }
 
     private byte[] requestAuthNumber() {
-        return new byte[]{HuamiService.AUTH_REQUEST_RANDOM_AUTH_NUMBER, authFlags};
+        return new byte[]{(byte) 0x82,0x00,0x02};
     }
 
     private byte[] getSecretKey() {
@@ -108,7 +108,7 @@ public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
                 getSupport().logMessageContent(value);
                 if (value[0] == HuamiService.AUTH_RESPONSE &&
                         value[1] == HuamiService.AUTH_SEND_KEY &&
-                        value[2] == HuamiService.AUTH_SUCCESS) {
+                        (value[2] & 0xf) == HuamiService.AUTH_SUCCESS) {
                     TransactionBuilder builder = createTransactionBuilder("Sending the secret key to the band");
                     builder.write(characteristic, requestAuthNumber());
                     getSupport().performImmediately(builder);
@@ -125,7 +125,7 @@ public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
                     getSupport().setCurrentTimeWithService(builder);
                     getSupport().performImmediately(builder);
                 } else if (value[0] == HuamiService.AUTH_RESPONSE &&
-                        value[1] == HuamiService.AUTH_SEND_ENCRYPTED_AUTH_NUMBER &&
+                        ((value[1] == HuamiService.AUTH_SEND_ENCRYPTED_AUTH_NUMBER) || (value[1] == (byte)0x82)) &&
                         value[2] == HuamiService.AUTH_SUCCESS) {
                     TransactionBuilder builder = createTransactionBuilder("Authenticated, now initialize phase 2");
                     builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
