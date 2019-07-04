@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceScreen
+        android:key="screen_disconnect_nofifiction"
+        android:icon="@drawable/ic_signal_cellular_connected_no_internet_0_bar"
+        android:persistent="false"
+        android:title="@string/prefs_disconnect_notification">
+
+        <!-- workaround for missing toolbar -->
+        <PreferenceCategory android:title="@string/prefs_disconnect_notification" />
+
+        <ListPreference
+            android:defaultValue="@string/p_off"
+            android:entries="@array/activate_display_on_lift"
+            android:entryValues="@array/activate_display_on_lift_values"
+            android:key="disconnect_notification"
+            android:summary="%s"
+            android:title="@string/prefs_disconnect_notification" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="00:00"
+            android:key="disconnect_notification_start"
+            android:title="@string/mi2_prefs_do_not_disturb_start" />
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="00:00"
+            android:key="disconnect_notification_end"
+            android:title="@string/mi2_prefs_do_not_disturb_end" />
+
+    </PreferenceScreen>
+
+</androidx.preference.PreferenceScreen>

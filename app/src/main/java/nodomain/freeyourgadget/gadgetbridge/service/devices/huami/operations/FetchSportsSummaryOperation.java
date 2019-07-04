@@ -241,6 +241,6 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
 
     @Override
     protected String getLastSyncTimeKey() {
-        return getDevice().getAddress() + "_" + "lastSportsActivityTimeMillis";
+        return "lastSportsActivityTimeMillis";
     }
 }

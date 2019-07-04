@@ -1,5 +1,5 @@
 /*  Copyright (C) 2016-2019 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti
+    Daniele Gobbetti, Sebastian Kranz
 
     This file is part of Gadgetbridge.
 

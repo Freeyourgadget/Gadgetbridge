@@ -95,7 +95,7 @@ public class HuamiBatteryInfo extends AbstractInfo {
         if (mData.length >= 18) {
             lastCharge = BLETypeConversions.rawBytesToCalendar(new byte[]{
                     mData[10], mData[11], mData[12], mData[13], mData[14], mData[15], mData[16], mData[17]
-            }, true);
+            });
         }
 
         return lastCharge;

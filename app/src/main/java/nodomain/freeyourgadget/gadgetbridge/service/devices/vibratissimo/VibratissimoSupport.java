@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Sebastian
+    Kranz
 
     This file is part of Gadgetbridge.
 

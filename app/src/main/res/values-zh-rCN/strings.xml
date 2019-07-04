@@ -10,25 +10,25 @@
     <string name="controlcenter_start_sleepmonitor">睡眠检测器（ALPHA测试）</string>
     <string name="controlcenter_find_device">查找丢失的设备</string>
     <string name="controlcenter_take_screenshot">截图</string>
-    <string name="controlcenter_connect">连接</string>
+    <string name="controlcenter_connect">连接…</string>
     <string name="controlcenter_disconnect">断开</string>
     <string name="controlcenter_delete_device">删除设备</string>
     <string name="controlcenter_delete_device_name">删除 %1$s</string>
-    <string name="controlcenter_delete_device_dialogmessage">这将删除设备和所有相关的数据!</string>
+    <string name="controlcenter_delete_device_dialogmessage">此操作将删除该设备和所有相关的数据！</string>
     <string name="controlcenter_navigation_drawer_open">打开导航菜单</string>
     <string name="controlcenter_navigation_drawer_close">关闭导航菜单</string>
-    <string name="controlcenter_snackbar_need_longpress">长按此卡片以断开连接</string>
-    <string name="controlcenter_snackbar_disconnecting">断开中</string>
-    <string name="controlcenter_snackbar_connecting">连接中…</string>
-    <string name="controlcenter_snackbar_requested_screenshot">获取设备的屏幕截图</string>
+    <string name="controlcenter_snackbar_need_longpress">长按此卡片则断开连接</string>
+    <string name="controlcenter_snackbar_disconnecting">正在断开</string>
+    <string name="controlcenter_snackbar_connecting">正在连接…</string>
+    <string name="controlcenter_snackbar_requested_screenshot">获取设备屏幕截图</string>
     <string name="title_activity_debug">调试</string>
     <string name="title_activity_appmanager">应用管理器</string>
-    <string name="appmanager_installed_watchapps">已安装的应用程序</string>
+    <string name="appmanager_installed_watchapps">已安装的应用</string>
     <string name="appmanager_installed_watchfaces">已安装的表盘</string>
     <string name="appmananger_app_delete">删除</string>
     <string name="appmananger_app_delete_cache">删除并清空缓存</string>
     <string name="appmananger_app_reinstall">重新安装</string>
-    <string name="appmanager_app_openinstore">在 Pebble Appstore 中搜索</string>
+    <string name="appmanager_app_openinstore">在 Pebble 应用商店搜索</string>
     <string name="appmanager_health_activate">启用</string>
     <string name="appmanager_health_deactivate">停用</string>
     <string name="appmanager_hrm_activate">打开心率检测</string>
@@ -41,7 +41,7 @@
     <string name="title_activity_appblacklist">通知黑名单</string>
     <string name="title_activity_calblacklist">阻止记录</string>
     <string name="title_activity_fw_app_insaller">FW/App 安装器</string>
-    <string name="fw_upgrade_notice">您即将安装固件 %s ，代替当前在小米手环上的固件。</string>
+    <string name="fw_upgrade_notice">您即将安装 %s 。</string>
     <string name="fw_upgrade_notice_amazfitbip">即将在您的米动手表青春版(Amazfit Bip)上安装固件 %s 。 
 \n 
 \n请确保安装.fw文件，然后安装.res文件，最后安装.gps文件。 安装.fw文件后，手表将重新启动。 
@@ -49,18 +49,18 @@
 \n注意：如果这些文件与之前安装的完全一样，则不必安装.res和.gps文件。 
 \n 
 \n***继续需要您自担风险！</string>
-    <string name="fw_upgrade_notice_amazfitcor">您即将在您的米动手环(Amazfit Cor)上安装固件 %s。 
+    <string name="fw_upgrade_notice_amazfitcor">您即将在您的 Amazfit Cor 上安装固件 %s 。 
 \n 
-\n请确保安装了.fw文件，然后安装.rec文件。 安装.fw文件后，手表将重新启动。 
+\n请确保安装了 .fw 文件，然后安装 .rec 文件。 安装 .fw 文件后，手表将重新启动。 
 \n 
-\n注意：如果这些文件与之前安装的完全一样，则不必安装.res。 
+\n注意：如果这些文件与之前安装的完全一样，则不必安装 .res 。 
 \n 
 \n您需要自行承担风险！</string>
     <string name="fw_multi_upgrade_notice">您即将安装固件 %1$s 和 %2$s，代替当前在小米手环上的固件。</string>
     <string name="miband_firmware_known">该固件已经过测试，并且已知与 Gadgetbridge 兼容。</string>
     <string name="miband_firmware_unknown_warning">此固件未经测试，可能与 Gadgetbridge 不兼容。 
 \n 
-\n不建议把它安装到你的小米手环！</string>
+\n不建议刷入！</string>
     <string name="miband_firmware_suggest_whitelist">如果您仍想继续并且此固件在安装之后能够正常工作，请告知 Gadgetbridge 开发者将固件 %s 列入白名单。</string>
     <string name="title_activity_settings">设置</string>
     <string name="pref_header_general">常规设置</string>
@@ -303,7 +303,7 @@
     <string name="weeksteps_today_steps_description">今天的步数, 目标：%1$s</string>
     <string name="pref_title_dont_ack_transfer">不发送活动数据</string>
     <string name="pref_summary_dont_ack_transfers">如果活动数据未传输到设备，则不会被清除。 Gadgetbridge 与其他应用程序一起使用时很有用。</string>
-    <string name="pref_summary_keep_data_on_device">即使在同步之后, 也会将活动数据保留在小米手环上。如果 Gadgetbridge 与其他应用程序一起使用, 这将非常有用。</string>
+    <string name="pref_summary_keep_data_on_device">即使在同步之后，也会将活动数据保留在小米手环上。如果 Gadgetbridge 与其他应用程序一起使用，这将非常有用。</string>
     <string name="pref_title_low_latency_fw_update">使用低延迟模式进行固件更新</string>
     <string name="pref_summary_low_latency_fw_update">这可能对固件失败的设备有帮助。</string>
     <string name="live_activity_steps_history">步数历史</string>
@@ -326,7 +326,7 @@
     <string name="dateformat_time">仅时间</string>
     <string name="dateformat_date_time">时间和日期</string>
     <string name="mi2_prefs_button_actions">按钮操作</string>
-    <string name="mi2_prefs_button_actions_summary">指定小米手环２按钮上的操作</string>
+    <string name="mi2_prefs_button_actions_summary">指定小米手环2按钮上的操作</string>
     <string name="mi2_prefs_button_press_count">按钮按下计数</string>
     <string name="mi2_prefs_button_press_count_summary">触发消息广播的按钮按数</string>
     <string name="mi2_prefs_button_action">启用按钮操作</string>
@@ -450,7 +450,7 @@
     <string name="kind_resources">资源</string>
     <string name="devicetype_unknown">未知设备</string>
     <string name="devicetype_miband">小米手环</string>
-    <string name="devicetype_miband2">小米手环２</string>
+    <string name="devicetype_miband2">小米手环2</string>
     <string name="devicetype_amazfit_bip">米动手表青春版</string>
     <string name="devicetype_amazfit_cor">米动手环</string>
     <string name="pref_title_weather">天气</string>
@@ -458,7 +458,7 @@
     <string name="devicetype_test">测试设备</string>
     <string name="pref_title_pebble_forcele">总是优先使用低功耗蓝牙</string>
     <string name="kind_watchface">表盘</string>
-    <string name="appmanager_cached_watchapps_watchfaces">在内存缓冲区中的应用程序</string>
+    <string name="appmanager_cached_watchapps_watchfaces">缓存中应用</string>
     <string name="pref_title_canned_messages_set">在 Pebble 上升级</string>
     <string name="pref_screen_vibration_profile">振动配置</string>
     <string name="vibration_profile_ring">响铃</string>
@@ -486,13 +486,13 @@
     <string name="controlcenter_calibrate_device">校准设备</string>
     <string name="blacklist_all_for_notifications">添加所有通知到黑名单</string>
     <string name="whitelist_all_for_notifications">添加所有通知到白名单</string>
-    <string name="fw_upgrade_notice_miband3">您即将安装小米手环３的固件 %s 。
-\n
-\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装 .fw 文件后重启。
-\n
-\n注意：如果您已经安装相同版本的 .res 文件了，则无需安装。
-\n
-\n未经测试，可能会导致您的设备变砖，您必须自行承担风险！</string>
+    <string name="fw_upgrade_notice_miband3">您即将安装 小米手环3 的固件 %s 。 
+\n 
+\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装 .fw 文件后重启。 
+\n 
+\n注意：如果您已经安装相同版本的 .res 文件了，则无需安装。 
+\n 
+\n风险自担！</string>
     <string name="pref_title_notifications_timeout">通知间隔最短时间</string>
     <string name="pref_title_rtl">从右到左</string>
     <string name="pref_summary_rtl">如果您的设备无法显示从右到左的语言，请选中此选项</string>
@@ -509,8 +509,8 @@
     <string name="pref_auto_fetch_summary">屏幕解锁时会自动获取。仅在设置了锁定机制才会有效！</string>
     <string name="pref_auto_fetch_limit_fetches">刷新最小间隔</string>
     <string name="pref_auto_fetch_limit_fetches_summary">每隔 %d 分钟刷新</string>
-    <string name="preferences_miband2_settings">小米手环２ 设置</string>
-    <string name="preferences_miband3_settings">小米手环３ 设置</string>
+    <string name="preferences_miband2_settings">小米手环2 设置</string>
+    <string name="preferences_miband3_settings">小米手环3 设置</string>
     <string name="preferences_amazfitcor_settings">米动 Cor 设置</string>s
     <string name="horizontal">横向</string>
     <string name="vertical">纵向</string>
@@ -570,7 +570,7 @@
     <string name="share">分享</string>
     <string name="reset_index">重设刷新日期</string>
     <string name="kind_gps_almanac">GPS 历史</string>
-    <string name="devicetype_miband3">小米手环３</string>
+    <string name="devicetype_miband3">小米手环3</string>
     <string name="devicetype_liveview">实时查看</string>
     <string name="devicetype_makibes_f68">Makibes F68</string>
     <string name="devicetype_exrizu_k8">Exrizu K8</string>
@@ -616,7 +616,7 @@
     <string name="pref_invalid_frequency_message">请输入一个在 87.5 至 108.0 之间的频率</string>
     <string name="language_and_region_prefs">语言和区域设置</string>
     <string name="debugactivity_really_factoryreset_title">确定要恢复出厂设置？</string>
-    <string name="debugactivity_really_factoryreset">恢复出厂设置将会删除您已连接设备上的所有数据（如果支持的话）。小米／华米设备将会同时改变蓝牙MAC地址，对于Gadgetbrige来说，这将是一个新的设备。</string>
+    <string name="debugactivity_really_factoryreset">恢复出厂设置将会删除已连接设备上的所有数据（如果支持）。小米/华米设备将会同时改变蓝牙MAC地址。对Gadgetbrige而言，这将是一个新设备。</string>
     <string name="devicetype_casiogb6900">卡西欧 GB-6900</string>
     <string name="title_activity_notification_filter">通知过滤器</string>
     <string name="toast_app_must_not_be_blacklisted">只有不在黑名单中的应用才能够进行配置</string>
@@ -633,5 +633,82 @@
     <string name="save_configuration">保存配置</string>
     <string name="appwidget_not_connected">未连接，闹钟未设定。</string>
     <string name="activity_type_exercise">锻炼</string>
-    <string name="prefs_disconnect_notification"></string>
+    <string name="prefs_disconnect_notification">未连接提醒</string>
+    <string name="zetime_title_settings">ZeTime设置</string>
+    <string name="zetime_title_heartrate">心率设置</string>
+    <string name="zetime_title_screentime">亮屏时长（秒）</string>
+    <string name="zetime_title_heart_rate_alarm">心率警示</string>
+    <string name="zetime_title_heart_rate_alarm_summary">心率超过限值时，手表将提醒您。</string>
+    <string name="zetime_heart_rate_alarm_enable">启用心率警示</string>
+    <string name="activity_prefs_alarm_max_heart_rate">最高心率</string>
+    <string name="activity_prefs_alarm_min_heart_rate">最低心率</string>
+    <string name="zetime_analog_mode">模拟模式</string>
+    <string name="zetime_analog_mode_hands">仅指针</string>
+    <string name="zetime_analog_mode_handsandsteps">指针和走动</string>
+    <string name="zetime_activity_tracking">激活跟踪</string>
+    <string name="zetime_activity_tracking_summary">打开运动跟踪，将计算您的步数等。</string>
+    <string name="zetime_handmove_display">指针走动</string>
+    <string name="zetime_handmove_display_summary">转动手腕可亮屏或熄屏。</string>
+    <string name="zetime_calories_type">卡路里类型</string>
+    <string name="zetime_calories_type_active">仅运动消耗的热量</string>
+    <string name="zetime_calories_type_all">运行和非运动消耗的热量</string>
+    <string name="zetime_time_format">时间格式</string>
+    <string name="zetime_time_format_24h">24小时制</string>
+    <string name="zetime_time_format_12h">12小时制</string>
+    <string name="zetime_date_format">日期格式</string>
+    <string name="zetime_date_format_1">YY/MM/DD</string>
+    <string name="zetime_date_format_2">DD/MM/YY</string>
+    <string name="zetime_date_format_3">MM/DD/YY</string>
+    <string name="zetime_prefs_inactivity_repetitions">重复次数</string>
+    <string name="zetime_prefs_inactivity_mo">周一</string>
+    <string name="zetime_prefs_inactivity_tu">周二</string>
+    <string name="zetime_prefs_inactivity_we">周三</string>
+    <string name="zetime_prefs_inactivity_th">周四</string>
+    <string name="zetime_prefs_inactivity_fr">周五</string>
+    <string name="zetime_prefs_inactivity_sa">周六</string>
+    <string name="zetime_prefs_inactivity_su">周日</string>
+    <string name="zetime_title_alarm_signaling">设置警示信号类型</string>
+    <string name="zetime_signaling_none">静默</string>
+    <string name="zetime_signaling_vibrate">连续振动</string>
+    <string name="zetime_signaling_beep">连续蜂鸣</string>
+    <string name="zetime_signaling_vibrate_beep">连续振动和蜂鸣</string>
+    <string name="zetime_signaling_vibrate_once">震动一次</string>
+    <string name="zetime_signaling_vibrate_twice">震动二次</string>
+    <string name="zetime_signaling_beep_once">蜂鸣一次</string>
+    <string name="zetime_signaling_beep_twice">蜂鸣二次</string>
+    <string name="zetime_signaling_vibrate_beep_once">震动、蜂鸣各一次</string>
+    <string name="pref_screen_notification_profile_missed_call">未接来电提醒</string>
+    <string name="pref_screen_notification_profile_calendar">日历提醒</string>
+    <string name="pref_screen_notification_profile_inactivity">未运动提醒</string>
+    <string name="pref_screen_notification_profile_low_power">低电量提醒</string>
+    <string name="pref_screen_notification_profile_anti_loss">防丢失提醒</string>
+    <string name="interval_fifteen_minutes">每15分钟</string>
+    <string name="interval_forty_five_minutes">每45分钟</string>
+    <string name="activity_prefs_calories_burnt">每日目标：热量消耗</string>
+    <string name="activity_prefs_distance_meters">每日目标：距离（米）</string>
+    <string name="activity_prefs_activetime_minutes">每日目标：运动时长（分钟）</string>
+    <string name="devicetype_miscale2">小米手环2</string>
+    <string name="pref_title_support_voip_calls">启用 VoIP 应用呼叫</string>
+    <string name="title_activity_device_specific_settings">设备特殊设置</string>
+    <string name="pref_title_authkey">认证密钥</string>
+    <string name="pref_summary_authkey">将您想要连接的所有 Android 设备上的认证密钥更改为通用的密钥。默认所有设备的密钥是 0123456789@ABCDE</string>
+    <string name="devicetype_bfh16">BFH-16</string>
+    <string name="fw_upgrade_notice_amazfitcor2">您即将在 Amazfit Cor 2 上安装 %s 版本的固件。
+\n
+\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启。
+\n
+\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件。
+\n
+\n风险自担！
+\n
+\n此功能未经测试，如果您的设备名为“Amazfit Band 2”，您可能需要刷入 BEATS_W 固件</string>
+    <string name="dutch">荷兰语</string>
+    <string name="turkish">土耳其语</string>
+    <string name="ukrainian">乌克兰语</string>
+    <string name="arabic">阿拉伯语</string>
+    <string name="indonesian">印尼语</string>
+    <string name="thai">泰语</string>
+    <string name="vietnamese">越南语</string>
+    <string name="portuguese">葡萄牙语</string>
+    <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
 </resources>

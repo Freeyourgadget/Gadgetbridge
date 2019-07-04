@@ -29,7 +29,7 @@
     <string name="appmananger_app_delete">Löschen</string>
     <string name="appmananger_app_delete_cache">Löschen und aus dem Zwischenspeicher entfernen</string>
     <string name="appmananger_app_reinstall">Erneut installieren</string>
-    <string name="appmanager_app_openinstore">Im Pebble Appstore suchen</string>
+    <string name="appmanager_app_openinstore">Im Pebble App Store suchen</string>
     <string name="appmanager_health_activate">Aktivieren</string>
     <string name="appmanager_health_deactivate">Deaktivieren</string>
     <string name="appmanager_hrm_activate">HRM aktivieren</string>
@@ -45,12 +45,12 @@
     <string name="title_activity_calblacklist">Kalender auf Blacklist</string>
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">FW/App-Installer</string>
-    <string name="fw_upgrade_notice">Du installierst jetzt die Firmware %s anstelle der Firmware, die sich derzeit auf deinem Mi-Band befindet.</string>
+    <string name="fw_upgrade_notice">Du installierst jetzt %s.</string>
     <string name="fw_multi_upgrade_notice">Du bist dabei, die %1$s und %2$s Firmware zu installieren, anstatt die, die sich derzeit auf deinem Mi Band befinden.</string>
     <string name="miband_firmware_known">Diese Firmware wurde getestet und ist bekanntlich mit Gadgetbridge kompatibel.</string>
-    <string name="miband_firmware_unknown_warning">Diese Firmware ist nicht getestet und ist möglicherweise nicht mit Gadgetbridge kompatibel.
-\n
-\nDu wirst GEBETEN, diese nicht auf dein Mi Band zu installieren!</string>
+    <string name="miband_firmware_unknown_warning">Diese Firmware ist nicht getestet und ist möglicherweise nicht mit Gadgetbridge kompatibel. 
+\n 
+\nDu wirst GEBETEN, diese nicht zu flashen!</string>
     <string name="miband_firmware_suggest_whitelist">Wenn du dennoch fortfahren möchtest und das Gerät anschliessend korrekt funktioniert, melde bitte den Gadgetbridge-Entwicklern, das sie die Firmwareversion %s auf die Whitelist setzen sollen.</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Einstellungen</string>
@@ -450,11 +450,11 @@
     <string name="simplified_chinese">Vereinfachtes Chinesisch</string>
     <string name="traditional_chinese">Traditionelles Chinesisch</string>
     <string name="english">Englisch</string>
-    <string name="fw_upgrade_notice_amazfitcor">Du bist dabei, die Firmware %s auf deine Amazfit Cor zu installieren.
+    <string name="fw_upgrade_notice_amazfitcor">Du bist dabei, die Firmware %s auf deine Amazfit Cor zu installieren. 
 \n 
-\nBitte stelle sicher, dass du die .fw Datei und die .res Datei installierst. Deine Uhr wird nach der Installation der .fw Datei neu gestartet.
+\nBitte stelle sicher, dass du die .fw Datei und die .res Datei installierst. Dein Band wird nach der Installation der .fw Datei neu gestartet. 
 \n 
-\nHinweis: Du musst die .res nicht installieren, wenn diese Dateie genau die gleiche ist wie die zuvor installierte.
+\nHinweis: Du musst die .res nicht installieren, wenn diese Dateie genau die gleiche ist wie die zuvor installierte. 
 \n 
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_press_count">Anzahl der Tastendrücke</string>
@@ -529,13 +529,13 @@
     <string name="menuitem_compass">Kompass</string>
     <string name="menuitem_settings">Einstellungen</string>
     <string name="menuitem_alipay">Alipay</string>
-    <string name="fw_upgrade_notice_miband3">Du bist dabei, die Firmware %s auf dein Mi Band 3 zu installieren.
+    <string name="fw_upgrade_notice_miband3">Du bist dabei, die Firmware %s auf dein Mi Band 3 zu installieren. 
 \n 
-\nBitte stelle sicher, dass du die .fw Datei und die .res Datei installierst. Deine Uhr wird nach der Installation der .fw Datei neu gestartet.
+\nBitte stelle sicher, dass du die .fw Datei und die .res Datei installierst. Deine Uhr wird nach der Installation der .fw Datei neu gestartet. 
 \n 
-\nHinweis: Du musst die .res nicht installieren, wenn diese Dateie genau die gleiche ist wie die zuvor installiert
+\nHinweis: Du musst die .res nicht installieren, wenn diese Dateie genau die gleiche ist wie die zuvor installiert 
 \n 
-\nNICHT GETESTET, DIES KÖNNTE DEIN GERÄT UNBENUTZBAR MACHEN, INSTALLATION AUF EIGENE GEFAHR!</string>
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="pref_summary_pebble_gatt_clientonly">Dies ist nur für Pebble 2 und experimentell, versuche dies, wenn du Verbindungsprobleme hast</string>
     <string name="pref_auto_fetch">Aktivitätsdaten automatisch abrufen</string>
     <string name="devicetype_miband3">Mi Band 3</string>
@@ -648,14 +648,82 @@
     <string name="save_configuration">Konfiguration speichern</string>
     <string name="appwidget_not_connected">Nicht verbunden, Alarm nicht eingestellt.</string>
     <string name="prefs_disconnect_notification">Benachichtigung beim Verbindung trennen</string>
-
     <string name="activity_prefs_calories_burnt">Tägliches Ziel: verbrannte Kalorien</string>
     <string name="activity_prefs_distance_meters">Tägliches Ziel: zurückgelegte Strecke in Meter</string>
     <string name="activity_prefs_activetime_minutes">Tägliches Ziel: aktive Zeit in Minuten</string>
-
     <!-- ZeTime Preferences -->
     <string name="zetime_title_settings">ZeTime Einstellungen</string>
     <string name="zetime_title_screentime">Bildschirm-An-Dauer in Sekunden</string>
     <string name="activity_prefs_alarm_max_heart_rate">Max Puls Alarm</string>
     <string name="activity_prefs_alarm_min_heart_rate">Min Puls Alarm</string>
+    <string name="zetime_title_heartrate">Herzfrequenz Einstellungen</string>
+    <string name="zetime_title_heart_rate_alarm">Herzfrequenz Alarm</string>
+    <string name="zetime_heart_rate_alarm_enable">Herzfrequenz Alarm aktivieren</string>
+    <string name="zetime_time_format">Zeitformat</string>
+    <string name="zetime_time_format_24h">24h</string>
+    <string name="zetime_time_format_12h">12h</string>
+    <string name="zetime_date_format">Datumsformat</string>
+    <string name="zetime_date_format_1">JJ/MM/TT</string>
+    <string name="zetime_date_format_2">TT/MM/JJ</string>
+    <string name="zetime_date_format_3">MM/TT/JJ</string>
+    <string name="zetime_prefs_inactivity_mo">Montag</string>
+    <string name="zetime_prefs_inactivity_tu">Dienstag</string>
+    <string name="zetime_prefs_inactivity_we">Mittwoch</string>
+    <string name="zetime_prefs_inactivity_th">Donnerstag</string>
+    <string name="zetime_prefs_inactivity_fr">Freitag</string>
+    <string name="zetime_prefs_inactivity_sa">Samstag</string>
+    <string name="zetime_prefs_inactivity_su">Sonntag</string>
+    <string name="zetime_signaling_none">Lautlos</string>
+    <string name="devicetype_miscale2">Mi Scale 2</string>
+    <string name="zetime_title_heart_rate_alarm_summary">Die Uhr warnt dich, wenn deine Herzfrequenz die Grenzwerte überschreitet.</string>
+    <string name="zetime_analog_mode">Analog-Modus</string>
+    <string name="zetime_analog_mode_hands">Nur Hände</string>
+    <string name="zetime_analog_mode_handsandsteps">Hände und Schritte</string>
+    <string name="zetime_activity_tracking">Aktivitätsverfolgung</string>
+    <string name="zetime_activity_tracking_summary">Wenn du die Aktivitätsverfolgung einschaltest, werden deine Schritte gezählt und so weiter.</string>
+    <string name="zetime_handmove_display">Handbewegung</string>
+    <string name="zetime_handmove_display_summary">Drehe dein Handgelenk, um die Anzeige zu aktivieren oder zu deaktivieren.</string>
+    <string name="zetime_calories_type">Kalorientyp</string>
+    <string name="zetime_calories_type_active">Nur aktive verbrannte Kalorien</string>
+    <string name="zetime_calories_type_all">Aktive und inaktive verbrannte Kalorien</string>
+    <string name="zetime_prefs_inactivity_repetitions">Wiederholungen</string>
+    <string name="zetime_title_alarm_signaling">Art der Signalisierung für den Alarm einstellen</string>
+    <string name="zetime_signaling_vibrate">Kontinuierliche Vibration</string>
+    <string name="zetime_signaling_beep">Kontinuierliches Piepen</string>
+    <string name="zetime_signaling_vibrate_beep">Kontinuierliche Vibration und Piepen</string>
+    <string name="zetime_signaling_vibrate_once">Einmal vibrieren</string>
+    <string name="zetime_signaling_vibrate_twice">Zweimal vibrieren</string>
+    <string name="zetime_signaling_beep_once">Einmaliges Piepen</string>
+    <string name="zetime_signaling_beep_twice">Zweimal piepen</string>
+    <string name="zetime_signaling_vibrate_beep_once">Einmal vibrieren und piepen</string>
+    <string name="pref_screen_notification_profile_missed_call">Benachrichtigung bei verpassten Anrufen</string>
+    <string name="pref_screen_notification_profile_calendar">Kalenderbenachrichtigung</string>
+    <string name="pref_screen_notification_profile_inactivity">Inaktivitätsbenachrichtigung</string>
+    <string name="pref_screen_notification_profile_low_power">Warnung bei niedrigem Akku</string>
+    <string name="pref_screen_notification_profile_anti_loss">Warnung vor Verlust</string>
+    <string name="interval_fifteen_minutes">alle 15 Minuten</string>
+    <string name="interval_forty_five_minutes">alle 45 Minuten</string>
+    <string name="pref_title_support_voip_calls">VoIP App-Anrufe aktivieren</string>
+    <string name="title_activity_device_specific_settings">Gerätespezifische Einstellungen</string>
+    <string name="pref_title_authkey">Auth-Schlüssel</string>
+    <string name="pref_summary_authkey">Ändere den Authentifizierungsschlüssel in einen gemeinsamen Schlüssel auf all deinen Android-Geräten, von denen aus du eine Verbindung herstellen möchtet. Der bisherige Standardschlüssel für alle Geräte ist 0123456789@ABCDE</string>
+    <string name="devicetype_bfh16">BFH-16</string>
+    <string name="fw_upgrade_notice_amazfitcor2">Du bist dabei, die %s-Firmware auf Ihrem Amazfit Cor 2 zu installieren.
+\n
+\nBitte stelle sicher, dass Du die.fw-Datei und danach die .res-Datei installierst. Dein Band wird nach der Installation der.fw-Datei neu gestartet.
+\n
+\nHinweis: Du musst .res nicht installieren, wenn es genau das gleiche ist wie das zuvor installierte.
+\n
+\nAUF EIGENE GEFAHR!
+\n
+\nVOLLSTÄNDIG UNGETESTET, WAHRSCHEINLICH MUSST DU EINE BEATS_W FIRMWARE FLASHEN, WENN DEIN GERÄTENAME \"Amazfit Band 2\" IST</string>
+    <string name="dutch">Niederländisch</string>
+    <string name="turkish">Türkisch</string>
+    <string name="ukrainian">Ukrainisch</string>
+    <string name="arabic">Arabisch</string>
+    <string name="indonesian">Indonesisch</string>
+    <string name="thai">Thailändisch</string>
+    <string name="vietnamese">Vietnamesisch</string>
+    <string name="portuguese">Portugiesisch</string>
+    <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
 </resources>

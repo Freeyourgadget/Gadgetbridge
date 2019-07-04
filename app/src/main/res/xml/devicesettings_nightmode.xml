@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceScreen
+        android:icon="@drawable/ic_brightness_2"
+        android:key="screen_night_mode"
+        android:persistent="false"
+        android:summary="@string/mi3_prefs_night_mode_summary"
+        android:title="@string/mi3_prefs_night_mode">
+
+        <!-- workaround for missing toolbar -->
+        <PreferenceCategory android:title="@string/mi3_prefs_night_mode" />
+
+        <ListPreference
+            android:defaultValue="@string/p_off"
+            android:entries="@array/mi3_night_mode"
+            android:entryValues="@array/mi3_night_mode_values"
+            android:key="night_mode"
+            android:summary="%s"
+            android:title="@string/mi3_prefs_night_mode" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="16:00"
+            android:key="night_mode_start"
+            android:title="@string/mi2_prefs_do_not_disturb_start" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="7:00"
+            android:key="night_mode_end"
+            android:title="@string/mi2_prefs_do_not_disturb_end" />
+
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

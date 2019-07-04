@@ -27,6 +27,7 @@ import android.os.ParcelUuid;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
 
+import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,6 +76,7 @@ class PebbleIoThread extends GBDeviceIoThread {
     private final PebbleProtocol mPebbleProtocol;
     private final PebbleSupport mPebbleSupport;
     private PebbleKitSupport mPebbleKitSupport;
+    private final PebbleActiveAppTracker mPebbleActiveAppTracker;
     private final boolean mEnablePebblekit;
 
     private boolean mIsTCP = false;
@@ -149,6 +151,8 @@ class PebbleIoThread extends GBDeviceIoThread {
         mEnablePebblekit = prefs.getBoolean("pebble_enable_pebblekit", false);
         mPebbleProtocol.setAlwaysACKPebbleKit(prefs.getBoolean("pebble_always_ack_pebblekit", false));
         mPebbleProtocol.setEnablePebbleKit(mEnablePebblekit);
+
+        mPebbleActiveAppTracker = new PebbleActiveAppTracker();
     }
 
     private int readWithException(InputStream inputStream, byte[] buffer, int byteOffset, int byteCount) throws IOException {
@@ -563,6 +567,11 @@ class PebbleIoThread extends GBDeviceIoThread {
                             WebViewSingleton.getInstance().runJavascriptInterface(gbDevice, appMgmt.uuid);
                         }
                     }
+
+                    mPebbleActiveAppTracker.markAppOpened(appMgmt.uuid);
+                    break;
+                case STOP:
+                    mPebbleActiveAppTracker.markAppClosed(appMgmt.uuid);
                     break;
                 default:
                     break;
@@ -678,6 +687,17 @@ class PebbleIoThread extends GBDeviceIoThread {
                     writeInstallApp(mPebbleProtocol.encodeAppDelete(mCurrentlyInstallingApp.getUUID()));
                 }
             }
+        }
+    }
+
+    void reopenLastApp(@NonNull UUID assumedCurrentApp) {
+        UUID currentApp = mPebbleActiveAppTracker.getCurrentRunningApp();
+        UUID previousApp = mPebbleActiveAppTracker.getPreviousRunningApp();
+
+        if (previousApp == null || !assumedCurrentApp.equals(currentApp)) {
+            write(mPebbleProtocol.encodeAppStart(assumedCurrentApp, false));
+        } else {
+            write(mPebbleProtocol.encodeAppStart(previousApp, true));
         }
     }
 

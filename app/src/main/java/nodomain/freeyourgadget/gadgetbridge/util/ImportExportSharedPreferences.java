@@ -86,14 +86,7 @@ public class ImportExportSharedPreferences {
         return importFromReader(sharedPreferences, new FileReader(inFile));
     }
 
-    /**
-     *
-     * @param sharedPreferences
-     * @param in
-     * @return
-     * @throws Exception
-     */
-    public static boolean importFromReader(SharedPreferences sharedPreferences, Reader in)
+    private static boolean importFromReader(SharedPreferences sharedPreferences, Reader in)
             throws Exception {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
@@ -124,27 +117,31 @@ public class ImportExportSharedPreferences {
                     } else if (STRING.equals(name)) {
                         editor.putString(key, text);
                     } else if (HASHSET.equals(name)) {
-                        if (key.equals(GBPrefs.PACKAGE_BLACKLIST)) {
-                            Set<String> apps_blacklist = new HashSet<>();
-                            text=text.replace("[","").replace("]","");
-                            for (int z=0;z<text.split(",").length;z++){
-                                apps_blacklist.add(text.split(",")[z].trim());
-                            }
-                            GBApplication.setAppsNotifBlackList(apps_blacklist);
-                        } else if (key.equals(GBPrefs.PACKAGE_PEBBLEMSG_BLACKLIST)) { //TODO: untested
-                            Set<String> apps_pebble_blacklist = new HashSet<>();
-                            text=text.replace("[","").replace("]","");
-                            for (int z=0;z<text.split(",").length;z++){
-                                apps_pebble_blacklist.add(text.split(",")[z].trim());
-                            }
-                            GBApplication.setAppsPebbleBlackList(apps_pebble_blacklist);
-                        } else if (key.equals(GBPrefs.CALENDAR_BLACKLIST)) { //TODO: untested
-                            Set<String> calendars_blacklist = new HashSet<>();
-                            text = text.replace("[", "").replace("]", "");
-                            for (int z = 0; z < text.split(",").length; z++) {
-                                calendars_blacklist.add(text.split(",")[z].trim());
-                            }
-                            GBApplication.setCalendarsBlackList(calendars_blacklist);
+                        switch (key) {
+                            case GBPrefs.PACKAGE_BLACKLIST:
+                                Set<String> apps_blacklist = new HashSet<>();
+                                text = text.replace("[", "").replace("]", "");
+                                for (int z = 0; z < text.split(",").length; z++) {
+                                    apps_blacklist.add(text.split(",")[z].trim());
+                                }
+                                GBApplication.setAppsNotifBlackList(apps_blacklist);
+                                break;
+                            case GBPrefs.PACKAGE_PEBBLEMSG_BLACKLIST:  //TODO: untested
+                                Set<String> apps_pebble_blacklist = new HashSet<>();
+                                text = text.replace("[", "").replace("]", "");
+                                for (int z = 0; z < text.split(",").length; z++) {
+                                    apps_pebble_blacklist.add(text.split(",")[z].trim());
+                                }
+                                GBApplication.setAppsPebbleBlackList(apps_pebble_blacklist);
+                                break;
+                            case GBPrefs.CALENDAR_BLACKLIST:  //TODO: untested
+                                Set<String> calendars_blacklist = new HashSet<>();
+                                text = text.replace("[", "").replace("]", "");
+                                for (int z = 0; z < text.split(",").length; z++) {
+                                    calendars_blacklist.add(text.split(",")[z].trim());
+                                }
+                                GBApplication.setCalendarsBlackList(calendars_blacklist);
+                                break;
                         }
                     } else if (!PREFERENCES.equals(name)) {
                         throw new Exception("Unknown type " + name);

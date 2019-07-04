@@ -57,6 +57,12 @@ public class MiBand3FirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(40344, "2.2.0.14");
         crcToVersion.put(4467,  "2.2.0.42");
         crcToVersion.put(61657, "2.3.0.2");
+        crcToVersion.put(62735, "2.3.0.6");
+        crcToVersion.put(40949, "2.3.0.28");
+        crcToVersion.put(59213, "2.4.0.12");
+
+        // firmware (Mi Band 3 NFC)
+        crcToVersion.put(46724, "1.7.0.4");
 
         // resources
         crcToVersion.put(54724, "1.2.0.8");
@@ -65,10 +71,14 @@ public class MiBand3FirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(25278, "1.4.0.12-1.6.0.16");
         crcToVersion.put(23249, "1.8.0.0");
         crcToVersion.put(1815,  "2.0.0.4");
-        crcToVersion.put(7225,  "2.2.0.12-2.3.0.2");
+        crcToVersion.put(7225, "2.2.0.12-2.3.0.6");
+        crcToVersion.put(52754, "2.3.0.28");
+        crcToVersion.put(17930, "2.4.0.12");
 
         // font
         crcToVersion.put(19775, "1");
+        crcToVersion.put(42959, "2 (old Jap/Kor)");
+        crcToVersion.put(12052, "1 (Jap/Kor)");
     }
 
     public MiBand3FirmwareInfo(byte[] bytes) {
@@ -78,7 +88,7 @@ public class MiBand3FirmwareInfo extends HuamiFirmwareInfo {
     @Override
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
         if (ArrayUtils.startsWith(bytes, FT_HEADER)) {
-            if (bytes[FONT_TYPE_OFFSET] == 0x03 || bytes[FONT_TYPE_OFFSET] == 0x04) {
+            if (bytes[FONT_TYPE_OFFSET] >= 0x03 && bytes[FONT_TYPE_OFFSET] <= 0x05) {
                 return HuamiFirmwareType.FONT;
             }
             return HuamiFirmwareType.INVALID;

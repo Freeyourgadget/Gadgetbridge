@@ -21,10 +21,12 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import androidx.annotation.NonNull;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
@@ -76,5 +78,16 @@ public class MiBand2Coordinator extends HuamiCoordinator {
     @Override
     public boolean supportsWeather() {
         return false;
+    }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_miband2,
+                R.xml.devicesettings_donotdisturb_withauto,
+                R.xml.devicesettings_liftwrist_display,
+                R.xml.devicesettings_rotatewrist_cycleinfo,
+                R.xml.devicesettings_pairingkey
+        };
     }
 }

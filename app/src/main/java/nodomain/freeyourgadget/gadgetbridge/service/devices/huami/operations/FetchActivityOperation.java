@@ -203,6 +203,6 @@ public class FetchActivityOperation extends AbstractFetchOperation {
 
     @Override
     protected String getLastSyncTimeKey() {
-        return getDevice().getAddress() + "_" + "lastSyncTimeMillis";
+        return "lastSyncTimeMillis";
     }
 }

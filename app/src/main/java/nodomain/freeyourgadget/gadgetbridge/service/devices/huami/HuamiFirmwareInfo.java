@@ -50,7 +50,7 @@ public abstract class HuamiFirmwareInfo {
 
     protected static final int FONT_TYPE_OFFSET = 0x9;
 
-    private HuamiFirmwareType firmwareType = HuamiFirmwareType.FIRMWARE;
+    private HuamiFirmwareType firmwareType;
 
     public String toVersion(int crc16) {
         String version = getCrcMap().get(crc16);
@@ -60,16 +60,16 @@ public abstract class HuamiFirmwareInfo {
                     version = searchFirmwareVersion(bytes);
                     break;
                 case RES:
-                    version = "RES " + Integer.toString(bytes[5]);
+                    version = "RES " + bytes[5];
                     break;
                 case RES_COMPRESSED:
-                    version = "RES " + Integer.toString(bytes[14]);
+                    version = "RES " + bytes[14];
                     break;
                 case FONT:
-                    version = "FONT " + Integer.toString(bytes[4]);
+                    version = "FONT " + bytes[4];
                     break;
                 case FONT_LATIN:
-                    version = "FONT LATIN " + Integer.toString(bytes[4]);
+                    version = "FONT LATIN " + bytes[4];
                     break;
             }
         }
@@ -163,7 +163,7 @@ public abstract class HuamiFirmwareInfo {
                     if (word == 0x642e2564) {
                         word = buf.getInt();
                         if (word == 0x00000000) {
-                            byte version[] = new byte[8];
+                            byte[] version = new byte[8];
                             buf.get(version);
                             return new String(version);
                         }

@@ -223,6 +223,7 @@
         <item>@string/menuitem_more</item>
         <item>@string/menuitem_status</item>
         <item>@string/heart_rate</item>
+        <item>@string/menuitem_timer</item>
     </string-array>
 
     <string-array name="pref_miband3_display_items_values">
@@ -232,6 +233,7 @@
         <item>@string/p_menuitem_more</item>
         <item>@string/p_menuitem_status</item>
         <item>@string/p_heart_rate</item>
+        <item>@string/p_menuitem_timer</item>
     </string-array>
 
     <string-array name="pref_miband3_display_items_default">
@@ -350,21 +352,47 @@
     </string-array>
 
     <string-array name="pref_amazfitbip_language">
-        <item name="-1">@string/automatic</item>
-        <item name="0">@string/simplified_chinese</item>
-        <item name="1">@string/traditional_chinese</item>
-        <item name="2">@string/english</item>
-        <item name="3">@string/spanish</item>
-        <item name="4">@string/russian</item>
+        <item name="auto">@string/automatic</item>
+        <item name="zh_CH">@string/simplified_chinese</item>
+        <item name="zh_TW">@string/traditional_chinese</item>
+        <item name="en_US">@string/english</item>
+        <item name="es_ES">@string/spanish</item>
+        <item name="de_DE">@string/german</item>
+        <item name="it_IT">@string/italian</item>
+        <item name="fr_FR">@string/french</item>
+        <item name="tr_TR">@string/turkish</item>
+        <item name="ru_RU">@string/russian</item>
     </string-array>
 
     <string-array name="pref_amazfitbip_language_values">
-        <item>-1</item>
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
+        <item>auto</item>
+        <item>zh_CH</item>
+        <item>zh_TW</item>
+        <item>en_US</item>
+        <item>es_ES</item>
+        <item>de_DE</item>
+        <item>it_IT</item>
+        <item>fr_FR</item>
+        <item>tr_TR</item>
+        <item>ru_RU</item>
+    </string-array>
+
+    <string-array name="pref_amazfitcor_language">
+        <item name="auto">@string/automatic</item>
+        <item name="zh_CH">@string/simplified_chinese</item>
+        <item name="zh_TW">@string/traditional_chinese</item>
+        <item name="en_US">@string/english</item>
+        <item name="es_ES">@string/spanish</item>
+        <item name="ru_RU">@string/russian</item>
+    </string-array>
+
+    <string-array name="pref_amazfitcor_language_values">
+        <item>auto</item>
+        <item>zh_CH</item>
+        <item>zh_TW</item>
+        <item>en_US</item>
+        <item>es_ES</item>
+        <item>ru_RU</item>
     </string-array>
 
     <string-array name="pref_miband3_language">
@@ -373,11 +401,19 @@
         <item name="zh_TW">@string/traditional_chinese</item>
         <item name="en_US">@string/english</item>
         <item name="es_ES">@string/spanish</item>
-        <item name="ru_RU">@string/russian</item>
         <item name="de_DE">@string/german</item>
         <item name="it_IT">@string/italian</item>
         <item name="fr_FR">@string/french</item>
+        <item name="pt_PT">@string/portuguese</item>
+        <item name="nl_NL">@string/dutch</item>
         <item name="pl_PL">@string/polish</item>
+        <item name="tr_TR">@string/turkish</item>
+        <item name="ru_RU">@string/russian</item>
+        <item name="uk_UA">@string/ukrainian</item>
+        <item name="ar_SA">@string/arabic</item>
+        <item name="id_ID">@string/indonesian</item>
+        <item name="th_TH">@string/thai</item>
+        <item name="vi_VN">@string/vietnamese</item>
         <item name="ja_JP">@string/japanese</item>
         <item name="ko_KO">@string/korean</item>
     </string-array>
@@ -388,11 +424,19 @@
         <item>zh_TW</item>
         <item>en_US</item>
         <item>es_ES</item>
-        <item>ru_RU</item>
         <item>de_DE</item>
         <item>it_IT</item>
         <item>fr_FR</item>
+        <item>pt_PT</item>
+        <item>nl_NL</item>
         <item>pl_PL</item>
+        <item>tr_TR</item>
+        <item>ru_RU</item>
+        <item>uk_UA</item>
+        <item>ar_SA</item>
+        <item>id_ID</item>
+        <item>th_TH</item>
+        <item>vi_VN</item>
         <item>ja_JP</item>
         <item>ko_KO</item>
     </string-array>

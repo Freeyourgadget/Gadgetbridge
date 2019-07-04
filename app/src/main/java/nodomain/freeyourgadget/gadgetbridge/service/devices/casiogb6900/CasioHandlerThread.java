@@ -33,7 +33,6 @@ public class CasioHandlerThread extends GBDeviceIoThread {
     private boolean mQuit = false;
     private CasioGB6900DeviceSupport mDeviceSupport;
     private final Object waitObject = new Object();
-    //private CasioGATTServer mServer = null;
 
     private int TX_PERIOD = 60;
 
@@ -43,20 +42,12 @@ public class CasioHandlerThread extends GBDeviceIoThread {
         super(gbDevice, context);
         LOG.info("Initializing Casio Handler Thread");
         mQuit = false;
-        //mServer = new CasioGATTServer(context, deviceSupport);
         mDeviceSupport = deviceSupport;
     }
 
     @Override
     public void run() {
         mQuit = false;
-
-        /*
-        if(!mServer.initialize()) {
-            LOG.error("Error initializing CasioGATTServer. Has the context been set?");
-            return;
-        }
-        */
 
         long waitTime = TX_PERIOD * 1000;
         while (!mQuit) {

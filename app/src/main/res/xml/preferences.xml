@@ -202,6 +202,11 @@
             android:key="notification_mode_calls"
             android:title="@string/pref_title_notifications_call"
             android:summary="%s" />
+        <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
+            android:defaultValue="false"
+            android:key="notification_support_voip_calls"
+            android:title="@string/pref_title_support_voip_calls" />
 
         <ListPreference
             android:defaultValue="when_screen_off"
@@ -269,77 +274,6 @@
             android:icon="@drawable/ic_device_miband"
             android:key="pref_key_miband"
             android:title="@string/preferences_miband_settings" />
-        <PreferenceScreen
-            android:icon="@drawable/ic_device_miband2"
-            android:title="@string/preferences_miband2_settings">
-            <CheckBoxPreference
-            android:layout="@layout/preference_checkbox"
-                android:defaultValue="true"
-                android:key="mi2_enable_text_notifications"
-                android:summaryOn="@string/mi2_enable_text_notifications_summary"
-                android:summaryOff="@string/off"
-                android:title="@string/mi2_enable_text_notifications" />
-            <ListPreference
-                android:defaultValue="@string/p_dateformat_time"
-                android:entries="@array/mi2_dateformats"
-                android:entryValues="@array/mi2_dateformats_values"
-                android:key="mi2_dateformat"
-                android:title="@string/miband2_prefs_dateformat"
-                android:summary="%s" />
-            <MultiSelectListPreference
-                android:dialogTitle="@string/mi2_prefs_display_items"
-                android:defaultValue="@array/pref_mi2_display_items_default"
-                android:entries="@array/pref_mi2_display_items"
-                android:entryValues="@array/pref_mi2_display_items_values"
-                android:key="mi2_display_items"
-                android:summary="@string/mi2_prefs_display_items_summary"
-                android:title="@string/mi2_prefs_display_items"/>
-        </PreferenceScreen>
-
-        <PreferenceScreen
-            android:icon="@drawable/ic_device_miband2"
-            android:title="@string/preferences_miband3_settings">
-            <ListPreference
-                android:defaultValue="auto"
-                android:entries="@array/pref_miband3_language"
-                android:entryValues="@array/pref_miband3_language_values"
-                android:key="miband3_language"
-                android:summary="%s"
-                android:title="@string/pref_title_language" />
-            <CheckBoxPreference
-            android:layout="@layout/preference_checkbox"
-                android:defaultValue="false"
-                android:key="mi3_band_screen_unlock"
-                android:summary="@string/mi3_prefs_band_screen_unlock_summary"
-                android:title="@string/mi3_prefs_band_screen_unlock" />
-            <MultiSelectListPreference
-                android:dialogTitle="@string/mi2_prefs_display_items"
-                android:defaultValue="@array/pref_miband3_display_items_default"
-                android:entries="@array/pref_miband3_display_items"
-                android:entryValues="@array/pref_miband3_display_items_values"
-                android:key="miband3_display_items"
-                android:summary="@string/mi2_prefs_display_items_summary"
-                android:title="@string/mi2_prefs_display_items"/>
-            <PreferenceScreen
-                android:persistent="false"
-                android:title="@string/mi3_prefs_night_mode"
-                android:summary="@string/mi3_prefs_night_mode_summary">
-
-                <!-- workaround for missing toolbar -->
-                <PreferenceCategory android:title="@string/mi3_prefs_night_mode" />
-
-                <ListPreference
-                    android:defaultValue="@string/p_off"
-                    android:entries="@array/mi3_night_mode"
-                    android:entryValues="@array/mi3_night_mode_values"
-                    android:key="mi3_night_mode"
-                    android:summary="%s"
-                    android:title="@string/mi3_prefs_night_mode" />
-
-                <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
-                    android:defaultValue="16:00"
-                    android:key="mi3_night_mode_start"
-                    android:title="@string/mi2_prefs_do_not_disturb_start" />
 
                 <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
                     android:defaultValue="7:00"

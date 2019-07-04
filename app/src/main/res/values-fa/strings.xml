@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">گجت‌بریج</string>
+    <string name="title_activity_controlcenter">گجت‌بریج</string>
+    <string name="action_settings">تنظیمات</string>
+    <string name="action_debug">اشکال‌زدایی</string>
+    <string name="action_quit">خروج</string>
+    <string name="action_donate">اهدای کمک مالی</string>
+    <string name="controlcenter_fetch_activity_data">همگام‌سازی</string>
+    <string name="controlcenter_find_device">پیدا کردن دستگاه گم شده</string>
+    <string name="controlcenter_take_screenshot">گرفتن عکس از صفحه نمایش</string>
+    <string name="controlcenter_change_led_color">تغییر رنگ ال‌ای‌دی</string>
+    <string name="controlcenter_change_fm_frequency">تغییر فرکانس رادیو اف‌ام</string>
+    <string name="controlcenter_connect">اتصال…</string>
+    <string name="controlcenter_disconnect">قطع</string>
+    <string name="controlcenter_delete_device">پاک کردن دستگاه</string>
+    <string name="controlcenter_delete_device_name">پاک کردن %1$‌ها</string>
+    <string name="controlcenter_delete_device_dialogmessage">این اقدام دستگاه و تمام اطلاعات مربوط را پاک خواهد کرد!</string>
+    <string name="controlcenter_navigation_drawer_open">باز کردن نوار منو</string>
+    <string name="controlcenter_navigation_drawer_close">بستن نوار منو</string>
+    <string name="controlcenter_snackbar_need_longpress">روی نوار طولانی فشار دهید تا قطع شود</string>
+    <string name="controlcenter_snackbar_disconnecting">در حال قطع</string>
+    <string name="controlcenter_snackbar_connecting">در حال اتصال…</string>
+    <string name="controlcenter_snackbar_requested_screenshot">گرفتن عکس از صفحه نمایش دستگاه</string>
+    <string name="controlcenter_calibrate_device">کالیبره کردن دستگاه</string>
+    <string name="title_activity_debug">اشکال‌زدایی</string>
+    <string name="debugactivity_really_factoryreset_title">آیا از بازنشانی دستگاه به حالت کارخانه مطمئنید؟</string>
+    <string name="debugactivity_really_factoryreset">انجام دادن بازنشانی به نسخه‌ی کارخانه تمام اطلاعات دستگاه‌های متصل را پاک خواهد کرد (اگر دستگاه این فرمان را پشتیبانی کند). کد MAC address بلوتوث دستگاه‌های Xiaomi/Huami هم تغییر خواهد کرد و به صورت دستگاه جدید در گجت‌بریج شناسایی خواهند شد.</string>
+    <string name="title_activity_appmanager">مدیر برنامه</string>
+    <string name="appmanager_cached_watchapps_watchfaces">برنامه‌های درون حافظه‌ی پنهان (cache)</string>
+    <string name="appmanager_installed_watchapps">برنامه‌های نصب شده</string>
+    <string name="appmanager_installed_watchfaces">نمایه‌های ساعت نصب شده</string>
+    <string name="appmananger_app_delete">پاک کردن</string>
+    <string name="appmananger_app_delete_cache">پاک کردن و حذف از حافظه‌ی پنهان (cache)</string>
+    <string name="appmananger_app_reinstall">بازنصب</string>
+    <string name="appmanager_app_openinstore">جستجو در فروشگاه اپ Pebble</string>
+    <string name="appmanager_health_activate">فعال‌سازی</string>
+    <string name="appmanager_health_deactivate">غیرفعال‌سازی</string>
+    <string name="appmanager_hrm_activate">فعال‌سازی ضربان‌سنج (HRM)</string>
+    <string name="appmanager_hrm_deactivate">غیرفعال‌سازی ضربان‌سنج (HRM)</string>
+    <string name="appmanager_weather_activate">فعال‌سازی برنامه‌ی هواشناسی سیستم</string>
+    <string name="appmanager_weather_deactivate">غیرفعال‌سازی برنامه‌ی هواشناسی سیستم</string>
+    <string name="appmanager_weather_install_provider">نصب برنامه‌ی آگاهی (Notification) هواشناسی</string>
+    <string name="app_configure">پیکربندی</string>
+    <string name="app_move_to_top">انتقال به بالا</string>
+    <string name="title_activity_appblacklist">لیست سیاه آکاهی ها (Notification blacklist)</string>
+    <string name="blacklist_all_for_notifications">همه را به لیست سیاه آگاهی‌ها اضافه کن</string>
+    <string name="whitelist_all_for_notifications">همه را از لیست سیاه آگاهی خارج کن</string>
+    <string name="title_activity_calblacklist">رخدادهای درون لیست سیاه</string>
+    <string name="title_activity_fw_app_insaller">نصب کننده‌ی فرم‌ویر (FW)/برنامه</string>
+    <string name="fw_upgrade_notice">شما در حال نصب فرمویر %s به جای نسخه‌ی نصب شده برروی دستگاه Mi Band خود هستید.</string>
+    <string name="fw_upgrade_notice_amazfitbip">شما در حال نصب فرمویر %s به جای نسخه‌ی نصب شده برروی دستگاه Amazfit Bip خود هستید.
+\n
+\nلطفا مطمئن شوید که ابتدا فایل .fw، سپس فایل .res و در انتها فایل .gps را نصب کنید. دستگاه شما پس از نصب فایل .fw راه‌اندازی مجدد می‌شود.
+\n
+\nنکته: شما مجبور به نصب فایل‌های .res و .gps نیستید اگر آنها با فایل‌هایی که قبلا نصب شده‌اند یکی هستند.
+\n
+\nبا مسئولیت خودتان این کار را انجام می‌دهید!</string>
+    <string name="fw_upgrade_notice_amazfitcor">شما در حال نصب فرمویر %s به جای نسخه‌ی نصب شده برروی دستگاه Amazfit Cor خود هستید.
+\n
+\nلطفا مطمئن شوید که ابتدا فایل .fw، سپس فایل .res و در انتها فایل .gps را نصب کنید. دستگاه شما پس از نصب فایل .fw راه‌اندازی مجدد می‌شود.
+\n
+\nنکته: شما مجبور به نصب فایل‌های .res و .gps نیستید اگر آنها با فایل‌هایی که قبلا نصب شده‌اند یکی هستند.
+\n
+\nبا مسئولیت خودتان این کار را انجام می‌دهید!</string>
+    <string name="fw_upgrade_notice_miband3">شما در حال نصب فرمویر %s به جای نسخه‌ی نصب شده برروی دستگاه Mi Band 3 خود هستید.
+\n
+\nلطفا مطمئن شوید که ابتدا فایل .fw، سپس فایل .res و در انتها فایل .gps را نصب کنید. دستگاه شما پس از نصب فایل .fw راه‌اندازی مجدد می‌شود.
+\n
+\nنکته: شما مجبور به نصب فایل‌های .res و .gps نیستید اگر آنها با فایل‌هایی که قبلا نصب شده‌اند یکی هستند.
+\n
+\nبا مسئولیت خودتان این کار را انجام می‌دهید!</string>
+    <string name="fw_multi_upgrade_notice">شما در حال نصب فرمویر %1$s و %2$s به جای نسخه‌های نصب شده برروی دستگاه Mi Band خود هستید.</string>
+    <string name="miband_firmware_known">این نسخه‌ی فرمویر تست شده و با گجت‌بریج سازگار است.</string>
+    <string name="miband_firmware_unknown_warning">این فرمویر تست نشده و ممکن است با گجت‌بریج سازگار نباشد.
+\n
+\nنصب این نسخه روی Mi Band پیشنهاد نمی‌شود!</string>
+    <string name="miband_firmware_suggest_whitelist">اگر همچنان مایل به نصب هستید و بعد از نصب همه چیز درست کار کرد، لطفا به توسعه‌دهنده‌های گجت‌بریج اطلاع دهید تا فرمویر %s را به لیست سفید اضافه کنند.</string>
+    <string name="title_activity_settings">تنظیمات</string>
+    <string name="pref_header_general">تنظیمات عمومی</string>
+    <string name="pref_title_general_autoconnectonbluetooth">اتصال به گجت‌بریج وقتی که بلوتوث روشن است</string>
+    <string name="pref_title_general_autostartonboot">راه‌اندازی اتوماتیک</string>
+    <string name="pref_title_general_autoreconnect">اتصال‌مجدد اتوماتیک</string>
+    <string name="pref_title_audio_player">پخش کننده‌ی موسیقی مورد علاقه</string>
+    <string name="pref_default">پیش‌فرض</string>
+    <string name="pref_title_charts_swipe">فعال سازی امکان کشیدن به چپ/راست در قسمت نمودارهای برنامه</string>
+    <string name="pref_header_datetime">تاریخ و ساعت</string>
+    <string name="pref_title_datetime_syctimeonconnect">همزمان‌سازی ساعت</string>
+    <string name="pref_summary_datetime_syctimeonconnect">همزمان‌سازی ساعت با گجت‌بریج وقتی متصل می‌شود و همچنین وقتی موقعیت زمانی برروی گوشی تغییر می‌کند</string>
+    <string name="pref_title_theme">پوسته</string>
+    <string name="pref_theme_light">روشن</string>
+    <string name="pref_theme_dark">تاریک</string>
+    <string name="pref_title_language">زبان</string>
+    <string name="pref_title_minimize_priority">مخفی کردن اعلان گجت‌بریج</string>
+    <string name="pref_summary_minimize_priority_off">آیکون برنامه در نوار اعلان‌ها و صفحه‌ی قفل نشان داده می‌شود</string>
+    <string name="pref_summary_minimize_priority_on">آیکون برنامه در نوار اعلان‌ها و صفحه‌ی قفل نشان داده نمی‌شود</string>
+    <string name="pref_header_notifications">اعلان‌ها</string>
+    <string name="pref_title_notifications_repetitions">تکرار</string>
+    <string name="pref_title_notifications_call">تماس تلفنی</string>
+    <string name="pref_title_support_voip_calls">فعال‌سازی VoIP بوسیله‌ی برنامه‌ها</string>
+    <string name="pref_title_notifications_sms">پیامک</string>
+    <string name="pref_title_notifications_timeout">حداقل زمان بین اعلان‌ها</string>
+    <string name="pref_title_notifications_pebblemsg">پیام‌های Pebble</string>
+    <string name="pref_summary_notifications_pebblemsg">پشتیبانی از برنامه‌هایی که به Pebble بوسیله‌ی PebbleKit پیام می‌فرستند.</string>
+    <string name="pref_title_notifications_generic">پشتیبانی از اعلان‌های عمومی</string>
+    <string name="pref_title_whenscreenon">...همچنین وقتی صفحه‌ی نمایش روشن است</string>
+    <string name="pref_title_notification_filter">حالت مزاحم نشوید</string>
+    <string name="pref_summary_notification_filter">اعلان‌های ناخواسته در این حالت غیرفعال می‌شوند</string>
+    <string name="pref_title_transliteration">نویسه‌گردانی (Transliteration، برای نمایش انگلیسی حروف فارسی و عربی)</string>
+    <string name="pref_summary_transliteration">این حالت را فعال کنید اگر دستگاه شما حروف زبانتان را پشتیبانی نمی‌کند</string>
+    <string name="pref_title_rtl">راست-به-چپ</string>
+    <string name="pref_summary_rtl">این گزینه را اگر دستگاهتان راست‌چین را پشتیبانی نمی‌کند فعال کنید</string>
+    <string name="pref_rtl_max_line_length">بیشترین طول خط راست-به-چپ</string>
+    <string name="pref_rtl_max_line_length_summary">خطوط راست-به-چپ را کوتاه و بلند می‌کند</string>
+    <string name="always">همیشه</string>
+    <string name="when_screen_off">وقتی صفحه نمایش خاموش است</string>
+    <string name="never">هرگز</string>
+    <string name="pref_header_privacy">حریم شخصی</string>
+    <string name="pref_title_call_privacy_mode">حالت حریم شخصی تماس تلفنی</string>
+    <string name="pref_call_privacy_mode_off">نمایش نام و شماره</string>
+    <string name="pref_call_privacy_mode_name">مخفی کردن نام ولی نمایش شماره</string>
+    <string name="pref_call_privacy_mode_number">مخفی کردن شماره ولی نمایش نام</string>
+    <string name="pref_call_privacy_mode_complete">مخفی کردن شماره و نام</string>
+    <string name="pref_title_weather">هواشناسی</string>
+    <string name="pref_title_weather_location">مکان تعیین شده برای هواشناسی (CM/LOS)</string>
+    <string name="pref_blacklist">اضافه کردن برنامه‌ها به لیست سیاه</string>
+</resources>

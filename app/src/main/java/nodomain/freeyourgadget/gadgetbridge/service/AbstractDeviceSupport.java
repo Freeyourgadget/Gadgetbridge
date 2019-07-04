@@ -198,6 +198,13 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     private void handleGBDeviceEvent(GBDeviceEventCallControl callEvent) {
         Context context = getContext();
         LOG.info("Got event for CALL_CONTROL");
+        if(callEvent.event == GBDeviceEventCallControl.Event.IGNORE) {
+            LOG.info("Sending intent for mute");
+            Intent broadcastIntent = new Intent("nodomain.freeyourgadget.gadgetbridge.MUTE_CALL");
+            broadcastIntent.setPackage(context.getPackageName());
+            context.sendBroadcast(broadcastIntent);
+            return;
+        }
         Intent callIntent = new Intent(GBCallControlReceiver.ACTION_CALLCONTROL);
         callIntent.putExtra("event", callEvent.event.ordinal());
         callIntent.setPackage(context.getPackageName());

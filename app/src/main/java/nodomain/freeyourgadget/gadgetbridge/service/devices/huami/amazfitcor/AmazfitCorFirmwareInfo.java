@@ -51,8 +51,8 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(64977, "RES 1.0.6.76");
         crcToVersion.put(60501, "RES 1.0.7.52-71");
         crcToVersion.put(31263, "RES 1.0.7.77-91");
-        crcToVersion.put(20920, "RES 1.2.5.00-65");
-        crcToVersion.put(25397, "RES 1.2.7.20-69");
+        crcToVersion.put(20920, "RES 1.2.5.00-69");
+        crcToVersion.put(25397, "RES 1.2.7.20");
 
         // font
         crcToVersion.put(61054, "8");
@@ -65,12 +65,6 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
 
     @Override
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
-        if (ArrayUtils.startsWith(bytes, RES_HEADER)) {
-            if (bytes.length < 700000) { // dont know how to distinguish from Bip .res
-                return HuamiFirmwareType.INVALID;
-            }
-            return HuamiFirmwareType.RES;
-        }
         if (ArrayUtils.equals(bytes, RES_HEADER, COMPRESSED_RES_HEADER_OFFSET) || ArrayUtils.equals(bytes, NEWRES_HEADER, COMPRESSED_RES_HEADER_OFFSET)) {
             return HuamiFirmwareType.RES_COMPRESSED;
         }
@@ -89,6 +83,9 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
             } else if (bytes[10] == 0x02) {
                 return HuamiFirmwareType.FONT_LATIN;
             }
+        }
+        if (ArrayUtils.startsWith(bytes, RES_HEADER)) {
+            return HuamiFirmwareType.RES;
         }
         return HuamiFirmwareType.INVALID;
     }

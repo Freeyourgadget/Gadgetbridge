@@ -42,6 +42,8 @@ import android.provider.ContactsContract.PhoneLookup;
 import android.util.Log;
 import android.util.TypedValue;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
@@ -52,17 +54,19 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothStateChangeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.NotificationCollectorMonitorService;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -71,6 +75,13 @@ import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITBIP;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITCOR;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITCOR2;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND2;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND3;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.fromKey;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
 
 /**
@@ -88,7 +99,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 2;
+    private static final int CURRENT_PREFS_VERSION = 4;
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
     private static GBPrefs gbPrefs;
@@ -183,9 +194,9 @@ public class GBApplication extends Application {
         if (isRunningMarshmallowOrLater()) {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             //the following will ensure the notification manager is kept alive
-            if(isRunningOreoOrLater()) {
+            if (isRunningOreoOrLater()) {
                 NotificationChannel channel = notificationManager.getNotificationChannel(NOTIFICATION_CHANNEL_ID);
-                if(channel == null) {
+                if (channel == null) {
                     channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
                             getString(R.string.notification_channel_name),
                             NotificationManager.IMPORTANCE_LOW);
@@ -228,7 +239,7 @@ public class GBApplication extends Application {
         logging.setupLogging(enabled);
     }
 
-    public static String getLogPath(){
+    public static String getLogPath() {
         return logging.getLogPath();
     }
 
@@ -316,11 +327,12 @@ public class GBApplication extends Application {
     public static boolean isRunningMarshmallowOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
+
     public static boolean isRunningNougatOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.N;
     }
 
-    public static boolean isRunningOreoOrLater(){
+    public static boolean isRunningOreoOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.O;
     }
 
@@ -481,14 +493,14 @@ public class GBApplication extends Application {
         saveAppsPebbleBlackList();
     }
 
-public static String packageNameToPebbleMsgSender(String packageName) {
-    if ("eu.siacs.conversations".equals(packageName)){
-        return("Conversations");
-    } else if ("net.osmand.plus".equals(packageName)) {
-        return("OsmAnd");
+    public static String packageNameToPebbleMsgSender(String packageName) {
+        if ("eu.siacs.conversations".equals(packageName)) {
+            return ("Conversations");
+        } else if ("net.osmand.plus".equals(packageName)) {
+            return ("OsmAnd");
+        }
+        return packageName;
     }
-    return packageName;
-}
 
     private static HashSet<String> calendars_blacklist = null;
 
@@ -581,45 +593,182 @@ public static String packageNameToPebbleMsgSender(String packageName) {
 
     private void migratePrefs(int oldVersion) {
         SharedPreferences.Editor editor = sharedPrefs.edit();
-        switch (oldVersion) {
-            case 0:
-                String legacyGender = sharedPrefs.getString("mi_user_gender", null);
-                String legacyHeight = sharedPrefs.getString("mi_user_height_cm", null);
-                String legacyWeight = sharedPrefs.getString("mi_user_weight_kg", null);
-                String legacyYOB = sharedPrefs.getString("mi_user_year_of_birth", null);
-                if (legacyGender != null) {
-                    int gender = "male".equals(legacyGender) ? 1 : "female".equals(legacyGender) ? 0 : 2;
-                    editor.putString(ActivityUser.PREF_USER_GENDER, Integer.toString(gender));
-                    editor.remove("mi_user_gender");
-                }
-                if (legacyHeight != null) {
-                    editor.putString(ActivityUser.PREF_USER_HEIGHT_CM, legacyHeight);
-                    editor.remove("mi_user_height_cm");
-                }
-                if (legacyWeight != null) {
-                    editor.putString(ActivityUser.PREF_USER_WEIGHT_KG, legacyWeight);
-                    editor.remove("mi_user_weight_kg");
-                }
-                if (legacyYOB != null) {
-                    editor.putString(ActivityUser.PREF_USER_YEAR_OF_BIRTH, legacyYOB);
-                    editor.remove("mi_user_year_of_birth");
-                }
-                editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
-                break;
-            case 1:
-                //migrate the integer version of gender introduced in version 1 to a string value, needed for the way Android accesses the shared preferences
-                int legacyGender_1 = 2;
-                try {
-                    legacyGender_1 = sharedPrefs.getInt(ActivityUser.PREF_USER_GENDER, 2);
-                } catch (Exception e) {
-                    Log.e(TAG, "Could not access legacy activity gender", e);
-                }
-                editor.putString(ActivityUser.PREF_USER_GENDER, Integer.toString(legacyGender_1));
-                //also silently migrate the version to a string value
-                editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
-                break;
+        if (oldVersion == 0) {
+            String legacyGender = sharedPrefs.getString("mi_user_gender", null);
+            String legacyHeight = sharedPrefs.getString("mi_user_height_cm", null);
+            String legacyWeight = sharedPrefs.getString("mi_user_weight_kg", null);
+            String legacyYOB = sharedPrefs.getString("mi_user_year_of_birth", null);
+            if (legacyGender != null) {
+                int gender = "male".equals(legacyGender) ? 1 : "female".equals(legacyGender) ? 0 : 2;
+                editor.putString(ActivityUser.PREF_USER_GENDER, Integer.toString(gender));
+                editor.remove("mi_user_gender");
+            }
+            if (legacyHeight != null) {
+                editor.putString(ActivityUser.PREF_USER_HEIGHT_CM, legacyHeight);
+                editor.remove("mi_user_height_cm");
+            }
+            if (legacyWeight != null) {
+                editor.putString(ActivityUser.PREF_USER_WEIGHT_KG, legacyWeight);
+                editor.remove("mi_user_weight_kg");
+            }
+            if (legacyYOB != null) {
+                editor.putString(ActivityUser.PREF_USER_YEAR_OF_BIRTH, legacyYOB);
+                editor.remove("mi_user_year_of_birth");
+            }
         }
+        if (oldVersion < 2) {
+            //migrate the integer version of gender introduced in version 1 to a string value, needed for the way Android accesses the shared preferences
+            int legacyGender_1 = 2;
+            try {
+                legacyGender_1 = sharedPrefs.getInt(ActivityUser.PREF_USER_GENDER, 2);
+            } catch (Exception e) {
+                Log.e(TAG, "Could not access legacy activity gender", e);
+            }
+            editor.putString(ActivityUser.PREF_USER_GENDER, Integer.toString(legacyGender_1));
+        }
+        if (oldVersion < 3) {
+            try (DBHandler db = acquireDB()) {
+                DaoSession daoSession = db.getDaoSession();
+                List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+                for (Device dbDevice : activeDevices) {
+                    SharedPreferences.Editor deviceSharedPrefsEdit = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier()).edit();
+                    if (sharedPrefs != null) {
+                        String preferenceKey = dbDevice.getIdentifier() + "_lastSportsActivityTimeMillis";
+                        long lastSportsActivityTimeMillis = sharedPrefs.getLong(preferenceKey, 0);
+                        if (lastSportsActivityTimeMillis != 0) {
+                            deviceSharedPrefsEdit.putLong("lastSportsActivityTimeMillis", lastSportsActivityTimeMillis);
+                            editor.remove(preferenceKey);
+                        }
+                        preferenceKey = dbDevice.getIdentifier() + "_lastSyncTimeMillis";
+                        long lastSyncTimeMillis = sharedPrefs.getLong(preferenceKey, 0);
+                        if (lastSyncTimeMillis != 0) {
+                            deviceSharedPrefsEdit.putLong("lastSyncTimeMillis", lastSyncTimeMillis);
+                            editor.remove(preferenceKey);
+                        }
+
+                        String newLanguage = null;
+                        Set<String> displayItems = null;
+
+                        DeviceType deviceType = fromKey(dbDevice.getType());
+
+                        if (deviceType == AMAZFITBIP || deviceType == AMAZFITCOR || deviceType == AMAZFITCOR2) {
+                            int oldLanguage = prefs.getInt("amazfitbip_language", -1);
+                            newLanguage = "auto";
+                            String[] oldLanguageLookup = {"zh_CN", "zh_TW", "en_US", "es_ES", "ru_RU", "de_DE", "it_IT", "fr_FR", "tr_TR"};
+                            if (oldLanguage >= 0 && oldLanguage < oldLanguageLookup.length) {
+                                newLanguage = oldLanguageLookup[oldLanguage];
+                            }
+                        }
+
+                        if (deviceType == AMAZFITBIP || deviceType == AMAZFITCOR) {
+                            deviceSharedPrefsEdit.putString("disconnect_notification", prefs.getString("disconnect_notification", "off"));
+                            deviceSharedPrefsEdit.putString("disconnect_notification_start", prefs.getString("disconnect_notification_start", "8:00"));
+                            deviceSharedPrefsEdit.putString("disconnect_notification_end", prefs.getString("disconnect_notification_end", "22:00"));
+                        }
+                        if (deviceType == MIBAND2 || deviceType == MIBAND3) {
+                            deviceSharedPrefsEdit.putString("do_not_disturb", prefs.getString("mi2_do_not_disturb", "off"));
+                            deviceSharedPrefsEdit.putString("do_not_disturb_start", prefs.getString("mi2_do_not_disturb_start", "1:00"));
+                            deviceSharedPrefsEdit.putString("do_not_disturb_end", prefs.getString("mi2_do_not_disturb_end", "6:00"));
+                        }
+                        if (dbDevice.getManufacturer().equals("Huami")) {
+                            deviceSharedPrefsEdit.putString("activate_display_on_lift_wrist", prefs.getString("activate_display_on_lift_wrist", "off"));
+                            deviceSharedPrefsEdit.putString("display_on_lift_start", prefs.getString("display_on_lift_start", "0:00"));
+                            deviceSharedPrefsEdit.putString("display_on_lift_end", prefs.getString("display_on_lift_end", "0:00"));
+                        }
+                        switch (deviceType) {
+                            case MIBAND:
+                                deviceSharedPrefsEdit.putBoolean("low_latency_fw_update", prefs.getBoolean("mi_low_latency_fw_update", true));
+                                deviceSharedPrefsEdit.putInt("device_time_offset_hours", prefs.getInt("mi_device_time_offset_hours", 0));
+                                break;
+                            case AMAZFITCOR:
+                                displayItems = prefs.getStringSet("cor_display_items", null);
+                                break;
+                            case AMAZFITBIP:
+                                displayItems = prefs.getStringSet("bip_display_items", null);
+                                break;
+                            case MIBAND2:
+                                displayItems = prefs.getStringSet("mi2_display_items", null);
+                                deviceSharedPrefsEdit.putBoolean("mi2_enable_text_notifications", prefs.getBoolean("mi2_enable_text_notifications", true));
+                                deviceSharedPrefsEdit.putString("mi2_dateformat", prefs.getString("mi2_dateformat", "dateformat_time"));
+                                deviceSharedPrefsEdit.putBoolean("rotate_wrist_to_cycle_info", prefs.getBoolean("mi2_rotate_wrist_to_switch_info", false));
+                                break;
+                            case MIBAND3:
+                                newLanguage = prefs.getString("miband3_language", "auto");
+                                displayItems = prefs.getStringSet("miband3_display_items", null);
+                                deviceSharedPrefsEdit.putBoolean("swipe_unlock", prefs.getBoolean("mi3_band_screen_unlock", false));
+                                deviceSharedPrefsEdit.putString("night_mode", prefs.getString("mi3_night_mode", "off"));
+                                deviceSharedPrefsEdit.putString("night_mode_start", prefs.getString("mi3_night_mode_start", "16:00"));
+                                deviceSharedPrefsEdit.putString("night_mode_end", prefs.getString("mi3_night_mode_end", "7:00"));
+
+                        }
+                        if (displayItems != null) {
+                            deviceSharedPrefsEdit.putStringSet("display_items", displayItems);
+                        }
+                        if (newLanguage != null) {
+                            deviceSharedPrefsEdit.putString("language", newLanguage);
+                        }
+                    }
+
+                    deviceSharedPrefsEdit.apply();
+                }
+                editor.remove("amazfitbip_language");
+                editor.remove("bip_display_items");
+                editor.remove("cor_display_items");
+                editor.remove("disconnect_notification");
+                editor.remove("disconnect_notification_start");
+                editor.remove("disconnect_notification_end");
+                editor.remove("activate_display_on_lift_wrist");
+                editor.remove("display_on_lift_start");
+                editor.remove("display_on_lift_end");
+
+                editor.remove("mi_low_latency_fw_update");
+                editor.remove("mi_device_time_offset_hours");
+                editor.remove("mi2_do_not_disturb");
+                editor.remove("mi2_do_not_disturb_start");
+                editor.remove("mi2_do_not_disturb_end");
+                editor.remove("mi2_dateformat");
+                editor.remove("mi2_display_items");
+                editor.remove("mi2_rotate_wrist_to_switch_info");
+                editor.remove("mi2_enable_text_notifications");
+                editor.remove("mi3_band_screen_unlock");
+                editor.remove("mi3_night_mode");
+                editor.remove("mi3_night_mode_start");
+                editor.remove("mi3_night_mode_end");
+                editor.remove("miband3_language");
+
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
+        if (oldVersion < 4) {
+            try (DBHandler db = acquireDB()) {
+                DaoSession daoSession = db.getDaoSession();
+                List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+                for (Device dbDevice : activeDevices) {
+                    SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                    SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
+                    DeviceType deviceType = fromKey(dbDevice.getType());
+
+                    if (deviceType == MIBAND) {
+                        int deviceTimeOffsetHours = deviceSharedPrefs.getInt("device_time_offset_hours",0);
+                        deviceSharedPrefsEdit.putString("device_time_offset_hours", Integer.toString(deviceTimeOffsetHours) );
+                    }
+
+                    deviceSharedPrefsEdit.apply();
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
+        editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
         editor.apply();
+    }
+
+    public static SharedPreferences getDeviceSpecificSharedPrefs(String deviceIdentifier) {
+        if (deviceIdentifier == null || deviceIdentifier.isEmpty()) {
+            return null;
+        }
+        return context.getSharedPreferences("devicesettings_" + deviceIdentifier, Context.MODE_PRIVATE);
     }
 
     public static void setLanguage(String lang) {

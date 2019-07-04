@@ -1,3 +1,6 @@
+**IF YOU WANT TO EDIT THE WIKI**, do so on [codeberg.org](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki)
+The wiki on github.com is a read-only mirror, as is the git repo itself. Issues and PRs will move to codeberg summer 2019, if you want your issue/PR comments migrated properly, please create a codeberg acount before we will migrate.
+
 Gadgetbridge
 ============
 
@@ -29,6 +32,8 @@ vendor's servers.
 ## Supported Devices
 * Amazfit Bip [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
 * Amazfit Cor [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor)
+* Amazfit Cor 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor2)
+* BFH-16
 * Casio GB-6900B (WIP)
 * HPlus Devices (e.g. ZeBand) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
 * ID115 (WIP)
@@ -37,6 +42,7 @@ vendor's servers.
 * Mi Band, Mi Band 1A, Mi Band 1S [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band)
 * Mi Band 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2)
 * Mi Band 3 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-3)
+* Mi Scale 2 (currently only displays a toast after stepping on the scale)
 * NO.1 F1 (WIP)
 * Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
 * Pebble 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
@@ -101,6 +107,8 @@ Please [this wiki article](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki
 * Vadim Kaushan (ID115)
 * "maxirnilian" (Lenovo Watch 9)
 * Andreas Böhler (Casio GB-6900B)
+* Jean-François Greffier (Mi Scale 2)
+* Johannes Schmitt (BFH-16)
 
 ## Contribute
 
@@ -116,6 +124,7 @@ Feel free to open an issue on our issue tracker, but please:
 - do not use the issue tracker as a forum, do not ask for ETAs and read the issue conversation before posting
 - use the search functionality to ensure that your question wasn't already answered. Don't forget to check the **closed** issues as well!
 - remember that this is a community project, people are contributing in their free time because they like doing so: don't take the fun away! Be kind and constructive.
+- Do not ask for help regarding your own projects, unless they are Gadgetbridge related
 
 ## Having problems?
 

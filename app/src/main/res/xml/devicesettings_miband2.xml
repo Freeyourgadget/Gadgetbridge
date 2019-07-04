@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <MultiSelectListPreference
+        android:defaultValue="@array/pref_mi2_display_items_default"
+        android:dialogTitle="@string/mi2_prefs_display_items"
+        android:entries="@array/pref_mi2_display_items"
+        android:entryValues="@array/pref_mi2_display_items_values"
+        android:icon="@drawable/ic_widgets"
+        android:key="display_items"
+        android:summary="@string/mi2_prefs_display_items_summary"
+        android:title="@string/mi2_prefs_display_items" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_font_download"
+        android:key="mi2_enable_text_notifications"
+        android:layout="@layout/preference_checkbox"
+        android:summary="@string/mi2_enable_text_notifications_summary"
+        android:title="@string/mi2_enable_text_notifications" />
+
+    <ListPreference
+        android:defaultValue="@string/p_dateformat_time"
+        android:icon="@drawable/ic_access_time"
+        android:entries="@array/mi2_dateformats"
+        android:entryValues="@array/mi2_dateformats_values"
+        android:key="mi2_dateformat"
+        android:summary="%s"
+        android:title="@string/miband2_prefs_dateformat" />
+
+</androidx.preference.PreferenceScreen>

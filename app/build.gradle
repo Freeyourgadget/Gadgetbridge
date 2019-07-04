@@ -24,8 +24,8 @@ android {
         targetSdkVersion 27
 
         // Note: always bump BOTH versionCode and versionName!
-        versionName "0.32.3"
-        versionCode 146
+        versionName "0.34.0"
+        versionCode 150
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
@@ -63,10 +63,12 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation "junit:junit:4.12"
     testImplementation "org.mockito:mockito-core:1.10.19"
-    testImplementation "org.robolectric:robolectric:3.6.1"
+    testImplementation "org.robolectric:robolectric:4.2.1"
+    testImplementation "com.google.code.gson:gson:2.8.5"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "androidx.appcompat:appcompat:1.0.2"
+    implementation "androidx.preference:preference:1.1.0-alpha05"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
@@ -89,7 +91,7 @@ dependencies {
     implementation 'com.twofortyfouram:android-plugin-api-for-locale:[1.0.2,2.0['
 
     implementation "org.greenrobot:greendao:2.2.1"
-    implementation "org.apache.commons:commons-lang3:3.5"
+    implementation "org.apache.commons:commons-lang3:3.7"
     implementation "org.cyanogenmod:platform.sdk:6.0"
     implementation 'com.jaredrummler:colorpicker:1.0.2'
 //    implementation project(":DaoCore")
@@ -137,10 +139,10 @@ task pmd(type: Pmd) {
         xml.enabled = false
         html.enabled = true
         xml {
-            destination "$project.buildDir/reports/pmd/pmd.xml"
+            destination file("$project.buildDir/reports/pmd/pmd.xml")
         }
         html {
-            destination "$project.buildDir/reports/pmd/pmd.html"
+            destination file("$project.buildDir/reports/pmd/pmd.html")
         }
     }
 }
@@ -157,10 +159,10 @@ task findbugs(type: FindBugs) {
         xml.enabled = false
         html.enabled = true
         xml {
-            destination "$project.buildDir/reports/findbugs/findbugs-output.xml"
+            destination file ("$project.buildDir/reports/findbugs/findbugs-output.xml")
         }
         html {
-            destination "$project.buildDir/reports/findbugs/findbugs-output.html"
+            destination file ("$project.buildDir/reports/findbugs/findbugs-output.html")
         }
     }
 }

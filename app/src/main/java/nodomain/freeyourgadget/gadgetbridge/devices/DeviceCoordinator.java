@@ -29,6 +29,7 @@ import java.util.Collection;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsFragment;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
@@ -278,4 +279,9 @@ public interface DeviceCoordinator {
      * Indicates whether the device supports unicode emojis.
      */
     boolean supportsUnicodeEmojis();
+
+    /**
+     * Indicates which device specific settings the device supports (not per device type or family, but unique per device).
+     */
+    int[] getSupportedDeviceSpecificSettings(GBDevice device);
 }
