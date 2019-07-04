@@ -11,8 +11,11 @@ import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.util.SparseArray;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +30,7 @@ import java.util.TimeZone;
 import java.util.UUID;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfig;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -54,6 +58,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Get
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.GetVibrationStrengthRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.ListFilesRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.MoveHandsRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.OTAEnterRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.OTAEraseRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.OTAResetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.PlayNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.ReleaseHandsControlRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
@@ -70,6 +77,7 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
 
 
     private volatile boolean searchDevice = false;
+    private int lastButtonIndex = -1;
 
     public QHybridSupport(Logger logger) {
         super(logger);
@@ -119,7 +127,8 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
                 BatteryLevelRequest.class,
                 GetStepGoalRequest.class,
                 GetVibrationStrengthRequest.class,
-                GetCurrentStepCountRequest.class
+                GetCurrentStepCountRequest.class,
+                OTAEnterRequest.class
         };
         for (Class<? extends Request> c : classes) {
             try {
@@ -137,7 +146,7 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void getTimeOffset(){
+    private void getTimeOffset() {
         timeOffset = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE).getInt("QHYBRID_TIME_OFFSET", 0);
     }
 
@@ -176,7 +185,7 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
 
     private void queueWrite(Request request) {
         new TransactionBuilder(request.getClass().getSimpleName()).write(getCharacteristic(request.getRequestUUID()), request.getRequestData()).queue(getQueue());
-        if(request instanceof FileRequest) this.fileRequest = request;
+        if (request instanceof FileRequest) this.fileRequest = request;
     }
 
     @Override
@@ -437,9 +446,12 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
         //downloadActivityFiles();
         //queueWrite(new GetCurrentStepCountRequest());
         // queueWrite(new EventStreamRequest((short)4));
+        // queueWrite(new OTAEraseRequest(0));
+        // queueWrite(new OTAResetRequest());
+        queueWrite(new OTAEnterRequest());
     }
 
-    private void downloadActivityFiles(){
+    private void downloadActivityFiles() {
         queueWrite(new ListFilesRequest());
     }
 
@@ -448,13 +460,13 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
 
     }
 
-    private void backupFile(DownloadFileRequest request){
+    private void backupFile(DownloadFileRequest request) {
         try {
             File f = new File("/sdcard/qFiles/");
-            if(!f.exists()) f.mkdir();
+            if (!f.exists()) f.mkdir();
 
             File file = new File("/sdcard/qFiles/" + request.timeStamp);
-            if(file.exists()){
+            if (file.exists()) {
                 throw new Exception("file " + file.getPath() + " exists");
             }
             logger.debug("Writing file " + file.getPath());
@@ -468,11 +480,11 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
             fos2.write(("file " + request.timeStamp + " cut\n\n").getBytes());
             fos2.close();
 
-            queueWrite(new EraseFileRequest((short)request.fileHandle));
-        }catch (Exception e){
+            queueWrite(new EraseFileRequest((short) request.fileHandle));
+        } catch (Exception e) {
             e.printStackTrace();
-            if(request.fileHandle > 257){
-                queueWrite(new DownloadFileRequest((short)(request.fileHandle - 1)));
+            if (request.fileHandle > 257) {
+                queueWrite(new DownloadFileRequest((short) (request.fileHandle - 1)));
             }
         }
 
@@ -485,20 +497,20 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
         if (characteristic.getUuid().toString().equals("3dda0004-957f-7d4a-34a6-74696673696d") || characteristic.getUuid().toString().equals("3dda0003-957f-7d4a-34a6-74696673696d")) {
             request = fileRequest;
             request.handleResponse(characteristic);
-            if(request instanceof ListFilesRequest){
-                if(((ListFilesRequest)request).completed) {
+            if (request instanceof ListFilesRequest) {
+                if (((ListFilesRequest) request).completed) {
                     logger.debug("File count: " + ((ListFilesRequest) request).fileCount + "  size: " + ((ListFilesRequest) request).size);
-                    if(((ListFilesRequest) request).fileCount == 0) return true;
-                    queueWrite(new DownloadFileRequest((short)(256 + ((ListFilesRequest) request).fileCount)));
+                    if (((ListFilesRequest) request).fileCount == 0) return true;
+                    queueWrite(new DownloadFileRequest((short) (256 + ((ListFilesRequest) request).fileCount)));
                 }
-            }else if(request instanceof DownloadFileRequest){
-                if(((FileRequest) request).completed) {
-                    logger.debug("file " + ((DownloadFileRequest)request).fileHandle + " completed: " + ((DownloadFileRequest)request).size);
-                    backupFile((DownloadFileRequest)request);
+            } else if (request instanceof DownloadFileRequest) {
+                if (((FileRequest) request).completed) {
+                    logger.debug("file " + ((DownloadFileRequest) request).fileHandle + " completed: " + ((DownloadFileRequest) request).size);
+                    backupFile((DownloadFileRequest) request);
                 }
-            }else if(request instanceof EraseFileRequest){
-                if(((EraseFileRequest)request).fileHandle > 257){
-                    queueWrite(new DownloadFileRequest((short)(((EraseFileRequest)request).fileHandle - 1)));
+            } else if (request instanceof EraseFileRequest) {
+                if (((EraseFileRequest) request).fileHandle > 257) {
+                    queueWrite(new DownloadFileRequest((short) (((EraseFileRequest) request).fileHandle - 1)));
                 }
             }
         } else if (characteristic.getUuid().toString().equals("3dda0002-957f-7d4a-34a6-74696673696d")) {
@@ -538,15 +550,15 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
                     this.fileRequest = null;
                 }
                 //}
-            } else if (request instanceof GetCurrentStepCountRequest){
-                int steps = ((GetCurrentStepCountRequest)request).steps;
+            } else if (request instanceof GetCurrentStepCountRequest) {
+                int steps = ((GetCurrentStepCountRequest) request).steps;
                 logger.debug("get current steps: " + steps);
                 try {
                     File f = new File("/sdcard/qFiles/");
-                    if(!f.exists()) f.mkdir();
+                    if (!f.exists()) f.mkdir();
 
                     File file = new File("/sdcard/qFiles/steps");
-                    if(!file.exists()){
+                    if (!file.exists()) {
                         file.createNewFile();
                     }
                     logger.debug("Writing file " + file.getPath());
@@ -554,10 +566,38 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
                     fos.write((System.currentTimeMillis() + ": " + steps + "\n").getBytes());
                     fos.close();
                     logger.debug("file written.");
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
+            } else if (request instanceof OTAEnterRequest) {
+                if (((OTAEnterRequest) request).success) {
+                    fileRequest = new OTAEraseRequest(1024 << 16);
+                    queueWrite(fileRequest);
+                }
             }
+        } else if (characteristic.getUuid().toString().equals("3dda0006-957f-7d4a-34a6-74696673696d")) {
+            byte[] value = characteristic.getValue();
+            if(value.length != 11){
+                logger.debug("wrong button message");
+                return true;
+            }
+            int index = value[6] & 0xFF;
+            int button = value[8] >> 4 & 0xFF;
+
+            if (index != this.lastButtonIndex){
+                lastButtonIndex = index;
+                logger.debug("Button press on button " + button);
+
+                // new Handler(Looper.getMainLooper()).post(() -> {
+                //     Toast.makeText(getContext(), "Button press on button " + button, 0).show();
+                // });
+                Intent i = new Intent("nodomain.freeyourgadget.gadgetbridge.Q_BUTTON_PRESSED");
+                i.putExtra("BUTTON", button);
+
+                getContext().sendBroadcast(i);
+            }
+
+            logger.debug("index: " + index + "    button: " + button);
         } else {
             Log.d("Service", "unknown shit on " + characteristic.getUuid().toString() + ":  " + characteristic.getValue()[1]);
             try {
@@ -577,14 +617,14 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
 
     }
 
-    private String arrayToString(byte[] bytes){
-        if(bytes.length == 0) return "";
+    private String arrayToString(byte[] bytes) {
+        if (bytes.length == 0) return "";
         String s = "";
         final String chars = "0123456789ABCDEF";
-        for(byte b : bytes){
+        for (byte b : bytes) {
             s += chars.charAt((b >> 4) & 0xF)
-            + chars.charAt(b & 0xF)
-            + " ";
+                    + chars.charAt(b & 0xF)
+                    + " ";
         }
         return s.substring(0, s.length() - 1) + "\n";
     }
@@ -637,7 +677,7 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
                     vibrate(config.getVibration());
                     break;
                 }
-                case commandNotification:{
+                case commandNotification: {
                     queueWrite(new PlayNotificationRequest(config.getVibration(), config.getHour(), config.getMin()));
                     break;
                 }
