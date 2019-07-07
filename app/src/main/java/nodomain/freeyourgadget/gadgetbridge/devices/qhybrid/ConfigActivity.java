@@ -275,8 +275,7 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
                         et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                             @Override
                             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                                if (i == EditorInfo.IME_ACTION_DONE) {
-                                    Log.d("Settings", "enter");
+                                if (i == EditorInfo.IME_ACTION_DONE || i == EditorInfo.IME_ACTION_NEXT) {
                                     String t = textView.getText().toString();
                                     if (!t.equals(text)) {
                                         support.setGoal(Integer.parseInt(t));

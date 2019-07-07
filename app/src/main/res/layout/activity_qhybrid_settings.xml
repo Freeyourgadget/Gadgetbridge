@@ -87,6 +87,7 @@
 
     <ListView
         android:id="@+id/qhybrid_appList"
+        android:layout_marginTop="50dp"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_below="@id/settingsLayout"
