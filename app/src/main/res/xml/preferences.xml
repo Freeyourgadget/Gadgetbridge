@@ -267,6 +267,12 @@
 
     <PreferenceCategory
         android:title="@string/preferences_category_device_specific_settings">
+
+        <Preference
+            android:icon="@drawable/ic_device_pebble"
+            android:key="pref_key_qhybrid"
+            android:title="@string/preferences_qhybrid_settings" />
+
         <Preference
             android:icon="@drawable/ic_device_miband"
             android:key="pref_key_miband"
