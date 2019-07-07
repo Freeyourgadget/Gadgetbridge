@@ -2,10 +2,12 @@ package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -26,6 +28,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -73,6 +76,29 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         setContentView(R.layout.activity_qhybrid_settings);
 
         Log.d("Config", "device: " + (getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE) == null));
+
+        findViewById(R.id.buttonOverwriteButtons).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setSettingsEnables(false);
+                ConfigActivity.this.support.overwriteButtons(new QHybridSupport.OnButtonOverwriteListener() {
+                    @Override
+                    public void OnButtonOverwrite(final boolean success) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                setSettingsEnables(true);
+                                if(!success){
+                                    Toast.makeText(ConfigActivity.this, "Error overwriting buttons", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Toast.makeText(ConfigActivity.this, "successfully overwritten buttons.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });
 
         prefs = getSharedPreferences(getPackageName(), MODE_PRIVATE);
         timeOffsetView = findViewById(R.id.qhybridTimeOffset);
@@ -300,6 +326,13 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
     protected void onResume() {
         super.onResume();
         refreshList();
+        registerReceiver(buttonReceiver, new IntentFilter(QHybridSupport.QHYBRID_EVENT_BUTTON_PRESS));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(buttonReceiver);
     }
 
     @Override
@@ -415,5 +448,11 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         }
     }
 
+    BroadcastReceiver buttonReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(ConfigActivity.this, "Button " + intent.getIntExtra("BUTTON", -1) + " pressed", Toast.LENGTH_SHORT).show();
+        }
+    };
 
 }

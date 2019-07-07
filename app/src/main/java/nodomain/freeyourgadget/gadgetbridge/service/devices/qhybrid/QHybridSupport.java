@@ -63,6 +63,8 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String QHYBRID_COMMAND_UPDATE = "qhybrid_command_update";
     public static final String QHYBRID_COMMAND_NOTIFICATION = "qhybrid_command_notification";
 
+    public static final String QHYBRID_EVENT_BUTTON_PRESS = "nodomain.freeyourgadget.gadgetbridge.Q_BUTTON_PRESSED";
+
     private static final String ITEM_STEP_GOAL = "STEP_GOAL";
     private static final String ITEM_VIBRATION_STRENGTH = "VIBRATION_STRENGTH";
 
@@ -79,6 +81,7 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     private OnVibrationStrengthListener vibrationStrengthListener;
     private OnGoalListener goalListener;
+    private OnButtonOverwriteListener buttonOverwriteListener;
 
     private Request fileRequest = null;
 
@@ -280,6 +283,9 @@ public class QHybridSupport extends QHybridBaseSupport {
         // queueWrite(new EventStreamRequest((short)4));
         // queueWrite(new OTAEraseRequest(0));
         // queueWrite(new OTAResetRequest());
+    }
+
+    public void overwriteButtons(OnButtonOverwriteListener listener){
         fileRequest = new SettingsFilePutRequest(new byte[]{
                 (byte) 0x12, (byte) 0x40, (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x03, (byte) 0x10, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x20, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00,
                 (byte) 0x12, (byte) 0x01, (byte) 0x30, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x2E, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01,
@@ -287,6 +293,7 @@ public class QHybridSupport extends QHybridBaseSupport {
                 (byte) 0x12, (byte) 0x03, (byte) 0x08, (byte) 0x01, (byte) 0x14, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0xFE, (byte) 0x08, (byte) 0x00, (byte) 0x93, (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x00, (byte) 0xBF, (byte) 0xD5, (byte) 0x54, (byte) 0xD1,
                 (byte) 0x12, (byte) 0x84, (byte) 0x00, (byte) 0x4F, (byte) 0x79, (byte) 0x97, (byte) 0x78
         });
+        this.buttonOverwriteListener = listener;
         queueWrite(fileRequest);
     }
 
@@ -379,9 +386,11 @@ public class QHybridSupport extends QHybridBaseSupport {
         }else if(value.length == 9){
             if(value[1] != 0){
                 logger.debug("Error with another file something");
+                this.buttonOverwriteListener.OnButtonOverwrite(false);
                 return true;
             }
             logger.debug("successfully written settings file");
+            this.buttonOverwriteListener.OnButtonOverwrite(true);
         }
         return true;
     }
@@ -399,7 +408,7 @@ public class QHybridSupport extends QHybridBaseSupport {
             lastButtonIndex = index;
             logger.debug("Button press on button " + button);
 
-            Intent i = new Intent("nodomain.freeyourgadget.gadgetbridge.Q_BUTTON_PRESSED");
+            Intent i = new Intent(QHYBRID_EVENT_BUTTON_PRESS);
             i.putExtra("BUTTON", button);
 
             getContext().sendBroadcast(i);
@@ -574,5 +583,9 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     public interface OnGoalListener {
         void onGoal(long goal);
+    }
+
+    public interface OnButtonOverwriteListener{
+        void OnButtonOverwrite(boolean success);
     }
 }
