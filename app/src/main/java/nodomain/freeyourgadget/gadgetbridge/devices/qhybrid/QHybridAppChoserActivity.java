@@ -6,14 +6,8 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -89,17 +83,17 @@ public class QHybridAppChoserActivity extends AbstractGBActivity {
 
     private void setControl(boolean control) {
         if (hasControl == control) return;
-        Intent intent = new Intent(control ? QHybridSupport.commandControl : QHybridSupport.commandUncontrol);
+        Intent intent = new Intent(control ? QHybridSupport.QHYBRID_COMMAND_CONTROL : QHybridSupport.QHYBRID_COMMAND_UNCONTROL);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         this.hasControl = control;
     }
 
     private void setHands(PackageConfig config){
-        sendControl(config, QHybridSupport.commandSet);
+        sendControl(config, QHybridSupport.QHYBRID_COMMAND_SET);
     }
 
     private void vibrate(PackageConfig config){
-        sendControl(config, QHybridSupport.commandVibrate);
+        sendControl(config, QHybridSupport.QHYBRID_COMMAND_VIBRATE);
     }
 
     private void sendControl(PackageConfig config, String request){

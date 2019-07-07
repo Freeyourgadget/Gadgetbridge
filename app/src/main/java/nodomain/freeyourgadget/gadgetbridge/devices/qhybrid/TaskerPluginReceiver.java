@@ -3,14 +3,9 @@ package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Looper;
-import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.PlayNotificationRequest;
-import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class TaskerPluginReceiver extends BroadcastReceiver {
 
@@ -25,7 +20,7 @@ public class TaskerPluginReceiver extends BroadcastReceiver {
 
         PackageConfig config = new PackageConfig((short)minDegrees, (short)hourDegrees, null, null, false, Integer.parseInt(vibration));
 
-        Intent send = new Intent(QHybridSupport.commandNotification);
+        Intent send = new Intent(QHybridSupport.QHYBRID_COMMAND_NOTIFICATION);
         send.putExtra("CONFIG", config);
         LocalBroadcastManager.getInstance(context).sendBroadcast(send);
     }

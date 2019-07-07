@@ -2,7 +2,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.TimePickerDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -110,7 +109,7 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 prefs.edit().putInt("QHYBRID_TIME_OFFSET", hourPicker.getValue() * 60 + minPicker.getValue()).apply();
                                 updateTimeOffset();
-                                LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.commandUpdate));
+                                LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_UPDATE));
                                 Toast.makeText(ConfigActivity.this, "change might take some seconds...", Toast.LENGTH_SHORT).show();
                             }
                         })
@@ -264,18 +263,18 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
 
     private void setControl(boolean control, PackageConfig config) {
         if (hasControl == control) return;
-        Intent intent = new Intent(control ? QHybridSupport.commandControl : QHybridSupport.commandUncontrol);
+        Intent intent = new Intent(control ? QHybridSupport.QHYBRID_COMMAND_CONTROL : QHybridSupport.QHYBRID_COMMAND_UNCONTROL);
         intent.putExtra("CONFIG", config);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         this.hasControl = control;
     }
 
     private void setHands(PackageConfig config) {
-        sendControl(config, QHybridSupport.commandSet);
+        sendControl(config, QHybridSupport.QHYBRID_COMMAND_SET);
     }
 
     private void vibrate(PackageConfig config) {
-        sendControl(config, QHybridSupport.commandVibrate);
+        sendControl(config, QHybridSupport.QHYBRID_COMMAND_VIBRATE);
     }
 
     private void sendControl(PackageConfig config, String request) {
