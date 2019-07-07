@@ -206,6 +206,17 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
                 return false;
             }
         });
+
+        appList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(ConfigActivity.this.support == null){
+                    Toast.makeText(ConfigActivity.this, "connect device to test notification", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                ConfigActivity.this.support.playNotification(list.get(i));
+            }
+        });
         SeekBar vibeBar = findViewById(R.id.vibrationStrengthBar);
         vibeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int start;

@@ -235,6 +235,10 @@ public class QHybridSupport extends QHybridBaseSupport {
         int mode = ((AudioManager) getContext().getApplicationContext().getSystemService(Context.AUDIO_SERVICE)).getRingerMode();
         if (mode == AudioManager.RINGER_MODE_SILENT && config.getRespectSilentMode()) return;
 
+        playNotification(config);
+    }
+
+    public void playNotification(PackageConfig config){
         queueWrite(new PlayNotificationRequest(config.getVibration(), config.getHour(), config.getMin()));
     }
 
