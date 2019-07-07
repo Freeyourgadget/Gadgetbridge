@@ -1,105 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/qhybridMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="5dp"
-    android:orientation="vertical"
-    android:weightSum="1">
-
-    <ListView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        android:id="@android:id/list"/>
+    android:layout_margin="5dp">
 
     <ListView
         android:id="@+id/qhybrid_appList"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="0.4" />
+        android:layout_above="@id/settingsLayout"
+        android:layout_alignParentTop="true"/>
 
-    <Button
-        android:id="@+id/qhybrid_addApp"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="+" />
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ProgressBar
-            android:id="@+id/vibrationSettingProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:id="@+id/settingsLayout">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/settingsErrorText"
-            android:visibility="gone"
-            android:textSize="20dp"
-            android:layout_centerInParent="true"/>
+            android:text="vibration strength:" />
 
-        <LinearLayout
+
+        <SeekBar
+            android:id="@+id/vibrationStrengthBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/settingsLayout">
+            android:max="2"
+            android:min="0" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Goal in steps" />
+
+        <EditText
+            android:id="@+id/stepGoalEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="vibration strength:" />
-
-
-            <SeekBar
-                android:id="@+id/vibrationStrengthBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:max="2"
-                android:min="0" />
+                android:layout_alignParentStart="true"
+                android:text="time shift" />
 
             <TextView
+                android:id="@+id/qhybridTimeOffset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Goal in steps" />
+                android:layout_alignParentEnd="true" />
 
-            <EditText
-                android:id="@+id/stepGoalEt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
+        </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/buttonOverwriteButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="overwrite buttons" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="time shift"
-                    android:layout_alignParentStart="true"/>
+    </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/qhybridTimeOffset"
-                    android:layout_alignParentEnd="true"/>
+    <ProgressBar
+        android:id="@+id/vibrationSettingProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/settingsLayout"
+        android:layout_alignTop="@id/settingsLayout"
+        android:layout_centerHorizontal="true"
+        android:gravity="center" />
 
-            </RelativeLayout>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="overwrite buttons"
-                android:id="@+id/buttonOverwriteButtons"/>
+    <TextView
+        android:id="@+id/settingsErrorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/settingsLayout"
+        android:layout_alignBottom="@id/settingsLayout"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:gravity="center" />
 
-        </LinearLayout>
-
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>

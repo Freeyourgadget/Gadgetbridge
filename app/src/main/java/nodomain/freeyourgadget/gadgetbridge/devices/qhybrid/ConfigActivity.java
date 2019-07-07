@@ -35,6 +35,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -150,15 +151,10 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         setTitle(R.string.preferences_qhybrid_settings);
 
         ListView appList = findViewById(R.id.qhybrid_appList);
-        findViewById(R.id.qhybrid_addApp).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivityForResult(new Intent(ConfigActivity.this, QHybridAppChoserActivity.class), REQUEST_CODE_ADD_APP);
-            }
-        });
 
         helper = new PackageConfigHelper(getApplicationContext());
         list = helper.getSettings();
+        list.add(null);
         appList.setAdapter(adapter = new PackageAdapter(this, R.layout.qhybrid_package_settings_item, list));
         appList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -312,6 +308,7 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
     private void refreshList() {
         list.clear();
         list.addAll(helper.getSettings());
+        list.add(null);
         adapter.notifyDataSetChanged();
     }
 
@@ -393,7 +390,7 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
     class PackageAdapter extends ArrayAdapter<PackageConfig> {
         PackageManager manager;
 
-        public PackageAdapter(@NonNull Context context, int resource, @NonNull List<PackageConfig> objects) {
+        PackageAdapter(@NonNull Context context, int resource, @NonNull List<PackageConfig> objects) {
             super(context, resource, objects);
             manager = context.getPackageManager();
         }
@@ -401,9 +398,22 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         @NonNull
         @Override
         public View getView(int position, @Nullable View view, @NonNull ViewGroup parent) {
-            if (view == null)
+            if (!(view instanceof RelativeLayout))
                 view = ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.qhybrid_package_settings_item, null);
             PackageConfig settings = getItem(position);
+
+            if(settings == null){
+                Button addButton = new Button(ConfigActivity.this);
+                addButton.setText("+");
+                addButton.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                addButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivityForResult(new Intent(ConfigActivity.this, QHybridAppChoserActivity.class), REQUEST_CODE_ADD_APP);
+                    }
+                });
+                return addButton;
+            }
 
             try {
                 ((ImageView) view.findViewById(R.id.packageIcon)).setImageDrawable(manager.getApplicationIcon(settings.getPackageName()));
@@ -455,4 +465,9 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         }
     };
 
+    class AddPackageConfig extends PackageConfig{
+        AddPackageConfig() {
+            super(null, null);
+        }
+    }
 }
