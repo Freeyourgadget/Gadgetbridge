@@ -16,12 +16,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -45,17 +47,38 @@ public class QHybridAppChoserActivity extends AbstractGBActivity {
 
         helper = new PackageConfigHelper(getApplicationContext());
 
-        ListView appList = findViewById(R.id.qhybrid_appChooserList);
-        PackageManager manager = getPackageManager();
-        List<PackageInfo> packages = manager.getInstalledPackages(0);
-        new Thread(() -> {
-            Collections.sort(packages, (packageInfo, t1) -> manager.getApplicationLabel(packageInfo.applicationInfo).toString().compareToIgnoreCase(manager.getApplicationLabel(t1.applicationInfo).toString()));
-            runOnUiThread(() -> {
-                appList.setAdapter(new ConfigArrayAdapter(this, R.layout.qhybrid_app_view, packages, manager));
-                findViewById(R.id.qhybrid_packageChooserLoading).setVisibility(GONE);
-            });
+        final ListView appList = findViewById(R.id.qhybrid_appChooserList);
+        final PackageManager manager = getPackageManager();
+        final List<PackageInfo> packages = manager.getInstalledPackages(0);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Collections.sort(packages, new Comparator<PackageInfo>() {
+                    @Override
+                    public int compare(PackageInfo packageInfo, PackageInfo t1) {
+                        return manager.getApplicationLabel(packageInfo.applicationInfo)
+                                .toString()
+                                .compareToIgnoreCase(
+                                        manager.getApplicationLabel(t1.applicationInfo)
+                                                .toString()
+                                );
+                    }
+                });
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        appList.setAdapter(new ConfigArrayAdapter(QHybridAppChoserActivity.this, R.layout.qhybrid_app_view, packages, manager));
+                        findViewById(R.id.qhybrid_packageChooserLoading).setVisibility(GONE);
+                    }
+                });
+            }
         }).start();
-        appList.setOnItemClickListener((adapterView, view, i, l) -> showPackageDialog(packages.get(i)));
+        appList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                showPackageDialog(packages.get(i));
+            }
+        });
     }
 
     @Override

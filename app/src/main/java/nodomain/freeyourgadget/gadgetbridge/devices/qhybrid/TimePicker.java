@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -10,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -81,7 +83,12 @@ public class TimePicker extends AlertDialog.Builder {
         CheckBox box = new CheckBox(context);
         box.setText("Respect silent mode");
         box.setChecked(settings.getRespectSilentMode());
-        box.setOnCheckedChangeListener((compoundButton, b) -> settings.setRespectSilentMode(b));
+        box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                settings.setRespectSilentMode(b);
+            }
+        });
         layout.addView(box);
 
         RadioGroup group = new RadioGroup(context);
@@ -93,9 +100,12 @@ public class TimePicker extends AlertDialog.Builder {
         }
 
         group.check(settings.getVibration());
-        group.setOnCheckedChangeListener((radioGroup, i) -> {
-            settings.setVibration(i);
-            if(this.vibrationListener != null) this.vibrationListener.onVibrationSet(settings);
+        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                settings.setVibration(i);
+                if(TimePicker.this.vibrationListener != null) TimePicker.this.vibrationListener.onVibrationSet(settings);
+            }
         });
 
         ScrollView scrollView = new ScrollView(context);
@@ -107,17 +117,26 @@ public class TimePicker extends AlertDialog.Builder {
 
 
         setNegativeButton("cancel", null);
-        setPositiveButton("ok", (dialogInterface, i) -> {
-            if(finishListener == null) return;
-            finishListener.onFinish(true, settings);
+        setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if(finishListener == null) return;
+                finishListener.onFinish(true, settings);
+            }
         });
-        setOnCancelListener((a) -> {
-            if(finishListener == null) return;
-            finishListener.onFinish(false, settings);
+        setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                if(finishListener == null) return;
+                finishListener.onFinish(false, settings);
+            }
         });
-        setOnDismissListener((a) -> {
-            if(finishListener == null) return;
-            finishListener.onFinish(false, settings);
+        setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                if(finishListener == null) return;
+                finishListener.onFinish(false, settings);
+            }
         });
         dialog = show();
         if(this.settings.getHour() == -1 && this.settings.getMin() == -1) {
@@ -125,9 +144,12 @@ public class TimePicker extends AlertDialog.Builder {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setAlpha(0.4f);
         }
 
-        pickerView.setOnTouchListener((view, motionEvent) -> {
-            handleTouch(dialog, motionEvent);
-            return true;
+        pickerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                handleTouch(dialog, motionEvent);
+                return true;
+            }
         });
     }
 

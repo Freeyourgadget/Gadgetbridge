@@ -390,16 +390,19 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
         searchDevice = start;
 
         if (start) {
-            new Thread(() -> {
-                VibrateRequest request = new VibrateRequest(false, (short) 4, (short) 1);
-                BluetoothGattCharacteristic chara = getCharacteristic(request.getRequestUUID());
-                int i = 0;
-                while (searchDevice) {
-                    new TransactionBuilder("findDevice#" + i++).write(chara, request.getRequestData()).queue(getQueue());
-                    try {
-                        Thread.sleep(2500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    VibrateRequest request = new VibrateRequest(false, (short) 4, (short) 1);
+                    BluetoothGattCharacteristic chara = getCharacteristic(request.getRequestUUID());
+                    int i = 0;
+                    while (searchDevice) {
+                        new TransactionBuilder("findDevice#" + i++).write(chara, request.getRequestData()).queue(getQueue());
+                        try {
+                            Thread.sleep(2500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }).start();

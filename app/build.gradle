@@ -66,7 +66,6 @@ dependencies {
     testImplementation "org.robolectric:robolectric:4.2.1"
     testImplementation "com.google.code.gson:gson:2.8.5"
 
-    implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "androidx.appcompat:appcompat:1.0.2"
     implementation "androidx.preference:preference:1.1.0-alpha05"
     implementation "androidx.cardview:cardview:1.0.0"

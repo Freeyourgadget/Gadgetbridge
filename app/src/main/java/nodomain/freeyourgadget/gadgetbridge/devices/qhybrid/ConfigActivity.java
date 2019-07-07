@@ -77,44 +77,46 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
 
         prefs = getSharedPreferences(getPackageName(), MODE_PRIVATE);
         timeOffsetView = findViewById(R.id.qhybridTimeOffset);
-        timeOffsetView.setOnClickListener(view -> {
-            int timeOffset = prefs.getInt("QHYBRID_TIME_OFFSET", 0);
-            LinearLayout layout2 = new LinearLayout(this);
-            layout2.setOrientation(LinearLayout.HORIZONTAL);
+        timeOffsetView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int timeOffset = prefs.getInt("QHYBRID_TIME_OFFSET", 0);
+                LinearLayout layout2 = new LinearLayout(ConfigActivity.this);
+                layout2.setOrientation(LinearLayout.HORIZONTAL);
 
-            NumberPicker hourPicker = new NumberPicker(this);
-            hourPicker.setMinValue(0);
-            hourPicker.setMaxValue(23);
-            hourPicker.setValue(timeOffset / 60);
+                final NumberPicker hourPicker = new NumberPicker(ConfigActivity.this);
+                hourPicker.setMinValue(0);
+                hourPicker.setMaxValue(23);
+                hourPicker.setValue(timeOffset / 60);
 
-            NumberPicker minPicker = new NumberPicker(this);
-            minPicker.setMinValue(0);
-            minPicker.setMaxValue(59);
-            minPicker.setValue(timeOffset % 60);
+                final NumberPicker minPicker = new NumberPicker(ConfigActivity.this);
+                minPicker.setMinValue(0);
+                minPicker.setMaxValue(59);
+                minPicker.setValue(timeOffset % 60);
 
-            layout2.addView(hourPicker);
-            TextView tw = new TextView(this);
-            tw.setText(":");
-            layout2.addView(tw);
-            layout2.addView(minPicker);
+                layout2.addView(hourPicker);
+                TextView tw = new TextView(ConfigActivity.this);
+                tw.setText(":");
+                layout2.addView(tw);
+                layout2.addView(minPicker);
 
-            layout2.setGravity(Gravity.CENTER);
+                layout2.setGravity(Gravity.CENTER);
 
-            new AlertDialog.Builder(this)
-                    .setTitle("offset time by")
-                    .setView(layout2)
-                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            prefs.edit().putInt("QHYBRID_TIME_OFFSET", hourPicker.getValue() * 60 + minPicker.getValue()).apply();
-                            updateTimeOffset();
-                            LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.commandUpdate));
-                            Toast.makeText(ConfigActivity.this, "change might take some seconds...", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .setNegativeButton("cancel", null)
-                    .show();
-
+                new AlertDialog.Builder(ConfigActivity.this)
+                        .setTitle("offset time by")
+                        .setView(layout2)
+                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                prefs.edit().putInt("QHYBRID_TIME_OFFSET", hourPicker.getValue() * 60 + minPicker.getValue()).apply();
+                                updateTimeOffset();
+                                LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.commandUpdate));
+                                Toast.makeText(ConfigActivity.this, "change might take some seconds...", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("cancel", null)
+                        .show();
+            }
         });
         updateTimeOffset();
 
@@ -123,8 +125,11 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         setTitle(R.string.preferences_qhybrid_settings);
 
         ListView appList = findViewById(R.id.qhybrid_appList);
-        findViewById(R.id.qhybrid_addApp).setOnClickListener(view -> {
-            startActivityForResult(new Intent(this, QHybridAppChoserActivity.class), REQUEST_CODE_ADD_APP);
+        findViewById(R.id.qhybrid_addApp).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(ConfigActivity.this, QHybridAppChoserActivity.class), REQUEST_CODE_ADD_APP);
+            }
         });
 
         helper = new PackageConfigHelper(getApplicationContext());
@@ -132,7 +137,7 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         appList.setAdapter(adapter = new PackageAdapter(this, R.layout.qhybrid_package_settings_item, list));
         appList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int i, long l) {
                 PopupMenu menu = new PopupMenu(ConfigActivity.this, view);
                 menu.getMenu().add("edit");
                 menu.getMenu().add("delete");
@@ -218,29 +223,42 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
     }
 
     private void updateSettings() {
-        runOnUiThread(() -> setSettingsEnables(false));
-        this.support.getGoal(goal -> runOnUiThread(() -> {
-            EditText et = findViewById(R.id.stepGoalEt);
-            et.setOnEditorActionListener(null);
-            String text = String.valueOf(goal);
-            et.setText(text);
-            et.setSelection(text.length());
-            et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                @Override
-                public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                    if (i == EditorInfo.IME_ACTION_DONE) {
-                        Log.d("Settings", "enter");
-                        String t = textView.getText().toString();
-                        if (!t.equals(text)) {
-                            support.setGoal(Integer.parseInt(t));
-                            updateSettings();
-                        }
-                        ((InputMethodManager) getApplicationContext().getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setSettingsEnables(false);
+            }
+        });
+        this.support.getGoal(new QHybridSupport.OnGoalListener() {
+            @Override
+            public void onGoal(final long goal) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        EditText et = findViewById(R.id.stepGoalEt);
+                        et.setOnEditorActionListener(null);
+                        final String text = String.valueOf(goal);
+                        et.setText(text);
+                        et.setSelection(text.length());
+                        et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                            @Override
+                            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                                if (i == EditorInfo.IME_ACTION_DONE) {
+                                    Log.d("Settings", "enter");
+                                    String t = textView.getText().toString();
+                                    if (!t.equals(text)) {
+                                        support.setGoal(Integer.parseInt(t));
+                                        updateSettings();
+                                    }
+                                    ((InputMethodManager) getApplicationContext().getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                                }
+                                return true;
+                            }
+                        });
                     }
-                    return true;
-                }
-            });
-        }));
+                });
+            }
+        });
         this.support.getVibrationStrength(this);
     }
 
@@ -316,21 +334,27 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
 
     @Override
     public void onVibrationStrength(int strength) {
-        int strengthProgress = (int) (Math.log(strength / 25) / Math.log(2));
+        final int strengthProgress = (int) (Math.log(strength / 25) / Math.log(2));
         Log.d("Config", "got strength: " + strength);
-        runOnUiThread(() -> {
-            setSettingsEnables(true);
-            SeekBar seekBar = findViewById(R.id.vibrationStrengthBar);
-            seekBar.setProgress(strengthProgress);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setSettingsEnables(true);
+                SeekBar seekBar = findViewById(R.id.vibrationStrengthBar);
+                seekBar.setProgress(strengthProgress);
+            }
         });
     }
 
-    private void setSettingsError(String error) {
-        runOnUiThread(() -> {
-            setSettingsEnables(false);
-            findViewById(R.id.vibrationSettingProgressBar).setVisibility(View.GONE);
-            ((TextView) findViewById(R.id.settingsErrorText)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.settingsErrorText)).setText(error);
+    private void setSettingsError(final String error) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setSettingsEnables(false);
+                findViewById(R.id.vibrationSettingProgressBar).setVisibility(View.GONE);
+                ((TextView) findViewById(R.id.settingsErrorText)).setVisibility(View.VISIBLE);
+                ((TextView) findViewById(R.id.settingsErrorText)).setText(error);
+            }
         });
     }
 
