@@ -265,82 +265,13 @@
         android:summary="%s" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/preferences_category_device_specific_settings">
-        <Preference
-            android:icon="@drawable/ic_device_pebble"
-            android:key="pref_key_qhybrid"
-            android:title="@string/preferences_qhybrid_settings" />
+    <PreferenceCategory
+        android:title="@string/preferences_category_device_specific_settings">
         <Preference
             android:icon="@drawable/ic_device_miband"
             android:key="pref_key_miband"
             android:title="@string/preferences_miband_settings" />
 
-                <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
-                    android:defaultValue="7:00"
-                    android:key="mi3_night_mode_end"
-                    android:title="@string/mi2_prefs_do_not_disturb_end" />
-
-            </PreferenceScreen>
-        </PreferenceScreen>
-        <PreferenceScreen
-            android:icon="@drawable/ic_device_hplus"
-            android:title="@string/preferences_amazfitbip_settings">
-            <ListPreference
-                android:defaultValue="-1"
-                android:entries="@array/pref_amazfitbip_language"
-                android:entryValues="@array/pref_amazfitbip_language_values"
-                android:key="amazfitbip_language"
-                android:summary="%s"
-                android:title="@string/pref_title_language" />
-            <MultiSelectListPreference
-                android:dialogTitle="@string/mi2_prefs_display_items"
-                android:defaultValue="@array/pref_bip_display_items_default"
-                android:entries="@array/pref_bip_display_items"
-                android:entryValues="@array/pref_bip_display_items_values"
-                android:key="bip_display_items"
-                android:summary="@string/mi2_prefs_display_items_summary"
-                android:title="@string/mi2_prefs_display_items"/>
-            <PreferenceScreen
-                android:persistent="false"
-                android:title="@string/prefs_disconnect_notification">
-
-                <!-- workaround for missing toolbar -->
-                <PreferenceCategory android:title="@string/prefs_disconnect_notification" />
-
-                <ListPreference
-                    android:defaultValue="@string/p_off"
-                    android:entries="@array/activate_display_on_lift"
-                    android:entryValues="@array/activate_display_on_lift_values"
-                    android:key="disconnect_notification"
-                    android:summary="%s"
-                    android:title="@string/prefs_disconnect_notification" />
-
-                <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
-                    android:defaultValue="00:00"
-                    android:key="disconnect_notification_start"
-                    android:title="@string/mi2_prefs_do_not_disturb_start" />
-
-                <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
-                    android:defaultValue="00:00"
-                    android:key="disconnect_notification_end"
-                    android:title="@string/mi2_prefs_do_not_disturb_end" />
-
-            </PreferenceScreen>
-
-                android:title="@string/mi2_prefs_display_items" />
-        </PreferenceScreen>
-        <PreferenceScreen
-            android:icon="@drawable/ic_device_miband"
-            android:title="@string/preferences_amazfitcor_settings">
-            <MultiSelectListPreference
-                android:dialogTitle="@string/mi2_prefs_display_items"
-                android:defaultValue="@array/pref_cor_display_items_default"
-                android:entries="@array/pref_cor_display_items"
-                android:entryValues="@array/pref_cor_display_items_values"
-                android:key="cor_display_items"
-                android:summary="@string/mi2_prefs_display_items_summary"
-                android:title="@string/mi2_prefs_display_items"/>
-        </PreferenceScreen>
         <PreferenceScreen
             android:icon="@drawable/ic_device_pebble"
             android:key="pref_key_pebble"

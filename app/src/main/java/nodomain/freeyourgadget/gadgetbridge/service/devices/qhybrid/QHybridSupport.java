@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
@@ -55,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Era
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.FileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.GetCurrentStepCountRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.GetStepGoalRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.GetTripleTapEnabledRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.GetVibrationStrengthRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.ListFilesRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.MoveHandsRequest;
@@ -67,7 +69,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Req
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.RequestHandControlRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetCurrentTimeServiceRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetStepGoalRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetTripleTapEnabledRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetVibrationStrengthRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SettingsFilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.VibrateRequest;
 
 public class QHybridSupport extends AbstractBTLEDeviceSupport {
@@ -448,7 +452,14 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
         // queueWrite(new EventStreamRequest((short)4));
         // queueWrite(new OTAEraseRequest(0));
         // queueWrite(new OTAResetRequest());
-        queueWrite(new OTAEnterRequest());
+        fileRequest = new SettingsFilePutRequest(new byte[]{
+                (byte) 0x12, (byte) 0x40, (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x03, (byte) 0x10, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x20, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00,
+                (byte) 0x12, (byte) 0x01, (byte) 0x30, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x2E, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01,
+                (byte) 0x12, (byte) 0x02, (byte) 0x00, (byte) 0x06, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x03, (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x0F, (byte) 0x00, (byte) 0x8B, (byte) 0x00, (byte) 0x00, (byte) 0x93, (byte) 0x00, (byte) 0x01,
+                (byte) 0x12, (byte) 0x03, (byte) 0x08, (byte) 0x01, (byte) 0x14, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0xFE, (byte) 0x08, (byte) 0x00, (byte) 0x93, (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x00, (byte) 0xBF, (byte) 0xD5, (byte) 0x54, (byte) 0xD1,
+                (byte) 0x12, (byte) 0x84, (byte) 0x00, (byte) 0x4F, (byte) 0x79, (byte) 0x97, (byte) 0x78
+        });
+        queueWrite(fileRequest);
     }
 
     private void downloadActivityFiles() {
@@ -577,14 +588,14 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
             }
         } else if (characteristic.getUuid().toString().equals("3dda0006-957f-7d4a-34a6-74696673696d")) {
             byte[] value = characteristic.getValue();
-            if(value.length != 11){
+            if (value.length != 11) {
                 logger.debug("wrong button message");
                 return true;
             }
             int index = value[6] & 0xFF;
             int button = value[8] >> 4 & 0xFF;
 
-            if (index != this.lastButtonIndex){
+            if (index != this.lastButtonIndex) {
                 lastButtonIndex = index;
                 logger.debug("Button press on button " + button);
 
@@ -598,6 +609,31 @@ public class QHybridSupport extends AbstractBTLEDeviceSupport {
             }
 
             logger.debug("index: " + index + "    button: " + button);
+        } else if (characteristic.getUuid().toString().equals("3dda0007-957f-7d4a-34a6-74696673696d")) {
+            byte[] value = characteristic.getValue();
+            if (value.length == 4) {
+                if (value[1] != 0) {
+                    logger.debug("Error with file something");
+                    return false;
+                }
+                logger.debug("writing settings file...");
+                SettingsFilePutRequest settingsRequest = (SettingsFilePutRequest) fileRequest;
+                for(int i = 0; i < settingsRequest.fileLength; i += 20){
+                    int packetEnd = i + 20;
+                    if(packetEnd >=  settingsRequest.fileLength){
+                        packetEnd = settingsRequest.fileLength;
+                    }
+                    byte[] packet = new byte[packetEnd - i];
+                    System.arraycopy(settingsRequest.file, i, packet, 0, packetEnd - i);
+                    new TransactionBuilder("File upload").write(characteristic, packet).queue(getQueue());
+                }
+            }else if(value.length == 9){
+                if(value[1] != 0){
+                    logger.debug("Error with another file something");
+                    return false;
+                }
+                logger.debug("successfully written settings file");
+            }
         } else {
             Log.d("Service", "unknown shit on " + characteristic.getUuid().toString() + ":  " + characteristic.getValue()[1]);
             try {
