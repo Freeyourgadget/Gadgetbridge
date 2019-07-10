@@ -68,7 +68,7 @@
     <string name="pref_title_general_autoconnectonbluetooth">Connecta\'t a l\'aparell Gadgetbridge quan el Bluetooth estigui activat</string>
     <string name="pref_title_general_autostartonboot">Inicia automàticament</string>
     <string name="pref_title_general_autoreconnect">Reconnecta automàticament</string>
-    <string name="pref_title_audio_player">Reproductor preferit</string>
+    <string name="pref_title_audio_player">Reproductor d\'àudio preferit</string>
     <string name="pref_default">Per defecte</string>
     <string name="pref_title_charts_swipe">Permet lliscar cap a l\'esquerra i la dreta en els gràfics d\'activitat</string>
     <string name="pref_header_datetime">Data i Hora</string>
@@ -77,7 +77,7 @@
     <string name="pref_title_theme">Aparença</string>
     <string name="pref_theme_light">Clar</string>
     <string name="pref_theme_dark">Fosc</string>
-    <string name="pref_title_language">Idioma</string>
+    <string name="pref_title_language">Llengua</string>
     <string name="pref_title_minimize_priority">Oculta la notificació del Gadgetbridge</string>
     <string name="pref_summary_minimize_priority_off">La icona a la barra d\'estat i la notificació a la pantalla de bloqueig es mostren</string>
     <string name="pref_summary_minimize_priority_on">La icona a la barra d\'estat i la notificació a la pantalla de bloqueig no es mostren</string>
@@ -207,7 +207,7 @@
     <string name="pairing_in_progress">Aparellament en curs: %1$s (%2$s)</string>
     <string name="pairing_already_bonded">Ja s\'ha aparellat amb %1$s (%2$s). Connectant…</string>
     <string name="message_cannot_pair_no_mac">No s\'ha proporcionat cap adreça MAC. No es pot emparellar.</string>
-    <string name="preferences_category_device_specific_settings">Configuració específica de l\'aparell</string>
+    <string name="preferences_category_device_specific_settings">Configuració d\'aparells específics</string>
     <string name="preferences_miband_settings">Configuració de Mi Band / Amazfit</string>
     <string name="preferences_amazfitbip_settings">Configuració d\'Amazfit Bip</string>
     <string name="male">Home</string>
@@ -225,7 +225,7 @@
     <string name="initializing">S\'està inicialitzant</string>
     <string name="busy_task_fetch_activity_data">S\'estàn recollint les dades d\'activitat</string>
     <string name="sleep_activity_date_range">De %1$s a %2$s</string>
-    <string name="miband_prefs_wearside">La porteu a l\'esquerra o la dreta\?</string>
+    <string name="miband_prefs_wearside">A quina mà porteu l\'aparell\?</string>
     <string name="pref_screen_vibration_profile">Perfil de vibració</string>
     <string name="vibration_profile_staccato">Molt curta</string>
     <string name="vibration_profile_short">Curta</string>
