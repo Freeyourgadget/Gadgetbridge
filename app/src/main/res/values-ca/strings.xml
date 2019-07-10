@@ -275,7 +275,7 @@
     <string name="dbaccess_error_executing">Error en executar \'%1$s\'</string>
     <string name="controlcenter_start_activitymonitor">La vostra activitat (ALPHA)</string>
     <string name="cannot_connect">No es pot connectar: %1$s</string>
-    <string name="installer_activity_unable_to_find_handler">No s\'ha trobar cap controlador per instal·lar aquest fitxer.</string>
+    <string name="installer_activity_unable_to_find_handler">No s\'ha trobat cap controlador per instal·lar aquest fitxer.</string>
     <string name="pbw_install_handler_unable_to_install">No s\'ha pogut instal·lar el fitxer: %1$s</string>
     <string name="pbw_install_handler_hw_revision_mismatch">No s\'ha pogut instal·lar el microprogramari: no coincideix amb la revisió de maquinari del vostre Pebble.</string>
     <string name="installer_activity_wait_while_determining_status">Si us plau, espereu mentre s\'esbrina l\'estat de la instal·lació…</string>
