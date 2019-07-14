@@ -49,7 +49,7 @@
 \n注意：如果这些文件与之前安装的完全一样，则不必安装.res和.gps文件。 
 \n 
 \n***继续需要您自担风险！</string>
-    <string name="fw_upgrade_notice_amazfitcor">您即将在您的 Amazfit Cor 上安装固件 %s 。 
+    <string name="fw_upgrade_notice_amazfitcor">您即将在您的米动手环(Amazfit Cor)上安装固件 %s 。 
 \n 
 \n请确保安装了 .fw 文件，然后安装 .rec 文件。 安装 .fw 文件后，手表将重新启动。 
 \n 
@@ -511,7 +511,7 @@
     <string name="pref_auto_fetch_limit_fetches_summary">每隔 %d 分钟刷新</string>
     <string name="preferences_miband2_settings">小米手环2 设置</string>
     <string name="preferences_miband3_settings">小米手环3 设置</string>
-    <string name="preferences_amazfitcor_settings">米动 Cor 设置</string>s
+    <string name="preferences_amazfitcor_settings">米动手环设置</string>s
     <string name="horizontal">横向</string>
     <string name="vertical">纵向</string>
     <string name="watch9_pairing_tap_hint">当您的手环震动时，晃动设备或者按下按钮。</string>
@@ -582,7 +582,7 @@
     <string name="devicetype_id115">ID115</string>
     <string name="devicetype_watch9">Watch 9</string>
     <string name="devicetype_roidmi">睿米</string>
-    <string name="devicetype_roidmi3">睿米３</string>
+    <string name="devicetype_roidmi3">睿米 3</string>
     <string name="menuitem_shortcut_alipay">支付宝（快捷方式）</string>
     <string name="menuitem_shortcut_weather">天气（快捷方式）</string>
     <string name="menuitem_status">状态</string>
@@ -693,14 +693,14 @@
     <string name="pref_title_authkey">认证密钥</string>
     <string name="pref_summary_authkey">将您想要连接的所有 Android 设备上的认证密钥更改为通用的密钥。默认所有设备的密钥是 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
-    <string name="fw_upgrade_notice_amazfitcor2">您即将在 Amazfit Cor 2 上安装 %s 版本的固件。
-\n
-\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启。
-\n
-\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件。
-\n
-\n风险自担！
-\n
+    <string name="fw_upgrade_notice_amazfitcor2">您即将在米动手环2(Amazfit Cor 2)上安装 %s 版本的固件。 
+\n 
+\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启。 
+\n 
+\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件。 
+\n 
+\n风险自担！ 
+\n 
 \n此功能未经测试，如果您的设备名为“Amazfit Band 2”，您可能需要刷入 BEATS_W 固件</string>
     <string name="dutch">荷兰语</string>
     <string name="turkish">土耳其语</string>
@@ -710,5 +710,6 @@
     <string name="thai">泰语</string>
     <string name="vietnamese">越南语</string>
     <string name="portuguese">葡萄牙语</string>
-    <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
+    <string name="devicetype_amazfit_cor2">米动手环2</string>
+    <string name="devicetype_miband4">小米手环4</string>
 </resources>
