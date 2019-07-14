@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
+import android.net.wifi.aware.Characteristics;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
@@ -19,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
@@ -53,6 +55,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Set
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetStepGoalRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetVibrationStrengthRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SettingsFilePutRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.UploadFileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.VibrateRequest;
 
 public class QHybridSupport extends QHybridBaseSupport {
@@ -89,6 +92,7 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     private long timeOffset;
 
+    private UploadFileRequest uploadFileRequest;
 
     private PendingIntent dumpIntent;
     private PendingIntent stepIntent;
@@ -287,18 +291,19 @@ public class QHybridSupport extends QHybridBaseSupport {
         // queueWrite(new EventStreamRequest((short)4));
         // queueWrite(new OTAEraseRequest(0));
         // queueWrite(new OTAResetRequest());
+        new UploadFileRequest((short)00, new byte[]{0x01, 0x00, 0x08, 0x01, 0x01, 0x0C, 0x00, (byte)0xBD, 0x01, 0x30, 0x71, (byte)0xFF, 0x05, 0x00, 0x01, 0x00});
     }
 
     public void overwriteButtons(OnButtonOverwriteListener listener){
-        fileRequest = new SettingsFilePutRequest(new byte[]{
-                (byte) 0x12, (byte) 0x40, (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x03, (byte) 0x10, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x20, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00,
-                (byte) 0x12, (byte) 0x01, (byte) 0x30, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x2E, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01,
-                (byte) 0x12, (byte) 0x02, (byte) 0x00, (byte) 0x06, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x03, (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x0F, (byte) 0x00, (byte) 0x8B, (byte) 0x00, (byte) 0x00, (byte) 0x93, (byte) 0x00, (byte) 0x01,
-                (byte) 0x12, (byte) 0x03, (byte) 0x08, (byte) 0x01, (byte) 0x14, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0xFE, (byte) 0x08, (byte) 0x00, (byte) 0x93, (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x00, (byte) 0xBF, (byte) 0xD5, (byte) 0x54, (byte) 0xD1,
-                (byte) 0x12, (byte) 0x84, (byte) 0x00, (byte) 0x4F, (byte) 0x79, (byte) 0x97, (byte) 0x78
+        uploadFileRequest = new UploadFileRequest((short) 0x0800, new byte[]{
+                (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x03, (byte) 0x10, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x20, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00,
+                (byte) 0x30, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x2E, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01,
+                (byte) 0x00, (byte) 0x06, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x03, (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x0F, (byte) 0x00, (byte) 0x8B, (byte) 0x00, (byte) 0x00, (byte) 0x93, (byte) 0x00, (byte) 0x01,
+                (byte) 0x08, (byte) 0x01, (byte) 0x14, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0xFE, (byte) 0x08, (byte) 0x00, (byte) 0x93, (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x00, (byte) 0xBF, (byte) 0xD5, (byte) 0x54, (byte) 0xD1,
+                (byte) 0x00
         });
         this.buttonOverwriteListener = listener;
-        queueWrite(fileRequest);
+        queueWrite(uploadFileRequest);
     }
 
     private void downloadActivityFiles() {
@@ -370,31 +375,20 @@ public class QHybridSupport extends QHybridBaseSupport {
     }
 
     private boolean handleFileUploadCharacteristic(BluetoothGattCharacteristic characteristic) {
-        byte[] value = characteristic.getValue();
-        if (value.length == 4) {
-            if (value[1] != 0) {
-                logger.debug("Error with file something");
-                return true;
-            }
-            logger.debug("writing settings file...");
-            SettingsFilePutRequest settingsRequest = (SettingsFilePutRequest) fileRequest;
-            for(int i = 0; i < settingsRequest.fileLength; i += 20){
-                int packetEnd = i + 20;
-                if(packetEnd >=  settingsRequest.fileLength){
-                    packetEnd = settingsRequest.fileLength;
+        uploadFileRequest.handleResponse(characteristic);
+
+        switch (uploadFileRequest.state){
+            case ERROR:
+                buttonOverwriteListener.OnButtonOverwrite(false);
+                break;
+            case UPLOAD:
+                for(byte[] packet : this.uploadFileRequest.packets){
+                    new TransactionBuilder("File upload").write(characteristic, packet).queue(getQueue());
                 }
-                byte[] packet = new byte[packetEnd - i];
-                System.arraycopy(settingsRequest.file, i, packet, 0, packetEnd - i);
-                new TransactionBuilder("File upload").write(characteristic, packet).queue(getQueue());
-            }
-        }else if(value.length == 9){
-            if(value[1] != 0){
-                logger.debug("Error with another file something");
-                this.buttonOverwriteListener.OnButtonOverwrite(false);
-                return true;
-            }
-            logger.debug("successfully written settings file");
-            this.buttonOverwriteListener.OnButtonOverwrite(true);
+                break;
+            case UPLOADED:
+                buttonOverwriteListener.OnButtonOverwrite(true);
+                break;
         }
         return true;
     }
@@ -414,6 +408,16 @@ public class QHybridSupport extends QHybridBaseSupport {
 
             Intent i = new Intent(QHYBRID_EVENT_BUTTON_PRESS);
             i.putExtra("BUTTON", button);
+
+            ByteBuffer buffer = ByteBuffer.allocate(16);
+            buffer.put(new byte[]{0x01, 0x00, 0x08});
+            buffer.put(value, 2, 8);
+            buffer.put(new byte[]{(byte)0xFF, 0x05, 0x00, 0x01, 0x00});
+
+            UploadFileRequest request = new UploadFileRequest((short)0, buffer.array());
+            for(byte[] packet : request.packets){
+                new TransactionBuilder("File upload").write(getCharacteristic(UUID.fromString("3dda0007-957f-7d4a-34a6-74696673696d")), packet).queue(getQueue());
+            }
 
             getContext().sendBroadcast(i);
         }
