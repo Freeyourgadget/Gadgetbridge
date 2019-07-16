@@ -8,7 +8,7 @@
     <string name="action_donate">Donació</string>
     <string name="controlcenter_fetch_activity_data">Sincronitza</string>
     <string name="controlcenter_start_sleepmonitor">Seguiment del son (ALPHA)</string>
-    <string name="controlcenter_find_device">Cerca un dispositiu perdut</string>
+    <string name="controlcenter_find_device">Cerca un aparell perdut</string>
     <string name="controlcenter_take_screenshot">Fes una captura de pantalla</string>
     <string name="controlcenter_connect">Connecta…</string>
     <string name="controlcenter_disconnect">Desconnecta</string>
@@ -170,9 +170,9 @@
     <string name="this_is_a_test_notification_from_gadgetbridge">Això és una notificació de prova des del Gadgetbridge</string>
     <string name="bluetooth_is_not_supported_">El Bluetooth no és compatible o no està implementat.</string>
     <string name="bluetooth_is_disabled_">El Bluetooth està desactivat.</string>
-    <string name="tap_connected_device_for_app_mananger">Toca el dispositiu connectat per obrir el gestor d\'aplicacions</string>
-    <string name="tap_connected_device_for_activity">Toca el dispositiu connectat per gestionar-ne l\'activitat</string>
-    <string name="tap_connected_device_for_vibration">Toca el dispositiu per fer-lo vibrar</string>
+    <string name="tap_connected_device_for_app_mananger">Toca l\'aparell connectat per obrir el gestor d\'aplicacions</string>
+    <string name="tap_connected_device_for_activity">Toca l\'aparell connectat per gestionar-ne l\'activitat</string>
+    <string name="tap_connected_device_for_vibration">Toca l\'aparell per fer-lo vibrar</string>
     <string name="tap_a_device_to_connect">Toca un aparell per connectar-hi</string>
     <string name="cannot_connect_bt_address_invalid_">No es pot connectar. Potser la direcció Bluetooth és incorrecta\?</string>
     <string name="gadgetbridge_running">El Gadgetbridge està funcionant</string>
@@ -290,11 +290,11 @@
     <string name="weekstepschart_steps_a_week">Passes per setmana</string>
     <string name="activity_sleepchart_activity_and_sleep">La vostra activitat i el vostre son</string>
     <string name="updating_firmware">El microprogramari s\'està instal·lant…</string>
-    <string name="fwapp_install_device_not_ready">No es pot instal·lar el fitxer. El dispositiu no està preparat.</string>
+    <string name="fwapp_install_device_not_ready">No es pot instal·lar el fitxer. L\'aparell no està preparat.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
     <string name="miband_fwinstaller_compatible_version">Versió compatible</string>
     <string name="miband_fwinstaller_untested_version">Versió no provada!</string>
-    <string name="fwappinstaller_connection_state">Connexió a dispositiu: %1$s</string>
+    <string name="fwappinstaller_connection_state">Connexió a l\'aparell: %1$s</string>
     <string name="pbw_installhandler_pebble_firmware">Microprogramari Pebble %1$s</string>
     <string name="pbwinstallhandler_correct_hw_revision">Revisió del maquinari correcta</string>
     <string name="pbwinstallhandler_incorrect_hw_revision">La revisió del maquinari no coincideix!</string>
