@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-
+    <release version="0.34.1" versioncode="151">
+        <change>Mi Band 1: Fix crash when entering per-device settings</change>
+        <change>ZeTime: Fix timestmaps</change>
+        <change>Fix a crash when flashing an non-whitelisted firmware while using Gadgetbridge in Spanish</change>
+    </release>
     <release version="0.34.0" versioncode="150">
         <change>Mi Band 1/2/3/Bip/Cor: Migrate many settings to per-device settings (new settings icon in device card in main activity)</change>
         <change>Mi Band 3: Fix setting menu items with 2.4 firmware and add support for the new timer menu</change>
