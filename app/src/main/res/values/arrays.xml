@@ -150,6 +150,18 @@
         <item>@string/p_dateformat_datetime</item>
     </string-array>
 
+    <string-array name="dateformats">
+        <item>dd.MM.yyyy</item>
+        <item>dd/MM/yyyy</item>
+        <item>MM/dd/yyyy</item>
+    </string-array>
+
+    <string-array name="dateformats_values">
+        <item>dd.MM.yyyy</item>
+        <item>dd/MM/yyyy</item>
+        <item>MM/dd/yyyy</item>
+    </string-array>
+
     <string-array name="mi2_do_not_disturb">
         <item>@string/mi2_dnd_off</item>
         <item>@string/mi2_dnd_automatic</item>
