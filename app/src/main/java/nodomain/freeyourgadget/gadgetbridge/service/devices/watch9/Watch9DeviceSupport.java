@@ -38,6 +38,7 @@ import java.util.UUID;
 
 import androidx.annotation.IntRange;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.watch9.Watch9Constants;
@@ -60,6 +61,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.devices.watch9.operations.InitOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 public class Watch9DeviceSupport extends AbstractBTLEDeviceSupport {
 
@@ -236,7 +238,7 @@ public class Watch9DeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void handleTime(byte[] time) {
-        GregorianCalendar now = BLETypeConversions.createCalendar();
+        Calendar now = DateTimeUtils.getCalendarTurnClockForward();
         GregorianCalendar nowDevice = BLETypeConversions.createCalendar();
         int year = (nowDevice.get(Calendar.YEAR) / 100) * 100 + Conversion.fromBcd8(time[8]);
         nowDevice.set(year,
@@ -250,7 +252,7 @@ public class Watch9DeviceSupport extends AbstractBTLEDeviceSupport {
         long timeDiff = (Math.abs(now.getTimeInMillis() - nowDevice.getTimeInMillis())) / 1000;
         if (10 < timeDiff && timeDiff < 120) {
             enableCalibration(true);
-            setTime(BLETypeConversions.createCalendar());
+            setTime(DateTimeUtils.getCalendarTurnClockForward());
             enableCalibration(false);
         }
     }

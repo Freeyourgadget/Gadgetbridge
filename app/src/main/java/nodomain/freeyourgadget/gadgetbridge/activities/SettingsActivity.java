@@ -198,6 +198,24 @@ public class SettingsActivity extends AbstractSettingsActivity {
 
         });
 
+        pref = findPreference("datetime_turn_clocks_forward");
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                try {
+                    GBApplication.deviceService().onSetTime();
+                } catch (Exception ex) {
+                    GB.toast(getApplicationContext(),
+                            "Error setting new time: " + ex.getLocalizedMessage(),
+                            Toast.LENGTH_LONG,
+                            GB.ERROR,
+                            ex);
+                }
+                return true;
+            }
+
+        });
+
         final Preference unit = findPreference(PREF_MEASUREMENT_SYSTEM);
         unit.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override

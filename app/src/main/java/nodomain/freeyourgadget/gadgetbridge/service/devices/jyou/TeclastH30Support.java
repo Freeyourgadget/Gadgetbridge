@@ -47,6 +47,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -126,7 +127,8 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
     }
 
     private void syncDateAndTime(TransactionBuilder builder) {
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = DateTimeUtils.getCalendarTurnClockForward();
+
         String strYear = String.valueOf(cal.get(Calendar.YEAR));
         byte year1 = (byte)Integer.parseInt(strYear.substring(0, 2));
         byte year2 = (byte)Integer.parseInt(strYear.substring(2, 4));

@@ -54,6 +54,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.ServerTransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casiogb6900.operations.InitOperation;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -225,7 +226,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
 
     private void writeCasioCurrentTime(TransactionBuilder builder) {
         byte[] arr = new byte[10];
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = DateTimeUtils.getCalendarTurnClockForward();
 
         int year = cal.get(Calendar.YEAR);
         arr[0] = (byte)((year >>> 0) & 0xff);

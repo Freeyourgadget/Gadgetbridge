@@ -153,4 +153,29 @@ public class DateTimeUtils {
     public static String minutesToHHMM(int minutes) {
         return String.format(Locale.US, "%d:%02d", minutes / 60, minutes % 60); // no I do not want to use durationformatter :P
     }
+
+    public static Date todayTurnClockForward() {
+        Calendar now = getCalendarTurnClockForward();
+        return now.getTime();
+    }
+
+    public static Calendar getCalendarTurnClockForward() {
+        Calendar now = GregorianCalendar.getInstance();
+        // we will now check if the user likes to turn theirs clock forward or backward
+        // get the time entered on the preferences
+        int minutesToTurnClockForward = GBApplication.getPrefs().getInt("datetime_turn_clocks_forward", 0);
+        if(minutesToTurnClockForward > 10)
+        {   // check if the time is greater than 10 minutes forward; this could be changed to any value
+            minutesToTurnClockForward = 10;
+        } else if(minutesToTurnClockForward < -10)
+        {   // check if the time is greater than 10 minutes backward; this could be changed to any value
+            minutesToTurnClockForward = -10;
+        }
+        if(minutesToTurnClockForward != 0) { // if a value is given turn the actual clock time forwards or backwards
+            long timenow = now.getTimeInMillis(); // get the actual time in milli seconds
+            timenow += minutesToTurnClockForward * 60000; // convert the given minutes to milli seconds and add this to the actual time in milli seconds
+            now.setTimeInMillis(timenow); // set the "new time"
+        }
+        return now;
+    }
 }
