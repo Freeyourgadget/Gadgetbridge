@@ -282,6 +282,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
 
         addPreferenceHandlerFor(PREF_SWIPE_UNLOCK);
         addPreferenceHandlerFor(PREF_MI2_DATEFORMAT);
+        addPreferenceHandlerFor("dateformat");
         addPreferenceHandlerFor(HuamiConst.PREF_DISPLAY_ITEMS);
 
         String displayOnLiftState = prefs.getString(PREF_ACTIVATE_DISPLAY_ON_LIFT, PREF_DO_NOT_DISTURB_OFF);
