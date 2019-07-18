@@ -1553,6 +1553,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case MiBandConst.PREF_SWIPE_UNLOCK:
                     setBandScreenUnlock(builder);
                     break;
+                case "dateformat":
+                    setDateFormat(builder);
+                    break;
             }
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -1567,11 +1570,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onTestNewFunction() {
-        try {
-            new FetchSportsSummaryOperation(this).perform();
-        } catch (IOException ex) {
-            LOG.error("Unable to fetch MI activity data", ex);
-        }
+
     }
 
     @Override
@@ -1590,6 +1589,26 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), HuamiService.DATEFORMAT_DATE_TIME);
                 break;
         }
+        return this;
+    }
+
+    protected HuamiSupport setDateFormat(TransactionBuilder builder) {
+        String dateFormat = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString("dateformat", "MM/dd/yyyy");
+        if (dateFormat == null) {
+            return null;
+        }
+        switch (dateFormat) {
+            case "MM/dd/yyyy":
+            case "dd.MM.yyyy":
+            case "dd/MM/yyyy":
+                byte[] command = HuamiService.DATEFORMAT_DATE_MM_DD_YYYY;
+                System.arraycopy(dateFormat.getBytes(), 0, command, 3, 10);
+                builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
+                break;
+            default:
+                LOG.warn("unsupported date format " + dateFormat);
+        }
+
         return this;
     }
 

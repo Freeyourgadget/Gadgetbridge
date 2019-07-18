@@ -1,8 +1,9 @@
 ### Changelog
 
-#### master
-* Mi Band 4: Unconfirmed and probably completely broken initial support
+#### Version 0.34.1
 * Mi Band 1: Fix crash when entering per-device settings
+* Mi Band 3: Allow setting date format in per-device settings
+* ZeTime: Fix timestmaps
 * Fix a crash when flashing an non-whitelisted firmware while using Gadgetbridge in Spanish
 
 #### Version 0.34.0
