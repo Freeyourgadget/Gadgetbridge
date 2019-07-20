@@ -375,6 +375,11 @@ public class QHybridSupport extends QHybridBaseSupport {
     }
 
     private boolean handleFileUploadCharacteristic(BluetoothGattCharacteristic characteristic) {
+        if(uploadFileRequest == null){
+            logger.debug("no uploadFileRequest to handle response");
+            return true;
+        }
+
         uploadFileRequest.handleResponse(characteristic);
 
         switch (uploadFileRequest.state){
@@ -388,6 +393,7 @@ public class QHybridSupport extends QHybridBaseSupport {
                 break;
             case UPLOADED:
                 buttonOverwriteListener.OnButtonOverwrite(true);
+                uploadFileRequest = null;
                 break;
         }
         return true;
@@ -409,15 +415,15 @@ public class QHybridSupport extends QHybridBaseSupport {
             Intent i = new Intent(QHYBRID_EVENT_BUTTON_PRESS);
             i.putExtra("BUTTON", button);
 
-            ByteBuffer buffer = ByteBuffer.allocate(16);
-            buffer.put(new byte[]{0x01, 0x00, 0x08});
-            buffer.put(value, 2, 8);
-            buffer.put(new byte[]{(byte)0xFF, 0x05, 0x00, 0x01, 0x00});
+            //ByteBuffer buffer = ByteBuffer.allocate(16);
+            //buffer.put(new byte[]{0x01, 0x00, 0x08});
+            //buffer.put(value, 2, 8);
+            //buffer.put(new byte[]{(byte)0xFF, 0x05, 0x00, 0x01, 0x00});
 
-            UploadFileRequest request = new UploadFileRequest((short)0, buffer.array());
-            for(byte[] packet : request.packets){
-                new TransactionBuilder("File upload").write(getCharacteristic(UUID.fromString("3dda0007-957f-7d4a-34a6-74696673696d")), packet).queue(getQueue());
-            }
+            //UploadFileRequest request = new UploadFileRequest((short)0, buffer.array());
+            //for(byte[] packet : request.packets){
+            //    new TransactionBuilder("File upload").write(getCharacteristic(UUID.fromString("3dda0007-957f-7d4a-34a6-74696673696d")), packet).queue(getQueue());
+            //}
 
             getContext().sendBroadcast(i);
         }

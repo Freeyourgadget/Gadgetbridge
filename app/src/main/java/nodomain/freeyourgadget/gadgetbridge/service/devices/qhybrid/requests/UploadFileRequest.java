@@ -38,11 +38,13 @@ public class UploadFileRequest extends Request {
         if (value.length == 4) {
             if (value[1] != 0) {
                 state = UploadState.ERROR;
+                return;
             }
             state = UploadState.UPLOAD;
         }else if(value.length == 9){
             if(value[1] != 0){
                 state = UploadState.ERROR;
+                return;
             }
             state = UploadState.UPLOADED;
         }
