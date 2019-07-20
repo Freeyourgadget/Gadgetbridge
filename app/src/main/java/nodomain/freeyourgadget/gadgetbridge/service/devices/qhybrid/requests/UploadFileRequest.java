@@ -18,12 +18,12 @@ public class UploadFileRequest extends Request {
     public ArrayList<byte[]> packets = new ArrayList<>();
 
     public UploadFileRequest(short handle, byte[] file) {
-        int fileLength = file.length;
+        int fileLength = file.length + 4;
         ByteBuffer buffer = this.createBuffer();
         buffer.putShort(1, handle);
         buffer.putInt(3, 0);
-        buffer.putInt(7, fileLength - 10);
-        buffer.putInt(11, fileLength - 10);
+        buffer.putInt(7, fileLength);
+        buffer.putInt(11, fileLength);
 
         this.data = buffer.array();
 

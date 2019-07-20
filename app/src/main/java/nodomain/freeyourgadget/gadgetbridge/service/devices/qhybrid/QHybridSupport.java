@@ -385,6 +385,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         switch (uploadFileRequest.state){
             case ERROR:
                 buttonOverwriteListener.OnButtonOverwrite(false);
+                uploadFileRequest = null;
                 break;
             case UPLOAD:
                 for(byte[] packet : this.uploadFileRequest.packets){
