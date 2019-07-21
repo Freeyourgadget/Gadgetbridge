@@ -261,8 +261,8 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     @Override
     public void onFindDevice(boolean start) {
-        if(!supportsExtendedVibration){
-            Toast.makeText(getContext(), "Device does not support ", Toast.LENGTH_SHORT).show();
+        if(start && !supportsExtendedVibration){
+            Toast.makeText(getContext(), "Device does not support brr brr", Toast.LENGTH_SHORT).show();
             return;
         }
 
