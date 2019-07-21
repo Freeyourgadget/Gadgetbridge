@@ -13,6 +13,7 @@ import android.net.wifi.aware.Characteristics;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,7 @@ import java.util.UUID;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfig;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -35,6 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.ActivityPointGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.AnimationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.BatteryLevelRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.DownloadFileRequest;
@@ -43,6 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Fil
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.GetCurrentStepCountRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.GetStepGoalRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.GetVibrationStrengthRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.GoalTrackingGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.ListFilesRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.MoveHandsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.OTAEnterRequest;
@@ -65,12 +69,19 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String QHYBRID_COMMAND_VIBRATE = "qhybrid_command_vibrate";
     public static final String QHYBRID_COMMAND_UPDATE = "qhybrid_command_update";
     public static final String QHYBRID_COMMAND_NOTIFICATION = "qhybrid_command_notification";
+    public static final String QHYBRID_COMMAND_UPDATE_SETTINGS = "nodomain.freeyourgadget.gadgetbridge.Q_UPDATE_SETTINGS";
+    public static final String QHYBRID_COMMAND_OVERWRITE_BUTTONS = "nodomain.freeyourgadget.gadgetbridge.Q_OVERWRITE_BUTTONS";
+
+    public static final String QHYBRID_EVENT_SETTINGS_UPDATED = "nodomain.freeyourgadget.gadgetbridge.Q_SETTINGS_UPDATED";
+    public static final String QHYBRID_EVENT_FILE_UPLOADED = "nodomain.freeyourgadget.gadgetbridge.Q_FILE_UPLOADED";
 
     public static final String QHYBRID_EVENT_BUTTON_PRESS = "nodomain.freeyourgadget.gadgetbridge.Q_BUTTON_PRESSED";
 
-    private static final String ITEM_STEP_GOAL = "STEP_GOAL";
-    private static final String ITEM_VIBRATION_STRENGTH = "VIBRATION_STRENGTH";
-
+    public static final String ITEM_STEP_GOAL = "STEP_GOAL";
+    public static final String ITEM_STEP_COUNT = "STEP_COUNT";
+    public static final String ITEM_VIBRATION_STRENGTH = "VIBRATION_STRENGTH";
+    public static final String ITEM_ACTIVITY_POINT = "ACTIVITY_POINT";
+    public static final String ITEM_EXTENDED_VIBRATION_SUPPORT = "EXTENDED_VIBRATION";
 
     private static final Logger logger = LoggerFactory.getLogger(QHybridSupport.class);
 
@@ -82,15 +93,13 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     private final SparseArray<Request> responseFilters = new SparseArray<>();
 
-    private OnVibrationStrengthListener vibrationStrengthListener;
-    private OnGoalListener goalListener;
-    private OnButtonOverwriteListener buttonOverwriteListener;
-
     private Request fileRequest = null;
 
     private boolean dumpInited = false;
 
     private long timeOffset;
+
+    boolean supportsExtendedVibration;
 
     private UploadFileRequest uploadFileRequest;
 
@@ -106,6 +115,8 @@ public class QHybridSupport extends QHybridBaseSupport {
         commandFilter.addAction(QHYBRID_COMMAND_VIBRATE);
         commandFilter.addAction(QHYBRID_COMMAND_UPDATE);
         commandFilter.addAction(QHYBRID_COMMAND_NOTIFICATION);
+        commandFilter.addAction(QHYBRID_COMMAND_UPDATE_SETTINGS);
+        commandFilter.addAction(QHYBRID_COMMAND_OVERWRITE_BUTTONS);
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(commandReceiver, commandFilter);
         fillResponseList();
     }
@@ -117,7 +128,9 @@ public class QHybridSupport extends QHybridBaseSupport {
                 GetStepGoalRequest.class,
                 GetVibrationStrengthRequest.class,
                 GetCurrentStepCountRequest.class,
-                OTAEnterRequest.class
+                OTAEnterRequest.class,
+                GoalTrackingGetRequest.class,
+                ActivityPointGetRequest.class
         };
         for (Class<? extends Request> c : classes) {
             try {
@@ -142,29 +155,13 @@ public class QHybridSupport extends QHybridBaseSupport {
     public void dispose() {
         super.dispose();
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(commandReceiver);
-        getContext().unregisterReceiver(dumpReceiver);
-        ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE)).cancel(dumpIntent);
-        getContext().unregisterReceiver(stepReceiver);
-        ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE)).cancel(stepIntent);
-        dumpInited = false;
-    }
-
-    public void getGoal(OnGoalListener listener) {
-        this.goalListener = listener;
-        queueWrite(new GetStepGoalRequest());
-    }
-
-    public void setGoal(int goal) {
-        queueWrite(new SetStepGoalRequest(goal));
-    }
-
-    public void getVibrationStrength(OnVibrationStrengthListener listener) {
-        this.vibrationStrengthListener = listener;
-        queueWrite(new GetVibrationStrengthRequest());
-    }
-
-    public void setVibrationStrength(int strength) {
-        queueWrite(new SetVibrationStrengthRequest((short) strength));
+        if (dumpInited) {
+            getContext().unregisterReceiver(dumpReceiver);
+            ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE)).cancel(dumpIntent);
+            getContext().unregisterReceiver(stepReceiver);
+            ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE)).cancel(stepIntent);
+            dumpInited = false;
+        }
     }
 
     private void queueWrite(Request request) {
@@ -194,20 +191,21 @@ public class QHybridSupport extends QHybridBaseSupport {
         for (int i = 2; i <= 7; i++)
             builder.notify(getCharacteristic(UUID.fromString("3dda000" + i + "-957f-7d4a-34a6-74696673696d")), true);
 
-        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
 
         helper = new PackageConfigHelper(getContext());
 
-        if (!dumpInited) {
-            getContext().registerReceiver(dumpReceiver, new IntentFilter("dumpReceiver2"));
-            getContext().registerReceiver(stepReceiver, new IntentFilter("stepDumpReceiver"));
-            dumpIntent = PendingIntent.getBroadcast(getContext(), 0, new Intent("dumpReceiver2"), PendingIntent.FLAG_UPDATE_CURRENT);
-            stepIntent = PendingIntent.getBroadcast(getContext(), 0, new Intent("stepDumpReceiver"), PendingIntent.FLAG_UPDATE_CURRENT);
-            ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, AlarmManager.INTERVAL_HOUR, dumpIntent);
-            ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, AlarmManager.INTERVAL_HOUR / 60, stepIntent);
-            dumpInited = true;
-        }
+        // if (!dumpInited) {
+        //     getContext().registerReceiver(dumpReceiver, new IntentFilter("dumpReceiver2"));
+        //     getContext().registerReceiver(stepReceiver, new IntentFilter("stepDumpReceiver"));
+        //     dumpIntent = PendingIntent.getBroadcast(getContext(), 0, new Intent("dumpReceiver2"), PendingIntent.FLAG_UPDATE_CURRENT);
+        //     stepIntent = PendingIntent.getBroadcast(getContext(), 0, new Intent("stepDumpReceiver"), PendingIntent.FLAG_UPDATE_CURRENT);
+        //     ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, AlarmManager.INTERVAL_HOUR, dumpIntent);
+        //     ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, AlarmManager.INTERVAL_HOUR / 60, stepIntent);
+        //     dumpInited = true;
+        // }
         getTimeOffset();
+
+        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
         return builder;
     }
 
@@ -217,6 +215,10 @@ public class QHybridSupport extends QHybridBaseSupport {
 
         playAnimation();
         queueWrite(new BatteryLevelRequest());
+        queueWrite(new GetStepGoalRequest());
+        queueWrite(new GetCurrentStepCountRequest());
+        queueWrite(new GetVibrationStrengthRequest());
+        queueWrite(new ActivityPointGetRequest());
 
         logger.debug("onServicesDiscovered");
     }
@@ -242,7 +244,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         playNotification(config);
     }
 
-    public void playNotification(PackageConfig config){
+    public void playNotification(PackageConfig config) {
         queueWrite(new PlayNotificationRequest(config.getVibration(), config.getHour(), config.getMin()));
     }
 
@@ -259,7 +261,11 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     @Override
     public void onFindDevice(boolean start) {
-        logger.debug("onFindDevice");
+        if(!supportsExtendedVibration){
+            Toast.makeText(getContext(), "Device does not support ", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (start && searchDevice) return;
 
         searchDevice = start;
@@ -291,10 +297,11 @@ public class QHybridSupport extends QHybridBaseSupport {
         // queueWrite(new EventStreamRequest((short)4));
         // queueWrite(new OTAEraseRequest(0));
         // queueWrite(new OTAResetRequest());
-        new UploadFileRequest((short)00, new byte[]{0x01, 0x00, 0x08, 0x01, 0x01, 0x0C, 0x00, (byte)0xBD, 0x01, 0x30, 0x71, (byte)0xFF, 0x05, 0x00, 0x01, 0x00});
+        // new UploadFileRequest((short)00, new byte[]{0x01, 0x00, 0x08, 0x01, 0x01, 0x0C, 0x00, (byte)0xBD, 0x01, 0x30, 0x71, (byte)0xFF, 0x05, 0x00, 0x01, 0x00});
+        queueWrite(new ActivityPointGetRequest());
     }
 
-    public void overwriteButtons(OnButtonOverwriteListener listener){
+    public void overwriteButtons() {
         uploadFileRequest = new UploadFileRequest((short) 0x0800, new byte[]{
                 (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x03, (byte) 0x10, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x20, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00,
                 (byte) 0x30, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x2E, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01,
@@ -302,7 +309,6 @@ public class QHybridSupport extends QHybridBaseSupport {
                 (byte) 0x08, (byte) 0x01, (byte) 0x14, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0xFE, (byte) 0x08, (byte) 0x00, (byte) 0x93, (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x00, (byte) 0xBF, (byte) 0xD5, (byte) 0x54, (byte) 0xD1,
                 (byte) 0x00
         });
-        this.buttonOverwriteListener = listener;
         queueWrite(uploadFileRequest);
     }
 
@@ -341,21 +347,21 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-        switch (characteristic.getUuid().toString()){
+        switch (characteristic.getUuid().toString()) {
             case "3dda0004-957f-7d4a-34a6-74696673696d":
-            case "3dda0003-957f-7d4a-34a6-74696673696d":{
+            case "3dda0003-957f-7d4a-34a6-74696673696d": {
                 return handleFileDownloadCharacteristic(characteristic);
             }
-            case "3dda0007-957f-7d4a-34a6-74696673696d":{
+            case "3dda0007-957f-7d4a-34a6-74696673696d": {
                 return handleFileUploadCharacteristic(characteristic);
             }
-            case "3dda0002-957f-7d4a-34a6-74696673696d":{
+            case "3dda0002-957f-7d4a-34a6-74696673696d": {
                 return handleBasicCharacteristic(characteristic);
             }
-            case "3dda0006-957f-7d4a-34a6-74696673696d":{
+            case "3dda0006-957f-7d4a-34a6-74696673696d": {
                 return handleButtonCharacteristic(characteristic);
             }
-            default:{
+            default: {
                 Log.d("Service", "unknown shit on " + characteristic.getUuid().toString() + ":  " + arrayToString(characteristic.getValue()));
                 try {
                     File charLog = new File("/sdcard/qFiles/charLog.txt");
@@ -375,25 +381,28 @@ public class QHybridSupport extends QHybridBaseSupport {
     }
 
     private boolean handleFileUploadCharacteristic(BluetoothGattCharacteristic characteristic) {
-        if(uploadFileRequest == null){
+        if (uploadFileRequest == null) {
             logger.debug("no uploadFileRequest to handle response");
             return true;
         }
 
         uploadFileRequest.handleResponse(characteristic);
 
-        switch (uploadFileRequest.state){
+        switch (uploadFileRequest.state) {
             case ERROR:
-                buttonOverwriteListener.OnButtonOverwrite(false);
+                Intent fileIntent = new Intent(QHYBRID_EVENT_FILE_UPLOADED);
+                fileIntent.putExtra("EXTRA_ERROR", true);
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(fileIntent);
                 uploadFileRequest = null;
                 break;
             case UPLOAD:
-                for(byte[] packet : this.uploadFileRequest.packets){
+                for (byte[] packet : this.uploadFileRequest.packets) {
                     new TransactionBuilder("File upload").write(characteristic, packet).queue(getQueue());
                 }
                 break;
             case UPLOADED:
-                buttonOverwriteListener.OnButtonOverwrite(true);
+                fileIntent = new Intent(QHYBRID_EVENT_FILE_UPLOADED);
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(fileIntent);
                 uploadFileRequest = null;
                 break;
         }
@@ -433,14 +442,13 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     private boolean handleBasicCharacteristic(BluetoothGattCharacteristic characteristic) {
         byte[] values = characteristic.getValue();
-        Request request;
-        request = resolveAnswer(characteristic);
+        Request request = resolveAnswer(characteristic);
 
-        StringBuilder valueString = new StringBuilder(String.valueOf(values[0]));
-        for (int i = 1; i < characteristic.getValue().length; i++) {
-            valueString.append(", ").append(values[i]);
-        }
         if (request == null) {
+            StringBuilder valueString = new StringBuilder(String.valueOf(values[0]));
+            for (int i = 1; i < characteristic.getValue().length; i++) {
+                valueString.append(", ").append(values[i]);
+            }
             Log.d("Service", "unable to resolve " + characteristic.getUuid().toString() + ": " + valueString);
             return true;
         }
@@ -450,18 +458,12 @@ public class QHybridSupport extends QHybridBaseSupport {
         if (request instanceof BatteryLevelRequest) {
             gbDevice.setBatteryLevel(((BatteryLevelRequest) request).level);
         } else if (request instanceof GetStepGoalRequest) {
-            if (this.goalListener != null) {
-                this.goalListener.onGoal(((GetStepGoalRequest) request).stepGoal);
-                this.goalListener = null;
-            }
             gbDevice.addDeviceInfo(new GenericItem(ITEM_STEP_GOAL, String.valueOf(((GetStepGoalRequest) request).stepGoal)));
         } else if (request instanceof GetVibrationStrengthRequest) {
-            if (this.vibrationStrengthListener != null) {
-                logger.debug("got vibration: " + ((GetVibrationStrengthRequest) request).strength);
-                this.vibrationStrengthListener.onVibrationStrength(((GetVibrationStrengthRequest) request).strength);
-                this.vibrationStrengthListener = null;
-            }
-            gbDevice.addDeviceInfo(new GenericItem(ITEM_VIBRATION_STRENGTH, String.valueOf(((GetVibrationStrengthRequest) request).strength)));
+            int strength = ((GetVibrationStrengthRequest) request).strength;
+            this.supportsExtendedVibration = strength == 25 || strength == 50 || strength == 100;
+            gbDevice.addDeviceInfo(new GenericItem(ITEM_VIBRATION_STRENGTH,String.valueOf(strength)));
+            gbDevice.addDeviceInfo(new GenericItem(ITEM_EXTENDED_VIBRATION_SUPPORT, String.valueOf(supportsExtendedVibration)));
         } else if (fileRequest instanceof ListFilesRequest) {
             ListFilesRequest r = (ListFilesRequest) fileRequest;
             //if(r.fileCount != -1){
@@ -489,11 +491,14 @@ public class QHybridSupport extends QHybridBaseSupport {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            gbDevice.addDeviceInfo(new GenericItem(ITEM_STEP_COUNT, String.valueOf(((GetCurrentStepCountRequest) request).steps)));
         } else if (request instanceof OTAEnterRequest) {
             if (((OTAEnterRequest) request).success) {
                 fileRequest = new OTAEraseRequest(1024 << 16);
                 queueWrite(fileRequest);
             }
+        } else if (request instanceof ActivityPointGetRequest) {
+            gbDevice.addDeviceInfo(new GenericItem(ITEM_ACTIVITY_POINT, String.valueOf(((ActivityPointGetRequest) request).activityPoint)));
         }
         return true;
     }
@@ -535,11 +540,6 @@ public class QHybridSupport extends QHybridBaseSupport {
         byte[] values = characteristic.getValue();
         if (values[0] != 3) return null;
         return responseFilters.get(values[1]);
-    }
-
-    @Override
-    public boolean onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-        return super.onCharacteristicWrite(gatt, characteristic, status);
     }
 
     private void setHands(short hour, short minute) {
@@ -588,19 +588,28 @@ public class QHybridSupport extends QHybridBaseSupport {
                     onSetTime();
                     break;
                 }
+                case QHYBRID_COMMAND_UPDATE_SETTINGS: {
+                    String newSetting = intent.getStringExtra("EXTRA_SETTING");
+                    switch (newSetting) {
+                        case ITEM_VIBRATION_STRENGTH: {
+                            queueWrite(new SetVibrationStrengthRequest(Short.parseShort(gbDevice.getDeviceInfo(ITEM_VIBRATION_STRENGTH).getDetails())));
+                            // queueWrite(new VibrateRequest(false, (short)4, (short)1));
+                            break;
+                        }
+                        case ITEM_STEP_GOAL: {
+                            queueWrite(new SetStepGoalRequest(Short.parseShort(gbDevice.getDeviceInfo(ITEM_STEP_GOAL).getDetails())));
+                            break;
+                        }
+                    }
+
+                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(QHYBRID_EVENT_SETTINGS_UPDATED));
+                    break;
+                }
+                case QHYBRID_COMMAND_OVERWRITE_BUTTONS: {
+                    overwriteButtons();
+                    break;
+                }
             }
         }
     };
-
-    public interface OnVibrationStrengthListener {
-        void onVibrationStrength(int strength);
-    }
-
-    public interface OnGoalListener {
-        void onGoal(long goal);
-    }
-
-    public interface OnButtonOverwriteListener{
-        void OnButtonOverwrite(boolean success);
-    }
 }

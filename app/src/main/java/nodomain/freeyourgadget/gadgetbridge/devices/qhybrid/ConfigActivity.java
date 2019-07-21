@@ -47,14 +47,16 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 
-public class ConfigActivity extends AbstractGBActivity implements ServiceConnection, QHybridSupport.OnVibrationStrengthListener {
+public class ConfigActivity extends AbstractGBActivity implements ServiceConnection {
     PackageAdapter adapter;
     ArrayList<PackageConfig> list;
     PackageConfigHelper helper;
@@ -63,12 +65,11 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
 
     private boolean hasControl = false;
 
-    QHybridSupport support;
-
     SharedPreferences prefs;
 
     TextView timeOffsetView;
 
+    GBDevice device;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,28 +77,10 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qhybrid_settings);
 
-        Log.d("Config", "device: " + (getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE) == null));
-
         findViewById(R.id.buttonOverwriteButtons).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setSettingsEnables(false);
-                ConfigActivity.this.support.overwriteButtons(new QHybridSupport.OnButtonOverwriteListener() {
-                    @Override
-                    public void OnButtonOverwrite(final boolean success) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                setSettingsEnables(true);
-                                if(!success){
-                                    Toast.makeText(ConfigActivity.this, "Error overwriting buttons", Toast.LENGTH_SHORT).show();
-                                }else{
-                                    Toast.makeText(ConfigActivity.this, "successfully overwritten buttons.", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    }
-                });
+                LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_OVERWRITE_BUTTONS));
             }
         });
 
@@ -210,11 +193,9 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         appList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(ConfigActivity.this.support == null){
-                    Toast.makeText(ConfigActivity.this, "connect device to test notification", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                ConfigActivity.this.support.playNotification(list.get(i));
+                Intent notificationIntent = new Intent(QHybridSupport.QHYBRID_COMMAND_NOTIFICATION);
+                notificationIntent.putExtra("CONFIG", list.get(i));
+                LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(notificationIntent);
             }
         });
         SeekBar vibeBar = findViewById(R.id.vibrationStrengthBar);
@@ -234,8 +215,11 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
             public void onStopTrackingTouch(SeekBar seekBar) {
                 int progress;
                 if ((progress = seekBar.getProgress()) == start) return;
-                support.setVibrationStrength((int) Math.pow(2, progress) * 25);
-                updateSettings();
+                String[] values = {"25", "50", "100"};
+                device.addDeviceInfo(new GenericItem(QHybridSupport.ITEM_VIBRATION_STRENGTH, values[progress]));
+                Intent intent = new Intent(QHybridSupport.QHYBRID_COMMAND_UPDATE_SETTINGS);
+                intent.putExtra("EXTRA_SETTING", QHybridSupport.ITEM_VIBRATION_STRENGTH);
+                LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(intent);
             }
         });
     }
@@ -249,48 +233,49 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         );
     }
 
-    private void setSettingsEnables(boolean enables) {
+    private void setSettingsEnabled(boolean enables) {
         findViewById(R.id.settingsLayout).setAlpha(enables ? 1f : 0.2f);
-        findViewById(R.id.vibrationSettingProgressBar).setVisibility(enables ? View.GONE : View.VISIBLE);
     }
 
     private void updateSettings() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                setSettingsEnables(false);
-            }
-        });
-        this.support.getGoal(new QHybridSupport.OnGoalListener() {
-            @Override
-            public void onGoal(final long goal) {
-                runOnUiThread(new Runnable() {
+                EditText et = findViewById(R.id.stepGoalEt);
+                et.setOnEditorActionListener(null);
+                final String text = device.getDeviceInfo(QHybridSupport.ITEM_STEP_GOAL).getDetails();
+                et.setText(text);
+                et.setSelection(text.length());
+                et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     @Override
-                    public void run() {
-                        EditText et = findViewById(R.id.stepGoalEt);
-                        et.setOnEditorActionListener(null);
-                        final String text = String.valueOf(goal);
-                        et.setText(text);
-                        et.setSelection(text.length());
-                        et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                            @Override
-                            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                                if (i == EditorInfo.IME_ACTION_DONE || i == EditorInfo.IME_ACTION_NEXT) {
-                                    String t = textView.getText().toString();
-                                    if (!t.equals(text)) {
-                                        support.setGoal(Integer.parseInt(t));
-                                        updateSettings();
-                                    }
-                                    ((InputMethodManager) getApplicationContext().getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                                }
-                                return true;
+                    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                        if (i == EditorInfo.IME_ACTION_DONE || i == EditorInfo.IME_ACTION_NEXT) {
+                            String t = textView.getText().toString();
+                            if (!t.equals(text)) {
+                                device.addDeviceInfo(new GenericItem(QHybridSupport.ITEM_STEP_GOAL, t));
+                                Intent intent = new Intent(QHybridSupport.QHYBRID_COMMAND_UPDATE_SETTINGS);
+                                intent.putExtra("EXTRA_SETTING", QHybridSupport.ITEM_STEP_GOAL);
+                                LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(intent);
+                                updateSettings();
                             }
-                        });
+                            ((InputMethodManager) getApplicationContext().getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                        }
+                        return true;
                     }
                 });
+
+                if(device.getDeviceInfo(QHybridSupport.ITEM_EXTENDED_VIBRATION_SUPPORT).getDetails().equals("true")){
+                    final int strengthProgress = (int) (Math.log(Double.parseDouble(device.getDeviceInfo(QHybridSupport.ITEM_VIBRATION_STRENGTH).getDetails()) / 25) / Math.log(2));
+
+                    setSettingsEnabled(true);
+                    SeekBar seekBar = findViewById(R.id.vibrationStrengthBar);
+                    seekBar.setProgress(strengthProgress);
+                }else{
+                    findViewById(R.id.vibrationStrengthLayout).setEnabled(false);
+                    findViewById(R.id.vibrationStrengthLayout).setAlpha(0.5f);
+                }
             }
         });
-        this.support.getVibrationStrength(this);
     }
 
     private void setControl(boolean control, PackageConfig config) {
@@ -334,12 +319,16 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         super.onResume();
         refreshList();
         registerReceiver(buttonReceiver, new IntentFilter(QHybridSupport.QHYBRID_EVENT_BUTTON_PRESS));
+        LocalBroadcastManager.getInstance(this).registerReceiver(settingsReceiver, new IntentFilter(QHybridSupport.QHYBRID_EVENT_SETTINGS_UPDATED));
+        LocalBroadcastManager.getInstance(this).registerReceiver(fileReceiver, new IntentFilter(QHybridSupport.QHYBRID_EVENT_FILE_UPLOADED));
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         unregisterReceiver(buttonReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(settingsReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(fileReceiver);
     }
 
     @Override
@@ -362,7 +351,7 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
             setSettingsError("Watch not connected");
             return;
         }
-        this.support = (QHybridSupport) support;
+        this.device = support.getDevice();
         updateSettings();
     }
 
@@ -371,26 +360,11 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
 
     }
 
-    @Override
-    public void onVibrationStrength(int strength) {
-        final int strengthProgress = (int) (Math.log(strength / 25) / Math.log(2));
-        Log.d("Config", "got strength: " + strength);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                setSettingsEnables(true);
-                SeekBar seekBar = findViewById(R.id.vibrationStrengthBar);
-                seekBar.setProgress(strengthProgress);
-            }
-        });
-    }
-
     private void setSettingsError(final String error) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                setSettingsEnables(false);
-                findViewById(R.id.vibrationSettingProgressBar).setVisibility(View.GONE);
+                setSettingsEnabled(false);
                 ((TextView) findViewById(R.id.settingsErrorText)).setVisibility(View.VISIBLE);
                 ((TextView) findViewById(R.id.settingsErrorText)).setText(error);
             }
@@ -412,7 +386,7 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
                 view = ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.qhybrid_package_settings_item, null);
             PackageConfig settings = getItem(position);
 
-            if(settings == null){
+            if (settings == null) {
                 Button addButton = new Button(ConfigActivity.this);
                 addButton.setText("+");
                 addButton.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -468,6 +442,18 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         }
     }
 
+    BroadcastReceiver fileReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            boolean error = intent.getBooleanExtra("EXTRA_ERROR",false);
+            if(error){
+                Toast.makeText(ConfigActivity.this, "Error overwriting buttons", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Toast.makeText(ConfigActivity.this, "Successfully overwritten buttons", Toast.LENGTH_SHORT).show();
+        }
+    };
+
     BroadcastReceiver buttonReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -475,7 +461,15 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         }
     };
 
-    class AddPackageConfig extends PackageConfig{
+    BroadcastReceiver settingsReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(ConfigActivity.this, "Setting updated", Toast.LENGTH_SHORT).show();
+            updateSettings();
+        }
+    };
+
+    class AddPackageConfig extends PackageConfig {
         AddPackageConfig() {
             super(null, null);
         }
