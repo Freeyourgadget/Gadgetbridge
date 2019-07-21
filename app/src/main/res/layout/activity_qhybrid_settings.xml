@@ -14,18 +14,26 @@
         android:id="@+id/settingsLayout"
         android:focusableInTouchMode="true" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="vibration strength:" />
-
-
-        <SeekBar
-            android:id="@+id/vibrationStrengthBar"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="2"
-            android:min="0" />
+            android:id="@+id/vibrationStrengthLayout"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="vibration strength:" />
+
+
+            <SeekBar
+                android:id="@+id/vibrationStrengthBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="2"
+                android:min="0" />
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -64,14 +72,14 @@
 
     </LinearLayout>
 
-    <ProgressBar
+    <!-- <ProgressBar
         android:id="@+id/vibrationSettingProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/settingsLayout"
         android:layout_alignTop="@id/settingsLayout"
         android:layout_centerHorizontal="true"
-        android:gravity="center" />
+        android:gravity="center" /> -->
 
     <TextView
         android:id="@+id/settingsErrorText"
@@ -82,9 +90,6 @@
         android:layout_centerHorizontal="true"
         android:visibility="gone"
         android:gravity="center" />
-
-
-
     <ListView
         android:id="@+id/qhybrid_appList"
         android:layout_marginTop="50dp"
