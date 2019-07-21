@@ -22,8 +22,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.ArrayDeque;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Queue;
 import java.util.TimeZone;
 import java.util.UUID;
 
@@ -105,6 +107,8 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     private PendingIntent dumpIntent;
     private PendingIntent stepIntent;
+
+    Queue<Request> requestQueue = new ArrayDeque<>();
 
     public QHybridSupport() {
         super(logger);
@@ -214,11 +218,11 @@ public class QHybridSupport extends QHybridBaseSupport {
         super.onServicesDiscovered(gatt);
 
         playAnimation();
+        requestQueue.add(new GetStepGoalRequest());
+        requestQueue.add(new GetCurrentStepCountRequest());
+        requestQueue.add(new GetVibrationStrengthRequest());
+        requestQueue.add(new ActivityPointGetRequest());
         queueWrite(new BatteryLevelRequest());
-        queueWrite(new GetStepGoalRequest());
-        queueWrite(new GetCurrentStepCountRequest());
-        queueWrite(new GetVibrationStrengthRequest());
-        queueWrite(new ActivityPointGetRequest());
 
         logger.debug("onServicesDiscovered");
     }
@@ -499,6 +503,10 @@ public class QHybridSupport extends QHybridBaseSupport {
             }
         } else if (request instanceof ActivityPointGetRequest) {
             gbDevice.addDeviceInfo(new GenericItem(ITEM_ACTIVITY_POINT, String.valueOf(((ActivityPointGetRequest) request).activityPoint)));
+        }
+        Request nextRequest;
+        if((nextRequest = requestQueue.remove()) != null){
+            queueWrite(nextRequest);
         }
         return true;
     }
