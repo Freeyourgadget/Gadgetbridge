@@ -271,7 +271,7 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
                     SeekBar seekBar = findViewById(R.id.vibrationStrengthBar);
                     seekBar.setProgress(strengthProgress);
                 }else{
-                    findViewById(R.id.vibrationStrengthLayout).setEnabled(false);
+                    findViewById(R.id.vibrationStrengthBar).setEnabled(false);
                     findViewById(R.id.vibrationStrengthLayout).setAlpha(0.5f);
                 }
             }
