@@ -44,6 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiWeatherConditions
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -143,7 +144,7 @@ public class AmazfitBipSupport extends HuamiSupport {
                 byte[] command = new byte[length + prefixlength + suffixlength];
 
                 command[0] = (byte) alertCategory.getId();
-                command[1] = 1;
+                command[1] = (byte) (gbDevice.getType() == DeviceType.MIBAND4 ? 0 : 1); // FIXME: remove hack
                 if (alertCategory == AlertCategory.CustomHuami) {
                     command[2] = customIconId;
                 }
