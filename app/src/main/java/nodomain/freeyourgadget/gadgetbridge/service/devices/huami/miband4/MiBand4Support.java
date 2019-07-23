@@ -27,6 +27,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband3.MiBand
 public class MiBand4Support extends MiBand3Support {
 
     @Override
+    public byte getCryptFlags() {
+        return (byte) 0x80;
+    }
+
+    @Override
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
         return null;
     }
