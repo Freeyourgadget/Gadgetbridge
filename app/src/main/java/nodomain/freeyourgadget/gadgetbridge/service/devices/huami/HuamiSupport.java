@@ -209,21 +209,26 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         try {
-            heartRateNotifyEnabled = false;
-            boolean authenticate = needsAuth;
-            needsAuth = false;
             byte authFlags = getAuthFlags();
-            new InitOperation(authenticate, authFlags, this, builder).perform();
+            byte cryptFlags = getCryptFlags();
+            heartRateNotifyEnabled = false;
+            boolean authenticate = needsAuth && (cryptFlags == 0x00);
+            needsAuth = false;
+            new InitOperation(authenticate, authFlags, cryptFlags, this, builder).perform();
             characteristicHRControlPoint = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT);
             characteristicChunked = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER);
         } catch (IOException e) {
-            GB.toast(getContext(), "Initializing Mi Band 2 failed", Toast.LENGTH_SHORT, GB.ERROR, e);
+            GB.toast(getContext(), "Initializing Huami device failed", Toast.LENGTH_SHORT, GB.ERROR, e);
         }
         return builder;
     }
 
     protected byte getAuthFlags() {
         return HuamiService.AUTH_BYTE;
+    }
+
+    public byte getCryptFlags() {
+        return 0x00;
     }
 
     /**
