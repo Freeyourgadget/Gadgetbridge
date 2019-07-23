@@ -45,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Bat
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.DownloadFileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.EraseFileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.FileRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.GetCountdownSettingsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.GetCurrentStepCountRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.GetStepGoalRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.GetVibrationStrengthRequest;
@@ -134,7 +135,8 @@ public class QHybridSupport extends QHybridBaseSupport {
                 GetCurrentStepCountRequest.class,
                 OTAEnterRequest.class,
                 GoalTrackingGetRequest.class,
-                ActivityPointGetRequest.class
+                ActivityPointGetRequest.class,
+                GetCountdownSettingsRequest.class
         };
         for (Class<? extends Request> c : classes) {
             try {
@@ -302,7 +304,8 @@ public class QHybridSupport extends QHybridBaseSupport {
         // queueWrite(new OTAEraseRequest(0));
         // queueWrite(new OTAResetRequest());
         // new UploadFileRequest((short)00, new byte[]{0x01, 0x00, 0x08, 0x01, 0x01, 0x0C, 0x00, (byte)0xBD, 0x01, 0x30, 0x71, (byte)0xFF, 0x05, 0x00, 0x01, 0x00});
-        queueWrite(new ActivityPointGetRequest());
+        // queueWrite(new ActivityPointGetRequest());
+        queueWrite(new GetCountdownSettingsRequest());
     }
 
     public void overwriteButtons() {
