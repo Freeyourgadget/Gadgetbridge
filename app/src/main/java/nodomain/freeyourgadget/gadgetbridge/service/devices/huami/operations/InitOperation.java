@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.SharedPreferences;
@@ -24,9 +25,7 @@ import android.widget.Toast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.security.InvalidKeyException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.UUID;
@@ -52,21 +51,25 @@ public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
     private final TransactionBuilder builder;
     private final boolean needsAuth;
     private final byte authFlags;
+    private final byte cryptFlags;
+    private final HuamiSupport huamiSupport;
 
-    public InitOperation(boolean needsAuth, byte authFlags, HuamiSupport support, TransactionBuilder builder) {
+    public InitOperation(boolean needsAuth, byte authFlags, byte cryptFlags, HuamiSupport support, TransactionBuilder builder) {
         super(support);
+        this.huamiSupport = support;
         this.needsAuth = needsAuth;
         this.authFlags = authFlags;
+        this.cryptFlags = cryptFlags;
         this.builder = builder;
         builder.setGattCallback(this);
     }
 
     @Override
-    protected void doPerform() throws IOException {
-        getSupport().enableNotifications(builder, true);
+    protected void doPerform() {
+        huamiSupport.enableNotifications(builder, true);
         if (needsAuth) {
             builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.AUTHENTICATING, getContext()));
-            // write key to miband2
+            // write key to device
             byte[] sendKey = org.apache.commons.lang3.ArrayUtils.addAll(new byte[]{HuamiService.AUTH_SEND_KEY, authFlags}, getSecretKey());
             builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_AUTH), sendKey);
         } else {
@@ -77,7 +80,11 @@ public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
     }
 
     private byte[] requestAuthNumber() {
-        return new byte[]{HuamiService.AUTH_REQUEST_RANDOM_AUTH_NUMBER, authFlags};
+        if (cryptFlags == 0x00) {
+            return new byte[]{HuamiService.AUTH_REQUEST_RANDOM_AUTH_NUMBER, authFlags};
+        } else {
+            return new byte[]{(byte) (cryptFlags | HuamiService.AUTH_REQUEST_RANDOM_AUTH_NUMBER), authFlags, 0x02};
+        }
     }
 
     private byte[] getSecretKey() {
@@ -88,13 +95,17 @@ public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
         String authKey = sharedPrefs.getString("authkey", null);
         if (authKey != null && !authKey.isEmpty()) {
             byte[] srcBytes = authKey.getBytes();
-            System.arraycopy(srcBytes, 0, authKeyBytes, 0, Math.min(srcBytes.length,16));
+            if (authKey.length() == 34 && authKey.substring(0, 2).equals("0x")) {
+                srcBytes = GB.hexStringToByteArray(authKey.substring(2));
+            }
+            System.arraycopy(srcBytes, 0, authKeyBytes, 0, Math.min(srcBytes.length, 16));
         }
+
         return authKeyBytes;
     }
 
     @Override
-    public TransactionBuilder performInitialized(String taskName) throws IOException {
+    public TransactionBuilder performInitialized(String taskName) {
         throw new UnsupportedOperationException("This IS the initialization class, you cannot call this method");
     }
 
@@ -105,41 +116,40 @@ public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
         if (HuamiService.UUID_CHARACTERISTIC_AUTH.equals(characteristicUUID)) {
             try {
                 byte[] value = characteristic.getValue();
-                getSupport().logMessageContent(value);
+                huamiSupport.logMessageContent(value);
                 if (value[0] == HuamiService.AUTH_RESPONSE &&
                         value[1] == HuamiService.AUTH_SEND_KEY &&
                         value[2] == HuamiService.AUTH_SUCCESS) {
-                    TransactionBuilder builder = createTransactionBuilder("Sending the secret key to the band");
+                    TransactionBuilder builder = createTransactionBuilder("Sending the secret key to the device");
                     builder.write(characteristic, requestAuthNumber());
-                    getSupport().performImmediately(builder);
+                    huamiSupport.performImmediately(builder);
                 } else if (value[0] == HuamiService.AUTH_RESPONSE &&
-                        value[1] == HuamiService.AUTH_REQUEST_RANDOM_AUTH_NUMBER &&
+                        (value[1] & 0x0f) == HuamiService.AUTH_REQUEST_RANDOM_AUTH_NUMBER &&
                         value[2] == HuamiService.AUTH_SUCCESS) {
-                    // md5??
                     byte[] eValue = handleAESAuth(value, getSecretKey());
                     byte[] responseValue = org.apache.commons.lang3.ArrayUtils.addAll(
-                            new byte[]{HuamiService.AUTH_SEND_ENCRYPTED_AUTH_NUMBER, authFlags}, eValue);
+                            new byte[]{(byte) (HuamiService.AUTH_SEND_ENCRYPTED_AUTH_NUMBER | cryptFlags), authFlags}, eValue);
 
-                    TransactionBuilder builder = createTransactionBuilder("Sending the encrypted random key to the band");
+                    TransactionBuilder builder = createTransactionBuilder("Sending the encrypted random key to the device");
                     builder.write(characteristic, responseValue);
-                    getSupport().setCurrentTimeWithService(builder);
-                    getSupport().performImmediately(builder);
+                    huamiSupport.setCurrentTimeWithService(builder);
+                    huamiSupport.performImmediately(builder);
                 } else if (value[0] == HuamiService.AUTH_RESPONSE &&
-                        value[1] == HuamiService.AUTH_SEND_ENCRYPTED_AUTH_NUMBER &&
+                        (value[1] & 0x0f) == HuamiService.AUTH_SEND_ENCRYPTED_AUTH_NUMBER &&
                         value[2] == HuamiService.AUTH_SUCCESS) {
                     TransactionBuilder builder = createTransactionBuilder("Authenticated, now initialize phase 2");
                     builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
-                    getSupport().requestDeviceInfo(builder);
-                    getSupport().enableFurtherNotifications(builder, true);
-                    getSupport().phase2Initialize(builder);
-                    getSupport().phase3Initialize(builder);
-                    getSupport().setInitialized(builder);
-                    getSupport().performImmediately(builder);
+                    huamiSupport.requestDeviceInfo(builder);
+                    huamiSupport.enableFurtherNotifications(builder, true);
+                    huamiSupport.phase2Initialize(builder);
+                    huamiSupport.phase3Initialize(builder);
+                    huamiSupport.setInitialized(builder);
+                    huamiSupport.performImmediately(builder);
                 } else {
                     return super.onCharacteristicChanged(gatt, characteristic);
                 }
             } catch (Exception e) {
-                GB.toast(getContext(), "Error authenticating Mi Band 2", Toast.LENGTH_LONG, GB.ERROR, e);
+                GB.toast(getContext(), "Error authenticating Huami device", Toast.LENGTH_LONG, GB.ERROR, e);
             }
             return true;
         } else {
@@ -148,17 +158,11 @@ public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
         }
     }
 
-    private byte[] getMD5(byte[] message) throws NoSuchAlgorithmException {
-        MessageDigest md5 = MessageDigest.getInstance("MD5");
-        return md5.digest(message);
-    }
-
     private byte[] handleAESAuth(byte[] value, byte[] secretKey) throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException {
         byte[] mValue = Arrays.copyOfRange(value, 3, 19);
-        Cipher ecipher = Cipher.getInstance("AES/ECB/NoPadding");
+        @SuppressLint("GetInstance") Cipher ecipher = Cipher.getInstance("AES/ECB/NoPadding");
         SecretKeySpec newKey = new SecretKeySpec(secretKey, "AES");
         ecipher.init(Cipher.ENCRYPT_MODE, newKey);
-        byte[] enc = ecipher.doFinal(mValue);
-        return enc;
+        return ecipher.doFinal(mValue);
     }
 }

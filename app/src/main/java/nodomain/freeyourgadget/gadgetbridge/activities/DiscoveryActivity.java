@@ -590,7 +590,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(deviceCandidate);
         GBDevice device = DeviceHelper.getInstance().toSupportedDevice(deviceCandidate);
-        if (coordinator.getSupportedDeviceSpecificSettings(device) != null) {
+        if (coordinator.getSupportedDeviceSpecificSettings(device) == null) {
             return true;
         }
 
