@@ -429,12 +429,12 @@
     <string name="controlcenter_calibrate_device">Calibrar Dispositivo</string>
     <string name="blacklist_all_for_notifications">Bloquear todas as notificações</string>
     <string name="whitelist_all_for_notifications">Desbloquear todas as notificações</string>
-    <string name="fw_upgrade_notice_miband3">Você está prestes a instalar o firmware %s na sua Mi Band 3.
-\n
-\nCertifique-se de instalar o arquivo .fw, e depois o arquivo .res. Seu relógio será reiniciado após a instalação do arquivo .fw.
-\n
-\nNota: você não precisa instalar .res se esse arquivo é exatamente o mesmo instalado anteriormente.
-\n
+    <string name="fw_upgrade_notice_miband3">Você está prestes a instalar o firmware %s na sua Mi Band 3. 
+\n 
+\nCertifique-se de instalar o arquivo .fw, e depois o arquivo .res. Sua pulseira será reiniciada após instalar o arquivo .fw. 
+\n 
+\nNota:Vvocê não precisa instalar .res se esse arquivo é exatamente o mesmo instalado anteriormente. 
+\n 
 \nPROSSIGA POR SUA CONTA E RISCO!</string>
     <string name="pref_title_notifications_timeout">Tempo mínimo entre notificações</string>
     <string name="pref_title_rtl">Direita para a esquerda</string>
@@ -718,4 +718,14 @@
     <string name="portuguese">Português</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="devicetype_miband4">Mi Band 4</string>
+    <string name="fw_upgrade_notice_miband4">Você está prestes a instalar o firmware %s na sua Mi Band 4.
+\n
+\nCertifique-se de instalar o arquivo .fw e, após, o arquivo .res. Sua pulseira vai reiniciar após instalar o arquivo .fw.
+\n
+\nNota: Você não tem que instalar .res se ele for exatamente o mesmo arquivo que o instalado anteriormente.
+\n
+\nPROSSIGA POR SUA CONTA E RISCO!</string>
+    <string name="prefs_hr_alarm_activity">Alarme de frequência cardíaca durante atividades esportivas</string>
+    <string name="prefs_hr_alarm_low">Limite baixo</string>
+    <string name="prefs_hr_alarm_high">Limite alto</string>
 </resources>
