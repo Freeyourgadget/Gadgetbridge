@@ -63,6 +63,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Req
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetCountdownSettings;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetCurrentTimeServiceRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetStepGoalRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetTimeRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetVibrationStrengthRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.UploadFileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.VibrateRequest;
@@ -268,7 +269,7 @@ public class QHybridSupport extends QHybridBaseSupport {
     public void onSetTime() {
         long millis = System.currentTimeMillis();
         TimeZone zone = new GregorianCalendar().getTimeZone();
-        SetCurrentTimeServiceRequest request = new SetCurrentTimeServiceRequest(
+        SetTimeRequest request = new SetTimeRequest(
                 (int) (millis / 1000 + timeOffset * 60),
                 (short) (millis % 1000),
                 (short) ((zone.getRawOffset() + zone.getDSTSavings()) / 60000));
