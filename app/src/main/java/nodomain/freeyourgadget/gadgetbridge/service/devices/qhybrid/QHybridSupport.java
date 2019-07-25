@@ -121,6 +121,8 @@ public class QHybridSupport extends QHybridBaseSupport {
     public QHybridSupport() {
         super(logger);
         addSupportedService(UUID.fromString("3dda0001-957f-7d4a-34a6-74696673696d"));
+        addSupportedService(UUID.fromString("0000180a-0000-1000-8000-00805f9b34fb"));
+        addSupportedService(UUID.fromString("00001800-0000-1000-8000-00805f9b34fb"));
         IntentFilter commandFilter = new IntentFilter(QHYBRID_COMMAND_CONTROL);
         commandFilter.addAction(QHYBRID_COMMAND_UNCONTROL);
         commandFilter.addAction(QHYBRID_COMMAND_SET);
@@ -200,6 +202,12 @@ public class QHybridSupport extends QHybridBaseSupport {
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
 
+        for (int i = 2; i <= 7; i++)
+            builder.notify(getCharacteristic(UUID.fromString("3dda000" + i + "-957f-7d4a-34a6-74696673696d")), true);
+
+        builder.read(getCharacteristic(UUID.fromString("00002a00-0000-1000-8000-00805f9b34fb")));
+        builder.read(getCharacteristic(UUID.fromString("00002a24-0000-1000-8000-00805f9b34fb")));
+        builder.read(getCharacteristic(UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb")));
 
         helper = new PackageConfigHelper(getContext());
 
@@ -217,23 +225,6 @@ public class QHybridSupport extends QHybridBaseSupport {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
 
         return builder;
-    }
-
-    @Override
-    public void onServicesDiscovered(BluetoothGatt gatt) {
-        super.onServicesDiscovered(gatt);
-
-
-
-        for (int i = 2; i <= 7; i++)
-            gatt.setCharacteristicNotification(getCharacteristic(UUID.fromString("3dda000" + i + "-957f-7d4a-34a6-74696673696d")), true);
-
-        BluetoothGattService deviceInfo = gatt.getService(UUID.fromString("0000180a-0000-1000-8000-00805f9b34fb"));
-        BluetoothGattCharacteristic modelNumber = deviceInfo.getCharacteristic(UUID.fromString("00002a24-0000-1000-8000-00805f9b34fb"));
-
-        gatt.readCharacteristic(modelNumber);
-
-        logger.debug("onServicesDiscovered");
     }
 
     @Override
@@ -362,24 +353,14 @@ public class QHybridSupport extends QHybridBaseSupport {
     @Override
     public boolean onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
         switch (characteristic.getUuid().toString()){
-            case "00002a24-0000-1000-8000-00805f9b34fb":{
-                modelNumber = characteristic.getStringValue(0);
-                gbDevice.setModel(modelNumber);
-
-                BluetoothGattService genericAccess = gatt.getService(UUID.fromString("00001800-0000-1000-8000-00805f9b34fb"));
-                BluetoothGattCharacteristic deviceName = genericAccess.getCharacteristic(UUID.fromString("00002a00-0000-1000-8000-00805f9b34fb"));
-
-                gatt.readCharacteristic(deviceName);
-                break;
-            }
             case "00002a00-0000-1000-8000-00805f9b34fb":{
                 String deviceName = characteristic.getStringValue(0);
                 gbDevice.setName(deviceName);
-
-                BluetoothGattService genericAccess = gatt.getService(UUID.fromString("0000180a-0000-1000-8000-00805f9b34fb"));
-                BluetoothGattCharacteristic firmwareVersion = genericAccess.getCharacteristic(UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb"));
-
-                gatt.readCharacteristic(firmwareVersion);
+                break;
+            }
+            case "00002a24-0000-1000-8000-00805f9b34fb":{
+                modelNumber = characteristic.getStringValue(0);
+                gbDevice.setModel(modelNumber);
                 break;
             }
             case "00002a26-0000-1000-8000-00805f9b34fb":{
