@@ -96,10 +96,6 @@ public class UpdateFirmwareOperationNew extends UpdateFirmwareOperation {
 
     @Override
     protected byte[] getFirmwareStartCommand() {
-        byte typeByte = 0; //TODO: what is this really?
-        if (getFirmwareInfo().getFirmwareType() == HuamiFirmwareType.WATCHFACE) {
-            typeByte = 1;
-        }
-        return new byte[]{HuamiService.COMMAND_FIRMWARE_START_DATA, typeByte};
+        return new byte[]{HuamiService.COMMAND_FIRMWARE_START_DATA, 1};
     }
 }
