@@ -498,11 +498,7 @@ public class GBDevice implements Parcelable {
     public List<ItemWithDetails> getDeviceInfos() {
         List<ItemWithDetails> result = new ArrayList<>();
         if (mDeviceInfos != null) {
-            for (ItemWithDetails deviceInfo : mDeviceInfos){
-                GenericItem item = new GenericItem(deviceInfo.getName() + ": ", deviceInfo.getDetails());
-                item.setIcon(deviceInfo.getIcon());
-                result.add(item);
-            }
+            result.addAll(mDeviceInfos);
         }
         if (mModel != null) {
             result.add(new GenericItem(DEVINFO_HW_VER, mModel));
