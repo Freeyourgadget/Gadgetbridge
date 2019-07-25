@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2019 Andreas Shimokawa, Daniele Gobbetti
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitcor2;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband4;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,21 +25,28 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareI
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
-public class AmazfitCor2FirmwareInfo extends HuamiFirmwareInfo {
-    // this is the same as Bip
+public class MiBand4FirmwareInfo extends HuamiFirmwareInfo {
+
     private static final byte[] FW_HEADER = new byte[]{
-            0x00, (byte) 0x98, 0x00, 0x20, (byte) 0xA5, 0x04, 0x00, 0x20, (byte) 0xAD, 0x04, 0x00, 0x20, (byte) 0xC5, 0x04, 0x00, 0x20
+            0x31, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, (byte) 0x9c, (byte) 0xe3, 0x7d, 0x5c, 0x00, 0x04
     };
+
+    private static final int FW_HEADER_OFFSET = 16;
 
     private static Map<Integer, String> crcToVersion = new HashMap<>();
 
     static {
+        // firmware
+        crcToVersion.put(8969, "1.0.5.22");
+
+        // resources
+        crcToVersion.put(27412, "1.0.5.22");
+
         // font
-        crcToVersion.put(61054, "8");
-        crcToVersion.put(62291, "9 (Latin)");
+        crcToVersion.put(31978, "1");
     }
 
-    public AmazfitCor2FirmwareInfo(byte[] bytes) {
+    public MiBand4FirmwareInfo(byte[] bytes) {
         super(bytes);
     }
 
@@ -48,12 +55,8 @@ public class AmazfitCor2FirmwareInfo extends HuamiFirmwareInfo {
         if (ArrayUtils.equals(bytes, RES_HEADER, COMPRESSED_RES_HEADER_OFFSET) || ArrayUtils.equals(bytes, NEWRES_HEADER, COMPRESSED_RES_HEADER_OFFSET_NEW) || ArrayUtils.equals(bytes, NEWRES_HEADER, COMPRESSED_RES_HEADER_OFFSET)) {
             return HuamiFirmwareType.RES_COMPRESSED;
         }
-        if (ArrayUtils.startsWith(bytes, FW_HEADER)) {
-            // FIXME: It would certainly better if we could check for "Cor 2" when the device name is "Cor 2" and for "Band 2" when it is "Band 2"
-            if (searchString32BitAligned(bytes, "Amazfit Cor 2")) {
-                return HuamiFirmwareType.FIRMWARE;
-            }
-            if (searchString32BitAligned(bytes, "Amazfit Band 2")) {
+        if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET)) {
+            if (searchString32BitAligned(bytes, "Mi Smart Band 4")) {
                 return HuamiFirmwareType.FIRMWARE;
             }
             return HuamiFirmwareType.INVALID;
@@ -62,10 +65,8 @@ public class AmazfitCor2FirmwareInfo extends HuamiFirmwareInfo {
             return HuamiFirmwareType.WATCHFACE;
         }
         if (ArrayUtils.startsWith(bytes, NEWFT_HEADER)) {
-            if (bytes[10] == 0x01) {
+            if (bytes[10] == 0x03) {
                 return HuamiFirmwareType.FONT;
-            } else if (bytes[10] == 0x02) {
-                return HuamiFirmwareType.FONT_LATIN;
             }
         }
         // somebody might have unpacked the compressed res
@@ -75,9 +76,10 @@ public class AmazfitCor2FirmwareInfo extends HuamiFirmwareInfo {
         return HuamiFirmwareType.INVALID;
     }
 
+
     @Override
     public boolean isGenerallyCompatibleWith(GBDevice device) {
-        return isHeaderValid() && device.getType() == DeviceType.AMAZFITCOR2;
+        return isHeaderValid() && device.getType() == DeviceType.MIBAND4;
     }
 
     @Override

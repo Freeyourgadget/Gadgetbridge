@@ -1,5 +1,8 @@
 ### Changelog
 
+#### Version 0.35.0
+* Mi Band 4: Initial support (WARNING: INITIAL SETUP NEEDS MI FIT WITH ACCOUNT AND ROOT, NOT A RECOMMENDED DEVICE FOR GADGETBRIDGE)
+
 #### Version 0.34.1
 * Mi Band 1: Fix crash when entering per-device settings
 * Mi Band 3: Allow setting date format in per-device settings

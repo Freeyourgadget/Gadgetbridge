@@ -49,6 +49,8 @@ public abstract class HuamiFirmwareInfo {
     };
 
     protected static final int FONT_TYPE_OFFSET = 0x9;
+    protected static final int COMPRESSED_RES_HEADER_OFFSET = 0x9;
+    protected static final int COMPRESSED_RES_HEADER_OFFSET_NEW = 0xd;
 
     private HuamiFirmwareType firmwareType;
 

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2019 Andreas Shimokawa
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband4;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami.miband4;
 
 import android.content.Context;
 import android.net.Uri;
@@ -22,18 +22,19 @@ import android.net.Uri;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband4.MiBand4FWHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband3.MiBand3Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband4.MiBand4FirmwareInfo;
 
-public class MiBand4Support extends MiBand3Support {
+public class MiBand4FWHelper extends HuamiFWHelper {
 
-    @Override
-    public byte getCryptFlags() {
-        return (byte) 0x80;
+    public MiBand4FWHelper(Uri uri, Context context) throws IOException {
+        super(uri, context);
     }
 
     @Override
-    public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
-        return new MiBand4FWHelper(uri, context);
+    protected void determineFirmwareInfo(byte[] wholeFirmwareBytes) {
+        firmwareInfo = new MiBand4FirmwareInfo(wholeFirmwareBytes);
+        if (!firmwareInfo.isHeaderValid()) {
+            throw new IllegalArgumentException("Not a Mi Band 4 firmware");
+        }
     }
 }

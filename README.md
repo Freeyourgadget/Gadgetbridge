@@ -41,6 +41,7 @@ vendor's servers.
 * Mi Band, Mi Band 1A, Mi Band 1S [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band)
 * Mi Band 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2)
 * Mi Band 3 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-3)
+* Mi Band 4 (WIP, NOT RECOMMENDED, NEEDS MI FIT WITH ACCOUNT AND ROOT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-4)
 * Mi Scale 2 (currently only displays a toast after stepping on the scale)
 * NO.1 F1 (WIP)
 * Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
