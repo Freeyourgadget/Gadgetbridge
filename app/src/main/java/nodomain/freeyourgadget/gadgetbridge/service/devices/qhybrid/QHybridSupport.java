@@ -205,9 +205,9 @@ public class QHybridSupport extends QHybridBaseSupport {
         for (int i = 2; i <= 7; i++)
             builder.notify(getCharacteristic(UUID.fromString("3dda000" + i + "-957f-7d4a-34a6-74696673696d")), true);
 
-        builder.read(getCharacteristic(UUID.fromString("00002a00-0000-1000-8000-00805f9b34fb")));
-        builder.read(getCharacteristic(UUID.fromString("00002a24-0000-1000-8000-00805f9b34fb")));
-        builder.read(getCharacteristic(UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb")));
+        builder.read(getCharacteristic(UUID.fromString("00002a00-0000-1000-8000-00805f9b34fb")))
+                .read(getCharacteristic(UUID.fromString("00002a24-0000-1000-8000-00805f9b34fb")))
+                .read(getCharacteristic(UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb")));
 
         helper = new PackageConfigHelper(getContext());
 
@@ -238,8 +238,10 @@ public class QHybridSupport extends QHybridBaseSupport {
 
         Log.d("Service", "handling notification");
 
-        int mode = ((AudioManager) getContext().getApplicationContext().getSystemService(Context.AUDIO_SERVICE)).getRingerMode();
-        if (mode == AudioManager.RINGER_MODE_SILENT && config.getRespectSilentMode()) return;
+        if(config.getRespectSilentMode()) {
+            int mode = ((AudioManager) getContext().getApplicationContext().getSystemService(Context.AUDIO_SERVICE)).getRingerMode();
+            if (mode == AudioManager.RINGER_MODE_SILENT) return;
+        }
 
         playNotification(config);
     }
@@ -261,7 +263,7 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     @Override
     public void onFindDevice(boolean start) {
-        if(start && !supportsExtendedVibration){
+        if (start && !supportsExtendedVibration) {
             Toast.makeText(getContext(), "Device does not support brr brr", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -300,8 +302,8 @@ public class QHybridSupport extends QHybridBaseSupport {
         // new UploadFileRequest((short)00, new byte[]{0x01, 0x00, 0x08, 0x01, 0x01, 0x0C, 0x00, (byte)0xBD, 0x01, 0x30, 0x71, (byte)0xFF, 0x05, 0x00, 0x01, 0x00});
         // queueWrite(new ActivityPointGetRequest());
         long millis = System.currentTimeMillis();
-        int secs = (int)(millis / 1000 * 60);
-        queueWrite(new SetCountdownSettings(secs, secs + 10, (short)120));
+        int secs = (int) (millis / 1000 * 60);
+        queueWrite(new SetCountdownSettings(secs, secs + 10, (short) 120));
         queueWrite(new GetCountdownSettingsRequest());
     }
 
@@ -352,18 +354,18 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     @Override
     public boolean onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-        switch (characteristic.getUuid().toString()){
-            case "00002a00-0000-1000-8000-00805f9b34fb":{
+        switch (characteristic.getUuid().toString()) {
+            case "00002a00-0000-1000-8000-00805f9b34fb": {
                 String deviceName = characteristic.getStringValue(0);
                 gbDevice.setName(deviceName);
                 break;
             }
-            case "00002a24-0000-1000-8000-00805f9b34fb":{
+            case "00002a24-0000-1000-8000-00805f9b34fb": {
                 modelNumber = characteristic.getStringValue(0);
                 gbDevice.setModel(modelNumber);
                 break;
             }
-            case "00002a26-0000-1000-8000-00805f9b34fb":{
+            case "00002a26-0000-1000-8000-00805f9b34fb": {
                 String firmwareVersion = characteristic.getStringValue(0);
                 gbDevice.setFirmwareVersion(firmwareVersion);
 
@@ -493,13 +495,13 @@ public class QHybridSupport extends QHybridBaseSupport {
 
         if (request instanceof BatteryLevelRequest) {
             gbDevice.setBatteryLevel(((BatteryLevelRequest) request).level);
-            gbDevice.setBatteryThresholdPercent((short)25);
+            gbDevice.setBatteryThresholdPercent((short) 25);
         } else if (request instanceof GetStepGoalRequest) {
             gbDevice.addDeviceInfo(new GenericItem(ITEM_STEP_GOAL, String.valueOf(((GetStepGoalRequest) request).stepGoal)));
         } else if (request instanceof GetVibrationStrengthRequest) {
             int strength = ((GetVibrationStrengthRequest) request).strength;
             this.supportsExtendedVibration = strength == 25 || strength == 50 || strength == 100;
-            gbDevice.addDeviceInfo(new GenericItem(ITEM_VIBRATION_STRENGTH,String.valueOf(strength)));
+            gbDevice.addDeviceInfo(new GenericItem(ITEM_VIBRATION_STRENGTH, String.valueOf(strength)));
             gbDevice.addDeviceInfo(new GenericItem(ITEM_EXTENDED_VIBRATION_SUPPORT, String.valueOf(supportsExtendedVibration)));
         } else if (fileRequest instanceof ListFilesRequest) {
             ListFilesRequest r = (ListFilesRequest) fileRequest;
@@ -539,7 +541,8 @@ public class QHybridSupport extends QHybridBaseSupport {
         }
         try {
             queueWrite(requestQueue.remove());
-        }catch (NoSuchElementException e){}
+        } catch (NoSuchElementException e) {
+        }
         return true;
     }
 
