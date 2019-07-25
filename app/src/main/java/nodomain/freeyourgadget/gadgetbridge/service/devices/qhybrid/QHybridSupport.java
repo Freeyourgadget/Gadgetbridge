@@ -213,9 +213,19 @@ public class QHybridSupport extends QHybridBaseSupport {
         for (int i = 2; i <= 7; i++)
             builder.notify(getCharacteristic(UUID.fromString("3dda000" + i + "-957f-7d4a-34a6-74696673696d")), true);
 
+
+        requestQueue.add(new GetStepGoalRequest());
+        requestQueue.add(new GetCurrentStepCountRequest());
+        requestQueue.add(new GetVibrationStrengthRequest());
+        requestQueue.add(new ActivityPointGetRequest());
+        requestQueue.add(new AnimationRequest());
+
+        Request initialRequest = new BatteryLevelRequest();
+
         builder.read(getCharacteristic(UUID.fromString("00002a00-0000-1000-8000-00805f9b34fb")))
                 .read(getCharacteristic(UUID.fromString("00002a24-0000-1000-8000-00805f9b34fb")))
-                .read(getCharacteristic(UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb")));
+                .read(getCharacteristic(UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb")))
+                .write(getCharacteristic(initialRequest.getRequestUUID()), initialRequest.getRequestData());
 
         helper = new PackageConfigHelper(getContext());
 
@@ -391,14 +401,6 @@ public class QHybridSupport extends QHybridBaseSupport {
             case "00002a26-0000-1000-8000-00805f9b34fb": {
                 String firmwareVersion = characteristic.getStringValue(0);
                 gbDevice.setFirmwareVersion(firmwareVersion);
-
-                requestQueue.add(new GetStepGoalRequest());
-                requestQueue.add(new GetCurrentStepCountRequest());
-                requestQueue.add(new GetVibrationStrengthRequest());
-                requestQueue.add(new ActivityPointGetRequest());
-                requestQueue.add(new AnimationRequest());
-                queueWrite(new BatteryLevelRequest());
-
                 break;
             }
         }
