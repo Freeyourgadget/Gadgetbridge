@@ -4,14 +4,11 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattServer;
-import android.bluetooth.BluetoothGattService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
-import android.net.wifi.aware.Characteristics;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -25,7 +22,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.ArrayDeque;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -36,7 +32,6 @@ import java.util.UUID;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfig;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -67,7 +62,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Set
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetCurrentTimeServiceRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetStepGoalRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetVibrationStrengthRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SettingsFilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.UploadFileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.VibrateRequest;
 
@@ -113,7 +107,7 @@ public class QHybridSupport extends QHybridBaseSupport {
     private PendingIntent dumpIntent;
     private PendingIntent stepIntent;
 
-    Queue<Request> requestQueue = new ArrayDeque<>();
+    private Queue<Request> requestQueue = new ArrayDeque<>();
 
 
     private String modelNumber;
@@ -264,7 +258,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         playNotification(config);
     }
 
-    public void playNotification(PackageConfig config) {
+    private void playNotification(PackageConfig config) {
         queueWrite(new PlayNotificationRequest(config.getVibration(), config.getHour(), config.getMin()));
     }
 
@@ -329,7 +323,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         queueWrite(new GetCountdownSettingsRequest());
     }
 
-    public void overwriteButtons() {
+    private void overwriteButtons() {
         uploadFileRequest = new UploadFileRequest((short) 0x0800, new byte[]{
                 (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x03, (byte) 0x10, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x20, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00,
                 (byte) 0x30, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x2E, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01,
