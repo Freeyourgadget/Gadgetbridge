@@ -113,7 +113,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.actions.StopNo
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.Mi2NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.Mi2TextNotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchActivityOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSportsSummaryOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.InitOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
@@ -1000,7 +999,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onInstallApp(Uri uri) {
         try {
-            new UpdateFirmwareOperation(uri, this).perform();
+            createUpdateFirmwareOperation(uri).perform();
         } catch (IOException ex) {
             GB.toast(getContext(), "Firmware cannot be installed: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
         }
@@ -1964,5 +1963,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
         return new MiBand2FWHelper(uri, context);
+    }
+
+    public UpdateFirmwareOperation createUpdateFirmwareOperation(Uri uri) {
+        return new UpdateFirmwareOperation(uri, this);
     }
 }
