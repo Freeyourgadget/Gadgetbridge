@@ -4,6 +4,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattServer;
+import android.bluetooth.BluetoothGattService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +27,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayDeque;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.TimeZone;
 import java.util.UUID;
@@ -58,6 +61,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Pla
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.ReleaseHandsControlRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.RequestHandControlRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetCountdownSettings;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetCurrentTimeServiceRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetStepGoalRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetVibrationStrengthRequest;
@@ -111,6 +115,9 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     Queue<Request> requestQueue = new ArrayDeque<>();
 
+
+    private String modelNumber;
+
     public QHybridSupport() {
         super(logger);
         addSupportedService(UUID.fromString("3dda0001-957f-7d4a-34a6-74696673696d"));
@@ -127,7 +134,6 @@ public class QHybridSupport extends QHybridBaseSupport {
     }
 
     private void fillResponseList() {
-
         Class<? extends Request>[] classes = new Class[]{
                 BatteryLevelRequest.class,
                 GetStepGoalRequest.class,
@@ -194,9 +200,6 @@ public class QHybridSupport extends QHybridBaseSupport {
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
 
-        for (int i = 2; i <= 7; i++)
-            builder.notify(getCharacteristic(UUID.fromString("3dda000" + i + "-957f-7d4a-34a6-74696673696d")), true);
-
 
         helper = new PackageConfigHelper(getContext());
 
@@ -212,6 +215,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         getTimeOffset();
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
+
         return builder;
     }
 
@@ -219,18 +223,17 @@ public class QHybridSupport extends QHybridBaseSupport {
     public void onServicesDiscovered(BluetoothGatt gatt) {
         super.onServicesDiscovered(gatt);
 
-        playAnimation();
-        requestQueue.add(new GetStepGoalRequest());
-        requestQueue.add(new GetCurrentStepCountRequest());
-        requestQueue.add(new GetVibrationStrengthRequest());
-        requestQueue.add(new ActivityPointGetRequest());
-        queueWrite(new BatteryLevelRequest());
+
+
+        for (int i = 2; i <= 7; i++)
+            gatt.setCharacteristicNotification(getCharacteristic(UUID.fromString("3dda000" + i + "-957f-7d4a-34a6-74696673696d")), true);
+
+        BluetoothGattService deviceInfo = gatt.getService(UUID.fromString("0000180a-0000-1000-8000-00805f9b34fb"));
+        BluetoothGattCharacteristic modelNumber = deviceInfo.getCharacteristic(UUID.fromString("00002a24-0000-1000-8000-00805f9b34fb"));
+
+        gatt.readCharacteristic(modelNumber);
 
         logger.debug("onServicesDiscovered");
-    }
-
-    private void playAnimation() {
-        queueWrite(new AnimationRequest());
     }
 
     @Override
@@ -305,6 +308,9 @@ public class QHybridSupport extends QHybridBaseSupport {
         // queueWrite(new OTAResetRequest());
         // new UploadFileRequest((short)00, new byte[]{0x01, 0x00, 0x08, 0x01, 0x01, 0x0C, 0x00, (byte)0xBD, 0x01, 0x30, 0x71, (byte)0xFF, 0x05, 0x00, 0x01, 0x00});
         // queueWrite(new ActivityPointGetRequest());
+        long millis = System.currentTimeMillis();
+        int secs = (int)(millis / 1000 * 60);
+        queueWrite(new SetCountdownSettings(secs, secs + 10, (short)120));
         queueWrite(new GetCountdownSettingsRequest());
     }
 
@@ -350,6 +356,48 @@ public class QHybridSupport extends QHybridBaseSupport {
                 queueWrite(new DownloadFileRequest((short) (request.fileHandle - 1)));
             }
         }
+    }
+
+
+    @Override
+    public boolean onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+        switch (characteristic.getUuid().toString()){
+            case "00002a24-0000-1000-8000-00805f9b34fb":{
+                modelNumber = characteristic.getStringValue(0);
+                gbDevice.setModel(modelNumber);
+
+                BluetoothGattService genericAccess = gatt.getService(UUID.fromString("00001800-0000-1000-8000-00805f9b34fb"));
+                BluetoothGattCharacteristic deviceName = genericAccess.getCharacteristic(UUID.fromString("00002a00-0000-1000-8000-00805f9b34fb"));
+
+                gatt.readCharacteristic(deviceName);
+                break;
+            }
+            case "00002a00-0000-1000-8000-00805f9b34fb":{
+                String deviceName = characteristic.getStringValue(0);
+                gbDevice.setName(deviceName);
+
+                BluetoothGattService genericAccess = gatt.getService(UUID.fromString("0000180a-0000-1000-8000-00805f9b34fb"));
+                BluetoothGattCharacteristic firmwareVersion = genericAccess.getCharacteristic(UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb"));
+
+                gatt.readCharacteristic(firmwareVersion);
+                break;
+            }
+            case "00002a26-0000-1000-8000-00805f9b34fb":{
+                String firmwareVersion = characteristic.getStringValue(0);
+                gbDevice.setFirmwareVersion(firmwareVersion);
+
+                requestQueue.add(new GetStepGoalRequest());
+                requestQueue.add(new GetCurrentStepCountRequest());
+                requestQueue.add(new GetVibrationStrengthRequest());
+                requestQueue.add(new ActivityPointGetRequest());
+                requestQueue.add(new AnimationRequest());
+                queueWrite(new BatteryLevelRequest());
+
+                break;
+            }
+        }
+
+        return true;
     }
 
     @Override
@@ -464,6 +512,7 @@ public class QHybridSupport extends QHybridBaseSupport {
 
         if (request instanceof BatteryLevelRequest) {
             gbDevice.setBatteryLevel(((BatteryLevelRequest) request).level);
+            gbDevice.setBatteryThresholdPercent((short)25);
         } else if (request instanceof GetStepGoalRequest) {
             gbDevice.addDeviceInfo(new GenericItem(ITEM_STEP_GOAL, String.valueOf(((GetStepGoalRequest) request).stepGoal)));
         } else if (request instanceof GetVibrationStrengthRequest) {
@@ -507,10 +556,9 @@ public class QHybridSupport extends QHybridBaseSupport {
         } else if (request instanceof ActivityPointGetRequest) {
             gbDevice.addDeviceInfo(new GenericItem(ITEM_ACTIVITY_POINT, String.valueOf(((ActivityPointGetRequest) request).activityPoint)));
         }
-        Request nextRequest;
-        if((nextRequest = requestQueue.remove()) != null){
-            queueWrite(nextRequest);
-        }
+        try {
+            queueWrite(requestQueue.remove());
+        }catch (NoSuchElementException e){}
         return true;
     }
 
