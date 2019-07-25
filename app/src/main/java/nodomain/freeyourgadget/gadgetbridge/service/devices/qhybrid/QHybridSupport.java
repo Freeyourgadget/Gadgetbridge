@@ -13,6 +13,8 @@ import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.net.wifi.aware.Characteristics;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.util.SparseArray;
 import android.widget.Toast;
@@ -106,8 +108,6 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     private long timeOffset;
 
-    boolean supportsExtendedVibration;
-
     private UploadFileRequest uploadFileRequest;
 
     private PendingIntent dumpIntent;
@@ -133,6 +133,14 @@ public class QHybridSupport extends QHybridBaseSupport {
         commandFilter.addAction(QHYBRID_COMMAND_OVERWRITE_BUTTONS);
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(commandReceiver, commandFilter);
         fillResponseList();
+    }
+
+    private boolean supportsExtendedVibration() {
+        switch (modelNumber) {
+            case "HL.0.0": return false;
+            case "HW.0.0": return true;
+        }
+        throw new UnsupportedOperationException();
     }
 
     private void fillResponseList() {
@@ -238,7 +246,7 @@ public class QHybridSupport extends QHybridBaseSupport {
 
         Log.d("Service", "handling notification");
 
-        if(config.getRespectSilentMode()) {
+        if (config.getRespectSilentMode()) {
             int mode = ((AudioManager) getContext().getApplicationContext().getSystemService(Context.AUDIO_SERVICE)).getRingerMode();
             if (mode == AudioManager.RINGER_MODE_SILENT) return;
         }
@@ -263,9 +271,13 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     @Override
     public void onFindDevice(boolean start) {
-        if (start && !supportsExtendedVibration) {
-            Toast.makeText(getContext(), "Device does not support brr brr", Toast.LENGTH_SHORT).show();
-            return;
+        try {
+            if (start && !supportsExtendedVibration()) {
+                Toast.makeText(getContext(), "Device does not support brr brr", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }catch (UnsupportedOperationException e){
+            Toast.makeText(getContext(), "Please contact dakhnod@gmail.com\n" + modelNumber, Toast.LENGTH_SHORT).show();
         }
 
         if (start && searchDevice) return;
@@ -363,6 +375,17 @@ public class QHybridSupport extends QHybridBaseSupport {
             case "00002a24-0000-1000-8000-00805f9b34fb": {
                 modelNumber = characteristic.getStringValue(0);
                 gbDevice.setModel(modelNumber);
+                try {
+                    gbDevice.addDeviceInfo(new GenericItem(ITEM_EXTENDED_VIBRATION_SUPPORT, String.valueOf(supportsExtendedVibration())));
+                }catch (UnsupportedOperationException e){
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getContext(), "Please contact dakhnod@gmail.com\n" + modelNumber, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    gbDevice.addDeviceInfo(new GenericItem(ITEM_EXTENDED_VIBRATION_SUPPORT, String.valueOf(supportsExtendedVibration())));
+                }
                 break;
             }
             case "00002a26-0000-1000-8000-00805f9b34fb": {
@@ -500,9 +523,7 @@ public class QHybridSupport extends QHybridBaseSupport {
             gbDevice.addDeviceInfo(new GenericItem(ITEM_STEP_GOAL, String.valueOf(((GetStepGoalRequest) request).stepGoal)));
         } else if (request instanceof GetVibrationStrengthRequest) {
             int strength = ((GetVibrationStrengthRequest) request).strength;
-            this.supportsExtendedVibration = strength == 25 || strength == 50 || strength == 100;
             gbDevice.addDeviceInfo(new GenericItem(ITEM_VIBRATION_STRENGTH, String.valueOf(strength)));
-            gbDevice.addDeviceInfo(new GenericItem(ITEM_EXTENDED_VIBRATION_SUPPORT, String.valueOf(supportsExtendedVibration)));
         } else if (fileRequest instanceof ListFilesRequest) {
             ListFilesRequest r = (ListFilesRequest) fileRequest;
             //if(r.fileCount != -1){
