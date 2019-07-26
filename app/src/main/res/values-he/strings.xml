@@ -520,7 +520,7 @@
     <string name="devicetype_q8">Q8</string>
     <string name="fw_upgrade_notice_miband3">פעולה זו תתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Mi Band 3 שלך. 
 \n 
-\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw. 
+\nנא לוודא את התקנת קובץ ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res הרצועה שלך תופעל מחדש לאחר התקנת קובץ ה־fw. 
 \n 
 \nלתשומת לבך: אין צורך בהתקנת קובץ ה־‎.res אם הוא כבר זהה לזה שהתקנת בעבר. 
 \n 
@@ -707,4 +707,14 @@
     <string name="portuguese">פורטוגלית</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="devicetype_miband4">Mi Band 4</string>
+    <string name="fw_upgrade_notice_miband4">פעולה זו תתקין את הקושחה %s ב־Mi Band 4 שלך. 
+\n 
+\nנא לוודא את התקנת קובץ ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw. 
+\n 
+\nלתשומת לבך: אין צורך בהתקנת קובץ ה־‎.res אם הוא כבר זהה לזה שהתקנת בעבר. 
+\n 
+\nהמשך התהליך הוא על אחריותך!</string>
+    <string name="prefs_hr_alarm_activity">התראת דופק במהלך פעילות ספורטיבית</string>
+    <string name="prefs_hr_alarm_low">גבול תחתון</string>
+    <string name="prefs_hr_alarm_high">גבול עליון</string>
 </resources>
