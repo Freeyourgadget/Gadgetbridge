@@ -1,3 +1,6 @@
+os: linux
+dist: trusty
+
 language: android
 
 jdk:
