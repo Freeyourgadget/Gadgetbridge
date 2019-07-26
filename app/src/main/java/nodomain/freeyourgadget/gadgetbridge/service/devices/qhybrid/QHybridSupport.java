@@ -70,6 +70,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Set
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetVibrationStrengthRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.UploadFileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.VibrateRequest;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class QHybridSupport extends QHybridBaseSupport {
     public static final String QHYBRID_COMMAND_CONTROL = "qhybrid_command_control";
@@ -250,11 +251,11 @@ public class QHybridSupport extends QHybridBaseSupport {
     public void onFindDevice(boolean start) {
         try {
             if (start && !supportsExtendedVibration()) {
-                Toast.makeText(getContext(), "Device does not support brr brr", Toast.LENGTH_SHORT).show();
+                GB.toast("Device does not support brr brr", Toast.LENGTH_SHORT, GB.INFO);
                 return;
             }
         }catch (UnsupportedOperationException e){
-            Toast.makeText(getContext(), "Please contact dakhnod@gmail.com\n" + modelNumber, Toast.LENGTH_SHORT).show();
+            GB.toast("Please contact dakhnod@gmail.com\n", Toast.LENGTH_SHORT, GB.INFO);
         }
 
         if (start && searchDevice) return;
@@ -351,12 +352,7 @@ public class QHybridSupport extends QHybridBaseSupport {
                 try {
                     gbDevice.addDeviceInfo(new GenericItem(ITEM_EXTENDED_VIBRATION_SUPPORT, String.valueOf(supportsExtendedVibration())));
                 }catch (UnsupportedOperationException e){
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getContext(), "Please contact dakhnod@gmail.com\n" + modelNumber, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    GB.toast("Please contact dakhnod@gmail.com\n", Toast.LENGTH_SHORT, GB.INFO);
                     gbDevice.addDeviceInfo(new GenericItem(ITEM_EXTENDED_VIBRATION_SUPPORT, String.valueOf(supportsExtendedVibration())));
                 }
                 break;
