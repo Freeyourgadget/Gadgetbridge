@@ -48,15 +48,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
+import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 
-public class ConfigActivity extends AbstractGBActivity implements ServiceConnection {
+public class ConfigActivity extends AbstractGBActivity {
     PackageAdapter adapter;
     ArrayList<PackageConfig> list;
     PackageConfigHelper helper;
@@ -73,8 +76,8 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_qhybrid_settings);
 
         findViewById(R.id.buttonOverwriteButtons).setOnClickListener(new View.OnClickListener() {
@@ -128,8 +131,6 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
             }
         });
         updateTimeOffset();
-
-        bindService(new Intent(getApplicationContext(), DeviceCommunicationService.class), this, 0);
 
         setTitle(R.string.preferences_qhybrid_settings);
 
@@ -222,6 +223,13 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
                 LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(intent);
             }
         });
+
+        device = GBApplication.app().getDeviceManager().getSelectedDevice();
+        if(device == null || device.getType() != DeviceType.FOSSILQHYBRID){
+            setSettingsError("Watch not connected");
+        }else{
+            updateSettings();
+        }
     }
 
     private void updateTimeOffset() {
@@ -310,7 +318,6 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbindService(this);
         helper.close();
     }
 
@@ -336,29 +343,6 @@ public class ConfigActivity extends AbstractGBActivity implements ServiceConnect
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-        Log.d("Config", "service connected");
-        DeviceCommunicationService.CommunicationServiceBinder binder = (DeviceCommunicationService.CommunicationServiceBinder) iBinder;
-        if (binder == null) {
-            Log.d("Config", "Service not running");
-            setSettingsError("Service not running");
-            return;
-        }
-        DeviceSupport support = ((DeviceCommunicationService.CommunicationServiceBinder) iBinder).getDeviceSupport();
-        if (!(support instanceof QHybridSupport)) {
-            Log.d("Config", "Watch not connected");
-            setSettingsError("Watch not connected");
-            return;
-        }
-        this.device = support.getDevice();
-        updateSettings();
-    }
-
-    @Override
-    public void onServiceDisconnected(ComponentName componentName) {
-
-    }
 
     private void setSettingsError(final String error) {
         runOnUiThread(new Runnable() {

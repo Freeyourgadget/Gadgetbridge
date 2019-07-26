@@ -32,13 +32,16 @@ import java.util.UUID;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfig;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.ActivityPointGetRequest;
@@ -101,14 +104,9 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     private Request fileRequest = null;
 
-    private boolean dumpInited = false;
-
     private long timeOffset;
 
     private UploadFileRequest uploadFileRequest;
-
-    private PendingIntent dumpIntent;
-    private PendingIntent stepIntent;
 
     private Queue<Request> requestQueue = new ArrayDeque<>();
 
@@ -170,38 +168,10 @@ public class QHybridSupport extends QHybridBaseSupport {
         timeOffset = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE).getInt("QHYBRID_TIME_OFFSET", 0);
     }
 
-    @Override
-    public void dispose() {
-        super.dispose();
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(commandReceiver);
-        if (dumpInited) {
-            getContext().unregisterReceiver(dumpReceiver);
-            ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE)).cancel(dumpIntent);
-            getContext().unregisterReceiver(stepReceiver);
-            ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE)).cancel(stepIntent);
-            dumpInited = false;
-        }
-    }
-
     private void queueWrite(Request request) {
         new TransactionBuilder(request.getClass().getSimpleName()).write(getCharacteristic(request.getRequestUUID()), request.getRequestData()).queue(getQueue());
         if (request instanceof FileRequest) this.fileRequest = request;
     }
-
-    private final BroadcastReceiver stepReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            queueWrite(new GetCurrentStepCountRequest());
-        }
-    };
-
-    private final BroadcastReceiver dumpReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.d("Dump", "dumping...");
-            downloadActivityFiles();
-        }
-    };
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
@@ -225,21 +195,21 @@ public class QHybridSupport extends QHybridBaseSupport {
                 .write(getCharacteristic(initialRequest.getRequestUUID()), initialRequest.getRequestData());
 
         helper = new PackageConfigHelper(getContext());
-
-        // if (!dumpInited) {
-        //     getContext().registerReceiver(dumpReceiver, new IntentFilter("dumpReceiver2"));
-        //     getContext().registerReceiver(stepReceiver, new IntentFilter("stepDumpReceiver"));
-        //     dumpIntent = PendingIntent.getBroadcast(getContext(), 0, new Intent("dumpReceiver2"), PendingIntent.FLAG_UPDATE_CURRENT);
-        //     stepIntent = PendingIntent.getBroadcast(getContext(), 0, new Intent("stepDumpReceiver"), PendingIntent.FLAG_UPDATE_CURRENT);
-        //     ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, AlarmManager.INTERVAL_HOUR, dumpIntent);
-        //     ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, AlarmManager.INTERVAL_HOUR / 60, stepIntent);
-        //     dumpInited = true;
-        // }
         getTimeOffset();
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
 
         return builder;
+    }
+
+    @Override
+    public void onFetchRecordedData(int dataTypes) {
+        if((dataTypes & RecordedDataTypes.TYPE_ACTIVITY) != 0){
+            requestQueue.add(new BatteryLevelRequest());
+            requestQueue.add(new GetCurrentStepCountRequest());
+            requestQueue.add(new ListFilesRequest());
+            queueWrite(new ActivityPointGetRequest());
+        }
     }
 
     @Override
@@ -335,10 +305,6 @@ public class QHybridSupport extends QHybridBaseSupport {
                 (byte) 0x00
         });
         queueWrite(uploadFileRequest);
-    }
-
-    private void downloadActivityFiles() {
-        queueWrite(new ListFilesRequest());
     }
 
     private void backupFile(DownloadFileRequest request) {
@@ -517,20 +483,18 @@ public class QHybridSupport extends QHybridBaseSupport {
 
         if (request instanceof BatteryLevelRequest) {
             gbDevice.setBatteryLevel(((BatteryLevelRequest) request).level);
+
             gbDevice.setBatteryThresholdPercent((short) 25);
+
+            GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
+            batteryInfo.level = gbDevice.getBatteryLevel();
+            batteryInfo.state = BatteryState.BATTERY_NORMAL;
+            handleGBDeviceEvent(batteryInfo);
         } else if (request instanceof GetStepGoalRequest) {
             gbDevice.addDeviceInfo(new GenericItem(ITEM_STEP_GOAL, String.valueOf(((GetStepGoalRequest) request).stepGoal)));
         } else if (request instanceof GetVibrationStrengthRequest) {
             int strength = ((GetVibrationStrengthRequest) request).strength;
             gbDevice.addDeviceInfo(new GenericItem(ITEM_VIBRATION_STRENGTH, String.valueOf(strength)));
-        } else if (fileRequest instanceof ListFilesRequest) {
-            ListFilesRequest r = (ListFilesRequest) fileRequest;
-            //if(r.fileCount != -1){
-            if (r.completed) {
-                Log.d("Service", "FileCount: " + r.fileCount);
-                this.fileRequest = null;
-            }
-            //}
         } else if (request instanceof GetCurrentStepCountRequest) {
             int steps = ((GetCurrentStepCountRequest) request).steps;
             logger.debug("get current steps: " + steps);
@@ -575,7 +539,7 @@ public class QHybridSupport extends QHybridBaseSupport {
             if (((ListFilesRequest) request).completed) {
                 logger.debug("File count: " + ((ListFilesRequest) request).fileCount + "  size: " + ((ListFilesRequest) request).size);
                 if (((ListFilesRequest) request).fileCount == 0) return true;
-                queueWrite(new DownloadFileRequest((short) (256 + ((ListFilesRequest) request).fileCount)));
+                // queueWrite(new DownloadFileRequest((short) (256 + ((ListFilesRequest) request).fileCount)));
             }
         } else if (request instanceof DownloadFileRequest) {
             if (((FileRequest) request).completed) {
