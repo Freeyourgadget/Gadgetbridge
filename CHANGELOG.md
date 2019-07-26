@@ -1,5 +1,8 @@
 ### Changelog
 
+#### Version 0.35.1
+* Mi Band 4: Support flashing watchfaces, res and firmware (.ft untested)
+
 #### Version 0.35.0
 * Mi Band 4: Initial support (WARNING: INITIAL SETUP NEEDS MI FIT WITH ACCOUNT AND ROOT, NOT A RECOMMENDED DEVICE FOR GADGETBRIDGE)
 

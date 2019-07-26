@@ -80,4 +80,13 @@ public class AmazfitCor2Coordinator extends HuamiCoordinator {
     public boolean supportsUnicodeEmojis() {
         return true;
     }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_amazfitcor,
+                R.xml.devicesettings_liftwrist_display,
+                R.xml.devicesettings_disconnectnotification,
+                R.xml.devicesettings_pairingkey};
+    }
 }

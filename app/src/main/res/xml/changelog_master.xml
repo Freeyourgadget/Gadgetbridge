@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.35.1" versioncode="153">
+        <change>Mi Band 4: Support flashing watchfaces, res and firmware (fonts untested)</change>
+    </release>
     <release version="0.35.0" versioncode="152">
         <change>Mi Band 4: Initial support (WARNING: INITIAL SETUP NEEDS MI FIT WITH ACCOUNT AND ROOT, NOT A RECOMMENDED DEVICE FOR GADGETBRIDGE)</change>
     </release>

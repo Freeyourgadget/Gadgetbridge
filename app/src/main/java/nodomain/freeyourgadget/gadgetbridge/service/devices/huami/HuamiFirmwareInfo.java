@@ -106,12 +106,14 @@ public abstract class HuamiFirmwareInfo {
     }
 
     private final int crc16;
+    private final int crc32;
 
     private byte[] bytes;
 
     public HuamiFirmwareInfo(byte[] bytes) {
         this.bytes = bytes;
         crc16 = CheckSums.getCRC16(bytes);
+        crc32 = CheckSums.getCRC32(bytes);
         firmwareType = determineFirmwareType(bytes);
     }
 
@@ -139,6 +141,9 @@ public abstract class HuamiFirmwareInfo {
 
     public int getCrc16() {
         return crc16;
+    }
+    public int getCrc32() {
+        return crc32;
     }
 
     public int getFirmwareVersion() {

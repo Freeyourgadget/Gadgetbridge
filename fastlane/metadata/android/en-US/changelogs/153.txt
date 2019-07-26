@@ -1,0 +1,1 @@
+* Mi Band 4: Support flashing watchfaces, res and firmware (.ft untested)
