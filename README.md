@@ -30,7 +30,7 @@ vendor's servers.
 ## Supported Devices
 * Amazfit Bip [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
 * Amazfit Cor [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor)
-* Amazfit Cor 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor2)
+* Amazfit Cor 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor-2)
 * BFH-16
 * Casio GB-6900B (WIP)
 * HPlus Devices (e.g. ZeBand) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
