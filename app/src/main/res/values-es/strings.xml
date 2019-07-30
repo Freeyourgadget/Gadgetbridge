@@ -45,7 +45,7 @@
     <string name="title_activity_calblacklist">Calendarios en lista negra</string>
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">Instalador de FW/App</string>
-    <string name="fw_upgrade_notice">Estás a punto de instalar el firmware %s en lugar del %s que está actualmente en tu Mi Band.</string>
+    <string name="fw_upgrade_notice">Estás a punto de instalar el firmware %s del que tu Mi Band.</string>
     <string name="fw_multi_upgrade_notice">Estás a punto de instalar los firmware %1$s y %2$s en lugar de los que están en tu MiBand.</string>
     <string name="miband_firmware_known">Este firmware ha sido probado y se sabe que es compatible con Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">Este firmware no ha sido probado y puede que no sea compatible con Gadgetbridge. 
