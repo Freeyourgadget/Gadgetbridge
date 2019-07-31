@@ -45,7 +45,7 @@
     <string name="title_activity_calblacklist">Calendarios en lista negra</string>
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">Instalador de FW/App</string>
-    <string name="fw_upgrade_notice">Estás a punto de instalar el firmware %s en lugar del %s que está en tu Mi Band.</string>
+    <string name="fw_upgrade_notice">Estás a punto de instalar el firmware %s del que tu Mi Band.</string>
     <string name="fw_multi_upgrade_notice">Estás a punto de instalar los firmware %1$s y %2$s en lugar de los que están en tu MiBand.</string>
     <string name="miband_firmware_known">Este firmware ha sido probado y se sabe que es compatible con Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">Este firmware no ha sido probado y puede que no sea compatible con Gadgetbridge. 
@@ -75,11 +75,11 @@
     <string name="pref_title_notifications_call">Llamadas telefónicas</string>
     <string name="pref_title_notifications_sms">SMS</string>
     <string name="pref_title_notifications_pebblemsg">Mensajes de Pebble</string>
-    <string name="pref_summary_notifications_pebblemsg">Soporte para aplicaciones que envían notificaciones a Pebble a través de PebbleKit</string>
+    <string name="pref_summary_notifications_pebblemsg">Soporte para aplicaciones que envían notificaciones a Pebble a través de PebbleKit.</string>
     <string name="pref_title_notifications_generic">Soporte para notificaciones genéricas</string>
     <string name="pref_title_whenscreenon">…también con pantalla encendida</string>
     <string name="pref_title_notification_filter">No Molestar</string>
-    <string name="pref_summary_notification_filter">Dejar de enviar notificaciones no deseadas en el modo No Molestar</string>
+    <string name="pref_summary_notification_filter">Las notificaciones no deseadas se detienen en este modo</string>
     <string name="pref_title_transliteration">Transcripción</string>
     <string name="pref_summary_transliteration">Utilizar en caso de que tu dispositivo no soporte la fuente de tu idioma</string>
     <string name="always">Siempre</string>
@@ -109,7 +109,7 @@
     <string name="pref_title_enable_outgoing_call">Soporte para llamadas salientes</string>
     <string name="pref_summary_enable_outgoing_call">Desactivar esto evitará que el Pebble 2/LE vibre en llamadas salientes</string>
     <string name="pref_title_enable_pebblekit">Permitir el acceso a aplicaciones Android de terceros</string>
-    <string name="pref_summary_enable_pebblekit">Permitir el soporte experimental para aplicaciones Android que usan PebbleKit</string>
+    <string name="pref_summary_enable_pebblekit">habilitar el soporte experimental para aplicaciones Android que usan PebbleKit</string>
     <string name="pref_header_pebble_timeline">Timeline Pebble</string>
     <string name="pref_title_sunrise_sunset">Salida y puesta de Sol</string>
     <string name="pref_summary_sunrise_sunset">Enviar las horas de salida y puesta de Sol basándose en la localización a la timeline del Pebble</string>
@@ -130,14 +130,14 @@
     <string name="toast_enable_networklocationprovider">Por favor, activa la localización por red</string>
     <string name="toast_aqurired_networklocation">localización encontrada</string>
     <string name="pref_title_pebble_forceprotocol">Forzar protocolo de notificación</string>
-    <string name="pref_summary_pebble_forceprotocol">Esta opción fuerza el uso del último protocolo de notificación dependiendo de la versión de firmware. ¡HABILÍTALO SOLO SI SABES LO QUE ESTÁS HACIENDO!</string>
+    <string name="pref_summary_pebble_forceprotocol">Esta opción obliga a usar el último protocolo de notificación dependiendo de la versión del firmware. ¡SABE LO QUE ESTÁS HACIENDO!</string>
     <string name="pref_title_pebble_forceuntested">Habilitar características no probadas</string>
-    <string name="pref_summary_pebble_forceuntested">Habilita características que no han sido probadas. ¡HABILÍTALO SOLO SI SABES LO QUE ESTÁS HACIENDO!</string>
+    <string name="pref_summary_pebble_forceuntested">Habilitar funciones no probadas. ¡HABILÍTALO SÓLO SI SABES LO QUE ESTÁS HACIENDO!</string>
     <string name="pref_title_pebble_forcele">Preferir siempre BLE</string>
     <string name="pref_summary_pebble_forcele">Usar el soporte experimental de Pebble LE para todos los Pebble en lugar del Bluetooth clásico. Esto requiere vincular primero con Pebble no LE, y luego Pebble LE</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE límite de GATT MTU</string>
     <string name="pref_summary_pebble_mtu_limit">Si tu Pebble 2/Pebble LE no funciona correctamente, prueba esta opción para limitar el MTU (rango válido 20–512)</string>
-    <string name="pref_title_pebble_enable_applogs">Activar los logs de las aplicaciones del reloj</string>
+    <string name="pref_title_pebble_enable_applogs">Habilitar el registro de la aplicación del reloj</string>
     <string name="pref_summary_pebble_enable_applogs">Producirá registros de las apps del reloj que Gadgetbridge guardará (necesita reconexión)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">ACK antes de tiempo de PebbleKit</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Permitirá a los mensajes enviados a apps de terceros ser reconocidos siempre e inmediatamente</string>
@@ -157,16 +157,19 @@
     <string name="this_is_a_test_notification_from_gadgetbridge">Notificación de prueba desde Gadgetbridge</string>
     <string name="bluetooth_is_not_supported_">El Bluetooth no está soportado.</string>
     <string name="bluetooth_is_disabled_">El Bluetooth está desactivado.</string>
-    <string name="tap_connected_device_for_app_mananger">Pulsa el dispositivo conectado para configurar las aplicaciones</string>
-    <string name="tap_connected_device_for_activity">Pulsa el dispositivo conectado para actividad</string>
-    <string name="tap_connected_device_for_vibration">Pulsa el dispositivo conectado para vibración</string>
-    <string name="tap_a_device_to_connect">Pulsar un dispositivo para conectarlo</string>
+    <string name="tap_connected_device_for_app_mananger">Toque el dispositivo conectado para el administrador de aplicaciones</string>
+    <string name="tap_connected_device_for_activity">Toca el dispositivo conectado para actividad</string>
+    <string name="tap_connected_device_for_vibration">Toca el dispositivo conectado para vibración</string>
+    <string name="tap_a_device_to_connect">Toca un dispositivo para conectarlo</string>
     <string name="cannot_connect_bt_address_invalid_">No se puede conectar. ¿Dirección BT incorrecta?</string>
     <string name="gadgetbridge_running">Gadgetbridge funcionando</string>
     <string name="installing_binary_d_d">Instalando binario %1$d/%2$d</string>
-    <string name="installation_failed_">La instalación ha fallado</string>
+    <string name="installation_failed_">Instalación fallida</string>
     <string name="installation_successful">Instalado</string>
-    <string name="firmware_install_warning">ESTÁS INTENTANDO INSTALAR UN FIRMWARE, CONTINÚA BAJO TU RESPONSABILIDAD.\n\n\n Este firmware es para la revisión de HW: %s</string>
+    <string name="firmware_install_warning">ESTÁS INTENTANDO INSTALAR UN FIRMWARE, PROCEDE BAJO TU PROPIA RESPONSABILIDAD.
+\n
+\n
+\n Este firmware es para la revisión de HW: %s</string>
     <string name="app_install_info">Estás a punto de instalar la siguiente app:\n\n\n%1$s Versión %2$s de %3$s\n</string>
     <string name="n_a">N/A</string>
     <string name="initialized">iniciado</string>
@@ -520,13 +523,13 @@
     <string name="debugactivity_really_factoryreset">Al hacer un restablecimiento de fábrica se eliminarán todos los datos del dispositivo conectado (si se admite). Los dispositivos Xiaomi / Huami también cambian la dirección MAC de Bluetooth, por lo que aparecen como nuevos dispositivos para Gadgetbrige.</string>
     <string name="blacklist_all_for_notifications">Lista negra para todas las notificaciones</string>
     <string name="whitelist_all_for_notifications">Lista blanca para todas las notificaciones</string>
-    <string name="fw_upgrade_notice_miband3">Está a punto de instalar el firmware %s en su Mi Band 3.
-\n
-\nAsegúrese de instalar el archivo .fw y, a continuación, el archivo .res. Su reloj se reiniciará después de instalar el archivo .fw.
-\n
-\nNota: No tiene que instalar .res si es exactamente el mismo que el instalado anteriormente.
-\n
-\nNO PROBADO, PUEDE BRICKEAR SU DISPOSITIVO, ¡PROCEDE BAJO TU PROPIA RESPONSABILIDAD!</string>
+    <string name="fw_upgrade_notice_miband3">Estás a punto de instalar el firmware %s en su Mi Band 3. 
+\n 
+\nAsegúrate de instalar el archivo .fw y, a continuación, el archivo .res. Tu reloj se reiniciará después de instalar el archivo .fw. 
+\n 
+\nNota: No tienes que instalar el archivo .res si es el mismo que ha sido instalado previamente. 
+\n 
+\nNO PROBADO, PODRÍAS BRICKEAR TU DISPOSITIVO, ¡PROCEDE BAJO TU PROPIA RESPONSABILIDAD!</string>
     <string name="pref_title_notifications_timeout">Tiempo mínimo entre notificaciones</string>
     <string name="pref_title_rtl">Derecha a Izquierda</string>
     <string name="pref_summary_rtl">Habilite esto si su dispositivo no puede mostrar idiomas de derecha a izquierda</string>
@@ -631,4 +634,67 @@
     <string name="preferences_rtl_settings">Soporte para Derecha a Izquierda</string>
     <string name="share_log">Compartir registro</string>
     <string name="warning">¡Advertencia!</string>
+    <string name="zetime_title_settings">Configuraciones de ZeTime</string>
+    <string name="zetime_title_heartrate">Ajustes de frecuencia cardíaca</string>
+    <string name="zetime_title_screentime">Duración de la pantalla en seguntos</string>
+    <string name="zetime_title_heart_rate_alarm">Alarma de frecuencia cardíaca</string>
+    <string name="zetime_title_heart_rate_alarm_summary">El reloj te avisará cuando tu frecuencia cardíaca exceda los límites.</string>
+    <string name="zetime_heart_rate_alarm_enable">Habilitar la alarma de frecuencia cardíaca</string>
+    <string name="activity_prefs_alarm_max_heart_rate">Frecuencia cardíaca máxima</string>
+    <string name="activity_prefs_alarm_min_heart_rate">Frecuencia cardíaca mínima</string>
+    <string name="zetime_analog_mode">Modo analógico</string>
+    <string name="zetime_analog_mode_hands">Solo manos</string>
+    <string name="zetime_analog_mode_handsandsteps">Manos y pasos</string>
+    <string name="zetime_activity_tracking">"Seguimiento de  actividad"</string>
+    <string name="zetime_activity_tracking_summary">Al activar el seguimiento de actividad, contará sus pasos, etc.</string>
+    <string name="zetime_handmove_display">Movimiento de mano</string>
+    <string name="zetime_handmove_display_summary">Gire la muñeca para activar o desactivar la pantalla.</string>
+    <string name="zetime_calories_type">Tipo de calorías</string>
+    <string name="zetime_calories_type_active">Solo activo para quemar calorías</string>
+    <string name="zetime_time_format">Formato de hora</string>
+    <string name="zetime_time_format_24h">24H</string>
+    <string name="zetime_time_format_12h">12H</string>
+    <string name="zetime_date_format">Formato de fecha</string>
+    <string name="zetime_date_format_1">aa/mm/dd</string>
+    <string name="zetime_date_format_2">dd/mm/aa</string>
+    <string name="zetime_date_format_3">mm/dd/aa</string>
+    <string name="zetime_prefs_inactivity_repetitions">Repeticiones</string>
+    <string name="zetime_prefs_inactivity_mo">Lunes</string>
+    <string name="zetime_prefs_inactivity_tu">Martes</string>
+    <string name="zetime_prefs_inactivity_we">Miércoles</string>
+    <string name="zetime_prefs_inactivity_th">Jueves</string>
+    <string name="zetime_prefs_inactivity_fr">Viernes</string>
+    <string name="zetime_prefs_inactivity_sa">Sábado</string>
+    <string name="zetime_prefs_inactivity_su">Domingo</string>
+    <string name="zetime_title_alarm_signaling">Establecer el tipo de señalización para la alarma</string>
+    <string name="zetime_signaling_none">Silencio</string>
+    <string name="zetime_signaling_vibrate">Vibración Continua</string>
+    <string name="zetime_signaling_beep">Pitido continuo</string>
+    <string name="zetime_signaling_vibrate_beep">Vibración continua y pitidos</string>
+    <string name="zetime_signaling_vibrate_once">Vibrar una vez</string>
+    <string name="zetime_signaling_vibrate_twice">Vibrar dos veces</string>
+    <string name="zetime_signaling_beep_once">Sonar una vez</string>
+    <string name="zetime_signaling_beep_twice">Sonar dos veces</string>
+    <string name="zetime_signaling_vibrate_beep_once">Vibrar y sonar una vez</string>
+    <string name="pref_title_support_voip_calls">Habilitar llamadas a la aplicación VoIP</string>
+    <string name="title_activity_device_specific_settings">Configuraciones específicas del dispositivo</string>
+    <string name="pref_title_authkey">Clave de autenticación</string>
+    <string name="pref_summary_authkey">Cambie la clave de autenticación a una clave común en todos sus dispositivos Android desde los que desea conectarse. La clave predeterminada anterior para todos los dispositivos es 0123456789@ABCDE</string>
+    <string name="fw_upgrade_notice_amazfitcor2">"Estás a punto de instalar el firmware para su Amazfit Cor 2.
+\n
+\nAsegúrate de instalar el archivo .fw y luego el archivo .res. Tu banda se reiniciará después de instalar el archivo .fw.
+\n
+\nNota: No tienes que instalar el archivo .res si es  el mismo que ya ha sido previamente instalado.
+\n
+\n¡PROCEDE BAJO TU PROPIO RIESGO!."</string>
+    <string name="fw_upgrade_notice_miband4">Estás a punto de instalar el firmware% s en tu Mi Band 4.
+\n
+\nAsegúrate de instalar el archivo .fw y luego el archivo .res. Tu banda se reiniciará después de instalar el archivo .fw.
+\n
+\nNota: No tienes que instalar el archivo .res si es el mismo que ha sido previamente instalado.
+\n
+\n¡PROCEDE BAJO TU PROPIO RIESGO!</string>
+    <string name="prefs_hr_alarm_activity">Alarma de frecuencia cardíaca durante actividad deportiva.</string>
+    <string name="prefs_hr_alarm_low">Límite Bajo</string>
+    <string name="prefs_hr_alarm_high">Límite Alto</string>
 </resources>

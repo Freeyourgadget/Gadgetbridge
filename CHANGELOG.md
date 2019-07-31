@@ -1,5 +1,11 @@
 ### Changelog
 
+#### Version 0.35.2
+* Mi Band 1/2: Crash when updating firemare while phone is set to Spanish
+* Mi Band 4: Enable music info support (displays now on the band)
+* Mi Band 4: Support setting date format (for built-in watchfaces)
+* Amazfit Cor 2: Try to fix empty menu on device
+
 #### Version 0.35.1
 * Mi Band 4: Support flashing watchfaces, res and firmware (.ft untested)
 

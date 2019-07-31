@@ -712,4 +712,14 @@
     <string name="portuguese">葡萄牙语</string>
     <string name="devicetype_amazfit_cor2">米动手环2</string>
     <string name="devicetype_miband4">小米手环4</string>
+    <string name="fw_upgrade_notice_miband4">您即将在您的的小米手环4上安装 %s 固件。
+\n
+\n请确保您先安装 .fw 文件，再安装 .res 文件。您的手环在安装 .fw 文件后将会重启。
+\n
+\n备注：若您的 .res 文件版本和之前安装的相同，则没有必要安装 .res 文件。
+\n
+\n风险自担！</string>
+    <string name="prefs_hr_alarm_activity">运动期间的心率警报</string>
+    <string name="prefs_hr_alarm_low">下限</string>
+    <string name="prefs_hr_alarm_high">上限</string>
 </resources>

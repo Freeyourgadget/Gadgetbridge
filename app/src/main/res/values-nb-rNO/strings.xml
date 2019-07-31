@@ -39,7 +39,7 @@
     <string name="title_activity_appblacklist">Merknadssvarteliste</string>
     <string name="title_activity_calblacklist">Svartelistede kalendere</string>
     <string name="title_activity_fw_app_insaller">Fastvare-/program-installerer</string>
-    <string name="fw_upgrade_notice">Du er i ferd med å installere %s-fastvaren i stedet for den som er installert på ditt Mi Band nå.</string>
+    <string name="fw_upgrade_notice">Du er i ferd med å installere %s.</string>
     <string name="app_name">Gadgetbru</string>
     <string name="title_activity_controlcenter">Gadgetbru</string>
     <string name="controlcenter_delete_device_dialogmessage">Dette vil slette enheten og all tilknyttet data!</string>
@@ -52,7 +52,7 @@
 \nFORTSETT PÅ EGEN RISIKO!</string>
     <string name="fw_upgrade_notice_amazfitcor">Du er i ferd med å installere %s-fastvaren på din Amazfit Cor. 
 \n 
-\nForsikre deg om at du installerer .fw-fila, og så .res-fila. Armbåndsuret ditt vil starte på nytt etter at .fw-fila er installert. 
+\nForsikre deg om at du installerer .fw-fila, og så .res-fila. Båndet ditt vil starte på ny etter at .fw-fila er installert. 
 \n 
 \nMerk: Du må ikke installere .res og .gps hvis disse er akkurat de samme som dem som allerede er installert. 
 \n 
@@ -60,8 +60,8 @@
     <string name="fw_multi_upgrade_notice">Du er i ferd med å installere %1$s- og %2$s-fastvarene isteden for dem som er installert nå på ditt Mi Band.</string>
     <string name="miband_firmware_known">Denne fastvaren har blitt testet og er kompatibel med Gadgetbru.</string>
     <string name="miband_firmware_unknown_warning">Denne fastvaren er utestet og er kanskje ikke kompatibel med Gadgetbru. 
-\n
-\nDu FRARÅDES fra å skrive den til ditt Mi Band!</string>
+\n 
+\nDu FRARÅDES fra å skrive den til enheten!</string>
     <string name="miband_firmware_suggest_whitelist">Hvis du fremdeles ønsker å fortsette og ting fungerer etterpå, fortell Gadgetbru-utviklerne at de skal hvitliste %s-fastvareversjonen.</string>
     <string name="title_activity_settings">Innstillinger</string>
     <string name="pref_header_general">Hovedinnstillinger</string>
@@ -522,13 +522,13 @@
     <string name="pref_summary_pebble_gatt_clientonly">Dette er kun for Pebble 2 og eksperimentelt, prøv dette hvis du har tilkoblingsproblemer</string>
     <string name="menuitem_shortcut_alipay">Alipay (snarvei)</string>
     <string name="menuitem_shortcut_weather">Vær (snarvei)</string>
-    <string name="fw_upgrade_notice_miband3">Du er i ferd med å installere %s-fastvaren på din Mi Band 3.
-\n
-\nInstaler først .fw-fila, og dernest .res-fila. Klokka di vil starte på nytt etter at du installerer .fw-fila.
-\n
-\nMerk: Du trenger ikke å installere .res hvis du har akkurat den samme installert.
-\n
-\nUTESTET, KAN HAVARERE ENHETEN, FORTSETT PÅ EGEN RISIKO!</string>
+    <string name="fw_upgrade_notice_miband3">Du er i ferd med å installere %s-fastvaren på din Mi Band 3. 
+\n 
+\nInstaler først .fw-fila, og dernest .res-fila. Båndet ditt vil starte på nytt etter at du installerer .fw-fila. 
+\n 
+\nMerk: Du trenger ikke å installere .res hvis du har akkurat den samme installert. 
+\n 
+\nFORTSETT PÅ EGEN RISIKO!</string>
     <string name="devicetype_miband3">Mi Band 3</string>
     <string name="devicetype_q8">Q8</string>
     <string name="blacklist_all_for_notifications">Svartelist merknader fra alle disse</string>
@@ -606,7 +606,7 @@
     <string name="overslept">Sovet for lenge: %1$s</string>
     <string name="lack_of_step">Ikke nok steg: %1$d</string>
     <string name="overstep">For mange steg: %1$d</string>
-    <string name="live_activity_max_heart_rate">Nåværende / maksimal puls: %1$d /%2$d</string>
+    <string name="live_activity_max_heart_rate">Nåværende / makspuls: %1$d /%2$d</string>
     <string name="activity_prefs_charts">Diagraminnstillinger</string>
     <string name="activity_prefs_chart_max_heart_rate">Makspuls</string>
     <string name="activity_prefs_chart_min_heart_rate">Minimumspuls</string>
@@ -675,13 +675,13 @@
     <string name="activity_prefs_distance_meters">Daglig mål: Distanse i meter</string>
     <string name="activity_prefs_activetime_minutes">Daglig mål: Aktiv tid i minutter</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
-    <string name="zetime_title_heartrate">Hjertefrekvensinnstillinger</string>
+    <string name="zetime_title_heartrate">Pulsinnstillinger</string>
     <string name="zetime_title_screentime">Skjermaktivitetsvarighet, i sekunder</string>
-    <string name="zetime_title_heart_rate_alarm">Hjertefrekvensalarm</string>
-    <string name="zetime_title_heart_rate_alarm_summary">Klokken vil advare deg når hjertefrekvensen overskrider grensene.</string>
-    <string name="zetime_heart_rate_alarm_enable">Aktiver hjertefrekvensalarmen</string>
-    <string name="activity_prefs_alarm_max_heart_rate">Maks hjertefrekvens</string>
-    <string name="activity_prefs_alarm_min_heart_rate">Min hjertefrekvens</string>
+    <string name="zetime_title_heart_rate_alarm">Pulsalarm</string>
+    <string name="zetime_title_heart_rate_alarm_summary">Klokken vil advare deg når pulsen overskrider grensene.</string>
+    <string name="zetime_heart_rate_alarm_enable">Aktiver pulsalarmen</string>
+    <string name="activity_prefs_alarm_max_heart_rate">Makspuls</string>
+    <string name="activity_prefs_alarm_min_heart_rate">Minimumspuls</string>
     <string name="zetime_analog_mode_handsandsteps">Hender og trinn</string>
     <string name="zetime_activity_tracking_summary">Påslag av aktivitetssporing vil telle skrittene dine, osv.</string>
     <string name="zetime_handmove_display_summary">Vri håndleddet for å skru på eller av skjermen.</string>
@@ -711,4 +711,15 @@
     <string name="vietnamese">Vietnamesisk</string>
     <string name="portuguese">Portugisisk</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
+    <string name="devicetype_miband4">Mi Band 4</string>
+    <string name="fw_upgrade_notice_miband4">Du er i ferd med å installere %s-fastvaren på ditt Mi Band 4.
+\n
+\nForsikre deg om at du installerer .fw-filen, og deretter .res-filen. Båndet vil startes på ny etter installasjon av .fw-filen.
+\n
+\nMerk: Du trenger ikke å installere .res-filen hvis den er samme som du hadde installert fra før.
+\n
+\nFORTSETT PÅ EGEN RISIKO!</string>
+    <string name="prefs_hr_alarm_activity">Pulsalarm under sportsaktiviteter</string>
+    <string name="prefs_hr_alarm_low">Nedre grense</string>
+    <string name="prefs_hr_alarm_high">Øvre grense</string>
 </resources>

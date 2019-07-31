@@ -526,7 +526,7 @@
     <string name="whitelist_all_for_notifications">Povolit všechny aplikace</string>
     <string name="fw_upgrade_notice_miband3">Chystáte se nainstalovat firmvér %s do vašeho Mi Band 3. 
 \n 
-\nProsím, ujistěte se, že jste nainstalovali soubor .fw a potom soubor .res. Vaše hodinky se po instalaci souboru .fw restartují. 
+\nProsím, ujistěte se, že jste nainstalovali soubor .fw a potom soubor .res. Váš pásek se po instalaci souboru .fw restartuje. 
 \n 
 \nPoznámka: Nemusíte instalovat soubor .res, pokud je stejný jako nainstalován dříve. 
 \n 
@@ -711,4 +711,14 @@
     <string name="portuguese">Portugalsky</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="devicetype_miband4">Mi Band 4</string>
+    <string name="fw_upgrade_notice_miband4">Chystáte se nainstalovat firmvér %s do vašeho Mi Band 4. 
+\n 
+\nProsím, ujistěte se, že jste nainstalovali soubor .fw a potom soubor .res. Váš pásek se po instalaci souboru .fw restartuje. 
+\n 
+\nPoznámka: Nemusíte instalovat soubor .res, pokud je stejný jako nainstalován dříve. 
+\n 
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="prefs_hr_alarm_activity">Alarm měření tepu při sportovní aktivitě</string>
+    <string name="prefs_hr_alarm_low">Spodní hodnota</string>
+    <string name="prefs_hr_alarm_high">Horní limit</string>
 </resources>
