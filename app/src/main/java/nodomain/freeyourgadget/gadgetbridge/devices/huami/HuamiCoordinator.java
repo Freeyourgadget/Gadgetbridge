@@ -197,6 +197,11 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return prefs.getStringSet(HuamiConst.PREF_DISPLAY_ITEMS, null);
     }
 
+    public static boolean getUseCustomFont(String deviceAddress) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
+        return prefs.getBoolean(HuamiConst.PREF_USE_CUSTOM_FONT, false);
+    }
+
     public static boolean getGoalNotification() {
         Prefs prefs = GBApplication.getPrefs();
         return prefs.getBoolean(MiBandConst.PREF_MI2_GOAL_NOTIFICATION, false);
