@@ -17,4 +17,12 @@
         android:key="language"
         android:summary="%s"
         android:title="@string/pref_title_language" />
+    <!-- TODO: test if this pref can be set per-device
+    <CheckBoxPreference
+        android:icon="@drawable/ic_font_download"
+        android:defaultValue="false"
+        android:key="use_custom_font"
+        android:summary="@string/pref_summary_use_custom_font"
+        android:title="@string/pref_title_use_custom_font" />
+        -->
 </androidx.preference.PreferenceScreen>

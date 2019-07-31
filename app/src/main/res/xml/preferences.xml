@@ -54,6 +54,13 @@
                 android:key="transliteration"
                 android:summary="@string/pref_summary_transliteration"
                 android:title="@string/pref_title_transliteration" />
+            <!-- TODO: move this pref to device settings so it can be set per-device -->
+            <CheckBoxPreference
+                android:layout="@layout/preference_checkbox"
+                android:defaultValue="false"
+                android:key="use_custom_font"
+                android:summary="@string/pref_summary_use_custom_font"
+                android:title="@string/pref_title_use_custom_font" />
 
             <PreferenceScreen
                 android:title="@string/preferences_rtl_settings">

@@ -365,10 +365,47 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         if (text == null || text.length() == 0)
             return text;
 
+        // TODO: this pref should be settable per-device
+        if (getPrefs().getBoolean("use_custom_font", false))
+            return toCustomFont(text);
+
         if (!mCoordinator.supportsUnicodeEmojis())
             return EmojiConverter.convertUnicodeEmojiToAscii(text, getApplicationContext());
 
         return text;
+    }
+
+    // TODO: move this to StringUtils or wherever it makes more sense
+    /**
+     * @param str original text
+     * @return str with the emoticons in a format that can be displayed on an
+     * Amazfit Bip by using a custom font firmware with emoji support
+     */
+    private static String toCustomFont(String str) {
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        while (i < str.length()) {
+            char charAt = str.charAt(i);
+            if (Character.isHighSurrogate(charAt)) {
+                int i2 = i + 1;
+                try {
+                    int codePoint = Character.toCodePoint(charAt, str.charAt(i2));
+                    if (codePoint < 127744 || codePoint > 129510) {
+                        sb.append(charAt);
+                    } else {
+                        sb.append(Character.toString((char) (codePoint - 83712)));
+                        i = i2;
+                    }
+                } catch (StringIndexOutOfBoundsException e) {
+                    e.printStackTrace();
+                    sb.append(charAt);
+                }
+            } else {
+                sb.append(charAt);
+            }
+            i++;
+        }
+        return sb.toString();
     }
 
     private void handleAction(Intent intent, String action, Prefs prefs) {

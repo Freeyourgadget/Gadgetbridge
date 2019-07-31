@@ -110,4 +110,28 @@ public class LanguageUtilsTest extends TestBase {
         editor.putBoolean("transliteration", enable);
         editor.apply();
     }
+
+    @Test
+    public void testUseCustomFontOption() throws Exception {
+        setDefaultUseCustomFont();
+        assertFalse("Use Custom Font option fail! Expected 'Off' by default, but result is 'On'",
+                LanguageUtils.transliterate());
+
+        enableUseCustomFont(true);
+        assertTrue("Use Custom Font option fail! Expected 'On', but result is 'Off'", LanguageUtils.transliterate());
+    }
+
+    private void setDefaultUseCustomFont() {
+        SharedPreferences settings = GBApplication.getPrefs().getPreferences();
+        SharedPreferences.Editor editor = settings.edit();
+        editor.remove("use_custom_font");
+        editor.apply();
+    }
+
+    private void enableUseCustomFont(boolean enable) {
+        SharedPreferences settings = GBApplication.getPrefs().getPreferences();
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("use_custom_font", enable);
+        editor.apply();
+    }
 }

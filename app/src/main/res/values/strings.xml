@@ -166,6 +166,8 @@
     <string name="pref_title_pebble_enable_bgjs">Enable background JS</string>
     <string name="pref_summary_pebble_enable_bgjs">When enabled, allows watchfaces to show weather, battery info etc.</string>
     <string name="pref_title_pebble_reconnect_attempts">Reconnection attempts</string>
+    <string name="pref_title_use_custom_font">Use custom font</string>
+    <string name="pref_summary_use_custom_font">Enable this if your device has a custom font firmware for emoji support</string>
     <!-- HPlus Preferences -->
     <string name="pref_title_unit_system">Units</string>
     <string name="pref_title_timeformat">Time format</string>
