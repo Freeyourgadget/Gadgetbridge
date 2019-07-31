@@ -480,7 +480,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         if (request instanceof BatteryLevelRequest) {
             gbDevice.setBatteryLevel(((BatteryLevelRequest) request).level);
 
-            gbDevice.setBatteryThresholdPercent((short) 25);
+            gbDevice.setBatteryThresholdPercent((short) 2);
 
             GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
             batteryInfo.level = gbDevice.getBatteryLevel();
