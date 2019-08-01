@@ -86,9 +86,13 @@ public class MiBand3Support extends AmazfitBipSupport {
                 command[1] |= 0x80;
                 command[10] = pos++;
             }
+            if (pages.contains("nfc")) {
+                command[2] |= 0x01;
+                command[11] = pos++;
+            }
         }
 
-        for (int i = 4; i <= 10; i++) {
+        for (int i = 4; i <= 11; i++) {
             if (command[i] == 0) {
                 command[i] = pos++;
             }

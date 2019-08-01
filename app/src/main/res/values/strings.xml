@@ -662,6 +662,7 @@
     <string name="menuitem_alipay">Alipay</string>
     <string name="menuitem_music">Music</string>
     <string name="menuitem_more">More</string>
+    <string name="menuitem_nfc">NFC</string>
     <string name="watch9_time_minutes">Minutes:</string>
     <string name="watch9_time_hours">Hours:</string>
     <string name="watch9_time_seconds">Seconds:</string>
