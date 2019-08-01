@@ -142,7 +142,7 @@ public class ConfigActivity extends AbstractGBActivity {
         appList.setAdapter(adapter = new PackageAdapter(this, R.layout.qhybrid_package_settings_item, list));
         appList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int i, long l) {
+            public boolean onItemLongClick(final AdapterView<?> adapterView, View view, final int i, long l) {
                 PopupMenu menu = new PopupMenu(ConfigActivity.this, view);
                 menu.getMenu().add("edit");
                 menu.getMenu().add("delete");
@@ -151,7 +151,7 @@ public class ConfigActivity extends AbstractGBActivity {
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getTitle().toString()) {
                             case "edit": {
-                                TimePicker picker = new TimePicker(ConfigActivity.this, list.get(i));
+                                TimePicker picker = new TimePicker(ConfigActivity.this, (PackageConfig) adapterView.getItemAtPosition(i));
                                 picker.finishListener = new TimePicker.OnFinishListener() {
                                     @Override
                                     public void onFinish(boolean success, PackageConfig config) {
@@ -178,16 +178,16 @@ public class ConfigActivity extends AbstractGBActivity {
                                 break;
                             }
                             case "delete": {
-                                helper.deleteConfig(list.get(i));
+                                helper.deleteConfig((PackageConfig) adapterView.getItemAtPosition(i));
                                 refreshList();
                                 break;
                             }
                         }
-                        return false;
+                        return true;
                     }
                 });
                 menu.show();
-                return false;
+                return true;
             }
         });
 
@@ -195,7 +195,7 @@ public class ConfigActivity extends AbstractGBActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent notificationIntent = new Intent(QHybridSupport.QHYBRID_COMMAND_NOTIFICATION);
-                notificationIntent.putExtra("CONFIG", list.get(i));
+                notificationIntent.putExtra("CONFIG", (PackageConfig) adapterView.getItemAtPosition(i));
                 LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(notificationIntent);
             }
         });
