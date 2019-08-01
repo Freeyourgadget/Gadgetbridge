@@ -301,6 +301,8 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), enable);
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_6_BATTERY_INFO), enable);
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_DEVICEEVENT), enable);
+        builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_AUDIO), enable);
+        builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_AUDIODATA), enable);
 
         return this;
     }
@@ -682,7 +684,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             sendCalendarEvents(builder);
             builder.queue(getQueue());
         } catch (IOException ex) {
-            LOG.error("Unable to set time on MI device", ex);
+            LOG.error("Unable to set time on Huami device", ex);
         }
     }
 
@@ -878,7 +880,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             builder.write(characteristicHRControlPoint, startHeartMeasurementManual);
             builder.queue(getQueue());
         } catch (IOException ex) {
-            LOG.error("Unable to read heart rate with MI2", ex);
+            LOG.error("Unable to read heart rate from Huami device", ex);
         }
     }
 
@@ -939,7 +941,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         try {
             new FetchActivityOperation(this).perform();
         } catch (IOException ex) {
-            LOG.error("Unable to fetch MI activity data", ex);
+            LOG.error("Unable to fetch activity data", ex);
         }
     }
 
@@ -1557,8 +1559,11 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case MiBandConst.PREF_SWIPE_UNLOCK:
                     setBandScreenUnlock(builder);
                     break;
-                case "dateformat":
+                case HuamiConst.PREF_DATEFORMAT:
                     setDateFormat(builder);
+                    break;
+                case HuamiConst.PREF_LANGUAGE:
+                    setLanguage(builder);
                     break;
             }
             builder.queue(getQueue());
