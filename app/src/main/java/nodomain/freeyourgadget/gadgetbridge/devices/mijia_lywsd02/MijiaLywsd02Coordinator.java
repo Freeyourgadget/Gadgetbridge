@@ -1,5 +1,4 @@
-/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, José Rebelo
+/*  Copyright (C) 2019 Andreas Shimokawa
 
     This file is part of Gadgetbridge.
 
@@ -15,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.vibratissimo;
+package nodomain.freeyourgadget.gadgetbridge.devices.mijia_lywsd02;
 
 import android.app.Activity;
 import android.content.Context;
@@ -33,20 +32,25 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-public class VibratissimoCoordinator extends AbstractDeviceCoordinator {
+public class MijiaLywsd02Coordinator extends AbstractDeviceCoordinator {
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
-        if (name != null && name.startsWith("Vibratissimo")) {
-            return DeviceType.VIBRATISSIMO;
+        if (name != null && name.equals("LYWSD02")) {
+            return DeviceType.MIJIA_LYWSD02;
         }
         return DeviceType.UNKNOWN;
     }
 
     @Override
     public DeviceType getDeviceType() {
-        return DeviceType.VIBRATISSIMO;
+        return DeviceType.MIJIA_LYWSD02;
+    }
+
+    @Override
+    public int getBondingStyle(GBDevice deviceCandidate) {
+        return BONDING_STYLE_NONE;
     }
 
     @Override
@@ -96,7 +100,7 @@ public class VibratissimoCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public String getManufacturer() {
-        return "Amor AG";
+        return "Xiaomi";
     }
 
     @Override
@@ -116,7 +120,7 @@ public class VibratissimoCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsRealtimeData() {
-        return false; // hmmm well, it has a temperature sensor :D
+        return false;
     }
 
     @Override
@@ -126,7 +130,7 @@ public class VibratissimoCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsFindDevice() {
-        return true;
+        return false;
     }
 
     @Override

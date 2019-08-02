@@ -95,7 +95,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
                             // continue with LE scan, if available
                             if (isScanning == Scanning.SCANNING_BT) {
                                 checkAndRequestLocationPermission();
-                                if (GBApplication.isRunningLollipopOrLater()) {
+                                if (!GBApplication.isRunningLollipopOrLater()) {
                                     startDiscovery(Scanning.SCANNING_NEW_BTLE);
                                 } else {
                                     startDiscovery(Scanning.SCANNING_BTLE);
@@ -652,7 +652,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         super.onPause();
         stopBTDiscovery();
         stopBTLEDiscovery();
-        if (GBApplication.isRunningLollipopOrLater()) {
+        if (!GBApplication.isRunningLollipopOrLater()) {
             stopNewBTLEDiscovery();
         }
     }
