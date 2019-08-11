@@ -170,7 +170,6 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
 
     @Override
     String getAverage(float value) {
-        //return String.format("%.0f", value);
         return getHM((long)value);
     }
 
