@@ -157,6 +157,9 @@
                 android:maxLength="3"
                 android:title="@string/activity_prefs_activetime_minutes" />
         </PreferenceScreen>
+ </PreferenceCategory>
+<PreferenceCategory
+        android:title="@string/pref_header_charts">
         <PreferenceScreen
             android:key="pref_charts"
             android:title="@string/activity_prefs_charts">
