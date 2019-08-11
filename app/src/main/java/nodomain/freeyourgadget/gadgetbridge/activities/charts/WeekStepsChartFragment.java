@@ -113,4 +113,9 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
         } else
             return getString(R.string.no_data);
     }
+
+    @Override
+    String getAverage(float value) {
+        return String.format("%.0f", value);
+    }
 }

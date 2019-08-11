@@ -72,6 +72,7 @@
     <string name="pref_title_audio_player">Preferred Audioplayer</string>
     <string name="pref_default">Default</string>
     <string name="pref_title_charts_swipe">Enable left/right swipe in the charts activity</string>
+    <string name="pref_title_charts_average">Show averages in the charts</string>
     <string name="pref_header_datetime">Date and Time</string>
     <string name="pref_title_datetime_syctimeonconnect">Sync time</string>
     <string name="pref_summary_datetime_syctimeonconnect">Sync time to Gadgetbridge device when connecting, and when time or time zone changes on Android device</string>
@@ -416,7 +417,7 @@
     <string name="weeksteps_today_steps_description">Steps today, target: %1$s</string>
     <string name="lack_of_step">Lack of steps: %1$d</string>
     <string name="overstep">Overstep: %1$d</string>
-    <string name="average">Average: %1$.0f</string>
+    <string name="average">Average: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Do not ACK activity data transfer</string>
     <string name="pref_summary_dont_ack_transfers">If the activity data are not acked to the band, they will not be cleared. Useful if GB is used together with other apps.</string>
     <string name="pref_summary_keep_data_on_device">Will keep activity data on the Mi Band even after synchronization. Useful if GB is used together with other apps.</string>
