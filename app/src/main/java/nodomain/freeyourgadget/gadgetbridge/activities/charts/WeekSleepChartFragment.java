@@ -167,4 +167,11 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     private String getHM(long value) {
         return DateTimeUtils.formatDurationHoursMinutes(value, TimeUnit.MINUTES);
     }
+
+    @Override
+    String getAverage(float value) {
+        //return String.format("%.0f", value);
+        return getHM((long)value);
+    }
+
 }
