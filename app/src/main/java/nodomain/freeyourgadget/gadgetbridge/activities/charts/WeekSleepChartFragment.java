@@ -40,7 +40,12 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     @Override
     public String getTitle() {
-        return getString(R.string.weeksleepchart_sleep_a_week);
+        if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
+            return getString(R.string.weeksleepchart_sleep_a_month);
+        }
+        else{
+            return getString(R.string.weeksleepchart_sleep_a_week);
+        }
     }
 
     @Override
