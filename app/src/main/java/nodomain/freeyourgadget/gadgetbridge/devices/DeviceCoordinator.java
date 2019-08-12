@@ -281,6 +281,11 @@ public interface DeviceCoordinator {
     boolean supportsUnicodeEmojis();
 
     /**
+     * Indicates whether the device supports using a custom font.
+     */
+    boolean supportsCustomFont();
+
+    /**
      * Indicates which device specific settings the device supports (not per device type or family, but unique per device).
      */
     int[] getSupportedDeviceSpecificSettings(GBDevice device);
