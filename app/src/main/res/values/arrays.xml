@@ -238,6 +238,7 @@
         <item>@string/menuitem_status</item>
         <item>@string/heart_rate</item>
         <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_nfc</item>
     </string-array>
 
     <string-array name="pref_miband3_display_items_values">
@@ -248,6 +249,7 @@
         <item>@string/p_menuitem_status</item>
         <item>@string/p_heart_rate</item>
         <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_nfc</item>
     </string-array>
 
     <string-array name="pref_miband3_display_items_default">

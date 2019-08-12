@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release version="0.35.2" versioncode="154">
-        <change>Mi Band 1/2: Crash when updating firemare while phone is set to Spanish</change>
+        <change>Mi Band 1/2: Crash when updating firmware while phone is set to Spanish</change>
         <change>Mi Band 4: Enable music info support (displays now on the band)</change>
         <change>Mi Band 4: Support setting date format (for built-in watchfaces)</change>
         <change>Amazfit Cor 2: Try to fix empty menu on device</change>

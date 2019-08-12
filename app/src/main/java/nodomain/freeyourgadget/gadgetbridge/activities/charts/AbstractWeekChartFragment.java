@@ -48,6 +48,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -130,7 +131,28 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         barChart.getAxisLeft().removeAllLimitLines();
         barChart.getAxisLeft().addLimitLine(target);
 
-        return new WeekChartsData(barData, new PreformattedXIndexLabelFormatter(labels), getBalanceMessage(balance, mTargetValue));
+        float average = 0;
+        if (TOTAL_DAYS > 0) {
+            average = Math.abs(balance / TOTAL_DAYS);
+        }
+        LimitLine average_line = new LimitLine(average);
+        average_line.setLabel(getString(R.string.average, getAverage(average)));
+
+        if (average > (mTargetValue)) {
+            average_line.setLineColor(Color.GREEN);
+            average_line.setTextColor(Color.GREEN);
+        }
+        else {
+            average_line.setLineColor(Color.RED);
+            average_line.setTextColor(Color.RED);
+        }
+        if (average > 0) {
+            if (GBApplication.getPrefs().getBoolean("charts_show_average", true)) {
+                barChart.getAxisLeft().addLimitLine(average_line);
+            }
+        }
+
+            return new WeekChartsData(barData, new PreformattedXIndexLabelFormatter(labels), getBalanceMessage(balance, mTargetValue));
     }
 
     private DayData refreshDayPie(DBHandler db, Calendar day, GBDevice device) {
@@ -314,6 +336,8 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
 
         return amounts;
     }
+
+    abstract String getAverage(float value);
 
     abstract int getGoal();
 
