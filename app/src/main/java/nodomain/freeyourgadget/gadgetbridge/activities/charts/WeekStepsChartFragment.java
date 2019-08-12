@@ -30,7 +30,12 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     @Override
     public String getTitle() {
-        return getString(R.string.weekstepschart_steps_a_week);
+        if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
+            return getString(R.string.weekstepschart_steps_a_month);
+        }
+        else{
+                return getString(R.string.weekstepschart_steps_a_week);
+        }
     }
 
     @Override
