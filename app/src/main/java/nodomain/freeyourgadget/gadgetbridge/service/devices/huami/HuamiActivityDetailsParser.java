@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,8 +34,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityTrack;
 import nodomain.freeyourgadget.gadgetbridge.model.GPSCoordinate;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 
-public class ActivityDetailsParser {
-    private static final Logger LOG = LoggerFactory.getLogger(ActivityDetailsParser.class);
+public class HuamiActivityDetailsParser {
+    private static final Logger LOG = LoggerFactory.getLogger(HuamiActivityDetailsParser.class);
 
     private static final byte TYPE_GPS = 0;
     private static final byte TYPE_HR = 1;
@@ -65,7 +65,7 @@ public class ActivityDetailsParser {
 
     private boolean skipCounterByte;
 
-    public ActivityDetailsParser(BaseActivitySummary summary) {
+    public HuamiActivityDetailsParser(BaseActivitySummary summary) {
         this.summary = summary;
 //        this.version = version;
 //        this.baseDate = baseDate;
