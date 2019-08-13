@@ -527,10 +527,7 @@
 
     <string name="authenticating">Authenticating</string>
     <string name="authentication_required">Authentication required</string>
-    <string name="appwidget_text">Zzz</string>
-    <string name="add_widget">Add widget</string>
     <string name="activity_prefs_sleep_duration">Preferred sleep duration in hours</string>
-    <string name="appwidget_setting_alarm">Setting alarm for %1$02d:%2$02d</string>
     <string name="device_hw">Hardware revision: %1$s</string>
     <string name="device_fw">Firmware version: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Error creating directory for log files: %1$s</string>
@@ -715,5 +712,11 @@
     <string name="filter_mode">Filter Mode</string>
     <string name="mode_configuration">Mode Configuration</string>
     <string name="save_configuration">Save Configuration</string>
+    <!-- App Widgets-->
     <string name="appwidget_not_connected">Not connected, alarm not set.</string>
+    <string name="appwidget_text">000</string>
+    <string name="add_widget">Add widget</string>
+    <string name="appwidget_setting_alarm">Setting alarm for %1$02d:%2$02d</string>
+
+    <string name="steps_today_widget_text">Steps Today</string>
 </resources>
