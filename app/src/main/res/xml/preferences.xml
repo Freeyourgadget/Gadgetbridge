@@ -158,8 +158,6 @@
                 android:title="@string/activity_prefs_activetime_minutes" />
         </PreferenceScreen>
     </PreferenceCategory>
-    <PreferenceCategory
-        android:title="@string/pref_header_charts">
         <PreferenceScreen
             android:key="pref_charts"
             android:title="@string/activity_prefs_charts">
@@ -177,7 +175,6 @@
                 android:maxLength="3"
                 android:defaultValue="10"
                 android:title="@string/activity_prefs_chart_min_heart_rate" />
-        </PreferenceScreen>
         <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="true"
@@ -196,7 +193,7 @@
             android:summaryOff="@string/pref_charts_range_off"
             android:summaryOn="@string/pref_charts_range_on"
             android:title="@string/pref_title_charts_range" />
-    </PreferenceCategory>
+        </PreferenceScreen>
 
     <PreferenceCategory
         android:key="pref_key_datetime"
