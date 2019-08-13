@@ -44,7 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.BipActivityType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSportsActivityType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
@@ -170,7 +170,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         int activityKind = ActivityKind.TYPE_UNKNOWN;
         try {
             int rawKind = BLETypeConversions.toUnsigned(buffer.getShort());
-            BipActivityType activityType = BipActivityType.fromCode(rawKind);
+            HuamiSportsActivityType activityType = HuamiSportsActivityType.fromCode(rawKind);
             activityKind = activityType.toActivityKind();
         } catch (Exception ex) {
             LOG.error("Error mapping acivity kind: " + ex.getMessage(), ex);
