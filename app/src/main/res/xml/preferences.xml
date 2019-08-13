@@ -195,7 +195,7 @@
             android:key="charts_range"
             android:summaryOff="@string/pref_charts_range_off"
             android:summaryOn="@string/pref_charts_range_on"
-            android:title="@string/pref_charts_range" />
+            android:title="@string/pref_title_charts_range" />
     </PreferenceCategory>
 
     <PreferenceCategory
