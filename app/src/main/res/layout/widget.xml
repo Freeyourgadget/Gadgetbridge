@@ -1,0 +1,121 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/alarm_list_top_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_dark"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/todaywidget_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:background="@color/accent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/todaywidget_header_icon"
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:adjustViewBounds="false"
+            android:contentDescription="@string/icon_placeholder"
+            android:cropToPadding="false"
+            android:padding="0dp"
+            android:src="@drawable/ic_notification" />
+
+
+        <LinearLayout
+            android:id="@+id/todaywidget_header_bar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp">
+
+            <TextView
+                android:id="@+id/todaywidget_device_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:drawablePadding="4dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/app_name"
+                android:textColor="@color/primarytext_dark"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/todaywidget_header_plus"
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/icon_placeholder"
+            android:padding="0dp"
+            android:src="@drawable/ic_watchface" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/todaywidget_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp">
+
+        <LinearLayout
+            android:id="@+id/todaywidget_bottom_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/todaywidget_steps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/widget_steps_label"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/widget_steps_label"
+                android:textColor="@color/primarytext_dark"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/todaywidget_sleep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/widget_sleep_label"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/widget_sleep_label"
+                android:textColor="@color/primarytext_dark"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/empty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/todaywidget_device_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:foregroundGravity="right"
+            android:gravity="end"
+            android:text="@string/device_not_connected"
+            android:textColor="@color/primarytext_dark"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
