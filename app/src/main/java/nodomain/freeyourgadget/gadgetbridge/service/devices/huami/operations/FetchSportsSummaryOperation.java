@@ -43,8 +43,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSportsActivityType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
@@ -197,44 +197,88 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         summary.setBaseLongitude(baseLongitude);
         summary.setBaseLatitude(baseLatitude);
         summary.setBaseAltitude(baseAltitude);
+
+        // unused data (for now)
+        float distanceMeters = buffer.getFloat();
+        float ascentMeters = buffer.getFloat();
+        float descentMeters = buffer.getFloat();
+        float maxAltitude = buffer.getFloat();
+        float minAltitude = buffer.getFloat();
+        int maxLatitude = buffer.getInt(); // format?
+        int minLatitude = buffer.getInt(); // format?
+        int maxLongitude = buffer.getInt(); // format?
+        int minLongitude = buffer.getInt(); // format?
+        int steps = buffer.getInt();
+        int activeSeconds = buffer.getInt();
+        float caloriesBurnt = buffer.getFloat();
+        float maxSpeed = buffer.getFloat();
+        float minPace = buffer.getFloat(); // format?
+        float maxPace = buffer.getFloat(); // format?
+        float totalStride = buffer.getFloat();
+
+        buffer.getInt(); // unknown
+        buffer.getInt(); // unknown
+        buffer.getInt(); // unknown
+
+        int ascentSeconds = buffer.getInt() / 1000; //ms?
+        buffer.getInt(); // unknown;
+        int descentSeconds = buffer.getInt() / 1000; //ms?
+        buffer.getInt(); // unknown;
+        int flatSeconds = buffer.getInt() / 1000; // ms?
+        int averageHR = buffer.getShort();
+        int averagePaceSeconds = buffer.getShort();
+        int averageStride = buffer.getShort();
+        buffer.getShort(); // unknown
+
+        LOG.debug("unused data:" +
+                "\ndistanceMeters=" + distanceMeters +
+                "\nascentMeters=" + ascentMeters +
+                "\ndescentMeters=" + descentMeters +
+                "\nmaxAltitude=" + maxAltitude +
+                "\nminAltitude=" + minAltitude +
+                //"\nmaxLatitude=" + maxLatitude + // not useful
+                //"\nminLatitude=" + minLatitude + // not useful
+                //"\nmaxLongitude=" + maxLongitude + // not useful
+                //"\nminLongitude=" + minLongitude + // not useful
+                "\nsteps=" + steps +
+                "\nactiveSeconds=" + activeSeconds +
+                "\ncaloriesBurnt=" + caloriesBurnt +
+                "\nmaxSpeed=" + maxSpeed +
+                "\nminPace=" + minPace +
+                "\nmaxPace=" + maxPace +
+                "\ntotalStride=" + totalStride +
+                "\nascentSeconds=" + ascentSeconds +
+                "\ndescentSeconds=" + descentSeconds +
+                "\nflatSeconds=" + flatSeconds +
+                "\naverageHR=" + averageHR +
+                "\naveragePaceSeconds=" + averagePaceSeconds +
+                "\naverageStride=" + averageStride +
+                ""
+        );
+
 //        summary.setBaseCoordinate(new GPSCoordinate(baseLatitude, baseLongitude, baseAltitude));
-
-//        summary.setDistanceMeters(Float.intBitsToFloat(buffer.getInt()));
-//        summary.setAscentMeters(Float.intBitsToFloat(buffer.getInt()));
-//        summary.setDescentMeters(Float.intBitsToFloat(buffer.getInt()));
-//
-//        summary.setMinAltitude(Float.intBitsToFloat(buffer.getInt()));
-//        summary.setMaxAltitude(Float.intBitsToFloat(buffer.getInt()));
-//        summary.setMinLatitude(buffer.getInt());
-//        summary.setMaxLatitude(buffer.getInt());
-//        summary.setMinLongitude(buffer.getInt());
-//        summary.setMaxLongitude(buffer.getInt());
-//
-//        summary.setSteps(BLETypeConversions.toUnsigned(buffer.getInt()));
-//        summary.setActiveTimeSeconds(BLETypeConversions.toUnsigned(buffer.getInt()));
-//
-//        summary.setCaloriesBurnt(Float.intBitsToFloat(buffer.get()));
-//        summary.setMaxSpeed(Float.intBitsToFloat(buffer.get()));
-//        summary.setMinPace(Float.intBitsToFloat(buffer.get()));
-//        summary.setMaxPace(Float.intBitsToFloat(buffer.get()));
-//        summary.setTotalStride(Float.intBitsToFloat(buffer.get()));
-
-        buffer.getInt(); //
-        buffer.getInt(); //
-        buffer.getInt(); //
-
-//        summary.setTimeAscent(BLETypeConversions.toUnsigned(buffer.getInt()));
-//        buffer.getInt(); //
-//        summary.setTimeDescent(BLETypeConversions.toUnsigned(buffer.getInt()));
-//        buffer.getInt(); //
-//        summary.setTimeFlat(BLETypeConversions.toUnsigned(buffer.getInt()));
-//
-//        summary.setAverageHR(BLETypeConversions.toUnsigned(buffer.getShort()));
-//
-//        summary.setAveragePace(BLETypeConversions.toUnsigned(buffer.getShort()));
-//        summary.setAverageStride(BLETypeConversions.toUnsigned(buffer.getShort()));
-
-        buffer.getShort(); //
+//        summary.setDistanceMeters(distanceMeters);
+//        summary.setAscentMeters(ascentMeters);
+//        summary.setDescentMeters(descentMeters);
+//        summary.setMinAltitude(maxAltitude);
+//        summary.setMaxAltitude(maxAltitude);
+//        summary.setMinLatitude(minLatitude);
+//        summary.setMaxLatitude(maxLatitude);
+//        summary.setMinLongitude(minLatitude);
+//        summary.setMaxLongitude(maxLatitude);
+//        summary.setSteps(steps);
+//        summary.setActiveTimeSeconds(secondsActive);
+//        summary.setCaloriesBurnt(caloriesBurnt);
+//        summary.setMaxSpeed(maxSpeed);
+//        summary.setMinPace(minPace);
+//        summary.setMaxPace(maxPace);
+//        summary.setTotalStride(totalStride);
+//        summary.setTimeAscent(BLETypeConversions.toUnsigned(ascentSeconds);
+//        summary.setTimeDescent(BLETypeConversions.toUnsigned(descentSeconds);
+//        summary.setTimeFlat(BLETypeConversions.toUnsigned(flatSeconds);
+//        summary.setAverageHR(BLETypeConversions.toUnsigned(averageHR);
+//        summary.setAveragePace(BLETypeConversions.toUnsigned(averagePace);
+//        summary.setAverageStride(BLETypeConversions.toUnsigned(averageStride);
 
         return summary;
     }
