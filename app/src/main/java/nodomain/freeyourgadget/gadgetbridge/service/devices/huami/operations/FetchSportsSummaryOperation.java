@@ -166,14 +166,14 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         ByteBuffer buffer = ByteBuffer.wrap(stream.toByteArray()).order(ByteOrder.LITTLE_ENDIAN);
 //        summary.setVersion(BLETypeConversions.toUnsigned(buffer.getShort()));
         short version = buffer.getShort(); // version
-        LOG.debug("Got verison " + version);
+        LOG.debug("Got sport summary version " + version);
         int activityKind = ActivityKind.TYPE_UNKNOWN;
         try {
             int rawKind = BLETypeConversions.toUnsigned(buffer.getShort());
             HuamiSportsActivityType activityType = HuamiSportsActivityType.fromCode(rawKind);
             activityKind = activityType.toActivityKind();
         } catch (Exception ex) {
-            LOG.error("Error mapping acivity kind: " + ex.getMessage(), ex);
+            LOG.error("Error mapping activity kind: " + ex.getMessage(), ex);
         }
         summary.setActivityKind(activityKind);
 
