@@ -459,6 +459,7 @@
         <receiver android:name=".StepsTodayWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="nodomain.freeyourgadget.gadgetbridge.STEPS_TODAY_CLICK" />
             </intent-filter>
 
             <meta-data
