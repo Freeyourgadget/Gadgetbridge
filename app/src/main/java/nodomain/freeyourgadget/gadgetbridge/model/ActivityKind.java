@@ -116,9 +116,9 @@ public class ActivityKind {
             case TYPE_NOT_MEASURED:
                 return R.drawable.ic_activity_not_measured;
             case TYPE_LIGHT_SLEEP:
-                return R.drawable.ic_activity_light_sleep;
+                return R.drawable.ic_activity_sleep;
             case TYPE_DEEP_SLEEP:
-                return R.drawable.ic_activity_deep_sleep;
+                return R.drawable.ic_activity_sleep;
             case TYPE_RUNNING:
                 return R.drawable.ic_activity_running;
             case TYPE_WALKING:
@@ -128,7 +128,9 @@ public class ActivityKind {
             case TYPE_TREADMILL:
                 return R.drawable.ic_activity_walking;
             case TYPE_EXERCISE: // fall through
+                return R.drawable.ic_activity_exercise;
             case TYPE_SWIMMING: // fall through
+                return R.drawable.ic_activity_swimming;
             case TYPE_NOT_WORN: // fall through
             case TYPE_ACTIVITY: // fall through
             case TYPE_UNKNOWN: // fall through
