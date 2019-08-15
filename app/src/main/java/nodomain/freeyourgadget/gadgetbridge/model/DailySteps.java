@@ -40,8 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class DailySteps {
     Logger LOG = LoggerFactory.getLogger(DailySteps.class);
 
-    public String loadItems(GBDevice device) {
-
+    public String getDailySteps(GBDevice device) {
 
         try (DBHandler handler = GBApplication.acquireDB()) {
 
@@ -50,40 +49,31 @@ public class DailySteps {
             ActivityAmounts amounts = null;
             amounts = analysis.calculateActivityAmounts(getSamplesOfDay(handler, device));
 
-            float totalValues[] = getTotalsForActivityAmounts(amounts);
-            long totalSteps = 0;
-            for (ActivityAmount amount : amounts.getAmounts()) {
-
-                totalSteps += amount.getTotalSteps();
-
-            }
-            float totalValue = 0;
-            for (int i = 0; i < totalValues.length; i++) {
-                float value = totalValues[i];
-                totalValue += value;
-            }
-
-            LOG.info("PETR total values: ",totalValue);
+            int totalSteps = getTotalsForActivityAmounts(amounts);
             return String.valueOf(totalSteps);
+
         } catch (Exception e) {
 
             GB.toast("Error loading activity summaries.", Toast.LENGTH_SHORT, GB.ERROR, e);
-            return "fail " + e;
+            return "error";
         }
-
     }
 
-    private float[] getTotalsForActivityAmounts(ActivityAmounts activityAmounts) {
+    private int getTotalsForActivityAmounts(ActivityAmounts activityAmounts) {
         long totalSteps = 0;
-        LOG.info("PETR AAm: ",activityAmounts);
+        float totalValue = 0;
 
         for (ActivityAmount amount : activityAmounts.getAmounts()) {
-            LOG.info("PETR amount: ",amount);
-
             totalSteps += amount.getTotalSteps();
         }
-        LOG.info("PETR total steps: ",totalSteps);
-        return new float[]{totalSteps};
+
+        float[] totalValues = new float[]{totalSteps};
+
+        for (int i = 0; i < totalValues.length; i++) {
+            float value = totalValues[i];
+            totalValue += value;
+        }
+        return (int)totalValue;
     };
 
 

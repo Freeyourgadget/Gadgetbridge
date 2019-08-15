@@ -33,9 +33,9 @@ import android.content.ComponentName;
 
 public class StepsTodayWidget extends AppWidgetProvider {
 
-    public static String getDailySteps(Context appContext, GBDevice device){
+    public static String getSteps(Context appContext, GBDevice device){
         DailySteps ds = new DailySteps();
-        String stepsToday = ds.loadItems(device);
+        String stepsToday = ds.getDailySteps(device);
         return stepsToday;
     };
 
@@ -60,7 +60,7 @@ public class StepsTodayWidget extends AppWidgetProvider {
             GBApplication gbApp = (GBApplication) appContext;
             GBDevice device = gbApp.getDeviceManager().getDevices().get(0); //first device
 
-            views.setTextViewText(R.id.stepstodaywidget_text,"Steps today: " + getDailySteps(appContext, device));
+            views.setTextViewText(R.id.stepstodaywidget_text,"Steps today: " + getSteps(appContext, device));
         }
 
         // Instruct the widget manager to update the widget
