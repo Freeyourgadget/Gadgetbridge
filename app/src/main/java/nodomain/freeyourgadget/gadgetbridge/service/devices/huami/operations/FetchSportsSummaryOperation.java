@@ -141,7 +141,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
             return;
         }
 
-        if ((byte) (lastPacketCounter + 1) == value[0] ) {
+        if ((byte) (lastPacketCounter + 1) == value[0]) {
             lastPacketCounter++;
             bufferActivityData(value);
         } else {
@@ -154,6 +154,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
     /**
      * Buffers the given activity summary data. If the total size is reached,
      * it is converted to an object and saved in the database.
+     *
      * @param value
      */
     @Override
@@ -166,7 +167,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         ByteBuffer buffer = ByteBuffer.wrap(stream.toByteArray()).order(ByteOrder.LITTLE_ENDIAN);
 //        summary.setVersion(BLETypeConversions.toUnsigned(buffer.getShort()));
         short version = buffer.getShort(); // version
-        LOG.debug("Got sport summary version " + version);
+        LOG.debug("Got sport summary version " + version + "total bytes=" + buffer.capacity());
         int activityKind = ActivityKind.TYPE_UNKNOWN;
         try {
             int rawKind = BLETypeConversions.toUnsigned(buffer.getShort());
@@ -217,20 +218,52 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         float totalStride = buffer.getFloat();
 
         buffer.getInt(); // unknown
-        buffer.getInt(); // unknown
-        buffer.getInt(); // unknown
 
-        int ascentSeconds = buffer.getInt() / 1000; //ms?
-        buffer.getInt(); // unknown;
-        int descentSeconds = buffer.getInt() / 1000; //ms?
-        buffer.getInt(); // unknown;
-        int flatSeconds = buffer.getInt() / 1000; // ms?
-        int averageHR = buffer.getShort();
-        int averagePaceSeconds = buffer.getShort();
-        int averageStride = buffer.getShort();
-        buffer.getShort(); // unknown
+        if (activityKind == ActivityKind.TYPE_SWIMMING) {
+            // 28 bytes
+            float averageStrokeDistance = buffer.getFloat();
+            float averageStrokesPerSecond = buffer.getFloat();
+            float averageLapPace = buffer.getFloat();
+            short strokes = buffer.getShort();
+            short swolfIndex = buffer.getShort();
+            byte swimStyle = buffer.get();
+            byte laps = buffer.get();
+            buffer.getInt(); // unknown
+            buffer.getInt(); // unknown
+            buffer.getShort(); // unknown
 
-        LOG.debug("unused data:" +
+            LOG.debug("unused swim data:" +
+                    "\naverageStrokeDistance=" + averageStrokeDistance +
+                    "\naverageStrokesPerSecond=" + averageStrokesPerSecond +
+                    "\naverageLapPace" + averageLapPace +
+                    "\nstrokes=" + strokes +
+                    "\nswolfIndex=" + swolfIndex +
+                    "\nswimStyle=" + swimStyle + // 1 = breast, 2 = freestyle
+                    "\nlaps=" + laps +
+                    ""
+            );
+        } else {
+            // 28 bytes
+            buffer.getInt(); // unknown
+            buffer.getInt(); // unknown
+            int ascentSeconds = buffer.getInt() / 1000; //ms?
+            buffer.getInt(); // unknown;
+            int descentSeconds = buffer.getInt() / 1000; //ms?
+            buffer.getInt(); // unknown;
+            int flatSeconds = buffer.getInt() / 1000; // ms?
+            LOG.debug("unused non-swim data:" +
+                    "\nascentSeconds=" + ascentSeconds +
+                    "\ndescentSeconds=" + descentSeconds +
+                    "\nflatSeconds=" + flatSeconds +
+                    ""
+            );
+        }
+
+        short averageHR = buffer.getShort();
+        short averageKMPaceSeconds = buffer.getShort();
+        short averageStride = buffer.getShort();
+
+        LOG.debug("unused common:" +
                 "\ndistanceMeters=" + distanceMeters +
                 "\nascentMeters=" + ascentMeters +
                 "\ndescentMeters=" + descentMeters +
@@ -247,11 +280,8 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
                 "\nminPace=" + minPace +
                 "\nmaxPace=" + maxPace +
                 "\ntotalStride=" + totalStride +
-                "\nascentSeconds=" + ascentSeconds +
-                "\ndescentSeconds=" + descentSeconds +
-                "\nflatSeconds=" + flatSeconds +
                 "\naverageHR=" + averageHR +
-                "\naveragePaceSeconds=" + averagePaceSeconds +
+                "\naverageKMPaceSeconds=" + averageKMPaceSeconds +
                 "\naverageStride=" + averageStride +
                 ""
         );
