@@ -36,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
+
 public class DailySteps {
     Logger LOG = LoggerFactory.getLogger(DailySteps.class);
 
@@ -44,12 +45,26 @@ public class DailySteps {
 
         try (DBHandler handler = GBApplication.acquireDB()) {
 
-            LOG.info("PETR db load items handler " + handler);
-            LOG.info("PETR db load items device " + device);
-            List r = getSamplesOfDay(handler, device);
-            LOG.info("PETR this is r",String.valueOf(r));
-            LOG.info("PETR length of r ",String.valueOf(r.size()));
-            return "test this";
+            ActivityAnalysis analysis = new ActivityAnalysis();
+
+            ActivityAmounts amounts = null;
+            amounts = analysis.calculateActivityAmounts(getSamplesOfDay(handler, device));
+
+            float totalValues[] = getTotalsForActivityAmounts(amounts);
+            long totalSteps = 0;
+            for (ActivityAmount amount : amounts.getAmounts()) {
+
+                totalSteps += amount.getTotalSteps();
+
+            }
+            float totalValue = 0;
+            for (int i = 0; i < totalValues.length; i++) {
+                float value = totalValues[i];
+                totalValue += value;
+            }
+
+            LOG.info("PETR total values: ",totalValue);
+            return String.valueOf(totalSteps);
         } catch (Exception e) {
 
             GB.toast("Error loading activity summaries.", Toast.LENGTH_SHORT, GB.ERROR, e);
@@ -58,6 +73,18 @@ public class DailySteps {
 
     }
 
+    private float[] getTotalsForActivityAmounts(ActivityAmounts activityAmounts) {
+        long totalSteps = 0;
+        LOG.info("PETR AAm: ",activityAmounts);
+
+        for (ActivityAmount amount : activityAmounts.getAmounts()) {
+            LOG.info("PETR amount: ",amount);
+
+            totalSteps += amount.getTotalSteps();
+        }
+        LOG.info("PETR total steps: ",totalSteps);
+        return new float[]{totalSteps};
+    };
 
 
     private List<? extends ActivitySample> getSamplesOfDay(DBHandler db, GBDevice device) {
@@ -76,14 +103,11 @@ public class DailySteps {
         day.set(Calendar.MINUTE, 59);
         day.set(Calendar.SECOND, 59);
         endTs = (int) (day.getTimeInMillis() / 1000);
-        LOG.info("PETR get samples " +" : "+ db +" : "+ device +" : "+ startTs +" : "+ endTs);
-        LOG.info("PETR samples size: ", getSamples(db, device, startTs, endTs).size());
         return getSamples(db, device, startTs, endTs);
     }
 
 
     protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        LOG.info("PETR get all samples" + db + device + tsFrom + tsTo);
         return getAllSamples(db, device, tsFrom, tsTo);
     }
 
@@ -96,10 +120,7 @@ public class DailySteps {
 
     protected List<? extends ActivitySample> getAllSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         SampleProvider<? extends ActivitySample> provider = getProvider(db, device);
-        LOG.info("PETR get all activity samples" + db + device + tsFrom + tsTo + provider);
         return provider.getAllActivitySamples(tsFrom, tsTo);
     }
-
-
 }
 

@@ -33,18 +33,10 @@ import android.content.ComponentName;
 
 public class StepsTodayWidget extends AppWidgetProvider {
 
-    public static String getData(Context appContext, GBDevice device){
-        Logger LOG = LoggerFactory.getLogger(StepsTodayWidget.class);
-        LOG.info("PETR get data device: "+ device);
-
+    public static String getDailySteps(Context appContext, GBDevice device){
         DailySteps ds = new DailySteps();
-        LOG.info("PETR " + String.valueOf(ds));
-        String kroky = ds.loadItems(device);
-        LOG.info("PETR  →" + kroky);
-        return kroky;
-
-
-
+        String stepsToday = ds.loadItems(device);
+        return stepsToday;
     };
 
     public static final String ACTION =
@@ -52,9 +44,6 @@ public class StepsTodayWidget extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
-        Logger LOG = LoggerFactory.getLogger(StepsTodayWidget.class);
-
-        LOG.info("PETR running updateWidget");
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.steps_today_widget);
 
@@ -65,20 +54,14 @@ public class StepsTodayWidget extends AppWidgetProvider {
                 context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.stepstodaywidget_text, clickPI);
 
-
-
         Context appContext = context.getApplicationContext();
 
         if (appContext instanceof GBApplication) {
             GBApplication gbApp = (GBApplication) appContext;
-            GBDevice selectedDevice = gbApp.getDeviceManager().getDevices().get(0);
-            views.setTextViewText(R.id.stepstodaywidget_text,getData(appContext,selectedDevice));
+            GBDevice device = gbApp.getDeviceManager().getDevices().get(0); //first device
+
+            views.setTextViewText(R.id.stepstodaywidget_text,"Steps today: " + getDailySteps(appContext, device));
         }
-
-
-
-
-        //views.setTextViewText(R.id.stepstodaywidget_text, String.valueOf(GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_STEPS_GOAL, ActivityUser.defaultUserStepsGoal)));
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -105,26 +88,14 @@ public class StepsTodayWidget extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
+        //update on every valid onReceive
         if (ACTION.equals(intent.getAction())) {
-            Logger LOG = LoggerFactory.getLogger(StepsTodayWidget.class);
-            LOG.info("PETR onReceive, click");
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             ComponentName thisAppWidget = new ComponentName(context.getPackageName(), StepsTodayWidget.class.getName());
             int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisAppWidget);
 
             onUpdate(context, appWidgetManager, appWidgetIds);
-
-
         }
     }
-
-
-    //Calendar day = GregorianCalendar.getInstance();
-    //GBDevice device = null;
-    //DBHandler db = null;
-
-
-
-
 }
 
