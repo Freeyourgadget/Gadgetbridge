@@ -445,7 +445,8 @@
                 android:resource="@xml/shared_paths" />
         </provider>
 
-        <receiver android:name=".SleepAlarmWidget">
+        <receiver android:name=".SleepAlarmWidget"
+            android:label="@string/appwidget_sleep_alarm_widget_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="nodomain.freeyourgadget.gadgetbridge.SLEEP_ALARM_WIDGET_CLICK" />
@@ -456,7 +457,9 @@
                 android:resource="@xml/sleep_alarm_widget_info" />
         </receiver>
 
-        <receiver android:name=".StepsTodayWidget">
+        <receiver
+            android:name=".StepsTodayWidget"
+            android:label="@string/appwidget_steps_today_widget_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="nodomain.freeyourgadget.gadgetbridge.STEPS_TODAY_CLICK" />

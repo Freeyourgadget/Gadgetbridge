@@ -30,12 +30,16 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DailySteps;
 import android.content.ComponentName;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 
 public class StepsTodayWidget extends AppWidgetProvider {
 
-    public static String getSteps(Context appContext, GBDevice device){
+    public static int getSteps(Context appContext){
         DailySteps ds = new DailySteps();
-        String stepsToday = ds.getDailySteps(device);
+        Calendar day = GregorianCalendar.getInstance();
+        int stepsToday = ds.getAllDailySteps(appContext, day);
         return stepsToday;
     };
 
@@ -56,12 +60,8 @@ public class StepsTodayWidget extends AppWidgetProvider {
 
         Context appContext = context.getApplicationContext();
 
-        if (appContext instanceof GBApplication) {
-            GBApplication gbApp = (GBApplication) appContext;
-            GBDevice device = gbApp.getDeviceManager().getDevices().get(0); //first device
+            views.setTextViewText(R.id.stepstodaywidget_text, context.getString(R.string.appwidget_steps_today_text,  getSteps(appContext)));
 
-            views.setTextViewText(R.id.stepstodaywidget_text,"Steps today: " + getSteps(appContext, device));
-        }
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

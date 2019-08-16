@@ -714,9 +714,12 @@
     <string name="save_configuration">Save Configuration</string>
     <!-- App Widgets-->
     <string name="appwidget_not_connected">Not connected, alarm not set.</string>
-    <string name="appwidget_text">000</string>
+    <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Add widget</string>
     <string name="appwidget_setting_alarm">Setting alarm for %1$02d:%2$02d</string>
+    <string name="appwidget_sleep_alarm_widget_label">Sleep Alarm</string>
 
-    <string name="steps_today_widget_text">Steps Today</string>
+    <string name="appwidget_steps_today_text">Steps Today: %1$02d</string>
+    <string name="appwidget_steps_today_widget_label">Steps Today</string>
+
 </resources>

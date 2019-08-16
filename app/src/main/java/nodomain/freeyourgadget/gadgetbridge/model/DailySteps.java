@@ -24,7 +24,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -40,24 +39,55 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class DailySteps {
     Logger LOG = LoggerFactory.getLogger(DailySteps.class);
 
-    public String getDailySteps(GBDevice device) {
+    public int getAllDailySteps(Context appContext, Calendar day) {
+        //get today's steps for all devices in GB
+
+        int all_steps=0;
+
+        if (appContext instanceof GBApplication) {
+            GBApplication gbApp = (GBApplication) appContext;
+            List<? extends GBDevice> devices = gbApp.getDeviceManager().getDevices();
+
+            for (GBDevice device : devices){
+                all_steps+=getDailyStepsForDevice(device, day);
+            };
+        }
+        LOG.info("All steps:" + all_steps);
+        return all_steps;
+    }
+
+    public int getDailyStepsForDevice(GBDevice device, Calendar day
+    ) {
+        //get today's steps for given device
+
+        int startTs;
+        int endTs;
+
+        day = (Calendar) day.clone(); // do not modify the caller's argument
+        day.set(Calendar.HOUR_OF_DAY, 0);
+        day.set(Calendar.MINUTE, 0);
+        day.set(Calendar.SECOND, 0);
+        startTs = (int) (day.getTimeInMillis() / 1000);
+
+        day.set(Calendar.HOUR_OF_DAY, 23);
+        day.set(Calendar.MINUTE, 59);
+        day.set(Calendar.SECOND, 59);
+        endTs = (int) (day.getTimeInMillis() / 1000);
 
         try (DBHandler handler = GBApplication.acquireDB()) {
-
             ActivityAnalysis analysis = new ActivityAnalysis();
-
             ActivityAmounts amounts = null;
-            amounts = analysis.calculateActivityAmounts(getSamplesOfDay(handler, device));
-
+            amounts = analysis.calculateActivityAmounts(getSamplesOfDay(handler, device, startTs, endTs));
             int totalSteps = getTotalsForActivityAmounts(amounts);
-            return String.valueOf(totalSteps);
+            return totalSteps;
 
         } catch (Exception e) {
 
             GB.toast("Error loading activity summaries.", Toast.LENGTH_SHORT, GB.ERROR, e);
-            return "error";
+            return 0;
         }
     }
+
 
     private int getTotalsForActivityAmounts(ActivityAmounts activityAmounts) {
         long totalSteps = 0;
@@ -77,22 +107,7 @@ public class DailySteps {
     };
 
 
-    private List<? extends ActivitySample> getSamplesOfDay(DBHandler db, GBDevice device) {
-
-        Calendar day = GregorianCalendar.getInstance();
-        int startTs;
-        int endTs;
-
-        day = (Calendar) day.clone(); // do not modify the caller's argument
-        day.set(Calendar.HOUR_OF_DAY, 0);
-        day.set(Calendar.MINUTE, 0);
-        day.set(Calendar.SECOND, 0);
-        startTs = (int) (day.getTimeInMillis() / 1000);
-
-        day.set(Calendar.HOUR_OF_DAY, 23);
-        day.set(Calendar.MINUTE, 59);
-        day.set(Calendar.SECOND, 59);
-        endTs = (int) (day.getTimeInMillis() / 1000);
+    private List<? extends ActivitySample> getSamplesOfDay(DBHandler db, GBDevice device, int startTs, int endTs) {
         return getSamples(db, device, startTs, endTs);
     }
 
