@@ -22,14 +22,8 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DailySteps;
 import android.content.ComponentName;
-
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 

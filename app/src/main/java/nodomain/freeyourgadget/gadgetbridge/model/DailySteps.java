@@ -16,16 +16,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.Calendar;
 import java.util.List;
-
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
