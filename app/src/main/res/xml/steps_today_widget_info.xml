@@ -5,6 +5,6 @@
     android:minHeight="40dp"
     android:minWidth="40dp"
     android:previewImage="@drawable/ic_activity_walking"
-    android:updatePeriodMillis="86400000"
+    android:updatePeriodMillis="21600000"
     android:widgetCategory="home_screen|keyguard|searchbox">
 </appwidget-provider>

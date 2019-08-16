@@ -39,7 +39,7 @@ public class StepsTodayWidget extends AppWidgetProvider {
     public static int getSteps(Context appContext){
         DailySteps ds = new DailySteps();
         Calendar day = GregorianCalendar.getInstance();
-        int stepsToday = ds.getAllDailySteps(appContext, day);
+        int stepsToday = ds.getDailyStepsForAllDevices(appContext, day);
         return stepsToday;
     };
 
@@ -59,9 +59,7 @@ public class StepsTodayWidget extends AppWidgetProvider {
         views.setOnClickPendingIntent(R.id.stepstodaywidget_text, clickPI);
 
         Context appContext = context.getApplicationContext();
-
-            views.setTextViewText(R.id.stepstodaywidget_text, context.getString(R.string.appwidget_steps_today_text,  getSteps(appContext)));
-
+        views.setTextViewText(R.id.stepstodaywidget_text, context.getString(R.string.appwidget_steps_today_text,  getSteps(appContext)));
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -88,7 +86,7 @@ public class StepsTodayWidget extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        //update on every valid onReceive
+        //run onUpdate on every valid onReceive
         if (ACTION.equals(intent.getAction())) {
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             ComponentName thisAppWidget = new ComponentName(context.getPackageName(), StepsTodayWidget.class.getName());
@@ -98,4 +96,3 @@ public class StepsTodayWidget extends AppWidgetProvider {
         }
     }
 }
-
