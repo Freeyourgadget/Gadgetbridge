@@ -1,16 +1,27 @@
+/*  Copyright (C) 2018-2019 Sebastian Kranz
+
+    This file is part of Gadgetbridge.
+
+    Gadgetbridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Gadgetbridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.zetime;
 
 import android.os.Bundle;
 import android.preference.Preference;
-import android.widget.Toast;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
-import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class ZeTimePreferenceActivity extends AbstractSettingsActivity {
     @Override
@@ -18,13 +29,8 @@ public class ZeTimePreferenceActivity extends AbstractSettingsActivity {
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.zetime_preferences);
-        addPreferencesFromResource(R.xml.preferences);
 
         GBApplication.deviceService().onReadConfiguration("do_it");
-
-        //addTryListeners();
-
-        Prefs prefs = GBApplication.getPrefs();
 
         final Preference heartrateMeasurementInterval = findPreference(ZeTimeConstants.PREF_ZETIME_HEARTRATE_INTERVAL);
         heartrateMeasurementInterval.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

@@ -48,6 +48,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -58,7 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 
 public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
     protected static final Logger LOG = LoggerFactory.getLogger(AbstractWeekChartFragment.class);
-    protected final int TOTAL_DAYS = 7;
+    protected final int TOTAL_DAYS = getRangeDays();
 
     private Locale mLocale;
     private int mTargetValue = 0;
@@ -102,6 +103,17 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
 //        mBalanceView.setText(getBalanceMessage(balance));
     }
 
+    private String getWeeksChartsLabel(Calendar day){
+        if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
+            //month, show day date
+            return String.valueOf(day.get(Calendar.DAY_OF_MONTH));
+        }
+        else{
+            //week, show short day name
+            return day.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, mLocale);
+        }
+    }
+
     private WeekChartsData<BarData> refreshWeekBeforeData(DBHandler db, BarChart barChart, Calendar day, GBDevice device) {
         day = (Calendar) day.clone(); // do not modify the caller's argument
         day.add(Calendar.DATE, -TOTAL_DAYS);
@@ -114,7 +126,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
 
             balance += calculateBalance(amounts);
             entries.add(new BarEntry(counter, getTotalsForActivityAmounts(amounts)));
-            labels.add(day.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, mLocale));
+            labels.add(getWeeksChartsLabel(day));
             day.add(Calendar.DATE, 1);
         }
 
@@ -130,7 +142,28 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         barChart.getAxisLeft().removeAllLimitLines();
         barChart.getAxisLeft().addLimitLine(target);
 
-        return new WeekChartsData(barData, new PreformattedXIndexLabelFormatter(labels), getBalanceMessage(balance, mTargetValue));
+        float average = 0;
+        if (TOTAL_DAYS > 0) {
+            average = Math.abs(balance / TOTAL_DAYS);
+        }
+        LimitLine average_line = new LimitLine(average);
+        average_line.setLabel(getString(R.string.average, getAverage(average)));
+
+        if (average > (mTargetValue)) {
+            average_line.setLineColor(Color.GREEN);
+            average_line.setTextColor(Color.GREEN);
+        }
+        else {
+            average_line.setLineColor(Color.RED);
+            average_line.setTextColor(Color.RED);
+        }
+        if (average > 0) {
+            if (GBApplication.getPrefs().getBoolean("charts_show_average", true)) {
+                barChart.getAxisLeft().addLimitLine(average_line);
+            }
+        }
+
+            return new WeekChartsData(barData, new PreformattedXIndexLabelFormatter(labels), getBalanceMessage(balance, mTargetValue));
     }
 
     private DayData refreshDayPie(DBHandler db, Calendar day, GBDevice device) {
@@ -314,6 +347,16 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
 
         return amounts;
     }
+
+    private int getRangeDays(){
+        if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
+            return 30;}
+        else{
+            return 7;
+        }
+    }
+
+    abstract String getAverage(float value);
 
     abstract int getGoal();
 

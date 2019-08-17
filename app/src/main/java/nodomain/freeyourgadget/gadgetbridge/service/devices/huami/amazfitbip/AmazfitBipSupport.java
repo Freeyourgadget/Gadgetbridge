@@ -30,13 +30,11 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.Locale;
 import java.util.Set;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 
 import cyanogenmod.weather.util.WeatherUtils;
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
@@ -52,17 +50,15 @@ import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ConditionalWriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiIcon;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.operations.AmazfitBipFetchLogsOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.HuamiFetchDebugLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSportsSummaryOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
@@ -137,16 +133,25 @@ public class AmazfitBipSupport extends HuamiSupport {
                     appSuffix = appName.getBytes();
                     suffixlength = appSuffix.length;
                 }
+                if (gbDevice.getType() == DeviceType.MIBAND4) {
+                    prefixlength += 4;
+                }
 
                 byte[] rawmessage = message.getBytes();
                 int length = Math.min(rawmessage.length, maxLength - prefixlength);
 
                 byte[] command = new byte[length + prefixlength + suffixlength];
-
-                command[0] = (byte) alertCategory.getId();
-                command[1] = 1;
+                int pos = 0;
+                command[pos++] = (byte) alertCategory.getId();
+                if (gbDevice.getType() == DeviceType.MIBAND4) {
+                    command[pos++] = 0; // TODO
+                    command[pos++] = 0;
+                    command[pos++] = 0;
+                    command[pos++] = 0;
+                }
+                command[pos++] = 1;
                 if (alertCategory == AlertCategory.CustomHuami) {
-                    command[2] = customIconId;
+                    command[pos] = customIconId;
                 }
 
                 System.arraycopy(rawmessage, 0, command, prefixlength, length);
@@ -185,14 +190,7 @@ public class AmazfitBipSupport extends HuamiSupport {
             return this;
         }
 
-        Version version = new Version(gbDevice.getFirmwareVersion());
-        if (version.compareTo(new Version("0.1.1.14")) < 0) {
-            LOG.warn("Won't set menu items since firmware is too low to be safe");
-            return this;
-        }
-
-        Prefs prefs = GBApplication.getPrefs();
-        Set<String> pages = prefs.getStringSet("bip_display_items", null);
+        Set<String> pages = HuamiCoordinator.getDisplayItems(gbDevice.getAddress());
         LOG.info("Setting display items to " + (pages == null ? "none" : pages));
         byte[] command = AmazfitBipService.COMMAND_CHANGE_SCREENS.clone();
 
@@ -440,7 +438,7 @@ public class AmazfitBipSupport extends HuamiSupport {
             } else if (dataTypes == RecordedDataTypes.TYPE_GPS_TRACKS) {
                 new FetchSportsSummaryOperation(this).perform();
             } else if (dataTypes == RecordedDataTypes.TYPE_DEBUGLOGS) {
-                new AmazfitBipFetchLogsOperation(this).perform();
+                new HuamiFetchDebugLogsOperation(this).perform();
             }
             else {
                 LOG.warn("fetching multiple data types at once is not supported yet");
@@ -482,82 +480,6 @@ public class AmazfitBipSupport extends HuamiSupport {
         builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), AmazfitBipService.COMMAND_REQUEST_GPS_VERSION);
         return this;
     }
-
-    protected AmazfitBipSupport setLanguage(TransactionBuilder builder) {
-
-        String language = Locale.getDefault().getLanguage();
-        String country = Locale.getDefault().getCountry();
-
-        LOG.info("Setting watch language, phone language = " + language + " country = " + country);
-
-        final byte[] command_new;
-        final byte[] command_old;
-        String localeString;
-
-        switch (GBApplication.getPrefs().getInt("amazfitbip_language", -1)) {
-            case 0:
-                command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_SIMPLIFIED_CHINESE;
-                localeString = "zh_CN";
-                break;
-            case 1:
-                command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_TRADITIONAL_CHINESE;
-                localeString = "zh_TW";
-                break;
-            case 2:
-                command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
-                localeString = "en_US";
-                break;
-            case 3:
-                command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_SPANISH;
-                localeString = "es_ES";
-                break;
-            case 4:
-                command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
-                localeString = "ru_RU";
-                break;
-            default:
-                switch (language) {
-                    case "zh":
-                        if (country.equals("TW") || country.equals("HK") || country.equals("MO")) { // Taiwan, Hong Kong,  Macao
-                            command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_TRADITIONAL_CHINESE;
-                            localeString = "zh_TW";
-                        } else {
-                            command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_SIMPLIFIED_CHINESE;
-                            localeString = "zh_CN";
-                        }
-                        break;
-                    case "es":
-                        command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_SPANISH;
-                        localeString = "es_ES";
-                        break;
-                    case "ru":
-                        command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
-                        localeString = "ru_RU";
-                        break;
-                    default:
-                        command_old = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
-                        localeString = "en_US";
-                        break;
-                }
-        }
-        command_new = HuamiService.COMMAND_SET_LANGUAGE_NEW_TEMPLATE.clone();
-        System.arraycopy(localeString.getBytes(), 0, command_new, 3, localeString.getBytes().length);
-
-        builder.add(new ConditionalWriteAction(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION)) {
-            @Override
-            protected byte[] checkCondition() {
-                if ((gbDevice.getType() == DeviceType.AMAZFITBIP && new Version(gbDevice.getFirmwareVersion()).compareTo(new Version("0.1.0.77")) >= 0) ||
-                        (gbDevice.getType() == DeviceType.AMAZFITCOR && new Version(gbDevice.getFirmwareVersion()).compareTo(new Version("1.0.7.23")) >= 0)) {
-                    return command_new;
-                } else {
-                    return command_old;
-                }
-            }
-        });
-
-        return this;
-    }
-
 
     @Override
     public void phase2Initialize(TransactionBuilder builder) {

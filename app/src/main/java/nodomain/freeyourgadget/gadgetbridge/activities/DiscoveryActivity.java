@@ -49,6 +49,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,9 +59,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import androidx.core.app.ActivityCompat;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.adapter.DeviceCandidateAdapter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -69,11 +72,14 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 
-public class DiscoveryActivity extends AbstractGBActivity implements AdapterView.OnItemClickListener {
+public class DiscoveryActivity extends AbstractGBActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
     private static final Logger LOG = LoggerFactory.getLogger(DiscoveryActivity.class);
     private static final long SCAN_DURATION = 60000; // 60s
 
     private ScanCallback newLeScanCallback = null;
+
+    // Disabled for testing, it seems worse for a few people
+    private final boolean disableNewBLEScanning = true;
 
     private final Handler handler = new Handler();
 
@@ -93,7 +99,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
                             // continue with LE scan, if available
                             if (isScanning == Scanning.SCANNING_BT) {
                                 checkAndRequestLocationPermission();
-                                if (GBApplication.isRunningLollipopOrLater()) {
+                                if (GBApplication.isRunningLollipopOrLater() && !disableNewBLEScanning) {
                                     startDiscovery(Scanning.SCANNING_NEW_BTLE);
                                 } else {
                                     startDiscovery(Scanning.SCANNING_BTLE);
@@ -279,6 +285,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         cadidateListAdapter = new DeviceCandidateAdapter(this, deviceCandidates);
         deviceCandidatesView.setAdapter(cadidateListAdapter);
         deviceCandidatesView.setOnItemClickListener(this);
+        deviceCandidatesView.setOnItemLongClickListener(this);
 
         IntentFilter bluetoothIntents = new IntentFilter();
         bluetoothIntents.addAction(BluetoothDevice.ACTION_FOUND);
@@ -294,7 +301,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList("deviceCandidates", deviceCandidates);
     }
@@ -578,6 +585,27 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     }
 
     @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+        GBDeviceCandidate deviceCandidate = deviceCandidates.get(position);
+        if (deviceCandidate == null) {
+            LOG.error("Device candidate clicked, but item not found");
+            return true;
+        }
+
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(deviceCandidate);
+        GBDevice device = DeviceHelper.getInstance().toSupportedDevice(deviceCandidate);
+        if (coordinator.getSupportedDeviceSpecificSettings(device) == null) {
+            return true;
+        }
+
+        Intent startIntent;
+        startIntent = new Intent(this, DeviceSettingsActivity.class);
+        startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+        startActivity(startIntent);
+        return true;
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         GBDeviceCandidate deviceCandidate = deviceCandidates.get(position);
         if (deviceCandidate == null) {
@@ -628,7 +656,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         super.onPause();
         stopBTDiscovery();
         stopBTLEDiscovery();
-        if (GBApplication.isRunningLollipopOrLater()) {
+        if (GBApplication.isRunningLollipopOrLater() && !disableNewBLEScanning) {
             stopNewBTLEDiscovery();
         }
     }

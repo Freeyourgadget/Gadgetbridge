@@ -157,6 +157,7 @@
                 android:maxLength="3"
                 android:title="@string/activity_prefs_activetime_minutes" />
         </PreferenceScreen>
+    </PreferenceCategory>
         <PreferenceScreen
             android:key="pref_charts"
             android:title="@string/activity_prefs_charts">
@@ -174,13 +175,26 @@
                 android:maxLength="3"
                 android:defaultValue="10"
                 android:title="@string/activity_prefs_chart_min_heart_rate" />
-        </PreferenceScreen>
         <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="true"
             android:key="charts_allow_swipe"
             android:title="@string/pref_title_charts_swipe" />
-    </PreferenceCategory>
+        <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
+            android:defaultValue="true"
+            android:key="charts_show_average"
+            android:title="@string/pref_title_charts_average" />
+
+        <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
+            android:defaultValue="false"
+            android:key="charts_range"
+            android:summaryOff="@string/pref_charts_range_off"
+            android:summaryOn="@string/pref_charts_range_on"
+            android:title="@string/pref_title_charts_range" />
+        </PreferenceScreen>
+
     <PreferenceCategory
         android:key="pref_key_datetime"
         android:title="@string/pref_header_datetime">
@@ -271,143 +285,7 @@
             android:icon="@drawable/ic_device_miband"
             android:key="pref_key_miband"
             android:title="@string/preferences_miband_settings" />
-        <PreferenceScreen
-            android:icon="@drawable/ic_device_miband2"
-            android:title="@string/preferences_miband2_settings">
-            <CheckBoxPreference
-            android:layout="@layout/preference_checkbox"
-                android:defaultValue="true"
-                android:key="mi2_enable_text_notifications"
-                android:summaryOn="@string/mi2_enable_text_notifications_summary"
-                android:summaryOff="@string/off"
-                android:title="@string/mi2_enable_text_notifications" />
-            <ListPreference
-                android:defaultValue="@string/p_dateformat_time"
-                android:entries="@array/mi2_dateformats"
-                android:entryValues="@array/mi2_dateformats_values"
-                android:key="mi2_dateformat"
-                android:title="@string/miband2_prefs_dateformat"
-                android:summary="%s" />
-            <MultiSelectListPreference
-                android:dialogTitle="@string/mi2_prefs_display_items"
-                android:defaultValue="@array/pref_mi2_display_items_default"
-                android:entries="@array/pref_mi2_display_items"
-                android:entryValues="@array/pref_mi2_display_items_values"
-                android:key="mi2_display_items"
-                android:summary="@string/mi2_prefs_display_items_summary"
-                android:title="@string/mi2_prefs_display_items"/>
-        </PreferenceScreen>
 
-        <PreferenceScreen
-            android:icon="@drawable/ic_device_miband2"
-            android:title="@string/preferences_miband3_settings">
-            <ListPreference
-                android:defaultValue="auto"
-                android:entries="@array/pref_miband3_language"
-                android:entryValues="@array/pref_miband3_language_values"
-                android:key="miband3_language"
-                android:summary="%s"
-                android:title="@string/pref_title_language" />
-            <CheckBoxPreference
-            android:layout="@layout/preference_checkbox"
-                android:defaultValue="false"
-                android:key="mi3_band_screen_unlock"
-                android:summary="@string/mi3_prefs_band_screen_unlock_summary"
-                android:title="@string/mi3_prefs_band_screen_unlock" />
-            <MultiSelectListPreference
-                android:dialogTitle="@string/mi2_prefs_display_items"
-                android:defaultValue="@array/pref_miband3_display_items_default"
-                android:entries="@array/pref_miband3_display_items"
-                android:entryValues="@array/pref_miband3_display_items_values"
-                android:key="miband3_display_items"
-                android:summary="@string/mi2_prefs_display_items_summary"
-                android:title="@string/mi2_prefs_display_items"/>
-            <PreferenceScreen
-                android:persistent="false"
-                android:title="@string/mi3_prefs_night_mode"
-                android:summary="@string/mi3_prefs_night_mode_summary">
-
-                <!-- workaround for missing toolbar -->
-                <PreferenceCategory android:title="@string/mi3_prefs_night_mode" />
-
-                <ListPreference
-                    android:defaultValue="@string/p_off"
-                    android:entries="@array/mi3_night_mode"
-                    android:entryValues="@array/mi3_night_mode_values"
-                    android:key="mi3_night_mode"
-                    android:summary="%s"
-                    android:title="@string/mi3_prefs_night_mode" />
-
-                <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
-                    android:defaultValue="16:00"
-                    android:key="mi3_night_mode_start"
-                    android:title="@string/mi2_prefs_do_not_disturb_start" />
-
-                <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
-                    android:defaultValue="7:00"
-                    android:key="mi3_night_mode_end"
-                    android:title="@string/mi2_prefs_do_not_disturb_end" />
-
-            </PreferenceScreen>
-        </PreferenceScreen>
-        <PreferenceScreen
-            android:icon="@drawable/ic_device_hplus"
-            android:title="@string/preferences_amazfitbip_settings">
-            <ListPreference
-                android:defaultValue="-1"
-                android:entries="@array/pref_amazfitbip_language"
-                android:entryValues="@array/pref_amazfitbip_language_values"
-                android:key="amazfitbip_language"
-                android:summary="%s"
-                android:title="@string/pref_title_language" />
-            <MultiSelectListPreference
-                android:dialogTitle="@string/mi2_prefs_display_items"
-                android:defaultValue="@array/pref_bip_display_items_default"
-                android:entries="@array/pref_bip_display_items"
-                android:entryValues="@array/pref_bip_display_items_values"
-                android:key="bip_display_items"
-                android:summary="@string/mi2_prefs_display_items_summary"
-                android:title="@string/mi2_prefs_display_items"/>
-            <PreferenceScreen
-                android:persistent="false"
-                android:title="@string/prefs_disconnect_notification">
-
-                <!-- workaround for missing toolbar -->
-                <PreferenceCategory android:title="@string/prefs_disconnect_notification" />
-
-                <ListPreference
-                    android:defaultValue="@string/p_off"
-                    android:entries="@array/activate_display_on_lift"
-                    android:entryValues="@array/activate_display_on_lift_values"
-                    android:key="disconnect_notification"
-                    android:summary="%s"
-                    android:title="@string/prefs_disconnect_notification" />
-
-                <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
-                    android:defaultValue="00:00"
-                    android:key="disconnect_notification_start"
-                    android:title="@string/mi2_prefs_do_not_disturb_start" />
-
-                <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
-                    android:defaultValue="00:00"
-                    android:key="disconnect_notification_end"
-                    android:title="@string/mi2_prefs_do_not_disturb_end" />
-
-            </PreferenceScreen>
-
-        </PreferenceScreen>
-        <PreferenceScreen
-            android:icon="@drawable/ic_device_miband"
-            android:title="@string/preferences_amazfitcor_settings">
-            <MultiSelectListPreference
-                android:dialogTitle="@string/mi2_prefs_display_items"
-                android:defaultValue="@array/pref_cor_display_items_default"
-                android:entries="@array/pref_cor_display_items"
-                android:entryValues="@array/pref_cor_display_items_values"
-                android:key="cor_display_items"
-                android:summary="@string/mi2_prefs_display_items_summary"
-                android:title="@string/mi2_prefs_display_items"/>
-        </PreferenceScreen>
         <PreferenceScreen
             android:icon="@drawable/ic_device_pebble"
             android:key="pref_key_pebble"

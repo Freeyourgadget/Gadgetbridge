@@ -33,7 +33,7 @@ import static org.junit.Assert.assertNotNull;
  * directory.
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 19)
+@Config(sdk = 19)
 // need sdk 19 because "WITHOUT ROWID" is not supported in robolectric/sqlite4java
 public abstract class TestBase {
     protected static File logFilesDir;

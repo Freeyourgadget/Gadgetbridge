@@ -254,7 +254,7 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
         // byte 0 is the data type: 1 means that each minute is represented by a triplet of bytes
         int dataType = value[0];
         // byte 1 to 6 represent a timestamp
-        GregorianCalendar timestamp = MiBandDateConverter.rawBytesToCalendar(value, 1);
+        GregorianCalendar timestamp = MiBandDateConverter.rawBytesToCalendar(value, 1, getDevice().getAddress());
 
         // counter of all data held by the band
         int totalDataToRead = (value[7] & 0xff) | ((value[8] & 0xff) << 8);
@@ -405,7 +405,7 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
      * @param bytesTransferred
      */
     private void sendAckDataTransfer(Calendar time, int bytesTransferred) {
-        byte[] ackTime = MiBandDateConverter.calendarToRawBytes(time);
+        byte[] ackTime = MiBandDateConverter.calendarToRawBytes(time, getDevice().getAddress());
         Prefs prefs = GBApplication.getPrefs();
 
         byte[] ackChecksum = new byte[]{

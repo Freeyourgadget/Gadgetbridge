@@ -40,7 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityTrack;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.ActivityDetailsParser;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiActivityDetailsParser;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -56,7 +56,7 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
 
     private ByteArrayOutputStream buffer;
 
-    public FetchSportsDetailsOperation(@NonNull BaseActivitySummary summary, @NonNull HuamiSupport support, @NonNull String lastSyncTimeKey) {
+    FetchSportsDetailsOperation(@NonNull BaseActivitySummary summary, @NonNull HuamiSupport support, @NonNull String lastSyncTimeKey) {
         super(support);
         setName("fetching sport details");
         this.summary = summary;
@@ -86,7 +86,7 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
 
 
         if (success) {
-            ActivityDetailsParser parser = new ActivityDetailsParser(summary);
+            HuamiActivityDetailsParser parser = new HuamiActivityDetailsParser(summary);
             parser.setSkipCounterByte(false); // is already stripped
             try {
                 ActivityTrack track = parser.parse(buffer.toByteArray());
@@ -131,7 +131,7 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
         super.handleActivityFetchFinish(success);
     }
 
-    protected ActivityTrackExporter createExporter() {
+    private ActivityTrackExporter createExporter() {
         GPXExporter exporter = new GPXExporter();
         exporter.setCreator(GBApplication.app().getNameAndVersion());
         return exporter;
@@ -169,7 +169,6 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
         } else {
             GB.toast("Error " + getName() + ", invalid package counter: " + value[0] + ", last was: " + lastPacketCounter, Toast.LENGTH_LONG, GB.ERROR);
             handleActivityFetchFinish(false);
-            return;
         }
     }
 

@@ -29,17 +29,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.app.NavUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
-import androidx.core.app.NavUtils;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.ImportExportSharedPreferences;
@@ -48,30 +51,23 @@ import nodomain.freeyourgadget.gadgetbridge.util.ImportExportSharedPreferences;
 public class DbManagementActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(DbManagementActivity.class);
     private static SharedPreferences sharedPrefs;
-    private ImportExportSharedPreferences shared_file = new ImportExportSharedPreferences();
-
-    private Button exportDBButton;
-    private Button importDBButton;
-    private Button deleteOldActivityDBButton;
-    private Button deleteDBButton;
-    private TextView dbPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_db_management);
 
-        dbPath = (TextView) findViewById(R.id.activity_db_management_path);
+        TextView dbPath = findViewById(R.id.activity_db_management_path);
         dbPath.setText(getExternalPath());
 
-        exportDBButton = (Button) findViewById(R.id.exportDBButton);
+        Button exportDBButton = findViewById(R.id.exportDBButton);
         exportDBButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 exportDB();
             }
         });
-        importDBButton = (Button) findViewById(R.id.importDBButton);
+        Button importDBButton = findViewById(R.id.importDBButton);
         importDBButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +77,10 @@ public class DbManagementActivity extends AbstractGBActivity {
 
         int oldDBVisibility = hasOldActivityDatabase() ? View.VISIBLE : View.GONE;
 
-        deleteOldActivityDBButton = (Button) findViewById(R.id.deleteOldActivityDB);
+        TextView deleteOldActivityTitle = findViewById(R.id.mergeOldActivityDataTitle);
+        deleteOldActivityTitle.setVisibility(oldDBVisibility);
+
+        Button deleteOldActivityDBButton = findViewById(R.id.deleteOldActivityDB);
         deleteOldActivityDBButton.setVisibility(oldDBVisibility);
         deleteOldActivityDBButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +89,7 @@ public class DbManagementActivity extends AbstractGBActivity {
             }
         });
 
-        deleteDBButton = (Button) findViewById(R.id.emptyDBButton);
+        Button deleteDBButton = findViewById(R.id.emptyDBButton);
         deleteDBButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,26 +114,56 @@ public class DbManagementActivity extends AbstractGBActivity {
     }
 
     private void exportShared() {
-        // BEGIN EXAMPLE
-        File myPath = null;
         try {
-            myPath = FileUtils.getExternalFilesDir();
+            File myPath = FileUtils.getExternalFilesDir();
             File myFile = new File(myPath, "Export_preference");
-            shared_file.exportToFile(sharedPrefs,myFile,null);
+            ImportExportSharedPreferences.exportToFile(sharedPrefs, myFile, null);
         } catch (IOException ex) {
             GB.toast(this, getString(R.string.dbmanagementactivity_error_exporting_shared, ex.getMessage()), Toast.LENGTH_LONG, GB.ERROR, ex);
+        }
+        try (DBHandler lockHandler = GBApplication.acquireDB()) {
+            List<Device> activeDevices = DBHelper.getActiveDevices(lockHandler.getDaoSession());
+            for (Device dbDevice : activeDevices) {
+                SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                if (sharedPrefs != null) {
+                    File myPath = FileUtils.getExternalFilesDir();
+                    File myFile = new File(myPath, "Export_preference_" + dbDevice.getIdentifier());
+                    try {
+                        ImportExportSharedPreferences.exportToFile(deviceSharedPrefs, myFile, null);
+                    } catch (Exception ignore) {
+                        // some devices no not have device specific preferences
+                    }
+                }
+            }
+        } catch (Exception e) {
+            GB.toast("Error exporting device specific preferences", Toast.LENGTH_SHORT, GB.ERROR);
         }
     }
 
     private void importShared() {
-        // BEGIN EXAMPLE
-        File myPath = null;
         try {
-            myPath = FileUtils.getExternalFilesDir();
+            File myPath = FileUtils.getExternalFilesDir();
             File myFile = new File(myPath, "Export_preference");
-            shared_file.importFromFile(sharedPrefs,myFile );
+            ImportExportSharedPreferences.importFromFile(sharedPrefs, myFile);
         } catch (Exception ex) {
             GB.toast(DbManagementActivity.this, getString(R.string.dbmanagementactivity_error_importing_db, ex.getMessage()), Toast.LENGTH_LONG, GB.ERROR, ex);
+        }
+        try (DBHandler lockHandler = GBApplication.acquireDB()) {
+            List<Device> activeDevices = DBHelper.getActiveDevices(lockHandler.getDaoSession());
+            for (Device dbDevice : activeDevices) {
+                SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                if (sharedPrefs != null) {
+                    File myPath = FileUtils.getExternalFilesDir();
+                    File myFile = new File(myPath, "Export_preference_" + dbDevice.getIdentifier());
+                    try {
+                        ImportExportSharedPreferences.importFromFile(deviceSharedPrefs, myFile);
+                    } catch (Exception ignore) {
+                        // some devices no not have device specific preferences
+                    }
+                }
+            }
+        } catch (Exception e) {
+            GB.toast("Error importing device specific preferences", Toast.LENGTH_SHORT, GB.ERROR);
         }
     }
 
@@ -159,7 +188,6 @@ public class DbManagementActivity extends AbstractGBActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                            importShared();
                             DBHelper helper = new DBHelper(DbManagementActivity.this);
                             File dir = FileUtils.getExternalFilesDir();
                             SQLiteOpenHelper sqLiteOpenHelper = dbHandler.getHelper();
@@ -170,6 +198,7 @@ public class DbManagementActivity extends AbstractGBActivity {
                         } catch (Exception ex) {
                             GB.toast(DbManagementActivity.this, getString(R.string.dbmanagementactivity_error_importing_db, ex.getMessage()), Toast.LENGTH_LONG, GB.ERROR, ex);
                         }
+                        importShared();
                     }
                 })
                 .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
@@ -227,10 +256,9 @@ public class DbManagementActivity extends AbstractGBActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            NavUtils.navigateUpFromSameTask(this);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

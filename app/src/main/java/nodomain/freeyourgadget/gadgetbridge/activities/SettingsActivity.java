@@ -1,6 +1,6 @@
 /*  Copyright (C) 2015-2019 0nse, Andreas Shimokawa, Carsten Pfeiffer,
     Daniele Gobbetti, Felix Konstantin Maurer, José Rebelo, Martin, Normano64,
-    Pavel Elagin
+    Pavel Elagin, Sebastian Kranz
 
     This file is part of Gadgetbridge.
 
@@ -38,6 +38,9 @@ import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,14 +49,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.core.app.ActivityCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimePreferenceActivity;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
@@ -63,23 +63,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION_END;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION_START;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISPLAY_ON_LIFT_END;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISPLAY_ON_LIFT_START;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DATEFORMAT;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DISPLAY_ITEMS;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_OFF;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_SCHEDULED;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ENABLE_TEXT_NOTIFICATIONS;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI3_BAND_SCREEN_UNLOCK;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI3_NIGHT_MODE;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI3_NIGHT_MODE_END;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI3_NIGHT_MODE_OFF;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI3_NIGHT_MODE_SCHEDULED;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI3_NIGHT_MODE_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_HEIGHT_CM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_SLEEP_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_STEPS_GOAL;
@@ -374,199 +357,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 autoFetchInterval);
         pref.setSummary(summary);
 
-
-
-        final Preference displayPages = findPreference("bip_display_items");
-        displayPages.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DISPLAY_ITEMS);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference setDateFormat = findPreference(PREF_MI2_DATEFORMAT);
-        setDateFormat.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DATEFORMAT);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference miBand2DisplayItems = findPreference(PREF_MI2_DISPLAY_ITEMS);
-        miBand2DisplayItems.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DISPLAY_ITEMS);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference miBand3ScreenUnlock = findPreference(PREF_MI3_BAND_SCREEN_UNLOCK);
-        miBand3ScreenUnlock.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI3_BAND_SCREEN_UNLOCK);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference miBand3DisplayItems = findPreference("miband3_display_items");
-        miBand3DisplayItems.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DISPLAY_ITEMS);
-                    }
-                });
-                return true;
-            }
-        });
-
-        String nightModeState = prefs.getString(MiBandConst.PREF_MI3_NIGHT_MODE, PREF_MI3_NIGHT_MODE_OFF);
-        boolean nightModeScheduled = nightModeState.equals(PREF_MI3_NIGHT_MODE_SCHEDULED);
-
-        final Preference nightModeStart = findPreference(PREF_MI3_NIGHT_MODE_START);
-        nightModeStart.setEnabled(nightModeScheduled);
-        nightModeStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI3_NIGHT_MODE_START);
-                    }
-                });
-                return true;
-            }
-        });
-
-
-        final Preference nightModeEnd = findPreference(PREF_MI3_NIGHT_MODE_END);
-        nightModeEnd.setEnabled(nightModeScheduled);
-        nightModeEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI3_NIGHT_MODE_END);
-                    }
-                });
-                return true;
-            }
-        });
-
-
-        final Preference nightMode = findPreference(PREF_MI3_NIGHT_MODE);
-        nightMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                final boolean scheduled = PREF_MI3_NIGHT_MODE_SCHEDULED.equals(newVal.toString());
-
-                nightModeStart.setEnabled(scheduled);
-                nightModeEnd.setEnabled(scheduled);
-
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI3_NIGHT_MODE);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference corDisplayItems = findPreference("cor_display_items");
-        corDisplayItems.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DISPLAY_ITEMS);
-                    }
-                });
-                return true;
-            }
-        });
-
-        String disconnectNotificationState = prefs.getString(PREF_DISCONNECT_NOTIFICATION, PREF_MI2_DO_NOT_DISTURB_OFF);
-        boolean disconnectNotificationScheduled = disconnectNotificationState.equals(PREF_MI2_DO_NOT_DISTURB_SCHEDULED);
-
-        final Preference disconnectNotificationStart = findPreference(PREF_DISCONNECT_NOTIFICATION_START);
-        disconnectNotificationStart.setEnabled(disconnectNotificationScheduled);
-        disconnectNotificationStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_DISCONNECT_NOTIFICATION_START);
-                    }
-                });
-                return true;
-            }
-        });
-
-
-        final Preference disconnectNotificationEnd = findPreference(PREF_DISCONNECT_NOTIFICATION_END);
-        disconnectNotificationStart.setEnabled(disconnectNotificationScheduled);
-        disconnectNotificationStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_DISCONNECT_NOTIFICATION_END);
-                    }
-                });
-                return true;
-            }
-        });
-
-
-        final Preference disconnectNotification = findPreference(PREF_DISCONNECT_NOTIFICATION);
-        disconnectNotification.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                final boolean scheduled = PREF_MI2_DO_NOT_DISTURB_SCHEDULED.equals(newVal.toString());
-
-                disconnectNotificationStart.setEnabled(scheduled);
-                disconnectNotificationEnd.setEnabled(scheduled);
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_DISCONNECT_NOTIFICATION);
-                    }
-                });
-                return true;
-            }
-        });
-
         // Get all receivers of Media Buttons
         Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
 
@@ -695,7 +485,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 PREF_USER_WEIGHT_KG,
                 PREF_USER_SLEEP_DURATION,
                 PREF_USER_STEPS_GOAL,
-                PREF_MI2_ENABLE_TEXT_NOTIFICATIONS,
                 "weather_city",
         };
     }

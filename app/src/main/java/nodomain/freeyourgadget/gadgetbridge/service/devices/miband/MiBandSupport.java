@@ -1,6 +1,6 @@
 /*  Copyright (C) 2015-2019 Andreas Shimokawa, atkyritsis, Carsten Pfeiffer,
     Christian Fischer, Daniele Gobbetti, freezed-or-frozen, JohnnySun, Julien
-    Pivotto, Kasha, Sergey Trofimov, Steffen Liebergeld
+    Pivotto, Kasha, Sebastian Kranz, Sergey Trofimov, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 
@@ -625,7 +625,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         Calendar now = GregorianCalendar.getInstance();
         Date date = now.getTime();
         LOG.info("Sending current time to Mi Band: " + DateTimeUtils.formatDate(date) + " (" + date.toGMTString() + ")");
-        byte[] nowBytes = MiBandDateConverter.calendarToRawBytes(now);
+        byte[] nowBytes = MiBandDateConverter.calendarToRawBytes(now, gbDevice.getAddress());
         byte[] time = new byte[]{
                 nowBytes[0],
                 nowBytes[1],
@@ -943,7 +943,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     public void logDate(byte[] value, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
-            GregorianCalendar calendar = MiBandDateConverter.rawBytesToCalendar(value);
+            GregorianCalendar calendar = MiBandDateConverter.rawBytesToCalendar(value, gbDevice.getAddress());
             LOG.info("Got Mi Band Date: " + DateTimeUtils.formatDateTime(calendar.getTime()));
         } else {
             logMessageContent(value);
@@ -1134,7 +1134,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * @param characteristic
      */
     private void queueAlarm(Alarm alarm, TransactionBuilder builder, BluetoothGattCharacteristic characteristic) {
-        byte[] alarmCalBytes = MiBandDateConverter.calendarToRawBytes(AlarmUtils.toCalendar(alarm));
+        byte[] alarmCalBytes = MiBandDateConverter.calendarToRawBytes(AlarmUtils.toCalendar(alarm), gbDevice.getAddress());
 
         byte[] alarmMessage = new byte[]{
                 MiBandService.COMMAND_SET_TIMER,
@@ -1172,7 +1172,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             BatteryInfo info = new BatteryInfo(value);
             batteryCmd.level = ((short) info.getLevelInPercent());
             batteryCmd.state = info.getState();
-            batteryCmd.lastChargeTime = info.getLastChargeTime();
+            batteryCmd.lastChargeTime = info.getLastChargeTime(gbDevice.getAddress());
             batteryCmd.numCharges = info.getNumCharges();
             handleGBDeviceEvent(batteryCmd);
         }

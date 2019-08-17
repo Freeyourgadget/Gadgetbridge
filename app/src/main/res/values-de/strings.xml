@@ -45,12 +45,12 @@
     <string name="title_activity_calblacklist">Kalender auf Blacklist</string>
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">FW/App-Installer</string>
-    <string name="fw_upgrade_notice">Du installierst jetzt die Firmware %s anstelle der Firmware, die sich derzeit auf deinem Mi-Band befindet.</string>
+    <string name="fw_upgrade_notice">Du installierst jetzt %s.</string>
     <string name="fw_multi_upgrade_notice">Du bist dabei, die %1$s und %2$s Firmware zu installieren, anstatt die, die sich derzeit auf deinem Mi Band befinden.</string>
     <string name="miband_firmware_known">Diese Firmware wurde getestet und ist bekanntlich mit Gadgetbridge kompatibel.</string>
-    <string name="miband_firmware_unknown_warning">Diese Firmware ist nicht getestet und ist möglicherweise nicht mit Gadgetbridge kompatibel.
-\n
-\nDu wirst GEBETEN, diese nicht auf dein Mi Band zu installieren!</string>
+    <string name="miband_firmware_unknown_warning">Diese Firmware ist nicht getestet und ist möglicherweise nicht mit Gadgetbridge kompatibel. 
+\n 
+\nDu wirst GEBETEN, diese nicht zu flashen!</string>
     <string name="miband_firmware_suggest_whitelist">Wenn du dennoch fortfahren möchtest und das Gerät anschliessend korrekt funktioniert, melde bitte den Gadgetbridge-Entwicklern, das sie die Firmwareversion %s auf die Whitelist setzen sollen.</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Einstellungen</string>
@@ -451,11 +451,11 @@
     <string name="traditional_chinese">Traditionelles Chinesisch</string>
     <string name="english">Englisch</string>
     <string name="fw_upgrade_notice_amazfitcor">Du bist dabei, die Firmware %s auf deine Amazfit Cor zu installieren.
-\n 
-\nBitte stelle sicher, dass du die .fw Datei und die .res Datei installierst. Deine Uhr wird nach der Installation der .fw Datei neu gestartet.
-\n 
-\nHinweis: Du musst die .res nicht installieren, wenn diese Dateie genau die gleiche ist wie die zuvor installierte.
-\n 
+\n
+\nBitte stelle sicher, dass du die .fw Datei und die .res Datei installierst. Dein Band wird nach der Installation der .fw Datei neu gestartet.
+\n
+\nHinweis: Du musst .res nicht installieren, wenn es genau das gleiche ist, wie die zuvor installierte.
+\n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_press_count">Anzahl der Tastendrücke</string>
     <string name="pref_title_charts_swipe">Streichen nach links/rechts im Diagrammbetrieb aktivieren</string>
@@ -530,12 +530,12 @@
     <string name="menuitem_settings">Einstellungen</string>
     <string name="menuitem_alipay">Alipay</string>
     <string name="fw_upgrade_notice_miband3">Du bist dabei, die Firmware %s auf dein Mi Band 3 zu installieren.
-\n 
-\nBitte stelle sicher, dass du die .fw Datei und die .res Datei installierst. Deine Uhr wird nach der Installation der .fw Datei neu gestartet.
-\n 
-\nHinweis: Du musst die .res nicht installieren, wenn diese Dateie genau die gleiche ist wie die zuvor installiert
-\n 
-\nNICHT GETESTET, DIES KÖNNTE DEIN GERÄT UNBENUTZBAR MACHEN, INSTALLATION AUF EIGENE GEFAHR!</string>
+\n
+\nBitte stelle sicher, dass du die .fw Datei und die .res Datei installierst. Dein Band wird nach der Installation der .fw Datei neu gestartet.
+\n
+\nHinweis: Du musst .res nicht installieren, wenn es genau das gleiche ist, wie die zuvor installierte.
+\n
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="pref_summary_pebble_gatt_clientonly">Dies ist nur für Pebble 2 und experimentell, versuche dies, wenn du Verbindungsprobleme hast</string>
     <string name="pref_auto_fetch">Aktivitätsdaten automatisch abrufen</string>
     <string name="devicetype_miband3">Mi Band 3</string>
@@ -700,4 +700,38 @@
     <string name="pref_screen_notification_profile_anti_loss">Warnung vor Verlust</string>
     <string name="interval_fifteen_minutes">alle 15 Minuten</string>
     <string name="interval_forty_five_minutes">alle 45 Minuten</string>
+    <string name="pref_title_support_voip_calls">VoIP App-Anrufe aktivieren</string>
+    <string name="title_activity_device_specific_settings">Gerätespezifische Einstellungen</string>
+    <string name="pref_title_authkey">Auth-Schlüssel</string>
+    <string name="pref_summary_authkey">Ändere den Authentifizierungsschlüssel in einen gemeinsamen Schlüssel auf all deinen Android-Geräten, von denen aus du eine Verbindung herstellen möchtet. Der bisherige Standardschlüssel für alle Geräte ist 0123456789@ABCDE</string>
+    <string name="devicetype_bfh16">BFH-16</string>
+    <string name="fw_upgrade_notice_amazfitcor2">Du bist dabei, die %s-Firmware auf Ihrem Amazfit Cor 2 zu installieren.
+\n
+\nBitte stelle sicher, dass Du die .fw-Datei und danach die .res-Datei installierst. Dein Band wird nach der Installation der.fw-Datei neu gestartet.
+\n
+\nHinweis: Du musst .res nicht installieren, wenn es genau das gleiche ist, wie die zuvor installierte.
+\n
+\nAUF EIGENE GEFAHR!
+\n
+\nVOLLSTÄNDIG UNGETESTET, WAHRSCHEINLICH MUSST DU EINE BEATS_W FIRMWARE FLASHEN, WENN DEIN GERÄTENAME \"Amazfit Band 2\" IST</string>
+    <string name="dutch">Niederländisch</string>
+    <string name="turkish">Türkisch</string>
+    <string name="ukrainian">Ukrainisch</string>
+    <string name="arabic">Arabisch</string>
+    <string name="indonesian">Indonesisch</string>
+    <string name="thai">Thailändisch</string>
+    <string name="vietnamese">Vietnamesisch</string>
+    <string name="portuguese">Portugiesisch</string>
+    <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
+    <string name="devicetype_miband4">Mi Band 4</string>
+    <string name="fw_upgrade_notice_miband4">Du bist dabei, die Firmware %s auf dein Mi Band 4 zu installieren.
+\n
+\nBitte stelle sicher, dass du die .fw Datei und die .res Datei installierst. Dein Band wird nach der Installation der .fw Datei neu gestartet.
+\n
+\nHinweis: Du musst .res nicht installieren, wenn es genau das gleiche ist, wie die zuvor installierte.
+\n
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="prefs_hr_alarm_activity">Herzfrequenzalarm bei sportlicher Aktivität</string>
+    <string name="prefs_hr_alarm_low">Untere Grenze</string>
+    <string name="prefs_hr_alarm_high">Obere Grenze</string>
 </resources>

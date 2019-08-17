@@ -50,8 +50,8 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
     private static final Logger LOG = LoggerFactory.getLogger(UpdateFirmwareOperation.class);
 
     protected final Uri uri;
-    protected final BluetoothGattCharacteristic fwCControlChar;
-    protected final BluetoothGattCharacteristic fwCDataChar;
+    final BluetoothGattCharacteristic fwCControlChar;
+    private final BluetoothGattCharacteristic fwCDataChar;
     protected final Prefs prefs = GBApplication.getPrefs();
     protected HuamiFirmwareInfo firmwareInfo;
 
@@ -81,7 +81,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
         //the firmware will be sent by the notification listener if the band confirms that the metadata are ok.
     }
 
-    protected HuamiFirmwareInfo createFwInfo(Uri uri, Context context) throws IOException {
+    private HuamiFirmwareInfo createFwInfo(Uri uri, Context context) throws IOException {
         HuamiFWHelper fwHelper = getSupport().createFWHelper(uri, context);
         return fwHelper.getFirmwareInfo();
     }
@@ -128,8 +128,8 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
      * @param value
      */
     private void handleNotificationNotif(byte[] value) {
-        if (value.length != 3) {
-            LOG.error("Notifications should be 3 bytes long.");
+        if (value.length != 3 && value.length != 11) {
+            LOG.error("Notifications should be 3 or 11 bytes long.");
             getSupport().logMessageContent(value);
             return;
         }
@@ -160,7 +160,6 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
                     case HuamiService.COMMAND_FIRMWARE_REBOOT: {
                         LOG.info("Reboot command successfully sent.");
                         GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_update_complete), false, 100, getContext());
-//                    getSupport().onReboot();
                         done();
                         break;
                     }
@@ -170,7 +169,6 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
                         operationFailed();
                         displayMessage(getContext(), getContext().getString(R.string.updatefirmwareoperation_updateproblem_do_not_reboot), Toast.LENGTH_LONG, GB.ERROR);
                         done();
-                        return;
                     }
                 }
             } catch (Exception ex) {
@@ -185,7 +183,8 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
             done();
         }
     }
-    protected void displayMessage(Context context, String message, int duration, int severity) {
+
+    private void displayMessage(Context context, String message, int duration, int severity) {
         getSupport().handleGBDeviceEvent(new GBDeviceEventDisplayMessage(message, duration, severity));
     }
 
@@ -208,7 +207,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
             bytes[i++] = sizeBytes[1];
             bytes[i++] = sizeBytes[2];
             if (!isFirmwareCode) {
-                bytes[i++] = getFirmwareInfo().getFirmwareType().getValue();
+                bytes[i] = getFirmwareInfo().getFirmwareType().getValue();
             }
 
             builder.write(fwCControlChar, bytes);
@@ -241,10 +240,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
             int firmwareProgress = 0;
 
             TransactionBuilder builder = performInitialized("send firmware packet");
-            if (prefs.getBoolean("mi_low_latency_fw_update", true)) {
-                getSupport().setLowLatency(builder);
-            }
-            builder.write(fwCControlChar, new byte[] { HuamiService.COMMAND_FIRMWARE_START_DATA });
+            builder.write(fwCControlChar, getFirmwareStartCommand());
 
             for (int i = 0; i < packets; i++) {
                 byte[] fwChunk = Arrays.copyOfRange(fwbytes, i * packetLength, i * packetLength + packetLength);
@@ -262,14 +258,13 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
             if (firmwareProgress < len) {
                 byte[] lastChunk = Arrays.copyOfRange(fwbytes, packets * packetLength, len);
                 builder.write(fwCDataChar, lastChunk);
-                firmwareProgress = len;
             }
 
             builder.write(fwCControlChar, new byte[]{HuamiService.COMMAND_FIRMWARE_UPDATE_SYNC});
             builder.queue(getQueue());
 
         } catch (IOException ex) {
-            LOG.error("Unable to send fw to MI 2", ex);
+            LOG.error("Unable to send fw to device", ex);
             GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_firmware_not_sent), false, 0, getContext());
             return false;
         }
@@ -277,11 +272,11 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
     }
 
 
-    private void sendChecksum(HuamiFirmwareInfo firmwareInfo) throws IOException {
+    protected void sendChecksum(HuamiFirmwareInfo firmwareInfo) throws IOException {
         TransactionBuilder builder = performInitialized("send firmware checksum");
         int crc16 = firmwareInfo.getCrc16();
         byte[] bytes = BLETypeConversions.fromUint16(crc16);
-        builder.write(fwCControlChar, new byte[] {
+        builder.write(fwCControlChar, new byte[]{
                 HuamiService.COMMAND_FIRMWARE_CHECKSUM,
                 bytes[0],
                 bytes[1],
@@ -289,7 +284,11 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
         builder.queue(getQueue());
     }
 
-    private HuamiFirmwareInfo getFirmwareInfo() {
+    HuamiFirmwareInfo getFirmwareInfo() {
         return firmwareInfo;
+    }
+
+    protected byte[] getFirmwareStartCommand() {
+        return new byte[]{HuamiService.COMMAND_FIRMWARE_START_DATA};
     }
 }

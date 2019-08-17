@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="low_latency_fw_update"
+        android:summary="@string/pref_summary_low_latency_fw_update"
+        android:title="@string/pref_title_low_latency_fw_update" />
+</androidx.preference.PreferenceScreen>

@@ -41,7 +41,7 @@
     <string name="title_activity_appblacklist">通知黑名单</string>
     <string name="title_activity_calblacklist">阻止记录</string>
     <string name="title_activity_fw_app_insaller">FW/App 安装器</string>
-    <string name="fw_upgrade_notice">您即将安装固件 %s ，代替当前在小米手环上的固件。</string>
+    <string name="fw_upgrade_notice">您即将安装 %s 。</string>
     <string name="fw_upgrade_notice_amazfitbip">即将在您的米动手表青春版(Amazfit Bip)上安装固件 %s 。 
 \n 
 \n请确保安装.fw文件，然后安装.res文件，最后安装.gps文件。 安装.fw文件后，手表将重新启动。 
@@ -49,18 +49,18 @@
 \n注意：如果这些文件与之前安装的完全一样，则不必安装.res和.gps文件。 
 \n 
 \n***继续需要您自担风险！</string>
-    <string name="fw_upgrade_notice_amazfitcor">您即将在您的米动手环(Amazfit Cor)上安装固件 %s。 
+    <string name="fw_upgrade_notice_amazfitcor">您即将在您的米动手环(Amazfit Cor)上安装固件 %s 。 
 \n 
-\n请确保安装了.fw文件，然后安装.rec文件。 安装.fw文件后，手表将重新启动。 
+\n请确保安装了 .fw 文件，然后安装 .rec 文件。 安装 .fw 文件后，手表将重新启动。 
 \n 
-\n注意：如果这些文件与之前安装的完全一样，则不必安装.res。 
+\n注意：如果这些文件与之前安装的完全一样，则不必安装 .res 。 
 \n 
 \n您需要自行承担风险！</string>
     <string name="fw_multi_upgrade_notice">您即将安装固件 %1$s 和 %2$s，代替当前在小米手环上的固件。</string>
     <string name="miband_firmware_known">该固件已经过测试，并且已知与 Gadgetbridge 兼容。</string>
     <string name="miband_firmware_unknown_warning">此固件未经测试，可能与 Gadgetbridge 不兼容。 
 \n 
-\n不建议把它安装到你的小米手环！</string>
+\n不建议刷入！</string>
     <string name="miband_firmware_suggest_whitelist">如果您仍想继续并且此固件在安装之后能够正常工作，请告知 Gadgetbridge 开发者将固件 %s 列入白名单。</string>
     <string name="title_activity_settings">设置</string>
     <string name="pref_header_general">常规设置</string>
@@ -303,7 +303,7 @@
     <string name="weeksteps_today_steps_description">今天的步数, 目标：%1$s</string>
     <string name="pref_title_dont_ack_transfer">不发送活动数据</string>
     <string name="pref_summary_dont_ack_transfers">如果活动数据未传输到设备，则不会被清除。 Gadgetbridge 与其他应用程序一起使用时很有用。</string>
-    <string name="pref_summary_keep_data_on_device">即使在同步之后, 也会将活动数据保留在小米手环上。如果 Gadgetbridge 与其他应用程序一起使用, 这将非常有用。</string>
+    <string name="pref_summary_keep_data_on_device">即使在同步之后，也会将活动数据保留在小米手环上。如果 Gadgetbridge 与其他应用程序一起使用，这将非常有用。</string>
     <string name="pref_title_low_latency_fw_update">使用低延迟模式进行固件更新</string>
     <string name="pref_summary_low_latency_fw_update">这可能对固件失败的设备有帮助。</string>
     <string name="live_activity_steps_history">步数历史</string>
@@ -326,7 +326,7 @@
     <string name="dateformat_time">仅时间</string>
     <string name="dateformat_date_time">时间和日期</string>
     <string name="mi2_prefs_button_actions">按钮操作</string>
-    <string name="mi2_prefs_button_actions_summary">指定小米手环２按钮上的操作</string>
+    <string name="mi2_prefs_button_actions_summary">指定小米手环2按钮上的操作</string>
     <string name="mi2_prefs_button_press_count">按钮按下计数</string>
     <string name="mi2_prefs_button_press_count_summary">触发消息广播的按钮按数</string>
     <string name="mi2_prefs_button_action">启用按钮操作</string>
@@ -450,7 +450,7 @@
     <string name="kind_resources">资源</string>
     <string name="devicetype_unknown">未知设备</string>
     <string name="devicetype_miband">小米手环</string>
-    <string name="devicetype_miband2">小米手环２</string>
+    <string name="devicetype_miband2">小米手环2</string>
     <string name="devicetype_amazfit_bip">米动手表青春版</string>
     <string name="devicetype_amazfit_cor">米动手环</string>
     <string name="pref_title_weather">天气</string>
@@ -486,13 +486,13 @@
     <string name="controlcenter_calibrate_device">校准设备</string>
     <string name="blacklist_all_for_notifications">添加所有通知到黑名单</string>
     <string name="whitelist_all_for_notifications">添加所有通知到白名单</string>
-    <string name="fw_upgrade_notice_miband3">您即将安装小米手环３的固件 %s 。
-\n
-\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装 .fw 文件后重启。
-\n
-\n注意：如果您已经安装相同版本的 .res 文件了，则无需安装。
-\n
-\n未经测试，可能会导致您的设备变砖，您必须自行承担风险！</string>
+    <string name="fw_upgrade_notice_miband3">您即将安装 小米手环3 的固件 %s 。 
+\n 
+\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装 .fw 文件后重启。 
+\n 
+\n注意：如果您已经安装相同版本的 .res 文件了，则无需安装。 
+\n 
+\n风险自担！</string>
     <string name="pref_title_notifications_timeout">通知间隔最短时间</string>
     <string name="pref_title_rtl">从右到左</string>
     <string name="pref_summary_rtl">如果您的设备无法显示从右到左的语言，请选中此选项</string>
@@ -509,9 +509,9 @@
     <string name="pref_auto_fetch_summary">屏幕解锁时会自动获取。仅在设置了锁定机制才会有效！</string>
     <string name="pref_auto_fetch_limit_fetches">刷新最小间隔</string>
     <string name="pref_auto_fetch_limit_fetches_summary">每隔 %d 分钟刷新</string>
-    <string name="preferences_miband2_settings">小米手环２ 设置</string>
-    <string name="preferences_miband3_settings">小米手环３ 设置</string>
-    <string name="preferences_amazfitcor_settings">米动 Cor 设置</string>s
+    <string name="preferences_miband2_settings">小米手环2 设置</string>
+    <string name="preferences_miband3_settings">小米手环3 设置</string>
+    <string name="preferences_amazfitcor_settings">米动手环设置</string>s
     <string name="horizontal">横向</string>
     <string name="vertical">纵向</string>
     <string name="watch9_pairing_tap_hint">当您的手环震动时，晃动设备或者按下按钮。</string>
@@ -570,7 +570,7 @@
     <string name="share">分享</string>
     <string name="reset_index">重设刷新日期</string>
     <string name="kind_gps_almanac">GPS 历史</string>
-    <string name="devicetype_miband3">小米手环３</string>
+    <string name="devicetype_miband3">小米手环3</string>
     <string name="devicetype_liveview">实时查看</string>
     <string name="devicetype_makibes_f68">Makibes F68</string>
     <string name="devicetype_exrizu_k8">Exrizu K8</string>
@@ -582,7 +582,7 @@
     <string name="devicetype_id115">ID115</string>
     <string name="devicetype_watch9">Watch 9</string>
     <string name="devicetype_roidmi">睿米</string>
-    <string name="devicetype_roidmi3">睿米３</string>
+    <string name="devicetype_roidmi3">睿米 3</string>
     <string name="menuitem_shortcut_alipay">支付宝（快捷方式）</string>
     <string name="menuitem_shortcut_weather">天气（快捷方式）</string>
     <string name="menuitem_status">状态</string>
@@ -688,4 +688,38 @@
     <string name="activity_prefs_distance_meters">每日目标：距离（米）</string>
     <string name="activity_prefs_activetime_minutes">每日目标：运动时长（分钟）</string>
     <string name="devicetype_miscale2">小米手环2</string>
+    <string name="pref_title_support_voip_calls">启用 VoIP 应用呼叫</string>
+    <string name="title_activity_device_specific_settings">设备特殊设置</string>
+    <string name="pref_title_authkey">认证密钥</string>
+    <string name="pref_summary_authkey">将您想要连接的所有 Android 设备上的认证密钥更改为通用的密钥。默认所有设备的密钥是 0123456789@ABCDE</string>
+    <string name="devicetype_bfh16">BFH-16</string>
+    <string name="fw_upgrade_notice_amazfitcor2">您即将在米动手环2(Amazfit Cor 2)上安装 %s 版本的固件。 
+\n 
+\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启。 
+\n 
+\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件。 
+\n 
+\n风险自担！ 
+\n 
+\n此功能未经测试，如果您的设备名为“Amazfit Band 2”，您可能需要刷入 BEATS_W 固件</string>
+    <string name="dutch">荷兰语</string>
+    <string name="turkish">土耳其语</string>
+    <string name="ukrainian">乌克兰语</string>
+    <string name="arabic">阿拉伯语</string>
+    <string name="indonesian">印尼语</string>
+    <string name="thai">泰语</string>
+    <string name="vietnamese">越南语</string>
+    <string name="portuguese">葡萄牙语</string>
+    <string name="devicetype_amazfit_cor2">米动手环2</string>
+    <string name="devicetype_miband4">小米手环4</string>
+    <string name="fw_upgrade_notice_miband4">您即将在您的的小米手环4上安装 %s 固件。
+\n
+\n请确保您先安装 .fw 文件，再安装 .res 文件。您的手环在安装 .fw 文件后将会重启。
+\n
+\n备注：若您的 .res 文件版本和之前安装的相同，则没有必要安装 .res 文件。
+\n
+\n风险自担！</string>
+    <string name="prefs_hr_alarm_activity">运动期间的心率警报</string>
+    <string name="prefs_hr_alarm_low">下限</string>
+    <string name="prefs_hr_alarm_high">上限</string>
 </resources>

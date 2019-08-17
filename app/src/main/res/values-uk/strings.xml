@@ -214,7 +214,7 @@
     <string name="abstract_chart_fragment_kind_activity">Активність</string>
     <string name="abstract_chart_fragment_kind_light_sleep">Швидкий сон</string>
     <string name="abstract_chart_fragment_kind_deep_sleep">Глибокий сон</string>
-    <string name="abstract_chart_fragment_kind_not_worn"></string>
+    <string name="abstract_chart_fragment_kind_not_worn"/>
     <string name="device_not_connected">Не з\'єднано.</string>
     <string name="user_feedback_all_alarms_disabled">Всі будильники вимкнено</string>
     <string name="pref_title_keep_data_on_device">Лишати дані на пристрої</string>
@@ -280,7 +280,7 @@
     <string name="pref_summary_minimize_priority_off">Значок в рядку стану та сповіщення на екрані блокування відображаються</string>
     <string name="pref_summary_minimize_priority_on">Значок в рядку стану та сповіщення на екрані блокування не відображаються</string>
     <string name="pref_summary_notifications_pebblemsg">Підтримка застосунків, які відправляють повідомлення Pebble через PebbleKit.</string>
-    <string name="pref_summary_notification_filter">Припинить надсилання небажаних сповіщень у режимі \"Не турбувати\"</string>
+    <string name="pref_summary_notification_filter">Запобігати надсилання небажаних сповіщень у режимі \"Не турбувати\"</string>
     <string name="pref_title_transliteration">Транслітерація</string>
     <string name="pref_summary_transliteration">"Увімкніть цей параметр, якщо пристрій не підтримує шрифт вашої мови "</string>
     <string name="pref_title_call_privacy_mode">Режим приватності</string>
@@ -456,4 +456,22 @@
     <string name="toast_notification_filter_words_empty_hint">Введіть хоча б одне слово</string>
     <string name="filter_mode">Режим фільтрації</string>
     <string name="save_configuration">Зберегти конфігурацію</string>
+    <string name="pref_title_pebble_forcele">Завжди надавати перевагу BLE</string>
+    <string name="pref_title_screentime">Тривалість роботи екрану</string>
+    <string name="preferences_hplus_settings">Налаштування HPlus/Makibes</string>
+    <string name="preferences_id115_settings">Налаштування ID115</string>
+    <string name="zetime_title_settings">Налаштування ZeTime</string>
+    <string name="zetime_title_heartrate">Налаштування серцебиття</string>
+    <string name="zetime_title_screentime">Тривалість екрану в секундах</string>
+    <string name="activity_prefs_alarm_max_heart_rate">Максимальне серцебиття</string>
+    <string name="activity_prefs_alarm_min_heart_rate">Мінімальне серцебиття</string>
+    <string name="zetime_analog_mode">Аналоговий режим</string>
+    <string name="zetime_analog_mode_hands">Лише вручну</string>
+    <string name="zetime_time_format">Формат часу</string>
+    <string name="zetime_time_format_24h">24г</string>
+    <string name="zetime_time_format_12h">12г</string>
+    <string name="zetime_date_format">Формат дати</string>
+    <string name="zetime_date_format_1">РР/ММ/ДД</string>
+    <string name="zetime_date_format_2">ДД/ММ/РР</string>
+    <string name="zetime_date_format_3">ММ/ДД/РР</string>
 </resources>
