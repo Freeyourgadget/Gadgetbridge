@@ -721,5 +721,6 @@
 
     <string name="appwidget_steps_today_text">Steps Today: %1$02d</string>
     <string name="appwidget_steps_today_widget_label">Steps Today</string>
+    <string name="device_fetching_data">Fetching data</string>
 
 </resources>

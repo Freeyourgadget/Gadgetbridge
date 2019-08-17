@@ -35,12 +35,14 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class DailySteps {
     Logger LOG = LoggerFactory.getLogger(DailySteps.class);
 
-    public int getDailyStepsForAllDevices(Context appContext, Calendar day) {
+
+    public int getDailyStepsForAllDevices(Calendar day) {
+        Context context = GBApplication.getContext();
         //get today's steps for all devices in GB
         int all_steps=0;
 
-        if (appContext instanceof GBApplication) {
-            GBApplication gbApp = (GBApplication) appContext;
+        if (context instanceof GBApplication) {
+            GBApplication gbApp = (GBApplication) context;
             List<? extends GBDevice> devices = gbApp.getDeviceManager().getDevices();
             for (GBDevice device : devices){
                 all_steps+=getDailyStepsForDevice(device, day);
@@ -49,6 +51,8 @@ public class DailySteps {
         LOG.info("All steps:" + all_steps);
         return all_steps;
     }
+
+
 
     public int getDailyStepsForDevice(GBDevice device, Calendar day
     ) {
@@ -71,8 +75,7 @@ public class DailySteps {
             ActivityAnalysis analysis = new ActivityAnalysis();
             ActivityAmounts amounts = null;
             amounts = analysis.calculateActivityAmounts(getSamplesOfDay(handler, device, startTs, endTs));
-            int totalSteps = getTotalsForActivityAmounts(amounts);
-            return totalSteps;
+            return getTotalsForActivityAmounts(amounts);
 
         } catch (Exception e) {
 
