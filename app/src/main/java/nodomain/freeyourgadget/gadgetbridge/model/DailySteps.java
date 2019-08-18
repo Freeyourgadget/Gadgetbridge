@@ -48,7 +48,7 @@ public class DailySteps {
                 all_steps+=getDailyStepsForDevice(device, day);
             };
         }
-        LOG.info("All steps:" + all_steps);
+        LOG.debug("gbwidget All steps:" + all_steps);
         return all_steps;
     }
 

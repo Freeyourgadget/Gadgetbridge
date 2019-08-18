@@ -462,7 +462,7 @@
             android:label="@string/appwidget_steps_today_widget_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="nodomain.freeyourgadget.gadgetbridge.STEPS_TODAY_CLICK" />
+                <action android:name="nodomain.freeyourgadget.gadgetbridge.STEPS_TODAY_WIDGET_CLICK" />
          </intent-filter>
 
             <meta-data
