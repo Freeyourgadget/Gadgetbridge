@@ -20,10 +20,13 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.widget.RemoteViews;
 
+import nodomain.freeyourgadget.gadgetbridge.activities.GBActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DailySteps;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
@@ -44,6 +47,10 @@ public class StepsTodayWidget extends AppWidgetProvider {
     private static final int UPDATE_INTERVAL_MILLIS = 1200000;
     private static final String STEPS_TODAY_WIDGET_ALARM_UPDATE = "nodomain.freeyourgadget.gadgetbridge.STEPS_TODAY_WIDGET_ALARM_UPDATE";
     public static final String STEPS_TODAY_WIDGET_CLICK = "nodomain.freeyourgadget.gadgetbridge.STEPS_TODAY_WIDGET_CLICK";
+    public static final String NEW_DATA_ACTION = "nodomain.freeyourgadget.gadgetbridge.NEW_DATA_ACTION";
+    public static final String APPWIDGET_DELETED = "nodomain.freeyourgadget.gadgetbridge.APPWIDGET_DELETED";
+
+    public BroadcastReceiver broadcastReceiver;
 
 
     public GBDevice getSelectedDevice() {
@@ -96,8 +103,8 @@ public class StepsTodayWidget extends AppWidgetProvider {
         ComponentName thisAppWidget = new ComponentName(context.getPackageName(), StepsTodayWidget.class.getName());
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisAppWidget);
 
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.steps_today_widget);
-        views.setTextViewText(R.id.stepstodaywidget_text, context.getString(R.string.appwidget_steps_today_text, getSteps()));
+        //RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.steps_today_widget);
+        //views.setTextViewText(R.id.stepstodaywidget_text, context.getString(R.string.appwidget_steps_today_text, getSteps()));
         onUpdate(context, appWidgetManager, appWidgetIds);
 
     }
@@ -133,64 +140,41 @@ public class StepsTodayWidget extends AppWidgetProvider {
 
     @Override
     public void onEnabled(Context context) {
-        scheduleUpdate(context);
+
+        //getting broadcast from
+        //nodomain/freeyourgadget/gadgetbridge/service/devices/huami/operations/AbstractFetchOperation.java
+        //handleActivityFetchFinish
+        //not perfect yet, but better then polling or alarm
+
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                LOG.info("gbwidget received new data " + intent.getAction());
+                updateSteps();
+            }
+        };
+        GBApplication.getContext().registerReceiver(broadcastReceiver, new IntentFilter(NEW_DATA_ACTION));
     }
 
     @Override
     public void onDisabled(Context context) {
-        clearUpdate(context);
-    }
-    private static void scheduleUpdate(Context context) {
-        /*
-         schedule updates via AlarmManager, because we don't want to wake the device on every update
-         see https://developer.android.com/guide/topics/appwidgets/index.html#MetaData
-         */
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        PendingIntent intent = getAlarmIntent(context);
-        alarmManager.cancel(intent);
-        alarmManager.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(), UPDATE_INTERVAL_MILLIS, intent);
-        //alarmManager.set(AlarmManager.RTC,UPDATE_INTERVAL_MILLIS, intent);
-        LOG.debug("gbwidget scheduleUpdate, scheduling alarm updates every: " + UPDATE_INTERVAL_MILLIS );
-    }
-
-    private static void clearUpdate(Context context) {
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        alarmManager.cancel(getAlarmIntent(context));
-        LOG.debug("gbwidget clearUpdate, removed scheduling alarm updates" );
-    }
-
-    public static void scheduleUpdateIfNeeded(Context context) {
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        int[] ids = appWidgetManager.getAppWidgetIds(new ComponentName(context, StepsTodayWidget.class));
-        if (ids.length > 0) {
-            scheduleUpdate(context);
+        LOG.info("gbwidget onDisabled " + broadcastReceiver);
+        if (broadcastReceiver != null) {
+            GBApplication.getContext().unregisterReceiver(broadcastReceiver);
         }
     }
 
-    private static PendingIntent getAlarmIntent(Context context) {
-        Intent intent = new Intent(context, StepsTodayWidget.class);
-        intent.setAction(STEPS_TODAY_WIDGET_ALARM_UPDATE);
-        LOG.debug("gbwidget getAlarmIntent");
-        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-    }
     @Override
     public void onReceive(Context context, Intent intent) {
-        LOG.debug("gbwidget onReceive, intent: " + intent.getAction() + " Extras:" + intent.getExtras());
-        //APPWIDGET_UPDATE comes during creating
-        //APPWIDGET_DELETED
-        //APPWIDGET_DISABLED
-        //STEPS_TODAY_WIDGET_ALARM_UPDATE
-        //STEPS_TODAY_WIDGET_CLICK
+        LOG.debug("gbwidget onReceive, intent: " + intent.getAction());
 
         if (STEPS_TODAY_WIDGET_CLICK.equals(intent.getAction())) {
             refreshData();
-            updateSteps();
         }else if (STEPS_TODAY_WIDGET_ALARM_UPDATE.equals(intent.getAction())) {
-            //refreshData();
             updateSteps();
+        }else if (APPWIDGET_DELETED.equals(intent.getAction())) {
+            onDisabled(context);
+
         } else {
             super.onReceive(context, intent);
         }
