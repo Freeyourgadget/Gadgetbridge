@@ -16,13 +16,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
-    compileSdkVersion 28
+    compileSdkVersion 29
     buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
         minSdkVersion 19
-        targetSdkVersion 27
+        targetSdkVersion 29
 
         // Note: always bump BOTH versionCode and versionName!
         versionName "0.35.2"
@@ -152,10 +152,10 @@ task pmd(type: Pmd) {
         xml.enabled = false
         html.enabled = true
         xml {
-            destination file("$project.buildDir/reports/pmd/pmd.xml")
+            //destination "$project.buildDir/reports/pmd/pmd.xml"
         }
         html {
-            destination file("$project.buildDir/reports/pmd/pmd.html")
+            //destination "$project.buildDir/reports/pmd/pmd.html"
         }
     }
 }
@@ -172,10 +172,10 @@ task findbugs(type: FindBugs) {
         xml.enabled = false
         html.enabled = true
         xml {
-            destination file ("$project.buildDir/reports/findbugs/findbugs-output.xml")
+            //destination "$project.buildDir/reports/findbugs/findbugs-output.xml"
         }
         html {
-            destination file ("$project.buildDir/reports/findbugs/findbugs-output.html")
+            //destination "$project.buildDir/reports/findbugs/findbugs-output.html"
         }
     }
 }
