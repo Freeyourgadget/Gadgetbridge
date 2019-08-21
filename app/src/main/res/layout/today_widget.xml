@@ -1,0 +1,53 @@
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#22FF3D00"
+        android:gravity="center"
+        android:padding="@dimen/widget_margin"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/todaywidget_device_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/app_name"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/todaywidget_device_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/device_not_connected"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            android:textStyle="italic" />
+
+
+        <TextView
+            android:id="@+id/todaywidget_steps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/appwidget_today_steps"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/appwidget_today_steps"
+            android:textColor="#ffffff"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/todaywidget_sleep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/appwidget_today_sleep"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/appwidget_today_sleep"
+            android:textColor="#ffffff"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+

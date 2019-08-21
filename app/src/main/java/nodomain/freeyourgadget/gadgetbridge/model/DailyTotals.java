@@ -30,31 +30,40 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityAnalysis;
 
 
-public class DailySteps {
-    Logger LOG = LoggerFactory.getLogger(DailySteps.class);
+
+public class DailyTotals {
+    Logger LOG = LoggerFactory.getLogger(DailyTotals.class);
 
 
-    public int getDailyStepsForAllDevices(Calendar day) {
+    public float[] getDailyTotalsForAllDevices(Calendar day) {
         Context context = GBApplication.getContext();
         //get today's steps for all devices in GB
-        int all_steps=0;
+        float all_steps=0;
+        float all_sleep=0;
+
 
         if (context instanceof GBApplication) {
             GBApplication gbApp = (GBApplication) context;
             List<? extends GBDevice> devices = gbApp.getDeviceManager().getDevices();
             for (GBDevice device : devices){
-                all_steps+=getDailyStepsForDevice(device, day);
+                float[] all_daily = getDailyTotalsForDevice(device, day);
+                all_steps+= all_daily[0];
+                all_sleep+= all_daily[1] + all_daily[2];
+
+
             };
         }
         LOG.debug("gbwidget All steps:" + all_steps);
-        return all_steps;
+        LOG.debug("gbwidget All sleep:" + all_sleep);
+        return new float[] {all_steps, all_sleep};
     }
 
 
 
-    public int getDailyStepsForDevice(GBDevice device, Calendar day
+    public float[] getDailyTotalsForDevice(GBDevice device, Calendar day
     ) {
         //get today's steps for given device
         int startTs;
@@ -75,17 +84,35 @@ public class DailySteps {
             ActivityAnalysis analysis = new ActivityAnalysis();
             ActivityAmounts amounts = null;
             amounts = analysis.calculateActivityAmounts(getSamplesOfDay(handler, device, startTs, endTs));
-            return getTotalsForActivityAmounts(amounts);
+
+            float Sleep[] = getTotalsSleepForActivityAmounts(amounts);
+            float Steps=getTotalsStepsForActivityAmounts(amounts);
+
+            return new float[]{Steps,Sleep[0],Sleep[1]};
 
         } catch (Exception e) {
 
             GB.toast("Error loading activity summaries.", Toast.LENGTH_SHORT, GB.ERROR, e);
-            return 0;
+            return new float[]{0,0,0};
         }
+    }
+    float[] getTotalsSleepForActivityAmounts(ActivityAmounts activityAmounts) {
+        long totalSecondsDeepSleep = 0;
+        long totalSecondsLightSleep = 0;
+        for (ActivityAmount amount : activityAmounts.getAmounts()) {
+            if (amount.getActivityKind() == ActivityKind.TYPE_DEEP_SLEEP) {
+                totalSecondsDeepSleep += amount.getTotalSeconds();
+            } else if (amount.getActivityKind() == ActivityKind.TYPE_LIGHT_SLEEP) {
+                totalSecondsLightSleep += amount.getTotalSeconds();
+            }
+        }
+        int totalMinutesDeepSleep = (int) (totalSecondsDeepSleep / 60);
+        int totalMinutesLightSleep = (int) (totalSecondsLightSleep / 60);
+        return new float[]{totalMinutesDeepSleep, totalMinutesLightSleep};
     }
 
 
-    private int getTotalsForActivityAmounts(ActivityAmounts activityAmounts) {
+    private float getTotalsStepsForActivityAmounts(ActivityAmounts activityAmounts) {
         long totalSteps = 0;
         float totalValue = 0;
 
@@ -99,7 +126,7 @@ public class DailySteps {
             float value = totalValues[i];
             totalValue += value;
         }
-        return (int)totalValue;
+        return totalValue;
     };
 
 

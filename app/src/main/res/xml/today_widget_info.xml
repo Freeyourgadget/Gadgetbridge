@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:initialKeyguardLayout="@layout/steps_today_widget"
-    android:initialLayout="@layout/steps_today_widget"
+    android:initialKeyguardLayout="@layout/today_widget"
+    android:initialLayout="@layout/today_widget"
     android:minHeight="40dp"
     android:minWidth="40dp"
     android:previewImage="@drawable/ic_activity_walking"
     android:updatePeriodMillis="3600000"
     android:widgetCategory="home_screen|keyguard|searchbox">
 </appwidget-provider>
-    <!--android:updatePeriodMillis="21600000"-->
+
