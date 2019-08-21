@@ -472,6 +472,12 @@
 
 
         <activity
+            android:name=".activities.TodayWidgetAlarmsActivity"
+            android:launchMode="singleInstance"
+            android:theme="@style/Theme.AppCompat.Light.Dialog"
+            android:excludeFromRecents="true"/>
+
+        <activity
             android:launchMode="singleTask"
             android:allowTaskReparenting="true"
             android:clearTaskOnLaunch="true"

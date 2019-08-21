@@ -25,6 +25,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.widget.RemoteViews;
 
+import nodomain.freeyourgadget.gadgetbridge.activities.ActivitySummariesActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2;
+import nodomain.freeyourgadget.gadgetbridge.activities.GBActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.TodayWidgetAlarmsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DailyTotals;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
@@ -50,21 +55,16 @@ public class TodayWidget extends AppWidgetProvider {
     public static final String NEW_DATA_ACTION = "nodomain.freeyourgadget.gadgetbridge.NEW_DATA_ACTION";
     public static final String APPWIDGET_DELETED = "nodomain.freeyourgadget.gadgetbridge.APPWIDGET_DELETED";
     public static final String ACTION_DEVICE_CHANGED = "nodomain.freeyourgadget.gadgetbridge.gbdevice.action.device_changed";
-    public static GBDevice device;
     public BroadcastReceiver broadcastReceiver;
-
     public TodayWidget(){
-        device=getSelectedDevice();
+
     }
 
-    public static void setDevice()
-    {
-        device=getSelectedDevice();
-        LOG.info("gbwidget setDevice device: " + device);
-    }
+
 
     public static GBDevice getSelectedDevice() {
         Context context = GBApplication.getContext();
+
         if (!(context instanceof GBApplication)) {
             LOG.info("gbwidget getSelectedDevice no context");
             return null;
@@ -88,6 +88,8 @@ public class TodayWidget extends AppWidgetProvider {
 
     public void refreshData() {
         Context context = GBApplication.getContext();
+        GBDevice device=getSelectedDevice();
+
         if (device == null || !device.isInitialized()) {
             GB.toast(context,
                     context.getString(R.string.device_not_connected),
@@ -126,18 +128,37 @@ public class TodayWidget extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        setDevice();
+        GBDevice device=getSelectedDevice();
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.today_widget);
 
         // Add our own click intent
         Intent intent = new Intent(context, TodayWidget.class);
         intent.setAction(TODAY_WIDGET_CLICK);
 
-        PendingIntent clickPI = PendingIntent.getBroadcast(
+        PendingIntent refreshDataIntent = PendingIntent.getBroadcast(
                 context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.todaywidget_bottom_layout, refreshDataIntent);
+        views.setOnClickPendingIntent(R.id.todaywidget_header_bar, refreshDataIntent);
 
-        views.setOnClickPendingIntent(R.id.top_layout, clickPI);
 
+        Intent startMainIntent = new Intent(context, ControlCenterv2.class);
+        PendingIntent startMainPIntent = PendingIntent.getActivity(context,0,startMainIntent,0);
+        views.setOnClickPendingIntent(R.id.todaywidget_header_icon, startMainPIntent);
+
+        Intent startAlarmListIntent = new Intent(context, TodayWidgetAlarmsActivity.class);
+        PendingIntent startAlarmListPIntent = PendingIntent.getActivity(context,0,startAlarmListIntent,0);
+        views.setOnClickPendingIntent(R.id.todaywidget_header_plus, startAlarmListPIntent);
+
+
+        /*
+        if (device != null) {
+            Intent startChartsIntent = new Intent(context, ChartsActivity.class);
+            startChartsIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+            LOG.info("gbwidget adding intent with device " + device);
+            PendingIntent startChartsPIntent = PendingIntent.getActivity(context, 0, startChartsIntent, 0);
+            views.setOnClickPendingIntent(R.id.todaywidget_bottom_layout, startChartsPIntent);
+        }
+        */
 
         float[] DailyTotals = getSteps();
 
@@ -149,7 +170,7 @@ public class TodayWidget extends AppWidgetProvider {
             String status = String.format("%1s" , device.getStateString());
             if (device.isConnected()) {
                 if (device.getBatteryLevel() > 1) {
-                    status = String.format("Battery: %1s%%, %1s", device.getBatteryLevel(), device.getStateString());
+                    status = String.format("Battery: %1s%%", device.getBatteryLevel());
                 }
             }
 
@@ -187,7 +208,7 @@ public class TodayWidget extends AppWidgetProvider {
         */
 
         broadcastReceiver = new BroadcastReceiver() {
-            @Override   
+            @Override
             public void onReceive(Context context, Intent intent) {
                 LOG.info("gbwidget received new data " + intent.getAction());
                 LOG.info("gbwidget extra data: "+ intent.getExtras());
@@ -195,6 +216,7 @@ public class TodayWidget extends AppWidgetProvider {
                     GBDevice dev = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                         LOG.info("gbwidget device status: " + dev.getStateString());
                 }
+                //we react to all received messages as they are already filtered
                 updateWidget();
             }
         };

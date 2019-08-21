@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/alarm_list_top_layout"
+    android:layout_width="200dp"
+    android:layout_height="290dp"
+    android:background="@color/primary_light"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/todaywidget_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#0090FF"
+        android:elevation="1dp"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:id="@+id/todaywidget_header_bar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp">
+
+            <TextView
+                android:id="@+id/todaywidget_alarm_list_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:drawablePadding="4dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Set alarm after:"
+                android:textColor="#ffffff"
+                android:textSize="14dp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/todaywidget_alarm_list_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+
+        <TextView
+            android:id="@+id/alarm1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="5 minutes"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/alarm2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="10 minutes"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/alarm3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="20 minutes"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/alarm4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1 hour"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/alarm5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="daily target"
+            android:textSize="36sp" />
+    </LinearLayout>
+
+
+</LinearLayout>
+
+
