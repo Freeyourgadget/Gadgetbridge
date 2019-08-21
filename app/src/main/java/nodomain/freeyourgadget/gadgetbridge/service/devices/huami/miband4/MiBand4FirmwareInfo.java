@@ -65,7 +65,7 @@ public class MiBand4FirmwareInfo extends HuamiFirmwareInfo {
             return HuamiFirmwareType.WATCHFACE;
         }
         if (ArrayUtils.startsWith(bytes, NEWFT_HEADER)) {
-            if (bytes[10] == 0x03) {
+            if (bytes[10] == 0x03 || bytes[10] == 0x06) {
                 return HuamiFirmwareType.FONT;
             }
         }
