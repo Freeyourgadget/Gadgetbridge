@@ -717,4 +717,14 @@
     <string name="prefs_hr_alarm_activity">התראת דופק במהלך פעילות ספורטיבית</string>
     <string name="prefs_hr_alarm_low">גבול תחתון</string>
     <string name="prefs_hr_alarm_high">גבול עליון</string>
+    <string name="average">ממוצע: %1$s</string>
+    <string name="pref_header_charts">הגדרות תרשימים</string>
+    <string name="pref_title_charts_average">הצגת ממוצעים בתרשימים</string>
+    <string name="pref_title_charts_range">טווח התרשימים</string>
+    <string name="pref_charts_range_on">טווח התרשימים מוגדר לחודש</string>
+    <string name="pref_charts_range_off">טווח התרשימים מוגדר לשבוע</string>
+    <string name="weekstepschart_steps_a_month">צעדים בחודש</string>
+    <string name="weeksleepchart_sleep_a_month">שינה בחודש</string>
+    <string name="devicetype_mijia_lywsd02">שעון קיר חכם מבית Mijia</string>
+    <string name="menuitem_nfc">תקשורת קרבה</string>
 </resources>
