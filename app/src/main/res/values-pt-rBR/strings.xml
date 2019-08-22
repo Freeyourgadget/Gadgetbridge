@@ -728,4 +728,14 @@
     <string name="prefs_hr_alarm_activity">Alarme de frequência cardíaca durante atividades esportivas</string>
     <string name="prefs_hr_alarm_low">Limite baixo</string>
     <string name="prefs_hr_alarm_high">Limite alto</string>
+    <string name="average">Média: %1$s</string>
+    <string name="pref_header_charts">Configurações dos gráficos</string>
+    <string name="pref_title_charts_average">Mostrar médias nos gráficos</string>
+    <string name="pref_title_charts_range">Intervalo de gráficos</string>
+    <string name="pref_charts_range_on">O intervalo de gráficos está definido para um Mês</string>
+    <string name="pref_charts_range_off">O intervalo de gráficos está definido para uma Semana</string>
+    <string name="weekstepschart_steps_a_month">Passos por mês</string>
+    <string name="weeksleepchart_sleep_a_month">Sono por mês</string>
+    <string name="devicetype_mijia_lywsd02">Relógio inteligente Mijia</string>
+    <string name="menuitem_nfc">NFC</string>
 </resources>
