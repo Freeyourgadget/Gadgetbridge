@@ -36,6 +36,10 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,9 +47,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
@@ -97,12 +98,12 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_FI
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_HEARTRATE_TEST;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_INSTALL;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_NOTIFICATION;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_READ_CONFIGURATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_APPINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_DEVICEINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_SCREENSHOT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_RESET;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SEND_CONFIGURATION;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_READ_CONFIGURATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SEND_WEATHER;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETCANNEDMESSAGES;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETMUSICINFO;
@@ -735,9 +736,12 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mCMWeatherReceiver = new CMWeatherReceiver();
                 registerReceiver(mCMWeatherReceiver, new IntentFilter("GB_UPDATE_WEATHER"));
             }
-            if (mLineageOsWeatherReceiver == null && coordinator != null && coordinator.supportsWeather()) {
-                mLineageOsWeatherReceiver = new LineageOsWeatherReceiver();
-                registerReceiver(mLineageOsWeatherReceiver, new IntentFilter("GB_UPDATE_WEATHER"));
+            if (GBApplication.isRunningOreoOrLater()) {
+                if (mLineageOsWeatherReceiver == null && coordinator != null && coordinator.supportsWeather()) {
+
+                    mLineageOsWeatherReceiver = new LineageOsWeatherReceiver();
+                    registerReceiver(mLineageOsWeatherReceiver, new IntentFilter("GB_UPDATE_WEATHER"));
+                }
             }
             if (mOmniJawsObserver == null && coordinator != null && coordinator.supportsWeather()) {
                 try {

@@ -22,6 +22,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +51,7 @@ import static lineageos.providers.WeatherContract.WeatherColumns.WeatherCode.SCA
 import static lineageos.providers.WeatherContract.WeatherColumns.WeatherCode.SHOWERS;
 import static lineageos.providers.WeatherContract.WeatherColumns.WindSpeedUnit.MPH;
 
+@RequiresApi(api = Build.VERSION_CODES.M)
 public class LineageOsWeatherReceiver extends BroadcastReceiver implements LineageWeatherManager.WeatherUpdateRequestListener, LineageWeatherManager.LookupCityRequestListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(LineageOsWeatherReceiver.class);
