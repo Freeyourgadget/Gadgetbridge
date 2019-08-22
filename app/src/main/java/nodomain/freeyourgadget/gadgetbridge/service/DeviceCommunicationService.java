@@ -56,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectRecei
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothPairingRequestReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.CMWeatherReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.LineageOsWeatherReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.OmniJawsObserver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PebbleReceiver;
@@ -193,6 +194,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private AlarmReceiver mAlarmReceiver = null;
     private CalendarReceiver mCalendarReceiver = null;
     private CMWeatherReceiver mCMWeatherReceiver = null;
+    private LineageOsWeatherReceiver mLineageOsWeatherReceiver = null;
     private OmniJawsObserver mOmniJawsObserver = null;
     private Random mRandom = new Random();
 
@@ -733,6 +735,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mCMWeatherReceiver = new CMWeatherReceiver();
                 registerReceiver(mCMWeatherReceiver, new IntentFilter("GB_UPDATE_WEATHER"));
             }
+            if (mLineageOsWeatherReceiver == null && coordinator != null && coordinator.supportsWeather()) {
+                mLineageOsWeatherReceiver = new LineageOsWeatherReceiver();
+                registerReceiver(mLineageOsWeatherReceiver, new IntentFilter("GB_UPDATE_WEATHER"));
+            }
             if (mOmniJawsObserver == null && coordinator != null && coordinator.supportsWeather()) {
                 try {
                     mOmniJawsObserver = new OmniJawsObserver(new Handler());
@@ -783,6 +789,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if (mCMWeatherReceiver != null) {
                 unregisterReceiver(mCMWeatherReceiver);
                 mCMWeatherReceiver = null;
+            }
+            if (mLineageOsWeatherReceiver != null) {
+                unregisterReceiver(mLineageOsWeatherReceiver);
+                mLineageOsWeatherReceiver = null;
             }
             if (mOmniJawsObserver != null) {
                 getContentResolver().unregisterContentObserver(mOmniJawsObserver);
