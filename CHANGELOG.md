@@ -1,5 +1,18 @@
 ### Changelog
 
+#### NEXT
+* Initial Mijia LYWSD02 support (Smart Clock with Humidity and Temperature Sensor), just for setting the time
+* Mi Band 3/4: Allow enabling the NFC menu where supported (useless for now)
+* Mi Band 3/4, Amazfit Cor/Bip: Set language immediately when changing it (not only on connect)
+* Mi Band 3/4, Amazfir Cor/Bip: Add icons for "swimming" and "exercise"
+* Mi Band 4: Support flashing the V2 font
+* Mi Band 4: remove unsupported DND setting from settings menu
+* Amazfit Bip/Cor: Fix resetting of last fetched date for sports activities
+* Amazfit Bip: Fix sharing GPX files for some Apps
+* Pebble: Use Rebble Store URI
+* Add Averages to Charts
+* Allow togging between weekly and monthly charts
+
 #### Version 0.35.2
 * Mi Band 1/2: Crash when updating firmware while phone is set to Spanish
 * Mi Band 4: Enable music info support (displays now on the band)
