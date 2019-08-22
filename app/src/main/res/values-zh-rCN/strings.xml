@@ -722,4 +722,14 @@
     <string name="prefs_hr_alarm_activity">运动期间的心率警报</string>
     <string name="prefs_hr_alarm_low">下限</string>
     <string name="prefs_hr_alarm_high">上限</string>
+    <string name="average">平均：%1$s</string>
+    <string name="pref_header_charts">图表设置</string>
+    <string name="pref_title_charts_average">在图表中显示平均值</string>
+    <string name="pref_title_charts_range">图表范围</string>
+    <string name="pref_charts_range_on">图表范围已设置为按月</string>
+    <string name="pref_charts_range_off">图表范围已设置为按周</string>
+    <string name="weekstepschart_steps_a_month">每月步数</string>
+    <string name="weeksleepchart_sleep_a_month">每月睡眠</string>
+    <string name="devicetype_mijia_lywsd02">米家智能闹钟</string>
+    <string name="menuitem_nfc">NFC</string>
 </resources>
