@@ -23,6 +23,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.IntentSender;
 import android.widget.RemoteViews;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.ActivitySummariesActivity;
@@ -38,6 +39,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import android.content.ComponentName;
 import android.widget.Toast;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -170,7 +173,7 @@ public class TodayWidget extends AppWidgetProvider {
             String status = String.format("%1s" , device.getStateString());
             if (device.isConnected()) {
                 if (device.getBatteryLevel() > 1) {
-                    status = String.format("Battery: %1s%%", device.getBatteryLevel());
+                    status = String.format("Battery %1s%%", device.getBatteryLevel());
                 }
             }
 
@@ -198,19 +201,27 @@ public class TodayWidget extends AppWidgetProvider {
 
         /*
         getting broadcasts from:
-        nodomain/freeyourgadget/gadgetbridge/service/devices/huami/operations/AbstractFetchOperation.java
-        handleActivityFetchFinish
-        and
-        nodomain/freeyourgadget/gadgetbridge/impl/GBDevice.java
-        sendDeviceUpdateIntent
+        file: nodomain/freeyourgadget/gadgetbridge/service/devices/huami/operations/AbstractFetchOperation.java
+        method: handleActivityFetchFinish
+        action: nodomain.freeyourgadget.gadgetbridge.NEW_DATA_ACTION
+
+        following not needed anymore:
+        file: nodomain/freeyourgadget/gadgetbridge/impl/GBDevice.java
+        method: sendDeviceUpdateIntent
+        action: nodomain.freeyourgadget.gadgetbridge.gbdevice.action.device_changed
 
        better then polling or alarm
         */
 
+
+
+
+
+
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                LOG.info("gbwidget received new data " + intent.getAction());
+                LOG.info("gbwidget BROADCAST received new data " + intent.getAction());
                 LOG.info("gbwidget extra data: "+ intent.getExtras());
                 if (ACTION_DEVICE_CHANGED.equals(intent.getAction())){
                     GBDevice dev = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
@@ -223,7 +234,9 @@ public class TodayWidget extends AppWidgetProvider {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(NEW_DATA_ACTION);
         intentFilter.addAction(ACTION_DEVICE_CHANGED);
-        GBApplication.getContext().registerReceiver(broadcastReceiver, intentFilter);
+        //GBApplication.getContext().registerReceiver(broadcastReceiver, intentFilter);
+        LocalBroadcastManager.getInstance(context).registerReceiver(broadcastReceiver, intentFilter);
+
     }
 
     @Override
@@ -237,7 +250,7 @@ public class TodayWidget extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context,intent);
-        LOG.debug("gbwidget onReceive, intent: " + intent.getAction());
+        LOG.debug("gbwidget LOCAL onReceive, intent: " + intent.getAction());
 
         if (TODAY_WIDGET_CLICK.equals(intent.getAction())) {
             refreshData();

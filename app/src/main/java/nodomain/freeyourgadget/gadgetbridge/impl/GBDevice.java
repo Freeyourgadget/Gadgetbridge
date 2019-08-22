@@ -351,7 +351,6 @@ public class GBDevice implements Parcelable {
         Intent deviceUpdateIntent = new Intent(ACTION_DEVICE_CHANGED);
         deviceUpdateIntent.putExtra(EXTRA_DEVICE, this);
         LocalBroadcastManager.getInstance(context).sendBroadcast(deviceUpdateIntent);
-        context.sendBroadcast(deviceUpdateIntent); //needed for TodayWidget
     }
 
     @Override
