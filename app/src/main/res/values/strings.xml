@@ -722,6 +722,13 @@
     <string name="appwidget_today_steps">Steps: %1$02d</string>
     <string name="appwidget_today_sleep">Sleep: %1$s</string>
     <string name="appwidget_today_widget_label">Daily Totals</string>
+    <string name="set_alarm_after">Set alarm after:</string>
+    <string name="_5_minutes">5 minutes</string>
+    <string name="_10_minutes">10 minutes</string>
+    <string name="_20_minutes">20 minutes</string>
+    <string name="_1_hour">1 hour</string>
+    <string name="icon_placeholder" translatable="false">Icon</string>
+    <string name="widget_alarm_target_hours">%d hours</string>
 
 
 </resources>

@@ -458,21 +458,21 @@
         </receiver>
 
         <receiver
-            android:name=".TodayWidget"
+            android:name=".Widget"
             android:label="@string/appwidget_today_widget_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="nodomain.freeyourgadget.gadgetbridge.TODAY_WIDGET_CLICK" />
+                <action android:name="nodomain.freeyourgadget.gadgetbridge.WidgetClick" />
          </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/today_widget_info" />
+                android:resource="@xml/widget_info" />
         </receiver>
 
 
         <activity
-            android:name=".activities.TodayWidgetAlarmsActivity"
+            android:name=".activities.WidgetAlarmsActivity"
             android:launchMode="singleInstance"
             android:theme="@style/Theme.AppCompat.Light.Dialog"
             android:excludeFromRecents="true"/>

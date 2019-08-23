@@ -2,7 +2,7 @@
     android:id="@+id/alarm_list_top_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary_light"
+    android:background="#B3FF3D00"
     android:orientation="vertical">
 
     <LinearLayout
@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="#0090FF"
-        android:elevation="1dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -18,8 +17,11 @@
             android:layout_width="36dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
+            android:adjustViewBounds="false"
+            android:contentDescription="@string/icon_placeholder"
+            android:cropToPadding="false"
             android:padding="0dp"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/ic_notification" />
 
 
         <LinearLayout
@@ -41,9 +43,9 @@
                 android:drawablePadding="4dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="Gadgetbridge"
+                android:text="@string/app_name"
                 android:textColor="#ffffff"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -52,8 +54,9 @@
             android:layout_width="34dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
+            android:contentDescription="@string/icon_placeholder"
             android:padding="0dp"
-            android:src="@drawable/ic_add" />
+            android:src="@drawable/ic_watchface" />
 
 
     </LinearLayout>
@@ -105,9 +108,9 @@
             android:id="@+id/todaywidget_device_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:foregroundGravity="right"
-            android:gravity="right"
+            android:gravity="end"
             android:text="@string/device_not_connected"
             android:textColor="#ffffff"
             android:textSize="14sp"

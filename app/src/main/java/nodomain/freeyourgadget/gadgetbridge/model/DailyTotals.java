@@ -18,20 +18,21 @@ package nodomain.freeyourgadget.gadgetbridge.model;
 
 import android.content.Context;
 import android.widget.Toast;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.util.Calendar;
 import java.util.List;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
-import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityAnalysis;
-
 
 
 public class DailyTotals {
@@ -41,26 +42,23 @@ public class DailyTotals {
     public float[] getDailyTotalsForAllDevices(Calendar day) {
         Context context = GBApplication.getContext();
         //get today's steps for all devices in GB
-        float all_steps=0;
-        float all_sleep=0;
+        float all_steps = 0;
+        float all_sleep = 0;
 
 
         if (context instanceof GBApplication) {
             GBApplication gbApp = (GBApplication) context;
             List<? extends GBDevice> devices = gbApp.getDeviceManager().getDevices();
-            for (GBDevice device : devices){
+            for (GBDevice device : devices) {
                 float[] all_daily = getDailyTotalsForDevice(device, day);
-                all_steps+= all_daily[0];
-                all_sleep+= all_daily[1] + all_daily[2];
-
-
-            };
+                all_steps += all_daily[0];
+                all_sleep += all_daily[1] + all_daily[2];
+            }
         }
-        LOG.debug("gbwidget All steps:" + all_steps);
-        LOG.debug("gbwidget All sleep:" + all_sleep);
-        return new float[] {all_steps, all_sleep};
+        LOG.debug("gbwidget daily totals, all steps:" + all_steps);
+        LOG.debug("gbwidget  daily totals, all sleep:" + all_sleep);
+        return new float[]{all_steps, all_sleep};
     }
-
 
 
     public float[] getDailyTotalsForDevice(GBDevice device, Calendar day
@@ -85,18 +83,19 @@ public class DailyTotals {
             ActivityAmounts amounts = null;
             amounts = analysis.calculateActivityAmounts(getSamplesOfDay(handler, device, startTs, endTs));
 
-            float Sleep[] = getTotalsSleepForActivityAmounts(amounts);
-            float Steps=getTotalsStepsForActivityAmounts(amounts);
+            float[] Sleep = getTotalsSleepForActivityAmounts(amounts);
+            float Steps = getTotalsStepsForActivityAmounts(amounts);
 
-            return new float[]{Steps,Sleep[0],Sleep[1]};
+            return new float[]{Steps, Sleep[0], Sleep[1]};
 
         } catch (Exception e) {
 
             GB.toast("Error loading activity summaries.", Toast.LENGTH_SHORT, GB.ERROR, e);
-            return new float[]{0,0,0};
+            return new float[]{0, 0, 0};
         }
     }
-    float[] getTotalsSleepForActivityAmounts(ActivityAmounts activityAmounts) {
+
+    private float[] getTotalsSleepForActivityAmounts(ActivityAmounts activityAmounts) {
         long totalSecondsDeepSleep = 0;
         long totalSecondsLightSleep = 0;
         for (ActivityAmount amount : activityAmounts.getAmounts()) {
@@ -127,7 +126,7 @@ public class DailyTotals {
             totalValue += value;
         }
         return totalValue;
-    };
+    }
 
 
     private List<? extends ActivitySample> getSamplesOfDay(DBHandler db, GBDevice device, int startTs, int endTs) {

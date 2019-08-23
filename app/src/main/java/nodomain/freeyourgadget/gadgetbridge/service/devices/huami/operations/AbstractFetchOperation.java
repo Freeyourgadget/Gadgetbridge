@@ -127,7 +127,7 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
         GB.updateTransferNotification(null, "", false, 100, getContext());
         operationFinished();
         unsetBusy();
-        Intent intent = new Intent("nodomain.freeyourgadget.gadgetbridge.NEW_DATA_ACTION");
+        Intent intent = new Intent("nodomain.freeyourgadget.gadgetbridge.NewDataTrigger");
         getContext().sendBroadcast(intent);
     }
 

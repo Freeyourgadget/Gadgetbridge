@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:initialKeyguardLayout="@layout/today_widget"
-    android:initialLayout="@layout/today_widget"
+    android:initialKeyguardLayout="@layout/widget"
+    android:initialLayout="@layout/widget"
     android:minHeight="50dp"
     android:minWidth="150dp"
-    android:previewImage="@drawable/today_widget_preview"
+    android:previewImage="@drawable/widget_preview"
     android:updatePeriodMillis="3600000"
     android:widgetCategory="home_screen|keyguard|searchbox">
 </appwidget-provider>

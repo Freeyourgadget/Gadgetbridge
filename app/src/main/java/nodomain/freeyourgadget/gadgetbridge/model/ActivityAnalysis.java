@@ -23,11 +23,6 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmount;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmounts;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
-
 class ActivityAnalysis {
     private static final Logger LOG = LoggerFactory.getLogger(ActivityAnalysis.class);
 

@@ -5,10 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,40 +20,35 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class TodayWidgetAlarmsActivity extends Activity implements View.OnClickListener {
+public class WidgetAlarmsActivity extends Activity implements View.OnClickListener {
 
-    LinearLayout linearLayout;
     TextView textView;
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
+        Context appContext = this.getApplicationContext();
+        if (appContext instanceof GBApplication) {
+            GBApplication gbApp = (GBApplication) appContext;
+            GBDevice selectedDevice = gbApp.getDeviceManager().getSelectedDevice();
+            if (selectedDevice == null || !selectedDevice.isInitialized()) {
+                GB.toast(this,
+                        this.getString(R.string.not_connected),
+                        Toast.LENGTH_LONG, GB.WARN);
 
-            Context appContext = this.getApplicationContext();
-            if (appContext instanceof GBApplication) {
-                GBApplication gbApp = (GBApplication) appContext;
-                GBDevice selectedDevice = gbApp.getDeviceManager().getSelectedDevice();
-                if (selectedDevice == null || !selectedDevice.isInitialized()) {
-                    GB.toast(this,
-                            this.getString(R.string.not_connected),
-                            Toast.LENGTH_LONG, GB.WARN);
-
-                }else{
-                    setContentView(R.layout.today_widget_alarm_activity_list);
-                    int userSleepDuration = new ActivityUser().getSleepDuration();
-                    textView = (TextView) findViewById(R.id.alarm5);
-                    if (userSleepDuration>0) {
-                        textView.setText(String.format("  %s hours",userSleepDuration));
-                    }else{
-                        textView.setVisibility(View.GONE);
-                    }
+            } else {
+                setContentView(R.layout.widget_alarms_activity_list);
+                int userSleepDuration = new ActivityUser().getSleepDuration();
+                textView = findViewById(R.id.alarm5);
+                if (userSleepDuration > 0) {
+                    textView.setText(String.format(this.getString(R.string.widget_alarm_target_hours), userSleepDuration));
+                } else {
+                    textView.setVisibility(View.GONE);
                 }
             }
-
-
-
         }
+    }
 
     @Override
     public void onClick(View v) {
@@ -88,21 +81,20 @@ public class TodayWidgetAlarmsActivity extends Activity implements View.OnClickL
         }, 150);
     }
 
-    public void setAlarm(int duration){
+    public void setAlarm(int duration) {
         // current timestamp
         GregorianCalendar calendar = new GregorianCalendar();
-            if (duration >0)
-            {
-                calendar.add(Calendar.MINUTE, duration);
-            }else{
-                int userSleepDuration = new ActivityUser().getSleepDuration();
-                // add preferred sleep duration
-                if (userSleepDuration > 0) {
-                    calendar.add(Calendar.HOUR_OF_DAY, userSleepDuration);
-                } else { // probably testing
-                    calendar.add(Calendar.MINUTE, 1);
-                }
+        if (duration > 0) {
+            calendar.add(Calendar.MINUTE, duration);
+        } else {
+            int userSleepDuration = new ActivityUser().getSleepDuration();
+            // add preferred sleep duration
+            if (userSleepDuration > 0) {
+                calendar.add(Calendar.HOUR_OF_DAY, userSleepDuration);
+            } else { // probably testing
+                calendar.add(Calendar.MINUTE, 1);
             }
+        }
 
         // overwrite the first alarm and activate it, without
 
@@ -125,7 +117,7 @@ public class TodayWidgetAlarmsActivity extends Activity implements View.OnClickL
                 this.getString(R.string.appwidget_setting_alarm, hours, minutes),
                 Toast.LENGTH_SHORT, GB.INFO);
 
-        Alarm alarm = AlarmUtils.createSingleShot(0,true, calendar);
+        Alarm alarm = AlarmUtils.createSingleShot(0, true, calendar);
         ArrayList<Alarm> alarms = new ArrayList<>(1);
         alarms.add(alarm);
         GBApplication.deviceService().onSetAlarms(alarms);
