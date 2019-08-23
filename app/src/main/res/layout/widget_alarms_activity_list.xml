@@ -35,7 +35,7 @@
                 android:drawablePadding="4dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@string/set_alarm_after"
+                android:text="@string/widget_set_alarm_after"
                 android:textColor="#ffffff"
                 android:textSize="14sp" />
 
@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onClick"
-            android:text="@string/_5_minutes"
+            android:text="@string/widget_5_minutes"
             android:textSize="30sp" />
 
         <TextView
@@ -69,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onClick"
-            android:text="@string/_10_minutes"
+            android:text="@string/widget_10_minutes"
             android:textSize="30sp" />
 
         <TextView
@@ -77,7 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onClick"
-            android:text="@string/_20_minutes"
+            android:text="@string/widget_20_minutes"
             android:textSize="30sp" />
 
         <TextView
@@ -85,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onClick"
-            android:text="@string/_1_hour"
+            android:text="@string/widget_1_hour"
             android:textSize="30sp" />
 
         <TextView

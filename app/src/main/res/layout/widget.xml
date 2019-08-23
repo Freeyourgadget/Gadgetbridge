@@ -81,9 +81,9 @@
                 android:id="@+id/todaywidget_steps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/appwidget_today_steps"
+                android:contentDescription="@string/widget_steps_label"
                 android:gravity="center_vertical|center_horizontal"
-                android:text="@string/appwidget_today_steps"
+                android:text="@string/widget_steps_label"
                 android:textColor="#ffffff"
                 android:textSize="18sp" />
 
@@ -91,9 +91,9 @@
                 android:id="@+id/todaywidget_sleep"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/appwidget_today_sleep"
+                android:contentDescription="@string/widget_sleep_label"
                 android:gravity="center_vertical|center_horizontal"
-                android:text="@string/appwidget_today_sleep"
+                android:text="@string/widget_sleep_label"
                 android:textColor="#ffffff"
                 android:textSize="18sp" />
         </LinearLayout>

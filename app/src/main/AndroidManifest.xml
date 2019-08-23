@@ -459,7 +459,7 @@
 
         <receiver
             android:name=".Widget"
-            android:label="@string/appwidget_today_widget_label">
+            android:label="@string/widget_listing_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="nodomain.freeyourgadget.gadgetbridge.WidgetClick" />

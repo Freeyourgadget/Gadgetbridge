@@ -719,14 +719,14 @@
     <string name="appwidget_setting_alarm">Setting alarm for %1$02d:%2$02d</string>
     <string name="appwidget_sleep_alarm_widget_label">Sleep Alarm</string>
 
-    <string name="appwidget_today_steps">Steps: %1$02d</string>
-    <string name="appwidget_today_sleep">Sleep: %1$s</string>
-    <string name="appwidget_today_widget_label">Status and Alarms</string>
-    <string name="set_alarm_after">Set alarm after:</string>
-    <string name="_5_minutes">5 minutes</string>
-    <string name="_10_minutes">10 minutes</string>
-    <string name="_20_minutes">20 minutes</string>
-    <string name="_1_hour">1 hour</string>
+    <string name="widget_steps_label">Steps: %1$02d</string>
+    <string name="widget_sleep_label">Sleep: %1$s</string>
+    <string name="widget_listing_label">Status and Alarms</string>
+    <string name="widget_set_alarm_after">Set alarm after:</string>
+    <string name="widget_5_minutes">5 minutes</string>
+    <string name="widget_10_minutes">10 minutes</string>
+    <string name="widget_20_minutes">20 minutes</string>
+    <string name="widget_1_hour">1 hour</string>
     <string name="icon_placeholder" translatable="false">Icon</string>
     <string name="widget_alarm_target_hours">%d hours</string>
 

@@ -24,8 +24,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.Image;
-import android.widget.ImageView;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -119,8 +117,8 @@ public class Widget extends AppWidgetProvider {
 
         float[] DailyTotals = getSteps();
 
-        views.setTextViewText(R.id.todaywidget_steps, context.getString(R.string.appwidget_today_steps, (int) DailyTotals[0]));
-        views.setTextViewText(R.id.todaywidget_sleep, context.getString(R.string.appwidget_today_sleep, getHM((long) DailyTotals[1])));
+        views.setTextViewText(R.id.todaywidget_steps, context.getString(R.string.widget_steps_label, (int) DailyTotals[0]));
+        views.setTextViewText(R.id.todaywidget_sleep, context.getString(R.string.widget_sleep_label, getHM((long) DailyTotals[1])));
 
         if (device != null) {
             String status = String.format("%1s", device.getStateString());
