@@ -189,7 +189,7 @@ public class Widget extends AppWidgetProvider {
             broadcastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    LOG.info("gbwidget BROADCAST, action" + intent.getAction());
+                    LOG.debug("gbwidget BROADCAST, action" + intent.getAction());
                     updateWidget();
                 }
             };
@@ -212,7 +212,7 @@ public class Widget extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         LOG.debug("gbwidget LOCAL onReceive, action: " + intent.getAction());
-        //this handles apk updates
+        //this handles widget re-connection after apk updates
         if (broadcastReceiver == null) {
             onEnabled(context);
         }
