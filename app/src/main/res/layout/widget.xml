@@ -8,13 +8,13 @@
     <LinearLayout
         android:id="@+id/todaywidget_header_container"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="34dp"
         android:background="#0090FF"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/todaywidget_header_icon"
-            android:layout_width="36dp"
+            android:layout_width="32dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:adjustViewBounds="false"
@@ -51,7 +51,7 @@
 
         <ImageView
             android:id="@+id/todaywidget_header_plus"
-            android:layout_width="34dp"
+            android:layout_width="32dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/icon_placeholder"
