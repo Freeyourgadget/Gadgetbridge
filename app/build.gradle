@@ -79,7 +79,7 @@ dependencies {
         exclude group: "com.google.android", module: "android"
     }
     implementation "org.slf4j:slf4j-api:1.7.12"
-    implementation "com.github.Freeyourgadget:MPAndroidChart:5e5bd6c1d3e95c515d4853647ae554e48ee1d593"
+    implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
     implementation "com.github.pfichtner:durationformatter:0.1.1"
     implementation "de.cketti.library.changelog:ckchangelog:1.2.2"
     implementation "net.e175.klaus:solarpositioning:0.0.9"

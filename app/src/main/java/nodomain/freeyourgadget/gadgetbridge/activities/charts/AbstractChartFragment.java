@@ -36,6 +36,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.slf4j.Logger;
@@ -572,7 +573,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             lineData = new LineData();
         }
 
-        IAxisValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation);
+        ValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation);
         return new DefaultChartsData(lineData, xValueFormatter);
     }
 
@@ -753,14 +754,14 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     public static class DefaultChartsData<T extends ChartData<?>> extends ChartsData {
         private final T data;
-        private IAxisValueFormatter xValueFormatter;
+        private ValueFormatter xValueFormatter;
 
-        public DefaultChartsData(T data, IAxisValueFormatter xValueFormatter) {
+        public DefaultChartsData(T data, ValueFormatter xValueFormatter) {
             this.xValueFormatter = xValueFormatter;
             this.data = data;
         }
 
-        public IAxisValueFormatter getXValueFormatter() {
+        public ValueFormatter getXValueFormatter() {
             return xValueFormatter;
         }
 
@@ -769,7 +770,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         }
     }
 
-    protected static class SampleXLabelFormatter implements IAxisValueFormatter {
+    protected static class SampleXLabelFormatter extends ValueFormatter {
         private final TimestampTranslation tsTranslation;
         SimpleDateFormat annotationDateFormat = new SimpleDateFormat("HH:mm");
 //        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
@@ -791,7 +792,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         }
     }
 
-    protected static class PreformattedXIndexLabelFormatter implements IAxisValueFormatter {
+    protected static class PreformattedXIndexLabelFormatter extends ValueFormatter {
         private ArrayList<String> xLabels;
 
         public PreformattedXIndexLabelFormatter(ArrayList<String> xLabels) {

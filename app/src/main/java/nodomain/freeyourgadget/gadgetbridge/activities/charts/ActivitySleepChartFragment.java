@@ -143,7 +143,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
 
     @Override
     protected void renderCharts() {
-        mChart.animateX(ANIM_TIME, Easing.EasingOption.EaseInOutQuart);
+        mChart.animateX(ANIM_TIME, Easing.EaseInOutQuart);
 //        mChart.invalidate();
     }
 

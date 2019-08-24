@@ -22,7 +22,7 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.ArrayList;
@@ -115,8 +115,8 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    IValueFormatter getPieValueFormatter() {
-        return new IValueFormatter() {
+    ValueFormatter getPieValueFormatter() {
+        return new ValueFormatter() {
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
                 return formatPieValue((long) value);
@@ -125,8 +125,8 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    IValueFormatter getBarValueFormatter() {
-        return new IValueFormatter() {
+    ValueFormatter getBarValueFormatter() {
+        return new ValueFormatter() {
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
                 return DateTimeUtils.minutesToHHMM((int) value);
@@ -135,8 +135,8 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    IAxisValueFormatter getYAxisFormatter() {
-        return new IAxisValueFormatter() {
+    ValueFormatter getYAxisFormatter() {
+        return new ValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 return DateTimeUtils.minutesToHHMM((int) value);

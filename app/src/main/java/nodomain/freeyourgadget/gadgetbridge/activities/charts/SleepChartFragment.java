@@ -38,6 +38,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import org.slf4j.Logger;
@@ -118,7 +119,7 @@ public class SleepChartFragment extends AbstractChartFragment {
         }
         String totalSleep = DateTimeUtils.formatDurationHoursMinutes(totalSeconds, TimeUnit.SECONDS);
         PieDataSet set = new PieDataSet(entries, "");
-        set.setValueFormatter(new IValueFormatter() {
+        set.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
                 return DateTimeUtils.formatDurationHoursMinutes((long) value, TimeUnit.SECONDS);
@@ -269,7 +270,7 @@ public class SleepChartFragment extends AbstractChartFragment {
 
     @Override
     protected void renderCharts() {
-        mActivityChart.animateX(ANIM_TIME, Easing.EasingOption.EaseInOutQuart);
+        mActivityChart.animateX(ANIM_TIME, Easing.EaseInOutQuart);
         mSleepAmountChart.invalidate();
     }
 

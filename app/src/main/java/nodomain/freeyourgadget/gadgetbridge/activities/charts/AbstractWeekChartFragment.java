@@ -37,8 +37,7 @@ import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -372,11 +371,11 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
 
     abstract String[] getPieLabels();
 
-    abstract IValueFormatter getPieValueFormatter();
+    abstract ValueFormatter getPieValueFormatter();
 
-    abstract IValueFormatter getBarValueFormatter();
+    abstract ValueFormatter getBarValueFormatter();
 
-    abstract IAxisValueFormatter getYAxisFormatter();
+    abstract ValueFormatter getYAxisFormatter();
 
     abstract int[] getColors();
 
