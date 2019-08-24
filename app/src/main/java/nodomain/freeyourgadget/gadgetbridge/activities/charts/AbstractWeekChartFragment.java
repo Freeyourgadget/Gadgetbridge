@@ -88,6 +88,10 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         setupLegend(mWeekChart);
         mTodayPieChart.setCenterText(mcd.getDayData().centerText);
         mTodayPieChart.setData(mcd.getDayData().data);
+        //set custom renderer for 30days bar charts
+        if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
+            mWeekChart.setRenderer(new AngledLabelsChartRenderer(mWeekChart, mWeekChart.getAnimator(), mWeekChart.getViewPortHandler()));
+        }
 
         mWeekChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
         mWeekChart.setData(mcd.getWeekBeforeData().getData());
