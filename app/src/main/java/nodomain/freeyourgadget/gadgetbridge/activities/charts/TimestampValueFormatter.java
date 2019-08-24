@@ -16,8 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.text.DateFormat;
@@ -43,7 +41,7 @@ public class TimestampValueFormatter extends ValueFormatter {
     }
 
     @Override
-    public String getFormattedValue(float value, AxisBase axis) {
+    public String getFormattedValue(float value) {
         cal.setTimeInMillis((int) value * 1000L);
         Date date = cal.getTime();
         String dateString = dateFormat.format(date);
