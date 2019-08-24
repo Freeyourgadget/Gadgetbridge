@@ -63,28 +63,17 @@ public class DailyTotals {
 
     public float[] getDailyTotalsForDevice(GBDevice device, Calendar day
     ) {
-        //get today's steps for given device
-        int startTs;
-        int endTs;
-
-        day = (Calendar) day.clone(); // do not modify the caller's argument
-        day.set(Calendar.HOUR_OF_DAY, 0);
-        day.set(Calendar.MINUTE, 0);
-        day.set(Calendar.SECOND, 0);
-        startTs = (int) (day.getTimeInMillis() / 1000);
-
-        day.set(Calendar.HOUR_OF_DAY, 23);
-        day.set(Calendar.MINUTE, 59);
-        day.set(Calendar.SECOND, 59);
-        endTs = (int) (day.getTimeInMillis() / 1000);
 
         try (DBHandler handler = GBApplication.acquireDB()) {
             ActivityAnalysis analysis = new ActivityAnalysis();
-            ActivityAmounts amounts = null;
-            amounts = analysis.calculateActivityAmounts(getSamplesOfDay(handler, device, startTs, endTs));
+            ActivityAmounts amountsSteps = null;
+            ActivityAmounts amountsSleep = null;
 
-            float[] Sleep = getTotalsSleepForActivityAmounts(amounts);
-            float Steps = getTotalsStepsForActivityAmounts(amounts);
+            amountsSteps = analysis.calculateActivityAmounts(getSamplesOfDay(handler, day, 0, device));
+            amountsSleep = analysis.calculateActivityAmounts(getSamplesOfDay(handler, day, -12, device));
+
+            float[] Sleep = getTotalsSleepForActivityAmounts(amountsSleep);
+            float Steps = getTotalsStepsForActivityAmounts(amountsSteps);
 
             return new float[]{Steps, Sleep[0], Sleep[1]};
 
@@ -129,7 +118,19 @@ public class DailyTotals {
     }
 
 
-    private List<? extends ActivitySample> getSamplesOfDay(DBHandler db, GBDevice device, int startTs, int endTs) {
+    private List<? extends ActivitySample> getSamplesOfDay(DBHandler db, Calendar day, int offsetHours, GBDevice device) {
+        int startTs;
+        int endTs;
+
+        day = (Calendar) day.clone(); // do not modify the caller's argument
+        day.set(Calendar.HOUR_OF_DAY, 0);
+        day.set(Calendar.MINUTE, 0);
+        day.set(Calendar.SECOND, 0);
+        day.add(Calendar.HOUR, offsetHours);
+
+        startTs = (int) (day.getTimeInMillis() / 1000);
+        endTs = startTs + 24 * 60 * 60 - 1;
+
         return getSamples(db, device, startTs, endTs);
     }
 
