@@ -51,11 +51,11 @@ public class Widget extends AppWidgetProvider {
     public static final String NEW_DATA_ACTION = "nodomain.freeyourgadget.gadgetbridge.NewDataTrigger";
     public static final String APPWIDGET_DELETED = "nodomain.freeyourgadget.gadgetbridge.APPWIDGET_DELETED";
     public static final String ACTION_DEVICE_CHANGED = "nodomain.freeyourgadget.gadgetbridge.gbdevice.action.device_changed";
-    private static final String TODAY_WIDGET_ALARM_UPDATE = "nodomain.freeyourgadget.gadgetbridge.TODAY_WIDGET_ALARM_UPDATE";
     private static final Logger LOG = LoggerFactory.getLogger(Widget.class);
-    public BroadcastReceiver broadcastReceiver;
+    static BroadcastReceiver broadcastReceiver = null;
 
     private GBDevice getSelectedDevice() {
+
         Context context = GBApplication.getContext();
 
         if (!(context instanceof GBApplication)) {
@@ -181,10 +181,9 @@ public class Widget extends AppWidgetProvider {
 
     @Override
     public void onEnabled(Context context) {
-        if (broadcastReceiver == null) {
-
-
-            broadcastReceiver = new BroadcastReceiver() {
+        if (this.broadcastReceiver == null) {
+            LOG.debug("gbwidget BROADCAST receiver initialized.");
+            this.broadcastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     LOG.debug("gbwidget BROADCAST, action" + intent.getAction());
@@ -194,15 +193,15 @@ public class Widget extends AppWidgetProvider {
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(NEW_DATA_ACTION);
             intentFilter.addAction(ACTION_DEVICE_CHANGED);
-            LocalBroadcastManager.getInstance(context).registerReceiver(broadcastReceiver, intentFilter);
+            LocalBroadcastManager.getInstance(context).registerReceiver(this.broadcastReceiver, intentFilter);
         }
     }
 
     @Override
     public void onDisabled(Context context) {
 
-        if (broadcastReceiver != null) {
-            GBApplication.getContext().unregisterReceiver(broadcastReceiver);
+        if (this.broadcastReceiver != null) {
+            LocalBroadcastManager.getInstance(context).unregisterReceiver(this.broadcastReceiver);
         }
     }
 
@@ -211,15 +210,12 @@ public class Widget extends AppWidgetProvider {
         super.onReceive(context, intent);
         LOG.debug("gbwidget LOCAL onReceive, action: " + intent.getAction());
         //this handles widget re-connection after apk updates
-        if (broadcastReceiver == null) {
+        if (this.broadcastReceiver == null) {
             onEnabled(context);
         }
-
         if (WIDGET_CLICK.equals(intent.getAction())) {
             refreshData();
             //updateWidget();
-        } else if (TODAY_WIDGET_ALARM_UPDATE.equals(intent.getAction())) {
-            updateWidget();
         } else if (APPWIDGET_DELETED.equals(intent.getAction())) {
             onDisabled(context);
         }
