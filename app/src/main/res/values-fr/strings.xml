@@ -333,7 +333,7 @@
     <string name="activity_prefs_weight_kg">Poids en kg</string>
     <string name="authenticating">Authentification</string>
     <string name="authentication_required">Authentification requise</string>
-    <string name="appwidget_text">ZzZz</string>
+    <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Ajouter un widget</string>
     <string name="activity_prefs_sleep_duration">
 Temps de sommeil préféré en heures</string>
@@ -518,11 +518,17 @@ Temps de sommeil préféré en heures</string>
     <string name="blacklist_all_for_notifications">Mettre toutes les notifications en liste noire</string>
     <string name="whitelist_all_for_notifications">Mettre toutes les notifications en liste blanche</string>
     <string name="fw_upgrade_notice_miband3">"Vous allez installer le micrologiciel %s dans votre Mi Band 3. 
+\n
 \n 
+\n
 \nAssurez-vous d\'installer d\'abord le fichier .fw, et ensuite le fichiers .res. Votre bracelet redémarrera après l\'installation du fichiers .fw. 
+\n
 \n 
-\nRemarque:  Vous n\'avez pas besoin d\'installer le fichier .res si c\'est exactement le même que celui déjà installé. 
+\n
+\nRemarque :  Vous n\'avez pas besoin d\'installer le fichier .res si c\'est exactement le même que celui déjà installé. 
+\n
 \n 
+\n
 \nÀ VOS RISQUES ET PÉRILS !"</string>
     <string name="pref_title_pebble_gatt_clientonly">client GATT uniquement</string>
     <string name="pref_summary_pebble_gatt_clientonly">C\'est uniquement pour les Pebble 2 et expérimental, à essayer si vous avez des problèmes de connectivité</string>
@@ -707,4 +713,22 @@ Temps de sommeil préféré en heures</string>
     <string name="portuguese">Portugais</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="pref_rtl_max_line_length_summary">Allonge ou raccourcis les lignes dans les textes écrits de droite à gauche</string>
+    <string name="zetime_handmove_display">Mouvement de la main</string>
+    <string name="devicetype_miband4">Mi Band 4</string>
+    <string name="fw_upgrade_notice_miband4">Vous êtes sur le point d\'installer le firmware %s sur votre Mi Band 4.
+\n
+\nVeuillez vous assurez d\'installer le fichier .fw, et après que le fichier .res. Votre bracelet redémarrera après l\'installation du fichier .fw.
+\n
+\nRemarque : Vous n\'avez pas à installer .res s\'il est exactement le même que celui précédemment installé.
+\n
+\nÀ VOS RISQUES ET PÉRILS !</string>
+    <string name="prefs_hr_alarm_activity">Alarme de la fréquence cardiaque durant une activité sportive</string>
+    <string name="prefs_hr_alarm_low">Limite basse</string>
+    <string name="prefs_hr_alarm_high">Limite haute</string>
+    <string name="average">Moyenne : %1$s</string>
+    <string name="pref_header_charts">Paramètres graphiques</string>
+    <string name="pref_title_charts_average">Afficher les moyennes dans les graphiques</string>
+    <string name="pref_title_charts_range">Gamme des graphiques</string>
+    <string name="weekstepschart_steps_a_month">Pas par mois</string>
+    <string name="weeksleepchart_sleep_a_month">Sommeil par mois</string>
 </resources>
