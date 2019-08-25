@@ -42,11 +42,13 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.SimpleTimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import cyanogenmod.weather.util.WeatherUtils;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -66,6 +68,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiWeatherConditions;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2FWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Coordinator;
@@ -95,6 +98,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
+import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
@@ -762,9 +766,8 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
 
+
     private void sendMusicStateToDevice() {
-
-
         if (characteristicChunked == null) {
             return;
         }
@@ -1584,7 +1587,190 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
+        // FIXME: currently HuamiSupport *is* MiBand2 support, so return if we are using Mi Band 2
+        if (gbDevice.getType() == DeviceType.MIBAND2) {
+            return;
+        }
 
+        if (gbDevice.getFirmwareVersion() == null) {
+            LOG.warn("Device not initialized yet, so not sending weather info");
+            return;
+        }
+        boolean supportsConditionString = false;
+
+        Version version = new Version(gbDevice.getFirmwareVersion());
+        if (version.compareTo(new Version("0.0.8.74")) >= 0) {
+            supportsConditionString = true;
+        }
+
+        MiBandConst.DistanceUnit unit = HuamiCoordinator.getDistanceUnit();
+        int tz_offset_hours = SimpleTimeZone.getDefault().getOffset(weatherSpec.timestamp * 1000L) / (1000 * 60 * 60);
+        try {
+            TransactionBuilder builder;
+            builder = performInitialized("Sending current temp");
+
+            byte condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.currentConditionCode);
+
+            int length = 8;
+            if (supportsConditionString) {
+                length += weatherSpec.currentCondition.getBytes().length + 1;
+            }
+            ByteBuffer buf = ByteBuffer.allocate(length);
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+
+            buf.put((byte) 2);
+            buf.putInt(weatherSpec.timestamp);
+            buf.put((byte) (tz_offset_hours * 4));
+            buf.put(condition);
+
+            int currentTemp = weatherSpec.currentTemp - 273;
+            if (unit == MiBandConst.DistanceUnit.IMPERIAL) {
+                currentTemp = (int) WeatherUtils.celsiusToFahrenheit(currentTemp);
+            }
+            buf.put((byte) currentTemp);
+
+            if (supportsConditionString) {
+                buf.put(weatherSpec.currentCondition.getBytes());
+                buf.put((byte) 0);
+            }
+
+            if (characteristicChunked != null) {
+                writeToChunked(builder, 1, buf.array());
+            } else {
+                builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+            }
+
+            builder.queue(getQueue());
+        } catch (Exception ex) {
+            LOG.error("Error sending current weather", ex);
+        }
+
+        try {
+            TransactionBuilder builder;
+            builder = performInitialized("Sending air quality index");
+            int length = 8;
+            String aqiString = "(n/a)";
+            if (supportsConditionString) {
+                length += aqiString.getBytes().length + 1;
+            }
+            ByteBuffer buf = ByteBuffer.allocate(length);
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+            buf.put((byte) 4);
+            buf.putInt(weatherSpec.timestamp);
+            buf.put((byte) (tz_offset_hours * 4));
+            buf.putShort((short) 0);
+            if (supportsConditionString) {
+                buf.put(aqiString.getBytes());
+                buf.put((byte) 0);
+            }
+
+            if (characteristicChunked != null) {
+                writeToChunked(builder, 1, buf.array());
+            } else {
+                builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+            }
+
+            builder.queue(getQueue());
+        } catch (IOException ex) {
+            LOG.error("Error sending air quality");
+        }
+
+        try {
+            TransactionBuilder builder = performInitialized("Sending weather forecast");
+
+            final byte NR_DAYS = (byte) (1 + weatherSpec.forecasts.size());
+            int bytesPerDay = 4;
+
+            int conditionsLength = 0;
+            if (supportsConditionString) {
+                bytesPerDay = 5;
+                conditionsLength = weatherSpec.currentCondition.getBytes().length;
+                for (WeatherSpec.Forecast forecast : weatherSpec.forecasts) {
+                    conditionsLength += Weather.getConditionString(forecast.conditionCode).getBytes().length;
+                }
+            }
+
+            int length = 7 + bytesPerDay * NR_DAYS + conditionsLength;
+            ByteBuffer buf = ByteBuffer.allocate(length);
+
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+            buf.put((byte) 1);
+            buf.putInt(weatherSpec.timestamp);
+            buf.put((byte) (tz_offset_hours * 4));
+
+            buf.put(NR_DAYS);
+
+            byte condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.currentConditionCode);
+            buf.put(condition);
+            buf.put(condition);
+
+            int todayMaxTemp = weatherSpec.todayMaxTemp - 273;
+            int todayMinTemp = weatherSpec.todayMinTemp - 273;
+            if (unit == MiBandConst.DistanceUnit.IMPERIAL) {
+                todayMaxTemp = (int) WeatherUtils.celsiusToFahrenheit(todayMaxTemp);
+                todayMinTemp = (int) WeatherUtils.celsiusToFahrenheit(todayMinTemp);
+            }
+            buf.put((byte) todayMaxTemp);
+            buf.put((byte) todayMinTemp);
+
+            if (supportsConditionString) {
+                buf.put(weatherSpec.currentCondition.getBytes());
+                buf.put((byte) 0);
+            }
+
+            for (WeatherSpec.Forecast forecast : weatherSpec.forecasts) {
+                condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(forecast.conditionCode);
+                buf.put(condition);
+                buf.put(condition);
+
+                int forecastMaxTemp = forecast.maxTemp - 273;
+                int forecastMinTemp = forecast.minTemp - 273;
+                if (unit == MiBandConst.DistanceUnit.IMPERIAL) {
+                    forecastMaxTemp = (int) WeatherUtils.celsiusToFahrenheit(forecastMaxTemp);
+                    forecastMinTemp = (int) WeatherUtils.celsiusToFahrenheit(forecastMinTemp);
+                }
+                buf.put((byte) forecastMaxTemp);
+                buf.put((byte) forecastMinTemp);
+
+                if (supportsConditionString) {
+                    buf.put(Weather.getConditionString(forecast.conditionCode).getBytes());
+                    buf.put((byte) 0);
+                }
+            }
+
+            if (characteristicChunked != null) {
+                writeToChunked(builder, 1, buf.array());
+            } else {
+                builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+            }
+
+            builder.queue(getQueue());
+        } catch (Exception ex) {
+            LOG.error("Error sending weather forecast", ex);
+        }
+
+        try {
+            TransactionBuilder builder;
+            builder = performInitialized("Sending forecast location");
+
+            int length = 2 + weatherSpec.location.getBytes().length;
+            ByteBuffer buf = ByteBuffer.allocate(length);
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+            buf.put((byte) 8);
+            buf.put(weatherSpec.location.getBytes());
+            buf.put((byte) 0);
+
+
+            if (characteristicChunked != null) {
+                writeToChunked(builder, 4, buf.array());
+            } else {
+                builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+            }
+
+            builder.queue(getQueue());
+        } catch (Exception ex) {
+            LOG.error("Error sending current forecast location", ex);
+        }
     }
 
     private HuamiSupport setDateDisplay(TransactionBuilder builder) {
