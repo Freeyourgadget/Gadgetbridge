@@ -1,6 +1,6 @@
 ### Changelog
 
-#### NEXT
+#### Version 0.36.0
 * Initial Mijia LYWSD02 support (Smart Clock with Humidity and Temperature Sensor), just for setting the time
 * Mi Band 3/4: Allow enabling the NFC menu where supported (useless for now)
 * Mi Band 3/4, Amazfit Cor/Bip: Set language immediately when changing it (not only on connect)
@@ -11,6 +11,7 @@
 * Amazfit Bip/Cor: Fix resetting of last fetched date for sports activities
 * Amazfit Bip: Fix sharing GPX files for some Apps
 * Pebble: Use Rebble Store URI
+* Support LineageOS 16.0 weather provider
 * Add Averages to Charts
 * Allow togging between weekly and monthly charts
 
