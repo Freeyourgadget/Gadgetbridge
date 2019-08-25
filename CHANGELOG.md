@@ -6,6 +6,7 @@
 * Mi Band 3/4, Amazfit Cor/Bip: Set language immediately when changing it (not only on connect)
 * Mi Band 3/4, Amazfir Cor/Bip: Add icons for "swimming" and "exercise"
 * Mi Band 4: Support flashing the V2 font
+* Mi Band 4: Fix weather location not being updated on the Band
 * Mi Band 4: remove unsupported DND setting from settings menu
 * Amazfit Bip/Cor: Fix resetting of last fetched date for sports activities
 * Amazfit Bip: Fix sharing GPX files for some Apps
