@@ -61,7 +61,7 @@ public class HuamiConst {
     public static final String PREF_DISPLAY_ITEMS = "display_items";
     public static final String PREF_LANGUAGE = "language";
     public static final String PREF_DATEFORMAT = "dateformat";
-
+    public static final String PREF_EXPOSE_HR_THIRDPARTY = "expose_hr_thirdparty";
 
     public static int toActivityKind(int rawType) {
         switch (rawType) {

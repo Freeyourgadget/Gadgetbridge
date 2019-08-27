@@ -165,6 +165,9 @@
     <string name="pref_title_pebble_enable_bgjs">Enable background JS</string>
     <string name="pref_summary_pebble_enable_bgjs">When enabled, allows watchfaces to show weather, battery info etc.</string>
     <string name="pref_title_pebble_reconnect_attempts">Reconnection attempts</string>
+    <string name="pref_summary_expose_hr">Allows other apps to access HR data in realtime while Gadgetbridge is connected</string>
+    <string name="pref_title_expose_hr">3rd party realtime HR access</string>
+
     <!-- HPlus Preferences -->
     <string name="pref_title_unit_system">Units</string>
     <string name="pref_title_timeformat">Time format</string>

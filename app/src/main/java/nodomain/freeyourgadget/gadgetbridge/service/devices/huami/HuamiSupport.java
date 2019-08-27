@@ -1568,6 +1568,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case HuamiConst.PREF_LANGUAGE:
                     setLanguage(builder);
                     break;
+                case HuamiConst.PREF_EXPOSE_HR_THIRDPARTY:
+                    setExposeHRThridParty(builder);
+                    break;
             }
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -2095,6 +2098,20 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+
+    private HuamiSupport setExposeHRThridParty(TransactionBuilder builder) {
+        boolean enable = HuamiCoordinator.getExposeHRThirdParty(gbDevice.getAddress());
+        LOG.info("Setting exposure of HR to third party apps to: " + enable);
+
+        if (enable) {
+            builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), HuamiService.COMMAND_ENBALE_HR_CONNECTION);
+        } else {
+            builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), HuamiService.COMMAND_DISABLE_HR_CONNECTION);
+        }
+
+        return this;
+    }
+
     protected void writeToChunked(TransactionBuilder builder, int type, byte[] data) {
         final int MAX_CHUNKLENGTH = 17;
         int remaining = data.length;
@@ -2145,6 +2162,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         setInactivityWarnings(builder);
         setHeartrateSleepSupport(builder);
         setDisconnectNotification(builder);
+        setExposeHRThridParty(builder);
         setHeartrateMeasurementInterval(builder, getHeartRateMeasurementInterval());
     }
 

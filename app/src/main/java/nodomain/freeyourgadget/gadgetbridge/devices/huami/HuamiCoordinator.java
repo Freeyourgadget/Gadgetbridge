@@ -251,6 +251,11 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return prefs.getBoolean(MiBandConst.PREF_SWIPE_UNLOCK, false);
     }
 
+    public static boolean getExposeHRThirdParty(String deviceAddress) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getBoolean(HuamiConst.PREF_EXPOSE_HR_THIRDPARTY, false);
+    }
+
     protected static Date getTimePreference(String key, String defaultValue, String deviceAddress) {
         Prefs prefs;
 
