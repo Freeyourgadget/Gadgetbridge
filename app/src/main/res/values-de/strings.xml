@@ -734,4 +734,14 @@
     <string name="prefs_hr_alarm_activity">Herzfrequenzalarm bei sportlicher Aktivität</string>
     <string name="prefs_hr_alarm_low">Untere Grenze</string>
     <string name="prefs_hr_alarm_high">Obere Grenze</string>
+    <string name="average">Durchschnitt: %1$s</string>
+    <string name="pref_header_charts">Einstellungen - Diagrammeinstellungen</string>
+    <string name="pref_title_charts_average">Durchschnittswerte im Diagramm anzeigen</string>
+    <string name="pref_title_charts_range">Diagrammbereich</string>
+    <string name="pref_charts_range_on">Diagrammbereich ist auf einen Monat eingestellt</string>
+    <string name="pref_charts_range_off">Diagrammbereich ist auf eine Woche eingestellt</string>
+    <string name="weekstepschart_steps_a_month">Schritte pro Monat</string>
+    <string name="weeksleepchart_sleep_a_month">Schlaf pro Monat</string>
+    <string name="devicetype_mijia_lywsd02">Mijia Smart Uhr</string>
+    <string name="menuitem_nfc">NFC</string>
 </resources>
