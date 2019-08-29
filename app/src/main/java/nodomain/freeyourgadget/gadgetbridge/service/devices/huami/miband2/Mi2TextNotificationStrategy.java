@@ -86,4 +86,10 @@ public class Mi2TextNotificationStrategy extends Mi2NotificationStrategy {
         NewAlert alert = new NewAlert(category, 1, simpleNotification.getMessage());
         profile.newAlert(builder, alert, OverflowStrategy.MAKE_MULTIPLE);
     }
+
+    @Override
+    public void stopCurrentNotification(TransactionBuilder builder) {
+        BluetoothGattCharacteristic alert = getSupport().getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_NEW_ALERT);
+        builder.write(alert, new byte[]{(byte) AlertCategory.IncomingCall.getId(), 0});
+    }
 }

@@ -129,21 +129,9 @@ import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_FLASH_COLOUR;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_FLASH_COUNT;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_FLASH_DURATION;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_FLASH_ORIGINAL_COLOUR;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_COUNT;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_DURATION;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_PAUSE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_PROFILE;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FLASH_COLOUR;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FLASH_COUNT;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FLASH_DURATION;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FLASH_ORIGINAL_COLOUR;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_COUNT;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_DURATION;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_PAUSE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_PROFILE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefIntValue;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefStringValue;
@@ -328,23 +316,6 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         for (short i = 0; i < repeat; i++) {
             strategy.sendDefaultNotification(builder, simpleNotification, extraAction);
         }
-        return this;
-    }
-
-    /**
-     * Adds a custom notification to the given transaction builder
-     * @param vibrationProfile specifies how and how often the Band shall vibrate.
-     * @param simpleNotification
-     * @param flashTimes
-     * @param flashColour
-     * @param originalColour
-     * @param flashDuration
-     * @param extraAction      an extra action to be executed after every vibration and flash sequence. Allows to abort the repetition, for example.
-     * @param builder
-     */
-    private HuamiSupport sendCustomNotification(VibrationProfile vibrationProfile, SimpleNotification simpleNotification, int flashTimes, int flashColour, int originalColour, long flashDuration, BtLEAction extraAction, TransactionBuilder builder) {
-        getNotificationStrategy().sendCustomNotification(vibrationProfile, simpleNotification, flashTimes, flashColour, originalColour, flashDuration, extraAction, builder);
-        LOG.info("Sending notification to MiBand");
         return this;
     }
 
@@ -567,56 +538,24 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    protected void performPreferredNotification(String task, String notificationOrigin, SimpleNotification simpleNotification, int alertLevel, BtLEAction extraAction) {
+    private void performPreferredNotification(String task, String notificationOrigin, SimpleNotification simpleNotification, int alertLevel, BtLEAction extraAction) {
         try {
             TransactionBuilder builder = performInitialized(task);
             Prefs prefs = GBApplication.getPrefs();
-            int vibrateDuration = getPreferredVibrateDuration(notificationOrigin, prefs);
-            int vibratePause = getPreferredVibratePause(notificationOrigin, prefs);
             short vibrateTimes = getPreferredVibrateCount(notificationOrigin, prefs);
             VibrationProfile profile = getPreferredVibrateProfile(notificationOrigin, prefs, vibrateTimes);
             profile.setAlertLevel(alertLevel);
 
-            int flashTimes = getPreferredFlashCount(notificationOrigin, prefs);
-            int flashColour = getPreferredFlashColour(notificationOrigin, prefs);
-            int originalColour = getPreferredOriginalColour(notificationOrigin, prefs);
-            int flashDuration = getPreferredFlashDuration(notificationOrigin, prefs);
+            getNotificationStrategy().sendCustomNotification(profile, simpleNotification, 0, 0, 0, 0, extraAction, builder);
 
-            sendCustomNotification(profile, simpleNotification, flashTimes, flashColour, originalColour, flashDuration, extraAction, builder);
-
-//            sendCustomNotification(vibrateDuration, vibrateTimes, vibratePause, flashTimes, flashColour, originalColour, flashDuration, builder);
             builder.queue(getQueue());
         } catch (IOException ex) {
-            LOG.error("Unable to send notification to MI device", ex);
+            LOG.error("Unable to send notification to device", ex);
         }
-    }
-
-    private int getPreferredFlashDuration(String notificationOrigin, Prefs prefs) {
-        return getNotificationPrefIntValue(FLASH_DURATION, notificationOrigin, prefs, DEFAULT_VALUE_FLASH_DURATION);
-    }
-
-    private int getPreferredOriginalColour(String notificationOrigin, Prefs prefs) {
-        return getNotificationPrefIntValue(FLASH_ORIGINAL_COLOUR, notificationOrigin, prefs, DEFAULT_VALUE_FLASH_ORIGINAL_COLOUR);
-    }
-
-    private int getPreferredFlashColour(String notificationOrigin, Prefs prefs) {
-        return getNotificationPrefIntValue(FLASH_COLOUR, notificationOrigin, prefs, DEFAULT_VALUE_FLASH_COLOUR);
-    }
-
-    private int getPreferredFlashCount(String notificationOrigin, Prefs prefs) {
-        return getNotificationPrefIntValue(FLASH_COUNT, notificationOrigin, prefs, DEFAULT_VALUE_FLASH_COUNT);
-    }
-
-    private int getPreferredVibratePause(String notificationOrigin, Prefs prefs) {
-        return getNotificationPrefIntValue(VIBRATION_PAUSE, notificationOrigin, prefs, DEFAULT_VALUE_VIBRATION_PAUSE);
     }
 
     private short getPreferredVibrateCount(String notificationOrigin, Prefs prefs) {
         return (short) Math.min(Short.MAX_VALUE, getNotificationPrefIntValue(VIBRATION_COUNT, notificationOrigin, prefs, DEFAULT_VALUE_VIBRATION_COUNT));
-    }
-
-    private int getPreferredVibrateDuration(String notificationOrigin, Prefs prefs) {
-        return getNotificationPrefIntValue(VIBRATION_DURATION, notificationOrigin, prefs, DEFAULT_VALUE_VIBRATION_DURATION);
     }
 
     private VibrationProfile getPreferredVibrateProfile(String notificationOrigin, Prefs prefs, short repeat) {
@@ -707,17 +646,17 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             performPreferredNotification("incoming call", MiBandConst.ORIGIN_INCOMING_CALL, simpleNotification, HuamiService.ALERT_LEVEL_PHONE_CALL, abortAction);
         } else if ((callSpec.command == CallSpec.CALL_START) || (callSpec.command == CallSpec.CALL_END)) {
             telephoneRinging = false;
-            stopCurrentNotification();
+            stopCurrentCallNotification();
         }
     }
 
-    private void stopCurrentNotification() {
+    private void stopCurrentCallNotification() {
         try {
             TransactionBuilder builder = performInitialized("stop notification");
             getNotificationStrategy().stopCurrentNotification(builder);
             builder.queue(getQueue());
         } catch (IOException e) {
-            LOG.error("Error stopping notification");
+            LOG.error("Error stopping call notification");
         }
     }
 
