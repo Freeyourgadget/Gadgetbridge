@@ -348,8 +348,16 @@
     <string name="control_center_cancel_to_stop_vibration">Cancel to stop vibration.</string>
     <string name="title_activity_charts">Your activity</string>
     <string name="title_activity_set_alarm">Configure alarms</string>
+    <string name="title_activity_set_reminders">Configure reminders</string>
     <string name="controlcenter_start_configure_alarms">Configure alarms</string>
+    <string name="controlcenter_start_configure_reminders">Configure reminders</string>
+    <string name="reminder_time_once">Once, %1$s</string>
+    <string name="reminder_time_every_day">Every day, %1$s</string>
+    <string name="reminder_time_every_week">Every week, %1$s</string>
+    <string name="reminder_time_every_month">Every month, %1$s</string>
+    <string name="reminder_time_every_year">Every year, %1$s</string>
     <string name="title_activity_alarm_details">Alarm details</string>
+    <string name="title_activity_reminder_details">Reminder details</string>
     <string name="alarm_sun_short">Sun</string>
     <string name="alarm_mon_short">Mon</string>
     <string name="alarm_tue_short">Tue</string>

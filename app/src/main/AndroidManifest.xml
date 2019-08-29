@@ -410,12 +410,21 @@
             android:label="@string/title_activity_set_alarm"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
+            android:name=".activities.ConfigureReminders"
+            android:label="@string/title_activity_set_reminders"
+            android:parentActivityName=".activities.ControlCenterv2" />
+        <activity
             android:name=".activities.devicesettings.DeviceSettingsActivity"
             android:label="@string/title_activity_device_specific_settings" />
         <activity
             android:name=".activities.AlarmDetails"
             android:label="@string/title_activity_alarm_details"
             android:parentActivityName=".activities.ConfigureAlarms"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ReminderDetails"
+            android:label="@string/title_activity_reminder_details"
+            android:parentActivityName=".activities.ConfigureReminders"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.VibrationActivity"

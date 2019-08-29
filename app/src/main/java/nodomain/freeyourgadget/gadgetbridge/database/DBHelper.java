@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Felix Konstantin Maurer, JohnnySun
+    Gobbetti, Felix Konstantin Maurer, JohnnySun, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -54,6 +54,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributes;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributesDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.Reminder;
+import nodomain.freeyourgadget.gadgetbridge.entities.ReminderDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.Tag;
 import nodomain.freeyourgadget.gadgetbridge.entities.TagDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
@@ -606,12 +608,51 @@ public class DBHelper {
         return Collections.emptyList();
     }
 
+    /**
+     * Returns all user-configurable reminders for the given user and device. The list is sorted by
+     * {@link Reminder#getPosition}.
+     * @param gbDevice the device for which the reminders shall be loaded
+     * @return the list of reminders for the given device
+     */
+    @NonNull
+    public static List<Reminder> getReminders(@NonNull GBDevice gbDevice) {
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        int reminderSlots = coordinator.getReminderSlotCount();
+
+        try (DBHandler db = GBApplication.acquireDB()) {
+            DaoSession daoSession = db.getDaoSession();
+            User user = getUser(daoSession);
+            Device dbDevice = DBHelper.findDevice(gbDevice, daoSession);
+            if (dbDevice != null) {
+                ReminderDao reminderDao = daoSession.getReminderDao();
+                Long deviceId = dbDevice.getId();
+                QueryBuilder<Reminder> qb = reminderDao.queryBuilder();
+                qb.where(
+                        ReminderDao.Properties.UserId.eq(user.getId()),
+                        ReminderDao.Properties.DeviceId.eq(deviceId)).orderAsc(ReminderDao.Properties.Position).limit(reminderSlots);
+                return qb.build().list();
+            }
+        } catch (Exception e) {
+            LOG.error("Error reading reminders from db", e);
+        }
+        return Collections.emptyList();
+    }
+
     public static void store(Alarm alarm) {
         try (DBHandler db = GBApplication.acquireDB()) {
             DaoSession daoSession = db.getDaoSession();
             daoSession.insertOrReplace(alarm);
         } catch (Exception e) {
              LOG.error("Error acquiring database", e);
+        }
+    }
+
+    public static void store(Reminder reminder) {
+        try (DBHandler db = GBApplication.acquireDB()) {
+            DaoSession daoSession = db.getDaoSession();
+            daoSession.insertOrReplace(reminder);
+        } catch (Exception e) {
+            LOG.error("Error acquiring database", e);
         }
     }
 

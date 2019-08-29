@@ -53,6 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ActivitySummariesActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
+import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureReminders;
 import nodomain.freeyourgadget.gadgetbridge.activities.VibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsActivity;
@@ -220,6 +221,21 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                                     public void onClick(View v) {
                                                         Intent startIntent;
                                                         startIntent = new Intent(context, ConfigureAlarms.class);
+                                                        startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                                                        context.startActivity(startIntent);
+                                                    }
+                                                }
+        );
+
+        //set reminders
+        holder.setRemindersView.setVisibility(coordinator.getReminderSlotCount() > 0 ? View.VISIBLE : View.GONE);
+        holder.setRemindersView.setOnClickListener(new View.OnClickListener()
+
+                                                {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        Intent startIntent;
+                                                        startIntent = new Intent(context, ConfigureReminders.class);
                                                         startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
                                                         context.startActivity(startIntent);
                                                     }
@@ -495,6 +511,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         ImageView takeScreenshotView;
         ImageView manageAppsView;
         ImageView setAlarmsView;
+        ImageView setRemindersView;
         ImageView showActivityGraphs;
         ImageView showActivityTracks;
         ImageView calibrateDevice;
@@ -528,6 +545,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             takeScreenshotView = view.findViewById(R.id.device_action_take_screenshot);
             manageAppsView = view.findViewById(R.id.device_action_manage_apps);
             setAlarmsView = view.findViewById(R.id.device_action_set_alarms);
+            setRemindersView = view.findViewById(R.id.device_action_set_reminders);
             showActivityGraphs = view.findViewById(R.id.device_action_show_activity_graphs);
             showActivityTracks = view.findViewById(R.id.device_action_show_activity_tracks);
             deviceInfoView = view.findViewById(R.id.device_info_image);

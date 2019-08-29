@@ -242,7 +242,7 @@ public class NotificationListener extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification sbn) {
         Prefs prefs = GBApplication.getPrefs();
 
-        if ("call".equals(sbn.getNotification().category) && prefs.getBoolean("notification_support_voip_calls", false)) {
+        if (Notification.CATEGORY_CALL.equals(sbn.getNotification().category) && prefs.getBoolean("notification_support_voip_calls", false)) {
             handleCallNotification(sbn);
             return;
         }

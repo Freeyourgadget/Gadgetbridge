@@ -84,6 +84,15 @@ public class MiBand3Coordinator extends HuamiCoordinator {
         return true;
     }
 
+    @Override
+    public int getMaximumReminderMessageLength() {
+        return 16;
+    }
+
+    @Override
+    public int getReminderSlotCount() {
+        return 22; // At least, Mi Fit still allows more
+    }
 
     public static String getNightMode(String deviceAddress) {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));

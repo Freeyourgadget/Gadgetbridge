@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.serial;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
@@ -24,6 +25,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
 public abstract class GBDeviceProtocol {
@@ -138,6 +140,10 @@ public abstract class GBDeviceProtocol {
     }
 
     public byte[] encodeLedColor(int color) {
+        return null;
+    }
+
+    public byte[] encodeReminders(ArrayList<? extends Reminder> reminders) {
         return null;
     }
 

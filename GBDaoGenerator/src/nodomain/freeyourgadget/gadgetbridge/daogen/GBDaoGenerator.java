@@ -74,6 +74,7 @@ public class GBDaoGenerator {
 
         addCalendarSyncState(schema, device);
         addAlarms(schema, user, device);
+        addReminders(schema, user, device);
 
         Entity notificationFilter = addNotificationFilters(schema);
 
@@ -369,6 +370,27 @@ public class GBDaoGenerator {
         alarm.addIntProperty("minute").notNull();
         alarm.addToOne(user, userId);
         alarm.addToOne(device, deviceId);
+    }
+
+    private static void addReminders(Schema schema, Entity user, Entity device) {
+        Entity reminder = addEntity(schema, "Reminder");
+        reminder.implementsInterface("nodomain.freeyourgadget.gadgetbridge.model.Reminder");
+        Property deviceId = reminder.addLongProperty("deviceId").notNull().getProperty();
+        Property userId = reminder.addLongProperty("userId").notNull().getProperty();
+        Property position = reminder.addIntProperty("position").notNull().getProperty();
+        Index indexUnique = new Index();
+        indexUnique.addProperty(deviceId);
+        indexUnique.addProperty(userId);
+        indexUnique.addProperty(position);
+        indexUnique.makeUnique();
+        reminder.addIndex(indexUnique);
+        // TODO support enabling and disabling?
+        // reminder.addBooleanProperty("enabled").notNull();
+        reminder.addStringProperty("message").notNull();
+        reminder.addDateProperty("date").notNull();
+        reminder.addIntProperty("repetition").notNull();
+        reminder.addToOne(user, userId);
+        reminder.addToOne(device, deviceId);
     }
 
     private static void addNotificationFilterEntry(Schema schema, Entity notificationFilterEntity) {

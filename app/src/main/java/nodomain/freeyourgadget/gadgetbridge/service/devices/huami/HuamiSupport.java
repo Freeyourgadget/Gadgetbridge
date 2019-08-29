@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -98,6 +99,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
+import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
@@ -581,6 +583,96 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             }
         } catch (IOException ex) {
             GB.toast(getContext(), getContext().getString(R.string.user_feedback_miband_set_alarms_failed), Toast.LENGTH_LONG, GB.ERROR, ex);
+        }
+    }
+
+    @Override
+    public void onSetReminders(ArrayList<? extends Reminder> reminders) {
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+
+        for (int i = 0; i < reminders.size(); i++) {
+            sendReminderToDevice(i, reminders.get(i));
+        }
+    }
+
+    private void sendReminderToDevice(int position, final Reminder reminder) {
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+
+        if (characteristicChunked == null) {
+            LOG.warn("characteristicChunked is null, not sending reminder");
+            return;
+        }
+
+        if (position + 1 > coordinator.getReminderSlotCount()) {
+            LOG.error("reminder for position {} is over the limit of {} reminders", position, coordinator.getReminderSlotCount());
+            return;
+        }
+
+        if (reminder == null) {
+            // Delete reminder
+            try {
+                TransactionBuilder builder = performInitialized("delete reminder at position " + position);
+                writeToChunked(builder, 3, new byte[]{(byte) (position & 0xFF), 0, 0, 0, 0, 0});
+                builder.queue(getQueue());
+            } catch (IOException e) {
+                LOG.error("Unable to delete reminder at position {}", position);
+            }
+
+            return;
+        }
+
+        try {
+            ByteBuffer buf = ByteBuffer.allocate(13 + reminder.getMessage().getBytes().length);
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+
+            buf.put((byte) 0x0B);
+            buf.put((byte) (position & 0xFF));
+
+            switch(reminder.getRepetition()) {
+                case Reminder.ONCE:
+                    buf.put(new byte[]{0x09, 0x00});
+                    break;
+                case Reminder.EVERY_DAY:
+                    buf.put(new byte[]{(byte) 0xE9, 0x0F});
+                    break;
+                case Reminder.EVERY_WEEK:
+                    buf.put(new byte[]{0x09, 0x01});
+                    break;
+                case Reminder.EVERY_MONTH:
+                    buf.put(new byte[]{0x09, 0x10});
+                    break;
+                case Reminder.EVERY_YEAR:
+                    buf.put(new byte[]{0x09, 0x20});
+                    break;
+                default:
+                    LOG.warn("Unknown repetition for reminder in position {}, defaulting to once", position);
+                    buf.put(new byte[]{0x09, 0x00});
+            }
+
+            buf.put(new byte[]{0x00, 0x00}); // unknown
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(reminder.getDate());
+
+            buf.put(BLETypeConversions.shortCalendarToRawBytes(cal));
+            buf.put((byte) 0x00);
+
+            if (reminder.getMessage().getBytes().length > coordinator.getMaximumReminderMessageLength()) {
+                LOG.warn("The reminder message is longer than {} ({}) and will be truncated",
+                        coordinator.getMaximumReminderMessageLength(),
+                        reminder.getMessage().getBytes().length
+                );
+                buf.put(Arrays.copyOf(reminder.getMessage().getBytes(), coordinator.getMaximumReminderMessageLength()));
+            } else {
+                buf.put(reminder.getMessage().getBytes());
+            }
+
+            TransactionBuilder builder = performInitialized("send reminder at position " + position);
+            writeToChunked(builder, 2, buf.array());
+
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.error("Unable to send reminder at position " + position);
         }
     }
 

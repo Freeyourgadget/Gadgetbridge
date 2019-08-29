@@ -286,12 +286,28 @@
                 android:focusable="true" />
 
             <ImageView
-                android:id="@+id/device_action_show_activity_graphs"
+                android:id="@+id/device_action_set_reminders"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_below="@id/device_image"
                 android:layout_margin="4dp"
                 android:layout_toEndOf="@id/device_action_set_alarms"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:contentDescription="@string/controlcenter_start_configure_reminders"
+                android:padding="4dp"
+                android:scaleType="fitXY"
+                android:tint="@color/secondarytext"
+                card_view:srcCompat="@drawable/ic_device_set_reminders"
+                android:focusable="true" />
+
+            <ImageView
+                android:id="@+id/device_action_show_activity_graphs"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/device_image"
+                android:layout_margin="4dp"
+                android:layout_toEndOf="@id/device_action_set_reminders"
                 android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:contentDescription="@string/controlcenter_start_activitymonitor"

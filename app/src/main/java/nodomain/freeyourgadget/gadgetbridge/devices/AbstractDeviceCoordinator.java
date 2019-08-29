@@ -136,8 +136,19 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
         return false;
     }
 
+    @Override
     public boolean supportsLedColor() {
         return false;
+    }
+
+    @Override
+    public int getMaximumReminderMessageLength() {
+        return 0;
+    }
+
+    @Override
+    public int getReminderSlotCount() {
+        return 0;
     }
 
     @Override
