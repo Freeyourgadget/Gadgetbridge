@@ -18,6 +18,11 @@
             android:defaultValue="false"
             android:key="general_autocreconnect"
             android:title="@string/pref_title_general_autoreconnect" />
+        <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
+            android:defaultValue="false"
+            android:key="general_autoreconnectscan"
+            android:title="@string/pref_title_general_autoreconnectscan" />
         <ListPreference
             android:defaultValue="default"
             android:key="audio_player"

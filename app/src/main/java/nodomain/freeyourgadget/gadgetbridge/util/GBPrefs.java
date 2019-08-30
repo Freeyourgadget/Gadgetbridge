@@ -24,6 +24,7 @@ public class GBPrefs {
     public static final String PACKAGE_BLACKLIST = "package_blacklist";
     public static final String PACKAGE_PEBBLEMSG_BLACKLIST = "package_pebblemsg_blacklist";
     public static final String CALENDAR_BLACKLIST = "calendar_blacklist";
+    public static final String AUTO_RECONNECT_SCAN = "general_autoreconnectscan";
     public static final String AUTO_RECONNECT = "general_autocreconnect";
     private static final String AUTO_START = "general_autostartonboot";
     public static final String AUTO_EXPORT_ENABLED = "auto_export_enabled";
@@ -35,6 +36,7 @@ public class GBPrefs {
     public static final String RTL_SUPPORT = "rtl";
     public static final String RTL_CONTEXTUAL_ARABIC = "contextualArabic";
     public static boolean AUTO_RECONNECT_DEFAULT = true;
+    public static boolean AUTO_RECONNECT_SCAN_DEFAULT = false;
 
     public static final String USER_NAME = "mi_user_alias";
     public static final String USER_NAME_DEFAULT = "gadgetbridge-user";
@@ -51,6 +53,10 @@ public class GBPrefs {
 
     public boolean getAutoReconnect() {
         return mPrefs.getBoolean(AUTO_RECONNECT, AUTO_RECONNECT_DEFAULT);
+    }
+
+    public boolean getAutoReconnectScan() {
+        return mPrefs.getBoolean(AUTO_RECONNECT_SCAN, AUTO_RECONNECT_SCAN_DEFAULT);
     }
 
     public boolean getAutoStart() {
