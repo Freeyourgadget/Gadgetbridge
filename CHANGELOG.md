@@ -1,5 +1,11 @@
 ### Changelog
 
+#### Next Version
+* Mi Band 2/3/4, Amazfit Bip/Cor: dd setting to expose the HR sensor to 3rd party apps
+* Mi Band 4: Really fix weather location not being updated on the Band
+* Mi Band 4: Fix call notifcation not stopping when call gets answered or rejected on the phone
+* Fix crash when entering notification filter notification filter settings
+
 #### Version 0.36.0
 * Initial Mijia LYWSD02 support (Smart Clock with Humidity and Temperature Sensor), just for setting the time
 * Mi Band 3/4: Allow enabling the NFC menu where supported (useless for now)
