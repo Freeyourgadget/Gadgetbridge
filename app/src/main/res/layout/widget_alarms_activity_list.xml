@@ -3,7 +3,7 @@
     android:id="@+id/alarm_list_top_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#B3FF3D00"
+    android:background="@color/primary_dark"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -11,7 +11,7 @@
         android:id="@+id/todaywidget_header_container"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#0090FF"
+        android:background="@color/accent"
         android:baselineAligned="false"
         android:orientation="horizontal">
 
@@ -36,7 +36,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@string/widget_set_alarm_after"
-                android:textColor="#ffffff"
+                android:textColor="@color/primarytext_dark"
                 android:textSize="14sp" />
 
         </LinearLayout>

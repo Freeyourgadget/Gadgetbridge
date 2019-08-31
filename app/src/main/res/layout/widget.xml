@@ -2,14 +2,14 @@
     android:id="@+id/alarm_list_top_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#B3FF3D00"
+    android:background="@color/primary_dark"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/todaywidget_header_container"
         android:layout_width="match_parent"
         android:layout_height="34dp"
-        android:background="#0090FF"
+        android:background="@color/accent"
         android:orientation="horizontal">
 
         <ImageView
@@ -44,7 +44,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@string/app_name"
-                android:textColor="#ffffff"
+                android:textColor="@color/primarytext_dark"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -84,7 +84,7 @@
                 android:contentDescription="@string/widget_steps_label"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="@string/widget_steps_label"
-                android:textColor="#ffffff"
+                android:textColor="@color/primarytext_dark"
                 android:textSize="18sp" />
 
             <TextView
@@ -94,7 +94,7 @@
                 android:contentDescription="@string/widget_sleep_label"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="@string/widget_sleep_label"
-                android:textColor="#ffffff"
+                android:textColor="@color/primarytext_dark"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -112,7 +112,7 @@
             android:foregroundGravity="right"
             android:gravity="end"
             android:text="@string/device_not_connected"
-            android:textColor="#ffffff"
+            android:textColor="@color/primarytext_dark"
             android:textSize="14sp"
             android:textStyle="italic" />
 
