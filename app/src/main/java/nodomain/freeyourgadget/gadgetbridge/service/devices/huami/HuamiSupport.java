@@ -1704,7 +1704,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
 
             if (characteristicChunked != null) {
-                writeToChunked(builder, 4, buf.array());
+                writeToChunked(builder, 1, buf.array());
             } else {
                 builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
             }
