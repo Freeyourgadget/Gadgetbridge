@@ -90,9 +90,9 @@ public class MiBand4Coordinator extends HuamiCoordinator {
                 R.xml.devicesettings_miband3,
                 R.xml.devicesettings_dateformat,
                 R.xml.devicesettings_nightmode,
-                R.xml.devicesettings_donotdisturb_withauto,
                 R.xml.devicesettings_liftwrist_display,
                 R.xml.devicesettings_swipeunlock,
+                R.xml.devicesettings_expose_hr_thirdparty,
                 R.xml.devicesettings_pairingkey
         };
     }

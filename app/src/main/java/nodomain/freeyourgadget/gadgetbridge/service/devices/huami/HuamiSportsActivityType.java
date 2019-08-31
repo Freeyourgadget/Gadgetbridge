@@ -14,20 +14,20 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
-public enum BipActivityType {
+public enum HuamiSportsActivityType {
     Outdoor(1),
     Treadmill(2),
     Walking(3),
     Cycling(4),
-    Exercise(5);
-
+    Exercise(5),
+    Swimming(6);
     private final int code;
 
-    BipActivityType(final int code) {
+    HuamiSportsActivityType(final int code) {
         this.code = code;
     }
 
@@ -43,20 +43,22 @@ public enum BipActivityType {
                 return ActivityKind.TYPE_WALKING;
             case Exercise:
                 return ActivityKind.TYPE_EXERCISE;
+            case Swimming:
+                return ActivityKind.TYPE_SWIMMING;
         }
         throw new RuntimeException("Not mapped activity kind for: " + this);
     }
 
-    public static BipActivityType fromCode(int bipCode) {
-        for (BipActivityType type : values()) {
-            if (type.code == bipCode) {
+    public static HuamiSportsActivityType fromCode(int huamiCode) {
+        for (HuamiSportsActivityType type : values()) {
+            if (type.code == huamiCode) {
                 return type;
             }
         }
-        throw new RuntimeException("No matching BipActivityType for code: " + bipCode);
+        throw new RuntimeException("No matching HuamiSportsActivityType for code: " + huamiCode);
     }
 
-    public static BipActivityType fromActivityKind(int activityKind) {
+    public static HuamiSportsActivityType fromActivityKind(int activityKind) {
         switch (activityKind) {
             case ActivityKind.TYPE_RUNNING:
                 return Outdoor;
@@ -68,6 +70,8 @@ public enum BipActivityType {
                 return Walking;
             case ActivityKind.TYPE_EXERCISE:
                 return Exercise;
+            case ActivityKind.TYPE_SWIMMING:
+                return Swimming;
         }
         throw new RuntimeException("No matching activity activityKind: " + activityKind);
     }

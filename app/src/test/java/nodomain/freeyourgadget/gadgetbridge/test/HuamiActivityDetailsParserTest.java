@@ -17,15 +17,15 @@ import nodomain.freeyourgadget.gadgetbridge.export.GPXExporter;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityTrack;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.ActivityDetailsParser;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiActivityDetailsParser;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class ActivityDetailsParserTest extends TestBase {
-    private static final URL DETAILS_1 = ActivityDetailsParserTest.class.getClassLoader().getResource("ActivityDetailsDump1.txt");
+public class HuamiActivityDetailsParserTest extends TestBase {
+    private static final URL DETAILS_1 = HuamiActivityDetailsParserTest.class.getClassLoader().getResource("ActivityDetailsDump1.txt");
     private static final long MAX_DETAILS = 1024 * 1024;
     private static Date baseTime;
 
@@ -38,7 +38,7 @@ public class ActivityDetailsParserTest extends TestBase {
     public void testActivityDetails() throws Exception {
         BipActivitySummary summary = createSummary();
 
-        ActivityDetailsParser parser = new ActivityDetailsParser(summary);
+        HuamiActivityDetailsParser parser = new HuamiActivityDetailsParser(summary);
         parser.setSkipCounterByte(true);
         try (InputStream in = getContents(DETAILS_1)) {
             ActivityTrack track = parser.parse(FileUtils.readAll(in, MAX_DETAILS));
@@ -79,7 +79,7 @@ public class ActivityDetailsParserTest extends TestBase {
         summary.setBaseLatitude(baseLati);
         summary.setBaseAltitude(baseAlti);
 
-        ActivityDetailsParser parser = new ActivityDetailsParser(summary);
+        HuamiActivityDetailsParser parser = new HuamiActivityDetailsParser(summary);
         parser.setSkipCounterByte(true);
         try (InputStream in = getContents(DETAILS_1)) {
             ActivityTrack track = parser.parse(FileUtils.readAll(in, MAX_DETAILS));

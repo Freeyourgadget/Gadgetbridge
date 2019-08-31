@@ -721,4 +721,14 @@
     <string name="prefs_hr_alarm_activity">Alarm měření tepu při sportovní aktivitě</string>
     <string name="prefs_hr_alarm_low">Spodní hodnota</string>
     <string name="prefs_hr_alarm_high">Horní limit</string>
+    <string name="average">Průměr: %1$s</string>
+    <string name="pref_header_charts">Grafy</string>
+    <string name="pref_title_charts_average">Zobrazovat v grafech průměry</string>
+    <string name="pref_title_charts_range">Časové období grafů</string>
+    <string name="pref_charts_range_on">Rozsah nastaven na měsíc</string>
+    <string name="pref_charts_range_off">Rozsah nastaven na týden</string>
+    <string name="weekstepschart_steps_a_month">Kroky za měsíc</string>
+    <string name="weeksleepchart_sleep_a_month">Spánek za měsíc</string>
+    <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
+    <string name="menuitem_nfc">NFC</string>
 </resources>

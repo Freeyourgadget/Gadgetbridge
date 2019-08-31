@@ -25,8 +25,8 @@ android {
         targetSdkVersion 27
 
         // Note: always bump BOTH versionCode and versionName!
-        versionName "0.35.2"
-        versionCode 154
+        versionName "0.36.0"
+        versionCode 155
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -67,8 +67,8 @@ dependencies {
     testImplementation "com.google.code.gson:gson:2.8.5"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "androidx.appcompat:appcompat:1.0.2"
-    implementation "androidx.preference:preference:1.1.0-alpha05"
+    implementation "androidx.appcompat:appcompat:1.1.0-rc01"
+    implementation "androidx.preference:preference:1.1.0-rc01"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
@@ -79,7 +79,7 @@ dependencies {
         exclude group: "com.google.android", module: "android"
     }
     implementation "org.slf4j:slf4j-api:1.7.12"
-    implementation "com.github.Freeyourgadget:MPAndroidChart:5e5bd6c1d3e95c515d4853647ae554e48ee1d593"
+    implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
     implementation "com.github.pfichtner:durationformatter:0.1.1"
     implementation "de.cketti.library.changelog:ckchangelog:1.2.2"
     implementation "net.e175.klaus:solarpositioning:0.0.9"

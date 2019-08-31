@@ -26,16 +26,20 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.slf4j.Logger;
@@ -51,10 +55,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragment;
@@ -572,7 +572,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             lineData = new LineData();
         }
 
-        IAxisValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation);
+        ValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation);
         return new DefaultChartsData(lineData, xValueFormatter);
     }
 
@@ -753,14 +753,14 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     public static class DefaultChartsData<T extends ChartData<?>> extends ChartsData {
         private final T data;
-        private IAxisValueFormatter xValueFormatter;
+        private ValueFormatter xValueFormatter;
 
-        public DefaultChartsData(T data, IAxisValueFormatter xValueFormatter) {
+        public DefaultChartsData(T data, ValueFormatter xValueFormatter) {
             this.xValueFormatter = xValueFormatter;
             this.data = data;
         }
 
-        public IAxisValueFormatter getXValueFormatter() {
+        public ValueFormatter getXValueFormatter() {
             return xValueFormatter;
         }
 
@@ -769,7 +769,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         }
     }
 
-    protected static class SampleXLabelFormatter implements IAxisValueFormatter {
+    protected static class SampleXLabelFormatter extends ValueFormatter {
         private final TimestampTranslation tsTranslation;
         SimpleDateFormat annotationDateFormat = new SimpleDateFormat("HH:mm");
 //        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
@@ -781,7 +781,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         }
         // TODO: this does not work. Cannot use precomputed labels
         @Override
-        public String getFormattedValue(float value, AxisBase axis) {
+        public String getFormattedValue(float value) {
             cal.clear();
             int ts = (int) value;
             cal.setTimeInMillis(tsTranslation.toOriginalValue(ts) * 1000L);
@@ -791,7 +791,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         }
     }
 
-    protected static class PreformattedXIndexLabelFormatter implements IAxisValueFormatter {
+    protected static class PreformattedXIndexLabelFormatter extends ValueFormatter {
         private ArrayList<String> xLabels;
 
         public PreformattedXIndexLabelFormatter(ArrayList<String> xLabels) {
@@ -799,7 +799,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
         }
         @Override
-        public String getFormattedValue(float value, AxisBase axis) {
+        public String getFormattedValue(float value) {
             int index = (int) value;
             if (xLabels == null || index >= xLabels.size()) {
                 return String.valueOf(value);

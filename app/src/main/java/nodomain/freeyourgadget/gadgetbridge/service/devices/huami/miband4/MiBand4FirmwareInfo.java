@@ -38,9 +38,13 @@ public class MiBand4FirmwareInfo extends HuamiFirmwareInfo {
     static {
         // firmware
         crcToVersion.put(8969, "1.0.5.22");
+        crcToVersion.put(43437, "1.0.5.66");
+        crcToVersion.put(31632, "1.0.6.00");
 
         // resources
         crcToVersion.put(27412, "1.0.5.22");
+        crcToVersion.put(5466, "1.0.5.66");
+        crcToVersion.put(20047, "1.0.6.00");
 
         // font
         crcToVersion.put(31978, "1");
@@ -65,7 +69,7 @@ public class MiBand4FirmwareInfo extends HuamiFirmwareInfo {
             return HuamiFirmwareType.WATCHFACE;
         }
         if (ArrayUtils.startsWith(bytes, NEWFT_HEADER)) {
-            if (bytes[10] == 0x03) {
+            if (bytes[10] == 0x03 || bytes[10] == 0x06) {
                 return HuamiFirmwareType.FONT;
             }
         }

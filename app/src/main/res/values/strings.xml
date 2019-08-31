@@ -71,9 +71,6 @@
     <string name="pref_title_general_autoreconnect">Reconnect automatically</string>
     <string name="pref_title_audio_player">Preferred Audioplayer</string>
     <string name="pref_default">Default</string>
-    <string name="pref_header_charts">Charts Settings</string>
-    <string name="pref_title_charts_swipe">Enable left/right swipe in the charts activity</string>
-    <string name="pref_title_charts_average">Show averages in the charts</string>
     <string name="pref_header_datetime">Date and Time</string>
     <string name="pref_title_datetime_syctimeonconnect">Sync time</string>
     <string name="pref_summary_datetime_syctimeonconnect">Sync time to Gadgetbridge device when connecting, and when time or time zone changes on Android device</string>
@@ -170,6 +167,9 @@
     <string name="pref_title_pebble_reconnect_attempts">Reconnection attempts</string>
     <string name="pref_title_use_custom_font">Use custom font</string>
     <string name="pref_summary_use_custom_font">Enable this if your device has a custom font firmware for emoji support</string>
+    <string name="pref_summary_expose_hr">Allows other apps to access HR data in realtime while Gadgetbridge is connected</string>
+    <string name="pref_title_expose_hr">3rd party realtime HR access</string>
+
     <!-- HPlus Preferences -->
     <string name="pref_title_unit_system">Units</string>
     <string name="pref_title_timeformat">Time format</string>
@@ -511,9 +511,20 @@
     <string name="activity_prefs_gender">Gender</string>
     <string name="activity_prefs_height_cm">Height in cm</string>
     <string name="activity_prefs_weight_kg">Weight in kg</string>
+
+    <!-- Settings - Charts Preferences -->
+    <string name="pref_header_charts">Charts Settings</string>
+    <string name="pref_title_charts_swipe">Enable left/right swipe in the charts activity</string>
+    <string name="pref_title_charts_average">Show averages in the charts</string>
     <string name="activity_prefs_charts">Chart settings</string>
     <string name="activity_prefs_chart_max_heart_rate">Max heart rate</string>
     <string name="activity_prefs_chart_min_heart_rate">Min heart rate</string>
+    <string name="pref_title_charts_range">Charts Range</string>
+    <string name="pref_charts_range_on">Charts range is set to a Month</string>
+    <string name="pref_charts_range_off">Charts range is set to a Week</string>
+    <string name="weekstepschart_steps_a_month">Steps per month</string>
+    <string name="weeksleepchart_sleep_a_month">Sleep per month</string>
+
     <string name="authenticating">Authenticating</string>
     <string name="authentication_required">Authentication required</string>
     <string name="appwidget_text">Zzz</string>

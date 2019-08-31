@@ -86,6 +86,8 @@ public class AmazfitCorCoordinator extends HuamiCoordinator {
                 R.xml.devicesettings_amazfitcor,
                 R.xml.devicesettings_liftwrist_display,
                 R.xml.devicesettings_disconnectnotification,
-                R.xml.devicesettings_pairingkey};
+                R.xml.devicesettings_expose_hr_thirdparty,
+                R.xml.devicesettings_pairingkey
+        };
     }
 }

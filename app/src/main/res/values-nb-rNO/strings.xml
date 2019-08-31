@@ -722,4 +722,14 @@
     <string name="prefs_hr_alarm_activity">Pulsalarm under sportsaktiviteter</string>
     <string name="prefs_hr_alarm_low">Nedre grense</string>
     <string name="prefs_hr_alarm_high">Øvre grense</string>
+    <string name="average">Gjennomsnitt: %1$s</string>
+    <string name="pref_header_charts">Poengtavleinnstillinger</string>
+    <string name="pref_title_charts_average">Vis gjennomsnitt i poengtavlene</string>
+    <string name="pref_title_charts_range">Poengtavleområde</string>
+    <string name="pref_charts_range_on">Poengtavleområde satt til én måned</string>
+    <string name="pref_charts_range_off">Poengtavleområde satt til ei uke</string>
+    <string name="weekstepschart_steps_a_month">Steg per måned</string>
+    <string name="weeksleepchart_sleep_a_month">Søvn per måned</string>
+    <string name="devicetype_mijia_lywsd02">Mijia-smartklokke</string>
+    <string name="menuitem_nfc">NFC</string>
 </resources>
