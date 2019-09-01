@@ -36,9 +36,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 
-
 public class DailyTotals {
-    Logger LOG = LoggerFactory.getLogger(DailyTotals.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DailyTotals.class);
 
 
     public float[] getDailyTotalsForAllDevices(Calendar day) {
@@ -52,6 +51,10 @@ public class DailyTotals {
             GBApplication gbApp = (GBApplication) context;
             List<? extends GBDevice> devices = gbApp.getDeviceManager().getDevices();
             for (GBDevice device : devices) {
+                DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+                if (!coordinator.supportsActivityDataFetching()) {
+                    continue;
+                }
                 float[] all_daily = getDailyTotalsForDevice(device, day);
                 all_steps += all_daily[0];
                 all_sleep += all_daily[1] + all_daily[2];
@@ -63,13 +66,12 @@ public class DailyTotals {
     }
 
 
-    public float[] getDailyTotalsForDevice(GBDevice device, Calendar day
-    ) {
+    public float[] getDailyTotalsForDevice(GBDevice device, Calendar day) {
 
         try (DBHandler handler = GBApplication.acquireDB()) {
             ActivityAnalysis analysis = new ActivityAnalysis();
-            ActivityAmounts amountsSteps = null;
-            ActivityAmounts amountsSleep = null;
+            ActivityAmounts amountsSteps;
+            ActivityAmounts amountsSleep;
 
             amountsSteps = analysis.calculateActivityAmounts(getSamplesOfDay(handler, day, 0, device));
             amountsSleep = analysis.calculateActivityAmounts(getSamplesOfDay(handler, day, -12, device));
