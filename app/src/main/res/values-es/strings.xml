@@ -697,4 +697,16 @@
     <string name="prefs_hr_alarm_activity">Alarma de frecuencia cardíaca durante actividad deportiva.</string>
     <string name="prefs_hr_alarm_low">Límite Bajo</string>
     <string name="prefs_hr_alarm_high">Límite Alto</string>
+    <string name="pref_screen_notification_profile_missed_call">Notificación de llamada perdida</string>
+    <string name="pref_screen_notification_profile_calendar">Notificación de Calendario</string>
+    <string name="pref_screen_notification_profile_inactivity">Notificación de inactividad</string>
+    <string name="interval_fifteen_minutes">Cada 15 minutos</string>
+    <string name="interval_forty_five_minutes">Cada 45 minutos</string>
+    <string name="dutch">Holandés</string>
+    <string name="turkish">Turco</string>
+    <string name="portuguese">Portugués</string>
+    <string name="average">Media: %1$s</string>
+    <string name="weekstepschart_steps_a_month">Pasos por mes</string>
+    <string name="weeksleepchart_sleep_a_month">Sueño por mes</string>
+    <string name="menuitem_nfc">NFC</string>
 </resources>
