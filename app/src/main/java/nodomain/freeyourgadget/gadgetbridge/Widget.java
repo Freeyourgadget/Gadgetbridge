@@ -202,6 +202,7 @@ public class Widget extends AppWidgetProvider {
 
         if (this.broadcastReceiver != null) {
             LocalBroadcastManager.getInstance(context).unregisterReceiver(this.broadcastReceiver);
+            this.broadcastReceiver=null;
         }
     }
 
@@ -210,10 +211,10 @@ public class Widget extends AppWidgetProvider {
         super.onReceive(context, intent);
         LOG.debug("gbwidget LOCAL onReceive, action: " + intent.getAction());
         //this handles widget re-connection after apk updates
-        if (this.broadcastReceiver == null) {
-            onEnabled(context);
-        }
         if (WIDGET_CLICK.equals(intent.getAction())) {
+            if (this.broadcastReceiver == null) {
+                onEnabled(context);
+            }
             refreshData();
             //updateWidget();
         } else if (APPWIDGET_DELETED.equals(intent.getAction())) {
