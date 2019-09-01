@@ -66,12 +66,12 @@ public class Widget extends AppWidgetProvider {
         return gbApp.getDeviceManager().getSelectedDevice();
     }
 
-    private float[] getSteps() {
+    private int[] getSteps() {
         Context context = GBApplication.getContext();
         Calendar day = GregorianCalendar.getInstance();
 
         if (!(context instanceof GBApplication)) {
-            return new float[]{0, 0, 0};
+            return new int[]{0, 0, 0};
         }
         DailyTotals ds = new DailyTotals();
         return ds.getDailyTotalsForAllDevices(day);
@@ -114,7 +114,7 @@ public class Widget extends AppWidgetProvider {
         }
 
 
-        float[] DailyTotals = getSteps();
+        int[] DailyTotals = getSteps();
 
         views.setTextViewText(R.id.todaywidget_steps, context.getString(R.string.widget_steps_label, (int) DailyTotals[0]));
         views.setTextViewText(R.id.todaywidget_sleep, context.getString(R.string.widget_sleep_label, getHM((long) DailyTotals[1])));
