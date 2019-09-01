@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -127,8 +128,9 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
         GB.updateTransferNotification(null, "", false, 100, getContext());
         operationFinished();
         unsetBusy();
-        Intent intent = new Intent("nodomain.freeyourgadget.gadgetbridge.NewDataTrigger");
-        getContext().sendBroadcast(intent);
+
+        Intent intent = new Intent(GBApplication.ACTION_NEW_DATA);
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
     }
 
     /**
