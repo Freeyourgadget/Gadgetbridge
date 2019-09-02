@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
@@ -42,10 +43,13 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.ImportExportSharedPreferences;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
 public class DbManagementActivity extends AbstractGBActivity {
@@ -94,6 +98,32 @@ public class DbManagementActivity extends AbstractGBActivity {
             @Override
             public void onClick(View v) {
                 deleteActivityDatabase();
+            }
+        });
+
+        Prefs prefs = GBApplication.getPrefs();
+        boolean autoExportEnabled = prefs.getBoolean(GBPrefs.AUTO_EXPORT_ENABLED, false);
+        Integer autoExportInterval = prefs.getInt(GBPrefs.AUTO_EXPORT_INTERVAL, 0);
+        String autoExportLocation = prefs.getString(GBPrefs.AUTO_EXPORT_LOCATION, "");
+
+        int testExportVisibility = (autoExportInterval > 0 && autoExportEnabled) ? View.VISIBLE : View.GONE;
+
+        TextView autoExportLocation_label = findViewById(R.id.autoExportLocation_label);
+        autoExportLocation_label.setVisibility(testExportVisibility);
+
+        TextView autoExportLocation_intro = findViewById(R.id.autoExportLocation_intro);
+        autoExportLocation_intro.setVisibility(testExportVisibility);
+
+        TextView autoExportLocationview = findViewById(R.id.autoExportLocationview);
+        autoExportLocationview.setVisibility(testExportVisibility);
+        autoExportLocationview.setText(autoExportLocation);
+
+        Button testExportDBButton = findViewById(R.id.testExportDBButton);
+        testExportDBButton.setVisibility(testExportVisibility);
+        testExportDBButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendBroadcast(new Intent(getApplicationContext(), PeriodicExporter.class));
             }
         });
 

@@ -565,6 +565,17 @@
     <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Old activity data deleted.</string>
     <string name="dbmanagementactivity_old_activity_db_deletion_failed">Old Activity database deletion failed.</string>
     <string name="dbmanagementactivity_overwrite">Overwrite</string>
+    <string name="activity_db_management_autoexport_explanation">Database autoexport location has been set to:</string>
+    <string name="activity_db_management_autoexport_label">AutoExport</string>
+    <string name="activity_DB_ExportButton">Export DB</string>
+    <string name="activity_DB_import_button">Import DB</string>
+    <string name="activity_DB_test_export_button">Test AutoExport Now</string>
+    <string name="activity_DB_delete_legacy_button">Delete old DB</string>
+    <string name="activity_DB_empty_button">Empty DB</string>
+    <string name="activity_db_management_empty_DB">Empty Database</string>
+    <string name="activity_db_management_exportimport_label">Export and Import</string>
+    <string name="activity_db_management_empty_db_warning">Warning! By pushing this button you will wipe your database and start from scratch.</string>
+
     <string name="Cancel">Cancel</string>
     <string name="Delete">Delete</string>
     <string name="ok">OK</string>
@@ -729,6 +740,5 @@
     <string name="widget_1_hour">1 hour</string>
     <string name="icon_placeholder" translatable="false">Icon</string>
     <string name="widget_alarm_target_hours">%d hours</string>
-
 
 </resources>
