@@ -33,11 +33,14 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributesDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getPrefs;
 
 public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractDeviceCoordinator.class);
@@ -68,6 +71,15 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
         LOG.info("will try to delete device: " + gbDevice.getName());
         if (gbDevice.isConnected() || gbDevice.isConnecting()) {
             GBApplication.deviceService().disconnect();
+        }
+        Prefs prefs = getPrefs();
+        String lastDevice = prefs.getPreferences().getString("last_device_address","");
+        if (gbDevice.getAddress() == lastDevice){
+            prefs.getPreferences().edit().remove("last_device_address");
+        }
+        String macAddress = prefs.getPreferences().getString(MiBandConst.PREF_MIBAND_ADDRESS,"");
+        if (gbDevice.getAddress() == macAddress){
+            prefs.getPreferences().edit().remove(MiBandConst.PREF_MIBAND_ADDRESS);
         }
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             DaoSession session = dbHandler.getDaoSession();
