@@ -571,7 +571,7 @@
     <string name="korean">Koreanisch</string>
     <string name="japanese">Japanisch</string>
     <string name="controlcenter_change_led_color">LED-Farbe ändern</string>
-    <string name="controlcenter_change_fm_frequency">FM-Frequenz ändern</string>
+    <string name="controlcenter_change_fm_frequency">Ändere die Radio Frequenz</string>
     <string name="pref_title_notifications_timeout">Zeitabstand zwischen den Benachrichtigungen</string>
     <string name="pref_title_rtl">Rechts-nach-Links</string>
     <string name="pref_summary_rtl">Aktivieren, wenn dein Gerät keine Sprachen von rechts-nach-links anzeigen kann</string>
@@ -613,7 +613,7 @@
     <string name="pref_invalid_frequency_title">Ungültige Frequenz</string>
     <string name="pref_invalid_frequency_message">Bitte eine Frequenz zwischen 87,5 und 108,0 eingeben</string>
     <string name="language_and_region_prefs">Sprach- und Gebietseinstellungen</string>
-    <string name="debugactivity_really_factoryreset_title">Wirklich auf Werkseinstellung zurücksetzen\?</string>
+    <string name="debugactivity_really_factoryreset_title">Wirklich auf Werkseinstellungen zurücksetzen\?</string>
     <string name="debugactivity_really_factoryreset">Beim Zurücksetzen auf die Werkseinstellungen werden alle Daten vom angeschlossenen Gerät gelöscht (falls unterstützt). Xiaomi/Huami-Geräte ändern auch die Bluetooth-MAC-Adresse, so dass sie als neue Geräte bei Gadgetbrige erscheinen.</string>
     <string name="pref_rtl_max_line_length_summary">Verlängert oder verkürzt die Zeilen, in die der Rechts-nach-Links Text getrennt wird</string>
     <string name="notif_battery_low_extended">%1$s Akku schwach: %2$s</string>
