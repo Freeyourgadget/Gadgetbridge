@@ -30,18 +30,6 @@
                 grid:layout_columnSpan="2"
                 grid:layout_columnWeight="1" />
 
-            <Button
-                android:id="@+id/exportDBButton"
-                android:text="@string/activity_DB_ExportButton"
-                grid:layout_column="0"
-                grid:layout_gravity="center" />
-
-            <Button
-                android:id="@+id/importDBButton"
-                android:text="@string/activity_DB_import_button"
-                grid:layout_column="1"
-                grid:layout_gravity="center" />
-
 
             <TextView
                 android:id="@+id/db_management_intro"
@@ -56,10 +44,23 @@
                 android:id="@+id/activity_db_management_path"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold"
                 grid:layout_columnSpan="2"
                 grid:layout_columnWeight="1" />
 
+
+            <Button
+                android:id="@+id/exportDBButton"
+                android:text="@string/activity_DB_ExportButton"
+                grid:layout_column="0"
+                grid:layout_gravity="center" />
+
+            <Button
+                android:id="@+id/importDBButton"
+                android:text="@string/activity_DB_import_button"
+                grid:layout_column="1"
+                grid:layout_gravity="center" />
 
             <TextView
                 android:id="@+id/autoExportLocation_label"
@@ -82,10 +83,11 @@
                 grid:layout_columnWeight="1" />
 
             <TextView
-                android:id="@+id/autoExportLocationview"
+                android:id="@+id/autoExportLocation_path"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold"
                 grid:layout_columnSpan="2"
                 grid:layout_columnWeight="1" />
 

@@ -569,7 +569,8 @@
     <string name="activity_db_management_autoexport_label">AutoExport</string>
     <string name="activity_DB_ExportButton">Export DB</string>
     <string name="activity_DB_import_button">Import DB</string>
-    <string name="activity_DB_test_export_button">Test AutoExport Now</string>
+    <string name="activity_DB_test_export_button">Run AutoExport Now</string>
+    <string name="activity_DB_test_export_message">Exporting database...</string>
     <string name="activity_DB_delete_legacy_button">Delete old DB</string>
     <string name="activity_DB_empty_button">Empty DB</string>
     <string name="activity_db_management_empty_DB">Empty Database</string>
