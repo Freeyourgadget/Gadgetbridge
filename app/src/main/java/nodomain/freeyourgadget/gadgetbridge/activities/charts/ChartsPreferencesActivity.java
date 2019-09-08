@@ -19,20 +19,13 @@ package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import android.os.Bundle;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
-
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-
 
 public class ChartsPreferencesActivity extends AbstractSettingsActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         addPreferencesFromResource(R.xml.charts_preferences);
-
-
     }
 }
