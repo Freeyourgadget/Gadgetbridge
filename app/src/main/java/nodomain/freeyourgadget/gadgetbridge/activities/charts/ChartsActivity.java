@@ -261,6 +261,10 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
             case R.id.charts_fetch_activity_data:
                 fetchActivityData();
                 return true;
+            case R.id.prefs_charts_menu:
+                Intent settingsIntent = new Intent(this, ChartsPreferencesActivity.class);
+                startActivity(settingsIntent);
+                return true;
             default:
                 break;
         }
