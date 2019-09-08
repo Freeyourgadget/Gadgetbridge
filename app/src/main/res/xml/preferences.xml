@@ -18,6 +18,14 @@
             android:defaultValue="false"
             android:key="general_autocreconnect"
             android:title="@string/pref_title_general_autoreconnect" />
+        <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
+            android:defaultValue="true"
+            android:key="display_add_device_fab"
+            android:summaryOff="@string/pref_display_add_device_fab_off"
+            android:summaryOn="@string/pref_display_add_device_fab_on"
+            android:title="@string/pref_display_add_device_fab" />
+
         <ListPreference
             android:defaultValue="default"
             android:key="audio_player"
