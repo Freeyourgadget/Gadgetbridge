@@ -256,6 +256,14 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            this.recreate();
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.charts_fetch_activity_data:
@@ -263,7 +271,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                 return true;
             case R.id.prefs_charts_menu:
                 Intent settingsIntent = new Intent(this, ChartsPreferencesActivity.class);
-                startActivity(settingsIntent);
+                startActivityForResult(settingsIntent,1);
                 return true;
             default:
                 break;

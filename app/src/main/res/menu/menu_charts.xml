@@ -11,5 +11,6 @@
         android:id="@+id/prefs_charts_menu"
         android:icon="@drawable/ic_settings"
         android:title="@string/pref_header_charts"
+        app:iconTint="@color/primarytext_dark"
         app:showAsAction="ifRoom" />
 </menu>
