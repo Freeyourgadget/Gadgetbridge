@@ -505,7 +505,7 @@
     <string name="activity_type_light_sleep">Sueño ligero</string>
     <string name="activity_type_deep_sleep">Sueño profundo</string>
     <string name="activity_summaries">Actividades</string>
-    <string name="menuitem_shortcut_weather">Tiempo (Shortcut)</string>
+    <string name="menuitem_shortcut_weather">Tiempo (Acceso directo)</string>
     <string name="menuitem_notifications">Notificaciones</string>
     <string name="menuitem_weather">Tiempo</string>
     <string name="menuitem_alarm">Alarma</string>
@@ -596,7 +596,7 @@
     <string name="select_all">Seleccionar todo</string>
     <string name="share">Compartir</string>
     <string name="reset_index">Restablecer fecha de recuperación</string>
-    <string name="devicetype_miband3">"Mi Band 3 "</string>
+    <string name="devicetype_miband3">Mi Band 3</string>
     <string name="devicetype_q8">Q8</string>
     <string name="devicetype_mykronoz_zetime">"MyKronoz ZeTime "</string>
     <string name="devicetype_id115">ID115</string>
@@ -709,4 +709,28 @@
     <string name="weekstepschart_steps_a_month">Pasos por mes</string>
     <string name="weeksleepchart_sleep_a_month">Sueño por mes</string>
     <string name="menuitem_nfc">NFC</string>
+    <string name="menuitem_shortcut_alipay">Alipay (Acceso directo)</string>
+    <string name="pref_title_contextual_arabic">Árabe contextual</string>
+    <string name="pref_summary_contextual_arabic">Habilita esto para el soporte de Árabe contextual</string>
+    <string name="zetime_calories_type_all">Calorías quemadas activas e inactivas</string>
+    <string name="pref_screen_notification_profile_low_power">Aviso de batería baja</string>
+    <string name="pref_screen_notification_profile_anti_loss">Aviso anti pérdida</string>
+    <string name="activity_prefs_calories_burnt">Objetivo diario: calorías quemadas</string>
+    <string name="activity_prefs_distance_meters">Objetivo diario: distancia en metros</string>
+    <string name="activity_prefs_activetime_minutes">Objetivo diario: tiempo activo en minutos</string>
+    <string name="devicetype_miscale2">Mi Scale 2</string>
+    <string name="devicetype_bfh16">BFH-16</string>
+    <string name="ukrainian">Ucraniano</string>
+    <string name="arabic">Árabe</string>
+    <string name="indonesian">Indonesio</string>
+    <string name="thai">Tailandés</string>
+    <string name="vietnamese">Vietnamita</string>
+    <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
+    <string name="devicetype_miband4">Mi Band 4</string>
+    <string name="pref_header_charts">Configuración de gráficos</string>
+    <string name="pref_title_charts_average">Mostrar promedios en los gráficos</string>
+    <string name="pref_title_charts_range">Rango de Gráficos</string>
+    <string name="pref_charts_range_on">El rango de gráficos está configurado para un mes</string>
+    <string name="pref_charts_range_off">El rango de gráficos está configurado para una semana</string>
+    <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
 </resources>
