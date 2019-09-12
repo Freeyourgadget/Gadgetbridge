@@ -59,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -191,7 +192,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HPlusSupport setCurrentDate(TransactionBuilder transaction) {
-        Calendar c = GregorianCalendar.getInstance();
+        Calendar c = DateTimeUtils.getCalendarTurnClockForward();
+
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
@@ -208,7 +210,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HPlusSupport setCurrentTime(TransactionBuilder transaction) {
-        Calendar c = GregorianCalendar.getInstance();
+        Calendar c = DateTimeUtils.getCalendarTurnClockForward();
 
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_TIME,

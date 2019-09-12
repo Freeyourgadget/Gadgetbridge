@@ -622,7 +622,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * @param builder
      */
     private MiBandSupport setCurrentTime(TransactionBuilder builder) {
-        Calendar now = GregorianCalendar.getInstance();
+        Calendar now = DateTimeUtils.getCalendarTurnClockForward();
         Date date = now.getTime();
         LOG.info("Sending current time to Mi Band: " + DateTimeUtils.formatDate(date) + " (" + date.toGMTString() + ")");
         byte[] nowBytes = MiBandDateConverter.calendarToRawBytes(now, gbDevice.getAddress());

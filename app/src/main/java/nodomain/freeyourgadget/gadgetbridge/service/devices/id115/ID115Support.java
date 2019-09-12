@@ -45,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 public class ID115Support extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(ID115Support.class);
@@ -269,7 +270,7 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
     }
 
     ID115Support setTime(TransactionBuilder builder) {
-        Calendar c = Calendar.getInstance(TimeZone.getDefault());
+        Calendar c = DateTimeUtils.getCalendarTurnClockForward();
 
         int day = c.get(Calendar.DAY_OF_WEEK);
 

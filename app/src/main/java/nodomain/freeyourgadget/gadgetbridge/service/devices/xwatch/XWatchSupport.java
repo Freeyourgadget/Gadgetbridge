@@ -59,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.DeviceInfo;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class XWatchSupport extends AbstractBTLEDeviceSupport {
@@ -134,7 +135,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
         LOG.debug("Sending current date to the XWatch");
         BluetoothGattCharacteristic deviceData = getCharacteristic(XWatchService.UUID_WRITE);
 
-        String time = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String time = new SimpleDateFormat("yyyyMMddHHmmss").format(DateTimeUtils.todayTurnClockForward());
         String y = time.substring(2, 4);
         String M = time.substring(4, 6);
         String d = time.substring(6, 8);

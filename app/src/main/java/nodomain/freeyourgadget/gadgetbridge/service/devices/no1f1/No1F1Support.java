@@ -59,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static org.apache.commons.lang3.math.NumberUtils.min;
@@ -395,7 +396,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     }
 
     private void setTime(TransactionBuilder transaction) {
-        Calendar c = GregorianCalendar.getInstance();
+        Calendar c = DateTimeUtils.getCalendarTurnClockForward();
         byte[] datetimeBytes = new byte[]{
                 No1F1Constants.CMD_DATETIME,
                 (byte) ((c.get(Calendar.YEAR) / 256) & 0xff),

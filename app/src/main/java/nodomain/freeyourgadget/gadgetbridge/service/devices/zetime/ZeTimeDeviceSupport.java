@@ -64,6 +64,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -1439,7 +1440,8 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private void synchronizeTime(TransactionBuilder builder)
     {
-        Calendar now = GregorianCalendar.getInstance();
+        Calendar now = DateTimeUtils.getCalendarTurnClockForward();
+
         byte[] timeSync = new byte[]{ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_DATE_TIME,
                 ZeTimeConstants.CMD_SEND,
