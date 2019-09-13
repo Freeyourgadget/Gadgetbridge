@@ -168,9 +168,6 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     public boolean supportsUnicodeEmojis() { return false; }
 
     @Override
-    public boolean supportsCustomFont() { return false; }
-
-    @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return null;
     }

@@ -127,6 +127,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_COUNT;
@@ -414,7 +415,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         int userid = alias.hashCode(); // hash from alias like mi1
 
         // FIXME: Do encoding like in PebbleProtocol, this is ugly
-        byte bytes[] = new byte[]{
+        byte[] bytes = new byte[]{
                 HuamiService.COMMAND_SET_USERINFO,
                 0,
                 0,
@@ -913,7 +914,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     private byte[] getLatency(int minConnectionInterval, int maxConnectionInterval, int latency, int timeout, int advertisementInterval) {
-        byte result[] = new byte[12];
+        byte[] result = new byte[12];
         result[0] = (byte) (minConnectionInterval & 0xff);
         result[1] = (byte) (0xff & minConnectionInterval >> 8);
         result[2] = (byte) (maxConnectionInterval & 0xff);
@@ -2077,6 +2078,42 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             builder.write(characteristicChunked, chunk);
             remaining -= copybytes;
         }
+    }
+
+    @Override
+    public String customStringFilter(String inputString) {
+        if (HuamiCoordinator.getUseCustomFont(gbDevice.getAddress())) {
+            return convertEmojiToCustomFont(inputString);
+        }
+        return inputString;
+    }
+
+
+    private String convertEmojiToCustomFont(String str) {
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        while (i < str.length()) {
+            char charAt = str.charAt(i);
+            if (Character.isHighSurrogate(charAt)) {
+                int i2 = i + 1;
+                try {
+                    int codePoint = Character.toCodePoint(charAt, str.charAt(i2));
+                    if (codePoint < 127744 || codePoint > 129510) {
+                        sb.append(charAt);
+                    } else {
+                        sb.append((char) (codePoint - 83712));
+                        i = i2;
+                    }
+                } catch (StringIndexOutOfBoundsException e) {
+                    LOG.warn("error while converting emoji to custom font", e);
+                    sb.append(charAt);
+                }
+            } else {
+                sb.append(charAt);
+            }
+            i++;
+        }
+        return sb.toString();
     }
 
     public void phase2Initialize(TransactionBuilder builder) {
