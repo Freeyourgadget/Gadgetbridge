@@ -5,8 +5,11 @@
 * Mi Band 4: Really fix weather location not being updated on the Band
 * Mi Band 4: Fix call notifcation not stopping when call gets answered or rejected on the phone
 * Amazfit Bip/Cor: Support for custom emoji font
+* ZeTime: Enable emoji support
+* ZeTime: Make watch language the same as the phone language by default
 * New status and alarms widget
-* Fix crash when entering notification filter notification filter settings
+* Fix crash when entering notification filter settings
+* Make diagram settings accessible from charts activity
 
 #### Version 0.36.0
 * Initial Mijia LYWSD02 support (Smart Clock with Humidity and Temperature Sensor), just for setting the time
