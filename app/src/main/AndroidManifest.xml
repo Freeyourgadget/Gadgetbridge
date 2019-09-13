@@ -61,6 +61,10 @@
             android:label="@string/title_activity_settings"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
+            android:name=".activities.charts.ChartsPreferencesActivity"
+            android:label="@string/activity_prefs_charts"
+            android:parentActivityName=".activities.charts.ChartsPreferencesActivity" />
+        <activity
             android:name=".devices.miband.MiBandPreferencesActivity"
             android:label="@string/preferences_miband_settings"
             android:parentActivityName=".activities.SettingsActivity" />

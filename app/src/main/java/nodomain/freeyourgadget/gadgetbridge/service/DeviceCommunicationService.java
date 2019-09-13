@@ -199,7 +199,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private CMWeatherReceiver mCMWeatherReceiver = null;
     private LineageOsWeatherReceiver mLineageOsWeatherReceiver = null;
     private OmniJawsObserver mOmniJawsObserver = null;
-    private Random mRandom = new Random();
 
     private final String[] mMusicActions = {
             "com.android.music.metachanged",
@@ -370,21 +369,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         if (text == null || text.length() == 0)
             return text;
 
+        text = mDeviceSupport.customStringFilter(text);
+
         if (!mCoordinator.supportsUnicodeEmojis()) {
-
-            // use custom font for emoji, if it is supported and enabled
-            if (mCoordinator.supportsCustomFont()) {
-                switch (mCoordinator.getDeviceType()) {
-                    case AMAZFITBIP:
-                        if (((HuamiCoordinator)mCoordinator).getUseCustomFont(mGBDevice.getAddress()))
-                            return StringUtils.toCustomFont(text);
-                        break;
-                    // TODO: implement for Amazfit Cor
-                    default:
-                        break;
-                }
-            }
-
             return EmojiConverter.convertUnicodeEmojiToAscii(text, getApplicationContext());
         }
 
@@ -763,7 +750,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if (mOmniJawsObserver == null && coordinator != null && coordinator.supportsWeather()) {
                 try {
                     mOmniJawsObserver = new OmniJawsObserver(new Handler());
-                    getContentResolver().registerContentObserver(mOmniJawsObserver.WEATHER_URI, true, mOmniJawsObserver);
+                    getContentResolver().registerContentObserver(OmniJawsObserver.WEATHER_URI, true, mOmniJawsObserver);
                 } catch (PackageManager.NameNotFoundException e) {
                     //Nothing wrong, it just means we're not running on omnirom.
                 }

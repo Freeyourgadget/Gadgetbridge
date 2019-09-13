@@ -169,10 +169,11 @@
     <string name="pref_title_expose_hr">3rd party realtime HR access</string>
     <string name="pref_title_use_custom_font">Use custom font</string>
     <string name="pref_summary_use_custom_font">Enable this if your device has a custom font firmware for emoji support</string>
+
     <string name="pref_display_add_device_fab">Connect new device button</string>
     <string name="pref_display_add_device_fab_on">Always visible</string>
     <string name="pref_display_add_device_fab_off">Visible only if no device is added</string>
-
+    
     <!-- HPlus Preferences -->
     <string name="pref_title_unit_system">Units</string>
     <string name="pref_title_timeformat">Time format</string>
@@ -182,7 +183,6 @@
     <!-- ID115 Preferences -->
     <string name="preferences_id115_settings">ID115 settings</string>
     <string name="prefs_screen_orientation">Screen orientation</string>
-
     <!-- ZeTime Preferences -->
     <string name="zetime_title_settings">ZeTime settings</string>
     <string name="zetime_title_heartrate">Heart rate settings</string>
@@ -227,16 +227,13 @@
     <string name="zetime_signaling_beep_once">Beep once</string>
     <string name="zetime_signaling_beep_twice">Beep twice</string>
     <string name="zetime_signaling_vibrate_beep_once">Vibrate and beep once</string>
-
     <!-- Device specific settings -->
     <string name="title_activity_device_specific_settings">Device specific settings</string>
     <string name="pref_title_authkey">Auth Key</string>
     <string name="pref_summary_authkey">Change the auth key to a common key on all your Android devices from which you would like to connect from. The previous default key for all devices is 0123456789@ABCDE</string>
-
     <string name="prefs_hr_alarm_activity">Heart rate alarm during sports activity</string>
     <string name="prefs_hr_alarm_low">Low limit</string>
     <string name="prefs_hr_alarm_high">High limit</string>
-
     <!-- Auto export preferences -->
     <string name="pref_header_auto_export">Auto export</string>
     <string name="pref_title_auto_export_enabled">Auto export enabled</string>
@@ -337,7 +334,6 @@
     <string name="pref_screen_notification_profile_inactivity">Inactivity notification</string>
     <string name="pref_screen_notification_profile_low_power">Low power warning</string>
     <string name="pref_screen_notification_profile_anti_loss">Anti-loss warning</string>
-
     <string name="prefs_title_heartrate_measurement_interval">Whole day HR measurement</string>
     <string name="interval_one_minute">once a minute</string>
     <string name="interval_five_minutes">every 5 minutes</string>
@@ -514,7 +510,6 @@
     <string name="activity_prefs_gender">Gender</string>
     <string name="activity_prefs_height_cm">Height in cm</string>
     <string name="activity_prefs_weight_kg">Weight in kg</string>
-
     <!-- Settings - Charts Preferences -->
     <string name="pref_header_charts">Charts Settings</string>
     <string name="pref_title_charts_swipe">Enable left/right swipe in the charts activity</string>
@@ -527,7 +522,6 @@
     <string name="pref_charts_range_off">Charts range is set to a Week</string>
     <string name="weekstepschart_steps_a_month">Steps per month</string>
     <string name="weeksleepchart_sleep_a_month">Sleep per month</string>
-
     <string name="authenticating">Authenticating</string>
     <string name="authentication_required">Authentication required</string>
     <string name="activity_prefs_sleep_duration">Preferred sleep duration in hours</string>
@@ -539,11 +533,9 @@
     <string name="updatefirmwareoperation_firmware_not_sent">Firmware not sent</string>
     <string name="charts_legend_heartrate">Heart rate</string>
     <string name="live_activity_heart_rate">Heart rate</string>
-
     <string name="activity_prefs_calories_burnt">Daily target: calories burnt</string>
     <string name="activity_prefs_distance_meters">Daily target: distance in meters</string>
     <string name="activity_prefs_activetime_minutes">Daily target: active time in minutes</string>
-
     <string name="pref_title_pebble_health_store_raw">Store raw record in the database</string>
     <string name="pref_summary_pebble_health_store_raw">Stores the data \"as is\", increasing the database usage to allow for later interpretation.</string>
     <string name="action_db_management">Database management</string>
@@ -573,13 +565,12 @@
     <string name="activity_DB_ExportButton">Export DB</string>
     <string name="activity_DB_import_button">Import DB</string>
     <string name="activity_DB_test_export_button">Run AutoExport Now</string>
-    <string name="activity_DB_test_export_message">Exporting database...</string>
+    <string name="activity_DB_test_export_message">Exporting database…</string>
     <string name="activity_DB_delete_legacy_button">Delete old DB</string>
     <string name="activity_DB_empty_button">Empty DB</string>
     <string name="activity_db_management_empty_DB">Empty Database</string>
     <string name="activity_db_management_exportimport_label">Export and Import</string>
     <string name="activity_db_management_empty_db_warning">Warning! By pushing this button you will wipe your database and start from scratch.</string>
-
     <string name="Cancel">Cancel</string>
     <string name="Delete">Delete</string>
     <string name="ok">OK</string>
@@ -733,7 +724,6 @@
     <string name="add_widget">Add widget</string>
     <string name="appwidget_setting_alarm">Setting alarm for %1$02d:%2$02d</string>
     <string name="appwidget_sleep_alarm_widget_label">Sleep Alarm</string>
-
     <string name="widget_steps_label">Steps: %1$02d</string>
     <string name="widget_sleep_label">Sleep: %1$s</string>
     <string name="widget_listing_label">Status and Alarms</string>
@@ -744,5 +734,4 @@
     <string name="widget_1_hour">1 hour</string>
     <string name="icon_placeholder" translatable="false">Icon</string>
     <string name="widget_alarm_target_hours">%d hours</string>
-
 </resources>

@@ -409,4 +409,8 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
 
         LocalBroadcastManager.getInstance(context).sendBroadcast(messageIntent);
     }
+
+    public String customStringFilter(String inputString) {
+        return inputString;
+    }
 }

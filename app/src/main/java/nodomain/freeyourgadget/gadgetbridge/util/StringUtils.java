@@ -96,36 +96,4 @@ public class StringUtils {
         }
         return "";
     }
-
-    /**
-     * @param str original text
-     * @return str with the emoticons in a format that can be displayed on an
-     * Amazfit Bip by using a custom font firmware with emoji support
-     */
-    public static String toCustomFont(String str) {
-        StringBuilder sb = new StringBuilder();
-        int i = 0;
-        while (i < str.length()) {
-            char charAt = str.charAt(i);
-            if (Character.isHighSurrogate(charAt)) {
-                int i2 = i + 1;
-                try {
-                    int codePoint = Character.toCodePoint(charAt, str.charAt(i2));
-                    if (codePoint < 127744 || codePoint > 129510) {
-                        sb.append(charAt);
-                    } else {
-                        sb.append(Character.toString((char) (codePoint - 83712)));
-                        i = i2;
-                    }
-                } catch (StringIndexOutOfBoundsException e) {
-                    e.printStackTrace();
-                    sb.append(charAt);
-                }
-            } else {
-                sb.append(charAt);
-            }
-            i++;
-        }
-        return sb.toString();
-    }
 }
