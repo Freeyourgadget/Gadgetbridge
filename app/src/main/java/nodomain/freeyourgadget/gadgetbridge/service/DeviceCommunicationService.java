@@ -51,6 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmClockReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
@@ -80,6 +81,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.EmojiConverter;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ADD_CALENDAREVENT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_APP_CONFIGURE;
@@ -368,8 +370,23 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         if (text == null || text.length() == 0)
             return text;
 
-        if (!mCoordinator.supportsUnicodeEmojis())
+        if (!mCoordinator.supportsUnicodeEmojis()) {
+
+            // use custom font for emoji, if it is supported and enabled
+            if (mCoordinator.supportsCustomFont()) {
+                switch (mCoordinator.getDeviceType()) {
+                    case AMAZFITBIP:
+                        if (((HuamiCoordinator)mCoordinator).getUseCustomFont(mGBDevice.getAddress()))
+                            return StringUtils.toCustomFont(text);
+                        break;
+                    // TODO: implement for Amazfit Cor
+                    default:
+                        break;
+                }
+            }
+
             return EmojiConverter.convertUnicodeEmojiToAscii(text, getApplicationContext());
+        }
 
         return text;
     }

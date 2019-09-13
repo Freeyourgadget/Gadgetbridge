@@ -28,15 +28,15 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmounts;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
-class ActivityAnalysis {
-    private static final Logger LOG = LoggerFactory.getLogger(ActivityAnalysis.class);
+public class ActivityAnalysis {
+    public static final Logger LOG = LoggerFactory.getLogger(ActivityAnalysis.class);
 
     // store raw steps and duration
     protected HashMap<Integer, Long> stats = new HashMap<Integer, Long>();
     // max speed determined from samples
     private int maxSpeed = 0;
 
-    ActivityAmounts calculateActivityAmounts(List<? extends ActivitySample> samples) {
+    public ActivityAmounts calculateActivityAmounts(List<? extends ActivitySample> samples) {
         ActivityAmount deepSleep = new ActivityAmount(ActivityKind.TYPE_DEEP_SLEEP);
         ActivityAmount lightSleep = new ActivityAmount(ActivityKind.TYPE_LIGHT_SLEEP);
         ActivityAmount notWorn = new ActivityAmount(ActivityKind.TYPE_NOT_WORN);

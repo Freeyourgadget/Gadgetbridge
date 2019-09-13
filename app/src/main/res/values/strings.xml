@@ -165,6 +165,11 @@
     <string name="pref_title_pebble_enable_bgjs">Enable background JS</string>
     <string name="pref_summary_pebble_enable_bgjs">When enabled, allows watchfaces to show weather, battery info etc.</string>
     <string name="pref_title_pebble_reconnect_attempts">Reconnection attempts</string>
+    <string name="pref_summary_expose_hr">Allows other apps to access HR data in realtime while Gadgetbridge is connected</string>
+    <string name="pref_title_expose_hr">3rd party realtime HR access</string>
+    <string name="pref_title_use_custom_font">Use custom font</string>
+    <string name="pref_summary_use_custom_font">Enable this if your device has a custom font firmware for emoji support</string>
+
     <!-- HPlus Preferences -->
     <string name="pref_title_unit_system">Units</string>
     <string name="pref_title_timeformat">Time format</string>
@@ -522,10 +527,7 @@
 
     <string name="authenticating">Authenticating</string>
     <string name="authentication_required">Authentication required</string>
-    <string name="appwidget_text">Zzz</string>
-    <string name="add_widget">Add widget</string>
     <string name="activity_prefs_sleep_duration">Preferred sleep duration in hours</string>
-    <string name="appwidget_setting_alarm">Setting alarm for %1$02d:%2$02d</string>
     <string name="device_hw">Hardware revision: %1$s</string>
     <string name="device_fw">Firmware version: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Error creating directory for log files: %1$s</string>
@@ -563,6 +565,18 @@
     <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Old activity data deleted.</string>
     <string name="dbmanagementactivity_old_activity_db_deletion_failed">Old Activity database deletion failed.</string>
     <string name="dbmanagementactivity_overwrite">Overwrite</string>
+    <string name="activity_db_management_autoexport_explanation">Database autoexport location has been set to:</string>
+    <string name="activity_db_management_autoexport_label">AutoExport</string>
+    <string name="activity_DB_ExportButton">Export DB</string>
+    <string name="activity_DB_import_button">Import DB</string>
+    <string name="activity_DB_test_export_button">Run AutoExport Now</string>
+    <string name="activity_DB_test_export_message">Exporting database...</string>
+    <string name="activity_DB_delete_legacy_button">Delete old DB</string>
+    <string name="activity_DB_empty_button">Empty DB</string>
+    <string name="activity_db_management_empty_DB">Empty Database</string>
+    <string name="activity_db_management_exportimport_label">Export and Import</string>
+    <string name="activity_db_management_empty_db_warning">Warning! By pushing this button you will wipe your database and start from scratch.</string>
+
     <string name="Cancel">Cancel</string>
     <string name="Delete">Delete</string>
     <string name="ok">OK</string>
@@ -710,5 +724,22 @@
     <string name="filter_mode">Filter Mode</string>
     <string name="mode_configuration">Mode Configuration</string>
     <string name="save_configuration">Save Configuration</string>
+    <!-- App Widgets-->
     <string name="appwidget_not_connected">Not connected, alarm not set.</string>
+    <string name="appwidget_text">Zzz</string>
+    <string name="add_widget">Add widget</string>
+    <string name="appwidget_setting_alarm">Setting alarm for %1$02d:%2$02d</string>
+    <string name="appwidget_sleep_alarm_widget_label">Sleep Alarm</string>
+
+    <string name="widget_steps_label">Steps: %1$02d</string>
+    <string name="widget_sleep_label">Sleep: %1$s</string>
+    <string name="widget_listing_label">Status and Alarms</string>
+    <string name="widget_set_alarm_after">Set alarm after:</string>
+    <string name="widget_5_minutes">5 minutes</string>
+    <string name="widget_10_minutes">10 minutes</string>
+    <string name="widget_20_minutes">20 minutes</string>
+    <string name="widget_1_hour">1 hour</string>
+    <string name="icon_placeholder" translatable="false">Icon</string>
+    <string name="widget_alarm_target_hours">%d hours</string>
+
 </resources>

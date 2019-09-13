@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="expose_hr_thirdparty"
+        android:layout="@layout/preference_checkbox"
+        android:summary="@string/pref_summary_expose_hr"
+        android:title="@string/pref_title_expose_hr" />
+</androidx.preference.PreferenceScreen>
