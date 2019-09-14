@@ -763,4 +763,7 @@
     <string name="widget_20_minutes">20 minutos</string>
     <string name="widget_1_hour">1 hora</string>
     <string name="widget_alarm_target_hours">%d horas</string>
+    <string name="pref_display_add_device_fab">Conectar novo botão de dispositivo</string>
+    <string name="pref_display_add_device_fab_on">Sempre visível</string>
+    <string name="pref_display_add_device_fab_off">Visível apenas se nenhum dispositivo estiver adicionado</string>
 </resources>
