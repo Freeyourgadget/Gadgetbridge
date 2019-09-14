@@ -757,4 +757,7 @@
     <string name="widget_20_minutes">20 分钟</string>
     <string name="widget_1_hour">1 小时</string>
     <string name="widget_alarm_target_hours">%d 小时</string>
+    <string name="pref_display_add_device_fab">连接新设备按钮</string>
+    <string name="pref_display_add_device_fab_on">总是可见</string>
+    <string name="pref_display_add_device_fab_off">仅当没有设备添加时可见</string>
 </resources>
