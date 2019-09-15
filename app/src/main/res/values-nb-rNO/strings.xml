@@ -756,4 +756,8 @@
     <string name="widget_20_minutes">20 minutter</string>
     <string name="widget_1_hour">Én time</string>
     <string name="widget_alarm_target_hours">%d timer</string>
+    <string name="activity_DB_test_export_message">Eksporterer database…</string>
+    <string name="pref_display_add_device_fab">\"Koble til ny enhet\"-knapp</string>
+    <string name="pref_display_add_device_fab_on">Alltid synlig</string>
+    <string name="pref_display_add_device_fab_off">Kun synlig hvis ingen enhet er lagt til</string>
 </resources>
