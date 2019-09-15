@@ -751,4 +751,7 @@
     <string name="widget_10_minutes">10 דקות</string>
     <string name="widget_20_minutes">20 דקות</string>
     <string name="widget_1_hour">שעה</string>
+    <string name="pref_display_add_device_fab">כפתור הוספת התקן חדש</string>
+    <string name="pref_display_add_device_fab_on">גלוי תמיד</string>
+    <string name="pref_display_add_device_fab_off">גלוי רק אם טרם נוספו התקנים</string>
 </resources>
