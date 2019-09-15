@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -42,7 +43,8 @@ public class WidgetAlarmsActivity extends Activity implements View.OnClickListen
                 int userSleepDuration = new ActivityUser().getSleepDuration();
                 textView = findViewById(R.id.alarm5);
                 if (userSleepDuration > 0) {
-                    textView.setText(String.format(this.getString(R.string.widget_alarm_target_hours), userSleepDuration));
+                    Resources res = getResources();
+                    textView.setText(String.format(res.getQuantityString(R.plurals.widget_alarm_target_hours, userSleepDuration, userSleepDuration)));
                 } else {
                     textView.setVisibility(View.GONE);
                 }
