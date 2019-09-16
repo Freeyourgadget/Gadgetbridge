@@ -77,6 +77,9 @@ public class ControlCenterv2 extends AppCompatActivity
 
     private boolean isLanguageInvalid = false;
 
+    public static final int MENU_REFRESH_CODE=1;
+
+
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -245,7 +248,7 @@ public class ControlCenterv2 extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
+        if (requestCode == MENU_REFRESH_CODE) {
             this.recreate();
         }
     }
@@ -260,7 +263,7 @@ public class ControlCenterv2 extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.action_settings:
                 Intent settingsIntent = new Intent(this, SettingsActivity.class);
-                startActivityForResult(settingsIntent, 1);
+                startActivityForResult(settingsIntent, MENU_REFRESH_CODE);
                 return true;
             case R.id.action_debug:
                 Intent debugIntent = new Intent(this, DebugActivity.class);
