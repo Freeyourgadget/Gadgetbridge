@@ -1223,7 +1223,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             GB.updateTransferNotification(null, "", false, 100, getContext());
             if (getDevice().isBusy()) {
                 getDevice().unsetBusyTask();
-                getDevice().sendDeviceUpdateIntent(getContext());
+                GB.signalActivityDataFinish();
             }
             if (!prefs.getBoolean(ZeTimeConstants.PREF_ZETIME_DONT_DEL_ACTDATA, false)) {
                 deleteSleepData();
