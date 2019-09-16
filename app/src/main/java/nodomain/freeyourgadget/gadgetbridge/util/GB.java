@@ -42,6 +42,8 @@ import java.nio.ByteOrder;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -491,5 +493,10 @@ public class GB {
         if (!condition) {
             throw new AssertionError(errorMessage);
         }
+    }
+
+    public static void signalActivityDataFinish() {
+        Intent intent = new Intent(GBApplication.ACTION_NEW_DATA);
+        LocalBroadcastManager.getInstance(GBApplication.getContext()).sendBroadcast(intent);
     }
 }
