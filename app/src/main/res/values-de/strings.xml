@@ -744,4 +744,21 @@
     <string name="weeksleepchart_sleep_a_month">Schlaf pro Monat</string>
     <string name="devicetype_mijia_lywsd02">Mijia Smart Uhr</string>
     <string name="menuitem_nfc">NFC</string>
+    <string name="pref_summary_expose_hr">Ermöglicht anderen Anwendungen den Zugriff auf HR-Daten in Echtzeit, während Gadgetbridge verbunden ist</string>
+    <string name="pref_title_expose_hr">Echtzeit-HR-Zugang von Drittanbietern</string>
+    <string name="pref_title_use_custom_font">Benutzerdefinierte Schriftart verwenden</string>
+    <string name="pref_summary_use_custom_font">Aktiviere das, wenn dein Gerät über eine benutzerdefinierte Schriftarten-Firmware für die Emoji-Unterstützung verfügt</string>
+    <string name="activity_DB_ExportButton">Datenbank exportieren</string>
+    <string name="activity_DB_import_button">Datenbank importieren</string>
+    <string name="activity_DB_delete_legacy_button">alte Datenbank löschen</string>
+    <string name="activity_DB_empty_button">leere Datenbank</string>
+    <string name="activity_db_management_empty_DB">leere Datenbank</string>
+    <string name="activity_db_management_exportimport_label">Exportieren und Importieren</string>
+    <string name="widget_5_minutes">5 Minuten</string>
+    <string name="widget_10_minutes">10 Minuten</string>
+    <string name="widget_20_minutes">20 Minuten</string>
+    <string name="widget_1_hour">1 Stunde</string>
+    <string name="pref_display_add_device_fab">Neues Gerät anschließen</string>
+    <string name="pref_display_add_device_fab_on">Immer sichtbar</string>
+    <string name="pref_display_add_device_fab_off">Nur sichtbar, wenn kein Gerät hinzugefügt wird</string>
 </resources>
