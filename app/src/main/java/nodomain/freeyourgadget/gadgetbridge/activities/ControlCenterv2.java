@@ -243,6 +243,15 @@ public class ControlCenterv2 extends AppCompatActivity
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            this.recreate();
+        }
+    }
+
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -251,7 +260,7 @@ public class ControlCenterv2 extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.action_settings:
                 Intent settingsIntent = new Intent(this, SettingsActivity.class);
-                startActivity(settingsIntent);
+                startActivityForResult(settingsIntent, 1);
                 return true;
             case R.id.action_debug:
                 Intent debugIntent = new Intent(this, DebugActivity.class);
