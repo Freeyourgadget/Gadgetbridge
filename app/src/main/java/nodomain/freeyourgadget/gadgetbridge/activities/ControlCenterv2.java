@@ -74,6 +74,7 @@ public class ControlCenterv2 extends AppCompatActivity
 
     private GBDeviceAdapterv2 mGBDeviceAdapter;
     private RecyclerView deviceListView;
+    private FloatingActionButton fab;
 
     private boolean isLanguageInvalid = false;
 
@@ -128,8 +129,7 @@ public class ControlCenterv2 extends AppCompatActivity
 
         deviceListView.setAdapter(this.mGBDeviceAdapter);
 
-        //we need deviceList so fab logic moved to here
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,15 +137,7 @@ public class ControlCenterv2 extends AppCompatActivity
             }
         });
 
-        if (GBApplication.getPrefs().getBoolean("display_add_device_fab", true)) {
-            fab.show();
-        } else {
-            if (deviceList.isEmpty()) {
-                fab.show();
-            } else {
-                fab.hide();
-            }
-        }
+        showFabIfNeccessary();
 
         /* uncomment to enable fixed-swipe to reveal more actions
 
@@ -249,7 +241,7 @@ public class ControlCenterv2 extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == MENU_REFRESH_CODE) {
-            this.recreate();
+            showFabIfNeccessary();
         }
     }
 
@@ -303,13 +295,27 @@ public class ControlCenterv2 extends AppCompatActivity
                 + "color: " + AndroidUtils.getTextColorHex(getBaseContext()) + "; "
                 + "background-color: " + AndroidUtils.getBackgroundColorHex(getBaseContext()) + ";" +
                 "}";
-        return new ChangeLog(this, css);}
+        return new ChangeLog(this, css);
+    }
+
     private void launchDiscoveryActivity() {
         startActivity(new Intent(this, DiscoveryActivity.class));
     }
 
     private void refreshPairedDevices() {
         mGBDeviceAdapter.notifyDataSetChanged();
+    }
+
+    private void showFabIfNeccessary() {
+        if (GBApplication.getPrefs().getBoolean("display_add_device_fab", true)) {
+            fab.show();
+        } else {
+            if (deviceListView.getChildCount() < 1) {
+                fab.show();
+            } else {
+                fab.hide();
+            }
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -347,7 +353,7 @@ public class ControlCenterv2 extends AppCompatActivity
         }
 
         if (!wantedPermissions.isEmpty())
-            ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[wantedPermissions.size()]), 0);
+            ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[0]), 0);
     }
 
     public void setLanguage(Locale language, boolean invalidateLanguage) {
