@@ -7,7 +7,6 @@
     <string name="action_quit">Κλείσιμο</string>
     <string name="action_donate">Δωρεά</string>
     <string name="controlcenter_fetch_activity_data">Συγχρονισμός</string>
-    <string name="controlcenter_start_sleepmonitor">Παρακολούθηση Ύπνου (υπό δοκιμή)</string>
     <string name="controlcenter_find_device">Βρείτε τη χαμένη συσκευή</string>
     <string name="controlcenter_take_screenshot">Στιγμιότυπο οθόνης</string>
     <string name="controlcenter_connect">Σύνδεση</string>
@@ -92,7 +91,7 @@
     <string name="pref_title_notifications_pebblemsg">Μηνύματα Pebble</string>
     <string name="pref_summary_notifications_pebblemsg">Υποστήριξη των εφαρμογών που στέλνουν ειδοποιήσεις στο Pebble μέσω του PebbleKit.</string>
     <string name="pref_title_notifications_generic">Υποστήριξη γενικών ειδοποιήσεων</string>
-    <string name="pref_title_whenscreenon">...επίσης όταν είναι ανοιχτή η οθόνη</string>
+    <string name="pref_title_whenscreenon">…επίσης όταν είναι ανοιχτή η οθόνη</string>
     <string name="pref_title_notification_filter">Μην Ενοχλείτε</string>
     <string name="pref_summary_notification_filter">"Μη επιθυμητές ειδοποιήσεις δεν στελνονται σε αυτή τη λειτουργία "</string>
     <string name="pref_title_transliteration">Αλλαγή χαρακτήρων</string>
@@ -297,9 +296,6 @@
     <string name="activity_sleepchart_activity_and_sleep">Η δραστηριότητα και ο ύπνος σας</string>
     <string name="updating_firmware">Αναβάθμιση λογισμικού…</string>
     <string name="fwapp_install_device_not_ready">Το αρχείο δεν μπορεί να εγκατασταθεί, η συσκευή δεν είναι έτοιμη.</string>
-    <string name="miband_installhandler_miband_firmware">Λογισμικό Mi Band %1$s</string>
-    <string name="amazfitbip_firmware">Λογισμικό Amazfit Bip %1$s</string>
-    <string name="amazfitcor_firmware">Λογισμικό Amazfit Cor %1$s</string>
     <string name="miband_fwinstaller_compatible_version">Συμβατή έκδοση</string>
     <string name="miband_fwinstaller_untested_version">Μη δοκιμασμένη έκδοση!</string>
     <string name="fwappinstaller_connection_state">Σύνδεση στη συσκευή: %1$s</string>
@@ -763,5 +759,4 @@
     <string name="widget_10_minutes">10 λεπτά</string>
     <string name="widget_20_minutes">20 λεπτά</string>
     <string name="widget_1_hour">1 ώρα</string>
-    <string name="widget_alarm_target_hours">%d ώρες</string>
 </resources>

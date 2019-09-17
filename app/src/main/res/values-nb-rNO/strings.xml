@@ -5,7 +5,6 @@
     <string name="action_quit">Avslutt</string>
     <string name="action_donate">Doner</string>
     <string name="controlcenter_fetch_activity_data">Synkroniser</string>
-    <string name="controlcenter_start_sleepmonitor">Søvnmonitor (Alfa)</string>
     <string name="controlcenter_find_device">Finn mistet enhet</string>
     <string name="controlcenter_take_screenshot">Utfør skjermavbildning</string>
     <string name="controlcenter_connect">Koble til</string>
@@ -143,7 +142,7 @@
     <string name="pref_title_pebble_forcele">Alltid foretrekk BLE</string>
     <string name="pref_summary_pebble_forcele">Bruk eksperimentell Pebble LE-støtte for alle Pebble-klokker, istedenfor BT classic, som krever parring til ikke-LE først, og så Pebble LE</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU-grense</string>
-    <string name="pref_summary_pebble_mtu_limit">Hvis din Pebble 2/Pebble LE ikke fungerer som forventet, prøv å sette denne grensen for å begrense MTU (gyldig rekkevidde 20-512)</string>
+    <string name="pref_summary_pebble_mtu_limit">Hvis din Pebble 2/Pebble LE ikke fungerer som forventet, prøv å sette denne grensen for å begrense MTU (gyldig rekkevidde 20–512)</string>
     <string name="pref_title_pebble_enable_bgjs">Skru på bakgrunns-JS</string>
     <string name="pref_summary_pebble_enable_bgjs">Tillater når påskrudd, værvarsel på urskive, batteriinfo, osv.</string>
     <string name="pref_title_pebble_reconnect_attempts">Forsøk på tilkoblingsgjenopprettelse</string>
@@ -282,8 +281,6 @@
     <string name="updating_firmware">Oppgraderer fastvare…</string>
     <string name="fwapp_install_device_not_ready">Kan ikke installere fil, enheten er ikke klar.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
-    <string name="amazfitbip_firmware">Amazfit Bip-fastvare %1$s</string>
-    <string name="amazfitcor_firmware">Amazfit Cor-fastvare %1$s</string>
     <string name="miband_fwinstaller_compatible_version">Kompatibel versjon</string>
     <string name="miband_fwinstaller_untested_version">Utestet versjon!</string>
     <string name="fwappinstaller_connection_state">Tilkobling til enhet: %1$s</string>
@@ -755,7 +752,6 @@
     <string name="widget_10_minutes">Ti minutter</string>
     <string name="widget_20_minutes">20 minutter</string>
     <string name="widget_1_hour">Én time</string>
-    <string name="widget_alarm_target_hours">%d timer</string>
     <string name="activity_DB_test_export_message">Eksporterer database…</string>
     <string name="pref_display_add_device_fab">\"Koble til ny enhet\"-knapp</string>
     <string name="pref_display_add_device_fab_on">Alltid synlig</string>

@@ -7,7 +7,6 @@
     <string name="action_quit">Salir</string>
     <string name="action_donate">Hacer donación</string>
     <string name="controlcenter_fetch_activity_data">Sincronizar</string>
-    <string name="controlcenter_start_sleepmonitor">Monitor de sueño (ALPHA)</string>
     <string name="controlcenter_find_device">Localiza dispositivo perdido</string>
     <string name="controlcenter_take_screenshot">Capturar pantalla</string>
     <string name="controlcenter_disconnect">Desconectar</string>
@@ -419,7 +418,6 @@
 \nNota: no tienes que instalar .res y .gps si estos archivos son los mismos que los previamente instalados. 
 \n 
 \nPROCEDE BAJO TU PROPIA RESPONSABILIDAD !</string>
-    <string name="amazfitbip_firmware">Firmware Amazfit Bip %1$s</string>
     <string name="mi2_prefs_button_actions">Acciones del botón</string>
     <string name="mi2_prefs_button_actions_summary">Especificar acción para pulsación del botón del Mi Band 2</string>
     <string name="mi2_prefs_button_press_count">Número de presiones</string>
@@ -449,7 +447,6 @@
 \nNota: no tienes que instalar .res si este archivo es el mismo que el previamente instalado. 
 \n 
 \n¡PROCEDE BAJO TU PROPIA RESPONSABILIDAD !</string>
-    <string name="amazfitcor_firmware">Firmware Amazfit Cor %1$s</string>
     <string name="pref_title_charts_swipe">Permitir deslizar hacia izquierda/derecha en los gráficos de actividad</string>
     <string name="preferences_amazfitbip_settings">Ajustes Amazfit Bip</string>
     <string name="automatic">Automático</string>

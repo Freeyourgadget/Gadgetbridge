@@ -7,7 +7,6 @@
     <string name="action_quit">Beenden</string>
     <string name="action_donate">Spenden</string>
     <string name="controlcenter_fetch_activity_data">Synchronisieren</string>
-    <string name="controlcenter_start_sleepmonitor">Schlafaufzeichnung (ALPHA)</string>
     <string name="controlcenter_find_device">Verlorenes Gerät finden</string>
     <string name="controlcenter_take_screenshot">Bildschirmfoto machen</string>
     <string name="controlcenter_disconnect">Trennen</string>
@@ -51,7 +50,7 @@
     <string name="miband_firmware_unknown_warning">Diese Firmware ist nicht getestet und ist möglicherweise nicht mit Gadgetbridge kompatibel. 
 \n 
 \nDu wirst GEBETEN, diese nicht zu flashen!</string>
-    <string name="miband_firmware_suggest_whitelist">Wenn du dennoch fortfahren möchtest und das Gerät anschliessend korrekt funktioniert, melde bitte den Gadgetbridge-Entwicklern, das sie die Firmwareversion %s auf die Whitelist setzen sollen.</string>
+    <string name="miband_firmware_suggest_whitelist">Wenn du dennoch fortfahren möchtest und das Gerät anschließend korrekt funktioniert, melde bitte den Gadgetbridge-Entwicklern, das sie die Firmwareversion %s auf die Whitelist setzen sollen.</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Einstellungen</string>
     <string name="pref_header_general">Allgemeine Einstellungen</string>
@@ -151,8 +150,6 @@
     <string name="connecting">Verbinden</string>
     <string name="connected">Verbunden</string>
     <string name="unknown_state">Unbekannter Zustand</string>
-    <string name="connectionstate_hw_fw">HW: %1$s FW: %2$s</string>
-    <string name="connectionstate_fw">Firmware-Version %1$s</string>
     <string name="_unknown_">(unbekannt)</string>
     <string name="test">Test</string>
     <string name="test_notification">Testbenachrichtigung</string>
@@ -428,7 +425,6 @@
 \nHinweis: Du musst die .res und .gps nicht installieren, wenn diese Dateien genau die gleichen sind wie die zuvor installierten.
 \n 
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
-    <string name="amazfitbip_firmware">Amazfit Bip Firmware %1$s</string>
     <string name="mi2_prefs_button_actions">Tastenaktionen</string>
     <string name="mi2_prefs_button_actions_summary">Bestimmte Aktion bei Tastendruck auf dem Mi Band 2</string>
     <string name="mi2_prefs_button_press_count_summary">Anzahl der Tastendrücke, um die Nachrichtenübertragung auszulösen</string>
@@ -446,7 +442,6 @@
     <string name="controlcenter_connect">Verbinden…</string>
     <string name="pref_title_pebble_enable_bgjs">Hintergrund JS aktivieren</string>
     <string name="preferences_amazfitbip_settings">Amazfit Bip Einstellungen</string>
-    <string name="amazfitcor_firmware">Amazfit Cor Firmware %1$s</string>
     <string name="simplified_chinese">Vereinfachtes Chinesisch</string>
     <string name="traditional_chinese">Traditionelles Chinesisch</string>
     <string name="english">Englisch</string>
@@ -517,7 +512,7 @@
     <string name="kind_gps_almanac">GPS-Kalender</string>
     <string name="kind_gps_cep">GPS-Fehlerkorrektur</string>
     <string name="kind_resources">Quellen</string>
-    <string name="kind_watchface">Ziffernblatt</string>
+    <string name="kind_watchface">Zifferblatt</string>
     <string name="devicetype_xwatch">XWatch</string>
     <string name="choose_auto_export_location">Exportort wählen</string>
     <string name="notification_channel_name">Gadgetbridge-Benachrichtigungen</string>

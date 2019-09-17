@@ -6,7 +6,6 @@
     <string name="action_debug">디버그</string>
     <string name="action_quit">종료</string>
     <string name="controlcenter_fetch_activity_data">동기화</string>
-    <string name="controlcenter_start_sleepmonitor">수면 측정계 (초기 버전)</string>
     <string name="controlcenter_find_device">잃어버린 기기 찾기</string>
     <string name="controlcenter_take_screenshot">스크린샷 찍기</string>
     <string name="controlcenter_disconnect">연결 해제</string>
@@ -301,7 +300,7 @@
     <string name="pref_title_pebble_forcele">블루투스 저전력 연결을 언제나 선호</string>
     <string name="pref_summary_pebble_forcele">일반 블루투스 프로토콜이 아닌 실험적인 블루투스 저전력 연결을 사용합니다. 일반적인 연결을 최소한 한번 한 후 Pebble LE를 페어링 하는 것이 필요합니다</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU 제한</string>
-    <string name="pref_summary_pebble_mtu_limit">만약 Pebble 2/Pebble LE가 기대한 대로 작동하지 않는다면, 이 설정을 사용하여 MTU를 제한하세요 (20-512까지 설정 가능)</string>
+    <string name="pref_summary_pebble_mtu_limit">만약 Pebble 2/Pebble LE가 기대한 대로 작동하지 않는다면, 이 설정을 사용하여 MTU를 제한하세요 (20–512까지 설정 가능)</string>
     <string name="pref_title_pebble_enable_applogs">시계 앱 로그 활성화</string>
     <string name="pref_summary_pebble_enable_applogs">시계 앱들의 로그를 Gadgetbridge가 기록합니다 (재연결 필요)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">끝나기 전 미리 PebbleKit 연결에 ACK 보내기</string>

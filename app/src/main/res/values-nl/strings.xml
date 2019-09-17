@@ -7,7 +7,6 @@
     <string name="action_quit">Sluit af</string>
     <string name="action_donate">Doneer</string>
     <string name="controlcenter_fetch_activity_data">Synchroniseren</string>
-    <string name="controlcenter_start_sleepmonitor">Slaap Monitor (ALPHA)</string>
     <string name="controlcenter_find_device">Zoek verloren Toestel</string>
     <string name="controlcenter_take_screenshot">Screenshot maken</string>
     <string name="controlcenter_disconnect">Loskoppelen</string>
@@ -74,7 +73,7 @@
     <string name="pref_title_notifications_pebblemsg">Pebble Berichten</string>
     <string name="pref_summary_notifications_pebblemsg">Ondersteuning voor apps die meldingen versturen naar de Pebble via PebbleKit sturen.</string>
     <string name="pref_title_notifications_generic">Algemene melding ondersteuning</string>
-    <string name="pref_title_whenscreenon">... ook als het scherm is ingeschakeld</string>
+    <string name="pref_title_whenscreenon">… ook als het scherm is ingeschakeld</string>
     <string name="pref_title_notification_filter">Niet Storen</string>
     <string name="pref_summary_notification_filter">Ongewenste meldingen worden tegengehouden in deze modus</string>
     <string name="pref_title_transliteration">Transliteratie</string>
@@ -158,7 +157,7 @@
     <string name="pref_title_pebble_forcele">Geef altijd de voorkeur aan BLE</string>
     <string name="pref_summary_pebble_forcele">Gebruik experimentele Pebble LE-ondersteuning voor alle Pebbels in plaats van BT classic. Dit vereist het eerst paren met een niet LE-versie en daarna met een Pebble LE</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU limiet</string>
-    <string name="pref_summary_pebble_mtu_limit">Als uw Pebble 2/Pebble LE niet werkt zoals verwacht, probeer deze instelling om de MTU te limiteren (geldig bereik: 20-512)</string>
+    <string name="pref_summary_pebble_mtu_limit">Als uw Pebble 2/Pebble LE niet werkt zoals verwacht, probeer deze instelling om de MTU te limiteren (geldig bereik: 20–512)</string>
     <string name="pref_title_pebble_enable_applogs">Logging van de horlogeapp inschakelen</string>
     <string name="pref_summary_pebble_enable_applogs">Zorgt ervoor dat logs van horloge-apps gelogd zullen worden door Gadgetbridge (opnieuw verbinden vereist)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">Vroegtijdige ACK PebbleKit</string>

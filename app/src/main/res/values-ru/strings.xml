@@ -6,7 +6,6 @@
     <string name="action_debug">Отладка</string>
     <string name="action_quit">Выход</string>
     <string name="controlcenter_fetch_activity_data">Синхронизировать</string>
-    <string name="controlcenter_start_sleepmonitor">Анализ сна (АЛЬФА)</string>
     <string name="controlcenter_find_device">Найти устройство</string>
     <string name="controlcenter_take_screenshot">Сделать снимок экрана</string>
     <string name="controlcenter_disconnect">Отключить</string>
@@ -425,8 +424,6 @@
     <string name="stats_title">Зоны скорости</string>
     <string name="stats_x_axis_label">Всего минут</string>
     <string name="stats_y_axis_label">Шагов в минуту</string>
-    <string name="amazfitbip_firmware">Прошивка Amazfit Bip версии %1$s</string>
-    <string name="amazfitcor_firmware">Прошивка Amazfit Cor версии %1$s</string>
     <string name="clock">Часы</string>
     <string name="heart_rate">Пульс</string>
     <string name="battery">Заряд батарейки</string>

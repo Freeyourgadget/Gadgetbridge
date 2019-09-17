@@ -5,13 +5,10 @@
     <string name="action_settings">Ayarlar</string>
     <string name="action_debug">Hata Gider</string>
     <string name="action_quit">Çıkış</string>
-    <string name="controlcenter_start_sleepmonitor">Uyku Monitorü (ALPHA)</string>
     <string name="title_activity_debug">Hata Gider</string>
     <!-- Strings related to AppManager -->
     <string name="title_activity_appmanager">Uygulama Yöneticisi</string>
     <string name="appmananger_app_delete">Sil</string>
-    <!-- Strings related to AppInstaller -->
-    <string name="title_activity_appinstaller">Uygulama Yükleyici</string>
     <!-- Strings related to Settings -->
     <string name="title_activity_settings">Ayarlar</string>
     <string name="pref_header_general">Genel Ayarlar</string>
@@ -21,7 +18,6 @@
     <string name="pref_summary_datetime_syctimeonconnect">Android saati veya zaman dilimi değiştiğinde ve cihaza bağlanırken saati güncelle</string>
     <string name="pref_header_notifications">Bilgilendirmeler</string>
     <string name="pref_title_notifications_sms">SMS</string>
-    <string name="pref_title_notifications_k9mail">K9-Mail</string>
     <string name="pref_title_notifications_pebblemsg">Pebble Mesajları</string>
     <string name="pref_summary_notifications_pebblemsg">Pebble cihazlarına Intent ile bilgilendirme gönderme desteği. Conversations uygulaması ile kullanabilirsiniz.</string>
     <string name="pref_title_notifications_generic">Genel bilgilendirme desteği</string>
@@ -45,10 +41,6 @@
     <string name="tap_a_device_to_connect">Bağlanmak için cihaza dokunun</string>
     <string name="cannot_connect_bt_address_invalid_">Bağlanamıyor. Bluetooth adresi geçersiz olabilir\?</string>
     <string name="gadgetbridge_running">Gadgetbridge çalışıyor</string>
-    <string name="battery_low">düşük</string>
-    <string name="battery_medium">orta</string>
-    <string name="battery_full">dolu</string>
-    <string name="battery_not_charging">şarj olmuyor</string>
     <string name="installing_binary_d_d">Dosya yükleniyor %1$d/%2$d</string>
     <string name="installation_failed_">Yükleme başarısız</string>
     <string name="installation_successful">Yükleme başarılı</string>

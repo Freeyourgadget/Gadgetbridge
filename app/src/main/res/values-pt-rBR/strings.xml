@@ -6,7 +6,6 @@
     <string name="action_debug">Depurar</string>
     <string name="action_quit">Sair</string>
     <string name="controlcenter_fetch_activity_data">Sincronizar</string>
-    <string name="controlcenter_start_sleepmonitor">Monitor de sono (ALPHA)</string>
     <string name="controlcenter_find_device">Buscar dispositivo desconectado</string>
     <string name="controlcenter_take_screenshot">Print da tela</string>
     <string name="controlcenter_disconnect">Desconectar</string>
@@ -762,7 +761,6 @@
     <string name="widget_10_minutes">10 minutos</string>
     <string name="widget_20_minutes">20 minutos</string>
     <string name="widget_1_hour">1 hora</string>
-    <string name="widget_alarm_target_hours">%d horas</string>
     <string name="pref_display_add_device_fab">Conectar novo botão de dispositivo</string>
     <string name="pref_display_add_device_fab_on">Sempre visível</string>
     <string name="pref_display_add_device_fab_off">Visível apenas se nenhum dispositivo estiver adicionado</string>

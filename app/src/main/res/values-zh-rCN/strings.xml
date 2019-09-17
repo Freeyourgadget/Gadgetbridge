@@ -7,7 +7,6 @@
     <string name="action_quit">退出</string>
     <string name="action_donate">捐赠</string>
     <string name="controlcenter_fetch_activity_data">同步</string>
-    <string name="controlcenter_start_sleepmonitor">睡眠检测器（ALPHA测试）</string>
     <string name="controlcenter_find_device">查找丢失的设备</string>
     <string name="controlcenter_take_screenshot">截图</string>
     <string name="controlcenter_connect">连接…</string>
@@ -465,7 +464,7 @@
     <string name="mi2_prefs_button_press_broadcast">要发送的广播消息</string>
     <string name="devicetype_pebble">Pebble</string>
     <string name="pref_summary_pebble_forcele">使用实验性 Pebble LE 以支持所有 Pebble ，代替 BT 经典连接。 这首先需要以非 LE 配对，然后以 Pebble LE 连接</string>
-    <string name="pref_summary_pebble_mtu_limit">如果您的 Pebble 2 / Pebble LE 无法正常工作，请尝试使用此设置来限制 MTU （有效范围 20-512 ）</string>
+    <string name="pref_summary_pebble_mtu_limit">如果您的 Pebble 2 / Pebble LE 无法正常工作，请尝试使用此设置来限制 MTU （有效范围 20–512 ）</string>
     <string name="pref_header_auto_export">自动导出</string>
     <string name="pref_title_auto_export_enabled">启用自动导出</string>
     <string name="pref_title_auto_export_location">导出位置</string>
@@ -756,7 +755,6 @@
     <string name="widget_10_minutes">10 分钟</string>
     <string name="widget_20_minutes">20 分钟</string>
     <string name="widget_1_hour">1 小时</string>
-    <string name="widget_alarm_target_hours">%d 小时</string>
     <string name="pref_display_add_device_fab">连接新设备按钮</string>
     <string name="pref_display_add_device_fab_on">总是可见</string>
     <string name="pref_display_add_device_fab_off">仅当没有设备添加时可见</string>

@@ -6,7 +6,6 @@
     <string name="action_debug">Hibakeresés</string>
     <string name="action_quit">Kilépés</string>
     <string name="controlcenter_fetch_activity_data">Szinkronizálás</string>
-    <string name="controlcenter_start_sleepmonitor">Alvási adatok (ALFA)</string>
     <string name="controlcenter_find_device">Elveszett eszköz keresése</string>
     <string name="controlcenter_take_screenshot">Képernyőkép készítése</string>
     <string name="controlcenter_disconnect">Kapcsolat megszüntetése</string>
@@ -132,7 +131,7 @@
     <string name="pref_title_pebble_forcele">Mindig preferálja a BLE-t</string>
     <string name="pref_summary_pebble_forcele">A kísérleti LE támogatás használata minden Pebble-hez a klasszikus BT helyett, párosítani kell hozzá egy \"Pebble LE\"-t, miután a nem-LE-t párosítva lett egyszer.</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU limit</string>
-    <string name="pref_summary_pebble_mtu_limit">Ha a Pebble 2/Pebble LE nem működik elvártan, próbáld beállítani az MTU limitet (az érvényes tartomány: 20-512)</string>
+    <string name="pref_summary_pebble_mtu_limit">Ha a Pebble 2/Pebble LE nem működik elvártan, próbáld beállítani az MTU limitet (az érvényes tartomány: 20–512)</string>
     <string name="pref_title_pebble_enable_applogs">Óraalkalmazás-naplózás engedélyezése</string>
     <string name="pref_summary_pebble_enable_applogs">Az óra-alkalmazások naplóit a Gadgetbridge is naplózni fogja (újracsatlakozást igényel)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">Korai ACK PebbleKit</string>
