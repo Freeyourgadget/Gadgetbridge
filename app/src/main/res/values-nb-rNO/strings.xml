@@ -756,4 +756,8 @@
     <string name="pref_display_add_device_fab">\"Koble til ny enhet\"-knapp</string>
     <string name="pref_display_add_device_fab_on">Alltid synlig</string>
     <string name="pref_display_add_device_fab_off">Kun synlig hvis ingen enhet er lagt til</string>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="one">%d time</item>
+        <item quantity="other">%d timer</item>
+    </plurals>
 </resources>
