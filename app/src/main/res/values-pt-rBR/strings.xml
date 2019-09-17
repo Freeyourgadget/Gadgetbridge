@@ -764,4 +764,8 @@
     <string name="pref_display_add_device_fab">Conectar novo botão de dispositivo</string>
     <string name="pref_display_add_device_fab_on">Sempre visível</string>
     <string name="pref_display_add_device_fab_off">Visível apenas se nenhum dispositivo estiver adicionado</string>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="one">% hora</item>
+        <item quantity="other">% horas</item>
+    </plurals>
 </resources>
