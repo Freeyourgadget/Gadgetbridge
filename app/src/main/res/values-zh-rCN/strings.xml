@@ -758,4 +758,7 @@
     <string name="pref_display_add_device_fab">连接新设备按钮</string>
     <string name="pref_display_add_device_fab_on">总是可见</string>
     <string name="pref_display_add_device_fab_off">仅当没有设备添加时可见</string>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="other">%d 小时</item>
+    </plurals>
 </resources>
