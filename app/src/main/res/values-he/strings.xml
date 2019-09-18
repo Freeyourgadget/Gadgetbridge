@@ -751,4 +751,10 @@
     <string name="pref_display_add_device_fab">כפתור הוספת התקן חדש</string>
     <string name="pref_display_add_device_fab_on">גלוי תמיד</string>
     <string name="pref_display_add_device_fab_off">גלוי רק אם טרם נוספו התקנים</string>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="one">שעה</item>
+        <item quantity="two">שעתיים</item>
+        <item quantity="many">%d שעות</item>
+        <item quantity="other">%d שעות</item>
+    </plurals>
 </resources>
