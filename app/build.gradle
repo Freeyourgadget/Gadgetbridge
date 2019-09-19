@@ -1,5 +1,5 @@
 apply plugin: "com.android.application"
-apply plugin: "findbugs"
+apply plugin: "com.github.spotbugs"
 apply plugin: "pmd"
 
 def ABORT_ON_CHECK_FAILURE = false
@@ -99,7 +99,7 @@ gradle.beforeProject {
     preBuild.dependsOn(":GBDaoGenerator:genSources")
 }
 
-check.dependsOn "findbugs", "pmd", "lint"
+check.dependsOn "spotbugsMain", "pmd", "lint"
 
 task pmd(type: Pmd) {
     ruleSetFiles = files("${project.rootDir}/config/pmd/pmd-ruleset.xml")
@@ -142,22 +142,32 @@ task pmd(type: Pmd) {
     }
 }
 
-task findbugs(type: FindBugs) {
+// this is just for spotbugs to let the plugin create the task
+sourceSets {
+    main {
+        java.srcDirs = []
+    }
+}
+
+spotbugs {
+    toolVersion = "3.1.12"
     ignoreFailures = !ABORT_ON_CHECK_FAILURE
     effort = "default"
     reportLevel = "medium"
+}
+
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
+    source = fileTree('src/main/java')
+    classes = files("${project.rootDir}/app/build/intermediates/javac/debug/classes")
     excludeFilter = new File("${project.rootDir}/config/findbugs/findbugs-filter.xml")
-    classes = files("${project.rootDir}/app/build/intermediates/javac/release/compileReleaseJavaWithJavac/classes")
-    source = fileTree("src/main/java/")
-    classpath = files()
     reports {
         xml.enabled = false
         html.enabled = true
         xml {
-            destination file ("$project.buildDir/reports/findbugs/findbugs-output.xml")
+            destination file ("$project.buildDir/reports/spotbugs/spotbugs-output.xml")
         }
         html {
-            destination file ("$project.buildDir/reports/findbugs/findbugs-output.html")
+            destination file ("$project.buildDir/reports/spotbugs/spotbugs-output.html")
         }
     }
 }
