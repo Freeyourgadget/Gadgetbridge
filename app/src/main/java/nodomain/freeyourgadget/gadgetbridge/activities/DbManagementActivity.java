@@ -109,7 +109,7 @@ public class DbManagementActivity extends AbstractGBActivity {
 
         Prefs prefs = GBApplication.getPrefs();
         boolean autoExportEnabled = prefs.getBoolean(GBPrefs.AUTO_EXPORT_ENABLED, false);
-        Integer autoExportInterval = prefs.getInt(GBPrefs.AUTO_EXPORT_INTERVAL, 0);
+        int autoExportInterval = prefs.getInt(GBPrefs.AUTO_EXPORT_INTERVAL, 0);
         //returns an ugly content://...
         //String autoExportLocation = prefs.getString(GBPrefs.AUTO_EXPORT_LOCATION, "");
 

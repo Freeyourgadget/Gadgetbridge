@@ -2136,7 +2136,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 ZeTimeConstants.CMD_END
         };
 
-        if (language.equals("default") || (language == null)) {
+        if (language == null || language.equals("default")) {
             locale = Locale.getDefault();
             language = locale.getLanguage();
         }
