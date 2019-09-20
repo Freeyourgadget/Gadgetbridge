@@ -491,8 +491,8 @@
     <string name="spanish">Spaans</string>
     <string name="choose_auto_export_location">Kies export locatie</string>
     <string name="notification_channel_name">Gadgetbridge meldingen</string>
-    <string name="blacklist_all_for_notifications">Blacklist voor alle notificaties</string>
-    <string name="whitelist_all_for_notifications">Whitelist voor alle notificaties</string>
+    <string name="blacklist_all_for_notifications">Zwarte lijst voor alle notificaties</string>
+    <string name="whitelist_all_for_notifications">Witte lijst voor alle notificaties</string>
     <string name="fw_upgrade_notice_miband3">Je staat op het punt om de %s-firmware op je Mi Band 3 te installeren. 
 \n 
 \nZorg ervoor dat u het .fw bestand installeert, en daarna het .res bestand. Uw band wordt opnieuw opgestart na het installeren van het .fw-bestand. 
@@ -587,12 +587,12 @@
     <string name="mi3_prefs_night_mode">Nacht modus</string>
     <string name="mi3_prefs_night_mode_summary">Verlaag automatisch de scherm helderheid \'s nachts</string>
     <string name="activity_prefs_charts">Grafiek instellingen</string>
-    <string name="activity_prefs_chart_max_heart_rate">Max harstslag</string>
-    <string name="activity_prefs_chart_min_heart_rate">Min hartslag</string>
+    <string name="activity_prefs_chart_max_heart_rate">Maximum hartslag</string>
+    <string name="activity_prefs_chart_min_heart_rate">Minimum hartslag</string>
     <string name="ok">OK</string>
     <string name="mi3_night_mode_sunset">Bij zonsondergang</string>
     <string name="devicetype_id115">ID115</string>
-    <string name="devicetype_watch9">Horloge 9</string>
+    <string name="devicetype_watch9">Watch 9</string>
     <string name="devicetype_roidmi">Roidmi</string>
     <string name="devicetype_roidmi3">Roidmi 3</string>
     <string name="menuitem_music">Muziek</string>
@@ -616,4 +616,150 @@
     <string name="pref_invalid_frequency_title">Ongeldige frequentie</string>
     <string name="pref_invalid_frequency_message">Voer een frequentie in tussen 87,5 en 108,0</string>
     <string name="language_and_region_prefs">Taal en regio instellingen</string>
+    <string name="devicetype_casiogb6900">Casio GB-6900</string>
+    <string name="title_activity_notification_filter">Notificatiefilter</string>
+    <string name="toast_app_must_not_be_blacklisted">App mag niet op de zwarte lijst staan om te worden geconfigureerd</string>
+    <string name="edittext_notification_filter_words_hint">Voer gewenste woorden in, elk op een nieuwe regel</string>
+    <string name="toast_notification_filter_saved_successfully">Notificatiefilter opgeslagen</string>
+    <string name="filter_mode_none">Niet filteren</string>
+    <string name="filter_mode_whitelist">Laat zien wanneer woorden voorkomen</string>
+    <string name="filter_mode_blacklist">Blokkeer wanneer woorden voorkomen</string>
+    <string name="filter_submode_at_least_one">Minstens een van de woorden</string>
+    <string name="filter_submode_all">Alle woorden</string>
+    <string name="toast_notification_filter_words_empty_hint">Voer minstens een woord in</string>
+    <string name="filter_mode">Filtermodus</string>
+    <string name="mode_configuration">Modus instellingen</string>
+    <string name="save_configuration">Configuratie opslaan</string>
+    <string name="appwidget_not_connected">Niet verbonden, alarm niet gezet.</string>
+    <string name="activity_type_exercise">Oefenen</string>
+    <string name="prefs_disconnect_notification">Verbroken verbinding melding</string>
+    <string name="zetime_title_settings">ZeTime instellingen</string>
+    <string name="zetime_title_heartrate">Hartslag instellingen</string>
+    <string name="zetime_title_screentime">Scherm aan duur in seconden</string>
+    <string name="zetime_title_heart_rate_alarm">Hartslagalarm</string>
+    <string name="zetime_title_heart_rate_alarm_summary">Het horloge waarschuwt je zodra je hartslag de grenswaarden overschrijdt.</string>
+    <string name="zetime_heart_rate_alarm_enable">Hartslagalarm inschakelen</string>
+    <string name="activity_prefs_alarm_max_heart_rate">Maximale hartslag</string>
+    <string name="activity_prefs_alarm_min_heart_rate">Minimale hartslag</string>
+    <string name="zetime_analog_mode">Analoge modus</string>
+    <string name="zetime_analog_mode_hands">Enkel wijzers</string>
+    <string name="zetime_analog_mode_handsandsteps">Wijzers en streepjes</string>
+    <string name="zetime_activity_tracking">Activiteit monitoring</string>
+    <string name="zetime_activity_tracking_summary">Schakel activiteit monitoring in, telt je stappen etc.</string>
+    <string name="zetime_handmove_display">Handbeweging</string>
+    <string name="zetime_handmove_display_summary">Draai je pols om het scherm te activeren of deactiveren.</string>
+    <string name="zetime_calories_type">Soort calorieën</string>
+    <string name="zetime_calories_type_active">Alleen calorieën verbrand gedurende activiteiten</string>
+    <string name="zetime_calories_type_all">Verbrande calorieën actief en inactief</string>
+    <string name="zetime_time_format">Tijd formaat</string>
+    <string name="zetime_time_format_24h">24 uur</string>
+    <string name="zetime_time_format_12h">12 uur</string>
+    <string name="zetime_date_format">Datum formaat</string>
+    <string name="zetime_date_format_1">YY/MM/DD</string>
+    <string name="zetime_date_format_2">DD/MM/YY</string>
+    <string name="zetime_date_format_3">MM/DD/YY</string>
+    <string name="zetime_prefs_inactivity_repetitions">Herhalingen</string>
+    <string name="zetime_prefs_inactivity_mo">Maandag</string>
+    <string name="zetime_prefs_inactivity_tu">Dinsdag</string>
+    <string name="zetime_prefs_inactivity_we">Woensdag</string>
+    <string name="zetime_prefs_inactivity_th">Donderdag</string>
+    <string name="zetime_prefs_inactivity_fr">Vrijdag</string>
+    <string name="zetime_prefs_inactivity_sa">Zaterdag</string>
+    <string name="zetime_prefs_inactivity_su">Zondag</string>
+    <string name="zetime_title_alarm_signaling">Zet signaleringstype voor het alarm</string>
+    <string name="zetime_signaling_none">Stil</string>
+    <string name="zetime_signaling_vibrate">Continu trillen</string>
+    <string name="zetime_signaling_beep">Continu piepen</string>
+    <string name="zetime_signaling_vibrate_beep">Continu trillen en piepen</string>
+    <string name="zetime_signaling_vibrate_once">Eenmaal trillen</string>
+    <string name="zetime_signaling_vibrate_twice">Tweemaal trillen</string>
+    <string name="zetime_signaling_beep_once">Eenmaal piepen</string>
+    <string name="zetime_signaling_beep_twice">Tweemaal piepen</string>
+    <string name="zetime_signaling_vibrate_beep_once">Eenmaal trillen en piepen</string>
+    <string name="pref_screen_notification_profile_missed_call">Gemiste oproep notificatie</string>
+    <string name="pref_screen_notification_profile_calendar">Agenda notificatie</string>
+    <string name="pref_screen_notification_profile_inactivity">Inactiviteit notificatie</string>
+    <string name="pref_screen_notification_profile_low_power">Batterij laag waarschuwing</string>
+    <string name="pref_screen_notification_profile_anti_loss">Anti-verlies waarschuwing</string>
+    <string name="interval_fifteen_minutes">elke 15 minuten</string>
+    <string name="interval_forty_five_minutes">elke 45 minuten</string>
+    <string name="activity_prefs_calories_burnt">Dagelijks doel: calorieën verbrandt</string>
+    <string name="activity_prefs_distance_meters">Dagelijks doel: afstand in meters</string>
+    <string name="activity_prefs_activetime_minutes">Dagelijks doel: tijd actief in minuten</string>
+    <string name="devicetype_miscale2">Mi Scale 2</string>
+    <string name="pref_title_support_voip_calls">Sta VoIP app calls toe</string>
+    <string name="title_activity_device_specific_settings">Toestelspecifieke instellingen</string>
+    <string name="pref_title_authkey">Authorisatie sleutel</string>
+    <string name="pref_summary_authkey">Wijzig de authorisatie sleutel in een algemene sleutel op al uw Android-apparaten waarmee u verbinding wilt maken. De vorige standaardsleutel voor alle apparaten is 0123456789 @ ABCDE</string>
+    <string name="devicetype_bfh16">BFH-16</string>
+    <string name="fw_upgrade_notice_amazfitcor2">U staat op het punt om de firmware %s te installeren op uw Amazfit Cor 2. 
+\n 
+\nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand. 
+\n 
+\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd. 
+\n 
+\nGA VERDER OP EIGEN RISICO!
+\n
+\nVOLLEDIG ONGETEST, MISSCHIEN MET JE EEN BEATS_W_FIRMWARE INSTALLEREN ALS JE DEVICE NAAM \"Amazfit Band 2\" IS</string>
+    <string name="dutch">Nederlands</string>
+    <string name="turkish">Turks</string>
+    <string name="ukrainian">Oekraïens</string>
+    <string name="arabic">Arabisch</string>
+    <string name="indonesian">Indonesisch</string>
+    <string name="thai">Thais</string>
+    <string name="vietnamese">Vietnamees</string>
+    <string name="portuguese">Portugees</string>
+    <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
+    <string name="devicetype_miband4">Mi Band 4</string>
+    <string name="fw_upgrade_notice_miband4">Je staat op het punt om de %s-firmware op je Mi Band 4 te installeren. 
+\n 
+\nZorg ervoor dat u het .fw bestand installeert, en daarna het .res bestand. Uw band wordt opnieuw opgestart na het installeren van het .fw-bestand. 
+\n 
+\nOpmerking: U hoeft .res niet te installeren als het precies hetzelfde is als het eerder geïnstalleerde .res. 
+\n 
+\nGA VERDER OP EIGEN RISICO!</string>
+    <string name="prefs_hr_alarm_activity">Hartslagalarm tijdens sportactiviteit</string>
+    <string name="prefs_hr_alarm_low">Ondergrens</string>
+    <string name="prefs_hr_alarm_high">Bovengrens</string>
+    <string name="average">Gemiddelde: %1$s</string>
+    <string name="pref_header_charts">Grafiek instellingen</string>
+    <string name="pref_title_charts_average">Toon gemiddelden in de grafieken</string>
+    <string name="pref_title_charts_range">Grafiekbereiken</string>
+    <string name="pref_charts_range_on">Grafiekbereik ingesteld op 1 maand</string>
+    <string name="pref_charts_range_off">Grafiekbereik ingesteld op een week</string>
+    <string name="weekstepschart_steps_a_month">Stappen per maand</string>
+    <string name="weeksleepchart_sleep_a_month">Slaap per maand</string>
+    <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
+    <string name="menuitem_nfc">NFC</string>
+    <string name="pref_summary_expose_hr">Sta toe dat andere apps HR data in realtime benaderen terwijl Gadgetbridge verbonden is</string>
+    <string name="pref_title_expose_hr">Derde partij realtime HR toegang</string>
+    <string name="pref_title_use_custom_font">Gebruik aangepast lettertype</string>
+    <string name="pref_summary_use_custom_font">Selecteer dit als je device aangepaste font software bevat met emoji ondersteuning</string>
+    <string name="activity_db_management_autoexport_explanation">Database autoexport locatie is ingesteld op:</string>
+    <string name="activity_db_management_autoexport_label">Auto Exporteren</string>
+    <string name="activity_DB_ExportButton">Exporteer DB</string>
+    <string name="activity_DB_import_button">Importeer DB</string>
+    <string name="activity_DB_test_export_button">Voer nu AutoExport uit</string>
+    <string name="activity_DB_test_export_message">Bezig database te exporteren…</string>
+    <string name="activity_DB_delete_legacy_button">Verwijder oude DB</string>
+    <string name="activity_DB_empty_button">Leeg DB</string>
+    <string name="activity_db_management_empty_DB">Leeg Database</string>
+    <string name="activity_db_management_exportimport_label">Exporteer en importeer</string>
+    <string name="activity_db_management_empty_db_warning">Waarschuwing! Als je op deze knop drukt wis je je database en start je met een schone lei.</string>
+    <string name="appwidget_sleep_alarm_widget_label">Slaap Alarm</string>
+    <string name="widget_steps_label">Steps: %1$02d</string>
+    <string name="widget_sleep_label">Sleep: %1$s</string>
+    <string name="widget_listing_label">Status en Alarmen</string>
+    <string name="widget_set_alarm_after">Zet alarm na:</string>
+    <string name="widget_5_minutes">5 minuten</string>
+    <string name="widget_10_minutes">10 minuten</string>
+    <string name="widget_20_minutes">20 minuten</string>
+    <string name="widget_1_hour">1 uur</string>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="one">%d uur</item>
+        <item quantity="other">%d uren</item>
+    </plurals>
+    <string name="pref_display_add_device_fab">Verbind nieuw apparaat knop</string>
+    <string name="pref_display_add_device_fab_on">Altijkd zichtbaar</string>
+    <string name="pref_display_add_device_fab_off">Alleen zichtbaar als er geen apparaat toegevoegd is</string>
 </resources>
