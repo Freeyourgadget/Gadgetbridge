@@ -27,6 +27,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -80,6 +82,7 @@ public class ControlCenterv2 extends AppCompatActivity
 
     public static final int MENU_REFRESH_CODE=1;
 
+    private static PhoneStateListener fakeStateListener;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -354,6 +357,14 @@ public class ControlCenterv2 extends AppCompatActivity
 
         if (!wantedPermissions.isEmpty())
             ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[0]), 0);
+
+        // HACK: On Lineage we have to do this so that the permission dialog pops up
+        if (fakeStateListener == null) {
+            fakeStateListener = new PhoneStateListener();
+            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+            telephonyManager.listen(fakeStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+            telephonyManager.listen(fakeStateListener, PhoneStateListener.LISTEN_NONE);
+        }
     }
 
     public void setLanguage(Locale language, boolean invalidateLanguage) {
