@@ -1,5 +1,10 @@
 ### Changelog
 
+#### Version 0.36.2
+* Amazfit Bip: Untested support for Lite variant 
+* Force Lineage OS to ask for permission when Trust is used to fix non-working incoming calls
+* Charts: List multiple sleep sessions per day
+
 #### Version 0.36.1
 * Mi Band 2/3/4, Amazfit Bip/Cor: Add setting to expose the HR sensor to 3rd party apps
 * Mi Band 4: Really fix weather location not being updated on the Band
