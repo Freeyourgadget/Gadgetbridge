@@ -7,7 +7,6 @@
     <string name="action_quit">Surt</string>
     <string name="action_donate">Donació</string>
     <string name="controlcenter_fetch_activity_data">Sincronitza</string>
-    <string name="controlcenter_start_sleepmonitor">Seguiment del son (ALPHA)</string>
     <string name="controlcenter_find_device">Cerca un aparell perdut</string>
     <string name="controlcenter_take_screenshot">Fes una captura de pantalla</string>
     <string name="controlcenter_connect">Connecta…</string>
@@ -88,7 +87,7 @@
     <string name="pref_title_notifications_pebblemsg">Missatges de Pebble</string>
     <string name="pref_summary_notifications_pebblemsg">Suport per a aplicacions que envien notificacions a Pebble a través de PebbleKit.</string>
     <string name="pref_title_notifications_generic">Suport per a notificacions genèriques</string>
-    <string name="pref_title_whenscreenon">... també amb la pantalla encesa</string>
+    <string name="pref_title_whenscreenon">… també amb la pantalla encesa</string>
     <string name="pref_title_notification_filter">No molesteu</string>
     <string name="pref_summary_notification_filter">En aquest mode s\'aturen les notifications no desitjades</string>
     <string name="pref_title_transliteration">Transliteració</string>
@@ -147,7 +146,7 @@
     <string name="pref_title_pebble_forcele">Prefereix sempre BLE</string>
     <string name="pref_summary_pebble_forcele">Utilitza el suport experimental de Pebble LE a tots els Pebble, enlloc del Bluetooth clàssic. Primer cal aparellar primer un Pebble sense LE i després un Pebble LE</string>
     <string name="pref_title_pebble_mtu_limit">Límit de l\'MTU del GATT del Pebble 2/LE</string>
-    <string name="pref_summary_pebble_mtu_limit">Si el teu Pebble 2/Pebble LE no funciona correctament, prova aquesta opció per limitar l\'MTU (rang vàlid: 20-512)</string>
+    <string name="pref_summary_pebble_mtu_limit">Si el teu Pebble 2/Pebble LE no funciona correctament, prova aquesta opció per limitar l\'MTU (rang vàlid: 20–512)</string>
     <string name="pref_title_pebble_enable_applogs">Activa els registres de les aplicacions del rellotge</string>
     <string name="pref_summary_pebble_enable_applogs">Produirà registres de les apps del rellotge que el Gadgetbridge guardarà (necessita reconnexió)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">Envia l\'ACK al PebbleKit abans d\'hora</string>

@@ -1,5 +1,5 @@
 apply plugin: "com.android.application"
-apply plugin: "findbugs"
+apply plugin: "com.github.spotbugs"
 apply plugin: "pmd"
 
 def ABORT_ON_CHECK_FAILURE = false
@@ -25,8 +25,8 @@ android {
         targetSdkVersion 27
 
         // Note: always bump BOTH versionCode and versionName!
-        versionName "0.35.2"
-        versionCode 154
+        versionName "0.36.2"
+        versionCode 157
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -66,8 +66,9 @@ dependencies {
     testImplementation "org.robolectric:robolectric:4.2.1"
     testImplementation "com.google.code.gson:gson:2.8.5"
 
-    implementation "androidx.appcompat:appcompat:1.0.2"
-    implementation "androidx.preference:preference:1.1.0-alpha05"
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.preference:preference:1.1.0"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
@@ -78,7 +79,7 @@ dependencies {
         exclude group: "com.google.android", module: "android"
     }
     implementation "org.slf4j:slf4j-api:1.7.12"
-    implementation "com.github.Freeyourgadget:MPAndroidChart:5e5bd6c1d3e95c515d4853647ae554e48ee1d593"
+    implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
     implementation "com.github.pfichtner:durationformatter:0.1.1"
     implementation "de.cketti.library.changelog:ckchangelog:1.2.2"
     implementation "net.e175.klaus:solarpositioning:0.0.9"
@@ -107,7 +108,7 @@ gradle.beforeProject {
     preBuild.dependsOn(":GBDaoGenerator:genSources")
 }
 
-check.dependsOn "findbugs", "pmd", "lint"
+check.dependsOn "spotbugsMain", "pmd", "lint"
 
 task pmd(type: Pmd) {
     ruleSetFiles = files("${project.rootDir}/config/pmd/pmd-ruleset.xml")
@@ -150,22 +151,32 @@ task pmd(type: Pmd) {
     }
 }
 
-task findbugs(type: FindBugs) {
+// this is just for spotbugs to let the plugin create the task
+sourceSets {
+    main {
+        java.srcDirs = []
+    }
+}
+
+spotbugs {
+    toolVersion = "3.1.12"
     ignoreFailures = !ABORT_ON_CHECK_FAILURE
     effort = "default"
     reportLevel = "medium"
+}
+
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
+    source = fileTree('src/main/java')
+    classes = files("${project.rootDir}/app/build/intermediates/javac/debug/classes")
     excludeFilter = new File("${project.rootDir}/config/findbugs/findbugs-filter.xml")
-    classes = files("${project.rootDir}/app/build/intermediates/javac/release/compileReleaseJavaWithJavac/classes")
-    source = fileTree("src/main/java/")
-    classpath = files()
     reports {
         xml.enabled = false
         html.enabled = true
         xml {
-            destination file ("$project.buildDir/reports/findbugs/findbugs-output.xml")
+            destination file ("$project.buildDir/reports/spotbugs/spotbugs-output.xml")
         }
         html {
-            destination file ("$project.buildDir/reports/findbugs/findbugs-output.html")
+            destination file ("$project.buildDir/reports/spotbugs/spotbugs-output.html")
         }
     }
 }

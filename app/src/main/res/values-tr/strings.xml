@@ -1,48 +1,32 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Gadgetbridge</string>
-
     <string name="title_activity_controlcenter">Gadgetbridge</string>
     <string name="action_settings">Ayarlar</string>
     <string name="action_debug">Hata Gider</string>
     <string name="action_quit">Çıkış</string>
-    <string name="controlcenter_start_sleepmonitor">Uyku Monitorü (ALPHA)</string>
-
     <string name="title_activity_debug">Hata Gider</string>
-
     <!-- Strings related to AppManager -->
     <string name="title_activity_appmanager">Uygulama Yöneticisi</string>
     <string name="appmananger_app_delete">Sil</string>
-
-    <!-- Strings related to AppInstaller -->
-    <string name="title_activity_appinstaller">Uygulama Yükleyici</string>
-
     <!-- Strings related to Settings -->
     <string name="title_activity_settings">Ayarlar</string>
-
     <string name="pref_header_general">Genel Ayarlar</string>
     <string name="pref_title_general_autoconnectonbluetooth">Bluetooth açık olduğunda cihaza bağlan</string>
-
     <string name="pref_header_datetime">Tarih ve Zaman</string>
     <string name="pref_title_datetime_syctimeonconnect">Saati senkronize et</string>
     <string name="pref_summary_datetime_syctimeonconnect">Android saati veya zaman dilimi değiştiğinde ve cihaza bağlanırken saati güncelle</string>
-
     <string name="pref_header_notifications">Bilgilendirmeler</string>
     <string name="pref_title_notifications_sms">SMS</string>
-    <string name="pref_title_notifications_k9mail">K9-Mail</string>
     <string name="pref_title_notifications_pebblemsg">Pebble Mesajları</string>
     <string name="pref_summary_notifications_pebblemsg">Pebble cihazlarına Intent ile bilgilendirme gönderme desteği. Conversations uygulaması ile kullanabilirsiniz.</string>
     <string name="pref_title_notifications_generic">Genel bilgilendirme desteği</string>
     <string name="pref_title_whenscreenon">… ayrıca ekran açık iken</string>
-
     <string name="always">Her zaman</string>
     <string name="when_screen_off">Ekran kapalı olduğunda</string>
     <string name="never">Asla</string>
-
     <string name="pref_header_development">Geliştirici Seçenekleri</string>
     <string name="pref_title_development_miaddr">Mi Band adresi</string>
-
-
     <string name="not_connected">Bağlı değil</string>
     <string name="connecting">Bağlanıyor</string>
     <string name="connected">Bağlandı</string>
@@ -55,12 +39,8 @@
     <string name="bluetooth_is_disabled_">Bluetooth açık değil.</string>
     <string name="tap_connected_device_for_app_mananger">Uygulama yöneticisi için cihaza dokunun</string>
     <string name="tap_a_device_to_connect">Bağlanmak için cihaza dokunun</string>
-    <string name="cannot_connect_bt_address_invalid_">Bağlanamıyor. Bluetooth adresi geçersiz olabilir!</string>
+    <string name="cannot_connect_bt_address_invalid_">Bağlanamıyor. Bluetooth adresi geçersiz olabilir\?</string>
     <string name="gadgetbridge_running">Gadgetbridge çalışıyor</string>
-    <string name="battery_low">düşük</string>
-    <string name="battery_medium">orta</string>
-    <string name="battery_full">dolu</string>
-    <string name="battery_not_charging">şarj olmuyor</string>
     <string name="installing_binary_d_d">Dosya yükleniyor %1$d/%2$d</string>
     <string name="installation_failed_">Yükleme başarısız</string>
     <string name="installation_successful">Yükleme başarılı</string>
@@ -70,7 +50,6 @@
     <string name="initialized">kullanıma hazır</string>
     <string name="appversion_by_creator">%1$s by %2$s</string>
     <string name="title_activity_discovery">Cihaz Ara</string>
-
     <string name="discovery_stop_scanning">Aramayı durdur</string>
     <string name="discovery_start_scanning">Cihazları aramaya başla</string>
     <string name="action_discover">Yeni cihazı bağla</string>
@@ -98,13 +77,11 @@
     <string name="activity_prefs_height_cm">Boy(cm)</string>
     <string name="activity_prefs_weight_kg">Ağırlık (kg)</string>
     <string name="pref_header_vibration_count">Titreşim adedi</string>
-
     <string name="title_activity_sleepmonitor">Uyku Monitörü</string>
     <string name="pref_write_logfiles">Kütük dosyalarını yaz</string>
     <string name="initializing">Başlatılıyor</string>
     <string name="busy_task_fetch_activity_data">Aktivite verisi alınıyor</string>
-
-<string name="action_donate">Para Bağışla</string>
+    <string name="action_donate">Para Bağışla</string>
     <string name="controlcenter_fetch_activity_data">Eşitleme</string>
     <string name="controlcenter_find_device">Kayıp Cihazı ara</string>
     <string name="controlcenter_take_screenshot">Ekran görüntüsü al</string>
@@ -117,8 +94,6 @@
     <string name="controlcenter_snackbar_disconnecting">Bağlantı kesiliyor</string>
     <string name="controlcenter_snackbar_connecting">Bağlaniyor</string>
     <string name="controlcenter_snackbar_requested_screenshot">Bağlantı kesiliyor</string>
-
-
     <string name="appmanager_cached_watchapps_watchfaces">Önbellekteki uygulamalar</string>
     <string name="appmanager_installed_watchapps">Yüklü uygulamalar</string>
     <string name="appmanager_installed_watchfaces">Yüklü saat arayüzler</string>
@@ -129,14 +104,10 @@
     <string name="appmanager_hrm_activate">Kalp atış hızı ölçümü başlat</string>
     <string name="appmanager_hrm_deactivate">Kalp atış hızı ölçümü durdur</string>
     <string name="app_move_to_top">Yukarıya taşı</string>
-
     <string name="title_activity_appblacklist">Kara listede bildirimler</string>
     <string name="blacklist_all_for_notifications">Bütün bildirimleri kara listeye ekle</string>
     <string name="whitelist_all_for_notifications">Bütün bildirimleri beyaz listeye ekle</string>
-
-
     <string name="title_activity_calblacklist">Kara Listede Takvimler</string>
-
     <string name="title_activity_fw_app_insaller">FW/Uygulama yükleyici</string>
     <string name="appmanager_weather_activate">Sistem hava durumu uygulamasını etkinleştirin</string>
     <string name="appmanager_weather_deactivate">Sistem hava durumu uygulamasını devre dışı bırak</string>
@@ -144,19 +115,15 @@
     <string name="app_configure">Yapılandır</string>
     <string name="miband_firmware_known">Bu firmware test edilmiş ve Gadgetbridge ile uyumlu olduğu bilinmektedir.</string>
     <string name="miband_firmware_suggest_whitelist">Devam etmek istiyorsanız ve her sey daha sonra düzgün çalışmaya devam ederse, lütfen Gadgetbridge geliştiricilerine %s firmware sürümünü beyaz listeye eklemesini söyleyin</string>
-
     <string name="pref_title_general_autostartonboot">Otomatik Başlat</string>
     <string name="pref_title_general_autoreconnect">Otomatik yeniden bağlan</string>
     <string name="pref_title_audio_player">Tercih Edilen Audioplayer</string>
     <string name="pref_default">Varsayılan</string>
     <string name="pref_title_charts_swipe">"Grafikler aktivitede Sol/Sağ tokatlamak etkinleştirmek "</string>
-
     <string name="pref_title_theme">Görünüş</string>
     <string name="pref_theme_light">Aydın</string>
     <string name="pref_theme_dark">Karanlık</string>
-
     <string name="pref_title_language">Dil</string>
-
     <string name="pref_title_minimize_priority">"Gadgetbridge bildirim gizle "</string>
     <string name="pref_title_notifications_repetitions">Tekrar sayısı</string>
     <string name="pref_title_notifications_call">Telefon görüşmeleri</string>
@@ -164,37 +131,31 @@
     <string name="pref_summary_notification_filter">İstenmeyen bildirimleri rahatsız etmeyin modunda gönderilmesini durdurmak</string>
     <string name="pref_title_transliteration">başka alfabeye çevirme</string>
     <string name="pref_summary_transliteration">"Eğer cihazınız dil yazı tipi desteği varsa bunu etkinleştirin "</string>
-
     <string name="pref_header_privacy">Gizlilik</string>
     <string name="pref_title_call_privacy_mode">Gizlilik modu</string>
     <string name="pref_call_privacy_mode_off">"Ad ve numara  göster"</string>
     <string name="pref_call_privacy_mode_name">Adı gizlemek ama numarasını görüntülemek</string>
     <string name="pref_call_privacy_mode_number">"Numara ama ekran adını gizle "</string>
     <string name="pref_call_privacy_mode_complete">"Adını ve numarasını gizle "</string>
-
     <string name="pref_title_weather">Hava Durumu</string>
     <string name="pref_blacklist">Kara Liste Uygulamaları</string>
     <string name="pref_blacklist_calendars">Kara liste takvimler</string>
-
     <string name="pref_header_cannned_messages">Konserve mesajları</string>
     <string name="pref_title_canned_replies">Yanıtlar</string>
     <string name="pref_title_canned_reply_suffix">Ortak sonek</string>
     <string name="pref_title_canned_messages_dismisscall">Çağrı Reddi</string>
     <string name="pref_title_pebble_settings">Pebble ayarları</string>
-
     <string name="pref_header_activitytrackers">Aktivite izci</string>
     <string name="pref_title_pebble_activitytracker">Tercih edilen etkinlik izci</string>
     <string name="pref_title_pebble_sync_health">Pebble sağlık durumu senkronize et</string>
     <string name="pref_title_pebble_sync_misfit">Misfit senkronize et</string>
     <string name="pref_title_pebble_sync_morpheuz">Morpheuz senkronize et</string>
-
     <string name="pref_title_enable_outgoing_call">Giden aramaları müsaade et</string>
     <string name="pref_header_pebble_timeline">Pebble zaman çizelgesi</string>
     <string name="pref_title_sunrise_sunset">Gün doğumu ve Gün batımı</string>
     <string name="pref_summary_sunrise_sunset">"Gün doğumu ve Gün batımı saatleri konumuna göre Pebble zaman çizelgesine gönderin "</string>
     <string name="pref_title_enable_calendar_sync">Takvimi eşitle</string>
     <string name="pref_summary_enable_calendar_sync">Takvim olayları çizelgesine gönder</string>
-
     <string name="pref_title_autoremove_notifications">Reddedilen bildirimleri otomatik sil</string>
     <string name="pref_title_pebble_privacy_mode">Gizlilik modu</string>
     <string name="pref_pebble_privacy_mode_off">Normal bildirimleri</string>
@@ -205,4 +166,4 @@
     <string name="pref_title_location_keep_uptodate">Konumumu güncel tut</string>
     <string name="controlcenter_change_led_color">"Türkçe "</string>
     <string name="controlcenter_change_fm_frequency">Change FM Frequency</string>
-    </resources>
+</resources>

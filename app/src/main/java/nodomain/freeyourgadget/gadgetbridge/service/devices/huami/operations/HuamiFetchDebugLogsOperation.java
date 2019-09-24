@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.operations;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
 
 import android.widget.Toast;
 
@@ -36,18 +36,17 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipS
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.AbstractFetchOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class AmazfitBipFetchLogsOperation extends AbstractFetchOperation {
-    private static final Logger LOG = LoggerFactory.getLogger(AmazfitBipFetchLogsOperation.class);
+public class HuamiFetchDebugLogsOperation extends AbstractFetchOperation {
+    private static final Logger LOG = LoggerFactory.getLogger(HuamiFetchDebugLogsOperation.class);
 
     private FileOutputStream logOutputStream;
 
-    public AmazfitBipFetchLogsOperation(AmazfitBipSupport support) {
+    public HuamiFetchDebugLogsOperation(AmazfitBipSupport support) {
         super(support);
-        setName("fetch logs");
+        setName("fetch debug logs");
     }
 
     @Override
@@ -60,7 +59,7 @@ public class AmazfitBipFetchLogsOperation extends AbstractFetchOperation {
         }
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-HHmmss", Locale.US);
-        String filename = "amazfitbip_" + dateFormat.format(new Date()) + ".log";
+        String filename = "huamidebug_" + dateFormat.format(new Date()) + ".log";
 
         File outputFile = new File(dir, filename );
         try {

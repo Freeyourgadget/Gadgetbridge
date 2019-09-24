@@ -6,7 +6,6 @@
     <string name="action_debug">Відладка</string>
     <string name="action_quit">Вихід</string>
     <string name="controlcenter_fetch_activity_data">Синхронізувати</string>
-    <string name="controlcenter_start_sleepmonitor">Аналіз сну (АЛЬФА)</string>
     <string name="controlcenter_find_device">Знайти загублений пристрій</string>
     <string name="controlcenter_take_screenshot">Зробити знімок екрану</string>
     <string name="controlcenter_disconnect">Від\'єднатися</string>
@@ -450,7 +449,7 @@
     <string name="preferences_led_color">Колір світлодіода</string>
     <string name="preferences_fm_frequency">FM частота</string>
     <string name="pref_invalid_frequency_title">Неприпустима частота</string>
-    <string name="pref_invalid_frequency_message">Будь ласка, введіть частоту з діапазону 87.5 - 108.0</string>
+    <string name="pref_invalid_frequency_message">Будь ласка, введіть частоту з діапазону 87.5 – 108.0</string>
     <string name="language_and_region_prefs">Мова та регіональні налаштування</string>
     <string name="title_activity_notification_filter">Фільтр сповіщень</string>
     <string name="toast_notification_filter_words_empty_hint">Введіть хоча б одне слово</string>

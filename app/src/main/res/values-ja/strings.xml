@@ -7,7 +7,6 @@
   <string name="action_quit">終了</string>
   <string name="action_donate">寄付する</string>
   <string name="controlcenter_fetch_activity_data">同期</string>
-  <string name="controlcenter_start_sleepmonitor">睡眠観測（アルファ）</string>
   <string name="controlcenter_find_device">失くしたデバイスを見つける</string>
   <string name="controlcenter_take_screenshot">スクリーンショットを撮る</string>
   <string name="controlcenter_disconnect">切断</string>
@@ -136,7 +135,7 @@
   <string name="pref_title_pebble_forcele">常に BLE を好みにする</string>
   <string name="pref_summary_pebble_forcele">すべてのPebbleに対して、BT クラシックではなく実験的なPebble LEサポートを使用します。非LEで一度接続された後に \"Pebble LE\" をペアリングする必要があります</string>
   <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU 制限</string>
-  <string name="pref_summary_pebble_mtu_limit">Pebble 2/Pebble LE が期待どおりに機能しない場合は、この設定を試して MTU を制限してください (有効範囲 20-512)</string>
+  <string name="pref_summary_pebble_mtu_limit">Pebble 2/Pebble LE が期待どおりに機能しない場合は、この設定を試して MTU を制限してください (有効範囲 20–512)</string>
   <string name="pref_title_pebble_enable_applogs">ウォッチアプリのログ記録を有効にする</string>
   <string name="pref_summary_pebble_enable_applogs">Gadgetbridgeがウォッチアプリからログを記録するようにする (再接続が必要です)</string>
   <string name="pref_title_pebble_always_ack_pebblekit">早期 ACK PebbleKit</string>
@@ -410,7 +409,6 @@
 \n注: これらのファイルが以前インストールされているのものと完全に同じ場合、.res と .gps をインストールする必要はありません。 
 \n 
 \nご自身の責任で行ってください!</string>
-    <string name="amazfitbip_firmware">Amazfit Bip ファームウェア%1$s</string>
     <string name="mi2_prefs_button_actions">ボタンの動作</string>
     <string name="mi2_prefs_button_actions_summary">Mi Band 2 ボタンを押した動作を指定します</string>
     <string name="mi2_prefs_button_press_count">ボタン押したカウント</string>
@@ -440,7 +438,6 @@
     <string name="pref_title_pebble_enable_bgjs">バックグラウンド JS を有効にします</string>
     <string name="pref_summary_pebble_enable_bgjs">有効にすると、ウォッチフェースに天気、バッテリー情報等を表示することができます。</string>
 
-    <string name="amazfitcor_firmware">Amazfit Cor ファームウェア %1$s</string>
     <string name="activity_web_view">Web View アクティビティ</string>
 
     <string name="pref_title_charts_swipe">チャートアクティビティで左/右のスワイプを有効にする</string>

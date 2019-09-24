@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,31 +33,27 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityTrack;
 import nodomain.freeyourgadget.gadgetbridge.model.GPSCoordinate;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class ActivityDetailsParser {
-    private static final Logger LOG = LoggerFactory.getLogger(ActivityDetailsParser.class);
+public class HuamiActivityDetailsParser {
+    private static final Logger LOG = LoggerFactory.getLogger(HuamiActivityDetailsParser.class);
 
     private static final byte TYPE_GPS = 0;
     private static final byte TYPE_HR = 1;
-    private static final byte TYPE_UNKNOWN2 = 2;
-    private static final byte TYPE_PAUSE = 3;
+    private static final byte TYPE_PAUSE = 2;
+    private static final byte TYPE_RESUME = 3;
     private static final byte TYPE_SPEED4 = 4;
     private static final byte TYPE_SPEED5 = 5;
-    private static final byte TYPE_GPS_SPEED6 = 6;
+    private static final byte TYPE_SPEED6 = 6;
+    private static final byte TYPE_SWIMMING = 8;
 
-    public static final BigDecimal HUAMI_TO_DECIMAL_DEGREES_DIVISOR = new BigDecimal(3000000.0);
-    private final BaseActivitySummary summary;
+    private static final BigDecimal HUAMI_TO_DECIMAL_DEGREES_DIVISOR = new BigDecimal(3000000.0);
     private final ActivityTrack activityTrack;
-    //    private final int version;
     private final Date baseDate;
     private long baseLongitude;
     private long baseLatitude;
     private int baseAltitude;
     private ActivityPoint lastActivityPoint;
-
-    public boolean getSkipCounterByte() {
-        return skipCounterByte;
-    }
 
     public void setSkipCounterByte(boolean skipCounterByte) {
         this.skipCounterByte = skipCounterByte;
@@ -65,11 +61,7 @@ public class ActivityDetailsParser {
 
     private boolean skipCounterByte;
 
-    public ActivityDetailsParser(BaseActivitySummary summary) {
-        this.summary = summary;
-//        this.version = version;
-//        this.baseDate = baseDate;
-//
+    public HuamiActivityDetailsParser(BaseActivitySummary summary) {
         this.baseLongitude = summary.getBaseLongitude();
         this.baseLatitude = summary.getBaseLatitude();
         this.baseAltitude = summary.getBaseAltitude();
@@ -109,11 +101,11 @@ public class ActivityDetailsParser {
                     case TYPE_HR:
                         i += consumeHeartRate(bytes, i, totalTimeOffset);
                         break;
-                    case TYPE_UNKNOWN2:
-                        i += consumeUnknown2(bytes, i);
-                        break;
                     case TYPE_PAUSE:
                         i += consumePause(bytes, i);
+                        break;
+                    case TYPE_RESUME:
+                        i += consumeResume(bytes, i);
                         break;
                     case TYPE_SPEED4:
                         i += consumeSpeed4(bytes, i);
@@ -121,8 +113,11 @@ public class ActivityDetailsParser {
                     case TYPE_SPEED5:
                         i += consumeSpeed5(bytes, i);
                         break;
-                    case TYPE_GPS_SPEED6:
+                    case TYPE_SPEED6:
                         i += consumeSpeed6(bytes, i);
+                        break;
+                    case TYPE_SWIMMING:
+                        i += consumeSwimming(bytes, i);
                         break;
                     default:
                         LOG.warn("unknown packet type" + type);
@@ -213,7 +208,6 @@ public class ActivityDetailsParser {
 
         if (v2 == 0 && v3 == 0 && v4 == 0 && v5 == 0 && v6 == 0) {
             // new version
-//            LOG.info("detected heart rate in 'new' version, where version is: " + summary.getVersion());
             LOG.info("detected heart rate in 'new' version format");
             ActivityPoint ap = getActivityPointFor(timeOffsetSeconds);
             ap.setHeartRate(v1);
@@ -270,23 +264,33 @@ public class ActivityDetailsParser {
         }
     }
 
-    private int consumeUnknown2(byte[] bytes, int offset) {
-        return 6; // just guessing...
+    private int consumePause(byte[] bytes, int offset) {
+        LOG.debug("got pause packet: " + GB.hexdump(bytes, offset, 6));
+        return 6;
     }
 
-    private int consumePause(byte[] bytes, int i) {
-        return 6; // just guessing...
+    private int consumeResume(byte[] bytes, int offset) {
+        LOG.debug("got resume package: " + GB.hexdump(bytes, offset, 6));
+        return 6;
     }
 
     private int consumeSpeed4(byte[] bytes, int offset) {
+        LOG.debug("got packet type 4 (speed): " + GB.hexdump(bytes, offset, 6));
         return 6;
     }
 
     private int consumeSpeed5(byte[] bytes, int offset) {
+        LOG.debug("got packet type 5 (speed): " + GB.hexdump(bytes, offset, 6));
         return 6;
     }
 
     private int consumeSpeed6(byte[] bytes, int offset) {
+        LOG.debug("got packet type 6 (speed): " + GB.hexdump(bytes, offset, 6));
+        return 6;
+    }
+
+    private int consumeSwimming(byte[] bytes, int offset) {
+        LOG.debug("got packet type 8 (swimming?): " + GB.hexdump(bytes, offset, 6));
         return 6;
     }
 }

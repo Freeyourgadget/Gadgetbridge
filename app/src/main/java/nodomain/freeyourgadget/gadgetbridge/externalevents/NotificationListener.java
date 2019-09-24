@@ -27,13 +27,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaMetadata;
-import android.media.session.PlaybackState;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.RemoteException;
@@ -44,6 +42,12 @@ import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.RemoteInput;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.palette.graphics.Palette;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,11 +57,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.RemoteInput;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.palette.graphics.Palette;
 import de.greenrobot.dao.query.Query;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -65,11 +64,11 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilter;
-import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterEntry;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterEntryDao;
 import nodomain.freeyourgadget.gadgetbridge.model.AppNotificationType;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -242,9 +241,11 @@ public class NotificationListener extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification sbn) {
         Prefs prefs = GBApplication.getPrefs();
 
-        if ("call".equals(sbn.getNotification().category) && prefs.getBoolean("notification_support_voip_calls", false)) {
-            handleCallNotification(sbn);
-            return;
+        if (GBApplication.isRunningLollipopOrLater()) {
+            if ("call".equals(sbn.getNotification().category) && prefs.getBoolean("notification_support_voip_calls", false)) {
+                handleCallNotification(sbn);
+                return;
+            }
         }
         if (shouldIgnore(sbn)) {
             LOG.info("Ignore notification");
@@ -531,6 +532,9 @@ public class NotificationListener extends NotificationListenerService {
         Bundle extras = NotificationCompat.getExtras(notification);
 
         //dumpExtras(extras);
+        if (extras == null) {
+            return;
+        }
 
         CharSequence title = extras.getCharSequence(Notification.EXTRA_TITLE);
         if (title != null) {
@@ -582,13 +586,13 @@ public class NotificationListener extends NotificationListenerService {
             stateSpec.repeat = 1;
             stateSpec.shuffle = 1;
             switch (s.getState()) {
-                case PlaybackState.STATE_PLAYING:
+                case PlaybackStateCompat.STATE_PLAYING:
                     stateSpec.state = MusicStateSpec.STATE_PLAYING;
                     break;
-                case PlaybackState.STATE_STOPPED:
+                case PlaybackStateCompat.STATE_STOPPED:
                     stateSpec.state = MusicStateSpec.STATE_STOPPED;
                     break;
-                case PlaybackState.STATE_PAUSED:
+                case PlaybackStateCompat.STATE_PAUSED:
                     stateSpec.state = MusicStateSpec.STATE_PAUSED;
                     break;
                 default:
@@ -624,12 +628,15 @@ public class NotificationListener extends NotificationListenerService {
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
-        LOG.info("Notification removed: " + sbn.getPackageName() + ": " + sbn.getNotification().category);
-        if(Notification.CATEGORY_CALL.equals(sbn.getNotification().category) && activeCallPostTime == sbn.getPostTime()) {
-            activeCallPostTime = 0;
-            CallSpec callSpec = new CallSpec();
-            callSpec.command = CallSpec.CALL_END;
-            GBApplication.deviceService().onSetCallState(callSpec);
+        LOG.info("Notification removed: " + sbn.getPackageName());
+        if (GBApplication.isRunningLollipopOrLater()) {
+            LOG.info("Notification removed: " + sbn.getPackageName() + ", category: " + sbn.getNotification().category);
+            if (Notification.CATEGORY_CALL.equals(sbn.getNotification().category) && activeCallPostTime == sbn.getPostTime()) {
+                activeCallPostTime = 0;
+                CallSpec callSpec = new CallSpec();
+                callSpec.command = CallSpec.CALL_END;
+                GBApplication.deviceService().onSetCallState(callSpec);
+            }
         }
         // FIXME: DISABLED for now
         /*

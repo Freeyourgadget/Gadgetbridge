@@ -24,6 +24,8 @@
 
     <uses-permission android:name="cyanogenmod.permission.ACCESS_WEATHER_MANAGER" />
     <uses-permission android:name="cyanogenmod.permission.READ_WEATHER" />
+    <uses-permission android:name="lineageos.permission.ACCESS_WEATHER_MANAGER" />
+    <uses-permission android:name="lineageos.permission.READ_WEATHER" />
     <uses-permission android:name="org.omnirom.omnijaws.READ_WEATHER" />
 
     <uses-feature
@@ -58,6 +60,10 @@
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".activities.ControlCenterv2" />
+        <activity
+            android:name=".activities.charts.ChartsPreferencesActivity"
+            android:label="@string/activity_prefs_charts"
+            android:parentActivityName=".activities.charts.ChartsPreferencesActivity" />
         <activity
             android:name=".devices.miband.MiBandPreferencesActivity"
             android:label="@string/preferences_miband_settings"
@@ -443,7 +449,8 @@
                 android:resource="@xml/shared_paths" />
         </provider>
 
-        <receiver android:name=".SleepAlarmWidget">
+        <receiver android:name=".SleepAlarmWidget"
+            android:label="@string/appwidget_sleep_alarm_widget_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="nodomain.freeyourgadget.gadgetbridge.SLEEP_ALARM_WIDGET_CLICK" />
@@ -453,6 +460,26 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/sleep_alarm_widget_info" />
         </receiver>
+
+        <receiver
+            android:name=".Widget"
+            android:label="@string/widget_listing_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="nodomain.freeyourgadget.gadgetbridge.WidgetClick" />
+         </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+
+
+        <activity
+            android:name=".activities.WidgetAlarmsActivity"
+            android:launchMode="singleInstance"
+            android:theme="@style/Theme.AppCompat.Light.Dialog"
+            android:excludeFromRecents="true"/>
 
         <activity
             android:launchMode="singleTask"

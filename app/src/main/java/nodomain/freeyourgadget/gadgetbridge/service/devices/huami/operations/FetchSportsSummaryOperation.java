@@ -43,8 +43,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSportsActivityType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.BipActivityType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
@@ -141,7 +141,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
             return;
         }
 
-        if ((byte) (lastPacketCounter + 1) == value[0] ) {
+        if ((byte) (lastPacketCounter + 1) == value[0]) {
             lastPacketCounter++;
             bufferActivityData(value);
         } else {
@@ -154,6 +154,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
     /**
      * Buffers the given activity summary data. If the total size is reached,
      * it is converted to an object and saved in the database.
+     *
      * @param value
      */
     @Override
@@ -166,14 +167,14 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         ByteBuffer buffer = ByteBuffer.wrap(stream.toByteArray()).order(ByteOrder.LITTLE_ENDIAN);
 //        summary.setVersion(BLETypeConversions.toUnsigned(buffer.getShort()));
         short version = buffer.getShort(); // version
-        LOG.debug("Got verison " + version);
+        LOG.debug("Got sport summary version " + version + "total bytes=" + buffer.capacity());
         int activityKind = ActivityKind.TYPE_UNKNOWN;
         try {
             int rawKind = BLETypeConversions.toUnsigned(buffer.getShort());
-            BipActivityType activityType = BipActivityType.fromCode(rawKind);
+            HuamiSportsActivityType activityType = HuamiSportsActivityType.fromCode(rawKind);
             activityKind = activityType.toActivityKind();
         } catch (Exception ex) {
-            LOG.error("Error mapping acivity kind: " + ex.getMessage(), ex);
+            LOG.error("Error mapping activity kind: " + ex.getMessage(), ex);
         }
         summary.setActivityKind(activityKind);
 
@@ -197,44 +198,117 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         summary.setBaseLongitude(baseLongitude);
         summary.setBaseLatitude(baseLatitude);
         summary.setBaseAltitude(baseAltitude);
+
+        // unused data (for now)
+        float distanceMeters = buffer.getFloat();
+        float ascentMeters = buffer.getFloat();
+        float descentMeters = buffer.getFloat();
+        float maxAltitude = buffer.getFloat();
+        float minAltitude = buffer.getFloat();
+        int maxLatitude = buffer.getInt(); // format?
+        int minLatitude = buffer.getInt(); // format?
+        int maxLongitude = buffer.getInt(); // format?
+        int minLongitude = buffer.getInt(); // format?
+        int steps = buffer.getInt();
+        int activeSeconds = buffer.getInt();
+        float caloriesBurnt = buffer.getFloat();
+        float maxSpeed = buffer.getFloat();
+        float minPace = buffer.getFloat(); // format?
+        float maxPace = buffer.getFloat(); // format?
+        float totalStride = buffer.getFloat();
+
+        buffer.getInt(); // unknown
+
+        if (activityKind == ActivityKind.TYPE_SWIMMING) {
+            // 28 bytes
+            float averageStrokeDistance = buffer.getFloat();
+            float averageStrokesPerSecond = buffer.getFloat();
+            float averageLapPace = buffer.getFloat();
+            short strokes = buffer.getShort();
+            short swolfIndex = buffer.getShort();
+            byte swimStyle = buffer.get();
+            byte laps = buffer.get();
+            buffer.getInt(); // unknown
+            buffer.getInt(); // unknown
+            buffer.getShort(); // unknown
+
+            LOG.debug("unused swim data:" +
+                    "\naverageStrokeDistance=" + averageStrokeDistance +
+                    "\naverageStrokesPerSecond=" + averageStrokesPerSecond +
+                    "\naverageLapPace" + averageLapPace +
+                    "\nstrokes=" + strokes +
+                    "\nswolfIndex=" + swolfIndex +
+                    "\nswimStyle=" + swimStyle + // 1 = breast, 2 = freestyle
+                    "\nlaps=" + laps +
+                    ""
+            );
+        } else {
+            // 28 bytes
+            buffer.getInt(); // unknown
+            buffer.getInt(); // unknown
+            int ascentSeconds = buffer.getInt() / 1000; //ms?
+            buffer.getInt(); // unknown;
+            int descentSeconds = buffer.getInt() / 1000; //ms?
+            buffer.getInt(); // unknown;
+            int flatSeconds = buffer.getInt() / 1000; // ms?
+            LOG.debug("unused non-swim data:" +
+                    "\nascentSeconds=" + ascentSeconds +
+                    "\ndescentSeconds=" + descentSeconds +
+                    "\nflatSeconds=" + flatSeconds +
+                    ""
+            );
+        }
+
+        short averageHR = buffer.getShort();
+        short averageKMPaceSeconds = buffer.getShort();
+        short averageStride = buffer.getShort();
+
+        LOG.debug("unused common:" +
+                "\ndistanceMeters=" + distanceMeters +
+                "\nascentMeters=" + ascentMeters +
+                "\ndescentMeters=" + descentMeters +
+                "\nmaxAltitude=" + maxAltitude +
+                "\nminAltitude=" + minAltitude +
+                //"\nmaxLatitude=" + maxLatitude + // not useful
+                //"\nminLatitude=" + minLatitude + // not useful
+                //"\nmaxLongitude=" + maxLongitude + // not useful
+                //"\nminLongitude=" + minLongitude + // not useful
+                "\nsteps=" + steps +
+                "\nactiveSeconds=" + activeSeconds +
+                "\ncaloriesBurnt=" + caloriesBurnt +
+                "\nmaxSpeed=" + maxSpeed +
+                "\nminPace=" + minPace +
+                "\nmaxPace=" + maxPace +
+                "\ntotalStride=" + totalStride +
+                "\naverageHR=" + averageHR +
+                "\naverageKMPaceSeconds=" + averageKMPaceSeconds +
+                "\naverageStride=" + averageStride +
+                ""
+        );
+
 //        summary.setBaseCoordinate(new GPSCoordinate(baseLatitude, baseLongitude, baseAltitude));
-
-//        summary.setDistanceMeters(Float.intBitsToFloat(buffer.getInt()));
-//        summary.setAscentMeters(Float.intBitsToFloat(buffer.getInt()));
-//        summary.setDescentMeters(Float.intBitsToFloat(buffer.getInt()));
-//
-//        summary.setMinAltitude(Float.intBitsToFloat(buffer.getInt()));
-//        summary.setMaxAltitude(Float.intBitsToFloat(buffer.getInt()));
-//        summary.setMinLatitude(buffer.getInt());
-//        summary.setMaxLatitude(buffer.getInt());
-//        summary.setMinLongitude(buffer.getInt());
-//        summary.setMaxLongitude(buffer.getInt());
-//
-//        summary.setSteps(BLETypeConversions.toUnsigned(buffer.getInt()));
-//        summary.setActiveTimeSeconds(BLETypeConversions.toUnsigned(buffer.getInt()));
-//
-//        summary.setCaloriesBurnt(Float.intBitsToFloat(buffer.get()));
-//        summary.setMaxSpeed(Float.intBitsToFloat(buffer.get()));
-//        summary.setMinPace(Float.intBitsToFloat(buffer.get()));
-//        summary.setMaxPace(Float.intBitsToFloat(buffer.get()));
-//        summary.setTotalStride(Float.intBitsToFloat(buffer.get()));
-
-        buffer.getInt(); //
-        buffer.getInt(); //
-        buffer.getInt(); //
-
-//        summary.setTimeAscent(BLETypeConversions.toUnsigned(buffer.getInt()));
-//        buffer.getInt(); //
-//        summary.setTimeDescent(BLETypeConversions.toUnsigned(buffer.getInt()));
-//        buffer.getInt(); //
-//        summary.setTimeFlat(BLETypeConversions.toUnsigned(buffer.getInt()));
-//
-//        summary.setAverageHR(BLETypeConversions.toUnsigned(buffer.getShort()));
-//
-//        summary.setAveragePace(BLETypeConversions.toUnsigned(buffer.getShort()));
-//        summary.setAverageStride(BLETypeConversions.toUnsigned(buffer.getShort()));
-
-        buffer.getShort(); //
+//        summary.setDistanceMeters(distanceMeters);
+//        summary.setAscentMeters(ascentMeters);
+//        summary.setDescentMeters(descentMeters);
+//        summary.setMinAltitude(maxAltitude);
+//        summary.setMaxAltitude(maxAltitude);
+//        summary.setMinLatitude(minLatitude);
+//        summary.setMaxLatitude(maxLatitude);
+//        summary.setMinLongitude(minLatitude);
+//        summary.setMaxLongitude(maxLatitude);
+//        summary.setSteps(steps);
+//        summary.setActiveTimeSeconds(secondsActive);
+//        summary.setCaloriesBurnt(caloriesBurnt);
+//        summary.setMaxSpeed(maxSpeed);
+//        summary.setMinPace(minPace);
+//        summary.setMaxPace(maxPace);
+//        summary.setTotalStride(totalStride);
+//        summary.setTimeAscent(BLETypeConversions.toUnsigned(ascentSeconds);
+//        summary.setTimeDescent(BLETypeConversions.toUnsigned(descentSeconds);
+//        summary.setTimeFlat(BLETypeConversions.toUnsigned(flatSeconds);
+//        summary.setAverageHR(BLETypeConversions.toUnsigned(averageHR);
+//        summary.setAveragePace(BLETypeConversions.toUnsigned(averagePace);
+//        summary.setAverageStride(BLETypeConversions.toUnsigned(averageStride);
 
         return summary;
     }

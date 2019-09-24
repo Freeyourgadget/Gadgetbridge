@@ -112,6 +112,7 @@ public class GBApplication extends Application {
     public static final String ACTION_QUIT
             = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.quit";
     public static final String ACTION_LANGUAGE_CHANGE = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.language_change";
+    public static final String ACTION_NEW_DATA = "nodomain.freeyourgadget.gadgetbridge.action.new_data";
 
     private static GBApplication app;
 
@@ -631,8 +632,9 @@ public class GBApplication extends Application {
                 DaoSession daoSession = db.getDaoSession();
                 List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
                 for (Device dbDevice : activeDevices) {
-                    SharedPreferences.Editor deviceSharedPrefsEdit = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier()).edit();
-                    if (sharedPrefs != null) {
+                    SharedPreferences deviceSpecificSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                    if (deviceSpecificSharedPrefs != null) {
+                        SharedPreferences.Editor deviceSharedPrefsEdit = deviceSpecificSharedPrefs.edit();
                         String preferenceKey = dbDevice.getIdentifier() + "_lastSportsActivityTimeMillis";
                         long lastSportsActivityTimeMillis = sharedPrefs.getLong(preferenceKey, 0);
                         if (lastSportsActivityTimeMillis != 0) {
@@ -707,9 +709,8 @@ public class GBApplication extends Application {
                         if (newLanguage != null) {
                             deviceSharedPrefsEdit.putString("language", newLanguage);
                         }
+                        deviceSharedPrefsEdit.apply();
                     }
-
-                    deviceSharedPrefsEdit.apply();
                 }
                 editor.remove("amazfitbip_language");
                 editor.remove("bip_display_items");

@@ -224,7 +224,7 @@ public class AndroidUtils {
         Uri contentUri = FileProvider.getUriForFile(context,
                 context.getApplicationContext().getPackageName() + ".screenshot_provider", file);
         intent.setFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.setData(contentUri);
+        intent.setDataAndType(contentUri,"application/gpx+xml");
         context.startActivity(intent);
     }
 }

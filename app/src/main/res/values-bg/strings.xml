@@ -48,7 +48,7 @@
     <string name="whitelist_all_for_notifications">Разрешаване на всички известия</string>
     <string name="title_activity_calblacklist">Блокирани Календари</string>
     <string name="title_activity_fw_app_insaller">FW/App инсталатор</string>
-    <string name="fw_upgrade_notice">Ще се инсталира %s firmware, вместо текущия на Mi Band.</string>
+    <string name="fw_upgrade_notice">Ще се инсталира %s</string>
     <string name="fw_upgrade_notice_amazfitbip">Ще се инсталира %s firmware на вашия Amazfit Bip.
 \n
 \nПърво трябва да се инсталира .fw file, след това .res file и накрая .gps file. Часовникът ще се рестартира след инсталирането на .fw file.
@@ -56,25 +56,25 @@
 \nНе е необходимо да се инсталират .res и .gps файловете ако те са същите като инсталираните по-рано.
 \n
 \nПРОДЪЛЖАВАТЕ НА СВОЯ ОТГОВОРНОСТ!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Ще се инсталира %s firmware на вашия Amazfit Cor.
-\n
-\nПърво трябва да се инсталира .fw file и след това .res file. Часовникът ще се рестартира след инсталирането на .fw file.
-\n
-\nНе е необходимо да се инсталира .res файл, ако е същия като инсталирания по-рано.
-\n
+    <string name="fw_upgrade_notice_amazfitcor">Ще се инсталира %s firmware на вашия Amazfit Cor. 
+\n 
+\nПърво трябва да се инсталира .fw file и след това .res file. Устройството ще се рестартира след инсталирането на .fw file. 
+\n 
+\nНе е необходимо да се инсталира .res файл, ако е същия като инсталирания по-рано. 
+\n 
 \nПРОДЪЛЖАВАТЕ НА СВОЯ ОТГОВОРНОСТ!</string>
-    <string name="fw_upgrade_notice_miband3">Ще се инсталира %s firmware на вашия Mi Band 3.
-\n
-\nПърво трябва да се инсталира .fw file и след това .res file. Часовникът ще се рестартира след инсталирането на .fw file.
-\n
-\nНе е необходимо да се инсталира .res файл, ако е същия като инсталирания по-рано.
-\n
-\nНЕ Е ТЕСТВАНО, МОЖЕ ДА СЧУПИ УСТРОЙСТВОТО, ПРОДЪЛЖАВАТЕ НА СВОЯ ОТГОВОРНОСТ!</string>
+    <string name="fw_upgrade_notice_miband3">Ще се инсталира %s firmware на вашия Mi Band 3. 
+\n 
+\nПърво трябва да се инсталира .fw file и след това .res file. Устройството ще се рестартира след инсталирането на .fw file. 
+\n 
+\nНе е необходимо да се инсталира .res файл, ако е същия като инсталирания по-рано. 
+\n 
+\nПРОДЪЛЖАВАТЕ НА СВОЯ ОТГОВОРНОСТ!</string>
     <string name="fw_multi_upgrade_notice">Ще се инсталира %1$s и %2$s firmware, вместо текущия на вашия Mi Band.</string>
     <string name="miband_firmware_known">Този firmware е тестван и е съвместим с Gadgetbridge.</string>
-    <string name="miband_firmware_unknown_warning">Този firmware не е тестван и може де не е съвместим с Gadgetbridge.
-\n
-\nНЕ СЕ ПРЕПОРЪЧВА да го инсталирате на вашия Mi Band!</string>
+    <string name="miband_firmware_unknown_warning">Този firmware не е тестван и може де не е съвместим с Gadgetbridge. 
+\n 
+\nНЕ СЕ ПРЕПОРЪЧВА да го инсталирате!</string>
     <string name="miband_firmware_suggest_whitelist">Ако все пак желаете да продължите и по-късно установите, че всичко е наред, моля уведомете Gadgetbridge програмистите да добавят в whitelist %s firmware версията.</string>
     <string name="title_activity_settings">Настройки</string>
     <string name="pref_header_general">Общи настройки</string>
@@ -102,7 +102,7 @@
     <string name="pref_title_notifications_pebblemsg">Pebble съобщения</string>
     <string name="pref_summary_notifications_pebblemsg">Поддръжка на приложения, които изпращат известия до Pebble чрез PebbleKit.</string>
     <string name="pref_title_notifications_generic">Обща поддръжка на известия</string>
-    <string name="pref_title_whenscreenon">...също и при включен екран</string>
+    <string name="pref_title_whenscreenon">…също и при включен екран</string>
     <string name="pref_title_notification_filter">Не безпокойте</string>
     <string name="pref_summary_notification_filter">Нежеланите известия се спират в този режим</string>
     <string name="pref_title_transliteration">Транслитерация</string>
@@ -334,7 +334,7 @@
     <string name="pref_screen_notification_profile_missed_call">Известяване за пропуснато обаждане</string>
     <string name="pref_screen_notification_profile_calendar">Календар известяване</string>
     <string name="pref_screen_notification_profile_inactivity">Известяване за неактивност</string>
-    <string name="pref_screen_notification_profile_low_power">Предупреждение за ниска мощност</string>
+    <string name="pref_screen_notification_profile_low_power">Предупреждение за нисък заряд на батерията</string>
     <string name="pref_screen_notification_profile_anti_loss">Предупреждение при изгубване</string>
     <string name="interval_fifteen_minutes">всеки 15 минути</string>
     <string name="interval_forty_five_minutes">всеки 45 минути</string>
@@ -364,11 +364,11 @@
     <string name="controlcenter_start_activitymonitor">Вашата активност (ALPHA)</string>
     <string name="cannot_connect">Не може да се установи връзка: %1$s</string>
     <string name="installer_activity_unable_to_find_handler">Не може да се намери манипулатор за инсталиране на този файл.</string>
-    <string name="pbw_install_handler_unable_to_install">Не може да се инсталира даденият файл: %1$s</string>
+    <string name="pbw_install_handler_unable_to_install">Не може да се инсталира файлът: %1$s</string>
     <string name="pbw_install_handler_hw_revision_mismatch">Не може да се инсталира даденият firmware: Не съотвества на версията на вашия Pebble.</string>
     <string name="installer_activity_wait_while_determining_status">Моля, изчакайте докато се проверява статуса на инсталацията…</string>
     <string name="notif_battery_low_title">Батерията на устройството е с нисък заряд!</string>
-    <string name="notif_battery_low_percent">%1$s батерия: %2$s%%</string>
+    <string name="notif_battery_low_percent">%1$s заряд на батерия: %2$s%%</string>
     <string name="notif_battery_low_bigtext_last_charge_time">Последно зареден: %s
 \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Брой зареждания: %s</string>
@@ -394,7 +394,7 @@
     <string name="updatefirmwareoperation_metadata_updateproblem">Проблем при зареждането на метаданните на фърмуера</string>
     <string name="updatefirmwareoperation_update_complete">Инсталирането на firmware завърши</string>
     <string name="updatefirmwareoperation_update_complete_rebooting">Инсталирането на firmware завърши, устройството се рестартира…</string>
-    <string name="updatefirmwareoperation_write_failed">Firmware обноваването е неуспешно</string>
+    <string name="updatefirmwareoperation_write_failed">Firmware обновяването е неуспешно</string>
     <string name="chart_steps">Крачки</string>
     <string name="calories">Калории</string>
     <string name="distance">Разстояние</string>
@@ -416,4 +416,15 @@
     <string name="overstep">Крачки в повече: %1$d</string>
     <string name="pref_summary_dont_ack_transfers">Ако данните за активност не са потвърени от устройството, те няма да се изчистят. Полезно е, когато GB се използва заедно с други приложения.</string>
     <string name="pref_summary_keep_data_on_device">Данните за активност ще се пазят на Mi Band дори след синхронизация. Полезно е, когато GB се използва заедно с други приложения.</string>
+    <string name="weeksleepchart_sleep_a_week">Седмичен сън</string>
+    <string name="weeksleepchart_today_sleep_description">Дневен сън, цел: %1$s</string>
+    <string name="overslept">Преспиване: %1$s</string>
+    <string name="pref_summary_low_latency_fw_update">Това може да помогне на устройства, на които обновяването на firmware е неуспешно</string>
+    <string name="live_activity_steps_history">История крачки</string>
+    <string name="live_activity_current_steps_per_minute">Текущи крачки в минута</string>
+    <string name="live_activity_total_steps">Общо крачки</string>
+    <string name="live_activity_steps_per_minute_history">История на крачки в минута</string>
+    <string name="live_activity_start_your_activity">Стартирайте активност</string>
+    <string name="title_activity_device_specific_settings">Специфични настройки за устройството</string>
+    <string name="average">Средно: %1$s</string>
 </resources>

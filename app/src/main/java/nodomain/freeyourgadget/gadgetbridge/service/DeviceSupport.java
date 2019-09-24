@@ -130,4 +130,9 @@ public interface DeviceSupport extends EventHandler {
      * Returns the Android context to use, e.g. to look up resources.
      */
     Context getContext();
+
+    /**
+     * converts String in a device specific way, e.g. re-map characters for a custom font
+     */
+    String customStringFilter(String inputString);
 }

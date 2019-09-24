@@ -7,7 +7,6 @@
     <string name="action_quit">Beenden</string>
     <string name="action_donate">Spenden</string>
     <string name="controlcenter_fetch_activity_data">Synchronisieren</string>
-    <string name="controlcenter_start_sleepmonitor">Schlafaufzeichnung (ALPHA)</string>
     <string name="controlcenter_find_device">Verlorenes Gerät finden</string>
     <string name="controlcenter_take_screenshot">Bildschirmfoto machen</string>
     <string name="controlcenter_disconnect">Trennen</string>
@@ -51,7 +50,7 @@
     <string name="miband_firmware_unknown_warning">Diese Firmware ist nicht getestet und ist möglicherweise nicht mit Gadgetbridge kompatibel. 
 \n 
 \nDu wirst GEBETEN, diese nicht zu flashen!</string>
-    <string name="miband_firmware_suggest_whitelist">Wenn du dennoch fortfahren möchtest und das Gerät anschliessend korrekt funktioniert, melde bitte den Gadgetbridge-Entwicklern, das sie die Firmwareversion %s auf die Whitelist setzen sollen.</string>
+    <string name="miband_firmware_suggest_whitelist">Wenn du dennoch fortfahren möchtest und das Gerät anschließend korrekt funktioniert, melde bitte den Gadgetbridge-Entwicklern, das sie die Firmwareversion %s auf die Whitelist setzen sollen.</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Einstellungen</string>
     <string name="pref_header_general">Allgemeine Einstellungen</string>
@@ -151,8 +150,6 @@
     <string name="connecting">Verbinden</string>
     <string name="connected">Verbunden</string>
     <string name="unknown_state">Unbekannter Zustand</string>
-    <string name="connectionstate_hw_fw">HW: %1$s FW: %2$s</string>
-    <string name="connectionstate_fw">Firmware-Version %1$s</string>
     <string name="_unknown_">(unbekannt)</string>
     <string name="test">Test</string>
     <string name="test_notification">Testbenachrichtigung</string>
@@ -428,7 +425,6 @@
 \nHinweis: Du musst die .res und .gps nicht installieren, wenn diese Dateien genau die gleichen sind wie die zuvor installierten.
 \n 
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
-    <string name="amazfitbip_firmware">Amazfit Bip Firmware %1$s</string>
     <string name="mi2_prefs_button_actions">Tastenaktionen</string>
     <string name="mi2_prefs_button_actions_summary">Bestimmte Aktion bei Tastendruck auf dem Mi Band 2</string>
     <string name="mi2_prefs_button_press_count_summary">Anzahl der Tastendrücke, um die Nachrichtenübertragung auszulösen</string>
@@ -446,7 +442,6 @@
     <string name="controlcenter_connect">Verbinden…</string>
     <string name="pref_title_pebble_enable_bgjs">Hintergrund JS aktivieren</string>
     <string name="preferences_amazfitbip_settings">Amazfit Bip Einstellungen</string>
-    <string name="amazfitcor_firmware">Amazfit Cor Firmware %1$s</string>
     <string name="simplified_chinese">Vereinfachtes Chinesisch</string>
     <string name="traditional_chinese">Traditionelles Chinesisch</string>
     <string name="english">Englisch</string>
@@ -517,7 +512,7 @@
     <string name="kind_gps_almanac">GPS-Kalender</string>
     <string name="kind_gps_cep">GPS-Fehlerkorrektur</string>
     <string name="kind_resources">Quellen</string>
-    <string name="kind_watchface">Ziffernblatt</string>
+    <string name="kind_watchface">Zifferblatt</string>
     <string name="devicetype_xwatch">XWatch</string>
     <string name="choose_auto_export_location">Exportort wählen</string>
     <string name="notification_channel_name">Gadgetbridge-Benachrichtigungen</string>
@@ -572,7 +567,7 @@
     <string name="korean">Koreanisch</string>
     <string name="japanese">Japanisch</string>
     <string name="controlcenter_change_led_color">LED-Farbe ändern</string>
-    <string name="controlcenter_change_fm_frequency">FM-Frequenz ändern</string>
+    <string name="controlcenter_change_fm_frequency">Ändere die Radio Frequenz</string>
     <string name="pref_title_notifications_timeout">Zeitabstand zwischen den Benachrichtigungen</string>
     <string name="pref_title_rtl">Rechts-nach-Links</string>
     <string name="pref_summary_rtl">Aktivieren, wenn dein Gerät keine Sprachen von rechts-nach-links anzeigen kann</string>
@@ -614,7 +609,7 @@
     <string name="pref_invalid_frequency_title">Ungültige Frequenz</string>
     <string name="pref_invalid_frequency_message">Bitte eine Frequenz zwischen 87,5 und 108,0 eingeben</string>
     <string name="language_and_region_prefs">Sprach- und Gebietseinstellungen</string>
-    <string name="debugactivity_really_factoryreset_title">Wirklich auf Werkseinstellung zurücksetzen\?</string>
+    <string name="debugactivity_really_factoryreset_title">Wirklich auf Werkseinstellungen zurücksetzen\?</string>
     <string name="debugactivity_really_factoryreset">Beim Zurücksetzen auf die Werkseinstellungen werden alle Daten vom angeschlossenen Gerät gelöscht (falls unterstützt). Xiaomi/Huami-Geräte ändern auch die Bluetooth-MAC-Adresse, so dass sie als neue Geräte bei Gadgetbrige erscheinen.</string>
     <string name="pref_rtl_max_line_length_summary">Verlängert oder verkürzt die Zeilen, in die der Rechts-nach-Links Text getrennt wird</string>
     <string name="notif_battery_low_extended">%1$s Akku schwach: %2$s</string>
@@ -735,4 +730,45 @@
     <string name="prefs_hr_alarm_activity">Herzfrequenzalarm bei sportlicher Aktivität</string>
     <string name="prefs_hr_alarm_low">Untere Grenze</string>
     <string name="prefs_hr_alarm_high">Obere Grenze</string>
+    <string name="average">Durchschnitt: %1$s</string>
+    <string name="pref_header_charts">Einstellungen - Diagrammeinstellungen</string>
+    <string name="pref_title_charts_average">Durchschnittswerte im Diagramm anzeigen</string>
+    <string name="pref_title_charts_range">Diagrammbereich</string>
+    <string name="pref_charts_range_on">Diagrammbereich ist auf einen Monat eingestellt</string>
+    <string name="pref_charts_range_off">Diagrammbereich ist auf eine Woche eingestellt</string>
+    <string name="weekstepschart_steps_a_month">Schritte pro Monat</string>
+    <string name="weeksleepchart_sleep_a_month">Schlaf pro Monat</string>
+    <string name="devicetype_mijia_lywsd02">Mijia Smart Uhr</string>
+    <string name="menuitem_nfc">NFC</string>
+    <string name="pref_summary_expose_hr">Ermöglicht anderen Anwendungen den Zugriff auf HR-Daten in Echtzeit, während Gadgetbridge verbunden ist</string>
+    <string name="pref_title_expose_hr">Echtzeit-HR-Zugang von Drittanbietern</string>
+    <string name="pref_title_use_custom_font">Benutzerdefinierte Schriftart verwenden</string>
+    <string name="pref_summary_use_custom_font">Aktiviere das, wenn dein Gerät über eine benutzerdefinierte Schriftarten-Firmware für die Emoji-Unterstützung verfügt</string>
+    <string name="activity_DB_ExportButton">Datenbank exportieren</string>
+    <string name="activity_DB_import_button">Datenbank importieren</string>
+    <string name="activity_DB_delete_legacy_button">alte Datenbank löschen</string>
+    <string name="activity_DB_empty_button">leere Datenbank</string>
+    <string name="activity_db_management_empty_DB">leere Datenbank</string>
+    <string name="activity_db_management_exportimport_label">Exportieren und Importieren</string>
+    <string name="widget_5_minutes">5 Minuten</string>
+    <string name="widget_10_minutes">10 Minuten</string>
+    <string name="widget_20_minutes">20 Minuten</string>
+    <string name="widget_1_hour">1 Stunde</string>
+    <string name="pref_display_add_device_fab">Neues Gerät anschließen</string>
+    <string name="pref_display_add_device_fab_on">Immer sichtbar</string>
+    <string name="pref_display_add_device_fab_off">Nur sichtbar, wenn kein Gerät hinzugefügt wird</string>
+    <string name="activity_db_management_autoexport_explanation">Speicherort für automatischen Datenbank-Export auf:</string>
+    <string name="activity_db_management_autoexport_label">Automatischer Export</string>
+    <string name="activity_DB_test_export_button">Automatischer Export jetzt starten</string>
+    <string name="activity_DB_test_export_message">Datenbank exportieren…</string>
+    <string name="activity_db_management_empty_db_warning">Achtung! Wenn Sie auf diese Schaltfläche klicken, löschen Sie Ihre Datenbank und beginnen von Grund auf neu.</string>
+    <string name="appwidget_sleep_alarm_widget_label">Schlafalarm</string>
+    <string name="widget_steps_label">Schritte: %1$02d</string>
+    <string name="widget_sleep_label">Schlaf: %1$s</string>
+    <string name="widget_listing_label">Status und Alarme</string>
+    <string name="widget_set_alarm_after">Alarm einstellen nach:</string>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="one">%d Std</item>
+        <item quantity="other">%d Std</item>
+    </plurals>
 </resources>

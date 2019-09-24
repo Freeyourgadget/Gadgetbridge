@@ -6,7 +6,6 @@
     <string name="action_debug">Ladění</string>
     <string name="action_quit">Ukončit</string>
     <string name="controlcenter_fetch_activity_data">Synchronizovat</string>
-    <string name="controlcenter_start_sleepmonitor">Monitor spánku (alfa)</string>
     <string name="controlcenter_find_device">Najít zařízení</string>
     <string name="controlcenter_take_screenshot">Pořídit snímek displeje</string>
     <string name="controlcenter_disconnect">Odpojit</string>
@@ -129,7 +128,7 @@
     <string name="pref_title_pebble_forcele">Vždy preferovat BLE</string>
     <string name="pref_summary_pebble_forcele">Použít experimentální podporu Pebble LE pro všechny Pebble místo BT classic, vyžaduje spárování \"Pebble LE\" po připojení bez LE</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU limity</string>
-    <string name="pref_summary_pebble_mtu_limit">Pokud vaše Pebble 2/Pebble LE nepracuje jak má, zkuste toto nastavení pro omezení MTU (povolený rozsah 20-512)</string>
+    <string name="pref_summary_pebble_mtu_limit">Pokud vaše Pebble 2/Pebble LE nepracuje jak má, zkuste toto nastavení pro omezení MTU (povolený rozsah 20–512)</string>
     <string name="pref_title_pebble_enable_applogs">Zapnout logování Watch App</string>
     <string name="pref_summary_pebble_enable_applogs">Logy od watch app budou logovány v Gadgetbridge (vyžaduje znovupřipojení)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">Předčasné potvrzení (ACK) pro PebbleKit</string>
@@ -144,8 +143,6 @@
     <string name="connecting">Připojování</string>
     <string name="connected">Připojeno</string>
     <string name="unknown_state">Neznámý stav</string>
-    <string name="connectionstate_hw_fw">HW: %1$s FW: %2$s</string>
-    <string name="connectionstate_fw">Verze FW: %1$s</string>
     <string name="_unknown_">(neznámé)</string>
     <string name="test">Test</string>
     <string name="test_notification">Test notifikací</string>
@@ -310,7 +307,7 @@
     <string name="activity_prefs_weight_kg">Váha v kg</string>
     <string name="authenticating">Ověřování</string>
     <string name="authentication_required">Ověřování vyžadováno</string>
-    <string name="appwidget_text">Spí...</string>
+    <string name="appwidget_text">Spí…</string>
     <string name="add_widget">Přidat widget</string>
     <string name="activity_prefs_sleep_duration">Preferovaná doba spánku v hodinách</string>
     <string name="appwidget_setting_alarm">Budík nastaven na %1$02d:%2$02d</string>
@@ -431,7 +428,6 @@
 \nPoznámka: Nemusíte instalovat .res a .gps, pokud jsou tyto soubory přesně stejné jako ty, které byly nainstalovány dříve. 
 \n 
 \nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
-    <string name="amazfitbip_firmware">"Firmware Amazfit Bipu  %1$s"</string>
     <string name="controlcenter_connect">Připojit…</string>
     <string name="fw_upgrade_notice_amazfitcor">Chystáte se nainstalovat firmvér %s do vašeho Amazfit Cor. 
 \n 
@@ -721,4 +717,41 @@
     <string name="prefs_hr_alarm_activity">Alarm měření tepu při sportovní aktivitě</string>
     <string name="prefs_hr_alarm_low">Spodní hodnota</string>
     <string name="prefs_hr_alarm_high">Horní limit</string>
+    <string name="average">Průměr: %1$s</string>
+    <string name="pref_header_charts">Grafy</string>
+    <string name="pref_title_charts_average">Zobrazovat v grafech průměry</string>
+    <string name="pref_title_charts_range">Časové období grafů</string>
+    <string name="pref_charts_range_on">Rozsah nastaven na měsíc</string>
+    <string name="pref_charts_range_off">Rozsah nastaven na týden</string>
+    <string name="weekstepschart_steps_a_month">Kroky za měsíc</string>
+    <string name="weeksleepchart_sleep_a_month">Spánek za měsíc</string>
+    <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
+    <string name="menuitem_nfc">NFC</string>
+    <string name="pref_summary_expose_hr">"Umožní ostatním aplikacím přistupovat  k datům čidla srdečního tepu dokud Gadgetbridge běží"</string>
+    <string name="pref_title_expose_hr">Přístup cizích aplikací k čidlu tepu</string>
+    <string name="pref_title_use_custom_font">Využít vlastní font</string>
+    <string name="pref_summary_use_custom_font">Vaše zařízení má vlastní font s podporou emoji</string>
+    <string name="activity_db_management_autoexport_explanation">Cesta autoexportu databáze je nastaveno na:</string>
+    <string name="activity_db_management_autoexport_label">AutoExport</string>
+    <string name="activity_DB_ExportButton">Exportovat Databázi</string>
+    <string name="activity_DB_import_button">Importovat Databázi</string>
+    <string name="activity_DB_test_export_button">Spustit AutoExport Teď</string>
+    <string name="activity_DB_test_export_message">Exportuji databázi…</string>
+    <string name="activity_DB_delete_legacy_button">Vymazat starou databázi</string>
+    <string name="activity_DB_empty_button">Vyprázdnit databázi</string>
+    <string name="activity_db_management_empty_DB">Vyprázdnit Databázi</string>
+    <string name="activity_db_management_exportimport_label">Export a Import</string>
+    <string name="activity_db_management_empty_db_warning">Varování! Stisknutím tohoto tlačítko vymažete všechna data a začínáte z nuly.</string>
+    <string name="appwidget_sleep_alarm_widget_label">Budíček</string>
+    <string name="widget_steps_label">Kroky: %1$02d</string>
+    <string name="widget_sleep_label">Spánek: %1$s</string>
+    <string name="widget_listing_label">Status a Budíky</string>
+    <string name="widget_set_alarm_after">Nastavit zvonění za:</string>
+    <string name="widget_5_minutes">5 minut</string>
+    <string name="widget_10_minutes">10 minut</string>
+    <string name="widget_20_minutes">20 minut</string>
+    <string name="widget_1_hour">1 hodinu</string>
+    <string name="pref_display_add_device_fab">Tlačítko Připojit nové zařízení</string>
+    <string name="pref_display_add_device_fab_on">Vždy viditelné</string>
+    <string name="pref_display_add_device_fab_off">Viditelné pouze pokud není přidáno žádné zařízení</string>
 </resources>

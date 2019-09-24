@@ -114,6 +114,11 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public String customStringFilter(String inputString) {
+        return delegate.customStringFilter(inputString);
+    }
+
+    @Override
     public boolean useAutoConnect() {
         return delegate.useAutoConnect();
     }

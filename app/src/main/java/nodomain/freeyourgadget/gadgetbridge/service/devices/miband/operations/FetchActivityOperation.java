@@ -49,9 +49,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-//import java.util.concurrent.Executors;
-//import java.util.concurrent.ScheduledExecutorService;
-//import java.util.concurrent.ScheduledFuture;
 
 /**
  * An operation that fetches activity data. For every fetch, a new operation must
@@ -71,7 +68,7 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
     private final boolean hasPacketCounter;
 
     private class ActivityStruct {
-        private int maxDataPacketLength = 20;
+        private int maxDataPacketLength;
         private int lastNotifiedProgress;
         private final byte[] activityDataHolder;
         private final int activityDataHolderSize;
@@ -197,6 +194,7 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
         activityStruct = null;
         operationFinished();
         unsetBusy();
+        GB.signalActivityDataFinish();
     }
 
     /**

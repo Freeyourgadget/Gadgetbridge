@@ -6,7 +6,6 @@
     <string name="action_debug">ניפוי שגיאות</string>
     <string name="action_quit">יציאה</string>
     <string name="controlcenter_fetch_activity_data">סנכרון</string>
-    <string name="controlcenter_start_sleepmonitor">מעקב שינה (בבדיקה)</string>
     <string name="controlcenter_find_device">איתור התקן שאבד</string>
     <string name="controlcenter_take_screenshot">צילום המסך</string>
     <string name="controlcenter_disconnect">ניתוק</string>
@@ -394,7 +393,6 @@
 \n 
 \nהמשך התהליך הוא על אחריותך!</string>
     <string name="pref_summary_transliteration">יש להפעיל אפשרות זו אם להתקן אין תמיכה בגופן השפה שלך</string>
-    <string name="amazfitbip_firmware">קושחה של Amazfit Bip גרסה %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">שגיאה בייצוא ההעדפה: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">שגיאה בייבוא העדפה: %1$s</string>
     <string name="mi2_fw_installhandler_fw53_hint">עליך להתקין את הגרסה %1$s בטרם התקנת קושחה זו!</string>
@@ -441,7 +439,6 @@
 \nלתשומת לבך: אין צורך להתקין את קובץ ה־‎.res אם הוא זהה לקובץ שהתקנת בעבר. 
 \n 
 \nהמשך מעבר לנקודה זו הוא על אחריותך!</string>
-    <string name="amazfitcor_firmware">קושחה %1$s של Amazfit Cor</string>
     <string name="pref_title_charts_swipe">הפעלת הסטה לימין/שמאל בפעילות התרשימים</string>
     <string name="preferences_amazfitbip_settings">הגדרות Amazfit Bip</string>
     <string name="automatic">אוטומטי</string>
@@ -717,4 +714,47 @@
     <string name="prefs_hr_alarm_activity">התראת דופק במהלך פעילות ספורטיבית</string>
     <string name="prefs_hr_alarm_low">גבול תחתון</string>
     <string name="prefs_hr_alarm_high">גבול עליון</string>
+    <string name="average">ממוצע: %1$s</string>
+    <string name="pref_header_charts">הגדרות תרשימים</string>
+    <string name="pref_title_charts_average">הצגת ממוצעים בתרשימים</string>
+    <string name="pref_title_charts_range">טווח התרשימים</string>
+    <string name="pref_charts_range_on">טווח התרשימים מוגדר לחודש</string>
+    <string name="pref_charts_range_off">טווח התרשימים מוגדר לשבוע</string>
+    <string name="weekstepschart_steps_a_month">צעדים בחודש</string>
+    <string name="weeksleepchart_sleep_a_month">שינה בחודש</string>
+    <string name="devicetype_mijia_lywsd02">שעון קיר חכם מבית Mijia</string>
+    <string name="menuitem_nfc">תקשורת קרבה</string>
+    <string name="pref_summary_expose_hr">מאפשר ליישומונים אחרים לגשת לנתוני דופק בזמן אמת כש־Gadgetbridge מחובר</string>
+    <string name="pref_title_expose_hr">גישה של צד־שלישי לדופק בזמן אמת</string>
+    <string name="pref_title_use_custom_font">גופן מותאם</string>
+    <string name="pref_summary_use_custom_font">יש להפעיל תכונה זו אם למכשיר שלך יש קושחה עם גופן שתומך באמוג׳י</string>
+    <string name="activity_db_management_autoexport_explanation">מיקום הייצוא האוטומטי של מסד הנתונים הוגדר לכאן:</string>
+    <string name="activity_db_management_autoexport_label">ייצוא אוטומטי</string>
+    <string name="activity_DB_ExportButton">ייצוא מסד נתונים</string>
+    <string name="activity_DB_import_button">ייבוא מסד נתונים</string>
+    <string name="activity_DB_test_export_button">הפעלת ייצוא אוטומטי כעת</string>
+    <string name="activity_DB_test_export_message">מסד הנתונים מיוצא…</string>
+    <string name="activity_DB_delete_legacy_button">מחיקת מסד נתונים ישן</string>
+    <string name="activity_DB_empty_button">מסד נתונים ריק</string>
+    <string name="activity_db_management_empty_DB">מסד נתונים ריק</string>
+    <string name="activity_db_management_exportimport_label">ייצוא וייבוא</string>
+    <string name="activity_db_management_empty_db_warning">אזהרה! לחיצה על כפתור זה תוביל למחיקת כל הנתונים שלך והאיסוף יתחיל מההתחלה.</string>
+    <string name="appwidget_sleep_alarm_widget_label">התראת שינה</string>
+    <string name="widget_steps_label">צעדים: %1$02d</string>
+    <string name="widget_sleep_label">שינה: %1$s</string>
+    <string name="widget_listing_label">מצב והתראות</string>
+    <string name="widget_set_alarm_after">הגדרת התראה לאחר:</string>
+    <string name="widget_5_minutes">5 דקות</string>
+    <string name="widget_10_minutes">10 דקות</string>
+    <string name="widget_20_minutes">20 דקות</string>
+    <string name="widget_1_hour">שעה</string>
+    <string name="pref_display_add_device_fab">כפתור הוספת התקן חדש</string>
+    <string name="pref_display_add_device_fab_on">גלוי תמיד</string>
+    <string name="pref_display_add_device_fab_off">גלוי רק אם טרם נוספו התקנים</string>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="one">שעה</item>
+        <item quantity="two">שעתיים</item>
+        <item quantity="many">%d שעות</item>
+        <item quantity="other">%d שעות</item>
+    </plurals>
 </resources>

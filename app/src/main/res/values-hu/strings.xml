@@ -6,7 +6,6 @@
     <string name="action_debug">Hibakeresés</string>
     <string name="action_quit">Kilépés</string>
     <string name="controlcenter_fetch_activity_data">Szinkronizálás</string>
-    <string name="controlcenter_start_sleepmonitor">Alvási adatok (ALFA)</string>
     <string name="controlcenter_find_device">Elveszett eszköz keresése</string>
     <string name="controlcenter_take_screenshot">Képernyőkép készítése</string>
     <string name="controlcenter_disconnect">Kapcsolat megszüntetése</string>
@@ -94,11 +93,11 @@
     <string name="pref_title_canned_reply_suffix">Közös előtag</string>
     <string name="pref_title_canned_messages_dismisscall">Hívás elutasítás</string>
     <string name="pref_title_canned_messages_set">Frissítés a Pebble-n</string>
-    <string name="pref_header_development">Fejlesztői beállítások</string>
+    <string name="pref_header_development">Fejlesztői Beállítások</string>
     <string name="pref_title_development_miaddr">Mi Band cím</string>
-    <string name="pref_title_pebble_settings">Pebble beállítások</string>
+    <string name="pref_title_pebble_settings">Pebble Beállítások</string>
     <string name="pref_header_activitytrackers">Aktivitásmérők</string>
-    <string name="pref_title_pebble_activitytracker">Preferált Aktivitásmérő</string>
+    <string name="pref_title_pebble_activitytracker">Kedvenc Aktivitásmérő</string>
     <string name="pref_title_pebble_sync_health">Pebble Health szinkronizálása</string>
     <string name="pref_title_pebble_sync_misfit">Misfit szinkronizálás</string>
     <string name="pref_title_pebble_sync_morpheuz">Morpheuz szinkronizálás</string>
@@ -111,7 +110,7 @@
     <string name="pref_summary_sunrise_sunset">A napkelte és napnyugta idejének küldése a Pebble idővonalra a hely és idő alapján</string>
     <string name="pref_title_enable_calendar_sync">Naptár szinkronizálása</string>
     <string name="pref_summary_enable_calendar_sync">Naptárbejegyzések küldése az idővonalra</string>
-    <string name="pref_title_autoremove_notifications">Automatikusan törölje az eltávolított értesítéseket</string>
+    <string name="pref_title_autoremove_notifications">Eltávolított értesítések automatikus törlése</string>
     <string name="pref_summary_autoremove_notifications">Az értesítések automatikus eltávolítsa, ha az Androidos eszközön eltávolítottad</string>
     <string name="pref_title_pebble_privacy_mode">Adatvédelmi mód</string>
     <string name="pref_pebble_privacy_mode_off">Normál értesítések</string>
@@ -131,8 +130,8 @@
     <string name="pref_summary_pebble_forceuntested">Nem tesztelt funkciók engedélyezése. CSAK AKKOR ENGEDÉLYEZD, HA TUDOD MIT CSINÁLSZ!</string>
     <string name="pref_title_pebble_forcele">Mindig preferálja a BLE-t</string>
     <string name="pref_summary_pebble_forcele">A kísérleti LE támogatás használata minden Pebble-hez a klasszikus BT helyett, párosítani kell hozzá egy \"Pebble LE\"-t, miután a nem-LE-t párosítva lett egyszer.</string>
-    <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU limit</string>
-    <string name="pref_summary_pebble_mtu_limit">Ha a Pebble 2/Pebble LE nem működik elvártan, próbáld beállítani az MTU limitet (az érvényes tartomány: 20-512)</string>
+    <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU határérték</string>
+    <string name="pref_summary_pebble_mtu_limit">Ha a Pebble 2/Pebble LE nem működik elvártan, próbáld beállítani az MTU limitet (az érvényes tartomány: 20–512)</string>
     <string name="pref_title_pebble_enable_applogs">Óraalkalmazás-naplózás engedélyezése</string>
     <string name="pref_summary_pebble_enable_applogs">Az óra-alkalmazások naplóit a Gadgetbridge is naplózni fogja (újracsatlakozást igényel)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">Korai ACK PebbleKit</string>

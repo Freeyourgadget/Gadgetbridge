@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources><string name="app_name">Gadgetbridge</string>
-
+<resources>
+    <string name="app_name">Gadgetbridge</string>
     <string name="title_activity_controlcenter">Gadgetbridge</string>
     <string name="action_settings">Instellingen</string>
     <string name="action_debug">Debug</string>
     <string name="action_quit">Sluit af</string>
     <string name="action_donate">Doneer</string>
     <string name="controlcenter_fetch_activity_data">Synchroniseren</string>
-    <string name="controlcenter_start_sleepmonitor">Slaap Monitor (ALPHA)</string>
     <string name="controlcenter_find_device">Zoek verloren Toestel</string>
     <string name="controlcenter_take_screenshot">Screenshot maken</string>
     <string name="controlcenter_disconnect">Loskoppelen</string>
@@ -16,12 +15,9 @@
     <string name="controlcenter_delete_device_dialogmessage">Dit zal het apparaat en alle bijbehorende gegevens verwijderen!</string>
     <string name="controlcenter_snackbar_need_longpress">Druk lang op de kaart om los te koppelen</string>
     <string name="controlcenter_snackbar_disconnecting">Loskoppelen</string>
-    <string name="controlcenter_snackbar_connecting">Aansluiten</string>
+    <string name="controlcenter_snackbar_connecting">Verbinden…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Een screenshot maken van het apparaat</string>
-
-
     <string name="title_activity_debug">Debug</string>
-
     <string name="title_activity_appmanager">App Beheerder</string>
     <string name="appmanager_cached_watchapps_watchfaces">Apps in de cache</string>
     <string name="appmanager_installed_watchapps">Geïnstalleerde apps</string>
@@ -38,10 +34,8 @@
     <string name="appmanager_weather_install_provider">Installeer de app voor weerbericht</string>
     <string name="app_configure">Configureren</string>
     <string name="app_move_to_top">Verplaats naar de top</string>
-
     <string name="title_activity_appblacklist">Notificatie zwarte lijst</string>
-
-    <string name="fw_upgrade_notice">U staat op het punt om firmware %s te installeren in plaats van de huidig geinstalleerde op uw Mi Band.</string>
+    <string name="fw_upgrade_notice">U staat op het punt om firmware %s te installeren.</string>
     <string name="fw_upgrade_notice_amazfitbip">U staat op het punt om de firmware %s te installeren op uw Amazfit Bip. 
 \n 
 \nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand en als laatste het .gps-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand. 
@@ -53,32 +47,25 @@
     <string name="miband_firmware_known">Deze firmware is getest en is compatibel met Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">Deze firmware is niet getest en is mogelijk niet compatibel met Gadgetbridge. 
 \n 
-\nU wordt AFGERADEN om het op uw Mi Band te installeren!</string>
+\nU wordt AFGERADEN om deze te installeren!</string>
     <string name="miband_firmware_suggest_whitelist">Als u nog steeds wilt doorgaan en uw apparaat blijft goed functioneren, vertel dan alstublieft de ontwikkelaars van Gadgetbridge om de %s firmware-versie op de goedgekeurde lijst te zetten.</string>
-
     <string name="title_activity_settings">Instellingen</string>
-
     <string name="pref_header_general">Algemene instellingen</string>
     <string name="pref_title_general_autoconnectonbluetooth">Verbind met Gadgetbridge apparaat wanneer Bluetooth is ingeschakeld</string>
     <string name="pref_title_general_autostartonboot">Start automatisch</string>
     <string name="pref_title_general_autoreconnect">Verbind automatisch opnieuw</string>
     <string name="pref_title_audio_player">Gewenste Audiospeler</string>
     <string name="pref_default">Standaard</string>
-
     <string name="pref_header_datetime">Datum en tijd</string>
     <string name="pref_title_datetime_syctimeonconnect">Sync tijd</string>
     <string name="pref_summary_datetime_syctimeonconnect">Synchroniseer de tijd naar het Gadgetbridge apparaat wanneer u verbinding maakt en wanneer de tijd of tijdzone op uw Android toestel verandert</string>
-
     <string name="pref_title_theme">Thema</string>
     <string name="pref_theme_light">Licht</string>
     <string name="pref_theme_dark">Donker</string>
-
     <string name="pref_title_language">Taal</string>
-
     <string name="pref_title_minimize_priority">Verberg de Gadgetbridge-melding</string>
     <string name="pref_summary_minimize_priority_off">Het pictogram in de statusbalk en de melding op het vergrendelingsscherm worden weergegeven</string>
     <string name="pref_summary_minimize_priority_on">Het pictogram in de statusbalk en de melding op het vergrendelingsscherm zijn verborgen</string>
-
     <string name="pref_header_notifications">Meldingen</string>
     <string name="pref_title_notifications_repetitions">Herhalingen</string>
     <string name="pref_title_notifications_call">Telefoongesprekken</string>
@@ -86,101 +73,81 @@
     <string name="pref_title_notifications_pebblemsg">Pebble Berichten</string>
     <string name="pref_summary_notifications_pebblemsg">Ondersteuning voor apps die meldingen versturen naar de Pebble via PebbleKit sturen.</string>
     <string name="pref_title_notifications_generic">Algemene melding ondersteuning</string>
-    <string name="pref_title_whenscreenon">... ook als het scherm is ingeschakeld</string>
+    <string name="pref_title_whenscreenon">… ook als het scherm is ingeschakeld</string>
     <string name="pref_title_notification_filter">Niet Storen</string>
     <string name="pref_summary_notification_filter">Ongewenste meldingen worden tegengehouden in deze modus</string>
     <string name="pref_title_transliteration">Transliteratie</string>
     <string name="pref_summary_transliteration">Schakel dit in als uw apparaat geen ondersteuning heeft voor het lettertype van uw taal</string>
-
     <string name="always">Altijd</string>
     <string name="when_screen_off">Wanneer het scherm uit staat</string>
     <string name="never">Nooit</string>
-
     <string name="pref_header_privacy">Privacy</string>
     <string name="pref_title_call_privacy_mode">Bel privacy modus</string>
     <string name="pref_call_privacy_mode_off">Toon naam en nummer</string>
     <string name="pref_call_privacy_mode_name">Verberg naam maar toon nummer</string>
     <string name="pref_call_privacy_mode_number">Verberg nummer maar toon naam</string>
     <string name="pref_call_privacy_mode_complete">Verberg naam en nummer</string>
-
-
     <string name="pref_blacklist">Apps op de zwarte lijst plaatsen</string>
     <string name="pref_blacklist_calendars">Blacklist Kalenders</string>
-
     <string name="pref_title_canned_replies">Antwoorden</string>
     <string name="pref_title_canned_reply_suffix">Vaak voorkomend achtervoegsel</string>
     <string name="pref_title_canned_messages_dismisscall">Bel Afwijzing</string>
     <string name="pref_title_canned_messages_set">Update op Pebble</string>
-
     <string name="pref_header_development">Ontwikkelaarsopties</string>
     <string name="pref_title_development_miaddr">Mi Band adres</string>
-
     <string name="pref_title_pebble_settings">Pebble instellingen</string>
-
     <string name="pref_header_activitytrackers">"Activiteit trackers "</string>
     <string name="pref_title_pebble_activitytracker">Voorkeurs-activiteit tracker</string>
     <string name="pref_title_pebble_sync_health">Synchroniseer Pebble Health</string>
     <string name="pref_title_pebble_sync_misfit">Sync Misfit</string>
     <string name="pref_title_pebble_sync_morpheuz">Sync Morpheuz</string>
-
     <string name="pref_title_enable_outgoing_call">Ondersteun uitgaande oproepen</string>
     <string name="pref_summary_enable_outgoing_call">Als u dit uitschakelt, zal de Pebble 2/LE ook stoppen met trillen bij uitgaande gesprekken</string>
-
     <string name="pref_title_enable_pebblekit">Toegang tot de Android App van 3de partij toestaan</string>
     <string name="pref_summary_enable_pebblekit">De experimentele ondersteuning inschakelen voor Android apps die van PebbleKit gebruik maken</string>
-
     <string name="pref_header_pebble_timeline">Pebble tijdlijn</string>
     <string name="pref_title_sunrise_sunset">zonsopkomst en zonsondergang</string>
     <string name="pref_summary_sunrise_sunset">Zend zonsopgang en zonsondergangstijden op basis van de locatie naar de Pebble-tijdlijn</string>
     <string name="pref_title_enable_calendar_sync">Synchroniseer kalender</string>
     <string name="pref_summary_enable_calendar_sync">Zend kalendergebeurtenissen naar de tijdlijn</string>
-
     <string name="pref_title_pebble_privacy_mode">Privacy modus</string>
     <string name="pref_pebble_privacy_mode_off">Normale meldingen</string>
     <string name="pref_pebble_privacy_mode_complete">Toon alleen het notificatie icoon</string>
-
     <string name="pref_header_location">Locatie</string>
     <string name="pref_title_location_aquire">Verkrijg locatie</string>
     <string name="pref_title_location_latitude">Breedtegraad</string>
     <string name="pref_title_location_longitude">Lengtegraad</string>
     <string name="pref_title_location_keep_uptodate">Houd de locatie bijgewerkt</string>
     <string name="pref_summary_location_keep_uptodate">Probeer de huidige locatie op tijd te krijgen, gebruik de opgeslagen locatie als terugval</string>
-
     <string name="toast_enable_networklocationprovider">Activeer de netwerk locatie</string>
     <string name="toast_aqurired_networklocation">locatie gevonden</string>
-
     <string name="discovery_successfully_bonded">Gekoppeld met %1$s.</string>
     <string name="discovery_pair_title">Koppel met %1$s?</string>
     <string name="discovery_pair_question">Selecteer koppelen om uw apparaten te koppelen. Als dit mislukt, probeer het opnieuw zonder koppelen.</string>
     <string name="discovery_yes_pair">Koppel</string>
     <string name="discovery_dont_pair">Niet Koppelen</string>
-
     <string name="_pebble_watch_open_on_phone">Open op Android toestel</string>
     <string name="_pebble_watch_mute">Dempen</string>
     <string name="_pebble_watch_reply">Antwoord</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
-<string name="controlcenter_connect">Verbinden</string>
+    <string name="controlcenter_connect">Verbind…</string>
     <string name="controlcenter_navigation_drawer_open">Open navigatie scherm</string>
     <string name="controlcenter_navigation_drawer_close">Sluit navigatie scherm</string>
     <string name="appmanager_weather_deactivate">Deactiveer de systeem weer app</string>
     <string name="title_activity_calblacklist">Kalenders op de zwarte lijst</string>
-
     <string name="title_activity_fw_app_insaller">Firmware/Apps installeren</string>
     <string name="fw_upgrade_notice_amazfitcor">U staat op het punt om de firmware %s te installeren op uw Amazfit Cor. 
 \n 
-\nZorg ervoor dat u het .fw-bestand installeert en daarna het .res-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand. 
+\nZorg ervoor dat u het .fw-bestand installeert en daarna het .res-bestand. Uw band wordt opnieuw gestart na het installeren van het .fw-bestand. 
 \n 
 \nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd. 
 \n 
 \nGA VERDER OP EIGEN RISICO!</string>
     <string name="pref_title_charts_swipe">Activeer links/rechts vegen in grafiek schermen</string>
-
     <string name="pref_title_weather">Weer</string>
     <string name="pref_title_weather_location">Weer locatie (CM/LOS)</string>
-
     <string name="pref_title_autoremove_notifications">Verwijder automatisch verworpen meldingen</string>
     <string name="pref_summary_autoremove_notifications">Meldingen worden automatisch verwijderd op de Pebble als ze verworpen worden op het Android toestel</string>
-
     <string name="pref_pebble_privacy_mode_content">Schuif de meldingstekst van het scherm</string>
     <string name="pref_header_cannned_messages">Voorgedefinieerde berichten</string>
     <string name="pref_title_pebble_forceprotocol">Verplicht notificatie protocol</string>
@@ -190,22 +157,19 @@
     <string name="pref_title_pebble_forcele">Geef altijd de voorkeur aan BLE</string>
     <string name="pref_summary_pebble_forcele">Gebruik experimentele Pebble LE-ondersteuning voor alle Pebbels in plaats van BT classic. Dit vereist het eerst paren met een niet LE-versie en daarna met een Pebble LE</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU limiet</string>
-    <string name="pref_summary_pebble_mtu_limit">Als uw Pebble 2/Pebble LE niet werkt zoals verwacht, probeer deze instelling om de MTU te limiteren (geldig bereik: 20-512)</string>
+    <string name="pref_summary_pebble_mtu_limit">Als uw Pebble 2/Pebble LE niet werkt zoals verwacht, probeer deze instelling om de MTU te limiteren (geldig bereik: 20–512)</string>
     <string name="pref_title_pebble_enable_applogs">Logging van de horlogeapp inschakelen</string>
     <string name="pref_summary_pebble_enable_applogs">Zorgt ervoor dat logs van horloge-apps gelogd zullen worden door Gadgetbridge (opnieuw verbinden vereist)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">Vroegtijdige ACK PebbleKit</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Zorgt ervoor dat berichten die door apps van derden worden verzonden, altijd en onmiddellijk herkend zullen worden</string>
     <string name="pref_title_pebble_enable_bgjs">Schakel achtergrond JS in</string>
-    <string name="pref_summary_pebble_enable_bgjs">Wanneer ingeschakeld, kunnen horloges het weer, batterijinformatie enz. weergeven</string>
-
+    <string name="pref_summary_pebble_enable_bgjs">Wanneer ingeschakeld, kunnen horloges het weer, batterijinformatie enz. weergeven.</string>
     <string name="pref_title_pebble_reconnect_attempts">Pogingen tot opnieuw verbinden</string>
-
     <string name="pref_title_unit_system">Eenheden</string>
     <string name="pref_title_timeformat">Tijd weergave</string>
     <string name="pref_title_screentime">Scherm en duratie</string>
     <string name="prefs_title_all_day_heart_rate">Heel de dag door hartslag metingen uitvoeren</string>
     <string name="preferences_hplus_settings">HPlus/Makibes instellingen</string>
-
     <string name="not_connected">Niet verbonden</string>
     <string name="connecting">Aan het verbinden</string>
     <string name="connected">Verbonden</string>
@@ -238,7 +202,6 @@
     <string name="initialized">Geïnitialiseerd</string>
     <string name="appversion_by_creator">%1$s door %2$s</string>
     <string name="title_activity_discovery">Naar apparaten scannen</string>
-
     <string name="discovery_stop_scanning">Stop met scannen</string>
     <string name="discovery_start_scanning">Start met scannen</string>
     <string name="action_discover">Nieuw toestel verbinden</string>
@@ -263,12 +226,11 @@
     <string name="miband_pairing_using_dummy_userdata">Geen geldige gebruikers data ingegeven, voorlopig dummy gebruikersdata gebruiken.</string>
     <string name="miband_pairing_tap_hint">Als uw Mi Band trilt en oplicht, tik een aantal keer na elkaar.</string>
     <string name="appinstaller_install">Installeren</string>
-    <string name="discovery_connected_devices_hint">Maak uw toestel zichtbaar. Toestellen die op dit moment verbonden zijn zullen waarschijnlijk niet zichtbaar zijn. Activeer locatie (b.v. GPS) op Android 6+. Schakel Privacy Guard voor Guadgetbridge uit, anders kan uw telefoon crashen en herstarten. Als er geen toestel gevonden is na een paar minuten, probeer dan opnieuw na het heropstarten van uw mobiel toestel.</string>
+    <string name="discovery_connected_devices_hint">Maak uw toestel zichtbaar. Toestellen die op dit moment verbonden zijn zullen waarschijnlijk niet zichtbaar zijn. Activeer locatie (b.v. GPS) op Android 6+. Schakel Privacy Guard voor Gadgetbridge uit, anders kan uw telefoon crashen en herstarten. Als er geen toestel gevonden is na een paar minuten, probeer dan opnieuw na het heropstarten van uw mobiel toestel.</string>
     <string name="discovery_note">Opmerking:</string>
     <string name="candidate_item_device_image">Toestel afbeelding</string>
     <string name="miband_prefs_alias">Naam</string>
     <string name="pref_header_vibration_count">Vibratie nummer</string>
-
     <string name="title_activity_sleepmonitor">Slaapmonitor</string>
     <string name="pref_write_logfiles">Schrijf logbestanden</string>
     <string name="initializing">Initialiseren</string>
@@ -276,7 +238,6 @@
     <string name="sleep_activity_date_range">Van %1$s aan %2$s</string>
     <string name="miband_prefs_wearside">Links of rechts dragen?</string>
     <string name="pref_screen_vibration_profile">Vibratie profiel</string>
-
     <string name="vibration_profile_staccato">Staccato</string>
     <string name="vibration_profile_short">Kort</string>
     <string name="vibration_profile_medium">Middel</string>
@@ -285,7 +246,6 @@
     <string name="vibration_profile_ring">Ring</string>
     <string name="vibration_profile_alarm_clock">Alarm klok</string>
     <string name="miband_prefs_vibration">Vibratie</string>
-
     <string name="vibration_try">Proberen</string>
     <string name="pref_screen_notification_profile_sms">SMS notificatie</string>
     <string name="pref_header_vibration_settings">Vibratie instellingen</string>
@@ -295,18 +255,15 @@
     <string name="pref_screen_notification_profile_generic_chat">Chat</string>
     <string name="pref_screen_notification_profile_generic_navigation">Navigatie</string>
     <string name="pref_screen_notification_profile_generic_social">Sociaal netwerk</string>
-
     <string name="prefs_title_heartrate_measurement_interval">Hele dag HR-meting</string>
     <string name="interval_one_minute">een keer per minuut</string>
     <string name="interval_five_minutes">iedere 5 minuten</string>
     <string name="interval_ten_minutes">iedere 10 minuten</string>
     <string name="interval_thirty_minutes">iedere 30 minuten</string>
     <string name="interval_one_hour">een keer per uur</string>
-
     <string name="stats_title">Snelheidszones</string>
     <string name="stats_x_axis_label">Totale minuten</string>
     <string name="stats_y_axis_label">Stappen per minuut</string>
-
     <string name="control_center_find_lost_device">Zoek verloren toestel</string>
     <string name="control_center_cancel_to_stop_vibration">Annuleer om vibratie te stoppen.</string>
     <string name="title_activity_charts">Uw activiteit</string>
@@ -370,7 +327,6 @@
     <string name="pref_summary_keep_data_on_device">Wij zullen activiteitsdata op de Mi Band houden zelfs na synchronisatie. Dit is nuttig als GB gebruikt wordt samen met andere apps.</string>
     <string name="pref_title_low_latency_fw_update">Gebruik lage vertragingstijd modus voor Firmware flashen</string>
     <string name="pref_summary_low_latency_fw_update">Dit kan helpen op toestellen waar firmware flashen faalt.</string>
-
     <string name="live_activity_steps_history">Stappen geschiedenis</string>
     <string name="live_activity_current_steps_per_minute">Huidige stappen/min</string>
     <string name="live_activity_total_steps">Totale stappen</string>
@@ -387,7 +343,7 @@
     <string name="fwinstaller_firmware_not_compatible_to_device">Deze firmware is niet compatibel met het toestel</string>
     <string name="miband_prefs_reserve_alarm_calendar">Alarmen voor te behouden voor toekomstige evenementen</string>
     <string name="miband_prefs_hr_sleep_detection">Gebruik hartslag sensor om slaap detectie te verbeteren</string>
-	<string name="miband_prefs_device_time_offset_hours">Toestel tijdsverschuiving in uren (voor het detecteren van slaap van ploegarbeiders)</string>
+    <string name="miband_prefs_device_time_offset_hours">Toestel tijdsverschuiving in uren (voor het detecteren van slaap van ploegarbeiders)</string>
     <string name="miband2_prefs_dateformat">Datum formaat</string>
     <string name="dateformat_time">Tijd</string>
     <string name="dateformat_date_time">Tijd &amp; datum</string>
@@ -419,25 +375,19 @@
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">Schakel de inactiviteits-waarschuwing uit voor een bepaald tijdsinterval</string>
     <string name="mi2_prefs_do_not_disturb_start">Start tijd</string>
     <string name="mi2_prefs_do_not_disturb_end">Stop tijd</string>
-
     <string name="automatic">Automatisch</string>
     <string name="simplified_chinese">Versimpeld Chinees</string>
     <string name="traditional_chinese">Traditioneel Chinees</string>
     <string name="english">Engels</string>
-
     <string name="FetchActivityOperation_about_to_transfer_since">Op het punt om data over te zetten vanaf %1$s</string>
-
     <string name="waiting_for_reconnect">Wachten om opnieuw te verbinden</string>
-
     <string name="activity_prefs_about_you">Over jou</string>
     <string name="activity_prefs_year_birth">Geboortejaar</string>
     <string name="activity_prefs_gender">Geslacht</string>
     <string name="activity_prefs_height_cm">Hoogte in cm</string>
     <string name="activity_prefs_weight_kg">Gewicht in kg</string>
-
     <string name="authenticating">Authenticatie</string>
     <string name="authentication_required">Authenticatie vereist</string>
-
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Widget toevoegen</string>
     <string name="activity_prefs_sleep_duration">Gewenste slaapduur in uren</string>
@@ -450,7 +400,6 @@
     <string name="updatefirmwareoperation_firmware_not_sent">Firmware niet verzonden</string>
     <string name="charts_legend_heartrate">Hartslag</string>
     <string name="live_activity_heart_rate">Hartslag</string>
-
     <string name="pref_title_pebble_health_store_raw">Bewaar onbewerkte record in de database</string>
     <string name="pref_summary_pebble_health_store_raw">Slaat de data op \"zoals ze is\", dit vergroot het gebruik van de database om latere interpretatie mogelijk te maken.</string>
     <string name="action_db_management">Database beheer</string>
@@ -479,12 +428,9 @@
     <string name="dbmanagementactivity_overwrite">Overschrijven</string>
     <string name="Cancel">Annuleren</string>
     <string name="Delete">Verwijderen</string>
-
     <string name="title_activity_vibration">Vibratie</string>
-
     <string name="title_activity_pebble_pairing">Pebble koppelen</string>
     <string name="pebble_pairing_hint">Er zal een koppelingsdialoogvenster verschijnen op uw Android-apparaat. Als dat niet gebeurt, kijk dan tussen uw notificaties en accepteer het koppelingsverzoek. Accepteer het daarna ook op uw Pebble.</string>
-
     <string name="weather_notification_label">Zorg ervoor dat deze skin is ingeschakeld in de Weermeldingen app om informatie over het weer op uw Pebble te krijgen.
 \n
 \nHier is geen configuratie nodig.
@@ -494,17 +440,12 @@
 \nOndersteunde watchfaces geven het weer automatisch weer.</string>
     <string name="pref_title_setup_bt_pairing">Schakel Bluetooth koppeling in</string>
     <string name="pref_summary_setup_bt_pairing">Deactiveer dit als u problemen hebt met verbinden</string>
-
     <string name="unit_metric">Metriek</string>
     <string name="unit_imperial">Imperiaal</string>
-
     <string name="timeformat_24h">24H</string>
     <string name="timeformat_am_pm">AM/PM</string>
-
     <string name="pref_screen_notification_profile_alarm_clock">Alarm klok</string>
-
     <string name="activity_web_view">Webweergave activiteit</string>
-
     <string name="StringUtils_sender">(%1$s)</string>
     <string name="find_device_you_found_it">U hebt het gevonden!</string>
     <string name="miband2_prefs_timeformat">Mi2: Tijdsformaat</string>
@@ -527,7 +468,6 @@
     <string name="kind_gps_cep">GPS Foutcorrectie</string>
     <string name="kind_resources">Middelen</string>
     <string name="kind_watchface">Wijzerplaat</string>
-
     <string name="devicetype_unknown">Onbekend apparaat</string>
     <string name="devicetype_test">Test Apparaat</string>
     <string name="devicetype_pebble">Pebble</string>
@@ -542,35 +482,30 @@
     <string name="devicetype_exrizu_k8">Exrizu K8</string>
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
-<string name="pref_header_auto_export">Automatisch exporteren</string>
+    <string name="pref_header_auto_export">Automatisch exporteren</string>
     <string name="pref_title_auto_export_enabled">Automatisch exporteren ingeschakeld</string>
     <string name="pref_title_auto_export_location">Locatie exporteren</string>
     <string name="pref_title_auto_export_interval">Interval voor exporteren</string>
     <string name="pref_summary_auto_export_interval">Exporteer iedere %d uur</string>
-
     <string name="notif_export_failed_title">Database exporteren mislukt! Controleer uw instellingen.</string>
     <string name="spanish">Spaans</string>
-
     <string name="choose_auto_export_location">Kies export locatie</string>
     <string name="notification_channel_name">Gadgetbridge meldingen</string>
-<string name="blacklist_all_for_notifications">Blacklist voor alle notificaties</string>
-    <string name="whitelist_all_for_notifications">Whitelist voor alle notificaties</string>
-
-
-    <string name="fw_upgrade_notice_miband3">Je staat op het punt om de %s-firmware op je Mi Band 3 te installeren.
-\n
-\nZorg ervoor dat u het .fw bestand installeert, en daarna het .res bestand. Uw horloge wordt opnieuw opgestart na het installeren van het .fw-bestand.
-\n
-\nOpmerking: U hoeft .res niet te installeren als het precies hetzelfde is als het eerder geïnstalleerde .res.
-\n
-\nNIET GETEST, KAN UW APPARAAT BRICKEN, GA VERDER OP EIGEN RISICO!</string>
+    <string name="blacklist_all_for_notifications">Zwarte lijst voor alle notificaties</string>
+    <string name="whitelist_all_for_notifications">Witte lijst voor alle notificaties</string>
+    <string name="fw_upgrade_notice_miband3">Je staat op het punt om de %s-firmware op je Mi Band 3 te installeren. 
+\n 
+\nZorg ervoor dat u het .fw bestand installeert, en daarna het .res bestand. Uw band wordt opnieuw opgestart na het installeren van het .fw-bestand. 
+\n 
+\nOpmerking: U hoeft .res niet te installeren als het precies hetzelfde is als het eerder geïnstalleerde .res. 
+\n 
+\nGA VERDER OP EIGEN RISICO!</string>
     <string name="pref_title_pebble_gatt_clientonly">Alleen GATT-cliënt</string>
     <string name="pref_summary_pebble_gatt_clientonly">Dit is alleen voor Pebble 2 en experimenteel, probeer dit als je connectiviteitsproblemen hebt</string>
     <string name="pref_auto_fetch">Activiteitsgegevens automatisch ophalen</string>
     <string name="pref_auto_fetch_summary">Ophalen gebeurt bij het ontgrendelen van het scherm. Werkt alleen als er een vergrendelmechanisme is ingesteld!</string>
     <string name="pref_auto_fetch_limit_fetches">Minimaal tijdsverloop tussen de ophaalbeurten</string>
     <string name="pref_auto_fetch_limit_fetches_summary">Om de %d minuten ophalen</string>
-
     <string name="on">Aan</string>
     <string name="controlcenter_start_activity_tracks">Uw activiteit tracks</string>
     <string name="activity_type_not_measured">Niet gemeten</string>
@@ -590,7 +525,6 @@
     <string name="devicetype_miband3">Mi Band 3</string>
     <string name="devicetype_q8">Q8</string>
     <string name="devicetype_xwatch">XWatch</string>
-
     <string name="menuitem_shortcut_alipay">Alipay (snelkoppeling)</string>
     <string name="menuitem_shortcut_weather">Weer (snelkoppeling)</string>
     <string name="menuitem_status">Status</string>
@@ -601,19 +535,15 @@
     <string name="menuitem_compass">Kompas</string>
     <string name="menuitem_settings">Instellingen</string>
     <string name="menuitem_alipay">Alipay</string>
-<string name="controlcenter_calibrate_device">Kalibreer apparaat</string>
-
-
+    <string name="controlcenter_calibrate_device">Kalibreer apparaat</string>
     <string name="preferences_id115_settings">ID115 instellingen</string>
     <string name="prefs_screen_orientation">Scherm orientatie</string>
-
     <string name="preferences_miband2_settings">Mi Band 2 instellingen</string>
     <string name="preferences_miband3_settings">Mi Band 3 instellingen</string>
     <string name="preferences_amazfitcor_settings">Amazfit Cor instellingen</string>s
     <string name="horizontal">Horizontaal</string>
     <string name="vertical">Vertikaal</string>
     <string name="watch9_pairing_tap_hint">Wanneer het horloge trilt, schud hem of druk op de knop.</string>
-
     <string name="you_slept">Je sliep van %1$s tot %2$s</string>
     <string name="you_did_not_sleep">Je hebt niet geslapen</string>
     <string name="mi3_prefs_band_screen_unlock">Band scherm vrijgeven</string>
@@ -626,9 +556,7 @@
     <string name="polish">Pools</string>
     <string name="korean">Koreaans</string>
     <string name="japanese">Japans</string>
-
     <string name="reset_index">Herstel ophaal datum</string>
-
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
     <string name="menuitem_notifications">Notificaties</string>
     <string name="controlcenter_change_led_color">Wijzig LED kleur</string>
@@ -659,12 +587,12 @@
     <string name="mi3_prefs_night_mode">Nacht modus</string>
     <string name="mi3_prefs_night_mode_summary">Verlaag automatisch de scherm helderheid \'s nachts</string>
     <string name="activity_prefs_charts">Grafiek instellingen</string>
-    <string name="activity_prefs_chart_max_heart_rate">Max harstslag</string>
-    <string name="activity_prefs_chart_min_heart_rate">Min hartslag</string>
+    <string name="activity_prefs_chart_max_heart_rate">Maximum hartslag</string>
+    <string name="activity_prefs_chart_min_heart_rate">Minimum hartslag</string>
     <string name="ok">OK</string>
     <string name="mi3_night_mode_sunset">Bij zonsondergang</string>
     <string name="devicetype_id115">ID115</string>
-    <string name="devicetype_watch9">Horloge 9</string>
+    <string name="devicetype_watch9">Watch 9</string>
     <string name="devicetype_roidmi">Roidmi</string>
     <string name="devicetype_roidmi3">Roidmi 3</string>
     <string name="menuitem_music">Muziek</string>
@@ -688,4 +616,150 @@
     <string name="pref_invalid_frequency_title">Ongeldige frequentie</string>
     <string name="pref_invalid_frequency_message">Voer een frequentie in tussen 87,5 en 108,0</string>
     <string name="language_and_region_prefs">Taal en regio instellingen</string>
+    <string name="devicetype_casiogb6900">Casio GB-6900</string>
+    <string name="title_activity_notification_filter">Notificatiefilter</string>
+    <string name="toast_app_must_not_be_blacklisted">App mag niet op de zwarte lijst staan om te worden geconfigureerd</string>
+    <string name="edittext_notification_filter_words_hint">Voer gewenste woorden in, elk op een nieuwe regel</string>
+    <string name="toast_notification_filter_saved_successfully">Notificatiefilter opgeslagen</string>
+    <string name="filter_mode_none">Niet filteren</string>
+    <string name="filter_mode_whitelist">Laat zien wanneer woorden voorkomen</string>
+    <string name="filter_mode_blacklist">Blokkeer wanneer woorden voorkomen</string>
+    <string name="filter_submode_at_least_one">Minstens een van de woorden</string>
+    <string name="filter_submode_all">Alle woorden</string>
+    <string name="toast_notification_filter_words_empty_hint">Voer minstens een woord in</string>
+    <string name="filter_mode">Filtermodus</string>
+    <string name="mode_configuration">Modus instellingen</string>
+    <string name="save_configuration">Configuratie opslaan</string>
+    <string name="appwidget_not_connected">Niet verbonden, alarm niet gezet.</string>
+    <string name="activity_type_exercise">Oefenen</string>
+    <string name="prefs_disconnect_notification">Verbroken verbinding melding</string>
+    <string name="zetime_title_settings">ZeTime instellingen</string>
+    <string name="zetime_title_heartrate">Hartslag instellingen</string>
+    <string name="zetime_title_screentime">Scherm aan duur in seconden</string>
+    <string name="zetime_title_heart_rate_alarm">Hartslagalarm</string>
+    <string name="zetime_title_heart_rate_alarm_summary">Het horloge waarschuwt je zodra je hartslag de grenswaarden overschrijdt.</string>
+    <string name="zetime_heart_rate_alarm_enable">Hartslagalarm inschakelen</string>
+    <string name="activity_prefs_alarm_max_heart_rate">Maximale hartslag</string>
+    <string name="activity_prefs_alarm_min_heart_rate">Minimale hartslag</string>
+    <string name="zetime_analog_mode">Analoge modus</string>
+    <string name="zetime_analog_mode_hands">Enkel wijzers</string>
+    <string name="zetime_analog_mode_handsandsteps">Wijzers en streepjes</string>
+    <string name="zetime_activity_tracking">Activiteit monitoring</string>
+    <string name="zetime_activity_tracking_summary">Schakel activiteit monitoring in, telt je stappen etc.</string>
+    <string name="zetime_handmove_display">Handbeweging</string>
+    <string name="zetime_handmove_display_summary">Draai je pols om het scherm te activeren of deactiveren.</string>
+    <string name="zetime_calories_type">Soort calorieën</string>
+    <string name="zetime_calories_type_active">Alleen calorieën verbrand gedurende activiteiten</string>
+    <string name="zetime_calories_type_all">Verbrande calorieën actief en inactief</string>
+    <string name="zetime_time_format">Tijd formaat</string>
+    <string name="zetime_time_format_24h">24 uur</string>
+    <string name="zetime_time_format_12h">12 uur</string>
+    <string name="zetime_date_format">Datum formaat</string>
+    <string name="zetime_date_format_1">YY/MM/DD</string>
+    <string name="zetime_date_format_2">DD/MM/YY</string>
+    <string name="zetime_date_format_3">MM/DD/YY</string>
+    <string name="zetime_prefs_inactivity_repetitions">Herhalingen</string>
+    <string name="zetime_prefs_inactivity_mo">Maandag</string>
+    <string name="zetime_prefs_inactivity_tu">Dinsdag</string>
+    <string name="zetime_prefs_inactivity_we">Woensdag</string>
+    <string name="zetime_prefs_inactivity_th">Donderdag</string>
+    <string name="zetime_prefs_inactivity_fr">Vrijdag</string>
+    <string name="zetime_prefs_inactivity_sa">Zaterdag</string>
+    <string name="zetime_prefs_inactivity_su">Zondag</string>
+    <string name="zetime_title_alarm_signaling">Zet signaleringstype voor het alarm</string>
+    <string name="zetime_signaling_none">Stil</string>
+    <string name="zetime_signaling_vibrate">Continu trillen</string>
+    <string name="zetime_signaling_beep">Continu piepen</string>
+    <string name="zetime_signaling_vibrate_beep">Continu trillen en piepen</string>
+    <string name="zetime_signaling_vibrate_once">Eenmaal trillen</string>
+    <string name="zetime_signaling_vibrate_twice">Tweemaal trillen</string>
+    <string name="zetime_signaling_beep_once">Eenmaal piepen</string>
+    <string name="zetime_signaling_beep_twice">Tweemaal piepen</string>
+    <string name="zetime_signaling_vibrate_beep_once">Eenmaal trillen en piepen</string>
+    <string name="pref_screen_notification_profile_missed_call">Gemiste oproep notificatie</string>
+    <string name="pref_screen_notification_profile_calendar">Agenda notificatie</string>
+    <string name="pref_screen_notification_profile_inactivity">Inactiviteit notificatie</string>
+    <string name="pref_screen_notification_profile_low_power">Batterij laag waarschuwing</string>
+    <string name="pref_screen_notification_profile_anti_loss">Anti-verlies waarschuwing</string>
+    <string name="interval_fifteen_minutes">elke 15 minuten</string>
+    <string name="interval_forty_five_minutes">elke 45 minuten</string>
+    <string name="activity_prefs_calories_burnt">Dagelijks doel: calorieën verbrandt</string>
+    <string name="activity_prefs_distance_meters">Dagelijks doel: afstand in meters</string>
+    <string name="activity_prefs_activetime_minutes">Dagelijks doel: tijd actief in minuten</string>
+    <string name="devicetype_miscale2">Mi Scale 2</string>
+    <string name="pref_title_support_voip_calls">Sta VoIP app calls toe</string>
+    <string name="title_activity_device_specific_settings">Toestelspecifieke instellingen</string>
+    <string name="pref_title_authkey">Authorisatie sleutel</string>
+    <string name="pref_summary_authkey">Wijzig de authorisatie sleutel in een algemene sleutel op al uw Android-apparaten waarmee u verbinding wilt maken. De vorige standaardsleutel voor alle apparaten is 0123456789 @ ABCDE</string>
+    <string name="devicetype_bfh16">BFH-16</string>
+    <string name="fw_upgrade_notice_amazfitcor2">U staat op het punt om de firmware %s te installeren op uw Amazfit Cor 2. 
+\n 
+\nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand. 
+\n 
+\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd. 
+\n 
+\nGA VERDER OP EIGEN RISICO!
+\n
+\nVOLLEDIG ONGETEST, MISSCHIEN MET JE EEN BEATS_W_FIRMWARE INSTALLEREN ALS JE DEVICE NAAM \"Amazfit Band 2\" IS</string>
+    <string name="dutch">Nederlands</string>
+    <string name="turkish">Turks</string>
+    <string name="ukrainian">Oekraïens</string>
+    <string name="arabic">Arabisch</string>
+    <string name="indonesian">Indonesisch</string>
+    <string name="thai">Thais</string>
+    <string name="vietnamese">Vietnamees</string>
+    <string name="portuguese">Portugees</string>
+    <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
+    <string name="devicetype_miband4">Mi Band 4</string>
+    <string name="fw_upgrade_notice_miband4">Je staat op het punt om de %s-firmware op je Mi Band 4 te installeren. 
+\n 
+\nZorg ervoor dat u het .fw bestand installeert, en daarna het .res bestand. Uw band wordt opnieuw opgestart na het installeren van het .fw-bestand. 
+\n 
+\nOpmerking: U hoeft .res niet te installeren als het precies hetzelfde is als het eerder geïnstalleerde .res. 
+\n 
+\nGA VERDER OP EIGEN RISICO!</string>
+    <string name="prefs_hr_alarm_activity">Hartslagalarm tijdens sportactiviteit</string>
+    <string name="prefs_hr_alarm_low">Ondergrens</string>
+    <string name="prefs_hr_alarm_high">Bovengrens</string>
+    <string name="average">Gemiddelde: %1$s</string>
+    <string name="pref_header_charts">Grafiek instellingen</string>
+    <string name="pref_title_charts_average">Toon gemiddelden in de grafieken</string>
+    <string name="pref_title_charts_range">Grafiekbereiken</string>
+    <string name="pref_charts_range_on">Grafiekbereik ingesteld op 1 maand</string>
+    <string name="pref_charts_range_off">Grafiekbereik ingesteld op een week</string>
+    <string name="weekstepschart_steps_a_month">Stappen per maand</string>
+    <string name="weeksleepchart_sleep_a_month">Slaap per maand</string>
+    <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
+    <string name="menuitem_nfc">NFC</string>
+    <string name="pref_summary_expose_hr">Sta toe dat andere apps HR data in realtime benaderen terwijl Gadgetbridge verbonden is</string>
+    <string name="pref_title_expose_hr">Derde partij realtime HR toegang</string>
+    <string name="pref_title_use_custom_font">Gebruik aangepast lettertype</string>
+    <string name="pref_summary_use_custom_font">Selecteer dit als je device aangepaste font software bevat met emoji ondersteuning</string>
+    <string name="activity_db_management_autoexport_explanation">Database autoexport locatie is ingesteld op:</string>
+    <string name="activity_db_management_autoexport_label">Auto Exporteren</string>
+    <string name="activity_DB_ExportButton">Exporteer DB</string>
+    <string name="activity_DB_import_button">Importeer DB</string>
+    <string name="activity_DB_test_export_button">Voer nu AutoExport uit</string>
+    <string name="activity_DB_test_export_message">Bezig database te exporteren…</string>
+    <string name="activity_DB_delete_legacy_button">Verwijder oude DB</string>
+    <string name="activity_DB_empty_button">Leeg DB</string>
+    <string name="activity_db_management_empty_DB">Leeg Database</string>
+    <string name="activity_db_management_exportimport_label">Exporteer en importeer</string>
+    <string name="activity_db_management_empty_db_warning">Waarschuwing! Als je op deze knop drukt wis je je database en start je met een schone lei.</string>
+    <string name="appwidget_sleep_alarm_widget_label">Slaap Alarm</string>
+    <string name="widget_steps_label">Steps: %1$02d</string>
+    <string name="widget_sleep_label">Sleep: %1$s</string>
+    <string name="widget_listing_label">Status en Alarmen</string>
+    <string name="widget_set_alarm_after">Zet alarm na:</string>
+    <string name="widget_5_minutes">5 minuten</string>
+    <string name="widget_10_minutes">10 minuten</string>
+    <string name="widget_20_minutes">20 minuten</string>
+    <string name="widget_1_hour">1 uur</string>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="one">%d uur</item>
+        <item quantity="other">%d uren</item>
+    </plurals>
+    <string name="pref_display_add_device_fab">Verbind nieuw apparaat knop</string>
+    <string name="pref_display_add_device_fab_on">Altijkd zichtbaar</string>
+    <string name="pref_display_add_device_fab_off">Alleen zichtbaar als er geen apparaat toegevoegd is</string>
 </resources>
