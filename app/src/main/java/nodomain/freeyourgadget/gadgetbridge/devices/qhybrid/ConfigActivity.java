@@ -251,15 +251,15 @@ public class ConfigActivity extends AbstractGBActivity {
             public void run() {
                 EditText et = findViewById(R.id.stepGoalEt);
                 et.setOnEditorActionListener(null);
-                final String text = device.getDeviceInfo(QHybridSupport.ITEM_STEP_GOAL).getDetails();
-                et.setText(text);
-                et.setSelection(text.length());
+                //final String text = device.getDeviceInfo(QHybridSupport.ITEM_STEP_GOAL).getDetails();
+                //et.setText(text);
+                //et.setSelection(text.length());
                 et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     @Override
                     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                         if (i == EditorInfo.IME_ACTION_DONE || i == EditorInfo.IME_ACTION_NEXT) {
                             String t = textView.getText().toString();
-                            if (!t.equals(text)) {
+                            if (!t.equals(null)) {
                                 device.addDeviceInfo(new GenericItem(QHybridSupport.ITEM_STEP_GOAL, t));
                                 Intent intent = new Intent(QHybridSupport.QHYBRID_COMMAND_UPDATE_SETTINGS);
                                 intent.putExtra("EXTRA_SETTING", QHybridSupport.ITEM_STEP_GOAL);
@@ -452,10 +452,4 @@ public class ConfigActivity extends AbstractGBActivity {
             updateSettings();
         }
     };
-
-    class AddPackageConfig extends PackageConfig {
-        AddPackageConfig() {
-            super(null, null);
-        }
-    }
 }
