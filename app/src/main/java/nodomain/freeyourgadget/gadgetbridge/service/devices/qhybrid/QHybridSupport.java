@@ -111,7 +111,6 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     private Queue<Request> requestQueue = new ArrayDeque<>();
 
-
     private String modelNumber;
 
     public QHybridSupport() {
@@ -119,6 +118,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         addSupportedService(UUID.fromString("3dda0001-957f-7d4a-34a6-74696673696d"));
         addSupportedService(UUID.fromString("0000180a-0000-1000-8000-00805f9b34fb"));
         addSupportedService(UUID.fromString("00001800-0000-1000-8000-00805f9b34fb"));
+        addSupportedService(UUID.fromString("0000180f-0000-1000-8000-00805f9b34fb"));
         IntentFilter commandFilter = new IntentFilter(QHYBRID_COMMAND_CONTROL);
         commandFilter.addAction(QHYBRID_COMMAND_UNCONTROL);
         commandFilter.addAction(QHYBRID_COMMAND_SET);
@@ -133,8 +133,10 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     private boolean supportsExtendedVibration() {
         switch (modelNumber) {
-            case "HL.0.0": return false;
-            case "HW.0.0": return true;
+            case "HL.0.0":
+                return false;
+            case "HW.0.0":
+                return true;
         }
         throw new UnsupportedOperationException();
     }
@@ -186,14 +188,15 @@ public class QHybridSupport extends QHybridBaseSupport {
         requestQueue.add(new GetCurrentStepCountRequest());
         requestQueue.add(new GetVibrationStrengthRequest());
         requestQueue.add(new ActivityPointGetRequest());
-        requestQueue.add(new AnimationRequest());
 
-        Request initialRequest = new BatteryLevelRequest();
+        Request initialRequest = new AnimationRequest();
 
         builder.read(getCharacteristic(UUID.fromString("00002a00-0000-1000-8000-00805f9b34fb")))
                 .read(getCharacteristic(UUID.fromString("00002a24-0000-1000-8000-00805f9b34fb")))
                 .read(getCharacteristic(UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb")))
-                .write(getCharacteristic(initialRequest.getRequestUUID()), initialRequest.getRequestData());
+                .read(getCharacteristic(UUID.fromString("00002a19-0000-1000-8000-00805f9b34fb")))
+                .write(getCharacteristic(initialRequest.getRequestUUID()), initialRequest.getRequestData())
+        ;
 
         helper = new PackageConfigHelper(getContext());
         getTimeOffset();
@@ -205,7 +208,7 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     @Override
     public void onFetchRecordedData(int dataTypes) {
-        if((dataTypes & RecordedDataTypes.TYPE_ACTIVITY) != 0){
+        if ((dataTypes & RecordedDataTypes.TYPE_ACTIVITY) != 0) {
             requestQueue.add(new BatteryLevelRequest());
             requestQueue.add(new GetCurrentStepCountRequest());
             requestQueue.add(new ListFilesRequest());
@@ -254,7 +257,7 @@ public class QHybridSupport extends QHybridBaseSupport {
                 GB.toast("Device does not support brr brr", Toast.LENGTH_SHORT, GB.INFO);
                 return;
             }
-        }catch (UnsupportedOperationException e){
+        } catch (UnsupportedOperationException e) {
             GB.toast("Please contact dakhnod@gmail.com\n", Toast.LENGTH_SHORT, GB.INFO);
         }
 
@@ -293,8 +296,10 @@ public class QHybridSupport extends QHybridBaseSupport {
         // queueWrite(new ActivityPointGetRequest());
         long millis = System.currentTimeMillis();
         int secs = (int) (millis / 1000 * 60);
-        queueWrite(new SetCountdownSettings(secs, secs + 10, (short) 120));
-        queueWrite(new GetCountdownSettingsRequest());
+        //queueWrite(new SetCountdownSettings(secs, secs + 10, (short) 120));
+        //queueWrite(new GetCountdownSettingsRequest());
+
+        queueWrite(new AnimationRequest());
     }
 
     private void overwriteButtons() {
@@ -351,7 +356,7 @@ public class QHybridSupport extends QHybridBaseSupport {
                 gbDevice.setModel(modelNumber);
                 try {
                     gbDevice.addDeviceInfo(new GenericItem(ITEM_EXTENDED_VIBRATION_SUPPORT, String.valueOf(supportsExtendedVibration())));
-                }catch (UnsupportedOperationException e){
+                } catch (UnsupportedOperationException e) {
                     GB.toast("Please contact dakhnod@gmail.com\n", Toast.LENGTH_SHORT, GB.INFO);
                     gbDevice.addDeviceInfo(new GenericItem(ITEM_EXTENDED_VIBRATION_SUPPORT, String.valueOf(supportsExtendedVibration())));
                 }
@@ -360,6 +365,18 @@ public class QHybridSupport extends QHybridBaseSupport {
             case "00002a26-0000-1000-8000-00805f9b34fb": {
                 String firmwareVersion = characteristic.getStringValue(0);
                 gbDevice.setFirmwareVersion(firmwareVersion);
+                break;
+            }
+            case "00002a19-0000-1000-8000-00805f9b34fb": {
+                short level = characteristic.getValue()[0];
+                gbDevice.setBatteryLevel(level);
+
+                gbDevice.setBatteryThresholdPercent((short) 2);
+
+                GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
+                batteryInfo.level = gbDevice.getBatteryLevel();
+                batteryInfo.state = BatteryState.BATTERY_NORMAL;
+                handleGBDeviceEvent(batteryInfo);
                 break;
             }
         }
@@ -477,16 +494,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         Log.d("Service", "response: " + request.getClass().getSimpleName());
         request.handleResponse(characteristic);
 
-        if (request instanceof BatteryLevelRequest) {
-            gbDevice.setBatteryLevel(((BatteryLevelRequest) request).level);
-
-            gbDevice.setBatteryThresholdPercent((short) 2);
-
-            GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
-            batteryInfo.level = gbDevice.getBatteryLevel();
-            batteryInfo.state = BatteryState.BATTERY_NORMAL;
-            handleGBDeviceEvent(batteryInfo);
-        } else if (request instanceof GetStepGoalRequest) {
+        if (request instanceof GetStepGoalRequest) {
             gbDevice.addDeviceInfo(new GenericItem(ITEM_STEP_GOAL, String.valueOf(((GetStepGoalRequest) request).stepGoal)));
         } else if (request instanceof GetVibrationStrengthRequest) {
             int strength = ((GetVibrationStrengthRequest) request).strength;
