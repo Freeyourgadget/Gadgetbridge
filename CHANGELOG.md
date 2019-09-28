@@ -1,5 +1,8 @@
 ### Changelog
 
+#### Version 0.36.3
+* Basic Makibes HR3 support
+
 #### Version 0.36.2
 * Amazfit Bip: Untested support for Lite variant 
 * Force Lineage OS to ask for permission when Trust is used to fix non-working incoming calls
