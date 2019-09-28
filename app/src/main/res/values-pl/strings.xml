@@ -6,7 +6,6 @@
     <string name="action_debug">Debuguj</string>
     <string name="action_quit">Zakończ</string>
     <string name="controlcenter_fetch_activity_data">Synchronizuj</string>
-    <string name="controlcenter_start_sleepmonitor">Monitor snu (ALPHA)</string>
     <string name="controlcenter_find_device">Znajdź zgubione urządzenie</string>
     <string name="controlcenter_take_screenshot">Zrób zrzut ekranu</string>
     <string name="controlcenter_disconnect">Rozłącz</string>
@@ -59,7 +58,7 @@
     <string name="pref_title_notifications_sms">SMS</string>
     <string name="pref_title_notifications_pebblemsg">Wiadomości Pebble</string>
     <string name="pref_title_notifications_generic">Ogólna obsługa powiadomień</string>
-    <string name="pref_title_whenscreenon">...także gdy ekran jest włączony</string>
+    <string name="pref_title_whenscreenon">…także gdy ekran jest włączony</string>
     <string name="pref_title_notification_filter">Nie przeszkadzać</string>
     <string name="always">Zawsze</string>
     <string name="when_screen_off">Gdy ekran jest wyłączony</string>
@@ -93,7 +92,7 @@
     <string name="pref_summary_pebble_forceuntested">Włącz nie testowane funkcje. MUSISZ WIEDZIEĆ CO ROBISZ!</string>
     <string name="pref_title_pebble_forcele">Zawsze preferuj BLE</string>
     <string name="pref_title_pebble_mtu_limit">Limit MTU Pebble 2/LE GATT</string>
-    <string name="pref_summary_pebble_mtu_limit">Jeśli Twój Pebble 2/ Pebble LE nie działa jak należy spróbuj ustawić ten limit MTU (zakres 20-512)</string>
+    <string name="pref_summary_pebble_mtu_limit">Jeśli Twój Pebble 2/ Pebble LE nie działa jak należy spróbuj ustawić ten limit MTU (zakres 20–512)</string>
     <string name="pref_title_pebble_enable_applogs">Włącz logi aplikacji zegarka/opaski</string>
     <string name="pref_title_pebble_reconnect_attempts">Próby ponownego połączenia</string>
     <string name="not_connected">Nie połączony</string>
@@ -313,7 +312,6 @@
     <string name="pref_screen_notification_profile_generic_chat">Czat</string>
     <string name="stats_title">Strefy prędkości</string>
     <string name="stats_y_axis_label">Kroków na minutę</string>
-    <string name="amazfitbip_firmware">Firmware Amazfit Bip %1s</string>
     <string name="calories">Kalorie</string>
     <string name="distance">Dystans</string>
     <string name="clock">Zegar</string>

@@ -7,7 +7,6 @@
     <string name="action_quit">退出</string>
     <string name="action_donate">捐赠</string>
     <string name="controlcenter_fetch_activity_data">同步</string>
-    <string name="controlcenter_start_sleepmonitor">睡眠检测器（ALPHA测试）</string>
     <string name="controlcenter_find_device">查找丢失的设备</string>
     <string name="controlcenter_take_screenshot">截图</string>
     <string name="controlcenter_connect">连接…</string>
@@ -49,7 +48,7 @@
 \n注意：如果这些文件与之前安装的完全一样，则不必安装.res和.gps文件。 
 \n 
 \n***继续需要您自担风险！</string>
-    <string name="fw_upgrade_notice_amazfitcor">您即将在您的 Amazfit Cor 上安装固件 %s 。 
+    <string name="fw_upgrade_notice_amazfitcor">您即将在您的米动手环(Amazfit Cor)上安装固件 %s 。 
 \n 
 \n请确保安装了 .fw 文件，然后安装 .rec 文件。 安装 .fw 文件后，手表将重新启动。 
 \n 
@@ -465,7 +464,7 @@
     <string name="mi2_prefs_button_press_broadcast">要发送的广播消息</string>
     <string name="devicetype_pebble">Pebble</string>
     <string name="pref_summary_pebble_forcele">使用实验性 Pebble LE 以支持所有 Pebble ，代替 BT 经典连接。 这首先需要以非 LE 配对，然后以 Pebble LE 连接</string>
-    <string name="pref_summary_pebble_mtu_limit">如果您的 Pebble 2 / Pebble LE 无法正常工作，请尝试使用此设置来限制 MTU （有效范围 20-512 ）</string>
+    <string name="pref_summary_pebble_mtu_limit">如果您的 Pebble 2 / Pebble LE 无法正常工作，请尝试使用此设置来限制 MTU （有效范围 20–512 ）</string>
     <string name="pref_header_auto_export">自动导出</string>
     <string name="pref_title_auto_export_enabled">启用自动导出</string>
     <string name="pref_title_auto_export_location">导出位置</string>
@@ -511,7 +510,7 @@
     <string name="pref_auto_fetch_limit_fetches_summary">每隔 %d 分钟刷新</string>
     <string name="preferences_miband2_settings">小米手环2 设置</string>
     <string name="preferences_miband3_settings">小米手环3 设置</string>
-    <string name="preferences_amazfitcor_settings">米动 Cor 设置</string>s
+    <string name="preferences_amazfitcor_settings">米动手环设置</string>s
     <string name="horizontal">横向</string>
     <string name="vertical">纵向</string>
     <string name="watch9_pairing_tap_hint">当您的手环震动时，晃动设备或者按下按钮。</string>
@@ -582,7 +581,7 @@
     <string name="devicetype_id115">ID115</string>
     <string name="devicetype_watch9">Watch 9</string>
     <string name="devicetype_roidmi">睿米</string>
-    <string name="devicetype_roidmi3">睿米３</string>
+    <string name="devicetype_roidmi3">睿米 3</string>
     <string name="menuitem_shortcut_alipay">支付宝（快捷方式）</string>
     <string name="menuitem_shortcut_weather">天气（快捷方式）</string>
     <string name="menuitem_status">状态</string>
@@ -693,13 +692,17 @@
     <string name="pref_title_authkey">认证密钥</string>
     <string name="pref_summary_authkey">将您想要连接的所有 Android 设备上的认证密钥更改为通用的密钥。默认所有设备的密钥是 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
-    <string name="fw_upgrade_notice_amazfitcor2">您即将在 Amazfit Cor 2 上安装 %s 版本的固件。
+    <string name="fw_upgrade_notice_amazfitcor2">您即将在米动手环2(Amazfit Cor 2)上安装 %s 版本的固件
+\n 
 \n
-\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启。
+\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启
+\n 
 \n
-\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件。
+\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件
+\n 
 \n
-\n风险自担！
+\n风险自担！ 
+\n 
 \n
 \n此功能未经测试，如果您的设备名为“Amazfit Band 2”，您可能需要刷入 BEATS_W 固件</string>
     <string name="dutch">荷兰语</string>
@@ -710,5 +713,56 @@
     <string name="thai">泰语</string>
     <string name="vietnamese">越南语</string>
     <string name="portuguese">葡萄牙语</string>
-    <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
+    <string name="devicetype_amazfit_cor2">米动手环2</string>
+    <string name="devicetype_miband4">小米手环4</string>
+    <string name="fw_upgrade_notice_miband4">您即将在您的的小米手环4上安装 %s 固件。
+\n
+\n请确保您先安装 .fw 文件，再安装 .res 文件。您的手环在安装 .fw 文件后将会重启。
+\n
+\n备注：若您的 .res 文件版本和之前安装的相同，则没有必要安装 .res 文件。
+\n
+\n风险自担！</string>
+    <string name="prefs_hr_alarm_activity">运动期间的心率警报</string>
+    <string name="prefs_hr_alarm_low">下限</string>
+    <string name="prefs_hr_alarm_high">上限</string>
+    <string name="average">平均：%1$s</string>
+    <string name="pref_header_charts">图表设置</string>
+    <string name="pref_title_charts_average">在图表中显示平均值</string>
+    <string name="pref_title_charts_range">图表范围</string>
+    <string name="pref_charts_range_on">图表范围已设置为按月</string>
+    <string name="pref_charts_range_off">图表范围已设置为按周</string>
+    <string name="weekstepschart_steps_a_month">每月步数</string>
+    <string name="weeksleepchart_sleep_a_month">每月睡眠</string>
+    <string name="devicetype_mijia_lywsd02">米家智能闹钟</string>
+    <string name="menuitem_nfc">NFC</string>
+    <string name="pref_summary_expose_hr">当 Gadgetbridge 已连接时，允许其他应用实时访问心率数据</string>
+    <string name="pref_title_expose_hr">第三方实时心率数据访问</string>
+    <string name="pref_title_use_custom_font">使用自定义字体</string>
+    <string name="pref_summary_use_custom_font">如果您的设备使用自定义的字体固件或表情符号支持，请启用此选项</string>
+    <string name="activity_db_management_autoexport_explanation">数据库自动导出路径已经被设置为：</string>
+    <string name="activity_db_management_autoexport_label">自动导出</string>
+    <string name="activity_DB_ExportButton">导出数据库</string>
+    <string name="activity_DB_import_button">导入数据库</string>
+    <string name="activity_DB_test_export_button">立刻运行自动导出</string>
+    <string name="activity_DB_test_export_message">正在导出数据库…</string>
+    <string name="activity_DB_delete_legacy_button">删除旧数据库</string>
+    <string name="activity_DB_empty_button">清空数据库</string>
+    <string name="activity_db_management_empty_DB">清空数据库</string>
+    <string name="activity_db_management_exportimport_label">导入与导出</string>
+    <string name="activity_db_management_empty_db_warning">警告！当按下此按钮后，将会清空您的数据库并从零开始。</string>
+    <string name="appwidget_sleep_alarm_widget_label">睡眠闹钟</string>
+    <string name="widget_steps_label">步数：%1$02d</string>
+    <string name="widget_sleep_label">睡眠：%1$s</string>
+    <string name="widget_listing_label">状态与闹钟</string>
+    <string name="widget_set_alarm_after">多久后闹铃：</string>
+    <string name="widget_5_minutes">5 分钟</string>
+    <string name="widget_10_minutes">10 分钟</string>
+    <string name="widget_20_minutes">20 分钟</string>
+    <string name="widget_1_hour">1 小时</string>
+    <string name="pref_display_add_device_fab">连接新设备按钮</string>
+    <string name="pref_display_add_device_fab_on">总是可见</string>
+    <string name="pref_display_add_device_fab_off">仅当没有设备添加时可见</string>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="other">%d 小时</item>
+    </plurals>
 </resources>

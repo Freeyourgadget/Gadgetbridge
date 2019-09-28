@@ -36,7 +36,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Coordin
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3FWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -47,10 +46,7 @@ public class MiBand3Support extends AmazfitBipSupport {
 
     @Override
     protected byte getAuthFlags() {
-        if (gbDevice.getType() == DeviceType.MIBAND3) {
-            return 0x00;
-        }
-        return super.getAuthFlags();
+        return 0x00;
     }
 
     @Override
@@ -90,9 +86,13 @@ public class MiBand3Support extends AmazfitBipSupport {
                 command[1] |= 0x80;
                 command[10] = pos++;
             }
+            if (pages.contains("nfc")) {
+                command[2] |= 0x01;
+                command[11] = pos++;
+            }
         }
 
-        for (int i = 4; i <= 10; i++) {
+        for (int i = 4; i <= 11; i++) {
             if (command[i] == 0) {
                 command[i] = pos++;
             }
@@ -167,6 +167,7 @@ public class MiBand3Support extends AmazfitBipSupport {
         setLanguage(builder);
         setBandScreenUnlock(builder);
         setNightMode(builder);
+        setDateFormat(builder);
     }
 
     @Override

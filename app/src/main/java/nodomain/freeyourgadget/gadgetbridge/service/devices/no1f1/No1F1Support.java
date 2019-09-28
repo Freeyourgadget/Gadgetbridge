@@ -628,7 +628,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                         GB.updateTransferNotification(null,"", false, 100, getContext());
                         if (getDevice().isBusy()) {
                             getDevice().unsetBusyTask();
-                            getDevice().sendDeviceUpdateIntent(getContext());
+                            GB.signalActivityDataFinish();
                         }
                     }
                 } catch (Exception ex) {

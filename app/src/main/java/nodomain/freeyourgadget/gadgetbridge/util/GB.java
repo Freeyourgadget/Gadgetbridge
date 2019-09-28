@@ -42,6 +42,8 @@ import java.nio.ByteOrder;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -192,6 +194,16 @@ public class GB {
             hexChars[i * 2 + 1] = hexArray[v & 0x0F];
         }
         return new String(hexChars);
+    }
+
+    public static byte[] hexStringToByteArray(String s) {
+        int len = s.length();
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i+1), 16));
+        }
+        return data;
     }
 
     public static String formatRssi(short rssi) {
@@ -481,5 +493,10 @@ public class GB {
         if (!condition) {
             throw new AssertionError(errorMessage);
         }
+    }
+
+    public static void signalActivityDataFinish() {
+        Intent intent = new Intent(GBApplication.ACTION_NEW_DATA);
+        LocalBroadcastManager.getInstance(GBApplication.getContext()).sendBroadcast(intent);
     }
 }

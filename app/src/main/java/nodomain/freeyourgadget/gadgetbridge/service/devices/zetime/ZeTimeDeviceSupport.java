@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -76,7 +77,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final GBDeviceEventMusicControl musicCmd = new GBDeviceEventMusicControl();
-    private final int sevenHourOffset = 25200;
+    private final int eightHourOffset = 28800;
     private byte[] lastMsg;
     private byte msgPart;
     private int availableSleepData;
@@ -98,7 +99,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     public BluetoothGattCharacteristic ackCharacteristic = null;
     public BluetoothGattCharacteristic replyCharacteristic = null;
 
-    public ZeTimeDeviceSupport(){
+    public ZeTimeDeviceSupport() {
         super(LOG);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ATTRIBUTE);
@@ -106,6 +107,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         addSupportedService(ZeTimeConstants.UUID_SERVICE_EXTEND);
         addSupportedService(ZeTimeConstants.UUID_SERVICE_HEART_RATE);
     }
+
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         LOG.info("Initializing");
@@ -129,6 +131,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         requestBatteryInfo(builder);
         setUserInfo(builder);
         setUserGoals(builder);
+        setLanguage(builder);
         requestActivityInfo(builder);
         synchronizeTime(builder);
         initMusicVolume(builder);
@@ -143,8 +146,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     public void onSendConfiguration(String config) {
         try {
             TransactionBuilder builder = performInitialized("sendConfiguration");
-            switch(config)
-            {
+            switch (config) {
                 case ZeTimeConstants.PREF_WRIST:
                     setWrist(builder);
                     break;
@@ -243,9 +245,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     ZeTimeConstants.CMD_PREAMBLE,
                     ZeTimeConstants.CMD_TEST_SIGNALING,
                     ZeTimeConstants.CMD_SEND,
-                    (byte)0x1,
-                    (byte)0x0,
-                    (byte)(start ? 1 : 0),
+                    (byte) 0x1,
+                    (byte) 0x0,
+                    (byte) (start ? 1 : 0),
                     ZeTimeConstants.CMD_END
             };
             sendMsgToWatch(builder, testSignaling);
@@ -263,14 +265,14 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetHeartRateMeasurementInterval(int seconds) {
         int heartRateMeasurementIntervall = 0; // 0 means off
-        heartRateMeasurementIntervall = seconds/60; // zetime accepts only minutes
+        heartRateMeasurementIntervall = seconds / 60; // zetime accepts only minutes
 
         byte[] heartrate = {ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_AUTO_HEARTRATE,
                 ZeTimeConstants.CMD_SEND,
-                (byte)0x1,
-                (byte)0x0,
-                (byte)heartRateMeasurementIntervall,
+                (byte) 0x1,
+                (byte) 0x0,
+                (byte) heartRateMeasurementIntervall,
                 ZeTimeConstants.CMD_END};
 
         try {
@@ -291,8 +293,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             Prefs prefs = GBApplication.getPrefs();
 
             for (Alarm alarm : alarms) {
-                if(remindersOnWatch[alarm.getPosition()][0] == 0)
-                {
+                if (remindersOnWatch[alarm.getPosition()][0] == 0) {
                     alarmMessage = new byte[]{
                             ZeTimeConstants.CMD_PREAMBLE,
                             ZeTimeConstants.CMD_REMINDERS,
@@ -366,7 +367,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetMusicInfo(MusicSpec musicSpec) {
         songtitle = musicSpec.track;
-        if(musicState != -1) {
+        if (musicState != -1) {
             music = new byte[songtitle.getBytes(StandardCharsets.UTF_8).length + 7]; // 7 bytes for status and overhead
             music[0] = ZeTimeConstants.CMD_PREAMBLE;
             music[1] = ZeTimeConstants.CMD_MUSIC_CONTROL;
@@ -397,42 +398,42 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         // we do it like so: use the base chrachter of '0' and add the digit
         byte[] datetimeBytes = new byte[]{
                 (byte) ((time.get(Calendar.YEAR) / 1000) + '0'),
-                (byte) (((time.get(Calendar.YEAR) / 100)%10) + '0'),
-                (byte) (((time.get(Calendar.YEAR) / 10)%10) + '0'),
-                (byte) ((time.get(Calendar.YEAR)%10) + '0'),
-                (byte) (((time.get(Calendar.MONTH)+1)/10) + '0'),
-                (byte) (((time.get(Calendar.MONTH)+1)%10) + '0'),
-                (byte) ((time.get(Calendar.DAY_OF_MONTH)/10) + '0'),
-                (byte) ((time.get(Calendar.DAY_OF_MONTH)%10) + '0'),
+                (byte) (((time.get(Calendar.YEAR) / 100) % 10) + '0'),
+                (byte) (((time.get(Calendar.YEAR) / 10) % 10) + '0'),
+                (byte) ((time.get(Calendar.YEAR) % 10) + '0'),
+                (byte) (((time.get(Calendar.MONTH) + 1) / 10) + '0'),
+                (byte) (((time.get(Calendar.MONTH) + 1) % 10) + '0'),
+                (byte) ((time.get(Calendar.DAY_OF_MONTH) / 10) + '0'),
+                (byte) ((time.get(Calendar.DAY_OF_MONTH) % 10) + '0'),
                 (byte) 'T',
-                (byte) ((time.get(Calendar.HOUR_OF_DAY)/10) + '0'),
-                (byte) ((time.get(Calendar.HOUR_OF_DAY)%10) + '0'),
-                (byte) ((time.get(Calendar.MINUTE)/10) + '0'),
-                (byte) ((time.get(Calendar.MINUTE)%10) + '0'),
-                (byte) ((time.get(Calendar.SECOND)/10) + '0'),
-                (byte) ((time.get(Calendar.SECOND)%10) + '0'),
+                (byte) ((time.get(Calendar.HOUR_OF_DAY) / 10) + '0'),
+                (byte) ((time.get(Calendar.HOUR_OF_DAY) % 10) + '0'),
+                (byte) ((time.get(Calendar.MINUTE) / 10) + '0'),
+                (byte) ((time.get(Calendar.MINUTE) % 10) + '0'),
+                (byte) ((time.get(Calendar.SECOND) / 10) + '0'),
+                (byte) ((time.get(Calendar.SECOND) % 10) + '0'),
         };
 
-        if(callIncoming || (callSpec.command == CallSpec.CALL_INCOMING)) {
+        if (callIncoming || (callSpec.command == CallSpec.CALL_INCOMING)) {
             if (callSpec.command == CallSpec.CALL_INCOMING) {
-            if (callSpec.name != null) {
-                notification_length += callSpec.name.getBytes(StandardCharsets.UTF_8).length;
-                subject_length = callSpec.name.getBytes(StandardCharsets.UTF_8).length;
-                subject = new byte[subject_length];
-                System.arraycopy(callSpec.name.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
-            } else if (callSpec.number != null) {
-                notification_length += callSpec.number.getBytes(StandardCharsets.UTF_8).length;
-                subject_length = callSpec.number.getBytes(StandardCharsets.UTF_8).length;
-                subject = new byte[subject_length];
-                System.arraycopy(callSpec.number.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
-            }
-            notification_length += datetimeBytes.length + 10; // add message overhead
-            notification = new byte[notification_length];
-            notification[0] = ZeTimeConstants.CMD_PREAMBLE;
-            notification[1] = ZeTimeConstants.CMD_PUSH_EX_MSG;
-            notification[2] = ZeTimeConstants.CMD_SEND;
-            notification[3] = (byte) ((notification_length - 6) & 0xff);
-            notification[4] = (byte) ((notification_length - 6) >> 8);
+                if (callSpec.name != null) {
+                    notification_length += callSpec.name.getBytes(StandardCharsets.UTF_8).length;
+                    subject_length = callSpec.name.getBytes(StandardCharsets.UTF_8).length;
+                    subject = new byte[subject_length];
+                    System.arraycopy(callSpec.name.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
+                } else if (callSpec.number != null) {
+                    notification_length += callSpec.number.getBytes(StandardCharsets.UTF_8).length;
+                    subject_length = callSpec.number.getBytes(StandardCharsets.UTF_8).length;
+                    subject = new byte[subject_length];
+                    System.arraycopy(callSpec.number.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
+                }
+                notification_length += datetimeBytes.length + 10; // add message overhead
+                notification = new byte[notification_length];
+                notification[0] = ZeTimeConstants.CMD_PREAMBLE;
+                notification[1] = ZeTimeConstants.CMD_PUSH_EX_MSG;
+                notification[2] = ZeTimeConstants.CMD_SEND;
+                notification[3] = (byte) ((notification_length - 6) & 0xff);
+                notification[4] = (byte) ((notification_length - 6) >> 8);
                 notification[5] = ZeTimeConstants.NOTIFICATION_INCOME_CALL;
                 notification[6] = 1;
                 notification[7] = (byte) subject_length;
@@ -457,8 +458,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 notification[notification_length - 1] = ZeTimeConstants.CMD_END;
                 callIncoming = false;
             }
-            if(notification != null)
-            {
+            if (notification != null) {
                 try {
                     TransactionBuilder builder = performInitialized("setCallState");
                     sendMsgToWatch(builder, notification);
@@ -520,7 +520,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetMusicState(MusicStateSpec stateSpec) {
         musicState = stateSpec.state;
-        if(songtitle != null) {
+        if (songtitle != null) {
             music = new byte[songtitle.getBytes(StandardCharsets.UTF_8).length + 7]; // 7 bytes for status and overhead
             music[0] = ZeTimeConstants.CMD_PREAMBLE;
             music[1] = ZeTimeConstants.CMD_MUSIC_CONTROL;
@@ -552,20 +552,20 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         CalendarEvent[0] = ZeTimeConstants.CMD_PREAMBLE;
         CalendarEvent[1] = ZeTimeConstants.CMD_PUSH_CALENDAR_DAY;
         CalendarEvent[2] = ZeTimeConstants.CMD_SEND;
-        CalendarEvent[3] = (byte)((calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length + 10) & 0xff);
-        CalendarEvent[4] = (byte)((calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length + 10) >> 8);
-        CalendarEvent[5] = (byte)(calendarEventSpec.type + 0x1);
-        CalendarEvent[6] = (byte)(time.get(Calendar.YEAR) & 0xff);
-        CalendarEvent[7] = (byte)(time.get(Calendar.YEAR) >> 8);
-        CalendarEvent[8] = (byte)(time.get(Calendar.MONTH)+1);
-        CalendarEvent[9] = (byte)time.get(Calendar.DAY_OF_MONTH);
+        CalendarEvent[3] = (byte) ((calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length + 10) & 0xff);
+        CalendarEvent[4] = (byte) ((calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length + 10) >> 8);
+        CalendarEvent[5] = (byte) (calendarEventSpec.type + 0x1);
+        CalendarEvent[6] = (byte) (time.get(Calendar.YEAR) & 0xff);
+        CalendarEvent[7] = (byte) (time.get(Calendar.YEAR) >> 8);
+        CalendarEvent[8] = (byte) (time.get(Calendar.MONTH) + 1);
+        CalendarEvent[9] = (byte) time.get(Calendar.DAY_OF_MONTH);
         CalendarEvent[10] = (byte) (time.get(Calendar.HOUR_OF_DAY) & 0xff);
         CalendarEvent[11] = (byte) (time.get(Calendar.HOUR_OF_DAY) >> 8);
         CalendarEvent[12] = (byte) (time.get(Calendar.MINUTE) & 0xff);
         CalendarEvent[13] = (byte) (time.get(Calendar.MINUTE) >> 8);
         CalendarEvent[14] = (byte) calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length;
         System.arraycopy(calendarEventSpec.title.getBytes(StandardCharsets.UTF_8), 0, CalendarEvent, 15, calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length);
-        CalendarEvent[CalendarEvent.length-1] = ZeTimeConstants.CMD_END;
+        CalendarEvent[CalendarEvent.length - 1] = ZeTimeConstants.CMD_END;
         try {
             TransactionBuilder builder = performInitialized("sendCalendarEvenr");
             sendMsgToWatch(builder, CalendarEvent);
@@ -618,29 +618,28 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         weather[0] = ZeTimeConstants.CMD_PREAMBLE;
         weather[1] = ZeTimeConstants.CMD_PUSH_WEATHER_DATA;
         weather[2] = ZeTimeConstants.CMD_SEND;
-        weather[3] = (byte)((weatherSpec.location.getBytes(StandardCharsets.UTF_8).length + 20) & 0xff);
-        weather[4] = (byte)((weatherSpec.location.getBytes(StandardCharsets.UTF_8).length + 20) >> 8);
+        weather[3] = (byte) ((weatherSpec.location.getBytes(StandardCharsets.UTF_8).length + 20) & 0xff);
+        weather[4] = (byte) ((weatherSpec.location.getBytes(StandardCharsets.UTF_8).length + 20) >> 8);
         weather[5] = 0; // celsius
-        weather[6] = (byte)(weatherSpec.currentTemp - 273);
-        weather[7] = (byte)(weatherSpec.todayMinTemp - 273);
-        weather[8] = (byte)(weatherSpec.todayMaxTemp - 273);
+        weather[6] = (byte) (weatherSpec.currentTemp - 273);
+        weather[7] = (byte) (weatherSpec.todayMinTemp - 273);
+        weather[8] = (byte) (weatherSpec.todayMaxTemp - 273);
 
         if (buildnumber.compareTo("B4.1") >= 0) // if using firmware 1.7 Build 41 and above use newer icons
         {
             weather[9] = Weather.mapToZeTimeCondition(weatherSpec.currentConditionCode);
-        } else
-        {
+        } else {
             weather[9] = Weather.mapToZeTimeConditionOld(weatherSpec.currentConditionCode);
         }
-        for(int forecast = 0; forecast < 3; forecast++) {
-            weather[10+(forecast*5)] = 0; // celsius
-            weather[11+(forecast*5)] = (byte) 0xff;
-            weather[12+(forecast*5)] = (byte) (weatherSpec.forecasts.get(forecast).minTemp - 273);
-            weather[13+(forecast*5)] = (byte) (weatherSpec.forecasts.get(forecast).maxTemp - 273);
-            weather[14+(forecast*5)] = Weather.mapToZeTimeCondition(weatherSpec.forecasts.get(forecast).conditionCode);
+        for (int forecast = 0; forecast < 3; forecast++) {
+            weather[10 + (forecast * 5)] = 0; // celsius
+            weather[11 + (forecast * 5)] = (byte) 0xff;
+            weather[12 + (forecast * 5)] = (byte) (weatherSpec.forecasts.get(forecast).minTemp - 273);
+            weather[13 + (forecast * 5)] = (byte) (weatherSpec.forecasts.get(forecast).maxTemp - 273);
+            weather[14 + (forecast * 5)] = Weather.mapToZeTimeCondition(weatherSpec.forecasts.get(forecast).conditionCode);
         }
         System.arraycopy(weatherSpec.location.getBytes(StandardCharsets.UTF_8), 0, weather, 25, weatherSpec.location.getBytes(StandardCharsets.UTF_8).length);
-        weather[weather.length-1] = ZeTimeConstants.CMD_END;
+        weather[weather.length - 1] = ZeTimeConstants.CMD_END;
         try {
             TransactionBuilder builder = performInitialized("sendWeahter");
             sendMsgToWatch(builder, weather);
@@ -670,8 +669,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
         int subject_length = 0;
         int body_length = notificationSpec.body.getBytes(StandardCharsets.UTF_8).length;
-        if(body_length > 256)
-        {
+        if (body_length > 256) {
             body_length = 256;
         }
         int notification_length = body_length;
@@ -682,42 +680,38 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         // we do it like so: use the base chrachter of '0' and add the digit
         byte[] datetimeBytes = new byte[]{
                 (byte) ((time.get(Calendar.YEAR) / 1000) + '0'),
-                (byte) (((time.get(Calendar.YEAR) / 100)%10) + '0'),
-                (byte) (((time.get(Calendar.YEAR) / 10)%10) + '0'),
-                (byte) ((time.get(Calendar.YEAR)%10) + '0'),
-                (byte) (((time.get(Calendar.MONTH)+1)/10) + '0'),
-                (byte) (((time.get(Calendar.MONTH)+1)%10) + '0'),
-                (byte) ((time.get(Calendar.DAY_OF_MONTH)/10) + '0'),
-                (byte) ((time.get(Calendar.DAY_OF_MONTH)%10) + '0'),
+                (byte) (((time.get(Calendar.YEAR) / 100) % 10) + '0'),
+                (byte) (((time.get(Calendar.YEAR) / 10) % 10) + '0'),
+                (byte) ((time.get(Calendar.YEAR) % 10) + '0'),
+                (byte) (((time.get(Calendar.MONTH) + 1) / 10) + '0'),
+                (byte) (((time.get(Calendar.MONTH) + 1) % 10) + '0'),
+                (byte) ((time.get(Calendar.DAY_OF_MONTH) / 10) + '0'),
+                (byte) ((time.get(Calendar.DAY_OF_MONTH) % 10) + '0'),
                 (byte) 'T',
-                (byte) ((time.get(Calendar.HOUR_OF_DAY)/10) + '0'),
-                (byte) ((time.get(Calendar.HOUR_OF_DAY)%10) + '0'),
-                (byte) ((time.get(Calendar.MINUTE)/10) + '0'),
-                (byte) ((time.get(Calendar.MINUTE)%10) + '0'),
-                (byte) ((time.get(Calendar.SECOND)/10) + '0'),
-                (byte) ((time.get(Calendar.SECOND)%10) + '0'),
+                (byte) ((time.get(Calendar.HOUR_OF_DAY) / 10) + '0'),
+                (byte) ((time.get(Calendar.HOUR_OF_DAY) % 10) + '0'),
+                (byte) ((time.get(Calendar.MINUTE) / 10) + '0'),
+                (byte) ((time.get(Calendar.MINUTE) % 10) + '0'),
+                (byte) ((time.get(Calendar.SECOND) / 10) + '0'),
+                (byte) ((time.get(Calendar.SECOND) % 10) + '0'),
         };
 
-        if (notificationSpec.sender != null)
-        {
+        if (notificationSpec.sender != null) {
             notification_length += notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
             subject_length = notificationSpec.sender.getBytes(StandardCharsets.UTF_8).length;
             subject = new byte[subject_length];
             System.arraycopy(notificationSpec.sender.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
-        } else if(notificationSpec.phoneNumber != null)
-        {
+        } else if (notificationSpec.phoneNumber != null) {
             notification_length += notificationSpec.phoneNumber.getBytes(StandardCharsets.UTF_8).length;
             subject_length = notificationSpec.phoneNumber.getBytes(StandardCharsets.UTF_8).length;
             subject = new byte[subject_length];
             System.arraycopy(notificationSpec.phoneNumber.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
-        } else if(notificationSpec.subject != null)
-        {
+        } else if (notificationSpec.subject != null) {
             notification_length += notificationSpec.subject.getBytes(StandardCharsets.UTF_8).length;
             subject_length = notificationSpec.subject.getBytes(StandardCharsets.UTF_8).length;
             subject = new byte[subject_length];
             System.arraycopy(notificationSpec.subject.getBytes(StandardCharsets.UTF_8), 0, subject, 0, subject_length);
-        } else if(notificationSpec.title != null)
-        {
+        } else if (notificationSpec.title != null) {
             notification_length += notificationSpec.title.getBytes(StandardCharsets.UTF_8).length;
             subject_length = notificationSpec.title.getBytes(StandardCharsets.UTF_8).length;
             subject = new byte[subject_length];
@@ -728,18 +722,17 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         notification[0] = ZeTimeConstants.CMD_PREAMBLE;
         notification[1] = ZeTimeConstants.CMD_PUSH_EX_MSG;
         notification[2] = ZeTimeConstants.CMD_SEND;
-        notification[3] = (byte)((notification_length-6) & 0xff);
-        notification[4] = (byte)((notification_length-6) >> 8);
+        notification[3] = (byte) ((notification_length - 6) & 0xff);
+        notification[4] = (byte) ((notification_length - 6) >> 8);
         notification[6] = 1;
-        notification[7] = (byte)subject_length;
-        notification[8] = (byte)body_length;
+        notification[7] = (byte) subject_length;
+        notification[8] = (byte) body_length;
         System.arraycopy(subject, 0, notification, 9, subject_length);
-        System.arraycopy(notificationSpec.body.getBytes(StandardCharsets.UTF_8), 0, notification, 9+subject_length, body_length);
-        System.arraycopy(datetimeBytes, 0, notification, 9+subject_length+body_length, datetimeBytes.length);
-        notification[notification_length-1] = ZeTimeConstants.CMD_END;
+        System.arraycopy(notificationSpec.body.getBytes(StandardCharsets.UTF_8), 0, notification, 9 + subject_length, body_length);
+        System.arraycopy(datetimeBytes, 0, notification, 9 + subject_length + body_length, datetimeBytes.length);
+        notification[notification_length - 1] = ZeTimeConstants.CMD_END;
 
-        switch(notificationSpec.type)
-        {
+        switch (notificationSpec.type) {
             case GENERIC_SMS:
                 notification[5] = ZeTimeConstants.NOTIFICATION_SMS;
                 break;
@@ -826,7 +819,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         UUID characteristicUUID = characteristic.getUuid();
         if (ZeTimeConstants.UUID_ACK_CHARACTERISTIC.equals(characteristicUUID)) {
             byte[] data = receiveCompleteMsg(characteristic.getValue());
-            if(isMsgFormatOK(data)) {
+            if (isMsgFormatOK(data)) {
                 switch (data[1]) {
                     case ZeTimeConstants.CMD_WATCH_ID:
                         break;
@@ -893,32 +886,28 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 }
             }
             return true;
-        } else if (ZeTimeConstants.UUID_NOTIFY_CHARACTERISTIC.equals(characteristicUUID))
-        {
+        } else if (ZeTimeConstants.UUID_NOTIFY_CHARACTERISTIC.equals(characteristicUUID)) {
             byte[] data = receiveCompleteMsg(characteristic.getValue());
-            if(isMsgFormatOK(data)) {
-                switch (data[1])
-                {
+            if (isMsgFormatOK(data)) {
+                switch (data[1]) {
                     case ZeTimeConstants.CMD_MUSIC_CONTROL:
                         handleMusicControl(data);
                         break;
                 }
                 return true;
             }
-        }
-        else {
+        } else {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
         }
         return false;
     }
 
-    private boolean isMsgFormatOK(byte[] msg)
-    {
-        if(msg != null) {
+    private boolean isMsgFormatOK(byte[] msg) {
+        if (msg != null) {
             if (msg[0] == ZeTimeConstants.CMD_PREAMBLE) {
                 if ((msg[3] != 0) || (msg[4] != 0)) {
-                    int payloadSize = (msg[4] << 8)&0xff00 | (msg[3]&0xff);
+                    int payloadSize = (msg[4] << 8) & 0xff00 | (msg[3] & 0xff);
                     int msgLength = payloadSize + 6;
                     if (msgLength == msg.length) {
                         if (msg[msgLength - 1] == ZeTimeConstants.CMD_END) {
@@ -931,10 +920,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         return false;
     }
 
-    private byte[] receiveCompleteMsg(byte[] msg)
-    {
-        if(msgPart == 0) {
-            int payloadSize = (msg[4] << 8)&0xff00 | (msg[3]&0xff);
+    private byte[] receiveCompleteMsg(byte[] msg) {
+        if (msgPart == 0) {
+            int payloadSize = (msg[4] << 8) & 0xff00 | (msg[3] & 0xff);
             if (payloadSize > 14) {
                 lastMsg = new byte[msg.length];
                 System.arraycopy(msg, 0, lastMsg, 0, msg.length);
@@ -943,8 +931,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             } else {
                 return msg;
             }
-        } else
-        {
+        } else {
             byte[] completeMsg = new byte[lastMsg.length + msg.length];
             System.arraycopy(lastMsg, 0, completeMsg, 0, lastMsg.length);
             System.arraycopy(msg, 0, completeMsg, lastMsg.length, msg.length);
@@ -955,44 +942,44 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private ZeTimeDeviceSupport requestBatteryInfo(TransactionBuilder builder) {
         LOG.debug("Requesting Battery Info!");
-        builder.write(writeCharacteristic,new byte[]{ZeTimeConstants.CMD_PREAMBLE,
-                                                ZeTimeConstants.CMD_BATTERY_POWER,
-                                                ZeTimeConstants.CMD_REQUEST,
-                                                0x01,
-                                                0x00,
-                                                0x00,
-                                                ZeTimeConstants.CMD_END});
+        builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_BATTERY_POWER,
+                ZeTimeConstants.CMD_REQUEST,
+                0x01,
+                0x00,
+                0x00,
+                ZeTimeConstants.CMD_END});
         builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
         return this;
     }
 
     private ZeTimeDeviceSupport requestDeviceInfo(TransactionBuilder builder) {
         LOG.debug("Requesting Device Info!");
-        builder.write(writeCharacteristic,new byte[]{ZeTimeConstants.CMD_PREAMBLE,
-                                                ZeTimeConstants.CMD_WATCH_ID,
-                                                ZeTimeConstants.CMD_REQUEST,
-                                                0x01,
-                                                0x00,
-                                                0x00,
-                                                ZeTimeConstants.CMD_END});
+        builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_WATCH_ID,
+                ZeTimeConstants.CMD_REQUEST,
+                0x01,
+                0x00,
+                0x00,
+                ZeTimeConstants.CMD_END});
         builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
 
-        builder.write(writeCharacteristic,new byte[]{ZeTimeConstants.CMD_PREAMBLE,
-                                                ZeTimeConstants.CMD_DEVICE_VERSION,
-                                                ZeTimeConstants.CMD_REQUEST,
-                                                0x01,
-                                                0x00,
-                                                0x05,
-                                                ZeTimeConstants.CMD_END});
+        builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_DEVICE_VERSION,
+                ZeTimeConstants.CMD_REQUEST,
+                0x01,
+                0x00,
+                0x05,
+                ZeTimeConstants.CMD_END});
         builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
 
-        builder.write(writeCharacteristic,new byte[]{ZeTimeConstants.CMD_PREAMBLE,
-                                                ZeTimeConstants.CMD_DEVICE_VERSION,
-                                                ZeTimeConstants.CMD_REQUEST,
-                                                0x01,
-                                                0x00,
-                                                0x02,
-                                                ZeTimeConstants.CMD_END});
+        builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_DEVICE_VERSION,
+                ZeTimeConstants.CMD_REQUEST,
+                0x01,
+                0x00,
+                0x02,
+                ZeTimeConstants.CMD_END});
         builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
         return this;
     }
@@ -1022,57 +1009,50 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void handleBatteryInfo(byte[] value) {
-            batteryCmd.level = ((short) value[5]);
-            if(batteryCmd.level <= 25)
-            {
-                batteryCmd.state = BatteryState.BATTERY_LOW;
-            } else
-            {
-                batteryCmd.state = BatteryState.BATTERY_NORMAL;
-            }
+        batteryCmd.level = ((short) value[5]);
+        if (batteryCmd.level <= 25) {
+            batteryCmd.state = BatteryState.BATTERY_LOW;
+        } else {
+            batteryCmd.state = BatteryState.BATTERY_NORMAL;
+        }
         evaluateGBDeviceEvent(batteryCmd);
     }
 
     private void handleDeviceInfo(byte[] value) {
-            value[value.length-1] = 0; // convert the end to a String end
-            byte[] string = Arrays.copyOfRange(value,6, value.length-1);
-            if(value[5] == 5)
-            {
-                versionCmd.fwVersion = new String(string);
-            } else{
-                versionCmd.hwVersion = new String(string);
-            }
+        value[value.length - 1] = 0; // convert the end to a String end
+        byte[] string = Arrays.copyOfRange(value, 6, value.length - 1);
+        if (value[5] == 5) {
+            versionCmd.fwVersion = new String(string);
+        } else {
+            versionCmd.hwVersion = new String(string);
+        }
         evaluateGBDeviceEvent(versionCmd);
     }
 
-    private void handleActivityFetching(byte[] msg)
-    {
-        availableStepsData = (int) ((msg[5]&0xff) | (msg[6] << 8)&0xff00);
-        availableSleepData = (int) ((msg[7]&0xff) | (msg[8] << 8)&0xff00);
-        availableHeartRateData= (int) ((msg[9]&0xff) | (msg[10] << 8)&0xff00);
-        if(availableStepsData > 0){
+    private void handleActivityFetching(byte[] msg) {
+        availableStepsData = (int) ((msg[5] & 0xff) | (msg[6] << 8) & 0xff00);
+        availableSleepData = (int) ((msg[7] & 0xff) | (msg[8] << 8) & 0xff00);
+        availableHeartRateData = (int) ((msg[9] & 0xff) | (msg[10] << 8) & 0xff00);
+        if (availableStepsData > 0) {
             getStepData();
-        } else if(availableHeartRateData > 0)
-        {
+        } else if (availableHeartRateData > 0) {
             getHeartRateData();
-        } else if(availableSleepData > 0)
-        {
+        } else if (availableSleepData > 0) {
             getSleepData();
         }
     }
 
-    private void getStepData()
-    {
+    private void getStepData() {
         try {
             TransactionBuilder builder = performInitialized("fetchStepData");
             builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
-                                ZeTimeConstants.CMD_GET_STEP_COUNT,
-                                ZeTimeConstants.CMD_REQUEST,
-                                0x02,
-                                0x00,
-                                0x00,
-                                0x00,
-                                ZeTimeConstants.CMD_END});
+                    ZeTimeConstants.CMD_GET_STEP_COUNT,
+                    ZeTimeConstants.CMD_REQUEST,
+                    0x02,
+                    0x00,
+                    0x00,
+                    0x00,
+                    ZeTimeConstants.CMD_END});
             builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -1080,8 +1060,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void deleteStepData()
-    {
+    private void deleteStepData() {
         try {
             TransactionBuilder builder = performInitialized("deleteStepData");
             sendMsgToWatch(builder, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
@@ -1097,17 +1076,16 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void getHeartRateData()
-    {
+    private void getHeartRateData() {
         try {
             TransactionBuilder builder = performInitialized("fetchHeartRateData");
             builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
-                ZeTimeConstants.CMD_GET_HEARTRATE_EXDATA,
-                ZeTimeConstants.CMD_REQUEST,
-                0x01,
-                0x00,
-                0x00,
-                ZeTimeConstants.CMD_END});
+                    ZeTimeConstants.CMD_GET_HEARTRATE_EXDATA,
+                    ZeTimeConstants.CMD_REQUEST,
+                    0x01,
+                    0x00,
+                    0x00,
+                    ZeTimeConstants.CMD_END});
             builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -1115,8 +1093,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void deleteHeartRateData()
-    {
+    private void deleteHeartRateData() {
         try {
             TransactionBuilder builder = performInitialized("deleteHeartRateData");
             sendMsgToWatch(builder, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
@@ -1132,18 +1109,17 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void getSleepData()
-    {
+    private void getSleepData() {
         try {
             TransactionBuilder builder = performInitialized("fetchSleepData");
             builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
-                ZeTimeConstants.CMD_GET_SLEEP_DATA,
-                ZeTimeConstants.CMD_REQUEST,
-                0x02,
-                0x00,
-                0x00,
-                0x00,
-                ZeTimeConstants.CMD_END});
+                    ZeTimeConstants.CMD_GET_SLEEP_DATA,
+                    ZeTimeConstants.CMD_REQUEST,
+                    0x02,
+                    0x00,
+                    0x00,
+                    0x00,
+                    ZeTimeConstants.CMD_END});
             builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -1151,8 +1127,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void deleteSleepData()
-    {
+    private void deleteSleepData() {
         try {
             TransactionBuilder builder = performInitialized("deleteSleepData");
             sendMsgToWatch(builder, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
@@ -1168,16 +1143,17 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void handleStepsData(byte[] msg)
-    {
+    private void handleStepsData(byte[] msg) {
         ZeTimeActivitySample sample = new ZeTimeActivitySample();
-        int timestamp = (msg[10] << 24)&0xff000000 | (msg[9] << 16)&0xff0000 | (msg[8] << 8)&0xff00 | (msg[7]&0xff);
-        timestamp += sevenHourOffset; // the timestamp from the watch has an offset of seven hours, do not know why...
+        Calendar now = GregorianCalendar.getInstance();
+        int timestamp = (msg[10] << 24) & 0xff000000 | (msg[9] << 16) & 0xff0000 | (msg[8] << 8) & 0xff00 | (msg[7] & 0xff);
+        timestamp += eightHourOffset; // the timestamp from the watch has an offset of eight hours, do not know why...
+        timestamp -= ((now.get(Calendar.ZONE_OFFSET) / 1000) + (now.get(Calendar.DST_OFFSET) / 1000));  // TimeZone hour + daylight saving
         sample.setTimestamp(timestamp);
-        sample.setSteps((msg[14] << 24)&0xff000000 | (msg[13] << 16)&0xff0000 | (msg[12] << 8)&0xff00 | (msg[11]&0xff));
-        sample.setCaloriesBurnt((msg[18] << 24)&0xff000000 | (msg[17] << 16)&0xff0000 | (msg[16] << 8)&0xff00 | (msg[15]&0xff));
-        sample.setDistanceMeters((msg[22] << 24)&0xff000000 | (msg[21] << 16)&0xff0000 | (msg[20] << 8)&0xff00 | (msg[19]&0xff));
-        sample.setActiveTimeMinutes((msg[26] << 24)&0xff000000 | (msg[25] << 16)&0xff0000 | (msg[24] << 8)&0xff00 | (msg[23]&0xff));
+        sample.setSteps((msg[14] << 24) & 0xff000000 | (msg[13] << 16) & 0xff0000 | (msg[12] << 8) & 0xff00 | (msg[11] & 0xff));
+        sample.setCaloriesBurnt((msg[18] << 24) & 0xff000000 | (msg[17] << 16) & 0xff0000 | (msg[16] << 8) & 0xff00 | (msg[15] & 0xff));
+        sample.setDistanceMeters((msg[22] << 24) & 0xff000000 | (msg[21] << 16) & 0xff0000 | (msg[20] << 8) & 0xff00 | (msg[19] & 0xff));
+        sample.setActiveTimeMinutes((msg[26] << 24) & 0xff000000 | (msg[25] << 16) & 0xff0000 | (msg[24] << 8) & 0xff00 | (msg[23] & 0xff));
         sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
         sample.setRawIntensity(sample.getSteps());
 
@@ -1188,16 +1164,16 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             provider.addGBActivitySample(sample);
         } catch (Exception ex) {
             GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-            GB.updateTransferNotification(null,"Data transfer failed", false, 0, getContext());
+            GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
         }
 
-        progressSteps = (msg[5]&0xff) | ((msg[6] << 8)&0xff00);
-        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSteps *100 / availableStepsData), getContext());
+        progressSteps = (msg[5] & 0xff) | ((msg[6] << 8) & 0xff00);
+        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSteps * 100 / availableStepsData), getContext());
         if (progressSteps == availableStepsData) {
             Prefs prefs = GBApplication.getPrefs();
             progressSteps = 0;
             availableStepsData = 0;
-            GB.updateTransferNotification(null,"", false, 100, getContext());
+            GB.updateTransferNotification(null, "", false, 100, getContext());
             if (getDevice().isBusy()) {
                 getDevice().unsetBusyTask();
                 getDevice().sendDeviceUpdateIntent(getContext());
@@ -1205,28 +1181,26 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             if (!prefs.getBoolean(ZeTimeConstants.PREF_ZETIME_DONT_DEL_ACTDATA, false)) {
                 deleteStepData();
             }
-            if(availableHeartRateData > 0) {
+            if (availableHeartRateData > 0) {
                 getHeartRateData();
-            } else if(availableSleepData > 0)
-            {
+            } else if (availableSleepData > 0) {
                 getSleepData();
             }
         }
     }
 
-    private void handleSleepData(byte[] msg)
-    {
+    private void handleSleepData(byte[] msg) {
         ZeTimeActivitySample sample = new ZeTimeActivitySample();
-        int timestamp = (msg[10] << 24)&0xff000000 | (msg[9] << 16)&0xff0000 | (msg[8] << 8)&0xff00 | (msg[7]&0xff);
-        timestamp += sevenHourOffset; // the timestamp from the watch has an offset of seven hours, do not know why...
+        Calendar now = GregorianCalendar.getInstance();
+        int timestamp = (msg[10] << 24) & 0xff000000 | (msg[9] << 16) & 0xff0000 | (msg[8] << 8) & 0xff00 | (msg[7] & 0xff);
+        timestamp += eightHourOffset; // the timestamp from the watch has an offset of eight hours, do not know why...
+        timestamp -= ((now.get(Calendar.ZONE_OFFSET) / 1000) + (now.get(Calendar.DST_OFFSET) / 1000));  // TimeZone hour + daylight saving
         sample.setTimestamp(timestamp);
-        if(msg[11] == 0) {
+        if (msg[11] == 0) {
             sample.setRawKind(ActivityKind.TYPE_DEEP_SLEEP);
-        } else if(msg[11] == 1)
-        {
+        } else if (msg[11] == 1) {
             sample.setRawKind(ActivityKind.TYPE_LIGHT_SLEEP);
-        } else
-        {
+        } else {
             sample.setRawKind(ActivityKind.TYPE_UNKNOWN);
         }
 
@@ -1237,19 +1211,19 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             provider.addGBActivitySample(sample);
         } catch (Exception ex) {
             GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-            GB.updateTransferNotification(null,"Data transfer failed", false, 0, getContext());
+            GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
         }
 
-        progressSleep = (msg[5]&0xff) | (msg[6] << 8)&0xff00;
-        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSleep *100 / availableSleepData), getContext());
+        progressSleep = (msg[5] & 0xff) | (msg[6] << 8) & 0xff00;
+        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSleep * 100 / availableSleepData), getContext());
         if (progressSleep == availableSleepData) {
             Prefs prefs = GBApplication.getPrefs();
             progressSleep = 0;
             availableSleepData = 0;
-            GB.updateTransferNotification(null,"", false, 100, getContext());
+            GB.updateTransferNotification(null, "", false, 100, getContext());
             if (getDevice().isBusy()) {
                 getDevice().unsetBusyTask();
-                getDevice().sendDeviceUpdateIntent(getContext());
+                GB.signalActivityDataFinish();
             }
             if (!prefs.getBoolean(ZeTimeConstants.PREF_ZETIME_DONT_DEL_ACTDATA, false)) {
                 deleteSleepData();
@@ -1257,11 +1231,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void handleHeartRateData(byte[] msg)
-    {
+    private void handleHeartRateData(byte[] msg) {
         ZeTimeActivitySample sample = new ZeTimeActivitySample();
-        int timestamp = (msg[10] << 24)&0xff000000 | (msg[9] << 16)&0xff0000 | (msg[8] << 8)&0xff00 | (msg[7]&0xff);
-        timestamp += sevenHourOffset; // the timestamp from the watch has an offset of seven hours, do not know why...
+        Calendar now = GregorianCalendar.getInstance();
+        int timestamp = (msg[10] << 24) & 0xff000000 | (msg[9] << 16) & 0xff0000 | (msg[8] << 8) & 0xff00 | (msg[7] & 0xff);
+        timestamp += eightHourOffset; // the timestamp from the watch has an offset of eight hours, do not know why...
+        timestamp -= ((now.get(Calendar.ZONE_OFFSET) / 1000) + (now.get(Calendar.DST_OFFSET) / 1000));  // TimeZone hour + daylight saving
         sample.setHeartRate(msg[11]);
         sample.setTimestamp(timestamp);
 
@@ -1272,16 +1247,17 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             provider.addGBActivitySample(sample);
         } catch (Exception ex) {
             GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-            GB.updateTransferNotification(null,"Data transfer failed", false, 0, getContext());
+            GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
         }
 
-        progressHeartRate = (msg[5]&0xff) | ((msg[6] << 8)&0xff00);
-        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressHeartRate *100 / availableHeartRateData), getContext());
+        progressHeartRate = (msg[5] & 0xff) | ((msg[6] << 8) & 0xff00);
+        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressHeartRate * 100 / availableHeartRateData), getContext());
 
-        if(((msg[4] << 8)&0xff00 | (msg[3]&0xff)) == 0xe) // if the message is longer than 0x7, than it has to measurements (payload = 0xe)
+        if (((msg[4] << 8) & 0xff00 | (msg[3] & 0xff)) == 0xe) // if the message is longer than 0x7, than it has two measurements (payload = 0xe)
         {
-            timestamp = (msg[17] << 24)&0xff000000 | (msg[16] << 16)&0xff0000 | (msg[15] << 8)&0xff00 | (msg[14]&0xff);
-            timestamp += sevenHourOffset; // the timestamp from the watch has an offset of seven hours, do not know why...
+            timestamp = (msg[17] << 24) & 0xff000000 | (msg[16] << 16) & 0xff0000 | (msg[15] << 8) & 0xff00 | (msg[14] & 0xff);
+            timestamp += eightHourOffset; // the timestamp from the watch has an offset of eight hours, do not know why...
+            timestamp -= ((now.get(Calendar.ZONE_OFFSET) / 1000) + (now.get(Calendar.DST_OFFSET) / 1000));  // TimeZone hour + daylight saving
             sample.setHeartRate(msg[18]);
             sample.setTimestamp(timestamp);
 
@@ -1292,18 +1268,18 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 provider.addGBActivitySample(sample);
             } catch (Exception ex) {
                 GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-                GB.updateTransferNotification(null,"Data transfer failed", false, 0, getContext());
+                GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
             }
 
-            progressHeartRate = (msg[12]&0xff) | ((msg[13] << 8)&0xff00);
-            GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressHeartRate *100 / availableHeartRateData), getContext());
+            progressHeartRate = (msg[12] & 0xff) | ((msg[13] << 8) & 0xff00);
+            GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressHeartRate * 100 / availableHeartRateData), getContext());
         }
 
         if (progressHeartRate == availableHeartRateData) {
             Prefs prefs = GBApplication.getPrefs();
             progressHeartRate = 0;
             availableHeartRateData = 0;
-            GB.updateTransferNotification(null,"", false, 100, getContext());
+            GB.updateTransferNotification(null, "", false, 100, getContext());
             if (getDevice().isBusy()) {
                 getDevice().unsetBusyTask();
                 getDevice().sendDeviceUpdateIntent(getContext());
@@ -1311,23 +1287,19 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             if (!prefs.getBoolean(ZeTimeConstants.PREF_ZETIME_DONT_DEL_ACTDATA, false)) {
                 deleteHeartRateData();
             }
-            if(availableSleepData > 0)
-            {
+            if (availableSleepData > 0) {
                 getSleepData();
             }
         }
     }
 
-    private void sendMsgToWatch(TransactionBuilder builder, byte[] msg)
-    {
-        if(msg.length > maxMsgLength)
-        {
+    private void sendMsgToWatch(TransactionBuilder builder, byte[] msg) {
+        if (msg.length > maxMsgLength) {
             int msgpartlength = 0;
             byte[] msgpart = null;
 
             do {
-                if((msg.length - msgpartlength) < maxMsgLength)
-                {
+                if ((msg.length - msgpartlength) < maxMsgLength) {
                     msgpart = new byte[msg.length - msgpartlength];
                     System.arraycopy(msg, msgpartlength, msgpart, 0, msg.length - msgpartlength);
                     msgpartlength += (msg.length - msgpartlength);
@@ -1337,17 +1309,15 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     msgpartlength += maxMsgLength;
                 }
                 builder.write(writeCharacteristic, msgpart);
-            }while(msgpartlength < msg.length);
-        } else
-        {
+            } while (msgpartlength < msg.length);
+        } else {
             builder.write(writeCharacteristic, msg);
         }
         builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
     }
 
-    private void handleMusicControl(byte[] musicControlMsg)
-    {
-        if(musicControlMsg[2] == ZeTimeConstants.CMD_SEND) {
+    private void handleMusicControl(byte[] musicControlMsg) {
+        if (musicControlMsg[2] == ZeTimeConstants.CMD_SEND) {
             switch (musicControlMsg[5]) {
                 case 0: // play current song
                     musicCmd.event = GBDeviceEventMusicControl.Event.PLAY;
@@ -1364,12 +1334,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 case 4: // change volume
                     if (musicControlMsg[6] > volume) {
                         musicCmd.event = GBDeviceEventMusicControl.Event.VOLUMEUP;
-                        if(volume < 90) {
+                        if (volume < 90) {
                             volume += (byte) 10;
                         }
                     } else {
                         musicCmd.event = GBDeviceEventMusicControl.Event.VOLUMEDOWN;
-                        if(volume > 10) {
+                        if (volume > 10) {
                             volume -= (byte) 10;
                         }
                     }
@@ -1404,16 +1374,13 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void replyMsgToWatch(TransactionBuilder builder, byte[] msg)
-    {
-        if(msg.length > maxMsgLength)
-        {
+    private void replyMsgToWatch(TransactionBuilder builder, byte[] msg) {
+        if (msg.length > maxMsgLength) {
             int msgpartlength = 0;
             byte[] msgpart = null;
 
             do {
-                if((msg.length - msgpartlength) < maxMsgLength)
-                {
+                if ((msg.length - msgpartlength) < maxMsgLength) {
                     msgpart = new byte[msg.length - msgpartlength];
                     System.arraycopy(msg, msgpartlength, msgpart, 0, msg.length - msgpartlength);
                     msgpartlength += (msg.length - msgpartlength);
@@ -1423,49 +1390,46 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     msgpartlength += maxMsgLength;
                 }
                 builder.write(replyCharacteristic, msgpart);
-            }while(msgpartlength < msg.length);
-        } else
-        {
+            } while (msgpartlength < msg.length);
+        } else {
             builder.write(replyCharacteristic, msg);
         }
     }
 
-    private void synchronizeTime(TransactionBuilder builder)
-    {
+    private void synchronizeTime(TransactionBuilder builder) {
         Calendar now = GregorianCalendar.getInstance();
         byte[] timeSync = new byte[]{ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_DATE_TIME,
                 ZeTimeConstants.CMD_SEND,
                 0x0c,
                 0x00,
-                (byte)(now.get(Calendar.YEAR) & 0xff),
-                (byte)(now.get(Calendar.YEAR) >> 8),
-                (byte)(now.get(Calendar.MONTH) + 1),
-                (byte)now.get(Calendar.DAY_OF_MONTH),
-                (byte)now.get(Calendar.HOUR_OF_DAY),
-                (byte)now.get(Calendar.MINUTE),
-                (byte)now.get(Calendar.SECOND),
+                (byte) (now.get(Calendar.YEAR) & 0xff),
+                (byte) (now.get(Calendar.YEAR) >> 8),
+                (byte) (now.get(Calendar.MONTH) + 1),
+                (byte) now.get(Calendar.DAY_OF_MONTH),
+                (byte) now.get(Calendar.HOUR_OF_DAY),
+                (byte) now.get(Calendar.MINUTE),
+                (byte) now.get(Calendar.SECOND),
                 0x00, // is 24h
                 0x00, // SetTime after calibration
                 0x01, // Unit
-                (byte)((now.get(Calendar.ZONE_OFFSET)/3600000) + (now.get(Calendar.DST_OFFSET)/3600000)), // TimeZone hour + daylight saving
+                (byte) ((now.get(Calendar.ZONE_OFFSET) / 3600000) + (now.get(Calendar.DST_OFFSET) / 3600000)), // TimeZone hour + daylight saving
                 0x00, // TimeZone minute
                 ZeTimeConstants.CMD_END};
         sendMsgToWatch(builder, timeSync);
     }
 
     // function serving the settings
-    private void setWrist(TransactionBuilder builder)
-    {
-        String value = GBApplication.getPrefs().getString(ZeTimeConstants.PREF_WRIST,"left");
+    private void setWrist(TransactionBuilder builder) {
+        String value = GBApplication.getPrefs().getString(ZeTimeConstants.PREF_WRIST, "left");
 
         byte[] wrist = {ZeTimeConstants.CMD_PREAMBLE,
-                        ZeTimeConstants.CMD_USAGE_HABITS,
-                        ZeTimeConstants.CMD_SEND,
-                        (byte)0x1,
-                        (byte)0x0,
-                        ZeTimeConstants.WEAR_ON_LEFT_WRIST,
-                        ZeTimeConstants.CMD_END};
+                ZeTimeConstants.CMD_USAGE_HABITS,
+                ZeTimeConstants.CMD_SEND,
+                (byte) 0x1,
+                (byte) 0x0,
+                ZeTimeConstants.WEAR_ON_LEFT_WRIST,
+                ZeTimeConstants.CMD_END};
         if (value.equals("right")) {
             wrist[5] = ZeTimeConstants.WEAR_ON_RIGHT_WRIST;
         }
@@ -1474,66 +1438,59 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         sendMsgToWatch(builder, wrist);
     }
 
-    private void setScreenTime(TransactionBuilder builder)
-    {
+    private void setScreenTime(TransactionBuilder builder) {
         int value = GBApplication.getPrefs().getInt(ZeTimeConstants.PREF_SCREENTIME, 30);
-        if(value > ZeTimeConstants.MAX_SCREEN_ON_TIME)
-        {
+        if (value > ZeTimeConstants.MAX_SCREEN_ON_TIME) {
             GB.toast(getContext(), "Value for screen on time is greater than 18h! ", Toast.LENGTH_LONG, GB.ERROR);
             value = ZeTimeConstants.MAX_SCREEN_ON_TIME;
-        } else if(value < ZeTimeConstants.MIN_SCREEN_ON_TIME)
-        {
+        } else if (value < ZeTimeConstants.MIN_SCREEN_ON_TIME) {
             GB.toast(getContext(), "Value for screen on time is lesser than 10s! ", Toast.LENGTH_LONG, GB.ERROR);
             value = ZeTimeConstants.MIN_SCREEN_ON_TIME;
         }
 
         byte[] screentime = {ZeTimeConstants.CMD_PREAMBLE,
-                            ZeTimeConstants.CMD_DISPLAY_TIMEOUT,
-                            ZeTimeConstants.CMD_SEND,
-                            (byte)0x2,
-                            (byte)0x0,
-                            (byte)(value & 0xff),
-                            (byte)(value >> 8),
-                            ZeTimeConstants.CMD_END};
+                ZeTimeConstants.CMD_DISPLAY_TIMEOUT,
+                ZeTimeConstants.CMD_SEND,
+                (byte) 0x2,
+                (byte) 0x0,
+                (byte) (value & 0xff),
+                (byte) (value >> 8),
+                ZeTimeConstants.CMD_END};
 
         sendMsgToWatch(builder, screentime);
     }
 
-    private void setUserInfo(TransactionBuilder builder)
-    {
+    private void setUserInfo(TransactionBuilder builder) {
         ActivityUser activityUser = new ActivityUser();
-        byte gender = (byte)activityUser.getGender();
+        byte gender = (byte) activityUser.getGender();
         int age = activityUser.getAge();
         int height = activityUser.getHeightCm();
-        int weight = activityUser.getWeightKg()*10; // weight is set and get in 100g granularity
+        int weight = activityUser.getWeightKg() * 10; // weight is set and get in 100g granularity
 
-        if(gender == ActivityUser.GENDER_MALE) // translate gender for zetime
+        if (gender == ActivityUser.GENDER_MALE) // translate gender for zetime
         {
             gender = 0;
-        } else if(gender == ActivityUser.GENDER_FEMALE)
-        {
+        } else if (gender == ActivityUser.GENDER_FEMALE) {
             gender = 1;
-        } else
-        {
+        } else {
             gender = 2;
         }
 
         byte[] userinfo = {ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_USER_INFO,
                 ZeTimeConstants.CMD_SEND,
-                (byte)0x5,
-                (byte)0x0,
+                (byte) 0x5,
+                (byte) 0x0,
                 gender,
-                (byte)age,
-                (byte)height,
-                (byte)(weight & 0xff),
-                (byte)(weight >> 8),
+                (byte) age,
+                (byte) height,
+                (byte) (weight & 0xff),
+                (byte) (weight >> 8),
                 ZeTimeConstants.CMD_END};
         sendMsgToWatch(builder, userinfo);
     }
 
-    private void setUserGoals(TransactionBuilder builder)
-    {
+    private void setUserGoals(TransactionBuilder builder) {
         ActivityUser activityUser = new ActivityUser();
         int steps = activityUser.getStepsGoal() / 100; // ZeTime expect the steps in 100 increment
         int calories = activityUser.getCaloriesBurnt();
@@ -1545,50 +1502,49 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         byte[] goal_steps = {ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_GOALS,
                 ZeTimeConstants.CMD_SEND,
-                (byte)0x4,
-                (byte)0x0,
-                (byte)0x0,
-                (byte)(steps & 0xff),
-                (byte)(steps >> 8),
-                (byte)0x1,
+                (byte) 0x4,
+                (byte) 0x0,
+                (byte) 0x0,
+                (byte) (steps & 0xff),
+                (byte) (steps >> 8),
+                (byte) 0x1,
                 ZeTimeConstants.CMD_END};
         sendMsgToWatch(builder, goal_steps);
 
         byte[] goal_calories = new byte[goal_steps.length];
         System.arraycopy(goal_steps, 0, goal_calories, 0, goal_steps.length);
         // set calories goal
-        goal_calories[5] = (byte)0x1;
-        goal_calories[6] = (byte)(calories & 0xff);
-        goal_calories[7] = (byte)(calories >> 8);
+        goal_calories[5] = (byte) 0x1;
+        goal_calories[6] = (byte) (calories & 0xff);
+        goal_calories[7] = (byte) (calories >> 8);
         sendMsgToWatch(builder, goal_calories);
 
         byte[] goal_distance = new byte[goal_steps.length];
         System.arraycopy(goal_steps, 0, goal_distance, 0, goal_steps.length);
         // set distance goal
-        goal_distance[5] = (byte)0x2;
-        goal_distance[6] = (byte)(distance & 0xff);
-        goal_distance[7] = (byte)(distance >> 8);
+        goal_distance[5] = (byte) 0x2;
+        goal_distance[6] = (byte) (distance & 0xff);
+        goal_distance[7] = (byte) (distance >> 8);
         sendMsgToWatch(builder, goal_distance);
 
         byte[] goal_sleep = new byte[goal_steps.length];
         System.arraycopy(goal_steps, 0, goal_sleep, 0, goal_steps.length);
         // set sleep goal
-        goal_sleep[5] = (byte)0x3;
-        goal_sleep[6] = (byte)(sleep & 0xff);
-        goal_sleep[7] = (byte)(sleep >> 8);
+        goal_sleep[5] = (byte) 0x3;
+        goal_sleep[6] = (byte) (sleep & 0xff);
+        goal_sleep[7] = (byte) (sleep >> 8);
         sendMsgToWatch(builder, goal_sleep);
 
         byte[] goal_activeTime = new byte[goal_steps.length];
         System.arraycopy(goal_steps, 0, goal_activeTime, 0, goal_steps.length);
         // set active time goal
-        goal_activeTime[5] = (byte)0x4;
-        goal_activeTime[6] = (byte)(activeTime & 0xff);
-        goal_activeTime[7] = (byte)(activeTime >> 8);
+        goal_activeTime[5] = (byte) 0x4;
+        goal_activeTime[6] = (byte) (activeTime & 0xff);
+        goal_activeTime[7] = (byte) (activeTime >> 8);
         sendMsgToWatch(builder, goal_activeTime);
     }
 
-    private void setHeartRateLimits(TransactionBuilder builder)
-    {
+    private void setHeartRateLimits(TransactionBuilder builder) {
         Prefs prefs = GBApplication.getPrefs();
 
         boolean alarmEnabled = prefs.getBoolean(ZeTimeConstants.PREF_ZETIME_HEARTRATE_ALARM, false);
@@ -1598,17 +1554,16 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         byte[] heartrateAlarm = {ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_HEARTRATE_ALARM_LIMITS,
                 ZeTimeConstants.CMD_SEND,
-                (byte)0x3,
-                (byte)0x0,
-                (byte)(maxHR & 0xff),
-                (byte)(minHR & 0xff),
-                (byte)(alarmEnabled ? 1 : 0),  // activate alarm
+                (byte) 0x3,
+                (byte) 0x0,
+                (byte) (maxHR & 0xff),
+                (byte) (minHR & 0xff),
+                (byte) (alarmEnabled ? 1 : 0),  // activate alarm
                 ZeTimeConstants.CMD_END};
         sendMsgToWatch(builder, heartrateAlarm);
     }
 
-    private void initMusicVolume(TransactionBuilder builder)
-    {
+    private void initMusicVolume(TransactionBuilder builder) {
         replyMsgToWatch(builder, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_MUSIC_CONTROL,
                 ZeTimeConstants.CMD_REQUEST_RESPOND,
@@ -1619,64 +1574,58 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 ZeTimeConstants.CMD_END});
     }
 
-    private void setAnalogMode(TransactionBuilder builder)
-    {
+    private void setAnalogMode(TransactionBuilder builder) {
         Prefs prefs = GBApplication.getPrefs();
         int mode = prefs.getInt(ZeTimeConstants.PREF_ANALOG_MODE, 0);
 
         byte[] analog = {ZeTimeConstants.CMD_PREAMBLE,
-                    ZeTimeConstants.CMD_ANALOG_MODE,
-                    ZeTimeConstants.CMD_SEND,
-                    (byte)0x1,
-                    (byte)0x0,
-                    (byte)mode,
-                    ZeTimeConstants.CMD_END};
+                ZeTimeConstants.CMD_ANALOG_MODE,
+                ZeTimeConstants.CMD_SEND,
+                (byte) 0x1,
+                (byte) 0x0,
+                (byte) mode,
+                ZeTimeConstants.CMD_END};
 
         sendMsgToWatch(builder, analog);
     }
 
-    private void setActivityTracking(TransactionBuilder builder)
-    {
+    private void setActivityTracking(TransactionBuilder builder) {
         Prefs prefs = GBApplication.getPrefs();
         boolean tracking = prefs.getBoolean(ZeTimeConstants.PREF_ACTIVITY_TRACKING, false);
 
         byte[] activity = {ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_CONTROL_DEVICE,
                 ZeTimeConstants.CMD_SEND,
-                (byte)0x1,
-                (byte)0x0,
-                (byte)0x9,
+                (byte) 0x1,
+                (byte) 0x0,
+                (byte) 0x9,
                 ZeTimeConstants.CMD_END};
-        if(tracking)
-        {
-            activity[5] = (byte)0xa;
+        if (tracking) {
+            activity[5] = (byte) 0xa;
         }
         sendMsgToWatch(builder, activity);
     }
 
-    private void setDisplayOnMovement(TransactionBuilder builder)
-    {
+    private void setDisplayOnMovement(TransactionBuilder builder) {
         Prefs prefs = GBApplication.getPrefs();
         boolean movement = prefs.getBoolean(ZeTimeConstants.PREF_HANDMOVE_DISPLAY, false);
 
         byte[] handmove = {ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_SWITCH_SETTINGS,
                 ZeTimeConstants.CMD_SEND,
-                (byte)0x3,
-                (byte)0x0,
-                (byte)0x1,
-                (byte)0xe,
-                (byte)0x0,
+                (byte) 0x3,
+                (byte) 0x0,
+                (byte) 0x1,
+                (byte) 0xe,
+                (byte) 0x0,
                 ZeTimeConstants.CMD_END};
-        if(movement)
-        {
-            handmove[7] = (byte)0x1;
+        if (movement) {
+            handmove[7] = (byte) 0x1;
         }
         sendMsgToWatch(builder, handmove);
     }
 
-    private void setDoNotDisturb(TransactionBuilder builder)
-    {
+    private void setDoNotDisturb(TransactionBuilder builder) {
         Prefs prefs = GBApplication.getPrefs();
         String scheduled = prefs.getString(ZeTimeConstants.PREF_DO_NOT_DISTURB, "off");
         String dndScheduled = getContext().getString(R.string.p_scheduled);
@@ -1695,98 +1644,92 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 byte[] doNotDisturb = {ZeTimeConstants.CMD_PREAMBLE,
                         ZeTimeConstants.CMD_DO_NOT_DISTURB,
                         ZeTimeConstants.CMD_SEND,
-                        (byte)0x5,
-                        (byte)0x0,
-                        (byte)0x0,
-                        (byte)calendar.get(Calendar.HOUR_OF_DAY),
-                        (byte)calendar.get(Calendar.MINUTE),
-                        (byte)calendar_end.get(Calendar.HOUR_OF_DAY),
-                        (byte)calendar_end.get(Calendar.MINUTE),
+                        (byte) 0x5,
+                        (byte) 0x0,
+                        (byte) 0x0,
+                        (byte) calendar.get(Calendar.HOUR_OF_DAY),
+                        (byte) calendar.get(Calendar.MINUTE),
+                        (byte) calendar_end.get(Calendar.HOUR_OF_DAY),
+                        (byte) calendar_end.get(Calendar.MINUTE),
                         ZeTimeConstants.CMD_END};
 
-                if(scheduled.equals(dndScheduled))
-                {
-                    doNotDisturb[5] = (byte)0x1;
+                if (scheduled.equals(dndScheduled)) {
+                    doNotDisturb[5] = (byte) 0x1;
                 }
                 sendMsgToWatch(builder, doNotDisturb);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 LOG.error("Unexpected exception in ZeTimeDeviceSupport.setDoNotDisturb: " + e.getMessage());
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOG.error("Unexpected exception in ZeTimeDeviceSupport.setDoNotDisturb: " + e.getMessage());
         }
     }
 
-    private void setCaloriesType(TransactionBuilder builder)
-    {
+    private void setCaloriesType(TransactionBuilder builder) {
         Prefs prefs = GBApplication.getPrefs();
         int type = prefs.getInt(ZeTimeConstants.PREF_CALORIES_TYPE, 0);
 
         byte[] calories = {ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_CALORIES_TYPE,
                 ZeTimeConstants.CMD_SEND,
-                (byte)0x1,
-                (byte)0x0,
-                (byte)type,
+                (byte) 0x1,
+                (byte) 0x0,
+                (byte) type,
                 ZeTimeConstants.CMD_END};
 
         sendMsgToWatch(builder, calories);
     }
 
-    private void setTimeFormate(TransactionBuilder builder)
-    {
+    private void setTimeFormate(TransactionBuilder builder) {
         Prefs prefs = GBApplication.getPrefs();
         int type = prefs.getInt(ZeTimeConstants.PREF_TIME_FORMAT, 0);
 
         byte[] timeformat = {ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_TIME_SURFACE_SETTINGS,
                 ZeTimeConstants.CMD_SEND,
-                (byte)0x8,
-                (byte)0x0,
-                (byte)0xff, // set to ff to not change anything on the watch
-                (byte)type,
-                (byte)0xff, // set to ff to not change anything on the watch
-                (byte)0xff, // set to ff to not change anything on the watch
-                (byte)0xff, // set to ff to not change anything on the watch
-                (byte)0xff, // set to ff to not change anything on the watch
-                (byte)0xff, // set to ff to not change anything on the watch
-                (byte)0xff, // set to ff to not change anything on the watch
+                (byte) 0x8,
+                (byte) 0x0,
+                (byte) 0xff, // set to ff to not change anything on the watch
+                (byte) type,
+                (byte) 0xff, // set to ff to not change anything on the watch
+                (byte) 0xff, // set to ff to not change anything on the watch
+                (byte) 0xff, // set to ff to not change anything on the watch
+                (byte) 0xff, // set to ff to not change anything on the watch
+                (byte) 0xff, // set to ff to not change anything on the watch
+                (byte) 0xff, // set to ff to not change anything on the watch
                 ZeTimeConstants.CMD_END};
 
         sendMsgToWatch(builder, timeformat);
     }
 
-    private void setDateFormate(TransactionBuilder builder)
-    {
+    private void setDateFormate(TransactionBuilder builder) {
         Prefs prefs = GBApplication.getPrefs();
         int type = prefs.getInt(ZeTimeConstants.PREF_DATE_FORMAT, 0);
 
         byte[] dateformat = {ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_TIME_SURFACE_SETTINGS,
                 ZeTimeConstants.CMD_SEND,
-                (byte)0x8,
-                (byte)0x0,
-                (byte)type,
-                (byte)0xff, // set to ff to not change anything on the watch
-                (byte)0xff, // set to ff to not change anything on the watch
-                (byte)0xff, // set to ff to not change anything on the watch
-                (byte)0xff, // set to ff to not change anything on the watch
-                (byte)0xff, // set to ff to not change anything on the watch
-                (byte)0xff, // set to ff to not change anything on the watch
-                (byte)0xff, // set to ff to not change anything on the watch
+                (byte) 0x8,
+                (byte) 0x0,
+                (byte) type,
+                (byte) 0xff, // set to ff to not change anything on the watch
+                (byte) 0xff, // set to ff to not change anything on the watch
+                (byte) 0xff, // set to ff to not change anything on the watch
+                (byte) 0xff, // set to ff to not change anything on the watch
+                (byte) 0xff, // set to ff to not change anything on the watch
+                (byte) 0xff, // set to ff to not change anything on the watch
+                (byte) 0xff, // set to ff to not change anything on the watch
                 ZeTimeConstants.CMD_END};
 
         sendMsgToWatch(builder, dateformat);
     }
 
-    private void setInactivityAlert(TransactionBuilder builder)
-    {
+    private void setInactivityAlert(TransactionBuilder builder) {
         Prefs prefs = GBApplication.getPrefs();
         boolean enabled = prefs.getBoolean(ZeTimeConstants.PREF_INACTIVITY_ENABLE, false);
         int threshold = prefs.getInt(ZeTimeConstants.PREF_INACTIVITY_THRESHOLD, 60);
 
-        if(threshold > 0xff)
-        {
+        if (threshold > 0xff) {
             threshold = 0xff;
             GB.toast(getContext(), "Value for inactivity threshold is greater than 255min! ", Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -1795,21 +1738,20 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_INACTIVITY_ALERT,
                 ZeTimeConstants.CMD_SEND,
-                (byte)0x8,
-                (byte)0x0,
-                (byte)0x0,
-                (byte)threshold,
-                (byte)0x0,
-                (byte)0x0,
-                (byte)0x0,
-                (byte)0x0,
-                (byte)0x64,
-                (byte)0x0,
+                (byte) 0x8,
+                (byte) 0x0,
+                (byte) 0x0,
+                (byte) threshold,
+                (byte) 0x0,
+                (byte) 0x0,
+                (byte) 0x0,
+                (byte) 0x0,
+                (byte) 0x64,
+                (byte) 0x0,
                 ZeTimeConstants.CMD_END
         };
 
-        if(enabled)
-        {
+        if (enabled) {
             String start = prefs.getString(ZeTimeConstants.PREF_INACTIVITY_START, "06:00");
             String end = prefs.getString(ZeTimeConstants.PREF_INACTIVITY_END, "22:00");
             DateFormat df_start = new SimpleDateFormat("HH:mm");
@@ -1826,21 +1768,21 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             reps |= ((prefs.getBoolean(ZeTimeConstants.PREF_INACTIVITY_SA, false) ? 1 : 0) << 5);
             reps |= ((prefs.getBoolean(ZeTimeConstants.PREF_INACTIVITY_SU, false) ? 1 : 0) << 6);
 
-            inactivity[5] = (byte)reps;
+            inactivity[5] = (byte) reps;
 
             try {
                 calendar.setTime(df_start.parse(start));
                 try {
                     calendar_end.setTime(df_end.parse(end));
 
-                    inactivity[7] = (byte)calendar.get(Calendar.HOUR_OF_DAY);
-                    inactivity[8] = (byte)calendar.get(Calendar.MINUTE);
-                    inactivity[9] = (byte)calendar_end.get(Calendar.HOUR_OF_DAY);
-                    inactivity[10] = (byte)calendar_end.get(Calendar.MINUTE);
-                } catch(Exception e) {
+                    inactivity[7] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+                    inactivity[8] = (byte) calendar.get(Calendar.MINUTE);
+                    inactivity[9] = (byte) calendar_end.get(Calendar.HOUR_OF_DAY);
+                    inactivity[10] = (byte) calendar_end.get(Calendar.MINUTE);
+                } catch (Exception e) {
                     LOG.error("Unexpected exception in ZeTimeDeviceSupport.setInactivityAlert: " + e.getMessage());
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 LOG.error("Unexpected exception in ZeTimeDeviceSupport.setInactivityAlert: " + e.getMessage());
             }
         }
@@ -1848,8 +1790,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         sendMsgToWatch(builder, inactivity);
     }
 
-    private void setShockStrength(TransactionBuilder builder)
-    {
+    private void setShockStrength(TransactionBuilder builder) {
         Prefs prefs = GBApplication.getPrefs();
         int shockStrength = prefs.getInt(ZeTimeConstants.PREF_SHOCK_STRENGTH, 255);
 
@@ -1857,17 +1798,16 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_SHOCK_STRENGTH,
                 ZeTimeConstants.CMD_SEND,
-                (byte)0x1,
-                (byte)0x0,
-                (byte)shockStrength,
+                (byte) 0x1,
+                (byte) 0x0,
+                (byte) shockStrength,
                 ZeTimeConstants.CMD_END
         };
 
         sendMsgToWatch(builder, strength);
     }
 
-    private void setSignaling(TransactionBuilder builder, String signalingType)
-    {
+    private void setSignaling(TransactionBuilder builder, String signalingType) {
         Prefs prefs = GBApplication.getPrefs();
         int signalType = prefs.getInt(signalingType, 0);
 
@@ -1875,15 +1815,14 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_SHOCK_MODE,
                 ZeTimeConstants.CMD_SEND,
-                (byte)0x2,
-                (byte)0x0,
-                (byte)0x0,
-                (byte)signalType,
+                (byte) 0x2,
+                (byte) 0x0,
+                (byte) 0x0,
+                (byte) signalType,
                 ZeTimeConstants.CMD_END
         };
 
-        switch(signalingType)
-        {
+        switch (signalingType) {
             case ZeTimeConstants.PREF_SMS_SIGNALING:
                 signaling[5] = ZeTimeConstants.SMS_TYPE;
                 break;
@@ -1929,9 +1868,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     ZeTimeConstants.CMD_PREAMBLE,
                     ZeTimeConstants.CMD_TIME_SURFACE_SETTINGS,
                     ZeTimeConstants.CMD_REQUEST,
-                    (byte)0x1,
-                    (byte)0x0,
-                    (byte)0x0,
+                    (byte) 0x1,
+                    (byte) 0x0,
+                    (byte) 0x0,
                     ZeTimeConstants.CMD_END
             };
             sendMsgToWatch(builder, configRead1);
@@ -2001,25 +1940,24 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 //        try {
 //            TransactionBuilder builder = performInitialized("readReminders");
 
-            byte[] reminders = {
-                    ZeTimeConstants.CMD_PREAMBLE,
-                    ZeTimeConstants.CMD_REMINDERS,
-                    ZeTimeConstants.CMD_REQUEST,
-                    (byte)0x1,
-                    (byte)0x0,
-                    (byte)0x0,
-                    ZeTimeConstants.CMD_END
-            };
-            sendMsgToWatch(builder, reminders);
+        byte[] reminders = {
+                ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_REMINDERS,
+                ZeTimeConstants.CMD_REQUEST,
+                (byte) 0x1,
+                (byte) 0x0,
+                (byte) 0x0,
+                ZeTimeConstants.CMD_END
+        };
+        sendMsgToWatch(builder, reminders);
 
-            builder.queue(getQueue());
+        builder.queue(getQueue());
 //        } catch (IOException e) {
 //            GB.toast(getContext(), "Error reading reminders: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
 //        }
     }
 
-    private void getDateTimeFormat(byte[] msg)
-    {
+    private void getDateTimeFormat(byte[] msg) {
         SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
 
         prefs.putString(ZeTimeConstants.PREF_DATE_FORMAT, Integer.toString(msg[5]));
@@ -2027,8 +1965,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         prefs.apply();
     }
 
-    private void getSignaling(byte[] msg)
-    {
+    private void getSignaling(byte[] msg) {
         SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
 
         prefs.putString(ZeTimeConstants.PREF_ANTI_LOSS_SIGNALING, Integer.toString(msg[5]));
@@ -2043,13 +1980,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         prefs.apply();
     }
 
-    private void getDoNotDisturb(byte[] msg)
-    {
+    private void getDoNotDisturb(byte[] msg) {
         SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
         String starttime = String.format("%02d:%02d", msg[6], msg[7]);
         String endtime = String.format("%02d:%02d", msg[8], msg[9]);
 
-        if(0x1 == msg[5]) {
+        if (0x1 == msg[5]) {
             prefs.putString(ZeTimeConstants.PREF_DO_NOT_DISTURB, "scheduled");
         } else {
             prefs.putString(ZeTimeConstants.PREF_DO_NOT_DISTURB, "off");
@@ -2059,121 +1995,103 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         prefs.apply();
     }
 
-    private void getAnalogMode(byte[] msg)
-    {
+    private void getAnalogMode(byte[] msg) {
         SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
 
         prefs.putString(ZeTimeConstants.PREF_ANALOG_MODE, Integer.toString(msg[5]));
         prefs.apply();
     }
 
-    private void getActivityTracking(byte[] msg)
-    {
+    private void getActivityTracking(byte[] msg) {
         SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
 
-        if(0x1 == msg[6])
-        {
+        if (0x1 == msg[6]) {
             prefs.putBoolean(ZeTimeConstants.PREF_ACTIVITY_TRACKING, false);
-        } else
-        {
+        } else {
             prefs.putBoolean(ZeTimeConstants.PREF_ACTIVITY_TRACKING, true);
         }
         prefs.apply();
     }
 
-    private void getScreenTime(byte[] msg)
-    {
+    private void getScreenTime(byte[] msg) {
         SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
 
         prefs.putString(ZeTimeConstants.PREF_SCREENTIME, Integer.toString((msg[5] | (msg[6] << 8))));
         prefs.apply();
     }
 
-    private void getWrist(byte[] msg)
-    {
+    private void getWrist(byte[] msg) {
         SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
 
-        if(ZeTimeConstants.WEAR_ON_LEFT_WRIST == msg[5]) {
+        if (ZeTimeConstants.WEAR_ON_LEFT_WRIST == msg[5]) {
             prefs.putString(ZeTimeConstants.PREF_WRIST, "left");
-        } else if(ZeTimeConstants.WEAR_ON_RIGHT_WRIST == msg[5]) {
+        } else if (ZeTimeConstants.WEAR_ON_RIGHT_WRIST == msg[5]) {
             prefs.putString(ZeTimeConstants.PREF_WRIST, "right");
         }
         prefs.apply();
     }
 
-    private void getHeartRateMeasurement(byte[] msg)
-    {
+    private void getHeartRateMeasurement(byte[] msg) {
         SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
-        prefs.putString(ZeTimeConstants.PREF_ZETIME_HEARTRATE_INTERVAL, Integer.toString((msg[5]*60))); // multiply with 60 because of the conversion from minutes to seconds
+        prefs.putString(ZeTimeConstants.PREF_ZETIME_HEARTRATE_INTERVAL, Integer.toString((msg[5] * 60))); // multiply with 60 because of the conversion from minutes to seconds
         prefs.apply();
     }
 
-    private void getHeartRateLimits(byte[] msg)
-    {
+    private void getHeartRateLimits(byte[] msg) {
         SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
         prefs.apply();
     }
 
-    private void getInactivityAlert(byte[] msg)
-    {
+    private void getInactivityAlert(byte[] msg) {
         SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
         String starttime = String.format("%02d:%02d", msg[7], msg[8]);
         String endtime = String.format("%02d:%02d", msg[9], msg[10]);
 
         prefs.putString(ZeTimeConstants.PREF_INACTIVITY_THRESHOLD, Integer.toString(msg[6]));
-        if(0 != msg[5])
-        {
+        if (0 != msg[5]) {
             prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_ENABLE, true);
             prefs.putString(ZeTimeConstants.PREF_INACTIVITY_START, starttime);
             prefs.putString(ZeTimeConstants.PREF_INACTIVITY_END, endtime);
-            if(0 != (msg[5] & (1 << 0))) {
+            if (0 != (msg[5] & (1 << 0))) {
                 prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_MO, true);
-            } else
-            {
+            } else {
                 prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_MO, false);
             }
-            if(0 != (msg[5] & (1 << 1))) {
+            if (0 != (msg[5] & (1 << 1))) {
                 prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_TU, true);
-            } else
-            {
+            } else {
                 prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_TU, false);
             }
-            if(0 != (msg[5] & (1 << 2))) {
+            if (0 != (msg[5] & (1 << 2))) {
                 prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_WE, true);
-            } else
-            {
+            } else {
                 prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_WE, false);
             }
-            if(0 != (msg[5] & (1 << 3))) {
+            if (0 != (msg[5] & (1 << 3))) {
                 prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_TH, true);
-            } else
-            {
+            } else {
                 prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_TH, false);
             }
-            if(0 != (msg[5] & (1 << 4))) {
+            if (0 != (msg[5] & (1 << 4))) {
                 prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_FR, true);
-            } else
-            {
+            } else {
                 prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_FR, false);
             }
-            if(0 != (msg[5] & (1 << 5))) {
+            if (0 != (msg[5] & (1 << 5))) {
                 prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_SA, true);
-            } else
-            {
+            } else {
                 prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_SA, false);
             }
-            if(0 != (msg[5] & (1 << 6))) {
+            if (0 != (msg[5] & (1 << 6))) {
                 prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_SU, true);
-            } else
-            {
+            } else {
                 prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_SU, false);
             }
         }
         prefs.apply();
     }
 
-    private void getCaloriesType(byte[] msg)
-    {
+    private void getCaloriesType(byte[] msg) {
         SharedPreferences prefs = GBApplication.getPrefs().getPreferences();
         SharedPreferences.Editor myedit = prefs.edit();
 
@@ -2181,10 +2099,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         myedit.apply();
     }
 
-    private void getDisplayOnMovement(byte[] msg)
-    {
+    private void getDisplayOnMovement(byte[] msg) {
         SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
-        if(0 != (msg[6] & (1 << 6))) {
+        if (0 != (msg[6] & (1 << 6))) {
             prefs.putBoolean(ZeTimeConstants.PREF_HANDMOVE_DISPLAY, true);
         } else {
             prefs.putBoolean(ZeTimeConstants.PREF_HANDMOVE_DISPLAY, false);
@@ -2197,11 +2114,84 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void storeActualReminders(byte[] msg)
-    {
-        if(msg[3] == 0xb) // there is a reminder on the watch
+    private void storeActualReminders(byte[] msg) {
+        if (msg[3] == 0xb) // there is a reminder on the watch
         {
-            System.arraycopy(msg, 6, remindersOnWatch[msg[5]-1], 0, 10);
+            System.arraycopy(msg, 6, remindersOnWatch[msg[5] - 1], 0, 10);
+        }
+    }
+
+    private void setLanguage(TransactionBuilder builder) {
+        Prefs prefs = GBApplication.getPrefs();
+        String language = prefs.getString("language", "default");
+        Locale locale;
+
+        byte[] languageMsg = {
+                ZeTimeConstants.CMD_PREAMBLE,
+                ZeTimeConstants.CMD_LANGUAGE_SETTINGS,
+                ZeTimeConstants.CMD_REQUEST,
+                (byte) 0x1,
+                (byte) 0x0,
+                (byte) 0x0,
+                ZeTimeConstants.CMD_END
+        };
+
+        if (language == null || language.equals("default")) {
+            locale = Locale.getDefault();
+            language = locale.getLanguage();
+        }
+
+        switch (language) {
+            case "zh":
+                languageMsg[5] = 1;
+                break;
+            case "tw":
+            case "hk":
+            case "mo":
+                languageMsg[5] = 2;
+                break;
+            case "ko":
+                languageMsg[5] = 3;
+                break;
+            case "th":
+                languageMsg[5] = 4;
+                break;
+            case "ja":
+                languageMsg[5] = 5;
+                break;
+            case "fr":
+                languageMsg[5] = 6;
+                break;
+            case "es":
+                languageMsg[5] = 7;
+                break;
+            case "de":
+                languageMsg[5] = 8;
+                break;
+            case "it":
+                languageMsg[5] = 9;
+                break;
+            case "pl":
+                languageMsg[5] = 10;
+                break;
+            case "pt":
+                languageMsg[5] = 11;
+                break;
+            case "ru":
+                languageMsg[5] = 12;
+                break;
+            case "nl":
+                languageMsg[5] = 13;
+                break;
+            case "ro":
+                languageMsg[5] = 32;
+                break;
+            case "hu":
+                languageMsg[5] = 33;
+                break;
+            case "en":
+            default:
+                languageMsg[5] = 0;
         }
     }
 }

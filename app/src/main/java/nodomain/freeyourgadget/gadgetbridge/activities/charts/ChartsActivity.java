@@ -256,10 +256,22 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            this.recreate();
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.charts_fetch_activity_data:
                 fetchActivityData();
+                return true;
+            case R.id.prefs_charts_menu:
+                Intent settingsIntent = new Intent(this, ChartsPreferencesActivity.class);
+                startActivityForResult(settingsIntent,1);
                 return true;
             default:
                 break;
@@ -338,6 +350,24 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
             return 5;
         }
 
+        private String getSleepTitle() {
+            if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
+                return getString(R.string.weeksleepchart_sleep_a_month);
+            }
+            else{
+                return getString(R.string.weeksleepchart_sleep_a_week);
+            }
+        }
+
+        public String getStepsTitle() {
+            if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
+                return getString(R.string.weekstepschart_steps_a_month);
+            }
+            else{
+                return getString(R.string.weekstepschart_steps_a_week);
+            }
+        }
+
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
@@ -346,9 +376,9 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                 case 1:
                     return getString(R.string.sleepchart_your_sleep);
                 case 2:
-                    return getString(R.string.weeksleepchart_sleep_a_week);
+                    return getSleepTitle();
                 case 3:
-                    return getString(R.string.weekstepschart_steps_a_week);
+                    return getStepsTitle();
                 case 4:
                     return getString(R.string.stats_title);
                 case 5:

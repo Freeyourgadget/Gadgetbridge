@@ -49,6 +49,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
 import org.slf4j.Logger;
@@ -77,6 +78,9 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
     private ScanCallback newLeScanCallback = null;
 
+    // Disabled for testing, it seems worse for a few people
+    private final boolean disableNewBLEScanning = true;
+
     private final Handler handler = new Handler();
 
     private final BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
@@ -95,7 +99,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
                             // continue with LE scan, if available
                             if (isScanning == Scanning.SCANNING_BT) {
                                 checkAndRequestLocationPermission();
-                                if (GBApplication.isRunningLollipopOrLater()) {
+                                if (GBApplication.isRunningLollipopOrLater() && !disableNewBLEScanning) {
                                     startDiscovery(Scanning.SCANNING_NEW_BTLE);
                                 } else {
                                     startDiscovery(Scanning.SCANNING_BTLE);
@@ -297,7 +301,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList("deviceCandidates", deviceCandidates);
     }
@@ -590,7 +594,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(deviceCandidate);
         GBDevice device = DeviceHelper.getInstance().toSupportedDevice(deviceCandidate);
-        if (coordinator.getSupportedDeviceSpecificSettings(device) != null) {
+        if (coordinator.getSupportedDeviceSpecificSettings(device) == null) {
             return true;
         }
 
@@ -652,7 +656,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         super.onPause();
         stopBTDiscovery();
         stopBTLEDiscovery();
-        if (GBApplication.isRunningLollipopOrLater()) {
+        if (GBApplication.isRunningLollipopOrLater() && !disableNewBLEScanning) {
             stopNewBTLEDiscovery();
         }
     }

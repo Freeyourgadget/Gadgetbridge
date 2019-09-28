@@ -13,6 +13,7 @@
 
     <string-array name="pref_language_options">
         <item name="default">System Default</item>
+        <item name="ca">Català</item>
         <item name="cs">Čeština</item>
         <item name="de">Deutsch</item>
         <item name="en">English</item>
@@ -31,6 +32,7 @@
 
     <string-array name="pref_language_values">
         <item>default</item>
+        <item>ca</item>
         <item>cs</item>
         <item>de</item>
         <item>en</item>
@@ -148,6 +150,18 @@
         <item>@string/p_dateformat_datetime</item>
     </string-array>
 
+    <string-array name="dateformats">
+        <item>dd.MM.yyyy</item>
+        <item>dd/MM/yyyy</item>
+        <item>MM/dd/yyyy</item>
+    </string-array>
+
+    <string-array name="dateformats_values">
+        <item>dd.MM.yyyy</item>
+        <item>dd/MM/yyyy</item>
+        <item>MM/dd/yyyy</item>
+    </string-array>
+
     <string-array name="mi2_do_not_disturb">
         <item>@string/mi2_dnd_off</item>
         <item>@string/mi2_dnd_automatic</item>
@@ -224,6 +238,7 @@
         <item>@string/menuitem_status</item>
         <item>@string/heart_rate</item>
         <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_nfc</item>
     </string-array>
 
     <string-array name="pref_miband3_display_items_values">
@@ -234,6 +249,7 @@
         <item>@string/p_menuitem_status</item>
         <item>@string/p_heart_rate</item>
         <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_nfc</item>
     </string-array>
 
     <string-array name="pref_miband3_display_items_default">

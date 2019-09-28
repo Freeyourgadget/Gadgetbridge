@@ -7,7 +7,6 @@
     <string name="action_quit">Saír</string>
     <string name="action_donate">Doar</string>
     <string name="controlcenter_fetch_activity_data">Sincronizar</string>
-    <string name="controlcenter_start_sleepmonitor">Monitor de sono (Alpha)</string>
     <string name="controlcenter_find_device">Atopar dispositivo perdido</string>
     <string name="controlcenter_take_screenshot">Capturar pantalla</string>
     <string name="controlcenter_disconnect">Desconectar</string>
@@ -85,7 +84,7 @@
     <string name="pref_title_notifications_pebblemsg">Mensaxes de Pebble</string>
     <string name="pref_summary_notifications_pebblemsg">Soporte para aplicacións que envían notificacións a Pebble através de PebbleKit.</string>
     <string name="pref_title_notifications_generic">Soporte para notificacións xenéricas</string>
-    <string name="pref_title_whenscreenon">... tamén coa pantalla acesa</string>
+    <string name="pref_title_whenscreenon">… tamén coa pantalla acesa</string>
     <string name="pref_title_notification_filter">Non Molestar</string>
     <string name="pref_summary_notification_filter">Parar notificacións indesexadas no modo Non Molestar</string>
     <string name="pref_title_transliteration">Transliteración</string>
@@ -303,7 +302,6 @@
     <string name="updating_firmware">Anovando Firmware…</string>
     <string name="fwapp_install_device_not_ready">O arquivo non pode ser instalado, o dispositivo non está preparado.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
-    <string name="amazfitbip_firmware">Firmware do Amazfit Bip %1$s</string>
     <string name="miband_fwinstaller_compatible_version">Versión compatíbel</string>
     <string name="miband_fwinstaller_untested_version">Versión sen probar!</string>
     <string name="fwappinstaller_connection_state">Conexión ao dispositivo: %1$s</string>
@@ -498,7 +496,6 @@
     <string name="pref_title_pebble_enable_bgjs">Habilitar JS de fondo</string>
     <string name="pref_summary_pebble_enable_bgjs">"Permite ás  watchfaces amosar o tempo, información de batería, etc."</string>
 
-    <string name="amazfitcor_firmware">Firmware do Amazfit Cor %1$s</string>
     <string name="activity_web_view">Actividade Vista Web</string>
 
     <string name="pref_title_charts_swipe">Permitir deslizar a esquerda/dereita nas gráficas de actividade</string>

@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-
+    <release version="0.36.2" versioncode="157">
+        <change>Amazfit Bip: Untested support for Lite variant </change>
+        <change>Force Lineage OS to ask for permission when Trust is used to fix non-working incoming calls</change>
+        <change>Charts: List multiple sleep sessions per day</change>
+    </release>
+    <release version="0.36.1" versioncode="156">
+        <change>Mi Band 2/3/4, Amazfit Bip/Cor: Add setting to expose the HR sensor to 3rd party apps</change>
+        <change>Mi Band 4: Really fix weather location not being updated on the Band</change>
+        <change>Mi Band 4: Fix call notifcation not stopping when call gets answered or rejected on the phone</change>
+        <change>Amazfit Bip/Cor: Support for custom emoji font</change>
+        <change>ZeTime: Enable emoji support</change>
+        <change>ZeTime: Make watch language the same as the phone language by default</change>
+        <change>New status and alarms widget</change>
+        <change>Fix crash when entering notification filter settings</change>
+        <change>Make diagram settings accessible from charts activity</change>
+        <change>Add option to hide the floating plus button in the main activity</change>
+        <change>Fix a potential crash on Android 4.4 KitKat</change>
+    </release>
+    <release version="0.36.0" versioncode="155">
+        <change>Initial Mijia LYWSD02 support (Smart Clock with Humidity and Temperature Sensor), just for setting the time</change>
+        <change>Mi Band 3/4: Allow enabling the NFC menu where supported (useless for now)</change>
+        <change>Mi Band 3/4, Amazfit Cor/Bip: Set language immediately when changing it (not only on connect)</change>
+        <change>Mi Band 3/4, Amazfir Cor/Bip: Add icons for "swimming" and "exercise"</change>
+        <change>Mi Band 4: Support flashing the V2 font</change>
+        <change>Mi Band 4: Fix weather location not being updated on the Band</change>
+        <change>Mi Band 4: remove unsupported DND setting from settings menu</change>
+        <change>Amazfit Bip/Cor: Fix resetting of last fetched date for sports activities</change>
+        <change>Amazfit Bip: Fix sharing GPX files for some Apps</change>
+        <change>Pebble: Use Rebble Store URI</change>
+        <change>Support LineageOS 16.0 weather provider</change>
+        <change>Add Averages to Charts</change>
+        <change>Allow togging between weekly and monthly charts</change>
+    </release>
+    <release version="0.35.2" versioncode="154">
+        <change>Mi Band 1/2: Crash when updating firmware while phone is set to Spanish</change>
+        <change>Mi Band 4: Enable music info support (displays now on the band)</change>
+        <change>Mi Band 4: Support setting date format (for built-in watchfaces)</change>
+        <change>Amazfit Cor 2: Try to fix empty menu on device</change>
+    </release>
+    <release version="0.35.1" versioncode="153">
+        <change>Mi Band 4: Support flashing watchfaces, res and firmware (fonts untested)</change>
+    </release>
+    <release version="0.35.0" versioncode="152">
+        <change>Mi Band 4: Initial support (WARNING: INITIAL SETUP NEEDS MI FIT WITH ACCOUNT AND ROOT, NOT A RECOMMENDED DEVICE FOR GADGETBRIDGE)</change>
+    </release>
+    <release version="0.34.1" versioncode="151">
+        <change>Mi Band 1: Fix crash when entering per-device settings</change>
+        <change>Mi Band 3: Allow setting date format in per-device settings</change>
+        <change>ZeTime: Fix timestmaps</change>
+        <change>Fix a crash when flashing an non-whitelisted firmware while using Gadgetbridge in Spanish</change>
+    </release>
     <release version="0.34.0" versioncode="150">
         <change>Mi Band 1/2/3/Bip/Cor: Migrate many settings to per-device settings (new settings icon in device card in main activity)</change>
         <change>Mi Band 3: Fix setting menu items with 2.4 firmware and add support for the new timer menu</change>

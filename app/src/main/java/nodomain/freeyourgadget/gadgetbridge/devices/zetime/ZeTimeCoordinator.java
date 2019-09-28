@@ -158,4 +158,7 @@ public class ZeTimeCoordinator extends AbstractDeviceCoordinator {
     public int getBondingStyle(GBDevice device) {
         return BONDING_STYLE_NONE;
     }
+
+    @Override
+    public boolean supportsUnicodeEmojis() { return  true; }
 }

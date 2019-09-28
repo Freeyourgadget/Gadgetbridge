@@ -7,7 +7,6 @@
     <string name="action_quit">Esci</string>
     <string name="action_donate">Donazioni</string>
     <string name="controlcenter_fetch_activity_data">Sincronizza</string>
-    <string name="controlcenter_start_sleepmonitor">Monitoraggio del sonno (ALPHA)</string>
     <string name="controlcenter_find_device">Trova dispositivo smarrito</string>
     <string name="controlcenter_take_screenshot">Cattura screenshot</string>
     <string name="controlcenter_disconnect">Disconnetti</string>
@@ -45,12 +44,12 @@
     <string name="title_activity_calblacklist">Calendari ignorati</string>
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">Installazione FW/App</string>
-    <string name="fw_upgrade_notice">Il firmware %s verrà installato al posto di quello attualmente sulla Mi Band.</string>
+    <string name="fw_upgrade_notice">Stai per installare il firmware %s.</string>
     <string name="fw_multi_upgrade_notice">Stai per installare i firmware %1$s e %2$s al posto di quelli al momento sulla tua Mi Band.</string>
     <string name="miband_firmware_known">Questo firmware è stato testato ed è compatibile con Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">Questo firmware non è stato testato e potrebbe non essere compatibile con Gadgetbridge. 
 \n 
-\nNON è consigliato installarlo sulla Mi Band!</string>
+\nNON è consigliato installarlo sulla tua Mi Band!</string>
     <string name="miband_firmware_suggest_whitelist">Se si procede e tutto continua a funzionare ti invitiamo a contattare gli sviluppatori e dire loro di aggiungere il firmware %s all\'elenco di quelli compatibili.</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Impostazioni</string>
@@ -133,7 +132,7 @@
     <string name="pref_title_pebble_forcele">Usa sempre BLE</string>
     <string name="pref_summary_pebble_forcele">Utilizza il supporto sperimentale Pebble LE per tutti i Pebble in alternativa al BT. Questo richiede un nuovo accoppiamento a LE prima e poi al Pebble LE</string>
     <string name="pref_title_pebble_mtu_limit">Limita la MTU del Pebble 2/LE</string>
-    <string name="pref_summary_pebble_mtu_limit">Se il tuo Pebble 2/LE non funziona come dovrebbe, prova a impostare un limite alla MTU (range valido 20-512)</string>
+    <string name="pref_summary_pebble_mtu_limit">Se il tuo Pebble 2/LE non funziona come dovrebbe, prova a impostare un limite alla MTU (range valido 20–512)</string>
     <string name="pref_title_pebble_enable_applogs">Abilita il log delle applicazioni eseguite su Pebble</string>
     <string name="pref_summary_pebble_enable_applogs">Il log delle applicazioni che girano su Pebble verrà aggiunto a quello di Gadgetbridge (richiede riconessione)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">Invia l\'ACK dei messaggi PebbleKit prematuramente</string>
@@ -148,7 +147,6 @@
     <string name="not_connected">Non connesso</string>
     <string name="connecting">In collegamento</string>
     <string name="connected">Connesso</string>
-    <string name="connectionstate_fw">Versione firmware: %1$s</string>
     <string name="_unknown_">(sconosciuto)</string>
     <string name="test">Test</string>
     <string name="test_notification">Notifica di prova</string>
@@ -193,7 +191,7 @@
     <string name="miband_pairing_using_dummy_userdata">Dati dell\'utente non inseriti, vengono usati dati d\'esempio.</string>
     <string name="miband_pairing_tap_hint">Quando la Mi Band vibra e lampeggia, dalle qualche leggero colpetto.</string>
     <string name="appinstaller_install">Installa</string>
-    <string name="discovery_connected_devices_hint">Imposta il tuo dispositivo perchè sia rilevabile. I dispositivi attualmente connessi non saranno probabilmente rilevati. Abilita i servizi di geolocalizzazione su android 6+. Disabilita Privacy Guard per Gadgetbridge, potrebbe causare crash e riavvii. Se non vedi il tuo dispositivo entro un paio di minuti, riprova dopo avere riavviato il dispositivo Android.</string>
+    <string name="discovery_connected_devices_hint">Imposta il tuo dispositivo perché sia rilevabile. I dispositivi attualmente connessi non saranno probabilmente rilevati. Abilita i servizi di geolocalizzazione su android 6+. Disabilita Privacy Guard per Gadgetbridge, potrebbe causare crash e riavvii. Se non vedi il tuo dispositivo entro un paio di minuti, riprova dopo avere riavviato il dispositivo Android.</string>
     <string name="discovery_note">Nota:</string>
     <string name="candidate_item_device_image">Immagine dispositivo</string>
     <string name="miband_prefs_alias">Nome / Soprannome</string>
@@ -263,7 +261,6 @@
     <string name="updating_firmware">Aggiornamento del Firmware…</string>
     <string name="fwapp_install_device_not_ready">Il file non può essere installato, il dispositivo non è pronto.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
-    <string name="amazfitbip_firmware">Firmware Amazfit Bip %1$s</string>
     <string name="miband_fwinstaller_compatible_version">Versione compatibile</string>
     <string name="miband_fwinstaller_untested_version">Versione non testata!</string>
     <string name="fwappinstaller_connection_state">Connessione al device: %1$s</string>
@@ -312,7 +309,7 @@
     <string name="mi2_prefs_goal_notification">Notifica raggiungimento obbiettivi</string>
     <string name="mi2_prefs_goal_notification_summary">La band vibrerà una volta raggiunto l\'obbiettivo passi giornalieri</string>
     <string name="mi2_prefs_display_items">Elementi mostrati</string>
-    <string name="mi2_prefs_display_items_summary">Scelta elementi da mostrare sullo schermo della band</string>
+    <string name="mi2_prefs_display_items_summary">Scegli gli elementi da mostrare sullo schermo della band</string>
     <string name="mi2_prefs_activate_display_on_lift">Attiva il display quando sollevato</string>
     <string name="mi2_prefs_rotate_wrist_to_switch_info">Rotazione polso per cambiare vista</string>
     <string name="mi2_prefs_do_not_disturb">Non disturbare</string>
@@ -339,7 +336,7 @@
     <string name="device_hw">Versione Hardware: %1$s</string>
     <string name="device_fw">Versione Firmware: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Errore durante la creazione della directory per i file di log: %1$s</string>
-    <string name="DEVINFO_HR_VER">"HR: "</string>
+    <string name="DEVINFO_HR_VER">"Battito Cardiaco: "</string>
     <string name="updatefirmwareoperation_update_in_progress">Aggiornamento firmware in corso</string>
     <string name="updatefirmwareoperation_firmware_not_sent">Firmware non inviato</string>
     <string name="charts_legend_heartrate">Battito cardiaco</string>
@@ -406,7 +403,7 @@
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
     <string name="fw_upgrade_notice_amazfitcor">Si sta per installare il firmware %s sul Amazfit Cor. 
 \n 
-\nSi prega di installare prima il file .fw e successivamente il file .res. Il tuo smartwatch si riavvierà dopo l\'installazione del file .fw. 
+\nSi prega di installare prima il file .fw e successivamente il file .res. La tua band si riavvierà dopo l\'installazione del file .fw. 
 \n 
 \nNOTA: Non è necessario installare il file .res se risulta essere uguale a quello precedentemente installato. 
 \n 
@@ -432,7 +429,7 @@
     <string name="interval_ten_minutes">ogni 10 minuti</string>
     <string name="interval_thirty_minutes">ogni 30 minuti</string>
     <string name="interval_one_hour">ogni ora</string>
-    <string name="notif_export_failed_title">Esportazione del database fallita! Si prega di controllare le impostazioni.</string>
+    <string name="notif_export_failed_title">Esportazione del database fallita! Per favore controlla le impostazioni.</string>
     <string name="mi2_prefs_button_actions">Azioni tasto</string>
     <string name="mi2_prefs_button_actions_summary">Specifica le azioni alla pressione del pulsante del Mi Band 2</string>
     <string name="mi2_prefs_button_press_count">Conteggio pressione tasto</string>
@@ -492,15 +489,15 @@
     <string name="whitelist_all_for_notifications">Consenti le notifiche da tutte le applicazioni</string>
     <string name="fw_upgrade_notice_miband3">Si sta per installare il firmware %s sul Mi Band 3. 
 \n 
-\nSi prega di installare prima il file .fw e successivamente il file .res. Il tuo Miband si riavvierà dopo l\'installazione del file .fw. 
+\nSi prega di installare prima il file .fw e successivamente il file .res. La Miband3 si riavvierà dopo l\'installazione del file .fw. 
 \n 
 \nNOTA: Non è necessario installare il file .res se risulta essere uguale a quello precedentemente installato. 
-\n 
-\nNON TESTATO, POTREBBE DANNEGGIARE IL DISPOSITIVO IN MANIERA IRREVERSIBILE, PROCEDI A TUO RISCHIO E PERICOLO!</string>
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
     <string name="pref_title_pebble_gatt_clientonly">Modalità GATT client</string>
     <string name="pref_summary_pebble_gatt_clientonly">Sperimentale, compatibile solo con Pebble 2, attivare solo in caso di problemi di connettività</string>
     <string name="pref_auto_fetch">"Recupero automatico dati  delle attività"</string>
-    <string name="pref_auto_fetch_summary">Il recupero avviene quando lo schermo viene sbloccato. Funziona solo se è attivata una modalità di blocco!</string>
+    <string name="pref_auto_fetch_summary">Sincronizza i dati quando lo schermo viene sbloccato. Funziona solo se è attivata una modalità di blocco!</string>
     <string name="controlcenter_start_activity_tracks">Traccia delle tua attività</string>
     <string name="activity_type_not_measured">Non misurato</string>
     <string name="activity_type_activity">Attività</string>
@@ -609,7 +606,7 @@
     <string name="overslept">Sonno extra: %1$s</string>
     <string name="lack_of_step">Passi mancanti: %1$d</string>
     <string name="overstep">Passi eccedenti: %1$d</string>
-    <string name="debugactivity_really_factoryreset_title">Confermare il ripristino delle impostazioni di fabbrica\?</string>
+    <string name="debugactivity_really_factoryreset_title">Vuoi ripristinare alle impostazioni di fabbrica\?</string>
     <string name="debugactivity_really_factoryreset">Effettuare il ripristino delle impostazioni di fabbrica cancellerà tutti i dati presenti sul dispositivo connesso (se supportato). I dispositivi Xiaomi/Huami cambieranno anche il proprio MAC Address Bluetooth, in modo da risultare dispositivi nuovi per Gadgetbrige.</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="title_activity_notification_filter">Filtro Notifiche</string>
@@ -627,9 +624,9 @@
     <string name="save_configuration">Salva Configurazione</string>
     <string name="appwidget_not_connected">Non connesso, sveglia non impostata.</string>
     <string name="activity_type_exercise">Esercizio</string>
-    <string name="zetime_title_heartrate">Impostazioni frequenza cardiaca</string>
+    <string name="zetime_title_heartrate">Impostazioni Battito cardiaco</string>
     <string name="zetime_title_screentime">Durata schermo acceso in secondi</string>
-    <string name="zetime_title_heart_rate_alarm_summary">L\'orologio mostrerà un avviso se la frequenza cardiaca supererà i limiti.</string>
+    <string name="zetime_title_heart_rate_alarm_summary">L\'orologio ti avviserà quando la frequenza del tuo battito cardiaco supererà il limite.</string>
     <string name="activity_prefs_alarm_max_heart_rate">Frequenza cardiaca massima</string>
     <string name="activity_prefs_alarm_min_heart_rate">Frequenza cardiaca minima</string>
     <string name="zetime_handmove_display_summary">Ruota il polso per attivare o disattivare il display.</string>
@@ -650,7 +647,7 @@
     <string name="zetime_title_settings">Impostazioni ZeTime</string>
     <string name="zetime_title_heart_rate_alarm">Avviso frequenza cardiaca</string>
     <string name="zetime_heart_rate_alarm_enable">Abilita l\'avviso per la frequenza cardiaca</string>
-    <string name="zetime_analog_mode">Modalità analogica</string>
+    <string name="zetime_analog_mode">Analogico</string>
     <string name="zetime_analog_mode_hands">Solo mani</string>
     <string name="zetime_analog_mode_handsandsteps">Mani e passi</string>
     <string name="zetime_activity_tracking">Registrazione attività</string>
@@ -673,7 +670,7 @@
     <string name="zetime_signaling_vibrate_beep_once">Vibrazione e beep singoli</string>
     <string name="title_activity_device_specific_settings">Impostazioni specifiche del dispositivo</string>
     <string name="pref_title_authkey">Chiave di autenticazione</string>
-    <string name="pref_summary_authkey">Cambia la chiave di autenticazione on una chiave comune a tutti i tuoi dispositivi Android dai quali vuoi connetterti. La chiave predefinita precedente per tutti i dispositivi è 0123456789@ABCDE</string>
+    <string name="pref_summary_authkey">Cambia la chiave di autenticazione con una chiave comune a tutti i tuoi dispositivi Android dai quali vuoi connetterti. La chiave predefinita precedente per tutti i dispositivi è 0123456789@ABCDE</string>
     <string name="pref_screen_notification_profile_missed_call">Notifica chiamata persa</string>
     <string name="pref_screen_notification_profile_calendar">Notifica calendario</string>
     <string name="pref_screen_notification_profile_inactivity">Notifica inattività</string>
@@ -687,4 +684,33 @@
     <string name="activity_prefs_activetime_minutes">Obiettivo giornaliero: tempo di attività in minuti</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
     <string name="devicetype_bfh16">BFH-16</string>
+    <string name="fw_upgrade_notice_amazfitcor2">Stai per installare il firmware %s sul tuo Amazfit Cor 2.
+\n
+\nAssicurati di installare il file .fw e successivamente il file .res. L\' Amazfit Cor 2 si riavvierà dopo aver installato il file .fw.
+\n
+\nNota: non è necessario installare .res se è esattamente lo stesso di quello precedentemente installato.
+\n
+\nPROCEDI A TUO RISCHIO!
+\n
+\nNON COMPLETAMENTE TESTATO, PROBABILMENTE DOVRAI FLASHARE IL FIRMWARE BEATS_W SE IL NOME DEL TUO DISPOSITIVO è \"Amazfit Band 2\"</string>
+    <string name="dutch">Olandese</string>
+    <string name="turkish">Turco</string>
+    <string name="ukrainian">Ucraino</string>
+    <string name="arabic">Arabo</string>
+    <string name="indonesian">Indonesiano</string>
+    <string name="thai">Tailandese</string>
+    <string name="vietnamese">Vietnamita</string>
+    <string name="portuguese">Portoghese</string>
+    <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
+    <string name="devicetype_miband4">Mi Band 4</string>
+    <string name="fw_upgrade_notice_miband4">Si sta per installare il firmware %s sul Mi Band 4. 
+\n 
+\nSi prega di installare prima il file .fw e successivamente il file .res. La Mi Band 4 si riavvierà dopo l\'installazione del file .fw. 
+\n 
+\nNOTA: Non è necessario installare il file .res se risulta essere uguale a quello precedentemente installato. 
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="prefs_hr_alarm_activity">Imposta allarme frequenza cardiaca durante l\'attività sportiva</string>
+    <string name="prefs_hr_alarm_low">Limite inferiore</string>
+    <string name="prefs_hr_alarm_high">Limite Superiore</string>
 </resources>

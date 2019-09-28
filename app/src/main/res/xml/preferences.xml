@@ -18,6 +18,14 @@
             android:defaultValue="false"
             android:key="general_autocreconnect"
             android:title="@string/pref_title_general_autoreconnect" />
+        <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
+            android:defaultValue="true"
+            android:key="display_add_device_fab"
+            android:summaryOff="@string/pref_display_add_device_fab_off"
+            android:summaryOn="@string/pref_display_add_device_fab_on"
+            android:title="@string/pref_display_add_device_fab" />
+
         <ListPreference
             android:defaultValue="default"
             android:key="audio_player"
@@ -157,30 +165,11 @@
                 android:maxLength="3"
                 android:title="@string/activity_prefs_activetime_minutes" />
         </PreferenceScreen>
-        <PreferenceScreen
-            android:key="pref_charts"
-            android:title="@string/activity_prefs_charts">
-
-            <EditTextPreference
-                android:inputType="number"
-                android:key="chart_max_heart_rate"
-                android:maxLength="3"
-                android:defaultValue="250"
-                android:title="@string/activity_prefs_chart_max_heart_rate" />
-
-            <EditTextPreference
-                android:inputType="number"
-                android:key="chart_min_heart_rate"
-                android:maxLength="3"
-                android:defaultValue="10"
-                android:title="@string/activity_prefs_chart_min_heart_rate" />
-        </PreferenceScreen>
-        <CheckBoxPreference
-            android:layout="@layout/preference_checkbox"
-            android:defaultValue="true"
-            android:key="charts_allow_swipe"
-            android:title="@string/pref_title_charts_swipe" />
     </PreferenceCategory>
+        <Preference
+            android:key="pref_charts"
+            android:title="@string/activity_prefs_charts"/>
+
     <PreferenceCategory
         android:key="pref_key_datetime"
         android:title="@string/pref_header_datetime">

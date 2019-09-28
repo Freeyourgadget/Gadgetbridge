@@ -28,42 +28,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.Locale;
 import java.util.Set;
-import java.util.SimpleTimeZone;
 import java.util.UUID;
 
-import cyanogenmod.weather.util.WeatherUtils;
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiWeatherConditions;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
-import nodomain.freeyourgadget.gadgetbridge.model.Weather;
-import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ConditionalWriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiIcon;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.operations.AmazfitBipFetchLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSportsSummaryOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.HuamiFetchDebugLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public class AmazfitBipSupport extends HuamiSupport {
 
@@ -136,16 +124,25 @@ public class AmazfitBipSupport extends HuamiSupport {
                     appSuffix = appName.getBytes();
                     suffixlength = appSuffix.length;
                 }
+                if (gbDevice.getType() == DeviceType.MIBAND4) {
+                    prefixlength += 4;
+                }
 
                 byte[] rawmessage = message.getBytes();
                 int length = Math.min(rawmessage.length, maxLength - prefixlength);
 
                 byte[] command = new byte[length + prefixlength + suffixlength];
-
-                command[0] = (byte) alertCategory.getId();
-                command[1] = 1;
+                int pos = 0;
+                command[pos++] = (byte) alertCategory.getId();
+                if (gbDevice.getType() == DeviceType.MIBAND4) {
+                    command[pos++] = 0; // TODO
+                    command[pos++] = 0;
+                    command[pos++] = 0;
+                    command[pos++] = 0;
+                }
+                command[pos++] = 1;
                 if (alertCategory == AlertCategory.CustomHuami) {
-                    command[2] = customIconId;
+                    command[pos] = customIconId;
                 }
 
                 System.arraycopy(rawmessage, 0, command, prefixlength, length);
@@ -243,187 +240,6 @@ public class AmazfitBipSupport extends HuamiSupport {
     }
 
     @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
-        if (gbDevice.getFirmwareVersion() == null) {
-            LOG.warn("Device not initialized yet, so not sending weather info");
-            return;
-        }
-        boolean supportsConditionString = false;
-
-        Version version = new Version(gbDevice.getFirmwareVersion());
-        if (version.compareTo(new Version("0.0.8.74")) >= 0) {
-            supportsConditionString = true;
-        }
-
-        MiBandConst.DistanceUnit unit = HuamiCoordinator.getDistanceUnit();
-        int tz_offset_hours = SimpleTimeZone.getDefault().getOffset(weatherSpec.timestamp * 1000L) / (1000 * 60 * 60);
-        try {
-            TransactionBuilder builder;
-            builder = performInitialized("Sending current temp");
-
-            byte condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.currentConditionCode);
-
-            int length = 8;
-            if (supportsConditionString) {
-                length += weatherSpec.currentCondition.getBytes().length + 1;
-            }
-            ByteBuffer buf = ByteBuffer.allocate(length);
-            buf.order(ByteOrder.LITTLE_ENDIAN);
-
-            buf.put((byte) 2);
-            buf.putInt(weatherSpec.timestamp);
-            buf.put((byte) (tz_offset_hours * 4));
-            buf.put(condition);
-
-            int currentTemp = weatherSpec.currentTemp - 273;
-            if (unit == MiBandConst.DistanceUnit.IMPERIAL) {
-                currentTemp = (int) WeatherUtils.celsiusToFahrenheit(currentTemp);
-            }
-            buf.put((byte) currentTemp);
-
-            if (supportsConditionString) {
-                buf.put(weatherSpec.currentCondition.getBytes());
-                buf.put((byte) 0);
-            }
-
-            if (characteristicChunked != null) {
-                writeToChunked(builder, 1, buf.array());
-            } else {
-                builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
-            }
-
-            builder.queue(getQueue());
-        } catch (Exception ex) {
-            LOG.error("Error sending current weather", ex);
-        }
-
-        if (gbDevice.getType() != DeviceType.AMAZFITCOR) {
-            try {
-                TransactionBuilder builder;
-                builder = performInitialized("Sending air quality index");
-                int length = 8;
-                String aqiString = "(n/a)";
-                if (supportsConditionString) {
-                    length += aqiString.getBytes().length + 1;
-                }
-                ByteBuffer buf = ByteBuffer.allocate(length);
-                buf.order(ByteOrder.LITTLE_ENDIAN);
-                buf.put((byte) 4);
-                buf.putInt(weatherSpec.timestamp);
-                buf.put((byte) (tz_offset_hours * 4));
-                buf.putShort((short) 0);
-                if (supportsConditionString) {
-                    buf.put(aqiString.getBytes());
-                    buf.put((byte) 0);
-                }
-
-                if (characteristicChunked != null) {
-                    writeToChunked(builder, 1, buf.array());
-                } else {
-                    builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
-                }
-
-                builder.queue(getQueue());
-            } catch (IOException ex) {
-                LOG.error("Error sending air quality");
-            }
-        }
-
-        try {
-            TransactionBuilder builder = performInitialized("Sending weather forecast");
-
-            final byte NR_DAYS = (byte) (1 + weatherSpec.forecasts.size());
-            int bytesPerDay = 4;
-
-            int conditionsLength = 0;
-            if (supportsConditionString) {
-                bytesPerDay = 5;
-                conditionsLength = weatherSpec.currentCondition.getBytes().length;
-                for (WeatherSpec.Forecast forecast : weatherSpec.forecasts) {
-                    conditionsLength += Weather.getConditionString(forecast.conditionCode).getBytes().length;
-                }
-            }
-
-            int length = 7 + bytesPerDay * NR_DAYS + conditionsLength;
-            ByteBuffer buf = ByteBuffer.allocate(length);
-
-            buf.order(ByteOrder.LITTLE_ENDIAN);
-            buf.put((byte) 1);
-            buf.putInt(weatherSpec.timestamp);
-            buf.put((byte) (tz_offset_hours * 4));
-
-            buf.put(NR_DAYS);
-
-            byte condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.currentConditionCode);
-            buf.put(condition);
-            buf.put(condition);
-
-            int todayMaxTemp = weatherSpec.todayMaxTemp - 273;
-            int todayMinTemp = weatherSpec.todayMinTemp - 273;
-            if (unit == MiBandConst.DistanceUnit.IMPERIAL) {
-                todayMaxTemp = (int) WeatherUtils.celsiusToFahrenheit(todayMaxTemp);
-                todayMinTemp = (int) WeatherUtils.celsiusToFahrenheit(todayMinTemp);
-            }
-            buf.put((byte) todayMaxTemp);
-            buf.put((byte) todayMinTemp);
-
-            if (supportsConditionString) {
-                buf.put(weatherSpec.currentCondition.getBytes());
-                buf.put((byte) 0);
-            }
-
-            for (WeatherSpec.Forecast forecast : weatherSpec.forecasts) {
-                condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(forecast.conditionCode);
-                buf.put(condition);
-                buf.put(condition);
-
-                int forecastMaxTemp = forecast.maxTemp - 273;
-                int forecastMinTemp = forecast.minTemp - 273;
-                if (unit == MiBandConst.DistanceUnit.IMPERIAL) {
-                    forecastMaxTemp = (int) WeatherUtils.celsiusToFahrenheit(forecastMaxTemp);
-                    forecastMinTemp = (int) WeatherUtils.celsiusToFahrenheit(forecastMinTemp);
-                }
-                buf.put((byte) forecastMaxTemp);
-                buf.put((byte) forecastMinTemp);
-
-                if (supportsConditionString) {
-                    buf.put(Weather.getConditionString(forecast.conditionCode).getBytes());
-                    buf.put((byte) 0);
-                }
-            }
-
-            if (characteristicChunked != null) {
-                writeToChunked(builder, 1, buf.array());
-            } else {
-                builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
-            }
-
-            builder.queue(getQueue());
-        } catch (Exception ex) {
-            LOG.error("Error sending weather forecast", ex);
-        }
-
-        if (gbDevice.getType() == DeviceType.AMAZFITCOR) {
-            try {
-                TransactionBuilder builder;
-                builder = performInitialized("Sending forecast location");
-
-                int length = 2 + weatherSpec.location.getBytes().length;
-                ByteBuffer buf = ByteBuffer.allocate(length);
-                buf.order(ByteOrder.LITTLE_ENDIAN);
-                buf.put((byte) 8);
-                buf.put(weatherSpec.location.getBytes());
-                buf.put((byte) 0);
-
-                builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
-                builder.queue(getQueue());
-            } catch (Exception ex) {
-                LOG.error("Error sending current forecast location", ex);
-            }
-        }
-    }
-
-    @Override
     public void onFetchRecordedData(int dataTypes) {
         try {
             // FIXME: currently only one data type supported, these are meant to be flags
@@ -432,9 +248,8 @@ public class AmazfitBipSupport extends HuamiSupport {
             } else if (dataTypes == RecordedDataTypes.TYPE_GPS_TRACKS) {
                 new FetchSportsSummaryOperation(this).perform();
             } else if (dataTypes == RecordedDataTypes.TYPE_DEBUGLOGS) {
-                new AmazfitBipFetchLogsOperation(this).perform();
-            }
-            else {
+                new HuamiFetchDebugLogsOperation(this).perform();
+            } else {
                 LOG.warn("fetching multiple data types at once is not supported yet");
             }
         } catch (IOException ex) {

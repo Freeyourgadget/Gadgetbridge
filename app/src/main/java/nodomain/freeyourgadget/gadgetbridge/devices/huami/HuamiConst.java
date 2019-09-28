@@ -48,6 +48,7 @@ public class HuamiConst {
     public static final String MI_BAND2_NAME_HRX = "Mi Band HRX";
     public static final String MI_BAND3_NAME = "Mi Band 3";
     public static final String MI_BAND3_NAME_2 = "Xiaomi Band 3";
+    public static final String MI_BAND4_NAME = "Mi Smart Band 4";
 
     public static final String PREF_ACTIVATE_DISPLAY_ON_LIFT = "activate_display_on_lift_wrist";
     public static final String PREF_DISPLAY_ON_LIFT_START = "display_on_lift_start";
@@ -58,6 +59,10 @@ public class HuamiConst {
     public static final String PREF_DISCONNECT_NOTIFICATION_END = "disconnect_notification_end";
 
     public static final String PREF_DISPLAY_ITEMS = "display_items";
+    public static final String PREF_LANGUAGE = "language";
+    public static final String PREF_DATEFORMAT = "dateformat";
+    public static final String PREF_EXPOSE_HR_THIRDPARTY = "expose_hr_thirdparty";
+    public static final String PREF_USE_CUSTOM_FONT = "use_custom_font";
 
     public static int toActivityKind(int rawType) {
         switch (rawType) {

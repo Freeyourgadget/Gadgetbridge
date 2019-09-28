@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.zip.CRC32;
 
 public class CheckSums {
     public static int getCRC8(byte[] seq) {
@@ -46,15 +47,21 @@ public class CheckSums {
     public static int getCRC16(byte[] seq) {
         int crc = 0xFFFF;
 
-        for (int j = 0; j < seq.length; j++) {
+        for (byte b : seq) {
             crc = ((crc >>> 8) | (crc << 8)) & 0xffff;
-            crc ^= (seq[j] & 0xff);//byte to int, trunc sign
+            crc ^= (b & 0xff);//byte to int, trunc sign
             crc ^= ((crc & 0xff) >> 4);
             crc ^= (crc << 12) & 0xffff;
             crc ^= ((crc & 0xFF) << 5) & 0xffff;
         }
         crc &= 0xffff;
         return crc;
+    }
+
+    public static int getCRC32(byte[] seq) {
+        CRC32 crc = new CRC32();
+        crc.update(seq);
+        return (int) (crc.getValue());
     }
 
     public static void main(String[] args) throws IOException {

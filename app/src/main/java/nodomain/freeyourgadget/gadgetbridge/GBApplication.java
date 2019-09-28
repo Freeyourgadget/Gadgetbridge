@@ -78,6 +78,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITBIP;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITCOR;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITCOR2;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND2;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND3;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.fromKey;
@@ -98,7 +99,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 3;
+    private static final int CURRENT_PREFS_VERSION = 4;
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
     private static GBPrefs gbPrefs;
@@ -111,6 +112,7 @@ public class GBApplication extends Application {
     public static final String ACTION_QUIT
             = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.quit";
     public static final String ACTION_LANGUAGE_CHANGE = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.language_change";
+    public static final String ACTION_NEW_DATA = "nodomain.freeyourgadget.gadgetbridge.action.new_data";
 
     private static GBApplication app;
 
@@ -630,8 +632,9 @@ public class GBApplication extends Application {
                 DaoSession daoSession = db.getDaoSession();
                 List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
                 for (Device dbDevice : activeDevices) {
-                    SharedPreferences.Editor deviceSharedPrefsEdit = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier()).edit();
-                    if (sharedPrefs != null) {
+                    SharedPreferences deviceSpecificSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                    if (deviceSpecificSharedPrefs != null) {
+                        SharedPreferences.Editor deviceSharedPrefsEdit = deviceSpecificSharedPrefs.edit();
                         String preferenceKey = dbDevice.getIdentifier() + "_lastSportsActivityTimeMillis";
                         long lastSportsActivityTimeMillis = sharedPrefs.getLong(preferenceKey, 0);
                         if (lastSportsActivityTimeMillis != 0) {
@@ -706,9 +709,8 @@ public class GBApplication extends Application {
                         if (newLanguage != null) {
                             deviceSharedPrefsEdit.putString("language", newLanguage);
                         }
+                        deviceSharedPrefsEdit.apply();
                     }
-
-                    deviceSharedPrefsEdit.apply();
                 }
                 editor.remove("amazfitbip_language");
                 editor.remove("bip_display_items");
@@ -735,6 +737,26 @@ public class GBApplication extends Application {
                 editor.remove("mi3_night_mode_end");
                 editor.remove("miband3_language");
 
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
+        if (oldVersion < 4) {
+            try (DBHandler db = acquireDB()) {
+                DaoSession daoSession = db.getDaoSession();
+                List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+                for (Device dbDevice : activeDevices) {
+                    SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                    SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
+                    DeviceType deviceType = fromKey(dbDevice.getType());
+
+                    if (deviceType == MIBAND) {
+                        int deviceTimeOffsetHours = deviceSharedPrefs.getInt("device_time_offset_hours",0);
+                        deviceSharedPrefsEdit.putString("device_time_offset_hours", Integer.toString(deviceTimeOffsetHours) );
+                    }
+
+                    deviceSharedPrefsEdit.apply();
+                }
             } catch (Exception e) {
                 Log.w(TAG, "error acquiring DB lock");
             }

@@ -1,229 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">가젯브릿지</string>
-  <string name="title_activity_controlcenter">가젯브릿지</string>
-  <string name="action_settings">설정</string>
-  <string name="action_debug">디버그</string>
-  <string name="action_quit">종료</string>
-  <string name="controlcenter_fetch_activity_data">동기화</string>
-  <string name="controlcenter_start_sleepmonitor">수면 측정계 (초기 버전)</string>
-  <string name="controlcenter_find_device">잃어버린 기기 찾기</string>
-  <string name="controlcenter_take_screenshot">스크린샷 찍기</string>
-  <string name="controlcenter_disconnect">연결 해제</string>
-  <string name="title_activity_debug">디버그</string>
-  <!--Strings related to AppManager-->
-  <string name="title_activity_appmanager">앱 관리자</string>
-  <string name="appmananger_app_delete">삭제</string>
-  <string name="appmananger_app_reinstall">재설치</string>
-  <string name="appmanager_health_activate">활성화</string>
-  <string name="appmanager_health_deactivate">비활성화</string>
-  <string name="app_configure">설정</string>
-  <!--Strings related to AppBlacklist-->
-  <string name="title_activity_appblacklist">알림 블랙리스트</string>
-  <!--Strings related to FwAppInstaller-->
-  <string name="title_activity_fw_app_insaller">펌웨어/앱 설치</string>
-  <string name="fw_upgrade_notice">지금 기존의 Mi Band 펌웨어 대신 %s 펌웨어를 설치하려고 합니다.</string>
-  <string name="fw_multi_upgrade_notice">지금 Mi Band의 기존 펌웨어 대신 %1$s와 %2$s 펌웨어를 설치하려고 합니다.</string>
-  <string name="miband_firmware_known">이 펌웨어는 테스트를 거쳤고 가젯브릿지와 호환됩니다.</string>
-  <string name="miband_firmware_unknown_warning">이 펌웨어는 테스트를 거치지 않았고 가젯브릿지와 호환되지 않을 수 있습니다.
+    <string name="app_name">가젯브릿지</string>
+    <string name="title_activity_controlcenter">가젯브릿지</string>
+    <string name="action_settings">설정</string>
+    <string name="action_debug">디버그</string>
+    <string name="action_quit">종료</string>
+    <string name="controlcenter_fetch_activity_data">동기화</string>
+    <string name="controlcenter_find_device">잃어버린 기기 찾기</string>
+    <string name="controlcenter_take_screenshot">스크린샷 찍기</string>
+    <string name="controlcenter_disconnect">연결 해제</string>
+    <string name="title_activity_debug">디버그</string>
+    <!--Strings related to AppManager-->
+    <string name="title_activity_appmanager">앱 관리자</string>
+    <string name="appmananger_app_delete">삭제</string>
+    <string name="appmananger_app_reinstall">재설치</string>
+    <string name="appmanager_health_activate">활성화</string>
+    <string name="appmanager_health_deactivate">비활성화</string>
+    <string name="app_configure">설정</string>
+    <!--Strings related to AppBlacklist-->
+    <string name="title_activity_appblacklist">알림 블랙리스트</string>
+    <!--Strings related to FwAppInstaller-->
+    <string name="title_activity_fw_app_insaller">펌웨어/앱 설치</string>
+    <string name="fw_upgrade_notice">지금 기존의 Mi Band 펌웨어 대신 %s 펌웨어를 설치하려고 합니다.</string>
+    <string name="fw_multi_upgrade_notice">지금 Mi Band의 기존 펌웨어 대신 %1$s와 %2$s 펌웨어를 설치하려고 합니다.</string>
+    <string name="miband_firmware_known">이 펌웨어는 테스트를 거쳤고 가젯브릿지와 호환됩니다.</string>
+    <string name="miband_firmware_unknown_warning">이 펌웨어는 테스트를 거치지 않았고 가젯브릿지와 호환되지 않을 수 있습니다.
 \n
 \nMi Band에 설치하지 않는 것이 좋습니다!</string>
-  <string name="miband_firmware_suggest_whitelist">여전히 계속 진행하기를 원하고 이후에도 정상적으로 작동하기를 원한다면, %s 펌웨어가 정상적으로 동작한다고 가젯브릿지 개발자들에게 알려주세요.</string>
-  <!--Strings related to Settings-->
-  <string name="title_activity_settings">설정</string>
-  <string name="pref_header_general">일반 설정</string>
-  <string name="pref_title_general_autoconnectonbluetooth">블루투스가 켜지면 가젯브릿지 기기에 접속하기</string>
-  <string name="pref_title_general_autoreconnect">자동으로 재연결</string>
-  <string name="pref_title_audio_player">선호하는 오디오 플레이어</string>
-  <string name="pref_default">기본값</string>
-  <string name="pref_header_datetime">날짜와 시간</string>
-  <string name="pref_title_datetime_syctimeonconnect">시간 동기화</string>
-  <string name="pref_summary_datetime_syctimeonconnect">시간이 바뀌거나, 시간대가 바뀌거나, 접속을 할 때 가젯브릿지 기기와 시간을 동기화</string>
-  <string name="pref_title_theme">테마</string>
-  <string name="pref_theme_light">밝음</string>
-  <string name="pref_theme_dark">어두움</string>
-  <string name="pref_header_notifications">알림</string>
-  <string name="pref_title_notifications_repetitions">반복</string>
-  <string name="pref_title_notifications_call">전화</string>
-  <string name="pref_title_notifications_sms">SMS</string>
-  <string name="pref_title_notifications_pebblemsg">Pebble 메세지</string>
-  <string name="pref_title_notifications_generic">일반적인 알림 지원</string>
-  <string name="pref_title_whenscreenon">…화면이 켜져있을 때도</string>
-  <string name="always">항상</string>
-  <string name="when_screen_off">화면이 꺼져 있을 때</string>
-  <string name="never">하지 않음</string>
-  <string name="pref_blacklist">블랙리스트 앱</string>
-  <string name="pref_title_canned_reply_suffix">일반적인 접미사</string>
-  <string name="pref_header_development">개발자 옵션</string>
-  <string name="pref_title_development_miaddr">Mi Band 주소</string>
-  <string name="pref_title_pebble_settings">Pebble 설정</string>
-  <string name="pref_title_pebble_activitytracker">선호하는 활동 추적자</string>
-  <string name="pref_title_enable_pebblekit">제 3자 안드로이드 앱 접근을 허용</string>
-  <string name="pref_summary_enable_pebblekit">PebbleKit을 사용하는 안드로이드 앱을 실험적으로 지원</string>
-  <string name="pref_title_pebble_forceprotocol">강제 알림 프로토콜</string>
-  <string name="pref_summary_pebble_forceprotocol">이 옵션은 펌웨어 버전에 따라 최신 알림 프로토콜을 강제로 사용하도록 합니다. 자세한 내용을 알 경우에만 이 옵션을 사용하세요!</string>
-  <string name="pref_title_pebble_forceuntested">테스트를 거치지 않은 기능 사용</string>
-  <string name="pref_summary_pebble_forceuntested">테스트를 거치지 않은 기능을 활성화합니다. 확실하게 아는 경우에만 사용하세요!</string>
-  <string name="pref_title_pebble_reconnect_attempts">재접속 시도</string>
-  <string name="not_connected">연결되지 않음</string>
-  <string name="connecting">연결 중</string>
-  <string name="connected">연결됨</string>
-  <string name="unknown_state">알 수 없는 상태</string>
-  <string name="_unknown_">(알 수 없음)</string>
-  <string name="test">테스트</string>
-  <string name="test_notification">알림 테스트</string>
-  <string name="this_is_a_test_notification_from_gadgetbridge">이 알림은 가젯브릿지가 보낸 테스트용 알림입니다</string>
-  <string name="bluetooth_is_not_supported_">블루투스가 지원되지 않습니다.</string>
-  <string name="bluetooth_is_disabled_">블루투스가 해제되어 있습니다.</string>
-  <string name="tap_connected_device_for_app_mananger">연결된 기기를 선택해 앱 관리자 실행</string>
-  <string name="tap_a_device_to_connect">기기를 선택해 연결</string>
-  <string name="cannot_connect_bt_address_invalid_">연결할 수 없습니다. 블루투스 주소가 올바르지 않은 것 같습니다.</string>
-  <string name="gadgetbridge_running">가젯브릿지 실행중</string>
-  <string name="installing_binary_d_d">바이너리 설치중: %1$d/%2$d</string>
-  <string name="installation_failed_">설치 실패</string>
-  <string name="installation_successful">설치됨</string>
-  <string name="firmware_install_warning">펌웨어를 설치하려고 합니다. 위험에 대한 책임을 지고 진행하세요.\n\n\n 이 펌웨어는 다음 하드웨어 리비전에 사용됩니다: %s</string>
-  <string name="app_install_info">지금 다음 앱을 설치하려고 합니다:\n\n\n%1$s 버전 %2$s , 다음으로부터: %3$s\n</string>
-  <string name="n_a">N/A</string>
-  <string name="initialized">시작됨</string>
-  <string name="appversion_by_creator">%1$s by %2$s</string>
-  <string name="title_activity_discovery">기기 찾기</string>
-  <string name="discovery_stop_scanning">스캔 중지</string>
-  <string name="discovery_start_scanning">기기 탐색 시작</string>
-  <string name="action_discover">새 기기 연결</string>
-  <string name="device_with_rssi">%1$s (%2$s)</string>
-  <string name="title_activity_android_pairing">기기 페어링</string>
-  <string name="android_pairing_hint">기기를 페어링하려면 안드로이드 블루투스 페어링 설정을 사용하세요.</string>
-  <string name="title_activity_mi_band_pairing">Mi Band 페어링</string>
-  <string name="pairing">%s에 페어링…</string>
-  <string name="message_cannot_pair_no_mac">MAC 주소가 통과되지 않았습니다. 페어링 할 수 없습니다.</string>
-  <string name="preferences_category_device_specific_settings">기기 특정 설정</string>
-  <string name="preferences_miband_settings">Mi Band / Amazfit 설정</string>
-  <string name="male">남성</string>
-  <string name="female">여성</string>
-  <string name="other">기타</string>
-  <string name="left">왼쪽</string>
-  <string name="right">오른쪽</string>
-  <string name="miband_pairing_using_dummy_userdata">올바르지 않은 사용자 정보입니다. 일단 임시 사용자 정보를 사용합니다.</string>
-  <string name="miband_pairing_tap_hint">Mi Band가 진동하고 깜빡일 때, 연달아 몇 번 두드리세요.</string>
-  <string name="appinstaller_install">설치</string>
-  <string name="discovery_note">알림: </string>
-  <string name="candidate_item_device_image">기기 이미지</string>
-  <string name="miband_prefs_alias">이름/별명</string>
-  <string name="pref_header_vibration_count">진동 횟수</string>
-  <string name="title_activity_sleepmonitor">수면 측정계</string>
-  <string name="pref_write_logfiles">로그 파일 작성</string>
-  <string name="initializing">초기화 중</string>
-  <string name="busy_task_fetch_activity_data">활동 데이터 가져오는 중</string>
-  <string name="sleep_activity_date_range">%1$s에서 %2$s(으)로</string>
-  <string name="miband_prefs_wearside">왼쪽과 오른쪽 중 어느 방향으로 착용합니까?</string>
-  <string name="pref_screen_vibration_profile">진동 프로파일</string>
-  <string name="vibration_profile_staccato">스타카토</string>
-  <string name="vibration_profile_short">짧게</string>
-  <string name="vibration_profile_medium">보통</string>
-  <string name="vibration_profile_long">길게</string>
-  <string name="vibration_profile_waterdrop">물방울</string>
-  <string name="vibration_profile_ring">벨소리</string>
-  <string name="vibration_profile_alarm_clock">알람 시계</string>
-  <string name="miband_prefs_vibration">진동</string>
-  <string name="pref_screen_notification_profile_sms">SMS 알림</string>
-  <string name="pref_header_vibration_settings">진동 설정</string>
-  <string name="pref_screen_notification_profile_generic">일반 알림</string>
-  <string name="pref_screen_notification_profile_incoming_call">걸려오는 전화 알림</string>
-  <string name="control_center_find_lost_device">잃어버린 기기 찾기</string>
-  <string name="control_center_cancel_to_stop_vibration">진동을 멈추려면 취소를 선택하세요.</string>
-  <string name="title_activity_charts">당신의 활동</string>
-  <string name="title_activity_set_alarm">알람 설정</string>
-  <string name="controlcenter_start_configure_alarms">알람 설정</string>
-  <string name="title_activity_alarm_details">알람 상세 정보</string>
-  <string name="alarm_sun_short">일요일</string>
-  <string name="alarm_mon_short">월요일</string>
-  <string name="alarm_tue_short">화요일</string>
-  <string name="alarm_wed_short">수요일</string>
-  <string name="alarm_thu_short">목요일</string>
-  <string name="alarm_fri_short">금요일</string>
-  <string name="alarm_sat_short">토요일</string>
-  <string name="alarm_smart_wakeup">스마트한 알람</string>
-  <string name="user_feedback_miband_set_alarms_failed">알람 설정 오류가 발생했습니다. 다시 시도하세요.</string>
-  <string name="user_feedback_miband_set_alarms_ok">알람을 기기로 보냈습니다.</string>
-  <string name="chart_no_data_synchronize">데이터가 없습니다. 기기와 동기화할까요?</string>
-  <string name="user_feedback_miband_activity_data_transfer">%2$s 에서부터 %1$s 데이터를 전송하려고 합니다</string>
-  <string name="miband_prefs_fitness_goal">일일 목표 걸음 수</string>
-  <string name="dbaccess_error_executing">\'%1$s\' 실행 오류</string>
-  <string name="controlcenter_start_activitymonitor">당신의 활동 (초기 버전)</string>
-  <string name="cannot_connect">접속할 수 없음: %1$s</string>
-  <string name="installer_activity_unable_to_find_handler">이 파일을 설치하는 데 필요한 핸들러를 찾을 수 없습니다.</string>
-  <string name="pbw_install_handler_unable_to_install">주어진 파일을 설치할 수 없습니다: %1$s</string>
-  <string name="pbw_install_handler_hw_revision_mismatch">주어진 펌웨어를 설치할 수 없습니다. Pebble의 하드웨어 리비전과 일치하지 않습니다.</string>
-  <string name="installer_activity_wait_while_determining_status">설치 상태를 파악하는 동안 기다려주세요…</string>
-  <string name="notif_battery_low_title">기기의 배터리 잔량이 적습니다!</string>
-  <string name="notif_battery_low_percent">%1$s 배터리 남음: %2$s%%</string>
-  <string name="notif_battery_low_bigtext_last_charge_time">마지막 충전: %s</string>
-  <string name="notif_battery_low_bigtext_number_of_charges">충전 횟수: %s</string>
-  <string name="sleepchart_your_sleep">당신의 수면</string>
-  <string name="weekstepschart_steps_a_week">"주간 걸음 수 "</string>
-  <string name="activity_sleepchart_activity_and_sleep">당신의 활동과 수면</string>
-  <string name="updating_firmware">펌웨어 업데이트 중…</string>
-  <string name="fwapp_install_device_not_ready">파일을 설치할 수 없습니다. 기기가 준비되어 있지 않습니다.</string>
-  <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
-  <string name="miband_fwinstaller_compatible_version">호환 버전</string>
-  <string name="miband_fwinstaller_untested_version">테스트를 거치지 않은 버전!</string>
-  <string name="fwappinstaller_connection_state">기기에 연결: %1$s</string>
-  <string name="pbw_installhandler_pebble_firmware">Pebble 펌웨어 %1$s</string>
-  <string name="pbwinstallhandler_correct_hw_revision">올바른 하드웨어 리비전</string>
-  <string name="pbwinstallhandler_incorrect_hw_revision">하드웨어 리비전이 일치하지 않습니다!</string>
-  <string name="pbwinstallhandler_app_item">%1$s (%2$s)</string>
-  <string name="updatefirmwareoperation_updateproblem_do_not_reboot">펌웨어 전송에 문제가 있습니다. Mi Band를 재부팅하지 마세요!</string>
-  <string name="updatefirmwareoperation_metadata_updateproblem">펌웨어 메타데이터 전송에 문제가 있습니다</string>
-  <string name="updatefirmwareoperation_update_complete">펌웨어 설치 완료</string>
-  <string name="updatefirmwareoperation_update_complete_rebooting">펌웨어 설치 완료, 기기를 재부팅합니다…</string>
-  <string name="updatefirmwareoperation_write_failed">펌웨어 플래싱 실패</string>
-  <string name="chart_steps">걸음 수</string>
-  <string name="liveactivity_live_activity">실시간 활동</string>
-  <string name="weeksteps_today_steps_description">오늘 걸음 수, 목표: %1$s</string>
-  <string name="pref_title_dont_ack_transfer">활동 데이터 전송 완료를 확인하지 않음</string>
-  <string name="pref_summary_dont_ack_transfers">만약 활동 데이터가 밴드에 확인되지 않았다면, 지워지지 않을 것입니다. 가젯브릿지가 다른 앱들과 같이 사용될 때 유용합니다.</string>
-  <string name="pref_summary_keep_data_on_device">동기화 이후에도 Mi Band의 활동 데이터가 유지될 것입니다. 가젯브릿지가 다른 앱들과 같이 사용될 때 유용합니다.</string>
-  <string name="live_activity_steps_history">걸음 수 기록</string>
-  <string name="live_activity_current_steps_per_minute">현재의 분당 걸음 수</string>
-  <string name="live_activity_total_steps">전체 걸음 수</string>
-  <string name="live_activity_steps_per_minute_history">분당 걸음 수 기록</string>
-  <string name="live_activity_start_your_activity">활동 시작</string>
-  <string name="abstract_chart_fragment_kind_activity">활동</string>
-  <string name="abstract_chart_fragment_kind_light_sleep">얕은 수면</string>
-  <string name="abstract_chart_fragment_kind_deep_sleep">깊은 수면</string>
-  <string name="abstract_chart_fragment_kind_not_worn">착용하지 않음</string>
-  <string name="device_not_connected">연결되지 않음.</string>
-  <string name="user_feedback_all_alarms_disabled">모든 알람 해제됨</string>
-  <string name="pref_title_keep_data_on_device">기기에 활동 데이터 유지</string>
-  <string name="miband_fwinstaller_incompatible_version">호환되지 않는 펌웨어</string>
-  <string name="fwinstaller_firmware_not_compatible_to_device">이 펌웨어는 기기와 호환되지 않습니다</string>
-  <string name="miband_prefs_reserve_alarm_calendar">다가오는 이벤트를 위해 예약할 알람</string>
-  <string name="miband_prefs_hr_sleep_detection">수면 측정을 향상시키기 위해 심박 센서 사용</string>
-  <string name="waiting_for_reconnect">재접속을 기다리는 중</string>
-  <string name="activity_prefs_about_you">당신에 대해</string>
-  <string name="activity_prefs_year_birth">출생년도</string>
-  <string name="activity_prefs_gender">성별</string>
-  <string name="activity_prefs_height_cm">키 (cm)</string>
-  <string name="activity_prefs_weight_kg">몸무게 (kg)</string>
-  <string name="authenticating">인증 중</string>
-  <string name="authentication_required">인증 필요</string>
-  <string name="appwidget_text">Zzz</string>
-  <string name="add_widget">위젯 추가</string>
-  <string name="activity_prefs_sleep_duration">선호하는 수면 시간</string>
-  <string name="appwidget_setting_alarm">%1$02d:%2$02d 알람이 설정되었습니다</string>
-  <string name="device_hw">하드웨어: %1$s</string>
-  <string name="device_fw">펌웨어: %1$s</string>
-  <string name="error_creating_directory_for_logfiles">기록 파일을 저장할 디렉토리 생성 오류: %1$s</string>
-  <string name="DEVINFO_HR_VER">"심박수: "</string>
-  <string name="updatefirmwareoperation_update_in_progress">펌웨어 플래싱 중</string>
-  <string name="updatefirmwareoperation_firmware_not_sent">펌웨어가 전송되지 않음</string>
-  <string name="charts_legend_heartrate">심박수</string>
-  <string name="live_activity_heart_rate">심박수</string>
-  <string name="Delete">삭제</string>
-  <!--Strings related to Vibration Activity-->
-  <!--Strings related to Pebble Pairing Activity-->
-<string name="action_donate">기부</string>
+    <string name="miband_firmware_suggest_whitelist">여전히 계속 진행하기를 원하고 이후에도 정상적으로 작동하기를 원한다면, %s 펌웨어가 정상적으로 동작한다고 가젯브릿지 개발자들에게 알려주세요.</string>
+    <!--Strings related to Settings-->
+    <string name="title_activity_settings">설정</string>
+    <string name="pref_header_general">일반 설정</string>
+    <string name="pref_title_general_autoconnectonbluetooth">블루투스가 켜지면 가젯브릿지 기기에 접속하기</string>
+    <string name="pref_title_general_autoreconnect">자동으로 재연결</string>
+    <string name="pref_title_audio_player">선호하는 오디오 플레이어</string>
+    <string name="pref_default">기본값</string>
+    <string name="pref_header_datetime">날짜와 시간</string>
+    <string name="pref_title_datetime_syctimeonconnect">시간 동기화</string>
+    <string name="pref_summary_datetime_syctimeonconnect">시간이 바뀌거나, 시간대가 바뀌거나, 접속을 할 때 가젯브릿지 기기와 시간을 동기화</string>
+    <string name="pref_title_theme">테마</string>
+    <string name="pref_theme_light">밝음</string>
+    <string name="pref_theme_dark">어두움</string>
+    <string name="pref_header_notifications">알림</string>
+    <string name="pref_title_notifications_repetitions">반복</string>
+    <string name="pref_title_notifications_call">전화</string>
+    <string name="pref_title_notifications_sms">SMS</string>
+    <string name="pref_title_notifications_pebblemsg">Pebble 메세지</string>
+    <string name="pref_title_notifications_generic">일반적인 알림 지원</string>
+    <string name="pref_title_whenscreenon">…화면이 켜져있을 때도</string>
+    <string name="always">항상</string>
+    <string name="when_screen_off">화면이 꺼져 있을 때</string>
+    <string name="never">하지 않음</string>
+    <string name="pref_blacklist">블랙리스트 앱</string>
+    <string name="pref_title_canned_reply_suffix">일반적인 접미사</string>
+    <string name="pref_header_development">개발자 옵션</string>
+    <string name="pref_title_development_miaddr">Mi Band 주소</string>
+    <string name="pref_title_pebble_settings">Pebble 설정</string>
+    <string name="pref_title_pebble_activitytracker">선호하는 활동 추적자</string>
+    <string name="pref_title_enable_pebblekit">제 3자 안드로이드 앱 접근을 허용</string>
+    <string name="pref_summary_enable_pebblekit">PebbleKit을 사용하는 안드로이드 앱을 실험적으로 지원</string>
+    <string name="pref_title_pebble_forceprotocol">강제 알림 프로토콜</string>
+    <string name="pref_summary_pebble_forceprotocol">이 옵션은 펌웨어 버전에 따라 최신 알림 프로토콜을 강제로 사용하도록 합니다. 자세한 내용을 알 경우에만 이 옵션을 사용하세요!</string>
+    <string name="pref_title_pebble_forceuntested">테스트를 거치지 않은 기능 사용</string>
+    <string name="pref_summary_pebble_forceuntested">테스트를 거치지 않은 기능을 활성화합니다. 확실하게 아는 경우에만 사용하세요!</string>
+    <string name="pref_title_pebble_reconnect_attempts">재접속 시도</string>
+    <string name="not_connected">연결되지 않음</string>
+    <string name="connecting">연결 중</string>
+    <string name="connected">연결됨</string>
+    <string name="unknown_state">알 수 없는 상태</string>
+    <string name="_unknown_">(알 수 없음)</string>
+    <string name="test">테스트</string>
+    <string name="test_notification">알림 테스트</string>
+    <string name="this_is_a_test_notification_from_gadgetbridge">이 알림은 가젯브릿지가 보낸 테스트용 알림입니다</string>
+    <string name="bluetooth_is_not_supported_">블루투스가 지원되지 않습니다.</string>
+    <string name="bluetooth_is_disabled_">블루투스가 해제되어 있습니다.</string>
+    <string name="tap_connected_device_for_app_mananger">연결된 기기를 선택해 앱 관리자 실행</string>
+    <string name="tap_a_device_to_connect">기기를 선택해 연결</string>
+    <string name="cannot_connect_bt_address_invalid_">연결할 수 없습니다. 블루투스 주소가 올바르지 않은 것 같습니다\?</string>
+    <string name="gadgetbridge_running">가젯브릿지 실행중</string>
+    <string name="installing_binary_d_d">바이너리 설치중: %1$d/%2$d</string>
+    <string name="installation_failed_">설치 실패</string>
+    <string name="installation_successful">설치됨</string>
+    <string name="firmware_install_warning">펌웨어를 설치하려고 합니다. 위험에 대한 책임을 지고 진행하세요.\n\n\n 이 펌웨어는 다음 하드웨어 리비전에 사용됩니다: %s</string>
+    <string name="app_install_info">지금 다음 앱을 설치하려고 합니다:\n\n\n%1$s 버전 %2$s , 다음으로부터: %3$s\n</string>
+    <string name="n_a">N/A</string>
+    <string name="initialized">시작됨</string>
+    <string name="appversion_by_creator">%1$s by %2$s</string>
+    <string name="title_activity_discovery">기기 찾기</string>
+    <string name="discovery_stop_scanning">스캔 중지</string>
+    <string name="discovery_start_scanning">기기 탐색 시작</string>
+    <string name="action_discover">새 기기 연결</string>
+    <string name="device_with_rssi">%1$s (%2$s)</string>
+    <string name="title_activity_android_pairing">기기 페어링</string>
+    <string name="android_pairing_hint">기기를 페어링하려면 안드로이드 블루투스 페어링 설정을 사용하세요.</string>
+    <string name="title_activity_mi_band_pairing">Mi Band 페어링</string>
+    <string name="pairing">%s에 페어링…</string>
+    <string name="message_cannot_pair_no_mac">MAC 주소가 통과되지 않았습니다. 페어링 할 수 없습니다.</string>
+    <string name="preferences_category_device_specific_settings">기기 특정 설정</string>
+    <string name="preferences_miband_settings">Mi Band / Amazfit 설정</string>
+    <string name="male">남성</string>
+    <string name="female">여성</string>
+    <string name="other">기타</string>
+    <string name="left">왼쪽</string>
+    <string name="right">오른쪽</string>
+    <string name="miband_pairing_using_dummy_userdata">올바르지 않은 사용자 정보입니다. 일단 임시 사용자 정보를 사용합니다.</string>
+    <string name="miband_pairing_tap_hint">Mi Band가 진동하고 깜빡일 때, 연달아 몇 번 두드리세요.</string>
+    <string name="appinstaller_install">설치</string>
+    <string name="discovery_note">알림: </string>
+    <string name="candidate_item_device_image">기기 이미지</string>
+    <string name="miband_prefs_alias">이름/별명</string>
+    <string name="pref_header_vibration_count">진동 횟수</string>
+    <string name="title_activity_sleepmonitor">수면 측정계</string>
+    <string name="pref_write_logfiles">로그 파일 작성</string>
+    <string name="initializing">초기화 중</string>
+    <string name="busy_task_fetch_activity_data">활동 데이터 가져오는 중</string>
+    <string name="sleep_activity_date_range">%1$s에서 %2$s(으)로</string>
+    <string name="miband_prefs_wearside">왼쪽과 오른쪽 중 어느 방향으로 착용합니까?</string>
+    <string name="pref_screen_vibration_profile">진동 프로파일</string>
+    <string name="vibration_profile_staccato">스타카토</string>
+    <string name="vibration_profile_short">짧게</string>
+    <string name="vibration_profile_medium">보통</string>
+    <string name="vibration_profile_long">길게</string>
+    <string name="vibration_profile_waterdrop">물방울</string>
+    <string name="vibration_profile_ring">벨소리</string>
+    <string name="vibration_profile_alarm_clock">알람 시계</string>
+    <string name="miband_prefs_vibration">진동</string>
+    <string name="pref_screen_notification_profile_sms">SMS 알림</string>
+    <string name="pref_header_vibration_settings">진동 설정</string>
+    <string name="pref_screen_notification_profile_generic">일반 알림</string>
+    <string name="pref_screen_notification_profile_incoming_call">걸려오는 전화 알림</string>
+    <string name="control_center_find_lost_device">잃어버린 기기 찾기</string>
+    <string name="control_center_cancel_to_stop_vibration">진동을 멈추려면 취소를 선택하세요.</string>
+    <string name="title_activity_charts">당신의 활동</string>
+    <string name="title_activity_set_alarm">알람 설정</string>
+    <string name="controlcenter_start_configure_alarms">알람 설정</string>
+    <string name="title_activity_alarm_details">알람 상세 정보</string>
+    <string name="alarm_sun_short">일요일</string>
+    <string name="alarm_mon_short">월요일</string>
+    <string name="alarm_tue_short">화요일</string>
+    <string name="alarm_wed_short">수요일</string>
+    <string name="alarm_thu_short">목요일</string>
+    <string name="alarm_fri_short">금요일</string>
+    <string name="alarm_sat_short">토요일</string>
+    <string name="alarm_smart_wakeup">스마트한 알람</string>
+    <string name="user_feedback_miband_set_alarms_failed">알람 설정 오류가 발생했습니다. 다시 시도하세요.</string>
+    <string name="user_feedback_miband_set_alarms_ok">알람을 기기로 보냈습니다.</string>
+    <string name="chart_no_data_synchronize">데이터가 없습니다. 기기와 동기화할까요?</string>
+    <string name="user_feedback_miband_activity_data_transfer">%2$s 에서부터 %1$s 데이터를 전송하려고 합니다</string>
+    <string name="miband_prefs_fitness_goal">일일 목표 걸음 수</string>
+    <string name="dbaccess_error_executing">\'%1$s\' 실행 오류</string>
+    <string name="controlcenter_start_activitymonitor">당신의 활동 (초기 버전)</string>
+    <string name="cannot_connect">접속할 수 없음: %1$s</string>
+    <string name="installer_activity_unable_to_find_handler">이 파일을 설치하는 데 필요한 핸들러를 찾을 수 없습니다.</string>
+    <string name="pbw_install_handler_unable_to_install">주어진 파일을 설치할 수 없습니다: %1$s</string>
+    <string name="pbw_install_handler_hw_revision_mismatch">주어진 펌웨어를 설치할 수 없습니다. Pebble의 하드웨어 리비전과 일치하지 않습니다.</string>
+    <string name="installer_activity_wait_while_determining_status">설치 상태를 파악하는 동안 기다려주세요…</string>
+    <string name="notif_battery_low_title">기기의 배터리 잔량이 적습니다!</string>
+    <string name="notif_battery_low_percent">%1$s 배터리 남음: %2$s%%</string>
+    <string name="notif_battery_low_bigtext_last_charge_time">마지막 충전: %s</string>
+    <string name="notif_battery_low_bigtext_number_of_charges">충전 횟수: %s</string>
+    <string name="sleepchart_your_sleep">당신의 수면</string>
+    <string name="weekstepschart_steps_a_week">"주간 걸음 수 "</string>
+    <string name="activity_sleepchart_activity_and_sleep">당신의 활동과 수면</string>
+    <string name="updating_firmware">펌웨어 업데이트 중…</string>
+    <string name="fwapp_install_device_not_ready">파일을 설치할 수 없습니다. 기기가 준비되어 있지 않습니다.</string>
+    <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
+    <string name="miband_fwinstaller_compatible_version">호환 버전</string>
+    <string name="miband_fwinstaller_untested_version">테스트를 거치지 않은 버전!</string>
+    <string name="fwappinstaller_connection_state">기기에 연결: %1$s</string>
+    <string name="pbw_installhandler_pebble_firmware">Pebble 펌웨어 %1$s</string>
+    <string name="pbwinstallhandler_correct_hw_revision">올바른 하드웨어 리비전</string>
+    <string name="pbwinstallhandler_incorrect_hw_revision">하드웨어 리비전이 일치하지 않습니다!</string>
+    <string name="pbwinstallhandler_app_item">%1$s (%2$s)</string>
+    <string name="updatefirmwareoperation_updateproblem_do_not_reboot">펌웨어 전송에 문제가 있습니다. Mi Band를 재부팅하지 마세요!</string>
+    <string name="updatefirmwareoperation_metadata_updateproblem">펌웨어 메타데이터 전송에 문제가 있습니다</string>
+    <string name="updatefirmwareoperation_update_complete">펌웨어 설치 완료</string>
+    <string name="updatefirmwareoperation_update_complete_rebooting">펌웨어 설치 완료, 기기를 재부팅합니다…</string>
+    <string name="updatefirmwareoperation_write_failed">펌웨어 플래싱 실패</string>
+    <string name="chart_steps">걸음 수</string>
+    <string name="liveactivity_live_activity">실시간 활동</string>
+    <string name="weeksteps_today_steps_description">오늘 걸음 수, 목표: %1$s</string>
+    <string name="pref_title_dont_ack_transfer">활동 데이터 전송 완료를 확인하지 않음</string>
+    <string name="pref_summary_dont_ack_transfers">만약 활동 데이터가 밴드에 확인되지 않았다면, 지워지지 않을 것입니다. 가젯브릿지가 다른 앱들과 같이 사용될 때 유용합니다.</string>
+    <string name="pref_summary_keep_data_on_device">동기화 이후에도 Mi Band의 활동 데이터가 유지될 것입니다. 가젯브릿지가 다른 앱들과 같이 사용될 때 유용합니다.</string>
+    <string name="live_activity_steps_history">걸음 수 기록</string>
+    <string name="live_activity_current_steps_per_minute">현재의 분당 걸음 수</string>
+    <string name="live_activity_total_steps">전체 걸음 수</string>
+    <string name="live_activity_steps_per_minute_history">분당 걸음 수 기록</string>
+    <string name="live_activity_start_your_activity">활동 시작</string>
+    <string name="abstract_chart_fragment_kind_activity">활동</string>
+    <string name="abstract_chart_fragment_kind_light_sleep">얕은 수면</string>
+    <string name="abstract_chart_fragment_kind_deep_sleep">깊은 수면</string>
+    <string name="abstract_chart_fragment_kind_not_worn">착용하지 않음</string>
+    <string name="device_not_connected">연결되지 않음.</string>
+    <string name="user_feedback_all_alarms_disabled">모든 알람 해제됨</string>
+    <string name="pref_title_keep_data_on_device">기기에 활동 데이터 유지</string>
+    <string name="miband_fwinstaller_incompatible_version">호환되지 않는 펌웨어</string>
+    <string name="fwinstaller_firmware_not_compatible_to_device">이 펌웨어는 기기와 호환되지 않습니다</string>
+    <string name="miband_prefs_reserve_alarm_calendar">다가오는 이벤트를 위해 예약할 알람</string>
+    <string name="miband_prefs_hr_sleep_detection">수면 측정을 향상시키기 위해 심박 센서 사용</string>
+    <string name="waiting_for_reconnect">재접속을 기다리는 중</string>
+    <string name="activity_prefs_about_you">당신에 대해</string>
+    <string name="activity_prefs_year_birth">출생년도</string>
+    <string name="activity_prefs_gender">성별</string>
+    <string name="activity_prefs_height_cm">키 (cm)</string>
+    <string name="activity_prefs_weight_kg">몸무게 (kg)</string>
+    <string name="authenticating">인증 중</string>
+    <string name="authentication_required">인증 필요</string>
+    <string name="appwidget_text">Zzz</string>
+    <string name="add_widget">위젯 추가</string>
+    <string name="activity_prefs_sleep_duration">선호하는 수면 시간</string>
+    <string name="appwidget_setting_alarm">%1$02d:%2$02d 알람이 설정되었습니다</string>
+    <string name="device_hw">하드웨어: %1$s</string>
+    <string name="device_fw">펌웨어: %1$s</string>
+    <string name="error_creating_directory_for_logfiles">기록 파일을 저장할 디렉토리 생성 오류: %1$s</string>
+    <string name="DEVINFO_HR_VER">"심박수: "</string>
+    <string name="updatefirmwareoperation_update_in_progress">펌웨어 플래싱 중</string>
+    <string name="updatefirmwareoperation_firmware_not_sent">펌웨어가 전송되지 않음</string>
+    <string name="charts_legend_heartrate">심박수</string>
+    <string name="live_activity_heart_rate">심박수</string>
+    <string name="Delete">삭제</string>
+    <!--Strings related to Vibration Activity-->
+    <!--Strings related to Pebble Pairing Activity-->
+    <string name="action_donate">기부</string>
     <string name="controlcenter_delete_device">기기 제거</string>
     <string name="controlcenter_delete_device_name">%1$s 제거</string>
     <string name="controlcenter_delete_device_dialogmessage">기기와 그와 관련된 모든 데이터를 삭제 할 것입니다!</string>
@@ -233,8 +232,6 @@
     <string name="controlcenter_snackbar_disconnecting">연결 해제 중</string>
     <string name="controlcenter_snackbar_connecting">연결 중</string>
     <string name="controlcenter_snackbar_requested_screenshot">기기의 스크린샷을 찍는 중</string>
-
-
     <string name="appmanager_cached_watchapps_watchfaces">캐시에 저장된 앱들</string>
     <string name="appmanager_installed_watchapps">설치된 앱들</string>
     <string name="appmanager_installed_watchfaces">설치된 워치페이스</string>
@@ -246,9 +243,7 @@
     <string name="appmanager_weather_deactivate">시스템 날씨 앱 비활성화</string>
     <string name="appmanager_weather_install_provider">날씨 알림 앱 설치</string>
     <string name="app_move_to_top">가장 위로 이동</string>
-
     <string name="title_activity_calblacklist">비활성화 된 캘린더들</string>
-
     <string name="fw_upgrade_notice_amazfitbip">지금 당신의 Amazfit Bip에 %s 펌웨어를 설치하려고 합니다. 
 \n 
 \n.fw 파일을 설치하고 .res 파일을 설치한 후 최종적으로 .gps 파일을 설치하세요. .fw 파일을 설치한 후 기기가 재시작 됩니다. 
@@ -258,73 +253,58 @@
 \n본인의 책임 하에 진행하세요!</string>
     <string name="pref_title_general_autostartonboot">자동으로 시작</string>
     <string name="pref_title_language">언어</string>
-
     <string name="pref_title_minimize_priority">가젯브릿지 알림 숨김</string>
     <string name="pref_summary_minimize_priority_off">상태 표시줄과 잠금 화면 알림에 아이콘이 표시됩니다</string>
     <string name="pref_summary_minimize_priority_on">상태 표시줄과 잠금 화면 알림에 아이콘이 표시되지 않습니다</string>
-
     <string name="pref_summary_notifications_pebblemsg">PebbleKit를 사용하여 페블에 알림을 보내는 앱을 지원합니다.</string>
     <string name="pref_title_notification_filter">방해 금지 모드</string>
     <string name="pref_summary_notification_filter">이 모드를 켜면 원하지 않는 알림이 울리지 않습니다</string>
     <string name="pref_title_transliteration">표기법 변환</string>
     <string name="pref_summary_transliteration">만약 장치가 당신이 사용하는 언어의 폰트를 지원하지 않는다면 이 옵션을 활성화 하세요</string>
-
     <string name="pref_header_privacy">프라이버시</string>
     <string name="pref_title_call_privacy_mode">전화 프라이버시 모드</string>
     <string name="pref_call_privacy_mode_off">이름과 번호를 표시</string>
     <string name="pref_call_privacy_mode_name">이름을 숨기지만 번호는 표시</string>
     <string name="pref_call_privacy_mode_number">이름을 표시하지만 번호는 숨기기</string>
     <string name="pref_call_privacy_mode_complete">이름과 번호를 숨기기</string>
-
-
     <string name="pref_blacklist_calendars">블랙리스트 캘린더</string>
-
     <string name="pref_header_cannned_messages">상용구</string>
     <string name="pref_title_canned_replies">답장</string>
     <string name="pref_title_canned_messages_dismisscall">전화 거절</string>
     <string name="pref_title_canned_messages_set">페블에서 업데이트</string>
-
     <string name="pref_header_activitytrackers">활동 추적자 설정</string>
     <string name="pref_title_pebble_sync_health">Pebble Health 동기화</string>
     <string name="pref_title_pebble_sync_misfit">Misfit 동기화</string>
     <string name="pref_title_pebble_sync_morpheuz">Morpheuz 동기화</string>
-
     <string name="pref_title_enable_outgoing_call">거는 전화를 지원</string>
     <string name="pref_summary_enable_outgoing_call">이 옵션을 비활성화 하면 Pebble 2/LE가 전화를 걸 때 진동하지 않습니다</string>
-
     <string name="pref_header_pebble_timeline">페블 타임라인</string>
     <string name="pref_title_sunrise_sunset">일출과 일몰</string>
     <string name="pref_summary_sunrise_sunset">현재 위치 기반으로 타임라인에 일출과 일몰 시간을 보여줍니다</string>
     <string name="pref_title_enable_calendar_sync">캘린더 동기화</string>
     <string name="pref_summary_enable_calendar_sync">타임라인에 캘린더 이벤트를 보여줍니다</string>
-
     <string name="pref_title_autoremove_notifications">닫은 알림을 자동으로 삭제</string>
     <string name="pref_summary_autoremove_notifications">안드로이드 기기에서 알림을 닫으면 페블에서도 자동으로 삭제합니다</string>
-
     <string name="pref_title_pebble_privacy_mode">프라이버시 모드</string>
     <string name="pref_pebble_privacy_mode_off">일반 알림</string>
     <string name="pref_pebble_privacy_mode_content">알림 내용을 바로 보여주지 않습니다</string>
     <string name="pref_pebble_privacy_mode_complete">알림 아이콘만 보여줍니다</string>
-
     <string name="pref_header_location">위치</string>
     <string name="pref_title_location_aquire">위치 찾기</string>
     <string name="pref_title_location_latitude">위도</string>
     <string name="pref_title_location_longitude">경도</string>
     <string name="pref_title_location_keep_uptodate">위치를 자동으로 업데이트</string>
     <string name="pref_summary_location_keep_uptodate">사용 중 현재 위치를 받아오려고 시도합니다. 실패하면 저장된 위치를 사용합니다</string>
-
     <string name="toast_enable_networklocationprovider">네트워크 기반 위치 측량 기능을 활성화 해 주세요</string>
     <string name="toast_aqurired_networklocation">위치를 찾음</string>
-
     <string name="pref_title_pebble_forcele">블루투스 저전력 연결을 언제나 선호</string>
     <string name="pref_summary_pebble_forcele">일반 블루투스 프로토콜이 아닌 실험적인 블루투스 저전력 연결을 사용합니다. 일반적인 연결을 최소한 한번 한 후 Pebble LE를 페어링 하는 것이 필요합니다</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU 제한</string>
-    <string name="pref_summary_pebble_mtu_limit">만약 Pebble 2/Pebble LE가 기대한 대로 작동하지 않는다면, 이 설정을 사용하여 MTU를 제한하세요 (20-512까지 설정 가능)</string>
+    <string name="pref_summary_pebble_mtu_limit">만약 Pebble 2/Pebble LE가 기대한 대로 작동하지 않는다면, 이 설정을 사용하여 MTU를 제한하세요 (20–512까지 설정 가능)</string>
     <string name="pref_title_pebble_enable_applogs">시계 앱 로그 활성화</string>
     <string name="pref_summary_pebble_enable_applogs">시계 앱들의 로그를 Gadgetbridge가 기록합니다 (재연결 필요)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">끝나기 전 미리 PebbleKit 연결에 ACK 보내기</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">제 3자 앱으로 보내는 메세지에 언제나 바로 ACK을 보냅니다</string>
-
     <string name="pref_title_unit_system">단위</string>
     <string name="pref_title_timeformat">시간 형식</string>
     <string name="controlcenter_connect">연결</string>
@@ -336,16 +316,12 @@
 \n 
 \n본인의 책임 하에 진행하세요!</string>
     <string name="pref_title_charts_swipe">활동 차트에서 좌/우 밀어넘기기 사용</string>
-
     <string name="pref_title_weather_location">날씨 위치 (CM/리니지 OS)</string>
-
     <string name="pref_title_pebble_enable_bgjs">백그라운드 JS 사용하기</string>
     <string name="pref_summary_pebble_enable_bgjs">활성화할 경우 시계 화면에 날씨와 배터리 정보 등을 표시합니다.</string>
-
     <string name="pref_title_screentime">화면 켜짐 시간</string>
     <string name="prefs_title_all_day_heart_rate">하루종일 심박수 측정</string>
     <string name="preferences_hplus_settings">HPlus/Makibes 설정</string>
-
     <string name="tap_connected_device_for_activity">연결된 기기를 터치해서 활동 확인</string>
     <string name="tap_connected_device_for_vibration">연결된 기기를 터치해서 진동</string>
     <string name="pairing_creating_bond_with">%1$s (%2$s)에 연결 생성하는 중</string>
@@ -359,18 +335,15 @@
     <string name="pref_screen_notification_profile_generic_chat">챗</string>
     <string name="pref_screen_notification_profile_generic_navigation">내비게이션</string>
     <string name="pref_screen_notification_profile_generic_social">소셜 네트워크</string>
-
     <string name="prefs_title_heartrate_measurement_interval">하루종일 심박수 측정</string>
     <string name="interval_one_minute">1분 간격</string>
     <string name="interval_five_minutes">5분 간격</string>
     <string name="interval_ten_minutes">10분 간격</string>
     <string name="interval_thirty_minutes">30분 간격</string>
     <string name="interval_one_hour">1시간 간격</string>
-
     <string name="stats_title">속도 구간</string>
     <string name="stats_x_axis_label">총 분수</string>
     <string name="stats_y_axis_label">분당 걸음 수</string>
-
     <string name="weeksleepchart_sleep_a_week">"주간 수면 시간 "</string>
     <string name="weeksleepchart_today_sleep_description">오늘의 수면, 목표 수면 시간: %1$s</string>
     <string name="calories">칼로리</string>
@@ -380,7 +353,6 @@
     <string name="battery">배터리</string>
     <string name="pref_title_low_latency_fw_update">펌웨어 플래싱에 낮은 지연 모드 사용</string>
     <string name="pref_summary_low_latency_fw_update">펌웨어 업데이트가 실패하는 장치에 이 기능이 도움이 될 수 있습니다.</string>
-
     <string name="miband_prefs_device_time_offset_hours">기기 시간을 상쇄하기(교대 근무자의 수면 측정을 위해)</string>
     <string name="miband2_prefs_dateformat">날짜 형식</string>
     <string name="dateformat_time">시간</string>
@@ -413,14 +385,11 @@
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">일정 시간동안 움직이지 않음 경고를 비활성화</string>
     <string name="mi2_prefs_do_not_disturb_start">시작 시간</string>
     <string name="mi2_prefs_do_not_disturb_end">종료 시간</string>
-
     <string name="automatic">자동</string>
     <string name="simplified_chinese">중국어 간체</string>
     <string name="traditional_chinese">중국어 번체</string>
     <string name="english">영어</string>
-
     <string name="FetchActivityOperation_about_to_transfer_since">%1$s 이후의 데이터 전송 중</string>
-
     <string name="pref_title_pebble_health_store_raw">데이터베이스에 미가공 데이터 저장</string>
     <string name="pref_summary_pebble_health_store_raw">이 기능을 사용할 경우 데이터는 가공되지 않은 상태로 저장되어, 추후 데이터 분석을 가능하게 하기 위해 데이터베이스에서 더 큰 용량을 차지합니다.</string>
     <string name="action_db_management">데이터베이스 관리</string>
@@ -449,10 +418,8 @@
     <string name="dbmanagementactivity_overwrite">덮어쓰기</string>
     <string name="Cancel">취소</string>
     <string name="title_activity_vibration">진동</string>
-
     <string name="title_activity_pebble_pairing">Pebble 페어링</string>
     <string name="pebble_pairing_hint">페어링 화면이 안드로이드 기기에 나타날 것입니다. 그렇지 않다면, 알림 서랍을 열어서 페어링 요청을 수락하세요. 그리고 나서 Pebble에서 페어링 요청을 수락하세요.</string>
-
     <string name="weather_notification_label">Pebble에 날씨 정보를 얻기 위해 이 스킨이 Weather Notification 앱에서 활성화되었는지를 확인하세요.
 \n
 \n다른 설정은 필요하지 않습니다.
@@ -462,17 +429,12 @@
 \n이를 지원하는 워치페이스는 자동으로 날씨를 표시할 것입니다.</string>
     <string name="pref_title_setup_bt_pairing">블루투스 페어링 사용</string>
     <string name="pref_summary_setup_bt_pairing">기기 연결에 문제가 있을 경우 이 설정을 해제하세요</string>
-
     <string name="unit_metric">미터 단위</string>
     <string name="unit_imperial">영국식 단위</string>
-
     <string name="timeformat_24h">24시간</string>
     <string name="timeformat_am_pm">오전/오후</string>
-
     <string name="pref_screen_notification_profile_alarm_clock">알람 시계</string>
-
     <string name="activity_web_view">웹 뷰 활동</string>
-
     <string name="StringUtils_sender">(%1$s)</string>
     <string name="find_device_you_found_it">찾았습니다!</string>
     <string name="miband2_prefs_timeformat">Mi2: 시간 형식</string>
@@ -492,11 +454,9 @@
     <string name="discovery_pair_question">기기에 페어링하려면 \'페어링\'을 선택하세요. 만약 실패한다면 페어링 없이 다시 시도하세요.</string>
     <string name="discovery_yes_pair">페어링</string>
     <string name="discovery_dont_pair">페어링하지 않기</string>
-
     <string name="_pebble_watch_open_on_phone">안드로이드 장치에서 열기</string>
     <string name="_pebble_watch_mute">음소거</string>
     <string name="_pebble_watch_reply">답장</string>
-
     <string name="controlcenter_start_activity_tracks">당신의 활동 트랙</string>
     <string name="activity_type_not_measured">측정되지 않음</string>
     <string name="activity_type_activity">활동</string>
@@ -513,7 +473,6 @@
     <string name="select_all">전체 선택</string>
     <string name="share">공유</string>
     <string name="reset_index">데이터 불러오기 초기화</string>
-
     <string name="kind_firmware">펌웨어</string>
     <string name="kind_invalid">올바르지 않은 데이터</string>
     <string name="kind_font">글꼴</string>
@@ -522,7 +481,6 @@
     <string name="kind_gps_cep">GPS 오류 보정</string>
     <string name="kind_resources">리소스</string>
     <string name="kind_watchface">워치페이스</string>
-
     <string name="devicetype_unknown">알 수 없는 기기</string>
     <string name="devicetype_test">기기 테스트</string>
     <string name="devicetype_pebble">Pebble</string>
@@ -540,10 +498,8 @@
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
     <string name="devicetype_xwatch">XWatch</string>
-
     <string name="choose_auto_export_location">추출 위치를 선택하세요</string>
     <string name="notification_channel_name">가젯브릿지 알림</string>
-
     <!-- Menus on the smart device -->
     <string name="menuitem_shortcut_alipay">Alipay (바로가기)</string>
     <string name="menuitem_shortcut_weather">날씨 (Shortcut)</string>
@@ -555,16 +511,11 @@
     <string name="menuitem_compass">컴파스</string>
     <string name="menuitem_settings">설정</string>
     <string name="menuitem_alipay">Alipay</string>
-
     <string name="controlcenter_change_led_color">LED 색상 변경</string>
     <string name="controlcenter_change_fm_frequency">FM 주파수 변경</string>
     <string name="controlcenter_calibrate_device">디바이스 조정하기</string>
-
-
     <string name="blacklist_all_for_notifications">모든 알람 블랙리스트</string>
     <string name="whitelist_all_for_notifications">모든 알람을 위한 화이트리스트</string>
-
-
     <string name="fw_upgrade_notice_miband3">%s 펌웨어를 Mi Band 3에 설치하려고 합니다. 
 \n 
 \n.res 파일을 먼저 설치하고 .fw 파일을 설치하십시오. .fw 파일이 설치된 이후에 기기가 재시작될 것입니다. 
@@ -577,31 +528,26 @@
     <string name="pref_summary_rtl">만약 당신의 디바이스에서 좌우 언어가 보이지 않는다면 이것을 활성화하세요</string>
     <string name="pref_rtl_max_line_length">좌우 최대 라인 길이</string>
     <string name="pref_rtl_max_line_length_summary">오른쪽에서 왼쪽으로 쓰는 문자가 구분되는 줄을 늘이거나 줄입니다</string>
-
     <string name="pref_title_weather">날씨</string>
     <string name="pref_title_pebble_gatt_clientonly">"GATT client 만 "</string>
     <string name="pref_summary_pebble_gatt_clientonly">"이것은 Pebble2 만의 것이고 실험적입니다. 만약 연결 문제가 있다면 시도해보세요 "</string>
     <string name="preferences_id115_settings">ID115 설정</string>
     <string name="prefs_screen_orientation">화면 방향</string>
-
     <string name="pref_header_auto_export">자동 추출</string>
     <string name="pref_title_auto_export_enabled">자동 추출 활성화</string>
     <string name="pref_title_auto_export_location">추출 장소</string>
     <string name="pref_title_auto_export_interval">추출 간격</string>
     <string name="pref_summary_auto_export_interval">"매 %d 시간 마다 추출 "</string>
-
     <string name="pref_auto_fetch">활동 데이터 자동으로 가져오기</string>
     <string name="pref_auto_fetch_summary">가져 오기는 화면 잠금 해제시 발생합니다. 잠금 메커니즘이 설정된 경우에만 작동합니다!</string>
     <string name="pref_auto_fetch_limit_fetches">가져오는 최소 시간</string>
     <string name="pref_auto_fetch_limit_fetches_summary">매 %d 분마다 데이터 가져오기</string>
-
     <string name="preferences_miband2_settings">Mi Band 2 설정</string>
     <string name="preferences_miband3_settings">Mi Band 3 설정</string>
     <string name="preferences_amazfitcor_settings">Amazfit Cor 설정</string>s
     <string name="horizontal">수평</string>
     <string name="vertical">수직</string>
     <string name="watch9_pairing_tap_hint">시계가 진동하면 장치를 흔들거나 버튼을 누르십시오.</string>
-
     <string name="notif_battery_low">%1$s 배터리 부족</string>
     <string name="notif_battery_low_extended">%1$s 배터리 부족: %2$s</string>
     <string name="notif_export_failed_title">데이터베이스 추출 실패! 당신의 설정을 확인해주세요.</string>
@@ -616,7 +562,6 @@
     <string name="minutes_5">5분</string>
     <string name="minutes_10">10분</string>
     <string name="minutes_30">30분</string>
-
     <string name="lack_of_step">걸음수 부족: %1$d</string>
     <string name="overstep">걸음수 초과 : %1$d</string>
     <string name="live_activity_max_heart_rate">현재 / 최대 심박수: %1$d / %2$d</string>
@@ -626,7 +571,6 @@
     <string name="mi3_prefs_band_screen_unlock_summary">슬어올려 밴드 스크린 화면 잠금 해제</string>
     <string name="mi3_prefs_night_mode">야간 모드</string>
     <string name="mi3_prefs_night_mode_summary">밤이 되면 자동으로 밴드 밝기 감소</string>
-
     <string name="norwegian_bokmal">노르웨이</string>
     <string name="spanish">스페인어</string>
     <string name="russian">러시아어</string>
@@ -636,20 +580,16 @@
     <string name="polish">폴란드어</string>
     <string name="korean">한국어</string>
     <string name="japanese">일본어</string>
-
     <string name="activity_prefs_charts">차트 설정</string>
     <string name="activity_prefs_chart_max_heart_rate">최대 심박수</string>
     <string name="activity_prefs_chart_min_heart_rate">최소 심박수</string>
-
     <string name="ok">확인</string>
-
     <string name="on">켜기</string>
     <string name="mi3_night_mode_sunset">일몰</string>
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
     <string name="devicetype_watch9">"Watch 9 "</string>
     <string name="devicetype_roidmi">"Roidmi "</string>
     <string name="devicetype_roidmi3">"Roidmi 3 "</string>
-
     <string name="menuitem_notifications">알람</string>
     <string name="language_and_region_prefs">언어 및 지역 설정</string>
     <string name="debugactivity_really_factoryreset_title">정말로 공장 초기화를 실행할까요\?</string>

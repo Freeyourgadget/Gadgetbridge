@@ -130,7 +130,7 @@ class AppMessageHandlerYWeather extends AppMessageHandler {
             return SLEET;
         } else if (conditionCode >= 907 && conditionCode < 957) {
             return STORM;
-        } else if (conditionCode == 905 || (conditionCode >= 957 && conditionCode < 900)) {
+        } else if (conditionCode == 905) {
             return STORM;
         } else if (conditionCode == 900) {
             return STORM;
