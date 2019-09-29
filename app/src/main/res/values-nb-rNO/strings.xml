@@ -760,4 +760,5 @@
         <item quantity="one">%d time</item>
         <item quantity="other">%d timer</item>
     </plurals>
+    <string name="activity_error_no_app_for_gpx">For å vise aktivitetsspor, installer et program som kan håndtere GPX-filer.</string>
 </resources>
