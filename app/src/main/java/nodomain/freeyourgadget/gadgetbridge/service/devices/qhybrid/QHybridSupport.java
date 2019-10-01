@@ -365,6 +365,9 @@ public class QHybridSupport extends QHybridBaseSupport {
             case "00002a26-0000-1000-8000-00805f9b34fb": {
                 String firmwareVersion = characteristic.getStringValue(0);
                 gbDevice.setFirmwareVersion(firmwareVersion);
+
+                checkFirmwareVersion(firmwareVersion);
+
                 break;
             }
             case "00002a19-0000-1000-8000-00805f9b34fb": {
@@ -382,6 +385,19 @@ public class QHybridSupport extends QHybridBaseSupport {
         }
 
         return true;
+    }
+
+    private void checkFirmwareVersion(String firmwareVersion){
+        if(!isFirmwareCompatible(firmwareVersion)){
+            GB.toast("Firmware " + firmwareVersion + " not compatible", Toast.LENGTH_LONG, GB.ERROR);
+            getDevice().setName("incopatible firmware");
+        }
+    }
+
+    private boolean isFirmwareCompatible(String firmwareVersion){
+        int major = Integer.parseInt(firmwareVersion.substring(6, 7));
+
+        return major == 1;
     }
 
     @Override
