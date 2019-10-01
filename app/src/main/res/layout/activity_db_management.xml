@@ -53,14 +53,12 @@
             <Button
                 android:id="@+id/exportDBButton"
                 android:text="@string/activity_DB_ExportButton"
-                grid:layout_column="0"
-                grid:layout_gravity="center" />
+                grid:layout_column="0" />
 
             <Button
                 android:id="@+id/importDBButton"
                 android:text="@string/activity_DB_import_button"
-                grid:layout_column="1"
-                grid:layout_gravity="center" />
+                grid:layout_column="0" />
 
             <TextView
                 android:id="@+id/autoExportLocation_label"
@@ -93,8 +91,6 @@
 
             <Button
                 android:id="@+id/testExportDBButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/activity_DB_test_export_button"
                 grid:layout_column="0"
                 grid:layout_gravity="center" />
@@ -113,8 +109,6 @@
 
             <Button
                 android:id="@+id/deleteOldActivityDB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/activity_DB_delete_legacy_button" />
 
@@ -140,8 +134,6 @@
 
             <Button
                 android:id="@+id/emptyDBButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/activity_DB_empty_button" />
 
         </androidx.gridlayout.widget.GridLayout>

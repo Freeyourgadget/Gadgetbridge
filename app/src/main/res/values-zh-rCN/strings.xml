@@ -692,14 +692,18 @@
     <string name="pref_title_authkey">认证密钥</string>
     <string name="pref_summary_authkey">将您想要连接的所有 Android 设备上的认证密钥更改为通用的密钥。默认所有设备的密钥是 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
-    <string name="fw_upgrade_notice_amazfitcor2">您即将在米动手环2(Amazfit Cor 2)上安装 %s 版本的固件。 
+    <string name="fw_upgrade_notice_amazfitcor2">您即将在米动手环2(Amazfit Cor 2)上安装 %s 版本的固件
 \n 
-\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启。 
+\n
+\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启
 \n 
-\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件。 
+\n
+\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件
 \n 
+\n
 \n风险自担！ 
 \n 
+\n
 \n此功能未经测试，如果您的设备名为“Amazfit Band 2”，您可能需要刷入 BEATS_W 固件</string>
     <string name="dutch">荷兰语</string>
     <string name="turkish">土耳其语</string>

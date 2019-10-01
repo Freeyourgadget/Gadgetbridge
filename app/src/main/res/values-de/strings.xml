@@ -505,6 +505,7 @@
     <string name="activity_summaries">Aktivitäten</string>
     <string name="activity_type_biking">Radfahren</string>
     <string name="activity_type_treadmill">Laufband</string>
+    <string name="activity_error_no_app_for_gpx">Um Aktivitäten zu betrachten, App installieren, die GPX-Dateien verarbeiten kann.</string>
     <string name="select_all">Alle auswählen</string>
     <string name="share">Teilen</string>
     <string name="reset_index">Abrufdatum zurücksetzen</string>
@@ -701,13 +702,17 @@
     <string name="pref_title_authkey">Auth-Schlüssel</string>
     <string name="pref_summary_authkey">Ändere den Authentifizierungsschlüssel in einen gemeinsamen Schlüssel auf all deinen Android-Geräten, von denen aus du eine Verbindung herstellen möchtet. Der bisherige Standardschlüssel für alle Geräte ist 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
-    <string name="fw_upgrade_notice_amazfitcor2">Du bist dabei, die %s-Firmware auf Ihrem Amazfit Cor 2 zu installieren.
+    <string name="fw_upgrade_notice_amazfitcor2">Du bist dabei, die %s-Firmware auf deine Amazfit Cor 2 zu installieren.
+\n 
+\n 
+\nBitte stelle sicher, dass Du die .fw-Datei und danach die .res-Datei installierst. Dein Band wird nach der Installation der.fw-Datei neu gestartet:
 \n
-\nBitte stelle sicher, dass Du die .fw-Datei und danach die .res-Datei installierst. Dein Band wird nach der Installation der.fw-Datei neu gestartet.
 \n
 \nHinweis: Du musst .res nicht installieren, wenn es genau das gleiche ist, wie die zuvor installierte.
 \n
+\n
 \nAUF EIGENE GEFAHR!
+\n
 \n
 \nVOLLSTÄNDIG UNGETESTET, WAHRSCHEINLICH MUSST DU EINE BEATS_W FIRMWARE FLASHEN, WENN DEIN GERÄTENAME \"Amazfit Band 2\" IST</string>
     <string name="dutch">Niederländisch</string>
@@ -761,7 +766,7 @@
     <string name="activity_db_management_autoexport_label">Automatischer Export</string>
     <string name="activity_DB_test_export_button">Automatischer Export jetzt starten</string>
     <string name="activity_DB_test_export_message">Datenbank exportieren…</string>
-    <string name="activity_db_management_empty_db_warning">Achtung! Wenn Sie auf diese Schaltfläche klicken, löschen Sie Ihre Datenbank und beginnen von Grund auf neu.</string>
+    <string name="activity_db_management_empty_db_warning">Achtung! Wenn Du auf diese Schaltfläche klickst, löschst Du deine Datenbank und beginnst von Grund auf neu.</string>
     <string name="appwidget_sleep_alarm_widget_label">Schlafalarm</string>
     <string name="widget_steps_label">Schritte: %1$02d</string>
     <string name="widget_sleep_label">Schlaf: %1$s</string>
