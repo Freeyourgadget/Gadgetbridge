@@ -183,7 +183,6 @@ public class QHybridSupport extends QHybridBaseSupport {
         for (int i = 2; i <= 7; i++)
             builder.notify(getCharacteristic(UUID.fromString("3dda000" + i + "-957f-7d4a-34a6-74696673696d")), true);
 
-
         requestQueue.add(new GetCurrentStepCountRequest());
         requestQueue.add(new GetVibrationStrengthRequest());
         requestQueue.add(new ActivityPointGetRequest());
@@ -388,14 +387,14 @@ public class QHybridSupport extends QHybridBaseSupport {
         return true;
     }
 
-    private void checkFirmwareVersion(String firmwareVersion){
-        if(!isFirmwareCompatible(firmwareVersion)){
+    private void checkFirmwareVersion(String firmwareVersion) {
+        if (!isFirmwareCompatible(firmwareVersion)) {
             GB.toast("Firmware " + firmwareVersion + " not compatible", Toast.LENGTH_LONG, GB.ERROR);
             getDevice().setName("incopatible firmware");
         }
     }
 
-    private boolean isFirmwareCompatible(String firmwareVersion){
+    private boolean isFirmwareCompatible(String firmwareVersion) {
         int major = Integer.parseInt(firmwareVersion.substring(6, 7));
 
         return major == 1;
@@ -417,7 +416,7 @@ public class QHybridSupport extends QHybridBaseSupport {
             case "3dda0006-957f-7d4a-34a6-74696673696d": {
                 return handleButtonCharacteristic(characteristic);
             }
-            case "00002a19-0000-1000-8000-00805f9b34fb":{
+            case "00002a19-0000-1000-8000-00805f9b34fb": {
                 short level = characteristic.getValue()[0];
                 gbDevice.setBatteryLevel(level);
 
