@@ -184,17 +184,18 @@ public class QHybridSupport extends QHybridBaseSupport {
             builder.notify(getCharacteristic(UUID.fromString("3dda000" + i + "-957f-7d4a-34a6-74696673696d")), true);
 
 
-        requestQueue.add(new GetStepGoalRequest());
         requestQueue.add(new GetCurrentStepCountRequest());
         requestQueue.add(new GetVibrationStrengthRequest());
         requestQueue.add(new ActivityPointGetRequest());
+        requestQueue.add(new AnimationRequest());
 
-        Request initialRequest = new AnimationRequest();
+        Request initialRequest = new GetStepGoalRequest();
 
         builder.read(getCharacteristic(UUID.fromString("00002a00-0000-1000-8000-00805f9b34fb")))
                 .read(getCharacteristic(UUID.fromString("00002a24-0000-1000-8000-00805f9b34fb")))
                 .read(getCharacteristic(UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb")))
                 .read(getCharacteristic(UUID.fromString("00002a19-0000-1000-8000-00805f9b34fb")))
+                .notify(getCharacteristic(UUID.fromString("00002a19-0000-1000-8000-00805f9b34fb")), true)
                 .write(getCharacteristic(initialRequest.getRequestUUID()), initialRequest.getRequestData())
         ;
 
@@ -415,6 +416,18 @@ public class QHybridSupport extends QHybridBaseSupport {
             }
             case "3dda0006-957f-7d4a-34a6-74696673696d": {
                 return handleButtonCharacteristic(characteristic);
+            }
+            case "00002a19-0000-1000-8000-00805f9b34fb":{
+                short level = characteristic.getValue()[0];
+                gbDevice.setBatteryLevel(level);
+
+                gbDevice.setBatteryThresholdPercent((short) 2);
+
+                GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
+                batteryInfo.level = gbDevice.getBatteryLevel();
+                batteryInfo.state = BatteryState.BATTERY_NORMAL;
+                handleGBDeviceEvent(batteryInfo);
+                break;
             }
             default: {
                 Log.d("Service", "unknown shit on " + characteristic.getUuid().toString() + ":  " + arrayToString(characteristic.getValue()));
