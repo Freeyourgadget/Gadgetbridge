@@ -182,7 +182,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         if (ArrayUtils.startsWith(bytes, NEWFT_HEADER)) {
             if (bytes[10] == 0x01) {
                 return HuamiFirmwareType.FONT;
-            } else if (bytes[10] == 0x02) {
+            } else if (bytes[10] == 0x02 || bytes[10] == 0x0A) {
                 return HuamiFirmwareType.FONT_LATIN;
             }
         }
