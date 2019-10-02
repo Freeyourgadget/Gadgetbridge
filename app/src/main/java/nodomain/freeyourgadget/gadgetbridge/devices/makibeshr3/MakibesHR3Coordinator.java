@@ -16,26 +16,21 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3;
 
-/*
- * @author Alejandro Ladera Chamorro &lt;11555126+tiparega@users.noreply.github.com&gt;
- */
-
-
 import android.app.Activity;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -45,26 +40,24 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getContext;
 
-/**
- * Pseudo Coordinator for the Q8, a sub type of the HPLUS devices
- */
+
 public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
 
-    protected static Prefs prefs  = GBApplication.getPrefs();
+    private static final Logger LOG = LoggerFactory.getLogger(MakibesHR3Coordinator.class);
 
-    public static byte getTimeMode(String address) {
-        String tmode = prefs.getString(MakibesHR3Constants.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_24h));
+    public static byte getTimeMode(String deviceAddress) {
+        SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
 
-        LoggerFactory.getLogger(MakibesHR3Coordinator.class).debug("tmode is " + tmode);
+        String tmode = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_24h));
 
-        if(tmode.equals(getContext().getString(R.string.p_timeformat_24h))) {
+        LOG.debug("tmode is " + tmode);
+
+        if (getContext().getString(R.string.p_timeformat_24h).equals(tmode)) {
             return MakibesHR3Constants.ARG_SET_TIMEMODE_24H;
-        }else{
+        } else {
             return MakibesHR3Constants.ARG_SET_TIMEMODE_12H;
         }
     }
@@ -179,4 +172,10 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
         return null;
     }
 
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_timeformat
+        };
+    }
 }

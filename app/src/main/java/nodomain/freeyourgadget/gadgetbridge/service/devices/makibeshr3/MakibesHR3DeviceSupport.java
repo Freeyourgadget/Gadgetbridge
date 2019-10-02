@@ -8,8 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Constants;
@@ -22,10 +20,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.Transaction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 
@@ -33,7 +29,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(MakibesHR3DeviceSupport.class);
 
-    public BluetoothGattCharacteristic ctrlCharacteristic = null;
+    private BluetoothGattCharacteristic ctrlCharacteristic = null;
 
     public MakibesHR3DeviceSupport() {
         super(LOG);
@@ -370,16 +366,12 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport {
     private byte[] craftData(byte command, byte[] data) {
         byte[] result = new byte[MakibesHR3Constants.DATA_TEMPLATE.length + data.length];
 
-        for (int i = 0; i < MakibesHR3Constants.DATA_TEMPLATE.length; ++i) {
-            result[i] = MakibesHR3Constants.DATA_TEMPLATE[i];
-        }
+        System.arraycopy(MakibesHR3Constants.DATA_TEMPLATE, 0, result, 0, MakibesHR3Constants.DATA_TEMPLATE.length);
 
         result[MakibesHR3Constants.DATA_ARGUMENT_COUNT_INDEX] = (byte) (data.length + 3);
         result[MakibesHR3Constants.DATA_COMMAND_INDEX] = command;
 
-        for (int i = 0; i < data.length; ++i) {
-            result[MakibesHR3Constants.DATA_ARGUMENTS_INDEX + i] = data[i];
-        }
+        System.arraycopy(data, 0, result, 6, data.length);
 
         return result;
     }
@@ -423,9 +415,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport {
 
             byte[] segment = new byte[segmentLength];
 
-            for (int j = 0; j < segmentLength; ++j) {
-                segment[j] = indexedData[segmentStart + j];
-            }
+            System.arraycopy(indexedData, segmentStart, segment, 0, segmentLength);
 
             builder.write(characteristic, segment);
         }

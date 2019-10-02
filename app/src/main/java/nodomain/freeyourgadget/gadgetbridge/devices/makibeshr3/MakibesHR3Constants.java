@@ -210,6 +210,4 @@ public final class MakibesHR3Constants {
     // If this is sent after {@link CMD_FACTORY_RESET}, it's a shutdown, not a reboot.
     // Rebooting resets the watch face and wallpaper.
     public static final byte CMD_REBOOT = (byte) 0xff;
-
-    public static final String PREF_TIMEFORMAT = "makibes_hr3_timeformat";
 }

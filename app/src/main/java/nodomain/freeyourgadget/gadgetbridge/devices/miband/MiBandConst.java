@@ -17,14 +17,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public final class MiBandConst {
-    private static final Logger LOG = LoggerFactory.getLogger(MiBandConst.class);
 
     public static final String PREF_USER_ALIAS = "mi_user_alias";
     public static final String PREF_MIBAND_WEARSIDE = "mi_wearside";
