@@ -2,7 +2,9 @@
 
 // TODO: Battery level
 
-// TODO: Step target
+// TODO: Step target and personal information
+
+// TODO: Read activity history from device
 
 // TODO: It'd be cool if we could change the language. There's no official way to do so, but the
 // TODO: watch is sold as chinese/english.
