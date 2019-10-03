@@ -452,7 +452,6 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
         SharedPreferences preferences = GBApplication.getDeviceSpecificSharedPrefs(this.getDevice().getAddress());
 
-        // TODO: Why doesn't this work?
         preferences.registerOnSharedPreferenceChangeListener(this);
 
         return builder;
