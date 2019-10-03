@@ -16,10 +16,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3;
 
+/*
+ * @author Alejandro Ladera Chamorro &lt;11555126+tiparega@users.noreply.github.com&gt;
+ */
+
+
 import android.app.Activity;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
+import android.util.Log;
+import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,18 +56,22 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
 
     private static final Logger LOG = LoggerFactory.getLogger(MakibesHR3Coordinator.class);
 
-    public static byte getTimeMode(String deviceAddress) {
-        SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
-
+    public static byte getTimeMode(SharedPreferences sharedPrefs) {
         String tmode = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_24h));
 
         LOG.debug("tmode is " + tmode);
 
-        if (getContext().getString(R.string.p_timeformat_24h).equals(tmode)) {
+        if (tmode.equals(getContext().getString(R.string.p_timeformat_24h))) {
             return MakibesHR3Constants.ARG_SET_TIMEMODE_24H;
         } else {
             return MakibesHR3Constants.ARG_SET_TIMEMODE_12H;
         }
+    }
+
+    public static byte getTimeMode(String deviceAddress) {
+        SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
+
+        return getTimeMode(sharedPrefs);
     }
 
     @NonNull
@@ -92,7 +104,7 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsRealtimeData() {
-        return false;
+        return true;
     }
 
     @Override
@@ -123,12 +135,12 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsActivityTracking() {
-        return false;
+        return true;
     }
 
     @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        return null;
+        return new MakibesHR3SampleProvider(device, session);
     }
 
     @Override

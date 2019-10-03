@@ -24,15 +24,7 @@ public final class MakibesHR3Constants {
 
     public static final UUID UUID_SERVICE = UUID.fromString("6e400001-b5a3-f393-e0a9-e50e24dcca9e");
     public static final UUID UUID_CHARACTERISTIC_CONTROL = UUID.fromString("6e400002-b5a3-f393-e0a9-e50e24dcca9e");
-
-    // time
-    // mode ab:00:04:ff:7c:80:** (00: 24h, 01: 12h)
-
-    // confirm write?
-    // ab:00:09:ff:52:80:00:13:06:09:0f:0b
-
-    // disconnect?
-    // ab:00:03:ff:ff:80
+    public static final UUID UUID_CHARACTERISTIC_REPORT = UUID.fromString("6e400003-b5a3-f393-e0a9-e50e24dcca9e");
 
     // Services and Characteristics
     // 00001801-0000-1000-8000-00805f9b34fb
@@ -44,8 +36,8 @@ public final class MakibesHR3Constants {
     //  00002a04-0000-1000-8000-00805f9b34fb
     //  00002aa6-0000-1000-8000-00805f9b34fb
     // 6e400001-b5a3-f393-e0a9-e50e24dcca9e // Nordic UART Service
-    //  6e400002-b5a3-f393-e0a9-e50e24dcca9e //  control
-    //  6e400003-b5a3-f393-e0a9-e50e24dcca9e
+    //  6e400002-b5a3-f393-e0a9-e50e24dcca9e // control (RX)
+    //  6e400003-b5a3-f393-e0a9-e50e24dcca9e // report
     // 0000fee7-0000-1000-8000-00805f9b34fb
     //  0000fec9-0000-1000-8000-00805f9b34fb
     //  0000fea1-0000-1000-8000-00805f9b34fb
@@ -55,10 +47,8 @@ public final class MakibesHR3Constants {
     // ab 00 [argument_count] ff [command] 80 [arguments]
     // where [argument_count] is [arguments].length + 3
 
-    // refresh sends
-    // 51
-    // 52
-    // 93 (CMD_SET_DATE_TIME)
+    // Report structure is the same but 80 might by different
+
 
     public static final byte[] DATA_TEMPLATE = {
             (byte) 0xab,
@@ -75,36 +65,78 @@ public final class MakibesHR3Constants {
     public static final int DATA_ARGUMENTS_INDEX = 6;
 
 
+    // This is also used with different parameters.
+    // steps take up more bytes. I don't know which ones yet.
+    // Only sent after we send CMD_51
+    // 00 (maybe also used for steps)
+    // [steps hi]
+    // [steps lo]
+    // 00
+    // 00
+    // 01 (also was 0b. Maybe minutes of activity.)
+    // 00
+    // 00
+    // 00
+    // 00
+    // 00
+    public static final byte RPRT_FITNESS = (byte) 0x51;
+
+
+    // enable (00/01)
+    public static final byte RPRT_REVERSE_FIND_DEVICE = (byte) 0x7d;
+
+
+    // heart rate
+    public static final byte RPRT_HEARTRATE = (byte) 0x84;
+
+
+    // 2 arguments.
+    public static final byte RPRT_91 = (byte) 0x91;
+
+    // firmware_major
+    // firmware_minor
+    // 37
+    // 00
+    // 00
+    // 00
+    // 00
+    // 00
+    // 00
+    // 20
+    // 0e
+    public static final byte RPRT_SOFTWARE = (byte) 0x92;
+
     // 00
     public static final byte CMD_FACTORY_RESET = (byte) 0x23;
 
 
     // 00
     // year (+2000)
-    // month
-    // day
-    // 0b
-    // 00
+    // month (not current! but close)
+    // day (not current! but close)
+    // 0b (A)
+    // 00 (B)
     // year (+2000)
-    // month
-    // day
-    // 0b
-    // 19
-    public static final byte CMD_UNKNOWN_51 = (byte) 0x51;
+    // month (not current! but close)
+    // day (not current! but close)
+    // 0b (this is >= (A))
+    // 19 (this is >= (B))
+    public static final byte CMD_REQUEST_FITNESS = (byte) 0x51;
 
     // this is the last command sent on sync
     // 00
     // year (+2000)
-    // month
+    // month (not current!)
     // 14 this isn't the current day
     // hour (current)
     // minute (current)
-    public static final byte CMD_UNKNOWN_52 = (byte) 0x52;
+    public static final byte CMD_52 = (byte) 0x52;
 
 
     public static final byte CMD_FIND_DEVICE = (byte) 0x71;
 
 
+    // WearFit writes uses other sources as well. They don't do anything though.
     public static final byte ARG_SEND_NOTIFICATION_SOURCE_CALL = (byte) 0x01;
     public static final byte ARG_SEND_NOTIFICATION_SOURCE_STOP_CALL = (byte) 0x02;
     public static final byte ARG_SEND_NOTIFICATION_SOURCE_MESSAGE = (byte) 0x03;
@@ -118,7 +150,7 @@ public final class MakibesHR3Constants {
     public static final byte ARG_SEND_NOTIFICATION_SOURCE_WEIBO = (byte) 0x13;
     public static final byte ARG_SEND_NOTIFICATION_SOURCE_KAKOTALK = (byte) 0x14;
     // ARG_SET_NOTIFICATION_SOURCE_*
-    // 02
+    // 02 (This is 00 and 01 during connection. I don't know what it does. Maybe clears notifications?)
     // ASCII
     public static final byte CMD_SEND_NOTIFICATION = (byte) 0x72;
 
@@ -177,6 +209,10 @@ public final class MakibesHR3Constants {
     public static final byte CMD_SET_HEADS_UP_SCREEN = (byte) 0x77;
 
 
+    // Looks like enable/disable.
+    public static final byte CMD_78 = (byte) 0x78;
+
+
     // The watch enters photograph mode, but doesn't appear to send a trigger signal.
     // enable (00/01)
     public static final byte CMD_SET_PHOTOGRAPH_MODE = (byte) 0x79;
@@ -188,12 +224,22 @@ public final class MakibesHR3Constants {
 
     // 7b has 1 argument. Looks like enable/disable.
 
-    // 7e has 14 arguments.
-
     public static final byte ARG_SET_TIMEMODE_24H = 0x00;
     public static final byte ARG_SET_TIMEMODE_12H = 0x01;
     // ARG_SET_TIMEMODE_*
     public static final byte CMD_SET_TIMEMODE = (byte) 0x7c;
+
+
+    // 5 arguments.
+    public static final byte CMD_7f = (byte) 0x7f;
+
+
+    // enable (00/01)
+    public static final byte CMD_SET_REAL_TIME_HEART_RATE = (byte) 0x84;
+
+
+    // looks like enable/disable.
+    public static final byte CMD_85 = (byte) 0x85;
 
 
     // 00
@@ -205,6 +251,14 @@ public final class MakibesHR3Constants {
     // minute
     // second
     public static final byte CMD_SET_DATE_TIME = (byte) 0x93;
+
+
+    // looks like enable/disable.
+    public static final byte CMD_96 = (byte) 0x96;
+
+
+    // looks like enable/disable.
+    public static final byte CMD_e5 = (byte) 0xe5;
 
 
     // If this is sent after {@link CMD_FACTORY_RESET}, it's a shutdown, not a reboot.
