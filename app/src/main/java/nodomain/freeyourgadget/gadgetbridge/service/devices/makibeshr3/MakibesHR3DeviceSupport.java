@@ -2,8 +2,6 @@
 
 // TODO: Battery level
 
-// TODO: ALARM REMINDER REPETITION
-
 // TODO: It'd be cool if we could change the language. There's no official way to do so, but the
 // TODO: watch is sold as chinese/english.
 
@@ -161,6 +159,34 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         for (int i = 0; i < alarms.size(); ++i) {
             Alarm alarm = alarms.get(i);
 
+            byte repetition = 0x00;
+
+            switch (alarm.getRepetition()) {
+                case Alarm.ALARM_ONCE:
+                    repetition = MakibesHR3Constants.ARG_SET_ALARM_REMINDER_REPEAT_ONE_TIME;
+                    break;
+
+                case Alarm.ALARM_MON:
+                    repetition |= MakibesHR3Constants.ARG_SET_ALARM_REMINDER_REPEAT_MONDAY;
+                case Alarm.ALARM_TUE:
+                    repetition |= MakibesHR3Constants.ARG_SET_ALARM_REMINDER_REPEAT_TUESDAY;
+                case Alarm.ALARM_WED:
+                    repetition |= MakibesHR3Constants.ARG_SET_ALARM_REMINDER_REPEAT_WEDNESDAY;
+                case Alarm.ALARM_THU:
+                    repetition |= MakibesHR3Constants.ARG_SET_ALARM_REMINDER_REPEAT_THURSDAY;
+                case Alarm.ALARM_FRI:
+                    repetition |= MakibesHR3Constants.ARG_SET_ALARM_REMINDER_REPEAT_FRIDAY;
+                case Alarm.ALARM_SAT:
+                    repetition |= MakibesHR3Constants.ARG_SET_ALARM_REMINDER_REPEAT_SATURDAY;
+                case Alarm.ALARM_SUN:
+                    repetition |= MakibesHR3Constants.ARG_SET_ALARM_REMINDER_REPEAT_SUNDAY;
+                    break;
+
+                default:
+                    LOG.warn("invalid alarm repetition " + alarm.getRepetition());
+                    break;
+            }
+
             // Should we use @alarm.getPosition() rather than @i?
             this.setAlarmReminder(
                     transactionBuilder,
@@ -168,7 +194,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
                     alarm.getEnabled(),
                     alarm.getHour(),
                     alarm.getMinute(),
-                    MakibesHR3Constants.ARG_SET_ALARM_REMINDER_REPEAT_CUSTOM);
+                    repetition);
         }
 
         try {
