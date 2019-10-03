@@ -761,4 +761,6 @@
         <item quantity="other">%d timer</item>
     </plurals>
     <string name="activity_error_no_app_for_gpx">For å vise aktivitetsspor, installer et program som kan håndtere GPX-filer.</string>
+    <string name="preferences_makibes_hr3_settings">Makibes HR3-innstillinger</string>
+    <string name="devicetype_makibes_hr3">Makibes HR3</string>
 </resources>
