@@ -156,14 +156,21 @@ public final class MakibesHR3Constants {
 
 
     public static final byte ARG_SET_ALARM_REMINDER_REPEAT_WEEKDAY = (byte) 0x1F;
-    public static final byte ARG_SET_ALARM_REMINDER_REPEAT_CUSTOM = (byte) 0x40;
     public static final byte ARG_SET_ALARM_REMINDER_REPEAT_EVERY_DAY = (byte) 0x7F;
     public static final byte ARG_SET_ALARM_REMINDER_REPEAT_ONE_TIME = (byte) 0x80;
+    public static final byte ARG_SET_ALARM_REMINDER_REPEAT_MONDAY = (byte) 0x01;
+    public static final byte ARG_SET_ALARM_REMINDER_REPEAT_TUESDAY = (byte) 0x02;
+    public static final byte ARG_SET_ALARM_REMINDER_REPEAT_WEDNESDAY = (byte) 0x04;
+    public static final byte ARG_SET_ALARM_REMINDER_REPEAT_THURSDAY = (byte) 0x08;
+    public static final byte ARG_SET_ALARM_REMINDER_REPEAT_FRIDAY = (byte) 0x10;
+    public static final byte ARG_SET_ALARM_REMINDER_REPEAT_SATURDAY = (byte) 0x20;
+    public static final byte ARG_SET_ALARM_REMINDER_REPEAT_SUNDAY = (byte) 0x40;
+
     // reminder id starting at 0
     // enable (00/01)
     // hour
     // minute
-    // ARG_SET_ALARM_REMINDER_REPEAT_*
+    // bit field of ARG_SET_ALARM_REMINDER_REPEAT_*
     public static final byte CMD_SET_ALARM_REMINDER = (byte) 0x73;
 
 
