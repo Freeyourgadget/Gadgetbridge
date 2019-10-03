@@ -758,4 +758,6 @@
         <item quantity="other">%d שעות</item>
     </plurals>
     <string name="activity_error_no_app_for_gpx">כדי לצפות בעקבות פעילות, עליך להתקין יישומון שיכול לטפל בקובצי GPX.</string>
+    <string name="preferences_makibes_hr3_settings">הגדרות של Makibes HR3</string>
+    <string name="devicetype_makibes_hr3">Makibes HR3</string>
 </resources>
