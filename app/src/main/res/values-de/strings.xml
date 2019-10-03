@@ -775,4 +775,6 @@
         <item quantity="one">%d Std</item>
         <item quantity="other">%d Std</item>
     </plurals>
+    <string name="preferences_makibes_hr3_settings">Makibes HR3 Einstellungen</string>
+    <string name="devicetype_makibes_hr3">Makibes HR3</string>
 </resources>
