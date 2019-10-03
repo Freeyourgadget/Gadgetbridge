@@ -45,7 +45,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(20, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(21, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -60,6 +60,7 @@ public class GBDaoGenerator {
         Entity tag = addTag(schema);
         Entity userDefinedActivityOverlay = addActivityDescription(schema, tag, user);
 
+        addMakibesHR3ActivitySample(schema, user, device);
         addMiBandActivitySample(schema, user, device);
         addPebbleHealthActivitySample(schema, user, device);
         addPebbleHealthActivityKindOverlay(schema, user, device);
@@ -184,6 +185,16 @@ public class GBDaoGenerator {
         addDateValidityTo(deviceAttributes);
 
         return deviceAttributes;
+    }
+
+    private static Entity addMakibesHR3ActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "MakibesHR3ActivitySample");
+        activitySample.implementsSerializable();
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        addHeartRateProperties(activitySample);
+        return activitySample;
     }
 
     private static Entity addMiBandActivitySample(Schema schema, Entity user, Entity device) {
@@ -363,7 +374,7 @@ public class GBDaoGenerator {
         alarm.addBooleanProperty("smartWakeup").notNull();
         alarm.addIntProperty("repetition").notNull().codeBeforeGetter(
                 "public boolean isRepetitive() { return getRepetition() != ALARM_ONCE; } " +
-                "public boolean getRepetition(int dow) { return (this.repetition & dow) > 0; }"
+                        "public boolean getRepetition(int dow) { return (this.repetition & dow) > 0; }"
         );
         alarm.addIntProperty("hour").notNull();
         alarm.addIntProperty("minute").notNull();

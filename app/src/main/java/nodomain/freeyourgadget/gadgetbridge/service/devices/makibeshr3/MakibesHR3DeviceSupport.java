@@ -1,7 +1,26 @@
+// TODO: WearFit resets today's step count when it's used after GB.
+
+// TODO: Battery level
+
+// TODO: ALARM REMINDER REPETITION
+
+// TODO: It'd be cool if we could change the language. There's no official way to do so, but the
+// TODO: watch is sold as chinese/english.
+
 package nodomain.freeyourgadget.gadgetbridge.service.devices.makibeshr3;
 
+import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.widget.Toast;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,13 +29,23 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Constants;
 import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.MakibesHR3ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -24,12 +53,20 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport {
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
+import static nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Constants.RPRT_SOFTWARE;
+
+public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(MakibesHR3DeviceSupport.class);
 
-    private BluetoothGattCharacteristic ctrlCharacteristic = null;
+    private Vibrator mVibrator;
+
+    public BluetoothGattCharacteristic ctrlCharacteristic = null;
+    public BluetoothGattCharacteristic rprtCharacteristic = null;
+
 
     public MakibesHR3DeviceSupport() {
         super(LOG);
@@ -41,6 +78,17 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport {
     public boolean useAutoConnect() {
         return false;
     }
+
+    public MakibesHR3ActivitySample createActivitySample(Device device, User user, int timestampInSeconds, SampleProvider provider) {
+        MakibesHR3ActivitySample sample = new MakibesHR3ActivitySample();
+        sample.setDevice(device);
+        sample.setUser(user);
+        sample.setTimestamp(timestampInSeconds);
+        sample.setProvider(provider);
+
+        return sample;
+    }
+
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
@@ -233,7 +281,34 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
+        TransactionBuilder transactionBuilder = this.createTransactionBuilder("finddevice");
 
+        this.setEnableRealTimeHeartRate(transactionBuilder, enable);
+
+        try {
+            this.performConnected(transactionBuilder.getTransaction());
+        } catch (Exception e) {
+            LOG.debug("ERROR");
+        }
+    }
+
+    private void onReverseFindDevice(boolean start) {
+        final long[] PATTERN = new long[]{
+                100, 100,
+                100, 100,
+                100, 100,
+                500
+        };
+
+        if (start) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                this.mVibrator.vibrate(VibrationEffect.createWaveform(PATTERN, 0));
+            } else {
+                this.mVibrator.vibrate(PATTERN, 0);
+            }
+        } else {
+            this.mVibrator.cancel();
+        }
     }
 
     @Override
@@ -304,12 +379,8 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private MakibesHR3DeviceSupport sendUserInfo(TransactionBuilder builder) {
-        // builder.write(ctrlCharacteristic, MakibesHR3Constants.CMD_SET_PREF_START);
-        // builder.write(ctrlCharacteristic, MakibesHR3Constants.CMD_SET_PREF_START1);
-
         syncPreferences(builder);
 
-        // builder.write(ctrlCharacteristic, new byte[]{MakibesHR3Constants.CMD_SET_CONF_END});
         return this;
     }
 
@@ -334,14 +405,36 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        LOG.debug(key + " changed");
+        TransactionBuilder transactionBuilder = this.createTransactionBuilder("onSharedPreferenceChanged");
+
+        if (key.equals(PREF_TIMEFORMAT)) {
+            this.setTimeMode(transactionBuilder);
+        } else {
+            return;
+        }
+
+        try {
+            this.performConnected(transactionBuilder.getTransaction());
+        } catch (Exception ex) {
+            LOG.warn(ex.getMessage());
+        }
+    }
+
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         gbDevice.setState(GBDevice.State.INITIALIZING);
         gbDevice.sendDeviceUpdateIntent(getContext());
 
         this.ctrlCharacteristic = getCharacteristic(MakibesHR3Constants.UUID_CHARACTERISTIC_CONTROL);
+        this.rprtCharacteristic = getCharacteristic(MakibesHR3Constants.UUID_CHARACTERISTIC_REPORT);
 
+        this.mVibrator = (Vibrator) this.getContext().getSystemService(Context.VIBRATOR_SERVICE);
+
+        builder.notify(this.rprtCharacteristic, true);
         builder.setGattCallback(this);
+
 
         // Allow modifications
         builder.write(this.ctrlCharacteristic, new byte[]{0x01, 0x00});
@@ -349,13 +442,119 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport {
         // Initialize device
         sendUserInfo(builder); //Sync preferences
 
+        this.requestFitness(builder, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0);
+
         gbDevice.setState(GBDevice.State.INITIALIZED);
         gbDevice.sendDeviceUpdateIntent(getContext());
 
         getDevice().setFirmwareVersion("N/A");
         getDevice().setFirmwareVersion2("N/A");
 
+        SharedPreferences preferences = GBApplication.getDeviceSpecificSharedPrefs(this.getDevice().getAddress());
+
+        // TODO: Why doesn't this work?
+        preferences.registerOnSharedPreferenceChangeListener(this);
+
         return builder;
+    }
+
+    private void broadcastActivity(Integer heartRate, Integer steps) {
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+
+            User user = DBHelper.getUser(dbHandler.getDaoSession());
+            Device device = DBHelper.getDevice(this.getDevice(), dbHandler.getDaoSession());
+
+            MakibesHR3SampleProvider provider = new MakibesHR3SampleProvider(this.getDevice(), dbHandler.getDaoSession());
+
+            int timeStamp = (int) (System.currentTimeMillis() / 1000);
+
+            MakibesHR3ActivitySample sample = this.createActivitySample(device, user, timeStamp, provider);
+
+            if (heartRate != null) {
+                sample.setHeartRate(heartRate);
+            }
+
+            if (steps != null) {
+                sample.setSteps(steps);
+            }
+
+            sample.setRawKind(-1);
+
+            provider.addGBActivitySample(sample);
+
+            Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                    .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample)
+                    .putExtra(DeviceService.EXTRA_TIMESTAMP, timeStamp);
+            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+
+        } catch (Exception ex) {
+            GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+            GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
+        }
+    }
+
+    private void onReceiveFitness(int steps) {
+        LOG.info("steps: " + steps);
+
+        this.broadcastActivity(null, steps);
+    }
+
+    private void onReceiveHeartRate(int heartRate) {
+        LOG.info("heart rate: " + heartRate);
+
+        this.broadcastActivity(heartRate, null);
+    }
+
+    @Override
+    public boolean onCharacteristicChanged(BluetoothGatt gatt,
+                                           BluetoothGattCharacteristic characteristic) {
+        if (super.onCharacteristicChanged(gatt, characteristic)) {
+            return true;
+        }
+
+        byte[] data = characteristic.getValue();
+        if (data.length < 6)
+            return true;
+
+        UUID characteristicUuid = characteristic.getUuid();
+
+        if (characteristicUuid.equals(rprtCharacteristic.getUuid())) {
+            byte[] value = characteristic.getValue();
+            byte[] arguments = new byte[value.length - 6];
+
+            for (int i = 0; i < arguments.length; ++i) {
+                arguments[i] = value[i + 6];
+            }
+
+            byte report = value[4];
+
+            LOG.debug("report: " + Integer.toHexString((int) report));
+
+            switch (report) {
+                case MakibesHR3Constants.RPRT_FITNESS:
+                    if (value.length == 17) {
+                        this.onReceiveFitness(
+                                (int) arguments[1] * 0xff + arguments[2]
+                        );
+                    }
+                    break;
+                case MakibesHR3Constants.RPRT_REVERSE_FIND_DEVICE:
+                    this.onReverseFindDevice(arguments[0] == 0x01);
+                    break;
+                case MakibesHR3Constants.RPRT_HEARTRATE:
+                    if (value.length == 7) {
+                        this.onReceiveHeartRate((int) arguments[0]);
+                    }
+                    break;
+                case RPRT_SOFTWARE:
+                    if (arguments.length == 11) {
+                        this.getDevice().setFirmwareVersion(((int) arguments[0]) + "." + ((int) arguments[1]));
+                    }
+                    break;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -427,6 +626,31 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport {
         return this.reboot(transaction);
     }
 
+    private MakibesHR3DeviceSupport requestFitness(TransactionBuilder transaction,
+                                                   int yearStart, int monthStart, int dayStart,
+                                                   int a4, int a5,
+                                                   int yearEnd, int monthEnd, int dayEnd,
+                                                   int a9, int a10) {
+
+        byte[] data = this.craftData(MakibesHR3Constants.CMD_REQUEST_FITNESS,
+                new byte[]{
+                        (byte) (yearStart - 2000),
+                        (byte) monthStart,
+                        (byte) dayStart,
+                        (byte) a4,
+                        (byte) a5,
+                        (byte) (yearEnd - 2000),
+                        (byte) monthEnd,
+                        (byte) dayEnd,
+                        (byte) a9,
+                        (byte) a10
+                });
+
+        transaction.write(this.ctrlCharacteristic, data);
+
+        return this;
+    }
+
     private MakibesHR3DeviceSupport findDevice(TransactionBuilder transaction) {
         transaction.write(this.ctrlCharacteristic, this.craftData(MakibesHR3Constants.CMD_FIND_DEVICE));
 
@@ -469,6 +693,14 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport {
         byte value = MakibesHR3Coordinator.getTimeMode(getDevice().getAddress());
 
         byte[] data = this.craftData(MakibesHR3Constants.CMD_SET_TIMEMODE, new byte[]{value});
+
+        transaction.write(this.ctrlCharacteristic, data);
+
+        return this;
+    }
+
+    private MakibesHR3DeviceSupport setEnableRealTimeHeartRate(TransactionBuilder transaction, boolean enable) {
+        byte[] data = this.craftData(MakibesHR3Constants.CMD_SET_REAL_TIME_HEART_RATE, new byte[]{(byte) (enable ? 0x01 : 0x00)});
 
         transaction.write(this.ctrlCharacteristic, data);
 
