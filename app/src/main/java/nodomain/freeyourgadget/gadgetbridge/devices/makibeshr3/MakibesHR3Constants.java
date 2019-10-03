@@ -86,6 +86,11 @@ public final class MakibesHR3Constants {
     public static final byte RPRT_REVERSE_FIND_DEVICE = (byte) 0x7d;
 
 
+    // The proximity sensor sees air..
+    public static final byte ARG_HEARTRATE_NO_TARGET = (byte) 0xff;
+    // The hr sensor didn't find the heart rate yet.
+    public static final byte ARG_HEARTRATE_NO_READING = (byte) 0x00;
+
     // heart rate
     public static final byte RPRT_HEARTRATE = (byte) 0x84;
 
