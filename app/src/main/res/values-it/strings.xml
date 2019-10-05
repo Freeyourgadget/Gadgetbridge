@@ -630,8 +630,6 @@
     <string name="activity_prefs_alarm_max_heart_rate">Frequenza cardiaca massima</string>
     <string name="activity_prefs_alarm_min_heart_rate">Frequenza cardiaca minima</string>
     <string name="zetime_handmove_display_summary">Ruota il polso per attivare o disattivare il display.</string>
-    <string name="zetime_time_format_24h">24h</string>
-    <string name="zetime_time_format_12h">12h</string>
     <string name="zetime_date_format">Formato data</string>
     <string name="zetime_date_format_1">AA/MM/GG</string>
     <string name="zetime_date_format_2">GG/MM/AA</string>
@@ -656,7 +654,6 @@
     <string name="zetime_calories_type">Tipo calorie</string>
     <string name="zetime_calories_type_active">Solo calorie bruciate attivamente</string>
     <string name="zetime_calories_type_all">Calorie bruciate attivamente e passivamente</string>
-    <string name="zetime_time_format">Formato ora</string>
     <string name="zetime_prefs_inactivity_repetitions">Ripetizioni</string>
     <string name="zetime_title_alarm_signaling">Imposta il tipo di segnale per l\'allarme</string>
     <string name="zetime_signaling_none">Silenzioso</string>

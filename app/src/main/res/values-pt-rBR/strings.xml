@@ -657,9 +657,6 @@
     <string name="zetime_calories_type">Tipo de calorias</string>
     <string name="zetime_calories_type_active">Só ativar calorias queimadas</string>
     <string name="zetime_calories_type_all">Calorias queimadas ativas e inativas</string>
-    <string name="zetime_time_format">Formato da hora</string>
-    <string name="zetime_time_format_24h">24h</string>
-    <string name="zetime_time_format_12h">12h</string>
     <string name="zetime_date_format">Formato da data</string>
     <string name="zetime_date_format_1">AA/MM/DD</string>
     <string name="zetime_date_format_2">DD/MM/AA</string>

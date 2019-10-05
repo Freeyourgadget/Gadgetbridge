@@ -210,9 +210,6 @@
     <string name="zetime_calories_type">Calories type</string>
     <string name="zetime_calories_type_active">Only active burnt calories</string>
     <string name="zetime_calories_type_all">Active and inactive burnt calories</string>
-    <string name="zetime_time_format">Time format</string>
-    <string name="zetime_time_format_24h">24h</string>
-    <string name="zetime_time_format_12h">12h</string>
     <string name="zetime_date_format">Date format</string>
     <string name="zetime_date_format_1">YY/MM/DD</string>
     <string name="zetime_date_format_2">DD/MM/YY</string>

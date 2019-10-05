@@ -30,6 +30,7 @@ import java.util.TimeZone;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.id115.ID115Constants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
@@ -296,11 +297,11 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
     }
 
     ID115Support setWrist(TransactionBuilder builder) {
-        String value = GBApplication.getPrefs().getString(ID115Constants.PREF_WRIST,
+        String value = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_WEARLOCATION,
                 "left");
 
         byte wrist;
-        if (value.equals("left")) {
+        if ("left".equals(value)) {
             wrist = ID115Constants.CMD_ARG_LEFT;
         } else {
             wrist = ID115Constants.CMD_ARG_RIGHT;
@@ -314,11 +315,11 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
     }
 
     ID115Support setScreenOrientation(TransactionBuilder builder) {
-        String value = GBApplication.getPrefs().getString(ID115Constants.PREF_SCREEN_ORIENTATION,
+        String value = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_SCREEN_ORIENTATION,
                 "horizontal");
 
         byte orientation;
-        if (value.equals("horizontal")) {
+        if ("horizontal".equals(value)) {
             orientation = ID115Constants.CMD_ARG_HORIZONTAL;
         } else {
             orientation = ID115Constants.CMD_ARG_VERTICAL;

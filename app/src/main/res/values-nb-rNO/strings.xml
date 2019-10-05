@@ -637,9 +637,6 @@
     <string name="zetime_activity_tracking">Aktivitetssporing</string>
     <string name="zetime_handmove_display">Håndbevegelse</string>
     <string name="zetime_calories_type">Kaloritype</string>
-    <string name="zetime_time_format">Tidsformat</string>
-    <string name="zetime_time_format_24h">24t</string>
-    <string name="zetime_time_format_12h">12t</string>
     <string name="zetime_date_format">Datoformat</string>
     <string name="zetime_date_format_1">ÅÅ/MM/DD</string>
     <string name="zetime_date_format_2">DD/MM/ÅÅ</string>

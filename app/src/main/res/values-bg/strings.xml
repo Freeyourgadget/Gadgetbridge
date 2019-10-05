@@ -305,9 +305,6 @@
     <string name="zetime_calories_type">Вид калории</string>
     <string name="zetime_calories_type_active">Само активно изгорени калории</string>
     <string name="zetime_calories_type_all">Активно и неактивно изгорени калории</string>
-    <string name="zetime_time_format">Часови формат</string>
-    <string name="zetime_time_format_24h">24часа</string>
-    <string name="zetime_time_format_12h">12часа</string>
     <string name="zetime_date_format">Формат на датата</string>
     <string name="zetime_date_format_1">ГГ/ММ/ДД</string>
     <string name="zetime_date_format_2">ДД/ММ/ГГ</string>

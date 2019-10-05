@@ -648,9 +648,6 @@
     <string name="zetime_handmove_display_summary">Gire la muñeca para activar o desactivar la pantalla.</string>
     <string name="zetime_calories_type">Tipo de calorías</string>
     <string name="zetime_calories_type_active">Solo activo para quemar calorías</string>
-    <string name="zetime_time_format">Formato de hora</string>
-    <string name="zetime_time_format_24h">24H</string>
-    <string name="zetime_time_format_12h">12H</string>
     <string name="zetime_date_format">Formato de fecha</string>
     <string name="zetime_date_format_1">aa/mm/dd</string>
     <string name="zetime_date_format_2">dd/mm/aa</string>

@@ -4,13 +4,6 @@
         android:key="pref_category_zetime_general"
         android:title="@string/pref_header_general">
 
-        <ListPreference
-            android:defaultValue="left"
-            android:entries="@array/wearside"
-            android:entryValues="@array/wearside_values"
-            android:key="zetime_wrist"
-            android:title="@string/prefs_wearside"
-            android:summary="%s" />
         <EditTextPreference
             android:inputType="number"
             android:maxLength="5"
@@ -149,14 +142,6 @@
             android:entryValues="@array/zetime_analog_mode_values"
             android:key="zetime_analog_mode"
             android:title="@string/zetime_analog_mode"
-            android:summary="%s" />
-
-        <ListPreference
-            android:defaultValue="1"
-            android:entries="@array/zetime_time_format"
-            android:entryValues="@array/zetime_time_format_values"
-            android:key="zetime_time_format"
-            android:title="@string/zetime_time_format"
             android:summary="%s" />
 
         <ListPreference

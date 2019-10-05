@@ -201,9 +201,6 @@
     <string name="zetime_calories_type">Kalorite tüüp</string>
     <string name="zetime_calories_type_active">Ainult aktiivselt põletatud kalorid</string>
     <string name="zetime_calories_type_all">Aktiivselt ja passiivselt põletatud kalorid</string>
-    <string name="zetime_time_format">Kellaaja vorming</string>
-    <string name="zetime_time_format_24h">24h</string>
-    <string name="zetime_time_format_12h">12h</string>
     <string name="zetime_date_format">Kuupäeva vorming</string>
     <string name="zetime_prefs_inactivity_repetitions">Kordused</string>
     <string name="zetime_prefs_inactivity_mo">Esmaspäev</string>

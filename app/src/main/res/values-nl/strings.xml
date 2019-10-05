@@ -651,9 +651,6 @@
     <string name="zetime_calories_type">Soort calorieën</string>
     <string name="zetime_calories_type_active">Alleen calorieën verbrand gedurende activiteiten</string>
     <string name="zetime_calories_type_all">Verbrande calorieën actief en inactief</string>
-    <string name="zetime_time_format">Tijd formaat</string>
-    <string name="zetime_time_format_24h">24 uur</string>
-    <string name="zetime_time_format_12h">12 uur</string>
     <string name="zetime_date_format">Datum formaat</string>
     <string name="zetime_date_format_1">YY/MM/DD</string>
     <string name="zetime_date_format_2">DD/MM/YY</string>

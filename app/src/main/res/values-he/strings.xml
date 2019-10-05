@@ -644,9 +644,6 @@
     <string name="zetime_calories_type">סוג קלוריות</string>
     <string name="zetime_calories_type_active">קלוריות פעילות שנשרפו בלבד</string>
     <string name="zetime_calories_type_all">קלוריות פעילות ובלתי פעילות שנשרפו בלבד</string>
-    <string name="zetime_time_format">תצורת זמן</string>
-    <string name="zetime_time_format_24h">24 שעות</string>
-    <string name="zetime_time_format_12h">12 שעות</string>
     <string name="zetime_date_format">תצורת תאריך</string>
     <string name="zetime_date_format_1">YY/MM/DD</string>
     <string name="zetime_date_format_2">DD/MM/YY</string>

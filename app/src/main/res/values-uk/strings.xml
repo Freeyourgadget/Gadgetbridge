@@ -466,9 +466,6 @@
     <string name="activity_prefs_alarm_min_heart_rate">Мінімальне серцебиття</string>
     <string name="zetime_analog_mode">Аналоговий режим</string>
     <string name="zetime_analog_mode_hands">Лише вручну</string>
-    <string name="zetime_time_format">Формат часу</string>
-    <string name="zetime_time_format_24h">24г</string>
-    <string name="zetime_time_format_12h">12г</string>
     <string name="zetime_date_format">Формат дати</string>
     <string name="zetime_date_format_1">РР/ММ/ДД</string>
     <string name="zetime_date_format_2">ДД/ММ/РР</string>

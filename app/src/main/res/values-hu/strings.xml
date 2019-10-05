@@ -414,9 +414,6 @@
     <string name="debugactivity_really_factoryreset_title">Biztos a gyári beállítások visszaállításában\?</string>
     <string name="zetime_analog_mode">Analóg mód</string>
     <string name="zetime_handmove_display_summary">Képernyő be és kikapcsolása csukló forgatása által.</string>
-    <string name="zetime_time_format">Időformátum</string>
-    <string name="zetime_time_format_24h">24 óra</string>
-    <string name="zetime_time_format_12h">12 óra</string>
     <string name="zetime_date_format">Dátum formátum</string>
     <string name="zetime_prefs_inactivity_repetitions">Ismétlés</string>
     <string name="zetime_prefs_inactivity_mo">Hétfő</string>

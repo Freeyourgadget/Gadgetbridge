@@ -656,9 +656,6 @@
     <string name="zetime_calories_type">Τύπος θερμίδων</string>
     <string name="zetime_calories_type_active">Ενεργές μόνο θερμίδες που έχετε κάψει</string>
     <string name="zetime_calories_type_all">Ενεργές και ανενεργές θερμίδες</string>
-    <string name="zetime_time_format">Μορφή ώρας</string>
-    <string name="zetime_time_format_24h">24ωρη</string>
-    <string name="zetime_time_format_12h">12ωρη</string>
     <string name="zetime_date_format">Μορφή ημερομηνίας</string>
     <string name="zetime_date_format_1">ΕΕ/ΜΜ/ΗΗ</string>
     <string name="zetime_date_format_2">ΗΗ/ΜΜ/ΕΕ</string>

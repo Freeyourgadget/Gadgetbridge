@@ -21,8 +21,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreference;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreferenceFragment;
 
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.*;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DATEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION_END;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION_START;
@@ -289,6 +289,9 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
         addPreferenceHandlerFor(PREF_DISPLAY_ITEMS);
         addPreferenceHandlerFor(PREF_LANGUAGE);
         addPreferenceHandlerFor(PREF_EXPOSE_HR_THIRDPARTY);
+        addPreferenceHandlerFor(PREF_WEARLOCATION);
+        addPreferenceHandlerFor(PREF_SCREEN_ORIENTATION);
+        addPreferenceHandlerFor(PREF_TIMEFORMAT);
 
         String displayOnLiftState = prefs.getString(PREF_ACTIVATE_DISPLAY_ON_LIFT, PREF_DO_NOT_DISTURB_OFF);
         boolean displayOnLiftScheduled = displayOnLiftState.equals(PREF_DO_NOT_DISTURB_SCHEDULED);

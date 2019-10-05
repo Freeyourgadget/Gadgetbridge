@@ -659,9 +659,6 @@
     <string name="zetime_calories_type">Tipus de calories</string>
     <string name="zetime_calories_type_active">Només les calories cremades de forma activa</string>
     <string name="zetime_calories_type_all">Calories cremades de forma activa i en repòs</string>
-    <string name="zetime_time_format">Format d\'hora</string>
-    <string name="zetime_time_format_24h">24h</string>
-    <string name="zetime_time_format_12h">12h</string>
     <string name="zetime_date_format">Format de data</string>
     <string name="zetime_date_format_1">AA/MM/DD</string>
     <string name="zetime_date_format_2">DD/MM/AA</string>

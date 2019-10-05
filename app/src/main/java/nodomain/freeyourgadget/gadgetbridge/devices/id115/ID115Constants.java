@@ -23,9 +23,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport.BASE_UUID;
 
 public class ID115Constants {
-    public static final String PREF_WRIST = "id115_wrist";
-    public static final String PREF_SCREEN_ORIENTATION = "id115_screen_orientation";
-
     public static final UUID UUID_SERVICE_ID115 = UUID.fromString(String.format(BASE_UUID, "0AF0"));
     public static final UUID UUID_CHARACTERISTIC_WRITE_NORMAL = UUID.fromString(String.format(BASE_UUID, "0AF6"));
     public static final UUID UUID_CHARACTERISTIC_NOTIFY_NORMAL = UUID.fromString(String.format(BASE_UUID, "0AF7"));

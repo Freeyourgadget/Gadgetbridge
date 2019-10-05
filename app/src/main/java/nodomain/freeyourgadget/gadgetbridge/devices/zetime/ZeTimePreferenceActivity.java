@@ -22,6 +22,7 @@ import android.preference.Preference;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 
 public class ZeTimePreferenceActivity extends AbstractSettingsActivity {
     @Override
@@ -43,8 +44,6 @@ public class ZeTimePreferenceActivity extends AbstractSettingsActivity {
 
         addPreferenceHandlerFor(ZeTimeConstants.PREF_SCREENTIME);
 
-        addPreferenceHandlerFor(ZeTimeConstants.PREF_WRIST);
-
         addPreferenceHandlerFor(ZeTimeConstants.PREF_ANALOG_MODE);
 
         addPreferenceHandlerFor(ZeTimeConstants.PREF_ACTIVITY_TRACKING);
@@ -56,8 +55,6 @@ public class ZeTimePreferenceActivity extends AbstractSettingsActivity {
         addPreferenceHandlerFor(ZeTimeConstants.PREF_DO_NOT_DISTURB_END);
 
         addPreferenceHandlerFor(ZeTimeConstants.PREF_CALORIES_TYPE);
-
-        addPreferenceHandlerFor(ZeTimeConstants.PREF_TIME_FORMAT);
 
         addPreferenceHandlerFor(ZeTimeConstants.PREF_DATE_FORMAT);
 
