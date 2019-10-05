@@ -139,10 +139,6 @@ public class TimePicker extends AlertDialog.Builder {
             }
         });
         dialog = show();
-        if(this.settings.getHour() == -1 && this.settings.getMin() == -1) {
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setClickable(false);
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setAlpha(0.4f);
-        }
 
         pickerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -233,17 +229,7 @@ public class TimePicker extends AlertDialog.Builder {
         linePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         linePaint.setColor(Color.BLACK);
 
-        if (settings.getMin() == -1) {
-            linePaint.setAlpha(100);
-            pickerCanvas.drawLine(width / 2, height / 2, width / 2, height / 2f - radius3, linePaint);
-
-            paint.setAlpha(255);
-            paint.setColor(Color.WHITE);
-            pickerCanvas.drawCircle(width / 2f, height / 2f - radius3, radius, paint);
-            paint.setAlpha(100);
-            paint.setColor(Color.BLUE);
-            pickerCanvas.drawCircle(width / 2f, height / 2f - radius3, radius, paint);
-        } else {
+        if (settings.getMin() != -1) {
             paint.setAlpha(255);
             float x = (float) (width / 2f + Math.sin(Math.toRadians(settings.getMin())) * (float) radius3);
             float y = (float) (height / 2f - Math.cos(Math.toRadians(settings.getMin())) * (float) radius3);
@@ -257,19 +243,7 @@ public class TimePicker extends AlertDialog.Builder {
             );
             pickerCanvas.drawText(String.valueOf(settings.getMin() / 6), x, y - textShiftY, text);
         }
-        if (settings.getHour() == -1) {
-            paint.setAlpha(100);
-            if (settings.getMin() != -1) {
-                linePaint.setAlpha(100);
-                pickerCanvas.drawLine(width / 2, height / 2, width / 2, height / 2f - radius2, linePaint);
-            }
-            paint.setAlpha(255);
-            paint.setColor(Color.WHITE);
-            pickerCanvas.drawCircle(width / 2f, height / 2f - radius2, radius, paint);
-            paint.setAlpha(100);
-            paint.setColor(Color.BLUE);
-            pickerCanvas.drawCircle(width / 2f, height / 2f - radius2, radius, paint);
-        } else {
+        if (settings.getHour() != -1) {
             paint.setAlpha(255);
             float x = (float) (width / 2f + Math.sin(Math.toRadians(settings.getHour())) * (float) radius2);
             float y = (float) (height / 2f - Math.cos(Math.toRadians(settings.getHour())) * (float) radius2);
