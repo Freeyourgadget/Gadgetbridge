@@ -197,7 +197,7 @@
     <string name="initializing">Inicializando</string>
     <string name="busy_task_fetch_activity_data">Coletando dados de atividade</string>
     <string name="sleep_activity_date_range">De %1$s a %2$s</string>
-    <string name="miband_prefs_wearside">Dispositivo na esquerda ou direita?</string>
+    <string name="prefs_wearside">Dispositivo na esquerda ou direita?</string>
     <string name="pref_screen_vibration_profile">Perfil de vibração</string>
     <string name="vibration_profile_staccato">Destacado</string>
     <string name="vibration_profile_short">Pequeno</string>
@@ -768,4 +768,7 @@
         <item quantity="one">% hora</item>
         <item quantity="other">% horas</item>
     </plurals>
+    <string name="activity_error_no_app_for_gpx">Para visualizar o rastreamento de atividade, instale um aplicativo que consegue manipular arquivos GPX.</string>
+    <string name="preferences_makibes_hr3_settings">Configurações de Makibes HR3</string>
+    <string name="devicetype_makibes_hr3">Makibes HR3</string>
 </resources>

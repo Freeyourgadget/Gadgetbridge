@@ -211,7 +211,7 @@
     <string name="initializing">Initialisieren</string>
     <string name="busy_task_fetch_activity_data">Aktivitätsdaten abrufen</string>
     <string name="sleep_activity_date_range">Von %1$s bis %2$s</string>
-    <string name="miband_prefs_wearside">Wird links oder rechts getragen\?</string>
+    <string name="prefs_wearside">Wird links oder rechts getragen\?</string>
     <string name="pref_screen_vibration_profile">Vibrationsprofile</string>
     <string name="vibration_profile_staccato">Stakkato</string>
     <string name="vibration_profile_short">Kurz</string>
@@ -776,4 +776,6 @@
         <item quantity="one">%d Std</item>
         <item quantity="other">%d Std</item>
     </plurals>
+    <string name="preferences_makibes_hr3_settings">Makibes HR3 Einstellungen</string>
+    <string name="devicetype_makibes_hr3">Makibes HR3</string>
 </resources>

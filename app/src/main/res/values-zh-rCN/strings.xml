@@ -217,7 +217,7 @@
     <string name="initializing">初始化中</string>
     <string name="busy_task_fetch_activity_data">获取活动数据</string>
     <string name="sleep_activity_date_range">从 %1$s 到 %2$s</string>
-    <string name="miband_prefs_wearside">佩戴在左手还是右手？</string>
+    <string name="prefs_wearside">佩戴在左手还是右手？</string>
     <string name="vibration_profile_short">短</string>
     <string name="vibration_profile_medium">中</string>
     <string name="vibration_profile_long">长</string>
@@ -765,4 +765,7 @@
     <plurals name="widget_alarm_target_hours">
         <item quantity="other">%d 小时</item>
     </plurals>
+    <string name="activity_error_no_app_for_gpx">若需要查看活动轨迹，请安装一个能查看 GPX 文件的应用。</string>
+    <string name="preferences_makibes_hr3_settings">Makibes HR3 设置</string>
+    <string name="devicetype_makibes_hr3">Makibes HR3</string>
 </resources>

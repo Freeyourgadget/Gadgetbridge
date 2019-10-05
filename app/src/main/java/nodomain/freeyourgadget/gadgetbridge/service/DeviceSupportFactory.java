@@ -42,6 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.id115.ID115Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.jyou.BFH16DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.jyou.TeclastH30Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.liveview.LiveviewSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.makibeshr3.MakibesHR3DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.mijia_lywsd02.MijiaLywsd02Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miscale2.MiScale2DeviceSupport;
@@ -199,6 +200,10 @@ public class DeviceSupportFactory {
                         break;
                     case MIJIA_LYWSD02:
                         deviceSupport = new ServiceDeviceSupport(new MijiaLywsd02Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
+                    case MAKIBESHR3:
+                        deviceSupport = new ServiceDeviceSupport(new MakibesHR3DeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
                 }
                 if (deviceSupport != null) {
                     deviceSupport.setContext(gbDevice, mBtAdapter, mContext);

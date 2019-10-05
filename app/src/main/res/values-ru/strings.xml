@@ -198,7 +198,7 @@
     <string name="initializing">Запускается</string>
     <string name="busy_task_fetch_activity_data">Получение данных активности</string>
     <string name="sleep_activity_date_range">От %1$s до %2$s</string>
-    <string name="miband_prefs_wearside">Носите на левой или правой руке?</string>
+    <string name="prefs_wearside">Носите на левой или правой руке?</string>
     <string name="pref_screen_vibration_profile">Профиль настроек вибрации</string>
     <string name="vibration_profile_staccato">Стаккато</string>
     <string name="vibration_profile_short">Короткий</string>

@@ -567,7 +567,7 @@
                     android:entries="@array/wearside"
                     android:entryValues="@array/wearside_values"
                     android:key="hplus_wrist"
-                    android:title="@string/miband_prefs_wearside"
+                    android:title="@string/prefs_wearside"
                     android:summary="%s" />
 
                 <ListPreference
@@ -592,6 +592,7 @@
             </PreferenceCategory>
 
         </PreferenceScreen>
+
         <PreferenceScreen
             android:icon="@drawable/ic_device_h30_h10"
             android:key="pref_key_id115"
@@ -605,7 +606,7 @@
                     android:entries="@array/wearside"
                     android:entryValues="@array/wearside_values"
                     android:key="id115_wrist"
-                    android:title="@string/miband_prefs_wearside"
+                    android:title="@string/prefs_wearside"
                     android:summary="%s" />
 
                 <ListPreference

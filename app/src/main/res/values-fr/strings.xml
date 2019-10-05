@@ -204,7 +204,7 @@
     <string name="initializing">Initialisation</string>
     <string name="busy_task_fetch_activity_data">Récupération des données d\'activité</string>
     <string name="sleep_activity_date_range">De %1$s à %2$s</string>
-    <string name="miband_prefs_wearside">Port main gauche ou droite ?</string>
+    <string name="prefs_wearside">Port main gauche ou droite ?</string>
     <string name="pref_screen_vibration_profile">Profil de vibration</string>
     <string name="vibration_profile_staccato">Saccadé</string>
     <string name="vibration_profile_short">Court</string>

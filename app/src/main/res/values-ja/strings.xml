@@ -204,7 +204,7 @@
     <string name="initializing">初期化中</string>
     <string name="busy_task_fetch_activity_data">アクティビティデータを取得中</string>
     <string name="sleep_activity_date_range">%1$sから%2$sまで</string>
-    <string name="miband_prefs_wearside">左または右に身に着けますか?</string>
+    <string name="prefs_wearside">左または右に身に着けますか?</string>
     <string name="pref_screen_vibration_profile">バイブレーション プロファイル</string>
     <string name="vibration_profile_staccato">スタッカート</string>
     <string name="vibration_profile_short">短い</string>

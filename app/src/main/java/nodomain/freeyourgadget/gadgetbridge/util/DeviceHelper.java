@@ -45,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.casiogb6900.CasioGB6900Devic
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.EXRIZUK8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.MakibesF68Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.Q8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor.AmazfitCorCoordinator;
@@ -230,6 +231,7 @@ public class DeviceHelper {
         result.add(new CasioGB6900DeviceCoordinator());
         result.add(new BFH16DeviceCoordinator());
         result.add(new MijiaLywsd02Coordinator());
+        result.add(new MakibesHR3Coordinator());
 
         return result;
     }

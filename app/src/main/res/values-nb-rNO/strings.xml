@@ -214,7 +214,7 @@
     <string name="initializing">Igangsetter</string>
     <string name="busy_task_fetch_activity_data">Henter aktivitetsdato</string>
     <string name="sleep_activity_date_range">Fra %1$s til %2$s</string>
-    <string name="miband_prefs_wearside">Venstre- eller høyre-hånd?</string>
+    <string name="prefs_wearside">Venstre- eller høyre-hånd?</string>
     <string name="pref_screen_vibration_profile">Vibrasjonsprofil</string>
     <string name="vibration_profile_staccato">Stakkato</string>
     <string name="vibration_profile_short">Kort</string>
@@ -760,4 +760,7 @@
         <item quantity="one">%d time</item>
         <item quantity="other">%d timer</item>
     </plurals>
+    <string name="activity_error_no_app_for_gpx">For å vise aktivitetsspor, installer et program som kan håndtere GPX-filer.</string>
+    <string name="preferences_makibes_hr3_settings">Makibes HR3-innstillinger</string>
+    <string name="devicetype_makibes_hr3">Makibes HR3</string>
 </resources>

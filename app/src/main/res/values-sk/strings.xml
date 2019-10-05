@@ -266,7 +266,7 @@
     <string name="initializing">Spúšťanie</string>
     <string name="busy_task_fetch_activity_data">Načítavanie údajov o aktivite</string>
     <string name="sleep_activity_date_range">Od %1$s do %2$s</string>
-    <string name="miband_prefs_wearside">Na ktorej ruke nosíte?</string>
+    <string name="prefs_wearside">Na ktorej ruke nosíte?</string>
     <string name="pref_screen_vibration_profile">Profil vibrácií</string>
 
     <string name="vibration_profile_staccato">Staccato</string>

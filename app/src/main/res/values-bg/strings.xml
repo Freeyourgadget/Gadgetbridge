@@ -263,7 +263,7 @@
     <string name="initializing">Инициализиране</string>
     <string name="busy_task_fetch_activity_data">Извличане на данните за активност</string>
     <string name="sleep_activity_date_range">От %1$s До %2$s</string>
-    <string name="miband_prefs_wearside">На коя ръка - лява или дясна\?</string>
+    <string name="prefs_wearside">На коя ръка - лява или дясна\?</string>
     <string name="pref_screen_vibration_profile">Профил на вибрациите</string>
     <string name="vibration_profile_staccato">Стакато</string>
     <string name="vibration_profile_short">Кратко</string>

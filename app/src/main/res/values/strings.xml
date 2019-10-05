@@ -186,6 +186,8 @@
     <string name="pref_title_screentime">Screen on duration</string>
     <string name="prefs_title_all_day_heart_rate">All day heart rate measurement</string>
     <string name="preferences_hplus_settings">HPlus/Makibes settings</string>
+    <!-- Makibes HR3 Preferences -->
+    <string name="preferences_makibes_hr3_settings">Makibes HR3 settings</string>
     <!-- ID115 Preferences -->
     <string name="preferences_id115_settings">ID115 settings</string>
     <string name="prefs_screen_orientation">Screen orientation</string>
@@ -316,7 +318,7 @@
     <string name="initializing">Initializing</string>
     <string name="busy_task_fetch_activity_data">Fetching activity data</string>
     <string name="sleep_activity_date_range">From %1$s to %2$s</string>
-    <string name="miband_prefs_wearside">Wearing left or right?</string>
+    <string name="prefs_wearside">Wearing left or right?</string>
     <string name="pref_screen_vibration_profile">Vibration profile</string>
     <string name="vibration_profile_staccato">Staccato</string>
     <string name="vibration_profile_short">Short</string>
@@ -674,6 +676,7 @@
     <string name="devicetype_miscale2">Mi Scale 2</string>
     <string name="devicetype_bfh16">BFH-16</string>
     <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
+    <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>
     <!-- Menus on the smart device -->

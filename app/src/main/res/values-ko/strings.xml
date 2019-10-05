@@ -115,7 +115,7 @@
     <string name="initializing">초기화 중</string>
     <string name="busy_task_fetch_activity_data">활동 데이터 가져오는 중</string>
     <string name="sleep_activity_date_range">%1$s에서 %2$s(으)로</string>
-    <string name="miband_prefs_wearside">왼쪽과 오른쪽 중 어느 방향으로 착용합니까?</string>
+    <string name="prefs_wearside">왼쪽과 오른쪽 중 어느 방향으로 착용합니까?</string>
     <string name="pref_screen_vibration_profile">진동 프로파일</string>
     <string name="vibration_profile_staccato">스타카토</string>
     <string name="vibration_profile_short">짧게</string>

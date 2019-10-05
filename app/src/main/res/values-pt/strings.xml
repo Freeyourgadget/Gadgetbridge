@@ -197,7 +197,7 @@
     <string name="initializing">Inicializando</string>
     <string name="busy_task_fetch_activity_data">A Descarregar Dados de Atividade</string>
     <string name="sleep_activity_date_range">De %1$s até %2$s</string>
-    <string name="miband_prefs_wearside">De que lado a usa?</string>
+    <string name="prefs_wearside">De que lado a usa?</string>
     <string name="pref_screen_vibration_profile">Perfil de Vibração</string>
     <string name="vibration_profile_staccato">Destacado</string>
     <string name="vibration_profile_short">Pequeno</string>

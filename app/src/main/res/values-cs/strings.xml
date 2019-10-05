@@ -200,7 +200,7 @@
     <string name="initializing">Spouštím</string>
     <string name="busy_task_fetch_activity_data">Stahuji data o aktivitě</string>
     <string name="sleep_activity_date_range">Od %1$s do %2$s</string>
-    <string name="miband_prefs_wearside">Nosíte vlevo nebo vpravo?</string>
+    <string name="prefs_wearside">Nosíte vlevo nebo vpravo?</string>
     <string name="pref_screen_vibration_profile">Profil vibrací</string>
     <string name="vibration_profile_staccato">Staccato</string>
     <string name="vibration_profile_short">Krátké</string>

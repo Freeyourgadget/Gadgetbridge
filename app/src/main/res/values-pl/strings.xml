@@ -148,7 +148,7 @@
     <string name="initializing">Inicjalizacja</string>
     <string name="busy_task_fetch_activity_data">Pobieranie danych o aktywności</string>
     <string name="sleep_activity_date_range">Od %1$s do %2$s</string>
-    <string name="miband_prefs_wearside">Na której ręce noszone jest urządzenie\?</string>
+    <string name="prefs_wearside">Na której ręce noszone jest urządzenie\?</string>
     <string name="pref_screen_vibration_profile">Profil wibracji</string>
     <string name="vibration_profile_staccato">Słabe</string>
     <string name="vibration_profile_short">Krótkie</string>

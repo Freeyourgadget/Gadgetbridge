@@ -224,7 +224,7 @@
     <string name="initializing">S\'està inicialitzant</string>
     <string name="busy_task_fetch_activity_data">S\'estàn recollint les dades d\'activitat</string>
     <string name="sleep_activity_date_range">De %1$s a %2$s</string>
-    <string name="miband_prefs_wearside">A quina mà porteu l\'aparell\?</string>
+    <string name="prefs_wearside">A quina mà porteu l\'aparell\?</string>
     <string name="pref_screen_vibration_profile">Perfil de vibració</string>
     <string name="vibration_profile_staccato">Molt curta</string>
     <string name="vibration_profile_short">Curta</string>
