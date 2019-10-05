@@ -134,7 +134,7 @@
     <string name="initializing">Ініціалізація</string>
     <string name="busy_task_fetch_activity_data">Отримання даних активності</string>
     <string name="sleep_activity_date_range">Від %1$s до %2$s</string>
-    <string name="miband_prefs_wearside">На якій руці носите?</string>
+    <string name="prefs_wearside">На якій руці носите?</string>
     <string name="pref_screen_vibration_profile">Профіль вібровідгуку</string>
     <string name="vibration_profile_staccato">Стакато</string>
     <string name="vibration_profile_short">Короткий</string>

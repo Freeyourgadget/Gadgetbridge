@@ -236,7 +236,7 @@
     <string name="initializing">Initialiseren</string>
     <string name="busy_task_fetch_activity_data">Ophalen van activiteitsgegevens</string>
     <string name="sleep_activity_date_range">Van %1$s aan %2$s</string>
-    <string name="miband_prefs_wearside">Links of rechts dragen?</string>
+    <string name="prefs_wearside">Links of rechts dragen?</string>
     <string name="pref_screen_vibration_profile">Vibratie profiel</string>
     <string name="vibration_profile_staccato">Staccato</string>
     <string name="vibration_profile_short">Kort</string>

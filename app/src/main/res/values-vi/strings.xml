@@ -79,7 +79,7 @@
     <string name="title_activity_sleepmonitor">Trình giám sát giấc ngủ</string>
     <string name="initializing">đang khởi chạy</string>
     <string name="sleep_activity_date_range">Từ %1$s đến %2$s</string>
-    <string name="miband_prefs_wearside">Đeo bên trái hay phải?</string>
+    <string name="prefs_wearside">Đeo bên trái hay phải?</string>
     <string name="vibration_profile_short">Ngắn</string>
     <string name="vibration_profile_medium">Trung bình</string>
     <string name="vibration_profile_long">Dài</string>

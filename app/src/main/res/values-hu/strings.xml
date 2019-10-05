@@ -200,7 +200,7 @@
     <string name="initializing">Inicializálás</string>
     <string name="busy_task_fetch_activity_data">Aktivitási adatok lekérdezése.</string>
     <string name="sleep_activity_date_range">%1$s és %2$s között</string>
-    <string name="miband_prefs_wearside">Melyik kezeden hordod?</string>
+    <string name="prefs_wearside">Melyik kezeden hordod?</string>
     <string name="pref_screen_vibration_profile">Rezgés profil</string>
     <string name="vibration_profile_staccato">Szaggatott</string>
     <string name="vibration_profile_short">Rövid</string>

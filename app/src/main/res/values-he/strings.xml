@@ -190,7 +190,7 @@
     <string name="initializing">מתבצע אתחול</string>
     <string name="busy_task_fetch_activity_data">נתוני הפעילות מתקבלים</string>
     <string name="sleep_activity_date_range">מ־%1$s עד %2$s</string>
-    <string name="miband_prefs_wearside">על יד ימין או שמאל?</string>
+    <string name="prefs_wearside">על יד ימין או שמאל?</string>
     <string name="pref_screen_vibration_profile">פרופיל רטט</string>
     <string name="vibration_profile_staccato">סטקטו</string>
     <string name="vibration_profile_short">קצר</string>

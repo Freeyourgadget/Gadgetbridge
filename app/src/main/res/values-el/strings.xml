@@ -229,7 +229,7 @@
     <string name="initializing">Αρχικοποίηση</string>
     <string name="busy_task_fetch_activity_data">Λήψη δεδομένων δραστηριότητας</string>
     <string name="sleep_activity_date_range">Από %1$s έως %2$s</string>
-    <string name="miband_prefs_wearside">Σε ποιο χέρι το φοράτε;</string>
+    <string name="prefs_wearside">Σε ποιο χέρι το φοράτε;</string>
     <string name="pref_screen_vibration_profile">Προφίλ δόνησης</string>
     <string name="vibration_profile_staccato">Κοφτή</string>
     <string name="vibration_profile_short">Σύντομη</string>

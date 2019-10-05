@@ -9,7 +9,7 @@
             android:entries="@array/wearside"
             android:entryValues="@array/wearside_values"
             android:key="zetime_wrist"
-            android:title="@string/miband_prefs_wearside"
+            android:title="@string/prefs_wearside"
             android:summary="%s" />
         <EditTextPreference
             android:inputType="number"
