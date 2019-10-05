@@ -400,14 +400,10 @@
     <string name="discovery_dont_pair">Nem párosított</string>
     <string name="action_donate">Támogatás</string>
     <string name="controlcenter_connect">Csatlakoztatás…</string>
-    <string name="preferences_amazfitbip_settings">Amazfit Bip beállítások</string>
     <string name="pref_title_weather">Időjárás</string>
     <string name="pref_auto_fetch">Aktivitás adatok automata letöltése</string>
     <string name="horizontal">Vízszintes</string>
     <string name="vertical">Függőleges</string>
-    <string name="preferences_amazfitcor_settings">Amazfit Cor beállítások</string>s
-    <string name="preferences_miband2_settings">Mi Band 2 beállítások</string>
-    <string name="preferences_miband3_settings">Mi Band 3 beállítások</string>
     <string name="controlcenter_change_led_color">LED szín változtatása</string>
     <string name="controlcenter_change_fm_frequency">FM Frekvencia Változtatása</string>
     <string name="pref_title_rtl">Jobbról-Balra</string>

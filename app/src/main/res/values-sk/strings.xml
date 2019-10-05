@@ -246,7 +246,6 @@
     <string name="message_cannot_pair_no_mac">Adresa MAC neprišla, nemôžem spárovať.</string>
     <string name="preferences_category_device_specific_settings">Špecifické nastavenia zariadení</string>
     <string name="preferences_miband_settings">Nastavenia Mi Band / Amazfit</string>
-    <string name="preferences_amazfitbip_settings">Nastavenia Amazfit Bip</string>
     <string name="male">Muž</string>
     <string name="female">Žena</string>
     <string name="other">Iné</string>

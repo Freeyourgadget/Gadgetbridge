@@ -439,7 +439,6 @@
     <string name="pref_summary_pebble_enable_bgjs">有効にすると、ウォッチフェースに天気、バッテリー情報等を表示することができます。</string>
     <string name="activity_web_view">Web View アクティビティ</string>
     <string name="pref_title_charts_swipe">チャートアクティビティで左/右のスワイプを有効にする</string>
-    <string name="preferences_amazfitbip_settings">Amazfit Bip 設定</string>
     <string name="prefs_title_heartrate_measurement_interval">終日心拍数計測</string>
     <string name="interval_one_minute">1分間に 1 回</string>
     <string name="interval_five_minutes">5 分ごと</string>
@@ -533,15 +532,11 @@
     <string name="pref_summary_rtl">お使いのデバイスが右から左の言語を表示できない場合はこれを有効にします</string>
     <string name="pref_rtl_max_line_length">右から左への最大行長</string>
     <string name="pref_rtl_max_line_length_summary">右から左のテキストの行を伸長または短縮して分けます</string>
-    <string name="preferences_id115_settings">ID115 設定</string>
     <string name="prefs_screen_orientation">画面の向き</string>
     <string name="pref_auto_fetch">アクティビティデータの自動取得</string>
     <string name="pref_auto_fetch_summary">画面のロック解除時に取得を行います。ロック機構が設定されている場合のみ動作します!</string>
     <string name="pref_auto_fetch_limit_fetches">取得の間隔の最小時間</string>
     <string name="pref_auto_fetch_limit_fetches_summary">%d 分ごとに取得します</string>
-    <string name="preferences_miband2_settings">Mi Band 2 設定</string>
-    <string name="preferences_miband3_settings">Mi Band 3 設定</string>
-    <string name="preferences_amazfitcor_settings">Amazfit Cor 設定</string>
     <string name="horizontal">横向き</string>
     <string name="vertical">縦向き</string>
     <string name="watch9_pairing_tap_hint">ウォッチが振動したとき、デバイスを振るか、ボタンを押してください。</string>

@@ -328,7 +328,6 @@
     <string name="pairing_unable_to_pair_with">%1$s (%2$s)에 페어링 불가능</string>
     <string name="pairing_in_progress">연결 생성 중: %1$s (%2$s)</string>
     <string name="pairing_already_bonded">이미 %1$s (%2$s)에 연결이 생성되었으며 연결하는 중…</string>
-    <string name="preferences_amazfitbip_settings">Amazfit Bip 설정</string>
     <string name="discovery_connected_devices_hint">기기를 발견 가능하도록 설정하세요. 현재 연결된 기기는 나타나지 않을 가능성이 높습니다. 안드로이드 6.0 이상의 버전에서는 위치(예: GPS) 기능을 활성화하세요. Privacy Guard가 설정되어 있다면 오작동을 일으킬 가능성이 있으므로 가젯브릿지를 예외 처리하세요. 몇 분 안에 기기가 발견되지 않는다면, 기기를 재시작하고 다시 시도하세요.</string>
     <string name="vibration_try">시도하기</string>
     <string name="pref_screen_notification_profile_email">이메일 알림</string>
@@ -531,7 +530,6 @@
     <string name="pref_title_weather">날씨</string>
     <string name="pref_title_pebble_gatt_clientonly">"GATT client 만 "</string>
     <string name="pref_summary_pebble_gatt_clientonly">"이것은 Pebble2 만의 것이고 실험적입니다. 만약 연결 문제가 있다면 시도해보세요 "</string>
-    <string name="preferences_id115_settings">ID115 설정</string>
     <string name="prefs_screen_orientation">화면 방향</string>
     <string name="pref_header_auto_export">자동 추출</string>
     <string name="pref_title_auto_export_enabled">자동 추출 활성화</string>
@@ -542,9 +540,6 @@
     <string name="pref_auto_fetch_summary">가져 오기는 화면 잠금 해제시 발생합니다. 잠금 메커니즘이 설정된 경우에만 작동합니다!</string>
     <string name="pref_auto_fetch_limit_fetches">가져오는 최소 시간</string>
     <string name="pref_auto_fetch_limit_fetches_summary">매 %d 분마다 데이터 가져오기</string>
-    <string name="preferences_miband2_settings">Mi Band 2 설정</string>
-    <string name="preferences_miband3_settings">Mi Band 3 설정</string>
-    <string name="preferences_amazfitcor_settings">Amazfit Cor 설정</string>s
     <string name="horizontal">수평</string>
     <string name="vertical">수직</string>
     <string name="watch9_pairing_tap_hint">시계가 진동하면 장치를 흔들거나 버튼을 누르십시오.</string>
