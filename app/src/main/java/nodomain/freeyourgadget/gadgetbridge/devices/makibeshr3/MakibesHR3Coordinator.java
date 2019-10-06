@@ -16,18 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3;
 
-/*
- * @author Alejandro Ladera Chamorro &lt;11555126+tiparega@users.noreply.github.com&gt;
- */
-
 
 import android.app.Activity;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
-import android.net.Uri;
-import android.util.Log;
 import android.content.SharedPreferences;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -79,7 +72,7 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
 
-        // TODO:
+        // TODO: Device discovery
         if ((name != null) && name.equals("Y808")) {
             return DeviceType.MAKIBESHR3;
         }

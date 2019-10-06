@@ -46,8 +46,7 @@ public final class MakibesHR3Constants {
     // Command structure
     // ab 00 [argument_count] ff [command] 80 [arguments]
     // where [argument_count] is [arguments].length + 3
-
-    // Report structure is the same but 80 might by different
+    // 80 might by different.
 
 
     public static final byte[] DATA_TEMPLATE = {
@@ -63,6 +62,14 @@ public final class MakibesHR3Constants {
     public static final int DATA_ARGUMENT_COUNT_INDEX = 2;
     public static final int DATA_COMMAND_INDEX = 4;
     public static final int DATA_ARGUMENTS_INDEX = 6;
+
+    // blood oxygen percentage
+    public static final byte[] RPRT_BLOOD_OXYGEN = new byte[]{ (byte) 0x31, (byte) 0x12 };
+
+
+    // blood oxygen percentage
+    // blood oxygen percentage
+    public static final byte[] RPRT_SINGLE_BLOOD_OXYGEN = new byte[]{ (byte) 0x31, (byte) 0x11 };
 
 
     // This is also used with different parameters.
@@ -95,8 +102,9 @@ public final class MakibesHR3Constants {
     public static final byte RPRT_HEARTRATE = (byte) 0x84;
 
 
-    // 2 arguments.
-    public static final byte RPRT_91 = (byte) 0x91;
+    // charging (00/01)
+    // battery percentage (step size is 20).
+    public static final byte RPRT_BATTERY = (byte) 0x91;
 
     // firmware_major
     // firmware_minor
@@ -127,6 +135,16 @@ public final class MakibesHR3Constants {
     // 0b (this is >= (A))
     // 19 (this is >= (B))
     public static final byte CMD_REQUEST_FITNESS = (byte) 0x51;
+
+    // I don't think the watch can do this, but it replies.
+    // enable (00/01)
+    public static final byte[] CMD_SET_REAL_TIME_BLOOD_OXYGEN = new byte[]{ (byte) 0x31, (byte) 0x12 };
+
+
+    // When disabling, the watch replies with RPRT_SINGLE_BLOOD_OXYGEN
+    // enable (00/01)
+    public static final byte[] CMD_SET_SINGLE_BLOOD_OXYGEN = new byte[]{ (byte) 0x31, (byte) 0x11 };
+
 
     // this is the last command sent on sync
     // 00
@@ -181,8 +199,7 @@ public final class MakibesHR3Constants {
 
     public static final byte ARG_SET_PERSONAL_INFORMATION_UNIT_DISTANCE_MILES = (byte) 0x00;
     public static final byte ARG_SET_PERSONAL_INFORMATION_UNIT_DISTANCE_KILOMETERS = (byte) 0x01;
-    public static final byte ARG_SET_PERSONAL_INFORMATION_UNIT_LENGTH_INCHES = (byte) 0x00;
-    public static final byte ARG_SET_PERSONAL_INFORMATION_UNIT_LENGTH_CENTIMETERS = (byte) 0x01;
+    // step length (in/cm)
     // step length (in/cm)
     // age (years)
     // height (in/cm)
@@ -242,8 +259,16 @@ public final class MakibesHR3Constants {
     public static final byte CMD_SET_TIMEMODE = (byte) 0x7c;
 
 
-    // 5 arguments.
-    public static final byte CMD_7f = (byte) 0x7f;
+    // 14 arguments. Watch might reply with RPRT_BATTERY.
+    public static final byte CMD_7e = (byte) 0x7e;
+
+
+    // 01
+    // fall hour
+    // fall minute
+    // awake hour
+    // awake minute
+    public static final byte CMD_SET_SLEEP_TIME = (byte) 0x7f;
 
 
     // enable (00/01)
@@ -264,6 +289,8 @@ public final class MakibesHR3Constants {
     // second
     public static final byte CMD_SET_DATE_TIME = (byte) 0x93;
 
+    // 3 arguments. Sent when saving personal information.
+    public static final byte CMD_95 = (byte) 0x95;
 
     // looks like enable/disable.
     public static final byte CMD_96 = (byte) 0x96;

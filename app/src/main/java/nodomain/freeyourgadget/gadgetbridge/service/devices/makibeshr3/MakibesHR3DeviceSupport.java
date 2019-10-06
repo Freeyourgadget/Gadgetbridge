@@ -1,13 +1,13 @@
-// TODO: WearFit resets today's step count when it's used after GB.
-
-// TODO: Battery level
-
-// TODO: Step target and personal information
+// TODO: WearFit sometimes resets today's step count when it's used after GB.
+// TODO: Where can I view today's steps in GB?
+// TODO: GB adds the step count to the week's total every time we broadcast a sample.
 
 // TODO: Read activity history from device
 
+// TODO: All the commands that aren't supported by GB should be added to device specific settings.
+
 // TODO: It'd be cool if we could change the language. There's no official way to do so, but the
-// TODO: watch is sold as chinese/english.
+// TODO: watch is sold as chinese/english. Screen on time would be nice too.
 
 package nodomain.freeyourgadget.gadgetbridge.service.devices.makibeshr3;
 
@@ -32,9 +32,9 @@ import java.util.Calendar;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Constants;
 import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Coordinator;
@@ -43,7 +43,9 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MakibesHR3ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
@@ -58,7 +60,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
-import static nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Constants.RPRT_SOFTWARE;
 
 public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -66,8 +67,8 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
     private Vibrator mVibrator;
 
-    public BluetoothGattCharacteristic ctrlCharacteristic = null;
-    public BluetoothGattCharacteristic rprtCharacteristic = null;
+    private BluetoothGattCharacteristic mControlCharacteristic = null;
+    private BluetoothGattCharacteristic mReportCharacteristic = null;
 
 
     public MakibesHR3DeviceSupport() {
@@ -242,32 +243,26 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
     @Override
     public void onEnableRealtimeSteps(boolean enable) {
-
     }
 
     @Override
     public void onInstallApp(Uri uri) {
-
     }
 
     @Override
     public void onAppInfoReq() {
-
     }
 
     @Override
     public void onAppStart(UUID uuid, boolean start) {
-
     }
 
     @Override
     public void onAppDelete(UUID uuid) {
-
     }
 
     @Override
     public void onAppConfiguration(UUID appUuid, String config, Integer id) {
-
     }
 
     @Override
@@ -277,7 +272,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
     @Override
     public void onFetchRecordedData(int dataTypes) {
-
+        // what is this?
     }
 
     @Override
@@ -306,7 +301,6 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
     @Override
     public void onHeartRateTest() {
-
     }
 
     @Override
@@ -419,14 +413,17 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         this.setTimeMode(transaction);
         this.setDateTime(transaction);
         // setDayOfWeek(transaction);
-        // setTimeMode(transaction);
+        this.setTimeMode(transaction);
 
-        // setGender(transaction);
-        // setAge(transaction);
-        // setWeight(transaction);
-        // setHeight(transaction);
+        ActivityUser activityUser = new ActivityUser();
 
-        // setGoal(transaction);
+        this.setPersonalInformation(transaction,
+                (byte) Math.round(activityUser.getHeightCm() * 0.43), // Thanks no1f1
+                activityUser.getAge(),
+                activityUser.getHeightCm(),
+                activityUser.getWeightKg(),
+                activityUser.getStepsGoal() / 1000);
+
         // setLanguage(transaction);
         // setScreenTime(transaction);
         // setUnit(transaction);
@@ -457,21 +454,22 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         gbDevice.setState(GBDevice.State.INITIALIZING);
         gbDevice.sendDeviceUpdateIntent(getContext());
 
-        this.ctrlCharacteristic = getCharacteristic(MakibesHR3Constants.UUID_CHARACTERISTIC_CONTROL);
-        this.rprtCharacteristic = getCharacteristic(MakibesHR3Constants.UUID_CHARACTERISTIC_REPORT);
+        this.mControlCharacteristic = getCharacteristic(MakibesHR3Constants.UUID_CHARACTERISTIC_CONTROL);
+        this.mReportCharacteristic = getCharacteristic(MakibesHR3Constants.UUID_CHARACTERISTIC_REPORT);
 
         this.mVibrator = (Vibrator) this.getContext().getSystemService(Context.VIBRATOR_SERVICE);
 
-        builder.notify(this.rprtCharacteristic, true);
+        builder.notify(this.mReportCharacteristic, true);
         builder.setGattCallback(this);
 
 
         // Allow modifications
-        builder.write(this.ctrlCharacteristic, new byte[]{0x01, 0x00});
+        builder.write(this.mControlCharacteristic, new byte[]{0x01, 0x00});
 
         // Initialize device
         sendUserInfo(builder); //Sync preferences
 
+        // TODO: arguments
         this.requestFitness(builder, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0);
 
         gbDevice.setState(GBDevice.State.INITIALIZED);
@@ -507,10 +505,12 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
                 sample.setSteps(steps);
             }
 
+            // I saw this somewhere else and it works.
             sample.setRawKind(-1);
 
             provider.addGBActivitySample(sample);
 
+            // TODO: steps aren't real time.
             Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
                     .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample)
                     .putExtra(DeviceService.EXTRA_TIMESTAMP, timeStamp);
@@ -547,7 +547,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
         UUID characteristicUuid = characteristic.getUuid();
 
-        if (characteristicUuid.equals(rprtCharacteristic.getUuid())) {
+        if (characteristicUuid.equals(mReportCharacteristic.getUuid())) {
             byte[] value = characteristic.getValue();
             byte[] arguments = new byte[value.length - 6];
 
@@ -575,7 +575,17 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
                         this.onReceiveHeartRate((int) arguments[0]);
                     }
                     break;
-                case RPRT_SOFTWARE:
+                case MakibesHR3Constants.RPRT_BATTERY:
+                    if (arguments.length == 2) {
+                        GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
+
+                        batteryInfo.level = (short) arguments[1];
+                        batteryInfo.state = ((arguments[0] == 0x01) ? BatteryState.BATTERY_CHARGING : BatteryState.BATTERY_NORMAL);
+
+                        this.handleGBDeviceEvent(batteryInfo);
+                    }
+                    break;
+                case MakibesHR3Constants.RPRT_SOFTWARE:
                     if (arguments.length == 11) {
                         this.getDevice().setFirmwareVersion(((int) arguments[0]) + "." + ((int) arguments[1]));
                     }
@@ -586,22 +596,24 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         return false;
     }
 
-    /**
-     * @param command
-     * @param data
-     * @return
-     */
-    private byte[] craftData(byte command, byte[] data) {
+    private byte[] craftData(byte[] command, byte[] data) {
         byte[] result = new byte[MakibesHR3Constants.DATA_TEMPLATE.length + data.length];
 
         System.arraycopy(MakibesHR3Constants.DATA_TEMPLATE, 0, result, 0, MakibesHR3Constants.DATA_TEMPLATE.length);
 
         result[MakibesHR3Constants.DATA_ARGUMENT_COUNT_INDEX] = (byte) (data.length + 3);
-        result[MakibesHR3Constants.DATA_COMMAND_INDEX] = command;
+
+        for (int i = 0; i < command.length; ++i) {
+            result[MakibesHR3Constants.DATA_COMMAND_INDEX + i] = command[i];
+        }
 
         System.arraycopy(data, 0, result, 6, data.length);
 
         return result;
+    }
+
+    private byte[] craftData(byte command, byte[] data) {
+        return this.craftData(new byte[]{command}, data);
     }
 
 
@@ -650,7 +662,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
     }
 
     private MakibesHR3DeviceSupport factoryReset(TransactionBuilder transaction) {
-        transaction.write(this.ctrlCharacteristic, this.craftData(MakibesHR3Constants.CMD_FACTORY_RESET));
+        transaction.write(this.mControlCharacteristic, this.craftData(MakibesHR3Constants.CMD_FACTORY_RESET));
 
         return this.reboot(transaction);
     }
@@ -675,13 +687,13 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
                         (byte) a10
                 });
 
-        transaction.write(this.ctrlCharacteristic, data);
+        transaction.write(this.mControlCharacteristic, data);
 
         return this;
     }
 
     private MakibesHR3DeviceSupport findDevice(TransactionBuilder transaction) {
-        transaction.write(this.ctrlCharacteristic, this.craftData(MakibesHR3Constants.CMD_FIND_DEVICE));
+        transaction.write(this.mControlCharacteristic, this.craftData(MakibesHR3Constants.CMD_FIND_DEVICE));
 
         return this;
     }
@@ -697,7 +709,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         }
 
         this.writeSafe(
-                this.ctrlCharacteristic,
+                this.mControlCharacteristic,
                 transaction,
                 this.craftData(MakibesHR3Constants.CMD_SEND_NOTIFICATION, data));
 
@@ -706,7 +718,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
     private MakibesHR3DeviceSupport setAlarmReminder(TransactionBuilder transaction,
                                                      int id, boolean enable, int hour, int minute, byte repeat) {
-        transaction.write(this.ctrlCharacteristic,
+        transaction.write(this.mControlCharacteristic,
                 this.craftData(MakibesHR3Constants.CMD_SET_ALARM_REMINDER, new byte[]{
                         (byte) id,
                         (byte) (enable ? 0x01 : 0x00),
@@ -718,12 +730,46 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         return this;
     }
 
+    /**
+     * @param transactionBuilder
+     * @param stepLength         cm
+     * @param age                years
+     * @param height             cm
+     * @param weight             kg
+     * @param stepGoal           kilo
+     */
+    private MakibesHR3DeviceSupport setPersonalInformation(TransactionBuilder transactionBuilder,
+                                                           int stepLength, int age, int height, int weight, int stepGoal) {
+        byte[] data = this.craftData(MakibesHR3Constants.CMD_SET_PERSONAL_INFORMATION,
+                new byte[]{
+                        (byte) stepLength,
+                        (byte) age,
+                        (byte) height,
+                        (byte) weight,
+                        MakibesHR3Constants.ARG_SET_PERSONAL_INFORMATION_UNIT_DISTANCE_KILOMETERS,
+                        (byte) stepGoal,
+                        (byte) 0x5a,
+                        (byte) 0x82,
+                        (byte) 0x3c,
+                        (byte) 0x5a,
+                        (byte) 0x28,
+                        (byte) 0xb4,
+                        (byte) 0x5d,
+                        (byte) 0x64,
+
+                });
+
+        transactionBuilder.write(this.mControlCharacteristic, data);
+
+        return this;
+    }
+
     private MakibesHR3DeviceSupport setTimeMode(TransactionBuilder transaction) {
         byte value = MakibesHR3Coordinator.getTimeMode(getDevice().getAddress());
 
         byte[] data = this.craftData(MakibesHR3Constants.CMD_SET_TIMEMODE, new byte[]{value});
 
-        transaction.write(this.ctrlCharacteristic, data);
+        transaction.write(this.mControlCharacteristic, data);
 
         return this;
     }
@@ -731,7 +777,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
     private MakibesHR3DeviceSupport setEnableRealTimeHeartRate(TransactionBuilder transaction, boolean enable) {
         byte[] data = this.craftData(MakibesHR3Constants.CMD_SET_REAL_TIME_HEART_RATE, new byte[]{(byte) (enable ? 0x01 : 0x00)});
 
-        transaction.write(this.ctrlCharacteristic, data);
+        transaction.write(this.mControlCharacteristic, data);
 
         return this;
     }
@@ -747,7 +793,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         byte[] data = this.craftData(MakibesHR3Constants.CMD_SET_DATE_TIME,
                 new byte[]{
                         (byte) 0x00,
-                        (byte) (year & 0xff00),
+                        (byte) ((year & 0xff00) >> 8),
                         (byte) (year & 0x00ff),
                         (byte) month,
                         (byte) day,
@@ -756,7 +802,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
                         (byte) second
                 });
 
-        transaction.write(this.ctrlCharacteristic, data);
+        transaction.write(this.mControlCharacteristic, data);
 
         return this;
     }
@@ -776,7 +822,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
     }
 
     private MakibesHR3DeviceSupport reboot(TransactionBuilder transaction) {
-        transaction.write(this.ctrlCharacteristic, this.craftData(MakibesHR3Constants.CMD_REBOOT));
+        transaction.write(this.mControlCharacteristic, this.craftData(MakibesHR3Constants.CMD_REBOOT));
 
         return this;
     }
