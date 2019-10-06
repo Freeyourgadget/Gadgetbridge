@@ -148,8 +148,7 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
 
     @Override
     public int getAlarmSlotCount() {
-        // TODO:
-        return 5;
+        return 8;
     }
 
     @Override
