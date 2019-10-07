@@ -1,11 +1,10 @@
-// TODO: WearFit sometimes resets today's step count when it's used after GB.
+// TODO: GB sometimes fails to connect until a connection with WearFit was made. This must be caused
+// TODO: by GB, not by makibes hr3 support.
+
 // TODO: Where can I view today's steps in GB?
 // TODO: GB accumulates all step samples, even if they're part of the same day.
 
 // TODO: Activity history download progress.
-// TODO: Remove downloaded history from the device.
-
-// TODO: Request and handle step history from the device.
 
 // TODO: All the commands that aren't supported by GB should be added to device specific settings.
 
@@ -21,6 +20,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.widget.Toast;
@@ -30,7 +30,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -73,6 +73,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
     private static final Logger LOG = LoggerFactory.getLogger(MakibesHR3DeviceSupport.class);
 
+    private Handler mVibrationHandler = new Handler();
     private Vibrator mVibrator;
 
     private BluetoothGattCharacteristic mControlCharacteristic = null;
@@ -136,8 +137,16 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
                 break;
         }
 
+        String message = "";
+
+        if (notificationSpec.title != null) {
+            message += (notificationSpec.title + ": ");
+        }
+
+        message += notificationSpec.body;
+
         this.sendNotification(transactionBuilder,
-                sender, notificationSpec.title + ": " + notificationSpec.body);
+                sender, message);
 
         try {
             this.performConnected(transactionBuilder.getTransaction());
@@ -224,7 +233,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         if (callSpec.command == CallSpec.CALL_INCOMING) {
             this.sendNotification(transactionBuilder, MakibesHR3Constants.ARG_SEND_NOTIFICATION_SOURCE_CALL, callSpec.name);
         } else {
-            this.sendNotification(transactionBuilder, MakibesHR3Constants.ARG_SEND_NOTIFICATION_SOURCE_STOP_CALL, callSpec.name);
+            this.sendNotification(transactionBuilder, MakibesHR3Constants.ARG_SEND_NOTIFICATION_SOURCE_STOP_CALL, "");
         }
 
         try {
@@ -325,21 +334,35 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
     }
 
     private void onReverseFindDevice(boolean start) {
-        final long[] PATTERN = new long[]{
-                100, 100,
-                100, 100,
-                100, 100,
-                500
-        };
+        if (this.mVibrator.hasVibrator()) {
+            final long[] PATTERN = new long[]{
+                    100, 100,
+                    100, 100,
+                    100, 100,
+                    500
+            };
 
-        if (start) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                this.mVibrator.vibrate(VibrationEffect.createWaveform(PATTERN, 0));
+            if (start) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    this.mVibrator.vibrate(VibrationEffect.createWaveform(PATTERN, 0));
+                } else {
+                    this.mVibrator.vibrate(PATTERN, 0);
+                }
+
+                // In case the connection is closed while we're searching for the device.
+
+                this.mVibrationHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mVibrator.cancel();
+                    }
+                }, 1100 * 6);
+
             } else {
-                this.mVibrator.vibrate(PATTERN, 0);
+                this.mVibrator.cancel();
             }
         } else {
-            this.mVibrator.cancel();
+            // TODO: Alternative handling. Don't use sound, the connection isn't secure.
         }
     }
 
@@ -477,8 +500,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         // Initialize device
         sendUserInfo(builder); //Sync preferences
 
-        // TODO: arguments
-        this.requestFitness(builder, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0);
+        this.requestFitness(builder);
 
         gbDevice.setState(GBDevice.State.INITIALIZED);
         gbDevice.sendDeviceUpdateIntent(getContext());
@@ -521,20 +543,21 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
     }
 
     private void addGBActivitySample(MakibesHR3ActivitySample sample) {
-        this.addGBActivitySamples(new MakibesHR3ActivitySample[]{ sample });
+        this.addGBActivitySamples(new MakibesHR3ActivitySample[]{sample});
     }
 
     /**
      * Should only be called after the sample has been populated by
      * {@link MakibesHR3DeviceSupport#addGBActivitySample} or
      * {@link MakibesHR3DeviceSupport#addGBActivitySamples}
+     *
      * @param sample
      */
     private void broadcastSample(MakibesHR3ActivitySample sample) {
         Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
                 .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample)
                 .putExtra(DeviceService.EXTRA_TIMESTAMP, sample.getTimestamp());
-         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
     }
 
     private void onReceiveFitness(int steps) {
@@ -590,6 +613,26 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         this.addGBActivitySample(sample);
     }
 
+    /**
+     * The time is the start of the measurement. Each measurement lasts 1h.
+     */
+    private void onReceiveStepsSample(int year, int month, int day, int hour, int minute, int steps) {
+        LOG.debug("received steps sample " + year + "-" + month + "-" + day + " " + hour + ":" + minute + " " + steps);
+
+        MakibesHR3ActivitySample sample = new MakibesHR3ActivitySample();
+
+        Calendar calendar = new GregorianCalendar(year, month - 1, day, hour + 1, minute);
+
+        int timeStamp = (int) (calendar.getTimeInMillis() / 1000);
+
+        sample.setSteps(steps);
+        sample.setTimestamp(timeStamp);
+
+        sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
+
+        this.addGBActivitySample(sample);
+    }
+
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt,
                                            BluetoothGattCharacteristic characteristic) {
@@ -611,7 +654,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
                 arguments[i] = value[i + 6];
             }
 
-            byte[] report = new byte[]{ value[4], value[5] };
+            byte[] report = new byte[]{value[4], value[5]};
 
             switch (report[0]) {
                 case MakibesHR3Constants.RPRT_REVERSE_FIND_DEVICE:
@@ -639,14 +682,19 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
                     break;
                 default: // Non-80 reports
                     if (Arrays.equals(report, MakibesHR3Constants.RPRT_FITNESS)) {
-                            this.onReceiveFitness(
-                                    (int) arguments[1] * 0xff + arguments[2]
-                            );
+                        this.onReceiveFitness(
+                                (int) arguments[1] * 0xff + arguments[2]
+                        );
                     } else if (Arrays.equals(report, MakibesHR3Constants.RPRT_HEART_RATE_SAMPLE)) {
                         this.onReceiveHeartRateSample(
                                 arguments[0] + 2000, arguments[1], arguments[2],
                                 arguments[3], arguments[4],
                                 arguments[5]);
+                    } else if (Arrays.equals(report, MakibesHR3Constants.RPRT_STEPS_SAMPLE)) {
+                        this.onReceiveStepsSample(
+                                arguments[0] + 2000, arguments[1], arguments[2],
+                                arguments[3], 0,
+                                (arguments[5] * 0xff) + arguments[6]);
                     }
                     break;
             }
@@ -684,7 +732,11 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         final int maxMessageLength = 20;
 
         // For every split, we need 1 byte extra.
-        int extraBytes = (((data.length - maxMessageLength) / maxMessageLength) + 1);
+        int extraBytes = 0;
+
+        if (data.length > 20) {
+            extraBytes = (((data.length - maxMessageLength) / maxMessageLength) + 1);
+        }
 
         int totalDataLength = (data.length + extraBytes);
 
@@ -726,27 +778,76 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         return this.reboot(transaction);
     }
 
+    /**
+     * Ugly because I don't like Date.
+     * All non-zero records after the given times will be returned via
+     * {@link MakibesHR3Constants#RPRT_HEART_RATE_SAMPLE},
+     * {@link MakibesHR3Constants#RPRT_STEPS_SAMPLE},
+     * {@link MakibesHR3Constants#RPRT_FITNESS}
+     */
     private MakibesHR3DeviceSupport requestFitness(TransactionBuilder transaction,
-                                                   int yearStart, int monthStart, int dayStart,
-                                                   int a4, int a5,
-                                                   int yearEnd, int monthEnd, int dayEnd,
-                                                   int a9, int a10) {
+                                                   int yearStepsAfter, int monthStepsAfter, int dayStepsAfter,
+                                                   int hourStepsAfter, int minuteStepsAfter,
+                                                   int yearHeartRateAfter, int monthHeartRateAfter, int dayHeartRateAfter,
+                                                   int hourHeartRateAfter, int minuteHeartRateAfter) {
 
         byte[] data = this.craftData(MakibesHR3Constants.CMD_REQUEST_FITNESS,
                 new byte[]{
-                        (byte) (yearStart - 2000),
-                        (byte) monthStart,
-                        (byte) dayStart,
-                        (byte) a4,
-                        (byte) a5,
-                        (byte) (yearEnd - 2000),
-                        (byte) monthEnd,
-                        (byte) dayEnd,
-                        (byte) a9,
-                        (byte) a10
+                        (byte) 0x00,
+                        (byte) (yearStepsAfter - 2000),
+                        (byte) monthStepsAfter,
+                        (byte) dayStepsAfter,
+                        (byte) hourStepsAfter,
+                        (byte) minuteStepsAfter,
+                        (byte) (yearHeartRateAfter - 2000),
+                        (byte) monthHeartRateAfter,
+                        (byte) dayHeartRateAfter,
+                        (byte) hourHeartRateAfter,
+                        (byte) minuteHeartRateAfter
                 });
 
         transaction.write(this.mControlCharacteristic, data);
+
+        return this;
+    }
+
+    /**
+     * Ugly because I don't like Date.
+     * All non-zero records after the given times will be returned via
+     * {@link MakibesHR3Constants#RPRT_HEART_RATE_SAMPLE},
+     * {@link MakibesHR3Constants#RPRT_STEPS_SAMPLE},
+     * {@link MakibesHR3Constants#RPRT_FITNESS}
+     */
+    private MakibesHR3DeviceSupport requestFitness(TransactionBuilder transaction) {
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+
+            MakibesHR3SampleProvider provider = new MakibesHR3SampleProvider(this.getDevice(), dbHandler.getDaoSession());
+
+            MakibesHR3ActivitySample latestSample = provider.getLatestActivitySample();
+
+            if (latestSample == null) {
+                this.requestFitness(transaction,
+                        0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0);
+            } else {
+                // getInstance is unnecessary, we're overriding.
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(new Date(latestSample.getTimestamp() * 1000l));
+
+                int year = calendar.get(Calendar.YEAR);
+                int month = (calendar.get(Calendar.MONTH) + 1);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
+
+                this.requestFitness(transaction,
+                        year, month, day, hour, minute,
+                        year, month, day, hour, minute);
+            }
+
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage());
+        }
 
         return this;
     }
