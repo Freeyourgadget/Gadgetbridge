@@ -28,6 +28,7 @@ import androidx.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -37,6 +38,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.MakibesHR3ActivitySampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.No1F1ActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -50,11 +53,9 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MakibesHR3Coordinator.class);
 
     public static byte getTimeMode(SharedPreferences sharedPrefs) {
-        String tmode = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_24h));
+        String timeMode = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_24h));
 
-        LOG.debug("tmode is " + tmode);
-
-        if (tmode.equals(getContext().getString(R.string.p_timeformat_24h))) {
+        if (timeMode.equals(getContext().getString(R.string.p_timeformat_24h))) {
             return MakibesHR3Constants.ARG_SET_TIMEMODE_24H;
         } else {
             return MakibesHR3Constants.ARG_SET_TIMEMODE_12H;
@@ -82,7 +83,9 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
 
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
-
+        Long deviceId = device.getId();
+        QueryBuilder<?> qb = session.getMakibesHR3ActivitySampleDao().queryBuilder();
+        qb.where(MakibesHR3ActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
 
     @Override
