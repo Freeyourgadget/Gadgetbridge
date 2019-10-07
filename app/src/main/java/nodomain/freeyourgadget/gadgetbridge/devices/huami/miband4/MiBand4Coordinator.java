@@ -88,6 +88,7 @@ public class MiBand4Coordinator extends HuamiCoordinator {
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_miband3,
+                R.xml.devicesettings_wearlocation,
                 R.xml.devicesettings_dateformat,
                 R.xml.devicesettings_nightmode,
                 R.xml.devicesettings_liftwrist_display,

@@ -181,7 +181,6 @@
     <string name="pref_title_screentime">Ekraani avatuse kestus</string>
     <string name="prefs_title_all_day_heart_rate">Kogu päeva südame löögisageduse mõõtmine</string>
     <string name="preferences_hplus_settings">HPlus/Makibes seaded</string>
-    <string name="preferences_id115_settings">ID115 seaded</string>
     <string name="prefs_screen_orientation">Ekraani suund</string>
     <string name="zetime_title_settings">ZeTime seaded</string>
     <string name="zetime_title_heartrate">Südame löögisageduse seaded</string>
@@ -201,9 +200,6 @@
     <string name="zetime_calories_type">Kalorite tüüp</string>
     <string name="zetime_calories_type_active">Ainult aktiivselt põletatud kalorid</string>
     <string name="zetime_calories_type_all">Aktiivselt ja passiivselt põletatud kalorid</string>
-    <string name="zetime_time_format">Kellaaja vorming</string>
-    <string name="zetime_time_format_24h">24h</string>
-    <string name="zetime_time_format_12h">12h</string>
     <string name="zetime_date_format">Kuupäeva vorming</string>
     <string name="zetime_prefs_inactivity_repetitions">Kordused</string>
     <string name="zetime_prefs_inactivity_mo">Esmaspäev</string>

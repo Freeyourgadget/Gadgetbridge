@@ -22,11 +22,12 @@ import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
 
-import java.util.Collection;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import nodomain.freeyourgadget.gadgetbridge.GBException;
+
+import java.util.Collection;
+
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -37,9 +38,6 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-/**
- * Created by lightwars on 06.02.18.
- */
 
 public class ZeTimeCoordinator extends AbstractDeviceCoordinator {
     @Override
@@ -135,7 +133,7 @@ public class ZeTimeCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
+    protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) {
 
     }
 
@@ -161,4 +159,12 @@ public class ZeTimeCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsUnicodeEmojis() { return  true; }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_timeformat,
+                R.xml.devicesettings_wearlocation,
+        };
+    }
 }

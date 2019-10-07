@@ -39,6 +39,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
@@ -147,7 +148,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("sendConfiguration");
             switch (config) {
-                case ZeTimeConstants.PREF_WRIST:
+                case DeviceSettingsPreferenceConst.PREF_WEARLOCATION:
                     setWrist(builder);
                     break;
                 case ZeTimeConstants.PREF_SCREENTIME:
@@ -170,7 +171,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 case ZeTimeConstants.PREF_CALORIES_TYPE:
                     setCaloriesType(builder);
                     break;
-                case ZeTimeConstants.PREF_TIME_FORMAT:
+                case DeviceSettingsPreferenceConst.PREF_TIMEFORMAT:
                     setTimeFormate(builder);
                     break;
                 case ZeTimeConstants.PREF_DATE_FORMAT:
@@ -1421,7 +1422,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     // function serving the settings
     private void setWrist(TransactionBuilder builder) {
-        String value = GBApplication.getPrefs().getString(ZeTimeConstants.PREF_WRIST, "left");
+        String value = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_WEARLOCATION, "left");
 
         byte[] wrist = {ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_USAGE_HABITS,
@@ -1430,7 +1431,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 (byte) 0x0,
                 ZeTimeConstants.WEAR_ON_LEFT_WRIST,
                 ZeTimeConstants.CMD_END};
-        if (value.equals("right")) {
+        if ("right".equals(value)) {
             wrist[5] = ZeTimeConstants.WEAR_ON_RIGHT_WRIST;
         }
 
@@ -1681,8 +1682,11 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void setTimeFormate(TransactionBuilder builder) {
-        Prefs prefs = GBApplication.getPrefs();
-        int type = prefs.getInt(ZeTimeConstants.PREF_TIME_FORMAT, 0);
+        String timeFormat = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, "24h");
+        int type = 1;
+        if ("am/pm".equals(timeFormat)) {
+            type = 2;
+        }
 
         byte[] timeformat = {ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_TIME_SURFACE_SETTINGS,
@@ -1961,8 +1965,17 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
 
         prefs.putString(ZeTimeConstants.PREF_DATE_FORMAT, Integer.toString(msg[5]));
-        prefs.putString(ZeTimeConstants.PREF_TIME_FORMAT, Integer.toString(msg[6]));
         prefs.apply();
+
+        String timeFormat = "24h";
+
+        SharedPreferences.Editor prefsEditor = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).edit();
+
+        if (msg[6] == 2) {
+            timeFormat = "am/pm";
+        }
+        prefsEditor.putString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, timeFormat);
+        prefsEditor.apply();
     }
 
     private void getSignaling(byte[] msg) {
@@ -2021,12 +2034,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void getWrist(byte[] msg) {
-        SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
+        SharedPreferences.Editor prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).edit();
 
         if (ZeTimeConstants.WEAR_ON_LEFT_WRIST == msg[5]) {
-            prefs.putString(ZeTimeConstants.PREF_WRIST, "left");
+            prefs.putString(DeviceSettingsPreferenceConst.PREF_WEARLOCATION, "left");
         } else if (ZeTimeConstants.WEAR_ON_RIGHT_WRIST == msg[5]) {
-            prefs.putString(ZeTimeConstants.PREF_WRIST, "right");
+            prefs.putString(DeviceSettingsPreferenceConst.PREF_WEARLOCATION, "right");
         }
         prefs.apply();
     }

@@ -246,7 +246,6 @@
     <string name="message_cannot_pair_no_mac">Adresa MAC neprišla, nemôžem spárovať.</string>
     <string name="preferences_category_device_specific_settings">Špecifické nastavenia zariadení</string>
     <string name="preferences_miband_settings">Nastavenia Mi Band / Amazfit</string>
-    <string name="preferences_amazfitbip_settings">Nastavenia Amazfit Bip</string>
     <string name="male">Muž</string>
     <string name="female">Žena</string>
     <string name="other">Iné</string>
@@ -266,7 +265,7 @@
     <string name="initializing">Spúšťanie</string>
     <string name="busy_task_fetch_activity_data">Načítavanie údajov o aktivite</string>
     <string name="sleep_activity_date_range">Od %1$s do %2$s</string>
-    <string name="miband_prefs_wearside">Na ktorej ruke nosíte?</string>
+    <string name="prefs_wearside">Na ktorej ruke nosíte?</string>
     <string name="pref_screen_vibration_profile">Profil vibrácií</string>
 
     <string name="vibration_profile_staccato">Staccato</string>

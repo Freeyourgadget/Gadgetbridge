@@ -546,14 +546,6 @@
         <item>0</item>
         <item>1</item>
     </string-array>
-    <string-array name="zetime_time_format">
-        <item name="1">@string/zetime_time_format_24h</item>
-        <item name="2">@string/zetime_time_format_12h</item>
-    </string-array>
-    <string-array name="zetime_time_format_values">
-        <item>1</item>
-        <item>2</item>
-    </string-array>
     <string-array name="zetime_date_format">
         <item name="1">@string/zetime_date_format_1</item>
         <item name="2">@string/zetime_date_format_2</item>
