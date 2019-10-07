@@ -96,21 +96,23 @@ public final class MakibesHR3Constants {
     // heart rate
     public static final byte[] RPRT_HEART_RATE_SAMPLE = new byte[]{ (byte) 0x51, (byte) 0x11 };
 
-    // year
+    // WearFit says "walking" in the step details. This is probably also in here, but
+    // I don't run :O
+    // year (+2000)
     // month
     // day
-    // hour?
-    // 00
-    // 01
-    // 39
-    // 00
-    // 00
-    // 0d
+    // hour (start of measurement. interval is 1h. Might be longer when running.)
+    // 00 (either used for steps or minute)
+    // accumulated steps (hi)
+    // accumulated steps (lo)
     // 00
     // 00
+    // ?? (changes whenever steps change. Ranges from 00 to 16.)
     // 00
     // 00
-    public static final byte[] RPRT_51_20 = new byte[]{ (byte) 0x51, (byte) 0x20 };
+    // 00
+    // 00
+    public static final byte[] RPRT_STEPS_SAMPLE = new byte[]{ (byte) 0x51, (byte) 0x20 };
 
 
     // enable (00/01)
@@ -155,23 +157,27 @@ public final class MakibesHR3Constants {
     // enable (00/01)
     public static final byte[] CMD_SET_SINGLE_BLOOD_OXYGEN = new byte[]{ (byte) 0x31, (byte) 0x11 };
 
-
-    // The times in here are probably 'from' and 'until'
+    // device replies with
+    // {@link MakibesHR3Constants#RPRT_HEART_RATE_SAMPLE}
+    // {@link MakibesHR3Constants#RPRT_STEPS_SAMPLE} (Only if steps are non-zero)
+    // {@link MakibesHR3Constants#RPRT_FITNESS}
+    // there are also multiple 6 * 00 reports
     // 00
-    // year (+2000)
-    // month (not current! but close. Multiple of 5)
-    // day (not current! but close. Multiple of 5)
-    // 0b (A)
-    // 00 (B)
-    // year (+2000)
-    // month (not current! but close)
-    // day (not current! but close)
-    // 0b (this is >= (A). Multiple of 5)
-    // 19 (this is >= (B). Multiple of 5)
+    // year (+2000) steps after
+    // month steps after
+    // day steps after
+    // hour steps after
+    // minute steps after
+    // year (+2000) heart rate after
+    // month heart rate after
+    // day heart rate after
+    // hour heart rate after
+    // minute heart rate after
     public static final byte CMD_REQUEST_FITNESS = (byte) 0x51;
 
 
-    // this looks like a request for the heart rate history
+    // Manually sending this doesn't yield a reply. The heart rate history is sent in response to
+    // CMD_CMD_REQUEST_FITNESS.
     // 00
     // year (+2000)
     // month (not current!)
@@ -181,6 +187,7 @@ public final class MakibesHR3Constants {
     public static final byte CMD_52 = (byte) 0x52;
 
 
+    // vibrates 6 times
     public static final byte CMD_FIND_DEVICE = (byte) 0x71;
 
 
