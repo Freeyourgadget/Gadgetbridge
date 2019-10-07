@@ -72,7 +72,6 @@ public final class MakibesHR3Constants {
     public static final byte[] RPRT_SINGLE_BLOOD_OXYGEN = new byte[]{ (byte) 0x31, (byte) 0x11 };
 
 
-    // This is also used with different parameters.
     // steps take up more bytes. I don't know which ones yet.
     // Only sent after we send CMD_51
     // 00 (maybe also used for steps)
@@ -86,7 +85,32 @@ public final class MakibesHR3Constants {
     // 00
     // 00
     // 00
-    public static final byte RPRT_FITNESS = (byte) 0x51;
+    public static final byte[] RPRT_FITNESS = new byte[]{ (byte) 0x51, 0x08 };
+
+    // year (+2000)
+    // month
+    // day
+    // hour
+    // minute
+    // heart rate
+    // heart rate
+    public static final byte[] RPRT_HEART_RATE_SAMPLE = new byte[]{ (byte) 0x51, (byte) 0x11 };
+
+    // year
+    // month
+    // day
+    // hour?
+    // 00
+    // 01
+    // 39
+    // 00
+    // 00
+    // 0d
+    // 00
+    // 00
+    // 00
+    // 00
+    public static final byte[] RPRT_51_20 = new byte[]{ (byte) 0x51, (byte) 0x20 };
 
 
     // enable (00/01)
@@ -123,34 +147,35 @@ public final class MakibesHR3Constants {
     public static final byte CMD_FACTORY_RESET = (byte) 0x23;
 
 
+    // enable (00/01)
+    public static final byte[] CMD_SET_REAL_TIME_BLOOD_OXYGEN = new byte[]{ (byte) 0x31, (byte) 0x12 };
+
+
+    // After disabling, the watch replies with RPRT_SINGLE_BLOOD_OXYGEN
+    // enable (00/01)
+    public static final byte[] CMD_SET_SINGLE_BLOOD_OXYGEN = new byte[]{ (byte) 0x31, (byte) 0x11 };
+
+
+    // The times in here are probably 'from' and 'until'
     // 00
     // year (+2000)
-    // month (not current! but close)
-    // day (not current! but close)
+    // month (not current! but close. Multiple of 5)
+    // day (not current! but close. Multiple of 5)
     // 0b (A)
     // 00 (B)
     // year (+2000)
     // month (not current! but close)
     // day (not current! but close)
-    // 0b (this is >= (A))
-    // 19 (this is >= (B))
+    // 0b (this is >= (A). Multiple of 5)
+    // 19 (this is >= (B). Multiple of 5)
     public static final byte CMD_REQUEST_FITNESS = (byte) 0x51;
 
-    // I don't think the watch can do this, but it replies.
-    // enable (00/01)
-    public static final byte[] CMD_SET_REAL_TIME_BLOOD_OXYGEN = new byte[]{ (byte) 0x31, (byte) 0x12 };
 
-
-    // When disabling, the watch replies with RPRT_SINGLE_BLOOD_OXYGEN
-    // enable (00/01)
-    public static final byte[] CMD_SET_SINGLE_BLOOD_OXYGEN = new byte[]{ (byte) 0x31, (byte) 0x11 };
-
-
-    // this is the last command sent on sync
+    // this looks like a request for the heart rate history
     // 00
     // year (+2000)
     // month (not current!)
-    // 14 this isn't the current day
+    // day (not current!)
     // hour (current)
     // minute (current)
     public static final byte CMD_52 = (byte) 0x52;

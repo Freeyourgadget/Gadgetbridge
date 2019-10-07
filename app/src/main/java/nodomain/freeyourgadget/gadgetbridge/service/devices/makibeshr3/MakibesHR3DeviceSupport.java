@@ -1,8 +1,11 @@
 // TODO: WearFit sometimes resets today's step count when it's used after GB.
 // TODO: Where can I view today's steps in GB?
-// TODO: GB adds the step count to the week's total every time we broadcast a sample.
+// TODO: GB accumulates all step samples, even if they're part of the same day.
 
-// TODO: Read activity history from device
+// TODO: Activity history download progress.
+// TODO: Remove downloaded history from the device.
+
+// TODO: Request and handle step history from the device.
 
 // TODO: All the commands that aren't supported by GB should be added to device specific settings.
 
@@ -27,8 +30,11 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -43,6 +49,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MakibesHR3ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
@@ -485,7 +493,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         return builder;
     }
 
-    private void broadcastActivity(Integer heartRate, Integer steps) {
+    private void addGBActivitySamples(MakibesHR3ActivitySample[] samples) {
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
 
             User user = DBHelper.getUser(dbHandler.getDaoSession());
@@ -493,45 +501,93 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
             MakibesHR3SampleProvider provider = new MakibesHR3SampleProvider(this.getDevice(), dbHandler.getDaoSession());
 
-            int timeStamp = (int) (System.currentTimeMillis() / 1000);
+            for (MakibesHR3ActivitySample sample : samples) {
+                sample.setDevice(device);
+                sample.setUser(user);
+                sample.setProvider(provider);
 
-            MakibesHR3ActivitySample sample = this.createActivitySample(device, user, timeStamp, provider);
+                sample.setRawIntensity(ActivitySample.NOT_MEASURED);
 
-            if (heartRate != null) {
-                sample.setHeartRate(heartRate);
+                provider.addGBActivitySample(sample);
             }
-
-            if (steps != null) {
-                sample.setSteps(steps);
-            }
-
-            // I saw this somewhere else and it works.
-            sample.setRawKind(-1);
-
-            provider.addGBActivitySample(sample);
-
-            // TODO: steps aren't real time.
-            Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
-                    .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample)
-                    .putExtra(DeviceService.EXTRA_TIMESTAMP, timeStamp);
-            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
 
         } catch (Exception ex) {
-            GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+            // Why is this a toast? The user doesn't care about the error.
+            GB.toast(getContext(), "Error saving samples: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
             GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
+
+            LOG.error(ex.getMessage());
         }
+    }
+
+    private void addGBActivitySample(MakibesHR3ActivitySample sample) {
+        this.addGBActivitySamples(new MakibesHR3ActivitySample[]{ sample });
+    }
+
+    /**
+     * Should only be called after the sample has been populated by
+     * {@link MakibesHR3DeviceSupport#addGBActivitySample} or
+     * {@link MakibesHR3DeviceSupport#addGBActivitySamples}
+     * @param sample
+     */
+    private void broadcastSample(MakibesHR3ActivitySample sample) {
+        Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample)
+                .putExtra(DeviceService.EXTRA_TIMESTAMP, sample.getTimestamp());
+         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
     }
 
     private void onReceiveFitness(int steps) {
         LOG.info("steps: " + steps);
 
-        this.broadcastActivity(null, steps);
+        MakibesHR3ActivitySample sample = new MakibesHR3ActivitySample();
+
+        sample.setSteps(steps);
+        sample.setTimestamp((int) (System.currentTimeMillis() / 1000));
+
+        sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
+        this.addGBActivitySample(sample);
     }
 
     private void onReceiveHeartRate(int heartRate) {
         LOG.info("heart rate: " + heartRate);
 
-        this.broadcastActivity(heartRate, null);
+        MakibesHR3ActivitySample sample = new MakibesHR3ActivitySample();
+
+        if (heartRate > 0) {
+            sample.setHeartRate(heartRate);
+            sample.setTimestamp((int) (System.currentTimeMillis() / 1000));
+            sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
+        } else {
+            if (heartRate == MakibesHR3Constants.ARG_HEARTRATE_NO_TARGET) {
+                sample.setRawKind(ActivityKind.TYPE_NOT_WORN);
+            } else if (heartRate == MakibesHR3Constants.ARG_HEARTRATE_NO_READING) {
+                sample.setRawKind(ActivityKind.TYPE_NOT_MEASURED);
+            } else {
+                LOG.warn("invalid heart rate reading: " + heartRate);
+                return;
+            }
+        }
+
+        this.addGBActivitySample(sample);
+        this.broadcastSample(sample);
+    }
+
+    private void onReceiveHeartRateSample(int year, int month, int day, int hour, int minute, int heartRate) {
+        LOG.debug("received heart rate sample " + year + "-" + month + "-" + day + " " + hour + ":" + minute + " " + heartRate);
+
+        MakibesHR3ActivitySample sample = new MakibesHR3ActivitySample();
+
+        Calendar calendar = new GregorianCalendar(year, month - 1, day, hour, minute);
+
+        int timeStamp = (int) (calendar.getTimeInMillis() / 1000);
+
+        sample.setHeartRate(heartRate);
+        sample.setTimestamp(timeStamp);
+
+        sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
+
+        this.addGBActivitySample(sample);
     }
 
     @Override
@@ -555,18 +611,9 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
                 arguments[i] = value[i + 6];
             }
 
-            byte report = value[4];
+            byte[] report = new byte[]{ value[4], value[5] };
 
-            LOG.debug("report: " + Integer.toHexString((int) report));
-
-            switch (report) {
-                case MakibesHR3Constants.RPRT_FITNESS:
-                    if (value.length == 17) {
-                        this.onReceiveFitness(
-                                (int) arguments[1] * 0xff + arguments[2]
-                        );
-                    }
-                    break;
+            switch (report[0]) {
                 case MakibesHR3Constants.RPRT_REVERSE_FIND_DEVICE:
                     this.onReverseFindDevice(arguments[0] == 0x01);
                     break;
@@ -588,6 +635,18 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
                 case MakibesHR3Constants.RPRT_SOFTWARE:
                     if (arguments.length == 11) {
                         this.getDevice().setFirmwareVersion(((int) arguments[0]) + "." + ((int) arguments[1]));
+                    }
+                    break;
+                default: // Non-80 reports
+                    if (Arrays.equals(report, MakibesHR3Constants.RPRT_FITNESS)) {
+                            this.onReceiveFitness(
+                                    (int) arguments[1] * 0xff + arguments[2]
+                            );
+                    } else if (Arrays.equals(report, MakibesHR3Constants.RPRT_HEART_RATE_SAMPLE)) {
+                        this.onReceiveHeartRateSample(
+                                arguments[0] + 2000, arguments[1], arguments[2],
+                                arguments[3], arguments[4],
+                                arguments[5]);
                     }
                     break;
             }
