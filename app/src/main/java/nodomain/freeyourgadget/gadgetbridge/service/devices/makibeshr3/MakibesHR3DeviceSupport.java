@@ -1,10 +1,9 @@
 // TODO: GB sometimes fails to connect until a connection with WearFit was made. This must be caused
-// TODO: by GB, not by makibes hr3 support.
+// TODO: by GB, not by makibes hr3 support. Charging the watch or attempting to pair might also
+// TODO: help. This needs further research.
 
 // TODO: Where can I view today's steps in GB?
 // TODO: GB accumulates all step samples, even if they're part of the same day.
-
-// TODO: Activity history download progress.
 
 // TODO: All the commands that aren't supported by GB should be added to device specific settings.
 
@@ -20,6 +19,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -38,6 +38,7 @@ import java.util.GregorianCalendar;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
@@ -76,6 +77,19 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
     private Handler mVibrationHandler = new Handler();
     private Vibrator mVibrator;
 
+    private CountDownTimer mFetchCountDown = new CountDownTimer(1000, 1000) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+
+        }
+
+        @Override
+        public void onFinish() {
+            LOG.debug("download finished");
+            GB.updateTransferNotification(null, "", false, 100, getContext());
+        }
+    };
+
     private BluetoothGattCharacteristic mControlCharacteristic = null;
     private BluetoothGattCharacteristic mReportCharacteristic = null;
 
@@ -84,6 +98,20 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         super(LOG);
 
         addSupportedService(MakibesHR3Constants.UUID_SERVICE);
+    }
+
+    /**
+     * Called whenever data is received to postpone the removing of the progress notification.
+     * @param start Start showing the notification
+     */
+    private void fetch(boolean start) {
+        if (start) {
+            // We don't know how long the watch is going to take to reply. Keep progress at 0.
+            GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, 0, getContext());
+        }
+
+        this.mFetchCountDown.cancel();
+        this.mFetchCountDown.start();
     }
 
     @Override
@@ -434,7 +462,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
     }
 
     private MakibesHR3DeviceSupport sendUserInfo(TransactionBuilder builder) {
-        syncPreferences(builder);
+        this.syncPreferences(builder);
 
         return this;
     }
@@ -455,10 +483,13 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
                 activityUser.getWeightKg(),
                 activityUser.getStepsGoal() / 1000);
 
+
         // setLanguage(transaction);
         // setScreenTime(transaction);
         // setUnit(transaction);
         // setAllDayHeart(transaction);
+
+        this.fetch(true);
 
         return this;
     }
@@ -482,6 +513,8 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
+        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, 0, getContext());
+
         gbDevice.setState(GBDevice.State.INITIALIZING);
         gbDevice.sendDeviceUpdateIntent(getContext());
 
@@ -644,6 +677,8 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         if (data.length < 6)
             return true;
 
+        this.fetch(false);
+
         UUID characteristicUuid = characteristic.getUuid();
 
         if (characteristicUuid.equals(mReportCharacteristic.getUuid())) {
@@ -790,6 +825,8 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
                                                    int hourStepsAfter, int minuteStepsAfter,
                                                    int yearHeartRateAfter, int monthHeartRateAfter, int dayHeartRateAfter,
                                                    int hourHeartRateAfter, int minuteHeartRateAfter) {
+
+        this.fetch(true);
 
         byte[] data = this.craftData(MakibesHR3Constants.CMD_REQUEST_FITNESS,
                 new byte[]{
