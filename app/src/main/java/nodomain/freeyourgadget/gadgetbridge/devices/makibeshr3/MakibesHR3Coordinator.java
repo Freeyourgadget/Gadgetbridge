@@ -29,7 +29,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.greenrobot.dao.query.QueryBuilder;
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
@@ -51,15 +50,6 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
 
     private static final Logger LOG = LoggerFactory.getLogger(MakibesHR3Coordinator.class);
 
-    public static byte getTimeMode(SharedPreferences sharedPrefs) {
-        String timeMode = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_24h));
-
-        if (timeMode.equals(getContext().getString(R.string.p_timeformat_24h))) {
-            return MakibesHR3Constants.ARG_SET_TIMEMODE_24H;
-        } else {
-            return MakibesHR3Constants.ARG_SET_TIMEMODE_12H;
-        }
-    }
 
     public static boolean shouldEnableHeadsUpScreen(SharedPreferences sharedPrefs) {
         String liftMode = sharedPrefs.getString(MakibesHR3Constants.PREF_HEADS_UP_SCREEN, getContext().getString(R.string.p_on));
@@ -68,16 +58,21 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
         return (liftMode != getContext().getString(R.string.p_off));
     }
 
-    public static boolean shouldEnableHeadsUpScreen(String deviceAddress) {
-        SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
+    public static boolean shouldEnableLostReminder(SharedPreferences sharedPrefs) {
+        String lostReminder = sharedPrefs.getString(MakibesHR3Constants.PREF_LOST_REMINDER, getContext().getString(R.string.p_on));
 
-        return shouldEnableHeadsUpScreen(sharedPrefs);
+        // Makibes HR3 doesn't support scheduled intervals. Treat it as "on".
+        return (lostReminder != getContext().getString(R.string.p_off));
     }
 
-    public static byte getTimeMode(String deviceAddress) {
-        SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
+    public static byte getTimeMode(SharedPreferences sharedPrefs) {
+        String timeMode = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_24h));
 
-        return getTimeMode(sharedPrefs);
+        if (timeMode.equals(getContext().getString(R.string.p_timeformat_24h))) {
+            return MakibesHR3Constants.ARG_SET_TIMEMODE_24H;
+        } else {
+            return MakibesHR3Constants.ARG_SET_TIMEMODE_12H;
+        }
     }
 
     @NonNull
@@ -195,7 +190,8 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_timeformat,
-                R.xml.devicesettings_liftwrist_display
+                R.xml.devicesettings_liftwrist_display,
+                R.xml.devicesettings_disconnectnotification
         };
     }
 }

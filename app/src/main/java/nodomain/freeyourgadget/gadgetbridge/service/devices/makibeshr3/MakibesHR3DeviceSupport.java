@@ -1,8 +1,10 @@
 // TODO: GB sometimes fails to connect until a connection with WearFit was made. This must be caused
-// TODO: by GB, not by Makibes hr3 support. Charging the watch or attempting to pair might also
-// TODO: help. This needs further research.
+// TODO: by GB, not by Makibes hr3 support. Charging the watch, attempting to pair, delete and
+// TODO: re-add might also help. This needs further research.
 
 // TODO: All the commands that aren't supported by GB should be added to device specific settings.
+
+// TODO: GB doesn't always display the step count even though there's a sample in the db.
 
 // TODO: It'd be cool if we could change the language. There's no official way to do so, but the
 // TODO: watch is sold as chinese/english. Screen-on-time would be nice too.
@@ -65,6 +67,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.Transaction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -510,10 +513,13 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
     private void syncPreferences(TransactionBuilder transaction) {
 
-        this.setTimeMode(transaction);
+        SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(this.getDevice().getAddress());
+
+        this.setTimeMode(transaction, sharedPreferences);
         this.setDateTime(transaction);
 
-        this.setHeadsUpScreen(transaction);
+        this.setHeadsUpScreen(transaction, sharedPreferences);
+        this.setLostReminder(transaction, sharedPreferences);
 
         ActivityUser activityUser = new ActivityUser();
 
@@ -529,12 +535,20 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         LOG.debug(key + " changed");
+
+        if (!this.isConnected()) {
+            LOG.debug("ignoring change, we're disconnected");
+            return;
+        }
+
         TransactionBuilder transactionBuilder = this.createTransactionBuilder("onSharedPreferenceChanged");
 
         if (key.equals(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT)) {
-            this.setTimeMode(transactionBuilder);
+            this.setTimeMode(transactionBuilder, sharedPreferences);
         } else if (key.equals(MakibesHR3Constants.PREF_HEADS_UP_SCREEN)) {
-            this.setHeadsUpScreen(transactionBuilder);
+            this.setHeadsUpScreen(transactionBuilder, sharedPreferences);
+        } else if (key.equals(MakibesHR3Constants.PREF_LOST_REMINDER)) {
+            this.setLostReminder(transactionBuilder, sharedPreferences);
         } else {
             return;
         }
@@ -1014,9 +1028,23 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         return this;
     }
 
-    private MakibesHR3DeviceSupport setHeadsUpScreen(TransactionBuilder transactionBuilder) {
+    private MakibesHR3DeviceSupport setHeadsUpScreen(TransactionBuilder transactionBuilder, SharedPreferences sharedPreferences) {
         return this.setHeadsUpScreen(transactionBuilder,
-                MakibesHR3Coordinator.shouldEnableHeadsUpScreen(this.getDevice().getAddress()));
+                MakibesHR3Coordinator.shouldEnableHeadsUpScreen(sharedPreferences));
+    }
+
+    private MakibesHR3DeviceSupport setLostReminder(TransactionBuilder transactionBuilder, boolean enable) {
+        byte[] data = this.craftData(MakibesHR3Constants.CMD_SET_LOST_REMINDER,
+                new byte[]{(byte) (enable ? 0x01 : 0x00)});
+
+        transactionBuilder.write(this.mControlCharacteristic, data);
+
+        return this;
+    }
+
+    private MakibesHR3DeviceSupport setLostReminder(TransactionBuilder transactionBuilder, SharedPreferences sharedPreferences) {
+        return this.setLostReminder(transactionBuilder,
+                MakibesHR3Coordinator.shouldEnableLostReminder(sharedPreferences));
     }
 
     private MakibesHR3DeviceSupport setTimeMode(TransactionBuilder transactionBuilder, byte timeMode) {
@@ -1027,9 +1055,9 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         return this;
     }
 
-    private MakibesHR3DeviceSupport setTimeMode(TransactionBuilder transactionBuilder) {
+    private MakibesHR3DeviceSupport setTimeMode(TransactionBuilder transactionBuilder, SharedPreferences sharedPreferences) {
         return this.setTimeMode(transactionBuilder,
-                MakibesHR3Coordinator.getTimeMode(this.getDevice().getAddress()));
+                MakibesHR3Coordinator.getTimeMode(sharedPreferences));
     }
 
     private MakibesHR3DeviceSupport setEnableRealTimeHeartRate(TransactionBuilder transaction, boolean enable) {
