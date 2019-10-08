@@ -1,11 +1,13 @@
 // TODO: GB sometimes fails to connect until a connection with WearFit was made. This must be caused
-// TODO: by GB, not by makibes hr3 support. Charging the watch or attempting to pair might also
+// TODO: by GB, not by Makibes hr3 support. Charging the watch or attempting to pair might also
 // TODO: help. This needs further research.
 
 // TODO: All the commands that aren't supported by GB should be added to device specific settings.
 
 // TODO: It'd be cool if we could change the language. There's no official way to do so, but the
-// TODO: watch is sold as chinese/english. Screen on time would be nice too.
+// TODO: watch is sold as chinese/english. Screen-on-time would be nice too.
+
+// TODO: Firmware upgrades.
 
 package nodomain.freeyourgadget.gadgetbridge.service.devices.makibeshr3;
 
@@ -22,7 +24,6 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
@@ -38,6 +39,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
@@ -120,7 +122,6 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
     }
 
     /**
-     *
      * @param timeStamp seconds
      */
     private void getDayStartEnd(int timeStamp, Calendar start, Calendar end) {
@@ -129,8 +130,8 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         int timeStampStart = ((timeStamp / DAY) * DAY);
         int timeStampEnd = (timeStampStart + DAY);
 
-        start.setTimeInMillis(timeStampStart * 1000l);
-        end.setTimeInMillis(timeStampEnd * 1000l);
+        start.setTimeInMillis(timeStampStart * 1000L);
+        end.setTimeInMillis(timeStampEnd * 1000L);
     }
 
     /**
@@ -147,8 +148,8 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
             MakibesHR3SampleProvider provider = new MakibesHR3SampleProvider(this.getDevice(), dbHandler.getDaoSession());
 
             List<MakibesHR3ActivitySample> samples = provider.getAllActivitySamples(
-                    (int) (dayStart.getTimeInMillis() / 1000l),
-                    (int) (dayEnd.getTimeInMillis() / 1000l));
+                    (int) (dayStart.getTimeInMillis() / 1000L),
+                    (int) (dayEnd.getTimeInMillis() / 1000L));
 
             int totalSteps = 0;
 
@@ -507,18 +508,12 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
     }
 
-    private MakibesHR3DeviceSupport sendUserInfo(TransactionBuilder builder) {
-        this.syncPreferences(builder);
-
-        return this;
-    }
-
-    private MakibesHR3DeviceSupport syncPreferences(TransactionBuilder transaction) {
+    private void syncPreferences(TransactionBuilder transaction) {
 
         this.setTimeMode(transaction);
         this.setDateTime(transaction);
-        // setDayOfWeek(transaction);
-        this.setTimeMode(transaction);
+
+        this.setHeadsUpScreen(transaction);
 
         ActivityUser activityUser = new ActivityUser();
 
@@ -529,23 +524,17 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
                 activityUser.getWeightKg(),
                 activityUser.getStepsGoal() / 1000);
 
-
-        // setLanguage(transaction);
-        // setScreenTime(transaction);
-        // setUnit(transaction);
-        // setAllDayHeart(transaction);
-
         this.fetch(true);
-
-        return this;
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         LOG.debug(key + " changed");
         TransactionBuilder transactionBuilder = this.createTransactionBuilder("onSharedPreferenceChanged");
 
-        if (key.equals(PREF_TIMEFORMAT)) {
+        if (key.equals(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT)) {
             this.setTimeMode(transactionBuilder);
+        } else if (key.equals(MakibesHR3Constants.PREF_HEADS_UP_SCREEN)) {
+            this.setHeadsUpScreen(transactionBuilder);
         } else {
             return;
         }
@@ -577,7 +566,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         builder.write(this.mControlCharacteristic, new byte[]{0x01, 0x00});
 
         // Initialize device
-        sendUserInfo(builder); //Sync preferences
+        this.syncPreferences(builder);
 
         this.requestFitness(builder);
 
@@ -629,8 +618,6 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
      * Should only be called after the sample has been populated by
      * {@link MakibesHR3DeviceSupport#addGBActivitySample} or
      * {@link MakibesHR3DeviceSupport#addGBActivitySamples}
-     *
-     * @param sample
      */
     private void broadcastSample(MakibesHR3ActivitySample sample) {
         Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
@@ -1018,14 +1005,31 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         return this;
     }
 
-    private MakibesHR3DeviceSupport setTimeMode(TransactionBuilder transaction) {
-        byte value = MakibesHR3Coordinator.getTimeMode(getDevice().getAddress());
+    private MakibesHR3DeviceSupport setHeadsUpScreen(TransactionBuilder transactionBuilder, boolean enable) {
+        byte[] data = this.craftData(MakibesHR3Constants.CMD_SET_HEADS_UP_SCREEN,
+                new byte[]{(byte) (enable ? 0x01 : 0x00)});
 
-        byte[] data = this.craftData(MakibesHR3Constants.CMD_SET_TIMEMODE, new byte[]{value});
-
-        transaction.write(this.mControlCharacteristic, data);
+        transactionBuilder.write(this.mControlCharacteristic, data);
 
         return this;
+    }
+
+    private MakibesHR3DeviceSupport setHeadsUpScreen(TransactionBuilder transactionBuilder) {
+        return this.setHeadsUpScreen(transactionBuilder,
+                MakibesHR3Coordinator.shouldEnableHeadsUpScreen(this.getDevice().getAddress()));
+    }
+
+    private MakibesHR3DeviceSupport setTimeMode(TransactionBuilder transactionBuilder, byte timeMode) {
+        byte[] data = this.craftData(MakibesHR3Constants.CMD_SET_TIMEMODE, new byte[]{timeMode});
+
+        transactionBuilder.write(this.mControlCharacteristic, data);
+
+        return this;
+    }
+
+    private MakibesHR3DeviceSupport setTimeMode(TransactionBuilder transactionBuilder) {
+        return this.setTimeMode(transactionBuilder,
+                MakibesHR3Coordinator.getTimeMode(this.getDevice().getAddress()));
     }
 
     private MakibesHR3DeviceSupport setEnableRealTimeHeartRate(TransactionBuilder transaction, boolean enable) {
