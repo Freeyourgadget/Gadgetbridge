@@ -39,7 +39,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MakibesHR3ActivitySampleDao;
-import nodomain.freeyourgadget.gadgetbridge.entities.No1F1ActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -60,6 +59,19 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
         } else {
             return MakibesHR3Constants.ARG_SET_TIMEMODE_12H;
         }
+    }
+
+    public static boolean shouldEnableHeadsUpScreen(SharedPreferences sharedPrefs) {
+        String liftMode = sharedPrefs.getString(MakibesHR3Constants.PREF_HEADS_UP_SCREEN, getContext().getString(R.string.p_on));
+
+        // Makibes HR3 doesn't support scheduled intervals. Treat it as "on".
+        return (liftMode != getContext().getString(R.string.p_off));
+    }
+
+    public static boolean shouldEnableHeadsUpScreen(String deviceAddress) {
+        SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
+
+        return shouldEnableHeadsUpScreen(sharedPrefs);
     }
 
     public static byte getTimeMode(String deviceAddress) {
@@ -182,7 +194,8 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
-                R.xml.devicesettings_timeformat
+                R.xml.devicesettings_timeformat,
+                R.xml.devicesettings_liftwrist_display
         };
     }
 }

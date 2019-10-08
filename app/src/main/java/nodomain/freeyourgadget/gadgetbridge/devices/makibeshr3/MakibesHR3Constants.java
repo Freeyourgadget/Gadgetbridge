@@ -21,6 +21,9 @@ import java.util.UUID;
 
 public final class MakibesHR3Constants {
 
+    // TODO: This doesn't belong here, but I don't want to touch other files to avoid
+    // TODO: breaking someone else's device support.
+    public static final String PREF_HEADS_UP_SCREEN = "activate_display_on_lift_wrist";
 
     public static final UUID UUID_SERVICE = UUID.fromString("6e400001-b5a3-f393-e0a9-e50e24dcca9e");
     public static final UUID UUID_CHARACTERISTIC_CONTROL = UUID.fromString("6e400002-b5a3-f393-e0a9-e50e24dcca9e");
@@ -72,7 +75,7 @@ public final class MakibesHR3Constants {
     public static final byte[] RPRT_SINGLE_BLOOD_OXYGEN = new byte[]{ (byte) 0x31, (byte) 0x11 };
 
 
-    // steps take up more bytes. I don't know which ones yet.
+    // steps might take up more bytes. I don't know which ones and I won't walk that much.
     // Only sent after we send CMD_51
     // 00 (maybe also used for steps)
     // [steps hi]
@@ -87,6 +90,7 @@ public final class MakibesHR3Constants {
     // 00
     public static final byte[] RPRT_FITNESS = new byte[]{ (byte) 0x51, 0x08 };
 
+
     // year (+2000)
     // month
     // day
@@ -95,6 +99,7 @@ public final class MakibesHR3Constants {
     // heart rate
     // heart rate
     public static final byte[] RPRT_HEART_RATE_SAMPLE = new byte[]{ (byte) 0x51, (byte) 0x11 };
+
 
     // WearFit says "walking" in the step details. This is probably also in here, but
     // I don't run :O
@@ -179,7 +184,7 @@ public final class MakibesHR3Constants {
     // Manually sending this doesn't yield a reply. The heart rate history is sent in response to
     // CMD_CMD_REQUEST_FITNESS.
     // 00
-    // year (+2000)
+    // year (+2000) (probably not current)
     // month (not current!)
     // day (not current!)
     // hour (current)
