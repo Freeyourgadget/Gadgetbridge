@@ -2,9 +2,6 @@
 // TODO: by GB, not by makibes hr3 support. Charging the watch or attempting to pair might also
 // TODO: help. This needs further research.
 
-// TODO: Where can I view today's steps in GB?
-// TODO: GB accumulates all step samples, even if they're part of the same day.
-
 // TODO: All the commands that aren't supported by GB should be added to device specific settings.
 
 // TODO: It'd be cool if we could change the language. There's no official way to do so, but the
@@ -25,6 +22,7 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
@@ -35,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -102,6 +101,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
     /**
      * Called whenever data is received to postpone the removing of the progress notification.
+     *
      * @param start Start showing the notification
      */
     private void fetch(boolean start) {
@@ -117,6 +117,52 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
     @Override
     public boolean useAutoConnect() {
         return false;
+    }
+
+    /**
+     *
+     * @param timeStamp seconds
+     */
+    private void getDayStartEnd(int timeStamp, Calendar start, Calendar end) {
+        final int DAY = (24 * 60 * 60);
+
+        int timeStampStart = ((timeStamp / DAY) * DAY);
+        int timeStampEnd = (timeStampStart + DAY);
+
+        start.setTimeInMillis(timeStampStart * 1000l);
+        end.setTimeInMillis(timeStampEnd * 1000l);
+    }
+
+    /**
+     * @param timeStamp Time stamp at some point during the requested day.
+     */
+    private int getStepsOnDay(int timeStamp) {
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+
+            Calendar dayStart = new GregorianCalendar();
+            Calendar dayEnd = new GregorianCalendar();
+
+            this.getDayStartEnd(timeStamp, dayStart, dayEnd);
+
+            MakibesHR3SampleProvider provider = new MakibesHR3SampleProvider(this.getDevice(), dbHandler.getDaoSession());
+
+            List<MakibesHR3ActivitySample> samples = provider.getAllActivitySamples(
+                    (int) (dayStart.getTimeInMillis() / 1000l),
+                    (int) (dayEnd.getTimeInMillis() / 1000l));
+
+            int totalSteps = 0;
+
+            for (MakibesHR3ActivitySample sample : samples) {
+                totalSteps += sample.getSteps();
+            }
+
+            return totalSteps;
+
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage());
+
+            return 0;
+        }
     }
 
     public MakibesHR3ActivitySample createActivitySample(Device device, User user, int timestampInSeconds, SampleProvider provider) {
@@ -596,13 +642,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
     private void onReceiveFitness(int steps) {
         LOG.info("steps: " + steps);
 
-        MakibesHR3ActivitySample sample = new MakibesHR3ActivitySample();
-
-        sample.setSteps(steps);
-        sample.setTimestamp((int) (System.currentTimeMillis() / 1000));
-
-        sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
-        this.addGBActivitySample(sample);
+        this.onReceiveStepsSample(steps);
     }
 
     private void onReceiveHeartRate(int heartRate) {
@@ -646,24 +686,41 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         this.addGBActivitySample(sample);
     }
 
+    private void onReceiveStepsSample(int timeStamp, int steps) {
+        MakibesHR3ActivitySample sample = new MakibesHR3ActivitySample();
+
+        // We need to subtract the day's total step count thus far.
+        int dayStepCount = this.getStepsOnDay(timeStamp);
+
+        int newSteps = (steps - dayStepCount);
+
+        if (newSteps > 0) {
+            LOG.debug("adding " + newSteps + " steps");
+
+            sample.setSteps(steps - dayStepCount);
+            sample.setTimestamp(timeStamp);
+
+            sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
+
+            this.addGBActivitySample(sample);
+        }
+    }
+
     /**
      * The time is the start of the measurement. Each measurement lasts 1h.
      */
     private void onReceiveStepsSample(int year, int month, int day, int hour, int minute, int steps) {
         LOG.debug("received steps sample " + year + "-" + month + "-" + day + " " + hour + ":" + minute + " " + steps);
 
-        MakibesHR3ActivitySample sample = new MakibesHR3ActivitySample();
-
         Calendar calendar = new GregorianCalendar(year, month - 1, day, hour + 1, minute);
 
         int timeStamp = (int) (calendar.getTimeInMillis() / 1000);
 
-        sample.setSteps(steps);
-        sample.setTimestamp(timeStamp);
+        this.onReceiveStepsSample(timeStamp, steps);
+    }
 
-        sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
-
-        this.addGBActivitySample(sample);
+    private void onReceiveStepsSample(int steps) {
+        this.onReceiveStepsSample((int) (Calendar.getInstance().getTimeInMillis() / 1000l), steps);
     }
 
     @Override
@@ -704,7 +761,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
                     if (arguments.length == 2) {
                         GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
 
-                        batteryInfo.level = (short) arguments[1];
+                        batteryInfo.level = (short) (arguments[1] & 0xff);
                         batteryInfo.state = ((arguments[0] == 0x01) ? BatteryState.BATTERY_CHARGING : BatteryState.BATTERY_NORMAL);
 
                         this.handleGBDeviceEvent(batteryInfo);
@@ -712,24 +769,25 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
                     break;
                 case MakibesHR3Constants.RPRT_SOFTWARE:
                     if (arguments.length == 11) {
-                        this.getDevice().setFirmwareVersion(((int) arguments[0]) + "." + ((int) arguments[1]));
+                        this.getDevice().setFirmwareVersion(((int) (arguments[0] & 0xff)) + "." + (arguments[1] & 0xff));
                     }
                     break;
                 default: // Non-80 reports
                     if (Arrays.equals(report, MakibesHR3Constants.RPRT_FITNESS)) {
+                        int steps = (arguments[1] & 0xff) * 0x100 + (arguments[2] & 0xff);
                         this.onReceiveFitness(
-                                (int) arguments[1] * 0xff + arguments[2]
+                                steps
                         );
                     } else if (Arrays.equals(report, MakibesHR3Constants.RPRT_HEART_RATE_SAMPLE)) {
                         this.onReceiveHeartRateSample(
-                                arguments[0] + 2000, arguments[1], arguments[2],
-                                arguments[3], arguments[4],
-                                arguments[5]);
+                                (arguments[0] & 0xff) + 2000, (arguments[1] & 0xff), (arguments[2] & 0xff),
+                                (arguments[3] & 0xff), (arguments[4] & 0xff),
+                                (arguments[5] & 0xff));
                     } else if (Arrays.equals(report, MakibesHR3Constants.RPRT_STEPS_SAMPLE)) {
                         this.onReceiveStepsSample(
-                                arguments[0] + 2000, arguments[1], arguments[2],
-                                arguments[3], 0,
-                                (arguments[5] * 0xff) + arguments[6]);
+                                (arguments[0] & 0xff) + 2000, (arguments[1] & 0xff), (arguments[2] & 0xff),
+                                (arguments[3] & 0xff), 0,
+                                ((arguments[5] & 0xff) * 0x100) + (arguments[6] & 0xff));
                     }
                     break;
             }
@@ -862,13 +920,12 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
             MakibesHR3ActivitySample latestSample = provider.getLatestActivitySample();
 
-            if (latestSample == null) {
+            if (true || latestSample == null) {
                 this.requestFitness(transaction,
                         0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0);
             } else {
-                // getInstance is unnecessary, we're overriding.
-                Calendar calendar = Calendar.getInstance();
+                Calendar calendar = new GregorianCalendar();
                 calendar.setTime(new Date(latestSample.getTimestamp() * 1000l));
 
                 int year = calendar.get(Calendar.YEAR);
