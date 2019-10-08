@@ -4,8 +4,6 @@
 
 // TODO: All the commands that aren't supported by GB should be added to device specific settings.
 
-// TODO: GB doesn't always display the step count even though there's a sample in the db.
-
 // TODO: It'd be cool if we could change the language. There's no official way to do so, but the
 // TODO: watch is sold as chinese/english. Screen-on-time would be nice too.
 
@@ -560,8 +558,26 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         }
     }
 
+    /**
+     * Use to show the battery icon in the device card.
+     * If the icon shows up later, the user might be trying to tap one thing but the battery icon
+     * will shift everything.
+     * This is hacky. There should be a "supportsBattery" function in the coordinator that displays
+     * the battery icon before the battery level is received.
+     */
+    private void fakeBattery() {
+        GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
+
+        batteryInfo.level = 100;
+        batteryInfo.state = BatteryState.UNKNOWN;
+
+        this.handleGBDeviceEvent(batteryInfo);
+    }
+
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
+        this.fakeBattery();
+
         GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, 0, getContext());
 
         gbDevice.setState(GBDevice.State.INITIALIZING);

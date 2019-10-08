@@ -55,14 +55,14 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
         String liftMode = sharedPrefs.getString(MakibesHR3Constants.PREF_HEADS_UP_SCREEN, getContext().getString(R.string.p_on));
 
         // Makibes HR3 doesn't support scheduled intervals. Treat it as "on".
-        return (liftMode != getContext().getString(R.string.p_off));
+        return !liftMode.equals(getContext().getString(R.string.p_off));
     }
 
     public static boolean shouldEnableLostReminder(SharedPreferences sharedPrefs) {
         String lostReminder = sharedPrefs.getString(MakibesHR3Constants.PREF_LOST_REMINDER, getContext().getString(R.string.p_on));
 
         // Makibes HR3 doesn't support scheduled intervals. Treat it as "on".
-        return (lostReminder != getContext().getString(R.string.p_off));
+        return !lostReminder.equals(getContext().getString(R.string.p_off));
     }
 
     public static byte getTimeMode(SharedPreferences sharedPrefs) {
