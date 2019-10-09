@@ -109,6 +109,7 @@ Please [this wiki article](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki
 * Andreas Böhler (Casio GB-6900B)
 * Jean-François Greffier (Mi Scale 2)
 * Johannes Schmitt (BFH-16)
+* Lukas Schwichtenberg (Makibes HR3)
 
 ## Contribute
 
