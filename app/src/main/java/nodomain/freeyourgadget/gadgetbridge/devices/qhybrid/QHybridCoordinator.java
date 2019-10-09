@@ -36,14 +36,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSuppo
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 public class QHybridCoordinator extends AbstractDeviceCoordinator {
-
-
-
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         for(ParcelUuid uuid : candidate.getServiceUuids()){
-            if(uuid.getUuid().toString().equals("00001812-0000-1000-8000-00805f9b34fb")){
+            if(uuid.getUuid().toString().equals("3dda0001-957f-7d4a-34a6-74696673696")){
                 return DeviceType.FOSSILQHYBRID;
             }
         }
@@ -54,7 +51,7 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
     @NonNull
     @Override
     public Collection<? extends ScanFilter> createBLEScanFilters() {
-        return Collections.singletonList(new ScanFilter.Builder().setServiceUuid(ParcelUuid.fromString("00001812-0000-1000-8000-00805f9b34fb")).build());
+        return Collections.singletonList(new ScanFilter.Builder().setServiceUuid(ParcelUuid.fromString("3dda0001-957f-7d4a-34a6-74696673696")).build());
     }
 
     @Override
