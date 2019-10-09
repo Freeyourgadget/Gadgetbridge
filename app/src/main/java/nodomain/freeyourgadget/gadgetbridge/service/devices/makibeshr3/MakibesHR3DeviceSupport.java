@@ -1,13 +1,17 @@
 // TODO: GB sometimes fails to connect until a connection with WearFit was made. This must be caused
 // TODO: by GB, not by Makibes hr3 support. Charging the watch, attempting to pair, delete and
-// TODO: re-add might also help. This needs further research.
+// TODO: re-add, scan for devices and go back, might also help. This needs further research.
 
 // TODO: All the commands that aren't supported by GB should be added to device specific settings.
 
 // TODO: It'd be cool if we could change the language. There's no official way to do so, but the
 // TODO: watch is sold as chinese/english. Screen-on-time would be nice too.
 
-// TODO: Firmware upgrades.
+// TODO: Firmware upgrades. WearFit tries to connect to Wake up Technology at
+// TODO: http://47.112.119.52/app.php/Api/hardUpdate/type/55
+// TODO: But that server resets the connection.
+// TODO: The host is supposed to be www.iwhop.com, but that domain no longer exists.
+// TODO: I think /app.php is missing a closing php tag.
 
 package nodomain.freeyourgadget.gadgetbridge.service.devices.makibeshr3;
 
@@ -29,10 +33,10 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
@@ -65,12 +69,9 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.Transaction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-
-import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
 
 public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -79,7 +80,9 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
     private Handler mVibrationHandler = new Handler();
     private Vibrator mVibrator;
 
-    private CountDownTimer mFetchCountDown = new CountDownTimer(1000, 1000) {
+    // The delay must be at least as long as it takes the watch to respond.
+    // Reordering the requests could maybe reduce the delay, but this works fine too.
+    private CountDownTimer mFetchCountDown = new CountDownTimer(2000, 2000) {
         @Override
         public void onTick(long millisUntilFinished) {
 
@@ -515,6 +518,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
         this.setTimeMode(transaction, sharedPreferences);
         this.setDateTime(transaction);
+        this.setQuiteHours(transaction, sharedPreferences);
 
         this.setHeadsUpScreen(transaction, sharedPreferences);
         this.setLostReminder(transaction, sharedPreferences);
@@ -547,6 +551,10 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
             this.setHeadsUpScreen(transactionBuilder, sharedPreferences);
         } else if (key.equals(MakibesHR3Constants.PREF_LOST_REMINDER)) {
             this.setLostReminder(transactionBuilder, sharedPreferences);
+        } else if (key.equals(MakibesHR3Constants.PREF_DO_NOT_DISTURB) ||
+                key.equals(MakibesHR3Constants.PREF_DO_NOT_DISTURB_START) ||
+                key.equals(MakibesHR3Constants.PREF_DO_NOT_DISTURB_END)) {
+            this.setQuiteHours(transactionBuilder, sharedPreferences);
         } else {
             return;
         }
@@ -901,8 +909,6 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
                                                    int yearHeartRateAfter, int monthHeartRateAfter, int dayHeartRateAfter,
                                                    int hourHeartRateAfter, int minuteHeartRateAfter) {
 
-        this.fetch(true);
-
         byte[] data = this.craftData(MakibesHR3Constants.CMD_REQUEST_FITNESS,
                 new byte[]{
                         (byte) 0x00,
@@ -919,6 +925,8 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
                 });
 
         transaction.write(this.mControlCharacteristic, data);
+
+        this.fetch(true);
 
         return this;
     }
@@ -937,10 +945,10 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
             MakibesHR3ActivitySample latestSample = provider.getLatestActivitySample();
 
-            if (true || latestSample == null) {
+            if (latestSample == null) {
                 this.requestFitness(transaction,
-                        0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0);
+                        2000, 0, 0, 0, 0,
+                        2000, 0, 0, 0, 0);
             } else {
                 Calendar calendar = new GregorianCalendar();
                 calendar.setTime(new Date(latestSample.getTimestamp() * 1000l));
@@ -1042,6 +1050,33 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         transactionBuilder.write(this.mControlCharacteristic, data);
 
         return this;
+    }
+
+    private MakibesHR3DeviceSupport setQuiteHours(TransactionBuilder transactionBuilder,
+                                                  boolean enable,
+                                                  int hourStart, int minuteStart,
+                                                  int hourEnd, int minuteEnd) {
+        byte[] data = this.craftData(MakibesHR3Constants.CMD_SET_QUITE_HOURS, new byte[]{
+                (byte) (enable ? 0x01 : 0x00),
+                (byte) hourStart, (byte) minuteStart,
+                (byte) hourEnd, (byte) minuteEnd
+        });
+
+        transactionBuilder.write(this.mControlCharacteristic, data);
+
+        return this;
+    }
+
+    private MakibesHR3DeviceSupport setQuiteHours(TransactionBuilder transactionBuilder,
+                                                  SharedPreferences sharedPreferences) {
+
+        Calendar start = new GregorianCalendar();
+        Calendar end = new GregorianCalendar();
+        boolean enable = MakibesHR3Coordinator.getQuiteHours(sharedPreferences, start, end);
+
+        return this.setQuiteHours(transactionBuilder, enable,
+                start.get(Calendar.HOUR_OF_DAY), start.get(Calendar.MINUTE),
+                end.get(Calendar.HOUR_OF_DAY), end.get(Calendar.MINUTE));
     }
 
     private MakibesHR3DeviceSupport setHeadsUpScreen(TransactionBuilder transactionBuilder, SharedPreferences sharedPreferences) {
