@@ -16,6 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import android.app.Activity;
 import android.content.Context;
@@ -35,6 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MakibesHR3ActivitySampleDao;
@@ -72,6 +77,34 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
             return MakibesHR3Constants.ARG_SET_TIMEMODE_24H;
         } else {
             return MakibesHR3Constants.ARG_SET_TIMEMODE_12H;
+        }
+    }
+
+    /**
+     * @param startOut out Only hour/minute are used.
+     * @param endOut   out Only hour/minute are used.
+     * @return True if quite hours are enabled.
+     */
+    public static boolean getQuiteHours(SharedPreferences sharedPrefs, Calendar startOut, Calendar endOut) {
+        String doNotDisturb = sharedPrefs.getString(MakibesHR3Constants.PREF_DO_NOT_DISTURB, getContext().getString(R.string.p_off));
+
+        if (doNotDisturb.equals(getContext().getString(R.string.p_off))) {
+            return false;
+        } else {
+            String start = sharedPrefs.getString(MakibesHR3Constants.PREF_DO_NOT_DISTURB_START, "00:00");
+            String end = sharedPrefs.getString(MakibesHR3Constants.PREF_DO_NOT_DISTURB_END, "00:00");
+
+            DateFormat df = new SimpleDateFormat("HH:mm");
+
+            try {
+                startOut.setTime(df.parse(start));
+                endOut.setTime(df.parse(end));
+
+                return true;
+            } catch (Exception e) {
+                LOG.error("Unexpected exception in MiBand2Coordinator.getTime: " + e.getMessage());
+                return false;
+            }
         }
     }
 
@@ -191,7 +224,8 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
         return new int[]{
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_liftwrist_display,
-                R.xml.devicesettings_disconnectnotification
+                R.xml.devicesettings_disconnectnotification,
+                R.xml.devicesettings_donotdisturb_no_auto
         };
     }
 }

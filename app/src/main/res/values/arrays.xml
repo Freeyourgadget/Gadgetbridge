@@ -162,6 +162,15 @@
         <item>MM/dd/yyyy</item>
     </string-array>
 
+    <string-array name="do_not_disturb_no_auto">
+        <item>@string/mi2_dnd_off</item>
+        <item>@string/mi2_dnd_scheduled</item>
+    </string-array>
+    <string-array name="do_not_disturb_no_auto_values">
+        <item>@string/p_off</item>
+        <item>@string/p_scheduled</item>
+    </string-array>
+
     <string-array name="mi2_do_not_disturb">
         <item>@string/mi2_dnd_off</item>
         <item>@string/mi2_dnd_automatic</item>
