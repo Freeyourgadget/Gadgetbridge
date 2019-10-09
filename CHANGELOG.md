@@ -1,5 +1,11 @@
 ### Changelog
 
+#### Version 0.36.4
+* Makibes HR3: Adjusted alarm slot count
+* Makibes HR3: Implemented device deletion, heart rate, steps, download progress notification, smart wake up, disconnect notification, quite hours
+* Makibes HR3: Fixed medium-length notifications not being displayed
+* Makibes HR3: Added a timeout to reverse find device
+
 #### Version 0.36.3
 * Basic Makibes HR3 support
 
