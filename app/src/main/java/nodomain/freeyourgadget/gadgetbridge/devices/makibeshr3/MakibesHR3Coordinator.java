@@ -39,7 +39,6 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MakibesHR3ActivitySampleDao;
@@ -52,6 +51,9 @@ import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getContext;
 
 
 public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
+
+    public static final int FindPhone_ON = -1;
+    public static final int FindPhone_OFF = 0;
 
     private static final Logger LOG = LoggerFactory.getLogger(MakibesHR3Coordinator.class);
 
@@ -104,6 +106,37 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
             } catch (Exception e) {
                 LOG.error("Unexpected exception in MiBand2Coordinator.getTime: " + e.getMessage());
                 return false;
+            }
+        }
+    }
+
+    /**
+     * @return {@link #FindPhone_OFF}, {@link #FindPhone_ON}, or the duration
+     */
+    public static int getFindPhone(SharedPreferences sharedPrefs) {
+        String findPhone = sharedPrefs.getString(MakibesHR3Constants.PREF_FIND_PHONE, getContext().getString(R.string.p_off));
+
+        if (findPhone.equals(getContext().getString(R.string.p_off))) {
+            return FindPhone_OFF;
+        } else if (findPhone.equals(getContext().getString(R.string.p_on))) {
+            return FindPhone_ON;
+        } else { // Duration
+            String duration = sharedPrefs.getString(MakibesHR3Constants.PREF_FIND_PHONE_DURATION, "0");
+
+            try {
+                int iDuration;
+
+                try {
+                    iDuration = Integer.valueOf(duration);
+                } catch (Exception ex) {
+                    LOG.warn(ex.getMessage());
+                    iDuration = 60;
+                }
+
+                return iDuration;
+            } catch (Exception e) {
+                LOG.error("Unexpected exception in MiBand2Coordinator.getTime: " + e.getMessage());
+                return FindPhone_ON;
             }
         }
     }
@@ -225,7 +258,8 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_liftwrist_display,
                 R.xml.devicesettings_disconnectnotification,
-                R.xml.devicesettings_donotdisturb_no_auto
+                R.xml.devicesettings_donotdisturb_no_auto,
+                R.xml.devicesettings_find_phone
         };
     }
 }

@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Constants;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreference;
@@ -369,12 +370,22 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
             });
         }
 
-        EditTextPreference pref = findPreference(MiBandConst.PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS);
-        if (pref != null) {
-            pref.setOnBindEditTextListener(new EditTextPreference.OnBindEditTextListener() {
+        EditTextPreference mibandTimeOffset = findPreference(MiBandConst.PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS);
+        if (mibandTimeOffset != null) {
+            mibandTimeOffset.setOnBindEditTextListener(new EditTextPreference.OnBindEditTextListener() {
                 @Override
                 public void onBindEditText(@NonNull EditText editText) {
                     editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+                }
+            });
+        }
+
+        EditTextPreference findPhoneDuration = findPreference(MakibesHR3Constants.PREF_FIND_PHONE_DURATION);
+        if (findPhoneDuration != null) {
+            findPhoneDuration.setOnBindEditTextListener(new EditTextPreference.OnBindEditTextListener() {
+                @Override
+                public void onBindEditText(@NonNull EditText editText) {
+                    editText.setInputType(InputType.TYPE_CLASS_NUMBER);
                 }
             });
         }

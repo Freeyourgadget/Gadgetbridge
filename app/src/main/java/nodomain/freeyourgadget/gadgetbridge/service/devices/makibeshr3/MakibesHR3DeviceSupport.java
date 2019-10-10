@@ -17,15 +17,11 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.makibeshr3;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
 import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -47,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Constants;
 import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Coordinator;
@@ -77,9 +74,6 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
     private static final Logger LOG = LoggerFactory.getLogger(MakibesHR3DeviceSupport.class);
 
-    private Handler mVibrationHandler = new Handler();
-    private Vibrator mVibrator;
-
     // The delay must be at least as long as it takes the watch to respond.
     // Reordering the requests could maybe reduce the delay, but this works fine too.
     private CountDownTimer mFetchCountDown = new CountDownTimer(2000, 2000) {
@@ -94,6 +88,8 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
             GB.updateTransferNotification(null, "", false, 100, getContext());
         }
     };
+
+    private Handler mFindPhoneHandler = new Handler();
 
     private BluetoothGattCharacteristic mControlCharacteristic = null;
     private BluetoothGattCharacteristic mReportCharacteristic = null;
@@ -413,35 +409,35 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
     }
 
     private void onReverseFindDevice(boolean start) {
-        if (this.mVibrator.hasVibrator()) {
-            final long[] PATTERN = new long[]{
-                    100, 100,
-                    100, 100,
-                    100, 100,
-                    500
-            };
+        if (start) {
+            SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(
+                    this.getDevice().getAddress());
 
-            if (start) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    this.mVibrator.vibrate(VibrationEffect.createWaveform(PATTERN, 0));
-                } else {
-                    this.mVibrator.vibrate(PATTERN, 0);
+            int findPhone = MakibesHR3Coordinator.getFindPhone(sharedPreferences);
+
+            if (findPhone != MakibesHR3Coordinator.FindPhone_OFF) {
+                GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
+
+                findPhoneEvent.event = GBDeviceEventFindPhone.Event.START;
+
+                evaluateGBDeviceEvent(findPhoneEvent);
+
+                if (findPhone > 0) {
+                    this.mFindPhoneHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            onReverseFindDevice(false);
+                        }
+                    }, findPhone * 1000);
                 }
-
-                // In case the connection is closed while we're searching for the device.
-
-                this.mVibrationHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mVibrator.cancel();
-                    }
-                }, 1100 * 6);
-
-            } else {
-                this.mVibrator.cancel();
             }
         } else {
-            // TODO: Alternative handling. Don't use sound, the connection isn't secure.
+            // Always send stop, ignore preferences.
+            GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
+
+            findPhoneEvent.event = GBDeviceEventFindPhone.Event.STOP;
+
+            evaluateGBDeviceEvent(findPhoneEvent);
         }
     }
 
@@ -555,6 +551,9 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
                 key.equals(MakibesHR3Constants.PREF_DO_NOT_DISTURB_START) ||
                 key.equals(MakibesHR3Constants.PREF_DO_NOT_DISTURB_END)) {
             this.setQuiteHours(transactionBuilder, sharedPreferences);
+        } else if (key.equals(MakibesHR3Constants.PREF_FIND_PHONE) ||
+                key.equals(MakibesHR3Constants.PREF_FIND_PHONE_DURATION)) {
+            // No action, we check the shared preferences when the device tries to ring the phone.
         } else {
             return;
         }
@@ -593,8 +592,6 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
         this.mControlCharacteristic = getCharacteristic(MakibesHR3Constants.UUID_CHARACTERISTIC_CONTROL);
         this.mReportCharacteristic = getCharacteristic(MakibesHR3Constants.UUID_CHARACTERISTIC_REPORT);
-
-        this.mVibrator = (Vibrator) this.getContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         builder.notify(this.mReportCharacteristic, true);
         builder.setGattCallback(this);
