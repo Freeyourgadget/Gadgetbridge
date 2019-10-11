@@ -32,6 +32,7 @@ import java.util.UUID;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfig;
@@ -179,6 +180,9 @@ public class QHybridSupport extends QHybridBaseSupport {
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
+
+        getDevice().setNotificationIconConnected(R.drawable.ic_notification_qhybrid);
+        getDevice().setNotificationIconDisconnected(R.drawable.ic_notification_disconnected_qhybrid);
 
         for (int i = 2; i <= 7; i++)
             builder.notify(getCharacteristic(UUID.fromString("3dda000" + i + "-957f-7d4a-34a6-74696673696d")), true);
