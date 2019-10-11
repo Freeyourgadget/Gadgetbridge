@@ -98,7 +98,7 @@ public class GB {
         builder.setContentTitle(deviceName)
                 .setTicker(deviceName + " - " + text)
                 .setContentText(text)
-                .setSmallIcon(connected ? R.drawable.ic_notification : R.drawable.ic_notification_disconnected)
+                .setSmallIcon(connected ? device.getNotificationIconConnected() : device.getNotificationIconDisconnected())
                 .setContentIntent(getContentIntent(context))
                 .setColor(context.getResources().getColor(R.color.accent))
                 .setOngoing(true);
