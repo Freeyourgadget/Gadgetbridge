@@ -53,6 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
@@ -127,7 +128,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_COUNT;
@@ -1502,7 +1502,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case MiBandConst.PREF_SWIPE_UNLOCK:
                     setBandScreenUnlock(builder);
                     break;
-                case HuamiConst.PREF_DATEFORMAT:
+                case DeviceSettingsPreferenceConst.PREF_DATEFORMAT:
                     setDateFormat(builder);
                     break;
                 case HuamiConst.PREF_LANGUAGE:
@@ -1510,6 +1510,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                     break;
                 case HuamiConst.PREF_EXPOSE_HR_THIRDPARTY:
                     setExposeHRThridParty(builder);
+                    break;
+                case DeviceSettingsPreferenceConst.PREF_WEARLOCATION:
+                    setWearLocation(builder);
                     break;
             }
             builder.queue(getQueue());

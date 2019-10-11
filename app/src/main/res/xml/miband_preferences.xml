@@ -9,14 +9,6 @@
             android:maxLength="17"
             android:title="@string/miband_prefs_alias" />
 
-        <ListPreference
-            android:defaultValue="left"
-            android:entries="@array/wearside"
-            android:entryValues="@array/wearside_values"
-            android:key="mi_wearside"
-            android:title="@string/prefs_wearside"
-            android:summary="%s" />
-
         <EditTextPreference
             android:defaultValue="10000"
             android:inputType="number"

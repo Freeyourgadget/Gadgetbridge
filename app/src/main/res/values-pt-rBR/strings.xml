@@ -394,7 +394,6 @@
     <string name="pref_title_auto_export_location">Localização da exportação</string>
     <string name="pref_title_auto_export_interval">Intervalo de exportação</string>
     <string name="pref_summary_auto_export_interval">Exportar a cada %d hora(s)</string>
-    <string name="preferences_amazfitbip_settings">Ajustes do Amazfit Bip</string>
     <string name="discovery_connected_devices_hint">Permita que seu dispositivo seja detectado. Os dispositivos já pareados não serão detectados. Para o Android 6 ou superior, é necessário habilitar a localização de GPS. Desative o Privacy Guard para o Gadgetbridge, pois o telefone poderá travar ou reiniciar caso esteja ativo. Se nenhum dispositivo for encontrado após alguns minutos, tente novamente após reiniciar seu dispositivo móvel.</string>
     <string name="prefs_title_heartrate_measurement_interval">Medição diária de frequência cardíaca</string>
     <string name="interval_one_minute">a cada minuto</string>
@@ -551,15 +550,11 @@
     <string name="pref_auto_fetch_limit_fetches_summary">Coleta a cada %d minutos</string>
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
     <string name="russian">Russo</string>
-    <string name="preferences_id115_settings">Configurações ID115</string>
     <string name="prefs_screen_orientation">Orientação da tela</string>
     <string name="horizontal">Horizontal</string>
     <string name="vertical">Vertical</string>
     <string name="devicetype_id115">ID115</string>
-    <string name="preferences_amazfitcor_settings">Configurações do Amazfit Cor</string>s
     <string name="menuitem_notifications">Notificações</string>
-    <string name="preferences_miband2_settings">Configurações do Mi Band 2</string>
-    <string name="preferences_miband3_settings">Configurações do Mi Band 3</string>
     <string name="menuitem_more">Mais</string>
     <string name="menuitem_music">Música</string>
     <string name="watch9_pairing_tap_hint">Quando seu relógio vibrar, agite o dispositivo ou pressione seu botão.</string>
@@ -657,9 +652,6 @@
     <string name="zetime_calories_type">Tipo de calorias</string>
     <string name="zetime_calories_type_active">Só ativar calorias queimadas</string>
     <string name="zetime_calories_type_all">Calorias queimadas ativas e inativas</string>
-    <string name="zetime_time_format">Formato da hora</string>
-    <string name="zetime_time_format_24h">24h</string>
-    <string name="zetime_time_format_12h">12h</string>
     <string name="zetime_date_format">Formato da data</string>
     <string name="zetime_date_format_1">AA/MM/DD</string>
     <string name="zetime_date_format_2">DD/MM/AA</string>

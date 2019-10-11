@@ -78,9 +78,13 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITBIP;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITCOR;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITCOR2;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.HPLUS;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.ID115;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND2;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND3;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND4;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.ZETIME;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.fromKey;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
 
@@ -99,7 +103,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 4;
+    private static final int CURRENT_PREFS_VERSION = 5;
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
     private static GBPrefs gbPrefs;
@@ -761,6 +765,67 @@ public class GBApplication extends Application {
                 Log.w(TAG, "error acquiring DB lock");
             }
         }
+        if (oldVersion < 5) {
+            try (DBHandler db = acquireDB()) {
+                DaoSession daoSession = db.getDaoSession();
+                List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+                for (Device dbDevice : activeDevices) {
+                    SharedPreferences deviceSpecificSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                    if (deviceSpecificSharedPrefs != null) {
+                        SharedPreferences.Editor deviceSharedPrefsEdit = deviceSpecificSharedPrefs.edit();
+                        DeviceType deviceType = fromKey(dbDevice.getType());
+
+                        String newWearside = null;
+                        String newOrientation = null;
+                        String newTimeformat = null;
+                        switch (deviceType) {
+                            case AMAZFITBIP:
+                            case AMAZFITCOR:
+                            case AMAZFITCOR2:
+                            case MIBAND:
+                            case MIBAND2:
+                            case MIBAND3:
+                            case MIBAND4:
+                                newWearside = prefs.getString("mi_wearside", "left");
+                                break;
+                            case HPLUS:
+                                newWearside = prefs.getString("hplus_wrist", "left");
+                                newTimeformat = prefs.getString("hplus_timeformat", "24h");
+                                break;
+                            case ID115:
+                                newWearside = prefs.getString("id115_wrist", "left");
+                                newOrientation = prefs.getString("id115_screen_orientation", "horizontal");
+                                break;
+                            case ZETIME:
+                                newWearside = prefs.getString("zetime_wrist", "left");
+                                newTimeformat = prefs.getInt("zetime_timeformat", 1) == 2 ? "am/pm" : "24h";
+                                break;
+                        }
+                        if (newWearside != null) {
+                            deviceSharedPrefsEdit.putString("wearlocation", newWearside);
+                        }
+                        if (newOrientation != null) {
+                            deviceSharedPrefsEdit.putString("screen_orientation", newOrientation);
+                        }
+                        if (newTimeformat != null) {
+                            deviceSharedPrefsEdit.putString("timeformat", newTimeformat);
+                        }
+                        deviceSharedPrefsEdit.apply();
+                    }
+                }
+                editor.remove("hplus_timeformat");
+                editor.remove("hplus_wrist");
+                editor.remove("id115_wrist");
+                editor.remove("id115_screen_orientation");
+                editor.remove("mi_wearside");
+                editor.remove("zetime_timeformat");
+                editor.remove("zetime_wrist");
+
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
+
         editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
         editor.apply();
     }

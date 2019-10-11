@@ -217,7 +217,6 @@
     <string name="message_cannot_pair_no_mac">Geen MAC adres doorgegeven, kan niet koppelen.</string>
     <string name="preferences_category_device_specific_settings">Toestel specifieke instellingen</string>
     <string name="preferences_miband_settings">Mi Band / Amazfit instellingen</string>
-    <string name="preferences_amazfitbip_settings">Amazfit Bip instellingen</string>
     <string name="male">Mannelijk</string>
     <string name="female">Vrouwelijk</string>
     <string name="other">Anders</string>
@@ -536,11 +535,7 @@
     <string name="menuitem_settings">Instellingen</string>
     <string name="menuitem_alipay">Alipay</string>
     <string name="controlcenter_calibrate_device">Kalibreer apparaat</string>
-    <string name="preferences_id115_settings">ID115 instellingen</string>
     <string name="prefs_screen_orientation">Scherm orientatie</string>
-    <string name="preferences_miband2_settings">Mi Band 2 instellingen</string>
-    <string name="preferences_miband3_settings">Mi Band 3 instellingen</string>
-    <string name="preferences_amazfitcor_settings">Amazfit Cor instellingen</string>s
     <string name="horizontal">Horizontaal</string>
     <string name="vertical">Verticaal</string>
     <string name="watch9_pairing_tap_hint">Wanneer het horloge trilt, schud het of druk op de knop.</string>
@@ -651,9 +646,6 @@
     <string name="zetime_calories_type">Soort calorieën</string>
     <string name="zetime_calories_type_active">Alleen calorieën verbrand gedurende activiteiten</string>
     <string name="zetime_calories_type_all">Verbrande calorieën actief en inactief</string>
-    <string name="zetime_time_format">Tijd formaat</string>
-    <string name="zetime_time_format_24h">24 uur</string>
-    <string name="zetime_time_format_12h">12 uur</string>
     <string name="zetime_date_format">Datum formaat</string>
     <string name="zetime_date_format_1">YY/MM/DD</string>
     <string name="zetime_date_format_2">DD/MM/YY</string>

@@ -321,9 +321,6 @@
     <string name="prefs_screen_orientation">Орієнтація екрана</string>
     <string name="pref_title_auto_export_enabled">Автоматичний експорт увімкнено</string>
     <string name="tap_a_device_to_connect">Натисніть на пристрій для підключення</string>
-    <string name="preferences_miband2_settings">Налаштування Mi Band 2</string>
-    <string name="preferences_miband3_settings">Налаштування Mi Band 3</string>
-    <string name="preferences_amazfitbip_settings">Налаштування Amazfit Bip</string>
     <string name="horizontal">Горизонтально</string>
     <string name="vertical">Вертикально</string>
     <string name="vibration_try">Спробувати</string>
@@ -359,7 +356,6 @@
     <string name="pairing">Утворення пари з %s…</string>
     <string name="pairing_unable_to_pair_with">Не вдалось утворити пару з %1$s (%2$s)</string>
     <string name="pairing_in_progress">Зв\'язування в процесі: %1$s (%2$s)</string>
-    <string name="preferences_amazfitcor_settings">Налаштування Amazfit Cor</string>s
     <string name="watch9_pairing_tap_hint">Коли ваш годинник вібруватиме, потрясіть пристрій або натисніть його кнопку.</string>
     <string name="stats_x_axis_label">Всього хвилин</string>
     <string name="weeksleepchart_sleep_a_week">Сон за тиждень</string>
@@ -458,7 +454,6 @@
     <string name="pref_title_pebble_forcele">Завжди надавати перевагу BLE</string>
     <string name="pref_title_screentime">Тривалість роботи екрану</string>
     <string name="preferences_hplus_settings">Налаштування HPlus/Makibes</string>
-    <string name="preferences_id115_settings">Налаштування ID115</string>
     <string name="zetime_title_settings">Налаштування ZeTime</string>
     <string name="zetime_title_heartrate">Налаштування серцебиття</string>
     <string name="zetime_title_screentime">Тривалість екрану в секундах</string>
@@ -466,9 +461,6 @@
     <string name="activity_prefs_alarm_min_heart_rate">Мінімальне серцебиття</string>
     <string name="zetime_analog_mode">Аналоговий режим</string>
     <string name="zetime_analog_mode_hands">Лише вручну</string>
-    <string name="zetime_time_format">Формат часу</string>
-    <string name="zetime_time_format_24h">24г</string>
-    <string name="zetime_time_format_12h">12г</string>
     <string name="zetime_date_format">Формат дати</string>
     <string name="zetime_date_format_1">РР/ММ/ДД</string>
     <string name="zetime_date_format_2">ДД/ММ/РР</string>

@@ -335,7 +335,6 @@
     <string name="prefs_title_all_day_heart_rate">Całodobowy pomiar tętna</string>
     <string name="pref_header_auto_export">Automatyczny eksport</string>
     <string name="pref_summary_auto_export_interval">Eksportowanie co %d godzin</string>
-    <string name="preferences_amazfitbip_settings">Ustawienia Amazfit Bip</string>
     <string name="prefs_title_heartrate_measurement_interval">Całodobowy pomiar tętna</string>
     <string name="interval_one_minute">raz na minutę</string>
     <string name="interval_five_minutes">raz na 5 minut</string>
@@ -396,7 +395,6 @@
     <string name="pref_title_pebble_always_ack_pebblekit">Natychmiastowe potwierdzenia PebbleKit</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Spowoduje, że wiadomości wysyłane do zewnętrznych aplikacji będą zawsze natychmiast potwierdzane</string>
     <string name="pref_title_screentime">Czas włączenia ekranu</string>
-    <string name="preferences_id115_settings">Ustawienia ID115</string>
     <string name="prefs_screen_orientation">Orientacja ekranu</string>
     <string name="pref_title_auto_export_enabled">Auto eksport włączony</string>
     <string name="pref_title_auto_export_location">Ścieżka eksportu</string>
@@ -404,9 +402,6 @@
     <string name="pref_auto_fetch_summary">Pobranie danych nastąpi po odblokowaniu ekranu. Działa tylko jeśli blokada jest włączona!</string>
     <string name="pref_auto_fetch_limit_fetches">Minimalny odstęp czasu pomiędzy pobraniami</string>
     <string name="pref_auto_fetch_limit_fetches_summary">Pobieranie co %d minut(y)</string>
-    <string name="preferences_miband2_settings">Ustawienia Mi Band 2</string>
-    <string name="preferences_miband3_settings">Ustawienia Mi Band 3</string>
-    <string name="preferences_amazfitcor_settings">Ustawienia Amazfit Cor</string>s
     <string name="horizontal">Poziomo</string>
     <string name="vertical">Pionowo</string>
     <string name="discovery_connected_devices_hint">Upewnij się, że urządzenie (opaska/smartwatch) jest wykrywalne. Aktualnie połączone urządzenia prawdopodobnie nie będą wykrywalne. Na Androidzie 6+ włącz dostęp do lokalizacji (GPS). Wyłącz Privacy Guard dla Gadgetbridge, ponieważ mogą ze sobą kolidować. Jeżeli urządzenie nie zostanie wykryte w przeciągu paru minut, spróbuj ponownie po ponownym uruchomieniu telefonu.</string>

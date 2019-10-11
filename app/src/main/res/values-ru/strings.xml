@@ -420,7 +420,6 @@
     <string name="_pebble_watch_open_on_phone">Открыть в устройстве</string>
     <string name="_pebble_watch_mute">Отключить звук</string>
     <string name="_pebble_watch_reply">Ответить</string>
-    <string name="preferences_amazfitbip_settings">Настройки Amazfit Bip</string>
     <string name="stats_title">Зоны скорости</string>
     <string name="stats_x_axis_label">Всего минут</string>
     <string name="stats_y_axis_label">Шагов в минуту</string>
@@ -530,7 +529,6 @@
     <string name="devicetype_teclast_h30">Teclast H30</string>
     <string name="devicetype_xwatch">XWatch</string>
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
-    <string name="preferences_id115_settings">Настройки ID115</string>
     <string name="prefs_screen_orientation">Ориентация экрана</string>
     <string name="pref_auto_fetch">Автозагрузка данных об активности</string>
     <string name="pref_auto_fetch_summary">Загрузка данных при каждой разблокировке экрана. Это работает только при включенной блокировке экрана!</string>
@@ -549,10 +547,7 @@
     <string name="choose_auto_export_location">Куда сохранять данные при экспорте</string>
     <string name="notification_channel_name">Уведомления Gadgetbridge</string>
     <string name="menuitem_activity">Активность</string>
-    <string name="preferences_amazfitcor_settings">Настройки Amazfit Cor</string>s
     <string name="menuitem_notifications">Уведомления</string>
-    <string name="preferences_miband2_settings">Настройки Mi Band 2</string>
-    <string name="preferences_miband3_settings">Настройки Mi Band 3</string>
     <string name="menuitem_more">Ещё</string>
     <string name="menuitem_music">Музыка</string>
     <string name="controlcenter_calibrate_device">Калибровать устройство</string>

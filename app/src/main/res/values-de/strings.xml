@@ -441,7 +441,6 @@
     <string name="_pebble_watch_reply">Antworten</string>
     <string name="controlcenter_connect">Verbinden…</string>
     <string name="pref_title_pebble_enable_bgjs">Hintergrund JS aktivieren</string>
-    <string name="preferences_amazfitbip_settings">Amazfit Bip Einstellungen</string>
     <string name="simplified_chinese">Vereinfachtes Chinesisch</string>
     <string name="traditional_chinese">Traditionelles Chinesisch</string>
     <string name="english">Englisch</string>
@@ -551,10 +550,6 @@
     <string name="title_activity_watch9_calibration">Watch 9 kalibrieren</string>
     <string name="watch9_calibration_hint">Stelle die Zeit ein, die dir dein Gerät gerade anzeigt.</string>
     <string name="controlcenter_calibrate_device">Gerät kalibrieren</string>
-    <string name="preferences_id115_settings">ID115 Einstellungen</string>
-    <string name="preferences_miband2_settings">Mi Band 2 Einstellungen</string>
-    <string name="preferences_miband3_settings">Mi Band 3 Einstellungen</string>
-    <string name="preferences_amazfitcor_settings">Amazfit Cor Einstellungen</string>s
     <string name="horizontal">Horizontal</string>
     <string name="vertical">Vertikal</string>
     <string name="you_slept">Du hast von %1$s bis %2$s geschlafen</string>
@@ -653,9 +648,6 @@
     <string name="zetime_title_heartrate">Herzfrequenz Einstellungen</string>
     <string name="zetime_title_heart_rate_alarm">Herzfrequenz Alarm</string>
     <string name="zetime_heart_rate_alarm_enable">Herzfrequenz Alarm aktivieren</string>
-    <string name="zetime_time_format">Zeitformat</string>
-    <string name="zetime_time_format_24h">24h</string>
-    <string name="zetime_time_format_12h">12h</string>
     <string name="zetime_date_format">Datumsformat</string>
     <string name="zetime_date_format_1">JJ/MM/TT</string>
     <string name="zetime_date_format_2">TT/MM/JJ</string>

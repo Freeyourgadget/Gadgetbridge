@@ -45,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.casiogb6900.CasioGB6900Devic
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.EXRIZUK8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.MakibesF68Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipLiteCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.Q8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipCoordinator;
@@ -205,6 +206,7 @@ public class DeviceHelper {
         List<DeviceCoordinator> result = new ArrayList<>();
         result.add(new MiScale2DeviceCoordinator()); // Note: must come before MiBand2 because detection is hacky, atm
         result.add(new AmazfitBipCoordinator()); // Note: must come before MiBand2 because detection is hacky, atm
+        result.add(new AmazfitBipLiteCoordinator()); // Note: must come before MiBand2 because detection is hacky, atm
         result.add(new AmazfitCorCoordinator()); // Note: must come before MiBand2 because detection is hacky, atm
         result.add(new AmazfitCor2Coordinator()); // Note: must come before MiBand2 because detection is hacky, atm
         result.add(new MiBand3Coordinator());  // Note: must come before MiBand2 because detection is hacky, atm

@@ -195,7 +195,6 @@
     <string name="message_cannot_pair_no_mac">Ingen MAC-adresse sendt, kan ikke parre.</string>
     <string name="preferences_category_device_specific_settings">Enhetsspesifikke innstillinger</string>
     <string name="preferences_miband_settings">Mi Band / Amazfit -innstillinger</string>
-    <string name="preferences_amazfitbip_settings">Amazfit Bip-innstillinger</string>
     <string name="male">Mann</string>
     <string name="female">Kvinne</string>
     <string name="other">Annet</string>
@@ -536,11 +535,7 @@
     <string name="pref_auto_fetch_limit_fetches_summary">Henter hvert %d minutt</string>
     <string name="controlcenter_calibrate_device">Kalibrer enhet</string>
     <string name="pref_title_notifications_timeout">Minimumstid mellom merknad</string>
-    <string name="preferences_id115_settings">ID115-innstillinger</string>
     <string name="prefs_screen_orientation">Skjermretning</string>
-    <string name="preferences_miband2_settings">Mi Band 2-innstillinger</string>
-    <string name="preferences_miband3_settings">Mi Band 3-innstillinger</string>
-    <string name="preferences_amazfitcor_settings">Amazfit Cor-inntillinger</string>s
     <string name="horizontal">Vannrett</string>
     <string name="vertical">Loddrett</string>
     <string name="watch9_pairing_tap_hint">Når din klokke vibrerer, rist enheten eller på dens knapp.</string>
@@ -637,9 +632,6 @@
     <string name="zetime_activity_tracking">Aktivitetssporing</string>
     <string name="zetime_handmove_display">Håndbevegelse</string>
     <string name="zetime_calories_type">Kaloritype</string>
-    <string name="zetime_time_format">Tidsformat</string>
-    <string name="zetime_time_format_24h">24t</string>
-    <string name="zetime_time_format_12h">12t</string>
     <string name="zetime_date_format">Datoformat</string>
     <string name="zetime_date_format_1">ÅÅ/MM/DD</string>
     <string name="zetime_date_format_2">DD/MM/ÅÅ</string>

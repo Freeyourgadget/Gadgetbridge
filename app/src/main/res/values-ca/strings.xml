@@ -208,7 +208,6 @@
     <string name="message_cannot_pair_no_mac">No s\'ha proporcionat cap adreça MAC. No es pot emparellar.</string>
     <string name="preferences_category_device_specific_settings">Configuració d\'aparells específics</string>
     <string name="preferences_miband_settings">Configuració de Mi Band / Amazfit</string>
-    <string name="preferences_amazfitbip_settings">Configuració d\'Amazfit Bip</string>
     <string name="male">Home</string>
     <string name="female">Dona</string>
     <string name="other">Altre</string>
@@ -396,7 +395,6 @@
 \nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
     <string name="blacklist_all_for_notifications">Bloqueja totes les notifications</string>
     <string name="whitelist_all_for_notifications">Permet totes les notificacions</string>
-    <string name="preferences_id115_settings">Configuració de ID115</string>
     <string name="prefs_screen_orientation">Orientació de la pantalla</string>
     <string name="controlcenter_calibrate_device">Calibra l\'aparell</string>
     <string name="pref_title_notifications_timeout">Temps mínim entre notificacions</string>
@@ -572,10 +570,7 @@
     <string name="horizontal">Horitzontal</string>
     <string name="vertical">Vertical</string>
     <string name="devicetype_id115">ID115</string>
-    <string name="preferences_amazfitcor_settings">Configuració d\'Amazfit Cor</string>s
     <string name="menuitem_notifications">Notificacions</string>
-    <string name="preferences_miband2_settings">Configuració de Mi Band 2</string>
-    <string name="preferences_miband3_settings">Configuració de Mi Band 3</string>
     <string name="menuitem_more">Més</string>
     <string name="menuitem_music">Música</string>
     <string name="watch9_pairing_tap_hint">Quan el vostre aparell vibri, sacsegeu-lo o premeu-ne el botó.</string>
@@ -659,9 +654,6 @@
     <string name="zetime_calories_type">Tipus de calories</string>
     <string name="zetime_calories_type_active">Només les calories cremades de forma activa</string>
     <string name="zetime_calories_type_all">Calories cremades de forma activa i en repòs</string>
-    <string name="zetime_time_format">Format d\'hora</string>
-    <string name="zetime_time_format_24h">24h</string>
-    <string name="zetime_time_format_12h">12h</string>
     <string name="zetime_date_format">Format de data</string>
     <string name="zetime_date_format_1">AA/MM/DD</string>
     <string name="zetime_date_format_2">DD/MM/AA</string>

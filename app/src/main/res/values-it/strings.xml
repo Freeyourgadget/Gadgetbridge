@@ -422,7 +422,6 @@
     <string name="pref_title_auto_export_interval">Intervallo di esportazione</string>
     <string name="pref_summary_auto_export_interval">Esporta ogni %d ora/e</string>
     <string name="unknown_state">Stato sconosciuto</string>
-    <string name="preferences_amazfitbip_settings">Impostazioni Amazfit Bip</string>
     <string name="prefs_title_heartrate_measurement_interval">Misurazione battito continua</string>
     <string name="interval_one_minute">ogni minuto</string>
     <string name="interval_five_minutes">ogni 5 minuti</string>
@@ -534,12 +533,8 @@
     <string name="pref_summary_rtl">Abilita questo se il tuo dispositivo non mostra le lingue lette da destra a sinistra</string>
     <string name="pref_rtl_max_line_length">Lunghezza massima delle linee</string>
     <string name="pref_rtl_max_line_length_summary">Aumenta o diminuisci il numero di righe con cui separare il testo da destra a sinistra</string>
-    <string name="preferences_id115_settings">"Impostazioni per ID115 "</string>
     <string name="prefs_screen_orientation">Orientamento dello schermo</string>
     <string name="pref_auto_fetch_limit_fetches">Tempo minimo tra le sincronizzazioni</string>
-    <string name="preferences_miband2_settings">Impostazioni per Mi Band 2</string>
-    <string name="preferences_miband3_settings">Impostazioni per Mi Band 3</string>
-    <string name="preferences_amazfitcor_settings">Impostazioni per Amazfit Cor</string>s
     <string name="horizontal">Orizzontale</string>
     <string name="vertical">Verticale</string>
     <string name="watch9_pairing_tap_hint">Quando il tuo orologio vibra, scuotilo o premi il tasto.</string>
@@ -630,8 +625,6 @@
     <string name="activity_prefs_alarm_max_heart_rate">Frequenza cardiaca massima</string>
     <string name="activity_prefs_alarm_min_heart_rate">Frequenza cardiaca minima</string>
     <string name="zetime_handmove_display_summary">Ruota il polso per attivare o disattivare il display.</string>
-    <string name="zetime_time_format_24h">24h</string>
-    <string name="zetime_time_format_12h">12h</string>
     <string name="zetime_date_format">Formato data</string>
     <string name="zetime_date_format_1">AA/MM/GG</string>
     <string name="zetime_date_format_2">GG/MM/AA</string>
@@ -656,7 +649,6 @@
     <string name="zetime_calories_type">Tipo calorie</string>
     <string name="zetime_calories_type_active">Solo calorie bruciate attivamente</string>
     <string name="zetime_calories_type_all">Calorie bruciate attivamente e passivamente</string>
-    <string name="zetime_time_format">Formato ora</string>
     <string name="zetime_prefs_inactivity_repetitions">Ripetizioni</string>
     <string name="zetime_title_alarm_signaling">Imposta il tipo di segnale per l\'allarme</string>
     <string name="zetime_signaling_none">Silenzioso</string>

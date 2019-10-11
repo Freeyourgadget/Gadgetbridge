@@ -182,7 +182,6 @@
     <string name="pref_title_screentime">Продължителност на включен екран</string>
     <string name="prefs_title_all_day_heart_rate">Измерване на сърдечния ритъм през целия ден</string>
     <string name="preferences_hplus_settings">HPlus/Makibes настройки</string>
-    <string name="preferences_id115_settings">ID115 настройки</string>
     <string name="prefs_screen_orientation">Ориентация на екрана</string>
     <string name="pref_header_auto_export">Автоматичен експорт</string>
     <string name="pref_title_auto_export_enabled">Включване на автоматичен експорт</string>
@@ -238,10 +237,6 @@
     <string name="message_cannot_pair_no_mac">Липсва MAC адрес, не може да се установи връзка</string>
     <string name="preferences_category_device_specific_settings">Специфични настройки за устройствата</string>
     <string name="preferences_miband_settings">Mi Band / Amazfit настройки</string>
-    <string name="preferences_miband2_settings">Mi Band 2 настройки</string>
-    <string name="preferences_miband3_settings">Mi Band 3 настройки</string>
-    <string name="preferences_amazfitbip_settings">Amazfit Bip настройки</string>
-    <string name="preferences_amazfitcor_settings">Amazfit Cor настройки</string>s
     <string name="male">Мъж</string>
     <string name="female">Жена</string>
     <string name="other">Друг</string>
@@ -305,9 +300,6 @@
     <string name="zetime_calories_type">Вид калории</string>
     <string name="zetime_calories_type_active">Само активно изгорени калории</string>
     <string name="zetime_calories_type_all">Активно и неактивно изгорени калории</string>
-    <string name="zetime_time_format">Часови формат</string>
-    <string name="zetime_time_format_24h">24часа</string>
-    <string name="zetime_time_format_12h">12часа</string>
     <string name="zetime_date_format">Формат на датата</string>
     <string name="zetime_date_format_1">ГГ/ММ/ДД</string>
     <string name="zetime_date_format_2">ДД/ММ/ГГ</string>

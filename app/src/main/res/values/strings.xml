@@ -189,7 +189,6 @@
     <!-- Makibes HR3 Preferences -->
     <string name="preferences_makibes_hr3_settings">Makibes HR3 settings</string>
     <!-- ID115 Preferences -->
-    <string name="preferences_id115_settings">ID115 settings</string>
     <string name="prefs_screen_orientation">Screen orientation</string>
     <!-- ZeTime Preferences -->
     <string name="zetime_title_settings">ZeTime settings</string>
@@ -210,9 +209,6 @@
     <string name="zetime_calories_type">Calories type</string>
     <string name="zetime_calories_type_active">Only active burnt calories</string>
     <string name="zetime_calories_type_all">Active and inactive burnt calories</string>
-    <string name="zetime_time_format">Time format</string>
-    <string name="zetime_time_format_24h">24h</string>
-    <string name="zetime_time_format_12h">12h</string>
     <string name="zetime_date_format">Date format</string>
     <string name="zetime_date_format_1">YY/MM/DD</string>
     <string name="zetime_date_format_2">DD/MM/YY</string>
@@ -293,10 +289,6 @@
     <string name="message_cannot_pair_no_mac">No MAC address passed, cannot pair.</string>
     <string name="preferences_category_device_specific_settings">Device specific settings</string>
     <string name="preferences_miband_settings">Mi Band / Amazfit settings</string>
-    <string name="preferences_miband2_settings">Mi Band 2 settings</string>
-    <string name="preferences_miband3_settings">Mi Band 3 settings</string>
-    <string name="preferences_amazfitbip_settings">Amazfit Bip settings</string>
-    <string name="preferences_amazfitcor_settings">Amazfit Cor settings</string>s
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="other">Other</string>
@@ -655,6 +647,7 @@
     <string name="devicetype_miband3">Mi Band 3</string>
     <string name="devicetype_miband4">Mi Band 4</string>
     <string name="devicetype_amazfit_bip">Amazfit Bip</string>
+    <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
     <string name="devicetype_amazfit_cor">Amazfit Cor</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="devicetype_vibratissimo">Vibratissimo</string>

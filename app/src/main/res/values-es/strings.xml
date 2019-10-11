@@ -448,7 +448,6 @@
 \n 
 \n¡PROCEDE BAJO TU PROPIA RESPONSABILIDAD !</string>
     <string name="pref_title_charts_swipe">Permitir deslizar hacia izquierda/derecha en los gráficos de actividad</string>
-    <string name="preferences_amazfitbip_settings">Ajustes Amazfit Bip</string>
     <string name="automatic">Automático</string>
     <string name="simplified_chinese">Chino simplificado</string>
     <string name="traditional_chinese">Chino tradicional</string>
@@ -534,12 +533,8 @@
     <string name="pref_rtl_max_line_length_summary">Alarga o acorta las líneas de texto de derecha a izquierda si contiene separaciones</string>
     <string name="pref_title_pebble_gatt_clientonly">Sólo cliente GATT</string>
     <string name="pref_summary_pebble_gatt_clientonly">Esto es solo para Pebble 2 y experimental, intente esto si tiene problemas de conectividad</string>
-    <string name="preferences_id115_settings">Ajustes ID115</string>
     <string name="prefs_screen_orientation">Orientación de pamtalla</string>
     <string name="pref_auto_fetch_summary">Extracciones suceden al desbloquear la pantalla. Sólo funciona si se establece un mecanismo de bloqueo!</string>
-    <string name="preferences_miband2_settings">Ajustes Mi Band 2</string>
-    <string name="preferences_miband3_settings">Ajustes Mi Band 3</string>
-    <string name="preferences_amazfitcor_settings">Ajustes Amazfit Cor</string>s
     <string name="horizontal">"Horizontal "</string>
     <string name="vertical">Vertical</string>
     <string name="notif_battery_low">%1$s batería baja</string>
@@ -648,9 +643,6 @@
     <string name="zetime_handmove_display_summary">Gire la muñeca para activar o desactivar la pantalla.</string>
     <string name="zetime_calories_type">Tipo de calorías</string>
     <string name="zetime_calories_type_active">Solo activo para quemar calorías</string>
-    <string name="zetime_time_format">Formato de hora</string>
-    <string name="zetime_time_format_24h">24H</string>
-    <string name="zetime_time_format_12h">12H</string>
     <string name="zetime_date_format">Formato de fecha</string>
     <string name="zetime_date_format_1">aa/mm/dd</string>
     <string name="zetime_date_format_2">dd/mm/aa</string>
