@@ -82,6 +82,10 @@ public class GBDevice implements Parcelable {
     private List<ItemWithDetails> mDeviceInfos;
     private HashMap<String, Object> mExtraInfos;
 
+    private int mNotificationIconConnected = R.drawable.ic_notification;
+    private int mNotificationIconDisconnected = R.drawable.ic_notification_disconnected;
+    private int mNotificationIconLowBattery = R.drawable.ic_notification_low_battery;
+
     public GBDevice(String address, String name, DeviceType deviceType) {
         this(address, null, name, deviceType);
     }
@@ -110,6 +114,9 @@ public class GBDevice implements Parcelable {
         mBusyTask = in.readString();
         mDeviceInfos = in.readArrayList(getClass().getClassLoader());
         mExtraInfos = (HashMap) in.readSerializable();
+        mNotificationIconConnected = in.readInt();
+        mNotificationIconDisconnected = in.readInt();
+        mNotificationIconLowBattery = in.readInt();
 
         validate();
     }
@@ -131,6 +138,9 @@ public class GBDevice implements Parcelable {
         dest.writeString(mBusyTask);
         dest.writeList(mDeviceInfos);
         dest.writeSerializable(mExtraInfos);
+        dest.writeInt(mNotificationIconConnected);
+        dest.writeInt(mNotificationIconDisconnected);
+        dest.writeInt(mNotificationIconLowBattery);
     }
 
     private void validate() {
@@ -219,6 +229,30 @@ public class GBDevice implements Parcelable {
 
     public String getBusyTask() {
         return mBusyTask;
+    }
+
+    public int getNotificationIconConnected() {
+        return mNotificationIconConnected;
+    }
+
+    public void setNotificationIconConnected(int mNotificationIconConnected) {
+        this.mNotificationIconConnected = mNotificationIconConnected;
+    }
+
+    public int getNotificationIconDisconnected() {
+        return mNotificationIconDisconnected;
+    }
+
+    public void setNotificationIconDisconnected(int notificationIconDisconnected) {
+        this.mNotificationIconDisconnected = notificationIconDisconnected;
+    }
+
+    public int getNotificationIconLowBattery() {
+        return mNotificationIconLowBattery;
+    }
+
+    public void setNotificationIconLowBattery(int mNotificationIconLowBattery) {
+        this.mNotificationIconLowBattery = mNotificationIconLowBattery;
     }
 
     /**
