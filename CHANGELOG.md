@@ -1,14 +1,14 @@
 ### Changelog
 
-#### Version 0.36.4
-* Makibes HR3: Adjusted alarm slot count
-* Makibes HR3: Implemented device deletion, heart rate, steps, download progress notification, smart wake up, disconnect notification, quite hours
-* Makibes HR3: Fixed medium-length notifications not being displayed
-* Makibes HR3: Added a timeout to reverse find device
-* "Find Phone" now vibrates in addition to playing the ring tone
-
-#### Version 0.36.3
-* Basic Makibes HR3 support
+#### Version 0.37.0
+* Initial Basic Makibes HR3 support
+* Amazfit Bip Lite: Iniital working support, firmware update is disabled for now (we do not have any firmware for testing)
+* Find Phone now also vibration in addition to playing the ring tone
+* ID115: All settings are now per-device
+* Timeformat settings are now per-device for all supported devices
+* Wrist location settings are now per-device for all supported devices
+* Work around broken layout in database management activity
+* Show toast in case no app is installed which can handle GPX files
 
 #### Version 0.36.2
 * Amazfit Bip: Untested support for Lite variant 
