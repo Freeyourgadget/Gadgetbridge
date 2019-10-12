@@ -346,7 +346,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
 
         renderCharts();
 
-        // have to enable it again and again to keep it measureing
+        // have to enable it again and again to keep it measuring
         GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
     }
 

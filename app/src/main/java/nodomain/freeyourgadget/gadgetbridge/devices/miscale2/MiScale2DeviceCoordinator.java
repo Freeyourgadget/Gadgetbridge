@@ -85,7 +85,7 @@ public class MiScale2DeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public int getBondingStyle(GBDevice device) {
+    public int getBondingStyle() {
         return super.BONDING_STYLE_NONE;
     }
 

@@ -66,7 +66,7 @@ public class ID115Coordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public int getBondingStyle(GBDevice deviceCandidate){
+    public int getBondingStyle(){
         return BONDING_STYLE_NONE;
     }
 

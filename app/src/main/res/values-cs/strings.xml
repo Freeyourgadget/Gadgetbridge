@@ -747,4 +747,18 @@
     <string name="pref_display_add_device_fab">Tlačítko Připojit nové zařízení</string>
     <string name="pref_display_add_device_fab_on">Vždy viditelné</string>
     <string name="pref_display_add_device_fab_off">Viditelné pouze pokud není přidáno žádné zařízení</string>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="one">%d hodina</item>
+        <item quantity="few">%d hodiny</item>
+        <item quantity="other">%d hodin</item>
+    </plurals>
+    <string name="activity_error_no_app_for_gpx">Pro zobrazení trasy aktivity nainstalujte aplikaci, která umí zobrazit GPX soubory.</string>
+    <string name="preferences_makibes_hr3_settings">Nastavení Makibes HR3</string>
+    <string name="devicetype_makibes_hr3">Makibes HR3</string>
+    <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
+    <string name="prefs_find_phone">Vyhledat telefon</string>
+    <string name="prefs_enable_find_phone">Povolit vyhledání telefonu</string>
+    <string name="prefs_find_phone_summary">Použijte náramek/hodinky k prozvonění telefonu.</string>
+    <string name="prefs_find_phone_duration">Délka zvonění ve vteřinách</string>
+    <string name="maximum_duration">Délka</string>
 </resources>

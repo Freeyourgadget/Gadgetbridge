@@ -61,7 +61,7 @@ public class BluetoothPairingRequestReceiver extends BroadcastReceiver {
 
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
         try {
-            if (coordinator.getBondingStyle(gbDevice) == DeviceCoordinator.BONDING_STYLE_NONE) {
+            if (coordinator.getBondingStyle() == DeviceCoordinator.BONDING_STYLE_NONE) {
                 LOG.info("Aborting unwanted pairing request");
                 abortBroadcast();
             }

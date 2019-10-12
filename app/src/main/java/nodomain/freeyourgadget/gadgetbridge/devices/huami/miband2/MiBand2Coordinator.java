@@ -46,11 +46,6 @@ public class MiBand2Coordinator extends HuamiCoordinator {
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        if (candidate.supportsService(HuamiService.UUID_SERVICE_MIBAND2_SERVICE)) {
-            return DeviceType.MIBAND2;
-        }
-
-        // and a heuristic for now
         try {
             BluetoothDevice device = candidate.getDevice();
             String name = device.getName();

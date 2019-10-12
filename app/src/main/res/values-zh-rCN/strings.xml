@@ -760,4 +760,10 @@
     <string name="activity_error_no_app_for_gpx">若需要查看活动轨迹，请安装一个能查看 GPX 文件的应用。</string>
     <string name="preferences_makibes_hr3_settings">Makibes HR3 设置</string>
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
+    <string name="devicetype_amazfit_bip_lite">米动手表青春版 Lite</string>
+    <string name="prefs_find_phone">查找手机</string>
+    <string name="prefs_enable_find_phone">启用查找手机</string>
+    <string name="prefs_find_phone_summary">使用您的手环以在手机上播放铃声。</string>
+    <string name="prefs_find_phone_duration">铃声将持续数秒</string>
+    <string name="maximum_duration">持续</string>
 </resources>

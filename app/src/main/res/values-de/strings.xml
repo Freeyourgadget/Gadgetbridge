@@ -770,4 +770,10 @@
     </plurals>
     <string name="preferences_makibes_hr3_settings">Makibes HR3 Einstellungen</string>
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
+    <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
+    <string name="prefs_find_phone">Telefon finden</string>
+    <string name="prefs_enable_find_phone">Telefon finden aktivieren</string>
+    <string name="prefs_find_phone_summary">Verwende dein Band, um den Klingelton deines Handys wiederzugeben.</string>
+    <string name="prefs_find_phone_duration">Klingeldauer in Sekunden</string>
+    <string name="maximum_duration">Dauer</string>
 </resources>

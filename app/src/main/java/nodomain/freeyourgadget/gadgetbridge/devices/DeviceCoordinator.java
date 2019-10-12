@@ -29,7 +29,6 @@ import java.util.Collection;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
-import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsFragment;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
@@ -62,6 +61,11 @@ public interface DeviceCoordinator {
      * Prefer this over #BONDING_STYLE_BOND
      */
     int BONDING_STYLE_ASK = 2;
+
+    /**
+     * A secret key has to be entered before connecting
+     */
+    int BONDING_STYLE_REQUIRE_KEY = 3;
 
     /**
      * Checks whether this coordinator handles the given candidate.
@@ -224,9 +228,8 @@ public interface DeviceCoordinator {
 
     /**
      * Returns how/if the given device should be bonded before connecting to it.
-     * @param device
      */
-    int getBondingStyle(GBDevice device);
+    int getBondingStyle();
 
     /**
      * Indicates whether the device has some kind of calender we can sync to.

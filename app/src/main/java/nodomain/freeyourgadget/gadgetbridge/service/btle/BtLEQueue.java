@@ -242,6 +242,7 @@ public final class BtLEQueue {
                 mBluetoothGattServer.addService(service);
             }
         }
+
         synchronized (mGattMonitor) {
             // connectGatt with true doesn't really work ;( too often connection problems
             if (GBApplication.isRunningMarshmallowOrLater()) {
@@ -259,6 +260,7 @@ public final class BtLEQueue {
 
     private void setDeviceConnectionState(State newState) {
         LOG.debug("new device connection state: " + newState);
+
         mGbDevice.setState(newState);
         mGbDevice.sendDeviceUpdateIntent(mContext);
         if (mConnectionLatch != null && newState == State.CONNECTED) {

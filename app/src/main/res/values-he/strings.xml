@@ -753,4 +753,10 @@
     <string name="activity_error_no_app_for_gpx">כדי לצפות בעקבות פעילות, עליך להתקין יישומון שיכול לטפל בקובצי GPX.</string>
     <string name="preferences_makibes_hr3_settings">הגדרות של Makibes HR3</string>
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
+    <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
+    <string name="prefs_find_phone">איתור הטלפון</string>
+    <string name="prefs_enable_find_phone">הפעלת איתור הטלפון</string>
+    <string name="prefs_find_phone_summary">ניתן להשתמש בצמיד כדי שהטלפון שלך ישמיע צלצול.</string>
+    <string name="prefs_find_phone_duration">משך זמן הצלצול בשניות</string>
+    <string name="maximum_duration">משך</string>
 </resources>
