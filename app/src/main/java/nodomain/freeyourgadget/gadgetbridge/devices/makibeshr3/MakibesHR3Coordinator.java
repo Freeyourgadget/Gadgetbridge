@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import android.app.Activity;
 import android.content.Context;
@@ -162,7 +161,7 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public int getBondingStyle(GBDevice deviceCandidate) {
+    public int getBondingStyle() {
         return BONDING_STYLE_NONE;
     }
 

@@ -93,6 +93,7 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
         sampleProvider = new UnknownSampleProvider();
     }
 
+    @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         return DeviceType.UNKNOWN;
@@ -197,6 +198,7 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
         return false;
     }
 
+    @NonNull
     @Override
     public int[] getColorPresets() {
         return new int[0];

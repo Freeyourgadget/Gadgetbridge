@@ -11,6 +11,7 @@
 * Work around broken layout in database management activity
 * Show toast in case no app is installed which can handle GPX files
 * Mi Band 4/Amazfit Bip Lite: Trim white spaces and new lines from auth key
+* Mi Band 4/Amazfit Bip Lite: Display a toast and do not try to pair if there was no auth key supplied
 
 #### Version 0.36.2
 * Amazfit Bip: Untested support for Lite variant 

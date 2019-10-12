@@ -35,6 +35,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -616,6 +617,17 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         stopDiscovery();
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(deviceCandidate);
         LOG.info("Using device candidate " + deviceCandidate + " with coordinator: " + coordinator.getClass());
+
+        if (coordinator.getBondingStyle() == DeviceCoordinator.BONDING_STYLE_REQUIRE_KEY) {
+            SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(deviceCandidate.getMacAddress());
+
+            String authKey = sharedPrefs.getString("authkey", null);
+            if (authKey == null || authKey.isEmpty() || authKey.getBytes().length < 34 || !authKey.substring(0, 2).equals("0x")) {
+                GB.toast(DiscoveryActivity.this, getString(R.string.discovery_need_to_enter_authkey), Toast.LENGTH_LONG, GB.WARN);
+                return;
+            }
+        }
+
         Class<? extends Activity> pairingActivity = coordinator.getPairingActivity();
         if (pairingActivity != null) {
             Intent intent = new Intent(this, pairingActivity);
@@ -623,7 +635,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             startActivity(intent);
         } else {
             GBDevice device = DeviceHelper.getInstance().toSupportedDevice(deviceCandidate);
-            int bondingStyle = coordinator.getBondingStyle(device);
+            int bondingStyle = coordinator.getBondingStyle();
             if (bondingStyle == DeviceCoordinator.BONDING_STYLE_NONE) {
                 LOG.info("No bonding needed, according to coordinator, so connecting right away");
                 connectAndFinish(device);

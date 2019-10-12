@@ -153,7 +153,7 @@ public class ZeTimeCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public int getBondingStyle(GBDevice device) {
+    public int getBondingStyle() {
         return BONDING_STYLE_NONE;
     }
 

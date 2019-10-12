@@ -71,7 +71,7 @@ public class No1F1Coordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public int getBondingStyle(GBDevice deviceCandidate) {
+    public int getBondingStyle() {
         return BONDING_STYLE_NONE;
     }
 

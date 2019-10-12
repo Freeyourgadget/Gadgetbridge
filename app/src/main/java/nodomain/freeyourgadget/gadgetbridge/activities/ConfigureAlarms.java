@@ -80,6 +80,7 @@ public class ConfigureAlarms extends AbstractGBActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQ_CONFIGURE_ALARM) {
             avoidSendAlarmsToDevice = false;
             updateAlarmsFromDB();

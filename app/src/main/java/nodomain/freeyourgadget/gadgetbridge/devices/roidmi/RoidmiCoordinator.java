@@ -44,7 +44,7 @@ public abstract class RoidmiCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public int getBondingStyle(GBDevice device) {
+    public int getBondingStyle() {
         return BONDING_STYLE_BOND;
     }
 
@@ -133,6 +133,7 @@ public abstract class RoidmiCoordinator extends AbstractDeviceCoordinator {
         return true;
     }
 
+    @NonNull
     @Override
     public int[] getColorPresets() {
         return RoidmiConst.COLOR_PRESETS;
