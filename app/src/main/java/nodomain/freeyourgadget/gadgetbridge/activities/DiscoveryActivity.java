@@ -196,8 +196,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     private final BluetoothAdapter.LeScanCallback leScanCallback = new BluetoothAdapter.LeScanCallback() {
         @Override
         public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
-            LOG.warn(device.getName() + ": " + ((scanRecord != null) ? scanRecord.length : -1));
-            logMessageContent(scanRecord);
+            //logMessageContent(scanRecord);
             handleDeviceFound(device, (short) rssi);
         }
     };
@@ -339,6 +338,12 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     }
 
     private void handleDeviceFound(BluetoothDevice device, short rssi) {
+        if (device.getName() != null) {
+            if (handleDeviceFound(device,rssi, null)) {
+                LOG.info("found supported device " + device.getName() + " without scanning services, skipping service scan.");
+                return;
+            }
+        }
         ParcelUuid[] uuids = device.getUuids();
         if (uuids == null) {
             if (device.fetchUuidsWithSdp()) {
@@ -350,7 +355,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     }
 
 
-    private void handleDeviceFound(BluetoothDevice device, short rssi, ParcelUuid[] uuids) {
+    private boolean handleDeviceFound(BluetoothDevice device, short rssi, ParcelUuid[] uuids) {
         LOG.debug("found device: " + device.getName() + ", " + device.getAddress());
         if (LOG.isDebugEnabled()) {
             if (uuids != null && uuids.length > 0) {
@@ -360,7 +365,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             }
         }
         if (device.getBondState() == BluetoothDevice.BOND_BONDED) {
-            return; // ignore already bonded devices
+            return true; // ignore already bonded devices
         }
 
         GBDeviceCandidate candidate = new GBDeviceCandidate(device, rssi, uuids);
@@ -375,7 +380,9 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
                 deviceCandidates.add(candidate);
             }
             cadidateListAdapter.notifyDataSetChanged();
+            return true;
         }
+        return false;
     }
 
     /**
