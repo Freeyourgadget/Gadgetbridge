@@ -1,12 +1,12 @@
 ### Changelog
 
 #### Version 0.37.0
-* Initial Basic Makibes HR3 support
-* Amazfit Bip Lite: Iniital working support, firmware update is disabled for now (we do not have any firmware for testing)
+* Initial Makibes HR3 support
+* Amazfit Bip Lite: Inittal working support, firmware update is disabled for now (we do not have any firmware for testing)
 * Amazfit Cor 2: Enable Emoji Font setting and 3rd party HR access
 * Find Phone now also vibration in addition to playing the ring tone
 * ID115: All settings are now per-device
-* Timeformat settings are now per-device for all supported devices
+* Time format settings are now per-device for all supported devices
 * Wrist location settings are now per-device for all supported devices
 * Work around broken layout in database management activity
 * Show toast in case no app is installed which can handle GPX files

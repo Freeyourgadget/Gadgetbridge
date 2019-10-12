@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.37.0" versioncode="158">
+        <change>Initial Makibes HR3 support</change>
+        <change>Amazfit Bip Lite: Inittal working support, firmware update is disabled for now (we do not have any firmware for testing)</change>
+        <change>Amazfit Cor 2: Enable Emoji Font setting and 3rd party HR access</change>
+        <change>Find Phone now also vibration in addition to playing the ring tone</change>
+        <change>ID115: All settings are now per-device</change>
+        <change>Time format settings are now per-device for all supported devices</change>
+        <change>Wrist location settings are now per-device for all supported devices</change>
+        <change>Work around broken layout in database management activity</change>
+        <change>Show toast in case no app is installed which can handle GPX files</change>
+        <change>Mi Band 4/Amazfit Bip Lite: Trim white spaces and new lines from auth key</change>
+        <change>Mi Band 4/Amazfit Bip Lite: Display a toast and do not try to pair if there was no auth key supplied</change>
+        <change>Skip service scan if supported device could be recognized without uuids during discovery</change>
+    </release>
     <release version="0.36.2" versioncode="157">
         <change>Amazfit Bip: Untested support for Lite variant </change>
         <change>Force Lineage OS to ask for permission when Trust is used to fix non-working incoming calls</change>
