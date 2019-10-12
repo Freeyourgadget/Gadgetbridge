@@ -763,4 +763,10 @@
     <string name="activity_error_no_app_for_gpx">Para visualizar o rastreamento de atividade, instale um aplicativo que consegue manipular arquivos GPX.</string>
     <string name="preferences_makibes_hr3_settings">Configurações de Makibes HR3</string>
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
+    <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
+    <string name="prefs_find_phone">Encontrar telefone</string>
+    <string name="prefs_enable_find_phone">Ativar encontrar telefone</string>
+    <string name="prefs_find_phone_summary">Use sua pulseira para reproduzir o toque sonoro do seu celular.</string>
+    <string name="prefs_find_phone_duration">Duração do toque sonoro em segundos</string>
+    <string name="maximum_duration">Duração</string>
 </resources>
