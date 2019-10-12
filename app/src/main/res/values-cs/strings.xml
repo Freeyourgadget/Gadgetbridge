@@ -755,4 +755,10 @@
     <string name="activity_error_no_app_for_gpx">Pro zobrazení trasy aktivity nainstalujte aplikaci, která umí zobrazit GPX soubory.</string>
     <string name="preferences_makibes_hr3_settings">Nastavení Makibes HR3</string>
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
+    <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
+    <string name="prefs_find_phone">Vyhledat telefon</string>
+    <string name="prefs_enable_find_phone">Povolit vyhledání telefonu</string>
+    <string name="prefs_find_phone_summary">Použijte náramek/hodinky k prozvonění telefonu.</string>
+    <string name="prefs_find_phone_duration">Délka zvonění ve vteřinách</string>
+    <string name="maximum_duration">Délka</string>
 </resources>
