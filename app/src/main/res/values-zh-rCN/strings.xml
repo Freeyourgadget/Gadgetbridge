@@ -7,7 +7,6 @@
     <string name="action_quit">退出</string>
     <string name="action_donate">捐赠</string>
     <string name="controlcenter_fetch_activity_data">同步</string>
-    <string name="controlcenter_start_sleepmonitor">睡眠检测器（ALPHA测试）</string>
     <string name="controlcenter_find_device">查找丢失的设备</string>
     <string name="controlcenter_take_screenshot">截图</string>
     <string name="controlcenter_connect">连接…</string>
@@ -199,7 +198,6 @@
     <string name="message_cannot_pair_no_mac">没有 MAC 地址通过, 不能配对。</string>
     <string name="preferences_category_device_specific_settings">设备特定设置</string>
     <string name="preferences_miband_settings">小米手环/米动手环设置</string>
-    <string name="preferences_amazfitbip_settings">米动手表青春版设置</string>
     <string name="male">男</string>
     <string name="female">女</string>
     <string name="other">其它</string>
@@ -218,7 +216,7 @@
     <string name="initializing">初始化中</string>
     <string name="busy_task_fetch_activity_data">获取活动数据</string>
     <string name="sleep_activity_date_range">从 %1$s 到 %2$s</string>
-    <string name="miband_prefs_wearside">佩戴在左手还是右手？</string>
+    <string name="prefs_wearside">佩戴在左手还是右手？</string>
     <string name="vibration_profile_short">短</string>
     <string name="vibration_profile_medium">中</string>
     <string name="vibration_profile_long">长</string>
@@ -465,7 +463,7 @@
     <string name="mi2_prefs_button_press_broadcast">要发送的广播消息</string>
     <string name="devicetype_pebble">Pebble</string>
     <string name="pref_summary_pebble_forcele">使用实验性 Pebble LE 以支持所有 Pebble ，代替 BT 经典连接。 这首先需要以非 LE 配对，然后以 Pebble LE 连接</string>
-    <string name="pref_summary_pebble_mtu_limit">如果您的 Pebble 2 / Pebble LE 无法正常工作，请尝试使用此设置来限制 MTU （有效范围 20-512 ）</string>
+    <string name="pref_summary_pebble_mtu_limit">如果您的 Pebble 2 / Pebble LE 无法正常工作，请尝试使用此设置来限制 MTU （有效范围 20–512 ）</string>
     <string name="pref_header_auto_export">自动导出</string>
     <string name="pref_title_auto_export_enabled">启用自动导出</string>
     <string name="pref_title_auto_export_location">导出位置</string>
@@ -503,15 +501,11 @@
     <string name="pref_title_pebble_gatt_clientonly">仅限 GATT 客户端</string>
     <string name="pref_summary_pebble_gatt_clientonly">这是仅为 Pebble 2 的选项，且为试验性质，如果您遇到连接性问题，请尝试</string>
     <string name="pref_title_pebble_always_ack_pebblekit">提前 ACK PebbleKit</string>
-    <string name="preferences_id115_settings">ID115 设置</string>
     <string name="prefs_screen_orientation">屏幕朝向</string>
     <string name="pref_auto_fetch">自动获取活动数据</string>
     <string name="pref_auto_fetch_summary">屏幕解锁时会自动获取。仅在设置了锁定机制才会有效！</string>
     <string name="pref_auto_fetch_limit_fetches">刷新最小间隔</string>
     <string name="pref_auto_fetch_limit_fetches_summary">每隔 %d 分钟刷新</string>
-    <string name="preferences_miband2_settings">小米手环2 设置</string>
-    <string name="preferences_miband3_settings">小米手环3 设置</string>
-    <string name="preferences_amazfitcor_settings">米动手环设置</string>s
     <string name="horizontal">横向</string>
     <string name="vertical">纵向</string>
     <string name="watch9_pairing_tap_hint">当您的手环震动时，晃动设备或者按下按钮。</string>
@@ -652,9 +646,6 @@
     <string name="zetime_calories_type">卡路里类型</string>
     <string name="zetime_calories_type_active">仅运动消耗的热量</string>
     <string name="zetime_calories_type_all">运行和非运动消耗的热量</string>
-    <string name="zetime_time_format">时间格式</string>
-    <string name="zetime_time_format_24h">24小时制</string>
-    <string name="zetime_time_format_12h">12小时制</string>
     <string name="zetime_date_format">日期格式</string>
     <string name="zetime_date_format_1">YY/MM/DD</string>
     <string name="zetime_date_format_2">DD/MM/YY</string>
@@ -693,14 +684,18 @@
     <string name="pref_title_authkey">认证密钥</string>
     <string name="pref_summary_authkey">将您想要连接的所有 Android 设备上的认证密钥更改为通用的密钥。默认所有设备的密钥是 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
-    <string name="fw_upgrade_notice_amazfitcor2">您即将在米动手环2(Amazfit Cor 2)上安装 %s 版本的固件。 
+    <string name="fw_upgrade_notice_amazfitcor2">您即将在米动手环2(Amazfit Cor 2)上安装 %s 版本的固件
 \n 
-\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启。 
+\n
+\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启
 \n 
-\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件。 
+\n
+\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件
 \n 
+\n
 \n风险自担！ 
 \n 
+\n
 \n此功能未经测试，如果您的设备名为“Amazfit Band 2”，您可能需要刷入 BEATS_W 固件</string>
     <string name="dutch">荷兰语</string>
     <string name="turkish">土耳其语</string>
@@ -722,4 +717,53 @@
     <string name="prefs_hr_alarm_activity">运动期间的心率警报</string>
     <string name="prefs_hr_alarm_low">下限</string>
     <string name="prefs_hr_alarm_high">上限</string>
+    <string name="average">平均：%1$s</string>
+    <string name="pref_header_charts">图表设置</string>
+    <string name="pref_title_charts_average">在图表中显示平均值</string>
+    <string name="pref_title_charts_range">图表范围</string>
+    <string name="pref_charts_range_on">图表范围已设置为按月</string>
+    <string name="pref_charts_range_off">图表范围已设置为按周</string>
+    <string name="weekstepschart_steps_a_month">每月步数</string>
+    <string name="weeksleepchart_sleep_a_month">每月睡眠</string>
+    <string name="devicetype_mijia_lywsd02">米家智能闹钟</string>
+    <string name="menuitem_nfc">NFC</string>
+    <string name="pref_summary_expose_hr">当 Gadgetbridge 已连接时，允许其他应用实时访问心率数据</string>
+    <string name="pref_title_expose_hr">第三方实时心率数据访问</string>
+    <string name="pref_title_use_custom_font">使用自定义字体</string>
+    <string name="pref_summary_use_custom_font">如果您的设备使用自定义的字体固件或表情符号支持，请启用此选项</string>
+    <string name="activity_db_management_autoexport_explanation">数据库自动导出路径已经被设置为：</string>
+    <string name="activity_db_management_autoexport_label">自动导出</string>
+    <string name="activity_DB_ExportButton">导出数据库</string>
+    <string name="activity_DB_import_button">导入数据库</string>
+    <string name="activity_DB_test_export_button">立刻运行自动导出</string>
+    <string name="activity_DB_test_export_message">正在导出数据库…</string>
+    <string name="activity_DB_delete_legacy_button">删除旧数据库</string>
+    <string name="activity_DB_empty_button">清空数据库</string>
+    <string name="activity_db_management_empty_DB">清空数据库</string>
+    <string name="activity_db_management_exportimport_label">导入与导出</string>
+    <string name="activity_db_management_empty_db_warning">警告！当按下此按钮后，将会清空您的数据库并从零开始。</string>
+    <string name="appwidget_sleep_alarm_widget_label">睡眠闹钟</string>
+    <string name="widget_steps_label">步数：%1$02d</string>
+    <string name="widget_sleep_label">睡眠：%1$s</string>
+    <string name="widget_listing_label">状态与闹钟</string>
+    <string name="widget_set_alarm_after">多久后闹铃：</string>
+    <string name="widget_5_minutes">5 分钟</string>
+    <string name="widget_10_minutes">10 分钟</string>
+    <string name="widget_20_minutes">20 分钟</string>
+    <string name="widget_1_hour">1 小时</string>
+    <string name="pref_display_add_device_fab">连接新设备按钮</string>
+    <string name="pref_display_add_device_fab_on">总是可见</string>
+    <string name="pref_display_add_device_fab_off">仅当没有设备添加时可见</string>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="other">%d 小时</item>
+    </plurals>
+    <string name="activity_error_no_app_for_gpx">若需要查看活动轨迹，请安装一个能查看 GPX 文件的应用。</string>
+    <string name="preferences_makibes_hr3_settings">Makibes HR3 设置</string>
+    <string name="devicetype_makibes_hr3">Makibes HR3</string>
+    <string name="devicetype_amazfit_bip_lite">米动手表青春版 Lite</string>
+    <string name="prefs_find_phone">查找手机</string>
+    <string name="prefs_enable_find_phone">启用查找手机</string>
+    <string name="prefs_find_phone_summary">使用您的手环以在手机上播放铃声。</string>
+    <string name="prefs_find_phone_duration">铃声将持续数秒</string>
+    <string name="maximum_duration">持续</string>
 </resources>

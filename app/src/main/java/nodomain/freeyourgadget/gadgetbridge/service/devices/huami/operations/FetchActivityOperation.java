@@ -85,6 +85,7 @@ public class FetchActivityOperation extends AbstractFetchOperation {
         }
 
         super.handleActivityFetchFinish(success);
+        GB.signalActivityDataFinish();
     }
 
     private boolean needsAnotherFetch(GregorianCalendar lastSyncTimestamp) {

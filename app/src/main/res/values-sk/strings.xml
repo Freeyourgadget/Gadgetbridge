@@ -176,7 +176,7 @@
     <string name="pref_title_pebble_forcele">Vždy preferovať BLE</string>
     <string name="pref_summary_pebble_forcele">"Použiť experimentálnu podporu Pebble LE pre všetky Pebble zariadenia namiesto klasického BT. Vyžaduje spárovanie  Pebble LE \" po pripojení bez LE"</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU ohraničenie</string>
-    <string name="pref_summary_pebble_mtu_limit">Ak vaše Pebble 2/Pebble LE nepracuje správne, skúste toto nastavenie pre omezenie MTU (povolený rozsah 20-512)</string>
+    <string name="pref_summary_pebble_mtu_limit">Ak vaše Pebble 2/Pebble LE nepracuje správne, skúste toto nastavenie pre omezenie MTU (povolený rozsah 20–512)</string>
     <string name="pref_title_pebble_enable_applogs">Zapnúť logovanie Watch App</string>
     <string name="pref_summary_pebble_enable_applogs">Spôsobí, že logy z aplikácií v hodinkách budú zaznamenávané aplikáciou Gadgetbridge (vyžaduje opätovné pripojenie)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">Predčasné potvrdenie (ACK) pre PebbleKit</string>
@@ -246,7 +246,6 @@
     <string name="message_cannot_pair_no_mac">Adresa MAC neprišla, nemôžem spárovať.</string>
     <string name="preferences_category_device_specific_settings">Špecifické nastavenia zariadení</string>
     <string name="preferences_miband_settings">Nastavenia Mi Band / Amazfit</string>
-    <string name="preferences_amazfitbip_settings">Nastavenia Amazfit Bip</string>
     <string name="male">Muž</string>
     <string name="female">Žena</string>
     <string name="other">Iné</string>
@@ -266,7 +265,7 @@
     <string name="initializing">Spúšťanie</string>
     <string name="busy_task_fetch_activity_data">Načítavanie údajov o aktivite</string>
     <string name="sleep_activity_date_range">Od %1$s do %2$s</string>
-    <string name="miband_prefs_wearside">Na ktorej ruke nosíte?</string>
+    <string name="prefs_wearside">Na ktorej ruke nosíte?</string>
     <string name="pref_screen_vibration_profile">Profil vibrácií</string>
 
     <string name="vibration_profile_staccato">Staccato</string>
@@ -433,7 +432,7 @@
     <string name="authenticating">Overovanie</string>
     <string name="authentication_required">Vyžiadané overenie</string>
 
-    <string name="appwidget_text">Spí...</string>
+    <string name="appwidget_text">Spí…</string>
     <string name="add_widget">Pridať miniaplikáciu</string>
     <string name="activity_prefs_sleep_duration">Preferovaná doba spánku v hodinách</string>
     <string name="appwidget_setting_alarm">Budík nastavený na %1$02d:%2$02d</string>

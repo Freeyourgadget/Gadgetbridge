@@ -54,7 +54,7 @@
     <string name="pref_title_notifications_call">Apeluri telefonice</string>
     <string name="pref_title_notifications_sms">SMS</string>
     <string name="pref_title_notifications_generic">Suport notificari generice</string>
-    <string name="pref_title_whenscreenon">... si cand ecranul este pornit</string>
+    <string name="pref_title_whenscreenon">… si cand ecranul este pornit</string>
     <string name="always">Intotdeauna</string>
     <string name="when_screen_off">Cand ecranul este oprit</string>
     <string name="never">Niciodata</string>

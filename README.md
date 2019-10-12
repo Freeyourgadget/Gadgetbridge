@@ -28,69 +28,36 @@ vendor's servers.
 
 [List of changes](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/master/CHANGELOG.md)
 
-## Supported Devices
+## Supported Devices (Some of them WIP and some of them without maintainer)
 * Amazfit Bip [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
+* Amazfit Bip Lite (NOT RECOMMENDED, NEEDS MI FIT WITH ACCOUNT AND ROOT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-Lite)
 * Amazfit Cor [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor)
 * Amazfit Cor 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor-2)
 * BFH-16
-* Casio GB-6900B (WIP)
+* Casio GB-6900B
 * HPlus Devices (e.g. ZeBand) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
-* ID115 (WIP)
-* Lenovo Watch 9 (WIP)
+* ID115
+* Lenovo Watch 9
 * Lenovo Watch X Plus (WIP)
-* Liveview (WIP)
+* Liveview
+* Makibes HR3
 * Mi Band, Mi Band 1A, Mi Band 1S [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band)
 * Mi Band 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2)
 * Mi Band 3 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-3)
-* Mi Band 4 (WIP, NOT RECOMMENDED, NEEDS MI FIT WITH ACCOUNT AND ROOT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-4)
+* Mi Band 4 (NOT RECOMMENDED, NEEDS MI FIT WITH ACCOUNT AND ROOT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-4)
 * Mi Scale 2 (currently only displays a toast after stepping on the scale)
-* NO.1 F1 (WIP)
+* NO.1 F1
 * Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
 * Pebble 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
-* Teclast H10, H30 (WIP)
+* Teclast H10, H30
 * XWatch (Affordable Chinese Casio-like smartwatches)
 * Vibratissimo (experimental)
-* ZeTime (WIP) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/MyKronoz-ZeTime)
+* ZeTime [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/MyKronoz-ZeTime)
 
 
 ## Features
 
 Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/master/FEATURES.md)
-
-## Getting Started (Pebble)
-
-Please [this wiki article](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble-Getting-Started) 
-
-## How to use (Mi Band 1+2)
-
-* Invoke the discovery activity  manually via the "+" button. It will ask you for some personal info that appears
-  to be needed for proper steps calculation on the band. If you do not provide these,
-  some hardcoded default "dummy" values will be used instead. 
-
-  When your Mi Band starts to vibrate and blink during the pairing process,
-  tap it quickly a few times in a row to confirm the pairing with the band.
-
-1. Configure other notifications as desired
-2. Go back to the "Gadgetbridge" activity
-3. Tap the Mi Band item to connect if you're not connected yet
-4. To test, chose "Debug" from the menu and play around
-
-**Known Issues:**
-
-* The initial connection to a Mi Band sometimes takes a little patience. Try to connect a few times, wait, 
-  and try connecting again. This only happens until you have "bonded" with the Mi Band, i.e. until it 
-  knows your MAC address. This behavior may also only occur with older firmware versions.
-* If you use other apps like Mi Fit, and "bonding" with Gadgetbridge does not work, please
-  try to unpair the band in the other app and try again with Gadgetbridge.
-* While all Mi Band devices are supported, some firmware versions might work better than others.
-  You can consult the [projects wiki pages](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band) 
-  to check if your firmware version is fully supported or if an upgrade/downgrade might be beneficial.
-* In order to display text notifications on the Mi Band 2, you have to [install a font on the band](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2).
-
-## Features (Liveview)
-
-* set time (automatically upon connection)
-* display notifications and vibrate
 
 ## Authors
 ### Core Team (in order of first code contribution)
@@ -110,6 +77,7 @@ Please [this wiki article](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki
 * Andreas Böhler (Casio GB-6900B)
 * Jean-François Greffier (Mi Scale 2)
 * Johannes Schmitt (BFH-16)
+* Lukas Schwichtenberg (Makibes HR3)
 
 ## Contribute
 

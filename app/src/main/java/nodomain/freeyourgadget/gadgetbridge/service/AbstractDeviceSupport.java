@@ -58,7 +58,6 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventLEDColor;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepMonitorResult;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -151,8 +150,6 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             handleGBDeviceEvent((GBDeviceEventVersionInfo) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventAppInfo) {
             handleGBDeviceEvent((GBDeviceEventAppInfo) deviceEvent);
-        } else if (deviceEvent instanceof GBDeviceEventSleepMonitorResult) {
-            handleGBDeviceEvent((GBDeviceEventSleepMonitorResult) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventScreenshot) {
             handleGBDeviceEvent((GBDeviceEventScreenshot) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventNotificationControl) {
@@ -256,18 +253,6 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             appInfoIntent.putExtra("app_type" + i, appInfoEvent.apps[i].getType().ordinal());
         }
         LocalBroadcastManager.getInstance(context).sendBroadcast(appInfoIntent);
-    }
-
-    private void handleGBDeviceEvent(GBDeviceEventSleepMonitorResult sleepMonitorResult) {
-        Context context = getContext();
-        LOG.info("Got event for SLEEP_MONIOR_RES");
-        Intent sleepMonitorIntent = new Intent(ChartsHost.REFRESH);
-        sleepMonitorIntent.putExtra("smartalarm_from", sleepMonitorResult.smartalarm_from);
-        sleepMonitorIntent.putExtra("smartalarm_to", sleepMonitorResult.smartalarm_to);
-        sleepMonitorIntent.putExtra("recording_base_timestamp", sleepMonitorResult.recording_base_timestamp);
-        sleepMonitorIntent.putExtra("alarm_gone_off", sleepMonitorResult.alarm_gone_off);
-
-        LocalBroadcastManager.getInstance(context).sendBroadcast(sleepMonitorIntent);
     }
 
     private void handleGBDeviceEvent(GBDeviceEventScreenshot screenshot) {
@@ -408,5 +393,9 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         messageIntent.putExtra(GB.DISPLAY_MESSAGE_SEVERITY, message.severity);
 
         LocalBroadcastManager.getInstance(context).sendBroadcast(messageIntent);
+    }
+
+    public String customStringFilter(String inputString) {
+        return inputString;
     }
 }

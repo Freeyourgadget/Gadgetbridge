@@ -31,6 +31,7 @@ import java.util.Collections;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -65,7 +66,7 @@ public class ID115Coordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public int getBondingStyle(GBDevice deviceCandidate){
+    public int getBondingStyle(){
         return BONDING_STYLE_NONE;
     }
 
@@ -153,5 +154,13 @@ public class ID115Coordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsFindDevice() {
         return false;
+    }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_wearlocation,
+                R.xml.devicesettings_screenorientation
+        };
     }
 }

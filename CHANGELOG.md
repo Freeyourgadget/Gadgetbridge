@@ -1,5 +1,52 @@
 ### Changelog
 
+#### Version 0.37.0
+* Initial Makibes HR3 support
+* Amazfit Bip Lite: Inittal working support, firmware update is disabled for now (we do not have any firmware for testing)
+* Amazfit Cor 2: Enable Emoji Font setting and 3rd party HR access
+* Find Phone now also vibration in addition to playing the ring tone
+* ID115: All settings are now per-device
+* Time format settings are now per-device for all supported devices
+* Wrist location settings are now per-device for all supported devices
+* Work around broken layout in database management activity
+* Show toast in case no app is installed which can handle GPX files
+* Mi Band 4/Amazfit Bip Lite: Trim white spaces and new lines from auth key
+* Mi Band 4/Amazfit Bip Lite: Display a toast and do not try to pair if there was no auth key supplied
+* Skip service scan if supported device could be recognized without uuids during discovery
+
+#### Version 0.36.2
+* Amazfit Bip: Untested support for Lite variant 
+* Force Lineage OS to ask for permission when Trust is used to fix non-working incoming calls
+* Charts: List multiple sleep sessions per day
+
+#### Version 0.36.1
+* Mi Band 2/3/4, Amazfit Bip/Cor: Add setting to expose the HR sensor to 3rd party apps
+* Mi Band 4: Really fix weather location not being updated on the Band
+* Mi Band 4: Fix call notifcation not stopping when call gets answered or rejected on the phone
+* Amazfit Bip/Cor: Support for custom emoji font
+* ZeTime: Enable emoji support
+* ZeTime: Make watch language the same as the phone language by default
+* New status and alarms widget
+* Fix crash when entering notification filter settings
+* Make diagram settings accessible from charts activity
+* Add option to hide the floating plus button in the main activity
+* Fix a potential crash on Android 4.4 KitKat
+
+#### Version 0.36.0
+* Initial Mijia LYWSD02 support (Smart Clock with Humidity and Temperature Sensor), just for setting the time
+* Mi Band 3/4: Allow enabling the NFC menu where supported (useless for now)
+* Mi Band 3/4, Amazfit Cor/Bip: Set language immediately when changing it (not only on connect)
+* Mi Band 3/4, Amazfir Cor/Bip: Add icons for "swimming" and "exercise"
+* Mi Band 4: Support flashing the V2 font
+* Mi Band 4: Fix weather location not being updated on the Band
+* Mi Band 4: remove unsupported DND setting from settings menu
+* Amazfit Bip/Cor: Fix resetting of last fetched date for sports activities
+* Amazfit Bip: Fix sharing GPX files for some Apps
+* Pebble: Use Rebble Store URI
+* Support LineageOS 16.0 weather provider
+* Add Averages to Charts
+* Allow togging between weekly and monthly charts
+
 #### Version 0.35.2
 * Mi Band 1/2: Crash when updating firmware while phone is set to Spanish
 * Mi Band 4: Enable music info support (displays now on the band)

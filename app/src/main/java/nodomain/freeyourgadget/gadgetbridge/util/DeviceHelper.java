@@ -45,6 +45,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.casiogb6900.CasioGB6900Devic
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.EXRIZUK8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.MakibesF68Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipLiteCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.Q8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor.AmazfitCorCoordinator;
@@ -81,13 +83,12 @@ public class DeviceHelper {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceHelper.class);
 
     private static final DeviceHelper instance = new DeviceHelper();
+    // lazily created
+    private List<DeviceCoordinator> coordinators;
 
     public static DeviceHelper getInstance() {
         return instance;
     }
-
-    // lazily created
-    private List<DeviceCoordinator> coordinators;
 
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         for (DeviceCoordinator coordinator : getAllCoordinators()) {
@@ -202,14 +203,15 @@ public class DeviceHelper {
 
     private List<DeviceCoordinator> createCoordinators() {
         List<DeviceCoordinator> result = new ArrayList<>();
-        result.add(new MiScale2DeviceCoordinator()); // Note: must come before MiBand2 because detection is hacky, atm
-        result.add(new AmazfitBipCoordinator()); // Note: must come before MiBand2 because detection is hacky, atm
-        result.add(new AmazfitCorCoordinator()); // Note: must come before MiBand2 because detection is hacky, atm
-        result.add(new AmazfitCor2Coordinator()); // Note: must come before MiBand2 because detection is hacky, atm
-        result.add(new MiBand3Coordinator());  // Note: must come before MiBand2 because detection is hacky, atm
-        result.add(new MiBand4Coordinator());  // Note: must come before MiBand2 because detection is hacky, atm
-        result.add(new MiBand2HRXCoordinator()); // Note: must come before MiBand2 because detection is hacky, atm
-        result.add(new MiBand2Coordinator()); // Note: MiBand2 must come before MiBand because detection is hacky, atm
+        result.add(new MiScale2DeviceCoordinator());
+        result.add(new AmazfitBipCoordinator());
+        result.add(new AmazfitBipLiteCoordinator());
+        result.add(new AmazfitCorCoordinator());
+        result.add(new AmazfitCor2Coordinator());
+        result.add(new MiBand3Coordinator());
+        result.add(new MiBand4Coordinator());
+        result.add(new MiBand2HRXCoordinator());
+        result.add(new MiBand2Coordinator()); // Note: MiBand2 and all of the above  must come before MiBand because detection is hacky, atm
         result.add(new MiBandCoordinator());
         result.add(new PebbleCoordinator());
         result.add(new VibratissimoCoordinator());
@@ -230,6 +232,7 @@ public class DeviceHelper {
         result.add(new CasioGB6900DeviceCoordinator());
         result.add(new BFH16DeviceCoordinator());
         result.add(new MijiaLywsd02Coordinator());
+        result.add(new MakibesHR3Coordinator());
 
         return result;
     }

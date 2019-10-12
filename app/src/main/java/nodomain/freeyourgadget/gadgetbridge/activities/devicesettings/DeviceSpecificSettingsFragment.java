@@ -16,19 +16,21 @@ import org.slf4j.LoggerFactory;
 import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Constants;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreference;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreferenceFragment;
 
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.*;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DATEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION_END;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISPLAY_ITEMS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISPLAY_ON_LIFT_END;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISPLAY_ON_LIFT_START;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_EXPOSE_HR_THIRDPARTY;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_LANGUAGE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB_END;
@@ -287,6 +289,10 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
         addPreferenceHandlerFor(PREF_DATEFORMAT);
         addPreferenceHandlerFor(PREF_DISPLAY_ITEMS);
         addPreferenceHandlerFor(PREF_LANGUAGE);
+        addPreferenceHandlerFor(PREF_EXPOSE_HR_THIRDPARTY);
+        addPreferenceHandlerFor(PREF_WEARLOCATION);
+        addPreferenceHandlerFor(PREF_SCREEN_ORIENTATION);
+        addPreferenceHandlerFor(PREF_TIMEFORMAT);
 
         String displayOnLiftState = prefs.getString(PREF_ACTIVATE_DISPLAY_ON_LIFT, PREF_DO_NOT_DISTURB_OFF);
         boolean displayOnLiftScheduled = displayOnLiftState.equals(PREF_DO_NOT_DISTURB_SCHEDULED);
@@ -364,12 +370,22 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
             });
         }
 
-        EditTextPreference pref = findPreference(MiBandConst.PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS);
-        if (pref != null) {
-            pref.setOnBindEditTextListener(new EditTextPreference.OnBindEditTextListener() {
+        EditTextPreference mibandTimeOffset = findPreference(MiBandConst.PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS);
+        if (mibandTimeOffset != null) {
+            mibandTimeOffset.setOnBindEditTextListener(new EditTextPreference.OnBindEditTextListener() {
                 @Override
                 public void onBindEditText(@NonNull EditText editText) {
                     editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+                }
+            });
+        }
+
+        EditTextPreference findPhoneDuration = findPreference(MakibesHR3Constants.PREF_FIND_PHONE_DURATION);
+        if (findPhoneDuration != null) {
+            findPhoneDuration.setOnBindEditTextListener(new EditTextPreference.OnBindEditTextListener() {
+                @Override
+                public void onBindEditText(@NonNull EditText editText) {
+                    editText.setInputType(InputType.TYPE_CLASS_NUMBER);
                 }
             });
         }

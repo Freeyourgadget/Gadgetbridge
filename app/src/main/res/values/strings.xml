@@ -56,7 +56,15 @@
     <string name="fw_upgrade_notice">You are about to install the %s.</string>
     <string name="fw_upgrade_notice_amazfitbip">You are about to install the %s firmware on your Amazfit Bip.\n\nPlease make sure to install the .fw file, then the .res file, and finally the .gps file. Your watch will reboot after installing the .fw file.\n\nNote: You do not have to install .res and .gps if these files are exactly the same as the ones previously installed.\n\nPROCEED AT YOUR OWN RISK!</string>
     <string name="fw_upgrade_notice_amazfitcor">You are about to install the %s firmware on your Amazfit Cor.\n\nPlease make sure to install the .fw file, and after that the .res file. Your band will reboot after installing the .fw file.\n\nNote: You do not have to install .res if it is exactly the same as the one previously installed.\n\nPROCEED AT YOUR OWN RISK!</string>
-    <string name="fw_upgrade_notice_amazfitcor2">You are about to install the %s firmware on your Amazfit Cor 2.\n\nPlease make sure to install the .fw file, and after that the .res file. Your band will reboot after installing the .fw file.\n\nNote: You do not have to install .res if it is exactly the same as the one previously installed.\n\nPROCEED AT YOUR OWN RISK!\n\nCOMPLETELY UNTESTED, PROBABLY YOU NEED TO FLASH A BEATS_W FIRMWARE IF YOUR DEVICE NAME is \"Amazfit Band 2\!"</string>
+    <string name="fw_upgrade_notice_amazfitcor2">You are about to install the %s firmware on your Amazfit Cor 2.
+\n
+\nPlease make sure to install the .fw file, and after that the .res file. Your band will reboot after installing the .fw file.
+\n
+\nNote: You do not have to install .res if it is exactly the same as the one previously installed.
+\n
+\nPROCEED AT YOUR OWN RISK!
+\n
+\nCOMPLETELY UNTESTED, PROBABLY YOU NEED TO FLASH A BEATS_W FIRMWARE IF YOUR DEVICE NAME IS \"Amazfit Band 2\"</string>
     <string name="fw_upgrade_notice_miband3">You are about to install the %s firmware on your Mi Band 3.\n\nPlease make sure to install the .fw file, and after that the .res file. Your band will reboot after installing the .fw file.\n\nNote: You do not have to install .res if it is exactly the same as the one previously installed.\n\nPROCEED AT YOUR OWN RISK!</string>
     <string name="fw_upgrade_notice_miband4">You are about to install the %s firmware on your Mi Band 4.\n\nPlease make sure to install the .fw file, and after that the .res file. Your band will reboot after installing the .fw file.\n\nNote: You do not have to install .res if it is exactly the same as the one previously installed.\n\nPROCEED AT YOUR OWN RISK!</string>
     <string name="fw_multi_upgrade_notice">You are about to install the %1$s and %2$s firmware, instead of the ones currently on your Mi Band.</string>
@@ -165,16 +173,23 @@
     <string name="pref_title_pebble_enable_bgjs">Enable background JS</string>
     <string name="pref_summary_pebble_enable_bgjs">When enabled, allows watchfaces to show weather, battery info etc.</string>
     <string name="pref_title_pebble_reconnect_attempts">Reconnection attempts</string>
+    <string name="pref_summary_expose_hr">Allows other apps to access HR data in realtime while Gadgetbridge is connected</string>
+    <string name="pref_title_expose_hr">3rd party realtime HR access</string>
+    <string name="pref_title_use_custom_font">Use custom font</string>
+    <string name="pref_summary_use_custom_font">Enable this if your device has a custom font firmware for emoji support</string>
+    <string name="pref_display_add_device_fab">Connect new device button</string>
+    <string name="pref_display_add_device_fab_on">Always visible</string>
+    <string name="pref_display_add_device_fab_off">Visible only if no device is added</string>
     <!-- HPlus Preferences -->
     <string name="pref_title_unit_system">Units</string>
     <string name="pref_title_timeformat">Time format</string>
     <string name="pref_title_screentime">Screen on duration</string>
     <string name="prefs_title_all_day_heart_rate">All day heart rate measurement</string>
     <string name="preferences_hplus_settings">HPlus/Makibes settings</string>
+    <!-- Makibes HR3 Preferences -->
+    <string name="preferences_makibes_hr3_settings">Makibes HR3 settings</string>
     <!-- ID115 Preferences -->
-    <string name="preferences_id115_settings">ID115 settings</string>
     <string name="prefs_screen_orientation">Screen orientation</string>
-
     <!-- ZeTime Preferences -->
     <string name="zetime_title_settings">ZeTime settings</string>
     <string name="zetime_title_heartrate">Heart rate settings</string>
@@ -194,9 +209,6 @@
     <string name="zetime_calories_type">Calories type</string>
     <string name="zetime_calories_type_active">Only active burnt calories</string>
     <string name="zetime_calories_type_all">Active and inactive burnt calories</string>
-    <string name="zetime_time_format">Time format</string>
-    <string name="zetime_time_format_24h">24h</string>
-    <string name="zetime_time_format_12h">12h</string>
     <string name="zetime_date_format">Date format</string>
     <string name="zetime_date_format_1">YY/MM/DD</string>
     <string name="zetime_date_format_2">DD/MM/YY</string>
@@ -219,16 +231,13 @@
     <string name="zetime_signaling_beep_once">Beep once</string>
     <string name="zetime_signaling_beep_twice">Beep twice</string>
     <string name="zetime_signaling_vibrate_beep_once">Vibrate and beep once</string>
-
     <!-- Device specific settings -->
     <string name="title_activity_device_specific_settings">Device specific settings</string>
     <string name="pref_title_authkey">Auth Key</string>
     <string name="pref_summary_authkey">Change the auth key to a common key on all your Android devices from which you would like to connect from. The previous default key for all devices is 0123456789@ABCDE</string>
-
     <string name="prefs_hr_alarm_activity">Heart rate alarm during sports activity</string>
     <string name="prefs_hr_alarm_low">Low limit</string>
     <string name="prefs_hr_alarm_high">High limit</string>
-
     <!-- Auto export preferences -->
     <string name="pref_header_auto_export">Auto export</string>
     <string name="pref_title_auto_export_enabled">Auto export enabled</string>
@@ -280,10 +289,6 @@
     <string name="message_cannot_pair_no_mac">No MAC address passed, cannot pair.</string>
     <string name="preferences_category_device_specific_settings">Device specific settings</string>
     <string name="preferences_miband_settings">Mi Band / Amazfit settings</string>
-    <string name="preferences_miband2_settings">Mi Band 2 settings</string>
-    <string name="preferences_miband3_settings">Mi Band 3 settings</string>
-    <string name="preferences_amazfitbip_settings">Amazfit Bip settings</string>
-    <string name="preferences_amazfitcor_settings">Amazfit Cor settings</string>s
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="other">Other</string>
@@ -295,6 +300,7 @@
     <string name="miband_pairing_tap_hint">When your Mi Band vibrates and blinks, tap it a few times in a row.</string>
     <string name="appinstaller_install">Install</string>
     <string name="discovery_connected_devices_hint">Make your device discoverable. Currently connected devices will likely not be discovered. Activate location (e.g. GPS) on Android 6+. Disable Privacy Guard for Gadgetbridge, because it may crash and reboot your phone. If no device is found after a few minutes, try again after rebooting your mobile device.</string>
+    <string name="discovery_need_to_enter_authkey">This device needs a secret auth key, long press on the device to enter it. Read the wiki.</string>
     <string name="discovery_note">Note:</string>
     <string name="candidate_item_device_image">Device image</string>
     <string name="miband_prefs_alias">Name/Alias</string>
@@ -305,7 +311,7 @@
     <string name="initializing">Initializing</string>
     <string name="busy_task_fetch_activity_data">Fetching activity data</string>
     <string name="sleep_activity_date_range">From %1$s to %2$s</string>
-    <string name="miband_prefs_wearside">Wearing left or right?</string>
+    <string name="prefs_wearside">Wearing left or right?</string>
     <string name="pref_screen_vibration_profile">Vibration profile</string>
     <string name="vibration_profile_staccato">Staccato</string>
     <string name="vibration_profile_short">Short</string>
@@ -329,7 +335,6 @@
     <string name="pref_screen_notification_profile_inactivity">Inactivity notification</string>
     <string name="pref_screen_notification_profile_low_power">Low power warning</string>
     <string name="pref_screen_notification_profile_anti_loss">Anti-loss warning</string>
-
     <string name="prefs_title_heartrate_measurement_interval">Whole day HR measurement</string>
     <string name="interval_one_minute">once a minute</string>
     <string name="interval_five_minutes">every 5 minutes</string>
@@ -441,6 +446,10 @@
     <string name="miband_prefs_reserve_alarm_calendar">Alarms to reserve for upcoming events</string>
     <string name="miband_prefs_hr_sleep_detection">Use heart rate sensor to improve sleep detection</string>
     <string name="miband_prefs_device_time_offset_hours">Device time offset in hours (for detecting sleep of shift workers)</string>
+    <string name="prefs_find_phone">Find phone</string>
+    <string name="prefs_enable_find_phone">Enable find phone</string>
+    <string name="prefs_find_phone_summary">Use your band to play your phone\'s ringtone.</string>
+    <string name="prefs_find_phone_duration">Ring duration in seconds</string>
     <string name="miband2_prefs_dateformat">Date format</string>
     <string name="dateformat_time">Time</string>
     <string name="dateformat_date_time"><![CDATA[Time & date]]></string>
@@ -506,7 +515,6 @@
     <string name="activity_prefs_gender">Gender</string>
     <string name="activity_prefs_height_cm">Height in cm</string>
     <string name="activity_prefs_weight_kg">Weight in kg</string>
-
     <!-- Settings - Charts Preferences -->
     <string name="pref_header_charts">Charts Settings</string>
     <string name="pref_title_charts_swipe">Enable left/right swipe in the charts activity</string>
@@ -519,13 +527,9 @@
     <string name="pref_charts_range_off">Charts range is set to a Week</string>
     <string name="weekstepschart_steps_a_month">Steps per month</string>
     <string name="weeksleepchart_sleep_a_month">Sleep per month</string>
-
     <string name="authenticating">Authenticating</string>
     <string name="authentication_required">Authentication required</string>
-    <string name="appwidget_text">Zzz</string>
-    <string name="add_widget">Add widget</string>
     <string name="activity_prefs_sleep_duration">Preferred sleep duration in hours</string>
-    <string name="appwidget_setting_alarm">Setting alarm for %1$02d:%2$02d</string>
     <string name="device_hw">Hardware revision: %1$s</string>
     <string name="device_fw">Firmware version: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Error creating directory for log files: %1$s</string>
@@ -534,11 +538,9 @@
     <string name="updatefirmwareoperation_firmware_not_sent">Firmware not sent</string>
     <string name="charts_legend_heartrate">Heart rate</string>
     <string name="live_activity_heart_rate">Heart rate</string>
-
     <string name="activity_prefs_calories_burnt">Daily target: calories burnt</string>
     <string name="activity_prefs_distance_meters">Daily target: distance in meters</string>
     <string name="activity_prefs_activetime_minutes">Daily target: active time in minutes</string>
-
     <string name="pref_title_pebble_health_store_raw">Store raw record in the database</string>
     <string name="pref_summary_pebble_health_store_raw">Stores the data \"as is\", increasing the database usage to allow for later interpretation.</string>
     <string name="action_db_management">Database management</string>
@@ -563,6 +565,17 @@
     <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Old activity data deleted.</string>
     <string name="dbmanagementactivity_old_activity_db_deletion_failed">Old Activity database deletion failed.</string>
     <string name="dbmanagementactivity_overwrite">Overwrite</string>
+    <string name="activity_db_management_autoexport_explanation">Database autoexport location has been set to:</string>
+    <string name="activity_db_management_autoexport_label">AutoExport</string>
+    <string name="activity_DB_ExportButton">Export DB</string>
+    <string name="activity_DB_import_button">Import DB</string>
+    <string name="activity_DB_test_export_button">Run AutoExport Now</string>
+    <string name="activity_DB_test_export_message">Exporting database…</string>
+    <string name="activity_DB_delete_legacy_button">Delete old DB</string>
+    <string name="activity_DB_empty_button">Empty DB</string>
+    <string name="activity_db_management_empty_DB">Empty Database</string>
+    <string name="activity_db_management_exportimport_label">Export and Import</string>
+    <string name="activity_db_management_empty_db_warning">Warning! By pushing this button you will wipe your database and start from scratch.</string>
     <string name="Cancel">Cancel</string>
     <string name="Delete">Delete</string>
     <string name="ok">OK</string>
@@ -592,6 +605,7 @@
     <string name="mi3_night_mode_sunset">At sunset</string>
     <string name="mi2_dnd_automatic">Automatic (sleep detection)</string>
     <string name="mi2_dnd_scheduled">Scheduled (time interval)</string>
+    <string name="maximum_duration">Duration</string>
     <string name="discovery_attempting_to_pair">Attempting to pair with %1$s</string>
     <string name="discovery_bonding_failed_immediately">Bonding with %1$s failed immediately.</string>
     <string name="discovery_trying_to_connect_to">Trying to connect to: %1$s</string>
@@ -619,6 +633,7 @@
     <string name="activity_type_biking">Biking</string>
     <string name="activity_type_treadmill">Treadmill</string>
     <string name="activity_type_exercise">Exercise</string>
+    <string name="activity_error_no_app_for_gpx">To view activity trace, install app which can handle GPX files.</string>
     <string name="select_all">Select all</string>
     <string name="share">Share</string>
     <string name="reset_index">Reset fetch date</string>
@@ -638,6 +653,7 @@
     <string name="devicetype_miband3">Mi Band 3</string>
     <string name="devicetype_miband4">Mi Band 4</string>
     <string name="devicetype_amazfit_bip">Amazfit Bip</string>
+    <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
     <string name="devicetype_amazfit_cor">Amazfit Cor</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="devicetype_vibratissimo">Vibratissimo</string>
@@ -660,6 +676,7 @@
     <string name="devicetype_miscale2">Mi Scale 2</string>
     <string name="devicetype_bfh16">BFH-16</string>
     <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
+    <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>
     <!-- Menus on the smart device -->
@@ -712,5 +729,26 @@
     <string name="filter_mode">Filter Mode</string>
     <string name="mode_configuration">Mode Configuration</string>
     <string name="save_configuration">Save Configuration</string>
+    <!-- App Widgets-->
     <string name="appwidget_not_connected">Not connected, alarm not set.</string>
+    <string name="appwidget_text">Zzz</string>
+    <string name="add_widget">Add widget</string>
+    <string name="appwidget_setting_alarm">Setting alarm for %1$02d:%2$02d</string>
+    <string name="appwidget_sleep_alarm_widget_label">Sleep Alarm</string>
+    <string name="widget_steps_label">Steps: %1$02d</string>
+    <string name="widget_sleep_label">Sleep: %1$s</string>
+    <string name="widget_listing_label">Status and Alarms</string>
+    <string name="widget_set_alarm_after">Set alarm after:</string>
+    <string name="widget_5_minutes">5 minutes</string>
+    <string name="widget_10_minutes">10 minutes</string>
+    <string name="widget_20_minutes">20 minutes</string>
+    <string name="widget_1_hour">1 hour</string>
+    <string name="icon_placeholder" translatable="false">Icon</string>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="two">%d hours</item>
+        <item quantity="few">%d hours</item>
+        <item quantity="many">%d hours</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
 </resources>

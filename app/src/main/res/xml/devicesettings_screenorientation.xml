@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="horizontal"
+        android:entries="@array/orientation"
+        android:entryValues="@array/orientation_values"
+        android:key="screen_orientation"
+        android:summary="%s"
+        android:title="@string/prefs_screen_orientation" />
+
+</androidx.preference.PreferenceScreen>

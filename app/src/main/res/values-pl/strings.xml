@@ -6,7 +6,6 @@
     <string name="action_debug">Debuguj</string>
     <string name="action_quit">Zakończ</string>
     <string name="controlcenter_fetch_activity_data">Synchronizuj</string>
-    <string name="controlcenter_start_sleepmonitor">Monitor snu (ALPHA)</string>
     <string name="controlcenter_find_device">Znajdź zgubione urządzenie</string>
     <string name="controlcenter_take_screenshot">Zrób zrzut ekranu</string>
     <string name="controlcenter_disconnect">Rozłącz</string>
@@ -59,7 +58,7 @@
     <string name="pref_title_notifications_sms">SMS</string>
     <string name="pref_title_notifications_pebblemsg">Wiadomości Pebble</string>
     <string name="pref_title_notifications_generic">Ogólna obsługa powiadomień</string>
-    <string name="pref_title_whenscreenon">...także gdy ekran jest włączony</string>
+    <string name="pref_title_whenscreenon">…także gdy ekran jest włączony</string>
     <string name="pref_title_notification_filter">Nie przeszkadzać</string>
     <string name="always">Zawsze</string>
     <string name="when_screen_off">Gdy ekran jest wyłączony</string>
@@ -93,7 +92,7 @@
     <string name="pref_summary_pebble_forceuntested">Włącz nie testowane funkcje. MUSISZ WIEDZIEĆ CO ROBISZ!</string>
     <string name="pref_title_pebble_forcele">Zawsze preferuj BLE</string>
     <string name="pref_title_pebble_mtu_limit">Limit MTU Pebble 2/LE GATT</string>
-    <string name="pref_summary_pebble_mtu_limit">Jeśli Twój Pebble 2/ Pebble LE nie działa jak należy spróbuj ustawić ten limit MTU (zakres 20-512)</string>
+    <string name="pref_summary_pebble_mtu_limit">Jeśli Twój Pebble 2/ Pebble LE nie działa jak należy spróbuj ustawić ten limit MTU (zakres 20–512)</string>
     <string name="pref_title_pebble_enable_applogs">Włącz logi aplikacji zegarka/opaski</string>
     <string name="pref_title_pebble_reconnect_attempts">Próby ponownego połączenia</string>
     <string name="not_connected">Nie połączony</string>
@@ -149,7 +148,7 @@
     <string name="initializing">Inicjalizacja</string>
     <string name="busy_task_fetch_activity_data">Pobieranie danych o aktywności</string>
     <string name="sleep_activity_date_range">Od %1$s do %2$s</string>
-    <string name="miband_prefs_wearside">Na której ręce noszone jest urządzenie\?</string>
+    <string name="prefs_wearside">Na której ręce noszone jest urządzenie\?</string>
     <string name="pref_screen_vibration_profile">Profil wibracji</string>
     <string name="vibration_profile_staccato">Słabe</string>
     <string name="vibration_profile_short">Krótkie</string>
@@ -313,7 +312,6 @@
     <string name="pref_screen_notification_profile_generic_chat">Czat</string>
     <string name="stats_title">Strefy prędkości</string>
     <string name="stats_y_axis_label">Kroków na minutę</string>
-    <string name="amazfitbip_firmware">Firmware Amazfit Bip %1s</string>
     <string name="calories">Kalorie</string>
     <string name="distance">Dystans</string>
     <string name="clock">Zegar</string>
@@ -337,7 +335,6 @@
     <string name="prefs_title_all_day_heart_rate">Całodobowy pomiar tętna</string>
     <string name="pref_header_auto_export">Automatyczny eksport</string>
     <string name="pref_summary_auto_export_interval">Eksportowanie co %d godzin</string>
-    <string name="preferences_amazfitbip_settings">Ustawienia Amazfit Bip</string>
     <string name="prefs_title_heartrate_measurement_interval">Całodobowy pomiar tętna</string>
     <string name="interval_one_minute">raz na minutę</string>
     <string name="interval_five_minutes">raz na 5 minut</string>
@@ -398,7 +395,6 @@
     <string name="pref_title_pebble_always_ack_pebblekit">Natychmiastowe potwierdzenia PebbleKit</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Spowoduje, że wiadomości wysyłane do zewnętrznych aplikacji będą zawsze natychmiast potwierdzane</string>
     <string name="pref_title_screentime">Czas włączenia ekranu</string>
-    <string name="preferences_id115_settings">Ustawienia ID115</string>
     <string name="prefs_screen_orientation">Orientacja ekranu</string>
     <string name="pref_title_auto_export_enabled">Auto eksport włączony</string>
     <string name="pref_title_auto_export_location">Ścieżka eksportu</string>
@@ -406,9 +402,6 @@
     <string name="pref_auto_fetch_summary">Pobranie danych nastąpi po odblokowaniu ekranu. Działa tylko jeśli blokada jest włączona!</string>
     <string name="pref_auto_fetch_limit_fetches">Minimalny odstęp czasu pomiędzy pobraniami</string>
     <string name="pref_auto_fetch_limit_fetches_summary">Pobieranie co %d minut(y)</string>
-    <string name="preferences_miband2_settings">Ustawienia Mi Band 2</string>
-    <string name="preferences_miband3_settings">Ustawienia Mi Band 3</string>
-    <string name="preferences_amazfitcor_settings">Ustawienia Amazfit Cor</string>s
     <string name="horizontal">Poziomo</string>
     <string name="vertical">Pionowo</string>
     <string name="discovery_connected_devices_hint">Upewnij się, że urządzenie (opaska/smartwatch) jest wykrywalne. Aktualnie połączone urządzenia prawdopodobnie nie będą wykrywalne. Na Androidzie 6+ włącz dostęp do lokalizacji (GPS). Wyłącz Privacy Guard dla Gadgetbridge, ponieważ mogą ze sobą kolidować. Jeżeli urządzenie nie zostanie wykryte w przeciągu paru minut, spróbuj ponownie po ponownym uruchomieniu telefonu.</string>

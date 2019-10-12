@@ -1,0 +1,3 @@
+* Amazfit Bip: Untested support for Lite variant
+* Force Lineage OS to ask for permission when Trust is used to fix non-working incoming calls
+* Charts: List multiple sleep sessions per day

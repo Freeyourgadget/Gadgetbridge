@@ -6,8 +6,7 @@
     <string name="action_debug">Dò lỗi</string>
     <string name="action_quit">Thoát</string>
     <string name="controlcenter_fetch_activity_data">Đồng bộ</string>
-    <string name="controlcenter_start_sleepmonitor">Giám sát giấc ngủ (ALPHA)</string>
-    <string name="controlcenter_find_device">Tìm thiết bị thất lạc...</string>
+    <string name="controlcenter_find_device">Tìm thiết bị thất lạc…</string>
     <string name="controlcenter_take_screenshot">Chụp ảnh màn hình</string>
     <string name="controlcenter_disconnect">Huỷ kết nối</string>
     <string name="title_activity_debug">Dò lỗi</string>
@@ -30,7 +29,6 @@
     <string name="pref_title_notifications_repetitions">Lặp lại</string>
     <string name="pref_title_notifications_call">Các cuộc gọi</string>
     <string name="pref_title_notifications_sms">SMS</string>
-    <string name="pref_title_notifications_k9mail">K9-Mail</string>
     <string name="pref_title_notifications_pebblemsg">Tin nhắn Pebble</string>
     <string name="always">luôn luôn</string>
     <string name="when_screen_off">khi tắt màn hình</string>
@@ -81,13 +79,12 @@
     <string name="title_activity_sleepmonitor">Trình giám sát giấc ngủ</string>
     <string name="initializing">đang khởi chạy</string>
     <string name="sleep_activity_date_range">Từ %1$s đến %2$s</string>
-    <string name="miband_prefs_wearside">Đeo bên trái hay phải?</string>
+    <string name="prefs_wearside">Đeo bên trái hay phải?</string>
     <string name="vibration_profile_short">Ngắn</string>
     <string name="vibration_profile_medium">Trung bình</string>
     <string name="vibration_profile_long">Dài</string>
     <string name="pref_screen_notification_profile_sms">Thông báo SMS</string>
     <string name="pref_header_vibration_settings">Cài đặt rung</string>
-    <string name="pref_screen_notification_profile_pebblemsg">Thông báo Pebble</string>
     <string name="pref_screen_notification_profile_email">Thông báo Mail</string>
     <string name="pref_screen_notification_profile_incoming_call">Thông báo cuộc gọi đến</string>
     <string name="control_center_find_lost_device">Tìm thiết bị thất lạc</string>
@@ -127,13 +124,13 @@
     <string name="action_donate">Ủng hộ</string>
     <string name="controlcenter_change_led_color">Đổi màu LED</string>
     <string name="controlcenter_change_fm_frequency">Đổi tần số FM</string>
-    <string name="controlcenter_connect">Kết nối...</string>
+    <string name="controlcenter_connect">Kết nối…</string>
     <string name="controlcenter_delete_device">Xóa thiết bị</string>
     <string name="controlcenter_delete_device_name">Xóa %1$s</string>
     <string name="controlcenter_delete_device_dialogmessage">Sẽ xóa thiết bị và toàn bộ dữ liệu liên quan!</string>
     <string name="controlcenter_snackbar_need_longpress">Ấn giữ thẻ để ngắt kết nối</string>
     <string name="controlcenter_snackbar_disconnecting">Đang ngắt kết nối</string>
-    <string name="controlcenter_snackbar_connecting">Đang kết nối...</string>
+    <string name="controlcenter_snackbar_connecting">Đang kết nối…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Chụp ảnh màn hình của thiết bị</string>
     <string name="controlcenter_calibrate_device">Hiệu chỉnh thiết bị</string>
     <string name="appmanager_cached_watchapps_watchfaces">Ứng dụng trong bộ nhớ tạm</string>
@@ -161,7 +158,7 @@
     <string name="pref_title_notifications_timeout">Thời gian tối thiểu giữa các thông báo</string>
     <string name="pref_summary_notifications_pebblemsg">Hổ trợ cho những ứng dụng gửi thông báo đến Pebble thông qua PebbleKit.</string>
     <string name="pref_title_notifications_generic">Hổ trợ thông báo chung</string>
-    <string name="pref_title_whenscreenon">...cũng như khi màn hình đang mở</string>
+    <string name="pref_title_whenscreenon">…cũng như khi màn hình đang mở</string>
     <string name="pref_title_notification_filter">Không Làm Phiền</string>
     <string name="pref_summary_notification_filter">Những thông báo không mong muốn sẽ bị dừng ở chế độ này</string>
     <string name="pref_title_transliteration">Chuyển ngữ</string>

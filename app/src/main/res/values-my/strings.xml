@@ -20,7 +20,7 @@
     <string name="controlcenter_snackbar_disconnecting">ခ်ိတ္ဆက္မႈျဖတ္ေတာက္ေနသည္</string>
     <string name="controlcenter_snackbar_connecting">ခ်ိတ္ဆက္ေနပါသည္…</string>
     <string name="title_activity_debug">ျပစ္ခ်က္</string>
-    <string name="debugactivity_really_factoryreset_title">အရာအားလံုးကိုမူလအတိုင္းျပန္ထားမည္မွသခ်ာပါသလား</string>
+    <string name="debugactivity_really_factoryreset_title">အရာအားလံုးကိုမူလအတိုင္းျပန္ထားမည္မွသခ်ာပါသလား\?</string>
     <string name="title_activity_appmanager">အက္ပလီေကးရွင္းကိုစီမံခန္႔ခြဲမည္</string>
     <string name="appmanager_installed_watchapps">သြင္းထားေသာ အက္ပလီေကးရွင္းမ်ား</string>
     <string name="appmanager_installed_watchfaces">သြင္းထားေသာ နာရီပံုစံမ်ား</string>
@@ -32,7 +32,7 @@
     <string name="appmanager_health_deactivate">ပိတ္မည္</string>
     <string name="appmanager_hrm_activate">HRM စတင္မည္</string>
     <string name="appmanager_hrm_deactivate">HRM ပိတ္မည္</string>
-    <string name="appmanager_weather_activate"></string>
+    <string name="appmanager_weather_activate"/>
     <string name="mode_configuration">အခ်က္အလက္ကြဲမ်ား</string>
     <string name="save_configuration">အခ်က္အလက္မ်ားကိုသိမ္းဆည္းမည္</string>
     <string name="appwidget_not_connected">မခ်ိတ္ဆက္ထားျခင္းမရွိပါ , သတိေပးခ်က္မထားရေသးပါ</string>

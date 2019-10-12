@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Christian
+    Fischer, Daniele Gobbetti, José Rebelo, Szymon Tomasz Stefanek
 
     This file is part of Gadgetbridge.
 
@@ -14,12 +15,17 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.deviceevents;
+package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
-public class GBDeviceEventSleepMonitorResult extends GBDeviceEvent {
-    // FIXME: this is just the low-level data from Morpheuz, we need something generic
-    public int smartalarm_from = -1; // time in minutes relative from 0:00 for smart alarm (earliest)
-    public int smartalarm_to = -1;// time in minutes relative from 0:00 for smart alarm (latest)
-    public int recording_base_timestamp = -1; // timestamp for the first "point", all folowing are +10 minutes offset each
-    public int alarm_gone_off = -1; // time in minutes relative from 0:00 when alarm gone off
+import android.os.Bundle;
+
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
+
+public class ChartsPreferencesActivity extends AbstractSettingsActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        addPreferencesFromResource(R.xml.charts_preferences);
+    }
 }

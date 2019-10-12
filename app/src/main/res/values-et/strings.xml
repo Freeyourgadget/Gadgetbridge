@@ -100,7 +100,7 @@
     <string name="pref_summary_minimize_priority_off">Olekuriba ikooni ja lukustusekraani märguandeid kuvatakse</string>
     <string name="pref_summary_minimize_priority_on">Olekuriba ikoon ja lukustuserkaani märguanded on peidetud</string>
     <string name="pref_summary_notifications_pebblemsg">Tugi rakendustele, mis saadavad PebbleKit\'i kaudu märguandeid Pebble\'le.</string>
-    <string name="pref_title_whenscreenon">...ka sisse lülitatud ekraaniga</string>
+    <string name="pref_title_whenscreenon">…ka sisse lülitatud ekraaniga</string>
     <string name="pref_summary_notification_filter">Peata soovimatute märguannete saatmine \"Ära sega\" režiimis</string>
     <string name="pref_summary_transliteration">Luba see, kui su seadmel puudub su keele fondi tugi</string>
     <string name="pref_title_call_privacy_mode">Kõne privaatrežiim</string>
@@ -161,7 +161,7 @@
     <string name="pref_title_notifications_timeout">Lühim aeg teavituste vahel</string>
     <string name="pref_summary_pebble_forcele">Kasuta eksperimentaalset Pebble LE tuge kõikide Pebble\'de jaoks tavalise Bluetoothi asemel. See nõuab sidumist tavalise Bluetoothi kaudu ja seejärel Bluetooth LE sidumist</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU limiit</string>
-    <string name="pref_summary_pebble_mtu_limit">Kui Pebble 2/Pebble LE ei taha ootuspäraselt töötada proovi seada MTUle limiit vahemikus 20-512</string>
+    <string name="pref_summary_pebble_mtu_limit">Kui Pebble 2/Pebble LE ei taha ootuspäraselt töötada proovi seada MTUle limiit vahemikus 20–512</string>
     <string name="pref_title_pebble_enable_applogs">Lülita sisse kellarakenduste logimine</string>
     <string name="pref_title_pebble_gatt_clientonly">Ainult GATT klient</string>
     <string name="pref_summary_pebble_gatt_clientonly">See on ainult Pebble 2le ja eksperimentaalne, katseta kui on ilmnenud ühenduvusprobleeme</string>
@@ -181,7 +181,6 @@
     <string name="pref_title_screentime">Ekraani avatuse kestus</string>
     <string name="prefs_title_all_day_heart_rate">Kogu päeva südame löögisageduse mõõtmine</string>
     <string name="preferences_hplus_settings">HPlus/Makibes seaded</string>
-    <string name="preferences_id115_settings">ID115 seaded</string>
     <string name="prefs_screen_orientation">Ekraani suund</string>
     <string name="zetime_title_settings">ZeTime seaded</string>
     <string name="zetime_title_heartrate">Südame löögisageduse seaded</string>
@@ -201,9 +200,6 @@
     <string name="zetime_calories_type">Kalorite tüüp</string>
     <string name="zetime_calories_type_active">Ainult aktiivselt põletatud kalorid</string>
     <string name="zetime_calories_type_all">Aktiivselt ja passiivselt põletatud kalorid</string>
-    <string name="zetime_time_format">Kellaaja vorming</string>
-    <string name="zetime_time_format_24h">24h</string>
-    <string name="zetime_time_format_12h">12h</string>
     <string name="zetime_date_format">Kuupäeva vorming</string>
     <string name="zetime_prefs_inactivity_repetitions">Kordused</string>
     <string name="zetime_prefs_inactivity_mo">Esmaspäev</string>
