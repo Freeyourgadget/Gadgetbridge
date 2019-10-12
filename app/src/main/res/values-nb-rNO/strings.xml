@@ -755,4 +755,11 @@
     <string name="activity_error_no_app_for_gpx">For å vise aktivitetsspor, installer et program som kan håndtere GPX-filer.</string>
     <string name="preferences_makibes_hr3_settings">Makibes HR3-innstillinger</string>
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
+    <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
+    <string name="prefs_find_phone">Finn telefon</string>
+    <string name="prefs_enable_find_phone">Skru på \"Finn telefon\"</string>
+    <string name="prefs_find_phone_summary">Bruk båndet ditt til å spille av telefonens ringetone.</string>
+    <string name="prefs_find_phone_duration">Anropsvarighet i sekunder</string>
+    <string name="maximum_duration">Varighet</string>
+    <string name="discovery_need_to_enter_authkey">Denne enheten trenger en hemmelig identitetsbekreftelsesnøkkel. Trykk lenge på enheten for å skrive den inn. Les wiki-en.</string>
 </resources>
