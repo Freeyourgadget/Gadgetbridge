@@ -765,8 +765,9 @@
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
     <string name="prefs_find_phone">Encontrar telefone</string>
-    <string name="prefs_enable_find_phone">Ativar encontrar telefone</string>
+    <string name="prefs_enable_find_phone">Ativar \"Encontrar telefone\"</string>
     <string name="prefs_find_phone_summary">Use sua pulseira para reproduzir o toque sonoro do seu celular.</string>
     <string name="prefs_find_phone_duration">Duração do toque sonoro em segundos</string>
     <string name="maximum_duration">Duração</string>
+    <string name="discovery_need_to_enter_authkey">Esse dispositivo precisa de sua chave de autenticação secreta, realize pressionamento longo no dispositivo para inseri-lo. Leia o wiki.</string>
 </resources>
