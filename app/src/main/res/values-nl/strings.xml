@@ -347,7 +347,7 @@
     <string name="dateformat_time">Tijd</string>
     <string name="dateformat_date_time">Tijd &amp; datum</string>
     <string name="mi2_prefs_button_actions">Knoppen acties</string>
-    <string name="mi2_prefs_button_actions_summary">Specificeer actie voor de Mi Band 2 knopdruk</string>
+    <string name="mi2_prefs_button_actions_summary">Specificeer actie voor de Mi Band knopdruk</string>
     <string name="mi2_prefs_button_press_count">Aantal knopdrukken</string>
     <string name="mi2_prefs_button_press_count_summary">Aantal knopdrukken nodig om een bericht te sturen</string>
     <string name="mi2_prefs_button_press_broadcast">Uit te sturen bericht</string>
@@ -754,4 +754,8 @@
     <string name="pref_display_add_device_fab">Verbind nieuw apparaat knop</string>
     <string name="pref_display_add_device_fab_on">Altijkd zichtbaar</string>
     <string name="pref_display_add_device_fab_off">Alleen zichtbaar als er geen apparaat toegevoegd is</string>
+    <string name="activity_error_no_app_for_gpx">Om de route van de activiteit te zien: installeer een app die GPX bestanden kan tonen.</string>
+    <string name="preferences_makibes_hr3_settings">Makibes HR3 instellingen</string>
+    <string name="devicetype_makibes_hr3">Makibes HR3</string>
+    <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
 </resources>
