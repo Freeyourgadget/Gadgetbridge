@@ -266,7 +266,7 @@ public class NotificationListener extends NotificationListenerService {
         String source = sbn.getPackageName().toLowerCase();
         Notification notification = sbn.getNotification();
         if (notificationOldRepeatPrevention.containsKey(source)) {
-            if (notification.when <= notificationOldRepeatPrevention.get(source)) {
+            if (notification.when < notificationOldRepeatPrevention.get(source)) {
                 LOG.info("NOT processing notification, already sent newer notifications from this source.");
                 return;
             }
