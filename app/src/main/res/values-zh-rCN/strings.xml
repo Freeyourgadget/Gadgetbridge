@@ -766,4 +766,5 @@
     <string name="prefs_find_phone_summary">使用您的手环以在手机上播放铃声。</string>
     <string name="prefs_find_phone_duration">铃声将持续数秒</string>
     <string name="maximum_duration">持续</string>
+    <string name="discovery_need_to_enter_authkey">此设备需要认证密钥，请在设备上长按以输入密钥。具体请阅读 Wiki 。</string>
 </resources>
