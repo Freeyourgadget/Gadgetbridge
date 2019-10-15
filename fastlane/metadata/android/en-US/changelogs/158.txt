@@ -1,5 +1,5 @@
 * Initial Makibes HR3 support
-* Amazfit Bip Lite: Inittal working support, firmware update is disabled for now (we do not have any firmware for testing)
+* Amazfit Bip Lite: Initial working support, firmware update is disabled for now (we do not have any firmware for testing)
 * Amazfit Cor 2: Enable Emoji Font setting and 3rd party HR access
 * Find Phone now also vibration in addition to playing the ring tone
 * ID115: All settings are now per-device
