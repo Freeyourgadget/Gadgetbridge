@@ -75,13 +75,15 @@ public class SleepChartFragment extends AbstractChartFragment {
         List<? extends ActivitySample> samples = getSamplesofSleep(db, device);
 
         MySleepChartsData mySleepChartsData = refreshSleepAmounts(device, samples);
-        long tstart = mySleepChartsData.sleepSessions.get(0).getSleepStart().getTime() / 1000;
-        long tend = mySleepChartsData.sleepSessions.get(mySleepChartsData.sleepSessions.size() - 1).getSleepEnd().getTime() / 1000;
+        if (mySleepChartsData.sleepSessions.size()>0) {
+            long tstart = mySleepChartsData.sleepSessions.get(0).getSleepStart().getTime() / 1000;
+            long tend = mySleepChartsData.sleepSessions.get(mySleepChartsData.sleepSessions.size() - 1).getSleepEnd().getTime() / 1000;
 
-        for (Iterator<ActivitySample> iterator = (Iterator<ActivitySample>) samples.iterator(); iterator.hasNext(); ) {
-            ActivitySample sample = iterator.next();
-            if (sample.getTimestamp() < tstart || sample.getTimestamp() > tend) {
-                iterator.remove();
+            for (Iterator<ActivitySample> iterator = (Iterator<ActivitySample>) samples.iterator(); iterator.hasNext(); ) {
+                ActivitySample sample = iterator.next();
+                if (sample.getTimestamp() < tstart || sample.getTimestamp() > tend) {
+                    iterator.remove();
+                }
             }
         }
         DefaultChartsData chartsData = refresh(device, samples);
