@@ -1,5 +1,8 @@
 ### Changelog
 
+#### Version 0.37.1
+* Amazfit Bip Lite: Support flashing firmware and watchfaces
+
 #### Version 0.37.0
 * Initial Makibes HR3 support
 * Amazfit Bip Lite: Initial working support, firmware update is disabled for now (we do not have any firmware for testing)
