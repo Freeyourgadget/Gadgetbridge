@@ -762,4 +762,11 @@
     <string name="prefs_find_phone_duration">Anropsvarighet i sekunder</string>
     <string name="maximum_duration">Varighet</string>
     <string name="discovery_need_to_enter_authkey">Denne enheten trenger en hemmelig identitetsbekreftelsesnøkkel. Trykk lenge på enheten for å skrive den inn. Les wiki-en.</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">Du er i ferd med å installere %s-fastvaren på din Amazfit Bip Lite. 
+\n 
+\nForsikre deg om at du installerer ..fw-fila, så .res-fila, og til sist gps-fila. Armbåndsuret ditt vil starte på nytt etter at .fw-fila er installert. 
+\n 
+\nMerk: Du trenger ikke å installere .res-filen hvis den er akkurat den samme som den som allerede er installert. 
+\n 
+\nFORTSETT PÅ EGEN RISIKO!</string>
 </resources>
