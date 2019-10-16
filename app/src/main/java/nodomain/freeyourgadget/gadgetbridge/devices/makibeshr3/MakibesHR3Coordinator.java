@@ -170,7 +170,7 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
 
     @Override
     public int getBondingStyle() {
-        return BONDING_STYLE_NONE;
+        return BONDING_STYLE_BOND;
     }
 
     @Override
