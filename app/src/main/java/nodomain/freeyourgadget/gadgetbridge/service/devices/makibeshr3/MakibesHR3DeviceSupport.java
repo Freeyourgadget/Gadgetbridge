@@ -1,7 +1,3 @@
-// TODO: GB sometimes fails to connect until a connection with WearFit was made. This must be caused
-// TODO: by GB, not by Makibes hr3 support. Charging the watch, attempting to pair, delete and
-// TODO: re-add, scan for devices and go back, might also help. This needs further research.
-
 // TODO: All the commands that aren't supported by GB should be added to device specific settings.
 
 // TODO: It'd be cool if we could change the language. There's no official way to do so, but the
