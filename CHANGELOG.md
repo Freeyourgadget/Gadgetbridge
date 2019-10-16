@@ -1,8 +1,11 @@
 ### Changelog
 
+#### Version 0.37.1
+* Amazfit Bip Lite: Support flashing firmware and watchfaces
+
 #### Version 0.37.0
 * Initial Makibes HR3 support
-* Amazfit Bip Lite: Inittal working support, firmware update is disabled for now (we do not have any firmware for testing)
+* Amazfit Bip Lite: Initial working support, firmware update is disabled for now (we do not have any firmware for testing)
 * Amazfit Cor 2: Enable Emoji Font setting and 3rd party HR access
 * Find Phone now also vibration in addition to playing the ring tone
 * ID115: All settings are now per-device

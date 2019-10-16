@@ -759,4 +759,5 @@
     <string name="prefs_find_phone_summary">ניתן להשתמש בצמיד כדי שהטלפון שלך ישמיע צלצול.</string>
     <string name="prefs_find_phone_duration">משך זמן הצלצול בשניות</string>
     <string name="maximum_duration">משך</string>
+    <string name="discovery_need_to_enter_authkey">למכשיר זה נדרש מפתח אימות סודי, יש לגעת נגיעה ארוכה על המכשיר כדי להזין אותו. פרטים נוספים בוויקי.</string>
 </resources>

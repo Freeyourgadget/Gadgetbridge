@@ -1,5 +1,5 @@
-/*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer, Matthieu
-    Baerts, Roi Greenberg
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -15,30 +15,30 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip;
 
 import android.content.Context;
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipLiteFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipLiteFirmwareInfo;
 
-public class AmazfitBipLiteSupport extends AmazfitBipSupport {
+public class AmazfitBipLiteFWHelper extends HuamiFWHelper {
 
-    @Override
-    public byte getCryptFlags() {
-        return (byte) 0x80;
-    }
-    
-    @Override
-    protected byte getAuthFlags() {
-        return 0x00;
+    public AmazfitBipLiteFWHelper(Uri uri, Context context) throws IOException {
+        super(uri, context);
     }
 
+    @NonNull
     @Override
-    public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
-        return new AmazfitBipLiteFWHelper(uri, context);
+    protected void determineFirmwareInfo(byte[] wholeFirmwareBytes) {
+        firmwareInfo = new AmazfitBipLiteFirmwareInfo(wholeFirmwareBytes);
+        if (!firmwareInfo.isHeaderValid()) {
+            throw new IllegalArgumentException("Not a an Amazifit Bip Lite firmware");
+        }
     }
 }

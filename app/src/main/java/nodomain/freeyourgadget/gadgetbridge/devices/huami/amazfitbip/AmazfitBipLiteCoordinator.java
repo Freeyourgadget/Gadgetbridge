@@ -55,7 +55,8 @@ public class AmazfitBipLiteCoordinator extends AmazfitBipCoordinator {
 
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
-        return null;
+        AmazfitBipLiteFWInstallHandler handler = new AmazfitBipLiteFWInstallHandler(uri, context);
+        return handler.isValid() ? handler : null;
     }
 
     @Override

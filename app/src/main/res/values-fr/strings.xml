@@ -433,7 +433,7 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_title_pebble_enable_bgjs">Activer tâche de fond JS</string>
     <string name="pref_summary_pebble_enable_bgjs">Si activé, autorise l\'affichage de la météo, niveau de batterie, etc.</string>
     <string name="activity_web_view">Activité Web View</string>
-    <string name="controlcenter_connect">Connexion</string>
+    <string name="controlcenter_connect">Connexion …</string>
     <string name="fw_upgrade_notice_amazfitcor">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Cor. 
 \n 
 \nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après installation du fichier .fw. 
@@ -626,7 +626,7 @@ Temps de sommeil préféré en heures</string>
     <string name="filter_mode">Mode Filtre</string>
     <string name="mode_configuration">Mode Configuration</string>
     <string name="save_configuration">Sauvegarder la configuration</string>
-    <string name="appwidget_not_connected">Non connecté, l\'alarme n\'est pas définie</string>
+    <string name="appwidget_not_connected">Non connecté, l’alarme n’est pas définie.</string>
     <string name="prefs_disconnect_notification">Notification de déconnexion</string>
     <string name="zetime_title_settings">Paramètres ZeTime</string>
     <string name="zetime_title_heartrate">Paramètres Fréquence Cardiaque</string>
@@ -684,14 +684,14 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_summary_authkey">Changez la clé auteur à une clé générale sur tous vos appareils Android sur lesquels vous souhaitez vous connecter. La précédente clé par défaut était 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
     <string name="fw_upgrade_notice_amazfitcor2">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Cor 2. 
-\n 
+\n
 \nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après installation du .fw. 
 \n 
-\nNote : Il n\'est pas nécessaire d\'installer le fichier .res si celui-ci est identique à celui installé précédemment. 
-\n
-\nCONTINUEZ À VOS RISQUES !
+\nNote : il n\'est pas nécessaire d\'installer le fichier .res si celui-ci est identique à celui installé précédemment. 
 \n 
-\nNON TESTÉ, IL PEUT ÊTRE NÉCESSAIRE DE FLASH UN micrologiciel BEATS_W SI LE NOM DE L\'APPAREIL EST \"Amazfit Band 2\"</string>
+\nCONTINUEZ À VOS RISQUES ! 
+\n 
+\nNON TESTÉ, IL PEUT ÊTRE NÉCESSAIRE DE FLASHER UN MICROLOGICIEL BEATS_W SI LE NOM DE L\'APPAREIL EST « Amazfit Band 2 »</string>
     <string name="dutch">Néerlandais</string>
     <string name="turkish">Turc</string>
     <string name="ukrainian">Ukrainien</string>
@@ -720,4 +720,49 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_title_charts_range">Gamme des graphiques</string>
     <string name="weekstepschart_steps_a_month">Pas par mois</string>
     <string name="weeksleepchart_sleep_a_month">Sommeil par mois</string>
+    <string name="menuitem_nfc">NFC</string>
+    <string name="pref_title_use_custom_font">Utiliser une police personnalisée</string>
+    <string name="activity_DB_test_export_message">Exportation de la base de données …</string>
+    <string name="activity_db_management_exportimport_label">Exportation et importation</string>
+    <string name="widget_steps_label">Étapes : %1$02d</string>
+    <string name="widget_listing_label">État et alarmes</string>
+    <string name="widget_set_alarm_after">Régler l’alarme après :</string>
+    <string name="widget_5_minutes">5 minutes</string>
+    <string name="widget_10_minutes">10 minutes</string>
+    <string name="widget_20_minutes">20 minutes</string>
+    <string name="widget_1_hour">1 heure</string>
+    <string name="pref_display_add_device_fab_on">Toujours visible</string>
+    <string name="pref_display_add_device_fab_off">Visible uniquement si aucun appareil n\'est ajouté</string>
+    <string name="prefs_find_phone_duration">Durée de la sonnerie en secondes</string>
+    <string name="maximum_duration">Durée</string>
+    <string name="pref_charts_range_on">La portée des graphs est réglée sur un mois</string>
+    <string name="pref_charts_range_off">La portée des graphs est réglée sur une semaine</string>
+    <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
+    <string name="pref_summary_expose_hr">Permettre aux autres applis d\'accéder aux données de fréquence cardiaque en temps réel lorsque Gadgetbridge est connecté</string>
+    <string name="pref_title_expose_hr">Accès tiers fréq. cardiaque</string>
+    <string name="pref_summary_use_custom_font">À activer si votre appareil a une police spéciale embarquée pour prendre en charge les émoticônes</string>
+    <string name="activity_db_management_autoexport_explanation">L\'export automatique des données est réglé vers :</string>
+    <string name="activity_db_management_autoexport_label">Export auto</string>
+    <string name="activity_DB_ExportButton">Export de données</string>
+    <string name="activity_DB_import_button">Import de données</string>
+    <string name="activity_DB_test_export_button">Lancer l\'export maintenant</string>
+    <string name="activity_DB_delete_legacy_button">Supprimer les anciennes données</string>
+    <string name="activity_DB_empty_button">Vider la base de données</string>
+    <string name="activity_db_management_empty_DB">Vide la base de données</string>
+    <string name="activity_db_management_empty_db_warning">Attention ! Ce bouton détruit votre base de données et réinitialise.</string>
+    <string name="appwidget_sleep_alarm_widget_label">Réveil</string>
+    <string name="widget_sleep_label">"Dormir  %1$ s"</string>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="one">%d heure</item>
+        <item quantity="other">%d heures</item>
+    </plurals>
+    <string name="pref_display_add_device_fab">Bouton pour connecter un nouvel appareil</string>
+    <string name="activity_error_no_app_for_gpx">Pour visualiser votre géolocalisation, installez une appli qui lit les fichiers GPX.</string>
+    <string name="preferences_makibes_hr3_settings">Réglages Makibes HR3</string>
+    <string name="devicetype_makibes_hr3">Makibes HR3</string>
+    <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
+    <string name="prefs_find_phone">Trouver le téléphone</string>
+    <string name="prefs_enable_find_phone">Activer « Trouver le tél. »</string>
+    <string name="prefs_find_phone_summary">Utilisez votre bande pour lire l\'alarme de votre téléphone.</string>
+    <string name="discovery_need_to_enter_authkey">Cet appareil a besoin d\'une clé d\'auth. Pression longue sur celui-ci pour la saisir. Lisez le wiki.</string>
 </resources>

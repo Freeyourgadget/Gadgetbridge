@@ -347,7 +347,7 @@
     <string name="dateformat_time">Tijd</string>
     <string name="dateformat_date_time">Tijd &amp; datum</string>
     <string name="mi2_prefs_button_actions">Knoppen acties</string>
-    <string name="mi2_prefs_button_actions_summary">Specificeer actie voor de Mi Band knopdruk</string>
+    <string name="mi2_prefs_button_actions_summary">Specificeer actie voor de Mi Band 2 knopdruk</string>
     <string name="mi2_prefs_button_press_count">Aantal knopdrukken</string>
     <string name="mi2_prefs_button_press_count_summary">Aantal knopdrukken nodig om een bericht te sturen</string>
     <string name="mi2_prefs_button_press_broadcast">Uit te sturen bericht</string>
