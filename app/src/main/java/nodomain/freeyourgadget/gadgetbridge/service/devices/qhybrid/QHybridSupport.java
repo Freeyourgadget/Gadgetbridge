@@ -352,17 +352,17 @@ public class QHybridSupport extends QHybridBaseSupport {
         switch (characteristic.getUuid().toString()) {
             case "00002a00-0000-1000-8000-00805f9b34fb": {
                 String deviceName = characteristic.getStringValue(0);
-                gbDevice.setName(deviceName);
                 break;
             }
             case "00002a24-0000-1000-8000-00805f9b34fb": {
                 modelNumber = characteristic.getStringValue(0);
                 gbDevice.setModel(modelNumber);
+                gbDevice.setName(getModelNameByModelNumber(modelNumber));
                 try {
                     gbDevice.addDeviceInfo(new GenericItem(ITEM_EXTENDED_VIBRATION_SUPPORT, String.valueOf(supportsExtendedVibration())));
                 } catch (UnsupportedOperationException e) {
                     GB.toast("Please contact dakhnod@gmail.com\n", Toast.LENGTH_SHORT, GB.INFO);
-                    gbDevice.addDeviceInfo(new GenericItem(ITEM_EXTENDED_VIBRATION_SUPPORT, String.valueOf(supportsExtendedVibration())));
+                    gbDevice.addDeviceInfo(new GenericItem(ITEM_EXTENDED_VIBRATION_SUPPORT, "false"));
                 }
                 break;
             }
@@ -389,6 +389,14 @@ public class QHybridSupport extends QHybridBaseSupport {
         }
 
         return true;
+    }
+
+    private String getModelNameByModelNumber(String modelNumber){
+        switch (modelNumber){
+            case "HW.0.0": return "Q Commuter";
+            case "HL.0.0": return "Q Activist";
+        }
+        return "unknwon Q";
     }
 
     private void checkFirmwareVersion(String firmwareVersion) {
