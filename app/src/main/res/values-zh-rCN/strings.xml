@@ -767,4 +767,11 @@
     <string name="prefs_find_phone_duration">铃声将持续数秒</string>
     <string name="maximum_duration">持续</string>
     <string name="discovery_need_to_enter_authkey">此设备需要认证密钥，请在设备上长按以输入密钥。具体请阅读 Wiki 。</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">"您即将在米动手表青春版 Lite(Amazfit Bip Lite)上安装 %s 版本的固件 
+\n  
+\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启 
+\n  
+\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件 
+\n  
+\n风险自担！"</string>
 </resources>
