@@ -758,4 +758,17 @@
     <string name="preferences_makibes_hr3_settings">Makibes HR3 instellingen</string>
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
+    <string name="prefs_find_phone">Vind telefoon</string>
+    <string name="prefs_enable_find_phone">Zet \\\'Vind telefoon\\\' aan</string>
+    <string name="prefs_find_phone_summary">Gebruik je band om de beltoon van je telefoon af te spelen.</string>
+    <string name="prefs_find_phone_duration">Belduur in seconden</string>
+    <string name="maximum_duration">Duur</string>
+    <string name="discovery_need_to_enter_authkey">Dit apparaat heeft een geheime verificatiesleutel nodig, druk lang op het apparaat om deze in te voeren. Lees de wiki.</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">U staat op het punt om de firmware %s te installeren op uw Amazfit Bip Lite. 
+\n 
+\nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand en als laatste het .gps-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand. 
+\n 
+\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd. 
+\n 
+\nGA VERDER OP EIGEN RISICO!</string>
 </resources>
