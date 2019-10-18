@@ -28,8 +28,8 @@ public final class WatchXPlusConstants {
     public static final UUID UUID_CHARACTERISTIC_UNKNOWN_3 = UUID.fromString("0000a803-0000-1000-8000-00805f9b34fb");
     public static final UUID UUID_CHARACTERISTIC_UNKNOWN_4 = UUID.fromString("0000a804-0000-1000-8000-00805f9b34fb");
 
-    public static final int NOTIFICATION_CHANNEL_DEFAULT = 7;
-    public static final int NOTIFICATION_CHANNEL_PHONE_CALL = 1024;
+    public static final int NOTIFICATION_CHANNEL_DEFAULT = 0;
+    public static final int NOTIFICATION_CHANNEL_PHONE_CALL = 10;
 
     public static final byte RESPONSE = 0x13;
     public static final byte REQUEST = 0x31;

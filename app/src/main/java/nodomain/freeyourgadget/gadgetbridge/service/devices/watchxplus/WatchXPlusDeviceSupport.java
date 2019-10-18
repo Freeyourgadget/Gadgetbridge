@@ -142,14 +142,13 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
         String senderOrTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
 
-        String message = StringUtils.truncate(senderOrTitle, 32) + "\0";
-//        TODO: Commented out to simplify testing
-//        if (notificationSpec.subject != null) {
-//            message += StringUtils.truncate(notificationSpec.subject, 128) + "\n\n";
-//        }
-//        if (notificationSpec.body != null) {
-//            message += StringUtils.truncate(notificationSpec.body, 128);
-//        }
+        String message = StringUtils.truncate(senderOrTitle, 14) + "\0";
+        if (notificationSpec.subject != null) {
+            message += StringUtils.truncate(notificationSpec.subject, 20) + ": ";
+        }
+        if (notificationSpec.body != null) {
+            message += StringUtils.truncate(notificationSpec.body, 64);
+        }
 
         sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_DEFAULT, message);
     }
@@ -159,17 +158,36 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("showNotification");
             byte[] command = WatchXPlusConstants.CMD_NOTIFICATION_TEXT_TASK;
             byte[] text = notificationText.getBytes("UTF-8");
-            byte[] value = new byte[text.length + 2];
-            value[0] = (byte)(notificationChannel);
-//            TODO: Split message into 9-byte arrays and send them one by one.
-//             Set the message index to FF to indicate end of message
-            value[1] = (byte) 0xFF;
-            System.arraycopy(text, 0, value, 2, text.length);
+            byte[] messagePart;
 
-            builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
-                    buildCommand(command,
-                            WatchXPlusConstants.KEEP_ALIVE,
-                            value));
+            int messageLength = text.length;
+            int parts = messageLength / 9;
+            int remainder = messageLength % 9;
+
+//            Increment parts quantity if message length is not multiple of 9
+            if (remainder != 0) {
+                parts++;
+            }
+            for (int messageIndex = 0; messageIndex < parts; messageIndex++) {
+                if(messageIndex+1 != parts || remainder == 0) {
+                    messagePart = new byte[11];
+                } else {
+                    messagePart = new byte[remainder+2];
+                }
+
+                System.arraycopy(text, messageIndex*9, messagePart, 2, messagePart.length-2);
+
+                if(messageIndex+1 == parts) {
+                    messageIndex = 0xFF;
+                }
+                messagePart[0] = (byte)notificationChannel;
+                messagePart[1] = (byte)messageIndex;
+                builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                        buildCommand(command,
+                                WatchXPlusConstants.KEEP_ALIVE,
+                                messagePart));
+            }
+
             performImmediately(builder);
         } catch (IOException e) {
             LOG.warn("Unable to send notification", e);
