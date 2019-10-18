@@ -8,17 +8,16 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelUuid;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.util.Collection;
 import java.util.Collections;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.watchxplus.WatchXPlusConstants;
-import nodomain.freeyourgadget.gadgetbridge.devices.watchxplus.WatchXPlusPairingActivity;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -76,7 +75,7 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsActivityDataFetching() {
-        return false;
+        return true;
     }
 
     @Override
@@ -101,7 +100,7 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public int getAlarmSlotCount() {
-        return 0;
+        return 3;
     }
 
     @Override
@@ -111,7 +110,7 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
-        return false;
+        return true;
     }
 
     @Override
@@ -141,7 +140,7 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsWeather() {
-        return false;
+        return true;
     }
 
     @Override

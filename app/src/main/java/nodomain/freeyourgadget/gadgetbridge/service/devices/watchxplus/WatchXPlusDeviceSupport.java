@@ -478,6 +478,22 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onFetchRecordedData(int dataTypes) {
 
+        TransactionBuilder builder = null;
+        try {
+            builder = performInitialized("fetchData");
+
+            builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                    buildCommand(WatchXPlusConstants.CMD_DAY_STEPS_INFO,
+                            WatchXPlusConstants.READ_VALUE));
+//            TODO: Watch does not return heart rate data after this command. Check why
+//            builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+//                    buildCommand(WatchXPlusConstants.CMD_HEARTRATE_INFO,
+//                            WatchXPlusConstants.READ_VALUE));
+
+            performImmediately(builder);
+        } catch (IOException e) {
+            LOG.warn("Unable to retrieve recorded data", e);
+        }
     }
 
     @Override
@@ -558,7 +574,26 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
+        try {
+            TransactionBuilder builder = performInitialized("setWeather");
 
+        byte[] command = WatchXPlusConstants.CMD_WEATHER_SET;
+        byte[] weatherInfo = new byte[5];
+
+//            bArr[8] = (byte) (this.mWeatherType >> 8);
+//            bArr[9] = (byte) this.mWeatherType;
+//            bArr[10] = (byte) this.mLowTemp;
+//            bArr[11] = (byte) this.mHighTemp;
+//            bArr[12] = (byte) this.mCurrentTemp;
+
+        builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                buildCommand(command,
+                        WatchXPlusConstants.KEEP_ALIVE,
+                        weatherInfo));
+        performImmediately(builder);
+        } catch (IOException e) {
+            LOG.warn("Unable to set time", e);
+        }
     }
 
     @Override
@@ -576,21 +611,69 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_TIME_SETTINGS, 5)) {
                 handleTime(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_BUTTON_INDICATOR, 5)) {
-                LOG.info("Unhandled action: Button pressed");
+//                It looks like WatchXPlus doesn't send this action
+                LOG.info(" Unhandled action: Button pressed");
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_ALARM_INDICATOR, 5)) {
-                LOG.info("Alarm active: id=" + value[8]);
+                LOG.info(" Alarm active: id=" + value[8]);
             } else if (isCalibrationActive && value.length == 7 && value[4] == ACK_CALIBRATION) {
                 setTime(BLETypeConversions.createCalendar());
                 isCalibrationActive = false;
+            } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_DAY_STEPS_INDICATOR, 5)) {
+                handleStepsInfo(value);
+            } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_HEARTRATE, 5)) {
+                LOG.info(" Received Heart rate history");
+            } else if (value.length == 7 && value[5] == 0) {
+//                Not sure if that's necessary
+                handleAck();
+            } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_NOTIFICATION_SETTINGS, 5)) {
+                LOG.info(" Received notification settings status");
+            } else {
+                LOG.info(" Unhandled value change for characteristic: " + characteristicUUID);
+                logMessageContent(characteristic.getValue());
             }
 
             return true;
         } else {
-            LOG.info("Unhandled characteristic changed: " + characteristicUUID);
+            LOG.info(" Unhandled characteristic changed: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
         }
 
         return false;
+    }
+
+    private void handleAck() {
+        try {
+            TransactionBuilder builder = performInitialized("handleAck");
+
+            builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+//                    TODO: Below value is ACK status. Find out which value is correct
+                    buildCommand((byte)0x00));
+            performImmediately(builder);
+        } catch (IOException e) {
+            LOG.warn("Unable to response to ACK", e);
+        }
+    }
+
+//    This is only for ACK response
+    private byte[] buildCommand(byte action) {
+        byte[] result = new byte[7];
+        System.arraycopy(WatchXPlusConstants.CMD_HEADER, 0, result, 0, 5);
+
+        result[2] = (byte) (result.length + 1);
+        result[3] = WatchXPlusConstants.REQUEST;
+        result[4] = (byte) sequenceNumber++;
+        result[5] = action;
+        result[result.length - 1] = calculateChecksum(result);
+
+        return result;
+    }
+
+    private void handleStepsInfo(byte[] value) {
+        int steps = Conversion.fromByteArr16(value[8], value[9]);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(" Received steps count: " + steps);
+        }
+//        TODO: save steps to DB
     }
 
     private byte[] buildCommand(byte[] command, byte action) {
@@ -655,6 +738,13 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
         static byte[] toByteArr16(int value) {
             return new byte[]{(byte) (value >> 8), (byte) value};
+        }
+        static int fromByteArr16(byte... value) {
+            int intValue = 0;
+            for (int i2 = 0; i2 < value.length; i2++) {
+                intValue += (value[i2] & 255) << (((value.length - 1) - i2) * 8);
+            }
+            return intValue;
         }
 
         static byte[] toByteArr32(int value) {

@@ -54,7 +54,9 @@ public final class WatchXPlusConstants {
     public static final byte[] CMD_AUTHORIZATION_TASK           = new byte[]{0x01, 0x05};
     public static final byte[] CMD_TIME_SETTINGS                = new byte[]{0x01, 0x08};
     public static final byte[] CMD_ALARM_SETTINGS               = new byte[]{0x01, 0x0A};
+    public static final byte[] CMD_WEATHER_SET                  = new byte[]{0x01, 0x10};
     public static final byte[] CMD_BATTERY_INFO                 = new byte[]{0x01, 0x14};
+    public static final byte[] CMD_HEARTRATE_INFO               = new byte[]{0x15, 0x03};
 
     public static final byte[] CMD_NOTIFICATION_TASK            = new byte[]{0x03, 0x01};
     public static final byte[] CMD_NOTIFICATION_TEXT_TASK       = new byte[]{0x03, 0x06};
@@ -65,15 +67,18 @@ public final class WatchXPlusConstants {
     public static final byte[] CMD_DO_NOT_DISTURB_SETTINGS      = new byte[]{0x03, 0x61};
 
     public static final byte[] CMD_FITNESS_GOAL_SETTINGS        = new byte[]{0x10, 0x02};
+    public static final byte[] CMD_DAY_STEPS_INFO               = new byte[]{0x10, 0x03};
 
     public static final byte[] RESP_AUTHORIZATION_TASK          = new byte[]{0x01, 0x01, 0x05};
     public static final byte[] RESP_BUTTON_INDICATOR            = new byte[]{0x04, 0x03, 0x11};
     public static final byte[] RESP_ALARM_INDICATOR             = new byte[]{-0x80, 0x01, 0x0A};
+    public static final byte[] RESP_DAY_STEPS_INDICATOR         = new byte[]{0x08, 0x10, 0x03};
+    public static final byte[] RESP_HEARTRATE                   = new byte[]{0x08, 0x15, 0x02};
 
     public static final byte[] RESP_FIRMWARE_INFO               = new byte[]{0x08, 0x01, 0x02};
     public static final byte[] RESP_TIME_SETTINGS               = new byte[]{0x08, 0x01, 0x08};
     public static final byte[] RESP_BATTERY_INFO                = new byte[]{0x08, 0x01, 0x14};
-    public static final byte[] RESP_NOTIFICATION_SETTINGS       = new byte[]{0x08, 0x03, 0x02};
+    public static final byte[] RESP_NOTIFICATION_SETTINGS       = new byte[]{0x01, 0x03, 0x02};
 
     public static final String ACTION_ENABLE = "action.watch9.enable";
 
