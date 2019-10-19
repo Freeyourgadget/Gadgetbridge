@@ -44,6 +44,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -52,7 +53,6 @@ import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.SleepAnalysis.SleepSession;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmount;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
@@ -72,9 +72,20 @@ public class SleepChartFragment extends AbstractChartFragment {
 
     @Override
     protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
-        List<? extends ActivitySample> samples = getSamples(db, device);
+        List<? extends ActivitySample> samples = getSamplesofSleep(db, device);
 
         MySleepChartsData mySleepChartsData = refreshSleepAmounts(device, samples);
+        if (mySleepChartsData.sleepSessions.size()>0) {
+            long tstart = mySleepChartsData.sleepSessions.get(0).getSleepStart().getTime() / 1000;
+            long tend = mySleepChartsData.sleepSessions.get(mySleepChartsData.sleepSessions.size() - 1).getSleepEnd().getTime() / 1000;
+
+            for (Iterator<ActivitySample> iterator = (Iterator<ActivitySample>) samples.iterator(); iterator.hasNext(); ) {
+                ActivitySample sample = iterator.next();
+                if (sample.getTimestamp() < tstart || sample.getTimestamp() > tend) {
+                    iterator.remove();
+                }
+            }
+        }
         DefaultChartsData chartsData = refresh(device, samples);
 
         return new MyChartsData(mySleepChartsData, chartsData);

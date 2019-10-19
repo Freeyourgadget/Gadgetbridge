@@ -216,7 +216,7 @@ public final class MakibesHR3Constants {
     public static final byte ARG_SEND_NOTIFICATION_SOURCE_WEIBO = (byte) 0x13;
     public static final byte ARG_SEND_NOTIFICATION_SOURCE_KAKOTALK = (byte) 0x14;
     // ARG_SET_NOTIFICATION_SOURCE_*
-    // 02 (This is 00 and 01 during connection. I don't know what it does. Maybe clears notifications?)
+    // 02 (This is 00 and 01 during connection. Doesn't seem to do anything.)
     // ASCII
     public static final byte CMD_SEND_NOTIFICATION = (byte) 0x72;
 

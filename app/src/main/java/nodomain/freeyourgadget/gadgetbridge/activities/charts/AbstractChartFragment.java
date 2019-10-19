@@ -712,6 +712,29 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         return samples;
     }
 
+    protected List<? extends ActivitySample> getSamplesofSleep(DBHandler db, GBDevice device) {
+        int SLEEP_HOUR_LIMIT = 13;
+
+        int tsStart = getTSStart();
+        Calendar day = GregorianCalendar.getInstance();
+        day.setTimeInMillis(tsStart * 1000L);
+        day.set(Calendar.HOUR_OF_DAY, SLEEP_HOUR_LIMIT);
+        day.set(Calendar.MINUTE, 0);
+        day.set(Calendar.SECOND, 0);
+        tsStart = toTimestamp(day.getTime());
+
+        int tsEnd = getTSEnd();
+        day.setTimeInMillis(tsEnd* 1000L);
+        day.set(Calendar.HOUR_OF_DAY, SLEEP_HOUR_LIMIT);
+        day.set(Calendar.MINUTE, 0);
+        day.set(Calendar.SECOND, 0);
+        tsEnd = toTimestamp(day.getTime());
+
+        List<ActivitySample> samples = (List<ActivitySample>) getSamples(db, device, tsStart, tsEnd);
+        ensureStartAndEndSamples(samples, tsStart, tsEnd);
+        return samples;
+    }
+
     protected void ensureStartAndEndSamples(List<ActivitySample> samples, int tsStart, int tsEnd) {
         if (samples == null || samples.isEmpty()) {
             return;
