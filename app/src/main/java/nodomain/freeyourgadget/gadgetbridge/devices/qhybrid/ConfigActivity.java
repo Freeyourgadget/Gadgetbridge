@@ -3,21 +3,17 @@ package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.IBinder;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -29,6 +25,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -54,9 +52,6 @@ import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
-import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 
 public class ConfigActivity extends AbstractGBActivity {
@@ -225,9 +220,9 @@ public class ConfigActivity extends AbstractGBActivity {
         });
 
         device = GBApplication.app().getDeviceManager().getSelectedDevice();
-        if(device == null || device.getType() != DeviceType.FOSSILQHYBRID){
+        if (device == null || device.getType() != DeviceType.FOSSILQHYBRID) {
             setSettingsError("Watch not connected");
-        }else{
+        } else {
             updateSettings();
         }
     }
@@ -251,9 +246,9 @@ public class ConfigActivity extends AbstractGBActivity {
             public void run() {
                 EditText et = findViewById(R.id.stepGoalEt);
                 et.setOnEditorActionListener(null);
-                //final String text = device.getDeviceInfo(QHybridSupport.ITEM_STEP_GOAL).getDetails();
-                //et.setText(text);
-                //et.setSelection(text.length());
+                final String text = device.getDeviceInfo(QHybridSupport.ITEM_STEP_GOAL).getDetails();
+                et.setText(text);
+                et.setSelection(text.length());
                 et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     @Override
                     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
@@ -272,15 +267,41 @@ public class ConfigActivity extends AbstractGBActivity {
                     }
                 });
 
-                if(device.getDeviceInfo(QHybridSupport.ITEM_EXTENDED_VIBRATION_SUPPORT).getDetails().equals("true")){
+                if (device.getDeviceInfo(QHybridSupport.ITEM_EXTENDED_VIBRATION_SUPPORT).getDetails().equals("true")) {
                     final int strengthProgress = (int) (Math.log(Double.parseDouble(device.getDeviceInfo(QHybridSupport.ITEM_VIBRATION_STRENGTH).getDetails()) / 25) / Math.log(2));
 
                     setSettingsEnabled(true);
                     SeekBar seekBar = findViewById(R.id.vibrationStrengthBar);
                     seekBar.setProgress(strengthProgress);
-                }else{
+                } else {
                     findViewById(R.id.vibrationStrengthBar).setEnabled(false);
                     findViewById(R.id.vibrationStrengthLayout).setAlpha(0.5f);
+                }
+                CheckBox activityHandCheckbox = findViewById(R.id.checkBoxUserActivityHand);
+                if (device.getDeviceInfo(QHybridSupport.ITEM_HAS_ACTIVITY_HAND).getDetails().equals("true")) {
+                    if (device.getDeviceInfo(QHybridSupport.ITEM_USE_ACTIVITY_HAND).getDetails().equals("true")) {
+                        activityHandCheckbox.setChecked(true);
+                    }
+                    activityHandCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean checked) {
+                            if(!device.getDeviceInfo(QHybridSupport.ITEM_STEP_GOAL).getDetails().equals("1000000")){
+                                new AlertDialog.Builder(ConfigActivity.this)
+                                        .setMessage("Please set the step count to a million to activate that.")
+                                        .setPositiveButton("ok", null)
+                                        .show();
+                                buttonView.setChecked(false);
+                                return;
+                            }
+                            device.addDeviceInfo(new GenericItem(QHybridSupport.ITEM_USE_ACTIVITY_HAND, String.valueOf(checked)));
+                            Intent intent = new Intent(QHybridSupport.QHYBRID_COMMAND_UPDATE_SETTINGS);
+                            intent.putExtra("EXTRA_SETTING", QHybridSupport.ITEM_USE_ACTIVITY_HAND);
+                            LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(intent);
+                        }
+                    });
+                } else {
+                    activityHandCheckbox.setEnabled(false);
+                    activityHandCheckbox.setAlpha(0.5f);
                 }
             }
         });
@@ -429,8 +450,8 @@ public class ConfigActivity extends AbstractGBActivity {
     BroadcastReceiver fileReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            boolean error = intent.getBooleanExtra("EXTRA_ERROR",false);
-            if(error){
+            boolean error = intent.getBooleanExtra("EXTRA_ERROR", false);
+            if (error) {
                 Toast.makeText(ConfigActivity.this, "Error overwriting buttons", Toast.LENGTH_SHORT).show();
                 return;
             }

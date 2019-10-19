@@ -1,17 +1,14 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.util.SparseArray;
 import android.widget.Toast;
@@ -23,6 +20,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.NoSuchElementException;
@@ -32,6 +30,7 @@ import java.util.UUID;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
@@ -39,7 +38,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfig;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
@@ -64,8 +62,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Pla
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.ReleaseHandsControlRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.RequestHandControlRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetCountdownSettings;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetCurrentTimeServiceRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetCurrentStepCountRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetStepGoalRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetTimeRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.SetVibrationStrengthRequest;
@@ -93,6 +90,8 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String ITEM_VIBRATION_STRENGTH = "VIBRATION_STRENGTH";
     public static final String ITEM_ACTIVITY_POINT = "ACTIVITY_POINT";
     public static final String ITEM_EXTENDED_VIBRATION_SUPPORT = "EXTENDED_VIBRATION";
+    public static final String ITEM_HAS_ACTIVITY_HAND = "HAS_ACTIVITY_HAND";
+    public static final String ITEM_USE_ACTIVITY_HAND = "USE_ACTIVITY_HAND";
 
     private static final Logger logger = LoggerFactory.getLogger(QHybridSupport.class);
 
@@ -114,6 +113,10 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     private String modelNumber;
 
+    private boolean useActivityHand;
+
+    ArrayList<Integer> notificationStack = new ArrayList<>();
+
     public QHybridSupport() {
         super(logger);
         addSupportedService(UUID.fromString("3dda0001-957f-7d4a-34a6-74696673696d"));
@@ -130,6 +133,16 @@ public class QHybridSupport extends QHybridBaseSupport {
         commandFilter.addAction(QHYBRID_COMMAND_OVERWRITE_BUTTONS);
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(commandReceiver, commandFilter);
         fillResponseList();
+    }
+
+    private boolean supportsActivityHand() {
+        switch (modelNumber) {
+            case "HL.0.0":
+                return false;
+            case "HW.0.0":
+                return true;
+        }
+        throw new UnsupportedOperationException();
     }
 
     private boolean supportsExtendedVibration() {
@@ -175,11 +188,21 @@ public class QHybridSupport extends QHybridBaseSupport {
     private void queueWrite(Request request) {
         new TransactionBuilder(request.getClass().getSimpleName()).write(getCharacteristic(request.getRequestUUID()), request.getRequestData()).queue(getQueue());
         if (request instanceof FileRequest) this.fileRequest = request;
+
+        if (!request.expectsResponse()) {
+            try {
+                queueWrite(requestQueue.remove());
+            } catch (NoSuchElementException e) {
+            }
+        }
     }
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
+
+        this.useActivityHand = GBApplication.getPrefs().getBoolean("QHYBRID_USE_ACTIVITY_HAND", false);
+        getDevice().addDeviceInfo(new GenericItem(ITEM_USE_ACTIVITY_HAND, String.valueOf(this.useActivityHand)));
 
         getDevice().setNotificationIconConnected(R.drawable.ic_notification_qhybrid);
         getDevice().setNotificationIconDisconnected(R.drawable.ic_notification_disconnected_qhybrid);
@@ -190,6 +213,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         requestQueue.add(new GetCurrentStepCountRequest());
         requestQueue.add(new GetVibrationStrengthRequest());
         requestQueue.add(new ActivityPointGetRequest());
+        requestQueue.add(prepareSetTimeRequest());
         requestQueue.add(new AnimationRequest());
 
         Request initialRequest = new GetStepGoalRequest();
@@ -237,6 +261,24 @@ public class QHybridSupport extends QHybridBaseSupport {
         }
 
         playNotification(config);
+
+        notificationStack.remove(Integer.valueOf(notificationSpec.getId()));
+        notificationStack.add(Integer.valueOf(notificationSpec.getId()));
+        showNotificationCountOnActivityHand();
+    }
+
+    @Override
+    public void onDeleteNotification(int id) {
+        super.onDeleteNotification(id);
+
+        notificationStack.remove(Integer.valueOf(id));
+        showNotificationCountOnActivityHand();
+    }
+
+    private void showNotificationCountOnActivityHand(){
+        if(useActivityHand){
+            setActivityHand(notificationStack.size() / 4.0);
+        }
     }
 
     private void playNotification(PackageConfig config) {
@@ -245,13 +287,17 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     @Override
     public void onSetTime() {
+        queueWrite(prepareSetTimeRequest());
+    }
+
+    private SetTimeRequest prepareSetTimeRequest() {
         long millis = System.currentTimeMillis();
         TimeZone zone = new GregorianCalendar().getTimeZone();
         SetTimeRequest request = new SetTimeRequest(
                 (int) (millis / 1000 + timeOffset * 60),
                 (short) (millis % 1000),
                 (short) ((zone.getRawOffset() + zone.getDSTSavings()) / 60000));
-        queueWrite(request);
+        return request;
     }
 
     @Override
@@ -303,7 +349,8 @@ public class QHybridSupport extends QHybridBaseSupport {
         //queueWrite(new SetCountdownSettings(secs, secs + 10, (short) 120));
         //queueWrite(new GetCountdownSettingsRequest());
 
-        queueWrite(new AnimationRequest());
+        // queueWrite(new AnimationRequest());
+        queueWrite(new SetCurrentStepCountRequest(1000000));
     }
 
     private void overwriteButtons() {
@@ -360,6 +407,7 @@ public class QHybridSupport extends QHybridBaseSupport {
                 gbDevice.setName(getModelNameByModelNumber(modelNumber));
                 try {
                     gbDevice.addDeviceInfo(new GenericItem(ITEM_EXTENDED_VIBRATION_SUPPORT, String.valueOf(supportsExtendedVibration())));
+                    gbDevice.addDeviceInfo(new GenericItem(ITEM_HAS_ACTIVITY_HAND, String.valueOf(supportsActivityHand())));
                 } catch (UnsupportedOperationException e) {
                     GB.toast("Please contact dakhnod@gmail.com\n", Toast.LENGTH_SHORT, GB.INFO);
                     gbDevice.addDeviceInfo(new GenericItem(ITEM_EXTENDED_VIBRATION_SUPPORT, "false"));
@@ -391,10 +439,12 @@ public class QHybridSupport extends QHybridBaseSupport {
         return true;
     }
 
-    private String getModelNameByModelNumber(String modelNumber){
-        switch (modelNumber){
-            case "HW.0.0": return "Q Commuter";
-            case "HL.0.0": return "Q Activist";
+    private String getModelNameByModelNumber(String modelNumber) {
+        switch (modelNumber) {
+            case "HW.0.0":
+                return "Q Commuter";
+            case "HL.0.0":
+                return "Q Activist";
         }
         return "unknwon Q";
     }
@@ -457,6 +507,10 @@ public class QHybridSupport extends QHybridBaseSupport {
             }
         }
         return super.onCharacteristicChanged(gatt, characteristic);
+    }
+
+    private void setActivityHand(double progress){
+        queueWrite(new SetCurrentStepCountRequest(Math.min((int)(1000000 * progress), 999999)));
     }
 
     private boolean handleFileUploadCharacteristic(BluetoothGattCharacteristic characteristic) {
@@ -623,6 +677,7 @@ public class QHybridSupport extends QHybridBaseSupport {
     }
 
     private final BroadcastReceiver commandReceiver = new BroadcastReceiver() {
+
         @Override
         public void onReceive(Context context, Intent intent) {
             Bundle extras = intent.getExtras();
@@ -669,7 +724,12 @@ public class QHybridSupport extends QHybridBaseSupport {
                             break;
                         }
                         case ITEM_STEP_GOAL: {
-                            queueWrite(new SetStepGoalRequest(Short.parseShort(gbDevice.getDeviceInfo(ITEM_STEP_GOAL).getDetails())));
+                            queueWrite(new SetStepGoalRequest(Integer.parseInt(gbDevice.getDeviceInfo(ITEM_STEP_GOAL).getDetails())));
+                            break;
+                        }
+                        case ITEM_USE_ACTIVITY_HAND: {
+                            QHybridSupport.this.useActivityHand = gbDevice.getDeviceInfo(ITEM_USE_ACTIVITY_HAND).getDetails().equals("true");
+                            GBApplication.getPrefs().getPreferences().edit().putBoolean("QHYBRID_USE_ACTIVITY_HAND", useActivityHand).apply();
                             break;
                         }
                     }

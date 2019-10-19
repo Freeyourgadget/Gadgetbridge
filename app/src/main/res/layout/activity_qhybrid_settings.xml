@@ -70,6 +70,13 @@
             android:layout_height="wrap_content"
             android:text="overwrite buttons" />
 
+
+        <CheckBox
+            android:id="@+id/checkBoxUserActivityHand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="use activity hand as notification counter" />
+
     </LinearLayout>
 
     <!-- <ProgressBar
