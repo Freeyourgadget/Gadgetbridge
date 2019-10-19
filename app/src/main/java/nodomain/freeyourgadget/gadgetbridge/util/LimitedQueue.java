@@ -53,4 +53,13 @@ public class LimitedQueue {
         }
         return null;
     }
+
+    synchronized public Object lookupByValue(Object value){
+        for (Pair entry : list) {
+            if (value.equals(entry.second)) {
+                return entry.first;
+            }
+        }
+        return null;
+    }
 }

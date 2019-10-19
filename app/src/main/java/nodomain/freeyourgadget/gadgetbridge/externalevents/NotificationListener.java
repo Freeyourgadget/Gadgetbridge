@@ -629,6 +629,9 @@ public class NotificationListener extends NotificationListenerService {
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
         LOG.info("Notification removed: " + sbn.getPackageName());
+
+        int originalId = (int) mNotificationHandleLookup.lookupByValue(sbn.getPostTime());
+
         if (GBApplication.isRunningLollipopOrLater()) {
             LOG.info("Notification removed: " + sbn.getPackageName() + ", category: " + sbn.getNotification().category);
             if (Notification.CATEGORY_CALL.equals(sbn.getNotification().category) && activeCallPostTime == sbn.getPostTime()) {
@@ -638,17 +641,14 @@ public class NotificationListener extends NotificationListenerService {
                 GBApplication.deviceService().onSetCallState(callSpec);
             }
         }
-        // FIXME: DISABLED for now
-        /*
         if (shouldIgnore(sbn))
             return;
 
         Prefs prefs = GBApplication.getPrefs();
-        if (prefs.getBoolean("autoremove_notifications", false)) {
+        if (prefs.getBoolean("autoremove_notifications", true)) {
             LOG.info("notification removed, will ask device to delete it");
-            GBApplication.deviceService().onDeleteNotification((int) sbn.getPostTime());
+            GBApplication.deviceService().onDeleteNotification(originalId);
         }
-        */
     }
 
 
