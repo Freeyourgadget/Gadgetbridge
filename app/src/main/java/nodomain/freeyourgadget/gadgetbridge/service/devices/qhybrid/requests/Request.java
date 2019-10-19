@@ -48,4 +48,8 @@ public abstract class Request {
     protected void log(String message){
         Log.d(getName(), message);
     }
+
+    public boolean expectsResponse(){
+        return this.data[0] == 1;
+    }
 }
