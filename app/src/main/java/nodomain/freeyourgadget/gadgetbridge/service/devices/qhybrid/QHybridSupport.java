@@ -80,6 +80,8 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String QHYBRID_COMMAND_UPDATE_SETTINGS = "nodomain.freeyourgadget.gadgetbridge.Q_UPDATE_SETTINGS";
     public static final String QHYBRID_COMMAND_OVERWRITE_BUTTONS = "nodomain.freeyourgadget.gadgetbridge.Q_OVERWRITE_BUTTONS";
 
+    public static final String QHYBRID_ACTION_SET_ACTIVITY_HAND = "nodomain.freeyourgadget.gadgetbridge.Q_SET_ACTIVITY_HAND";
+
     public static final String QHYBRID_EVENT_SETTINGS_UPDATED = "nodomain.freeyourgadget.gadgetbridge.Q_SETTINGS_UPDATED";
     public static final String QHYBRID_EVENT_FILE_UPLOADED = "nodomain.freeyourgadget.gadgetbridge.Q_FILE_UPLOADED";
 
@@ -133,6 +135,10 @@ public class QHybridSupport extends QHybridBaseSupport {
         commandFilter.addAction(QHYBRID_COMMAND_OVERWRITE_BUTTONS);
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(commandReceiver, commandFilter);
         fillResponseList();
+
+        IntentFilter globalFilter = new IntentFilter();
+        globalFilter.addAction(QHYBRID_ACTION_SET_ACTIVITY_HAND);
+        GBApplication.getContext().registerReceiver(globalCommandReceiver, globalFilter);
     }
 
     private boolean supportsActivityHand() {
@@ -215,6 +221,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         requestQueue.add(new ActivityPointGetRequest());
         requestQueue.add(prepareSetTimeRequest());
         requestQueue.add(new AnimationRequest());
+        requestQueue.add(new SetCurrentStepCountRequest(0));
 
         Request initialRequest = new GetStepGoalRequest();
 
@@ -275,8 +282,8 @@ public class QHybridSupport extends QHybridBaseSupport {
         showNotificationCountOnActivityHand();
     }
 
-    private void showNotificationCountOnActivityHand(){
-        if(useActivityHand){
+    private void showNotificationCountOnActivityHand() {
+        if (useActivityHand) {
             setActivityHand(notificationStack.size() / 4.0);
         }
     }
@@ -509,8 +516,8 @@ public class QHybridSupport extends QHybridBaseSupport {
         return super.onCharacteristicChanged(gatt, characteristic);
     }
 
-    private void setActivityHand(double progress){
-        queueWrite(new SetCurrentStepCountRequest(Math.min((int)(1000000 * progress), 999999)));
+    private void setActivityHand(double progress) {
+        queueWrite(new SetCurrentStepCountRequest(Math.min((int) (1000000 * progress), 999999)));
     }
 
     private boolean handleFileUploadCharacteristic(BluetoothGattCharacteristic characteristic) {
@@ -675,6 +682,25 @@ public class QHybridSupport extends QHybridBaseSupport {
     private void vibrate(int vibration) {
         queueWrite(new PlayNotificationRequest(vibration, -1, -1));
     }
+
+    private final BroadcastReceiver globalCommandReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch (intent.getAction()) {
+                case QHYBRID_ACTION_SET_ACTIVITY_HAND: {
+                    try {
+                        Object extra = intent.getExtras().get("EXTRA_PROGRESS");
+                        float progress = (float) extra;
+                        setActivityHand(progress);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        logger.debug("trash extra should be number 0.0-1.0");
+                    }
+                    break;
+                }
+            }
+        }
+    };
 
     private final BroadcastReceiver commandReceiver = new BroadcastReceiver() {
 
