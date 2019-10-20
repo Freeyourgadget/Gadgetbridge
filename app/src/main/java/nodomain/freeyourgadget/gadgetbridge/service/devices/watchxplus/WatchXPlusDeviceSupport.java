@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.UUID;
@@ -485,10 +486,12 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
             builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
                     buildCommand(WatchXPlusConstants.CMD_DAY_STEPS_INFO,
                             WatchXPlusConstants.READ_VALUE));
-//            TODO: Watch does not return heart rate data after this command. Check why
-//            builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
-//                    buildCommand(WatchXPlusConstants.CMD_HEARTRATE_INFO,
-//                            WatchXPlusConstants.READ_VALUE));
+
+//            Fetch heart rate data samples count
+            builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                    buildCommand(WatchXPlusConstants.CMD_RETRIEVE_DATA,
+                            WatchXPlusConstants.READ_VALUE,
+                            WatchXPlusConstants.HEART_RATE_DATA_TYPE));
 
             performImmediately(builder);
         } catch (IOException e) {
@@ -577,22 +580,22 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("setWeather");
 
-        byte[] command = WatchXPlusConstants.CMD_WEATHER_SET;
-        byte[] weatherInfo = new byte[5];
+            byte[] command = WatchXPlusConstants.CMD_WEATHER_SET;
+            byte[] weatherInfo = new byte[5];
 
-//            bArr[8] = (byte) (this.mWeatherType >> 8);
-//            bArr[9] = (byte) this.mWeatherType;
-//            bArr[10] = (byte) this.mLowTemp;
-//            bArr[11] = (byte) this.mHighTemp;
-//            bArr[12] = (byte) this.mCurrentTemp;
-
-        builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
-                buildCommand(command,
-                        WatchXPlusConstants.KEEP_ALIVE,
-                        weatherInfo));
-        performImmediately(builder);
+//            First two bytes are controlling the icon
+            weatherInfo[0] = 0x00;
+            weatherInfo[1] = 0x00;
+            weatherInfo[2] = (byte) weatherSpec.todayMinTemp;
+            weatherInfo[3] = (byte) weatherSpec.todayMaxTemp;
+            weatherInfo[4] = (byte) weatherSpec.currentTemp;
+            builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                    buildCommand(command,
+                            WatchXPlusConstants.KEEP_ALIVE,
+                            weatherInfo));
+            performImmediately(builder);
         } catch (IOException e) {
-            LOG.warn("Unable to set time", e);
+            LOG.warn("Unable to set weather", e);
         }
     }
 
@@ -620,11 +623,15 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 isCalibrationActive = false;
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_DAY_STEPS_INDICATOR, 5)) {
                 handleStepsInfo(value);
-            } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_HEARTRATE, 5)) {
-                LOG.info(" Received Heart rate history");
+            } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_HEART_RATE_DATA, 5)) {
+                LOG.info(" Received Heart rate data count");
+                handleHeartRateDataCount(value);
+            } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_HEART_RATE_DATA_DETAILS, 5)) {
+                LOG.info(" Received Heart rate data details");
+                handleHeartRateDetails(value);
             } else if (value.length == 7 && value[5] == 0) {
-//                Not sure if that's necessary
-                handleAck();
+//                Not sure if that's necessary. There is no response for ACK in original app logs
+//                handleAck();
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_NOTIFICATION_SETTINGS, 5)) {
                 LOG.info(" Received notification settings status");
             } else {
@@ -639,6 +646,36 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         }
 
         return false;
+    }
+
+    private void handleHeartRateDetails(byte[] value) {
+        calculateHeartRateDetails(value);
+        LOG.info("Got Heart rate details");
+    }
+
+    private void handleHeartRateDataCount(byte[] value) {
+
+        int dataCount = Conversion.fromByteArr16(value[10], value[11]);
+        try {
+            TransactionBuilder builder = performInitialized("requestHeartRate");
+            byte[] heartRateDataType = WatchXPlusConstants.HEART_RATE_DATA_TYPE;
+
+            LOG.info("Watch contains " + dataCount + " heart rate entries");
+//          Request all data samples
+            for (int i = 0; i < dataCount; i++) {
+                byte[] index = Conversion.toByteArr16(i);
+                byte[] req = BLETypeConversions.join(heartRateDataType, index);
+
+                builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                        buildCommand(WatchXPlusConstants.CMD_RETRIEVE_DATA_DETAILS,
+                                WatchXPlusConstants.READ_VALUE,
+                                req));
+
+            }
+            performImmediately(builder);
+        } catch (IOException e) {
+            LOG.warn("Unable to response to ACK", e);
+        }
     }
 
     private void handleAck() {
@@ -721,6 +758,44 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getContext());
         broadcastManager.unregisterReceiver(broadcastReceiver);
         super.dispose();
+    }
+
+    private static void calculateHeartRateDetails(byte[] bArr) {
+
+        int timestamp = Conversion.fromByteArr16(bArr[8], bArr[9], bArr[10], bArr[11]);
+        int dataLength = Conversion.fromByteArr16(bArr[12], bArr[13]);
+        int samplingInterval = (int) onSamplingInterval(bArr[14] >> 4, Conversion.fromByteArr16((byte) (bArr[14] & 15), bArr[15]));
+        int mtu = Conversion.fromByteArr16(bArr[16]);
+        int parts = dataLength / 16;
+        if (dataLength % 16 > 0) {
+            parts++;
+        }
+
+        LOG.info("timestamp (UTC): " + timestamp);
+        LOG.info("timestamp (UTC): " + new Date(timestamp));
+        LOG.info("dataLength (data length): " + dataLength);
+        LOG.info("samplingInterval (per time): " + samplingInterval);
+        LOG.info("mtu (mtu): " + mtu);
+        LOG.info("parts: " + parts);
+    }
+
+    private static double onSamplingInterval(int i, int i2) {
+        switch (i) {
+            case 1:
+                return 1.0d * Math.pow(10.0d, -6.0d) * ((double) i2);
+            case 2:
+                return 1.0d * Math.pow(10.0d, -3.0d) * ((double) i2);
+            case 3:
+                return (double) (1 * i2);
+            case 4:
+                return 10.0d * Math.pow(10.0d, -6.0d) * ((double) i2);
+            case 5:
+                return 10.0d * Math.pow(10.0d, -3.0d) * ((double) i2);
+            case 6:
+                return (double) (10 * i2);
+            default:
+                return (double) (10 * i2);
+        }
     }
 
     private static class Conversion {
