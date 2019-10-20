@@ -630,7 +630,12 @@ public class NotificationListener extends NotificationListenerService {
     public void onNotificationRemoved(StatusBarNotification sbn) {
         LOG.info("Notification removed: " + sbn.getPackageName());
 
-        int originalId = (int) mNotificationHandleLookup.lookupByValue(sbn.getPostTime());
+        Object lookupObject = mNotificationHandleLookup.lookupByValue(sbn.getPostTime());;
+        if(lookupObject == null){
+            LOG.debug("removed notification not found");
+            return;
+        }
+        int originalId = (int) lookupObject;
 
         if (GBApplication.isRunningLollipopOrLater()) {
             LOG.info("Notification removed: " + sbn.getPackageName() + ", category: " + sbn.getNotification().category);
