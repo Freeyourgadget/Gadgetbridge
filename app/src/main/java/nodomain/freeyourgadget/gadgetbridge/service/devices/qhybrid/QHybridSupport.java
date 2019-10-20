@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid;
 
+import android.app.NotificationManager;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.BroadcastReceiver;
@@ -8,7 +9,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import android.util.SparseArray;
 import android.widget.Toast;
@@ -28,6 +31,7 @@ import java.util.Queue;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import androidx.annotation.RequiresApi;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -119,6 +123,8 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     ArrayList<Integer> notificationStack = new ArrayList<>();
 
+    NotificationManager notificationManager;
+
     public QHybridSupport() {
         super(logger);
         addSupportedService(UUID.fromString("3dda0001-957f-7d4a-34a6-74696673696d"));
@@ -136,9 +142,13 @@ public class QHybridSupport extends QHybridBaseSupport {
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(commandReceiver, commandFilter);
         fillResponseList();
 
+        helper = new PackageConfigHelper(GBApplication.getContext());
+
         IntentFilter globalFilter = new IntentFilter();
         globalFilter.addAction(QHYBRID_ACTION_SET_ACTIVITY_HAND);
         GBApplication.getContext().registerReceiver(globalCommandReceiver, globalFilter);
+
+        notificationManager = (NotificationManager) GBApplication.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     private boolean supportsActivityHand() {
@@ -221,7 +231,12 @@ public class QHybridSupport extends QHybridBaseSupport {
         requestQueue.add(new ActivityPointGetRequest());
         requestQueue.add(prepareSetTimeRequest());
         requestQueue.add(new AnimationRequest());
-        requestQueue.add(new SetCurrentStepCountRequest(0));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestQueue.add(new SetCurrentStepCountRequest((int) (999999 * calculateNotificationProgress())));
+        }else {
+            requestQueue.add(new SetCurrentStepCountRequest(0));
+        }
 
         Request initialRequest = new GetStepGoalRequest();
 
@@ -230,10 +245,8 @@ public class QHybridSupport extends QHybridBaseSupport {
                 .read(getCharacteristic(UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb")))
                 .read(getCharacteristic(UUID.fromString("00002a19-0000-1000-8000-00805f9b34fb")))
                 .notify(getCharacteristic(UUID.fromString("00002a19-0000-1000-8000-00805f9b34fb")), true)
-                .write(getCharacteristic(initialRequest.getRequestUUID()), initialRequest.getRequestData())
-        ;
+                .write(getCharacteristic(initialRequest.getRequestUUID()), initialRequest.getRequestData());
 
-        helper = new PackageConfigHelper(getContext());
         getTimeOffset();
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
@@ -269,23 +282,64 @@ public class QHybridSupport extends QHybridBaseSupport {
 
         playNotification(config);
 
-        notificationStack.remove(Integer.valueOf(notificationSpec.getId()));
-        notificationStack.add(Integer.valueOf(notificationSpec.getId()));
-        showNotificationCountOnActivityHand();
+
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            showNotificationsByAllActive();
+        }else{
+            notificationStack.remove(Integer.valueOf(notificationSpec.getId()));
+            notificationStack.add(Integer.valueOf(notificationSpec.getId()));
+            showNotificationCountOnActivityHand();
+        }
     }
 
     @Override
     public void onDeleteNotification(int id) {
         super.onDeleteNotification(id);
 
-        notificationStack.remove(Integer.valueOf(id));
-        showNotificationCountOnActivityHand();
+        StatusBarNotification[] notifications = new StatusBarNotification[0];
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            showNotificationsByAllActive();
+        }else{
+            notificationStack.remove(Integer.valueOf(id));
+            showNotificationCountOnActivityHand();
+        }
+    }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void showNotificationsByAllActive() {
+        showNotificationCountOnActivityHand(calculateNotificationProgress());
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private double calculateNotificationProgress(){
+        StatusBarNotification[] notifications;
+        notifications = notificationManager.getActiveNotifications();
+
+        ArrayList<PackageConfig> configs = helper.getSettings();
+
+        double notificationProgress = 0;
+
+        for(StatusBarNotification notification : notifications){
+            for(PackageConfig packageConfig : configs){
+                if(packageConfig.getPackageName().equals(notification.getPackageName())){
+                    notificationProgress += 0.25;
+                    configs.remove(packageConfig);
+                }
+            }
+        }
+
+        return notificationProgress;
+    }
+
+    private void showNotificationCountOnActivityHand(double progress) {
+        if (useActivityHand) {
+            setActivityHand(progress);
+        }
     }
 
     private void showNotificationCountOnActivityHand() {
-        if (useActivityHand) {
-            setActivityHand(notificationStack.size() / 4.0);
-        }
+        showNotificationCountOnActivityHand(notificationStack.size() / 4.0);
     }
 
     private void playNotification(PackageConfig config) {
