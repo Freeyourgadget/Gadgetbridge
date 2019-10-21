@@ -291,7 +291,11 @@ public class ControlCenterv2 extends AppCompatActivity
                 return true;
             case R.id.external_changelog:
                 ChangeLog cl = createChangeLog();
-                cl.getFullLogDialog().show();
+                try {
+                    cl.getLogDialog().show();
+                } catch (Exception ignored) {
+                    GB.toast(getBaseContext(), "Error showing Changelog", Toast.LENGTH_LONG, GB.ERROR);
+                }
                 return true;
         }
 
