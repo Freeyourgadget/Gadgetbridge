@@ -106,6 +106,8 @@ public class NotificationListener extends NotificationListenerService {
     private HashMap<String, Long> notificationBurstPrevention = new HashMap<>();
     private HashMap<String, Long> notificationOldRepeatPrevention = new HashMap<>();
 
+    public static ArrayList<String> notificationStack = new ArrayList<>();
+
     private long activeCallPostTime;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -223,6 +225,7 @@ public class NotificationListener extends NotificationListenerService {
     @Override
     public void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+        notificationStack.clear();
         super.onDestroy();
     }
 
@@ -240,6 +243,9 @@ public class NotificationListener extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         Prefs prefs = GBApplication.getPrefs();
+
+        notificationStack.remove(sbn.getPackageName());
+        notificationStack.add(sbn.getPackageName());
 
         if (GBApplication.isRunningLollipopOrLater()) {
             if ("call".equals(sbn.getNotification().category) && prefs.getBoolean("notification_support_voip_calls", false)) {
@@ -384,7 +390,6 @@ public class NotificationListener extends NotificationListenerService {
         }else {
             LOG.info("This app might show old/duplicate notifications. notification.when is 0 for " + source);
         }
-
         GBApplication.deviceService().onNotification(notificationSpec);
     }
 
@@ -629,6 +634,8 @@ public class NotificationListener extends NotificationListenerService {
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
         LOG.info("Notification removed: " + sbn.getPackageName());
+
+        notificationStack.remove(sbn.getPackageName());
 
         Object lookupObject = mNotificationHandleLookup.lookupByValue(sbn.getPostTime());;
         if(lookupObject == null){

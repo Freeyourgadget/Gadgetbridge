@@ -1,17 +1,14 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid;
 
-import android.app.NotificationManager;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import android.util.SparseArray;
 import android.widget.Toast;
@@ -23,15 +20,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.TimeZone;
 import java.util.UUID;
 
-import androidx.annotation.RequiresApi;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -40,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInf
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfig;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
@@ -121,10 +118,6 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     private boolean useActivityHand;
 
-    ArrayList<Integer> notificationStack = new ArrayList<>();
-
-    NotificationManager notificationManager;
-
     public QHybridSupport() {
         super(logger);
         addSupportedService(UUID.fromString("3dda0001-957f-7d4a-34a6-74696673696d"));
@@ -147,8 +140,6 @@ public class QHybridSupport extends QHybridBaseSupport {
         IntentFilter globalFilter = new IntentFilter();
         globalFilter.addAction(QHYBRID_ACTION_SET_ACTIVITY_HAND);
         GBApplication.getContext().registerReceiver(globalCommandReceiver, globalFilter);
-
-        notificationManager = (NotificationManager) GBApplication.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     private boolean supportsActivityHand() {
@@ -234,13 +225,14 @@ public class QHybridSupport extends QHybridBaseSupport {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestQueue.add(new SetCurrentStepCountRequest((int) (999999 * calculateNotificationProgress())));
-        }else {
+        } else {
             requestQueue.add(new SetCurrentStepCountRequest(0));
         }
 
         Request initialRequest = new GetStepGoalRequest();
 
-        builder.read(getCharacteristic(UUID.fromString("00002a00-0000-1000-8000-00805f9b34fb")))
+        builder
+                // .read(getCharacteristic(UUID.fromString("00002a00-0000-1000-8000-00805f9b34fb")))
                 .read(getCharacteristic(UUID.fromString("00002a24-0000-1000-8000-00805f9b34fb")))
                 .read(getCharacteristic(UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb")))
                 .read(getCharacteristic(UUID.fromString("00002a19-0000-1000-8000-00805f9b34fb")))
@@ -280,51 +272,52 @@ public class QHybridSupport extends QHybridBaseSupport {
             if (mode == AudioManager.RINGER_MODE_SILENT) return;
         }
 
+        boolean enforceActivityHandNotification = config.getHour() == -1 && config.getMin() == -1;
+
+        showNotificationsByAllActive(enforceActivityHandNotification);
+
         playNotification(config);
-
-
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            showNotificationsByAllActive();
-        }else{
-            notificationStack.remove(Integer.valueOf(notificationSpec.getId()));
-            notificationStack.add(Integer.valueOf(notificationSpec.getId()));
-            showNotificationCountOnActivityHand();
-        }
     }
 
     @Override
     public void onDeleteNotification(int id) {
         super.onDeleteNotification(id);
 
-        StatusBarNotification[] notifications = new StatusBarNotification[0];
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            showNotificationsByAllActive();
-        }else{
-            notificationStack.remove(Integer.valueOf(id));
-            showNotificationCountOnActivityHand();
+        showNotificationsByAllActive(true);
+    }
+
+    private void showNotificationsByAllActive(boolean enforceByNotification) {
+        if(!this.useActivityHand);
+        double progress = calculateNotificationProgress();
+        showNotificationCountOnActivityHand(progress);
+
+        if(enforceByNotification){
+            queueWrite(
+                    new PlayNotificationRequest(
+                            PlayNotificationRequest.VibrationType.NO_VIBE,
+                            -1,
+                            -1,
+                            (int) (progress * 180)
+                    )
+            );
         }
     }
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void showNotificationsByAllActive() {
-        showNotificationCountOnActivityHand(calculateNotificationProgress());
-    }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private double calculateNotificationProgress(){
-        StatusBarNotification[] notifications;
-        notifications = notificationManager.getActiveNotifications();
-
-        ArrayList<PackageConfig> configs = helper.getSettings();
+    private double calculateNotificationProgress() {
+        HashMap<PackageConfig, Boolean> configs = new HashMap<>(0);
+        for (PackageConfig config : helper.getSettings()) {
+            configs.put(config, false);
+        }
 
         double notificationProgress = 0;
 
-        for(StatusBarNotification notification : notifications){
-            for(PackageConfig packageConfig : configs){
-                if(packageConfig.getPackageName().equals(notification.getPackageName())){
+        for (String notificationPackage : NotificationListener.notificationStack) {
+            for (PackageConfig packageConfig : configs.keySet()) {
+                if(configs.get(packageConfig)) continue;
+                if (packageConfig.getPackageName().equals(notificationPackage)) {
                     notificationProgress += 0.25;
-                    configs.remove(packageConfig);
+                    configs.put(packageConfig, true);
                 }
             }
         }
@@ -338,11 +331,8 @@ public class QHybridSupport extends QHybridBaseSupport {
         }
     }
 
-    private void showNotificationCountOnActivityHand() {
-        showNotificationCountOnActivityHand(notificationStack.size() / 4.0);
-    }
-
     private void playNotification(PackageConfig config) {
+        if(config.getMin() == -1 && config.getHour() == -1 && config.getVibration() == PlayNotificationRequest.VibrationType.NO_VIBE) return;
         queueWrite(new PlayNotificationRequest(config.getVibration(), config.getHour(), config.getMin()));
     }
 
@@ -354,11 +344,10 @@ public class QHybridSupport extends QHybridBaseSupport {
     private SetTimeRequest prepareSetTimeRequest() {
         long millis = System.currentTimeMillis();
         TimeZone zone = new GregorianCalendar().getTimeZone();
-        SetTimeRequest request = new SetTimeRequest(
+        return new SetTimeRequest(
                 (int) (millis / 1000 + timeOffset * 60),
                 (short) (millis % 1000),
                 (short) ((zone.getRawOffset() + zone.getDSTSavings()) / 60000));
-        return request;
     }
 
     @Override
@@ -398,20 +387,16 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     @Override
     public void onTestNewFunction() {
-        //downloadActivityFiles();
-        //queueWrite(new GetCurrentStepCountRequest());
-        // queueWrite(new EventStreamRequest((short)4));
-        // queueWrite(new OTAEraseRequest(0));
-        // queueWrite(new OTAResetRequest());
-        // new UploadFileRequest((short)00, new byte[]{0x01, 0x00, 0x08, 0x01, 0x01, 0x0C, 0x00, (byte)0xBD, 0x01, 0x30, 0x71, (byte)0xFF, 0x05, 0x00, 0x01, 0x00});
-        // queueWrite(new ActivityPointGetRequest());
-        long millis = System.currentTimeMillis();
-        int secs = (int) (millis / 1000 * 60);
-        //queueWrite(new SetCountdownSettings(secs, secs + 10, (short) 120));
-        //queueWrite(new GetCountdownSettingsRequest());
-
-        // queueWrite(new AnimationRequest());
-        queueWrite(new SetCurrentStepCountRequest(1000000));
+        float random = (float)Math.random();
+        setActivityHand(random);
+        queueWrite(
+                new PlayNotificationRequest(
+                        PlayNotificationRequest.VibrationType.NO_VIBE,
+                        -1,
+                        -1,
+                        (int) (random * 180)
+                )
+        );
     }
 
     private void overwriteButtons() {
@@ -733,7 +718,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         queueWrite(new MoveHandsRequest(false, minute, hour, (short) -1));
     }
 
-    private void vibrate(int vibration) {
+    private void vibrate(PlayNotificationRequest.VibrationType vibration) {
         queueWrite(new PlayNotificationRequest(vibration, -1, -1));
     }
 
@@ -746,7 +731,16 @@ public class QHybridSupport extends QHybridBaseSupport {
                         Object extra = intent.getExtras().get("EXTRA_PROGRESS");
                         float progress = (float) extra;
                         setActivityHand(progress);
-                    }catch (Exception e){
+
+                        queueWrite(
+                                new PlayNotificationRequest(
+                                        PlayNotificationRequest.VibrationType.NO_VIBE,
+                                        -1,
+                                        -1,
+                                        (int) (progress * 180)
+                                )
+                        );
+                    } catch (Exception e) {
                         e.printStackTrace();
                         logger.debug("trash extra should be number 0.0-1.0");
                     }
