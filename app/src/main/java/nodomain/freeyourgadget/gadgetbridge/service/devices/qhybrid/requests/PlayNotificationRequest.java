@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests;
 
 import java.nio.ByteBuffer;
+import java.security.InvalidParameterException;
 
 public class PlayNotificationRequest extends Request {
 
@@ -14,10 +15,17 @@ public class PlayNotificationRequest extends Request {
         SINGLE_LONG(8),
         NO_VIBE(9);
 
-        public byte value;
+        private byte value;
 
         VibrationType(int value) {
             this.value = (byte)value;
+        }
+
+        public static VibrationType fromValue(byte value){
+            for(VibrationType type : values()){
+                if(type.getValue() == value) return type;
+            }
+            throw new InvalidParameterException("vibration Type not supported");
         }
 
         public byte getValue() {
@@ -25,12 +33,13 @@ public class PlayNotificationRequest extends Request {
         }
     }
 
-    public PlayNotificationRequest(int vibrationType, int degreesHour, int degreesMins){
+    public PlayNotificationRequest(VibrationType vibrationType, int degreesHour, int degreesMins, int degreesActivityHand){
         int length = 0;
         if(degreesHour > -1) length++;
         if(degreesMins > -1) length++;
+        if(degreesActivityHand > -1) length++;
         ByteBuffer buffer = createBuffer(length * 2 + 10);
-        buffer.put((byte)vibrationType);
+        buffer.put(vibrationType.getValue());
         buffer.put((byte)5);
         buffer.put((byte)(length * 2 + 2));
         buffer.putShort((short)0);
@@ -40,7 +49,16 @@ public class PlayNotificationRequest extends Request {
         if(degreesMins > -1){
             buffer.putShort((short)((degreesMins % 360) | (2 << 12)));
         }
+        if(degreesActivityHand > -1) {
+            buffer.putShort((short)((degreesActivityHand % 360) | (3 << 12)));
+        }
         this.data = buffer.array();
+    }
+
+
+
+    public PlayNotificationRequest(VibrationType vibrationType, int degreesHour, int degreesMins){
+        this(vibrationType, degreesHour, degreesMins, -1);
     }
 
     @Override

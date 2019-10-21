@@ -99,11 +99,11 @@ public class TimePicker extends AlertDialog.Builder {
             group.addView(button);
         }
 
-        group.check(settings.getVibration());
+        group.check(settings.getVibration().getValue());
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                settings.setVibration(i);
+                settings.setVibration(PlayNotificationRequest.VibrationType.fromValue((byte)i));
                 if(TimePicker.this.vibrationListener != null) TimePicker.this.vibrationListener.onVibrationSet(settings);
             }
         });

@@ -29,7 +29,7 @@ public class TaskerPluginActivity extends AbstractPluginActivity {
         group = findViewById(R.id.qhybrid_tasker_vibration);
         for(PlayNotificationRequest.VibrationType type : PlayNotificationRequest.VibrationType.values()){
             RadioButton button = new RadioButton(this);
-            button.setText(type.name() + " (" + type.getValue() + ")");
+            button.setText(type.name() + " (" + type.name() + ")");
             button.setId(type.getValue());
             group.addView(button);
         }

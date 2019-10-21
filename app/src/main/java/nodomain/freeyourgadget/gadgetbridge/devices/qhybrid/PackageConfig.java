@@ -9,11 +9,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Pla
 public class PackageConfig implements Serializable {
     private short min, hour;
     private String packageName, appName;
-    private int vibration;
+    private PlayNotificationRequest.VibrationType vibration;
     private boolean respectSilentMode;
     private long id = -1;
 
-    PackageConfig(short min, short hour, String packageName, String appName, boolean respectSilentMode, int vibration) {
+    PackageConfig(short min, short hour, String packageName, String appName, boolean respectSilentMode, PlayNotificationRequest.VibrationType vibration) {
         this.min = min;
         this.hour = hour;
         this.packageName = packageName;
@@ -22,7 +22,7 @@ public class PackageConfig implements Serializable {
         this.vibration = vibration;
     }
 
-    PackageConfig(short min, short hour, String packageName, String appName, boolean respectSilentMode, int vibration, long id) {
+    PackageConfig(short min, short hour, String packageName, String appName, boolean respectSilentMode, PlayNotificationRequest.VibrationType vibration, long id) {
         this.min = min;
         this.hour = hour;
         this.packageName = packageName;
@@ -37,15 +37,15 @@ public class PackageConfig implements Serializable {
         this.packageName = packageName;
         this.appName = appName;
         this.respectSilentMode = false;
-        this.vibration = PlayNotificationRequest.VibrationType.SINGLE_NORMAL.getValue();
+        this.vibration = PlayNotificationRequest.VibrationType.SINGLE_NORMAL;
         this.id = -1;
     }
 
-    public int getVibration() {
+    public PlayNotificationRequest.VibrationType getVibration() {
         return vibration;
     }
 
-    public void setVibration(int vibration) {
+    public void setVibration(PlayNotificationRequest.VibrationType vibration) {
         this.vibration = vibration;
     }
 

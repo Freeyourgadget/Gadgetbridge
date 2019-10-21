@@ -9,6 +9,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.PlayNotificationRequest;
 
 public class PackageConfigHelper extends DBOpenHelper {
     public static final String DB_NAME = "qhybridNotifications.db";
@@ -36,7 +37,7 @@ public class PackageConfigHelper extends DBOpenHelper {
         values.put(DB_APPNAME, settings.getAppName());
         values.put(DB_HOUR, settings.getHour());
         values.put(DB_MINUTE, settings.getMin());
-        values.put(DB_VIBRATION, settings.getVibration());
+        values.put(DB_VIBRATION, settings.getVibration().getValue());
         values.put(DB_RESPECT_SILENT, settings.getRespectSilentMode());
 
         if(settings.getId() == -1) {
@@ -67,7 +68,7 @@ public class PackageConfigHelper extends DBOpenHelper {
                         cursor.getString(packageNamePos),
                         cursor.getString(appNamePos),
                         cursor.getInt(silentPos) == 1,
-                        cursor.getInt(vibrationPos),
+                        PlayNotificationRequest.VibrationType.fromValue((byte)cursor.getInt(vibrationPos)),
                         cursor.getInt(idPos)
                 ));
                 Log.d("Settings", "setting #" + cursor.getPosition() + ": " + cursor.getInt(silentPos));
@@ -91,7 +92,7 @@ public class PackageConfigHelper extends DBOpenHelper {
                 c.getString(c.getColumnIndex(DB_PACKAGE)),
                 c.getString(c.getColumnIndex(DB_APPNAME)),
                 c.getInt(c.getColumnIndex(DB_RESPECT_SILENT)) == 1,
-                c.getInt(c.getColumnIndex(DB_VIBRATION)),
+                PlayNotificationRequest.VibrationType.fromValue((byte)c.getInt(c.getColumnIndex(DB_VIBRATION))),
                 c.getInt(c.getColumnIndex(DB_ID))
         );
         c.close();

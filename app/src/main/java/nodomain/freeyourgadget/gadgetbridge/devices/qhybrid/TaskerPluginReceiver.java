@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.PlayNotificationRequest;
 
 public class TaskerPluginReceiver extends BroadcastReceiver {
 
@@ -18,7 +19,14 @@ public class TaskerPluginReceiver extends BroadcastReceiver {
         int minDegrees = (int)Float.parseFloat(min);
         int hourDegrees = (int)Float.parseFloat(hour);
 
-        PackageConfig config = new PackageConfig((short)minDegrees, (short)hourDegrees, null, null, false, Integer.parseInt(vibration));
+        PackageConfig config = new PackageConfig(
+                (short)minDegrees,
+                (short)hourDegrees,
+                null,
+                null,
+                false,
+                PlayNotificationRequest.VibrationType.fromValue(Byte.parseByte(vibration))
+        );
 
         Intent send = new Intent(QHybridSupport.QHYBRID_COMMAND_NOTIFICATION);
         send.putExtra("CONFIG", config);
