@@ -31,6 +31,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -202,7 +203,12 @@ public class ControlCenterv2 extends AppCompatActivity
 
         ChangeLog cl = createChangeLog();
         if (cl.isFirstRun()) {
-            cl.getLogDialog().show();
+            try {
+                cl.getLogDialog().show();
+            } catch (Exception ignored){
+                GB.toast(getBaseContext(), "Error showing Changelog", Toast.LENGTH_LONG, GB.ERROR);
+
+            }
         }
 
         GBApplication.deviceService().start();
