@@ -189,7 +189,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                                 messagePart));
             }
 
-            performImmediately(builder);
+            builder.queue(getQueue());
         } catch (IOException e) {
             LOG.warn("Unable to send notification", e);
         }
@@ -269,7 +269,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
             builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
                     buildCommand(WatchXPlusConstants.CMD_TIME_SETTINGS,
                             WatchXPlusConstants.READ_VALUE));
-            performImmediately(builder);
+            builder.queue(getQueue());
         } catch (IOException e) {
             LOG.warn("Unable to get device time", e);
         }
@@ -314,7 +314,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                     buildCommand(WatchXPlusConstants.CMD_TIME_SETTINGS,
                             WatchXPlusConstants.WRITE_VALUE,
                             time));
-            performImmediately(builder);
+            builder.queue(getQueue());
         } catch (IOException e) {
             LOG.warn("Unable to set time", e);
         }
@@ -493,7 +493,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                             WatchXPlusConstants.READ_VALUE,
                             WatchXPlusConstants.HEART_RATE_DATA_TYPE));
 
-            performImmediately(builder);
+            builder.queue(getQueue());
         } catch (IOException e) {
             LOG.warn("Unable to retrieve recorded data", e);
         }
@@ -593,7 +593,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                     buildCommand(command,
                             WatchXPlusConstants.KEEP_ALIVE,
                             weatherInfo));
-            performImmediately(builder);
+            builder.queue(getQueue());
         } catch (IOException e) {
             LOG.warn("Unable to set weather", e);
         }
@@ -630,6 +630,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 LOG.info(" Received Heart rate data details");
                 handleHeartRateDetails(value);
             } else if (value.length == 7 && value[5] == 0) {
+                LOG.info(" Received ACK");
 //                Not sure if that's necessary. There is no response for ACK in original app logs
 //                handleAck();
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_NOTIFICATION_SETTINGS, 5)) {
@@ -672,7 +673,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                                 req));
 
             }
-            performImmediately(builder);
+            builder.queue(getQueue());
         } catch (IOException e) {
             LOG.warn("Unable to response to ACK", e);
         }
@@ -683,9 +684,8 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("handleAck");
 
             builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
-//                    TODO: Below value is ACK status. Find out which value is correct
                     buildCommand((byte)0x00));
-            performImmediately(builder);
+            builder.queue(getQueue());
         } catch (IOException e) {
             LOG.warn("Unable to response to ACK", e);
         }
@@ -696,7 +696,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         byte[] result = new byte[7];
         System.arraycopy(WatchXPlusConstants.CMD_HEADER, 0, result, 0, 5);
 
-        result[2] = (byte) (result.length + 1);
+        result[2] = (byte) (result.length - 6);
         result[3] = WatchXPlusConstants.REQUEST;
         result[4] = (byte) sequenceNumber++;
         result[5] = action;
