@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.devices.watchxplus;
+package nodomain.freeyourgadget.gadgetbridge.devices.lenovo.watchxplus;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -18,6 +18,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.LenovoWatchPairingActivity;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -70,7 +71,7 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
     @Nullable
     @Override
     public Class<? extends Activity> getPairingActivity() {
-        return WatchXPlusPairingActivity.class;
+        return LenovoWatchPairingActivity.class;
     }
 
     @Override

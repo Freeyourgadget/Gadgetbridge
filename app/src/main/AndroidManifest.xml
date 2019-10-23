@@ -407,10 +407,10 @@
             android:name=".devices.watch9.Watch9CalibrationActivity"
             android:label="@string/title_activity_watch9_calibration"  />
         <activity
-            android:name=".devices.watchxplus.WatchXPlusPairingActivity"
+            android:name=".devices.lenovo.LenovoWatchPairingActivity"
             android:label="@string/title_activity_watch9_pairing"  />
         <activity
-            android:name=".devices.watchxplus.WatchXPlusCalibrationActivity"
+            android:name=".devices.lenovo.LenovoWatchCalibrationActivity"
             android:label="@string/title_activity_watch9_calibration"  />
         <activity
             android:name=".activities.charts.ChartsActivity"

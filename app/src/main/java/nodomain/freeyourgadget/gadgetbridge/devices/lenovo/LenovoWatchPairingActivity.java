@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.watchxplus;
+package nodomain.freeyourgadget.gadgetbridge.devices.lenovo;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -40,8 +40,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class WatchXPlusPairingActivity extends AbstractGBActivity {
-    private static final Logger LOG = LoggerFactory.getLogger(WatchXPlusPairingActivity.class);
+public class LenovoWatchPairingActivity extends AbstractGBActivity {
+    private static final Logger LOG = LoggerFactory.getLogger(LenovoWatchPairingActivity.class);
 
     private static final String STATE_DEVICE_CANDIDATE = "stateDeviceCandidate";
 

@@ -58,8 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
-import nodomain.freeyourgadget.gadgetbridge.devices.watch9.Watch9CalibrationActivity;
-import nodomain.freeyourgadget.gadgetbridge.devices.watchxplus.WatchXPlusCalibrationActivity;
+import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.LenovoWatchCalibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
@@ -326,12 +325,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             @Override
             public void onClick(View v) {
                 Intent startIntent;
-                if(device.getType() == DeviceType.WATCHXPLUS) {
-                    startIntent = new Intent(context, WatchXPlusCalibrationActivity.class);
-                } else {
-                    startIntent = new Intent(context, Watch9CalibrationActivity.class);
-                }
-
+                startIntent = new Intent(context, LenovoWatchCalibrationActivity.class);
                 startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
                 context.startActivity(startIntent);
             }
