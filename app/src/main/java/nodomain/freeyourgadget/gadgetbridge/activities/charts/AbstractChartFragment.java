@@ -69,6 +69,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 /**
  * A base class fragment to be used with ChartsActivity. The fragment can supply
@@ -170,12 +171,18 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected void init() {
+        Prefs prefs = GBApplication.getPrefs();
         TypedValue runningColor = new TypedValue();
         BACKGROUND_COLOR = GBApplication.getBackgroundColor(getContext());
         LEGEND_TEXT_COLOR = DESCRIPTION_COLOR = GBApplication.getTextColor(getContext());
         CHART_TEXT_COLOR = ContextCompat.getColor(getContext(), R.color.secondarytext);
-        HEARTRATE_COLOR = ContextCompat.getColor(getContext(), R.color.chart_heartrate);
+        if (prefs.getBoolean("chart_heartrate_color", false)) {
+            HEARTRATE_COLOR = ContextCompat.getColor(getContext(), R.color.chart_heartrate_alternative);
+        }else{
+            HEARTRATE_COLOR = ContextCompat.getColor(getContext(), R.color.chart_heartrate);
+        }
         HEARTRATE_FILL_COLOR = ContextCompat.getColor(getContext(), R.color.chart_heartrate_fill);
+
         getContext().getTheme().resolveAttribute(R.attr.chart_activity, runningColor, true);
         AK_ACTIVITY_COLOR = runningColor.data;
         getContext().getTheme().resolveAttribute(R.attr.chart_deep_sleep, runningColor, true);
