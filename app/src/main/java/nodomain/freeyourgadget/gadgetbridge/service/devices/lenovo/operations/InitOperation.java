@@ -53,14 +53,11 @@ public class InitOperation extends AbstractBTLEOperation<WatchXPlusDeviceSupport
     @Override
     protected void doPerform() throws IOException {
         builder.notify(cmdCharacteristic, true);
-        if (needsAuth) {
             builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.AUTHENTICATING, getContext()));
             getSupport().authorizationRequest(builder, needsAuth);
-        } else {
             builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
             getSupport().initialize(builder);
             getSupport().performImmediately(builder);
-        }
     }
 
     @Override
