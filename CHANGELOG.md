@@ -1,5 +1,14 @@
 ### Changelog
 
+#### NEXT
+* Amazfit GTR: Initial and incomplete support
+* Mi Band 4: Enable emoji font setting
+* Makibes HR3: Support the english version
+* Makibes HR3: Enable bluetooth pairing for working reconnection
+* Work around crash when trying to display changelog
+* "Limit sleep charts range" (FIXME)
+* " Check for non empty list of sleep sessions" (FIXME)
+
 #### Version 0.37.1
 * Amazfit Bip Lite: Support flashing firmware and watchfaces
 
