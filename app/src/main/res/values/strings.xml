@@ -526,6 +526,9 @@
     <string name="pref_title_charts_range">Charts Range</string>
     <string name="pref_charts_range_on">Charts range is set to a Month</string>
     <string name="pref_charts_range_off">Charts range is set to a Week</string>
+    <string name="pref_chart_heartrate_color_red">Red</string>
+    <string name="pref_chart_heartrate_color_orange">Orange</string>
+    <string name="pref_title_chart_heartrate_color">Heart rate color</string>
     <string name="weekstepschart_steps_a_month">Steps per month</string>
     <string name="weeksleepchart_sleep_a_month">Sleep per month</string>
     <string name="authenticating">Authenticating</string>

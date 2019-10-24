@@ -18,6 +18,7 @@
     <color name="divider" type="color">#1f000000</color>
 
     <color name="chart_heartrate" type="color">#ffab40</color>
+    <color name="chart_heartrate_alternative" type="color">#8B0000</color>
     <color name="chart_heartrate_fill" type="color">#fadab1</color>
     <color name="chart_deep_sleep_light" type="color">#0071b7</color>
     <color name="chart_deep_sleep_dark" type="color">#4c5aff</color>
