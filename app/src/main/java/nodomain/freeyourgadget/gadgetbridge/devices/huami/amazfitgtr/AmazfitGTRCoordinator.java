@@ -58,4 +58,9 @@ public class AmazfitGTRCoordinator extends AmazfitBipCoordinator {
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         return null;
     }
+
+    @Override
+    public int getBondingStyle() {
+        return BONDING_STYLE_REQUIRE_KEY;
+    }
 }
