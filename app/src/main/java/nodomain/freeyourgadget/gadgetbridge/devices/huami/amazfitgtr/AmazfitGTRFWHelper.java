@@ -1,5 +1,5 @@
-/*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer, Matthieu
-    Baerts, Roi Greenberg
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -15,31 +15,30 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr;
 
 import android.content.Context;
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr.AmazfitGTRFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr.AmazfitGTRFirmwareInfo;
 
-public class AmazfitGTRSupport extends AmazfitBipSupport {
+public class AmazfitGTRFWHelper extends HuamiFWHelper {
 
-    @Override
-    public byte getCryptFlags() {
-        return (byte) 0x80;
-    }
-    
-    @Override
-    protected byte getAuthFlags() {
-        return 0x00;
+    public AmazfitGTRFWHelper(Uri uri, Context context) throws IOException {
+        super(uri, context);
     }
 
+    @NonNull
     @Override
-    public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
-        return new AmazfitGTRFWHelper(uri, context);
+    protected void determineFirmwareInfo(byte[] wholeFirmwareBytes) {
+        firmwareInfo = new AmazfitGTRFirmwareInfo(wholeFirmwareBytes);
+        if (!firmwareInfo.isHeaderValid()) {
+            throw new IllegalArgumentException("Not a an Amazifit GTR firmware");
+        }
     }
 }

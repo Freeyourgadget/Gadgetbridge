@@ -56,7 +56,8 @@ public class AmazfitGTRCoordinator extends AmazfitBipCoordinator {
 
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
-        return null;
+        AmazfitGTRFWInstallHandler handler = new AmazfitGTRFWInstallHandler(uri, context);
+        return handler.isValid() ? handler : null;
     }
 
     @Override
