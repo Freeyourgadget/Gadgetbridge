@@ -1,7 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
 import android.app.AlertDialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
@@ -22,7 +21,7 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.PlayNotificationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 
 public class TimePicker extends AlertDialog.Builder {
     ImageView pickerView;

@@ -12,7 +12,7 @@ import com.twofortyfouram.locale.sdk.client.ui.activity.AbstractPluginActivity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.PlayNotificationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 
 public class TaskerPluginActivity extends AbstractPluginActivity {
     public static final String key_hours = "qhybrid_hours";

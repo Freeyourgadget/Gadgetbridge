@@ -9,7 +9,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.PlayNotificationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 
 public class PackageConfigHelper extends DBOpenHelper {
     public static final String DB_NAME = "qhybridNotifications.db";

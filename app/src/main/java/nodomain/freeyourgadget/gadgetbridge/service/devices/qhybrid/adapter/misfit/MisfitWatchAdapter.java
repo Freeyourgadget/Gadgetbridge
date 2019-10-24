@@ -1,0 +1,419 @@
+package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.misfit;
+
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Intent;
+import android.os.Build;
+import android.util.Log;
+import android.util.SparseArray;
+import android.widget.Toast;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.NoSuchElementException;
+import java.util.Queue;
+import java.util.TimeZone;
+
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfig;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
+import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.WatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.ActivityPointGetRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.AnimationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.BatteryLevelRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.DownloadFileRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.EraseFileRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.FileRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.GetCountdownSettingsRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.GetCurrentStepCountRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.GetStepGoalRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.GetVibrationStrengthRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.GoalTrackingGetRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.ListFilesRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.MoveHandsRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.OTAEnterRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.OTAEraseRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.ReleaseHandsControlRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.Request;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.RequestHandControlRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SetCurrentStepCountRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SetStepGoalRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SetTimeRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SetVibrationStrengthRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.UploadFileRequest;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
+
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.ITEM_ACTIVITY_POINT;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.ITEM_STEP_COUNT;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.ITEM_STEP_GOAL;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.ITEM_VIBRATION_STRENGTH;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.QHYBRID_EVENT_BUTTON_PRESS;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.QHYBRID_EVENT_FILE_UPLOADED;
+
+public class MisfitWatchAdapter extends WatchAdapter {
+    private int lastButtonIndex = -1;
+    private final SparseArray<Request> responseFilters = new SparseArray<>();
+    private static final Logger logger = LoggerFactory.getLogger(QHybridSupport.class);
+
+    private UploadFileRequest uploadFileRequest;
+    private Request fileRequest = null;
+
+    private Queue<Request> requestQueue = new ArrayDeque<>();
+
+    public MisfitWatchAdapter(QHybridSupport deviceSupport) {
+        super(deviceSupport);
+
+        fillResponseList();
+    }
+
+    @Override
+    public void initialize() {
+        requestQueue.add(new GetCurrentStepCountRequest());
+        requestQueue.add(new GetVibrationStrengthRequest());
+        requestQueue.add(new ActivityPointGetRequest());
+        requestQueue.add(prepareSetTimeRequest());
+        requestQueue.add(new AnimationRequest());
+
+        //TODO
+        // requestQueue.add(new SetCurrentStepCountRequest((int) (999999 * calculateNotificationProgress())));
+    }
+
+
+    private SetTimeRequest prepareSetTimeRequest() {
+        long millis = System.currentTimeMillis();
+        TimeZone zone = new GregorianCalendar().getTimeZone();
+        return new SetTimeRequest(
+                //TODO time offset
+                (int) (millis / 1000 + 0 * 60),
+                (short) (millis % 1000),
+                (short) ((zone.getRawOffset() + zone.getDSTSavings()) / 60000));
+    }
+
+
+    @Override
+    public void playPairingAnimation() {
+        queueWrite(new AnimationRequest());
+    }
+
+    @Override
+    public void playNotification(PackageConfig config) {
+        queueWrite(new PlayNotificationRequest(
+                config.getVibration(),
+                config.getHour(),
+                config.getMin()
+        ));
+    }
+
+    @Override
+    public void setTime() {
+
+    }
+
+    @Override
+    public boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+        GBDevice gbDevice = getDeviceSupport().getDevice();
+        switch (characteristic.getUuid().toString()) {
+            case "3dda0004-957f-7d4a-34a6-74696673696d":
+            case "3dda0003-957f-7d4a-34a6-74696673696d": {
+                return handleFileDownloadCharacteristic(characteristic);
+            }
+            case "3dda0007-957f-7d4a-34a6-74696673696d": {
+                return handleFileUploadCharacteristic(characteristic);
+            }
+            case "3dda0002-957f-7d4a-34a6-74696673696d": {
+                return handleBasicCharacteristic(characteristic);
+            }
+            case "3dda0006-957f-7d4a-34a6-74696673696d": {
+                return handleButtonCharacteristic(characteristic);
+            }
+            case "00002a19-0000-1000-8000-00805f9b34fb": {
+                short level = characteristic.getValue()[0];
+                gbDevice.setBatteryLevel(level);
+
+                gbDevice.setBatteryThresholdPercent((short) 2);
+
+                GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
+                batteryInfo.level = gbDevice.getBatteryLevel();
+                batteryInfo.state = BatteryState.BATTERY_NORMAL;
+                getDeviceSupport().handleGBDeviceEvent(batteryInfo);
+                break;
+            }
+            default: {
+                Log.d("Service", "unknown shit on " + characteristic.getUuid().toString() + ":  " + arrayToString(characteristic.getValue()));
+                try {
+                    File charLog = new File("/sdcard/qFiles/charLog.txt");
+                    if (!charLog.exists()) {
+                        charLog.createNewFile();
+                    }
+
+                    FileOutputStream fos = new FileOutputStream(charLog, true);
+                    fos.write((new Date().toString() + ": " + characteristic.getUuid().toString() + ": " + arrayToString(characteristic.getValue())).getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+        }
+        return getDeviceSupport().onCharacteristicChanged(gatt, characteristic);
+    }
+
+    private String arrayToString(byte[] bytes) {
+        if (bytes.length == 0) return "";
+        StringBuilder s = new StringBuilder();
+        final String chars = "0123456789ABCDEF";
+        for (byte b : bytes) {
+            s.append(chars.charAt((b >> 4) & 0xF)).append(chars.charAt(b & 0xF)).append(" ");
+        }
+        return s.substring(0, s.length() - 1) + "\n";
+    }
+
+    private void fillResponseList() {
+        Class<? extends Request>[] classes = new Class[]{
+                BatteryLevelRequest.class,
+                GetStepGoalRequest.class,
+                GetVibrationStrengthRequest.class,
+                GetCurrentStepCountRequest.class,
+                OTAEnterRequest.class,
+                GoalTrackingGetRequest.class,
+                ActivityPointGetRequest.class,
+                GetCountdownSettingsRequest.class
+        };
+        for (Class<? extends Request> c : classes) {
+            try {
+                c.getSuperclass().getDeclaredMethod("handleResponse", BluetoothGattCharacteristic.class);
+                Request object = c.newInstance();
+                byte[] sequence = object.getStartSequence();
+                if (sequence.length > 1) {
+                    responseFilters.put((int) object.getStartSequence()[1], object);
+                    Log.d("Service", "response filter " + object.getStartSequence()[1] + ": " + c.getSimpleName());
+                }
+            } catch (NoSuchMethodException | IllegalAccessException | InstantiationException e) {
+                Log.d("Service", "skipping class " + c.getName());
+            }
+        }
+    }
+
+    private boolean handleBasicCharacteristic(BluetoothGattCharacteristic characteristic) {
+        byte[] values = characteristic.getValue();
+        Request request = resolveAnswer(characteristic);
+        GBDevice gbDevice = getDeviceSupport().getDevice();
+
+        if (request == null) {
+            StringBuilder valueString = new StringBuilder(String.valueOf(values[0]));
+            for (int i = 1; i < characteristic.getValue().length; i++) {
+                valueString.append(", ").append(values[i]);
+            }
+            Log.d("Service", "unable to resolve " + characteristic.getUuid().toString() + ": " + valueString);
+            return true;
+        }
+        Log.d("Service", "response: " + request.getClass().getSimpleName());
+        request.handleResponse(characteristic);
+
+        if (request instanceof GetStepGoalRequest) {
+            gbDevice.addDeviceInfo(new GenericItem(ITEM_STEP_GOAL, String.valueOf(((GetStepGoalRequest) request).stepGoal)));
+        } else if (request instanceof GetVibrationStrengthRequest) {
+            int strength = ((GetVibrationStrengthRequest) request).strength;
+            gbDevice.addDeviceInfo(new GenericItem(ITEM_VIBRATION_STRENGTH, String.valueOf(strength)));
+        } else if (request instanceof GetCurrentStepCountRequest) {
+            int steps = ((GetCurrentStepCountRequest) request).steps;
+            logger.debug("get current steps: " + steps);
+            try {
+                File f = new File("/sdcard/qFiles/");
+                if (!f.exists()) f.mkdir();
+
+                File file = new File("/sdcard/qFiles/steps");
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
+                logger.debug("Writing file " + file.getPath());
+                FileOutputStream fos = new FileOutputStream(file, true);
+                fos.write((System.currentTimeMillis() + ": " + steps + "\n").getBytes());
+                fos.close();
+                logger.debug("file written.");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            gbDevice.addDeviceInfo(new GenericItem(ITEM_STEP_COUNT, String.valueOf(((GetCurrentStepCountRequest) request).steps)));
+        } else if (request instanceof OTAEnterRequest) {
+            if (((OTAEnterRequest) request).success) {
+                fileRequest = new OTAEraseRequest(1024 << 16);
+                queueWrite(fileRequest);
+            }
+        } else if (request instanceof ActivityPointGetRequest) {
+            gbDevice.addDeviceInfo(new GenericItem(ITEM_ACTIVITY_POINT, String.valueOf(((ActivityPointGetRequest) request).activityPoint)));
+        }
+        try {
+            queueWrite(requestQueue.remove());
+        } catch (NoSuchElementException e) {
+        }
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(DeviceManager.ACTION_DEVICES_CHANGED));
+        return true;
+    }
+
+
+    private Request resolveAnswer(BluetoothGattCharacteristic characteristic) {
+        byte[] values = characteristic.getValue();
+        if (values[0] != 3) return null;
+        return responseFilters.get(values[1]);
+    }
+
+    private boolean handleFileDownloadCharacteristic(BluetoothGattCharacteristic characteristic) {
+        Request request;
+        request = fileRequest;
+        request.handleResponse(characteristic);
+        if (request instanceof ListFilesRequest) {
+            if (((ListFilesRequest) request).completed) {
+                logger.debug("File count: " + ((ListFilesRequest) request).fileCount + "  size: " + ((ListFilesRequest) request).size);
+                if (((ListFilesRequest) request).fileCount == 0) return true;
+                // queueWrite(new DownloadFileRequest((short) (256 + ((ListFilesRequest) request).fileCount)));
+            }
+        } else if (request instanceof DownloadFileRequest) {
+            if (((FileRequest) request).completed) {
+                logger.debug("file " + ((DownloadFileRequest) request).fileHandle + " completed: " + ((DownloadFileRequest) request).size);
+                // backupFile((DownloadFileRequest) request);
+            }
+        } else if (request instanceof EraseFileRequest) {
+            if (((EraseFileRequest) request).fileHandle > 257) {
+                queueWrite(new DownloadFileRequest((short) (((EraseFileRequest) request).fileHandle - 1)));
+            }
+        }
+        return true;
+    }
+
+
+    private boolean handleFileUploadCharacteristic(BluetoothGattCharacteristic characteristic) {
+        if (uploadFileRequest == null) {
+            logger.debug("no uploadFileRequest to handle response");
+            return true;
+        }
+
+        uploadFileRequest.handleResponse(characteristic);
+
+        switch (uploadFileRequest.state) {
+            case ERROR:
+                Intent fileIntent = new Intent(QHYBRID_EVENT_FILE_UPLOADED);
+                fileIntent.putExtra("EXTRA_ERROR", true);
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(fileIntent);
+                uploadFileRequest = null;
+                break;
+            case UPLOAD:
+                for (byte[] packet : this.uploadFileRequest.packets) {
+                    new TransactionBuilder("File upload").write(characteristic, packet).queue(getDeviceSupport().getQueue());
+                }
+                break;
+            case UPLOADED:
+                fileIntent = new Intent(QHYBRID_EVENT_FILE_UPLOADED);
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(fileIntent);
+                uploadFileRequest = null;
+                break;
+        }
+        return true;
+    }
+
+    private boolean handleButtonCharacteristic(BluetoothGattCharacteristic characteristic) {
+        byte[] value = characteristic.getValue();
+        if (value.length != 11) {
+            logger.debug("wrong button message");
+            return true;
+        }
+        int index = value[6] & 0xFF;
+        int button = value[8] >> 4 & 0xFF;
+
+        if (index != this.lastButtonIndex) {
+            lastButtonIndex = index;
+            logger.debug("Button press on button " + button);
+
+            Intent i = new Intent(QHYBRID_EVENT_BUTTON_PRESS);
+            i.putExtra("BUTTON", button);
+
+            //ByteBuffer buffer = ByteBuffer.allocate(16);
+            //buffer.put(new byte[]{0x01, 0x00, 0x08});
+            //buffer.put(value, 2, 8);
+            //buffer.put(new byte[]{(byte)0xFF, 0x05, 0x00, 0x01, 0x00});
+
+            //UploadFileRequest request = new UploadFileRequest((short)0, buffer.array());
+            //for(byte[] packet : request.packets){
+            //    new TransactionBuilder("File upload").write(getCharacteristic(UUID.fromString("3dda0007-957f-7d4a-34a6-74696673696d")), packet).queue(getQueue());
+            //}
+
+            getContext().sendBroadcast(i);
+        }
+        return true;
+    }
+
+
+    public void setActivityHand(double progress) {
+        queueWrite(new SetCurrentStepCountRequest(Math.min((int) (1000000 * progress), 999999)));
+    }
+
+
+    public void setHands(short hour, short minute) {
+        queueWrite(new MoveHandsRequest(false, minute, hour, (short) -1));
+    }
+
+    public void vibrate(PlayNotificationRequest.VibrationType vibration) {
+        queueWrite(new PlayNotificationRequest(vibration, -1, -1));
+    }
+
+    @Override
+    public void requestHandsControl() {
+        queueWrite(new RequestHandControlRequest());
+    }
+
+    @Override
+    public void releaseHandsControl() {
+        queueWrite(new ReleaseHandsControlRequest());
+    }
+
+    @Override
+    public void setStepGoal(int stepGoal) {
+        queueWrite(new SetStepGoalRequest(stepGoal));
+    }
+
+    @Override
+    public void setVibrationStrength(short strength) {
+        queueWrite(new SetVibrationStrengthRequest(strength));
+    }
+
+
+    @Override
+    public void overwriteButtons() {
+        uploadFileRequest = new UploadFileRequest((short) 0x0800, new byte[]{
+                (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x03, (byte) 0x10, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x20, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00,
+                (byte) 0x30, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x2E, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01,
+                (byte) 0x00, (byte) 0x06, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x03, (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x0F, (byte) 0x00, (byte) 0x8B, (byte) 0x00, (byte) 0x00, (byte) 0x93, (byte) 0x00, (byte) 0x01,
+                (byte) 0x08, (byte) 0x01, (byte) 0x14, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0xFE, (byte) 0x08, (byte) 0x00, (byte) 0x93, (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x00, (byte) 0xBF, (byte) 0xD5, (byte) 0x54, (byte) 0xD1,
+                (byte) 0x00
+        });
+        queueWrite(uploadFileRequest);
+    }
+
+    private void queueWrite(Request request) {
+        new TransactionBuilder(request.getClass().getSimpleName()).write(getDeviceSupport().getCharacteristic(request.getRequestUUID()), request.getRequestData()).queue(getDeviceSupport().getQueue());
+        // if (request instanceof FileRequest) this.fileRequest = request;
+
+        if (!request.expectsResponse()) {
+            try {
+                queueWrite(requestQueue.remove());
+            } catch (NoSuchElementException e) {
+            }
+        }
+    }
+}

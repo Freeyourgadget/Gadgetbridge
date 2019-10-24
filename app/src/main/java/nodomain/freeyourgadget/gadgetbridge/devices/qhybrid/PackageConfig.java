@@ -4,10 +4,10 @@ import android.util.Log;
 
 import java.io.Serializable;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.PlayNotificationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 
 public class PackageConfig implements Serializable {
-    private short min, hour;
+    private short min, hour, activity = -1;
     private String packageName, appName;
     private PlayNotificationRequest.VibrationType vibration;
     private boolean respectSilentMode;
@@ -19,6 +19,13 @@ public class PackageConfig implements Serializable {
         this.packageName = packageName;
         this.appName = appName;
         this.respectSilentMode = respectSilentMode;
+        this.vibration = vibration;
+    }
+
+    public PackageConfig(short min, short hour, short activity, PlayNotificationRequest.VibrationType vibration) {
+        this.min = min;
+        this.hour = hour;
+        this.activity = activity;
         this.vibration = vibration;
     }
 
@@ -88,6 +95,14 @@ public class PackageConfig implements Serializable {
 
     public short getHour() {
         return hour;
+    }
+
+    public short getActivity() {
+        return activity;
+    }
+
+    public void setActivity(short activity) {
+        this.activity = activity;
     }
 
     public String getPackageName() {

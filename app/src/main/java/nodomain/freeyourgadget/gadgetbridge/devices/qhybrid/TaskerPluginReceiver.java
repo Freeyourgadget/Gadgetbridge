@@ -6,7 +6,7 @@ import android.content.Intent;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.PlayNotificationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 
 public class TaskerPluginReceiver extends BroadcastReceiver {
 
