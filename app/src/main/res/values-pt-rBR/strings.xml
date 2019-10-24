@@ -777,4 +777,5 @@
 \nNota: você não precisa instalar .res se esse arquivo for exatamente o mesmo que os instalados anteriormente. 
 \n 
 \nPROSSIGA POR SUA CONTA E RISCO!</string>
+    <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
 </resources>
