@@ -58,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mis
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SetTimeRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SetVibrationStrengthRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.UploadFileRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.VibrateRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.ITEM_ACTIVITY_POINT;
@@ -85,14 +86,14 @@ public class MisfitWatchAdapter extends WatchAdapter {
 
     @Override
     public void initialize() {
-        requestQueue.add(new GetCurrentStepCountRequest());
+        requestQueue.add(new GetStepGoalRequest());
         requestQueue.add(new GetVibrationStrengthRequest());
         requestQueue.add(new ActivityPointGetRequest());
         requestQueue.add(prepareSetTimeRequest());
         requestQueue.add(new AnimationRequest());
+        requestQueue.add(new SetCurrentStepCountRequest((int) (999999 * getDeviceSupport().calculateNotificationProgress())));
 
-        //TODO
-        // requestQueue.add(new SetCurrentStepCountRequest((int) (999999 * calculateNotificationProgress())));
+        queueWrite(new GetCurrentStepCountRequest());
     }
 
 
@@ -100,8 +101,7 @@ public class MisfitWatchAdapter extends WatchAdapter {
         long millis = System.currentTimeMillis();
         TimeZone zone = new GregorianCalendar().getTimeZone();
         return new SetTimeRequest(
-                //TODO time offset
-                (int) (millis / 1000 + 0 * 60),
+                (int) (millis / 1000 + getDeviceSupport().getTimeOffset() * 60),
                 (short) (millis % 1000),
                 (short) ((zone.getRawOffset() + zone.getDSTSavings()) / 60000));
     }
@@ -117,13 +117,14 @@ public class MisfitWatchAdapter extends WatchAdapter {
         queueWrite(new PlayNotificationRequest(
                 config.getVibration(),
                 config.getHour(),
-                config.getMin()
+                config.getMin(),
+                config.getActivity()
         ));
     }
 
     @Override
     public void setTime() {
-
+        queueWrite(prepareSetTimeRequest());
     }
 
     @Override
@@ -373,6 +374,12 @@ public class MisfitWatchAdapter extends WatchAdapter {
     }
 
     @Override
+    public void vibrateFindMyDevicePattern() {
+        queueWrite(new VibrateRequest(false, (short) 4, (short) 1));
+    }
+
+
+    @Override
     public void requestHandsControl() {
         queueWrite(new RequestHandControlRequest());
     }
@@ -392,6 +399,49 @@ public class MisfitWatchAdapter extends WatchAdapter {
         queueWrite(new SetVibrationStrengthRequest(strength));
     }
 
+    @Override
+    public boolean supportsExtendedVibration() {
+        String modelNumber = getDeviceSupport().getDevice().getModel();
+        switch (modelNumber) {
+            case "HW.0.0":
+                return true;
+            case "HL.0.0":
+                return false;
+        }
+        throw new UnsupportedOperationException("Model " + modelNumber + " not supported");
+    }
+
+    @Override
+    public boolean supportsActivityHand() {
+        String modelNumber = getDeviceSupport().getDevice().getModel();
+        switch (modelNumber) {
+            case "HW.0.0":
+                return true;
+            case "HL.0.0":
+                return false;
+        }
+        throw new UnsupportedOperationException("Model " + modelNumber + " not supported");
+    }
+
+    @Override
+    public String getModelName() {
+        String modelNumber = getDeviceSupport().getDevice().getModel();
+        switch (modelNumber) {
+            case "HW.0.0":
+                return "Q Commuter";
+            case "HL.0.0":
+                return "Q Activist";
+        }
+        return "unknwon Q";
+    }
+
+    @Override
+    public void onFetchActivityData() {
+        requestQueue.add(new BatteryLevelRequest());
+        requestQueue.add(new GetCurrentStepCountRequest());
+        // requestQueue.add(new ListFilesRequest());
+        queueWrite(new ActivityPointGetRequest());
+    }
 
     @Override
     public void overwriteButtons() {

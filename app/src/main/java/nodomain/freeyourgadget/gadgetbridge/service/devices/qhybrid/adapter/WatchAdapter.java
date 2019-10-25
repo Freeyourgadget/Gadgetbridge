@@ -36,10 +36,17 @@ public abstract class WatchAdapter {
     public abstract void setActivityHand(double progress);
     public abstract void setHands(short hour, short minute);
     public abstract void vibrate(PlayNotificationRequest.VibrationType vibration);
+    public abstract void vibrateFindMyDevicePattern();
     public abstract void requestHandsControl();
     public abstract void releaseHandsControl();
     public abstract void setStepGoal(int stepGoal);
     public abstract void setVibrationStrength(short strength);
+
+    public abstract boolean supportsExtendedVibration();
+    public abstract boolean supportsActivityHand();
+    public abstract String getModelName();
+
+    public abstract void onFetchActivityData();
 
     public abstract boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic);
 
