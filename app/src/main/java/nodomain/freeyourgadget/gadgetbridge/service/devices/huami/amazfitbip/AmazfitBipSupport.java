@@ -124,7 +124,7 @@ public class AmazfitBipSupport extends HuamiSupport {
                     appSuffix = appName.getBytes();
                     suffixlength = appSuffix.length;
                 }
-                if (gbDevice.getType() == DeviceType.MIBAND4) {
+                if (gbDevice.getType() == DeviceType.MIBAND4 || gbDevice.getType() == DeviceType.AMAZFITGTR) {
                     prefixlength += 4;
                 }
 
@@ -134,7 +134,7 @@ public class AmazfitBipSupport extends HuamiSupport {
                 byte[] command = new byte[length + prefixlength + suffixlength];
                 int pos = 0;
                 command[pos++] = (byte) alertCategory.getId();
-                if (gbDevice.getType() == DeviceType.MIBAND4) {
+                if (gbDevice.getType() == DeviceType.MIBAND4 || gbDevice.getType() == DeviceType.AMAZFITGTR) {
                     command[pos++] = 0; // TODO
                     command[pos++] = 0;
                     command[pos++] = 0;

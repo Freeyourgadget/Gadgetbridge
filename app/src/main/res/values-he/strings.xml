@@ -755,9 +755,16 @@
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
     <string name="prefs_find_phone">איתור הטלפון</string>
-    <string name="prefs_enable_find_phone">הפעלת איתור הטלפון</string>
+    <string name="prefs_enable_find_phone">הפעלת ‚איתור הטלפון’</string>
     <string name="prefs_find_phone_summary">ניתן להשתמש בצמיד כדי שהטלפון שלך ישמיע צלצול.</string>
     <string name="prefs_find_phone_duration">משך זמן הצלצול בשניות</string>
     <string name="maximum_duration">משך</string>
     <string name="discovery_need_to_enter_authkey">למכשיר זה נדרש מפתח אימות סודי, יש לגעת נגיעה ארוכה על המכשיר כדי להזין אותו. פרטים נוספים בוויקי.</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">פעולה זו תתקין את הקושחה %s על ה־Amazfit Bip Lite שלך.
+\n
+\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw.
+\n
+\nלתשומת לבך: אין צורך בהתקנת קובץ ה־‎.res אם הוא כבר זהה לזה שהתקנת בעבר.
+\n
+\nהמשך התהליך הוא על אחריותך!</string>
 </resources>

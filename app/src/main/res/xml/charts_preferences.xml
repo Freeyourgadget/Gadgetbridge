@@ -17,6 +17,15 @@
             android:maxLength="3"
             android:defaultValue="10"
             android:title="@string/activity_prefs_chart_min_heart_rate" />
+
+        <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
+            android:defaultValue="false"
+            android:key="chart_heartrate_color"
+            android:summaryOff="@string/pref_chart_heartrate_color_orange"
+            android:summaryOn="@string/pref_chart_heartrate_color_red"
+            android:title="@string/pref_title_chart_heartrate_color" />
+
         <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="true"

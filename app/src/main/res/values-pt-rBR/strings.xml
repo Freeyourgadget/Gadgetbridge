@@ -367,12 +367,12 @@
     <string name="controlcenter_snackbar_connecting">Conectando…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Tirar captura de tela do dispositivo</string>
     <string name="title_activity_calblacklist">Blacklist do Calendário</string>
-    <string name="fw_upgrade_notice_amazfitbip">Você está prestes a instalar o firmware %s no seu Amazip Bip.
-\n
-\nCertifique-se de instalar o firmware .gps, depois o arquivo .res e, finalmente, o arquivo .fw. Seu relógio será reiniciado após a instalação do arquivo .fw.
-\n
-\nNota: você não precisa instalar .res e .gps se esses arquivos forem exatamente os mesmos que os instalados anteriormente.
-\n
+    <string name="fw_upgrade_notice_amazfitbip">Você está prestes a instalar o firmware %s no seu Amazfit Bip. 
+\n 
+\nCertifique-se de instalar o firmware .fw, depois o arquivo .res e finalmente o arquivo .gps. Seu relógio será reiniciado após a instalação do arquivo .fw. 
+\n 
+\nNota: você não precisa instalar .res e .gps se esses arquivos forem exatamente os mesmos que os instalados anteriormente. 
+\n 
 \nPROSSIGA POR SUA CONTA E RISCO!</string>
     <string name="fw_upgrade_notice_amazfitcor">Você está prestes a instalar o firmware %s no seu Amazfit Cor.
 \n
@@ -770,4 +770,12 @@
     <string name="prefs_find_phone_duration">Duração do toque sonoro em segundos</string>
     <string name="maximum_duration">Duração</string>
     <string name="discovery_need_to_enter_authkey">Esse dispositivo precisa de sua chave de autenticação secreta, realize pressionamento longo no dispositivo para inseri-lo. Leia o wiki.</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">Você está prestes a instalar o firmware %s no seu Amazit Bip Lite. 
+\n 
+\nCertifique-se de instalar o arquivo .fw, e depois o arquivo .res. Seu relógio será reiniciado após a instalação do arquivo .fw. 
+\n 
+\nNota: você não precisa instalar .res se esse arquivo for exatamente o mesmo que os instalados anteriormente. 
+\n 
+\nPROSSIGA POR SUA CONTA E RISCO!</string>
+    <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
 </resources>

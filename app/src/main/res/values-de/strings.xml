@@ -419,11 +419,11 @@
     <string name="discovery_dont_pair">Nicht koppeln</string>
     <string name="stats_title">Geschwindigkeitszonen</string>
     <string name="fw_upgrade_notice_amazfitbip">Du bist dabei, die Firmware %s auf deine Amazfit Bip zu installieren.
-\n 
+\n
 \nBitte stelle sicher, dass du die .fw Datei, dann die .res Datei und schließlich die .gps Datei installierst. Deine Uhr wird nach der Installation der .fw Datei neu gestartet.
-\n 
+\n
 \nHinweis: Du musst die .res und .gps nicht installieren, wenn diese Dateien genau die gleichen sind wie die zuvor installierten.
-\n 
+\n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_actions">Tastenaktionen</string>
     <string name="mi2_prefs_button_actions_summary">Bestimmte Aktion bei Tastendruck auf dem Mi Band 2</string>
@@ -446,7 +446,7 @@
     <string name="english">Englisch</string>
     <string name="fw_upgrade_notice_amazfitcor">Du bist dabei, die Firmware %s auf deine Amazfit Cor zu installieren.
 \n
-\nBitte stelle sicher, dass du die .fw Datei und die .res Datei installierst. Dein Band wird nach der Installation der .fw Datei neu gestartet.
+\nBitte stelle sicher, dass du die .fw Datei und danach die .res Datei installierst. Dein Band wird nach der Installation der .fw Datei neu gestartet.
 \n
 \nHinweis: Du musst .res nicht installieren, wenn es genau das gleiche ist, wie die zuvor installierte.
 \n
@@ -695,16 +695,12 @@
     <string name="pref_summary_authkey">Ändere den Authentifizierungsschlüssel in einen gemeinsamen Schlüssel auf all deinen Android-Geräten, von denen aus du eine Verbindung herstellen möchtet. Der bisherige Standardschlüssel für alle Geräte ist 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
     <string name="fw_upgrade_notice_amazfitcor2">Du bist dabei, die %s-Firmware auf deine Amazfit Cor 2 zu installieren.
-\n 
-\n 
-\nBitte stelle sicher, dass Du die .fw-Datei und danach die .res-Datei installierst. Dein Band wird nach der Installation der.fw-Datei neu gestartet:
 \n
-\n
+\nBitte stelle sicher, dass Du die .fw-Datei und danach die .res-Datei installierst. Dein Band wird nach der Installation der.fw-Datei neu gestartet.
+\n 
 \nHinweis: Du musst .res nicht installieren, wenn es genau das gleiche ist, wie die zuvor installierte.
 \n
-\n
 \nAUF EIGENE GEFAHR!
-\n
 \n
 \nVOLLSTÄNDIG UNGETESTET, WAHRSCHEINLICH MUSST DU EINE BEATS_W FIRMWARE FLASHEN, WENN DEIN GERÄTENAME \"Amazfit Band 2\" IST</string>
     <string name="dutch">Niederländisch</string>
@@ -776,4 +772,12 @@
     <string name="prefs_find_phone_summary">Verwende dein Band, um den Klingelton deines Handys wiederzugeben.</string>
     <string name="prefs_find_phone_duration">Klingeldauer in Sekunden</string>
     <string name="maximum_duration">Dauer</string>
+    <string name="discovery_need_to_enter_authkey">Dieses Gerät benötigt eine geheime Authentifikationstaste, die du mit einem langen Druck auf das Gerät eingeben kannst. Lies das Wiki.</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">Du bist dabei, die Firmware %s auf deine Amazfit Bip Lite zu installieren.
+\n
+\nBitte stelle sicher, dass du die .fw Datei und danach die .res Datei installierst. Dein Uhr wird nach der Installation der .fw Datei neu gestartet.
+\n
+\nHinweis: Du musst .res nicht installieren, wenn es genau das gleiche ist, wie die zuvor installierte.
+\n
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
 </resources>
