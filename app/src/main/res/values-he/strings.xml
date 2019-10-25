@@ -767,4 +767,15 @@
 \nלתשומת לבך: אין צורך בהתקנת קובץ ה־‎.res אם הוא כבר זהה לזה שהתקנת בעבר.
 \n
 \nהמשך התהליך הוא על אחריותך!</string>
+    <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
+    <string name="fw_upgrade_notice_amazfitgtr">פעולה זו תתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Amazfit GTR שלך. 
+\n 
+\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res ולבסוף קובץ ה־‎.gps השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw. 
+\n 
+\nלתשומת לבך: אין צורך בהתקנת קובצי ה־‎.res וה־‎.gps אם הם כבר זהים לאלו שהתקנת בעבר. 
+\n 
+\nהמשך התהליך הוא על אחריותך!</string>
+    <string name="pref_chart_heartrate_color_red">אדום</string>
+    <string name="pref_chart_heartrate_color_orange">כתום</string>
+    <string name="pref_title_chart_heartrate_color">צבע דופק</string>
 </resources>
