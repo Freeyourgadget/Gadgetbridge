@@ -6,8 +6,7 @@
 * Makibes HR3: Support the english version
 * Makibes HR3: Enable bluetooth pairing for working reconnection
 * Work around crash when trying to display changelog
-* "Limit sleep charts range" (FIXME)
-* " Check for non empty list of sleep sessions" (FIXME)
+* Sleep detection settings: Rolling 24 hours (existing style) or Noon to noon
 
 #### Version 0.37.1
 * Amazfit Bip Lite: Support flashing firmware and watchfaces

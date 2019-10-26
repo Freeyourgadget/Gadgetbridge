@@ -48,6 +48,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.SleepAnalysis.SleepSession;
@@ -56,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
 public class SleepChartFragment extends AbstractChartFragment {
@@ -72,17 +74,26 @@ public class SleepChartFragment extends AbstractChartFragment {
 
     @Override
     protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
-        List<? extends ActivitySample> samples = getSamplesofSleep(db, device);
+        Prefs prefs = GBApplication.getPrefs();
+        List<? extends ActivitySample> samples;
+        if (prefs.getBoolean("chart_sleep_range_24h", false)) {
+            samples = getSamples(db, device);
+        }else{
+            samples = getSamplesofSleep(db, device);
+        }
 
         MySleepChartsData mySleepChartsData = refreshSleepAmounts(device, samples);
-        if (mySleepChartsData.sleepSessions.size()>0) {
-            long tstart = mySleepChartsData.sleepSessions.get(0).getSleepStart().getTime() / 1000;
-            long tend = mySleepChartsData.sleepSessions.get(mySleepChartsData.sleepSessions.size() - 1).getSleepEnd().getTime() / 1000;
 
-            for (Iterator<ActivitySample> iterator = (Iterator<ActivitySample>) samples.iterator(); iterator.hasNext(); ) {
-                ActivitySample sample = iterator.next();
-                if (sample.getTimestamp() < tstart || sample.getTimestamp() > tend) {
-                    iterator.remove();
+        if (!prefs.getBoolean("chart_sleep_range_24h", false)) {
+            if (mySleepChartsData.sleepSessions.size() > 0) {
+                long tstart = mySleepChartsData.sleepSessions.get(0).getSleepStart().getTime() / 1000;
+                long tend = mySleepChartsData.sleepSessions.get(mySleepChartsData.sleepSessions.size() - 1).getSleepEnd().getTime() / 1000;
+
+                for (Iterator<ActivitySample> iterator = (Iterator<ActivitySample>) samples.iterator(); iterator.hasNext(); ) {
+                    ActivitySample sample = iterator.next();
+                    if (sample.getTimestamp() < tstart || sample.getTimestamp() > tend) {
+                        iterator.remove();
+                    }
                 }
             }
         }
