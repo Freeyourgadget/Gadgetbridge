@@ -43,4 +43,5 @@
     <string name="blacklist_all_for_notifications">Svartlista alla notifieringar</string>
     <string name="title_activity_calblacklist">Svartlistade kalendrar</string>
     <string name="title_activity_fw_app_insaller">FW/App-installerare</string>
+    <string name="pref_chart_heartrate_color_red">Röd</string>
 </resources>
