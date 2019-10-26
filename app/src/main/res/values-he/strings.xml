@@ -778,4 +778,7 @@
     <string name="pref_chart_heartrate_color_red">אדום</string>
     <string name="pref_chart_heartrate_color_orange">כתום</string>
     <string name="pref_title_chart_heartrate_color">צבע דופק</string>
+    <string name="pref_title_chart_sleep_rolling_24_hour">טווח שינה</string>
+    <string name="pref_chart_sleep_rolling_24_on">24 השעות האחרונות</string>
+    <string name="pref_chart_sleep_rolling_24_off">צהריים עד צהריים</string>
 </resources>
