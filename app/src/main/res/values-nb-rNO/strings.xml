@@ -769,4 +769,8 @@
 \nMerk: Du trenger ikke å installere .res-filen hvis den er akkurat den samme som den som allerede er installert. 
 \n 
 \nFORTSETT PÅ EGEN RISIKO!</string>
+    <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
+    <string name="pref_chart_heartrate_color_red">Rød</string>
+    <string name="pref_chart_heartrate_color_orange">Oransje</string>
+    <string name="pref_title_chart_heartrate_color">Pulsfarge</string>
 </resources>
