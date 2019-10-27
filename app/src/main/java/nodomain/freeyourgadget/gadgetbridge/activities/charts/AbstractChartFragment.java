@@ -720,7 +720,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected List<? extends ActivitySample> getSamplesofSleep(DBHandler db, GBDevice device) {
-        int SLEEP_HOUR_LIMIT = 12;
+        int SLEEP_HOUR_LIMIT = 13;
 
         int tsStart = getTSStart();
         Calendar day = GregorianCalendar.getInstance();

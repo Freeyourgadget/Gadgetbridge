@@ -752,7 +752,7 @@
         <item quantity="other">%d uren</item>
     </plurals>
     <string name="pref_display_add_device_fab">Verbind nieuw apparaat knop</string>
-    <string name="pref_display_add_device_fab_on">Altijd zichtbaar</string>
+    <string name="pref_display_add_device_fab_on">Altijkd zichtbaar</string>
     <string name="pref_display_add_device_fab_off">Alleen zichtbaar als er geen apparaat toegevoegd is</string>
     <string name="activity_error_no_app_for_gpx">Om de route van de activiteit te zien: installeer een app die GPX bestanden kan tonen.</string>
     <string name="preferences_makibes_hr3_settings">Makibes HR3 instellingen</string>
@@ -771,15 +771,4 @@
 \nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd. 
 \n 
 \nGA VERDER OP EIGEN RISICO!</string>
-    <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
-    <string name="fw_upgrade_notice_amazfitgtr">U staat op het punt om de firmware %s te installeren op uw Amazfit GTR. 
-\n 
-\nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand en als laatste het .gps-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand. 
-\n 
-\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd. 
-\n 
-\nGA VERDER OP EIGEN RISICO!</string>
-    <string name="pref_chart_heartrate_color_red">Rood</string>
-    <string name="pref_chart_heartrate_color_orange">Oranje</string>
-    <string name="pref_title_chart_heartrate_color">Kleur hartslag</string>
 </resources>

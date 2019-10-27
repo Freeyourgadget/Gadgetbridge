@@ -532,10 +532,6 @@
     <string name="pref_title_chart_heartrate_color">Heart rate color</string>
     <string name="weekstepschart_steps_a_month">Steps per month</string>
     <string name="weeksleepchart_sleep_a_month">Sleep per month</string>
-    <string name="pref_title_chart_sleep_rolling_24_hour">Sleep range</string>
-    <string name="pref_chart_sleep_rolling_24_on">Past 24 hours</string>
-    <string name="pref_chart_sleep_rolling_24_off">Noon to noon</string>
-
     <string name="authenticating">Authenticating</string>
     <string name="authentication_required">Authentication required</string>
     <string name="activity_prefs_sleep_duration">Preferred sleep duration in hours</string>
@@ -687,6 +683,7 @@
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>
+    <string name="devicetype_amazfit_gts">Amazfit GTS</string>
     <!-- Menus on the smart device -->
     <string name="menuitem_shortcut_alipay">Alipay (Shortcut)</string>
     <string name="menuitem_shortcut_weather">Weather (Shortcut)</string>

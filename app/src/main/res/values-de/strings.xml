@@ -779,15 +779,4 @@
 \nHinweis: Du musst .res nicht installieren, wenn es genau das gleiche ist, wie die zuvor installierte.
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
-    <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
-    <string name="fw_upgrade_notice_amazfitgtr">Du bist dabei, die Firmware %s auf deine Amazfit GTR zu installieren.
-\n
-\nBitte stelle sicher, dass du die .fw Datei, dann die .res Datei und schließlich die .gps Datei installierst. Deine Uhr wird nach der Installation der .fw Datei neu gestartet.
-\n
-\nHinweis: Du musst die .res und .gps nicht installieren, wenn diese Dateien genau die gleichen sind wie die zuvor installierten.
-\n
-\nINSTALLATION AUF EIGENE GEFAHR!</string>
-    <string name="pref_chart_heartrate_color_red">Rot</string>
-    <string name="pref_chart_heartrate_color_orange">Orange</string>
-    <string name="pref_title_chart_heartrate_color">Farbe der Herzfrequenz</string>
 </resources>

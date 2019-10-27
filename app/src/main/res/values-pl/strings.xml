@@ -550,5 +550,4 @@
     <string name="error_creating_directory_for_logfiles">Błąd tworzenia folderu na pliki log: %1$s</string>
     <string name="DEVINFO_HR_VER">"Puls: "</string>
     <string name="filter_mode_whitelist">Pokazuj gdy zawiera słowa</string>
-    <string name="pref_chart_heartrate_color_red">Czerwony</string>
 </resources>

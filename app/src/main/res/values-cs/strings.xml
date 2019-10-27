@@ -769,15 +769,4 @@
 \nPoznámka: Nemusíte instalovat soubory .res , pokud je tento soubor přesně stejný jako ten, který byl nainstalován dříve. 
 \n 
 \nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
-    <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
-    <string name="fw_upgrade_notice_amazfitgtr">Chystáte se nainstalovat firmvér %s na vašem Amazfit GTR. 
-\n 
-\nProsím nezapomeňte nainstalovat soubor .fw, potom soubor .res a nakonec soubor .gps. Vaše hodinky se po instalaci souboru .fw restartují. 
-\n 
-\nPoznámka: Nemusíte instalovat .res a .gps, pokud jsou tyto soubory přesně stejné jako ty, které byly nainstalovány dříve. 
-\n 
-\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
-    <string name="pref_chart_heartrate_color_red">Červená</string>
-    <string name="pref_chart_heartrate_color_orange">Oranžová</string>
-    <string name="pref_title_chart_heartrate_color">Barva tepové frekvence</string>
 </resources>

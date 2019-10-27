@@ -774,15 +774,4 @@
 \n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件 
 \n  
 \n风险自担！"</string>
-    <string name="devicetype_amazfit_gtr">华米 GTR</string>
-    <string name="fw_upgrade_notice_amazfitgtr">即将在您的 华米 GTR (Amazfit GTR) 上安装固件 %s 。
-\n
-\n请确保先安装 .fw 文件，然后再安装 .res 文件，最后再安装 .gps 文件。您的手表将会安装了 .fw 文件后重启。
-\n
-\n注意：如果 .res 和 .gps 文件和上一个版本相同，您则无需安装。
-\n
-\n风险自担！</string>
-    <string name="pref_chart_heartrate_color_red">红</string>
-    <string name="pref_chart_heartrate_color_orange">橙</string>
-    <string name="pref_title_chart_heartrate_color">心率颜色</string>
 </resources>
