@@ -785,4 +785,7 @@
     <string name="pref_chart_heartrate_color_red">红</string>
     <string name="pref_chart_heartrate_color_orange">橙</string>
     <string name="pref_title_chart_heartrate_color">心率颜色</string>
+    <string name="pref_title_chart_sleep_rolling_24_hour">睡眠范围</string>
+    <string name="pref_chart_sleep_rolling_24_on">过去 24 小时</string>
+    <string name="pref_chart_sleep_rolling_24_off">中午到中午</string>
 </resources>
