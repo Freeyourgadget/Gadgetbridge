@@ -2,6 +2,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mi
 
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+
 public class FileRequest extends Request {
     public boolean completed = false;
     public int status;

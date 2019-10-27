@@ -2,6 +2,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mi
 
 import android.bluetooth.BluetoothGattCharacteristic;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+
 public class OTAEnterRequest extends Request {
     public boolean success = false;
 

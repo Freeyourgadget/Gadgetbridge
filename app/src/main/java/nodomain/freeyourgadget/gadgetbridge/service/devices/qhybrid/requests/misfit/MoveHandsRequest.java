@@ -3,6 +3,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mi
 
 import java.nio.ByteBuffer;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+
 public class MoveHandsRequest extends Request {
     public MoveHandsRequest(boolean moveRelative, short degreesMin, short degreesHour, short degreesSub){
         init(moveRelative, degreesMin, degreesHour, degreesSub);

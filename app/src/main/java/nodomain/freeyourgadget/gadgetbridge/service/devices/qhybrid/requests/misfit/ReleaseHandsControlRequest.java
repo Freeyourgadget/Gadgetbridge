@@ -3,6 +3,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mi
 
 import java.nio.ByteBuffer;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+
 public class ReleaseHandsControlRequest extends Request {
     public ReleaseHandsControlRequest(){
         super();

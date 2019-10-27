@@ -37,10 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.WatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.WatchAdapterFactory;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.DownloadFileRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.GetStepGoalRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.Request;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.VibrateRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class QHybridSupport extends QHybridBaseSupport {
@@ -264,7 +261,7 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     @Override
     public void onTestNewFunction() {
-
+        watchAdapter.onTestNewFunction();
     }
 
     private void backupFile(DownloadFileRequest request) {

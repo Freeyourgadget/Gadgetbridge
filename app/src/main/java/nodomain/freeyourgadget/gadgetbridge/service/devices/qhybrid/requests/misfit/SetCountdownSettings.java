@@ -2,6 +2,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mi
 
 import java.nio.ByteBuffer;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+
 public class SetCountdownSettings extends Request {
     public SetCountdownSettings(int startTime, int endTime, short offset) {
         ByteBuffer buffer = createBuffer();

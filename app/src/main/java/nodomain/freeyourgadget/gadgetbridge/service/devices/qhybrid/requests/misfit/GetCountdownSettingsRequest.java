@@ -5,6 +5,8 @@ import android.util.Log;
 
 import java.nio.ByteBuffer;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+
 public class GetCountdownSettingsRequest extends Request {
     @Override
     public byte[] getStartSequence() {

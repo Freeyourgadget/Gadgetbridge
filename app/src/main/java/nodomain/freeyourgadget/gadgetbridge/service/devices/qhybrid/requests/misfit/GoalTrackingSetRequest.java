@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+
 public class GoalTrackingSetRequest extends Request {
     public GoalTrackingSetRequest(int id, boolean state) {
 

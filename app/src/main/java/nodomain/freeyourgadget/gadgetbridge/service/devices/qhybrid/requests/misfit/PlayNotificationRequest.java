@@ -3,6 +3,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mi
 import java.nio.ByteBuffer;
 import java.security.InvalidParameterException;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+
 public class PlayNotificationRequest extends Request {
 
     public enum VibrationType{

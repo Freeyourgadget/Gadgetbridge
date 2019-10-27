@@ -13,7 +13,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.CRC32C;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 
-public class UploadFileRequest extends Request {
+public abstract class FilePutRequest extends Request {
     public enum UploadState{INITIALIZED, UPLOADING, CLOSING, UPLOADED, ERROR}
 
     public UploadState state;
@@ -26,7 +26,7 @@ public class UploadFileRequest extends Request {
 
     private FossilWatchAdapter adapter;
 
-    public UploadFileRequest(short handle, byte[] file, FossilWatchAdapter adapter) {
+    public FilePutRequest(short handle, byte[] file, FossilWatchAdapter adapter) {
         this.handle = handle;
         this.adapter = adapter;
 

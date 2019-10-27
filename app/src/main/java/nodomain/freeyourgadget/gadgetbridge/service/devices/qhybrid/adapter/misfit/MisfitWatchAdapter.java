@@ -3,10 +3,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.mis
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
-import android.os.Build;
 import android.util.Log;
 import android.util.SparseArray;
-import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -29,8 +27,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfig;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.WatchAdapter;
@@ -51,7 +47,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mis
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.OTAEraseRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.ReleaseHandsControlRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.Request;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.RequestHandControlRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SetCurrentStepCountRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SetStepGoalRequest;
@@ -59,7 +55,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mis
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SetVibrationStrengthRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.UploadFileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.VibrateRequest;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.ITEM_ACTIVITY_POINT;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.ITEM_STEP_COUNT;
@@ -173,16 +168,6 @@ public class MisfitWatchAdapter extends WatchAdapter {
             }
         }
         return getDeviceSupport().onCharacteristicChanged(gatt, characteristic);
-    }
-
-    private String arrayToString(byte[] bytes) {
-        if (bytes.length == 0) return "";
-        StringBuilder s = new StringBuilder();
-        final String chars = "0123456789ABCDEF";
-        for (byte b : bytes) {
-            s.append(chars.charAt((b >> 4) & 0xF)).append(chars.charAt(b & 0xF)).append(" ");
-        }
-        return s.substring(0, s.length() - 1) + "\n";
     }
 
     private void fillResponseList() {
@@ -349,7 +334,7 @@ public class MisfitWatchAdapter extends WatchAdapter {
             //buffer.put(value, 2, 8);
             //buffer.put(new byte[]{(byte)0xFF, 0x05, 0x00, 0x01, 0x00});
 
-            //UploadFileRequest request = new UploadFileRequest((short)0, buffer.array());
+            //FilePutRequest request = new FilePutRequest((short)0, buffer.array());
             //for(byte[] packet : request.packets){
             //    new TransactionBuilder("File upload").write(getCharacteristic(UUID.fromString("3dda0007-957f-7d4a-34a6-74696673696d")), packet).queue(getQueue());
             //}
@@ -397,6 +382,11 @@ public class MisfitWatchAdapter extends WatchAdapter {
     @Override
     public void setVibrationStrength(short strength) {
         queueWrite(new SetVibrationStrengthRequest(strength));
+    }
+
+    @Override
+    public void onTestNewFunction() {
+
     }
 
     @Override

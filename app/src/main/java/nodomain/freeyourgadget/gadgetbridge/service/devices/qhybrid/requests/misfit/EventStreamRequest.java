@@ -3,6 +3,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mi
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+
 public class EventStreamRequest extends Request {
     public EventStreamRequest(short handle) {
         super();

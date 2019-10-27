@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.zip.CRC32;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+
 public class UploadFileRequest extends Request {
     public enum UploadState{INITIALIZED, UPLOAD, UPLOADED, ERROR}
 

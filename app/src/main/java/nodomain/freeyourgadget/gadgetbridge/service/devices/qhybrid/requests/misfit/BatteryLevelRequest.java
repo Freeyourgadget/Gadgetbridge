@@ -5,6 +5,8 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+
 public class BatteryLevelRequest extends Request {
     public short level = -1;
     @Override

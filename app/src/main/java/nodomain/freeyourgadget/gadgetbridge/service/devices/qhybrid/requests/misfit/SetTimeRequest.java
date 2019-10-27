@@ -2,6 +2,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mi
 
 import java.nio.ByteBuffer;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+
 public class SetTimeRequest extends Request {
     public SetTimeRequest(int epochSeconds, short millis, short minutesOffset) {
         ByteBuffer buffer = createBuffer();

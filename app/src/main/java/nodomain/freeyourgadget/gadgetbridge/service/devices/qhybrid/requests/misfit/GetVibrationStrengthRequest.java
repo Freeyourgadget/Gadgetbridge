@@ -6,6 +6,8 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+
 public class GetVibrationStrengthRequest extends Request {
     public int strength = -1;
 

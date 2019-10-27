@@ -3,6 +3,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mi
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+
 public class SettingsFilePutRequest extends Request {
     public int fileLength;
     public byte[] file;

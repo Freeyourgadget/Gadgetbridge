@@ -19,7 +19,7 @@ public abstract class WatchAdapter {
         this.deviceSupport = deviceSupport;
     }
 
-    protected QHybridSupport getDeviceSupport(){
+    public QHybridSupport getDeviceSupport(){
         return this.deviceSupport;
     }
 
@@ -41,6 +41,7 @@ public abstract class WatchAdapter {
     public abstract void releaseHandsControl();
     public abstract void setStepGoal(int stepGoal);
     public abstract void setVibrationStrength(short strength);
+    public abstract void onTestNewFunction();
 
     public abstract boolean supportsExtendedVibration();
     public abstract boolean supportsActivityHand();
@@ -50,4 +51,15 @@ public abstract class WatchAdapter {
 
     public abstract boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic);
 
+
+
+    public String arrayToString(byte[] bytes) {
+        if (bytes.length == 0) return "";
+        StringBuilder s = new StringBuilder();
+        final String chars = "0123456789ABCDEF";
+        for (byte b : bytes) {
+            s.append(chars.charAt((b >> 4) & 0xF)).append(chars.charAt(b & 0xF)).append(" ");
+        }
+        return s.substring(0, s.length() - 1) + "\n";
+    }
 }

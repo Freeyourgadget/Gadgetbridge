@@ -2,6 +2,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mi
 
 import java.nio.ByteBuffer;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+
 public class SetCurrentStepCountRequest extends Request {
     public SetCurrentStepCountRequest(int steps){
         super();
