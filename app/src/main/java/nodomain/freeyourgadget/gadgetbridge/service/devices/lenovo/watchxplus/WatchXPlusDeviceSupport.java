@@ -37,13 +37,23 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.watchxplus.WatchXPlusConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.watchxplus.WatchXPlusSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.WatchXPlusActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
@@ -69,6 +79,10 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     private boolean needsAuth;
     private int sequenceNumber = 0;
     private boolean isCalibrationActive = false;
+
+    private List<Integer> heartRateDataToFetch = new ArrayList<>();
+    private int requestedHeartRateTimestamp;
+    private int heartRateDataSlots;
 
     private byte ACK_CALIBRATION = 0;
 
@@ -170,19 +184,19 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 parts++;
             }
             for (int messageIndex = 0; messageIndex < parts; messageIndex++) {
-                if(messageIndex+1 != parts || remainder == 0) {
+                if (messageIndex + 1 != parts || remainder == 0) {
                     messagePart = new byte[11];
                 } else {
-                    messagePart = new byte[remainder+2];
+                    messagePart = new byte[remainder + 2];
                 }
 
-                System.arraycopy(text, messageIndex*9, messagePart, 2, messagePart.length-2);
+                System.arraycopy(text, messageIndex * 9, messagePart, 2, messagePart.length - 2);
 
-                if(messageIndex+1 == parts) {
+                if (messageIndex + 1 == parts) {
                     messageIndex = 0xFF;
                 }
-                messagePart[0] = (byte)notificationChannel;
-                messagePart[1] = (byte)messageIndex;
+                messagePart[0] = (byte) notificationChannel;
+                messagePart[1] = (byte) messageIndex;
                 builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
                         buildCommand(command,
                                 WatchXPlusConstants.KEEP_ALIVE,
@@ -247,7 +261,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void sendCalibrationData(@IntRange(from=0,to=23)int hour, @IntRange(from=0,to=59)int minute, @IntRange(from=0,to=59)int second) {
+    private void sendCalibrationData(@IntRange(from = 0, to = 23) int hour, @IntRange(from = 0, to = 59) int minute, @IntRange(from = 0, to = 59) int second) {
         try {
             isCalibrationActive = true;
             TransactionBuilder builder = performInitialized("calibrate");
@@ -488,10 +502,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                             WatchXPlusConstants.READ_VALUE));
 
 //            Fetch heart rate data samples count
-            builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
-                    buildCommand(WatchXPlusConstants.CMD_RETRIEVE_DATA,
-                            WatchXPlusConstants.READ_VALUE,
-                            WatchXPlusConstants.HEART_RATE_DATA_TYPE));
+            requestHeartRateDataCount(builder);
 
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -572,7 +583,22 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onTestNewFunction() {
+        requestBloodPressureMeasurement();
+    }
 
+    private void requestBloodPressureMeasurement() {
+        try {
+            TransactionBuilder builder = performInitialized("bpMeasure");
+
+            byte[] command = WatchXPlusConstants.CMD_BLOOD_PRESSURE_MEASURE;
+
+            builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                    buildCommand(command,
+                            WatchXPlusConstants.TASK, new byte[]{0x01}));
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.warn("Unable to request BP Measure", e);
+        }
     }
 
     @Override
@@ -607,7 +633,9 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         UUID characteristicUUID = characteristic.getUuid();
         if (WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE.equals(characteristicUUID)) {
             byte[] value = characteristic.getValue();
-            if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_FIRMWARE_INFO, 5)) {
+            if (value[0] != 0x23) {
+                handleHeartRateContentDataChunk(value);
+            } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_FIRMWARE_INFO, 5)) {
                 handleFirmwareInfo(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_BATTERY_INFO, 5)) {
                 handleBatteryState(value);
@@ -623,12 +651,17 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 isCalibrationActive = false;
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_DAY_STEPS_INDICATOR, 5)) {
                 handleStepsInfo(value);
-            } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_HEART_RATE_DATA, 5)) {
+            } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_HEART_RATE_DATA_COUNT, 5)) {
                 LOG.info(" Received Heart rate data count");
                 handleHeartRateDataCount(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_HEART_RATE_DATA_DETAILS, 5)) {
                 LOG.info(" Received Heart rate data details");
                 handleHeartRateDetails(value);
+            } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_HEART_RATE_DATA_CONTENT, 5)) {
+                LOG.info(" Received Heart rate data content");
+                handleHeartRateContentAck(value);
+            } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_BP_MEASURE_STARTED, 5)) {
+                handleBpMeasureResult(value);
             } else if (value.length == 7 && value[5] == 0) {
                 LOG.info(" Received ACK");
 //                Not sure if that's necessary. There is no response for ACK in original app logs
@@ -649,33 +682,145 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         return false;
     }
 
-    private void handleHeartRateDetails(byte[] value) {
-        calculateHeartRateDetails(value);
-        LOG.info("Got Heart rate details");
+    /**
+     * Heart rate history retrieve flow:
+     * 1. Request for heart rate data slots count. CMD_RETRIEVE_DATA_COUNT, {@link WatchXPlusDeviceSupport#requestHeartRateDataCount}
+     * 2. Extract data count from response. RESP_HEART_RATE_DATA_COUNT, {@link WatchXPlusDeviceSupport#handleHeartRateDataCount}
+     * 3. Request for N data slot details. CMD_RETRIEVE_DATA_DETAILS, {@link WatchXPlusDeviceSupport#requestHeartRateDetails}
+     * 4. Timestamp of slot is returned, save it for later use. RESP_HEART_RATE_DATA_DETAILS, {@link WatchXPlusDeviceSupport#handleHeartRateDetails}
+     * 5. Repeat step 3-4 until all slots details retrieved.
+     * 6. Request for M data content by timestamp. CMD_RETRIEVE_DATA_CONTENT, {@link WatchXPlusDeviceSupport#requestHeartRateContentForTimestamp}
+     * 7. Receive kind of pre-flight response. RESP_HEART_RATE_DATA_CONTENT, {@link WatchXPlusDeviceSupport#handleHeartRateContentAck}
+     * 8. Receive frames with content. They are different than other frames, {@link WatchXPlusDeviceSupport#handleHeartRateContentDataChunk}
+     *      ie. 0000000255-4F4C48-434241434444454648474747, 0001000247-474645-434240FFFFFFFFFFFFFFFFFF
+     */
+    private void requestHeartRateDataCount(TransactionBuilder builder) {
+        builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                buildCommand(WatchXPlusConstants.CMD_RETRIEVE_DATA_COUNT,
+                        WatchXPlusConstants.READ_VALUE,
+                        WatchXPlusConstants.HEART_RATE_DATA_TYPE));
     }
 
     private void handleHeartRateDataCount(byte[] value) {
 
         int dataCount = Conversion.fromByteArr16(value[10], value[11]);
+        LOG.info("Watch contains " + dataCount + " heart rate entries");
+        this.heartRateDataSlots = dataCount;
+        heartRateDataToFetch.clear();
+        if (dataCount != 0) {
+            requestHeartRateDetails(heartRateDataToFetch.size());
+        }
+    }
+
+    private void requestHeartRateDetails(int i) {
         try {
             TransactionBuilder builder = performInitialized("requestHeartRate");
             byte[] heartRateDataType = WatchXPlusConstants.HEART_RATE_DATA_TYPE;
 
-            LOG.info("Watch contains " + dataCount + " heart rate entries");
-//          Request all data samples
-            for (int i = 0; i < dataCount; i++) {
-                byte[] index = Conversion.toByteArr16(i);
-                byte[] req = BLETypeConversions.join(heartRateDataType, index);
+            byte[] index = Conversion.toByteArr16(i);
+            byte[] req = BLETypeConversions.join(heartRateDataType, index);
 
-                builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
-                        buildCommand(WatchXPlusConstants.CMD_RETRIEVE_DATA_DETAILS,
-                                WatchXPlusConstants.READ_VALUE,
-                                req));
+            builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                    buildCommand(WatchXPlusConstants.CMD_RETRIEVE_DATA_DETAILS,
+                            WatchXPlusConstants.READ_VALUE,
+                            req));
 
-            }
             builder.queue(getQueue());
         } catch (IOException e) {
-            LOG.warn("Unable to response to ACK", e);
+            LOG.warn("Unable to request data", e);
+        }
+    }
+
+    private void handleHeartRateDetails(byte[] value) {
+        LOG.info("Got Heart rate details");
+        int timestamp = Conversion.fromByteArr16(value[8], value[9], value[10], value[11]);
+        int dataLength = Conversion.fromByteArr16(value[12], value[13]);
+        int samplingInterval = (int) onSamplingInterval(value[14] >> 4, Conversion.fromByteArr16((byte) (value[14] & 15), value[15]));
+        int mtu = Conversion.fromByteArr16(value[16]);
+        int parts = dataLength / 16;
+        if (dataLength % 16 > 0) {
+            parts++;
+        }
+
+        LOG.info("timestamp (UTC): " + timestamp);
+        LOG.info("timestamp (UTC): " + new Date((long) timestamp * 1000));
+        LOG.info("dataLength (data length): " + dataLength);
+        LOG.info("samplingInterval (per time): " + samplingInterval);
+        LOG.info("mtu (mtu): " + mtu);
+        LOG.info("parts: " + parts);
+
+        heartRateDataToFetch.add(timestamp);
+
+        if (heartRateDataToFetch.size() == heartRateDataSlots) {
+            requestHeartRateContentForTimestamp(heartRateDataToFetch.get(0));
+        } else {
+            requestHeartRateDetails(heartRateDataToFetch.size());
+        }
+    }
+
+    private void requestHeartRateContentForTimestamp(int timestamp) {
+        byte[] heartRateDataType = WatchXPlusConstants.HEART_RATE_DATA_TYPE;
+        byte[] command = WatchXPlusConstants.CMD_RETRIEVE_DATA_CONTENT;
+
+        try {
+            TransactionBuilder builder = performInitialized("content");
+            byte[] ts = Conversion.toByteArr32(timestamp);
+            byte[] req = BLETypeConversions.join(heartRateDataType, ts);
+            req = BLETypeConversions.join(req, Conversion.toByteArr16(0));
+            requestedHeartRateTimestamp = timestamp;
+            builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                    buildCommand(command,
+                            WatchXPlusConstants.READ_VALUE,
+                            req));
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.warn("Unable to request heart rate content", e);
+        }
+    }
+
+
+    private void handleHeartRateContentAck(byte[] value) {
+        LOG.info(" Received heart rate data content start");
+    }
+
+    private void handleHeartRateContentDataChunk(byte[] value) {
+        int chunkNo = Conversion.fromByteArr16(value[0], value[1]);
+        int dataType = Conversion.fromByteArr16(value[2], value[2]);
+        int timezoneOffset = TimeZone.getDefault().getOffset(System.currentTimeMillis());
+        if (dataType != 2) {
+            LOG.warn(" Got unsupported data package type: " + dataType);
+        } else {
+            for (int i = 4; i < value.length; i++) {
+
+                int val = Conversion.fromByteArr16(value[i]);
+                if (255 == val) {
+                    break;
+                }
+                int tsWithOffset = requestedHeartRateTimestamp + (((((chunkNo * 16) + i) - 4) * 2) * 60) - timezoneOffset;
+                LOG.info(" Got HR data: " + new Date(tsWithOffset) + ", value: " + val);
+            }
+
+            heartRateDataToFetch.remove(0);
+            if (!heartRateDataToFetch.isEmpty()) {
+                requestHeartRateContentForTimestamp(heartRateDataToFetch.get(0));
+            } else {
+                heartRateDataSlots = 0;
+            }
+        }
+    }
+
+
+    private void handleBpMeasureResult(byte[] value) {
+
+        if (value.length < 11) {
+            LOG.info(" BP Measure started. Waiting for result");
+        } else {
+            LOG.info(" Received BP live data");
+            int high = Conversion.fromByteArr16(value[8], value[9]);
+            int low = Conversion.fromByteArr16(value[10], value[11]);
+            int timestamp = Conversion.fromByteArr16(value[12], value[13], value[14], value[15]);
+
+            LOG.info(" Calculated BP data: timestamp: " + timestamp + ", high: " + high + ", low: " + low);
         }
     }
 
@@ -684,14 +829,14 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("handleAck");
 
             builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
-                    buildCommand((byte)0x00));
+                    buildCommand((byte) 0x00));
             builder.queue(getQueue());
         } catch (IOException e) {
             LOG.warn("Unable to response to ACK", e);
         }
     }
 
-//    This is only for ACK response
+    //    This is only for ACK response
     private byte[] buildCommand(byte action) {
         byte[] result = new byte[7];
         System.arraycopy(WatchXPlusConstants.CMD_HEADER, 0, result, 0, 5);
@@ -707,10 +852,103 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private void handleStepsInfo(byte[] value) {
         int steps = Conversion.fromByteArr16(value[8], value[9]);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(" Received steps count: " + steps);
+        LOG.debug(" Received steps count: " + steps);
+
+        // This code is from MakibesHR3DeviceSupport
+        Calendar date = GregorianCalendar.getInstance();
+        int timestamp = (int) (date.getTimeInMillis() / 1000);
+
+        // We need to subtract the day's total step count thus far.
+        int dayStepCount = this.getStepsOnDay(timestamp);
+
+        int newSteps = (steps - dayStepCount);
+
+        if (newSteps > 0) {
+            LOG.debug("adding " + newSteps + " steps");
+
+            try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                WatchXPlusSampleProvider provider = new WatchXPlusSampleProvider(getDevice(), dbHandler.getDaoSession());
+
+                WatchXPlusActivitySample sample = createSample(dbHandler, timestamp);
+                sample.setTimestamp(timestamp);
+//            sample.setRawKind(record.type);
+                sample.setSteps(newSteps);
+//            sample.setDistance(record.distance);
+//            sample.setCalories(record.calories);
+//            sample.setDistance(record.distance);
+//            sample.setHeartRate((record.maxHeartRate - record.minHeartRate) / 2); //TODO: Find an alternative approach for Day Summary Heart Rate
+//            sample.setRawHPlusHealthData(record.getRawData());
+
+                sample.setProvider(provider);
+                provider.addGBActivitySample(sample);
+            } catch (GBException ex) {
+                LOG.info((ex.getMessage()));
+            } catch (Exception ex) {
+                LOG.info(ex.getMessage());
+            }
         }
-//        TODO: save steps to DB
+    }
+
+    /**
+     * @param timeStamp Time stamp at some point during the requested day.
+     */
+    private int getStepsOnDay(int timeStamp) {
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+
+            Calendar dayStart = new GregorianCalendar();
+            Calendar dayEnd = new GregorianCalendar();
+
+            this.getDayStartEnd(timeStamp, dayStart, dayEnd);
+
+            WatchXPlusSampleProvider provider = new WatchXPlusSampleProvider(this.getDevice(), dbHandler.getDaoSession());
+
+            List<WatchXPlusActivitySample> samples = provider.getAllActivitySamples(
+                    (int) (dayStart.getTimeInMillis() / 1000L),
+                    (int) (dayEnd.getTimeInMillis() / 1000L));
+
+            int totalSteps = 0;
+
+            for (WatchXPlusActivitySample sample : samples) {
+                totalSteps += sample.getSteps();
+            }
+
+            return totalSteps;
+
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage());
+
+            return 0;
+        }
+    }
+
+    /**
+     * @param timeStamp seconds
+     */
+    private void getDayStartEnd(int timeStamp, Calendar start, Calendar end) {
+        final int DAY = (24 * 60 * 60);
+
+        int timeStampStart = ((timeStamp / DAY) * DAY);
+        int timeStampEnd = (timeStampStart + DAY);
+
+        start.setTimeInMillis(timeStampStart * 1000L);
+        end.setTimeInMillis(timeStampEnd * 1000L);
+    }
+
+    private WatchXPlusActivitySample createSample(DBHandler dbHandler, int timestamp) {
+        Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
+        Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
+        WatchXPlusActivitySample sample = new WatchXPlusActivitySample(
+                timestamp,                      // ts
+                deviceId, userId,               // User id
+                null,            // Raw Data
+                ActivityKind.TYPE_UNKNOWN,      // rawKind
+                ActivitySample.NOT_MEASURED,     // Steps
+                ActivitySample.NOT_MEASURED,    // HR
+                ActivitySample.NOT_MEASURED,  // Distance
+                ActivitySample.NOT_MEASURED     // Calories
+        );
+
+        return sample;
     }
 
     private byte[] buildCommand(byte[] command, byte action) {
@@ -743,7 +981,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void handleFirmwareInfo(byte[] value) {
-        versionInfo.fwVersion = String.format(Locale.US,"%d.%d.%d", value[8], value[9], value[10]);
+        versionInfo.fwVersion = String.format(Locale.US, "%d.%d.%d", value[8], value[9], value[10]);
         handleGBDeviceEvent(versionInfo);
     }
 
@@ -758,25 +996,6 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getContext());
         broadcastManager.unregisterReceiver(broadcastReceiver);
         super.dispose();
-    }
-
-    private static void calculateHeartRateDetails(byte[] bArr) {
-
-        int timestamp = Conversion.fromByteArr16(bArr[8], bArr[9], bArr[10], bArr[11]);
-        int dataLength = Conversion.fromByteArr16(bArr[12], bArr[13]);
-        int samplingInterval = (int) onSamplingInterval(bArr[14] >> 4, Conversion.fromByteArr16((byte) (bArr[14] & 15), bArr[15]));
-        int mtu = Conversion.fromByteArr16(bArr[16]);
-        int parts = dataLength / 16;
-        if (dataLength % 16 > 0) {
-            parts++;
-        }
-
-        LOG.info("timestamp (UTC): " + timestamp);
-        LOG.info("timestamp (UTC): " + new Date(timestamp));
-        LOG.info("dataLength (data length): " + dataLength);
-        LOG.info("samplingInterval (per time): " + samplingInterval);
-        LOG.info("mtu (mtu): " + mtu);
-        LOG.info("parts: " + parts);
     }
 
     private static double onSamplingInterval(int i, int i2) {
@@ -814,6 +1033,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         static byte[] toByteArr16(int value) {
             return new byte[]{(byte) (value >> 8), (byte) value};
         }
+
         static int fromByteArr16(byte... value) {
             int intValue = 0;
             for (int i2 = 0; i2 < value.length; i2++) {

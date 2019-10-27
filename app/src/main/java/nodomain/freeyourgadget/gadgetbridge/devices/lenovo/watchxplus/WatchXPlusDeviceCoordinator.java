@@ -81,12 +81,12 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsActivityTracking() {
-        return false;
+        return true;
     }
 
     @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        return null;
+        return new WatchXPlusSampleProvider(device, session);
     }
 
     @Override

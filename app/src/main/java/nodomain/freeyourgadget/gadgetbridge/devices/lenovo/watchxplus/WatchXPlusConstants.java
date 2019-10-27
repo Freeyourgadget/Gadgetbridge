@@ -34,9 +34,11 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final int NOTIFICATION_CHANNEL_PHONE_CALL = 10;
 
     public static final byte[] CMD_WEATHER_SET                  = new byte[]{0x01, 0x10};
-    public static final byte[] CMD_RETRIEVE_DATA                = new byte[]{(byte)0xF0, 0x10};
+    public static final byte[] CMD_RETRIEVE_DATA_COUNT          = new byte[]{(byte)0xF0, 0x10};
     public static final byte[] CMD_RETRIEVE_DATA_DETAILS        = new byte[]{(byte)0xF0, 0x11};
+    public static final byte[] CMD_RETRIEVE_DATA_CONTENT        = new byte[]{(byte)0xF0, 0x12};
     public static final byte[] HEART_RATE_DATA_TYPE             = new byte[]{0x00, 0x02};
+    public static final byte[] CMD_BLOOD_PRESSURE_MEASURE       = new byte[]{0x05, 0x0D};
 
     public static final byte[] CMD_NOTIFICATION_TEXT_TASK       = new byte[]{0x03, 0x06};
     public static final byte[] CMD_NOTIFICATION_SETTINGS        = new byte[]{0x03, 0x02};
@@ -49,7 +51,9 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final byte[] RESP_DAY_STEPS_INDICATOR         = new byte[]{0x08, 0x10, 0x03};
     public static final byte[] RESP_HEARTRATE                   = new byte[]{-0x80, 0x15, 0x03};
 
-    public static final byte[] RESP_HEART_RATE_DATA             = new byte[]{0x08, (byte)0xF0, 0x10};
+    public static final byte[] RESP_HEART_RATE_DATA_COUNT       = new byte[]{0x08, (byte)0xF0, 0x10};
     public static final byte[] RESP_HEART_RATE_DATA_DETAILS     = new byte[]{0x08, (byte)0xF0, 0x11};
+    public static final byte[] RESP_HEART_RATE_DATA_CONTENT     = new byte[]{0x08, (byte)0xF0, 0x12};
+    public static final byte[] RESP_BP_MEASURE_STARTED          = new byte[]{0x08, 0x05, 0x0D};
 
 }

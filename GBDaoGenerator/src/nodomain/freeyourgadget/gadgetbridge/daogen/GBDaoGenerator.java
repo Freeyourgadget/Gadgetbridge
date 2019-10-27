@@ -72,6 +72,7 @@ public class GBDaoGenerator {
         addXWatchActivitySample(schema, user, device);
         addZeTimeActivitySample(schema, user, device);
         addID115ActivitySample(schema, user, device);
+        addWatchXPlusHealthActivitySample(schema, user, device);
 
         addCalendarSyncState(schema, device);
         addAlarms(schema, user, device);
@@ -327,6 +328,20 @@ public class GBDaoGenerator {
         activitySample.addIntProperty("caloriesBurnt");
         activitySample.addIntProperty("distanceMeters");
         activitySample.addIntProperty("activeTimeMinutes");
+        return activitySample;
+    }
+
+    private static Entity addWatchXPlusHealthActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "WatchXPlusActivitySample");
+        activitySample.implementsSerializable();
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.addByteArrayProperty("rawWatchXPlusHealthData");
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().primaryKey();
+//        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        addHeartRateProperties(activitySample);
+        activitySample.addIntProperty("distance");
+        activitySample.addIntProperty("calories");
         return activitySample;
     }
 
