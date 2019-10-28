@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.watchxplus.WatchXPlusConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.watch9.Watch9Constants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
@@ -41,7 +42,8 @@ public class InitOperation extends AbstractBTLEOperation<WatchXPlusDeviceSupport
 
     private final TransactionBuilder builder;
     private final boolean needsAuth;
-    private final BluetoothGattCharacteristic cmdCharacteristic = getCharacteristic(Watch9Constants.UUID_CHARACTERISTIC_WRITE);
+    private final BluetoothGattCharacteristic cmdCharacteristic = getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE);
+    private final BluetoothGattCharacteristic dbCharacteristic = getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_DATABASE_READ);
 
     public InitOperation(boolean needsAuth, WatchXPlusDeviceSupport support, TransactionBuilder builder) {
         super(support);
@@ -52,7 +54,7 @@ public class InitOperation extends AbstractBTLEOperation<WatchXPlusDeviceSupport
 
     @Override
     protected void doPerform() throws IOException {
-        builder.notify(cmdCharacteristic, true);
+        builder.notify(cmdCharacteristic, true).notify(dbCharacteristic, true);
             builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.AUTHENTICATING, getContext()));
             getSupport().authorizationRequest(builder, needsAuth);
             builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
