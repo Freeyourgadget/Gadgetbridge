@@ -278,7 +278,7 @@
     <string name="pbwinstallhandler_correct_hw_revision">Korrekte Hardwarerevision</string>
     <string name="pbwinstallhandler_incorrect_hw_revision">Falsche Hardwarerevision!</string>
     <string name="pbwinstallhandler_app_item">%1$s (%2$s)</string>
-    <string name="updatefirmwareoperation_updateproblem_do_not_reboot">Problem mit der Firmwareübertragung. DEIN MI BAND NICHT NEU STARTEN!</string>
+    <string name="updatefirmwareoperation_updateproblem_do_not_reboot">Problem mit der Firmware-Übertragung. DEIN MI BAND NICHT NEU STARTEN!</string>
     <string name="updatefirmwareoperation_metadata_updateproblem">Problem bei der Firmware-Metadatenübertragung</string>
     <string name="updatefirmwareoperation_update_complete">Firmwareinstallation abgeschlossen</string>
     <string name="updatefirmwareoperation_update_complete_rebooting">Firmwareinstallation erfolgreich beendet, Gerät wird neu gestartet…</string>
@@ -384,9 +384,9 @@
     <!--Strings related to Pebble Pairing Activity-->
     <string name="title_activity_pebble_pairing">Pebble koppeln</string>
     <string name="pebble_pairing_hint">Auf deinem Android-Gerät erscheint ein Koppeln-Dialog. Wenn nicht, schaue in die Benachrichtigungsübersicht und akzeptiere die Kopplungsanforderung. Akzeptiere es auch danach auf deiner Pebble.</string>
-    <string name="weather_notification_label">Stelle sicher, dass dieses Skin in der Wetterbenachrichtigungsapp aktiviert ist, damit du Wetterdaten auf deiner Pebble erhältst.
+    <string name="weather_notification_label">Stelle sicher, dass dieses Skin in der Wetterbenachrichtigungs-App aktiviert ist, damit du Wetterdaten auf deiner Pebble erhältst.
 \n
-\nHier ist Keine Konfiguration nötig.
+\nHier ist keine Konfiguration nötig.
 \n
 \nDu kannst die Systemwetter-App deiner Pebble in App-Verwaltung aktivieren.
 \n 
@@ -695,7 +695,7 @@
     <string name="devicetype_bfh16">BFH-16</string>
     <string name="fw_upgrade_notice_amazfitcor2">Du bist dabei, die %s-Firmware auf deine Amazfit Cor 2 zu installieren.
 \n
-\nBitte stelle sicher, dass Du die .fw-Datei und danach die .res-Datei installierst. Dein Band wird nach der Installation der.fw-Datei neu gestartet.
+\nBitte stelle sicher, dass du die .fw-Datei und danach die .res-Datei installierst. Dein Band wird nach der Installation der .fw-Datei neu gestartet.
 \n
 \nHinweis: Du musst .res nicht installieren, wenn es genau das gleiche ist, wie die zuvor installierte.
 \n
@@ -753,7 +753,7 @@
     <string name="activity_db_management_autoexport_label">Automatischer Export</string>
     <string name="activity_DB_test_export_button">Automatischer Export jetzt starten</string>
     <string name="activity_DB_test_export_message">Datenbank exportieren…</string>
-    <string name="activity_db_management_empty_db_warning">Achtung! Wenn Du auf diese Schaltfläche klickst, löschst du deine Datenbank und beginnst von Grund auf neu.</string>
+    <string name="activity_db_management_empty_db_warning">Achtung! Wenn du auf diese Schaltfläche klickst, löschst du deine Datenbank und beginnst von Grund auf neu.</string>
     <string name="appwidget_sleep_alarm_widget_label">Schlafalarm</string>
     <string name="widget_steps_label">Schritte: %1$02d</string>
     <string name="widget_sleep_label">Schlaf: %1$s</string>
@@ -767,14 +767,14 @@
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
     <string name="prefs_find_phone">Telefon finden</string>
-    <string name="prefs_enable_find_phone">Telefon finden aktivieren</string>
+    <string name="prefs_enable_find_phone">\'Telefon finden\' einschalten</string>
     <string name="prefs_find_phone_summary">Verwende dein Band, um den Klingelton deines Telefons wiederzugeben.</string>
     <string name="prefs_find_phone_duration">Klingeldauer in Sekunden</string>
     <string name="maximum_duration">Dauer</string>
     <string name="discovery_need_to_enter_authkey">Dieses Gerät benötigt eine geheime Authentifikationstaste, die du mit einem langen Druck auf das Gerät eingeben kannst. Lies das Wiki.</string>
     <string name="fw_upgrade_notice_amazfitbip_lite">Du bist dabei, die Firmware %s auf deine Amazfit Bip Lite zu installieren.
 \n
-\nBitte stelle sicher, dass du die .fw Datei und danach die .res Datei installierst. Dein Uhr wird nach der Installation der .fw Datei neu gestartet.
+\nBitte stelle sicher, dass du die .fw Datei und danach die .res Datei installierst. Deine Uhr wird nach der Installation der .fw Datei neu gestartet.
 \n
 \nHinweis: Du musst .res nicht installieren, wenn es genau das gleiche ist, wie die zuvor installierte.
 \n
