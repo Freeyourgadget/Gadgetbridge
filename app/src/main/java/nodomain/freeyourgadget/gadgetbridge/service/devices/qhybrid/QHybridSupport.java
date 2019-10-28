@@ -24,7 +24,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
-import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfig;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -148,7 +148,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         //new Exception().printStackTrace();
         String packageName = notificationSpec.sourceName;
 
-        PackageConfig config = helper.getSetting(packageName);
+        NotificationConfiguration config = helper.getSetting(packageName);
         if (config == null) return;
 
         Log.d("Service", "handling notification");
@@ -160,7 +160,7 @@ public class QHybridSupport extends QHybridBaseSupport {
 
         boolean enforceActivityHandNotification = config.getHour() == -1 && config.getMin() == -1;
 
-        showNotificationsByAllActive(enforceActivityHandNotification);
+        // showNotificationsByAllActive(enforceActivityHandNotification);
 
         playNotification(config);
     }
@@ -178,7 +178,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         showNotificationCountOnActivityHand(progress);
 
         if (enforceByNotification) {
-            watchAdapter.playNotification(new PackageConfig(
+            watchAdapter.playNotification(new NotificationConfiguration(
                     (short) -1,
                     (short) -1,
                     (short) (progress * 180),
@@ -189,19 +189,19 @@ public class QHybridSupport extends QHybridBaseSupport {
 
 
     public double calculateNotificationProgress() {
-        HashMap<PackageConfig, Boolean> configs = new HashMap<>(0);
-        for (PackageConfig config : helper.getSettings()) {
+        HashMap<NotificationConfiguration, Boolean> configs = new HashMap<>(0);
+        for (NotificationConfiguration config : helper.getSettings()) {
             configs.put(config, false);
         }
 
         double notificationProgress = 0;
 
         for (String notificationPackage : NotificationListener.notificationStack) {
-            for (PackageConfig packageConfig : configs.keySet()) {
-                if (configs.get(packageConfig)) continue;
-                if (packageConfig.getPackageName().equals(notificationPackage)) {
+            for (NotificationConfiguration notificationConfiguration : configs.keySet()) {
+                if (configs.get(notificationConfiguration)) continue;
+                if (notificationConfiguration.getPackageName().equals(notificationPackage)) {
                     notificationProgress += 0.25;
-                    configs.put(packageConfig, true);
+                    configs.put(notificationConfiguration, true);
                 }
             }
         }
@@ -215,7 +215,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         }
     }
 
-    private void playNotification(PackageConfig config) {
+    private void playNotification(NotificationConfiguration config) {
         if (config.getMin() == -1 && config.getHour() == -1 && config.getVibration() == PlayNotificationRequest.VibrationType.NO_VIBE)
             return;
         watchAdapter.playNotification(config);
@@ -357,7 +357,7 @@ public class QHybridSupport extends QHybridBaseSupport {
                         float progress = (float) extra;
                         watchAdapter.setActivityHand(progress);
 
-                        watchAdapter.playNotification(new PackageConfig(
+                        watchAdapter.playNotification(new NotificationConfiguration(
                                 (short) -1,
                                 (short) -1,
                                 (short) (progress * 180),
@@ -378,7 +378,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         @Override
         public void onReceive(Context context, Intent intent) {
             Bundle extras = intent.getExtras();
-            PackageConfig config = extras == null ? null : (PackageConfig) intent.getExtras().get("CONFIG");
+            NotificationConfiguration config = extras == null ? null : (NotificationConfiguration) intent.getExtras().get("CONFIG");
             switch (intent.getAction()) {
                 case QHYBRID_COMMAND_CONTROL: {
                     Log.d("Service", "sending control request");

@@ -28,7 +28,7 @@ public class TimePicker extends AlertDialog.Builder {
     Canvas pickerCanvas;
     Bitmap pickerBitmap;
 
-    PackageConfig settings;
+    NotificationConfiguration settings;
 
     int height, width, radius;
     int radius1, radius2, radius3;
@@ -44,11 +44,11 @@ public class TimePicker extends AlertDialog.Builder {
     protected TimePicker(@NonNull Context context, PackageInfo info) {
         super(context);
 
-        settings = new PackageConfig(info.packageName, context.getApplicationContext().getPackageManager().getApplicationLabel(info.applicationInfo).toString());
+        settings = new NotificationConfiguration(info.packageName, context.getApplicationContext().getPackageManager().getApplicationLabel(info.applicationInfo).toString());
         initGraphics(context);
     }
 
-    protected TimePicker(Context context, PackageConfig config){
+    protected TimePicker(Context context, NotificationConfiguration config){
         super(context);
 
         settings = config;
@@ -148,7 +148,7 @@ public class TimePicker extends AlertDialog.Builder {
         });
     }
 
-    public PackageConfig getSettings() {
+    public NotificationConfiguration getSettings() {
         return settings;
     }
 
@@ -265,14 +265,14 @@ public class TimePicker extends AlertDialog.Builder {
     }
 
     interface OnFinishListener{
-        public void onFinish(boolean success, PackageConfig config);
+        public void onFinish(boolean success, NotificationConfiguration config);
     }
 
     interface OnHandsSetListener{
-        public void onHandsSet(PackageConfig config);
+        public void onHandsSet(NotificationConfiguration config);
     }
 
     interface OnVibrationSetListener{
-        public void onVibrationSet(PackageConfig config);
+        public void onVibrationSet(NotificationConfiguration config);
     }
 }

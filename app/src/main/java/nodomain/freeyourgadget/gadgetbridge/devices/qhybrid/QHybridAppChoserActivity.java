@@ -88,15 +88,15 @@ public class QHybridAppChoserActivity extends AbstractGBActivity {
         this.hasControl = control;
     }
 
-    private void setHands(PackageConfig config){
+    private void setHands(NotificationConfiguration config){
         sendControl(config, QHybridSupport.QHYBRID_COMMAND_SET);
     }
 
-    private void vibrate(PackageConfig config){
+    private void vibrate(NotificationConfiguration config){
         sendControl(config, QHybridSupport.QHYBRID_COMMAND_VIBRATE);
     }
 
-    private void sendControl(PackageConfig config, String request){
+    private void sendControl(NotificationConfiguration config, String request){
         Intent intent = new Intent(request);
         intent.putExtra("CONFIG", config);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
@@ -108,7 +108,7 @@ public class QHybridAppChoserActivity extends AbstractGBActivity {
 
         picker.finishListener = new TimePicker.OnFinishListener() {
             @Override
-            public void onFinish(boolean success, PackageConfig config) {
+            public void onFinish(boolean success, NotificationConfiguration config) {
                 setControl(false);
                 if(success){
                     helper.saveConfig(config);
@@ -119,14 +119,14 @@ public class QHybridAppChoserActivity extends AbstractGBActivity {
 
         picker.handsListener = new TimePicker.OnHandsSetListener() {
             @Override
-            public void onHandsSet(PackageConfig config) {
+            public void onHandsSet(NotificationConfiguration config) {
                 setHands(config);
             }
         };
 
         picker.vibrationListener = new TimePicker.OnVibrationSetListener() {
             @Override
-            public void onVibrationSet(PackageConfig config) {
+            public void onVibrationSet(NotificationConfiguration config) {
                 vibrate(config);
             }
         };

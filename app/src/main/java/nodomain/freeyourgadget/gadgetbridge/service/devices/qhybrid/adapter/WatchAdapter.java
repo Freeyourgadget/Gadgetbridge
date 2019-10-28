@@ -4,12 +4,8 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfig;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.misfit.MisfitWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 
 public abstract class WatchAdapter {
@@ -30,7 +26,7 @@ public abstract class WatchAdapter {
     public abstract void initialize();
 
     public abstract void playPairingAnimation();
-    public abstract void playNotification(PackageConfig config);
+    public abstract void playNotification(NotificationConfiguration config);
     public abstract void setTime();
     public abstract void overwriteButtons();
     public abstract void setActivityHand(double progress);

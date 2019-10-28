@@ -51,118 +51,120 @@ public abstract class FilePutRequest extends Request {
     @Override
     public void handleResponse(BluetoothGattCharacteristic characteristic) {
         byte[] value = characteristic.getValue();
-        int responseType = value[0] & 0x0F;
-        log("response: " + responseType);
-        switch (responseType){
-            case 3:{
-                if(value.length != 5 || (value[0] & 0x0F) != 3){
-                    this.state = UploadState.ERROR;
-                    log("wrong answer header");
-                    break;
-                }
-                state = UploadState.UPLOADING;
-                byte[] initialPacket = packets.get(0);
-                BtLEQueue queue = adapter.getDeviceSupport().getQueue();
-
-                new TransactionBuilder("file upload")
-                        .write(
-                                adapter.getDeviceSupport().getCharacteristic(UUID.fromString("3dda0004-957f-7d4a-34a6-74696673696d")),
-                                initialPacket
-                        )
-                        .queue(queue);
-                break;
-            }
-            case 8:{
-                if(value.length == 4) return;
-                ByteBuffer buffer = ByteBuffer.wrap(value);
-                buffer.order(ByteOrder.LITTLE_ENDIAN);
-                short handle = buffer.getShort(1);
-                int crc = buffer.getInt(8);
-                byte status = value[3];
-
-                if(status != 0){
-                    this.state = UploadState.ERROR;
-                    log("file error: " + status);
-                    break;
-                }
-
-                if(handle != this.handle){
-                    this.state = UploadState.ERROR;
-                    log("wrong file handle");
-                    break;
-                }
-
-                CRC32C realCrc = new CRC32C();
-                byte[] data = packets.get(packetIndex);
-                realCrc.update(data, 1, data.length - 1);
-
-                if(crc != (int) realCrc.getValue()){
-                    this.state = UploadState.ERROR;
-                    log("wrong crc");
-                    // TODO CRC
-                    // break;
-                }
-
-                packetIndex++;
-
-                if(packetIndex < packets.size()){
-                    byte[] initialPacket = packets.get(packetIndex);
+        if(characteristic.getUuid().toString().equals("3dda0003-957f-7d4a-34a6-74696673696d")) {
+            int responseType = value[0] & 0x0F;
+            log("response: " + responseType);
+            switch (responseType) {
+                case 3: {
+                    if (value.length != 5 || (value[0] & 0x0F) != 3) {
+                        this.state = UploadState.ERROR;
+                        log("wrong answer header");
+                        break;
+                    }
+                    state = UploadState.UPLOADING;
+                    byte[] initialPacket = packets.get(0);
+                    BtLEQueue queue = adapter.getDeviceSupport().getQueue();
 
                     new TransactionBuilder("file upload")
                             .write(
                                     adapter.getDeviceSupport().getCharacteristic(UUID.fromString("3dda0004-957f-7d4a-34a6-74696673696d")),
                                     initialPacket
                             )
-                            .queue(adapter.getDeviceSupport().getQueue());
-                    break;
-                } else{
-                    ByteBuffer buffer2 = ByteBuffer.allocate(3);
-                    buffer2.order(ByteOrder.LITTLE_ENDIAN);
-                    buffer2.put((byte) 4);
-                    buffer2.putShort(this.handle);
-
-                    new TransactionBuilder("file close")
-                            .write(
-                                    adapter.getDeviceSupport().getCharacteristic(UUID.fromString("3dda0003-957f-7d4a-34a6-74696673696d")),
-                                    buffer2.array()
-                            )
-                            .queue(adapter.getDeviceSupport().getQueue());
-
-                    this.state = UploadState.CLOSING;
+                            .queue(queue);
                     break;
                 }
-            }
-            case 4: {
-                if(value.length == 9) return;
-                if(value.length != 4 || (value[0] & 0x0F) != 4){
-                    this.state = UploadState.ERROR;
-                    log("wrong closing header");
+                case 8: {
+                    if (value.length == 4) return;
+                    ByteBuffer buffer = ByteBuffer.wrap(value);
+                    buffer.order(ByteOrder.LITTLE_ENDIAN);
+                    short handle = buffer.getShort(1);
+                    int crc = buffer.getInt(8);
+                    byte status = value[3];
+
+                    if (status != 0) {
+                        this.state = UploadState.ERROR;
+                        log("file error: " + status);
+                        break;
+                    }
+
+                    if (handle != this.handle) {
+                        this.state = UploadState.ERROR;
+                        log("wrong file handle");
+                        break;
+                    }
+
+                    CRC32C realCrc = new CRC32C();
+                    byte[] data = packets.get(packetIndex);
+                    realCrc.update(data, 1, data.length - 1);
+
+                    if (crc != (int) realCrc.getValue()) {
+                        this.state = UploadState.ERROR;
+                        log("wrong crc");
+                        // TODO CRC
+                        // break;
+                    }
+
+                    packetIndex++;
+
+                    if (packetIndex < packets.size()) {
+                        byte[] initialPacket = packets.get(packetIndex);
+
+                        new TransactionBuilder("file upload")
+                                .write(
+                                        adapter.getDeviceSupport().getCharacteristic(UUID.fromString("3dda0004-957f-7d4a-34a6-74696673696d")),
+                                        initialPacket
+                                )
+                                .queue(adapter.getDeviceSupport().getQueue());
+                        break;
+                    } else {
+                        ByteBuffer buffer2 = ByteBuffer.allocate(3);
+                        buffer2.order(ByteOrder.LITTLE_ENDIAN);
+                        buffer2.put((byte) 4);
+                        buffer2.putShort(this.handle);
+
+                        new TransactionBuilder("file close")
+                                .write(
+                                        adapter.getDeviceSupport().getCharacteristic(UUID.fromString("3dda0003-957f-7d4a-34a6-74696673696d")),
+                                        buffer2.array()
+                                )
+                                .queue(adapter.getDeviceSupport().getQueue());
+
+                        this.state = UploadState.CLOSING;
+                        break;
+                    }
+                }
+                case 4: {
+                    if (value.length == 9) return;
+                    if (value.length != 4 || (value[0] & 0x0F) != 4) {
+                        this.state = UploadState.ERROR;
+                        log("wrong closing header");
+                        break;
+                    }
+                    ByteBuffer buffer = ByteBuffer.wrap(value);
+                    buffer.order(ByteOrder.LITTLE_ENDIAN);
+
+                    short handle = buffer.getShort(1);
+
+                    if (handle != this.handle) {
+                        this.state = UploadState.ERROR;
+                        log("wrong file handle");
+                        break;
+                    }
+
+                    byte status = buffer.get(3);
+
+                    if (status != 0) {
+                        this.state = UploadState.ERROR;
+                        log("wrong closing handle");
+                        break;
+                    }
+
+                    this.state = UploadState.UPLOADED;
+
+                    log("uploaded file");
+
                     break;
                 }
-                ByteBuffer buffer = ByteBuffer.wrap(value);
-                buffer.order(ByteOrder.LITTLE_ENDIAN);
-
-                short handle = buffer.getShort(1);
-
-                if(handle != this.handle){
-                    this.state = UploadState.ERROR;
-                    log("wrong file handle");
-                    break;
-                }
-
-                byte status = buffer.get(3);
-
-                if(status != 0){
-                    this.state = UploadState.ERROR;
-                    log("wrong closing handle");
-                    break;
-                }
-
-                this.state = UploadState.UPLOADED;
-
-                log("uploaded file");
-
-                break;
             }
         }
     }

@@ -8,8 +8,8 @@ import java.nio.ByteOrder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.CRC32C;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 
-public class NotifcationFilterGetRequest extends FileGetRequest {
-    public NotifcationFilterGetRequest(FossilWatchAdapter adapter) {
+public class NotificationFilterGetRequest extends FileGetRequest {
+    public NotificationFilterGetRequest(FossilWatchAdapter adapter) {
         super((short) 0x0C00, adapter);
     }
 

@@ -31,7 +31,7 @@ public class PackageConfigHelper extends DBOpenHelper {
         initDB();
     }
 
-    public void saveConfig(PackageConfig settings){
+    public void saveConfig(NotificationConfiguration settings){
         ContentValues values = new ContentValues(6);
         values.put(DB_PACKAGE, settings.getPackageName());
         values.put(DB_APPNAME, settings.getAppName());
@@ -48,10 +48,10 @@ public class PackageConfigHelper extends DBOpenHelper {
         //LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent());
     }
 
-    public ArrayList<PackageConfig> getSettings(){
+    public ArrayList<NotificationConfiguration> getSettings(){
         Cursor cursor = database.query(DB_TABLE, new String[]{"*"}, null, null, null, null, null);
         int size = cursor.getCount();
-        ArrayList<PackageConfig> list = new ArrayList<>(size);
+        ArrayList<NotificationConfiguration> list = new ArrayList<>(size);
         if(size > 0){
             int appNamePos = cursor.getColumnIndex(DB_APPNAME);
             int packageNamePos = cursor.getColumnIndex(DB_PACKAGE);
@@ -62,7 +62,7 @@ public class PackageConfigHelper extends DBOpenHelper {
             int idPos = cursor.getColumnIndex(DB_ID);
             cursor.moveToFirst();
             do {
-                list.add(new PackageConfig(
+                list.add(new NotificationConfiguration(
                         (short)cursor.getInt(minPos),
                         (short)cursor.getInt(hourPos),
                         cursor.getString(packageNamePos),
@@ -78,7 +78,7 @@ public class PackageConfigHelper extends DBOpenHelper {
         return list;
     }
 
-    public PackageConfig getSetting(String appName){
+    public NotificationConfiguration getSetting(String appName){
         if(appName == null) return null;
         Cursor c = database.query(DB_TABLE, new String[]{"*"}, DB_APPNAME + "=?", new String[]{appName}, null, null, null);
         if(c.getCount() == 0){
@@ -86,7 +86,7 @@ public class PackageConfigHelper extends DBOpenHelper {
             return null;
         }
         c.moveToFirst();
-        PackageConfig settings = new PackageConfig(
+        NotificationConfiguration settings = new NotificationConfiguration(
                 (short)c.getInt(c.getColumnIndex(DB_MINUTE)),
                 (short)c.getInt(c.getColumnIndex(DB_HOUR)),
                 c.getString(c.getColumnIndex(DB_PACKAGE)),
@@ -116,7 +116,7 @@ public class PackageConfigHelper extends DBOpenHelper {
         database.close();
     }
 
-    public void deleteConfig(PackageConfig packageSettings) {
+    public void deleteConfig(NotificationConfiguration packageSettings) {
         Log.d("DB", "deleting id " + packageSettings.getId());
         if(packageSettings.getId() == -1) return;
         this.database.delete(DB_TABLE, DB_ID + "=?", new String[]{String.valueOf(packageSettings.getId())});

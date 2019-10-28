@@ -56,7 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSuppo
 
 public class ConfigActivity extends AbstractGBActivity {
     PackageAdapter adapter;
-    ArrayList<PackageConfig> list;
+    ArrayList<NotificationConfiguration> list;
     PackageConfigHelper helper;
 
     final int REQUEST_CODE_ADD_APP = 0;
@@ -146,10 +146,10 @@ public class ConfigActivity extends AbstractGBActivity {
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getTitle().toString()) {
                             case "edit": {
-                                TimePicker picker = new TimePicker(ConfigActivity.this, (PackageConfig) adapterView.getItemAtPosition(i));
+                                TimePicker picker = new TimePicker(ConfigActivity.this, (NotificationConfiguration) adapterView.getItemAtPosition(i));
                                 picker.finishListener = new TimePicker.OnFinishListener() {
                                     @Override
-                                    public void onFinish(boolean success, PackageConfig config) {
+                                    public void onFinish(boolean success, NotificationConfiguration config) {
                                         setControl(false, null);
                                         if (success) {
                                             helper.saveConfig(config);
@@ -159,13 +159,13 @@ public class ConfigActivity extends AbstractGBActivity {
                                 };
                                 picker.handsListener = new TimePicker.OnHandsSetListener() {
                                     @Override
-                                    public void onHandsSet(PackageConfig config) {
+                                    public void onHandsSet(NotificationConfiguration config) {
                                         setHands(config);
                                     }
                                 };
                                 picker.vibrationListener = new TimePicker.OnVibrationSetListener() {
                                     @Override
-                                    public void onVibrationSet(PackageConfig config) {
+                                    public void onVibrationSet(NotificationConfiguration config) {
                                         vibrate(config);
                                     }
                                 };
@@ -173,7 +173,7 @@ public class ConfigActivity extends AbstractGBActivity {
                                 break;
                             }
                             case "delete": {
-                                helper.deleteConfig((PackageConfig) adapterView.getItemAtPosition(i));
+                                helper.deleteConfig((NotificationConfiguration) adapterView.getItemAtPosition(i));
                                 refreshList();
                                 break;
                             }
@@ -190,7 +190,7 @@ public class ConfigActivity extends AbstractGBActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent notificationIntent = new Intent(QHybridSupport.QHYBRID_COMMAND_NOTIFICATION);
-                notificationIntent.putExtra("CONFIG", (PackageConfig) adapterView.getItemAtPosition(i));
+                notificationIntent.putExtra("CONFIG", (NotificationConfiguration) adapterView.getItemAtPosition(i));
                 LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(notificationIntent);
             }
         });
@@ -307,7 +307,7 @@ public class ConfigActivity extends AbstractGBActivity {
         });
     }
 
-    private void setControl(boolean control, PackageConfig config) {
+    private void setControl(boolean control, NotificationConfiguration config) {
         if (hasControl == control) return;
         Intent intent = new Intent(control ? QHybridSupport.QHYBRID_COMMAND_CONTROL : QHybridSupport.QHYBRID_COMMAND_UNCONTROL);
         intent.putExtra("CONFIG", config);
@@ -315,15 +315,15 @@ public class ConfigActivity extends AbstractGBActivity {
         this.hasControl = control;
     }
 
-    private void setHands(PackageConfig config) {
+    private void setHands(NotificationConfiguration config) {
         sendControl(config, QHybridSupport.QHYBRID_COMMAND_SET);
     }
 
-    private void vibrate(PackageConfig config) {
+    private void vibrate(NotificationConfiguration config) {
         sendControl(config, QHybridSupport.QHYBRID_COMMAND_VIBRATE);
     }
 
-    private void sendControl(PackageConfig config, String request) {
+    private void sendControl(NotificationConfiguration config, String request) {
         Intent intent = new Intent(request);
         intent.putExtra("CONFIG", config);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
@@ -376,10 +376,10 @@ public class ConfigActivity extends AbstractGBActivity {
         });
     }
 
-    class PackageAdapter extends ArrayAdapter<PackageConfig> {
+    class PackageAdapter extends ArrayAdapter<NotificationConfiguration> {
         PackageManager manager;
 
-        PackageAdapter(@NonNull Context context, int resource, @NonNull List<PackageConfig> objects) {
+        PackageAdapter(@NonNull Context context, int resource, @NonNull List<NotificationConfiguration> objects) {
             super(context, resource, objects);
             manager = context.getPackageManager();
         }
@@ -389,7 +389,7 @@ public class ConfigActivity extends AbstractGBActivity {
         public View getView(int position, @Nullable View view, @NonNull ViewGroup parent) {
             if (!(view instanceof RelativeLayout))
                 view = ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.qhybrid_package_settings_item, null);
-            PackageConfig settings = getItem(position);
+            NotificationConfiguration settings = getItem(position);
 
             if (settings == null) {
                 Button addButton = new Button(ConfigActivity.this);

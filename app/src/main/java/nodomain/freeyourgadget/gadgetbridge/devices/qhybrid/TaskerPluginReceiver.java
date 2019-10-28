@@ -19,7 +19,7 @@ public class TaskerPluginReceiver extends BroadcastReceiver {
         int minDegrees = (int)Float.parseFloat(min);
         int hourDegrees = (int)Float.parseFloat(hour);
 
-        PackageConfig config = new PackageConfig(
+        NotificationConfiguration config = new NotificationConfiguration(
                 (short)minDegrees,
                 (short)hourDegrees,
                 null,

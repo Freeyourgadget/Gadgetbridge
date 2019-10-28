@@ -8,6 +8,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Req
 public class PlayNotificationRequest extends Request {
 
     public enum VibrationType{
+        WHATEVER(4),
         SINGLE_SHORT(3),
         DOUBLE_SHORT(2),
         TRIPLE_SHORT(1),

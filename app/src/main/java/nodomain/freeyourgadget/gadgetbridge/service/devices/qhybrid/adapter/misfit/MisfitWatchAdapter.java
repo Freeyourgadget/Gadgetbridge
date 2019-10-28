@@ -23,7 +23,7 @@ import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
-import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfig;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
@@ -108,12 +108,12 @@ public class MisfitWatchAdapter extends WatchAdapter {
     }
 
     @Override
-    public void playNotification(PackageConfig config) {
+    public void playNotification(NotificationConfiguration config) {
         queueWrite(new PlayNotificationRequest(
                 config.getVibration(),
                 config.getHour(),
                 config.getMin(),
-                config.getActivity()
+                config.getSubEye()
         ));
     }
 
