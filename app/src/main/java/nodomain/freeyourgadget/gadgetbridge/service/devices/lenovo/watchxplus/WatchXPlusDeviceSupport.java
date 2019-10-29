@@ -37,7 +37,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -55,6 +54,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.DataType;
 import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.watchxplus.WatchXPlusConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.watchxplus.WatchXPlusSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.WatchXPlusActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.WatchXPlusHealthActivityOverlay;
+import nodomain.freeyourgadget.gadgetbridge.entities.WatchXPlusHealthActivityOverlayDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -86,7 +87,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private Map<Integer, Integer> dataToFetch = new LinkedHashMap<>();
     private int requestedDataTimestamp;
-    private Map<DataType, Integer> dataSlots = new HashMap<>();
+    private int dataSlots = 0;
     private DataType currentDataType;
 
     private byte ACK_CALIBRATION = 0;
@@ -507,7 +508,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                             WatchXPlusConstants.READ_VALUE));
 
 //            Fetch heart rate data samples count
-            requestDataCount(builder, DataType.HEART_RATE);
+            requestDataCount(DataType.HEART_RATE);
 
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -715,11 +716,21 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
      * 8. Receive frames with content. They are different than other frames, {@link WatchXPlusDeviceSupport#handleContentDataChunk}
      *      ie. 0000000255-4F4C48-434241434444454648474747, 0001000247-474645-434240FFFFFFFFFFFFFFFFFF
      */
-    private void requestDataCount(TransactionBuilder builder, DataType dataType) {
-        builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
-                buildCommand(WatchXPlusConstants.CMD_RETRIEVE_DATA_COUNT,
-                        WatchXPlusConstants.READ_VALUE,
-                        dataType.getValue()));
+    private void requestDataCount(DataType dataType) {
+
+        TransactionBuilder builder;
+        try {
+            builder = performInitialized("requestDataCount");
+
+            builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                    buildCommand(WatchXPlusConstants.CMD_RETRIEVE_DATA_COUNT,
+                            WatchXPlusConstants.READ_VALUE,
+                            dataType.getValue()));
+
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.warn("Unable to send request to retrieve recorded data", e);
+        }
     }
 
     private void handleDataCount(byte[] value) {
@@ -729,7 +740,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
         DataType type = DataType.getType(dataType);
         LOG.info("Watch contains " + dataCount + " " + type + " entries");
-        dataSlots.put(type, dataCount);
+        dataSlots = dataCount;
         dataToFetch.clear();
         if (dataCount != 0) {
             requestDataDetails(dataToFetch.size(), type);
@@ -775,7 +786,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
         dataToFetch.put(timestamp, parts);
 
-        if (dataToFetch.size() == dataSlots.get(currentDataType)) {
+        if (dataToFetch.size() == dataSlots) {
             Map.Entry<Integer, Integer> currentValue = dataToFetch.entrySet().iterator().next();
             requestedDataTimestamp = currentValue.getKey();
             requestDataContentForTimestamp(requestedDataTimestamp, currentDataType);
@@ -830,10 +841,36 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         int dataType = Conversion.fromByteArr16(value[2], value[3]);
         int timezoneOffset = TimeZone.getDefault().getOffset(System.currentTimeMillis())/1000;
         DataType type = DataType.getType(dataType);
-        if (type == DataType.HEART_RATE) {
-            try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                WatchXPlusSampleProvider provider = new WatchXPlusSampleProvider(getDevice(), dbHandler.getDaoSession());
-                List<WatchXPlusActivitySample> samples = new ArrayList<>();
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            WatchXPlusSampleProvider provider = new WatchXPlusSampleProvider(getDevice(), dbHandler.getDaoSession());
+            List<WatchXPlusActivitySample> samples = new ArrayList<>();
+
+            if (DataType.SLEEP.equals(type)) {
+                WatchXPlusHealthActivityOverlayDao overlayDao = dbHandler.getDaoSession().getWatchXPlusHealthActivityOverlayDao();
+                List<WatchXPlusHealthActivityOverlay> overlayList = new ArrayList<>();
+
+                for (int i = 4; i < value.length; i+= 2) {
+
+                    int val = Conversion.fromByteArr16(value[i], value[i+1]);
+                    if (65535 == val) {
+                        break;
+                    }
+
+                    int tsWithOffset = requestedDataTimestamp + (((((chunkNo * 16) / 2) + ((i - 4) / 2)) *5) * 60) - timezoneOffset;
+                    LOG.debug(" requested timestamp " + requestedDataTimestamp + " chunkNo " + chunkNo + " Got data: " + new Date((long) tsWithOffset * 1000) + ", value: " + val);
+                    WatchXPlusActivitySample sample = createSample(dbHandler, tsWithOffset);
+                    sample.setTimestamp(tsWithOffset);
+                    sample.setProvider(provider);
+                    sample.setRawIntensity(val);
+                    sample.setRawKind(val == 0 ? ActivityKind.TYPE_DEEP_SLEEP : ActivityKind.TYPE_LIGHT_SLEEP);
+                    samples.add(sample);
+                    overlayList.add(new WatchXPlusHealthActivityOverlay(sample.getTimestamp(), sample.getTimestamp()+300, sample.getRawKind(), sample.getDeviceId(), sample.getUserId(), sample.getRawWatchXPlusHealthData()));
+                }
+                overlayDao.insertOrReplaceInTx(overlayList);
+                provider.addGBActivitySamples(samples.toArray(new WatchXPlusActivitySample[0]));
+
+                handleEndOfDataChunks(chunkNo, type);
+            } else if (DataType.HEART_RATE.equals(type)) {
 
                 for (int i = 4; i < value.length; i++) {
 
@@ -851,27 +888,40 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                     samples.add(sample);
                 }
                 provider.addGBActivitySamples(samples.toArray(new WatchXPlusActivitySample[0]));
-            } catch (GBException ex) {
-                LOG.info((ex.getMessage()));
-            } catch (Exception ex) {
-                LOG.info(ex.getMessage());
-            }
 
-            if(!dataToFetch.isEmpty() && chunkNo == dataToFetch.get(requestedDataTimestamp) - 1) {
-                dataToFetch.remove(requestedDataTimestamp);
-                removeDataContentForTimestamp(requestedDataTimestamp, currentDataType);
-                if (!dataToFetch.isEmpty()) {
-                    Map.Entry<Integer, Integer> currentValue = dataToFetch.entrySet().iterator().next();
-                    requestedDataTimestamp = currentValue.getKey();
-                    requestDataContentForTimestamp(requestedDataTimestamp, type);
-                } else {
-                    dataSlots.put(type,0);
-                }
-            } else if (dataToFetch.isEmpty()) {
-                dataSlots.put(type,0);
+                handleEndOfDataChunks(chunkNo, type);
+            } else {
+                LOG.warn(" Got unsupported data package type: " + type);
             }
-        } else {
-            LOG.warn(" Got unsupported data package type: " + type);
+        } catch (GBException ex) {
+            LOG.info((ex.getMessage()));
+        } catch (Exception ex) {
+            LOG.info(ex.getMessage());
+        }
+
+    }
+
+    private void handleEndOfDataChunks(int chunkNo, DataType type) {
+        if(!dataToFetch.isEmpty() && chunkNo == dataToFetch.get(requestedDataTimestamp) - 1) {
+            dataToFetch.remove(requestedDataTimestamp);
+            removeDataContentForTimestamp(requestedDataTimestamp, currentDataType);
+            if (!dataToFetch.isEmpty()) {
+                Map.Entry<Integer, Integer> currentValue = dataToFetch.entrySet().iterator().next();
+                requestedDataTimestamp = currentValue.getKey();
+                requestDataContentForTimestamp(requestedDataTimestamp, type);
+            } else {
+                dataSlots = 0;
+                if(type.equals(DataType.HEART_RATE)) {
+                    currentDataType = DataType.SLEEP;
+                    requestDataCount(currentDataType);
+                }
+            }
+        } else if (dataToFetch.isEmpty()) {
+            dataSlots = 0;
+            if(type.equals(DataType.HEART_RATE)) {
+                currentDataType = DataType.SLEEP;
+                requestDataCount(currentDataType);
+            }
         }
     }
 
@@ -1009,6 +1059,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 deviceId, userId,               // User id
                 null,            // Raw Data
                 ActivityKind.TYPE_UNKNOWN,      // rawKind
+                ActivitySample.NOT_MEASURED,      // rawIntensity
                 ActivitySample.NOT_MEASURED,     // Steps
                 ActivitySample.NOT_MEASURED,    // HR
                 ActivitySample.NOT_MEASURED,  // Distance

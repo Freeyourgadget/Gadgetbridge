@@ -73,6 +73,7 @@ public class GBDaoGenerator {
         addZeTimeActivitySample(schema, user, device);
         addID115ActivitySample(schema, user, device);
         addWatchXPlusHealthActivitySample(schema, user, device);
+        addWatchXPlusHealthActivityKindOverlay(schema, user, device);
 
         addCalendarSyncState(schema, device);
         addAlarms(schema, user, device);
@@ -337,12 +338,28 @@ public class GBDaoGenerator {
         addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
         activitySample.addByteArrayProperty("rawWatchXPlusHealthData");
         activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().primaryKey();
-//        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         addHeartRateProperties(activitySample);
         activitySample.addIntProperty("distance");
         activitySample.addIntProperty("calories");
         return activitySample;
+    }
+
+    private static Entity addWatchXPlusHealthActivityKindOverlay(Schema schema, Entity user, Entity device) {
+        Entity activityOverlay = addEntity(schema, "WatchXPlusHealthActivityOverlay");
+
+        activityOverlay.addIntProperty(TIMESTAMP_FROM).notNull().primaryKey();
+        activityOverlay.addIntProperty(TIMESTAMP_TO).notNull().primaryKey();
+        activityOverlay.addIntProperty(SAMPLE_RAW_KIND).notNull().primaryKey();
+        Property deviceId = activityOverlay.addLongProperty("deviceId").primaryKey().notNull().getProperty();
+        activityOverlay.addToOne(device, deviceId);
+
+        Property userId = activityOverlay.addLongProperty("userId").notNull().getProperty();
+        activityOverlay.addToOne(user, userId);
+        activityOverlay.addByteArrayProperty("rawWatchXPlusHealthData");
+
+        return activityOverlay;
     }
 
     private static void addCommonActivitySampleProperties(String superClass, Entity activitySample, Entity user, Entity device) {
