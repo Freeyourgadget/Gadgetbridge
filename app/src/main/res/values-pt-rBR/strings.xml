@@ -788,4 +788,7 @@
     <string name="pref_chart_heartrate_color_red">Vermelho</string>
     <string name="pref_chart_heartrate_color_orange">Laranja</string>
     <string name="pref_title_chart_heartrate_color">Cor da frequência cardíaca</string>
+    <string name="pref_title_chart_sleep_rolling_24_hour">Intervalo de sono</string>
+    <string name="pref_chart_sleep_rolling_24_on">Últimas 24 horas</string>
+    <string name="pref_chart_sleep_rolling_24_off">Meio-dia ao meio-dia</string>
 </resources>
