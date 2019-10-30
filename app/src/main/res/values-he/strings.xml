@@ -781,4 +781,5 @@
     <string name="pref_title_chart_sleep_rolling_24_hour">טווח שינה</string>
     <string name="pref_chart_sleep_rolling_24_on">24 השעות האחרונות</string>
     <string name="pref_chart_sleep_rolling_24_off">צהריים עד צהריים</string>
+    <string name="devicetype_amazfit_gts">Amazfit GTS</string>
 </resources>
