@@ -783,4 +783,5 @@
     <string name="pref_title_chart_sleep_rolling_24_hour">Søvnperiode</string>
     <string name="pref_chart_sleep_rolling_24_on">Siste 24 timer</string>
     <string name="pref_chart_sleep_rolling_24_off">12:00 til 12:00</string>
+    <string name="devicetype_amazfit_gts">Amazfit GTS</string>
 </resources>
