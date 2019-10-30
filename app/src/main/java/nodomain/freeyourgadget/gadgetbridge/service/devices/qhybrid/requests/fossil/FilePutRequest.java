@@ -15,7 +15,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.foss
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public abstract class FilePutRequest extends Request {
+public class FilePutRequest extends Request {
     public enum UploadState{INITIALIZED, UPLOADING, CLOSING, UPLOADED, ERROR}
 
     public UploadState state;
