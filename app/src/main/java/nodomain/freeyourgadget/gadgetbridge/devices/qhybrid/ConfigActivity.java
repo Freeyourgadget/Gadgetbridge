@@ -326,7 +326,6 @@ public class ConfigActivity extends AbstractGBActivity {
                         @Override
                         public void onClick(View v) {
                             GB.toast("nah.", Toast.LENGTH_SHORT, GB.INFO);
-                            GB.toast("nah.", Toast.LENGTH_SHORT, GB.INFO);
                             ((CheckBox)v).setChecked(false);
                         }
                     });
