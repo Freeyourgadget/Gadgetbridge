@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fo
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
 import java.util.zip.CRC32;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
@@ -10,6 +11,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.foss
 public class NotificationFilterPutRequest extends FilePutRequest {
     public NotificationFilterPutRequest(NotificationConfiguration[] configs, FossilWatchAdapter adapter) {
         super((short) 0x0C00, createFile(configs), adapter);
+    }
+
+
+    public NotificationFilterPutRequest(ArrayList<NotificationConfiguration> configs, FossilWatchAdapter adapter) {
+        super((short) 0x0C00, createFile(configs.toArray(new NotificationConfiguration[0])), adapter);
     }
 
     private static byte[] createFile(NotificationConfiguration[] configs){
@@ -39,7 +45,7 @@ public class NotificationFilterPutRequest extends FilePutRequest {
             buffer.putShort(config.getHour())
                     .putShort(config.getMin())
                     .putShort(config.getSubEye())
-                    .putShort((short) 1000);
+                    .putShort((short) 5000);
 
             buffer.put(PacketID.VIBRATION.id);
             buffer.put((byte) 1);

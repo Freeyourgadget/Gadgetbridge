@@ -89,6 +89,9 @@ public class MisfitWatchAdapter extends WatchAdapter {
         requestQueue.add(new SetCurrentStepCountRequest((int) (999999 * getDeviceSupport().calculateNotificationProgress())));
 
         queueWrite(new GetCurrentStepCountRequest());
+
+        getDeviceSupport().getDevice().setState(GBDevice.State.INITIALIZED);
+        getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
     }
 
 
@@ -382,6 +385,11 @@ public class MisfitWatchAdapter extends WatchAdapter {
     @Override
     public void setVibrationStrength(short strength) {
         queueWrite(new SetVibrationStrengthRequest(strength));
+    }
+
+    @Override
+    public void syncNotificationSettings() {
+
     }
 
     @Override

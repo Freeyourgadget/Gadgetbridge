@@ -17,7 +17,7 @@ public class PlayNotificationRequest extends FilePutRequest {
     private static byte[] createFile(String packageName){
         CRC32 crc = new CRC32();
         crc.update(packageName.getBytes());
-        return createFile("", "", "", (int)crc.getValue());
+        return createFile(packageName, packageName, packageName, (int)crc.getValue());
     }
 
     private static byte[] createFile(String title, String sender, String message, int packageCrc) {

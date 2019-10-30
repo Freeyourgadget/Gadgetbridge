@@ -30,5 +30,7 @@ public class ConfigurationGetRequest extends FileLookupAndGetRequest {
                 device.addDeviceInfo(new GenericItem(QHybridSupport.ITEM_STEP_COUNT, String.valueOf(((ConfigurationPutRequest.CurrentStepCountConfigItem) item).getValue())));
             }
         }
+
+        device.sendDeviceUpdateIntent(getAdapter().getContext());
     }
 }

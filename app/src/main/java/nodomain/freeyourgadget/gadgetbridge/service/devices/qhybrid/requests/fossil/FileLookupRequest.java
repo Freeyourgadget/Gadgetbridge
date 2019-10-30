@@ -22,7 +22,7 @@ public class FileLookupRequest extends Request {
 
     private byte[] fileData;
 
-    private boolean finished = false;
+    protected boolean finished = false;
 
     public FileLookupRequest(byte fileType, FossilWatchAdapter adapter) {
         this.fileType = fileType;

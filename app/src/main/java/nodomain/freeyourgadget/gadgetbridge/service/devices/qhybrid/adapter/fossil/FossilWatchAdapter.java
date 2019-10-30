@@ -5,13 +5,17 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.util.Log;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.TimeZone;
 
+import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.WatchAdapter;
@@ -23,8 +27,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.NotificationFilterPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.PlayNotificationRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.PrepareFilesRequestOrWhatever;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.AnimationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.MoveHandsRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.ReleaseHandsControlRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.RequestHandControlRequest;
 
 public class FossilWatchAdapter extends WatchAdapter {
     private Queue<Request> requestQueue = new ArrayDeque<>();
@@ -41,8 +47,44 @@ public class FossilWatchAdapter extends WatchAdapter {
     @Override
     public void initialize() {
         playPairingAnimation();
-        queueWrite(new PrepareFilesRequestOrWhatever());
+        // queueWrite(new PrepareFilesRequestOrWhatever());
+        queueWrite(new ConfigurationGetRequest(this));
 
+        /*queueWrite(new Request() {
+            @Override
+            public byte[] getStartSequence() {
+                return new byte[]{0x01, (byte)0xF1, 0x28};
+            }
+        });
+
+        queueWrite(new Request() {
+            @Override
+            public byte[] getStartSequence() {
+                return new byte[]{0x09, (byte) 0xFF, (byte) 0xFF};
+            }
+
+            @Override
+            public UUID getRequestUUID() {
+                return UUID.fromString("3dda0003-957f-7d4a-34a6-74696673696d");
+            }
+        });
+
+        queueWrite(new Request() {
+            @Override
+            public byte[] getStartSequence() {
+                return new byte[]{(byte) 0x02, (byte) 0x09 , (byte) 0x0C , (byte) 0x00 , (byte) 0x0C , (byte) 0x00 , (byte) 0x2D , (byte) 0x00 , (byte) 0x58 , (byte) 0x02};
+            }
+        });*/
+        /*queueWrite(new Request() {
+            @Override
+            public byte[] getStartSequence() {
+                return new byte[]{0x02, 0x17, 0x01};
+            }
+        });*/
+        syncNotificationSettings();
+
+        getDeviceSupport().getDevice().setState(GBDevice.State.INITIALIZED);
+        getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
     }
 
     @Override
@@ -52,6 +94,10 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     @Override
     public void playNotification(NotificationConfiguration config) {
+        if(config.getPackageName() == null){
+            log("package name in notification not set");
+            return;
+        }
         queueWrite(new PlayNotificationRequest(config.getPackageName(), this));
     }
 
@@ -86,12 +132,13 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     @Override
     public void setHands(short hour, short minute) {
-
+        queueWrite(new MoveHandsRequest(false, minute, hour, (short) -1));
     }
 
-    @Override
-    public void vibrate(nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest.VibrationType vibration) {
 
+
+    public void vibrate(nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest.VibrationType vibration) {
+        // queueWrite(new nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest(vibration, -1, -1));
     }
 
     @Override
@@ -99,14 +146,15 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     }
 
+
     @Override
     public void requestHandsControl() {
-
+        queueWrite(new RequestHandControlRequest());
     }
 
     @Override
     public void releaseHandsControl() {
-
+        queueWrite(new ReleaseHandsControlRequest());
     }
 
     @Override
@@ -127,18 +175,26 @@ public class FossilWatchAdapter extends WatchAdapter {
     }
 
     @Override
+    public void syncNotificationSettings() {
+        log("syncing notification settings...");
+        try {
+            PackageConfigHelper helper = new PackageConfigHelper(getContext());
+            ArrayList<NotificationConfiguration> configurations = helper.getNotificationConfigurations();
+            if(configurations.size() == 1) configurations.add(configurations.get(0));
+
+            queueWrite(new NotificationFilterPutRequest(configurations, this));
+        } catch (GBException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void onTestNewFunction() {
-        NotificationConfiguration c = new NotificationConfiguration(
-                (short) 0x77,
-                (short) 0x77,
-                (short) 0xFF,
-                nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest.VibrationType.WHATEVER
-        );
-        c.setPackageName("com.whatsapp");
-        queueWrite(new NotificationFilterPutRequest(
-                new NotificationConfiguration[]{c, c},
-                this
-        ));
+        try {
+            queueWrite(new NotificationFilterPutRequest(new PackageConfigHelper(getContext()).getNotificationConfigurations() ,this));
+        } catch (GBException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -179,12 +235,25 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     @Override
     public void onFetchActivityData() {
-        queueWrite(new ConfigurationGetRequest(this));
+        NotificationConfiguration config = new NotificationConfiguration((short) 0, (short) 0, (short) 0, null);
+        config.setPackageName("org.telegram.messenger");
+        playNotification(config);
+        // queueWrite(new ConfigurationGetRequest(this));
     }
 
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
         switch (characteristic.getUuid().toString()) {
+            case "3dda0002-957f-7d4a-34a6-74696673696d": {
+                if(fileGetRequest == null && fileLookupRequest == null && filePutRequest == null){
+                    try {
+                        queueWrite(requestQueue.remove());
+                    } catch (NoSuchElementException e) {
+                        log("requestsQueue empty");
+                    }
+                }
+                break;
+            }
             case "3dda0004-957f-7d4a-34a6-74696673696d":
             case "3dda0003-957f-7d4a-34a6-74696673696d": {
                 if (filePutRequest != null) {
@@ -192,10 +261,12 @@ public class FossilWatchAdapter extends WatchAdapter {
                     filePutRequest.handleResponse(characteristic);
 
                     if (filePutRequest.isFinished()) {
+                        log("filePutRequets finished");
                         filePutRequest = null;
                         try {
                             queueWrite(requestQueue.remove());
                         } catch (NoSuchElementException e) {
+                            log("requestsQueue empty");
                         }
                     }
                 } else if (fileGetRequest != null) {
@@ -209,10 +280,12 @@ public class FossilWatchAdapter extends WatchAdapter {
                     }
 
                     if (requestFinished) {
+                        log("fileGetRequest finished");
                         fileGetRequest = null;
                         try {
                             queueWrite(requestQueue.remove());
                         } catch (NoSuchElementException e) {
+                            log("requestsQueue empty");
                         }
                     }
                 } else if (fileLookupRequest != null) {
@@ -226,11 +299,19 @@ public class FossilWatchAdapter extends WatchAdapter {
                     }
 
                     if (requestFinished) {
+                        log("fileLookupRequest finished");
                         fileLookupRequest = null;
                         try {
                             queueWrite(requestQueue.remove());
                         } catch (NoSuchElementException e) {
+                            log("requestsQueue empty");
                         }
+                    }
+                } else {
+                    try {
+                        queueWrite(requestQueue.remove());
+                    } catch (NoSuchElementException e) {
+                        log("requestsQueue empty");
                     }
                 }
             }
@@ -238,17 +319,28 @@ public class FossilWatchAdapter extends WatchAdapter {
         return true;
     }
 
-    public void queueWrite(Request request) {
-        if (filePutRequest != null || fileGetRequest != null || fileLookupRequest != null) {
-            Log.d("FossilWatchAdapter", "queing request");
-            requestQueue.add(request);
-            return;
-        }
+    private void log(String message){
+        Log.d("FossilWatchAdapter", message);
+    }
 
-        if (request instanceof FilePutRequest) filePutRequest = (FilePutRequest) request;
-        else if (request instanceof FileGetRequest) fileGetRequest = (FileGetRequest) request;
-        else if (request instanceof FileLookupRequest)
-            fileLookupRequest = (FileLookupRequest) request;
+    public void queueWrite(Request request) {
+        if(request.isBasicRequest()){
+            try {
+                queueWrite(requestQueue.remove());
+            }catch (NoSuchElementException e){}
+        }else {
+            if (filePutRequest != null || fileGetRequest != null || fileLookupRequest != null) {
+                Log.d("FossilWatchAdapter", "queing request: " + request.getName());
+                requestQueue.add(request);
+                return;
+            }
+            log("executing request directly: " + request.getName());
+
+            if (request instanceof FilePutRequest) filePutRequest = (FilePutRequest) request;
+            else if (request instanceof FileGetRequest) fileGetRequest = (FileGetRequest) request;
+            else if (request instanceof FileLookupRequest)
+                fileLookupRequest = (FileLookupRequest) request;
+        }
 
         new TransactionBuilder(request.getClass().getSimpleName()).write(getDeviceSupport().getCharacteristic(request.getRequestUUID()), request.getRequestData()).queue(getDeviceSupport().getQueue());
     }

@@ -49,6 +49,10 @@ public abstract class Request {
         Log.d(getName(), message);
     }
 
+    public boolean isBasicRequest(){
+        return this.getRequestUUID().toString().equals("3dda0002-957f-7d4a-34a6-74696673696d");
+    }
+
     public boolean expectsResponse(){
         return this.data[0] == 1;
     }

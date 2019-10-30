@@ -19,7 +19,7 @@ public abstract class WatchAdapter {
         return this.deviceSupport;
     }
 
-    protected Context getContext(){
+    public Context getContext(){
         return getDeviceSupport().getContext();
     }
 
@@ -37,6 +37,7 @@ public abstract class WatchAdapter {
     public abstract void releaseHandsControl();
     public abstract void setStepGoal(int stepGoal);
     public abstract void setVibrationStrength(short strength);
+    public abstract void syncNotificationSettings();
     public abstract void onTestNewFunction();
 
     public abstract boolean supportsExtendedVibration();

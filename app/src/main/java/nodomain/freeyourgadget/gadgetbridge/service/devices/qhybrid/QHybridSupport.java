@@ -22,6 +22,7 @@ import java.util.UUID;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
@@ -54,6 +55,7 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     public static final String QHYBRID_EVENT_SETTINGS_UPDATED = "nodomain.freeyourgadget.gadgetbridge.Q_SETTINGS_UPDATED";
     public static final String QHYBRID_EVENT_FILE_UPLOADED = "nodomain.freeyourgadget.gadgetbridge.Q_FILE_UPLOADED";
+    public static final String QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED = "nodomain.freeyourgadget.gadgetbridge.Q_NOTIFICATION_CONFIG_CHANGED";
 
     public static final String QHYBRID_EVENT_BUTTON_PRESS = "nodomain.freeyourgadget.gadgetbridge.Q_BUTTON_PRESSED";
 
@@ -93,9 +95,20 @@ public class QHybridSupport extends QHybridBaseSupport {
         commandFilter.addAction(QHYBRID_COMMAND_NOTIFICATION);
         commandFilter.addAction(QHYBRID_COMMAND_UPDATE_SETTINGS);
         commandFilter.addAction(QHYBRID_COMMAND_OVERWRITE_BUTTONS);
+        commandFilter.addAction(QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED);
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(commandReceiver, commandFilter);
 
-        helper = new PackageConfigHelper(GBApplication.getContext());
+        try {
+            helper = new PackageConfigHelper(GBApplication.getContext());
+        } catch (GBException e) {
+            e.printStackTrace();
+            GB.toast("erroe getting database", Toast.LENGTH_SHORT, GB.ERROR, e);
+            try {
+                throw e;
+            } catch (GBException ex) {
+                ex.printStackTrace();
+            }
+        }
 
         IntentFilter globalFilter = new IntentFilter();
         globalFilter.addAction(QHYBRID_ACTION_SET_ACTIVITY_HAND);
@@ -130,8 +143,6 @@ public class QHybridSupport extends QHybridBaseSupport {
 
         loadTimeOffset();
 
-        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
-
         return builder;
     }
 
@@ -148,7 +159,13 @@ public class QHybridSupport extends QHybridBaseSupport {
         //new Exception().printStackTrace();
         String packageName = notificationSpec.sourceName;
 
-        NotificationConfiguration config = helper.getSetting(packageName);
+        NotificationConfiguration config = null;
+        try {
+            config = helper.getNotificationConfiguration(packageName);
+        } catch (GBException e) {
+            e.printStackTrace();
+            GB.toast("error getting notification configuration", Toast.LENGTH_SHORT, GB.ERROR, e);
+        }
         if (config == null) return;
 
         Log.d("Service", "handling notification");
@@ -160,9 +177,9 @@ public class QHybridSupport extends QHybridBaseSupport {
 
         boolean enforceActivityHandNotification = config.getHour() == -1 && config.getMin() == -1;
 
-        // showNotificationsByAllActive(enforceActivityHandNotification);
-
         playNotification(config);
+
+        showNotificationsByAllActive(enforceActivityHandNotification);
     }
 
     @Override
@@ -173,7 +190,7 @@ public class QHybridSupport extends QHybridBaseSupport {
     }
 
     private void showNotificationsByAllActive(boolean enforceByNotification) {
-        if (!this.useActivityHand) ;
+        if (!this.useActivityHand);
         double progress = calculateNotificationProgress();
         showNotificationCountOnActivityHand(progress);
 
@@ -190,8 +207,13 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     public double calculateNotificationProgress() {
         HashMap<NotificationConfiguration, Boolean> configs = new HashMap<>(0);
-        for (NotificationConfiguration config : helper.getSettings()) {
-            configs.put(config, false);
+        try {
+            for (NotificationConfiguration config : helper.getNotificationConfigurations()) {
+                configs.put(config, false);
+            }
+        } catch (GBException e) {
+            e.printStackTrace();
+            GB.toast("error getting notification configs", Toast.LENGTH_SHORT, GB.ERROR, e);
         }
 
         double notificationProgress = 0;
@@ -353,8 +375,8 @@ public class QHybridSupport extends QHybridBaseSupport {
             switch (intent.getAction()) {
                 case QHYBRID_ACTION_SET_ACTIVITY_HAND: {
                     try {
-                        Object extra = intent.getExtras().get("EXTRA_PROGRESS");
-                        float progress = (float) extra;
+                        String extra = String.valueOf(intent.getExtras().get("EXTRA_PROGRESS"));
+                        float progress = Float.parseFloat(extra);
                         watchAdapter.setActivityHand(progress);
 
                         watchAdapter.playNotification(new NotificationConfiguration(
@@ -435,6 +457,10 @@ public class QHybridSupport extends QHybridBaseSupport {
                 }
                 case QHYBRID_COMMAND_OVERWRITE_BUTTONS: {
                     watchAdapter.overwriteButtons();
+                    break;
+                }
+                case QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED: {
+                    watchAdapter.syncNotificationSettings();
                     break;
                 }
             }

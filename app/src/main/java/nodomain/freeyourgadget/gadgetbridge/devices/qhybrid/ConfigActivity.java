@@ -47,12 +47,14 @@ import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ConfigActivity extends AbstractGBActivity {
     PackageAdapter adapter;
@@ -131,8 +133,14 @@ public class ConfigActivity extends AbstractGBActivity {
 
         ListView appList = findViewById(R.id.qhybrid_appList);
 
-        helper = new PackageConfigHelper(getApplicationContext());
-        list = helper.getSettings();
+        try {
+            helper = new PackageConfigHelper(getApplicationContext());
+            list = helper.getNotificationConfigurations();
+        } catch (GBException e) {
+            e.printStackTrace();
+            GB.toast("error getting configurations", Toast.LENGTH_SHORT, GB.ERROR, e);
+            list = new ArrayList<>();
+        }
         list.add(null);
         appList.setAdapter(adapter = new PackageAdapter(this, R.layout.qhybrid_package_settings_item, list));
         appList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -152,7 +160,13 @@ public class ConfigActivity extends AbstractGBActivity {
                                     public void onFinish(boolean success, NotificationConfiguration config) {
                                         setControl(false, null);
                                         if (success) {
-                                            helper.saveConfig(config);
+                                            try {
+                                                helper.saveNotificationConfiguration(config);
+                                                LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED));
+                                            } catch (GBException e) {
+                                                e.printStackTrace();
+                                                GB.toast("error saving notification", Toast.LENGTH_SHORT, GB.ERROR, e);
+                                            }
                                             refreshList();
                                         }
                                     }
@@ -173,7 +187,13 @@ public class ConfigActivity extends AbstractGBActivity {
                                 break;
                             }
                             case "delete": {
-                                helper.deleteConfig((NotificationConfiguration) adapterView.getItemAtPosition(i));
+                                try {
+                                    helper.deleteNotificationConfiguration((NotificationConfiguration) adapterView.getItemAtPosition(i));
+                                    LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED));
+                                } catch (GBException e) {
+                                    e.printStackTrace();
+                                    GB.toast("error deleting setting", Toast.LENGTH_SHORT, GB.ERROR, e);
+                                }
                                 refreshList();
                                 break;
                             }
@@ -331,7 +351,12 @@ public class ConfigActivity extends AbstractGBActivity {
 
     private void refreshList() {
         list.clear();
-        list.addAll(helper.getSettings());
+        try {
+            list.addAll(helper.getNotificationConfigurations());
+        } catch (GBException e) {
+            e.printStackTrace();
+            GB.toast("error getting configurations", Toast.LENGTH_SHORT, GB.ERROR, e);
+        }
         list.add(null);
         adapter.notifyDataSetChanged();
     }
@@ -339,7 +364,6 @@ public class ConfigActivity extends AbstractGBActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        helper.close();
     }
 
     @Override

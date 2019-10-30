@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil;
 
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.widget.Toast;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -12,6 +13,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.CRC32C;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public abstract class FilePutRequest extends Request {
     public enum UploadState{INITIALIZED, UPLOADING, CLOSING, UPLOADED, ERROR}
@@ -163,6 +165,24 @@ public abstract class FilePutRequest extends Request {
 
                     log("uploaded file");
 
+                    break;
+                }
+                case 9: {
+                    GB.toast("timeout writing file", Toast.LENGTH_SHORT, GB.ERROR);
+
+                    ByteBuffer buffer2 = ByteBuffer.allocate(3);
+                    buffer2.order(ByteOrder.LITTLE_ENDIAN);
+                    buffer2.put((byte) 4);
+                    buffer2.putShort(this.handle);
+
+                    new TransactionBuilder("file close")
+                            .write(
+                                    adapter.getDeviceSupport().getCharacteristic(UUID.fromString("3dda0003-957f-7d4a-34a6-74696673696d")),
+                                    buffer2.array()
+                            )
+                            .queue(adapter.getDeviceSupport().getQueue());
+
+                    this.state = UploadState.CLOSING;
                     break;
                 }
             }

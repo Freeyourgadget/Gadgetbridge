@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,9 +24,12 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static android.view.View.GONE;
 
@@ -39,7 +43,14 @@ public class QHybridAppChoserActivity extends AbstractGBActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qhybrid_app_choser);
 
-        helper = new PackageConfigHelper(getApplicationContext());
+        try {
+            helper = new PackageConfigHelper(getApplicationContext());
+        } catch (GBException e) {
+            e.printStackTrace();
+            GB.toast("error getting database helper", Toast.LENGTH_SHORT, GB.ERROR, e);
+            finish();
+            return;
+        }
 
         final ListView appList = findViewById(R.id.qhybrid_appChooserList);
         final PackageManager manager = getPackageManager();
@@ -78,7 +89,6 @@ public class QHybridAppChoserActivity extends AbstractGBActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        helper.close();
     }
 
     private void setControl(boolean control) {
@@ -111,7 +121,12 @@ public class QHybridAppChoserActivity extends AbstractGBActivity {
             public void onFinish(boolean success, NotificationConfiguration config) {
                 setControl(false);
                 if(success){
-                    helper.saveConfig(config);
+                    try {
+                        helper.saveNotificationConfiguration(config);
+                    } catch (GBException e) {
+                        e.printStackTrace();
+                        GB.toast("error saving configuration", Toast.LENGTH_SHORT, GB.ERROR, e);
+                    }
                     finish();
                 }
             }

@@ -107,7 +107,7 @@ public class ConfigurationPutRequest extends FilePutRequest {
 
         @Override
         public short getId() {
-            return 0;
+            return this.configId;
         }
 
         @Override

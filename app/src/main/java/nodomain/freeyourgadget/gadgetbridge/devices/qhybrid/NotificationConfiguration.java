@@ -29,7 +29,7 @@ public class NotificationConfiguration implements Serializable {
         this.vibration = vibration;
     }
 
-    NotificationConfiguration(short min, short hour, String packageName, String appName, boolean respectSilentMode, PlayNotificationRequest.VibrationType vibration, long id) {
+    public NotificationConfiguration(short min, short hour, String packageName, String appName, boolean respectSilentMode, PlayNotificationRequest.VibrationType vibration, long id) {
         this.min = min;
         this.hour = hour;
         this.packageName = packageName;

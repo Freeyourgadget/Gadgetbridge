@@ -8,10 +8,14 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class PackageConfigHelper extends DBOpenHelper {
+public class PackageConfigHelper {
     public static final String DB_NAME = "qhybridNotifications.db";
     public static final String DB_ID = "id";
     public static final String DB_TABLE = "notifications";
@@ -22,16 +26,12 @@ public class PackageConfigHelper extends DBOpenHelper {
     public static final String DB_HOUR = "hourDegrees";
     public static final String DB_RESPECT_SILENT = "respectSilent";
 
-    SQLiteDatabase database;
 
-
-    public PackageConfigHelper(Context context) {
-        super(context, DB_NAME, null);
-        this.database = getWritableDatabase();
+    public PackageConfigHelper(Context context) throws GBException {
         initDB();
     }
 
-    public void saveConfig(NotificationConfiguration settings){
+    public void saveNotificationConfiguration(NotificationConfiguration settings) throws GBException {
         ContentValues values = new ContentValues(6);
         values.put(DB_PACKAGE, settings.getPackageName());
         values.put(DB_APPNAME, settings.getAppName());
@@ -40,16 +40,25 @@ public class PackageConfigHelper extends DBOpenHelper {
         values.put(DB_VIBRATION, settings.getVibration().getValue());
         values.put(DB_RESPECT_SILENT, settings.getRespectSilentMode());
 
+        SQLiteDatabase database = GBApplication.acquireDB().getDatabase();
+
         if(settings.getId() == -1) {
             settings.setId(database.insert(DB_TABLE, null, values));
         }else{
             database.update(DB_TABLE, values, DB_ID + "=?", new String[]{String.valueOf(settings.getId())});
         }
+
+        GBApplication.releaseDB();
         //LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent());
     }
 
-    public ArrayList<NotificationConfiguration> getSettings(){
+    public ArrayList<NotificationConfiguration> getNotificationConfigurations() throws GBException {
+        SQLiteDatabase database = GBApplication.acquireDB().getDatabase();
+
         Cursor cursor = database.query(DB_TABLE, new String[]{"*"}, null, null, null, null, null);
+
+        GBApplication.releaseDB();
+
         int size = cursor.getCount();
         ArrayList<NotificationConfiguration> list = new ArrayList<>(size);
         if(size > 0){
@@ -78,9 +87,15 @@ public class PackageConfigHelper extends DBOpenHelper {
         return list;
     }
 
-    public NotificationConfiguration getSetting(String appName){
+    public NotificationConfiguration getNotificationConfiguration(String appName) throws GBException {
         if(appName == null) return null;
+
+        SQLiteDatabase database = GBApplication.acquireDB().getDatabase();
+
         Cursor c = database.query(DB_TABLE, new String[]{"*"}, DB_APPNAME + "=?", new String[]{appName}, null, null, null);
+
+        GBApplication.releaseDB();
+
         if(c.getCount() == 0){
             c.close();
             return null;
@@ -99,7 +114,9 @@ public class PackageConfigHelper extends DBOpenHelper {
         return settings;
     }
 
-    private void initDB(){
+    private void initDB() throws GBException {
+        SQLiteDatabase database = GBApplication.acquireDB().getDatabase();
+
         database.execSQL("CREATE TABLE IF NOT EXISTS notifications(" +
                 DB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 DB_PACKAGE + " TEXT, " +
@@ -108,17 +125,18 @@ public class PackageConfigHelper extends DBOpenHelper {
                 DB_APPNAME + " TEXT," +
                 DB_RESPECT_SILENT + " INTEGER," +
                 DB_HOUR + " INTEGER DEFAULT -1);");
+
+        GBApplication.releaseDB();
     }
 
-    @Override
-    public void close(){
-        super.close();
-        database.close();
-    }
-
-    public void deleteConfig(NotificationConfiguration packageSettings) {
+    public void deleteNotificationConfiguration(NotificationConfiguration packageSettings) throws GBException {
         Log.d("DB", "deleting id " + packageSettings.getId());
         if(packageSettings.getId() == -1) return;
-        this.database.delete(DB_TABLE, DB_ID + "=?", new String[]{String.valueOf(packageSettings.getId())});
+
+        SQLiteDatabase database = GBApplication.acquireDB().getDatabase();
+
+        database.delete(DB_TABLE, DB_ID + "=?", new String[]{String.valueOf(packageSettings.getId())});
+
+        GBApplication.releaseDB();
     }
 }
