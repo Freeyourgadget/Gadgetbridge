@@ -384,12 +384,12 @@
     <!--Strings related to Pebble Pairing Activity-->
     <string name="title_activity_pebble_pairing">Pebble koppeln</string>
     <string name="pebble_pairing_hint">Auf deinem Android-Gerät erscheint ein Koppeln-Dialog. Wenn nicht, schaue in die Benachrichtigungsübersicht und akzeptiere die Kopplungsanforderung. Akzeptiere es auch danach auf deiner Pebble.</string>
-    <string name="weather_notification_label">Stelle sicher, dass dieses Skin in der Wetterbenachrichtigungs-App aktiviert ist, damit du Wetterdaten auf deiner Pebble erhältst.
+    <string name="weather_notification_label">Stelle sicher, dass dieser Skin in der Wetterbenachrichtigungs-App aktiviert ist, damit du Wetterdaten auf deiner Pebble erhältst.
 \n
 \nHier ist keine Konfiguration nötig.
-\n
-\nDu kannst die Systemwetter-App deiner Pebble in App-Verwaltung aktivieren.
 \n 
+\nDu kannst die Systemwetter-App deiner Pebble in App-Verwaltung aktivieren.
+\n
 \nUnterstützte Zifferblätter zeigen das Wetter automatisch an.</string>
     <string name="pref_title_setup_bt_pairing">Bluetooth-Kopplung aktivieren</string>
     <string name="pref_summary_setup_bt_pairing">Deaktiviere dies, wenn du Probleme beim Verbinden hast</string>
@@ -793,4 +793,5 @@
     <string name="pref_title_chart_sleep_rolling_24_hour">Schlafbereich</string>
     <string name="pref_chart_sleep_rolling_24_on">Letzten 24 Stunden</string>
     <string name="pref_chart_sleep_rolling_24_off">Mittag bis Mittag</string>
+    <string name="devicetype_amazfit_gts">Amazfit GTS</string>
 </resources>
