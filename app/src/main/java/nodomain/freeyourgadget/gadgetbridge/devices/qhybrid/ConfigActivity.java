@@ -320,8 +320,16 @@ public class ConfigActivity extends AbstractGBActivity {
                         }
                     });
                 } else {
-                    activityHandCheckbox.setEnabled(false);
-                    activityHandCheckbox.setAlpha(0.5f);
+                    // activityHandCheckbox.setEnabled(false);
+                    activityHandCheckbox.setAlpha(0.2f);
+                    activityHandCheckbox.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            GB.toast("nah.", Toast.LENGTH_SHORT, GB.INFO);
+                            GB.toast("nah.", Toast.LENGTH_SHORT, GB.INFO);
+                            ((CheckBox)v).setChecked(false);
+                        }
+                    });
                 }
             }
         });
