@@ -51,7 +51,7 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String QHYBRID_COMMAND_UPDATE_SETTINGS = "nodomain.freeyourgadget.gadgetbridge.Q_UPDATE_SETTINGS";
     public static final String QHYBRID_COMMAND_OVERWRITE_BUTTONS = "nodomain.freeyourgadget.gadgetbridge.Q_OVERWRITE_BUTTONS";
 
-    public static final String QHYBRID_ACTION_SET_ACTIVITY_HAND = "nodomain.freeyourgadget.gadgetbridge.Q_SET_ACTIVITY_HAND";
+    private static final String QHYBRID_ACTION_SET_ACTIVITY_HAND = "nodomain.freeyourgadget.gadgetbridge.Q_SET_ACTIVITY_HAND";
 
     public static final String QHYBRID_EVENT_SETTINGS_UPDATED = "nodomain.freeyourgadget.gadgetbridge.Q_SETTINGS_UPDATED";
     public static final String QHYBRID_EVENT_FILE_UPLOADED = "nodomain.freeyourgadget.gadgetbridge.Q_FILE_UPLOADED";
@@ -75,11 +75,9 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     private long timeOffset;
 
-    private String modelNumber;
-
     private boolean useActivityHand;
 
-    WatchAdapter watchAdapter;
+    private WatchAdapter watchAdapter;
 
     public QHybridSupport() {
         super(logger);
@@ -96,6 +94,77 @@ public class QHybridSupport extends QHybridBaseSupport {
         commandFilter.addAction(QHYBRID_COMMAND_UPDATE_SETTINGS);
         commandFilter.addAction(QHYBRID_COMMAND_OVERWRITE_BUTTONS);
         commandFilter.addAction(QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED);
+        BroadcastReceiver commandReceiver = new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Bundle extras = intent.getExtras();
+                NotificationConfiguration config = extras == null ? null : (NotificationConfiguration) intent.getExtras().get("CONFIG");
+                switch (intent.getAction()) {
+                    case QHYBRID_COMMAND_CONTROL: {
+                        Log.d("Service", "sending control request");
+                        watchAdapter.requestHandsControl();
+                        if (config != null) {
+                            watchAdapter.setHands(config.getHour(), config.getMin());
+                        } else {
+                            watchAdapter.setHands((short) 0, (short) 0);
+                        }
+                        break;
+                    }
+                    case QHYBRID_COMMAND_UNCONTROL: {
+                        watchAdapter.releaseHandsControl();
+                        break;
+                    }
+                    case QHYBRID_COMMAND_SET: {
+                        watchAdapter.setHands(config.getHour(), config.getMin());
+
+                        break;
+                    }
+                    case QHYBRID_COMMAND_VIBRATE: {
+                        watchAdapter.vibrate(config.getVibration());
+                        break;
+                    }
+                    case QHYBRID_COMMAND_NOTIFICATION: {
+                        watchAdapter.playNotification(config);
+                        break;
+                    }
+                    case QHYBRID_COMMAND_UPDATE: {
+                        loadTimeOffset();
+                        onSetTime();
+                        break;
+                    }
+                    case QHYBRID_COMMAND_UPDATE_SETTINGS: {
+                        String newSetting = intent.getStringExtra("EXTRA_SETTING");
+                        switch (newSetting) {
+                            case ITEM_VIBRATION_STRENGTH: {
+                                watchAdapter.setVibrationStrength(Short.parseShort(gbDevice.getDeviceInfo(ITEM_VIBRATION_STRENGTH).getDetails()));
+                                break;
+                            }
+                            case ITEM_STEP_GOAL: {
+                                watchAdapter.setStepGoal(Integer.parseInt(gbDevice.getDeviceInfo(ITEM_STEP_GOAL).getDetails()));
+                                break;
+                            }
+                            case ITEM_USE_ACTIVITY_HAND: {
+                                QHybridSupport.this.useActivityHand = gbDevice.getDeviceInfo(ITEM_USE_ACTIVITY_HAND).getDetails().equals("true");
+                                GBApplication.getPrefs().getPreferences().edit().putBoolean("QHYBRID_USE_ACTIVITY_HAND", useActivityHand).apply();
+                                break;
+                            }
+                        }
+
+                        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(QHYBRID_EVENT_SETTINGS_UPDATED));
+                        break;
+                    }
+                    case QHYBRID_COMMAND_OVERWRITE_BUTTONS: {
+                        watchAdapter.overwriteButtons();
+                        break;
+                    }
+                    case QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED: {
+                        watchAdapter.syncNotificationSettings();
+                        break;
+                    }
+                }
+            }
+        };
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(commandReceiver, commandFilter);
 
         try {
@@ -112,6 +181,32 @@ public class QHybridSupport extends QHybridBaseSupport {
 
         IntentFilter globalFilter = new IntentFilter();
         globalFilter.addAction(QHYBRID_ACTION_SET_ACTIVITY_HAND);
+        BroadcastReceiver globalCommandReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                //noinspection SwitchStatementWithTooFewBranches
+                switch (intent.getAction()) {
+                    case QHYBRID_ACTION_SET_ACTIVITY_HAND: {
+                        try {
+                            String extra = String.valueOf(intent.getExtras().get("EXTRA_PROGRESS"));
+                            float progress = Float.parseFloat(extra);
+                            watchAdapter.setActivityHand(progress);
+
+                            watchAdapter.playNotification(new NotificationConfiguration(
+                                    (short) -1,
+                                    (short) -1,
+                                    (short) (progress * 180),
+                                    PlayNotificationRequest.VibrationType.NO_VIBE
+                            ));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            logger.debug("trash extra should be number 0.0-1.0");
+                        }
+                        break;
+                    }
+                }
+            }
+        };
         GBApplication.getContext().registerReceiver(globalCommandReceiver, globalFilter);
     }
 
@@ -190,7 +285,7 @@ public class QHybridSupport extends QHybridBaseSupport {
     }
 
     private void showNotificationsByAllActive(boolean enforceByNotification) {
-        if (!this.useActivityHand);
+        if (!this.useActivityHand) return;
         double progress = calculateNotificationProgress();
         showNotificationCountOnActivityHand(progress);
 
@@ -333,7 +428,7 @@ public class QHybridSupport extends QHybridBaseSupport {
                 break;
             }
             case "00002a24-0000-1000-8000-00805f9b34fb": {
-                modelNumber = characteristic.getStringValue(0);
+                String modelNumber = characteristic.getStringValue(0);
                 gbDevice.setModel(modelNumber);
                 gbDevice.setName(watchAdapter.getModelName());
                 try {
@@ -369,101 +464,4 @@ public class QHybridSupport extends QHybridBaseSupport {
         return watchAdapter.onCharacteristicChanged(gatt, characteristic);
     }
 
-    private final BroadcastReceiver globalCommandReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            switch (intent.getAction()) {
-                case QHYBRID_ACTION_SET_ACTIVITY_HAND: {
-                    try {
-                        String extra = String.valueOf(intent.getExtras().get("EXTRA_PROGRESS"));
-                        float progress = Float.parseFloat(extra);
-                        watchAdapter.setActivityHand(progress);
-
-                        watchAdapter.playNotification(new NotificationConfiguration(
-                                (short) -1,
-                                (short) -1,
-                                (short) (progress * 180),
-                                PlayNotificationRequest.VibrationType.NO_VIBE
-                        ));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        logger.debug("trash extra should be number 0.0-1.0");
-                    }
-                    break;
-                }
-            }
-        }
-    };
-
-    private final BroadcastReceiver commandReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Bundle extras = intent.getExtras();
-            NotificationConfiguration config = extras == null ? null : (NotificationConfiguration) intent.getExtras().get("CONFIG");
-            switch (intent.getAction()) {
-                case QHYBRID_COMMAND_CONTROL: {
-                    Log.d("Service", "sending control request");
-                    watchAdapter.requestHandsControl();
-                    if (config != null) {
-                        watchAdapter.setHands(config.getHour(), config.getMin());
-                    } else {
-                        watchAdapter.setHands((short) 0, (short) 0);
-                    }
-                    break;
-                }
-                case QHYBRID_COMMAND_UNCONTROL: {
-                    watchAdapter.releaseHandsControl();
-                    break;
-                }
-                case QHYBRID_COMMAND_SET: {
-                    watchAdapter.setHands(config.getHour(), config.getMin());
-
-                    break;
-                }
-                case QHYBRID_COMMAND_VIBRATE: {
-                    watchAdapter.vibrate(config.getVibration());
-                    break;
-                }
-                case QHYBRID_COMMAND_NOTIFICATION: {
-                    watchAdapter.playNotification(config);
-                    break;
-                }
-                case QHYBRID_COMMAND_UPDATE: {
-                    loadTimeOffset();
-                    onSetTime();
-                    break;
-                }
-                case QHYBRID_COMMAND_UPDATE_SETTINGS: {
-                    String newSetting = intent.getStringExtra("EXTRA_SETTING");
-                    switch (newSetting) {
-                        case ITEM_VIBRATION_STRENGTH: {
-                            watchAdapter.setVibrationStrength(Short.parseShort(gbDevice.getDeviceInfo(ITEM_VIBRATION_STRENGTH).getDetails()));
-                            break;
-                        }
-                        case ITEM_STEP_GOAL: {
-                            watchAdapter.setStepGoal(Integer.parseInt(gbDevice.getDeviceInfo(ITEM_STEP_GOAL).getDetails()));
-                            break;
-                        }
-                        case ITEM_USE_ACTIVITY_HAND: {
-                            QHybridSupport.this.useActivityHand = gbDevice.getDeviceInfo(ITEM_USE_ACTIVITY_HAND).getDetails().equals("true");
-                            GBApplication.getPrefs().getPreferences().edit().putBoolean("QHYBRID_USE_ACTIVITY_HAND", useActivityHand).apply();
-                            break;
-                        }
-                    }
-
-                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(QHYBRID_EVENT_SETTINGS_UPDATED));
-                    break;
-                }
-                case QHYBRID_COMMAND_OVERWRITE_BUTTONS: {
-                    watchAdapter.overwriteButtons();
-                    break;
-                }
-                case QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED: {
-                    watchAdapter.syncNotificationSettings();
-                    break;
-                }
-            }
-        }
-    };
 }

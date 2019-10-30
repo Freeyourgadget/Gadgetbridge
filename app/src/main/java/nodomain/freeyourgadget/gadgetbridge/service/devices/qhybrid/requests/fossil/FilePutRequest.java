@@ -150,6 +150,8 @@ public class FilePutRequest extends Request {
                     if (handle != this.handle) {
                         this.state = UploadState.ERROR;
                         log("wrong file handle");
+
+                        onFilePut(false);
                         break;
                     }
 
@@ -158,18 +160,20 @@ public class FilePutRequest extends Request {
                     if (status != 0) {
                         this.state = UploadState.ERROR;
                         log("wrong closing handle");
+
+                        onFilePut(false);
                         break;
                     }
 
                     this.state = UploadState.UPLOADED;
+
+                    onFilePut(true);
 
                     log("uploaded file");
 
                     break;
                 }
                 case 9: {
-                    GB.toast("timeout writing file", Toast.LENGTH_SHORT, GB.ERROR);
-
                     ByteBuffer buffer2 = ByteBuffer.allocate(3);
                     buffer2.order(ByteOrder.LITTLE_ENDIAN);
                     buffer2.put((byte) 4);
@@ -213,6 +217,8 @@ public class FilePutRequest extends Request {
 
         packets.add(buffer.array());
     }
+
+    public void onFilePut(boolean success){}
 
     @Override
     public byte[] getStartSequence() {

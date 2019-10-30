@@ -32,5 +32,9 @@ public class ConfigurationGetRequest extends FileLookupAndGetRequest {
         }
 
         device.sendDeviceUpdateIntent(getAdapter().getContext());
+
+        handleConfigurationLoaded();
     }
+
+    public void handleConfigurationLoaded(){}
 }

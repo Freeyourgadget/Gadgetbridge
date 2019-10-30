@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fos
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mis
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.MoveHandsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.ReleaseHandsControlRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.RequestHandControlRequest;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class FossilWatchAdapter extends WatchAdapter {
     private Queue<Request> requestQueue = new ArrayDeque<>();
@@ -48,7 +50,14 @@ public class FossilWatchAdapter extends WatchAdapter {
     public void initialize() {
         playPairingAnimation();
         // queueWrite(new PrepareFilesRequestOrWhatever());
-        queueWrite(new ConfigurationGetRequest(this));
+        queueWrite(new ConfigurationGetRequest(this){
+            @Override
+            public void handleConfigurationLoaded() {
+                super.handleConfigurationLoaded();
+
+                syncNotificationSettings();
+            }
+        });
 
         /*queueWrite(new Request() {
             @Override
@@ -81,10 +90,6 @@ public class FossilWatchAdapter extends WatchAdapter {
                 return new byte[]{0x02, 0x17, 0x01};
             }
         });*/
-        syncNotificationSettings();
-
-        getDeviceSupport().getDevice().setState(GBDevice.State.INITIALIZED);
-        getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
     }
 
     @Override
@@ -189,7 +194,23 @@ public class FossilWatchAdapter extends WatchAdapter {
             ArrayList<NotificationConfiguration> configurations = helper.getNotificationConfigurations();
             if(configurations.size() == 1) configurations.add(configurations.get(0));
 
-            queueWrite(new NotificationFilterPutRequest(configurations, this));
+            queueWrite(new NotificationFilterPutRequest(configurations, this){
+                @Override
+                public void onFilePut(boolean success) {
+                    super.onFilePut(success);
+
+                    if(!success){
+                        GB.toast("error writing notification settings", Toast.LENGTH_SHORT, GB.ERROR);
+
+                        getDeviceSupport().getDevice().setState(GBDevice.State.NOT_CONNECTED);
+                        getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
+                        throw new RuntimeException("Error uploading notification settings");
+                    }
+
+                    getDeviceSupport().getDevice().setState(GBDevice.State.INITIALIZED);
+                    getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
+                }
+            });
         } catch (GBException e) {
             e.printStackTrace();
         }

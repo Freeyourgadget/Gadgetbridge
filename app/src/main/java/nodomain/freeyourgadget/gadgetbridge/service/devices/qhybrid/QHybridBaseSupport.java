@@ -17,8 +17,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 
-public class QHybridBaseSupport extends AbstractBTLEDeviceSupport {
-    public QHybridBaseSupport(Logger logger) {
+class QHybridBaseSupport extends AbstractBTLEDeviceSupport {
+    QHybridBaseSupport(Logger logger) {
         super(logger);
     }
 
