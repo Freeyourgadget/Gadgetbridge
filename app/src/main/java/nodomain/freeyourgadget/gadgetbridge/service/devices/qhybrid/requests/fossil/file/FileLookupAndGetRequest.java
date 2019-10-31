@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 
@@ -11,11 +11,11 @@ public abstract class FileLookupAndGetRequest extends FileLookupRequest {
     public void handleFileLookup(short fileHandle){
         getAdapter().queueWrite(new FileGetRequest(getHandle(), getAdapter()) {
             @Override
-            void handleFileData(byte[] fileData) {
+            public void handleFileData(byte[] fileData) {
                 FileLookupAndGetRequest.this.handleFileData(fileData);
             }
         });
     }
 
-    abstract void handleFileData(byte[] fileData);
+    abstract public void handleFileData(byte[] fileData);
 }

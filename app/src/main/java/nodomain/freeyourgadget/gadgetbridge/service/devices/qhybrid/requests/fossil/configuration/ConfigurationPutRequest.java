@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration;
 
 import android.graphics.Bitmap;
 
@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 
 public class ConfigurationPutRequest extends FilePutRequest {
     private static HashMap<Short, Class<? extends ConfigItem>> itemsById = new HashMap<>();

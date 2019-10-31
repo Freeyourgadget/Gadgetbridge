@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 
@@ -11,33 +11,42 @@ import java.util.zip.CRC32;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 
-public abstract class FileGetRequest extends Request {
-    private short handle;
+public class FileLookupRequest extends FossilRequest {
+    private short handle = -1;
+    private byte fileType;
+
     private FossilWatchAdapter adapter;
 
     private ByteBuffer fileBuffer;
 
     private byte[] fileData;
 
-    private boolean finished = false;
+    protected boolean finished = false;
 
-    public FileGetRequest(short handle, FossilWatchAdapter adapter) {
-        this.handle = handle;
+    public FileLookupRequest(byte fileType, FossilWatchAdapter adapter) {
+        this.fileType = fileType;
         this.adapter = adapter;
 
         this.data =
                 createBuffer()
-                        .putShort(handle)
-                        .putInt(0)
-                        .putInt(0xFFFFFFFF)
+                        .put(fileType)
                         .array();
     }
 
-    public FossilWatchAdapter getAdapter() {
+    protected FossilWatchAdapter getAdapter() {
         return adapter;
     }
 
+    public short getHandle() {
+        if(!finished){
+            throw new UnsupportedOperationException("File lookup not finished");
+        }
+        return handle;
+    }
+
+    @Override
     public boolean isFinished(){
         return finished;
     }
@@ -47,7 +56,7 @@ public abstract class FileGetRequest extends Request {
         byte[] value = characteristic.getValue();
         byte first = value[0];
         if(characteristic.getUuid().toString().equals("3dda0003-957f-7d4a-34a6-74696673696d")){
-            if((first & 0x0F) == 1){
+            if((first & 0x0F) == 2){
                 ByteBuffer buffer = ByteBuffer.wrap(value);
                 buffer.order(ByteOrder.LITTLE_ENDIAN);
 
@@ -61,7 +70,7 @@ public abstract class FileGetRequest extends Request {
                 }
 
                 if(this.handle != handle){
-                    throw new RuntimeException("handle: " + handle + "   expected: " + this.handle);
+                    // throw new RuntimeException("handle: " + handle + "   expected: " + this.handle);
                 }
                 log("file size: " + size);
                 fileBuffer = ByteBuffer.allocate(size);
@@ -70,11 +79,6 @@ public abstract class FileGetRequest extends Request {
 
                 ByteBuffer buffer = ByteBuffer.wrap(value);
                 buffer.order(ByteOrder.LITTLE_ENDIAN);
-
-                short handle = buffer.getShort(1);
-                if(this.handle != handle){
-                    throw new RuntimeException("handle: " + handle + "   expected: " + this.handle);
-                }
 
                 CRC32 crc = new CRC32();
                 crc.update(this.fileData);
@@ -85,7 +89,12 @@ public abstract class FileGetRequest extends Request {
                     throw new RuntimeException("handle: " + handle + "   expected: " + this.handle);
                 }
 
-                this.handleFileData(this.fileData);
+                ByteBuffer dataBuffer = ByteBuffer.wrap(fileData);
+                dataBuffer.order(ByteOrder.LITTLE_ENDIAN);
+
+                this.handle = dataBuffer.getShort(0);
+
+                this.handleFileLookup(this.handle);
             }
         }else if(characteristic.getUuid().toString().equals("3dda0004-957f-7d4a-34a6-74696673696d")){
             fileBuffer.put(value, 1, value.length - 1);
@@ -95,6 +104,8 @@ public abstract class FileGetRequest extends Request {
         }
     }
 
+    public void handleFileLookup(short fileHandle){}
+
     @Override
     public UUID getRequestUUID() {
         return UUID.fromString("3dda0003-957f-7d4a-34a6-74696673696d");
@@ -102,13 +113,11 @@ public abstract class FileGetRequest extends Request {
 
     @Override
     public byte[] getStartSequence() {
-        return new byte[]{1};
+        return new byte[]{2, (byte) 0xFF};
     }
 
     @Override
     public int getPayloadLength() {
-        return 11;
+        return 3;
     }
-
-    abstract void handleFileData(byte[] fileData);
 }

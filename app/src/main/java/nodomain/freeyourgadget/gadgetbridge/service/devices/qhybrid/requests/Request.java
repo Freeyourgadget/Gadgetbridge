@@ -42,7 +42,9 @@ public abstract class Request {
     public void handleResponse(BluetoothGattCharacteristic characteristic){};
 
     public String getName(){
-        return this.getClass().getSimpleName();
+        Class thisClass = getClass();
+        while(thisClass.isAnonymousClass()) thisClass = thisClass.getSuperclass();
+        return thisClass.getSimpleName();
     }
 
     protected void log(String message){

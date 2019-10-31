@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -7,6 +7,7 @@ import java.util.zip.CRC32;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 
 public class NotificationFilterPutRequest extends FilePutRequest {
     public NotificationFilterPutRequest(NotificationConfiguration[] configs, FossilWatchAdapter adapter) {

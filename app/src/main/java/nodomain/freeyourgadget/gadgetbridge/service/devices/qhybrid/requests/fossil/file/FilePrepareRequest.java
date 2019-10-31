@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 
@@ -7,8 +7,9 @@ import java.nio.ByteOrder;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 
-public class FilePrepareRequest extends Request {
+public class FilePrepareRequest extends FossilRequest {
     private boolean isFinished = false;
     private short handle;
 
@@ -62,6 +63,7 @@ public class FilePrepareRequest extends Request {
         return 3;
     }
 
+    @Override
     public boolean isFinished(){
         return this.isFinished;
     }

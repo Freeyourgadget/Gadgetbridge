@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.widget.Toast;
@@ -13,10 +13,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.CRC32C;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class FilePutRequest extends Request {
-    public enum UploadState{INITIALIZED, UPLOADING, CLOSING, UPLOADED, ERROR}
+public class FilePutRequest extends FossilRequest {
+    public enum UploadState{INITIALIZED, UPLOADING, CLOSING, UPLOADED}
 
     public UploadState state;
 
@@ -59,9 +60,7 @@ public class FilePutRequest extends Request {
             switch (responseType) {
                 case 3: {
                     if (value.length != 5 || (value[0] & 0x0F) != 3) {
-                        this.state = UploadState.ERROR;
-                        log("wrong answer header");
-                        break;
+                        throw new RuntimeException("wrong answer header");
                     }
                     state = UploadState.UPLOADING;
                     byte[] initialPacket = packets.get(0);
@@ -84,15 +83,11 @@ public class FilePutRequest extends Request {
                     byte status = value[3];
 
                     if (status != 0) {
-                        this.state = UploadState.ERROR;
-                        log("file error: " + status);
-                        break;
+                        throw new RuntimeException("upload status: " + status);
                     }
 
                     if (handle != this.handle) {
-                        this.state = UploadState.ERROR;
-                        log("wrong file handle");
-                        break;
+                        throw new RuntimeException("wrong response handle");
                     }
 
                     CRC32C realCrc = new CRC32C();
@@ -100,8 +95,8 @@ public class FilePutRequest extends Request {
                     realCrc.update(data, 1, data.length - 1);
 
                     if (crc != (int) realCrc.getValue()) {
-                        this.state = UploadState.ERROR;
-                        log("wrong crc");
+                        // this.state = UploadState.ERROR;
+                        // log("wrong crc");
                         // TODO CRC
                         // break;
                     }
@@ -138,9 +133,7 @@ public class FilePutRequest extends Request {
                 case 4: {
                     if (value.length == 9) return;
                     if (value.length != 4 || (value[0] & 0x0F) != 4) {
-                        this.state = UploadState.ERROR;
-                        log("wrong closing header");
-                        break;
+                        throw new RuntimeException("wrong file closing header");
                     }
                     ByteBuffer buffer = ByteBuffer.wrap(value);
                     buffer.order(ByteOrder.LITTLE_ENDIAN);
@@ -148,21 +141,15 @@ public class FilePutRequest extends Request {
                     short handle = buffer.getShort(1);
 
                     if (handle != this.handle) {
-                        this.state = UploadState.ERROR;
-                        log("wrong file handle");
-
                         onFilePut(false);
-                        break;
+                        throw new RuntimeException("wrong file closing handle");
                     }
 
                     byte status = buffer.get(3);
 
                     if (status != 0) {
-                        this.state = UploadState.ERROR;
-                        log("wrong closing handle");
-
                         onFilePut(false);
-                        break;
+                        throw new RuntimeException("wrong closing status: " + status);
                     }
 
                     this.state = UploadState.UPLOADED;
@@ -193,8 +180,9 @@ public class FilePutRequest extends Request {
         }
     }
 
+    @Override
     public boolean isFinished(){
-        return this.state == UploadState.UPLOADED || this.state == UploadState.ERROR;
+        return this.state == UploadState.UPLOADED;
     }
 
     private void prepareFilePackets(byte[] file) {

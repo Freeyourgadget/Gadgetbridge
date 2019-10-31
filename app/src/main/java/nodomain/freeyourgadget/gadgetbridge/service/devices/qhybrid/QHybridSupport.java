@@ -358,6 +358,7 @@ public class QHybridSupport extends QHybridBaseSupport {
                 return;
             }
         } catch (UnsupportedOperationException e) {
+            notifiyException(e);
             GB.toast("Please contact dakhnod@gmail.com\n", Toast.LENGTH_SHORT, GB.INFO);
         }
 
@@ -478,6 +479,7 @@ public class QHybridSupport extends QHybridBaseSupport {
                     gbDevice.addDeviceInfo(new GenericItem(ITEM_EXTENDED_VIBRATION_SUPPORT, String.valueOf(watchAdapter.supportsExtendedVibration())));
                     gbDevice.addDeviceInfo(new GenericItem(ITEM_HAS_ACTIVITY_HAND, String.valueOf(watchAdapter.supportsActivityHand())));
                 } catch (UnsupportedOperationException e) {
+                    notifiyException(e);
                     GB.toast("Please contact dakhnod@gmail.com\n", Toast.LENGTH_SHORT, GB.INFO);
                     gbDevice.addDeviceInfo(new GenericItem(ITEM_EXTENDED_VIBRATION_SUPPORT, "false"));
                 }

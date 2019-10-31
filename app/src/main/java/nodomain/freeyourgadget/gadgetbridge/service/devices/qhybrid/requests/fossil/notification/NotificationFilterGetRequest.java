@@ -1,12 +1,11 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil;
-
-import android.util.Log;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.CRC32C;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRequest;
 
 public class NotificationFilterGetRequest extends FileGetRequest {
     public NotificationFilterGetRequest(FossilWatchAdapter adapter) {
@@ -14,7 +13,7 @@ public class NotificationFilterGetRequest extends FileGetRequest {
     }
 
     @Override
-    void handleFileData(byte[] fileData) {
+    public void handleFileData(byte[] fileData) {
         log("handleFileData");
         ByteBuffer buffer = ByteBuffer.wrap(fileData);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
