@@ -792,4 +792,11 @@
     <string name="pref_chart_sleep_rolling_24_on">Últimas 24 horas</string>
     <string name="pref_chart_sleep_rolling_24_off">Meio-dia ao meio-dia</string>
     <string name="devicetype_amazfit_gts">Amazfit GTS</string>
+    <string name="fw_upgrade_notice_amazfitgts">Você está prestes a instalar o firmware %s no seu Amazfit GTS.
+\n
+\nCertifique-se de instalar o arquivo .fw, depois disso o arquivo .res e finalmente o arquivo .gps. Seu relógio será reiniciado após a instalação do arquivo .fw.
+\n
+\nNota: você não precisa instalar .res e .gps se esses arquivos forem exatamente os mesmos que os instalados anteriormente.
+\n
+\nPROSSIGA AO SEU PRÓPRIO RISCO!</string>
 </resources>
