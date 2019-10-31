@@ -24,6 +24,7 @@ import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr.AmazfitGTRFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
 
@@ -37,6 +38,11 @@ public class AmazfitGTRSupport extends AmazfitBipSupport {
     @Override
     protected byte getAuthFlags() {
         return 0x00;
+    }
+
+    @Override
+    public void onNotification(NotificationSpec notificationSpec) {
+        super.sendNotificationNew(notificationSpec, true);
     }
 
     @Override
