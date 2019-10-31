@@ -536,7 +536,6 @@
     <string name="pref_title_chart_sleep_rolling_24_hour">Sleep range</string>
     <string name="pref_chart_sleep_rolling_24_on">Past 24 hours</string>
     <string name="pref_chart_sleep_rolling_24_off">Noon to noon</string>
-
     <string name="authenticating">Authenticating</string>
     <string name="authentication_required">Authentication required</string>
     <string name="activity_prefs_sleep_duration">Preferred sleep duration in hours</string>
