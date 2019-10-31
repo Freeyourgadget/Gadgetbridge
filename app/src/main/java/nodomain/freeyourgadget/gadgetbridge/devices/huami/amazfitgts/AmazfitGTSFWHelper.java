@@ -15,29 +15,27 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts;
 
 import android.content.Context;
 import android.net.Uri;
 
-import androidx.annotation.NonNull;
-
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr.AmazfitGTRFirmwareInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts.AmazfitGTSFirmwareInfo;
 
-public class AmazfitGTRFWHelper extends HuamiFWHelper {
+public class AmazfitGTSFWHelper extends HuamiFWHelper {
 
-    public AmazfitGTRFWHelper(Uri uri, Context context) throws IOException {
+    public AmazfitGTSFWHelper(Uri uri, Context context) throws IOException {
         super(uri, context);
     }
 
     @Override
     protected void determineFirmwareInfo(byte[] wholeFirmwareBytes) {
-        firmwareInfo = new AmazfitGTRFirmwareInfo(wholeFirmwareBytes);
+        firmwareInfo = new AmazfitGTSFirmwareInfo(wholeFirmwareBytes);
         if (!firmwareInfo.isHeaderValid()) {
-            throw new IllegalArgumentException("Not a an Amazifit GTR firmware");
+            throw new IllegalArgumentException("Not a an Amazifit GTS firmware");
         }
     }
 }

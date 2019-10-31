@@ -1645,11 +1645,11 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             LOG.warn("Device not initialized yet, so not sending weather info");
             return;
         }
-        boolean supportsConditionString = false;
+        boolean supportsConditionString = true;
 
         Version version = new Version(gbDevice.getFirmwareVersion());
-        if (version.compareTo(new Version("0.0.8.74")) >= 0) {
-            supportsConditionString = true;
+        if (gbDevice.getType() == DeviceType.AMAZFITBIP && version.compareTo(new Version("0.0.8.74")) < 0) {
+            supportsConditionString = false;
         }
 
         MiBandConst.DistanceUnit unit = HuamiCoordinator.getDistanceUnit();
