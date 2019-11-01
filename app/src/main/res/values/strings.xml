@@ -351,7 +351,7 @@
     <string name="stats_y_axis_label">Steps per minute</string>
     <string name="control_center_find_lost_device">Find lost device</string>
     <string name="control_center_cancel_to_stop_vibration">Cancel to stop vibration.</string>
-    <string name="title_activity_charts">Your activity</string>
+    <string name="title_activity_charts">Activity and Sleep</string>
     <string name="title_activity_set_alarm">Configure alarms</string>
     <string name="controlcenter_start_configure_alarms">Configure alarms</string>
     <string name="title_activity_alarm_details">Alarm details</string>
@@ -382,11 +382,11 @@
     <string name="notif_battery_low">%1$s battery low</string>
     <string name="notif_battery_low_extended">%1$s battery low: %2$s</string>
     <string name="notif_export_failed_title">Export database failed! Please check your settings.</string>
-    <string name="sleepchart_your_sleep">Your sleep</string>
+    <string name="sleepchart_your_sleep">Sleep</string>
     <string name="weeksleepchart_sleep_a_week">Sleep per week</string>
     <string name="weeksleepchart_today_sleep_description">Sleep today, target: %1$s</string>
     <string name="weekstepschart_steps_a_week">Steps per week</string>
-    <string name="activity_sleepchart_activity_and_sleep">Your activity and sleep</string>
+    <string name="activity_sleepchart_activity_and_sleep">Activity</string>
     <string name="lack_of_sleep">Lack of sleep: %1$s</string>
     <string name="overslept">Overslept: %1$s</string>
     <string name="updating_firmware">Flashing firmware…</string>
