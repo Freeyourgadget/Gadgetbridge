@@ -36,12 +36,12 @@
     <string name="app_move_to_top">Verplaats naar de top</string>
     <string name="title_activity_appblacklist">Melding zwarte lijst</string>
     <string name="fw_upgrade_notice">U staat op het punt om firmware %s te installeren.</string>
-    <string name="fw_upgrade_notice_amazfitbip">U staat op het punt om de firmware %s te installeren op uw Amazfit Bip. 
-\n 
-\nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand en als laatste het .gps-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand. 
-\n 
-\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd. 
-\n 
+    <string name="fw_upgrade_notice_amazfitbip">U staat op het punt om de firmware %s te installeren op uw Amazfit Bip.
+\n
+\nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand en als laatste het .gps-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand.
+\n
+\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd.
+\n
 \nGA VERDER OP EIGEN RISICO!</string>
     <string name="fw_multi_upgrade_notice">U staat op het punt om de %1$s en %2$s firmware te installeren in plaats van degene die momenteel op uw Mi Band staat.</string>
     <string name="miband_firmware_known">Deze firmware is getest en is compatibel met Gadgetbridge.</string>
@@ -136,12 +136,12 @@
     <string name="appmanager_weather_deactivate">Deactiveer de systeem weer app</string>
     <string name="title_activity_calblacklist">Kalenders op de zwarte lijst</string>
     <string name="title_activity_fw_app_insaller">Firmware/Apps installeren</string>
-    <string name="fw_upgrade_notice_amazfitcor">U staat op het punt om de firmware %s te installeren op uw Amazfit Cor. 
-\n 
-\nZorg ervoor dat u het .fw-bestand installeert en daarna het .res-bestand. Uw band wordt opnieuw gestart na het installeren van het .fw-bestand. 
-\n 
-\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd. 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor">U staat op het punt om de firmware %s te installeren op uw Amazfit Cor.
+\n
+\nZorg ervoor dat u het .fw-bestand installeert en daarna het .res-bestand. Uw band wordt opnieuw gestart na het installeren van het .fw-bestand.
+\n
+\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd.
+\n
 \nGA VERDER OP EIGEN RISICO!</string>
     <string name="pref_title_charts_swipe">Activeer links/rechts vegen in grafiek schermen</string>
     <string name="pref_title_weather">Weer</string>
@@ -764,12 +764,12 @@
     <string name="prefs_find_phone_duration">Belduur in seconden</string>
     <string name="maximum_duration">Duur</string>
     <string name="discovery_need_to_enter_authkey">Dit apparaat heeft een geheime verificatiesleutel nodig, druk lang op het apparaat om deze in te voeren. Lees de wiki.</string>
-    <string name="fw_upgrade_notice_amazfitbip_lite">U staat op het punt om de firmware %s te installeren op uw Amazfit Bip Lite. 
-\n 
-\nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand en als laatste het .gps-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand. 
-\n 
-\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd. 
-\n 
+    <string name="fw_upgrade_notice_amazfitbip_lite">U staat op het punt om de firmware %s te installeren op uw Amazfit Bip Lite.
+\n
+\nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand en als laatste het .gps-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand.
+\n
+\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd.
+\n
 \nGA VERDER OP EIGEN RISICO!</string>
     <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
     <string name="fw_upgrade_notice_amazfitgtr">U staat op het punt om de firmware %s te installeren op uw Amazfit GTR. 
