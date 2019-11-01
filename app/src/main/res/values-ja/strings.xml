@@ -403,11 +403,11 @@
     <string name="discovery_yes_pair">ペア</string>
     <string name="discovery_dont_pair">ペアにしない</string>
     <string name="fw_upgrade_notice_amazfitbip">Amazfit Bip に %s のファームウェアをインストールしようとしています。 
-\n 
-\n.fw ファイル、その後 .res ファイル、最後に .gps ファイルをインストールしてください。お使いのウォッチは、.fw ファイルをインストールした後に再起動します。 
-\n 
-\n注: これらのファイルが以前インストールされているのものと完全に同じ場合、.res と .gps をインストールする必要はありません。 
-\n 
+\n
+\n.fw ファイル、その後 .res ファイル、最後に .gps ファイルをインストールしてください。お使いのウォッチは、.fw ファイルをインストールした後に再起動します。
+\n
+\n注: これらのファイルが以前インストールされているのものと完全に同じ場合、.res と .gps をインストールする必要はありません。
+\n
 \nご自身の責任で行ってください!</string>
     <string name="mi2_prefs_button_actions">ボタンの動作</string>
     <string name="mi2_prefs_button_actions_summary">Mi Band 2 ボタンを押した動作を指定します</string>
@@ -428,12 +428,12 @@
     <string name="_pebble_watch_mute">ミュート</string>
     <string name="_pebble_watch_reply">返信</string>
     <string name="controlcenter_connect">接続…</string>
-    <string name="fw_upgrade_notice_amazfitcor">Amazfit Cor に %s のファームウェアをインストールしようとしています。 
-\n 
-\n.fw ファイルをインストールし、その後 .res ファイルをインストールしください。お使いの band は、.fw ファイルをインストールした後に再起動します。 
-\n 
-\n注: 以前にインストールされたものと同じ場合は、.res をインストールする必要はありません。 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor">Amazfit Cor に %s のファームウェアをインストールしようとしています。
+\n
+\n.fw ファイルをインストールし、その後 .res ファイルをインストールしください。お使いの band は、.fw ファイルをインストールした後に再起動します。
+\n
+\n注: 以前にインストールされたものと同じ場合は、.res をインストールする必要はありません。
+\n
 \nご自身の責任で行って下さい!</string>
     <string name="pref_title_pebble_enable_bgjs">バックグラウンド JS を有効にします</string>
     <string name="pref_summary_pebble_enable_bgjs">有効にすると、ウォッチフェースに天気、バッテリー情報等を表示することができます。</string>
@@ -520,12 +520,12 @@
     <string name="debugactivity_really_factoryreset">工場出荷値にリセットすると、(サポートされている場合) 接続されているデバイスからすべてのデータを削除します。Xiaomi/Huamiデバイスでは、BluetoothのMACアドレスも変更するので、GadgetBligeに新しいデバイスとして表示されます。</string>
     <string name="blacklist_all_for_notifications">すべて通知のブラックリストにする</string>
     <string name="whitelist_all_for_notifications">すべて通知のホワイトリストにする</string>
-    <string name="fw_upgrade_notice_miband3">Mi Band 3 に %s ファームウェアをインストールします。 
-\n 
-\n.fw ファイルをインストールして、その後 .res ファイルをインストールするようにしてください。 .fw ファイルをインストールした後、お使いの band は再起動します。 
-\n 
-\n注意: .res が以前にインストールしたものと全く同じ場合は、インストールする必要はありません。 
-\n 
+    <string name="fw_upgrade_notice_miband3">Mi Band 3 に %s ファームウェアをインストールします。
+\n
+\n.fw ファイルをインストールして、その後 .res ファイルをインストールするようにしてください。 .fw ファイルをインストールした後、お使いの band は再起動します。
+\n
+\n注意: .res が以前にインストールしたものと全く同じ場合は、インストールする必要はありません。
+\n
 \nご自身の責任で行ってください!</string>
     <string name="pref_title_notifications_timeout">通知の間の最小時間</string>
     <string name="pref_title_rtl">右から左へ</string>
