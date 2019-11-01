@@ -427,12 +427,12 @@
     <string name="controlcenter_calibrate_device">Calibrar Dispositivo</string>
     <string name="blacklist_all_for_notifications">Bloquear todas as notificações</string>
     <string name="whitelist_all_for_notifications">Desbloquear todas as notificações</string>
-    <string name="fw_upgrade_notice_miband3">Você está prestes a instalar o firmware %s na sua Mi Band 3. 
-\n 
-\nCertifique-se de instalar o arquivo .fw, e depois o arquivo .res. Sua pulseira será reiniciada após instalar o arquivo .fw. 
-\n 
-\nNota:Vvocê não precisa instalar .res se esse arquivo é exatamente o mesmo instalado anteriormente. 
-\n 
+    <string name="fw_upgrade_notice_miband3">Você está prestes a instalar o firmware %s na sua Mi Band 3.
+\n
+\nCertifique-se de instalar o arquivo .fw, e depois o arquivo .res. Sua pulseira será reiniciada após instalar o arquivo .fw.
+\n
+\nNota:Vvocê não precisa instalar .res se esse arquivo é exatamente o mesmo instalado anteriormente.
+\n
 \nPROSSIGA POR SUA CONTA E RISCO!</string>
     <string name="pref_title_notifications_timeout">Tempo mínimo entre notificações</string>
     <string name="pref_title_rtl">Direita para a esquerda</string>
