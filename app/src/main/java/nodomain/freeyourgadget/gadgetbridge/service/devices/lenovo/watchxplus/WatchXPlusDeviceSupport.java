@@ -23,11 +23,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Handler;
 
 import androidx.annotation.IntRange;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,16 +49,19 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.DataType;
 import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.watchxplus.WatchXPlusConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.watchxplus.WatchXPlusDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.watchxplus.WatchXPlusSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.WatchXPlusActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.WatchXPlusHealthActivityOverlay;
 import nodomain.freeyourgadget.gadgetbridge.entities.WatchXPlusHealthActivityOverlayDao;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -371,7 +377,10 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 .getBatteryState(builder)
                 .enableNotificationChannels(builder)
                 .enableDoNotDisturb(builder, false)
-                .setFitnessGoal(builder);
+                .setFitnessGoal(builder)
+                .syncPreferences(builder);
+                //.setHeadsUpScreen(builder, true);
+                //.getSwitchStatus(builder);
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
         builder.setGattCallback(this);
 
@@ -569,11 +578,23 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSendConfiguration(String config) {
         TransactionBuilder builder;
+        SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(this.getDevice().getAddress());
         try {
             builder = performInitialized("sendConfig: " + config);
             switch (config) {
                 case ActivityUser.PREF_USER_STEPS_GOAL:
                     setFitnessGoal(builder);
+                    break;
+                case WatchXPlusConstants.PREF_ACTIVATE_DISPLAY:
+                    setHeadsUpScreen(builder, sharedPreferences);
+                    getShakeStatus(builder);
+                    break;
+                case WatchXPlusConstants.PREF_DISCONNECT_REMIND:
+                    setDisconnectReminder(builder, sharedPreferences);
+                    getDisconnectReminderStatus(builder);
+                    break;
+                case DeviceSettingsPreferenceConst.PREF_TIMEFORMAT:
+                    setTimeMode(builder, sharedPreferences);
                     break;
             }
             builder.queue(getQueue());
@@ -641,11 +662,18 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         if (WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE.equals(characteristicUUID)) {
             if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_FIRMWARE_INFO, 5)) {
                 handleFirmwareInfo(value);
+            } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_SHAKE_SWITCH, 5)) {
+                LOG.info(" RESP LIGHT SCREEN ");
+                handleShakeState(value);
+            } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_DISCONNECT_REMIND, 5)) {
+                LOG.info(" RESP DISCONNECT REMINDER ");
+                handleDisconnectReminderState(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_BATTERY_INFO, 5)) {
                 handleBatteryState(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_TIME_SETTINGS, 5)) {
                 handleTime(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_BUTTON_INDICATOR, 5)) {
+                this.onReverseFindDevice(true);
 //                It looks like WatchXPlus doesn't send this action
                 LOG.info(" Unhandled action: Button pressed");
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_ALARM_INDICATOR, 5)) {
@@ -1107,6 +1135,154 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         batteryInfo.state = value[8] == 1 ? BatteryState.BATTERY_NORMAL : BatteryState.BATTERY_LOW;
         batteryInfo.level = value[9];
         handleGBDeviceEvent(batteryInfo);
+    }
+
+// handle lift wrist to screen on and shake to refuse call
+// for test purposes only
+    private void handleShakeState(byte[] value) {
+        boolean z = true;
+        String light = "lightScreen";
+        if ((value[11] & 1) == 1) {
+            light = light + " on";
+        } else {
+            light = light + " off";
+        }
+        String refuse = "refuseCall";
+        if ((((value[11] & 2) >> 1) & 1) != 1) {
+           //z = false;
+            refuse = refuse + " off";
+        } else {
+            refuse = refuse + " on";
+        }
+        LOG.info(" handleShakeState: " + light + " " + refuse);
+    }
+
+// handle disconnect reminder state
+// for test purposes only
+    private void handleDisconnectReminderState(byte[] value) {
+        boolean z = true;
+        if (1 != value[8]) {
+            z = false;
+        }
+        LOG.info(" disconnectReminder: " + Boolean.valueOf(z) + " val: " + value[8]);
+
+        return;
+
+
+    }
+
+// read preferences
+    private void syncPreferences(TransactionBuilder transaction) {
+        SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(this.getDevice().getAddress());
+        this.setHeadsUpScreen(transaction, sharedPreferences);
+        this.setDisconnectReminder(transaction, sharedPreferences);
+        this.setTimeMode(transaction, sharedPreferences);
+    }
+    private Handler mFindPhoneHandler = new Handler();
+
+    private void onReverseFindDevice(boolean start) {
+        if (start) {
+            SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(
+                    this.getDevice().getAddress());
+
+            int findPhone = WatchXPlusDeviceCoordinator.getFindPhone(sharedPreferences);
+
+            if (findPhone != WatchXPlusDeviceCoordinator.FindPhone_OFF) {
+                GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
+
+                findPhoneEvent.event = GBDeviceEventFindPhone.Event.START;
+
+                evaluateGBDeviceEvent(findPhoneEvent);
+
+                if (findPhone > 0) {
+                    this.mFindPhoneHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            onReverseFindDevice(false);
+                        }
+                    }, findPhone * 1000);
+                }
+            }
+        } else {
+            // Always send stop, ignore preferences.
+            GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
+
+            findPhoneEvent.event = GBDeviceEventFindPhone.Event.STOP;
+
+            evaluateGBDeviceEvent(findPhoneEvent);
+        }
+    }
+    // Set Lift Wrist to Light Screen based on saved preferences
+    private WatchXPlusDeviceSupport setHeadsUpScreen(TransactionBuilder transactionBuilder, SharedPreferences sharedPreferences) {
+        return this.setHeadsUpScreen(transactionBuilder,
+                WatchXPlusDeviceCoordinator.shouldEnableHeadsUpScreen(sharedPreferences));
+    }
+
+    // Command to toggle Lift Wrist to Light Screen
+    private WatchXPlusDeviceSupport setHeadsUpScreen(TransactionBuilder transactionBuilder, boolean enable) {
+        byte refuseCall = 0x00;
+        byte lightScreen = 0x00;
+        if (enable) {
+            lightScreen = 0x01;
+        }
+        byte b = (byte) (lightScreen + (refuseCall << 1));
+        byte[] liftScreen = new byte[4];
+        liftScreen[0] = 0x00;
+        liftScreen[1] = 0x00;
+        liftScreen[2] = 0x00;
+        liftScreen[3] = b;              //byte[11]
+        transactionBuilder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                buildCommand(WatchXPlusConstants.CMD_SHAKE_SWITCH,
+                             WatchXPlusConstants.WRITE_VALUE,
+                             liftScreen));
+        return this;
+    }
+
+    private WatchXPlusDeviceSupport setDisconnectReminder(TransactionBuilder transactionBuilder, SharedPreferences sharedPreferences) {
+        return this.setDisconnectReminder(transactionBuilder,
+                WatchXPlusDeviceCoordinator.shouldEnableDisconnectReminder(sharedPreferences));
+    }
+
+    private WatchXPlusDeviceSupport setDisconnectReminder(TransactionBuilder transactionBuilder, boolean enable) {
+        transactionBuilder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                buildCommand(WatchXPlusConstants.CMD_DISCONNECT_REMIND,
+                        WatchXPlusConstants.WRITE_VALUE,
+                        new byte[]{(byte) (enable ? 0x01 : 0x00)}));
+        return this;
+    }
+
+// Request status of Disconnect reminder
+    public WatchXPlusDeviceSupport getDisconnectReminderStatus(TransactionBuilder transactionBuilder) {
+        transactionBuilder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                buildCommand(WatchXPlusConstants.CMD_DISCONNECT_REMIND,
+                        WatchXPlusConstants.READ_VALUE));
+        return this;
+    }
+// Request status of Lift Wrist to Light Screen, and Shake to Refuse Call
+    public WatchXPlusDeviceSupport getShakeStatus(TransactionBuilder transactionBuilder) {
+        transactionBuilder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                buildCommand(WatchXPlusConstants.CMD_SHAKE_SWITCH,
+                        WatchXPlusConstants.READ_VALUE));
+        return this;
+    }
+
+// set time format
+    private WatchXPlusDeviceSupport setTimeMode(TransactionBuilder transactionBuilder, byte timeMode) {
+        byte[] bArr = new byte[2];
+        bArr[0] = 0x01;               //byte[08] language - force to English language
+        bArr[1] = timeMode;           //byte[09] time
+        transactionBuilder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                buildCommand(WatchXPlusConstants.CMD_TIME_LANGUAGE,
+                        WatchXPlusConstants.WRITE_VALUE,
+                        bArr));
+        LOG.info(" setTimeMode: " + bArr);
+        return this;
+
+    }
+
+    private WatchXPlusDeviceSupport setTimeMode(TransactionBuilder transactionBuilder, SharedPreferences sharedPreferences) {
+        return this.setTimeMode(transactionBuilder,
+                WatchXPlusDeviceCoordinator.getTimeMode(sharedPreferences));
     }
 
     @Override

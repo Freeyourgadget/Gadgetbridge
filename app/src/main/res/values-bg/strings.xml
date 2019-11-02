@@ -30,6 +30,12 @@
     <string name="appmanager_cached_watchapps_watchfaces">Приложения в кеша</string>
     <string name="appmanager_installed_watchapps">Инсталирани приложения</string>
     <string name="appmanager_installed_watchfaces">Инсталирани циферблати</string>
+    <string name="mi2_prefs_activate_display_on_lift">Включи екрана при вдигане</string>
+    <string name="prefs_disconnect_notification">Известие при прекъсване</string>
+    <string name="prefs_find_phone">Намери телефона</string>
+    <string name="prefs_enable_find_phone">Включи намиране на телефона</string>
+    <string name="prefs_find_phone_summary">Използвайте устройството, за да накарате телефона да звъни.</string>
+    <string name="prefs_find_phone_duration">Звънене - секунди</string>
     <string name="appmananger_app_delete">Изтриване</string>
     <string name="appmananger_app_delete_cache">Изтриване и премахване от кеша</string>
     <string name="appmananger_app_reinstall">Преинсталиране</string>
@@ -253,6 +259,14 @@
     <string name="miband_prefs_alias">Име/Псевдоним</string>
     <string name="pref_header_vibration_count">Брой на вибрациите</string>
     <string name="watch9_pairing_tap_hint">Когато часовникът завибрира, разклатете устройството или натиснете бутона</string>
+    <string name="watch9_time_minutes">Минути:</string>
+    <string name="watch9_time_hours">Часове:</string>
+    <string name="watch9_time_seconds">Секунди:</string>
+    <string name="watch9_calibration_hint">Задайте времето, което показва устройството Ви.</string>
+    <string name="watch9_calibration_button">Сверяване</string>
+    <string name="title_activity_watch9_pairing">Watch 9 свързване</string>
+    <string name="title_activity_watch9_calibration">Watch 9 сверяване</string>
+    <string name="title_activity_watchXplus_calibration">WatchX Plus сверяване</string>
     <string name="title_activity_sleepmonitor">Наблюдение/анализ на съня</string>
     <string name="pref_write_logfiles">Съхраняване на log файлове</string>
     <string name="initializing">Инициализиране</string>

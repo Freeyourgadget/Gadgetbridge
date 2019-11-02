@@ -41,7 +41,7 @@ public class LenovoWatchCalibrationActivity extends AbstractGBActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_watch9_calibration);
+        setContentView(R.layout.activity_watchxplus_calibration);
 
         pickerHour = findViewById(R.id.np_hour);
         pickerMinute = findViewById(R.id.np_minute);

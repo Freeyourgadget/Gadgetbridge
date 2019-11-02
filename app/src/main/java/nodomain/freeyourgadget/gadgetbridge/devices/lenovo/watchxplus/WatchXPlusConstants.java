@@ -30,6 +30,14 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final UUID UUID_CHARACTERISTIC_UNKNOWN_3 = UUID.fromString("0000a803-0000-1000-8000-00805f9b34fb");
     public static final UUID UUID_CHARACTERISTIC_UNKNOWN_4 = UUID.fromString("0000a804-0000-1000-8000-00805f9b34fb");
 
+    public static final String PREF_ACTIVATE_DISPLAY = "activate_display_on_lift_wrist";
+    public static final String PREF_DISCONNECT_REMIND = "disconnect_notification";
+    public static final String PREF_FIND_PHONE = "prefs_find_phone";
+    public static final String PREF_FIND_PHONE_DURATION = "prefs_find_phone_duration";
+    // time format constants
+    public static final byte ARG_SET_TIMEMODE_24H = 0x00;
+    public static final byte ARG_SET_TIMEMODE_12H = 0x01;
+
     public static final int NOTIFICATION_CHANNEL_DEFAULT = 0;
     public static final int NOTIFICATION_CHANNEL_PHONE_CALL = 10;
 
@@ -47,6 +55,13 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
 
     public static final byte[] CMD_FITNESS_GOAL_SETTINGS        = new byte[]{0x10, 0x02};
     public static final byte[] CMD_DAY_STEPS_INFO               = new byte[]{0x10, 0x03};
+
+    public static final byte[] CMD_SHAKE_SWITCH                 = new byte[]{0x03, -0x6E};
+    public static final byte[] CMD_DISCONNECT_REMIND            = new byte[]{0x00, 0x11};
+    public static final byte[] CMD_TIME_LANGUAGE                = new byte[]{0x03, -0x6F};
+
+    public static final byte[] RESP_SHAKE_SWITCH                = new byte[]{0x08, 0x03, -0x6E};
+    public static final byte[] RESP_DISCONNECT_REMIND           = new byte[]{0x08, 0x00, 0x11};
 
     public static final byte[] RESP_AUTHORIZATION_TASK          = new byte[]{0x01, 0x01, 0x05};
     public static final byte[] RESP_DAY_STEPS_INDICATOR         = new byte[]{0x08, 0x10, 0x03};

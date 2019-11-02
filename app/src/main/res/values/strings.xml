@@ -186,6 +186,12 @@
     <string name="pref_title_screentime">Screen on duration</string>
     <string name="prefs_title_all_day_heart_rate">All day heart rate measurement</string>
     <string name="preferences_hplus_settings">HPlus/Makibes settings</string>
+    <!-- WatchXPlus Preferences -->
+    <string name="pref_wxp_title_unit_system">Units</string>
+    <string name="pref_wxp_title_timeformat">Time format</string>
+    <string name="pref_wxp_title_screentime">Screen on duration</string>
+    <string name="pref_wxp_title_lift_wirst">Lift wirst to screen on</string>
+    <string name="preferences_watchxplus_settings">WatchXPlus settings</string>
     <!-- Makibes HR3 Preferences -->
     <string name="preferences_makibes_hr3_settings">Makibes HR3 settings</string>
     <!-- ID115 Preferences -->
@@ -701,6 +707,7 @@
     <string name="watch9_calibration_button">Calibrate</string>
     <string name="title_activity_watch9_pairing">Watch 9 pairing</string>
     <string name="title_activity_watch9_calibration">Watch 9 calibration</string>
+	<string name="title_activity_watchXplus_calibration">WatchX Plus calibration</string>
     <string name="pref_title_contextual_arabic">Contextual Arabic</string>
     <string name="pref_summary_contextual_arabic">Enable this to support contextual Arabic</string>
     <string name="preferences_rtl_settings">Right To Left Support</string>

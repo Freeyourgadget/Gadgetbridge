@@ -574,6 +574,29 @@
             android:icon="@drawable/ic_device_zetime"
             android:key="pref_key_zetime"
             android:title="@string/zetime_title_settings"/>
+
+        <PreferenceScreen
+            android:icon="@drawable/ic_device_watchxplus"
+            android:key="pref_key_watchxplus"
+            android:title="@string/preferences_watchxplus_settings">
+            <PreferenceCategory
+                android:key="pref_category_watchxplus_general"
+                android:title="@string/pref_header_general">
+
+                <EditTextPreference
+                    android:defaultValue="5"
+                    android:key="watchxplus_screentime"
+                    android:title="@string/pref_wxp_title_screentime"/>
+
+                <CheckBoxPreference
+                    android:layout="@layout/preference_checkbox"
+                    android:defaultValue="true"
+                    android:key="watchxplus_liftwirst"
+                    android:title="@string/pref_wxp_title_lift_wirst" />
+
+            </PreferenceCategory>
+
+        </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory

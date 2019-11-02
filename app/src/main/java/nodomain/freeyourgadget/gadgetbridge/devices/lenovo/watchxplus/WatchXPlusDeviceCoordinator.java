@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelUuid;
@@ -15,6 +16,8 @@ import java.util.Collection;
 import java.util.Collections;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -26,8 +29,12 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
+import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getContext;
+
 public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
 
+    public static final int FindPhone_ON = -1;
+    public static final int FindPhone_OFF = 0;
 
     @NonNull
     @Override
@@ -135,17 +142,73 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsRealtimeData() {
-        return false;
-    }
-
+    public boolean supportsRealtimeData() { return false; }
     @Override
     public boolean supportsWeather() {
         return true;
     }
 
     @Override
-    public boolean supportsFindDevice() {
-        return false;
+    public boolean supportsFindDevice() { return false; }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_liftwrist_display,
+                R.xml.devicesettings_disconnectnotification,
+                R.xml.devicesettings_find_phone,
+                R.xml.devicesettings_timeformat
+        };
+    }
+
+    public static byte getTimeMode(SharedPreferences sharedPrefs) {
+        String timeMode = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_24h));
+        if (timeMode.equals(getContext().getString(R.string.p_timeformat_24h))) {
+            return WatchXPlusConstants.ARG_SET_TIMEMODE_24H;
+        } else {
+            return WatchXPlusConstants.ARG_SET_TIMEMODE_12H;
+        }
+    }
+// check if it is needed to toggle Lift Wrist to Sreen on
+    public static boolean shouldEnableHeadsUpScreen(SharedPreferences sharedPrefs) {
+        String liftMode = sharedPrefs.getString(WatchXPlusConstants.PREF_ACTIVATE_DISPLAY, getContext().getString(R.string.p_on));
+        // WatchXPlus doesn't support scheduled intervals. Treat it as "on".
+        return !liftMode.equals(getContext().getString(R.string.p_off));
+    }
+
+// check if it is needed to toggle Disconnect reminder
+    public static boolean shouldEnableDisconnectReminder(SharedPreferences sharedPrefs) {
+        String lostReminder = sharedPrefs.getString(WatchXPlusConstants.PREF_DISCONNECT_REMIND, getContext().getString(R.string.p_on));
+        // WatchXPlus doesn't support scheduled intervals. Treat it as "on".
+        return !lostReminder.equals(getContext().getString(R.string.p_off));
+    }
+
+    /**
+     * @return {@link #FindPhone_OFF}, {@link #FindPhone_ON}, or the duration
+     */
+    public static int getFindPhone(SharedPreferences sharedPrefs) {
+        String findPhone = sharedPrefs.getString(WatchXPlusConstants.PREF_FIND_PHONE, getContext().getString(R.string.p_off));
+
+        if (findPhone.equals(getContext().getString(R.string.p_off))) {
+            return FindPhone_OFF;
+        } else if (findPhone.equals(getContext().getString(R.string.p_on))) {
+            return FindPhone_ON;
+        } else { // Duration
+            String duration = sharedPrefs.getString(WatchXPlusConstants.PREF_FIND_PHONE_DURATION, "0");
+
+            try {
+                int iDuration;
+
+                try {
+                    iDuration = Integer.valueOf(duration);
+                } catch (Exception ex) {
+                    iDuration = 60;
+                }
+
+                return iDuration;
+            } catch (Exception e) {
+                return FindPhone_ON;
+            }
+        }
     }
 }
