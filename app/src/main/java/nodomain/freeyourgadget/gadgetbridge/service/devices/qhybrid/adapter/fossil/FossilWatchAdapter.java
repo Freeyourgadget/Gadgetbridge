@@ -38,7 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class FossilWatchAdapter extends WatchAdapter {
     private ArrayList<Request> requestQueue = new ArrayList<>();
 
-    FossilRequest fossilRequest;
+    private FossilRequest fossilRequest;
 
     public FossilWatchAdapter(QHybridSupport deviceSupport) {
         super(deviceSupport);
@@ -167,7 +167,6 @@ public class FossilWatchAdapter extends WatchAdapter {
 
                                 getDeviceSupport().getDevice().setState(GBDevice.State.NOT_CONNECTED);
                                 getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
-                                throw new RuntimeException("Error uploading notification settings");
                             }
 
                             getDeviceSupport().getDevice().setState(GBDevice.State.INITIALIZED);
@@ -263,8 +262,8 @@ public class FossilWatchAdapter extends WatchAdapter {
                     }
                 }
                 try {
-                    queueWrite(requestQueue.remove(requestQueue.size() - 1));
-                } catch (ArrayIndexOutOfBoundsException e) {
+                    queueWrite(requestQueue.remove(0));
+                } catch (IndexOutOfBoundsException e) {
                     log("requestsQueue empty");
                 }
             }
@@ -283,12 +282,12 @@ public class FossilWatchAdapter extends WatchAdapter {
     public void queueWrite(Request request, boolean priorise) {
         if (request.isBasicRequest()) {
             try {
-                queueWrite(requestQueue.remove(requestQueue.size() - 1));
-            } catch (ArrayIndexOutOfBoundsException e) {
+                queueWrite(requestQueue.remove(0));
+            } catch (IndexOutOfBoundsException e) {
             }
         } else {
             if (fossilRequest != null) {
-                Log.d("requestQueue", "queing request: " + request.getName());
+                log( "queing request: " + request.getName());
                 if(priorise){
                     requestQueue.add(0, request);
                 }else {
@@ -296,7 +295,7 @@ public class FossilWatchAdapter extends WatchAdapter {
                 }
                 return;
             }
-            Log.d("requestQueue", "executing request: " + request.getName());
+            log("executing request: " + request.getName());
 
             if (request instanceof FossilRequest) this.fossilRequest = (FossilRequest) request;
         }

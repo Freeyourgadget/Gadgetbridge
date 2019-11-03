@@ -239,6 +239,7 @@ public class QHybridSupport extends QHybridBaseSupport {
             builder.notify(getCharacteristic(UUID.fromString("3dda000" + i + "-957f-7d4a-34a6-74696673696d")), true);
 
         builder
+                .read(getCharacteristic(UUID.fromString("00002a19-0000-1000-8000-00805f9b34fb")))
                 .read(getCharacteristic(UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb")))
                 .read(getCharacteristic(UUID.fromString("00002a24-0000-1000-8000-00805f9b34fb")))
         ;
@@ -291,7 +292,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         showNotificationsByAllActive(true);
     }
 
-    private void showNotificationsByAllActive(boolean enforceByNotification) {
+    private void    showNotificationsByAllActive(boolean enforceByNotification) {
         if (!this.useActivityHand) return;
         double progress = calculateNotificationProgress();
         showNotificationCountOnActivityHand(progress);
@@ -448,7 +449,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Exception Report");
         emailIntent.putExtra(Intent.EXTRA_TEXT, "Here's a crash from your stupid app: \n\n" + sStackTrace);
 
-        PendingIntent intent = PendingIntent.getActivity(getContext(), 0, emailIntent, 0);
+        PendingIntent intent = PendingIntent.getActivity(getContext(), 0, emailIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
             notificationBuilder.addAction(new Notification.Action(0, "report", intent));
