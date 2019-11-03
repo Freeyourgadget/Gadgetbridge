@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="pref_display_add_device_fab">Бутон за ново устройство</string>
+    <string name="pref_display_add_device_fab_on">Винаги видим</string>
+    <string name="pref_display_add_device_fab_off">Видим само ако няма свързано устройство</string>
+    <string name="language_and_region_prefs">Език и регион</string>
+    <string name="activity_prefs_about_you">За Вас</string>
+    <string name="activity_prefs_year_birth">Година на раждане</string>
+    <string name="activity_prefs_gender">Пол</string>
+    <string name="activity_prefs_height_cm">Височина в cm</string>
+    <string name="activity_prefs_weight_kg">Тегло в kg</string>
+    <string name="pref_header_charts">Настройки на Графиката</string>
+    <string name="pref_title_charts_average">Показвай средни стойности</string>
+    <string name="activity_prefs_charts">Настройки на графика</string>
+    <string name="activity_prefs_chart_max_heart_rate">Max сърдечен ритъм</string>
+    <string name="activity_prefs_chart_min_heart_rate">Min сърдечен ритъм</string>
+    <string name="pref_title_charts_range">Обхват на Графиката</string>
+    <string name="pref_charts_range_on">Обхвата е Месец</string>
+    <string name="pref_charts_range_off">Обхвата е Седмица</string>
     <string name="app_name">Gadgetbridge</string>
     <string name="title_activity_controlcenter">Gadgetbridge</string>
     <string name="action_settings">Настройки</string>

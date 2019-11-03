@@ -83,6 +83,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lenovo.operations.InitOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
@@ -177,11 +178,23 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
             message += StringUtils.truncate(notificationSpec.body, 64);
         }
 
-        sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_DEFAULT, message);
+        sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_DEFAULT, message, false);
     }
 
-    private void sendNotification(int notificationChannel, String notificationText) {
+    private void sendNotification(int notificationChannel, String notificationText, boolean repeat) {
         try {
+            int on = 5000; // repeat delay ms
+            int test = 1; // repeat once
+            if (repeat) {
+                test = WatchXPlusDeviceCoordinator.getRepeatOnCall(getDevice().getAddress());
+                if (test < 1) {
+                    test = 1;
+                }
+                WatchXPlusDeviceCoordinator.getRepeat = 1;
+            } else {
+                test = 1;
+                WatchXPlusDeviceCoordinator.getRepeat = 0;
+            }
             TransactionBuilder builder = performInitialized("showNotification");
             byte[] command = WatchXPlusConstants.CMD_NOTIFICATION_TEXT_TASK;
             byte[] text = notificationText.getBytes("UTF-8");
@@ -209,12 +222,34 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 }
                 messagePart[0] = (byte) notificationChannel;
                 messagePart[1] = (byte) messageIndex;
-                builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
-                        buildCommand(command,
-                                WatchXPlusConstants.KEEP_ALIVE,
-                                messagePart));
+                for (int i = 0; i < test; i++) {    // repeat call notification
+                    if (notificationText != "stop") {
+                        builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                                buildCommand(command,
+                                        WatchXPlusConstants.KEEP_ALIVE,
+                                        messagePart));
+                        if (WatchXPlusDeviceCoordinator.getRepeat == 1) {
+                            builder.wait(on);
+                        } else {
+                            i = test;
+                            break;
+                        }
+                    } else { //cancel text notification
+                        i = test;
+                        byte[] bArr;
+                        int mPosition = 1024;
+                        bArr = new byte[4];
+                        bArr[0] = (byte) ((int) (mPosition >> 24));
+                        bArr[1] = (byte) ((int) (mPosition >> 16));
+                        bArr[2] = (byte) ((int) (mPosition >> 8));
+                        bArr[3] = (byte) ((int) mPosition);
+                        builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                                buildCommand(WatchXPlusConstants.CMD_NOTIFICATION_CANCEL,
+                                        WatchXPlusConstants.WRITE_VALUE,
+                                        bArr));
+                    }
+                }
             }
-
             builder.queue(getQueue());
         } catch (IOException e) {
             LOG.warn("Unable to send notification", e);
@@ -439,17 +474,23 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                             alarmValue));
         }
     }
-
+    int repeat = 0;
     @Override
     public void onSetCallState(CallSpec callSpec) {
+        SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
         switch (callSpec.command) {
             case CallSpec.CALL_INCOMING:
-                sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, callSpec.name);
+                WatchXPlusDeviceCoordinator.getRepeat = 1;
+                sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, callSpec.name, true);
                 break;
             case CallSpec.CALL_START:
+                WatchXPlusDeviceCoordinator.getRepeat = 1;
+                sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, "stop", false);
+                break;
             case CallSpec.CALL_END:
-//                sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, true);
-//                break;
+                WatchXPlusDeviceCoordinator.getRepeat = 0;
+                sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, "stop", false);
+                break;
             default:
                 break;
         }
@@ -595,6 +636,10 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                     break;
                 case DeviceSettingsPreferenceConst.PREF_TIMEFORMAT:
                     setTimeMode(builder, sharedPreferences);
+                    break;
+                case WatchXPlusConstants.PREF_ALTITUDE:
+                    LOG.info(" ALTITUDE: " + config);
+
                     break;
             }
             builder.queue(getQueue());
@@ -1174,10 +1219,12 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 // read preferences
     private void syncPreferences(TransactionBuilder transaction) {
         SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(this.getDevice().getAddress());
-        this.setHeadsUpScreen(transaction, sharedPreferences);
-        this.setDisconnectReminder(transaction, sharedPreferences);
-        this.setTimeMode(transaction, sharedPreferences);
+        this.setHeadsUpScreen(transaction, sharedPreferences);              // lift wirst to screen on
+        this.setDisconnectReminder(transaction, sharedPreferences);         // disconnect reminder
+        this.setTimeMode(transaction, sharedPreferences);                   // set time mode 12/24h
+        this.setAltitude(transaction);                                      // set altitude calibration
     }
+
     private Handler mFindPhoneHandler = new Handler();
 
     private void onReverseFindDevice(boolean start) {
@@ -1220,7 +1267,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
     // Command to toggle Lift Wrist to Light Screen
     private WatchXPlusDeviceSupport setHeadsUpScreen(TransactionBuilder transactionBuilder, boolean enable) {
-        byte refuseCall = 0x00;
+        byte refuseCall = 0x00; // force refuse call to OFF
         byte lightScreen = 0x00;
         if (enable) {
             lightScreen = 0x01;
@@ -1275,9 +1322,29 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 buildCommand(WatchXPlusConstants.CMD_TIME_LANGUAGE,
                         WatchXPlusConstants.WRITE_VALUE,
                         bArr));
-        LOG.info(" setTimeMode: " + bArr);
+        //LOG.info(" setTimeMode: " + bArr);
         return this;
+    }
 
+// calibrate altitude
+    private WatchXPlusDeviceSupport setAltitude(TransactionBuilder transactionBuilder) {
+        int value = WatchXPlusDeviceCoordinator.getAltitude(getDevice().getAddress());
+        int mAltitude = value;
+        if (mAltitude < 0) {
+            mAltitude = (Math.abs(mAltitude) ^ 65535) + 1;
+        }
+        int mAirPressure = Math.abs(0); // air pressure 0 ???
+        byte[] bArr = new byte[4];
+        bArr[0] = (byte) (mAltitude >> 8);      // bytr[8]
+        bArr[1] = (byte) mAltitude;             // bytr[9]
+        bArr[2] = (byte) (mAirPressure >> 8);   // bytr[10]
+        bArr[3] = (byte) mAirPressure;          // bytr[11]
+        transactionBuilder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                buildCommand(WatchXPlusConstants.CMD_ALTITUDE,
+                        WatchXPlusConstants.WRITE_VALUE,
+                        bArr));
+        //LOG.info(" setAltitude: " + mAltitude);
+        return this;
     }
 
     private WatchXPlusDeviceSupport setTimeMode(TransactionBuilder transactionBuilder, SharedPreferences sharedPreferences) {

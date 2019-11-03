@@ -584,15 +584,14 @@
                 android:title="@string/pref_header_general">
 
                 <EditTextPreference
-                    android:defaultValue="5"
-                    android:key="watchxplus_screentime"
-                    android:title="@string/pref_wxp_title_screentime"/>
+                    android:defaultValue="200"
+                    android:key="watchxplus_altitude"
+                    android:title="@string/pref_wxp_title_altitude"/>
 
-                <CheckBoxPreference
-                    android:layout="@layout/preference_checkbox"
-                    android:defaultValue="true"
-                    android:key="watchxplus_liftwirst"
-                    android:title="@string/pref_wxp_title_lift_wirst" />
+                <EditTextPreference
+                    android:defaultValue="1"
+                    android:key="watchxplus_repeat"
+                    android:title="@string/pref_wxp_title_repeat_on_call"/>
 
             </PreferenceCategory>
 

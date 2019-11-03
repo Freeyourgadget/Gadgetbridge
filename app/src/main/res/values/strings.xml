@@ -189,8 +189,8 @@
     <!-- WatchXPlus Preferences -->
     <string name="pref_wxp_title_unit_system">Units</string>
     <string name="pref_wxp_title_timeformat">Time format</string>
-    <string name="pref_wxp_title_screentime">Screen on duration</string>
-    <string name="pref_wxp_title_lift_wirst">Lift wirst to screen on</string>
+    <string name="pref_wxp_title_altitude">Altitude calibration</string>
+    <string name="pref_wxp_title_repeat_on_call">Repeat vibration on call</string>
     <string name="preferences_watchxplus_settings">WatchXPlus settings</string>
     <!-- Makibes HR3 Preferences -->
     <string name="preferences_makibes_hr3_settings">Makibes HR3 settings</string>

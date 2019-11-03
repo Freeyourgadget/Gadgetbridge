@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import java.util.Collection;
 import java.util.Collections;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
@@ -28,6 +29,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getContext;
 
@@ -35,6 +37,7 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
 
     public static final int FindPhone_ON = -1;
     public static final int FindPhone_OFF = 0;
+    protected static Prefs prefs  = GBApplication.getPrefs();
 
     @NonNull
     @Override
@@ -182,6 +185,18 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
         // WatchXPlus doesn't support scheduled intervals. Treat it as "on".
         return !lostReminder.equals(getContext().getString(R.string.p_off));
     }
+// read altitude from preferences
+    public static int getAltitude(String address) {
+        return (int) prefs.getInt(WatchXPlusConstants.PREF_ALTITUDE, 200);
+    }
+
+// read repeat call notification
+    public static int getRepeatOnCall(String address) {
+        return (int) prefs.getInt(WatchXPlusConstants.PREF_REPEAT, 1);
+    }
+
+// read repeat call preferences
+    public static int getRepeat = 0;
 
     /**
      * @return {@link #FindPhone_OFF}, {@link #FindPhone_ON}, or the duration

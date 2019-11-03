@@ -34,6 +34,9 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final String PREF_DISCONNECT_REMIND = "disconnect_notification";
     public static final String PREF_FIND_PHONE = "prefs_find_phone";
     public static final String PREF_FIND_PHONE_DURATION = "prefs_find_phone_duration";
+    public static final String PREF_ALTITUDE = "watchxplus_altitude";
+    public static final String PREF_REPEAT = "watchxplus_repeat";
+
     // time format constants
     public static final byte ARG_SET_TIMEMODE_24H = 0x00;
     public static final byte ARG_SET_TIMEMODE_12H = 0x01;
@@ -50,6 +53,7 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
 
 
     public static final byte[] CMD_NOTIFICATION_TEXT_TASK       = new byte[]{0x03, 0x06};
+    public static final byte[] CMD_NOTIFICATION_CANCEL          = new byte[]{0x03, 0x04};
     public static final byte[] CMD_NOTIFICATION_SETTINGS        = new byte[]{0x03, 0x02};
     public static final byte[] CMD_DO_NOT_DISTURB_SETTINGS      = new byte[]{0x03, 0x61};
 
@@ -59,6 +63,7 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final byte[] CMD_SHAKE_SWITCH                 = new byte[]{0x03, -0x6E};
     public static final byte[] CMD_DISCONNECT_REMIND            = new byte[]{0x00, 0x11};
     public static final byte[] CMD_TIME_LANGUAGE                = new byte[]{0x03, -0x6F};
+    public static final byte[] CMD_ALTITUDE                     = new byte[]{0x05, 0x0A};
 
     public static final byte[] RESP_SHAKE_SWITCH                = new byte[]{0x08, 0x03, -0x6E};
     public static final byte[] RESP_DISCONNECT_REMIND           = new byte[]{0x08, 0x00, 0x11};

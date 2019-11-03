@@ -79,7 +79,7 @@ public class InitOperation extends AbstractBTLEOperation<WatchXPlusDeviceSupport
                     return super.onCharacteristicChanged(gatt, characteristic);
                 }
             } catch (Exception e) {
-                GB.toast(getContext(), "Error authenticating Watch 9", Toast.LENGTH_LONG, GB.ERROR, e);
+                GB.toast(getContext(), "Error authenticating Watch X Plus", Toast.LENGTH_LONG, GB.ERROR, e);
             }
             return true;
         } else {
