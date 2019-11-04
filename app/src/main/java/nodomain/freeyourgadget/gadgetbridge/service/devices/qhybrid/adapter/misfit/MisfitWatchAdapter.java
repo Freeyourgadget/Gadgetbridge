@@ -398,6 +398,11 @@ public class MisfitWatchAdapter extends WatchAdapter {
     }
 
     @Override
+    public boolean supportsFindDevice() {
+        return supportsExtendedVibration();
+    }
+
+    @Override
     public boolean supportsExtendedVibration() {
         String modelNumber = getDeviceSupport().getDevice().getModel();
         switch (modelNumber) {

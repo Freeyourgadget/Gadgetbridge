@@ -9,16 +9,20 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 
-public class FilePrepareRequest extends FossilRequest {
+public class FileCloseRequest extends FossilRequest {
     private boolean isFinished = false;
     private short handle;
 
-    public FilePrepareRequest(short fileHandle) {
+    public FileCloseRequest(short fileHandle) {
         this.handle = fileHandle;
         ByteBuffer buffer = this.createBuffer();
         buffer.putShort(fileHandle);
 
         this.data = buffer.array();
+    }
+
+    public short getHandle() {
+        return handle;
     }
 
     @Override

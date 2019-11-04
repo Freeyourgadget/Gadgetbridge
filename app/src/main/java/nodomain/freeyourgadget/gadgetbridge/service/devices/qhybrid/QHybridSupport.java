@@ -40,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCallback;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.WatchAdapter;
@@ -73,6 +74,7 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String ITEM_EXTENDED_VIBRATION_SUPPORT = "EXTENDED_VIBRATION";
     public static final String ITEM_HAS_ACTIVITY_HAND = "HAS_ACTIVITY_HAND";
     public static final String ITEM_USE_ACTIVITY_HAND = "USE_ACTIVITY_HAND";
+    public static final String ITEM_LAST_HEARTBEAT = "LAST_HEARTBEAT";
 
     private static final Logger logger = LoggerFactory.getLogger(QHybridSupport.class);
 
@@ -354,9 +356,8 @@ public class QHybridSupport extends QHybridBaseSupport {
     @Override
     public void onFindDevice(boolean start) {
         try {
-            if (start && !watchAdapter.supportsExtendedVibration()) {
+            if (watchAdapter.supportsExtendedVibration()) {
                 GB.toast("Device does not support brr brr", Toast.LENGTH_SHORT, GB.INFO);
-                return;
             }
         } catch (UnsupportedOperationException e) {
             notifiyException(e);

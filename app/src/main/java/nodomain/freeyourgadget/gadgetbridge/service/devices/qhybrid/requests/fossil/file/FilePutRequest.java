@@ -161,6 +161,7 @@ public class FilePutRequest extends FossilRequest {
                     break;
                 }
                 case 9: {
+                    this.onFilePut(false);
                     throw new RuntimeException("file put timeout");
                     /*timeout = true;
                     ByteBuffer buffer2 = ByteBuffer.allocate(3);

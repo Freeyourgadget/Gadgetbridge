@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileCloseAndPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 
 public class ConfigurationPutRequest extends FilePutRequest {
@@ -57,15 +58,25 @@ public class ConfigurationPutRequest extends FilePutRequest {
     }
 
     public ConfigurationPutRequest(ConfigItem item, FossilWatchAdapter adapter) {
-        super((short) 0x0800, createFileContent(item), adapter);
+        super((short) 0x0800, createFileContent(new ConfigItem[]{item}), adapter);
     }
 
-    public static byte[] createFileContent(ConfigItem item) {
-        ByteBuffer buffer = ByteBuffer.allocate(item.getItemSize() + 3);
+    public ConfigurationPutRequest(ConfigItem[] items, FossilWatchAdapter adapter) {
+        super((short) 0x0800, createFileContent(items), adapter);
+    }
+
+    private static byte[] createFileContent(ConfigItem[] items) {
+        int overallSize = 0;
+        for(ConfigItem item : items){
+            overallSize += item.getItemSize() + 3;
+        }
+        ByteBuffer buffer = ByteBuffer.allocate(overallSize);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
-        buffer.putShort(item.getId());
-        buffer.put((byte) item.getItemSize());
-        buffer.put(item.getContent());
+        for(ConfigItem item : items){
+            buffer.putShort(item.getId());
+            buffer.put((byte) item.getItemSize());
+            buffer.put(item.getContent());
+        }
 
         return buffer.array();
     }

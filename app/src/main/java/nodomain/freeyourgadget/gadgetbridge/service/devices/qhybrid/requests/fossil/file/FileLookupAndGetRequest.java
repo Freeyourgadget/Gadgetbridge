@@ -14,7 +14,7 @@ public abstract class FileLookupAndGetRequest extends FileLookupRequest {
             public void handleFileData(byte[] fileData) {
                 FileLookupAndGetRequest.this.handleFileData(fileData);
             }
-        });
+        }, true);
     }
 
     abstract public void handleFileData(byte[] fileData);

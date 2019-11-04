@@ -40,6 +40,7 @@ public abstract class WatchAdapter {
     public abstract void syncNotificationSettings();
     public abstract void onTestNewFunction();
 
+    public abstract boolean supportsFindDevice();
     public abstract boolean supportsExtendedVibration();
     public abstract boolean supportsActivityHand();
     public abstract String getModelName();
