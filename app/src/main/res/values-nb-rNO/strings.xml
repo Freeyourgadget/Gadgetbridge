@@ -243,7 +243,7 @@
     <string name="stats_y_axis_label">Steg per minutt</string>
     <string name="control_center_find_lost_device">Finn tapt enhet</string>
     <string name="control_center_cancel_to_stop_vibration">Avbryt for å stoppe vibrasjon.</string>
-    <string name="title_activity_charts">Din aktivitet</string>
+    <string name="title_activity_charts">Aktivitet og søvn</string>
     <string name="title_activity_set_alarm">Sett opp alarmer</string>
     <string name="controlcenter_start_configure_alarms">Sett opp alarmer</string>
     <string name="title_activity_alarm_details">Alarmdetaljer</string>
@@ -272,11 +272,11 @@
     <string name="notif_battery_low_bigtext_last_charge_time">Siste oppladning: %s 
 \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Antall ladinger: %s</string>
-    <string name="sleepchart_your_sleep">Din søvn</string>
+    <string name="sleepchart_your_sleep">Søvn</string>
     <string name="weeksleepchart_sleep_a_week">Søvn per uke</string>
     <string name="weeksleepchart_today_sleep_description">Søvn i dag, mål: %1$s</string>
     <string name="weekstepschart_steps_a_week">Steg per uke</string>
-    <string name="activity_sleepchart_activity_and_sleep">Din aktivitet og søvn</string>
+    <string name="activity_sleepchart_activity_and_sleep">Aktivitet</string>
     <string name="updating_firmware">Oppgraderer fastvare…</string>
     <string name="fwapp_install_device_not_ready">Kan ikke installere fil, enheten er ikke klar.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
