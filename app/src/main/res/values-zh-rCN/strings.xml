@@ -242,7 +242,7 @@
     <string name="stats_y_axis_label">每分钟步数</string>
     <string name="control_center_find_lost_device">查找丢失的设备</string>
     <string name="control_center_cancel_to_stop_vibration">取消以停止振动。</string>
-    <string name="title_activity_charts">活动记录</string>
+    <string name="title_activity_charts">活动与睡眠</string>
     <string name="title_activity_set_alarm">设置闹钟</string>
     <string name="controlcenter_start_configure_alarms">设置闹钟</string>
     <string name="title_activity_alarm_details">闹钟列表</string>
@@ -275,7 +275,7 @@
     <string name="weeksleepchart_sleep_a_week">一周睡眠</string>
     <string name="weeksleepchart_today_sleep_description">今天睡眠，目标：%1$s</string>
     <string name="weekstepschart_steps_a_week">一周步数</string>
-    <string name="activity_sleepchart_activity_and_sleep">活动和睡眠记录</string>
+    <string name="activity_sleepchart_activity_and_sleep">活动</string>
     <string name="updating_firmware">固件更新中…</string>
     <string name="fwapp_install_device_not_ready">无法安装文件, 设备未就绪。</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
