@@ -37,6 +37,8 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
 
     public static final int FindPhone_ON = -1;
     public static final int FindPhone_OFF = 0;
+    public static boolean isBPCalibrated = false;
+
     protected static Prefs prefs  = GBApplication.getPrefs();
 
     @NonNull
@@ -164,6 +166,10 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
         };
     }
 
+/*
+Prefs from device settings on main page
+ */
+// return saved time format
     public static byte getTimeMode(SharedPreferences sharedPrefs) {
         String timeMode = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_24h));
         if (timeMode.equals(getContext().getString(R.string.p_timeformat_24h))) {
@@ -172,6 +178,7 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
             return WatchXPlusConstants.ARG_SET_TIMEMODE_12H;
         }
     }
+
 // check if it is needed to toggle Lift Wrist to Sreen on
     public static boolean shouldEnableHeadsUpScreen(SharedPreferences sharedPrefs) {
         String liftMode = sharedPrefs.getString(WatchXPlusConstants.PREF_ACTIVATE_DISPLAY, getContext().getString(R.string.p_on));
@@ -185,19 +192,8 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
         // WatchXPlus doesn't support scheduled intervals. Treat it as "on".
         return !lostReminder.equals(getContext().getString(R.string.p_off));
     }
-// read altitude from preferences
-    public static int getAltitude(String address) {
-        return (int) prefs.getInt(WatchXPlusConstants.PREF_ALTITUDE, 200);
-    }
 
-// read repeat call notification
-    public static int getRepeatOnCall(String address) {
-        return (int) prefs.getInt(WatchXPlusConstants.PREF_REPEAT, 1);
-    }
-
-// read repeat call preferences
-    public static int getRepeat = 0;
-
+// find phone settings
     /**
      * @return {@link #FindPhone_OFF}, {@link #FindPhone_ON}, or the duration
      */
@@ -226,4 +222,31 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
             }
         }
     }
+
+/*
+Values from device specific settings page
+ */
+// read altitude from preferences
+    public static int getAltitude(String address) {
+        return (int) prefs.getInt(WatchXPlusConstants.PREF_ALTITUDE, 200);
+    }
+
+// read repeat call notification
+    public static int getRepeatOnCall(String address) {
+        return (int) prefs.getInt(WatchXPlusConstants.PREF_REPEAT, 1);
+    }
+
+/*
+Other saved preferences
+ */
+    public static byte getBPCalibrationStatus(SharedPreferences sharedPrefs) {
+        String timeMode = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_24h));
+        if (timeMode.equals(getContext().getString(R.string.p_timeformat_24h))) {
+            return WatchXPlusConstants.ARG_SET_TIMEMODE_24H;
+        } else {
+            return WatchXPlusConstants.ARG_SET_TIMEMODE_12H;
+        }
+    }
+
+
 }

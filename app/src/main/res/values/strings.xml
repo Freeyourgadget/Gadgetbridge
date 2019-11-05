@@ -190,8 +190,10 @@
     <string name="pref_wxp_title_unit_system">Units</string>
     <string name="pref_wxp_title_timeformat">Time format</string>
     <string name="pref_wxp_title_altitude">Altitude calibration</string>
-    <string name="pref_wxp_title_repeat_on_call">Repeat vibration on call</string>
+    <string name="pref_wxp_title_repeat_on_call">Repeat call notification</string>
+    <string name="pref_wxp_title_repeat_on_call_summary">Possible values min=0, max=5</string>
     <string name="preferences_watchxplus_settings">WatchXPlus settings</string>
+    <string name="pref_header_wxp_calibration">WatchXPlus calibration</string>
     <!-- Makibes HR3 Preferences -->
     <string name="preferences_makibes_hr3_settings">Makibes HR3 settings</string>
     <!-- ID115 Preferences -->

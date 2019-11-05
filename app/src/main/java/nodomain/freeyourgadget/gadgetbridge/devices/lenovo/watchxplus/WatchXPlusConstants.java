@@ -36,6 +36,7 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final String PREF_FIND_PHONE_DURATION = "prefs_find_phone_duration";
     public static final String PREF_ALTITUDE = "watchxplus_altitude";
     public static final String PREF_REPEAT = "watchxplus_repeat";
+    public static final String PREF_IS_BP_CALIBRATED = "watchxplus_is_bp_calibrated";
 
     // time format constants
     public static final byte ARG_SET_TIMEMODE_24H = 0x00;
@@ -50,7 +51,9 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final byte[] CMD_RETRIEVE_DATA_CONTENT        = new byte[]{(byte)0xF0, 0x12};
     public static final byte[] CMD_REMOVE_DATA_CONTENT          = new byte[]{(byte)0xF0, 0x32};
     public static final byte[] CMD_BLOOD_PRESSURE_MEASURE       = new byte[]{0x05, 0x0D};
-
+    public static final byte[] CMD_HEART_RATE_MEASURE           = new byte[]{0x03, 0x23};
+    public static final byte[] CMD_IS_BP_CALIBRATED             = new byte[]{0x05, 0x0B};
+    public static final byte[] CMD_BP_CALIBRATION               = new byte[]{0x05, 0x0C};
 
     public static final byte[] CMD_NOTIFICATION_TEXT_TASK       = new byte[]{0x03, 0x06};
     public static final byte[] CMD_NOTIFICATION_CANCEL          = new byte[]{0x03, 0x04};
@@ -67,6 +70,7 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
 
     public static final byte[] RESP_SHAKE_SWITCH                = new byte[]{0x08, 0x03, -0x6E};
     public static final byte[] RESP_DISCONNECT_REMIND           = new byte[]{0x08, 0x00, 0x11};
+    public static final byte[] RESP_IS_BP_CALIBRATED            = new byte[]{0x08, 0x05, 0x0B};
 
     public static final byte[] RESP_AUTHORIZATION_TASK          = new byte[]{0x01, 0x01, 0x05};
     public static final byte[] RESP_DAY_STEPS_INDICATOR         = new byte[]{0x08, 0x10, 0x03};

@@ -284,6 +284,13 @@
     <string name="title_activity_watch9_pairing">Watch 9 свързване</string>
     <string name="title_activity_watch9_calibration">Watch 9 сверяване</string>
     <string name="title_activity_watchXplus_calibration">WatchX Plus сверяване</string>
+    <string name="pref_wxp_title_unit_system">Edinici</string>
+    <string name="pref_wxp_title_timeformat">Формат на часа</string>
+    <string name="pref_wxp_title_altitude">Калибриране на височина</string>
+    <string name="pref_wxp_title_repeat_on_call">Повтори известия за звънене</string>
+    <string name="pref_wxp_title_repeat_on_call_summary">Възможни стойности min=0, max=5</string>
+    <string name="preferences_watchxplus_settings">WatchXPlus настройки</string>
+    <string name="pref_header_wxp_calibration">WatchXPlus калибриране</string>
     <string name="title_activity_sleepmonitor">Наблюдение/анализ на съня</string>
     <string name="pref_write_logfiles">Съхраняване на log файлове</string>
     <string name="initializing">Инициализиране</string>

@@ -74,12 +74,14 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lenovo.operations.InitOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
@@ -167,7 +169,6 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
-
         String senderOrTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
 
         String message = StringUtils.truncate(senderOrTitle, 14) + "\0";
@@ -178,23 +179,37 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
             message += StringUtils.truncate(notificationSpec.body, 64);
         }
 
-        sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_DEFAULT, message, false);
+        sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_DEFAULT, message);
     }
 
-    private void sendNotification(int notificationChannel, String notificationText, boolean repeat) {
+// cancel notification
+// cancel watch notification - stop vibration and turn off screen
+    private void cancelNotification() {
         try {
-            int on = 5000; // repeat delay ms
-            int test = 1; // repeat once
-            if (repeat) {
-                test = WatchXPlusDeviceCoordinator.getRepeatOnCall(getDevice().getAddress());
-                if (test < 1) {
-                    test = 1;
-                }
-                WatchXPlusDeviceCoordinator.getRepeat = 1;
-            } else {
-                test = 1;
-                WatchXPlusDeviceCoordinator.getRepeat = 0;
-            }
+            getQueue().clear();
+            TransactionBuilder builder = performInitialized("cancelNotification");
+            byte[] bArr;
+            int mPosition = 1024;
+            int mMessageId = 0xFF;
+            bArr = new byte[6];
+            bArr[0] = (byte) ((int) (mPosition >> 24));
+            bArr[1] = (byte) ((int) (mPosition >> 16));
+            bArr[2] = (byte) ((int) (mPosition >> 8));
+            bArr[3] = (byte) ((int) mPosition);
+            bArr[4] = (byte) (mMessageId >> 8);
+            bArr[5] = (byte) mMessageId;
+            builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                    buildCommand(WatchXPlusConstants.CMD_NOTIFICATION_CANCEL,
+                            WatchXPlusConstants.WRITE_VALUE,
+                            bArr));
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.warn("Unable to cancel notification", e);
+        }
+    }
+
+    private void sendNotification(int notificationChannel, String notificationText) {
+        try {
             TransactionBuilder builder = performInitialized("showNotification");
             byte[] command = WatchXPlusConstants.CMD_NOTIFICATION_TEXT_TASK;
             byte[] text = notificationText.getBytes("UTF-8");
@@ -222,39 +237,17 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 }
                 messagePart[0] = (byte) notificationChannel;
                 messagePart[1] = (byte) messageIndex;
-                for (int i = 0; i < test; i++) {    // repeat call notification
-                    if (notificationText != "stop") {
-                        builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
-                                buildCommand(command,
-                                        WatchXPlusConstants.KEEP_ALIVE,
-                                        messagePart));
-                        if (WatchXPlusDeviceCoordinator.getRepeat == 1) {
-                            builder.wait(on);
-                        } else {
-                            i = test;
-                            break;
-                        }
-                    } else { //cancel text notification
-                        i = test;
-                        byte[] bArr;
-                        int mPosition = 1024;
-                        bArr = new byte[4];
-                        bArr[0] = (byte) ((int) (mPosition >> 24));
-                        bArr[1] = (byte) ((int) (mPosition >> 16));
-                        bArr[2] = (byte) ((int) (mPosition >> 8));
-                        bArr[3] = (byte) ((int) mPosition);
-                        builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
-                                buildCommand(WatchXPlusConstants.CMD_NOTIFICATION_CANCEL,
-                                        WatchXPlusConstants.WRITE_VALUE,
-                                        bArr));
-                    }
-                }
+                builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                    buildCommand(command,
+                          WatchXPlusConstants.KEEP_ALIVE,
+                          messagePart));
             }
             builder.queue(getQueue());
         } catch (IOException e) {
             LOG.warn("Unable to send notification", e);
         }
     }
+
 
     private WatchXPlusDeviceSupport enableNotificationChannels(TransactionBuilder builder) {
         builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
@@ -413,9 +406,8 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 .enableNotificationChannels(builder)
                 .enableDoNotDisturb(builder, false)
                 .setFitnessGoal(builder)
+                .getBloodPressureCalibrationStatus(builder)
                 .syncPreferences(builder);
-                //.setHeadsUpScreen(builder, true);
-                //.getSwitchStatus(builder);
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
         builder.setGattCallback(this);
 
@@ -424,7 +416,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onDeleteNotification(int id) {
-
+        cancelNotification();
     }
 
     @Override
@@ -475,21 +467,105 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
     int repeat = 0;
+    boolean isRinging = false;
     @Override
-    public void onSetCallState(CallSpec callSpec) {
-        SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
+    public void onSetCallState(final CallSpec callSpec) {
+        int repeatDelay = 5000;
+        int repeatCount = WatchXPlusDeviceCoordinator.getRepeatOnCall(getDevice().getAddress());
+        if (repeatCount < 0) {
+            repeatCount = 0;
+        }
+        if (repeatCount > 5) {
+            repeatCount = 5;
+        }
+
+        if("Phone".equals(callSpec.name)) { // ignore notification if caller name is Phone
+            return;
+        }
+
         switch (callSpec.command) {
             case CallSpec.CALL_INCOMING:
-                WatchXPlusDeviceCoordinator.getRepeat = 1;
-                sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, callSpec.name, true);
+                isRinging = true;
+                sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, callSpec.name);
+// TODO dirty code, need to fix
+// repeat call notification up to 5 times
+                Handler handler = new Handler();
+                if (repeatCount > 0) {
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            // Actions to do after 5 seconds
+                            if (isRinging) {
+                                sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, callSpec.name);
+                            }
+                        }
+                    }, repeatDelay);
+                }
+                if (repeatCount > 1) {
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            // Actions to do after 5 seconds
+                            if (isRinging) {
+                                sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, callSpec.name);
+                            }
+                        }
+                    }, repeatDelay * 2);
+                }
+                if (repeatCount > 2) {
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            // Actions to do after 5 seconds
+                            if (isRinging) {
+                                sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, callSpec.name);
+                            }
+                        }
+                    }, repeatDelay * 3);
+                }
+                if (repeatCount > 3) {
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            // Actions to do after 5 seconds
+                            if (isRinging) {
+                                sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, callSpec.name);
+                            }
+                        }
+                    }, repeatDelay * 4);
+                }
+                if (repeatCount > 4) {
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            // Actions to do after 5 seconds
+                            if (isRinging) {
+                                sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, callSpec.name);
+                            }
+                        }
+                    }, repeatDelay * 5);
+                }
                 break;
             case CallSpec.CALL_START:
-                WatchXPlusDeviceCoordinator.getRepeat = 1;
-                sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, "stop", false);
+                isRinging = false;
+                cancelNotification();
+                break;
+            case CallSpec.CALL_REJECT:
+                isRinging = false;
+                cancelNotification();
+                break;
+            case CallSpec.CALL_ACCEPT:
+                isRinging = false;
+                cancelNotification();
+                break;
+            case CallSpec.CALL_OUTGOING:
+                isRinging = false;
+                cancelNotification();
                 break;
             case CallSpec.CALL_END:
-                WatchXPlusDeviceCoordinator.getRepeat = 0;
-                sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, "stop", false);
+                if (isRinging) {
+                    // it's a missed call
+                    // don't clear notification to preserve small icon near bluetooth
+                    isRinging = false;
+                } else {
+                    isRinging = false;
+                    cancelNotification();
+                }
                 break;
             default:
                 break;
@@ -573,7 +649,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onHeartRateTest() {
-
+        //requestHeartRateMeasurement();
     }
 
     @Override
@@ -658,7 +734,29 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         requestBloodPressureMeasurement();
     }
 
+// check status of blood pressure calibration
+    private WatchXPlusDeviceSupport getBloodPressureCalibrationStatus(TransactionBuilder builder) {
+        builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                buildCommand(WatchXPlusConstants.CMD_IS_BP_CALIBRATED,
+                        WatchXPlusConstants.READ_VALUE));
+
+        return this;
+    }
+
+    private void handleBloodPressureCalibrationStatus(byte[] value) {
+        if (Conversion.calculateHigh(value[8]) != 0) {
+            WatchXPlusDeviceCoordinator.isBPCalibrated = false;
+        } else {
+            WatchXPlusDeviceCoordinator.isBPCalibrated = true;
+        }
+    }
+// end check status of blood pressure calibration
+
     private void requestBloodPressureMeasurement() {
+        if (!WatchXPlusDeviceCoordinator.isBPCalibrated) {
+            LOG.warn("BP is NOT calibrated");
+            return;
+        }
         try {
             TransactionBuilder builder = performInitialized("bpMeasure");
 
@@ -672,6 +770,29 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
             LOG.warn("Unable to request BP Measure", e);
         }
     }
+
+
+    /*
+    // not working!!!
+    private void requestHeartRateMeasurement() {
+        try {
+            TransactionBuilder builder = performInitialized("hrMeasure");
+
+            byte[] command = new byte[]{0x05, 0x0B};
+
+            builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                    buildCommand(command,
+                            WatchXPlusConstants.READ_VALUE));
+
+         //   builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+         //           buildCommand(command,
+         //                   WatchXPlusConstants.TASK, new byte[]{0x01}));
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.warn("Unable to request HR Measure", e);
+        }
+    }
+*/
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
@@ -708,18 +829,19 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
             if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_FIRMWARE_INFO, 5)) {
                 handleFirmwareInfo(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_SHAKE_SWITCH, 5)) {
-                LOG.info(" RESP LIGHT SCREEN ");
                 handleShakeState(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_DISCONNECT_REMIND, 5)) {
-                LOG.info(" RESP DISCONNECT REMINDER ");
                 handleDisconnectReminderState(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_BATTERY_INFO, 5)) {
                 handleBatteryState(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_TIME_SETTINGS, 5)) {
                 handleTime(value);
+            } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_IS_BP_CALIBRATED, 5)) {
+                handleBloodPressureCalibrationStatus(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_BUTTON_INDICATOR, 5)) {
                 this.onReverseFindDevice(true);
 //                It looks like WatchXPlus doesn't send this action
+//                WRONG: WatchXPlus send this on find phone
                 LOG.info(" Unhandled action: Button pressed");
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_ALARM_INDICATOR, 5)) {
                 LOG.info(" Alarm active: id=" + value[8]);
@@ -1408,6 +1530,26 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                     (byte) (value >> 16),
                     (byte) (value >> 8),
                     (byte) value};
+        }
+
+        static int calculateLow(byte... bArr) {
+            int i = 0;
+            int i2 = 0;
+            while (i < bArr.length) {
+                i2 += (bArr[i] & 255) << (i * 8);
+                i++;
+            }
+            return i2;
+        }
+
+        static int calculateHigh(byte... bArr) {
+            int i = 0;
+            int i2 = 0;
+            while (i < bArr.length) {
+                i2 += (bArr[i] & 255) << (((bArr.length - 1) - i) * 8);
+                i++;
+            }
+            return i2;
         }
     }
 }

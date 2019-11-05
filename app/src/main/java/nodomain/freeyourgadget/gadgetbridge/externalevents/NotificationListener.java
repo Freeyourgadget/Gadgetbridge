@@ -247,9 +247,12 @@ public class NotificationListener extends NotificationListenerService {
                 return;
             }
         }
+
         if (shouldIgnore(sbn)) {
-            LOG.info("Ignore notification");
-            return;
+            if (!"com.sec.android.app.clockpackage".equals(sbn.getPackageName())) {     // allow phone alarm notification
+                LOG.info("Ignore notification: " + sbn.getPackageName());
+                return;
+            }
         }
 
         switch (GBApplication.getGrantedInterruptionFilter()) {

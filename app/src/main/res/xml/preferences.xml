@@ -584,18 +584,23 @@
                 android:title="@string/pref_header_general">
 
                 <EditTextPreference
+                    android:defaultValue="0"
+                    android:key="watchxplus_repeat"
+                    android:summary="@string/pref_wxp_title_repeat_on_call_summary"
+                    android:title="@string/pref_wxp_title_repeat_on_call"/>
+            </PreferenceCategory>
+            <PreferenceCategory
+                android:key="pref_category_watchxplus_calibration"
+                android:title="@string/pref_header_wxp_calibration">
+
+                <EditTextPreference
                     android:defaultValue="200"
                     android:key="watchxplus_altitude"
                     android:title="@string/pref_wxp_title_altitude"/>
 
-                <EditTextPreference
-                    android:defaultValue="1"
-                    android:key="watchxplus_repeat"
-                    android:title="@string/pref_wxp_title_repeat_on_call"/>
-
             </PreferenceCategory>
-
         </PreferenceScreen>
+
     </PreferenceCategory>
 
     <PreferenceCategory
