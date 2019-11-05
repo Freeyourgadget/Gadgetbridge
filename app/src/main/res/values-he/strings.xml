@@ -211,7 +211,7 @@
     <string name="pref_screen_notification_profile_generic_social">רשת חברתית</string>
     <string name="control_center_find_lost_device">איתור התקן שאבד</string>
     <string name="control_center_cancel_to_stop_vibration">יש לבטל כדי לעצור את הרטט.</string>
-    <string name="title_activity_charts">הפעילות שלך</string>
+    <string name="title_activity_charts">פעילות ושינה</string>
     <string name="title_activity_set_alarm">הגדרת שעון מעורר</string>
     <string name="controlcenter_start_configure_alarms">הגדרת שעון מעורר</string>
     <string name="title_activity_alarm_details">פרטי השעון המעורר</string>
@@ -239,11 +239,11 @@
     <string name="notif_battery_low_percent">נותר בסוללה של %1$s:‏ %2$s%%</string>
     <string name="notif_battery_low_bigtext_last_charge_time">טעינה אחרונה: %s \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">מספר טעינות: %s</string>
-    <string name="sleepchart_your_sleep">השינה שלך</string>
+    <string name="sleepchart_your_sleep">שינה</string>
     <string name="weeksleepchart_sleep_a_week">שינה בשבוע</string>
     <string name="weeksleepchart_today_sleep_description">שינה היום, יעד: %1$s</string>
     <string name="weekstepschart_steps_a_week">צעדים בשבוע</string>
-    <string name="activity_sleepchart_activity_and_sleep">הפעילות והשינה שלך</string>
+    <string name="activity_sleepchart_activity_and_sleep">פעילות</string>
     <string name="updating_firmware">הקושחה מתעדכנת…</string>
     <string name="fwapp_install_device_not_ready">לא ניתן להתקין את הקובץ, ההתקן לא מוכן.</string>
     <string name="installhandler_firmware_name">%3$s %2$s :%1$s</string>
