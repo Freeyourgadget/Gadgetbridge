@@ -265,7 +265,7 @@
     <string name="stats_y_axis_label">Stappen per minuut</string>
     <string name="control_center_find_lost_device">Zoek verloren toestel</string>
     <string name="control_center_cancel_to_stop_vibration">Annuleer om vibratie te stoppen.</string>
-    <string name="title_activity_charts">Uw activiteit</string>
+    <string name="title_activity_charts">Activiteit en Slaap</string>
     <string name="title_activity_set_alarm">Alarmen configureren</string>
     <string name="controlcenter_start_configure_alarms">Alarmen configureren</string>
     <string name="title_activity_alarm_details">Alarm details</string>
@@ -294,11 +294,11 @@
     <string name="notif_battery_low_bigtext_last_charge_time">Laatste lading: %s 
 \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Aantal ladingen: %s</string>
-    <string name="sleepchart_your_sleep">Uw slaap</string>
+    <string name="sleepchart_your_sleep">Slaap</string>
     <string name="weeksleepchart_sleep_a_week">Slaap per week</string>
     <string name="weeksleepchart_today_sleep_description">Slaap vandaag, doel: %1$s</string>
     <string name="weekstepschart_steps_a_week">Stappen per week</string>
-    <string name="activity_sleepchart_activity_and_sleep">Uw activiteit en slaap</string>
+    <string name="activity_sleepchart_activity_and_sleep">Activiteit</string>
     <string name="updating_firmware">Firmware flashen…</string>
     <string name="fwapp_install_device_not_ready">Bestand kan niet geïnstalleerd worden, toestel is niet gereed.</string>
     <string name="miband_fwinstaller_compatible_version">Compatibele versie</string>
