@@ -288,7 +288,13 @@
     <string name="pref_wxp_title_timeformat">Формат на часа</string>
     <string name="pref_wxp_title_altitude">Калибриране на височина</string>
     <string name="pref_wxp_title_repeat_on_call">Повтори известия за звънене</string>
-    <string name="pref_wxp_title_repeat_on_call_summary">Възможни стойности min=0, max=5</string>
+    <string name="pref_wxp_title_repeat_on_call_summary">Възможни стойности min=0, max=10</string>
+    <string name="prefs_wxp_continious">Известие докато звъни</string>
+    <string name="pref_wxp_title_reject_summary">Изкл. - игнорира, Вкл. - отказ</string>
+    <string name="prefs_wxp_reject">Бутона игнорира/отказва повикване</string>
+    <string name="pref_wxp_title_shake_reject_summary">Дублира действието на бутона</string>
+    <string name="prefs_wxp_shake_reject">Разклащането игнорира/отказва повикване</string>
+    <string name="prefs_wxp_missed">Известие за пропуснато повикване</string>
     <string name="preferences_watchxplus_settings">WatchXPlus настройки</string>
     <string name="pref_header_wxp_calibration">WatchXPlus калибриране</string>
     <string name="title_activity_sleepmonitor">Наблюдение/анализ на съня</string>

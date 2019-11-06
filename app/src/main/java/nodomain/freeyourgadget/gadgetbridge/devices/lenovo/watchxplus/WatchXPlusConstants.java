@@ -36,7 +36,12 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final String PREF_FIND_PHONE_DURATION = "prefs_find_phone_duration";
     public static final String PREF_ALTITUDE = "watchxplus_altitude";
     public static final String PREF_REPEAT = "watchxplus_repeat";
+    public static final String PREF_CONTINIOUS = "watchxplus_continious";
+    public static final String PREF_MISSED_CALL = "watchxplus_missed";
     public static final String PREF_IS_BP_CALIBRATED = "watchxplus_is_bp_calibrated";
+    public static final String PREF_BUTTON_REJECT = "watchxplus_button_reject";
+    public static final String PREF_SHAKE_REJECT = "watchxplus_shake_reject";
+
 
     // time format constants
     public static final byte ARG_SET_TIMEMODE_24H = 0x00;
@@ -71,6 +76,7 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final byte[] RESP_SHAKE_SWITCH                = new byte[]{0x08, 0x03, -0x6E};
     public static final byte[] RESP_DISCONNECT_REMIND           = new byte[]{0x08, 0x00, 0x11};
     public static final byte[] RESP_IS_BP_CALIBRATED            = new byte[]{0x08, 0x05, 0x0B};
+    public static final byte[] RESP_BUTTON_WHILE_RING           = new byte[]{0x04, 0x03, 0x03};
 
     public static final byte[] RESP_AUTHORIZATION_TASK          = new byte[]{0x01, 0x01, 0x05};
     public static final byte[] RESP_DAY_STEPS_INDICATOR         = new byte[]{0x08, 0x10, 0x03};

@@ -588,6 +588,28 @@
                     android:key="watchxplus_repeat"
                     android:summary="@string/pref_wxp_title_repeat_on_call_summary"
                     android:title="@string/pref_wxp_title_repeat_on_call"/>
+                <CheckBoxPreference
+                    android:layout="@layout/preference_checkbox"
+                    android:defaultValue="false"
+                    android:key="watchxplus_continious"
+                    android:title="@string/prefs_wxp_continious" />
+                <CheckBoxPreference
+                    android:layout="@layout/preference_checkbox"
+                    android:defaultValue="false"
+                    android:key="watchxplus_missed"
+                    android:title="@string/prefs_wxp_missed" />
+                <CheckBoxPreference
+                    android:layout="@layout/preference_checkbox"
+                    android:defaultValue="false"
+                    android:key="watchxplus_button_reject"
+                    android:summary="@string/pref_wxp_title_reject_summary"
+                    android:title="@string/prefs_wxp_reject" />
+                <CheckBoxPreference
+                    android:layout="@layout/preference_checkbox"
+                    android:defaultValue="false"
+                    android:key="watchxplus_shake_reject"
+                    android:summary="@string/pref_wxp_title_shake_reject_summary"
+                    android:title="@string/prefs_wxp_shake_reject" />
             </PreferenceCategory>
             <PreferenceCategory
                 android:key="pref_category_watchxplus_calibration"

@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.CountDownTimer;
 import android.os.Handler;
 
 import androidx.annotation.IntRange;
@@ -53,6 +54,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.DataType;
 import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.watchxplus.WatchXPlusConstants;
@@ -62,6 +64,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.WatchXPlusActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.WatchXPlusHealthActivityOverlay;
 import nodomain.freeyourgadget.gadgetbridge.entities.WatchXPlusHealthActivityOverlayDao;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmClockReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -81,12 +84,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lenovo.operations.InitOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
+
 
 public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
@@ -466,79 +469,47 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                             alarmValue));
         }
     }
-    int repeat = 0;
+
+    // variables to handle ring notifications
     boolean isRinging = false;
+    int remainingRepeats = 0;
     @Override
     public void onSetCallState(final CallSpec callSpec) {
-        int repeatDelay = 5000;
+        final int repeatDelay = 5000;       // repeat delay of 5 sec
+        // get settings from device settings page
+        final boolean continiousRing = WatchXPlusDeviceCoordinator.getContiniousVibrationOnCall(getDevice().getAddress());
+        boolean missedCall = WatchXPlusDeviceCoordinator.getMissedCallReminder(getDevice().getAddress());
         int repeatCount = WatchXPlusDeviceCoordinator.getRepeatOnCall(getDevice().getAddress());
-        if (repeatCount < 0) {
-            repeatCount = 0;
-        }
-        if (repeatCount > 5) {
-            repeatCount = 5;
-        }
-
-        if("Phone".equals(callSpec.name)) { // ignore notification if caller name is Phone
-            return;
-        }
+        // check if repeatCount is in boundaries min=0, max=10
+        if (repeatCount < 0) repeatCount = 0;
+        if (repeatCount > 10) repeatCount = 10;   // limit repeats to 10
 
         switch (callSpec.command) {
             case CallSpec.CALL_INCOMING:
                 isRinging = true;
-                sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, callSpec.name);
-// TODO dirty code, need to fix
-// repeat call notification up to 5 times
-                Handler handler = new Handler();
-                if (repeatCount > 0) {
+                remainingRepeats = repeatCount;
+                if (("Phone".equals(callSpec.name)) || (callSpec.name.contains("ropusn")) || (callSpec.name.contains("issed"))) {
+                    // do nothing for notifications without caller name, e.g. system call event
+                } else {
+                    // send first notification
+                    sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, callSpec.name);
+                    // init repeat handler
+                    final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
-                            // Actions to do after 5 seconds
-                            if (isRinging) {
+                            // Actions to do after repeatDelay seconds
+                            if (((isRinging) && (remainingRepeats > 0)) || ((isRinging) && (continiousRing))) {
+                                remainingRepeats = remainingRepeats - 1;
                                 sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, callSpec.name);
+                                // re-run handler
+                                handler.postDelayed(this, repeatDelay);
+                            } else {
+                                remainingRepeats = 0;
+                                // stop handler
+                                handler.removeCallbacks(this);
                             }
                         }
                     }, repeatDelay);
-                }
-                if (repeatCount > 1) {
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            // Actions to do after 5 seconds
-                            if (isRinging) {
-                                sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, callSpec.name);
-                            }
-                        }
-                    }, repeatDelay * 2);
-                }
-                if (repeatCount > 2) {
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            // Actions to do after 5 seconds
-                            if (isRinging) {
-                                sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, callSpec.name);
-                            }
-                        }
-                    }, repeatDelay * 3);
-                }
-                if (repeatCount > 3) {
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            // Actions to do after 5 seconds
-                            if (isRinging) {
-                                sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, callSpec.name);
-                            }
-                        }
-                    }, repeatDelay * 4);
-                }
-                if (repeatCount > 4) {
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            // Actions to do after 5 seconds
-                            if (isRinging) {
-                                sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, callSpec.name);
-                            }
-                        }
-                    }, repeatDelay * 5);
                 }
                 break;
             case CallSpec.CALL_START:
@@ -559,16 +530,41 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 break;
             case CallSpec.CALL_END:
                 if (isRinging) {
-                    // it's a missed call
-                    // don't clear notification to preserve small icon near bluetooth
+                    // it's a missed call, don't clear notification to preserve small icon near bluetooth
                     isRinging = false;
+                    // send missed call notification if enabled in settings
+                    if (missedCall) {
+                        sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, "Missed call");
+                    }
                 } else {
                     isRinging = false;
                     cancelNotification();
                 }
                 break;
             default:
+                isRinging = false;
+                cancelNotification();
                 break;
+        }
+    }
+
+// handle button press while ringing
+    private void handleButtonWhenRing(byte[] value) {
+        GBDeviceEventCallControl callCmd = new GBDeviceEventCallControl();
+        // get saved settings if true - reject call, otherwise ignore call
+        boolean buttonReject = WatchXPlusDeviceCoordinator.getButtonReject(getDevice().getAddress());
+        if (buttonReject) {
+            LOG.info(" call rejected ");
+            isRinging = false;
+            callCmd.event = GBDeviceEventCallControl.Event.REJECT;
+            evaluateGBDeviceEvent(callCmd);
+            cancelNotification();
+        } else {
+            LOG.info(" call ignored ");
+            isRinging = false;
+            callCmd.event = GBDeviceEventCallControl.Event.IGNORE;
+            evaluateGBDeviceEvent(callCmd);
+            cancelNotification();
         }
     }
 
@@ -830,6 +826,8 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 handleFirmwareInfo(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_SHAKE_SWITCH, 5)) {
                 handleShakeState(value);
+            } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_BUTTON_WHILE_RING, 5)) {
+                handleButtonWhenRing(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_DISCONNECT_REMIND, 5)) {
                 handleDisconnectReminderState(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_BATTERY_INFO, 5)) {
@@ -1387,9 +1385,12 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 WatchXPlusDeviceCoordinator.shouldEnableHeadsUpScreen(sharedPreferences));
     }
 
-    // Command to toggle Lift Wrist to Light Screen
+    // Command to toggle Lift Wrist to Light Screen, and shake to ignore/reject call
     private WatchXPlusDeviceSupport setHeadsUpScreen(TransactionBuilder transactionBuilder, boolean enable) {
-        byte refuseCall = 0x00; // force refuse call to OFF
+        boolean shakeReject = WatchXPlusDeviceCoordinator.getShakeReject(getDevice().getAddress());
+        byte refuseCall = 0x00; // force shake wrist to ignore/reject call to OFF
+                                // returned characteristic is equal with button press while ringing
+        if (shakeReject) refuseCall = 0x01;
         byte lightScreen = 0x00;
         if (enable) {
             lightScreen = 0x01;
@@ -1427,7 +1428,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                         WatchXPlusConstants.READ_VALUE));
         return this;
     }
-// Request status of Lift Wrist to Light Screen, and Shake to Refuse Call
+// Request status of Lift Wrist to Light Screen, and Shake to Ignore/Reject Call
     public WatchXPlusDeviceSupport getShakeStatus(TransactionBuilder transactionBuilder) {
         transactionBuilder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
                 buildCommand(WatchXPlusConstants.CMD_SHAKE_SWITCH,

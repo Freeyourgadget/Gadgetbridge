@@ -69,6 +69,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterEntry;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterEntryDao;
 import nodomain.freeyourgadget.gadgetbridge.model.AppNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -249,8 +250,8 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         if (shouldIgnore(sbn)) {
-            if (!"com.sec.android.app.clockpackage".equals(sbn.getPackageName())) {     // allow phone alarm notification
-                LOG.info("Ignore notification: " + sbn.getPackageName());
+            if (!"com.sec.android.app.clockpackage".equals(sbn.getPackageName())) {     // workaround to allow phone alarm notification
+                LOG.info("Ignore notification: " + sbn.getPackageName());               // need to fix
                 return;
             }
         }
@@ -677,7 +678,6 @@ public class NotificationListener extends NotificationListenerService {
         if (!isServiceRunning() || sbn == null) {
             return true;
         }
-
         return shouldIgnoreSource(sbn.getPackageName()) || shouldIgnoreNotification(
                 sbn.getNotification(), sbn.getPackageName());
 
@@ -721,8 +721,9 @@ public class NotificationListener extends NotificationListenerService {
 
         MediaSessionCompat.Token mediaSession = getMediaSession(notification);
         //try to handle media session notifications
-        if (mediaSession != null && handleMediaSessionNotification(mediaSession))
+        if (mediaSession != null && handleMediaSessionNotification(mediaSession)) {
             return true;
+        }
 
         NotificationType type = AppNotificationType.getInstance().get(source);
         //ignore notifications marked as LocalOnly https://developer.android.com/reference/android/app/Notification.html#FLAG_LOCAL_ONLY
@@ -743,7 +744,6 @@ public class NotificationListener extends NotificationListenerService {
                 return true;
             }
         }
-
         return (notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT;
 
     }

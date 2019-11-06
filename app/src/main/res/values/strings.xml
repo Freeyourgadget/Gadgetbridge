@@ -191,8 +191,14 @@
     <string name="pref_wxp_title_timeformat">Time format</string>
     <string name="pref_wxp_title_altitude">Altitude calibration</string>
     <string name="pref_wxp_title_repeat_on_call">Repeat call notification</string>
-    <string name="pref_wxp_title_repeat_on_call_summary">Possible values min=0, max=5</string>
+    <string name="pref_wxp_title_repeat_on_call_summary">Possible values min=0, max=10</string>
+    <string name="prefs_wxp_continious">Vibration during phone ring</string>
+    <string name="prefs_wxp_missed">Vibration on missed call</string>
     <string name="preferences_watchxplus_settings">WatchXPlus settings</string>
+    <string name="pref_wxp_title_reject_summary">Off - ignore, On - reject</string>
+    <string name="prefs_wxp_reject">Button ignore/reject call</string>
+    <string name="pref_wxp_title_shake_reject_summary">Duplicates watch button action</string>
+    <string name="prefs_wxp_shake_reject">Shake wrist ignore/reject call</string>
     <string name="pref_header_wxp_calibration">WatchXPlus calibration</string>
     <!-- Makibes HR3 Preferences -->
     <string name="preferences_makibes_hr3_settings">Makibes HR3 settings</string>

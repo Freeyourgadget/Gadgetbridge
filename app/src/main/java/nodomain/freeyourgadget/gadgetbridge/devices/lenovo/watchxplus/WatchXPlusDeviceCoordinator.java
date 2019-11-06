@@ -223,6 +223,14 @@ Prefs from device settings on main page
         }
     }
 
+    public static byte getBPCalibrationStatus(SharedPreferences sharedPrefs) {
+        String timeMode = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_24h));
+        if (timeMode.equals(getContext().getString(R.string.p_timeformat_24h))) {
+            return WatchXPlusConstants.ARG_SET_TIMEMODE_24H;
+        } else {
+            return WatchXPlusConstants.ARG_SET_TIMEMODE_12H;
+        }
+    }
 /*
 Values from device specific settings page
  */
@@ -236,17 +244,30 @@ Values from device specific settings page
         return (int) prefs.getInt(WatchXPlusConstants.PREF_REPEAT, 1);
     }
 
+//read continious call notification
+    public static boolean getContiniousVibrationOnCall(String address) {
+        return (boolean) prefs.getBoolean(WatchXPlusConstants.PREF_CONTINIOUS, false);
+    }
+
+//read missed call notification
+    public static boolean getMissedCallReminder(String address) {
+        return (boolean) prefs.getBoolean(WatchXPlusConstants.PREF_MISSED_CALL, false);
+    }
+
+//read button reject call settings
+    public static boolean getButtonReject(String address) {
+        return (boolean) prefs.getBoolean(WatchXPlusConstants.PREF_BUTTON_REJECT, false);
+    }
+
+//read shake wrist reject call settings
+    public static boolean getShakeReject(String address) {
+        return (boolean) prefs.getBoolean(WatchXPlusConstants.PREF_SHAKE_REJECT, false);
+    }
+
 /*
 Other saved preferences
  */
-    public static byte getBPCalibrationStatus(SharedPreferences sharedPrefs) {
-        String timeMode = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_24h));
-        if (timeMode.equals(getContext().getString(R.string.p_timeformat_24h))) {
-            return WatchXPlusConstants.ARG_SET_TIMEMODE_24H;
-        } else {
-            return WatchXPlusConstants.ARG_SET_TIMEMODE_12H;
-        }
-    }
+
 
 
 }
