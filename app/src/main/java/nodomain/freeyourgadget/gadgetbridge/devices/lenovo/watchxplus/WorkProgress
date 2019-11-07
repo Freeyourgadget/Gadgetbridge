@@ -1,0 +1,83 @@
+TODO
+  Watch settings
+    - Set watch modes (energy saving):
+      - Normal -> the watch work normally
+      - Power-saving mode -> the app turn off the bluetooth on the watch
+      - Trad-watch mode -> the watch only works as an analog one
+    - Set watch language (currently forced to English)
+    - Set watch units (metric/imperial)
+    - Implement send User details to watch
+      - Age, height, gender, etc.
+    - Implement Do not disturb (on, off, scheduled)
+    - Implement themperature alarm on watch
+      - switch, lowTemp, highTemp
+    - Implement continious blood pressure measurement (on, off, scheduled)
+  
+  Add feature to initiate button press event on watch
+    - Send command to watch
+    - Get triger on button press
+
+  Schedulers:
+    - Screen on scheduler (inApp, not supported by watch)
+    - Disconnect reminder scheduler  (inApp, not supported by watch)
+    - Do not disturb (supported by watch)
+    - Continious blood pressure measurement (supported by watch)
+  
+  Refine send weather to watch
+    - Send weather icon
+  
+  Refine get activity data
+    - Fix get sleep data
+ 
+  Measurements
+    - Blood pressure mesurement
+      - Add blood pressure calibration (view)
+      - Add blood pressure calibration function
+      - Show blood pressure measurement (view)
+    - Implement heart rate measurement
+    - Implement themperature measurement
+    - Implement UV index measurement
+  
+ 
+ 
+WORK PROGRESS
+  Send notification to watch
+    - on incomming call
+      - add function to cancel notification on watch (04.11.2019)
+      - cancel notification on change phone state (end call, reject call etc.) (06.11.2019)
+      - settings for repeat notification [0-10 times] (05.11.2019)
+      - settings for continious notification while phone ring [on, off] (06.11.2019)
+      - settings for send once notification for missed call [on, off] (06.11.2019)
+    - on text message, or other application
+    - on triger phone alarm (05.11.2019)
+  
+  Call handling
+    - setting for ignore/reject call with watch button [on->reject call, off->ignore call] (06.11.2019)
+    - setting for ignore/reject call with shake device - duplicates button action [on, off] (06.11.2019)
+    - on watch - show small phone icon near bluetooth icon when there are missed call (06.11.2019)
+  
+  Calibrations
+    - time calibration
+      * send current date/time to watch
+    - set watch alarms
+    - altitude calibration [altitude (meters)] (04.11.2019)
+      * it's used in Climb activity
+    - status of blood pressure calibration (06.11.2019)
+      * it's used in blood pressure measurement
+    
+  Device settings  
+    - lift wrist to screen on [on, off,TODO scheduled] (02.11.2019)
+    - change time format 12/24h (02.11.2019)
+    - disconnect reminder [on, off,TODO scheduled] (02.11.2019)
+    - find my phone [on, off, ring duration] (02.11.2019)
+  
+  Activity data
+    - get steps per day
+    - get heart reate measurements
+    - get sleep data
+    - set user goal for steps (TODO set user details)
+    
+  Changed in app device icon (02.11.2019)
+  Get blood pressure measurement result (work only if blood pressure is calibrated)
+  Pairing activity
+    
