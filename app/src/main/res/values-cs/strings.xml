@@ -221,7 +221,7 @@
     <string name="pref_screen_notification_profile_generic_social">Sociální sítě</string>
     <string name="control_center_find_lost_device">Najit ztracené zařízení</string>
     <string name="control_center_cancel_to_stop_vibration">Zastavit vibrací.</string>
-    <string name="title_activity_charts">Vaše aktivita</string>
+    <string name="title_activity_charts">Aktivita</string>
     <string name="title_activity_set_alarm">Nastavit buzení</string>
     <string name="controlcenter_start_configure_alarms">Nastavit buzení</string>
     <string name="title_activity_alarm_details">Detail buzení</string>
@@ -253,7 +253,7 @@
     <string name="weeksleepchart_sleep_a_week">Spánek za týden</string>
     <string name="weeksleepchart_today_sleep_description">Spánek dnes, cíl: %1$s</string>
     <string name="weekstepschart_steps_a_week">Kroky za týden</string>
-    <string name="activity_sleepchart_activity_and_sleep">Vaše aktivita a spánek</string>
+    <string name="activity_sleepchart_activity_and_sleep">Aktivita a spánek</string>
     <string name="updating_firmware">Nahrávám firmvér…</string>
     <string name="fwapp_install_device_not_ready">Soubor nelze nainstalovat, zařízení není připraveno.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
