@@ -289,8 +289,11 @@
     <string name="pref_wxp_title_altitude">Калибриране на височина</string>
     <string name="pref_wxp_title_repeat_on_call">Повтори известия за звънене</string>
     <string name="pref_wxp_title_repeat_on_call_summary">Възможни стойности min=0, max=10</string>
-    <string name="prefs_wxp_continious">Известие докато звъни</string>
+    <string name="prefs_wxp_continious">Известявай докато телефона звъни</string>
     <string name="pref_wxp_title_reject_summary">Изкл. - игнорира, Вкл. - отказ</string>
+    <string name="wxp_bp_calibration_prefs">Калибриране на кръвно налягане</string>
+    <string name="pref_wxp_bp_calibration_low">Кръвно налягане DIASTOLIC (долна)</string>
+    <string name="pref_wxp_bp_calibration_high">Кръвно налягане SYSTOLIC (горна)</string>
     <string name="prefs_wxp_reject">Бутона игнорира/отказва повикване</string>
     <string name="pref_wxp_title_shake_reject_summary">Дублира действието на бутона</string>
     <string name="prefs_wxp_shake_reject">Разклащането игнорира/отказва повикване</string>

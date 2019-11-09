@@ -58,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActi
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimePreferenceActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsPreferencesActivity;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lenovo.watchxplus.WatchXPlusDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -90,6 +91,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
         Prefs prefs = GBApplication.getPrefs();
 
         Preference pref = findPreference("notifications_generic");
+
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
                 Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
@@ -207,6 +209,17 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 return true;
             }
 
+        });
+
+        pref = findPreference("watchxplus_button_BP_calibration");
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                LOG.info(" uhaaaa ");
+                preference.setSummary("Calibrating, please wait... (if no result after 15s. re-run)");
+                GBApplication.deviceService().onSendConfiguration("BP_CAL");
+                return true;
+            }
         });
 
         final Preference unit = findPreference(PREF_MEASUREMENT_SYSTEM);

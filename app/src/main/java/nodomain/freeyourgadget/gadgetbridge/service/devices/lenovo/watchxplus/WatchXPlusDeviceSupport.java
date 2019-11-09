@@ -25,11 +25,17 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.CountDownTimer;
 import android.os.Handler;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.IntRange;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -50,6 +56,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -64,7 +71,6 @@ import nodomain.freeyourgadget.gadgetbridge.entities.WatchXPlusActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.WatchXPlusHealthActivityOverlay;
 import nodomain.freeyourgadget.gadgetbridge.entities.WatchXPlusHealthActivityOverlayDao;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmClockReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -77,7 +83,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
@@ -87,12 +92,13 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lenovo.operations.InitOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 
 public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
-
+    protected static Prefs prefs  = GBApplication.getPrefs();
     private boolean needsAuth;
     private int sequenceNumber = 0;
     private boolean isCalibrationActive = false;
@@ -568,6 +574,8 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+
+
     @Override
     public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
 
@@ -655,7 +663,6 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFindDevice(boolean start) {
-
     }
 
     @Override
@@ -665,7 +672,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onScreenshotReq() {
-
+        sendBloodPressureCalibration();
     }
 
     @Override
@@ -707,11 +714,10 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                     getDisconnectReminderStatus(builder);
                     break;
                 case DeviceSettingsPreferenceConst.PREF_TIMEFORMAT:
-                    setTimeMode(builder, sharedPreferences);
+                    setTimeFormat(builder, sharedPreferences);
                     break;
-                case WatchXPlusConstants.PREF_ALTITUDE:
-                    LOG.info(" ALTITUDE: " + config);
-
+                case "BP_CAL":
+                    sendBloodPressureCalibration();
                     break;
             }
             builder.queue(getQueue());
@@ -739,11 +745,56 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    CoordinatorLayout coordinatorLayout;
+
+// check status of blood pressure calibration
+    private WatchXPlusDeviceSupport sendBloodPressureCalibration() {
+        try {
+            int mLowP = prefs.getInt(WatchXPlusConstants.PREF_BP_CAL_LOW, 80);
+            int mHighP = prefs.getInt(WatchXPlusConstants.PREF_BP_CAL_HIGH, 130);
+            LOG.warn("Calibrating BP ... LowP=" + mLowP + " HighP="+mHighP);
+            GB.toast("Calibrating BP...", Toast.LENGTH_LONG, GB.INFO);
+
+            TransactionBuilder builder = performInitialized("bpCalibrate");
+
+            byte[] command = WatchXPlusConstants.CMD_BP_CALIBRATION;
+            byte mStart = 0x01;
+
+            byte[] bArr = new byte[5];
+            bArr[0] = (byte) mStart;               // byte[08]
+            bArr[1] = (byte) (mHighP >> 8);        // byte[09]
+            bArr[2] = (byte) mHighP;              // byte[10]
+            bArr[3] = (byte) (mLowP >> 8);        // byte[11]
+            bArr[4] = (byte) mLowP;               // byte[12]
+
+            builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                    buildCommand(command,
+                            WatchXPlusConstants.TASK,
+                            bArr));
+            builder.queue(getQueue());        } catch (IOException e) {
+            LOG.warn("Unable to send BP Calibration", e);
+        }
+        return this;
+    }
+
     private void handleBloodPressureCalibrationStatus(byte[] value) {
-        if (Conversion.calculateHigh(value[8]) != 0) {
+        if (Conversion.fromByteArr16(value[8]) != 0) {
             WatchXPlusDeviceCoordinator.isBPCalibrated = false;
         } else {
             WatchXPlusDeviceCoordinator.isBPCalibrated = true;
+        }
+    }
+
+
+    private void handleBloodPressureCalibrationResult(byte[] value) {
+        if (Conversion.fromByteArr16(value[8]) != 0x00) {
+            WatchXPlusDeviceCoordinator.isBPCalibrated = false;
+            GB.toast("Calibrating BP fail", Toast.LENGTH_LONG, GB.ERROR);
+        } else {
+            WatchXPlusDeviceCoordinator.isBPCalibrated = true;
+            int high = Conversion.fromByteArr16(value[9], value[10]);
+            int low = Conversion.fromByteArr16(value[11], value[12]);
+            GB.toast("OK. Measured Low:"+low+" high:"+high, Toast.LENGTH_LONG, GB.INFO);
         }
     }
 // end check status of blood pressure calibration
@@ -751,6 +802,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     private void requestBloodPressureMeasurement() {
         if (!WatchXPlusDeviceCoordinator.isBPCalibrated) {
             LOG.warn("BP is NOT calibrated");
+            GB.toast("BP is not calibrated", Toast.LENGTH_LONG, GB.WARN);
             return;
         }
         try {
@@ -836,6 +888,8 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 handleTime(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_IS_BP_CALIBRATED, 5)) {
                 handleBloodPressureCalibrationStatus(value);
+            } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_BP_CALIBRATION, 5)) {
+                handleBloodPressureCalibrationResult(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_BUTTON_INDICATOR, 5)) {
                 this.onReverseFindDevice(true);
 //                It looks like WatchXPlus doesn't send this action
@@ -874,7 +928,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
             return true;
         } else if (WatchXPlusConstants.UUID_CHARACTERISTIC_DATABASE_READ.equals(characteristicUUID)) {
-
+            LOG.info(" Value change for characteristic DATABASE: " + characteristicUUID + " value " + value);
             handleContentDataChunk(value);
             return true;
         } else {
@@ -1123,12 +1177,13 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
         if (value.length < 11) {
             LOG.info(" BP Measure started. Waiting for result");
+            GB.toast("BP Measure started. Waiting for result...", Toast.LENGTH_LONG, GB.INFO);
         } else {
             LOG.info(" Received BP live data");
             int high = Conversion.fromByteArr16(value[8], value[9]);
             int low = Conversion.fromByteArr16(value[10], value[11]);
             int timestamp = Conversion.fromByteArr16(value[12], value[13], value[14], value[15]);
-
+            GB.toast("Calculated BP data: low: " + low + ", high: " + high, Toast.LENGTH_LONG, GB.INFO);
             LOG.info(" Calculated BP data: timestamp: " + timestamp + ", high: " + high + ", low: " + low);
         }
     }
@@ -1341,7 +1396,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(this.getDevice().getAddress());
         this.setHeadsUpScreen(transaction, sharedPreferences);              // lift wirst to screen on
         this.setDisconnectReminder(transaction, sharedPreferences);         // disconnect reminder
-        this.setTimeMode(transaction, sharedPreferences);                   // set time mode 12/24h
+        this.setTimeFormat(transaction, sharedPreferences);                   // set time mode 12/24h
         this.setAltitude(transaction);                                      // set altitude calibration
     }
 
@@ -1437,7 +1492,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
 // set time format
-    private WatchXPlusDeviceSupport setTimeMode(TransactionBuilder transactionBuilder, byte timeMode) {
+    private WatchXPlusDeviceSupport setTimeFormat(TransactionBuilder transactionBuilder, byte timeMode) {
         byte[] bArr = new byte[2];
         bArr[0] = 0x01;               //byte[08] language - force to English language
         bArr[1] = timeMode;           //byte[09] time
@@ -1445,7 +1500,6 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 buildCommand(WatchXPlusConstants.CMD_TIME_LANGUAGE,
                         WatchXPlusConstants.WRITE_VALUE,
                         bArr));
-        //LOG.info(" setTimeMode: " + bArr);
         return this;
     }
 
@@ -1470,8 +1524,8 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    private WatchXPlusDeviceSupport setTimeMode(TransactionBuilder transactionBuilder, SharedPreferences sharedPreferences) {
-        return this.setTimeMode(transactionBuilder,
+    private WatchXPlusDeviceSupport setTimeFormat(TransactionBuilder transactionBuilder, SharedPreferences sharedPreferences) {
+        return this.setTimeFormat(transactionBuilder,
                 WatchXPlusDeviceCoordinator.getTimeMode(sharedPreferences));
     }
 
@@ -1501,6 +1555,8 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+
+
     private static class Conversion {
         static byte toBcd8(@IntRange(from = 0, to = 99) int value) {
             int high = (value / 10) << 4;
@@ -1518,7 +1574,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
             return new byte[]{(byte) (value >> 8), (byte) value};
         }
 
-        static int fromByteArr16(byte... value) {
+        static int fromByteArr16(byte... value) { // equals calculateHigh
             int intValue = 0;
             for (int i2 = 0; i2 < value.length; i2++) {
                 intValue += (value[i2] & 255) << (((value.length - 1) - i2) * 8);
@@ -1538,16 +1594,6 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
             int i2 = 0;
             while (i < bArr.length) {
                 i2 += (bArr[i] & 255) << (i * 8);
-                i++;
-            }
-            return i2;
-        }
-
-        static int calculateHigh(byte... bArr) {
-            int i = 0;
-            int i2 = 0;
-            while (i < bArr.length) {
-                i2 += (bArr[i] & 255) << (((bArr.length - 1) - i) * 8);
                 i++;
             }
             return i2;

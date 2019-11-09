@@ -29,6 +29,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lenovo.watchxplus.WatchXPlusDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getContext;
@@ -223,14 +224,6 @@ Prefs from device settings on main page
         }
     }
 
-    public static byte getBPCalibrationStatus(SharedPreferences sharedPrefs) {
-        String timeMode = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_24h));
-        if (timeMode.equals(getContext().getString(R.string.p_timeformat_24h))) {
-            return WatchXPlusConstants.ARG_SET_TIMEMODE_24H;
-        } else {
-            return WatchXPlusConstants.ARG_SET_TIMEMODE_12H;
-        }
-    }
 /*
 Values from device specific settings page
  */

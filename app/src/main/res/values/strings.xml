@@ -199,6 +199,11 @@
     <string name="prefs_wxp_reject">Button ignore/reject call</string>
     <string name="pref_wxp_title_shake_reject_summary">Duplicates watch button action</string>
     <string name="prefs_wxp_shake_reject">Shake wrist ignore/reject call</string>
+    <string name="wxp_bp_calibration_prefs">Blood Pressure calibration</string>
+    <string name="pref_wxp_bp_calibration_low">Blood Pressure DIASTOLIC (low)</string>
+    <string name="pref_wxp_bp_calibration_high">Blood Pressure SYSTOLIC (high)</string>
+    <string name="prefs_wxp_button_bp_calibration">Begin calibration</string>
+    <string name="prefs_wxp_button_bp_calibration_sum">Press here to begin calibration</string>
     <string name="pref_header_wxp_calibration">WatchXPlus calibration</string>
     <!-- Makibes HR3 Preferences -->
     <string name="preferences_makibes_hr3_settings">Makibes HR3 settings</string>

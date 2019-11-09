@@ -41,6 +41,8 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final String PREF_IS_BP_CALIBRATED = "watchxplus_is_bp_calibrated";
     public static final String PREF_BUTTON_REJECT = "watchxplus_button_reject";
     public static final String PREF_SHAKE_REJECT = "watchxplus_shake_reject";
+    public static final String PREF_BP_CAL_LOW = "pref_wxp_bp_calibration_low";
+    public static final String PREF_BP_CAL_HIGH = "pref_wxp_bp_calibration_high";
 
 
     // time format constants
@@ -64,6 +66,7 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final byte[] CMD_NOTIFICATION_CANCEL          = new byte[]{0x03, 0x04};
     public static final byte[] CMD_NOTIFICATION_SETTINGS        = new byte[]{0x03, 0x02};
     public static final byte[] CMD_DO_NOT_DISTURB_SETTINGS      = new byte[]{0x03, 0x61};
+    public static final byte[] CMD_POWER_MODE                   = new byte[]{0x03, -0x7F}; //bArr[8] - 0 normal, 1 poser save, 2 green
 
     public static final byte[] CMD_FITNESS_GOAL_SETTINGS        = new byte[]{0x10, 0x02};
     public static final byte[] CMD_DAY_STEPS_INFO               = new byte[]{0x10, 0x03};
@@ -77,10 +80,11 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final byte[] RESP_DISCONNECT_REMIND           = new byte[]{0x08, 0x00, 0x11};
     public static final byte[] RESP_IS_BP_CALIBRATED            = new byte[]{0x08, 0x05, 0x0B};
     public static final byte[] RESP_BUTTON_WHILE_RING           = new byte[]{0x04, 0x03, 0x03};
+    public static final byte[] RESP_BP_CALIBRATION              = new byte[]{0x08, 0x05, 0x0C};
 
     public static final byte[] RESP_AUTHORIZATION_TASK          = new byte[]{0x01, 0x01, 0x05};
     public static final byte[] RESP_DAY_STEPS_INDICATOR         = new byte[]{0x08, 0x10, 0x03};
-    public static final byte[] RESP_HEARTRATE                   = new byte[]{-0x80, 0x15, 0x03};
+    public static final byte[] RESP_HEARTRATE                   = new byte[]{(byte) 0x80, 0x15, 0x03};
 
     public static final byte[] RESP_DATA_COUNT                  = new byte[]{0x08, (byte)0xF0, 0x10};
     public static final byte[] RESP_DATA_DETAILS                = new byte[]{0x08, (byte)0xF0, 0x11};
