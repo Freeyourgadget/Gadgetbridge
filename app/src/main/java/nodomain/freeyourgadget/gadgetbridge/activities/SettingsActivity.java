@@ -91,7 +91,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
         Prefs prefs = GBApplication.getPrefs();
 
         Preference pref = findPreference("notifications_generic");
-
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
                 Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
@@ -211,13 +210,22 @@ public class SettingsActivity extends AbstractSettingsActivity {
 
         });
 
-        pref = findPreference("watchxplus_button_BP_calibration");
+        pref = findPreference("wxp_button_BP_calibration");
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                preference.setSummary("Calibrating, please wait... (if no result after 15s. re-run)");
+                GBApplication.deviceService().onSendConfiguration("BP_CAL");
+                return true;
+            }
+        });
+
+        pref = findPreference("wxp_power_mode");
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newVal) {
                 LOG.info(" uhaaaa ");
-                preference.setSummary("Calibrating, please wait... (if no result after 15s. re-run)");
-                GBApplication.deviceService().onSendConfiguration("BP_CAL");
+                GBApplication.deviceService().onSendConfiguration("WXP_POWER_MODE");
                 return true;
             }
         });

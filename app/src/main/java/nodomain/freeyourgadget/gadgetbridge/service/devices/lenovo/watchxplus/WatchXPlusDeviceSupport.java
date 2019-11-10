@@ -26,18 +26,12 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Handler;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.IntRange;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.google.android.material.snackbar.Snackbar;
-
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -276,15 +270,6 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    private WatchXPlusDeviceSupport enableDoNotDisturb(TransactionBuilder builder, boolean active) {
-        builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
-                buildCommand(WatchXPlusConstants.CMD_DO_NOT_DISTURB_SETTINGS,
-                        WatchXPlusConstants.WRITE_VALUE,
-                        new byte[]{(byte) (active ? 0x01 : 0x00)}));
-
-        return this;
-    }
-
     private void enableCalibration(boolean enable) {
         try {
             TransactionBuilder builder = performInitialized("enableCalibration");
@@ -399,21 +384,10 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    private WatchXPlusDeviceSupport setFitnessGoal(TransactionBuilder builder) {
-        int fitnessGoal = new ActivityUser().getStepsGoal();
-        builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
-                buildCommand(WatchXPlusConstants.CMD_FITNESS_GOAL_SETTINGS,
-                        WatchXPlusConstants.WRITE_VALUE,
-                        Conversion.toByteArr16(fitnessGoal)));
-
-        return this;
-    }
-
     public WatchXPlusDeviceSupport initialize(TransactionBuilder builder) {
         getFirmwareVersion(builder)
                 .getBatteryState(builder)
                 .enableNotificationChannels(builder)
-                .enableDoNotDisturb(builder, false)
                 .setFitnessGoal(builder)
                 .getBloodPressureCalibrationStatus(builder)
                 .syncPreferences(builder);
@@ -574,8 +548,43 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    private WatchXPlusDeviceSupport setFitnessGoal(TransactionBuilder builder) {
+        int fitnessGoal = new ActivityUser().getStepsGoal();
+        builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                buildCommand(WatchXPlusConstants.CMD_FITNESS_GOAL_SETTINGS,
+                        WatchXPlusConstants.WRITE_VALUE,
+                        Conversion.toByteArr16(fitnessGoal)));
 
+        return this;
+    }
 
+// set personal info
+    private WatchXPlusDeviceSupport setPersonalInformation(TransactionBuilder builder, int height, int weight, int age, int gender) {
+        LOG.warn(" Setting Personal Information... height:"+height+" weight:"+weight+" age:"+age+" gender:"+gender);
+        byte[] command = WatchXPlusConstants.CMD_SET_PERSONAL_INFO;
+
+        byte[] bArr = new byte[4];
+        bArr[0] = (byte) height;        // byte[08]
+        bArr[1] = (byte) weight;        // byte[09]
+        bArr[2] = (byte) age;           // byte[10]
+        bArr[3] = (byte) gender;        // byte[11]
+
+        builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                buildCommand(command,
+                        WatchXPlusConstants.WRITE_VALUE,
+                        bArr));
+        return this;
+    }
+
+// handle get/set personal info
+// for test purposes only
+    private void handlePersonalInfo(byte[] value) {
+        int height = Conversion.fromByteArr16(value[8]);
+        int weight = Conversion.fromByteArr16(value[9]);
+        int age = Conversion.fromByteArr16(value[10]);
+        int gender = Conversion.fromByteArr16(value[11]);
+        LOG.info(" Personal info - height:" + height + ", weight:" + weight + ", age:" + age + ", gender:" + gender);
+    }
     @Override
     public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
 
@@ -648,7 +657,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onReset(int flags) {
-
+       // testNewCommands();
     }
 
     @Override
@@ -701,6 +710,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(this.getDevice().getAddress());
         try {
             builder = performInitialized("sendConfig: " + config);
+            LOG.info(" config changed:" + config);
             switch (config) {
                 case ActivityUser.PREF_USER_STEPS_GOAL:
                     setFitnessGoal(builder);
@@ -716,8 +726,17 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 case DeviceSettingsPreferenceConst.PREF_TIMEFORMAT:
                     setTimeFormat(builder, sharedPreferences);
                     break;
+                case WatchXPlusConstants.PREF_DO_NOT_DISTURB:
+                case WatchXPlusConstants.PREF_DO_NOT_DISTURB_START:
+                case WatchXPlusConstants.PREF_DO_NOT_DISTURB_END:
+                    LOG.info(" bravo ");
+                    setQuiteHours(builder, sharedPreferences);
+                    break;
                 case "BP_CAL":
                     sendBloodPressureCalibration();
+                    break;
+                case "WXP_POWER_MODE":
+                    setPowerMode(config);
                     break;
             }
             builder.queue(getQueue());
@@ -734,6 +753,71 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onTestNewFunction() {
         requestBloodPressureMeasurement();
+    }
+
+// set do not disturb time
+    private WatchXPlusDeviceSupport setQuiteHours(TransactionBuilder tbuilder, boolean enable, int hourStart, int minuteStart, int hourEnd, int minuteEnd) {
+            LOG.warn(" Setting DND time... Hs:"+hourStart+" Ms:"+minuteStart+" He:"+hourEnd+" Me:"+minuteEnd);
+            byte[] command = WatchXPlusConstants.CMD_SET_QUITE_HOURS_TIME;
+
+            byte[] bArr = new byte[4];
+            bArr[0] = (byte) hourStart;        // byte[08]
+            bArr[1] = (byte) minuteStart;      // byte[09]
+            bArr[2] = (byte) hourEnd;          // byte[10]
+            bArr[3] = (byte) minuteEnd;        // byte[11]
+
+            tbuilder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                    buildCommand(WatchXPlusConstants.CMD_SET_QUITE_HOURS_TIME,
+                            WatchXPlusConstants.WRITE_VALUE,
+                            bArr));
+            setQuiteHoursSwitch(tbuilder, enable);
+        return this;
+    }
+
+    // set do not disturb switch
+    private WatchXPlusDeviceSupport setQuiteHoursSwitch(TransactionBuilder tbuilder, boolean enable) {
+            LOG.warn("Setting DND switch to" + enable);
+            tbuilder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                buildCommand(WatchXPlusConstants.CMD_SET_QUITE_HOURS_SWITCH,
+                        WatchXPlusConstants.WRITE_VALUE,
+                        new byte[]{(byte) (enable ? 0x01 : 0x00)}));
+        return this;
+    }
+
+    private WatchXPlusDeviceSupport setQuiteHours(TransactionBuilder builder, SharedPreferences sharedPreferences) {
+        Calendar start = new GregorianCalendar();
+        Calendar end = new GregorianCalendar();
+        boolean enable = WatchXPlusDeviceCoordinator.getQuiteHours(sharedPreferences, start, end);
+        if (enable) {
+            return this.setQuiteHours(builder, enable,
+                    start.get(Calendar.HOUR_OF_DAY), start.get(Calendar.MINUTE),
+                    end.get(Calendar.HOUR_OF_DAY), end.get(Calendar.MINUTE));
+        } else {
+            LOG.info(" Quiet hours are disabled");
+            return this.setQuiteHoursSwitch(builder, enable);
+        }
+    }
+
+// set watch power mode
+    private WatchXPlusDeviceSupport setPowerMode(String config) {
+        int settingRead = prefs.getInt("wxp_power_mode", 0);
+        byte[] bArr = new byte[1];
+        if (settingRead == 0) bArr[0] = 0x00;
+        if (settingRead == 1) bArr[0] = 0x01;
+        if (settingRead == 2) bArr[0] = 0x02;
+        LOG.info(" setting: " + config + " mode: " + bArr[0]);
+
+        try {
+            TransactionBuilder builder = performInitialized("setPowerMode");
+            builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                    buildCommand(WatchXPlusConstants.CMD_POWER_MODE,
+                            WatchXPlusConstants.TASK,
+                            bArr));
+            builder.queue(getQueue());
+        }   catch (IOException e) {
+            LOG.warn("Unable to set power mode", e);
+        }
+        return this;
     }
 
 // check status of blood pressure calibration
@@ -771,7 +855,8 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                     buildCommand(command,
                             WatchXPlusConstants.TASK,
                             bArr));
-            builder.queue(getQueue());        } catch (IOException e) {
+            builder.queue(getQueue());
+        } catch (IOException e) {
             LOG.warn("Unable to send BP Calibration", e);
         }
         return this;
@@ -820,27 +905,27 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
 
-    /*
+
     // not working!!!
-    private void requestHeartRateMeasurement() {
+    private void testNewCommands() {
         try {
-            TransactionBuilder builder = performInitialized("hrMeasure");
+            TransactionBuilder builder = performInitialized("test");
 
-            byte[] command = new byte[]{0x05, 0x0B};
+            int first = prefs.getInt("wxp_newcmd_first", 0);
+            int second = prefs.getInt("wxp_newcmd_second", 0);
+            byte[] command = new byte[]{(byte) first, (byte) second};
 
+            LOG.info("testing new command " + command);
             builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
                     buildCommand(command,
                             WatchXPlusConstants.READ_VALUE));
 
-         //   builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
-         //           buildCommand(command,
-         //                   WatchXPlusConstants.TASK, new byte[]{0x01}));
             builder.queue(getQueue());
         } catch (IOException e) {
             LOG.warn("Unable to request HR Measure", e);
         }
     }
-*/
+
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
@@ -878,12 +963,16 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 handleFirmwareInfo(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_SHAKE_SWITCH, 5)) {
                 handleShakeState(value);
+            } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_SET_PERSONAL_INFO, 5)) {
+                handlePersonalInfo(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_BUTTON_WHILE_RING, 5)) {
                 handleButtonWhenRing(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_DISCONNECT_REMIND, 5)) {
                 handleDisconnectReminderState(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_BATTERY_INFO, 5)) {
                 handleBatteryState(value);
+            } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_GOAL_AIM_STATUS, 5)) {
+                handleSportAimStatus(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_TIME_SETTINGS, 5)) {
                 handleTime(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_IS_BP_CALIBRATED, 5)) {
@@ -1214,6 +1303,11 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         return result;
     }
 
+    private void handleSportAimStatus(byte[] value) {
+        int stepsAim = Conversion.fromByteArr16(value[8], value[9]);
+        LOG.debug(" Received goal stepsAim: " + stepsAim);
+    }
+
     private void handleStepsInfo(byte[] value) {
         int steps = Conversion.fromByteArr16(value[8], value[9]);
         LOG.debug(" Received steps count: " + steps);
@@ -1395,9 +1489,13 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     private void syncPreferences(TransactionBuilder transaction) {
         SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(this.getDevice().getAddress());
         this.setHeadsUpScreen(transaction, sharedPreferences);              // lift wirst to screen on
+        this.setQuiteHours(transaction, sharedPreferences);                // DND
         this.setDisconnectReminder(transaction, sharedPreferences);         // disconnect reminder
         this.setTimeFormat(transaction, sharedPreferences);                   // set time mode 12/24h
         this.setAltitude(transaction);                                      // set altitude calibration
+        ActivityUser activityUser = new ActivityUser();
+        this.setPersonalInformation(transaction, activityUser.getHeightCm(), activityUser.getWeightKg(),
+                activityUser.getAge(),activityUser.getGender());
     }
 
     private Handler mFindPhoneHandler = new Handler();

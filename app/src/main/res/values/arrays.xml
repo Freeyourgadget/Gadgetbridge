@@ -69,6 +69,17 @@
         <item>never</item>
     </string-array>
 
+    <string-array name="wxp_mode">
+        <item name="0">@string/wxp_mode_normal</item>
+        <item name="1">@string/wxp_mode_saving</item>
+        <item name="2">@string/wxp_mode_watch</item>
+    </string-array>
+    <string-array name="wxp_mode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="gender">
         <item name="1">@string/male</item>
         <item name="0">@string/female</item>

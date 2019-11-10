@@ -43,7 +43,9 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final String PREF_SHAKE_REJECT = "watchxplus_shake_reject";
     public static final String PREF_BP_CAL_LOW = "pref_wxp_bp_calibration_low";
     public static final String PREF_BP_CAL_HIGH = "pref_wxp_bp_calibration_high";
-
+    public static final String PREF_DO_NOT_DISTURB = "do_not_disturb_no_auto";
+    public static final String PREF_DO_NOT_DISTURB_START = "do_not_disturb_no_auto_start";
+    public static final String PREF_DO_NOT_DISTURB_END = "do_not_disturb_no_auto_end";
 
     // time format constants
     public static final byte ARG_SET_TIMEMODE_24H = 0x00;
@@ -66,7 +68,10 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final byte[] CMD_NOTIFICATION_CANCEL          = new byte[]{0x03, 0x04};
     public static final byte[] CMD_NOTIFICATION_SETTINGS        = new byte[]{0x03, 0x02};
     public static final byte[] CMD_DO_NOT_DISTURB_SETTINGS      = new byte[]{0x03, 0x61};
-    public static final byte[] CMD_POWER_MODE                   = new byte[]{0x03, -0x7F}; //bArr[8] - 0 normal, 1 poser save, 2 green
+    public static final byte[] CMD_POWER_MODE                   = new byte[]{0x03, -0x7F};
+    public static final byte[] CMD_SET_QUITE_HOURS_TIME         = new byte[]{0x03, 0x62};
+    public static final byte[] CMD_SET_QUITE_HOURS_SWITCH       = new byte[]{0x03, 0x61};
+    public static final byte[] CMD_SET_PERSONAL_INFO            = new byte[]{0x01, 0x0E};
 
     public static final byte[] CMD_FITNESS_GOAL_SETTINGS        = new byte[]{0x10, 0x02};
     public static final byte[] CMD_DAY_STEPS_INFO               = new byte[]{0x10, 0x03};
@@ -81,6 +86,8 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final byte[] RESP_IS_BP_CALIBRATED            = new byte[]{0x08, 0x05, 0x0B};
     public static final byte[] RESP_BUTTON_WHILE_RING           = new byte[]{0x04, 0x03, 0x03};
     public static final byte[] RESP_BP_CALIBRATION              = new byte[]{0x08, 0x05, 0x0C};
+    public static final byte[] RESP_SET_PERSONAL_INFO           = new byte[]{0x08, 0x01, 0x0E};
+    public static final byte[] RESP_GOAL_AIM_STATUS            = new byte[]{0x08, 0x10, 0x02};
 
     public static final byte[] RESP_AUTHORIZATION_TASK          = new byte[]{0x01, 0x01, 0x05};
     public static final byte[] RESP_DAY_STEPS_INDICATOR         = new byte[]{0x08, 0x10, 0x03};

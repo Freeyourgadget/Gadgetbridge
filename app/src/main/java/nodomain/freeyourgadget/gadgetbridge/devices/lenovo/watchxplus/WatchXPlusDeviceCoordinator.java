@@ -12,6 +12,12 @@ import android.os.ParcelUuid;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -34,8 +40,9 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getContext;
 
-public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
 
+public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
+    private static final Logger LOG = LoggerFactory.getLogger(WatchXPlusDeviceSupport.class);
     public static final int FindPhone_ON = -1;
     public static final int FindPhone_OFF = 0;
     public static boolean isBPCalibrated = false;
@@ -163,7 +170,8 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
                 R.xml.devicesettings_liftwrist_display,
                 R.xml.devicesettings_disconnectnotification,
                 R.xml.devicesettings_find_phone,
-                R.xml.devicesettings_timeformat
+                R.xml.devicesettings_timeformat,
+                R.xml.devicesettings_donotdisturb_no_auto
         };
     }
 
@@ -220,6 +228,34 @@ Prefs from device settings on main page
                 return iDuration;
             } catch (Exception e) {
                 return FindPhone_ON;
+            }
+        }
+    }
+
+    /**
+     * @param startOut out Only hour/minute are used.
+     * @param endOut   out Only hour/minute are used.
+     * @return True if quite hours are enabled.
+     */
+    public static boolean getQuiteHours(SharedPreferences sharedPrefs, Calendar startOut, Calendar endOut) {
+        String doNotDisturb = sharedPrefs.getString(WatchXPlusConstants.PREF_DO_NOT_DISTURB, getContext().getString(R.string.p_off));
+
+        if (doNotDisturb.equals(getContext().getString(R.string.p_off))) {
+            LOG.info(" DND is disabled ");
+            return false;
+        } else {
+            String start = sharedPrefs.getString(WatchXPlusConstants.PREF_DO_NOT_DISTURB_START, "00:00");
+            String end = sharedPrefs.getString(WatchXPlusConstants.PREF_DO_NOT_DISTURB_END, "00:00");
+
+            DateFormat df = new SimpleDateFormat("HH:mm");
+
+            try {
+                startOut.setTime(df.parse(start));
+                endOut.setTime(df.parse(end));
+
+                return true;
+            } catch (Exception e) {
+                return false;
             }
         }
     }

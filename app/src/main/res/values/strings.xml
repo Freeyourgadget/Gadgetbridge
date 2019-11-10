@@ -205,6 +205,11 @@
     <string name="prefs_wxp_button_bp_calibration">Begin calibration</string>
     <string name="prefs_wxp_button_bp_calibration_sum">Press here to begin calibration</string>
     <string name="pref_header_wxp_calibration">WatchXPlus calibration</string>
+    <string name="pref_header_wxp_settings">WatchXPlus settings</string>
+    <string name="wxp_power_mode_title">Watch mode</string>
+    <string name="wxp_mode_normal">Normal</string>
+    <string name="wxp_mode_saving">Power saving</string>
+    <string name="wxp_mode_watch">Only watch</string>
     <!-- Makibes HR3 Preferences -->
     <string name="preferences_makibes_hr3_settings">Makibes HR3 settings</string>
     <!-- ID115 Preferences -->

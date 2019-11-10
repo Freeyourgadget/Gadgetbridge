@@ -611,8 +611,20 @@
                     android:summary="@string/pref_wxp_title_shake_reject_summary"
                     android:title="@string/prefs_wxp_shake_reject" />
             </PreferenceCategory>
+
             <PreferenceCategory
                 android:key="pref_category_watchxplus_calibration"
+                android:title="@string/pref_header_wxp_settings">
+                <ListPreference
+                    android:defaultValue="0"
+                    android:title="@string/wxp_power_mode_title"
+                    android:entries="@array/wxp_mode"
+                    android:entryValues="@array/wxp_mode_values"
+                    android:key="wxp_power_mode"
+                    android:summary="%s" />
+            </PreferenceCategory>
+            <PreferenceCategory
+                android:key="pref_category_watchxplus_settings"
                 android:title="@string/pref_header_wxp_calibration">
 
                 <EditTextPreference
@@ -638,13 +650,30 @@
                         <CheckBoxPreference
                             android:layout="@layout/preference_checkbox"
                             android:defaultValue="false"
-                            android:key="watchxplus_button_BP_calibration"
+                            android:key="wxp_button_BP_calibration"
                             android:summary="@string/prefs_wxp_button_bp_calibration_sum"
                             android:title="@string/prefs_wxp_button_bp_calibration" />
                 </PreferenceScreen>
-
-
             </PreferenceCategory>
+<!--
+            <PreferenceCategory
+                android:key="pref_category_watchxplus_test"
+                android:title="Test new commands"
+                android:summary="!!!Warning!!!">
+                <EditTextPreference
+                    android:inputType="number"
+                    android:key="wxp_newcmd_first"
+                    android:defaultValue="5"
+                    android:title="first byte (dec)"
+                    android:summary="%s"/>
+                <EditTextPreference
+                    android:inputType="number"
+                    android:key="wxp_newcmd_second"
+                    android:defaultValue="5"
+                    android:title="second byte (dec)"
+                    android:summary="%s"/>
+            </PreferenceCategory>
+-->
         </PreferenceScreen>
 
     </PreferenceCategory>
