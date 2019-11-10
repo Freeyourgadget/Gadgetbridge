@@ -7,7 +7,7 @@
     <string name="controlcenter_fetch_activity_data">Synkroniser</string>
     <string name="controlcenter_find_device">Finn mistet enhet</string>
     <string name="controlcenter_take_screenshot">Utfør skjermavbildning</string>
-    <string name="controlcenter_connect">Koble til</string>
+    <string name="controlcenter_connect">Koble til…</string>
     <string name="controlcenter_disconnect">Koble fra</string>
     <string name="controlcenter_delete_device">Slett enhet</string>
     <string name="controlcenter_delete_device_name">Slett %1$s</string>
