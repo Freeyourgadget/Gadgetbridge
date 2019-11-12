@@ -1,5 +1,10 @@
 ### Changelog
 
+#### Version 0.39.0
+* Amazfit GTS: Initial and incomplete support, mostly untested
+* Add forward/backward buttons to charts for faster navigation
+* Debug: allow to reset last fetch date for Huami devices
+
 #### Version 0.38.0
 * Amazfit GTR: Initial and incomplete support, mostly untested
 * Amazfit Bip: add Portuguese to the list of selectable languages
