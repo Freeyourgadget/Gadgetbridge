@@ -352,6 +352,11 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     }
 
     @Override
+    public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
+
+    }
+
+    @Override
     public void onSetFmFrequency(float frequency) {
 
     }
