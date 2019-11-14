@@ -63,6 +63,13 @@ public class HuamiConst {
     public static final String PREF_EXPOSE_HR_THIRDPARTY = "expose_hr_thirdparty";
     public static final String PREF_USE_CUSTOM_FONT = "use_custom_font";
 
+    public static final String PREF_BUTTON_ACTION_ENABLE = "button_action_enable";
+    public static final String PREF_BUTTON_ACTION_VIBRATE = "button_action_vibrate";
+    public static final String PREF_BUTTON_ACTION_PRESS_COUNT = "button_action_press_count";
+    public static final String PREF_BUTTON_ACTION_PRESS_MAX_INTERVAL = "button_action_press_max_interval";
+    public static final String PREF_BUTTON_ACTION_BROADCAST_DELAY = "button_action_broadcast_delay";
+    public static final String PREF_BUTTON_ACTION_BROADCAST = "button_action_broadcast";
+
     public static int toActivityKind(int rawType) {
         switch (rawType) {
             case TYPE_DEEP_SLEEP:
