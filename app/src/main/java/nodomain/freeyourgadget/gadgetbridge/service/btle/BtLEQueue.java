@@ -533,6 +533,19 @@ public final class BtLEQueue {
             checkWaitingCharacteristic(characteristic, status);
         }
 
+
+
+        @Override
+        public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
+            super.onMtuChanged(gatt, mtu, status);
+
+            if(getCallbackToUse() != null){
+                getCallbackToUse().onMtuChanged(gatt, mtu, status);
+            }
+        }
+
+
+
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt,
                                          BluetoothGattCharacteristic characteristic,

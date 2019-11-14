@@ -60,4 +60,8 @@ public abstract class AbstractGattCallback implements GattCallback {
     @Override
     public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
     }
+
+    @Override
+    public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
+    }
 }
