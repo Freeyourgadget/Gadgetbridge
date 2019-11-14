@@ -66,7 +66,7 @@ public class FileLookupRequest extends FossilRequest {
                 byte status = buffer.get(3);
 
                 if(status != 0){
-                    throw new RuntimeException("FileGet error: " + status);
+                    throw new RuntimeException("file lookup error: " + status);
                 }
 
                 if(this.handle != handle){
