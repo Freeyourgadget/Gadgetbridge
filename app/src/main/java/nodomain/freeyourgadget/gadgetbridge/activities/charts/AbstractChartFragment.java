@@ -152,8 +152,12 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         if (intentFilterActions != null) {
             mIntentFilterActions.addAll(Arrays.asList(intentFilterActions));
         }
-        mIntentFilterActions.add(ChartsHost.DATE_NEXT);
-        mIntentFilterActions.add(ChartsHost.DATE_PREV);
+        mIntentFilterActions.add(ChartsHost.DATE_NEXT_DAY);
+        mIntentFilterActions.add(ChartsHost.DATE_PREV_DAY);
+        mIntentFilterActions.add(ChartsHost.DATE_NEXT_WEEK);
+        mIntentFilterActions.add(ChartsHost.DATE_PREV_WEEK);
+        mIntentFilterActions.add(ChartsHost.DATE_NEXT_MONTH);
+        mIntentFilterActions.add(ChartsHost.DATE_PREV_MONTH);
         mIntentFilterActions.add(ChartsHost.REFRESH);
     }
 
@@ -250,10 +254,18 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         String action = intent.getAction();
         if (ChartsHost.REFRESH.equals(action)) {
             refresh();
-        } else if (ChartsHost.DATE_NEXT.equals(action)) {
-            handleDateNext(getStartDate(), getEndDate());
-        } else if (ChartsHost.DATE_PREV.equals(action)) {
-            handleDatePrev(getStartDate(), getEndDate());
+        } else if (ChartsHost.DATE_NEXT_DAY.equals(action)) {
+            handleDate(getStartDate(), getEndDate(),+1);
+        } else if (ChartsHost.DATE_PREV_DAY.equals(action)) {
+            handleDate(getStartDate(), getEndDate(),-1);
+        } else if (ChartsHost.DATE_NEXT_WEEK.equals(action)) {
+            handleDate(getStartDate(), getEndDate(),+7);
+        } else if (ChartsHost.DATE_PREV_WEEK.equals(action)) {
+            handleDate(getStartDate(), getEndDate(),-7);
+        } else if (ChartsHost.DATE_NEXT_MONTH.equals(action)) {
+            handleDate(getStartDate(), getEndDate(),+30);
+        } else if (ChartsHost.DATE_PREV_MONTH.equals(action)) {
+            handleDate(getStartDate(), getEndDate(),-30);
         }
     }
 
@@ -263,31 +275,17 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
      *
      * @param startDate
      * @param endDate
+     * @param Offset
      */
-    protected void handleDatePrev(Date startDate, Date endDate) {
+    protected void handleDate(Date startDate, Date endDate, Integer Offset) {
         if (isVisibleInActivity()) {
-            if (!shiftDates(startDate, endDate, -1)) {
+            if (!shiftDates(startDate, endDate, Offset)) {
                 return;
             }
         }
         refreshIfVisible();
     }
 
-    /**
-     * Default implementation shifts the dates by one day, if visible
-     * and calls #refreshIfVisible().
-     *
-     * @param startDate
-     * @param endDate
-     */
-    protected void handleDateNext(Date startDate, Date endDate) {
-        if (isVisibleInActivity()) {
-            if (!shiftDates(startDate, endDate, +1)) {
-                return;
-            }
-        }
-        refreshIfVisible();
-    }
 
     protected void refreshIfVisible() {
         if (isVisibleInActivity()) {
@@ -720,7 +718,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected List<? extends ActivitySample> getSamplesofSleep(DBHandler db, GBDevice device) {
-        int SLEEP_HOUR_LIMIT = 13;
+        int SLEEP_HOUR_LIMIT = 12;
 
         int tsStart = getTSStart();
         Calendar day = GregorianCalendar.getInstance();

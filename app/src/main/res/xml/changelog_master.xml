@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.39.0" versioncode="161">
+        <change>Amazfit GTS: Initial and incomplete support, mostly untested</change>
+        <change>Add forward/backward buttons to charts for faster navigation</change>
+        <change>Debug: allow to reset last fetch date for Huami devices</change>
+    </release>
+    <release version="0.38.0" versioncode="160">
+        <change>Amazfit GTR: Initial and incomplete support, mostly untested</change>
+        <change>Amazfit Bip: add Portuguese to the list of selectable languages</change>
+        <change>Mi Band 4: Enable emoji font setting</change>
+        <change>Makibes HR3: Support the english version</change>
+        <change>Makibes HR3: Enable bluetooth pairing for working reconnection</change>
+        <change>Work around crash when trying to display changelog</change>
+        <change>Sleep detection settings: Rolling 24 hours (existing style) or Noon to noon</change>
+        <change>Add alternative color to heartrate in chart settings</change>
+    </release>
     <release version="0.37.1" versioncode="159">
         <change>Amazfit Bip Lite: Support flashing firmware and watchfaces</change>
     </release>

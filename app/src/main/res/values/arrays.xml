@@ -397,6 +397,7 @@
         <item name="de_DE">@string/german</item>
         <item name="it_IT">@string/italian</item>
         <item name="fr_FR">@string/french</item>
+        <item name="pt_BR">@string/portuguese</item>
         <item name="tr_TR">@string/turkish</item>
         <item name="ru_RU">@string/russian</item>
     </string-array>
@@ -410,6 +411,7 @@
         <item>de_DE</item>
         <item>it_IT</item>
         <item>fr_FR</item>
+        <item>pt_BR</item>
         <item>tr_TR</item>
         <item>ru_RU</item>
     </string-array>

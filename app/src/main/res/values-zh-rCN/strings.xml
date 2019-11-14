@@ -41,19 +41,19 @@
     <string name="title_activity_calblacklist">阻止记录</string>
     <string name="title_activity_fw_app_insaller">FW/App 安装器</string>
     <string name="fw_upgrade_notice">您即将安装 %s 。</string>
-    <string name="fw_upgrade_notice_amazfitbip">即将在您的米动手表青春版(Amazfit Bip)上安装固件 %s 。 
-\n 
-\n请确保安装.fw文件，然后安装.res文件，最后安装.gps文件。 安装.fw文件后，手表将重新启动。 
-\n 
-\n注意：如果这些文件与之前安装的完全一样，则不必安装.res和.gps文件。 
-\n 
+    <string name="fw_upgrade_notice_amazfitbip">即将在您的米动手表青春版(Amazfit Bip)上安装固件 %s 。
+\n
+\n请确保安装.fw文件，然后安装.res文件，最后安装.gps文件。 安装.fw文件后，手表将重新启动。
+\n
+\n注意：如果这些文件与之前安装的完全一样，则不必安装.res和.gps文件。
+\n
 \n***继续需要您自担风险！</string>
-    <string name="fw_upgrade_notice_amazfitcor">您即将在您的米动手环(Amazfit Cor)上安装固件 %s 。 
-\n 
-\n请确保安装了 .fw 文件，然后安装 .rec 文件。 安装 .fw 文件后，手表将重新启动。 
-\n 
-\n注意：如果这些文件与之前安装的完全一样，则不必安装 .res 。 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor">您即将在您的米动手环(Amazfit Cor)上安装固件 %s 。
+\n
+\n请确保安装了 .fw 文件，然后安装 .rec 文件。 安装 .fw 文件后，手表将重新启动。
+\n
+\n注意：如果这些文件与之前安装的完全一样，则不必安装 .res 。
+\n
 \n您需要自行承担风险！</string>
     <string name="fw_multi_upgrade_notice">您即将安装固件 %1$s 和 %2$s，代替当前在小米手环上的固件。</string>
     <string name="miband_firmware_known">该固件已经过测试，并且已知与 Gadgetbridge 兼容。</string>
@@ -242,7 +242,7 @@
     <string name="stats_y_axis_label">每分钟步数</string>
     <string name="control_center_find_lost_device">查找丢失的设备</string>
     <string name="control_center_cancel_to_stop_vibration">取消以停止振动。</string>
-    <string name="title_activity_charts">活动记录</string>
+    <string name="title_activity_charts">活动与睡眠</string>
     <string name="title_activity_set_alarm">设置闹钟</string>
     <string name="controlcenter_start_configure_alarms">设置闹钟</string>
     <string name="title_activity_alarm_details">闹钟列表</string>
@@ -275,7 +275,7 @@
     <string name="weeksleepchart_sleep_a_week">一周睡眠</string>
     <string name="weeksleepchart_today_sleep_description">今天睡眠，目标：%1$s</string>
     <string name="weekstepschart_steps_a_week">一周步数</string>
-    <string name="activity_sleepchart_activity_and_sleep">活动和睡眠记录</string>
+    <string name="activity_sleepchart_activity_and_sleep">活动</string>
     <string name="updating_firmware">固件更新中…</string>
     <string name="fwapp_install_device_not_ready">无法安装文件, 设备未就绪。</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
@@ -484,12 +484,12 @@
     <string name="controlcenter_calibrate_device">校准设备</string>
     <string name="blacklist_all_for_notifications">添加所有通知到黑名单</string>
     <string name="whitelist_all_for_notifications">添加所有通知到白名单</string>
-    <string name="fw_upgrade_notice_miband3">您即将安装 小米手环3 的固件 %s 。 
-\n 
-\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装 .fw 文件后重启。 
-\n 
-\n注意：如果您已经安装相同版本的 .res 文件了，则无需安装。 
-\n 
+    <string name="fw_upgrade_notice_miband3">您即将安装 小米手环3 的固件 %s 。
+\n
+\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装 .fw 文件后重启。
+\n
+\n注意：如果您已经安装相同版本的 .res 文件了，则无需安装。
+\n
 \n风险自担！</string>
     <string name="pref_title_notifications_timeout">通知间隔最短时间</string>
     <string name="pref_title_rtl">从右到左</string>
@@ -685,16 +685,12 @@
     <string name="pref_summary_authkey">将您想要连接的所有 Android 设备上的认证密钥更改为通用的密钥。默认所有设备的密钥是 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
     <string name="fw_upgrade_notice_amazfitcor2">您即将在米动手环2(Amazfit Cor 2)上安装 %s 版本的固件
-\n 
 \n
 \n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启
-\n 
 \n
 \n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件
-\n 
 \n
-\n风险自担！ 
-\n 
+\n风险自担！
 \n
 \n此功能未经测试，如果您的设备名为“Amazfit Band 2”，您可能需要刷入 BEATS_W 固件</string>
     <string name="dutch">荷兰语</string>
@@ -767,11 +763,33 @@
     <string name="prefs_find_phone_duration">铃声将持续数秒</string>
     <string name="maximum_duration">持续</string>
     <string name="discovery_need_to_enter_authkey">此设备需要认证密钥，请在设备上长按以输入密钥。具体请阅读 Wiki 。</string>
-    <string name="fw_upgrade_notice_amazfitbip_lite">"您即将在米动手表青春版 Lite(Amazfit Bip Lite)上安装 %s 版本的固件 
-\n  
-\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启 
-\n  
-\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件 
-\n  
-\n风险自担！"</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">您即将在米动手表青春版 Lite(Amazfit Bip Lite)上安装 %s 版本的固件
+\n
+\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启
+\n
+\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件
+\n
+\n风险自担！</string>
+    <string name="devicetype_amazfit_gtr">华米 GTR</string>
+    <string name="fw_upgrade_notice_amazfitgtr">即将在您的 华米 GTR (Amazfit GTR) 上安装固件 %s 。
+\n
+\n请确保先安装 .fw 文件，然后再安装 .res 文件，最后再安装 .gps 文件。您的手表将会安装了 .fw 文件后重启。
+\n
+\n注意：如果 .res 和 .gps 文件和上一个版本相同，您则无需安装。
+\n
+\n风险自担！</string>
+    <string name="pref_chart_heartrate_color_red">红</string>
+    <string name="pref_chart_heartrate_color_orange">橙</string>
+    <string name="pref_title_chart_heartrate_color">心率颜色</string>
+    <string name="pref_title_chart_sleep_rolling_24_hour">睡眠范围</string>
+    <string name="pref_chart_sleep_rolling_24_on">过去 24 小时</string>
+    <string name="pref_chart_sleep_rolling_24_off">中午到中午</string>
+    <string name="devicetype_amazfit_gts">米动 GTS</string>
+    <string name="fw_upgrade_notice_amazfitgts">您即将在 米动手表GTS(Amazfit GTS)上安装 %s 版本的固件
+\n
+\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启。
+\n
+\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件。
+\n
+\n风险自担！</string>
 </resources>

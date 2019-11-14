@@ -44,8 +44,8 @@
     <string name="title_activity_calblacklist">Calendarios en lista negra</string>
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">Instalador de FW/App</string>
-    <string name="fw_upgrade_notice">Estás a punto de instalar el firmware %s del que tu Mi Band.</string>
-    <string name="fw_multi_upgrade_notice">Estás a punto de instalar los firmware %1$s y %2$s en lugar de los que están en tu MiBand.</string>
+    <string name="fw_upgrade_notice">Está a punto de instalar el %s.</string>
+    <string name="fw_multi_upgrade_notice">Está a punto de instalar los «firmwares» %1$s y %2$s en sustitución de los que hay actualmente en su Mi Band.</string>
     <string name="miband_firmware_known">Este firmware ha sido probado y se sabe que es compatible con Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">Este firmware no ha sido probado y puede que no sea compatible con Gadgetbridge. 
 \n 
@@ -74,11 +74,11 @@
     <string name="pref_title_notifications_call">Llamadas telefónicas</string>
     <string name="pref_title_notifications_sms">SMS</string>
     <string name="pref_title_notifications_pebblemsg">Mensajes de Pebble</string>
-    <string name="pref_summary_notifications_pebblemsg">Soporte para aplicaciones que envían notificaciones a Pebble a través de PebbleKit.</string>
+    <string name="pref_summary_notifications_pebblemsg">Compatibilidad con aplicaciones que envían notificaciones al Pebble mediante PebbleKit.</string>
     <string name="pref_title_notifications_generic">Soporte para notificaciones genéricas</string>
     <string name="pref_title_whenscreenon">…también con pantalla encendida</string>
     <string name="pref_title_notification_filter">No Molestar</string>
-    <string name="pref_summary_notification_filter">Las notificaciones no deseadas se detienen en este modo</string>
+    <string name="pref_summary_notification_filter">Se detendrán notificaciones no deseadas en este modo</string>
     <string name="pref_title_transliteration">Transcripción</string>
     <string name="pref_summary_transliteration">Utilizar en caso de que tu dispositivo no soporte la fuente de tu idioma</string>
     <string name="always">Siempre</string>
@@ -180,7 +180,7 @@
     <string name="device_with_rssi">%1$s (%2$s)</string>
     <string name="title_activity_android_pairing">Emparejar dispositivo</string>
     <string name="android_pairing_hint">Usar el menú de emparejamiento Bluetooth de Android para vincular el dispositivo.</string>
-    <string name="title_activity_mi_band_pairing">Emparejar tu MiBand</string>
+    <string name="title_activity_mi_band_pairing">Empareje la Mi Band</string>
     <string name="pairing">Emparejando con %s…</string>
     <string name="pairing_creating_bond_with">Creando emparejamiento con %1$s (%2$s)</string>
     <string name="pairing_unable_to_pair_with">No se ha podido emparejar con %1$s (%2$s)</string>
@@ -194,7 +194,7 @@
     <string name="other">Otro</string>
     <string name="left">Izquierda</string>
     <string name="right">Derecha</string>
-    <string name="miband_pairing_using_dummy_userdata">No se han proporcionado datos de usuario válidos, se usarán datos de usuario por defecto.</string>
+    <string name="miband_pairing_using_dummy_userdata">No se proporcionaron datos de usuario válidos. Por ahora se emplearán datos ficticios.</string>
     <string name="miband_pairing_tap_hint">Cuando tu MiBand vibre y parpadee, púlsala repetidas veces.</string>
     <string name="appinstaller_install">Instalar</string>
     <string name="discovery_connected_devices_hint">Haga su dispositivo detectable. Los dispositivos conectados no serán detectables. En Android 6 o superior, necesita activar la localización (ej. GPS). Desactive Privacy Guard para Gadgetbridge, debido a que podría detener y reiniciar su teléfono. Si su dispositivo no aparece en dos minutos, vuelva a intentarlo tras reiniciar su teléfono.</string>
@@ -243,8 +243,8 @@
     <string name="alarm_fri_short">Vie</string>
     <string name="alarm_sat_short">Sáb</string>
     <string name="alarm_smart_wakeup">Alarma inteligente</string>
-    <string name="user_feedback_miband_set_alarms_failed">Hubo un error al configurar las alarmas, ¡Por favor, inténtalo de nuevo!</string>
-    <string name="user_feedback_miband_set_alarms_ok">¡Alarmas enviadas al dispositivo!</string>
+    <string name="user_feedback_miband_set_alarms_failed">Se produjo un error al fijar las alarmas. Inténtelo de nuevo.</string>
+    <string name="user_feedback_miband_set_alarms_ok">Se enviaron las alarmas al dispositivo.</string>
     <string name="chart_no_data_synchronize">Sin datos. ¿Sincronizar dispositivo?</string>
     <string name="user_feedback_miband_activity_data_transfer">A punto de transferir %1$s de datos desde %2$s</string>
     <string name="miband_prefs_fitness_goal">Objetivo de pasos diarios</string>
@@ -323,7 +323,7 @@
     <string name="mi2_prefs_inactivity_warnings">Alerta de inactividad</string>
     <string name="mi2_prefs_inactivity_warnings_summary">La pulsera vibrará cuando hayas estado inactivo por un tiempo</string>
     <string name="mi2_prefs_inactivity_warnings_threshold">Umbral de inactividad (en minutos)</string>
-    <string name="mi2_prefs_inactivity_warnings_dnd_summary">Desactivar las alarmas de inactividad por un intervalo de tiempo</string>
+    <string name="mi2_prefs_inactivity_warnings_dnd_summary">Desactivar alarmas de inactividad por un intervalo de tiempo</string>
     <string name="mi2_prefs_do_not_disturb_start">Hora de inicio</string>
     <string name="mi2_prefs_do_not_disturb_end">Hora de fin</string>
     <string name="FetchActivityOperation_about_to_transfer_since">A punto de transferir datos desde %1$s</string>
@@ -338,7 +338,7 @@
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Añadir widget</string>
     <string name="activity_prefs_sleep_duration">Horas de sueño deseadas</string>
-    <string name="appwidget_setting_alarm">Una alarma ha sido fijada para %1$02d:%2$02d</string>
+    <string name="appwidget_setting_alarm">Se fijó una alarma a las %1$02d:%2$02d</string>
     <string name="device_hw">Revisión de hardware: %1$s</string>
     <string name="device_fw">Versión de firmware: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Error creando un directorio para los archivos de registro: %1$s</string>
@@ -405,19 +405,13 @@
     <string name="discovery_pair_question">Selecciona Emparejar para emparejar tus dispositivos. Si esto falla, prueba de nuevo sin emparejar.</string>
     <string name="discovery_yes_pair">Emparejar</string>
     <string name="discovery_dont_pair">No emparejar</string>
-    <string name="fw_upgrade_notice_amazfitbip">Estás a punto de instalar el firmware %s en tu Amazfit Bip. 
-\n 
-\nPor favor, asegúrate de instalar el archivo .fw, entonces el archivo .res, y finalmente el archivo .gps. Tu reloj se reiniciará después de instalar el archivo .fw. 
-\n 
-\nNota: no tienes que instalar los .res y .gps si ya están instalados en su última versión. 
-\n 
-\n¡PROCEDE BAJO TU RESPONSABILIDAD! 
-\n 
-\nPor favor, asegúrate de instalar el firmware .gps, luego el archivo .res, y finalmente el binario .fw. Tu reloj reiniciará después de instalar el archivo .fw. 
-\n 
-\nNota: no tienes que instalar .res y .gps si estos archivos son los mismos que los previamente instalados. 
-\n 
-\nPROCEDE BAJO TU PROPIA RESPONSABILIDAD !</string>
+    <string name="fw_upgrade_notice_amazfitbip">Está a punto de instalar el «firmware» %s en su Amazfit Bip.
+\n
+\nAsegúrese de instalar el archivo .fw y, a continuación, el archivo .res. Se reiniciará el reloj tras instalar el archivo .fw.
+\n
+\nNota: no es necesario instalar los archivos .res y .gps si son idénticos a los instalados previamente.
+\n
+\nPROCEDA BAJO SU PROPIA CUENTA Y RIESGO.</string>
     <string name="mi2_prefs_button_actions">Acciones del botón</string>
     <string name="mi2_prefs_button_actions_summary">Especificar acción para pulsación del botón del Mi Band 2</string>
     <string name="mi2_prefs_button_press_count">Número de presiones</string>
@@ -440,13 +434,13 @@
     <string name="pref_summary_pebble_enable_bgjs">Permite a las watchfaces mostrar el tiempo, información de batería, etc.</string>
     <string name="activity_web_view">Actividad Web View</string>
     <string name="controlcenter_connect">Conectar…</string>
-    <string name="fw_upgrade_notice_amazfitcor">Estás a punto de instalar el firmware %s en tu Amazfit Cor. 
-\n 
-\nPor favor, asegúrate de instalar el archivo .fw, y finalmente el archivo .res. Tu reloj reiniciará después de instalar el archivo .fw. 
-\n 
-\nNota: no tienes que instalar .res si este archivo es el mismo que el previamente instalado. 
-\n 
-\n¡PROCEDE BAJO TU PROPIA RESPONSABILIDAD !</string>
+    <string name="fw_upgrade_notice_amazfitcor">Está a punto de instalar el «firmware» %s en su Amazfit Cor.
+\n
+\nAsegúrese de instalar el archivo .fw y, a continuación, el archivo .res. Se reiniciará la pulsera tras instalar el archivo .fw.
+\n
+\nNota: no es necesario instalar el archivo .res si es idéntico al instalado previamente.
+\n
+\nPROCEDA BAJO SU PROPIA CUENTA Y RIESGO.</string>
     <string name="pref_title_charts_swipe">Permitir deslizar hacia izquierda/derecha en los gráficos de actividad</string>
     <string name="automatic">Automático</string>
     <string name="simplified_chinese">Chino simplificado</string>
@@ -519,13 +513,13 @@
     <string name="debugactivity_really_factoryreset">Al hacer un restablecimiento de fábrica se eliminarán todos los datos del dispositivo conectado (si se admite). Los dispositivos Xiaomi / Huami también cambian la dirección MAC de Bluetooth, por lo que aparecen como nuevos dispositivos para Gadgetbrige.</string>
     <string name="blacklist_all_for_notifications">Lista negra para todas las notificaciones</string>
     <string name="whitelist_all_for_notifications">Lista blanca para todas las notificaciones</string>
-    <string name="fw_upgrade_notice_miband3">Estás a punto de instalar el firmware %s en su Mi Band 3. 
-\n 
-\nAsegúrate de instalar el archivo .fw y, a continuación, el archivo .res. Tu reloj se reiniciará después de instalar el archivo .fw. 
-\n 
-\nNota: No tienes que instalar el archivo .res si es el mismo que ha sido instalado previamente. 
-\n 
-\nNO PROBADO, PODRÍAS BRICKEAR TU DISPOSITIVO, ¡PROCEDE BAJO TU PROPIA RESPONSABILIDAD!</string>
+    <string name="fw_upgrade_notice_miband3">Está a punto de instalar el «firmware» %s en su Mi Band 3.
+\n
+\nAsegúrese de instalar el archivo .fw y, a continuación, el archivo .res. Se reiniciará la pulsera tras instalar el archivo .fw.
+\n
+\nNota: no es necesario instalar el archivo .res si es idéntico al instalado previamente.
+\n
+\nPROCEDA BAJO SU PROPIA CUENTA Y RIESGO.</string>
     <string name="pref_title_notifications_timeout">Tiempo mínimo entre notificaciones</string>
     <string name="pref_title_rtl">Derecha a Izquierda</string>
     <string name="pref_summary_rtl">Habilite esto si su dispositivo no puede mostrar idiomas de derecha a izquierda</string>
@@ -602,10 +596,10 @@
     <string name="watch9_calibration_hint">Establezca la hora que su dispositivo le está mostrando en este momento.</string>
     <string name="share_log_warning">Tenga en cuenta que Gadgetbridge registra archivos que pueden contener mucha información personal, incluidos, entre otros, datos de salud, identificadores únicos (como la dirección MAC de un dispositivo), preferencias de música, etc. Considere editar el archivo y eliminar esta información antes de enviar el archivo a un informe público.</string>
     <string name="no_data">No hay datos</string>
-    <string name="preferences_led_color">Color LED</string>
+    <string name="preferences_led_color">Color de LED</string>
     <string name="preferences_fm_frequency">Frecuencia FM</string>
     <string name="pref_invalid_frequency_title">Frecuencia no válida</string>
-    <string name="pref_invalid_frequency_message">Por favor ingrese una frecuencia entre 87.5 y 108.0</string>
+    <string name="pref_invalid_frequency_message">Proporcione una frecuencia entre 87,5 y 108,0</string>
     <string name="language_and_region_prefs">Configuración de idioma y región</string>
     <string name="title_activity_notification_filter">Filtro de Notificaciones</string>
     <string name="toast_app_must_not_be_blacklisted">La aplicación no debe estar en la lista negra para ser configurada</string>
@@ -617,13 +611,13 @@
     <string name="filter_submode_at_least_one">Al menos una de estas palabras</string>
     <string name="filter_submode_all">Todas las palabras</string>
     <string name="toast_notification_filter_words_empty_hint">Ingrese al menos una palabra</string>
-    <string name="filter_mode">Modo de Filtro</string>
-    <string name="mode_configuration">Modo de Configuración</string>
-    <string name="save_configuration">Guardar Configuración</string>
+    <string name="filter_mode">Modo de filtro</string>
+    <string name="mode_configuration">Configuración de modo</string>
+    <string name="save_configuration">Guardar configuración</string>
     <string name="appwidget_not_connected">No conectado, alarma no configurada.</string>
-    <string name="title_activity_watch9_pairing">Emparejando Watch 9</string>
-    <string name="title_activity_watch9_calibration">Calibrando Watch 9</string>
-    <string name="preferences_rtl_settings">Soporte para Derecha a Izquierda</string>
+    <string name="title_activity_watch9_pairing">Emparejamiento del Watch 9</string>
+    <string name="title_activity_watch9_calibration">Calibración del Watch 9</string>
+    <string name="preferences_rtl_settings">Compatibilidad con escrituras de derecha a izquierda</string>
     <string name="share_log">Compartir registro</string>
     <string name="warning">¡Advertencia!</string>
     <string name="zetime_title_settings">Configuraciones de ZeTime</string>
@@ -669,25 +663,27 @@
     <string name="title_activity_device_specific_settings">Configuraciones específicas del dispositivo</string>
     <string name="pref_title_authkey">Clave de autenticación</string>
     <string name="pref_summary_authkey">Cambie la clave de autenticación a una clave común en todos sus dispositivos Android desde los que desea conectarse. La clave predeterminada anterior para todos los dispositivos es 0123456789@ABCDE</string>
-    <string name="fw_upgrade_notice_amazfitcor2">"Estás a punto de instalar el firmware para su Amazfit Cor 2.
+    <string name="fw_upgrade_notice_amazfitcor2">Está a punto de instalar el «firmware» %s en su Amazfit Cor 2.
 \n
-\nAsegúrate de instalar el archivo .fw y luego el archivo .res. Tu banda se reiniciará después de instalar el archivo .fw.
+\nAsegúrese de instalar el archivo .fw y, a continuación, el archivo .res. Se reiniciará la pulsera tras instalar el archivo .fw.
 \n
-\nNota: No tienes que instalar el archivo .res si es  el mismo que ya ha sido previamente instalado.
+\nNota: no es necesario instalar el archivo .res si es idéntico al instalado previamente. 
 \n
-\n¡PROCEDE BAJO TU PROPIO RIESGO!."</string>
-    <string name="fw_upgrade_notice_miband4">Estás a punto de instalar el firmware% s en tu Mi Band 4.
+\nPROCEDA BAJO SU PROPIA CUENTA Y RIESGO.
 \n
-\nAsegúrate de instalar el archivo .fw y luego el archivo .res. Tu banda se reiniciará después de instalar el archivo .fw.
+\nNO SE HA REALIZADO NINGUNA PRUEBA. QUIZÁ NECESITE INSTALAR UN «FIRMWARE» BEATS_W SI EL NOMBRE DE SU DISPOSITIVO ES «Amazfit Band 2»</string>
+    <string name="fw_upgrade_notice_miband4">Está a punto de instalar el «firmware» %s en su Mi Band 4.
 \n
-\nNota: No tienes que instalar el archivo .res si es el mismo que ha sido previamente instalado.
+\nAsegúrese de instalar el archivo .fw y, a continuación, el archivo .res. Se reiniciará la pulsera tras instalar el archivo .fw.
 \n
-\n¡PROCEDE BAJO TU PROPIO RIESGO!</string>
+\nNota: no es necesario instalar el archivo .res si es idéntico al instalado previamente.
+\n
+\nPROCEDA BAJO SU PROPIA CUENTA Y RIESGO.</string>
     <string name="prefs_hr_alarm_activity">Alarma de frecuencia cardíaca durante actividad deportiva.</string>
     <string name="prefs_hr_alarm_low">Límite Bajo</string>
     <string name="prefs_hr_alarm_high">Límite Alto</string>
     <string name="pref_screen_notification_profile_missed_call">Notificación de llamada perdida</string>
-    <string name="pref_screen_notification_profile_calendar">Notificación de Calendario</string>
+    <string name="pref_screen_notification_profile_calendar">Notificación de calendario</string>
     <string name="pref_screen_notification_profile_inactivity">Notificación de inactividad</string>
     <string name="interval_fifteen_minutes">Cada 15 minutos</string>
     <string name="interval_forty_five_minutes">Cada 45 minutos</string>
@@ -722,4 +718,60 @@
     <string name="pref_charts_range_on">El rango de gráficos está configurado para un mes</string>
     <string name="pref_charts_range_off">El rango de gráficos está configurado para una semana</string>
     <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
+    <string name="pref_summary_expose_hr">Permite a otras aplicaciones acceder a los datos de frecuencia cardíaca en tiempo real mientras Gadgetbridge está conectado</string>
+    <string name="pref_title_expose_hr">Acceso terceros frec. cardíaca</string>
+    <string name="pref_title_use_custom_font">Utilizar tipo de letra personalizado</string>
+    <string name="pref_summary_use_custom_font">Actívelo si su dispositivo incluye «firmware» de tipo de letra personalizado para admitir emoyis</string>
+    <string name="activity_db_management_autoexport_explanation">La ubicación de exportación automática se definió en:</string>
+    <string name="activity_db_management_autoexport_label">Exportación automática</string>
+    <string name="activity_DB_ExportButton">Exportar BD</string>
+    <string name="activity_DB_import_button">Importar BD</string>
+    <string name="activity_DB_test_export_button">Ejecutar exportación automática ahora</string>
+    <string name="activity_DB_test_export_message">Exportando base de datos…</string>
+    <string name="activity_DB_delete_legacy_button">Eliminar BD anterior</string>
+    <string name="activity_DB_empty_button">Vaciar BD</string>
+    <string name="activity_db_management_empty_DB">Vaciar base de datos</string>
+    <string name="activity_db_management_exportimport_label">Exportar e importar</string>
+    <string name="activity_db_management_empty_db_warning">Atención: al pulsar en este botón se borrará la base de datos y comenzará de cero.</string>
+    <string name="widget_steps_label">Pasos: %1$02d</string>
+    <string name="widget_listing_label">Estado y alarmas</string>
+    <string name="widget_set_alarm_after">Fijar alarma tras:</string>
+    <string name="widget_5_minutes">5 minutos</string>
+    <string name="widget_10_minutes">10 minutos</string>
+    <string name="widget_20_minutes">20 minutos</string>
+    <string name="widget_1_hour">1 hora</string>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="one">%d hora</item>
+        <item quantity="other">%d horas</item>
+    </plurals>
+    <string name="pref_display_add_device_fab_on">Siempre visible</string>
+    <string name="pref_display_add_device_fab_off">Visible solo si no se añade ningún dispositivo</string>
+    <string name="activity_error_no_app_for_gpx">Para ver el rastro de actividad, instale una aplicación que maneje archivos GPX.</string>
+    <string name="preferences_makibes_hr3_settings">Configuración de Makibes HR3</string>
+    <string name="prefs_find_phone">Encontrar teléfono</string>
+    <string name="prefs_enable_find_phone">Encender «Encontrar teléfono»</string>
+    <string name="prefs_find_phone_summary">Utilice su pulsera para reproducir el tono del teléfono.</string>
+    <string name="prefs_find_phone_duration">Duración del tono en segundos</string>
+    <string name="maximum_duration">Duración</string>
+    <string name="discovery_need_to_enter_authkey">Este dispositivo necesita una clave de autenticación secreta. Mantenga presionado el dispositivo para introducirla. Consulte el wiki.</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">Está a punto de instalar el «firmware» %s en su Amazfit Bip Lite.
+\n
+\nAsegúrese de instalar el archivo .fw y, a continuación, el archivo .res. Se reiniciará el reloj tras instalar el archivo .fw.
+\n
+\nNota: no es necesario instalar el archivo .res si es idéntico al instalado previamente.
+\n
+\nPROCEDA BAJO SU PROPIA CUENTA Y RIESGO.</string>
+    <string name="fw_upgrade_notice_amazfitgtr">Está a punto de instalar el «firmware» %s en su Amazfit GTR.
+\n
+\nAsegúrese de instalar el archivo .fw y, a continuación, el archivo .res. Se reiniciará el reloj tras instalar el archivo .fw.
+\n
+\nNota: no es necesario instalar los archivos .res y .gps si son idénticos a los instalados previamente.
+\n
+\nPROCEDA BAJO SU PROPIA CUENTA Y RIESGO.</string>
+    <string name="pref_chart_heartrate_color_red">Rojo</string>
+    <string name="pref_chart_heartrate_color_orange">Naranja</string>
+    <string name="pref_title_chart_heartrate_color">Color de frecuencia cardíaca</string>
+    <string name="pref_title_chart_sleep_rolling_24_hour">Intervalo de sueño</string>
+    <string name="pref_chart_sleep_rolling_24_on">Últimas 24 horas</string>
+    <string name="pref_chart_sleep_rolling_24_off">De mediodía a mediodía</string>
 </resources>

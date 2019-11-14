@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">設定</string>
+    <string name="action_debug">偵錯</string>
+    <string name="action_quit">離開</string>
+    <string name="action_donate">贊助</string>
+    <string name="controlcenter_fetch_activity_data">同步</string>
+    <string name="controlcenter_find_device">尋找遺失的裝置</string>
+    <string name="controlcenter_take_screenshot">擷取畫面</string>
+    <string name="controlcenter_change_led_color">更改LED顏色</string>
+    <string name="controlcenter_change_fm_frequency">更改 FM 頻率</string>
+    <string name="controlcenter_connect">連線…</string>
+    <string name="controlcenter_disconnect">離線</string>
+    <string name="controlcenter_delete_device">刪除裝置</string>
+    <string name="controlcenter_delete_device_name">刪除 %1$s</string>
+    <string name="controlcenter_delete_device_dialogmessage">這將刪除設備和所有相關資料！</string>
+    <string name="controlcenter_navigation_drawer_open">打開導航列</string>
+    <string name="controlcenter_navigation_drawer_close">關閉導航列</string>
+    <string name="controlcenter_snackbar_need_longpress">長按此卡片以斷開連結接</string>
+    <string name="controlcenter_snackbar_disconnecting">斷開連接</string>
+    <string name="title_activity_debug">偵錯</string>
+    <string name="debugactivity_really_factoryreset_title">真的要重置？</string>
+    <string name="debugactivity_really_factoryreset">執行重置將刪除連接的設備中所有資料（如果受支持）。小米/華米設備也會更改藍牙 MAC 位址，因此它們顯示為 Gadgetbrige 的新設備。</string>
+    <string name="appmanager_installed_watchapps">已安裝的程式</string>
+    <string name="appmananger_app_delete">刪除</string>
+    <string name="appmananger_app_delete_cache">刪除並清除緩存</string>
+    <string name="appmananger_app_reinstall">重新安裝</string>
+</resources>

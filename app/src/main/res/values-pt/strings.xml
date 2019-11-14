@@ -389,18 +389,18 @@
     <string name="action_donate">Doar</string>
     <string name="controlcenter_connect">Conectar…</string>
     <string name="title_activity_calblacklist">Calendários bloqueados</string>
-    <string name="fw_upgrade_notice_amazfitbip">Está prestes a instalar o firmware %s na sua Amazfit Bip. 
+    <string name="fw_upgrade_notice_amazfitbip">Está prestes a instalar o firmware %s na sua Amazfit Bip.
 \n
-\nPor favor garanta que instala o firmware .fw, o ficheiro .res e finalmente o ficheiro .gps. O seu relógio vai reiniciar depois de instalar o ficheiro .fw .
+\nPor favor garanta que instala o firmware .fw, o ficheiro .res e finalmente o ficheiro .gps. O seu relógio vai reiniciar depois de instalar o ficheiro .fw.
 \n
-\nNota: Não necessita de instalar .res e .gps se os ficheiros forem os mesmos da última instalação. 
+\nNota: Não necessita de instalar .res e .gps se os ficheiros forem os mesmos da última instalação.
 \n
 \nCONTINUE A SEU PRÓPRIO RISCO!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Está prestes a instalar o firmware %s na sua Amazfit Cor. 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor">Está prestes a instalar o firmware %s na sua Amazfit Cor.
+\n
 \nPor favor garanta que instala o ficheiro .fw e depois o ficheiro .res. O seu relógio vai reiniciar depois de instalar o ficheiro .fw.
 \n
-\nNota: Não necessita de instalar .res se os ficheiro for o mesmo da última instalação. 
+\nNota: Não necessita de instalar .res se os ficheiro for o mesmo da última instalação.
 \n
 \nCONTINUE A SEU PRÓPRIO RISCO!</string>
     <string name="pref_title_charts_swipe">"Ativar deslizar para esquerda/direita nos  gráficos de atividade"</string>
@@ -410,11 +410,11 @@
     <string name="controlcenter_calibrate_device">Calibrar dispositivo</string>
     <string name="blacklist_all_for_notifications">Bloquear todas as notificações</string>
     <string name="whitelist_all_for_notifications">Desbloquear todas as notificações</string>
-    <string name="fw_upgrade_notice_miband3">Está prestes a instalar o firmware %s na sua Mi Band 3. 
-\n 
+    <string name="fw_upgrade_notice_miband3">Está prestes a instalar o firmware %s na sua Mi Band 3.
+\n
 \nPor favor garanta que instala o ficheiro .fw e depois o ficheiro .res. O seu relógio vai reiniciar depois de instalar o ficheiro .fw.
 \n
-\nNota: Não necessita de instalar .res se os ficheiro for o mesmo da última instalação. 
+\nNota: Não necessita de instalar .res se os ficheiro for o mesmo da última instalação.
 \n
 \nNÃO FOI TESTADO, PODERÁ DANIFICAR O SEU DISPOSITIVO. CONTINUE A SEU PRÓPRIO RISCO!</string>
     <string name="pref_title_enable_calendar_sync">Sincronizar calendário</string>

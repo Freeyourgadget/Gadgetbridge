@@ -218,7 +218,7 @@
     <string name="pref_screen_notification_profile_generic_social">Rede social</string>
     <string name="control_center_find_lost_device">Encontrar dispositivo perdido</string>
     <string name="control_center_cancel_to_stop_vibration">Cancele para parar a vibração.</string>
-    <string name="title_activity_charts">Sua atividade</string>
+    <string name="title_activity_charts">Atividade e sono</string>
     <string name="title_activity_set_alarm">Configurar alarmes</string>
     <string name="controlcenter_start_configure_alarms">Configurar alarmes</string>
     <string name="title_activity_alarm_details">Detalhes do alarme</string>
@@ -246,9 +246,9 @@
     <string name="notif_battery_low_percent">%1$s bateria a: %2$s%%</string>
     <string name="notif_battery_low_bigtext_last_charge_time">Última carga: %s \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Número de cargas: %s</string>
-    <string name="sleepchart_your_sleep">Seu sono</string>
+    <string name="sleepchart_your_sleep">Sono</string>
     <string name="weekstepschart_steps_a_week">Passos por semana</string>
-    <string name="activity_sleepchart_activity_and_sleep">Sua atividade e sono</string>
+    <string name="activity_sleepchart_activity_and_sleep">Atividade</string>
     <string name="updating_firmware">Instalando firmware…</string>
     <string name="fwapp_install_device_not_ready">Arquivo não pode ser instalado, o dispositivo não está pronto.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
@@ -367,16 +367,16 @@
     <string name="controlcenter_snackbar_connecting">Conectando…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Tirar captura de tela do dispositivo</string>
     <string name="title_activity_calblacklist">Blacklist do Calendário</string>
-    <string name="fw_upgrade_notice_amazfitbip">Você está prestes a instalar o firmware %s no seu Amazfit Bip. 
-\n 
-\nCertifique-se de instalar o firmware .fw, depois o arquivo .res e finalmente o arquivo .gps. Seu relógio será reiniciado após a instalação do arquivo .fw. 
-\n 
-\nNota: você não precisa instalar .res e .gps se esses arquivos forem exatamente os mesmos que os instalados anteriormente. 
-\n 
+    <string name="fw_upgrade_notice_amazfitbip">Você está prestes a instalar o firmware %s no seu Amazfit Bip.
+\n
+\nCertifique-se de instalar o firmware .fw, depois o arquivo .res e finalmente o arquivo .gps. Seu relógio será reiniciado após a instalação do arquivo .fw.
+\n
+\nNota: você não precisa instalar .res e .gps se esses arquivos forem exatamente os mesmos que os instalados anteriormente.
+\n
 \nPROSSIGA POR SUA CONTA E RISCO!</string>
     <string name="fw_upgrade_notice_amazfitcor">Você está prestes a instalar o firmware %s no seu Amazfit Cor.
 \n
-\nCertifique-se de instalar o arquivo .fw, e depois disso o arquivo .res. Sua pulseira será reiniciado após a instalação do arquivo .fw.
+\nCertifique-se de instalar o arquivo .fw, e depois disso o arquivo .res. Sua pulseira será reiniciada após a instalação do arquivo .fw.
 \n
 \nNota: você não precisa instalar .res se for exatamente o mesmo que o instalado anteriormente.
 \n
@@ -427,12 +427,12 @@
     <string name="controlcenter_calibrate_device">Calibrar Dispositivo</string>
     <string name="blacklist_all_for_notifications">Bloquear todas as notificações</string>
     <string name="whitelist_all_for_notifications">Desbloquear todas as notificações</string>
-    <string name="fw_upgrade_notice_miband3">Você está prestes a instalar o firmware %s na sua Mi Band 3. 
-\n 
-\nCertifique-se de instalar o arquivo .fw, e depois o arquivo .res. Sua pulseira será reiniciada após instalar o arquivo .fw. 
-\n 
-\nNota:Vvocê não precisa instalar .res se esse arquivo é exatamente o mesmo instalado anteriormente. 
-\n 
+    <string name="fw_upgrade_notice_miband3">Você está prestes a instalar o firmware %s na sua Mi Band 3.
+\n
+\nCertifique-se de instalar o arquivo .fw, e depois o arquivo .res. Sua pulseira será reiniciada após instalar o arquivo .fw.
+\n
+\nNota:Vvocê não precisa instalar .res se esse arquivo é exatamente o mesmo instalado anteriormente.
+\n
 \nPROSSIGA POR SUA CONTA E RISCO!</string>
     <string name="pref_title_notifications_timeout">Tempo mínimo entre notificações</string>
     <string name="pref_title_rtl">Direita para a esquerda</string>
@@ -692,7 +692,7 @@
     <string name="devicetype_bfh16">BFH-16</string>
     <string name="fw_upgrade_notice_amazfitcor2">Você está prestes a instalar o firmware %s no seu Amazfit Cor 2.
 \n
-\nCertifique-se de instalar o arquivo .fw, e depois disso o arquivo .res. Sua pulseira será reiniciado após a instalação do arquivo .fw.
+\nCertifique-se de instalar o arquivo .fw, e depois disso o arquivo .res. Sua pulseira será reiniciada após a instalação do arquivo .fw.
 \n
 \nNota: você não precisa instalar .res se for exatamente o mesmo que o instalado anteriormente.
 \n
@@ -770,12 +770,33 @@
     <string name="prefs_find_phone_duration">Duração do toque sonoro em segundos</string>
     <string name="maximum_duration">Duração</string>
     <string name="discovery_need_to_enter_authkey">Esse dispositivo precisa de sua chave de autenticação secreta, realize pressionamento longo no dispositivo para inseri-lo. Leia o wiki.</string>
-    <string name="fw_upgrade_notice_amazfitbip_lite">Você está prestes a instalar o firmware %s no seu Amazit Bip Lite. 
-\n 
-\nCertifique-se de instalar o arquivo .fw, e depois o arquivo .res. Seu relógio será reiniciado após a instalação do arquivo .fw. 
-\n 
-\nNota: você não precisa instalar .res se esse arquivo for exatamente o mesmo que os instalados anteriormente. 
-\n 
+    <string name="fw_upgrade_notice_amazfitbip_lite">Você está prestes a instalar o firmware %s no seu Amazit Bip Lite.
+\n
+\nCertifique-se de instalar o arquivo .fw, e depois o arquivo .res. Seu relógio será reiniciado após a instalação do arquivo .fw.
+\n
+\nNota: você não precisa instalar .res se esse arquivo for exatamente o mesmo que os instalados anteriormente.
+\n
 \nPROSSIGA POR SUA CONTA E RISCO!</string>
     <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
+    <string name="fw_upgrade_notice_amazfitgtr">Você está prestes a instalar o firmware %s no seu Amazfit GTR.
+\n
+\nCertifique-se de instalar o arquivo .fw, depois disso o arquivo .res e finalmente o arquivo .gps. Seu relógio será reiniciado após a instalação do arquivo .fw.
+\n
+\nNota: você não precisa instalar .res e .gps se esses arquivos forem exatamente os mesmos que os instalados anteriormente.
+\n
+\nPROSSIGA AO SEU PRÓPRIO RISCO!</string>
+    <string name="pref_chart_heartrate_color_red">Vermelho</string>
+    <string name="pref_chart_heartrate_color_orange">Laranja</string>
+    <string name="pref_title_chart_heartrate_color">Cor da frequência cardíaca</string>
+    <string name="pref_title_chart_sleep_rolling_24_hour">Intervalo de sono</string>
+    <string name="pref_chart_sleep_rolling_24_on">Últimas 24 horas</string>
+    <string name="pref_chart_sleep_rolling_24_off">Meio-dia ao meio-dia</string>
+    <string name="devicetype_amazfit_gts">Amazfit GTS</string>
+    <string name="fw_upgrade_notice_amazfitgts">Você está prestes a instalar o firmware %s no seu Amazfit GTS.
+\n
+\nCertifique-se de instalar o arquivo .fw, depois disso o arquivo .res e finalmente o arquivo .gps. Seu relógio será reiniciado após a instalação do arquivo .fw.
+\n
+\nNota: você não precisa instalar .res e .gps se esses arquivos forem exatamente os mesmos que os instalados anteriormente.
+\n
+\nPROSSIGA AO SEU PRÓPRIO RISCO!</string>
 </resources>

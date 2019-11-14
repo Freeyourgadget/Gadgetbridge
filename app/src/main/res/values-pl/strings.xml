@@ -352,26 +352,26 @@
     <string name="controlcenter_calibrate_device">Kalibracja urządzenia</string>
     <string name="blacklist_all_for_notifications">Zablokuj wszystkie powiadomienia</string>
     <string name="whitelist_all_for_notifications">Zezwól na wszystkie powiadomienia</string>
-    <string name="fw_upgrade_notice_amazfitbip">Zamierzasz zainstalować firmware %s na Twoim Amazfit Bip. 
-\n 
-\nPamiętaj, aby instalować pliki w kolejności: .fw, potem .res i na końcu .gps. Twój zegarek zresetuje się po instalacji pliku .fw. 
-\n 
+    <string name="fw_upgrade_notice_amazfitbip">Zamierzasz zainstalować firmware %s na Twoim Amazfit Bip.
+\n
+\nPamiętaj, aby instalować pliki w kolejności: .fw, potem .res i na końcu .gps. Twój zegarek zresetuje się po instalacji pliku .fw.
+\n
 \nUwaga: Nie instaluj plików .res i .gps jeśli są takie same jak poprzednio zainstalowane w zegarku.
-\n 
+\n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Zamierzasz zainstalować firmware %s na Twoim Amazfit Cor. 
-\n 
-\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie plik .res. Twój zegarek zresetuje się po instalacji pliku .fw. 
-\n 
-\nUwaga: Nie instaluj pliku .res jeśli jest taki sam jak poprzednio zainstalowany. 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor">Zamierzasz zainstalować firmware %s na Twoim Amazfit Cor.
+\n
+\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie plik .res. Twój zegarek zresetuje się po instalacji pliku .fw.
+\n
+\nUwaga: Nie instaluj pliku .res jeśli jest taki sam jak poprzednio zainstalowany.
+\n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
-    <string name="fw_upgrade_notice_miband3">Zamierzasz zainstalować oprogramowanie %s na Twoim Mi Band 3. 
-\n 
-\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie .res. Twój zegarek zresetuje się po instalacji pliku .fw 
-\n 
-\nUwaga: Nie instaluj plików .res jeśli jest taki sam jak poprzednio zainstalowany. 
-\n 
+    <string name="fw_upgrade_notice_miband3">Zamierzasz zainstalować oprogramowanie %s na Twoim Mi Band 3.
+\n
+\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie .res. Twój zegarek zresetuje się po instalacji pliku .fw.
+\n
+\nUwaga: Nie instaluj plików .res jeśli jest taki sam jak poprzednio zainstalowany.
+\n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
     <string name="fw_multi_upgrade_notice">Zamierzasz zainstalować oprogramowanie %1$s oraz %2$s, na miejsce obecnie zainstalowanego na Twoim Mi Band.</string>
     <string name="pref_title_charts_swipe">Włącz gest przesuwania w lewo/prawo na wykresach aktywności</string>
@@ -550,4 +550,5 @@
     <string name="error_creating_directory_for_logfiles">Błąd tworzenia folderu na pliki log: %1$s</string>
     <string name="DEVINFO_HR_VER">"Puls: "</string>
     <string name="filter_mode_whitelist">Pokazuj gdy zawiera słowa</string>
+    <string name="pref_chart_heartrate_color_red">Czerwony</string>
 </resources>

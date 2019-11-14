@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources><string name="app_name">Gadgetbridge</string>
-
+<resources>
+    <string name="app_name">Gadgetbridge</string>
     <string name="title_activity_controlcenter">Gadgetbridge</string>
     <string name="action_settings">Setari</string>
     <string name="action_debug">Depaneaza</string>
@@ -28,15 +28,11 @@
     <string name="title_activity_appblacklist">Notificari blocate</string>
     <string name="blacklist_all_for_notifications">Blocheaza toate notificarile</string>
     <string name="whitelist_all_for_notifications">Permite toate notificarile</string>
-
-
     <string name="title_activity_calblacklist">Calendare blocate</string>
-
     <string name="title_activity_fw_app_insaller">Instalare firmware</string>
     <string name="fw_multi_upgrade_notice">Esti pe punctul de a instala firmware-ul %1$s si %2$s, in locul celor deja instalate pe Mi Band.</string>
     <string name="miband_firmware_known">Firmware-ul a fost testat si este compatibil cu Gadgetbridge.</string>
     <string name="title_activity_settings">Setari</string>
-
     <string name="pref_header_general">Setari generale</string>
     <string name="pref_title_general_autoconnectonbluetooth">Conectare la bratara cand Bluetooth este pornit</string>
     <string name="pref_title_general_autostartonboot">Porneste automat</string>
@@ -47,9 +43,7 @@
     <string name="pref_title_theme">Tema</string>
     <string name="pref_theme_light">Deschis</string>
     <string name="pref_theme_dark">Intunecat</string>
-
     <string name="pref_title_language">Limba</string>
-
     <string name="pref_header_notifications">Notificari</string>
     <string name="pref_title_notifications_call">Apeluri telefonice</string>
     <string name="pref_title_notifications_sms">SMS</string>
@@ -58,28 +52,22 @@
     <string name="always">Intotdeauna</string>
     <string name="when_screen_off">Cand ecranul este oprit</string>
     <string name="never">Niciodata</string>
-
     <string name="pref_call_privacy_mode_off">Afiseaza numele si numarul</string>
     <string name="pref_call_privacy_mode_name">Ascunde numele, afiseaza numarul</string>
     <string name="pref_call_privacy_mode_number">Afiseaza numele, ascunde numarul</string>
     <string name="pref_call_privacy_mode_complete">Ascunde numele si numarul</string>
-
     <string name="pref_title_weather">Meteo</string>
     <string name="controlcenter_take_screenshot">Captura ecran</string>
     <string name="controlcenter_snackbar_disconnecting">Se deconecteaza</string>
     <string name="controlcenter_snackbar_connecting">Conectare…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Capturez ecranul dispozitivului</string>
-
-
     <string name="title_activity_debug">Depanare</string>
-
     <string name="appmanager_installed_watchapps">Aplicatii instalate</string>
     <string name="appmanager_installed_watchfaces">Fete de ceas instalate</string>
     <string name="appmananger_app_delete">Sterge</string>
     <string name="appmanager_app_openinstore">Cauta in magazinul Pebble</string>
     <string name="appmanager_weather_install_provider">Instalare aplicație Notificări Meteo</string>
     <string name="app_move_to_top">Muta la inceput</string>
-
     <string name="fw_upgrade_notice">Ești pe punctul de a instala firmware-ul %s în locul celui deja instalat pe Mi Band.</string>
     <string name="fw_upgrade_notice_amazfitbip">Esti pe punctul de a instala firmware-ul %s pe Amazfit Bip.
 \n
@@ -107,12 +95,9 @@
 \nTe DESCURAJAM sa-l instalezi pe Mi Band!</string>
     <string name="pref_header_development">Optiuni dezvoltator</string>
     <string name="pref_title_development_miaddr">Adresa Mi Band</string>
-
     <string name="pref_title_pebble_settings">Setari Pebble</string>
-
     <string name="pref_title_pebble_sync_misfit">Sincronizeaza Misfit</string>
     <string name="pref_summary_enable_outgoing_call">Dezactivand aceasta optiune va opri Pebble 2/LE sa vibreze la apeluri</string>
-
     <string name="pref_pebble_privacy_mode_off">Notificari normale</string>
     <string name="pref_title_location_latitude">Latitudine</string>
     <string name="pref_title_location_longitude">Longitudine</string>
