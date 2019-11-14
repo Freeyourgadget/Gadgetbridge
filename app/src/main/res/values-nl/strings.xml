@@ -36,12 +36,12 @@
     <string name="app_move_to_top">Verplaats naar de top</string>
     <string name="title_activity_appblacklist">Melding zwarte lijst</string>
     <string name="fw_upgrade_notice">U staat op het punt om firmware %s te installeren.</string>
-    <string name="fw_upgrade_notice_amazfitbip">U staat op het punt om de firmware %s te installeren op uw Amazfit Bip. 
-\n 
-\nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand en als laatste het .gps-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand. 
-\n 
-\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd. 
-\n 
+    <string name="fw_upgrade_notice_amazfitbip">U staat op het punt om de firmware %s te installeren op uw Amazfit Bip.
+\n
+\nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand en als laatste het .gps-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand.
+\n
+\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd.
+\n
 \nGA VERDER OP EIGEN RISICO!</string>
     <string name="fw_multi_upgrade_notice">U staat op het punt om de %1$s en %2$s firmware te installeren in plaats van degene die momenteel op uw Mi Band staat.</string>
     <string name="miband_firmware_known">Deze firmware is getest en is compatibel met Gadgetbridge.</string>
@@ -136,12 +136,12 @@
     <string name="appmanager_weather_deactivate">Deactiveer de systeem weer app</string>
     <string name="title_activity_calblacklist">Kalenders op de zwarte lijst</string>
     <string name="title_activity_fw_app_insaller">Firmware/Apps installeren</string>
-    <string name="fw_upgrade_notice_amazfitcor">U staat op het punt om de firmware %s te installeren op uw Amazfit Cor. 
-\n 
-\nZorg ervoor dat u het .fw-bestand installeert en daarna het .res-bestand. Uw band wordt opnieuw gestart na het installeren van het .fw-bestand. 
-\n 
-\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd. 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor">U staat op het punt om de firmware %s te installeren op uw Amazfit Cor.
+\n
+\nZorg ervoor dat u het .fw-bestand installeert en daarna het .res-bestand. Uw band wordt opnieuw gestart na het installeren van het .fw-bestand.
+\n
+\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd.
+\n
 \nGA VERDER OP EIGEN RISICO!</string>
     <string name="pref_title_charts_swipe">Activeer links/rechts vegen in grafiek schermen</string>
     <string name="pref_title_weather">Weer</string>
@@ -265,7 +265,7 @@
     <string name="stats_y_axis_label">Stappen per minuut</string>
     <string name="control_center_find_lost_device">Zoek verloren toestel</string>
     <string name="control_center_cancel_to_stop_vibration">Annuleer om vibratie te stoppen.</string>
-    <string name="title_activity_charts">Uw activiteit</string>
+    <string name="title_activity_charts">Activiteit en Slaap</string>
     <string name="title_activity_set_alarm">Alarmen configureren</string>
     <string name="controlcenter_start_configure_alarms">Alarmen configureren</string>
     <string name="title_activity_alarm_details">Alarm details</string>
@@ -294,11 +294,11 @@
     <string name="notif_battery_low_bigtext_last_charge_time">Laatste lading: %s 
 \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Aantal ladingen: %s</string>
-    <string name="sleepchart_your_sleep">Uw slaap</string>
+    <string name="sleepchart_your_sleep">Slaap</string>
     <string name="weeksleepchart_sleep_a_week">Slaap per week</string>
     <string name="weeksleepchart_today_sleep_description">Slaap vandaag, doel: %1$s</string>
     <string name="weekstepschart_steps_a_week">Stappen per week</string>
-    <string name="activity_sleepchart_activity_and_sleep">Uw activiteit en slaap</string>
+    <string name="activity_sleepchart_activity_and_sleep">Activiteit</string>
     <string name="updating_firmware">Firmware flashen…</string>
     <string name="fwapp_install_device_not_ready">Bestand kan niet geïnstalleerd worden, toestel is niet gereed.</string>
     <string name="miband_fwinstaller_compatible_version">Compatibele versie</string>
@@ -492,12 +492,12 @@
     <string name="notification_channel_name">Gadgetbridge meldingen</string>
     <string name="blacklist_all_for_notifications">Zwarte lijst voor alle meldingen</string>
     <string name="whitelist_all_for_notifications">Witte lijst voor alle meldingen</string>
-    <string name="fw_upgrade_notice_miband3">U staat op het punt om de %s-firmware op je Mi Band 3 te installeren. 
-\n 
-\nZorg ervoor dat u het .fw bestand installeert, en daarna het .res bestand. Uw band wordt opnieuw opgestart na het installeren van het .fw-bestand. 
-\n 
-\nOpmerking: U hoeft .res niet te installeren als het precies hetzelfde is als het eerder geïnstalleerde .res. 
-\n 
+    <string name="fw_upgrade_notice_miband3">U staat op het punt om de %s-firmware op je Mi Band 3 te installeren.
+\n
+\nZorg ervoor dat u het .fw bestand installeert, en daarna het .res bestand. Uw band wordt opnieuw opgestart na het installeren van het .fw-bestand.
+\n
+\nOpmerking: U hoeft .res niet te installeren als het precies hetzelfde is als het eerder geïnstalleerde .res.
+\n
 \nGA VERDER OP EIGEN RISICO!</string>
     <string name="pref_title_pebble_gatt_clientonly">Alleen GATT-cliënt</string>
     <string name="pref_summary_pebble_gatt_clientonly">Dit is alleen voor Pebble 2 en experimenteel, probeer dit als je connectiviteitsproblemen hebt</string>
@@ -684,15 +684,15 @@
     <string name="pref_title_authkey">Authorisatie sleutel</string>
     <string name="pref_summary_authkey">Wijzig de authorisatie sleutel in een algemene sleutel op al uw Android-apparaten waarmee u verbinding wilt maken. De vorige standaardsleutel voor alle apparaten is 0123456789 @ ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
-    <string name="fw_upgrade_notice_amazfitcor2">U staat op het punt om de firmware %s te installeren op uw Amazfit Cor 2. 
-\n 
-\nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand. 
-\n 
-\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd. 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor2">U staat op het punt om de firmware %s te installeren op uw Amazfit Cor 2.
+\n
+\nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand.
+\n
+\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd.
+\n
 \nGA VERDER OP EIGEN RISICO!
 \n
-\nVOLLEDIG ONGETEST, MISSCHIEN MET JE EEN BEATS_W_FIRMWARE INSTALLEREN ALS JE DEVICE NAAM \"Amazfit Band 2\" IS</string>
+\nVOLLEDIG ONGETEST, MISSCHIEN MOET JE EEN BEATS_W_FIRMWARE INSTALLEREN ALS JE DEVICE NAAM \"Amazfit Band 2\" IS</string>
     <string name="dutch">Nederlands</string>
     <string name="turkish">Turks</string>
     <string name="ukrainian">Oekraïens</string>
@@ -703,12 +703,12 @@
     <string name="portuguese">Portugees</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="devicetype_miband4">Mi Band 4</string>
-    <string name="fw_upgrade_notice_miband4">U staat op het punt om de %s-firmware op je Mi Band 4 te installeren. 
-\n 
-\nZorg ervoor dat u het .fw bestand installeert, en daarna het .res bestand. Uw band wordt opnieuw opgestart na het installeren van het .fw-bestand. 
-\n 
-\nOpmerking: U hoeft .res niet te installeren als het precies hetzelfde is als het eerder geïnstalleerde .res. 
-\n 
+    <string name="fw_upgrade_notice_miband4">U staat op het punt om de %s-firmware op je Mi Band 4 te installeren.
+\n
+\nZorg ervoor dat u het .fw bestand installeert, en daarna het .res bestand. Uw band wordt opnieuw opgestart na het installeren van het .fw-bestand.
+\n
+\nOpmerking: U hoeft .res niet te installeren als het precies hetzelfde is als het eerder geïnstalleerde .res.
+\n
 \nGA VERDER OP EIGEN RISICO!</string>
     <string name="prefs_hr_alarm_activity">Hartslag alarm tijdens sportactiviteit</string>
     <string name="prefs_hr_alarm_low">Ondergrens</string>
@@ -752,7 +752,7 @@
         <item quantity="other">%d uren</item>
     </plurals>
     <string name="pref_display_add_device_fab">Verbind nieuw apparaat knop</string>
-    <string name="pref_display_add_device_fab_on">Altijkd zichtbaar</string>
+    <string name="pref_display_add_device_fab_on">Altijd zichtbaar</string>
     <string name="pref_display_add_device_fab_off">Alleen zichtbaar als er geen apparaat toegevoegd is</string>
     <string name="activity_error_no_app_for_gpx">Om de route van de activiteit te zien: installeer een app die GPX bestanden kan tonen.</string>
     <string name="preferences_makibes_hr3_settings">Makibes HR3 instellingen</string>
@@ -764,11 +764,33 @@
     <string name="prefs_find_phone_duration">Belduur in seconden</string>
     <string name="maximum_duration">Duur</string>
     <string name="discovery_need_to_enter_authkey">Dit apparaat heeft een geheime verificatiesleutel nodig, druk lang op het apparaat om deze in te voeren. Lees de wiki.</string>
-    <string name="fw_upgrade_notice_amazfitbip_lite">U staat op het punt om de firmware %s te installeren op uw Amazfit Bip Lite. 
-\n 
-\nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand en als laatste het .gps-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand. 
-\n 
-\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd. 
-\n 
+    <string name="fw_upgrade_notice_amazfitbip_lite">U staat op het punt om de firmware %s te installeren op uw Amazfit Bip Lite.
+\n
+\nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand en als laatste het .gps-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand.
+\n
+\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd.
+\n
+\nGA VERDER OP EIGEN RISICO!</string>
+    <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
+    <string name="fw_upgrade_notice_amazfitgtr">U staat op het punt om de firmware %s te installeren op uw Amazfit GTR.
+\n
+\nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand en als laatste het .gps-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand.
+\n
+\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd.
+\n
+\nGA VERDER OP EIGEN RISICO!</string>
+    <string name="pref_chart_heartrate_color_red">Rood</string>
+    <string name="pref_chart_heartrate_color_orange">Oranje</string>
+    <string name="pref_title_chart_heartrate_color">Kleur hartslag</string>
+    <string name="pref_title_chart_sleep_rolling_24_hour">Slaapbereik</string>
+    <string name="pref_chart_sleep_rolling_24_on">Afgelopen 24 uur</string>
+    <string name="pref_chart_sleep_rolling_24_off">Van middag tot middag</string>
+    <string name="devicetype_amazfit_gts">Amazfit GTS</string>
+    <string name="fw_upgrade_notice_amazfitgts">U staat op het punt om de firmware %s te installeren op uw Amazfit GTS.
+\n
+\nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand en als laatste het .gps-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand.
+\n
+\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd.
+\n
 \nGA VERDER OP EIGEN RISICO!</string>
 </resources>

@@ -211,7 +211,7 @@
     <string name="pref_screen_notification_profile_generic_social">רשת חברתית</string>
     <string name="control_center_find_lost_device">איתור התקן שאבד</string>
     <string name="control_center_cancel_to_stop_vibration">יש לבטל כדי לעצור את הרטט.</string>
-    <string name="title_activity_charts">הפעילות שלך</string>
+    <string name="title_activity_charts">פעילות ושינה</string>
     <string name="title_activity_set_alarm">הגדרת שעון מעורר</string>
     <string name="controlcenter_start_configure_alarms">הגדרת שעון מעורר</string>
     <string name="title_activity_alarm_details">פרטי השעון המעורר</string>
@@ -239,11 +239,11 @@
     <string name="notif_battery_low_percent">נותר בסוללה של %1$s:‏ %2$s%%</string>
     <string name="notif_battery_low_bigtext_last_charge_time">טעינה אחרונה: %s \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">מספר טעינות: %s</string>
-    <string name="sleepchart_your_sleep">השינה שלך</string>
+    <string name="sleepchart_your_sleep">שינה</string>
     <string name="weeksleepchart_sleep_a_week">שינה בשבוע</string>
     <string name="weeksleepchart_today_sleep_description">שינה היום, יעד: %1$s</string>
     <string name="weekstepschart_steps_a_week">צעדים בשבוע</string>
-    <string name="activity_sleepchart_activity_and_sleep">הפעילות והשינה שלך</string>
+    <string name="activity_sleepchart_activity_and_sleep">פעילות</string>
     <string name="updating_firmware">הקושחה מתעדכנת…</string>
     <string name="fwapp_install_device_not_ready">לא ניתן להתקין את הקובץ, ההתקן לא מוכן.</string>
     <string name="installhandler_firmware_name">%3$s %2$s :%1$s</string>
@@ -385,12 +385,12 @@
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">השבתת אזהרות חוסר פעילות לפרק זמן מסוים</string>
     <string name="mi2_prefs_do_not_disturb_start">מועד ההתחלה</string>
     <string name="mi2_prefs_do_not_disturb_end">מועד הסיום</string>
-    <string name="fw_upgrade_notice_amazfitbip">פעולה זו תתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Amazfit Bip שלך. 
-\n 
-\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res ולבסוף קובץ ה־‎.gps השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw. 
-\n 
-\nלתשומת לבך: אין צורך בהתקנת קובצי ה־‎.res וה־‎.gps אם הם כבר זהים לאלו שהתקנת בעבר. 
-\n 
+    <string name="fw_upgrade_notice_amazfitbip">פעולה זו תתקין את הקושחה %s ב־Amazfit Bip שלך.
+\n
+\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res ולבסוף קובץ ה־‎.gps השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw.
+\n
+\nלתשומת לבך: אין צורך בהתקנת קובצי ה־‎.res וה־‎.gps אם הם כבר זהים לאלו שהתקנת בעבר.
+\n
 \nהמשך התהליך הוא על אחריותך!</string>
     <string name="pref_summary_transliteration">יש להפעיל אפשרות זו אם להתקן אין תמיכה בגופן השפה שלך</string>
     <string name="dbmanagementactivity_error_exporting_shared">שגיאה בייצוא ההעדפה: %1$s</string>
@@ -432,12 +432,12 @@
     <string name="activity_web_view">פעילות תצוגת דפדפן</string>
     <string name="controlcenter_connect">התחבר …</string>
     <string name="pref_summary_pebble_enable_bgjs">כשאפשרות זו פעילה, יתאפשר למסיכות השעון להציג מזג אוויר, סוללה וכו׳.</string>
-    <string name="fw_upgrade_notice_amazfitcor">פעולה זו תתקין את הקושחה %s במקום הנוכחית שעל ה־Amazfit Cor שלך. 
-\n 
-\nנא לוודא את התקנת קובץ ה־‎.fw, ולאחר מכן את קובץ ה־‎.res. הצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־‎.fw 
-\n 
-\nלתשומת לבך: אין צורך להתקין את קובץ ה־‎.res אם הוא זהה לקובץ שהתקנת בעבר. 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor">פעולה זו תתקין את הקושחה %s במקום הנוכחית שעל ה־Amazfit Cor שלך.
+\n
+\nנא לוודא את התקנת קובץ ה־‎.fw, ולאחר מכן את קובץ ה־‎.res. הצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־‎.fw
+\n
+\nלתשומת לבך: אין צורך להתקין את קובץ ה־‎.res אם הוא זהה לקובץ שהתקנת בעבר.
+\n
 \nהמשך מעבר לנקודה זו הוא על אחריותך!</string>
     <string name="pref_title_charts_swipe">הפעלת הסטה לימין/שמאל בפעילות התרשימים</string>
     <string name="preferences_amazfitbip_settings">הגדרות Amazfit Bip</string>
@@ -515,12 +515,12 @@
     <string name="menuitem_shortcut_alipay">Alipay (קיצור דרך)</string>
     <string name="menuitem_shortcut_weather">מזג אוויר (קיצור דרך)</string>
     <string name="devicetype_q8">Q8</string>
-    <string name="fw_upgrade_notice_miband3">פעולה זו תתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Mi Band 3 שלך. 
-\n 
-\nנא לוודא את התקנת קובץ ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res הרצועה שלך תופעל מחדש לאחר התקנת קובץ ה־fw. 
-\n 
-\nלתשומת לבך: אין צורך בהתקנת קובץ ה־‎.res אם הוא כבר זהה לזה שהתקנת בעבר. 
-\n 
+    <string name="fw_upgrade_notice_miband3">פעולה זו תתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Mi Band 3 שלך.
+\n
+\nנא לוודא את התקנת קובץ ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res הרצועה שלך תופעל מחדש לאחר התקנת קובץ ה־fw.
+\n
+\nלתשומת לבך: אין צורך בהתקנת קובץ ה־‎.res אם הוא כבר זהה לזה שהתקנת בעבר.
+\n
 \nהמשך התהליך הוא על אחריותך!</string>
     <string name="devicetype_miband3">Mi Band 3</string>
     <string name="blacklist_all_for_notifications">הוספת כולם לרשימה השחורה של ההתראות</string>
@@ -679,13 +679,13 @@
     <string name="pref_summary_authkey">ניתן להחליף את מפתח האימות למפתח משותף בכל מכשירי ה־Android שלך מהם ברצונך להתחבר. מפתח בררת המחדל הקודם לכל המכשירים הוא 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
     <string name="fw_upgrade_notice_amazfitcor2">פעולה זו תתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Amazfit Cor 2 שלך.
-\n 
-\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res. הצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־fw. 
-\n 
-\nלתשומת לבך: אין צורך בהתקנת קובצי ה־‎.res אם הוא כבר זהים לזה שהתקנת בעבר. 
-\n 
-\nהמשך התהליך הוא על אחריותך! 
-\n 
+\n
+\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res. הצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־fw.
+\n
+\nלתשומת לבך: אין צורך בהתקנת קובצי ה־‎.res אם הוא כבר זהים לזה שהתקנת בעבר.
+\n
+\nהמשך התהליך הוא על אחריותך!
+\n
 \nתהליך זה לא נבדק, כנראה שיהיה עליך להתקין קושחה מסוג BEATS_W אם שם המכשיר שלך הוא „Amazfit Band 2”</string>
     <string name="dutch">הולנדית</string>
     <string name="turkish">טורקית</string>
@@ -697,12 +697,12 @@
     <string name="portuguese">פורטוגלית</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="devicetype_miband4">Mi Band 4</string>
-    <string name="fw_upgrade_notice_miband4">פעולה זו תתקין את הקושחה %s ב־Mi Band 4 שלך. 
-\n 
-\nנא לוודא את התקנת קובץ ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw. 
-\n 
-\nלתשומת לבך: אין צורך בהתקנת קובץ ה־‎.res אם הוא כבר זהה לזה שהתקנת בעבר. 
-\n 
+    <string name="fw_upgrade_notice_miband4">פעולה זו תתקין את הקושחה %s ב־Mi Band 4 שלך.
+\n
+\nנא לוודא את התקנת קובץ ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw.
+\n
+\nלתשומת לבך: אין צורך בהתקנת קובץ ה־‎.res אם הוא כבר זהה לזה שהתקנת בעבר.
+\n
 \nהמשך התהליך הוא על אחריותך!</string>
     <string name="prefs_hr_alarm_activity">התראת דופק במהלך פעילות ספורטיבית</string>
     <string name="prefs_hr_alarm_low">גבול תחתון</string>
@@ -765,6 +765,28 @@
 \nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw.
 \n
 \nלתשומת לבך: אין צורך בהתקנת קובץ ה־‎.res אם הוא כבר זהה לזה שהתקנת בעבר.
+\n
+\nהמשך התהליך הוא על אחריותך!</string>
+    <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
+    <string name="fw_upgrade_notice_amazfitgtr">פעולה זו תתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Amazfit GTR שלך.
+\n
+\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res ולבסוף קובץ ה־‎.gps השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw.
+\n
+\nלתשומת לבך: אין צורך בהתקנת קובצי ה־‎.res וה־‎.gps אם הם כבר זהים לאלו שהתקנת בעבר.
+\n
+\nהמשך התהליך הוא על אחריותך!</string>
+    <string name="pref_chart_heartrate_color_red">אדום</string>
+    <string name="pref_chart_heartrate_color_orange">כתום</string>
+    <string name="pref_title_chart_heartrate_color">צבע דופק</string>
+    <string name="pref_title_chart_sleep_rolling_24_hour">טווח שינה</string>
+    <string name="pref_chart_sleep_rolling_24_on">24 השעות האחרונות</string>
+    <string name="pref_chart_sleep_rolling_24_off">צהריים עד צהריים</string>
+    <string name="devicetype_amazfit_gts">Amazfit GTS</string>
+    <string name="fw_upgrade_notice_amazfitgts">פעולה זו תתקין את הקושחה %s ב־Amazfit GTS שלך.
+\n
+\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res ולבסוף קובץ ה־‎.gps השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw.
+\n
+\nלתשומת לבך: אין צורך בהתקנת קובצי ה־‎.res וה־‎.gps אם הם כבר זהים לאלו שהתקנת בעבר.
 \n
 \nהמשך התהליך הוא על אחריותך!</string>
 </resources>

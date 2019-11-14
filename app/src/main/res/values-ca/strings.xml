@@ -42,19 +42,19 @@
     <string name="title_activity_calblacklist">Calendaris bloquejats</string>
     <string name="title_activity_fw_app_insaller">Instal·lador de microprogramari i aplicacions</string>
     <string name="fw_upgrade_notice">Sou a punt d\'instal·lar el %s.</string>
-    <string name="fw_upgrade_notice_amazfitbip">Esteu a punt d\'instal·lar el microprogramari %s en el vostre Amazfit Bip. 
-\n 
-\nSi us plau, assegure-vos d\'instal·lar el fitxer .fw, el fitxer .res i, finalment, el fitxer .gps. El vostre rellotge reiniciarà després d\'instal·lar l\'arxiu .fw. 
-\n 
-\nNota: no heu d\'instal·lar els fitxers .res i .gps si aquests fitxers són exactament els mateixos que els prèviament instal·lats. 
-\n 
+    <string name="fw_upgrade_notice_amazfitbip">Esteu a punt d\'instal·lar el microprogramari %s en el vostre Amazfit Bip.
+\n
+\nSi us plau, assegure-vos d\'instal·lar el fitxer .fw, el fitxer .res i, finalment, el fitxer .gps. El vostre rellotge reiniciarà després d\'instal·lar l\'arxiu .fw.
+\n
+\nNota: no heu d\'instal·lar els fitxers .res i .gps si aquests fitxers són exactament els mateixos que els prèviament instal·lats.
+\n
 \nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Sou a punt d\'instal·lar el microprogramari %s en el vostre Amazfit Cor. 
-\n 
-\nSi us plau, assegure-vos d\'instal·lar el fitxer .fw i el fitxer .res. La vostra polsera reiniciarà després d\'instal·lar l\'arxiu .fw. 
-\n 
-\nNota: no heu d\'instal·lar el fitxer .res si és exactament el mateix que el prèviament instal·lat. 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor">Sou a punt d\'instal·lar el microprogramari %s en el vostre Amazfit Cor.
+\n
+\nSi us plau, assegure-vos d\'instal·lar el fitxer .fw i el fitxer .res. La vostra polsera reiniciarà després d\'instal·lar l\'arxiu .fw.
+\n
+\nNota: no heu d\'instal·lar el fitxer .res si és exactament el mateix que el prèviament instal·lat.
+\n
 \nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
     <string name="fw_multi_upgrade_notice">"Sou a punt d\'instal·lar els microprogramaris  %1$s i %2$s en lloc dels que hi ha actualment a la vostra Mi Band."</string>
     <string name="miband_firmware_known">Aquest microprogramari ha estat provat i se sap que és compatible amb el Gadgetbridge.</string>

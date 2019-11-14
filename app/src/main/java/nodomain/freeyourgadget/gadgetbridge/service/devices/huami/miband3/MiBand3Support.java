@@ -36,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Coordin
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3FWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;

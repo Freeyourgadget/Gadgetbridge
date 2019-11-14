@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +25,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareI
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
-public class AmazfitGTRFirmwareInfo extends HuamiFirmwareInfo {
+public class AmazfitGTSFirmwareInfo extends HuamiFirmwareInfo {
     private static final int FW_OFFSET = 3;
 
     private static final byte[] FW_HEADER = new byte[]{
@@ -62,7 +62,7 @@ public class AmazfitGTRFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(62532, "18344,eb2f43f,126");
     }
 
-    public AmazfitGTRFirmwareInfo(byte[] bytes) {
+    public AmazfitGTSFirmwareInfo(byte[] bytes) {
         super(bytes);
     }
 
@@ -72,7 +72,7 @@ public class AmazfitGTRFirmwareInfo extends HuamiFirmwareInfo {
             return HuamiFirmwareType.RES_COMPRESSED;
         }
         if (ArrayUtils.equals(bytes, FW_HEADER, FW_OFFSET)) {
-            if (searchString32BitAligned(bytes, "Amazfit GTR")) {
+            if (searchString32BitAligned(bytes, "Amazfit GTS")) {
                 return HuamiFirmwareType.FIRMWARE;
             }
             return HuamiFirmwareType.INVALID;
@@ -106,7 +106,7 @@ public class AmazfitGTRFirmwareInfo extends HuamiFirmwareInfo {
 
     @Override
     public boolean isGenerallyCompatibleWith(GBDevice device) {
-        return isHeaderValid() && device.getType() == DeviceType.AMAZFITGTR;
+        return isHeaderValid() && device.getType() == DeviceType.AMAZFITGTS;
     }
 
     @Override

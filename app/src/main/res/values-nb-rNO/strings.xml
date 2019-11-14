@@ -7,7 +7,7 @@
     <string name="controlcenter_fetch_activity_data">Synkroniser</string>
     <string name="controlcenter_find_device">Finn mistet enhet</string>
     <string name="controlcenter_take_screenshot">Utfør skjermavbildning</string>
-    <string name="controlcenter_connect">Koble til</string>
+    <string name="controlcenter_connect">Koble til…</string>
     <string name="controlcenter_disconnect">Koble fra</string>
     <string name="controlcenter_delete_device">Slett enhet</string>
     <string name="controlcenter_delete_device_name">Slett %1$s</string>
@@ -42,19 +42,19 @@
     <string name="app_name">Gadgetbru</string>
     <string name="title_activity_controlcenter">Gadgetbru</string>
     <string name="controlcenter_delete_device_dialogmessage">Dette vil slette enheten og all tilknyttet data!</string>
-    <string name="fw_upgrade_notice_amazfitbip">Du er i ferd med å installere %s-fastvaren på din Amazfit Bip. 
-\n 
-\nForsikre deg om at du installerer ..fw-fila, så .res-fila, og til sist gps-fila. Armbåndsuret ditt vil starte på nytt etter at .fw-fila er installert. 
-\n 
-\nMerk: Du må ikke installere .res og .gps hvis disse er akkurat de samme som dem som allerede er installert. 
-\n 
+    <string name="fw_upgrade_notice_amazfitbip">Du er i ferd med å installere %s-fastvaren på din Amazfit Bip.
+\n
+\nForsikre deg om at du installerer .fw-fila, så .res-fila, og til sist gps-fila. Armbåndsuret ditt vil starte på nytt etter at .fw-fila er installert.
+\n
+\nMerk: Du må ikke installere .res og .gps hvis disse er akkurat de samme som dem som allerede er installert.
+\n
 \nFORTSETT PÅ EGEN RISIKO!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Du er i ferd med å installere %s-fastvaren på din Amazfit Cor. 
-\n 
-\nForsikre deg om at du installerer .fw-fila, og så .res-fila. Båndet ditt vil starte på ny etter at .fw-fila er installert. 
-\n 
-\nMerk: Du må ikke installere .res og .gps hvis disse er akkurat de samme som dem som allerede er installert. 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor">Du er i ferd med å installere %s-fastvaren på din Amazfit Cor.
+\n
+\nForsikre deg om at du installerer .fw-fila, og så .res-fila. Båndet ditt vil starte på ny etter at .fw-fila er installert.
+\n
+\nMerk: Du må ikke installere .res og .gps hvis disse er akkurat de samme som dem som allerede er installert.
+\n
 \nFORTSETT PÅ EGEN RISIKO!</string>
     <string name="fw_multi_upgrade_notice">Du er i ferd med å installere %1$s- og %2$s-fastvarene isteden for dem som er installert nå på ditt Mi Band.</string>
     <string name="miband_firmware_known">Denne fastvaren har blitt testet og er kompatibel med Gadgetbru.</string>
@@ -243,7 +243,7 @@
     <string name="stats_y_axis_label">Steg per minutt</string>
     <string name="control_center_find_lost_device">Finn tapt enhet</string>
     <string name="control_center_cancel_to_stop_vibration">Avbryt for å stoppe vibrasjon.</string>
-    <string name="title_activity_charts">Din aktivitet</string>
+    <string name="title_activity_charts">Aktivitet og søvn</string>
     <string name="title_activity_set_alarm">Sett opp alarmer</string>
     <string name="controlcenter_start_configure_alarms">Sett opp alarmer</string>
     <string name="title_activity_alarm_details">Alarmdetaljer</string>
@@ -272,11 +272,11 @@
     <string name="notif_battery_low_bigtext_last_charge_time">Siste oppladning: %s 
 \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Antall ladinger: %s</string>
-    <string name="sleepchart_your_sleep">Din søvn</string>
+    <string name="sleepchart_your_sleep">Søvn</string>
     <string name="weeksleepchart_sleep_a_week">Søvn per uke</string>
     <string name="weeksleepchart_today_sleep_description">Søvn i dag, mål: %1$s</string>
     <string name="weekstepschart_steps_a_week">Steg per uke</string>
-    <string name="activity_sleepchart_activity_and_sleep">Din aktivitet og søvn</string>
+    <string name="activity_sleepchart_activity_and_sleep">Aktivitet</string>
     <string name="updating_firmware">Oppgraderer fastvare…</string>
     <string name="fwapp_install_device_not_ready">Kan ikke installere fil, enheten er ikke klar.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
@@ -353,8 +353,8 @@
     <string name="activity_prefs_gender">Kjønn</string>
     <string name="activity_prefs_height_cm">Høyde i cm</string>
     <string name="activity_prefs_weight_kg">Vekt i kg</string>
-    <string name="authenticating">Autentiserer</string>
-    <string name="authentication_required">Autentisering kreves</string>
+    <string name="authenticating">Identitetsbekrefter</string>
+    <string name="authentication_required">Identitetsbekreftelse kreves</string>
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Legg til miniprogram</string>
     <string name="activity_prefs_sleep_duration">Foretrukket søvn i timer</string>
@@ -518,12 +518,12 @@
     <string name="pref_summary_pebble_gatt_clientonly">Dette er kun for Pebble 2 og eksperimentelt, prøv dette hvis du har tilkoblingsproblemer</string>
     <string name="menuitem_shortcut_alipay">Alipay (snarvei)</string>
     <string name="menuitem_shortcut_weather">Vær (snarvei)</string>
-    <string name="fw_upgrade_notice_miband3">Du er i ferd med å installere %s-fastvaren på din Mi Band 3. 
-\n 
-\nInstaler først .fw-fila, og dernest .res-fila. Båndet ditt vil starte på nytt etter at du installerer .fw-fila. 
-\n 
-\nMerk: Du trenger ikke å installere .res hvis du har akkurat den samme installert. 
-\n 
+    <string name="fw_upgrade_notice_miband3">Du er i ferd med å installere %s-fastvaren på din Mi Band 3.
+\n
+\nInstaller først .fw-fila, og dernest .res-fila. Båndet ditt vil starte på nytt etter at du installerer .fw-fila.
+\n
+\nMerk: Du trenger ikke å installere .res hvis du har akkurat den samme installert.
+\n
 \nFORTSETT PÅ EGEN RISIKO!</string>
     <string name="devicetype_miband3">Mi Band 3</string>
     <string name="devicetype_q8">Q8</string>
@@ -762,11 +762,33 @@
     <string name="prefs_find_phone_duration">Anropsvarighet i sekunder</string>
     <string name="maximum_duration">Varighet</string>
     <string name="discovery_need_to_enter_authkey">Denne enheten trenger en hemmelig identitetsbekreftelsesnøkkel. Trykk lenge på enheten for å skrive den inn. Les wiki-en.</string>
-    <string name="fw_upgrade_notice_amazfitbip_lite">Du er i ferd med å installere %s-fastvaren på din Amazfit Bip Lite. 
-\n 
-\nForsikre deg om at du installerer ..fw-fila, så .res-fila, og til sist gps-fila. Armbåndsuret ditt vil starte på nytt etter at .fw-fila er installert. 
-\n 
-\nMerk: Du trenger ikke å installere .res-filen hvis den er akkurat den samme som den som allerede er installert. 
-\n 
+    <string name="fw_upgrade_notice_amazfitbip_lite">Du er i ferd med å installere %s-fastvaren på din Amazfit Bip Lite.
+\n
+\nForsikre deg om at du installerer .fw-fila, så .res-fila, og til sist gps-fila. Armbåndsuret ditt vil starte på nytt etter at .fw-fila er installert.
+\n
+\nMerk: Du trenger ikke å installere .res-filen hvis den er akkurat den samme som den som allerede er installert.
+\n
+\nFORTSETT PÅ EGEN RISIKO!</string>
+    <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
+    <string name="pref_chart_heartrate_color_red">Rød</string>
+    <string name="pref_chart_heartrate_color_orange">Oransje</string>
+    <string name="pref_title_chart_heartrate_color">Pulsfarge</string>
+    <string name="fw_upgrade_notice_amazfitgtr">Du er i ferd med å installere %s-fastvaren på din Amazfit GTR.
+\n
+\nForsikre deg om at du installerer .fw-fila, så .res-fila, og til sist gps-fila. Armbåndsuret ditt vil starte på nytt etter at .fw-fila er installert.
+\n
+\nMerk: Du trenger ikke å installere .res-filen hvis den er akkurat den samme som den som allerede er installert.
+\n
+\nFORTSETT PÅ EGEN RISIKO!</string>
+    <string name="pref_title_chart_sleep_rolling_24_hour">Søvnperiode</string>
+    <string name="pref_chart_sleep_rolling_24_on">Siste 24 timer</string>
+    <string name="pref_chart_sleep_rolling_24_off">12:00 til 12:00</string>
+    <string name="devicetype_amazfit_gts">Amazfit GTS</string>
+    <string name="fw_upgrade_notice_amazfitgts">Du er i ferd med å installere %s-fastvaren på din Amazfit GTS.
+\n
+\nForsikre deg om at du installerer .fw-fila, så .res-fila, og til sist gps-fila. Armbåndsuret ditt vil starte på nytt etter at .fw-fila er installert.
+\n
+\nMerk: Du må ikke installere .res og .gps hvis disse er akkurat de samme som dem som allerede er installert.
+\n
 \nFORTSETT PÅ EGEN RISIKO!</string>
 </resources>

@@ -105,7 +105,6 @@
                 android:id="@+id/HeartRateButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                grid:layout_columnSpan="2"
                 grid:layout_gravity="fill_horizontal"
                 android:text="Heart Rate Test" />
 
@@ -113,9 +112,16 @@
                 android:id="@+id/rebootButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                grid:layout_columnSpan="2"
                 grid:layout_gravity="fill_horizontal"
                 android:text="reboot" />
+
+            <Button
+                android:id="@+id/SetFetchTimeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal"
+                android:text="Set Activity Fetch Time" />
 
             <Button
                 android:id="@+id/factoryResetButton"

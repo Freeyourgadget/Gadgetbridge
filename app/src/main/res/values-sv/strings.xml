@@ -13,7 +13,7 @@
     <string name="controlcenter_connect">Anslut…</string>
     <string name="controlcenter_disconnect">Koppla ifrån</string>
     <string name="controlcenter_delete_device">Ta bort enhet</string>
-    <string name="controlcenter_delete_device_name">Tar bort %1$s</string>
+    <string name="controlcenter_delete_device_name">Ta bort %1$s</string>
     <string name="controlcenter_delete_device_dialogmessage">Detta kommer att ta bort enheten och radera all tillhörande information!</string>
     <string name="controlcenter_navigation_drawer_open">Öppna navigationspanel</string>
     <string name="controlcenter_navigation_drawer_close">Stäng navigationspanel</string>
@@ -43,4 +43,5 @@
     <string name="blacklist_all_for_notifications">Svartlista alla notifieringar</string>
     <string name="title_activity_calblacklist">Svartlistade kalendrar</string>
     <string name="title_activity_fw_app_insaller">FW/App-installerare</string>
+    <string name="pref_chart_heartrate_color_red">Röd</string>
 </resources>
