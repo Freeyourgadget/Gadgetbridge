@@ -154,7 +154,7 @@ public class FossilWatchAdapter extends WatchAdapter {
 
 
         queueWrite(
-                new ConfigurationPutRequest(new ConfigurationPutRequest.ConfigItem[]{vibrationItem, vibrationItem, vibrationItem}, this)
+                new ConfigurationPutRequest(new ConfigurationPutRequest.ConfigItem[]{vibrationItem}, this)
         );
         // queueWrite(new FileVerifyRequest((short) 0x0800));
     }
