@@ -123,6 +123,7 @@ public class QHybridAppChoserActivity extends AbstractGBActivity {
                 if(success){
                     try {
                         helper.saveNotificationConfiguration(config);
+                        LocalBroadcastManager.getInstance(QHybridAppChoserActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED));
                     } catch (GBException e) {
                         e.printStackTrace();
                         GB.toast("error saving configuration", Toast.LENGTH_SHORT, GB.ERROR, e);

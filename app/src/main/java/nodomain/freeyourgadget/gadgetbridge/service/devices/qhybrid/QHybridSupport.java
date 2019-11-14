@@ -26,6 +26,7 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.UUID;
 
+import androidx.annotation.RequiresApi;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -294,7 +295,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         showNotificationsByAllActive(true);
     }
 
-    private void    showNotificationsByAllActive(boolean enforceByNotification) {
+    private void showNotificationsByAllActive(boolean enforceByNotification) {
         if (!this.useActivityHand) return;
         double progress = calculateNotificationProgress();
         showNotificationCountOnActivityHand(progress);
@@ -340,6 +341,13 @@ public class QHybridSupport extends QHybridBaseSupport {
         if (useActivityHand) {
             watchAdapter.setActivityHand(progress);
         }
+    }
+
+    @Override
+    public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
+        super.onMtuChanged(gatt, mtu, status);
+        if(watchAdapter == null) return;
+        watchAdapter.onMtuChanged(gatt, mtu, status);
     }
 
     private void playNotification(NotificationConfiguration config) {
@@ -508,6 +516,7 @@ public class QHybridSupport extends QHybridBaseSupport {
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic
             characteristic) {
+        if(watchAdapter == null) return super.onCharacteristicChanged(gatt, characteristic);
         return watchAdapter.onCharacteristicChanged(gatt, characteristic);
     }
 

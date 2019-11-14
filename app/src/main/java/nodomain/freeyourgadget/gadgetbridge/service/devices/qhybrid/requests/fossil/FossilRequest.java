@@ -7,6 +7,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Req
 public abstract class FossilRequest extends Request {
     public abstract boolean isFinished();
 
+    public byte getType(){
+        return getStartSequence()[0];
+    }
 
     @Override
     public UUID getRequestUUID() {
