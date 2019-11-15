@@ -337,6 +337,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         return notificationProgress;
     }
 
+    //TODO toggle "Notifications when screen on" options on this check
     private void showNotificationCountOnActivityHand(double progress) {
         if (useActivityHand) {
             watchAdapter.setActivityHand(progress);
@@ -479,6 +480,7 @@ public class QHybridSupport extends QHybridBaseSupport {
                 gbDevice.setFirmwareVersion(firmwareVersion);
                 this.watchAdapter = new WatchAdapterFactory().createWatchAdapter(firmwareVersion, this);
                 this.watchAdapter.initialize();
+                showNotificationsByAllActive(false);
                 break;
             }
             case "00002a24-0000-1000-8000-00805f9b34fb": {
