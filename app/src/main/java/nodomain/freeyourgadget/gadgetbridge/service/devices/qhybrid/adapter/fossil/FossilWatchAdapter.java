@@ -56,7 +56,7 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     @Override
     public void initialize() {
-        // playPairingAnimation();
+        playPairingAnimation();
         // queueWrite(new FileDeleteRequest((short) 0x0200));
         queueWrite(new RequestMtuRequest(512));
         queueWrite(new ConfigurationGetRequest(this));
