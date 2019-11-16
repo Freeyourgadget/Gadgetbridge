@@ -17,7 +17,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class FilePutRequest extends FossilRequest {
-    public enum UploadState{INITIALIZED, UPLOADING, CLOSING, UPLOADED}
+    public enum UploadState {INITIALIZED, UPLOADING, CLOSING, UPLOADED}
 
     public UploadState state;
 
@@ -28,6 +28,8 @@ public class FilePutRequest extends FossilRequest {
     public int packetIndex = 0;
 
     private FossilWatchAdapter adapter;
+
+    byte[] file;
 
     public FilePutRequest(short handle, byte[] file, FossilWatchAdapter adapter) {
         this.handle = handle;
@@ -42,7 +44,7 @@ public class FilePutRequest extends FossilRequest {
 
         this.data = buffer.array();
 
-        prepareFilePackets(file);
+        this.file = file;
 
         state = UploadState.INITIALIZED;
     }
@@ -54,7 +56,7 @@ public class FilePutRequest extends FossilRequest {
     @Override
     public void handleResponse(BluetoothGattCharacteristic characteristic) {
         byte[] value = characteristic.getValue();
-        if(characteristic.getUuid().toString().equals("3dda0003-957f-7d4a-34a6-74696673696d")) {
+        if (characteristic.getUuid().toString().equals("3dda0003-957f-7d4a-34a6-74696673696d")) {
             int responseType = value[0] & 0x0F;
             log("response: " + responseType);
             switch (responseType) {
@@ -63,15 +65,17 @@ public class FilePutRequest extends FossilRequest {
                         throw new RuntimeException("wrong answer header");
                     }
                     state = UploadState.UPLOADING;
-                    byte[] initialPacket = packets.get(0);
-                    BtLEQueue queue = adapter.getDeviceSupport().getQueue();
 
-                    new TransactionBuilder("file upload")
-                            .write(
-                                    adapter.getDeviceSupport().getCharacteristic(UUID.fromString("3dda0004-957f-7d4a-34a6-74696673696d")),
-                                    initialPacket
-                            )
-                            .queue(queue);
+                    TransactionBuilder transactionBuilder = new TransactionBuilder("file upload");
+                    BluetoothGattCharacteristic uploadCharacteristic = adapter.getDeviceSupport().getCharacteristic(UUID.fromString("3dda0004-957f-7d4a-34a6-74696673696d"));
+
+                    this.prepareFilePackets(this.file);
+
+                    for (byte[] packet : packets) {
+                        transactionBuilder.write(uploadCharacteristic, packet);
+                    }
+
+                    transactionBuilder.queue(adapter.getDeviceSupport().getQueue());
                     break;
                 }
                 case 8: {
@@ -101,34 +105,21 @@ public class FilePutRequest extends FossilRequest {
                         // break;
                     }
 
-                    packetIndex++;
 
-                    if (packetIndex < packets.size()) {
-                        byte[] initialPacket = packets.get(packetIndex);
+                    ByteBuffer buffer2 = ByteBuffer.allocate(3);
+                    buffer2.order(ByteOrder.LITTLE_ENDIAN);
+                    buffer2.put((byte) 4);
+                    buffer2.putShort(this.handle);
 
-                        new TransactionBuilder("file upload")
-                                .write(
-                                        adapter.getDeviceSupport().getCharacteristic(UUID.fromString("3dda0004-957f-7d4a-34a6-74696673696d")),
-                                        initialPacket
-                                )
-                                .queue(adapter.getDeviceSupport().getQueue());
-                        break;
-                    } else {
-                        ByteBuffer buffer2 = ByteBuffer.allocate(3);
-                        buffer2.order(ByteOrder.LITTLE_ENDIAN);
-                        buffer2.put((byte) 4);
-                        buffer2.putShort(this.handle);
+                    new TransactionBuilder("file close")
+                            .write(
+                                    adapter.getDeviceSupport().getCharacteristic(UUID.fromString("3dda0003-957f-7d4a-34a6-74696673696d")),
+                                    buffer2.array()
+                            )
+                            .queue(adapter.getDeviceSupport().getQueue());
 
-                        new TransactionBuilder("file close")
-                                .write(
-                                        adapter.getDeviceSupport().getCharacteristic(UUID.fromString("3dda0003-957f-7d4a-34a6-74696673696d")),
-                                        buffer2.array()
-                                )
-                                .queue(adapter.getDeviceSupport().getQueue());
-
-                        this.state = UploadState.CLOSING;
-                        break;
-                    }
+                    this.state = UploadState.CLOSING;
+                    break;
                 }
                 case 4: {
                     if (value.length == 9) return;
@@ -184,18 +175,19 @@ public class FilePutRequest extends FossilRequest {
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return this.state == UploadState.UPLOADED;
     }
 
     private void prepareFilePackets(byte[] file) {
-        ByteBuffer buffer = ByteBuffer.allocate(file.length + 13 + 4);
+        int maxPacketSize = adapter.getMTU() - 4;
+
+        ByteBuffer buffer = ByteBuffer.allocate(file.length + 12 + 4);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        buffer.put((byte)0);
         buffer.putShort(handle);
-        buffer.put((byte)2);
-        buffer.put((byte)0);
+        buffer.put((byte) 2);
+        buffer.put((byte) 0);
         buffer.putInt(0);
         buffer.putInt(file.length);
 
@@ -206,10 +198,22 @@ public class FilePutRequest extends FossilRequest {
         crc.update(file);
         buffer.putInt((int) crc.getValue());
 
-        packets.add(buffer.array());
+        byte[] data = buffer.array();
+
+        int packetCount = (int) Math.ceil(data.length / (float) maxPacketSize);
+
+        for (int i = 0; i < packetCount; i++) {
+            int currentPacketLength = Math.min(maxPacketSize, data.length - i * maxPacketSize);
+            byte[] packet = new byte[currentPacketLength + 1];
+            packet[0] = (byte) i;
+            System.arraycopy(data, i * maxPacketSize, packet, 1, currentPacketLength);
+
+            packets.add(packet);
+        }
     }
 
-    public void onFilePut(boolean success){}
+    public void onFilePut(boolean success) {
+    }
 
     @Override
     public byte[] getStartSequence() {
