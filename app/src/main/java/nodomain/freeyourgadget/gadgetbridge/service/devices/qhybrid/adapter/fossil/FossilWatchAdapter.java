@@ -6,20 +6,15 @@ import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
-
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
-import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
-import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
-import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilter;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -31,11 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.SetDeviceStateRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.connection.SetConnectionParametersRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileCloseRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileDeleteRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileVerifyRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.NotificationFilterPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.AnimationRequest;
@@ -49,6 +40,10 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     private FossilRequest fossilRequest;
 
+    private int MTU = 23;
+
+    private String ITEM_MTU = "MTU";
+
     public FossilWatchAdapter(QHybridSupport deviceSupport) {
         super(deviceSupport);
     }
@@ -57,14 +52,20 @@ public class FossilWatchAdapter extends WatchAdapter {
     @Override
     public void initialize() {
         playPairingAnimation();
-        // queueWrite(new FileDeleteRequest((short) 0x0200));
-        queueWrite(new RequestMtuRequest(512));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            queueWrite(new RequestMtuRequest(512));
+        }
         queueWrite(new ConfigurationGetRequest(this));
-        // queueWrite(new SetConnectionParametersRequest());
 
         syncNotificationSettings();
 
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED));
+    }
+
+    public int getMTU(){
+        if(this.MTU < 0) throw new RuntimeException("MTU not configured");
+
+        return this.MTU;
     }
 
     @Override
@@ -315,6 +316,11 @@ public class FossilWatchAdapter extends WatchAdapter {
     @Override
     public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
         super.onMtuChanged(gatt, mtu, status);
+        this.MTU = mtu;
+
+        getDeviceSupport().getDevice().addDeviceInfo(new GenericItem(ITEM_MTU, String.valueOf(mtu)));
+        getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
+
         ((RequestMtuRequest)fossilRequest).setFinished(true);
         try {
             queueWrite(requestQueue.remove(0));
@@ -325,7 +331,6 @@ public class FossilWatchAdapter extends WatchAdapter {
     //TODO split to multiple methods instead of switch
     public void queueWrite(Request request, boolean priorise) {
         if(request instanceof RequestMtuRequest){
-            //TODO mtu on older devices
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 new TransactionBuilder("requestMtu")
                         .requestMtu(512)

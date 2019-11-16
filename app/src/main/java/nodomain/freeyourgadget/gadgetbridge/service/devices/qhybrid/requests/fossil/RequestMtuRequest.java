@@ -1,9 +1,14 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 public class RequestMtuRequest extends FossilRequest {
     private int mtu;
     private boolean finished = false;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public RequestMtuRequest(int mtu) {
         this.mtu = mtu;
     }
