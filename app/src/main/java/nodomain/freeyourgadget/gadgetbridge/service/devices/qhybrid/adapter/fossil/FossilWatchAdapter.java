@@ -53,24 +53,24 @@ public class FossilWatchAdapter extends WatchAdapter {
     public void initialize() {
         playPairingAnimation();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            queueWrite(new RequestMtuRequest(512));
+            queueWrite(new RequestMtuRequest(512), false);
         }
-        queueWrite(new ConfigurationGetRequest(this));
+        queueWrite(new ConfigurationGetRequest(this), false);
 
         syncNotificationSettings();
 
-        queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED));
+        queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED), false);
     }
 
-    public int getMTU(){
-        if(this.MTU < 0) throw new RuntimeException("MTU not configured");
+    public int getMTU() {
+        if (this.MTU < 0) throw new RuntimeException("MTU not configured");
 
         return this.MTU;
     }
 
     @Override
     public void playPairingAnimation() {
-        queueWrite(new AnimationRequest());
+        queueWrite(new AnimationRequest(), false);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class FossilWatchAdapter extends WatchAdapter {
             log("package name in notification not set");
             return;
         }
-        queueWrite(new PlayNotificationRequest(config.getPackageName(), this));
+        queueWrite(new PlayNotificationRequest(config.getPackageName(), this), false);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class FossilWatchAdapter extends WatchAdapter {
                                 (short) (millis % 1000),
                                 (short) ((zone.getRawOffset() + (zone.inDaylightTime(new Date()) ? 1 : 0)) / 60000)
                         ),
-                        this)
+                        this), false
         );
     }
 
@@ -107,7 +107,7 @@ public class FossilWatchAdapter extends WatchAdapter {
                 (byte) 0x08, (byte) 0x01, (byte) 0x14, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0xFE, (byte) 0x08, (byte) 0x00, (byte) 0x93, (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x00, (byte) 0xBF, (byte) 0xD5, (byte) 0x54, (byte) 0xD1,
                 (byte) 0x00
         }, this);
-        queueWrite(uploadFileRequest);
+        queueWrite(uploadFileRequest, false);
     }
 
     @Override
@@ -115,12 +115,12 @@ public class FossilWatchAdapter extends WatchAdapter {
         queueWrite(new ConfigurationPutRequest(
                 new ConfigurationPutRequest.CurrentStepCountConfigItem(Math.min(999999, (int) (1000000 * progress))),
                 this
-        ));
+        ), false);
     }
 
     @Override
     public void setHands(short hour, short minute) {
-        queueWrite(new MoveHandsRequest(false, minute, hour, (short) -1));
+        queueWrite(new MoveHandsRequest(false, minute, hour, (short) -1), false);
     }
 
 
@@ -136,26 +136,26 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     @Override
     public void requestHandsControl() {
-        queueWrite(new RequestHandControlRequest());
+        queueWrite(new RequestHandControlRequest(), false);
     }
 
     @Override
     public void releaseHandsControl() {
-        queueWrite(new ReleaseHandsControlRequest());
+        queueWrite(new ReleaseHandsControlRequest(), false);
     }
 
     @Override
     public void setStepGoal(int stepGoal) {
-        queueWrite(new ConfigurationPutRequest(new ConfigurationPutRequest.DailyStepGoalConfigItem(stepGoal), this));
+        queueWrite(new ConfigurationPutRequest(new ConfigurationPutRequest.DailyStepGoalConfigItem(stepGoal), this), false);
     }
 
     @Override
     public void setVibrationStrength(short strength) {
-        ConfigurationPutRequest.ConfigItem vibrationItem = new ConfigurationPutRequest.VibrationStrengthConfigItem((byte)strength);
+        ConfigurationPutRequest.ConfigItem vibrationItem = new ConfigurationPutRequest.VibrationStrengthConfigItem((byte) strength);
 
 
         queueWrite(
-                new ConfigurationPutRequest(new ConfigurationPutRequest.ConfigItem[]{vibrationItem}, this)
+                new ConfigurationPutRequest(new ConfigurationPutRequest.ConfigItem[]{vibrationItem}, this), false
         );
         // queueWrite(new FileVerifyRequest((short) 0x0800));
     }
@@ -182,7 +182,7 @@ public class FossilWatchAdapter extends WatchAdapter {
                     getDeviceSupport().getDevice().setState(GBDevice.State.INITIALIZED);
                     getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
                 }
-            });
+            }, false);
         } catch (GBException e) {
             e.printStackTrace();
         }
@@ -190,7 +190,7 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     @Override
     public void onTestNewFunction() {
-        queueWrite(new ConfigurationPutRequest(new ConfigurationPutRequest.ConfigItem[0], this));
+        queueWrite(new ConfigurationPutRequest(new ConfigurationPutRequest.ConfigItem[0], this), false);
     }
 
     @Override
@@ -256,10 +256,10 @@ public class FossilWatchAdapter extends WatchAdapter {
                 if (fossilRequest != null) {
                     boolean requestFinished;
                     try {
-                        if(characteristic.getUuid().toString().equals("3dda0003-957f-7d4a-34a6-74696673696d")){
-                            byte requestType = (byte)(characteristic.getValue()[0] & 0x0F);
+                        if (characteristic.getUuid().toString().equals("3dda0003-957f-7d4a-34a6-74696673696d")) {
+                            byte requestType = (byte) (characteristic.getValue()[0] & 0x0F);
 
-                            if(requestType != 0x0A && requestType != fossilRequest.getType()){
+                            if (requestType != 0x0A && requestType != fossilRequest.getType()) {
                                 // throw new RuntimeException("Answer type " + requestType + " does not match current request " + fossilRequest.getType());
                             }
                         }
@@ -280,19 +280,15 @@ public class FossilWatchAdapter extends WatchAdapter {
                         return true;
                     }
                 }
-                try {
-                    queueWrite(requestQueue.remove(0));
-                } catch (IndexOutOfBoundsException e) {
-                    log("requestsQueue empty");
-                }
+                queueNextRequest();
             }
         }
         return true;
     }
 
-    private void handleBackgroundCharacteristic(BluetoothGattCharacteristic characteristic){
+    private void handleBackgroundCharacteristic(BluetoothGattCharacteristic characteristic) {
         byte[] value = characteristic.getValue();
-        switch (value[1]){
+        switch (value[1]) {
             case 2: {
                 byte syncId = value[2];
                 getDeviceSupport().getDevice().addDeviceInfo(new GenericItem(QHybridSupport.ITEM_LAST_HEARTBEAT, DateFormat.getTimeInstance().format(new Date())));
@@ -305,13 +301,6 @@ public class FossilWatchAdapter extends WatchAdapter {
         }
     }
 
-    private void log(String message) {
-        Log.d("FossilWatchAdapter", message);
-    }
-
-    public void queueWrite(Request request) {
-        this.queueWrite(request, false);
-    }
 
     @Override
     public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
@@ -321,53 +310,76 @@ public class FossilWatchAdapter extends WatchAdapter {
         getDeviceSupport().getDevice().addDeviceInfo(new GenericItem(ITEM_MTU, String.valueOf(mtu)));
         getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
 
-        ((RequestMtuRequest)fossilRequest).setFinished(true);
-        try {
-            queueWrite(requestQueue.remove(0));
-        } catch (IndexOutOfBoundsException e) {
+        ((RequestMtuRequest) fossilRequest).setFinished(true);
+        queueNextRequest();
+    }
+
+    public void queueWrite(RequestMtuRequest request, boolean priorise) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            new TransactionBuilder("requestMtu")
+                    .requestMtu(512)
+                    .queue(getDeviceSupport().getQueue());
+
+            this.fossilRequest = request;
         }
     }
 
-    //TODO split to multiple methods instead of switch
-    public void queueWrite(Request request, boolean priorise) {
-        if(request instanceof RequestMtuRequest){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                new TransactionBuilder("requestMtu")
-                        .requestMtu(512)
-                        .queue(getDeviceSupport().getQueue());
+    private void log(String message) {
+        Log.d("FossilWatchAdapter", message);
+    }
 
-                this.fossilRequest = (FossilRequest) request;
+    public void queueWrite(SetDeviceStateRequest request, boolean priorise) {
+        if (fossilRequest != null && !fossilRequest.isFinished()) {
+            log("queing request: " + request.getName());
+            if (priorise) {
+                requestQueue.add(0, request);
+            } else {
+                requestQueue.add(request);
             }
             return;
-        }else if(request instanceof SetDeviceStateRequest){
-            log("setting device state: " + ((SetDeviceStateRequest)request).getDeviceState());
-            getDeviceSupport().getDevice().setState(((SetDeviceStateRequest)request).getDeviceState());
-            getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
-            try {
-                queueWrite(requestQueue.remove(0));
-            } catch (IndexOutOfBoundsException e) {
-            }
-            return;
-        } else if (request.isBasicRequest()) {
-            try {
-                queueWrite(requestQueue.remove(0));
-            } catch (IndexOutOfBoundsException e) {
-            }
-        } else {
-            if (fossilRequest != null && !fossilRequest.isFinished()) {
-                log("queing request: " + request.getName());
-                if (priorise) {
-                    requestQueue.add(0, request);
-                } else {
-                    requestQueue.add(request);
-                }
-                return;
-            }
-            log("executing request: " + request.getName());
-
-            if (request instanceof FossilRequest) this.fossilRequest = (FossilRequest) request;
         }
+        log("setting device state: " + request.getDeviceState());
+        getDeviceSupport().getDevice().setState(request.getDeviceState());
+        getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
+        queueNextRequest();
+    }
 
+    public void queueWrite(FossilRequest request, boolean priorise) {
+        if (fossilRequest != null && !fossilRequest.isFinished()) {
+            log("queing request: " + request.getName());
+            if (priorise) {
+                requestQueue.add(0, request);
+            } else {
+                requestQueue.add(request);
+            }
+            return;
+        }
+        log("executing request: " + request.getName());
+        this.fossilRequest = request;
         new TransactionBuilder(request.getClass().getSimpleName()).write(getDeviceSupport().getCharacteristic(request.getRequestUUID()), request.getRequestData()).queue(getDeviceSupport().getQueue());
+    }
+
+    public void queueWrite(Request request, boolean priorise) {
+        new TransactionBuilder(request.getClass().getSimpleName()).write(getDeviceSupport().getCharacteristic(request.getRequestUUID()), request.getRequestData()).queue(getDeviceSupport().getQueue());
+
+        queueNextRequest();
+    }
+
+    void queueWrite(Request request) {
+        if (request instanceof SetDeviceStateRequest)
+            queueWrite((SetDeviceStateRequest) request, false);
+        else if (request instanceof RequestMtuRequest)
+            queueWrite((RequestMtuRequest) request, false);
+        else if (request instanceof FossilRequest) queueWrite((FossilRequest) request, false);
+        else queueWrite(request, false);
+    }
+
+    private void queueNextRequest() {
+        try {
+            Request request = requestQueue.remove(0);
+            queueWrite(request);
+        } catch (IndexOutOfBoundsException e) {
+            log("requestsQueue empty");
+        }
     }
 }

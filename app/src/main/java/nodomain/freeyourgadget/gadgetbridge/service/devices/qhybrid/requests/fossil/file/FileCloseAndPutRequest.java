@@ -28,7 +28,7 @@ public class FileCloseAndPutRequest extends FileCloseRequest {
                 super.onFilePut(success);
                 FileCloseAndPutRequest.this.onFilePut(success);
             }
-        });
+        }, false);
     }
 
     public void onFilePut(boolean success){

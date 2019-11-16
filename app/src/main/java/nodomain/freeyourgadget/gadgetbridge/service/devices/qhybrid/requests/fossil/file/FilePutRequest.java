@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.zip.CRC32;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEQueue;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -25,11 +26,11 @@ public class FilePutRequest extends FossilRequest {
 
     private short handle;
 
-    public int packetIndex = 0;
-
     private FossilWatchAdapter adapter;
 
     byte[] file;
+
+    int fullCRC;
 
     public FilePutRequest(short handle, byte[] file, FossilWatchAdapter adapter) {
         this.handle = handle;
@@ -94,15 +95,8 @@ public class FilePutRequest extends FossilRequest {
                         throw new RuntimeException("wrong response handle");
                     }
 
-                    CRC32C realCrc = new CRC32C();
-                    byte[] data = packets.get(packetIndex);
-                    realCrc.update(data, 1, data.length - 1);
-
-                    if (crc != (int) realCrc.getValue()) {
-                        // this.state = UploadState.ERROR;
-                        // log("wrong crc");
-                        // TODO CRC
-                        // break;
+                    if (crc != this.fullCRC) {
+                        throw new RuntimeException("file upload exception: wrong crc");
                     }
 
 
@@ -199,6 +193,11 @@ public class FilePutRequest extends FossilRequest {
         buffer.putInt((int) crc.getValue());
 
         byte[] data = buffer.array();
+
+        CRC32 fullCRC = new CRC32();
+
+        fullCRC.update(data);
+        this.fullCRC = (int) fullCRC.getValue();
 
         int packetCount = (int) Math.ceil(data.length / (float) maxPacketSize);
 
