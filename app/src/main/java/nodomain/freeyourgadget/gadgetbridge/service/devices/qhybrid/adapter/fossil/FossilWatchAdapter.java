@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fos
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
@@ -35,6 +36,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mis
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.RequestHandControlRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.QHYBRID_EVENT_BUTTON_PRESS;
+
 public class FossilWatchAdapter extends WatchAdapter {
     private ArrayList<Request> requestQueue = new ArrayList<>();
 
@@ -43,6 +46,8 @@ public class FossilWatchAdapter extends WatchAdapter {
     private int MTU = 23;
 
     private String ITEM_MTU = "MTU";
+
+    private int lastButtonIndex = -1;
 
     public FossilWatchAdapter(QHybridSupport deviceSupport) {
         super(deviceSupport);
@@ -100,14 +105,24 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     @Override
     public void overwriteButtons() {
-        FilePutRequest uploadFileRequest = new FilePutRequest((short) 0x0600, new byte[]{
-                (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x03, (byte) 0x10, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x20, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00,
-                (byte) 0x30, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x2E, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01,
-                (byte) 0x00, (byte) 0x06, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x03, (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x0F, (byte) 0x00, (byte) 0x8B, (byte) 0x00, (byte) 0x00, (byte) 0x93, (byte) 0x00, (byte) 0x01,
-                (byte) 0x08, (byte) 0x01, (byte) 0x14, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0xFE, (byte) 0x08, (byte) 0x00, (byte) 0x93, (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x00, (byte) 0xBF, (byte) 0xD5, (byte) 0x54, (byte) 0xD1,
-                (byte) 0x00
-        }, this);
-        queueWrite(uploadFileRequest, false);
+        FilePutRequest fileUploadRequets = new FilePutRequest((short) 0x0600, new byte[]{
+                (byte) 0x01, (byte) 0x00, (byte) 0x00,
+                (byte) 0x03,
+                (byte) 0x10, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00,
+                (byte) 0x20, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00,
+                (byte) 0x30, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00,
+                (byte) 0x01,
+                (byte) 0x01, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x2E, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0x06, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x03, (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x0F, (byte) 0x00, (byte) 0x8B, (byte) 0x00, (byte) 0x00, (byte) 0x93, (byte) 0x00, (byte) 0x01, (byte) 0x08, (byte) 0x01, (byte) 0x14, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0xFE, (byte) 0x08, (byte) 0x00, (byte) 0x93, (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x00, (byte) 0xBF, (byte) 0xD5, (byte) 0x54, (byte) 0xD1,
+                (byte) 0x00,
+                (byte) 0x4F, (byte) 0x79, (byte) 0x97, (byte) 0x78,
+        }, this){
+            @Override
+            public void onFilePut(boolean success) {
+                if(success) GB.toast("successfully overwritten button settings", Toast.LENGTH_SHORT, GB.INFO);
+                else GB.toast("error overwriting button settings", Toast.LENGTH_SHORT, GB.INFO);
+            }
+        };
+        queueWrite(fileUploadRequets);
     }
 
     @Override
@@ -146,7 +161,13 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     @Override
     public void setStepGoal(int stepGoal) {
-        queueWrite(new ConfigurationPutRequest(new ConfigurationPutRequest.DailyStepGoalConfigItem(stepGoal), this), false);
+        queueWrite(new ConfigurationPutRequest(new ConfigurationPutRequest.DailyStepGoalConfigItem(stepGoal), this){
+            @Override
+            public void onFilePut(boolean success) {
+                if(success) GB.toast("successfully updated step goal", Toast.LENGTH_SHORT, GB.INFO);
+                else GB.toast("error updating step goal", Toast.LENGTH_SHORT, GB.INFO);
+            }
+        }, false);
     }
 
     @Override
@@ -155,7 +176,13 @@ public class FossilWatchAdapter extends WatchAdapter {
 
 
         queueWrite(
-                new ConfigurationPutRequest(new ConfigurationPutRequest.ConfigItem[]{vibrationItem}, this), false
+                new ConfigurationPutRequest(new ConfigurationPutRequest.ConfigItem[]{vibrationItem}, this){
+                    @Override
+                    public void onFilePut(boolean success) {
+                        if(success) GB.toast("successfully updated vibration strength", Toast.LENGTH_SHORT, GB.INFO);
+                        else GB.toast("error updating vibration strength", Toast.LENGTH_SHORT, GB.INFO);
+                    }
+                }, false
         );
         // queueWrite(new FileVerifyRequest((short) 0x0800));
     }
@@ -295,7 +322,20 @@ public class FossilWatchAdapter extends WatchAdapter {
                 break;
             }
             case 8: {
+                if (value.length != 12) {
+                    throw new RuntimeException("wrong button message");
+                }
+                int index = value[2] & 0xFF;
+                int button = value[9] >> 4 & 0xFF;
 
+                if (index != this.lastButtonIndex) {
+                    lastButtonIndex = index;
+                    log("Button press on button " + button);
+
+                    Intent i = new Intent(QHYBRID_EVENT_BUTTON_PRESS);
+                    i.putExtra("BUTTON", button);
+                    getContext().sendBroadcast(i);
+                }
                 break;
             }
         }
