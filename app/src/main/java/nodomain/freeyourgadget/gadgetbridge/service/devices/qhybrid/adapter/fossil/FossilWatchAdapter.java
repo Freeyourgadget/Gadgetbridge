@@ -78,7 +78,7 @@ public class FossilWatchAdapter extends WatchAdapter {
                 super.onConfigurationsGet(configs);
 
                 JSONArray buttons = new JSONArray();
-                for (ConfigPayload payload : configs) buttons.put(payload.toString());
+                for (ConfigPayload payload : configs) buttons.put(String.valueOf(payload));
                 String json = buttons.toString();
                 getDeviceSupport().getDevice().addDeviceInfo(new GenericItem(ITEM_BUTTONS, json));
             }

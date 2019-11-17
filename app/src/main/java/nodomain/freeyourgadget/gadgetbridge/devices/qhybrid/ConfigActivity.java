@@ -353,10 +353,10 @@ public class ConfigActivity extends AbstractGBActivity {
                             final int currentIndex = i;
                             String configName = buttonConfig.getString(i);
                             TextView buttonTextView = new TextView(ConfigActivity.this);
+                            buttonTextView.setTextColor(Color.WHITE);
+                            buttonTextView.setTextSize(20);
                             try {
                                 ConfigPayload payload = ConfigPayload.valueOf(configName);
-                                buttonTextView.setTextColor(Color.WHITE);
-                                buttonTextView.setTextSize(20);
                                 buttonTextView.setText("Button " + (i + 1) + ": " + payload.getDescription());
                             } catch (IllegalArgumentException e) {
                                 buttonTextView.setText("Button " + (i + 1) + ": Unknown");
