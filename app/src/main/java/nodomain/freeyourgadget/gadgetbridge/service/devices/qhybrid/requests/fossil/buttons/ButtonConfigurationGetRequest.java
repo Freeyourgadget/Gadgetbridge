@@ -29,9 +29,14 @@ public class ButtonConfigurationGetRequest extends FileGetRequest {
 
         ConfigPayload[] configs = new ConfigPayload[count];
 
+        buffer.position(16);
         for(int i = 0; i < count; i++){
-            byte buttonIndex = (byte) (buffer.get(16 + i * 7) >> 4);
-            short appId = buffer.getShort(19 + i * 7);
+            int buttonIndex = buffer.get() >> 4;
+            int entryCount = buffer.get();
+            buffer.get();
+            short appId = buffer.getShort();
+
+            buffer.position(buffer.position() + entryCount * 5 - 3);
 
             try {
                 configs[buttonIndex - 1] = ConfigPayload.fromId(appId);
