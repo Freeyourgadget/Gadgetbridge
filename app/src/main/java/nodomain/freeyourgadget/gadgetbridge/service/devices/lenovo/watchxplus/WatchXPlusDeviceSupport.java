@@ -1125,16 +1125,47 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     public void onSendWeather(WeatherSpec weatherSpec) {
         try {
             TransactionBuilder builder = performInitialized("setWeather");
-
+            int currentTemp = 0;
+            int todayMinTemp = 0;
+            int todayMaxTemp = 0;
             byte[] command = WatchXPlusConstants.CMD_WEATHER_SET;
             byte[] weatherInfo = new byte[5];
-
+            String currentCondition = weatherSpec.currentCondition;
+// set weather icon
+            int currentConditionCode = 0; // 0 is sunny
+            switch (currentCondition) {
+                case "Overcast clouds":
+                    currentConditionCode = 1;
+                case "Broken clouds":
+                    currentConditionCode = 2;
+                    break;
+            }
+            if ((currentCondition.contains("Fog")) || (currentCondition.contains("fog"))) { currentConditionCode = 3; }
+            if ((currentCondition.contains("Rain")) || (currentCondition.contains("rain"))) { currentConditionCode = 257; }
+            if ((currentCondition.contains("Snow")) || (currentCondition.contains("snow"))) { currentConditionCode = 514; }
+            if ((currentCondition.contains("Sand")) || (currentCondition.contains("sand"))) { currentConditionCode = 769; }
+            if ((currentCondition.contains("Dust")) || (currentCondition.contains("dust"))) { currentConditionCode = 769; }
+            if ((currentCondition.contains("Sleet")) || (currentCondition.contains("sleet"))) { currentConditionCode = 1026; }
+// calculate for temps under 0
+            currentTemp = (Math.abs(weatherSpec.currentTemp)) - 273;
+            if (currentTemp < 0) {
+                currentTemp = (Math.abs(currentTemp) ^ 255) + 1;
+            }
+            todayMinTemp = (Math.abs(weatherSpec.todayMinTemp)) - 273;
+            if (todayMinTemp < 0) {
+                todayMinTemp = (Math.abs(todayMinTemp) ^ 255) + 1;
+            }
+            todayMaxTemp = (Math.abs(weatherSpec.todayMaxTemp)) - 273;
+            if (todayMaxTemp < 0) {
+                todayMaxTemp = (Math.abs(todayMaxTemp) ^ 255) + 1;
+            }
+            LOG.warn(" Set weather min: " + todayMinTemp + " max: " + todayMaxTemp + " current: " + currentTemp + " icon: " + currentCondition);
 //            First two bytes are controlling the icon
-            weatherInfo[0] = 0x00;
-            weatherInfo[1] = 0x00;
-            weatherInfo[2] = (byte) weatherSpec.todayMinTemp;
-            weatherInfo[3] = (byte) weatherSpec.todayMaxTemp;
-            weatherInfo[4] = (byte) weatherSpec.currentTemp;
+            weatherInfo[0] = (byte )(currentConditionCode >> 8);
+            weatherInfo[1] = (byte )currentConditionCode;
+            weatherInfo[2] = (byte) todayMinTemp;
+            weatherInfo[3] = (byte) todayMaxTemp;
+            weatherInfo[4] = (byte) currentTemp;
             builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
                     buildCommand(command,
                             WatchXPlusConstants.KEEP_ALIVE,
