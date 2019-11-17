@@ -156,6 +156,12 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(61054, "8");
         crcToVersion.put(62291, "9 (old Latin)");
         crcToVersion.put(59577, "9 (Latin)");
+
+        // BipOS FW
+        crcToVersion.put(28373, "1.1.5.02 (BipOS 0.5)");
+
+        // BipOS RES
+        crcToVersion.put(16303, "1.1.5.02 (BipOS 0.5)");
     }
 
     public AmazfitBipFirmwareInfo(byte[] bytes) {

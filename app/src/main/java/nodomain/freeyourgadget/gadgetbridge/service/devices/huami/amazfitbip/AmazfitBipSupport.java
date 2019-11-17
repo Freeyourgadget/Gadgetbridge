@@ -80,11 +80,6 @@ public class AmazfitBipSupport extends HuamiSupport {
     }
 
     @Override
-    public void handleButtonEvent() {
-        // ignore
-    }
-
-    @Override
     protected AmazfitBipSupport setDisplayItems(TransactionBuilder builder) {
         if (gbDevice.getFirmwareVersion() == null) {
             LOG.warn("Device not initialized yet, won't set menu items");
