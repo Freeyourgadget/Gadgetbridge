@@ -382,6 +382,7 @@ public class ConfigActivity extends AbstractGBActivity {
                                                     }
                                                 }
                                             })
+                                            .setTitle("Button " + (currentIndex + 1))
                                             .create();
                                     dialog.show();
                                 }
