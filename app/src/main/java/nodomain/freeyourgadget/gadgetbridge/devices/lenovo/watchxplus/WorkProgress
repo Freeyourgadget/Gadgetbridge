@@ -1,11 +1,9 @@
-NEDD TO BE DONE
+NEED TO BE DONE
   Watch settings
-    - Set watch language (currently forced to English)
     - Set watch units (metric/imperial)
     - Implement temperature alarm on watch
       - switch, lowTemp, highTemp
-    - Implement continious blood pressure measurement (on, off, scheduled)
-    - Implement long sit reminder
+    - Implement continuous blood pressure measurement (on, off, scheduled)
 
   Add feature to initiate button press event on watch
     - Send command to watch
@@ -14,7 +12,7 @@ NEDD TO BE DONE
   Schedulers:
     - Screen on scheduler (inApp, not supported by watch)
     - Disconnect reminder scheduler  (inApp, not supported by watch)
-    - Continious blood pressure measurement (supported by watch)
+    - Continuous blood pressure measurement (supported by watch, there are command for that, but not tested)
 
   Refine send weather to watch
     - Send weather icon
@@ -23,11 +21,11 @@ NEDD TO BE DONE
     - Fix get sleep data
 
   Measurements
-    - Blood pressure mesurement
+    - Blood pressure measurement
       - Show blood pressure measurement (view)
-    - Implement heart rate measurement
-    - Implement temperature measurement
-    - Implement UV index measurement
+    - Implement heart rate measurement  //tried to implement with no luck
+    - Implement temperature measurement //tried to implement with no luck
+    - Implement UV index measurement    //tried to implement with no luck
 
 
 
@@ -39,6 +37,7 @@ WORK PROGRESS
       - settings for repeat notification [0-10 times] (05.11.2019)
       - settings for continious notification while phone ring [on, off] (06.11.2019)
       - settings for send once notification for missed call [on, off] (06.11.2019)
+        * send missed call notification every minute for X times (17.11.2019)
     - On text message, or other application
     - On triger phone alarm (05.11.2019)
 
@@ -55,7 +54,7 @@ WORK PROGRESS
       * it's used in Climb activity
     - Status of blood pressure calibration (06.11.2019)
       * it's used in blood pressure measurement
-    - Blood pressure calibration (09.11.2019) (TODO fix button initiating calibration)
+    - Blood pressure calibration (09.11.2019)
 
   Device settings
     - Lift wrist to screen on [on, off,TODO scheduled] (02.11.2019)
@@ -68,10 +67,12 @@ WORK PROGRESS
         - Trad-watch mode -> the watch only works as an analog one
     - Do not disturb [on, off, scheduled] (10.11.2019) (need reconnect to apply)
     - Send User details to watch [height, weight, age, gender] (10.11.2019) (need more testing)
+    - Implemented long sit reminder (inactivity reminder)[on, off, period] (17.11.2019)
+    - Set watch language [English, Chinese] (17.11.2019)
 
   Activity data
     - get steps per day
-    - get heart reate measurements
+    - get heart rate measurements
     - get sleep data
     - set user goal for steps
 

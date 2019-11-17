@@ -38,14 +38,19 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final String PREF_REPEAT = "watchxplus_repeat";
     public static final String PREF_CONTINIOUS = "watchxplus_continious";
     public static final String PREF_MISSED_CALL = "watchxplus_missed";
+    public static final String PREF_MISSED_CALL_REPEAT = "watchxplus_repeat_missedcall";
     public static final String PREF_IS_BP_CALIBRATED = "watchxplus_is_bp_calibrated";
     public static final String PREF_BUTTON_REJECT = "watchxplus_button_reject";
     public static final String PREF_SHAKE_REJECT = "watchxplus_shake_reject";
     public static final String PREF_BP_CAL_LOW = "pref_wxp_bp_calibration_low";
     public static final String PREF_BP_CAL_HIGH = "pref_wxp_bp_calibration_high";
+    public static final String PREF_BP_CAL_SWITCH = "wxp_button_BP_calibration_list";
     public static final String PREF_DO_NOT_DISTURB = "do_not_disturb_no_auto";
     public static final String PREF_DO_NOT_DISTURB_START = "do_not_disturb_no_auto_start";
     public static final String PREF_DO_NOT_DISTURB_END = "do_not_disturb_no_auto_end";
+    public static final String PREF_LONGSIT_SWITCH = "watchxplus_longsit_switch";
+    public static final String PREF_LONGSIT_PERIOD = "watchxplus_longsit_period";
+    public static final String PREF_WXP_LANGUAGE = "wxp_language_pref";
 
     // time format constants
     public static final byte ARG_SET_TIMEMODE_24H = 0x00;
@@ -72,6 +77,8 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final byte[] CMD_SET_QUITE_HOURS_TIME         = new byte[]{0x03, 0x62};
     public static final byte[] CMD_SET_QUITE_HOURS_SWITCH       = new byte[]{0x03, 0x61};
     public static final byte[] CMD_SET_PERSONAL_INFO            = new byte[]{0x01, 0x0E};
+    public static final byte[] CMD_INACTIVITY_REMINDER_SWITCH   = new byte[]{0x03, 0x51};
+    public static final byte[] CMD_INACTIVITY_REMINDER_SET      = new byte[]{0x03, 0x52};
 
     public static final byte[] CMD_FITNESS_GOAL_SETTINGS        = new byte[]{0x10, 0x02};
     public static final byte[] CMD_DAY_STEPS_INFO               = new byte[]{0x10, 0x03};
@@ -87,7 +94,9 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final byte[] RESP_BUTTON_WHILE_RING           = new byte[]{0x04, 0x03, 0x03};
     public static final byte[] RESP_BP_CALIBRATION              = new byte[]{0x08, 0x05, 0x0C};
     public static final byte[] RESP_SET_PERSONAL_INFO           = new byte[]{0x08, 0x01, 0x0E};
-    public static final byte[] RESP_GOAL_AIM_STATUS            = new byte[]{0x08, 0x10, 0x02};
+    public static final byte[] RESP_GOAL_AIM_STATUS             = new byte[]{0x08, 0x10, 0x02};
+    public static final byte[] RESP_INACTIVITY_REMINDER_SWITCH  = new byte[]{0x08, 0x03, 0x51};
+    public static final byte[] RESP_INACTIVITY_REMINDER_SET     = new byte[]{0x08, 0x03, 0x52};
 
     public static final byte[] RESP_AUTHORIZATION_TASK          = new byte[]{0x01, 0x01, 0x05};
     public static final byte[] RESP_DAY_STEPS_INDICATOR         = new byte[]{0x08, 0x10, 0x03};

@@ -54,6 +54,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
+import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.watchxplus.WatchXPlusConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimePreferenceActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsPreferencesActivity;
@@ -210,12 +211,30 @@ public class SettingsActivity extends AbstractSettingsActivity {
 
         });
 
-        pref = findPreference("wxp_button_BP_calibration");
+        pref = findPreference("wxp_button_BP_calibration_list");
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newVal) {
-                preference.setSummary("Calibrating, please wait... (if no result after 15s. re-run)");
+                //preference.setSummary("Calibrating, please wait... (if no result after 15s. re-run)");
                 GBApplication.deviceService().onSendConfiguration("BP_CAL");
+                return true;
+            }
+        });
+
+        pref = findPreference("watchxplus_longsit_period");
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                GBApplication.deviceService().onSendConfiguration("LONG_SIT");
+                return true;
+            }
+        });
+
+        pref = findPreference("watchxplus_longsit_switch");
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                GBApplication.deviceService().onSendConfiguration("LONG_SIT");
                 return true;
             }
         });
@@ -224,8 +243,16 @@ public class SettingsActivity extends AbstractSettingsActivity {
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newVal) {
-                LOG.info(" uhaaaa ");
                 GBApplication.deviceService().onSendConfiguration("WXP_POWER_MODE");
+                return true;
+            }
+        });
+
+        pref = findPreference(WatchXPlusConstants.PREF_WXP_LANGUAGE);
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                GBApplication.deviceService().onSendConfiguration("WXP_LANGUAGE");
                 return true;
             }
         });
