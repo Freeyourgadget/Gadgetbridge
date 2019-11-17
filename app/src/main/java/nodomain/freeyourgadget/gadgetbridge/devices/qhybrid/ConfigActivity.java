@@ -46,6 +46,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -54,6 +58,9 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.buttonconfig.ConfigPayload;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ConfigActivity extends AbstractGBActivity {
@@ -305,7 +312,7 @@ public class ConfigActivity extends AbstractGBActivity {
                     activityHandCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean checked) {
-                            if(!device.getDeviceInfo(QHybridSupport.ITEM_STEP_GOAL).getDetails().equals("1000000")){
+                            if (!device.getDeviceInfo(QHybridSupport.ITEM_STEP_GOAL).getDetails().equals("1000000")) {
                                 new AlertDialog.Builder(ConfigActivity.this)
                                         .setMessage("Please set the step count to a million to activate that.")
                                         .setPositiveButton("ok", null)
@@ -326,9 +333,66 @@ public class ConfigActivity extends AbstractGBActivity {
                         @Override
                         public void onClick(View v) {
                             GB.toast("nah.", Toast.LENGTH_SHORT, GB.INFO);
-                            ((CheckBox)v).setChecked(false);
+                            ((CheckBox) v).setChecked(false);
                         }
                     });
+                }
+
+                final String buttonJson = device.getDeviceInfo(FossilWatchAdapter.ITEM_BUTTONS).getDetails();
+                if (buttonJson != null && !buttonJson.isEmpty()) {
+                    try {
+                        final JSONArray buttonConfig = new JSONArray(buttonJson);
+                        LinearLayout buttonLayout = findViewById(R.id.buttonConfigLayout);
+                        buttonLayout.removeAllViews();
+                        findViewById(R.id.buttonOverwriteButtons).setVisibility(View.GONE);
+                        final ConfigPayload[] payloads = ConfigPayload.values();
+                        final String[] names = new String[payloads.length];
+                        for (int i = 0; i < payloads.length; i++)
+                            names[i] = payloads[i].getDescription();
+                        for (int i = 0; i < buttonConfig.length(); i++) {
+                            final int currentIndex = i;
+                            String configName = buttonConfig.getString(i);
+                            TextView buttonTextView = new TextView(ConfigActivity.this);
+                            try {
+                                ConfigPayload payload = ConfigPayload.valueOf(configName);
+                                buttonTextView.setTextColor(Color.WHITE);
+                                buttonTextView.setTextSize(20);
+                                buttonTextView.setText("Button " + (i + 1) + ": " + payload.getDescription());
+                            } catch (IllegalArgumentException e) {
+                                buttonTextView.setText("Button " + (i + 1) + ": Unknown");
+                            }
+
+                            buttonTextView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    AlertDialog dialog = new AlertDialog.Builder(ConfigActivity.this)
+                                            .setItems(names, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.cancel();
+                                                    ConfigPayload selected = payloads[which];
+
+                                                    try {
+                                                        buttonConfig.put(currentIndex, selected.toString());
+                                                        device.addDeviceInfo(new GenericItem(FossilWatchAdapter.ITEM_BUTTONS, buttonConfig.toString()));
+                                                        updateSettings();
+                                                        LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_OVERWRITE_BUTTONS));
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            })
+                                            .create();
+                                    dialog.show();
+                                }
+                            });
+
+                            buttonLayout.addView(buttonTextView);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        GB.toast("error parsing button config", Toast.LENGTH_LONG, GB.ERROR);
+                    }
                 }
             }
         });
