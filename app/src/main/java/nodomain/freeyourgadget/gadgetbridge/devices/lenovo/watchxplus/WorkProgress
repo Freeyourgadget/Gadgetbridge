@@ -1,8 +1,6 @@
 NEED TO BE DONE
   Watch settings
-    - Set watch units (metric/imperial)
-    - Implement temperature alarm on watch
-      - switch, lowTemp, highTemp
+    - Implement temperature alarm on watch //tried to implement with no luck
     - Implement continuous blood pressure measurement (on, off, scheduled)
 
   Add feature to initiate button press event on watch
@@ -13,9 +11,6 @@ NEED TO BE DONE
     - Screen on scheduler (inApp, not supported by watch)
     - Disconnect reminder scheduler  (inApp, not supported by watch)
     - Continuous blood pressure measurement (supported by watch, there are command for that, but not tested)
-
-  Refine send weather to watch
-    - Send weather icon
 
   Refine get activity data
     - Fix get sleep data
@@ -69,6 +64,7 @@ WORK PROGRESS
     - Send User details to watch [height, weight, age, gender] (10.11.2019) (need more testing)
     - Implemented long sit reminder (inactivity reminder)[on, off, period] (17.11.2019)
     - Set watch language [English, Chinese] (17.11.2019)
+    - Set watch units (metric/imperial) (17.11.2019)
 
   Activity data
     - get steps per day
@@ -76,6 +72,8 @@ WORK PROGRESS
     - get sleep data
     - set user goal for steps
 
+  Send weather
+    - Send weather icon (17.11.2019)
   Changed in app device icon (02.11.2019)
   Get blood pressure measurement result (work only if blood pressure is calibrated)
   Pairing activity

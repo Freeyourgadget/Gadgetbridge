@@ -79,6 +79,7 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final byte[] CMD_SET_PERSONAL_INFO            = new byte[]{0x01, 0x0E};
     public static final byte[] CMD_INACTIVITY_REMINDER_SWITCH   = new byte[]{0x03, 0x51};
     public static final byte[] CMD_INACTIVITY_REMINDER_SET      = new byte[]{0x03, 0x52};
+    public static final byte[] CMD_SET_UNITS                    = new byte[]{0x03, -0x6D};
 
     public static final byte[] CMD_FITNESS_GOAL_SETTINGS        = new byte[]{0x10, 0x02};
     public static final byte[] CMD_DAY_STEPS_INFO               = new byte[]{0x10, 0x03};

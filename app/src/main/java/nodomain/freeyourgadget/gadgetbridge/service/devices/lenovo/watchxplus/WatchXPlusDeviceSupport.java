@@ -50,11 +50,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.UUID;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.DebugActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -94,9 +97,12 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
+import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getContext;
+
 
 public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     protected static Prefs prefs  = GBApplication.getPrefs();
+
     private boolean needsAuth;
     private int sequenceNumber = 0;
     private boolean isCalibrationActive = false;
@@ -412,6 +418,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 .enableNotificationChannels(builder)
                 .setFitnessGoal(builder)                        // set steps per day
                 .getBloodPressureCalibrationStatus(builder)     // request blood pressure calibration
+                //.setUnitsSettings()                             // set metric/imperial units
                 .syncPreferences(builder);                      // read preferences from app and set them to watch
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
         builder.setGattCallback(this);
@@ -825,6 +832,9 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 case "WXP_LANGUAGE":
                     setLanguageAndTimeFormat(builder, sharedPreferences);
                     break;
+                case "measurement_system":
+                    setUnitsSettings();
+                    break;
             }
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -995,6 +1005,50 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
             builder.queue(getQueue());
         }   catch (IOException e) {
             LOG.warn("Unable to set power mode", e);
+        }
+        return this;
+    }
+
+     /** request watch units
+     * for testing purposes only
+     */
+    private WatchXPlusDeviceSupport getUnitsSettings() {
+        LOG.info(" Get units from watch... ");
+        try {
+            TransactionBuilder builder = performInitialized("getUnits");
+            builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                    buildCommand(WatchXPlusConstants.CMD_SET_UNITS,
+                            WatchXPlusConstants.READ_VALUE));
+            builder.queue(getQueue());
+        }   catch (IOException e) {
+            LOG.warn("Unable to get units", e);
+        }
+     return this;
+    }
+
+    /** set watch units
+     *
+     */
+    private WatchXPlusDeviceSupport setUnitsSettings() {
+        int units = 0;
+        if (getContext().getString(R.string.p_unit_metric).equals(units)) {
+            LOG.info(" Changed units: metric");
+        } else {
+            LOG.info(" Changed units: imperial");
+        }
+        byte[] bArr = new byte[3];
+        bArr[0] = (byte) units; // metric - 0/imperial - 1
+        bArr[1] = (byte) 0x00;  //time unit 12/24h (there are separate command for this)
+        bArr[2] = (byte) 0x00;  // temperature unit (do nothing)
+        try {
+            TransactionBuilder builder = performInitialized("setUnits");
+            builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                    buildCommand(WatchXPlusConstants.CMD_SET_UNITS,
+                            WatchXPlusConstants.WRITE_VALUE,
+                            bArr));
+            builder.queue(getQueue());
+        }   catch (IOException e) {
+            LOG.warn("Unable to set units", e);
         }
         return this;
     }
@@ -1725,11 +1779,11 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     private void syncPreferences(TransactionBuilder transaction) {
         SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(this.getDevice().getAddress());
         this.setHeadsUpScreen(transaction, sharedPreferences);              // lift wirst to screen on
-        this.setQuiteHours(transaction, sharedPreferences);                // DND
+        this.setQuiteHours(transaction, sharedPreferences);                 // DND
         this.setDisconnectReminder(transaction, sharedPreferences);         // disconnect reminder
-        this.setLanguageAndTimeFormat(transaction, sharedPreferences);                   // set time mode 12/24h
+        this.setLanguageAndTimeFormat(transaction, sharedPreferences);      // set time mode 12/24h
         this.setAltitude(transaction);                                      // set altitude calibration
-        this.setLongSitHours(transaction, sharedPreferences);                    // set Long sit reminder
+        this.setLongSitHours(transaction, sharedPreferences);               // set Long sit reminder
         ActivityUser activityUser = new ActivityUser();
         this.setPersonalInformation(transaction, activityUser.getHeightCm(), activityUser.getWeightKg(),
                 activityUser.getAge(),activityUser.getGender());
