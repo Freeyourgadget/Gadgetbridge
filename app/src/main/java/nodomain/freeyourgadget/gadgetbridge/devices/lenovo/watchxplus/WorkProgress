@@ -25,7 +25,8 @@ NEED TO BE DONE
 
 
 WORK PROGRESS
-  Bump version to 0.39 (19.11.2019)
+  Bump Gadgetbridge version to 0.39 (19.11.2019)
+
   Send notification to watch
     - On incoming call
       - add function to cancel notification on watch (04.11.2019)
