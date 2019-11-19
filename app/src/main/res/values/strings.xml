@@ -199,7 +199,9 @@
     <string name="prefs_wxp_continious">Vibration during phone ring</string>
     <string name="prefs_wxp_missed">Vibration on missed call</string>
     <string name="preferences_watchxplus_settings">Watch X Plus settings</string>
-    <string name="pref_header_wxp_notification">Notification settings</string>
+    <string name="pref_header_wxp_call_notification">Notifications and Calls</string>
+    <string name="pref_header_wxp_notification_call">Call notifications</string>
+    <string name="pref_header_wxp_notification_misscall">MissCall notifications</string>
     <string name="pref_wxp_title_reject_summary">Off - ignore, On - reject</string>
     <string name="prefs_wxp_reject">Button ignore/reject call</string>
     <string name="pref_wxp_title_shake_reject_summary">Duplicates watch button action</string>
@@ -215,14 +217,16 @@
     <string name="wxp_mode_normal">Normal</string>
     <string name="wxp_mode_saving">Power saving</string>
     <string name="wxp_mode_watch">Only watch</string>
-    <string name="pref_wxp_title_repeat_on_missedcall_summary">Repeat missed call notification every minute for X times</string>
-    <string name="pref_wxp_title_repeat_on_missedcall">Repeat missed call notification</string>
+    <string name="pref_wxp_title_repeat_on_misscall_summary">Repeat missed call notification every minute for X times</string>
+    <string name="pref_wxp_title_repeat_on_misscall">Repeat missed call notification</string>
+    <string name="pref_header_wxp_notification_callhandling">Call Handling</string>
     <string name="pref_header_wxp_longsit">Inactivity reminder</string>
     <string name="pref_wxp_longsit_period_summary">Remind if there is no activity for more than X minutes</string>
     <string name="pref_wxp_longsit_switch_summary">Inactivity time interval is from DND setting</string>
     <string name="prefs_wxp_longsit_switch">Enable inactivity reminder</string>
     <string name="pref_wxp_title_longsit">Inactivity period (minutes)</string>
     <string name="wxp_language_title">Language</string>
+
     <!-- Makibes HR3 Preferences -->
     <string name="preferences_makibes_hr3_settings">Makibes HR3 settings</string>
     <!-- ID115 Preferences -->

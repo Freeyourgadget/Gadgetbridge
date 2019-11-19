@@ -25,6 +25,7 @@ NEED TO BE DONE
 
 
 WORK PROGRESS
+  Bump version to 0.39 (19.11.2019)
   Send notification to watch
     - On incoming call
       - add function to cancel notification on watch (04.11.2019)
@@ -65,6 +66,7 @@ WORK PROGRESS
     - Implemented long sit reminder (inactivity reminder)[on, off, period] (17.11.2019)
     - Set watch language [English, Chinese] (17.11.2019)
     - Set watch units (metric/imperial) (17.11.2019)
+    - Redesign Device Settings (19.11.2019)
 
   Activity data
     - get steps per day

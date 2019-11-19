@@ -34,7 +34,7 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final String PREF_DISCONNECT_REMIND = "disconnect_notification";
     public static final String PREF_FIND_PHONE = "prefs_find_phone";
     public static final String PREF_FIND_PHONE_DURATION = "prefs_find_phone_duration";
-    public static final String PREF_ALTITUDE = "watchxplus_altitude";
+    public static final String PREF_ALTITUDE = "pref_watchxplus_altitude";
     public static final String PREF_REPEAT = "watchxplus_repeat";
     public static final String PREF_CONTINIOUS = "watchxplus_continious";
     public static final String PREF_MISSED_CALL = "watchxplus_missed";
@@ -48,9 +48,11 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final String PREF_DO_NOT_DISTURB = "do_not_disturb_no_auto";
     public static final String PREF_DO_NOT_DISTURB_START = "do_not_disturb_no_auto_start";
     public static final String PREF_DO_NOT_DISTURB_END = "do_not_disturb_no_auto_end";
-    public static final String PREF_LONGSIT_SWITCH = "watchxplus_longsit_switch";
-    public static final String PREF_LONGSIT_PERIOD = "watchxplus_longsit_period";
-    public static final String PREF_WXP_LANGUAGE = "wxp_language_pref";
+    public static final String PREF_LONGSIT_SWITCH = "pref_watchxplus_longsit_switch";
+    public static final String PREF_LONGSIT_PERIOD = "pref_watchxplus_longsit_period";
+    public static final String PREF_WXP_LANGUAGE = "pref_wxp_language";
+    public static final String PREF_POWER_MODE = "pref_wxp_power_mode";
+
 
     // time format constants
     public static final byte ARG_SET_TIMEMODE_24H = 0x00;

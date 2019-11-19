@@ -799,11 +799,35 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(this.getDevice().getAddress());
         try {
             builder = performInitialized("sendConfig: " + config);
-            LOG.info(" config changed:" + config);
             switch (config) {
+                // settings from App Settings
+                case SettingsActivity.PREF_MEASUREMENT_SYSTEM:
+                    setUnitsSettings();
+                    break;
                 case ActivityUser.PREF_USER_STEPS_GOAL:
                     setFitnessGoal(builder);
                     break;
+
+                // settings from App Settings -> WatchXPlus settings
+                case WatchXPlusConstants.PREF_POWER_MODE:
+                    setPowerMode();
+                    break;
+                case WatchXPlusConstants.PREF_WXP_LANGUAGE:
+                    setLanguageAndTimeFormat(builder, sharedPreferences);
+                    break;
+                case WatchXPlusConstants.PREF_LONGSIT_PERIOD:
+                case WatchXPlusConstants.PREF_LONGSIT_SWITCH:
+                    setLongSitHours(builder, sharedPreferences);
+                    break;
+                // calibrations
+                case WatchXPlusConstants.PREF_ALTITUDE:
+                    setAltitude(builder);
+                    break;
+                case WatchXPlusConstants.PREF_BP_CAL_SWITCH:
+                    sendBloodPressureCalibration();
+                    break;
+
+                // settings from device card
                 case WatchXPlusConstants.PREF_ACTIVATE_DISPLAY:
                     setHeadsUpScreen(builder, sharedPreferences);
                     getShakeStatus(builder);
@@ -819,21 +843,6 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 case WatchXPlusConstants.PREF_DO_NOT_DISTURB_START:
                 case WatchXPlusConstants.PREF_DO_NOT_DISTURB_END:
                     setQuiteHours(builder, sharedPreferences);
-                    break;
-                case "BP_CAL":
-                    sendBloodPressureCalibration();
-                    break;
-                case "LONG_SIT":
-                    setLongSitHours(builder, sharedPreferences);
-                    break;
-                case "WXP_POWER_MODE":
-                    setPowerMode(config);
-                    break;
-                case "WXP_LANGUAGE":
-                    setLanguageAndTimeFormat(builder, sharedPreferences);
-                    break;
-                case "measurement_system":
-                    setUnitsSettings();
                     break;
             }
             builder.queue(getQueue());
@@ -987,15 +996,14 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     /** set watch power
-     * @param config
      * switch watch power mode
      * modes (0- normal, 1- energysaving, 2- only watch)
      */
-    private WatchXPlusDeviceSupport setPowerMode(String config) {
-        int settingRead = prefs.getInt("wxp_power_mode", 0);
+    private WatchXPlusDeviceSupport setPowerMode() {
+        int settingRead = prefs.getInt(WatchXPlusConstants.PREF_POWER_MODE, 0);
         byte[] bArr = new byte[1];
         bArr[0] = (byte) settingRead;
-        LOG.info(" setting: " + config);
+        LOG.info(" setting power mode to: " + settingRead);
         try {
             TransactionBuilder builder = performInitialized("setPowerMode");
             builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
@@ -1882,8 +1890,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
 // calibrate altitude
     private WatchXPlusDeviceSupport setAltitude(TransactionBuilder transactionBuilder) {
-        int value = WatchXPlusDeviceCoordinator.getAltitude(getDevice().getAddress());
-        int mAltitude = value;
+        int mAltitude = WatchXPlusDeviceCoordinator.getAltitude(getDevice().getAddress());
         if (mAltitude < 0) {
             mAltitude = (Math.abs(mAltitude) ^ 65535) + 1;
         }
@@ -1897,7 +1904,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 buildCommand(WatchXPlusConstants.CMD_ALTITUDE,
                         WatchXPlusConstants.WRITE_VALUE,
                         bArr));
-        //LOG.info(" setAltitude: " + mAltitude);
+        LOG.info(" setAltitude: " + mAltitude);
         return this;
     }
 

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_category_watchxplus_notification"
+        android:title="@string/pref_header_wxp_call_notification">
+        <PreferenceScreen
+            android:key="pref_category_watchxplus_ringing"
+            android:title="@string/pref_header_wxp_notification_call">
+            <PreferenceCategory
+                android:title="@string/pref_header_wxp_notification_call"/>
+            <EditTextPreference
+                android:defaultValue="0"
+                android:key="watchxplus_repeat"
+                android:summary="@string/pref_wxp_title_repeat_on_call_summary"
+                android:title="@string/pref_wxp_title_repeat_on_call"/>
+            <CheckBoxPreference
+                android:layout="@layout/preference_checkbox"
+                android:defaultValue="false"
+                android:key="watchxplus_continious"
+                android:title="@string/prefs_wxp_continious" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:key="pref_category_watchxplus_miss"
+            android:title="@string/pref_header_wxp_notification_misscall">
+            <PreferenceCategory
+                android:title="@string/pref_header_wxp_notification_misscall"/>
+            <EditTextPreference
+                android:defaultValue="0"
+                android:key="watchxplus_repeat_missedcall"
+                android:summary="@string/pref_wxp_title_repeat_on_misscall_summary"
+                android:title="@string/pref_wxp_title_repeat_on_misscall"/>
+            <CheckBoxPreference
+                android:layout="@layout/preference_checkbox"
+                android:defaultValue="false"
+                android:key="watchxplus_missed"
+                android:title="@string/prefs_wxp_missed" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:key="pref_category_watchxplus_callhandling"
+            android:title="@string/pref_header_wxp_notification_callhandling">
+            <PreferenceCategory
+                android:title="@string/pref_header_wxp_longsit"/>
+            <CheckBoxPreference
+                android:layout="@layout/preference_checkbox"
+                android:defaultValue="false"
+                android:key="watchxplus_button_reject"
+                android:summary="@string/pref_wxp_title_reject_summary"
+                android:title="@string/prefs_wxp_reject" />
+            <CheckBoxPreference
+                android:layout="@layout/preference_checkbox"
+                android:defaultValue="false"
+                android:key="watchxplus_shake_reject"
+                android:summary="@string/pref_wxp_title_shake_reject_summary"
+                android:title="@string/prefs_wxp_shake_reject" />
+            </PreferenceScreen>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_category_watchxplus_settings"
+        android:title="@string/pref_header_wxp_settings">
+        <ListPreference
+            android:defaultValue="0"
+            android:title="@string/wxp_power_mode_title"
+            android:entries="@array/wxp_mode"
+            android:entryValues="@array/wxp_mode_values"
+            android:key="pref_wxp_power_mode"
+            android:summary="%s" />
+        <ListPreference
+            android:defaultValue="1"
+            android:title="@string/pref_title_language"
+            android:entries="@array/wxp_language"
+            android:entryValues="@array/wxp_language_values"
+            android:key="pref_wxp_language"
+            android:summary="%s" />
+        <PreferenceScreen
+            android:key="pref_category_watchxplus_longsit_settings"
+            android:title="@string/pref_header_wxp_longsit">
+            <PreferenceCategory
+                android:title="@string/pref_header_wxp_longsit"/>
+            <EditTextPreference
+                android:defaultValue="60"
+                android:key="pref_watchxplus_longsit_period"
+                android:summary="@string/pref_wxp_longsit_period_summary"
+                android:title="@string/pref_wxp_title_longsit"/>
+            <CheckBoxPreference
+                android:layout="@layout/preference_checkbox"
+                android:defaultValue="false"
+                android:key="pref_watchxplus_longsit_switch"
+                android:summary="@string/pref_wxp_longsit_switch_summary"
+                android:title="@string/prefs_wxp_longsit_switch" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_category_watchxplus_calibration"
+        android:title="@string/pref_header_wxp_calibration">
+
+        <EditTextPreference
+            android:defaultValue="200"
+            android:key="pref_watchxplus_altitude"
+            android:title="@string/pref_wxp_title_altitude"/>
+
+        <PreferenceScreen
+            android:key="wxp_bp_calibration"
+            android:title="@string/wxp_bp_calibration_prefs">
+            <PreferenceCategory
+                android:title="@string/wxp_bp_calibration_prefs"/>
+            <EditTextPreference
+                android:inputType="number"
+                android:key="pref_wxp_bp_calibration_low"
+                android:defaultValue="80"
+                android:title="@string/pref_wxp_bp_calibration_low"
+                android:summary="@string/pref_rtl_max_line_length_summary"/>
+            <EditTextPreference
+                android:inputType="number"
+                android:key="pref_wxp_bp_calibration_high"
+                android:defaultValue="130"
+                android:title="@string/pref_wxp_bp_calibration_high"
+                android:summary="@string/pref_rtl_max_line_length_summary"/>
+            <ListPreference
+                android:defaultValue="1"
+                android:title="@string/prefs_wxp_button_bp_calibration"
+                android:entries="@array/wxp_bp_cal"
+                android:entryValues="@array/wxp_bp_cal_values"
+                android:key="wxp_button_BP_calibration_list"
+                android:summary="@string/prefs_wxp_button_bp_calibration_sum" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+</PreferenceScreen>

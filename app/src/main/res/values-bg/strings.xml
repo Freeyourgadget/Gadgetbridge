@@ -293,7 +293,8 @@
     <string name="prefs_wxp_continious">Известявай докато телефона звъни</string>
     <string name="prefs_wxp_missed">Известие за пропуснато обаждане</string>
     <string name="preferences_watchxplus_settings">Watch X Plus настройки</string>
-    <string name="pref_header_wxp_notification">Настройки на известията</string>
+    <string name="pref_header_wxp_notification_call">Известия при обаждане</string>
+    <string name="pref_header_wxp_notification_misscall">Известия при пропуснато обаждане</string>
     <string name="pref_wxp_title_reject_summary">Изкл. - заглуши, Вкл. - откажи</string>
     <string name="prefs_wxp_reject">Бутона заглушава/отказва повикване</string>
     <string name="pref_wxp_title_shake_reject_summary">Повтаря действието на бутона</string>
@@ -309,14 +310,16 @@
     <string name="wxp_mode_normal">Нормален</string>
     <string name="wxp_mode_saving">Икономичен</string>
     <string name="wxp_mode_watch">Само часовник</string>
-    <string name="pref_wxp_title_repeat_on_missedcall_summary">Повтаряй известие за пропуснато повикване всяка минута за X пъти</string>
-    <string name="pref_wxp_title_repeat_on_missedcall">Повтаряй известието за пропуснато повикване</string>
+    <string name="pref_wxp_title_repeat_on_misscall_summary">Повтаряй известие за пропуснато повикване всяка минута за X пъти</string>
+    <string name="pref_wxp_title_repeat_on_misscall">Повтаряй известието за пропуснато повикване</string>
+    <string name="pref_header_wxp_notification_callhandling">Управление на обажданията</string>
     <string name="pref_header_wxp_longsit">Напомняне за бездействие</string>
     <string name="pref_wxp_longsit_period_summary">Напомняй ако няма активност за повече от X минути</string>
     <string name="pref_wxp_longsit_switch_summary">Времевия интервал е от настройката за DND</string>
     <string name="prefs_wxp_longsit_switch">Включи напомняне за активност</string>
     <string name="pref_wxp_title_longsit">Период на неактивност (минути)</string>
     <string name="wxp_language_title">Език</string>
+    <string name="pref_header_wxp_call_notification">Известия и Обаждания</string>
 
     <string name="title_activity_sleepmonitor">Наблюдение/анализ на съня</string>
     <string name="pref_write_logfiles">Съхраняване на log файлове</string>
