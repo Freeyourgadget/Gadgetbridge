@@ -18,7 +18,9 @@ package nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -145,9 +147,15 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
 
-        // TODO: Device discovery
-        if ((name != null) && name.equals("Y808")) {
-            return DeviceType.MAKIBESHR3;
+        List<String> deviceNames = new ArrayList<String>(){{
+            add("Y808"); // Chinese version
+            add("MAKIBES HR3"); // English version
+        }};
+
+        if (name != null) {
+            if (deviceNames.contains(name)) {
+                return DeviceType.MAKIBESHR3;
+            }
         }
 
         return DeviceType.UNKNOWN;
@@ -162,7 +170,7 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
 
     @Override
     public int getBondingStyle() {
-        return BONDING_STYLE_NONE;
+        return BONDING_STYLE_BOND;
     }
 
     @Override

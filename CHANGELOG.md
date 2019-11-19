@@ -1,8 +1,26 @@
 ### Changelog
 
+#### Version 0.39.0
+* Amazfit GTS: Initial and incomplete support, mostly untested
+* Add forward/backward buttons to charts for faster navigation
+* Debug: allow to reset last fetch date for Huami devices
+
+#### Version 0.38.0
+* Amazfit GTR: Initial and incomplete support, mostly untested
+* Amazfit Bip: add Portuguese to the list of selectable languages
+* Mi Band 4: Enable emoji font setting
+* Makibes HR3: Support the english version
+* Makibes HR3: Enable bluetooth pairing for working reconnection
+* Work around crash when trying to display changelog
+* Sleep detection settings: Rolling 24 hours (existing style) or Noon to noon
+* Add alternative color to heartrate in chart settings
+
+#### Version 0.37.1
+* Amazfit Bip Lite: Support flashing firmware and watchfaces
+
 #### Version 0.37.0
 * Initial Makibes HR3 support
-* Amazfit Bip Lite: Inittal working support, firmware update is disabled for now (we do not have any firmware for testing)
+* Amazfit Bip Lite: Initial working support, firmware update is disabled for now (we do not have any firmware for testing)
 * Amazfit Cor 2: Enable Emoji Font setting and 3rd party HR access
 * Find Phone now also vibration in addition to playing the ring tone
 * ID115: All settings are now per-device

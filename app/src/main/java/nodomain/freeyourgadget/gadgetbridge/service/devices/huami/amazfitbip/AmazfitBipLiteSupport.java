@@ -20,7 +20,10 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip;
 import android.content.Context;
 import android.net.Uri;
 
+import java.io.IOException;
+
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipLiteFWHelper;
 
 public class AmazfitBipLiteSupport extends AmazfitBipSupport {
 
@@ -35,7 +38,7 @@ public class AmazfitBipLiteSupport extends AmazfitBipSupport {
     }
 
     @Override
-    public HuamiFWHelper createFWHelper(Uri uri, Context context) {
-        return null;
+    public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
+        return new AmazfitBipLiteFWHelper(uri, context);
     }
 }

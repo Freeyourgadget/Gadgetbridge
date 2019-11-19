@@ -401,12 +401,12 @@
 \nNota: Non è necessario installare i file .res e .gps se questi sono gli stessi della versione precedentemente installata.
 \n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Si sta per installare il firmware %s sul Amazfit Cor. 
-\n 
-\nSi prega di installare prima il file .fw e successivamente il file .res. La tua band si riavvierà dopo l\'installazione del file .fw. 
-\n 
-\nNOTA: Non è necessario installare il file .res se risulta essere uguale a quello precedentemente installato. 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor">Si sta per installare il firmware %s sul Amazfit Cor.
+\n
+\nSi prega di installare prima il file .fw e successivamente il file .res. La tua band si riavvierà dopo l\'installazione del file .fw.
+\n
+\nNOTA: Non è necessario installare il file .res se risulta essere uguale a quello precedentemente installato.
+\n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
     <string name="pref_title_charts_swipe">Abilita swipe Sinistra/Destra nel grafico delle attività</string>
     <string name="pref_title_weather">Meteo</string>
@@ -486,11 +486,11 @@
     <string name="on">Acceso</string>
     <string name="blacklist_all_for_notifications">Blocca le notifiche da tutte le applicazioni</string>
     <string name="whitelist_all_for_notifications">Consenti le notifiche da tutte le applicazioni</string>
-    <string name="fw_upgrade_notice_miband3">Si sta per installare il firmware %s sul Mi Band 3. 
-\n 
-\nSi prega di installare prima il file .fw e successivamente il file .res. La Miband3 si riavvierà dopo l\'installazione del file .fw. 
-\n 
-\nNOTA: Non è necessario installare il file .res se risulta essere uguale a quello precedentemente installato. 
+    <string name="fw_upgrade_notice_miband3">Si sta per installare il firmware %s sul Mi Band 3.
+\n
+\nSi prega di installare prima il file .fw e successivamente il file .res. La Miband3 si riavvierà dopo l\'installazione del file .fw.
+\n
+\nNOTA: Non è necessario installare il file .res se risulta essere uguale a quello precedentemente installato.
 \n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
     <string name="pref_title_pebble_gatt_clientonly">Modalità GATT client</string>
@@ -695,11 +695,11 @@
     <string name="portuguese">Portoghese</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="devicetype_miband4">Mi Band 4</string>
-    <string name="fw_upgrade_notice_miband4">Si sta per installare il firmware %s sul Mi Band 4. 
-\n 
-\nSi prega di installare prima il file .fw e successivamente il file .res. La Mi Band 4 si riavvierà dopo l\'installazione del file .fw. 
-\n 
-\nNOTA: Non è necessario installare il file .res se risulta essere uguale a quello precedentemente installato. 
+    <string name="fw_upgrade_notice_miband4">Si sta per installare il firmware %s sul Mi Band 4.
+\n
+\nSi prega di installare prima il file .fw e successivamente il file .res. La Mi Band 4 si riavvierà dopo l\'installazione del file .fw.
+\n
+\nNOTA: Non è necessario installare il file .res se risulta essere uguale a quello precedentemente installato.
 \n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
     <string name="prefs_hr_alarm_activity">Imposta allarme frequenza cardiaca durante l\'attività sportiva</string>

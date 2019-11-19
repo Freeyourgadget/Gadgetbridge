@@ -244,12 +244,12 @@
     <string name="appmanager_weather_install_provider">날씨 알림 앱 설치</string>
     <string name="app_move_to_top">가장 위로 이동</string>
     <string name="title_activity_calblacklist">비활성화 된 캘린더들</string>
-    <string name="fw_upgrade_notice_amazfitbip">지금 당신의 Amazfit Bip에 %s 펌웨어를 설치하려고 합니다. 
-\n 
-\n.fw 파일을 설치하고 .res 파일을 설치한 후 최종적으로 .gps 파일을 설치하세요. .fw 파일을 설치한 후 기기가 재시작 됩니다. 
-\n 
-\n비고: 만약 전에 설치되어 있던 .res 파일과 .gps 파일을 그대로 사용한다면 각 파일을 다시 설치 할 필요는 없습니다. 
-\n 
+    <string name="fw_upgrade_notice_amazfitbip">지금 당신의 Amazfit Bip에 %s 펌웨어를 설치하려고 합니다.
+\n
+\n.fw 파일을 설치하고 .res 파일을 설치한 후 최종적으로 .gps 파일을 설치하세요. .fw 파일을 설치한 후 기기가 재시작 됩니다.
+\n
+\n비고: 만약 전에 설치되어 있던 .res 파일과 .gps 파일을 그대로 사용한다면 각 파일을 다시 설치 할 필요는 없습니다.
+\n
 \n본인의 책임 하에 진행하세요!</string>
     <string name="pref_title_general_autostartonboot">자동으로 시작</string>
     <string name="pref_title_language">언어</string>
@@ -308,12 +308,12 @@
     <string name="pref_title_unit_system">단위</string>
     <string name="pref_title_timeformat">시간 형식</string>
     <string name="controlcenter_connect">연결</string>
-    <string name="fw_upgrade_notice_amazfitcor">지금 당신의 Amazfit Cor에 %s 펌웨어를 설치하려고 합니다. 
-\n 
-\n.fw 파일을 설치하고 .res 파일을 설치한 후 최종적으로 .gps 파일을 설치하세요. .fw 파일을 설치한 후 기기가 재시작 됩니다. 
-\n 
-\n비고: 만약 전에 설치되어 있던 .res 파일과 .gps 파일을 그대로 사용한다면 각 파일을 다시 설치 할 필요는 없습니다. 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor">지금 당신의 Amazfit Cor에 %s 펌웨어를 설치하려고 합니다.
+\n
+\n.fw 파일을 설치하고 .res 파일을 설치한 후 최종적으로 .gps 파일을 설치하세요. .fw 파일을 설치한 후 기기가 재시작 됩니다.
+\n
+\n비고: 만약 전에 설치되어 있던 .res 파일과 .gps 파일을 그대로 사용한다면 각 파일을 다시 설치 할 필요는 없습니다.
+\n
 \n본인의 책임 하에 진행하세요!</string>
     <string name="pref_title_charts_swipe">활동 차트에서 좌/우 밀어넘기기 사용</string>
     <string name="pref_title_weather_location">날씨 위치 (CM/리니지 OS)</string>
@@ -515,12 +515,12 @@
     <string name="controlcenter_calibrate_device">디바이스 조정하기</string>
     <string name="blacklist_all_for_notifications">모든 알람 블랙리스트</string>
     <string name="whitelist_all_for_notifications">모든 알람을 위한 화이트리스트</string>
-    <string name="fw_upgrade_notice_miband3">%s 펌웨어를 Mi Band 3에 설치하려고 합니다. 
-\n 
-\n.res 파일을 먼저 설치하고 .fw 파일을 설치하십시오. .fw 파일이 설치된 이후에 기기가 재시작될 것입니다. 
-\n 
-\n기존의 .res 파일과 설치하려는 .res 파일이 동일하다면, .res 파일을 다시 설치할 필요는 없습니다. 
-\n 
+    <string name="fw_upgrade_notice_miband3">%s 펌웨어를 Mi Band 3에 설치하려고 합니다.
+\n
+\n.res 파일을 먼저 설치하고 .fw 파일을 설치하십시오. .fw 파일이 설치된 이후에 기기가 재시작될 것입니다.
+\n
+\n기존의 .res 파일과 설치하려는 .res 파일이 동일하다면, .res 파일을 다시 설치할 필요는 없습니다.
+\n
 \n테스트되지 않은 기능입니다. 기기가 고장날 가능성이 있습니다. 본인의 책임 하에 진행하십시오!</string>
     <string name="pref_title_notifications_timeout">알람간 최소 시간</string>
     <string name="pref_title_rtl">오른쪽에서 왼쪽으로</string>
