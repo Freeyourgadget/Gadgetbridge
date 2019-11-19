@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -31,7 +30,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Req
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.RequestMtuRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.SetDeviceStateRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.buttons.ButtonConfigurationGetRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.AlarmsGetRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.button.ButtonConfigurationGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
@@ -44,6 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mis
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.QHYBRID_EVENT_BUTTON_PRESS;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.QHYBRID_EVENT_MULTI_BUTTON_PRESS;
 
 public class FossilWatchAdapter extends WatchAdapter {
     private ArrayList<Request> requestQueue = new ArrayList<>();
@@ -130,10 +131,10 @@ public class FossilWatchAdapter extends WatchAdapter {
 
             ConfigPayload[] payloads = new ConfigPayload[buttonConfigJson.length()];
 
-            for(int i = 0; i < buttonConfigJson.length(); i++){
+            for (int i = 0; i < buttonConfigJson.length(); i++) {
                 try {
                     payloads[i] = ConfigPayload.valueOf(buttonConfigJson.getString(i));
-                }catch (IllegalArgumentException e){
+                } catch (IllegalArgumentException e) {
                     payloads[i] = ConfigPayload.FORWARD_TO_PHONE;
                 }
             }
@@ -249,7 +250,13 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     @Override
     public void onTestNewFunction() {
-        queueWrite(new ConfigurationPutRequest(new ConfigurationPutRequest.ConfigItem[0], this), false);
+        queueWrite(new FilePutRequest(
+                (short) 0x0600,
+                new byte[]{
+                        (byte) 0x01, (byte) 0x00, (byte) 0x08, (byte) 0x01, (byte) 0x01, (byte) 0x24, (byte) 0x00, (byte) 0x85, (byte) 0x01, (byte) 0x30, (byte) 0x52, (byte) 0xFF, (byte) 0x26, (byte) 0x00, (byte) 0x03, (byte) 0x00, (byte) 0x09, (byte) 0x04, (byte) 0x01, (byte) 0x03, (byte) 0xA0, (byte) 0x00, (byte) 0x00, (byte) 0xA0, (byte) 0x00, (byte) 0x00, (byte) 0x08, (byte) 0x01, (byte) 0x05, (byte) 0x00, (byte) 0x93, (byte) 0x00, (byte) 0x02, (byte) 0x09, (byte) 0x04, (byte) 0x01, (byte) 0x03, (byte) 0x00, (byte) 0x24, (byte) 0x00, (byte) 0x00, (byte) 0x24, (byte) 0x00, (byte) 0x08, (byte) 0x01, (byte) 0x50, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0x1F, (byte) 0xBE, (byte) 0xB4, (byte) 0x1B
+                },
+                this)
+        );
     }
 
     @Override
@@ -368,6 +375,25 @@ public class FossilWatchAdapter extends WatchAdapter {
                     i.putExtra("BUTTON", button);
                     getContext().sendBroadcast(i);
                 }
+                break;
+            }
+
+            case 5: {
+                if (value.length != 4) {
+                    throw new RuntimeException("wrong button message");
+                }
+                int action = value[3];
+
+                String actionString = "SINGLE";
+                if(action == 3) actionString = "DOUBLE";
+                else if(action == 4) actionString = "LONG";
+
+                // lastButtonIndex = index;
+                log(actionString + " button press");
+
+                Intent i = new Intent(QHYBRID_EVENT_MULTI_BUTTON_PRESS);
+                i.putExtra("ACTION", actionString);
+                getContext().sendBroadcast(i);
                 break;
             }
         }
