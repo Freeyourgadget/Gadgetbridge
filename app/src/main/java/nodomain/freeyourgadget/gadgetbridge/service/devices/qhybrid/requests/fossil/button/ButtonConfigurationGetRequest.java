@@ -1,6 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.buttons;
-
-import android.util.SparseArray;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.button;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
