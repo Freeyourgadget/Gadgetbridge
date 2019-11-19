@@ -20,6 +20,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
@@ -31,6 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.RequestMtuRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.SetDeviceStateRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.AlarmsGetRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.AlarmsSetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.button.ButtonConfigurationGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest;
@@ -307,6 +309,38 @@ public class FossilWatchAdapter extends WatchAdapter {
         setVibrationStrength((byte) 50);
         // queueWrite(new FileCloseRequest((short) 0x0800));
         // queueWrite(new ConfigurationGetRequest(this));
+    }
+
+    @Override
+    public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
+       //  throw new RuntimeException("noope");
+        ArrayList<nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.Alarm> activeAlarms = new ArrayList<>();
+        for (Alarm alarm : alarms){
+            if(!alarm.getEnabled()) continue;
+            if(alarm.getRepetition() == 0){
+                activeAlarms.add(new nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.Alarm(
+                        (byte) alarm.getMinute(),
+                        (byte) alarm.getHour(),
+                        false
+                ));
+                continue;
+            }
+            int repitition = alarm.getRepetition();
+            repitition = (repitition << 1) | ((repitition >> 6) & 1);
+            activeAlarms.add(new nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.Alarm(
+                    (byte) alarm.getMinute(),
+                    (byte) alarm.getHour(),
+                    (byte) repitition
+            ));
+        }
+        queueWrite(new AlarmsSetRequest(activeAlarms.toArray(new nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.Alarm[0]), this){
+            @Override
+            public void onFilePut(boolean success) {
+                super.onFilePut(success);
+                if(success) GB.toast("successfully set alarms", Toast.LENGTH_SHORT, GB.INFO);
+                else  GB.toast("error setting alarms", Toast.LENGTH_SHORT, GB.INFO);
+            }
+        });
     }
 
     @Override
