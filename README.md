@@ -38,7 +38,7 @@ vendor's servers.
 * HPlus Devices (e.g. ZeBand) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
 * ID115
 * Lenovo Watch 9
-* Lenovo Watch X Plus (WIP)
+* Lenovo Watch X Plus
 * Liveview
 * Makibes HR3
 * Mi Band, Mi Band 1A, Mi Band 1S [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band)
@@ -74,6 +74,7 @@ Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/ma
 * Sebastian Kranz (ZeTime)
 * Vadim Kaushan (ID115)
 * "maxirnilian" (Lenovo Watch 9)
+* "ksiwczynski", "mkusnierz", "mamutcho" (Lenovo Watch X Plus)
 * Andreas Böhler (Casio GB-6900B)
 * Jean-François Greffier (Mi Scale 2)
 * Johannes Schmitt (BFH-16)
