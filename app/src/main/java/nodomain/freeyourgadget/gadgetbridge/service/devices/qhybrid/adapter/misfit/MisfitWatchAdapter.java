@@ -402,6 +402,11 @@ public class MisfitWatchAdapter extends WatchAdapter {
     }
 
     @Override
+    public void setTimezoneOffsetMinutes(short offset) {
+        GB.toast("old firmware does't support timezones", Toast.LENGTH_LONG, GB.ERROR);
+    }
+
+    @Override
     public boolean supportsFindDevice() {
         return supportsExtendedVibration();
     }

@@ -29,6 +29,8 @@ public class ConfigurationGetRequest extends FileLookupAndGetRequest {
                 device.addDeviceInfo(new GenericItem(QHybridSupport.ITEM_STEP_GOAL, String.valueOf(((ConfigurationPutRequest.DailyStepGoalConfigItem) item).getValue())));
             }else if(item instanceof ConfigurationPutRequest.CurrentStepCountConfigItem){
                 device.addDeviceInfo(new GenericItem(QHybridSupport.ITEM_STEP_COUNT, String.valueOf(((ConfigurationPutRequest.CurrentStepCountConfigItem) item).getValue())));
+            }else if(item instanceof ConfigurationPutRequest.TimezoneOffsetConfigItem) {
+                device.addDeviceInfo(new GenericItem(QHybridSupport.ITEM_TIMEZONE_OFFSET, String.valueOf(((ConfigurationPutRequest.TimezoneOffsetConfigItem) item).getValue())));
             }
         }
 

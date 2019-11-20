@@ -262,6 +262,19 @@ public class FossilWatchAdapter extends WatchAdapter {
     }
 
     @Override
+    public void setTimezoneOffsetMinutes(short offset) {
+        queueWrite(new ConfigurationPutRequest(new ConfigurationPutRequest.TimezoneOffsetConfigItem(offset), this){
+            @Override
+            public void onFilePut(boolean success) {
+                super.onFilePut(success);
+
+                if(success) GB.toast("successfully updated timezone", Toast.LENGTH_SHORT, GB.INFO);
+                else GB.toast("error updating timezone", Toast.LENGTH_SHORT, GB.ERROR);
+            }
+        });
+    }
+
+    @Override
     public boolean supportsFindDevice() {
         return false;
     }
