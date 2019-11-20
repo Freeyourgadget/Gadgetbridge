@@ -19,6 +19,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.btle.actions;
 import android.bluetooth.BluetoothGatt;
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class SetDeviceStateAction extends PlainAction {
@@ -43,6 +45,7 @@ public class SetDeviceStateAction extends PlainAction {
         return context;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return super.toString() + " to " + deviceState;
