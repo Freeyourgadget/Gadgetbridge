@@ -74,7 +74,7 @@ public class ConfigActivity extends AbstractGBActivity {
 
     SharedPreferences prefs;
 
-    TextView timeOffsetView;
+    TextView timeOffsetView, timezoneOffsetView;
 
     GBDevice device;
 
@@ -135,6 +135,51 @@ public class ConfigActivity extends AbstractGBActivity {
             }
         });
         updateTimeOffset();
+
+
+        timezoneOffsetView = findViewById(R.id.timezoneOffset);
+        timezoneOffsetView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int timeOffset = prefs.getInt("QHYBRID_TIMEZONE_OFFSET", 0);
+                LinearLayout layout2 = new LinearLayout(ConfigActivity.this);
+                layout2.setOrientation(LinearLayout.HORIZONTAL);
+
+                final NumberPicker hourPicker = new NumberPicker(ConfigActivity.this);
+                hourPicker.setMinValue(0);
+                hourPicker.setMaxValue(23);
+                hourPicker.setValue(timeOffset / 60);
+
+                final NumberPicker minPicker = new NumberPicker(ConfigActivity.this);
+                minPicker.setMinValue(0);
+                minPicker.setMaxValue(59);
+                minPicker.setValue(timeOffset % 60);
+
+                layout2.addView(hourPicker);
+                TextView tw = new TextView(ConfigActivity.this);
+                tw.setText(":");
+                layout2.addView(tw);
+                layout2.addView(minPicker);
+
+                layout2.setGravity(Gravity.CENTER);
+
+                new AlertDialog.Builder(ConfigActivity.this)
+                        .setTitle("offset timezone by")
+                        .setView(layout2)
+                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                prefs.edit().putInt("QHYBRID_TIMEZONE_OFFSET", hourPicker.getValue() * 60 + minPicker.getValue()).apply();
+                                updateTimezoneOffset();
+                                LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_UPDATE_TIMEZONE));
+                                Toast.makeText(ConfigActivity.this, "change might take some seconds...", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("cancel", null)
+                        .show();
+            }
+        });
+        updateTimezoneOffset();
 
         setTitle(R.string.preferences_qhybrid_settings);
 
@@ -262,6 +307,17 @@ public class ConfigActivity extends AbstractGBActivity {
                         format.format(timeOffset % 60)
         );
     }
+
+
+    private void updateTimezoneOffset() {
+        int timeOffset = prefs.getInt("QHYBRID_TIMEZONE_OFFSET", 0);
+        DecimalFormat format = new DecimalFormat("00");
+        timezoneOffsetView.setText(
+                format.format(timeOffset / 60) + ":" +
+                        format.format(timeOffset % 60)
+        );
+    }
+
 
     private void setSettingsEnabled(boolean enables) {
         findViewById(R.id.settingsLayout).setAlpha(enables ? 1f : 0.2f);

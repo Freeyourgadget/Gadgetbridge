@@ -42,6 +42,7 @@ public abstract class WatchAdapter {
     public abstract void setVibrationStrength(short strength);
     public abstract void syncNotificationSettings();
     public abstract void onTestNewFunction();
+    public abstract void setTimezoneOffsetMinutes(short offset);
 
     public abstract boolean supportsFindDevice();
     public abstract boolean supportsExtendedVibration();
