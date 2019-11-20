@@ -39,7 +39,7 @@
             android:key="pref_category_watchxplus_callhandling"
             android:title="@string/pref_header_wxp_notification_callhandling">
             <PreferenceCategory
-                android:title="@string/pref_header_wxp_longsit"/>
+                android:title="@string/pref_header_wxp_notification_callhandling"/>
             <CheckBoxPreference
                 android:layout="@layout/preference_checkbox"
                 android:defaultValue="false"

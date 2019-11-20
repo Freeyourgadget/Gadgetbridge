@@ -79,6 +79,10 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
             return DeviceType.WATCHXPLUS;
         } else if (deviceName.equalsIgnoreCase("WATCH XPLUS")) {
             return DeviceType.WATCHXPLUS;
+            // add initial support for Watch X non-plus (forces Watch X to be recognized as Watch XPlus)
+            // Watch X non-plus have same MAC address as Watch 9 (starts with "1C:87:79")
+        } else if (deviceName.equalsIgnoreCase("WATCH X")) {
+            return DeviceType.WATCHXPLUS;
         }
         return DeviceType.UNKNOWN;
     }
