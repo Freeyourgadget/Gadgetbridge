@@ -57,34 +57,39 @@ public class AutoConnectIntervalReceiver extends BroadcastReceiver {
         if (action == null) {
             return;
         }
+
         GBDevice gbDevice = service.getGBDevice();
+        if (gbDevice == null) {
+            return;
+        }
 
         if (action.equals(DeviceManager.ACTION_DEVICES_CHANGED)) {
             if (gbDevice.isInitialized()) {
                 LOG.info("will reset connection delay, device is initialized!");
                 mDelay = 4;
             }
+            else if (gbDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
+                scheduleReconnect();
+            }
         }
         else if (action.equals("GB_RECONNECT")) {
-            if (gbDevice != null) {
-                if (gbDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
-                    LOG.info("Will re-connect to " + gbDevice.getAddress() + "(" + gbDevice.getName() + ")");
-                    GBApplication.deviceService().connect();
-                }
+            if (gbDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
+                LOG.info("Will re-connect to " + gbDevice.getAddress() + "(" + gbDevice.getName() + ")");
+                GBApplication.deviceService().connect();
             }
         }
     }
 
-    public static void scheduleReconnect() {
+    public void scheduleReconnect() {
         mDelay*=2;
-        if (mDelay > 128) {
-            mDelay = 128;
+        if (mDelay > 64) {
+            mDelay = 64;
         }
         scheduleReconnect(mDelay);
     }
 
-    public static void scheduleReconnect(int delay) {
-        LOG.info("schduling reconnect in " + delay + " seconds");
+    public void scheduleReconnect(int delay) {
+        LOG.info("scheduling reconnect in " + delay + " seconds");
         AlarmManager am = (AlarmManager) (GBApplication.getContext().getSystemService(Context.ALARM_SERVICE));
         Intent intent = new Intent("GB_RECONNECT");
         intent.setPackage(BuildConfig.APPLICATION_ID);

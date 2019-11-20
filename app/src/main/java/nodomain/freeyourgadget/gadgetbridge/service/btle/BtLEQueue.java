@@ -328,7 +328,6 @@ public final class BtLEQueue {
             boolean result = mBluetoothGatt.connect();
             if (result) {
                 setDeviceConnectionState(State.WAITING_FOR_RECONNECT);
-                AutoConnectIntervalReceiver.scheduleReconnect();
             }
             return result;
         }
