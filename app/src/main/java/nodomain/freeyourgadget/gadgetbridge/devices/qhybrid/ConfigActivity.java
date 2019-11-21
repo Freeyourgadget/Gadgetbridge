@@ -57,6 +57,8 @@ import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
+import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.buttonconfig.ConfigPayload;
@@ -394,62 +396,68 @@ public class ConfigActivity extends AbstractGBActivity {
                     });
                 }
 
-                final String buttonJson = device.getDeviceInfo(FossilWatchAdapter.ITEM_BUTTONS).getDetails();
-                if (buttonJson != null && !buttonJson.isEmpty()) {
-                    try {
-                        final JSONArray buttonConfig = new JSONArray(buttonJson);
-                        LinearLayout buttonLayout = findViewById(R.id.buttonConfigLayout);
-                        buttonLayout.removeAllViews();
-                        findViewById(R.id.buttonOverwriteButtons).setVisibility(View.GONE);
-                        final ConfigPayload[] payloads = ConfigPayload.values();
-                        final String[] names = new String[payloads.length];
-                        for (int i = 0; i < payloads.length; i++)
-                            names[i] = payloads[i].getDescription();
-                        for (int i = 0; i < buttonConfig.length(); i++) {
-                            final int currentIndex = i;
-                            String configName = buttonConfig.getString(i);
-                            TextView buttonTextView = new TextView(ConfigActivity.this);
-                            buttonTextView.setTextColor(Color.WHITE);
-                            buttonTextView.setTextSize(20);
-                            try {
-                                ConfigPayload payload = ConfigPayload.valueOf(configName);
-                                buttonTextView.setText("Button " + (i + 1) + ": " + payload.getDescription());
-                            } catch (IllegalArgumentException e) {
-                                buttonTextView.setText("Button " + (i + 1) + ": Unknown");
-                            }
-
-                            buttonTextView.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    AlertDialog dialog = new AlertDialog.Builder(ConfigActivity.this)
-                                            .setItems(names, new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    dialog.cancel();
-                                                    ConfigPayload selected = payloads[which];
-
-                                                    try {
-                                                        buttonConfig.put(currentIndex, selected.toString());
-                                                        device.addDeviceInfo(new GenericItem(FossilWatchAdapter.ITEM_BUTTONS, buttonConfig.toString()));
-                                                        updateSettings();
-                                                        LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_OVERWRITE_BUTTONS));
-                                                    } catch (JSONException e) {
-                                                        e.printStackTrace();
-                                                    }
-                                                }
-                                            })
-                                            .setTitle("Button " + (currentIndex + 1))
-                                            .create();
-                                    dialog.show();
-                                }
-                            });
-
-                            buttonLayout.addView(buttonTextView);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        GB.toast("error parsing button config", Toast.LENGTH_LONG, GB.ERROR);
+                ItemWithDetails buttonInfo = device.getDeviceInfo(FossilWatchAdapter.ITEM_BUTTONS);
+                try {
+                    JSONArray buttonConfig = new JSONArray(new String[]{"Unknown", "Unknown", "Unknown"});
+                    String buttonJson = null;
+                    if (buttonInfo != null) {
+                        buttonJson = buttonInfo.getDetails();
                     }
+                    if (buttonJson != null && !buttonJson.isEmpty()) {
+                        buttonConfig = new JSONArray(buttonJson);
+                    }
+
+                    final JSONArray finalButtonConfig = buttonConfig;
+                    LinearLayout buttonLayout = findViewById(R.id.buttonConfigLayout);
+                    buttonLayout.removeAllViews();
+                    findViewById(R.id.buttonOverwriteButtons).setVisibility(View.GONE);
+                    final ConfigPayload[] payloads = ConfigPayload.values();
+                    final String[] names = new String[payloads.length];
+                    for (int i = 0; i < payloads.length; i++)
+                        names[i] = payloads[i].getDescription();
+                    for (int i = 0; i < buttonConfig.length(); i++) {
+                        final int currentIndex = i;
+                        String configName = buttonConfig.getString(i);
+                        TextView buttonTextView = new TextView(ConfigActivity.this);
+                        buttonTextView.setTextColor(Color.WHITE);
+                        buttonTextView.setTextSize(20);
+                        try {
+                            ConfigPayload payload = ConfigPayload.valueOf(configName);
+                            buttonTextView.setText("Button " + (i + 1) + ": " + payload.getDescription());
+                        } catch (IllegalArgumentException e) {
+                            buttonTextView.setText("Button " + (i + 1) + ": Unknown");
+                        }
+
+                        buttonTextView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                AlertDialog dialog = new AlertDialog.Builder(ConfigActivity.this)
+                                        .setItems(names, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.cancel();
+                                                ConfigPayload selected = payloads[which];
+                                                try {
+                                                    finalButtonConfig.put(currentIndex, selected.toString());
+                                                    device.addDeviceInfo(new GenericItem(FossilWatchAdapter.ITEM_BUTTONS, finalButtonConfig.toString()));
+                                                    updateSettings();
+                                                    LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_OVERWRITE_BUTTONS));
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        })
+                                        .setTitle("Button " + (currentIndex + 1))
+                                        .create();
+                                dialog.show();
+                            }
+                        });
+
+                        buttonLayout.addView(buttonTextView);
+                    }
+                } catch (
+                        JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });
