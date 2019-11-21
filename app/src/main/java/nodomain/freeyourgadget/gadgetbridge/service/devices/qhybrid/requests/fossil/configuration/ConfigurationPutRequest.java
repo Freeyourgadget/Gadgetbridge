@@ -109,6 +109,8 @@ public class ConfigurationPutRequest extends FilePutRequest {
             switch (value.getClass().getName()) {
                 case "java.lang.Byte":
                     return 1;
+                case "java.lang.Short":
+                    return 2;
                 case "java.lang.Integer":
                     return 4;
                 case "java.lang.Long":
@@ -139,6 +141,10 @@ public class ConfigurationPutRequest extends FilePutRequest {
                     buffer.putLong((Long) this.value);
                     break;
                 }
+                case "java.lang.Short": {
+                    buffer.putShort((Short) this.value);
+                    break;
+                }
             }
             return buffer.array();
         }
@@ -161,6 +167,10 @@ public class ConfigurationPutRequest extends FilePutRequest {
                     this.value = (T) (Integer) buffer.getInt();
                     break;
                 }
+                case 8:{
+                    this.value = (T) (Long) buffer.getLong();
+                    break;
+                }
             }
         }
     }
@@ -172,6 +182,12 @@ public class ConfigurationPutRequest extends FilePutRequest {
 
         public DailyStepGoalConfigItem(int value) {
             super((short) 3, value);
+        }
+    }
+
+    static public class TimezoneOffsetConfigItem extends GenericConfigItem<Short> {
+        public TimezoneOffsetConfigItem(Short value) {
+            super((short) 17, value);
         }
     }
 

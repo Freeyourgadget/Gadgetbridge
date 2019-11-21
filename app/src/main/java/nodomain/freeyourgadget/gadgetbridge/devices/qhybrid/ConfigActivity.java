@@ -46,6 +46,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -54,6 +58,9 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.buttonconfig.ConfigPayload;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ConfigActivity extends AbstractGBActivity {
@@ -67,7 +74,7 @@ public class ConfigActivity extends AbstractGBActivity {
 
     SharedPreferences prefs;
 
-    TextView timeOffsetView;
+    TextView timeOffsetView, timezoneOffsetView;
 
     GBDevice device;
 
@@ -128,6 +135,51 @@ public class ConfigActivity extends AbstractGBActivity {
             }
         });
         updateTimeOffset();
+
+
+        timezoneOffsetView = findViewById(R.id.timezoneOffset);
+        timezoneOffsetView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int timeOffset = prefs.getInt("QHYBRID_TIMEZONE_OFFSET", 0);
+                LinearLayout layout2 = new LinearLayout(ConfigActivity.this);
+                layout2.setOrientation(LinearLayout.HORIZONTAL);
+
+                final NumberPicker hourPicker = new NumberPicker(ConfigActivity.this);
+                hourPicker.setMinValue(0);
+                hourPicker.setMaxValue(23);
+                hourPicker.setValue(timeOffset / 60);
+
+                final NumberPicker minPicker = new NumberPicker(ConfigActivity.this);
+                minPicker.setMinValue(0);
+                minPicker.setMaxValue(59);
+                minPicker.setValue(timeOffset % 60);
+
+                layout2.addView(hourPicker);
+                TextView tw = new TextView(ConfigActivity.this);
+                tw.setText(":");
+                layout2.addView(tw);
+                layout2.addView(minPicker);
+
+                layout2.setGravity(Gravity.CENTER);
+
+                new AlertDialog.Builder(ConfigActivity.this)
+                        .setTitle("offset timezone by")
+                        .setView(layout2)
+                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                prefs.edit().putInt("QHYBRID_TIMEZONE_OFFSET", hourPicker.getValue() * 60 + minPicker.getValue()).apply();
+                                updateTimezoneOffset();
+                                LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_UPDATE_TIMEZONE));
+                                Toast.makeText(ConfigActivity.this, "change might take some seconds...", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("cancel", null)
+                        .show();
+            }
+        });
+        updateTimezoneOffset();
 
         setTitle(R.string.preferences_qhybrid_settings);
 
@@ -256,6 +308,17 @@ public class ConfigActivity extends AbstractGBActivity {
         );
     }
 
+
+    private void updateTimezoneOffset() {
+        int timeOffset = prefs.getInt("QHYBRID_TIMEZONE_OFFSET", 0);
+        DecimalFormat format = new DecimalFormat("00");
+        timezoneOffsetView.setText(
+                format.format(timeOffset / 60) + ":" +
+                        format.format(timeOffset % 60)
+        );
+    }
+
+
     private void setSettingsEnabled(boolean enables) {
         findViewById(R.id.settingsLayout).setAlpha(enables ? 1f : 0.2f);
     }
@@ -305,7 +368,7 @@ public class ConfigActivity extends AbstractGBActivity {
                     activityHandCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean checked) {
-                            if(!device.getDeviceInfo(QHybridSupport.ITEM_STEP_GOAL).getDetails().equals("1000000")){
+                            if (!device.getDeviceInfo(QHybridSupport.ITEM_STEP_GOAL).getDetails().equals("1000000")) {
                                 new AlertDialog.Builder(ConfigActivity.this)
                                         .setMessage("Please set the step count to a million to activate that.")
                                         .setPositiveButton("ok", null)
@@ -326,9 +389,67 @@ public class ConfigActivity extends AbstractGBActivity {
                         @Override
                         public void onClick(View v) {
                             GB.toast("nah.", Toast.LENGTH_SHORT, GB.INFO);
-                            ((CheckBox)v).setChecked(false);
+                            ((CheckBox) v).setChecked(false);
                         }
                     });
+                }
+
+                final String buttonJson = device.getDeviceInfo(FossilWatchAdapter.ITEM_BUTTONS).getDetails();
+                if (buttonJson != null && !buttonJson.isEmpty()) {
+                    try {
+                        final JSONArray buttonConfig = new JSONArray(buttonJson);
+                        LinearLayout buttonLayout = findViewById(R.id.buttonConfigLayout);
+                        buttonLayout.removeAllViews();
+                        findViewById(R.id.buttonOverwriteButtons).setVisibility(View.GONE);
+                        final ConfigPayload[] payloads = ConfigPayload.values();
+                        final String[] names = new String[payloads.length];
+                        for (int i = 0; i < payloads.length; i++)
+                            names[i] = payloads[i].getDescription();
+                        for (int i = 0; i < buttonConfig.length(); i++) {
+                            final int currentIndex = i;
+                            String configName = buttonConfig.getString(i);
+                            TextView buttonTextView = new TextView(ConfigActivity.this);
+                            buttonTextView.setTextColor(Color.WHITE);
+                            buttonTextView.setTextSize(20);
+                            try {
+                                ConfigPayload payload = ConfigPayload.valueOf(configName);
+                                buttonTextView.setText("Button " + (i + 1) + ": " + payload.getDescription());
+                            } catch (IllegalArgumentException e) {
+                                buttonTextView.setText("Button " + (i + 1) + ": Unknown");
+                            }
+
+                            buttonTextView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    AlertDialog dialog = new AlertDialog.Builder(ConfigActivity.this)
+                                            .setItems(names, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.cancel();
+                                                    ConfigPayload selected = payloads[which];
+
+                                                    try {
+                                                        buttonConfig.put(currentIndex, selected.toString());
+                                                        device.addDeviceInfo(new GenericItem(FossilWatchAdapter.ITEM_BUTTONS, buttonConfig.toString()));
+                                                        updateSettings();
+                                                        LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_OVERWRITE_BUTTONS));
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            })
+                                            .setTitle("Button " + (currentIndex + 1))
+                                            .create();
+                                    dialog.show();
+                                }
+                            });
+
+                            buttonLayout.addView(buttonTextView);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        GB.toast("error parsing button config", Toast.LENGTH_LONG, GB.ERROR);
+                    }
                 }
             }
         });

@@ -10,6 +10,9 @@ import android.widget.Toast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,14 +23,20 @@ import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.WatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.buttonconfig.ConfigFileBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.buttonconfig.ConfigPayload;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.RequestMtuRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.SetDeviceStateRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.AlarmsGetRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.AlarmsSetRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.button.ButtonConfigurationGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
@@ -40,6 +49,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mis
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.QHYBRID_EVENT_BUTTON_PRESS;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.QHYBRID_EVENT_MULTI_BUTTON_PRESS;
 
 public class FossilWatchAdapter extends WatchAdapter {
     private ArrayList<Request> requestQueue = new ArrayList<>();
@@ -49,6 +59,7 @@ public class FossilWatchAdapter extends WatchAdapter {
     private int MTU = 23;
 
     private String ITEM_MTU = "MTU";
+    static public final String ITEM_BUTTONS = "BUTTONS";
 
     private int lastButtonIndex = -1;
 
@@ -68,6 +79,18 @@ public class FossilWatchAdapter extends WatchAdapter {
         queueWrite(new ConfigurationGetRequest(this), false);
 
         syncNotificationSettings();
+
+        queueWrite(new ButtonConfigurationGetRequest(this) {
+            @Override
+            public void onConfigurationsGet(ConfigPayload[] configs) {
+                super.onConfigurationsGet(configs);
+
+                JSONArray buttons = new JSONArray();
+                for (ConfigPayload payload : configs) buttons.put(String.valueOf(payload));
+                String json = buttons.toString();
+                getDeviceSupport().getDevice().addDeviceInfo(new GenericItem(ITEM_BUTTONS, json));
+            }
+        });
 
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED), false);
     }
@@ -110,24 +133,33 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     @Override
     public void overwriteButtons() {
-        FilePutRequest fileUploadRequets = new FilePutRequest((short) 0x0600, new byte[]{
-                (byte) 0x01, (byte) 0x00, (byte) 0x00,
-                (byte) 0x03,
-                (byte) 0x10, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00,
-                (byte) 0x20, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00,
-                (byte) 0x30, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00,
-                (byte) 0x01,
-                (byte) 0x01, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x2E, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0x06, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x03, (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x0F, (byte) 0x00, (byte) 0x8B, (byte) 0x00, (byte) 0x00, (byte) 0x93, (byte) 0x00, (byte) 0x01, (byte) 0x08, (byte) 0x01, (byte) 0x14, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0xFE, (byte) 0x08, (byte) 0x00, (byte) 0x93, (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x00, (byte) 0xBF, (byte) 0xD5, (byte) 0x54, (byte) 0xD1,
-                (byte) 0x00,
-                (byte) 0x4F, (byte) 0x79, (byte) 0x97, (byte) 0x78,
-        }, this){
-            @Override
-            public void onFilePut(boolean success) {
-                if(success) GB.toast("successfully overwritten button settings", Toast.LENGTH_SHORT, GB.INFO);
-                else GB.toast("error overwriting button settings", Toast.LENGTH_SHORT, GB.INFO);
+        try {
+            JSONArray buttonConfigJson = new JSONArray(getDeviceSupport().getDevice().getDeviceInfo(ITEM_BUTTONS).getDetails());
+
+            ConfigPayload[] payloads = new ConfigPayload[buttonConfigJson.length()];
+
+            for (int i = 0; i < buttonConfigJson.length(); i++) {
+                try {
+                    payloads[i] = ConfigPayload.valueOf(buttonConfigJson.getString(i));
+                } catch (IllegalArgumentException e) {
+                    payloads[i] = ConfigPayload.FORWARD_TO_PHONE;
+                }
             }
-        };
-        queueWrite(fileUploadRequets);
+
+            ConfigFileBuilder builder = new ConfigFileBuilder(payloads);
+
+            FilePutRequest fileUploadRequets = new FilePutRequest((short) 0x0600, builder.build(true), this) {
+                @Override
+                public void onFilePut(boolean success) {
+                    if (success)
+                        GB.toast("successfully overwritten button settings", Toast.LENGTH_SHORT, GB.INFO);
+                    else GB.toast("error overwriting button settings", Toast.LENGTH_SHORT, GB.INFO);
+                }
+            };
+            queueWrite(fileUploadRequets);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -166,10 +198,11 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     @Override
     public void setStepGoal(int stepGoal) {
-        queueWrite(new ConfigurationPutRequest(new ConfigurationPutRequest.DailyStepGoalConfigItem(stepGoal), this){
+        queueWrite(new ConfigurationPutRequest(new ConfigurationPutRequest.DailyStepGoalConfigItem(stepGoal), this) {
             @Override
             public void onFilePut(boolean success) {
-                if(success) GB.toast("successfully updated step goal", Toast.LENGTH_SHORT, GB.INFO);
+                if (success)
+                    GB.toast("successfully updated step goal", Toast.LENGTH_SHORT, GB.INFO);
                 else GB.toast("error updating step goal", Toast.LENGTH_SHORT, GB.INFO);
             }
         }, false);
@@ -181,11 +214,13 @@ public class FossilWatchAdapter extends WatchAdapter {
 
 
         queueWrite(
-                new ConfigurationPutRequest(new ConfigurationPutRequest.ConfigItem[]{vibrationItem}, this){
+                new ConfigurationPutRequest(new ConfigurationPutRequest.ConfigItem[]{vibrationItem}, this) {
                     @Override
                     public void onFilePut(boolean success) {
-                        if(success) GB.toast("successfully updated vibration strength", Toast.LENGTH_SHORT, GB.INFO);
-                        else GB.toast("error updating vibration strength", Toast.LENGTH_SHORT, GB.INFO);
+                        if (success)
+                            GB.toast("successfully updated vibration strength", Toast.LENGTH_SHORT, GB.INFO);
+                        else
+                            GB.toast("error updating vibration strength", Toast.LENGTH_SHORT, GB.INFO);
                     }
                 }, false
         );
@@ -222,7 +257,26 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     @Override
     public void onTestNewFunction() {
-        queueWrite(new ConfigurationPutRequest(new ConfigurationPutRequest.ConfigItem[0], this), false);
+        queueWrite(new FilePutRequest(
+                (short) 0x0600,
+                new byte[]{
+                        (byte) 0x01, (byte) 0x00, (byte) 0x08, (byte) 0x01, (byte) 0x01, (byte) 0x24, (byte) 0x00, (byte) 0x85, (byte) 0x01, (byte) 0x30, (byte) 0x52, (byte) 0xFF, (byte) 0x26, (byte) 0x00, (byte) 0x03, (byte) 0x00, (byte) 0x09, (byte) 0x04, (byte) 0x01, (byte) 0x03, (byte) 0xA0, (byte) 0x00, (byte) 0x00, (byte) 0xA0, (byte) 0x00, (byte) 0x00, (byte) 0x08, (byte) 0x01, (byte) 0x05, (byte) 0x00, (byte) 0x93, (byte) 0x00, (byte) 0x02, (byte) 0x09, (byte) 0x04, (byte) 0x01, (byte) 0x03, (byte) 0x00, (byte) 0x24, (byte) 0x00, (byte) 0x00, (byte) 0x24, (byte) 0x00, (byte) 0x08, (byte) 0x01, (byte) 0x50, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0x1F, (byte) 0xBE, (byte) 0xB4, (byte) 0x1B
+                },
+                this)
+        );
+    }
+
+    @Override
+    public void setTimezoneOffsetMinutes(short offset) {
+        queueWrite(new ConfigurationPutRequest(new ConfigurationPutRequest.TimezoneOffsetConfigItem(offset), this){
+            @Override
+            public void onFilePut(boolean success) {
+                super.onFilePut(success);
+
+                if(success) GB.toast("successfully updated timezone", Toast.LENGTH_SHORT, GB.INFO);
+                else GB.toast("error updating timezone", Toast.LENGTH_SHORT, GB.ERROR);
+            }
+        });
     }
 
     @Override
@@ -265,6 +319,38 @@ public class FossilWatchAdapter extends WatchAdapter {
         setVibrationStrength((byte) 50);
         // queueWrite(new FileCloseRequest((short) 0x0800));
         // queueWrite(new ConfigurationGetRequest(this));
+    }
+
+    @Override
+    public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
+       //  throw new RuntimeException("noope");
+        ArrayList<nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.Alarm> activeAlarms = new ArrayList<>();
+        for (Alarm alarm : alarms){
+            if(!alarm.getEnabled()) continue;
+            if(alarm.getRepetition() == 0){
+                activeAlarms.add(new nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.Alarm(
+                        (byte) alarm.getMinute(),
+                        (byte) alarm.getHour(),
+                        false
+                ));
+                continue;
+            }
+            int repitition = alarm.getRepetition();
+            repitition = (repitition << 1) | ((repitition >> 6) & 1);
+            activeAlarms.add(new nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.Alarm(
+                    (byte) alarm.getMinute(),
+                    (byte) alarm.getHour(),
+                    (byte) repitition
+            ));
+        }
+        queueWrite(new AlarmsSetRequest(activeAlarms.toArray(new nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.Alarm[0]), this){
+            @Override
+            public void onFilePut(boolean success) {
+                super.onFilePut(success);
+                if(success) GB.toast("successfully set alarms", Toast.LENGTH_SHORT, GB.INFO);
+                else  GB.toast("error setting alarms", Toast.LENGTH_SHORT, GB.INFO);
+            }
+        });
     }
 
     @Override
@@ -333,6 +419,25 @@ public class FossilWatchAdapter extends WatchAdapter {
                     i.putExtra("BUTTON", button);
                     getContext().sendBroadcast(i);
                 }
+                break;
+            }
+
+            case 5: {
+                if (value.length != 4) {
+                    throw new RuntimeException("wrong button message");
+                }
+                int action = value[3];
+
+                String actionString = "SINGLE";
+                if(action == 3) actionString = "DOUBLE";
+                else if(action == 4) actionString = "LONG";
+
+                // lastButtonIndex = index;
+                log(actionString + " button press");
+
+                Intent i = new Intent(QHYBRID_EVENT_MULTI_BUTTON_PRESS);
+                i.putExtra("ACTION", actionString);
+                getContext().sendBroadcast(i);
                 break;
             }
         }

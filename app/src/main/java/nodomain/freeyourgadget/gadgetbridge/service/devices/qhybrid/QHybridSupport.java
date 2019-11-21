@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -32,11 +33,15 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -56,6 +61,7 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String QHYBRID_COMMAND_SET = "qhybrid_command_set";
     public static final String QHYBRID_COMMAND_VIBRATE = "qhybrid_command_vibrate";
     public static final String QHYBRID_COMMAND_UPDATE = "qhybrid_command_update";
+    public static final String QHYBRID_COMMAND_UPDATE_TIMEZONE = "qhybrid_command_update_timezone";
     public static final String QHYBRID_COMMAND_NOTIFICATION = "qhybrid_command_notification";
     public static final String QHYBRID_COMMAND_UPDATE_SETTINGS = "nodomain.freeyourgadget.gadgetbridge.Q_UPDATE_SETTINGS";
     public static final String QHYBRID_COMMAND_OVERWRITE_BUTTONS = "nodomain.freeyourgadget.gadgetbridge.Q_OVERWRITE_BUTTONS";
@@ -67,6 +73,7 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED = "nodomain.freeyourgadget.gadgetbridge.Q_NOTIFICATION_CONFIG_CHANGED";
 
     public static final String QHYBRID_EVENT_BUTTON_PRESS = "nodomain.freeyourgadget.gadgetbridge.Q_BUTTON_PRESSED";
+    public static final String QHYBRID_EVENT_MULTI_BUTTON_PRESS = "nodomain.freeyourgadget.gadgetbridge.Q_MULTI_BUTTON_PRESSED";
 
     public static final String ITEM_STEP_GOAL = "STEP_GOAL";
     public static final String ITEM_STEP_COUNT = "STEP_COUNT";
@@ -76,6 +83,7 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String ITEM_HAS_ACTIVITY_HAND = "HAS_ACTIVITY_HAND";
     public static final String ITEM_USE_ACTIVITY_HAND = "USE_ACTIVITY_HAND";
     public static final String ITEM_LAST_HEARTBEAT = "LAST_HEARTBEAT";
+    public static final String ITEM_TIMEZONE_OFFSET = "STEPTIMEZONE_OFFSET_COUNT";
 
     private static final Logger logger = LoggerFactory.getLogger(QHybridSupport.class);
 
@@ -100,6 +108,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         commandFilter.addAction(QHYBRID_COMMAND_SET);
         commandFilter.addAction(QHYBRID_COMMAND_VIBRATE);
         commandFilter.addAction(QHYBRID_COMMAND_UPDATE);
+        commandFilter.addAction(QHYBRID_COMMAND_UPDATE_TIMEZONE);
         commandFilter.addAction(QHYBRID_COMMAND_NOTIFICATION);
         commandFilter.addAction(QHYBRID_COMMAND_UPDATE_SETTINGS);
         commandFilter.addAction(QHYBRID_COMMAND_OVERWRITE_BUTTONS);
@@ -141,6 +150,10 @@ public class QHybridSupport extends QHybridBaseSupport {
                     case QHYBRID_COMMAND_UPDATE: {
                         loadTimeOffset();
                         onSetTime();
+                        break;
+                    }
+                    case QHYBRID_COMMAND_UPDATE_TIMEZONE:{
+                        loadTimezoneOffset();
                         break;
                     }
                     case QHYBRID_COMMAND_UPDATE_SETTINGS: {
@@ -220,8 +233,24 @@ public class QHybridSupport extends QHybridBaseSupport {
         GBApplication.getContext().registerReceiver(globalCommandReceiver, globalFilter);
     }
 
+    @Override
+    public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
+        super.onSetAlarms(alarms);
+        if(this.watchAdapter == null){
+            GB.toast("watch not connected", Toast.LENGTH_LONG, GB.ERROR);
+            return;
+        }
+        this.watchAdapter.onSetAlarms(alarms);
+    }
+
     private void loadTimeOffset() {
         timeOffset = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE).getInt("QHYBRID_TIME_OFFSET", 0);
+    }
+
+    private void loadTimezoneOffset(){
+        short offset = (short) getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE).getInt("QHYBRID_TIMEZONE_OFFSET", 0);
+
+        this.watchAdapter.setTimezoneOffsetMinutes(offset);
     }
 
     public long getTimeOffset(){

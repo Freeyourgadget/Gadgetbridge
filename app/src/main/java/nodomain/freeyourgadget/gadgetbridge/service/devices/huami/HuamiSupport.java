@@ -1090,7 +1090,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             return;
         }
 
-        String requiredButtonPressMessage = prefs.getString(MiBandConst.PREF_MIBAND_BUTTON_PRESS_BROADCAST,
+        String requiredButtonPressMessage = prefs.getString(HuamiConst.PREF_BUTTON_ACTION_BROADCAST,
                 this.getContext().getString(R.string.mi2_prefs_button_press_broadcast_default_value));
 
         Intent in = new Intent();
@@ -1098,7 +1098,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         in.putExtra("button_id", currentButtonActionId);
         LOG.info("Sending " + requiredButtonPressMessage + " with button_id " + currentButtonActionId);
         this.getContext().getApplicationContext().sendBroadcast(in);
-        if (prefs.getBoolean(MiBandConst.PREF_MIBAND_BUTTON_ACTION_VIBRATE, false)) {
+        if (prefs.getBoolean(HuamiConst.PREF_BUTTON_ACTION_VIBRATE, false)) {
             performPreferredNotification(null, null, null, HuamiService.ALERT_LEVEL_VIBRATE_ONLY, null);
         }
 
@@ -1215,18 +1215,17 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    public void handleButtonEvent() {
-        ///logMessageContent(value);
+    private void handleButtonEvent() {
 
         // If disabled we return from function immediately
-        Prefs prefs = GBApplication.getPrefs();
-        if (!prefs.getBoolean(MiBandConst.PREF_MIBAND_BUTTON_ACTION_ENABLE, false)) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        if (!prefs.getBoolean(HuamiConst.PREF_BUTTON_ACTION_ENABLE, false)) {
             return;
         }
 
-        int buttonPressMaxDelay = prefs.getInt(MiBandConst.PREF_MIBAND_BUTTON_PRESS_MAX_DELAY, 2000);
-        int buttonActionDelay = prefs.getInt(MiBandConst.PREF_MIBAND_BUTTON_ACTION_DELAY, 0);
-        int requiredButtonPressCount = prefs.getInt(MiBandConst.PREF_MIBAND_BUTTON_PRESS_COUNT, 0);
+        int buttonPressMaxDelay = prefs.getInt(HuamiConst.PREF_BUTTON_ACTION_PRESS_MAX_INTERVAL, 2000);
+        int buttonActionDelay = prefs.getInt(HuamiConst.PREF_BUTTON_ACTION_BROADCAST_DELAY, 0);
+        int requiredButtonPressCount = prefs.getInt(HuamiConst.PREF_BUTTON_ACTION_PRESS_COUNT, 0);
 
         if (requiredButtonPressCount > 0) {
             long timeSinceLastPress = System.currentTimeMillis() - currentButtonPressTime;
@@ -1244,7 +1243,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 currentButtonTimerActivationTime = currentButtonPressTime;
                 if (buttonActionDelay > 0) {
                     LOG.info("Activating timer");
-                    final Timer buttonActionTimer = new Timer("Mi Band Button Action Timer");
+                    final Timer buttonActionTimer = new Timer("Huami Button Action Timer");
                     buttonActionTimer.scheduleAtFixedRate(new TimerTask() {
                         @Override
                         public void run() {
