@@ -167,6 +167,10 @@ public class ConfigurationPutRequest extends FilePutRequest {
                     this.value = (T) (Integer) buffer.getInt();
                     break;
                 }
+                case 8:{
+                    this.value = (T) (Long) buffer.getLong();
+                    break;
+                }
             }
         }
     }
