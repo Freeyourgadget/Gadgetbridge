@@ -447,6 +447,9 @@ public class FossilWatchAdapter extends WatchAdapter {
     @Override
     public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
         super.onMtuChanged(gatt, mtu, status);
+
+        log("MTU changed: " + mtu);
+
         this.MTU = mtu;
 
         getDeviceSupport().getDevice().addDeviceInfo(new GenericItem(ITEM_MTU, String.valueOf(mtu)));
