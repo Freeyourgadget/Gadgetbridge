@@ -43,7 +43,19 @@ public abstract class WatchAdapter {
     public abstract boolean supportsFindDevice();
     public abstract boolean supportsExtendedVibration();
     public abstract boolean supportsActivityHand();
-    public abstract String getModelName();
+
+    public String getModelName() {
+        String modelNumber = getDeviceSupport().getDevice().getModel();
+        switch (modelNumber) {
+            case "HW.0.0":
+                return "Q Commuter";
+            case "HL.0.0":
+                return "Q Activist";
+            case "DN.1.0":
+                return "Hybrid HR Collider";
+        }
+        return "unknwon Q";
+    }
 
     public abstract void onFetchActivityData();
 

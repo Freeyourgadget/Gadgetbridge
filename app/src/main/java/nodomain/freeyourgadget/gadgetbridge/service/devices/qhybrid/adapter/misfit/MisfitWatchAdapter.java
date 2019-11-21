@@ -436,20 +436,6 @@ public class MisfitWatchAdapter extends WatchAdapter {
     }
 
     @Override
-    public String getModelName() {
-        String modelNumber = getDeviceSupport().getDevice().getModel();
-        switch (modelNumber) {
-            case "HW.0.0":
-                return "Q Commuter";
-            case "HL.0.0":
-                return "Q Activist";
-            case "DN.1.0":
-                return "Hybrid HR";
-        }
-        return "unknwon Q";
-    }
-
-    @Override
     public void onFetchActivityData() {
         requestQueue.add(new BatteryLevelRequest());
         requestQueue.add(new GetCurrentStepCountRequest());
