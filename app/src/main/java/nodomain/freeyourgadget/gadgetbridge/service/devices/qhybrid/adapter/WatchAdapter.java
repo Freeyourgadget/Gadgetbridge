@@ -4,7 +4,10 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 
+import java.util.ArrayList;
+
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
+import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 
@@ -39,6 +42,7 @@ public abstract class WatchAdapter {
     public abstract void setVibrationStrength(short strength);
     public abstract void syncNotificationSettings();
     public abstract void onTestNewFunction();
+    public abstract void setTimezoneOffsetMinutes(short offset);
 
     public abstract boolean supportsFindDevice();
     public abstract boolean supportsExtendedVibration();
@@ -58,6 +62,8 @@ public abstract class WatchAdapter {
     }
 
     public abstract void onFetchActivityData();
+
+    public abstract void onSetAlarms(ArrayList<? extends Alarm> alarms);
 
     public abstract boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic);
     public void onMtuChanged(BluetoothGatt gatt, int mtu, int status){};

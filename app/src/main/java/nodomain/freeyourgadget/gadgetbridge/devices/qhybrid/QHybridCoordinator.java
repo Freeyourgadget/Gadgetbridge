@@ -92,12 +92,16 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
     }
 
     public boolean supportsAlarmConfiguration() {
-        return false;
+        GBDevice connectedDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
+        if(connectedDevice == null || connectedDevice.getType() != DeviceType.FOSSILQHYBRID){
+            return false;
+        }
+        return true;
     }
 
     @Override
     public int getAlarmSlotCount() {
-        return 0;
+        return this.supportsAlarmConfiguration() ? 5 : 0;
     }
 
     @Override

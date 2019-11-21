@@ -84,6 +84,7 @@ public class MiBand2Coordinator extends HuamiCoordinator {
                 R.xml.devicesettings_liftwrist_display,
                 R.xml.devicesettings_rotatewrist_cycleinfo,
                 R.xml.devicesettings_expose_hr_thirdparty,
+                R.xml.devicesettings_buttonactions,
                 R.xml.devicesettings_pairingkey
         };
     }
