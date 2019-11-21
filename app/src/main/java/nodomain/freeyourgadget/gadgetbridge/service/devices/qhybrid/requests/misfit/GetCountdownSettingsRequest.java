@@ -25,7 +25,7 @@ public class GetCountdownSettingsRequest extends Request {
         byte progress = buffer.get(13);
         short offset = buffer.getShort(11);
 
-        Log.d("countdown", "progress: " + progress);
+        log("progress: " + progress);
 
     }
 

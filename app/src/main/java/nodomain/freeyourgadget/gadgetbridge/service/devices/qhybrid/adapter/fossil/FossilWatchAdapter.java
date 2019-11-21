@@ -7,6 +7,9 @@ import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,6 +51,8 @@ public class FossilWatchAdapter extends WatchAdapter {
     private String ITEM_MTU = "MTU";
 
     private int lastButtonIndex = -1;
+
+    Logger logger = LoggerFactory.getLogger(getClass());
 
     public FossilWatchAdapter(QHybridSupport deviceSupport) {
         super(deviceSupport);
@@ -371,7 +376,7 @@ public class FossilWatchAdapter extends WatchAdapter {
     }
 
     private void log(String message) {
-        Log.d("FossilWatchAdapter", message);
+        logger.debug(message);
     }
 
     public void queueWrite(SetDeviceStateRequest request, boolean priorise) {
