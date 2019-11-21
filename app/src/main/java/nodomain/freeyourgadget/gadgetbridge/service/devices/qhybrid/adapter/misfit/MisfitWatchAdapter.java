@@ -55,6 +55,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mis
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SetVibrationStrengthRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.UploadFileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.VibrateRequest;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.ITEM_ACTIVITY_POINT;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.ITEM_STEP_COUNT;
@@ -66,12 +67,13 @@ import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybr
 public class MisfitWatchAdapter extends WatchAdapter {
     private int lastButtonIndex = -1;
     private final SparseArray<Request> responseFilters = new SparseArray<>();
-    private static final Logger logger = LoggerFactory.getLogger(QHybridSupport.class);
 
     private UploadFileRequest uploadFileRequest;
     private Request fileRequest = null;
 
     private Queue<Request> requestQueue = new ArrayDeque<>();
+
+    Logger logger = LoggerFactory.getLogger(getClass());
 
     public MisfitWatchAdapter(QHybridSupport deviceSupport) {
         super(deviceSupport);
@@ -155,7 +157,7 @@ public class MisfitWatchAdapter extends WatchAdapter {
                 break;
             }
             default: {
-                Log.d("Service", "unknown shit on " + characteristic.getUuid().toString() + ":  " + arrayToString(characteristic.getValue()));
+                log("unknown shit on " + characteristic.getUuid().toString() + ":  " + arrayToString(characteristic.getValue()));
                 try {
                     File charLog = new File("/sdcard/qFiles/charLog.txt");
                     if (!charLog.exists()) {
@@ -191,10 +193,10 @@ public class MisfitWatchAdapter extends WatchAdapter {
                 byte[] sequence = object.getStartSequence();
                 if (sequence.length > 1) {
                     responseFilters.put((int) object.getStartSequence()[1], object);
-                    Log.d("Service", "response filter " + object.getStartSequence()[1] + ": " + c.getSimpleName());
+                    log("response filter " + object.getStartSequence()[1] + ": " + c.getSimpleName());
                 }
             } catch (NoSuchMethodException | IllegalAccessException | InstantiationException e) {
-                Log.d("Service", "skipping class " + c.getName());
+                log("skipping class " + c.getName());
             }
         }
     }
@@ -209,10 +211,10 @@ public class MisfitWatchAdapter extends WatchAdapter {
             for (int i = 1; i < characteristic.getValue().length; i++) {
                 valueString.append(", ").append(values[i]);
             }
-            Log.d("Service", "unable to resolve " + characteristic.getUuid().toString() + ": " + valueString);
+            log("unable to resolve " + characteristic.getUuid().toString() + ": " + valueString);
             return true;
         }
-        Log.d("Service", "response: " + request.getClass().getSimpleName());
+        log("response: " + request.getClass().getSimpleName());
         request.handleResponse(characteristic);
 
         if (request instanceof GetStepGoalRequest) {
@@ -347,6 +349,9 @@ public class MisfitWatchAdapter extends WatchAdapter {
         return true;
     }
 
+    private void log(String message){
+        logger.debug(message);
+    }
 
     public void setActivityHand(double progress) {
         queueWrite(new SetCurrentStepCountRequest(Math.min((int) (1000000 * progress), 999999)));

@@ -112,7 +112,7 @@ public class QHybridSupport extends QHybridBaseSupport {
                 NotificationConfiguration config = extras == null ? null : (NotificationConfiguration) intent.getExtras().get("CONFIG");
                 switch (intent.getAction()) {
                     case QHYBRID_COMMAND_CONTROL: {
-                        Log.d("Service", "sending control request");
+                        log("sending control request");
                         watchAdapter.requestHandsControl();
                         if (config != null) {
                             watchAdapter.setHands(config.getHour(), config.getMin());
@@ -261,7 +261,7 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
-        Log.d("Service", "notif from " + notificationSpec.sourceAppId + "  " + notificationSpec.sender + "   " + notificationSpec.phoneNumber);
+        log("notif from " + notificationSpec.sourceAppId + "  " + notificationSpec.sender + "   " + notificationSpec.phoneNumber);
         //new Exception().printStackTrace();
         String packageName = notificationSpec.sourceName;
 
@@ -274,7 +274,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         }
         if (config == null) return;
 
-        Log.d("Service", "handling notification");
+        log("handling notification");
 
         if (config.getRespectSilentMode()) {
             int mode = ((AudioManager) getContext().getApplicationContext().getSystemService(Context.AUDIO_SERVICE)).getRingerMode();
@@ -286,6 +286,10 @@ public class QHybridSupport extends QHybridBaseSupport {
         playNotification(config);
 
         showNotificationsByAllActive(enforceActivityHandNotification);
+    }
+
+    private void log(String message){
+        logger.debug(message);
     }
 
     @Override

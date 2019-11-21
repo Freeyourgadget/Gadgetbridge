@@ -20,7 +20,7 @@ public class EraseFileRequest extends FileRequest{
     public void handleResponse(BluetoothGattCharacteristic characteristic) {
         super.handleResponse(characteristic);
         if(!characteristic.getUuid().toString().equals(getRequestUUID().toString())){
-            Log.d(getName(), "wrong descriptor");
+            log("wrong descriptor");
             return;
         }
         ByteBuffer buffer = ByteBuffer.wrap(characteristic.getValue());
