@@ -141,6 +141,7 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VI
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_PROFILE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefIntValue;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefStringValue;
+import static nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL;
 
 public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
@@ -706,7 +707,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     protected void onAlarmClock(NotificationSpec notificationSpec) {
         alarmClockRinging = true;
-        AbortTransactionAction abortAction = new StopNotificationAction(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL)) {
+        AbortTransactionAction abortAction = new StopNotificationAction(getCharacteristic(UUID_CHARACTERISTIC_ALERT_LEVEL)) {
             @Override
             protected boolean shouldAbort() {
                 return !isAlarmClockRinging();
@@ -739,7 +740,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     public void onSetCallState(CallSpec callSpec) {
         if (callSpec.command == CallSpec.CALL_INCOMING) {
             telephoneRinging = true;
-            AbortTransactionAction abortAction = new StopNotificationAction(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL)) {
+            AbortTransactionAction abortAction = new StopNotificationAction(getCharacteristic(UUID_CHARACTERISTIC_ALERT_LEVEL)) {
                 @Override
                 protected boolean shouldAbort() {
                     return !isTelephoneRinging();
@@ -1083,8 +1084,20 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         // not supported
     }
 
-    public void runButtonAction() {
-        Prefs prefs = GBApplication.getPrefs();
+    // this could go though onion code with preferrednotification, but I this should work on all huami devices
+    private void vibrateOnce() {
+        BluetoothGattCharacteristic characteristic = getCharacteristic(UUID_CHARACTERISTIC_ALERT_LEVEL);
+        try {
+            TransactionBuilder builder = performInitialized("Vibrate once");
+            builder.write(characteristic,new byte[] {3});
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.error("error while sending simple vibrate command", e);
+        }
+    }
+
+    private void runButtonAction() {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
 
         if (currentButtonTimerActivationTime != currentButtonPressTime) {
             return;
@@ -1099,7 +1112,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         LOG.info("Sending " + requiredButtonPressMessage + " with button_id " + currentButtonActionId);
         this.getContext().getApplicationContext().sendBroadcast(in);
         if (prefs.getBoolean(HuamiConst.PREF_BUTTON_ACTION_VIBRATE, false)) {
-            performPreferredNotification(null, null, null, HuamiService.ALERT_LEVEL_VIBRATE_ONLY, null);
+            vibrateOnce();
         }
 
         currentButtonActionId = 0;
