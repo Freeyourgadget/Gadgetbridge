@@ -233,6 +233,8 @@ public class FossilWatchAdapter extends WatchAdapter {
                 return true;
             case "HL.0.0":
                 return false;
+            case "DN.1.0":
+                return true;
         }
         throw new UnsupportedOperationException("model " + modelNumber + " not supported");
     }
@@ -244,6 +246,8 @@ public class FossilWatchAdapter extends WatchAdapter {
             case "HW.0.0":
                 return true;
             case "HL.0.0":
+                return false;
+            case "DN.1.0":
                 return false;
         }
         throw new UnsupportedOperationException("Model " + modelNumber + " not supported");
@@ -257,6 +261,8 @@ public class FossilWatchAdapter extends WatchAdapter {
                 return "Q Commuter";
             case "HL.0.0":
                 return "Q Activist";
+            case "DN.1.0":
+                return "Hybrid HR";
         }
         return "unknwon Q";
     }
