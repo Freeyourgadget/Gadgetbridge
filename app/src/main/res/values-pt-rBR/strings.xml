@@ -413,7 +413,7 @@
     <string name="heart_rate">Frequência cardíaca</string>
     <string name="battery">Bateria</string>
     <string name="mi2_prefs_button_actions">Ações do botão</string>
-    <string name="mi2_prefs_button_actions_summary">Especifica as ações quando pressionado o botão da Mi Band 2</string>
+    <string name="mi2_prefs_button_actions_summary">Especifica ações no pressionamento do botão</string>
     <string name="mi2_prefs_button_press_count">Contagem de acionamento do botão</string>
     <string name="mi2_prefs_button_press_count_summary">Número de toques no botão para enviar a mensagem</string>
     <string name="mi2_prefs_button_press_broadcast">Mensagem para enviar</string>
