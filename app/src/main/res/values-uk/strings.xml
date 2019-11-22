@@ -465,4 +465,5 @@
     <string name="zetime_date_format_1">РР/ММ/ДД</string>
     <string name="zetime_date_format_2">ДД/ММ/РР</string>
     <string name="zetime_date_format_3">ММ/ДД/РР</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
 </resources>
