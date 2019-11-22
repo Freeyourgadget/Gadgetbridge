@@ -705,4 +705,5 @@
     <string name="prefs_hr_alarm_activity">Imposta allarme frequenza cardiaca durante l\'attività sportiva</string>
     <string name="prefs_hr_alarm_low">Limite inferiore</string>
     <string name="prefs_hr_alarm_high">Limite Superiore</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
 </resources>
