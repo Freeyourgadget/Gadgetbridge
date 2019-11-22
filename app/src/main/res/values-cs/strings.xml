@@ -791,4 +791,5 @@
 \nPoznámka: Nemusíte instalovat soubor .res a .gps, pokud jsou stejné jako soubory nainstalovány dříve.
 \n
 \nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
 </resources>
