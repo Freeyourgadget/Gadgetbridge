@@ -418,7 +418,6 @@ Temps de sommeil préféré en heures</string>
     <string name="mi2_prefs_button_press_count_summary">Nombre de pressions pour envoyer message</string>
     <string name="mi2_prefs_button_press_broadcast">Message à envoyer</string>
     <string name="mi2_prefs_button_press_broadcast_summary">Envoyer message après nombre défini de pressions du bouton</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value">nodomain.freeyourgadget.gadgetbridge.mibandButtonPressed</string>
     <string name="mi2_prefs_button_action">Activer action du bouton</string>
     <string name="mi2_prefs_button_action_summary">Activer action après nombre spécifié de pressions</string>
     <string name="mi2_prefs_button_action_vibrate">Activer la vibration du bracelet</string>

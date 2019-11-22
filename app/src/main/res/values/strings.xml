@@ -458,12 +458,12 @@
     <string name="dateformat_date_time"><![CDATA[Time & date]]></string>
     <string name="prefs_disconnect_notification">Disconnect notification</string>
     <string name="mi2_prefs_button_actions">Button actions</string>
-    <string name="mi2_prefs_button_actions_summary">Specify actions on Mi Band 2 button press</string>
+    <string name="mi2_prefs_button_actions_summary">Specify actions button press</string>
     <string name="mi2_prefs_button_press_count">Button press count</string>
     <string name="mi2_prefs_button_press_count_summary">Number of button presses to trigger message broadcast</string>
     <string name="mi2_prefs_button_press_broadcast">Broadcast message to send</string>
     <string name="mi2_prefs_button_press_broadcast_summary">Broadcast message on defined number of button presses reached</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.mibandButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
     <string name="mi2_prefs_button_action">Enable button action</string>
     <string name="mi2_prefs_button_action_summary">Enable action on specified number of button presses</string>
     <string name="mi2_prefs_button_action_vibrate">Enable band vibration</string>
