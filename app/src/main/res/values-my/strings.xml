@@ -36,4 +36,5 @@
     <string name="mode_configuration">အခ်က္အလက္ကြဲမ်ား</string>
     <string name="save_configuration">အခ်က္အလက္မ်ားကိုသိမ္းဆည္းမည္</string>
     <string name="appwidget_not_connected">မခ်ိတ္ဆက္ထားျခင္းမရွိပါ , သတိေပးခ်က္မထားရေသးပါ</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
 </resources>
