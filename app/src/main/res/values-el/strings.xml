@@ -747,4 +747,5 @@
     <string name="widget_10_minutes">10 λεπτά</string>
     <string name="widget_20_minutes">20 λεπτά</string>
     <string name="widget_1_hour">1 ώρα</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
 </resources>
