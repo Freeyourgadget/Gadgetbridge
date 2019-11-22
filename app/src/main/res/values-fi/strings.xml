@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<resources><string name="action_settings">Asetukset</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">Asetukset</string>
     <string name="controlcenter_fetch_activity_data">Synkronisoi</string>
     <string name="controlcenter_find_device">Löydä kadonnut laite</string>
     <string name="app_name">Gadgetbridge</string>
-
     <string name="title_activity_controlcenter">Gadgetbridge</string>
     <string name="action_quit">Sulje</string>
     <string name="action_donate">Lahjoita</string>
@@ -18,8 +18,6 @@
     <string name="controlcenter_snackbar_disconnecting">Yhteyttä katkaistaan</string>
     <string name="controlcenter_snackbar_connecting">Yhdistetään</string>
     <string name="controlcenter_snackbar_requested_screenshot">Otataan ruutukaappausta laitteesta</string>
-
-
     <string name="title_activity_appmanager">Sovellusten hallinta</string>
     <string name="appmanager_cached_watchapps_watchfaces">Välimuistissa olevat sovellukset</string>
     <string name="appmanager_installed_watchapps">Asennetut sovellukset</string>
@@ -37,5 +35,5 @@
     <string name="appmanager_weather_install_provider">Asenna sääilmoitussovellus</string>
     <string name="app_configure">Määritä</string>
     <string name="app_move_to_top">Siirrä ylös</string>
-
-    </resources>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+</resources>
