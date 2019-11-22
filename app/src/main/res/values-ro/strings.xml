@@ -128,4 +128,5 @@
     <string name="filter_submode_all">Toate cuvintele</string>
     <string name="save_configuration">Salvare Configurație</string>
     <string name="appwidget_not_connected">Deconectat(ă), alarma nu este setată.</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
 </resources>
