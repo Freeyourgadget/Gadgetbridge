@@ -124,4 +124,5 @@
     <string name="pref_title_weather">هواشناسی</string>
     <string name="pref_title_weather_location">مکان تعیین شده برای هواشناسی (CM/LOS)</string>
     <string name="pref_blacklist">اضافه کردن برنامه‌ها به لیست سیاه</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
 </resources>
