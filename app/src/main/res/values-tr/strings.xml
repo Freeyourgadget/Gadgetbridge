@@ -166,4 +166,5 @@
     <string name="pref_title_location_keep_uptodate">Konumumu güncel tut</string>
     <string name="controlcenter_change_led_color">"Türkçe "</string>
     <string name="controlcenter_change_fm_frequency">Change FM Frequency</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
 </resources>
