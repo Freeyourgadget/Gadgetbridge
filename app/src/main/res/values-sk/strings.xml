@@ -492,4 +492,5 @@
     <string name="notification_channel_name">Gadgetbridge upozornenia</string>
     <string name="controlcenter_connect">Pripojiť</string>
     <string name="on">Zap.</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
 </resources>
