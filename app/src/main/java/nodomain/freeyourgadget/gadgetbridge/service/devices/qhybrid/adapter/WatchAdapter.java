@@ -31,7 +31,7 @@ public abstract class WatchAdapter {
     public abstract void playPairingAnimation();
     public abstract void playNotification(NotificationConfiguration config);
     public abstract void setTime();
-    public abstract void overwriteButtons();
+    public abstract void overwriteButtons(String buttonConfigJson);
     public abstract void setActivityHand(double progress);
     public abstract void setHands(short hour, short minute);
     public abstract void vibrate(PlayNotificationRequest.VibrationType vibration);
