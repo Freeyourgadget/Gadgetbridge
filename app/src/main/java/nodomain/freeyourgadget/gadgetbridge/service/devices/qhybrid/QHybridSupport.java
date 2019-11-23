@@ -51,6 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.WatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.WatchAdapterFactory;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.DownloadFileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -178,7 +179,8 @@ public class QHybridSupport extends QHybridBaseSupport {
                         break;
                     }
                     case QHYBRID_COMMAND_OVERWRITE_BUTTONS: {
-                        watchAdapter.overwriteButtons();
+                        String buttonConfig = intent.getStringExtra(FossilWatchAdapter.ITEM_BUTTONS);
+                        watchAdapter.overwriteButtons(buttonConfig);
                         break;
                     }
                     case QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED: {
