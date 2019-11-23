@@ -253,7 +253,7 @@
     <string name="stats_y_axis_label">Passes per minut</string>
     <string name="control_center_find_lost_device">Troba l\'aparell perdut</string>
     <string name="control_center_cancel_to_stop_vibration">Cancel·leu per aturar la vibració.</string>
-    <string name="title_activity_charts">La vostra activitat</string>
+    <string name="title_activity_charts">Activitat i son</string>
     <string name="title_activity_set_alarm">Configura les alarmes</string>
     <string name="controlcenter_start_configure_alarms">Configura les alarmes</string>
     <string name="title_activity_alarm_details">Detalls d\'alarma</string>
@@ -282,11 +282,11 @@
     <string name="notif_battery_low_bigtext_last_charge_time">Darrera càrrega: %s</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Nombre de càrregues: %s</string>
     <string name="notif_export_failed_title">L\'exportació de la base de dades ha fallat! Si us plau, comproveu la configuració.</string>
-    <string name="sleepchart_your_sleep">El vostre son</string>
+    <string name="sleepchart_your_sleep">Son</string>
     <string name="weeksleepchart_sleep_a_week">Son per setmana</string>
     <string name="weeksleepchart_today_sleep_description">Son avui, objectiu: %1$s</string>
     <string name="weekstepschart_steps_a_week">Passes per setmana</string>
-    <string name="activity_sleepchart_activity_and_sleep">La vostra activitat i el vostre son</string>
+    <string name="activity_sleepchart_activity_and_sleep">Activitat</string>
     <string name="updating_firmware">El microprogramari s\'està instal·lant…</string>
     <string name="fwapp_install_device_not_ready">No es pot instal·lar el fitxer. L\'aparell no està preparat.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
@@ -333,7 +333,7 @@
     <string name="dateformat_time">Temps</string>
     <string name="dateformat_date_time">Hora i data</string>
     <string name="mi2_prefs_button_actions">Accions del botó</string>
-    <string name="mi2_prefs_button_actions_summary">Especifiqueu les accions en prémer el botó de la Mi Band 2</string>
+    <string name="mi2_prefs_button_actions_summary">Especifiqueu les accions en prémer el botó</string>
     <string name="mi2_prefs_button_press_count">Nombre de pulsacions del botó</string>
     <string name="mi2_prefs_button_press_count_summary">Nombre de vegades que cal prémer el botó per activar la difusió de missatge</string>
     <string name="mi2_prefs_button_press_broadcast">Missatge de difusió a enviar</string>
