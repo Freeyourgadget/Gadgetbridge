@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, José Rebelo, Matthieu Baerts
+    Gobbetti, José Rebelo, Matthieu Baerts, Nephiel, vanous
 
     This file is part of Gadgetbridge.
 

@@ -1,5 +1,5 @@
 /*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Johannes Tysiak, Taavi Eomäe
+    Gobbetti, Johannes Tysiak, Taavi Eomäe, vanous
 
     This file is part of Gadgetbridge.
 

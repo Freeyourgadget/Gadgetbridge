@@ -1,6 +1,6 @@
 /*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Frank Slezak, jcrode, Johann C. Rode, Julien Pivotto, Kevin Richter,
-    Sergio Lopez, Steffen Liebergeld, Uwe Hermann
+    Matej Drobnič, Sergio Lopez, Steffen Liebergeld, Uwe Hermann
 
     This file is part of Gadgetbridge.
 

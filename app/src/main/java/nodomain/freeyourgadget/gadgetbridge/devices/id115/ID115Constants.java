@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018-2019 Vadim Kaushan
+/*  Copyright (C) 2018-2019 Andreas Shimokawa, Vadim Kaushan
 
     This file is part of Gadgetbridge.
 

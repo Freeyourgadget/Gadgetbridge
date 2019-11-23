@@ -1,5 +1,5 @@
 /*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Felix Konstantin Maurer, Taavi Eomäe
+    Gobbetti, Felix Konstantin Maurer, Marc Nause, Taavi Eomäe, vanous
 
     This file is part of Gadgetbridge.
 

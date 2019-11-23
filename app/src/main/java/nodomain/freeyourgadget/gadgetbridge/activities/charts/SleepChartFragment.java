@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2019 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti, Dikay900, Pavel Elagin
+    Daniele Gobbetti, Dikay900, Pavel Elagin, Q-er, vanous
 
     This file is part of Gadgetbridge.
 

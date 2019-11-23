@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, José Rebelo, Sebastian Kranz, Taavi Eomäe
+/*  Copyright (C) 2015-2019 Andreas Böhler, Andreas Shimokawa, Carsten
+    Pfeiffer, Daniele Gobbetti, José Rebelo, Sebastian Kranz, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 

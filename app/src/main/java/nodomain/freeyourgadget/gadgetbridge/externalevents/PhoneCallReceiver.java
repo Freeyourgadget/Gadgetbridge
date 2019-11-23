@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Johannes Tysiak, Normano64
+/*  Copyright (C) 2015-2019 Andreas Böhler, Andreas Shimokawa, Carsten
+    Pfeiffer, Daniele Gobbetti, Johannes Tysiak, Normano64
 
     This file is part of Gadgetbridge.
 

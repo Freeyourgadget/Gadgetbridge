@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018-2019 Sergio Lopez
+/*  Copyright (C) 2018-2019 Carsten Pfeiffer, Sergio Lopez
 
     This file is part of Gadgetbridge.
 
