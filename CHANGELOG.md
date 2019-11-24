@@ -1,7 +1,7 @@
 ### Changelog
 
-#### Version 0.39.1 (WIP)
-* Active re-connection
+#### Version 0.39.1
+* Try to actively re-connect when a connection gets interrupted (interval grows up to 64 seconds)
 * Mi Band2/Amazfip Bip: Make button action settings per-device and enable for Amazfit Bip
 
 #### Version 0.39.0
