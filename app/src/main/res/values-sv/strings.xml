@@ -45,4 +45,7 @@
     <string name="title_activity_fw_app_insaller">FW/App-installerare</string>
     <string name="pref_chart_heartrate_color_red">Röd</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="appmanager_hrm_activate">Aktivera pulsmätare</string>
+    <string name="appmanager_hrm_deactivate">Avaktivera pulsmätare</string>
+    <string name="app_configure">Konfigurera</string>
 </resources>
