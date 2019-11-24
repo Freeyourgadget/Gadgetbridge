@@ -408,7 +408,7 @@
     <string name="discovery_yes_pair">Párovat</string>
     <string name="discovery_dont_pair">Nepárovat</string>
     <string name="mi2_prefs_button_actions">Akce tlačítka</string>
-    <string name="mi2_prefs_button_actions_summary">Nastavení akcí po stisknutí tlačítka Mi Band 2</string>
+    <string name="mi2_prefs_button_actions_summary">Nastavení akcí po stisknutí tlačítka</string>
     <string name="mi2_prefs_button_press_count">Počet stisknutí tlačítka</string>
     <string name="mi2_prefs_button_press_count_summary">Počet stisknutí tlačítka na spuštění vysílání zpráv</string>
     <string name="mi2_prefs_button_press_broadcast">Vysílání zpráv</string>
