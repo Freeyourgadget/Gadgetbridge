@@ -93,7 +93,7 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
 
     public boolean supportsAlarmConfiguration() {
         GBDevice connectedDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
-        if(connectedDevice == null || connectedDevice.getType() != DeviceType.FOSSILQHYBRID){
+        if(connectedDevice == null || connectedDevice.getType() != DeviceType.FOSSILQHYBRID || connectedDevice.getState() != GBDevice.State.INITIALIZED){
             return false;
         }
         return true;

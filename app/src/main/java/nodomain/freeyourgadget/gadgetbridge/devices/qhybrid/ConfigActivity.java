@@ -396,18 +396,17 @@ public class ConfigActivity extends AbstractGBActivity {
                     });
                 }
 
-                ItemWithDetails buttonInfo = device.getDeviceInfo(FossilWatchAdapter.ITEM_BUTTONS);
+                final String buttonJson = device.getDeviceInfo(FossilWatchAdapter.ITEM_BUTTONS).getDetails();
                 try {
-                    JSONArray buttonConfig = new JSONArray(new String[]{"Unknown", "Unknown", "Unknown"});
-                    String buttonJson = null;
-                    if (buttonInfo != null) {
-                        buttonJson = buttonInfo.getDetails();
-                    }
-                    if (buttonJson != null && !buttonJson.isEmpty()) {
-                        buttonConfig = new JSONArray(buttonJson);
+                    JSONArray buttonConfig_;
+                    if (buttonJson == null || buttonJson.isEmpty()) {
+                        buttonConfig_ = new JSONArray(new String[]{"", "", ""});
+                    }else{
+                        buttonConfig_ = new JSONArray(buttonJson);
                     }
 
-                    final JSONArray finalButtonConfig = buttonConfig;
+                    final JSONArray buttonConfig = buttonConfig_;
+
                     LinearLayout buttonLayout = findViewById(R.id.buttonConfigLayout);
                     buttonLayout.removeAllViews();
                     findViewById(R.id.buttonOverwriteButtons).setVisibility(View.GONE);
@@ -437,11 +436,14 @@ public class ConfigActivity extends AbstractGBActivity {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 dialog.cancel();
                                                 ConfigPayload selected = payloads[which];
+
                                                 try {
-                                                    finalButtonConfig.put(currentIndex, selected.toString());
-                                                    device.addDeviceInfo(new GenericItem(FossilWatchAdapter.ITEM_BUTTONS, finalButtonConfig.toString()));
+                                                    buttonConfig.put(currentIndex, selected.toString());
+                                                    device.addDeviceInfo(new GenericItem(FossilWatchAdapter.ITEM_BUTTONS, buttonConfig.toString()));
                                                     updateSettings();
-                                                    LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_OVERWRITE_BUTTONS));
+                                                    Intent buttonIntent = new Intent(QHybridSupport.QHYBRID_COMMAND_OVERWRITE_BUTTONS);
+                                                    buttonIntent.putExtra(FossilWatchAdapter.ITEM_BUTTONS, buttonConfig.toString());
+                                                    LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(buttonIntent);
                                                 } catch (JSONException e) {
                                                     e.printStackTrace();
                                                 }
@@ -455,9 +457,9 @@ public class ConfigActivity extends AbstractGBActivity {
 
                         buttonLayout.addView(buttonTextView);
                     }
-                } catch (
-                        JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
+                    GB.toast("error parsing button config", Toast.LENGTH_LONG, GB.ERROR);
                 }
             }
         });
