@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fos
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
@@ -34,10 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Req
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.RequestMtuRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.SetDeviceStateRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.AlarmsGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.AlarmsSetRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.button.ButtonConfigurationGetRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.NotificationFilterPutRequest;
@@ -48,6 +47,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mis
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.RequestHandControlRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.ITEM_STEP_GOAL;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.ITEM_TIMEZONE_OFFSET;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.ITEM_VIBRATION_STRENGTH;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.QHYBRID_EVENT_BUTTON_PRESS;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.QHYBRID_EVENT_MULTI_BUTTON_PRESS;
 
@@ -58,8 +60,13 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     private int MTU = 23;
 
-    private String ITEM_MTU = "MTU";
+    private final String ITEM_MTU = "MTU";
     static public final String ITEM_BUTTONS = "BUTTONS";
+
+    private final String CONFIG_ITEM_STEP_GOAL = "step_goal";
+    private final String CONFIG_ITEM_VIBRATION_STRENGTH = "vibration_strength";
+    private final String CONFIG_ITEM_TIMEZONE_OFFSET = "timezone_offset";
+    public final String CONFIG_ITEM_BUTTONS = "buttons";
 
     private int lastButtonIndex = -1;
 
@@ -76,11 +83,16 @@ public class FossilWatchAdapter extends WatchAdapter {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             queueWrite(new RequestMtuRequest(512), false);
         }
-        queueWrite(new ConfigurationGetRequest(this), false);
+        // queueWrite(new FileCloseRequest((short) 0xFFFF));
+        // queueWrite(new ConfigurationGetRequest(this), false);
+
+        syncConfiguration();
 
         syncNotificationSettings();
 
-        queueWrite(new ButtonConfigurationGetRequest(this) {
+        syncButtonSettings();
+
+        /* queueWrite(new ButtonConfigurationGetRequest(this) {
             @Override
             public void onConfigurationsGet(ConfigPayload[] configs) {
                 super.onConfigurationsGet(configs);
@@ -90,9 +102,41 @@ public class FossilWatchAdapter extends WatchAdapter {
                 String json = buttons.toString();
                 getDeviceSupport().getDevice().addDeviceInfo(new GenericItem(ITEM_BUTTONS, json));
             }
-        });
+        }); */
 
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED), false);
+    }
+
+    private void syncButtonSettings(){
+        String buttonConfig = getDeviceSpecificPreferences().getString(CONFIG_ITEM_BUTTONS, null);
+        getDeviceSupport().getDevice().addDeviceInfo(new GenericItem(ITEM_BUTTONS, buttonConfig));
+        overwriteButtons(buttonConfig);
+    }
+
+    private SharedPreferences getDeviceSpecificPreferences(){
+        return GBApplication.getDeviceSpecificSharedPrefs(
+                getDeviceSupport().getDevice().getAddress()
+        );
+    }
+
+    private void syncConfiguration(){
+        SharedPreferences preferences = getDeviceSpecificPreferences();
+
+        int stepGoal = preferences.getInt(CONFIG_ITEM_STEP_GOAL, 1000000);
+        byte vibrationStrength = (byte) preferences.getInt(CONFIG_ITEM_VIBRATION_STRENGTH, 100);
+        int timezoneOffset = preferences.getInt(CONFIG_ITEM_TIMEZONE_OFFSET, 0);
+
+        GBDevice device = getDeviceSupport().getDevice();
+
+        device.addDeviceInfo(new GenericItem(ITEM_STEP_GOAL, String.valueOf(stepGoal)));
+        device.addDeviceInfo(new GenericItem(ITEM_VIBRATION_STRENGTH, String.valueOf(vibrationStrength)));
+        device.addDeviceInfo(new GenericItem(ITEM_TIMEZONE_OFFSET, String.valueOf(timezoneOffset)));
+
+        queueWrite(new ConfigurationPutRequest(new ConfigurationPutRequest.ConfigItem[]{
+                new ConfigurationPutRequest.DailyStepGoalConfigItem(stepGoal),
+                new ConfigurationPutRequest.VibrationStrengthConfigItem(vibrationStrength),
+                new ConfigurationPutRequest.TimezoneOffsetConfigItem((short) timezoneOffset)
+        }, this));
     }
 
     public int getMTU() {
@@ -132,9 +176,15 @@ public class FossilWatchAdapter extends WatchAdapter {
     }
 
     @Override
-    public void overwriteButtons() {
+    public void overwriteButtons(String jsonConfigString) {
         try {
-            JSONArray buttonConfigJson = new JSONArray(getDeviceSupport().getDevice().getDeviceInfo(ITEM_BUTTONS).getDetails());
+            if(jsonConfigString == null) return;
+            getDeviceSpecificPreferences()
+                    .edit()
+                    .putString(CONFIG_ITEM_BUTTONS, jsonConfigString)
+                    .apply();
+            JSONArray buttonConfigJson = new JSONArray(jsonConfigString);
+            // JSONArray buttonConfigJson = new JSONArray(getDeviceSupport().getDevice().getDeviceInfo(ITEM_BUTTONS).getDetails());
 
             ConfigPayload[] payloads = new ConfigPayload[buttonConfigJson.length()];
 
@@ -198,6 +248,11 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     @Override
     public void setStepGoal(int stepGoal) {
+        getDeviceSpecificPreferences()
+                .edit()
+                .putInt(CONFIG_ITEM_STEP_GOAL, stepGoal)
+                .apply();
+
         queueWrite(new ConfigurationPutRequest(new ConfigurationPutRequest.DailyStepGoalConfigItem(stepGoal), this) {
             @Override
             public void onFilePut(boolean success) {
@@ -210,6 +265,11 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     @Override
     public void setVibrationStrength(short strength) {
+        getDeviceSpecificPreferences()
+                .edit()
+                .putInt(CONFIG_ITEM_VIBRATION_STRENGTH, (byte) strength)
+                .apply();
+
         ConfigurationPutRequest.ConfigItem vibrationItem = new ConfigurationPutRequest.VibrationStrengthConfigItem((byte) strength);
 
 
@@ -268,6 +328,11 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     @Override
     public void setTimezoneOffsetMinutes(short offset) {
+        getDeviceSpecificPreferences()
+                .edit()
+                .putInt(CONFIG_ITEM_TIMEZONE_OFFSET, offset)
+                .apply();
+
         queueWrite(new ConfigurationPutRequest(new ConfigurationPutRequest.TimezoneOffsetConfigItem(offset), this){
             @Override
             public void onFilePut(boolean success) {
