@@ -685,6 +685,7 @@
     <string name="devicetype_bfh16">BFH-16</string>
     <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
+    <string name="devicetype_banglejs">Bangle.js</string>
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>
     <string name="devicetype_amazfit_gts">Amazfit GTS</string>
