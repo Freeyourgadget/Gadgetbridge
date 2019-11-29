@@ -63,6 +63,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         builder.setGattCallback(this);
         builder.notify(rxCharacteristic, true);
 
+        uartTx(builder, " \u0003"); // clear active line
         setTime(builder);
         //sendSettings(builder);
 
@@ -120,7 +121,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     void setTime(TransactionBuilder builder) {
 
-        uartTx(builder, "setTime("+(System.currentTimeMillis()/1000)+");E.setTimeZone("+(TimeZone.getDefault().getRawOffset()/3600000)+");\n");
+        uartTx(builder, "\u0010setTime("+(System.currentTimeMillis()/1000)+");E.setTimeZone("+(TimeZone.getDefault().getRawOffset()/3600000)+");\n");
     }
 
     @Override
