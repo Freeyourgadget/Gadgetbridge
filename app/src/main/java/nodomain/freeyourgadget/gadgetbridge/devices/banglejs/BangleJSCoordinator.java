@@ -49,11 +49,12 @@ public class BangleJSCoordinator extends AbstractDeviceCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
-        if (name != null && name.startsWith("Bangle.js")) {
+        // FIXME - disabled for debug
+        //if (name != null && name.startsWith("Bangle.js")) {
             return DeviceType.BANGLEJS;
-        }
+        //}
 
-        return DeviceType.UNKNOWN;
+        //return DeviceType.UNKNOWN;
     }
 
     @Override
@@ -74,12 +75,12 @@ public class BangleJSCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsWeather() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean supportsFindDevice() {
-        return false;
+        return true;
     }
 
     @Override
@@ -114,7 +115,7 @@ public class BangleJSCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public int getAlarmSlotCount() {
-        return 0;
+        return 10;
     }
 
     @Override
