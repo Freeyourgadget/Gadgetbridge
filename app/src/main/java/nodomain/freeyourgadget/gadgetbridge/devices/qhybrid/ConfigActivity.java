@@ -129,7 +129,7 @@ public class ConfigActivity extends AbstractGBActivity {
                                 prefs.edit().putInt("QHYBRID_TIME_OFFSET", hourPicker.getValue() * 60 + minPicker.getValue()).apply();
                                 updateTimeOffset();
                                 LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_UPDATE));
-                                Toast.makeText(ConfigActivity.this, "change might take some seconds...", Toast.LENGTH_SHORT).show();
+                                GB.toast("change might take some seconds...", Toast.LENGTH_SHORT, GB.INFO);
                             }
                         })
                         .setNegativeButton("cancel", null)
@@ -174,7 +174,7 @@ public class ConfigActivity extends AbstractGBActivity {
                                 prefs.edit().putInt("QHYBRID_TIMEZONE_OFFSET", hourPicker.getValue() * 60 + minPicker.getValue()).apply();
                                 updateTimezoneOffset();
                                 LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_UPDATE_TIMEZONE));
-                                Toast.makeText(ConfigActivity.this, "change might take some seconds...", Toast.LENGTH_SHORT).show();
+                                GB.toast("change might take some seconds...", Toast.LENGTH_SHORT, GB.INFO);
                             }
                         })
                         .setNegativeButton("cancel", null)
@@ -616,24 +616,24 @@ public class ConfigActivity extends AbstractGBActivity {
         public void onReceive(Context context, Intent intent) {
             boolean error = intent.getBooleanExtra("EXTRA_ERROR", false);
             if (error) {
-                Toast.makeText(ConfigActivity.this, "Error overwriting buttons", Toast.LENGTH_SHORT).show();
+                GB.toast("Error overwriting buttons", Toast.LENGTH_SHORT, GB.ERROR);
                 return;
             }
-            Toast.makeText(ConfigActivity.this, "Successfully overwritten buttons", Toast.LENGTH_SHORT).show();
+            GB.toast("Successfully overwritten buttons", Toast.LENGTH_SHORT, GB.INFO);
         }
     };
 
     BroadcastReceiver buttonReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(ConfigActivity.this, "Button " + intent.getIntExtra("BUTTON", -1) + " pressed", Toast.LENGTH_SHORT).show();
+            GB.toast("Button " + intent.getIntExtra("BUTTON", -1) + " pressed", Toast.LENGTH_SHORT, GB.INFO);
         }
     };
 
     BroadcastReceiver settingsReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(ConfigActivity.this, "Setting updated", Toast.LENGTH_SHORT).show();
+            GB.toast("Setting updated", Toast.LENGTH_SHORT, GB.INFO);
             updateSettings();
         }
     };
