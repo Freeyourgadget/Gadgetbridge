@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.IdentityHashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -58,14 +59,19 @@ public class QHybridAppChoserActivity extends AbstractGBActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                final IdentityHashMap<PackageInfo, String> nameMap = new IdentityHashMap(packages.size());
+                for(PackageInfo info : packages){
+                    CharSequence label = manager.getApplicationLabel(info.applicationInfo);
+                    if(label == null) label = info.packageName;
+                    nameMap.put(info, label.toString());
+                }
+
                 Collections.sort(packages, new Comparator<PackageInfo>() {
                     @Override
                     public int compare(PackageInfo packageInfo, PackageInfo t1) {
-                        return manager.getApplicationLabel(packageInfo.applicationInfo)
-                                .toString()
+                        return nameMap.get(packageInfo)
                                 .compareToIgnoreCase(
-                                        manager.getApplicationLabel(t1.applicationInfo)
-                                                .toString()
+                                        nameMap.get(t1)
                                 );
                     }
                 });
