@@ -352,7 +352,7 @@ public class ConfigActivity extends AbstractGBActivity {
                     }
                 });
 
-                if (device.getDeviceInfo(QHybridSupport.ITEM_EXTENDED_VIBRATION_SUPPORT).getDetails().equals("true")) {
+                if ("true".equals(device.getDeviceInfo(QHybridSupport.ITEM_EXTENDED_VIBRATION_SUPPORT).getDetails())) {
                     final int strengthProgress = (int) (Math.log(Double.parseDouble(device.getDeviceInfo(QHybridSupport.ITEM_VIBRATION_STRENGTH).getDetails()) / 25) / Math.log(2));
 
                     setSettingsEnabled(true);
