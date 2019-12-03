@@ -339,7 +339,7 @@ public class ConfigActivity extends AbstractGBActivity {
                     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                         if (i == EditorInfo.IME_ACTION_DONE || i == EditorInfo.IME_ACTION_NEXT) {
                             String t = textView.getText().toString();
-                            if (!t.equals(null)) {
+                            if (!t.isEmpty()) {
                                 device.addDeviceInfo(new GenericItem(QHybridSupport.ITEM_STEP_GOAL, t));
                                 Intent intent = new Intent(QHybridSupport.QHYBRID_COMMAND_UPDATE_SETTINGS);
                                 intent.putExtra("EXTRA_SETTING", QHybridSupport.ITEM_STEP_GOAL);
