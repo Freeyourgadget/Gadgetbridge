@@ -756,6 +756,19 @@
     <string name="widget_20_minutes">20 minutes</string>
     <string name="widget_1_hour">1 hour</string>
     <string name="icon_placeholder" translatable="false">Icon</string>
+    <string name="watch_not_connected">Watch not connected</string>
+    <string name="qhybrid_vibration_strength">vibration strength:</string>
+    <string name="qhybrid_goal_in_steps">Goal in steps</string>
+    <string name="qhybrid_time_shift">time shift</string>
+    <string name="qhybrid_second_timezone_offset_relative_to_utc">second timezone offset relative to UTC</string>
+    <string name="qhybrid_overwrite_buttons">overwrite buttons</string>
+    <string name="qhybrid_use_activity_hand_as_notification_counter">use activity hand as notification counter</string>
+    <string name="qhybrid_prompt_million_steps">Please set the step count to a million to activate that.</string>
+    <string name="qhybrid_buttons_overwrite_success">Successfully overwritten buttons</string>
+    <string name="qhybrid_buttons_overwrite_error">Error overwriting buttons</string>
+    <string name="qhybrid_offset_timezone">offset timezone by</string>
+    <string name="qhybrid_changes_delay_prompt">change might take some seconds...</string>
+    <string name="qhybrid_offset_time_by">offset time by</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>
         <item quantity="two">%d hours</item>

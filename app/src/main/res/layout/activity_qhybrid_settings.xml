@@ -23,7 +23,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="vibration strength:" />
+                android:text="@string/qhybrid_vibration_strength" />
 
 
             <SeekBar
@@ -38,7 +38,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Goal in steps" />
+            android:text="@string/qhybrid_goal_in_steps" />
 
         <EditText
             android:id="@+id/stepGoalEt"
@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:text="time shift" />
+                android:text="@string/qhybrid_time_shift" />
 
             <TextView
                 android:id="@+id/qhybridTimeOffset"
@@ -72,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:text="second timezone offset relative to UTC" />
+                android:text="@string/qhybrid_second_timezone_offset_relative_to_utc" />
 
             <TextView
                 android:id="@+id/timezoneOffset"
@@ -86,14 +86,14 @@
             android:id="@+id/buttonOverwriteButtons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="overwrite buttons" />
+            android:text="@string/qhybrid_overwrite_buttons" />
 
 
         <CheckBox
             android:id="@+id/checkBoxUserActivityHand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="use activity hand as notification counter" />
+            android:text="@string/qhybrid_use_activity_hand_as_notification_counter" />
 
         <LinearLayout
             android:layout_width="match_parent"

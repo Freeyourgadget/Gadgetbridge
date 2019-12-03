@@ -121,7 +121,7 @@ public class ConfigActivity extends AbstractGBActivity {
                 layout2.setGravity(Gravity.CENTER);
 
                 new AlertDialog.Builder(ConfigActivity.this)
-                        .setTitle("offset time by")
+                        .setTitle(getString(R.string.qhybrid_offset_time_by))
                         .setView(layout2)
                         .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             @Override
@@ -129,7 +129,7 @@ public class ConfigActivity extends AbstractGBActivity {
                                 prefs.edit().putInt("QHYBRID_TIME_OFFSET", hourPicker.getValue() * 60 + minPicker.getValue()).apply();
                                 updateTimeOffset();
                                 LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_UPDATE));
-                                GB.toast("change might take some seconds...", Toast.LENGTH_SHORT, GB.INFO);
+                                GB.toast(getString(R.string.qhybrid_changes_delay_prompt), Toast.LENGTH_SHORT, GB.INFO);
                             }
                         })
                         .setNegativeButton("cancel", null)
@@ -166,7 +166,7 @@ public class ConfigActivity extends AbstractGBActivity {
                 layout2.setGravity(Gravity.CENTER);
 
                 new AlertDialog.Builder(ConfigActivity.this)
-                        .setTitle("offset timezone by")
+                        .setTitle(getString(R.string.qhybrid_offset_timezone))
                         .setView(layout2)
                         .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             @Override
@@ -174,7 +174,7 @@ public class ConfigActivity extends AbstractGBActivity {
                                 prefs.edit().putInt("QHYBRID_TIMEZONE_OFFSET", hourPicker.getValue() * 60 + minPicker.getValue()).apply();
                                 updateTimezoneOffset();
                                 LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_UPDATE_TIMEZONE));
-                                GB.toast("change might take some seconds...", Toast.LENGTH_SHORT, GB.INFO);
+                                GB.toast(getString(R.string.qhybrid_changes_delay_prompt), Toast.LENGTH_SHORT, GB.INFO);
                             }
                         })
                         .setNegativeButton("cancel", null)
@@ -297,7 +297,7 @@ public class ConfigActivity extends AbstractGBActivity {
 
         device = GBApplication.app().getDeviceManager().getSelectedDevice();
         if (device == null || device.getType() != DeviceType.FOSSILQHYBRID) {
-            setSettingsError("Watch not connected");
+            setSettingsError(getString(R.string.watch_not_connected));
         } else {
             updateSettings();
         }
@@ -374,7 +374,7 @@ public class ConfigActivity extends AbstractGBActivity {
                         public void onCheckedChanged(CompoundButton buttonView, boolean checked) {
                             if (!device.getDeviceInfo(QHybridSupport.ITEM_STEP_GOAL).getDetails().equals("1000000")) {
                                 new AlertDialog.Builder(ConfigActivity.this)
-                                        .setMessage("Please set the step count to a million to activate that.")
+                                        .setMessage(getString(R.string.qhybrid_prompt_million_steps))
                                         .setPositiveButton("ok", null)
                                         .show();
                                 buttonView.setChecked(false);
@@ -617,10 +617,10 @@ public class ConfigActivity extends AbstractGBActivity {
         public void onReceive(Context context, Intent intent) {
             boolean error = intent.getBooleanExtra("EXTRA_ERROR", false);
             if (error) {
-                GB.toast("Error overwriting buttons", Toast.LENGTH_SHORT, GB.ERROR);
+                GB.toast(getString(R.string.qhybrid_buttons_overwrite_error), Toast.LENGTH_SHORT, GB.ERROR);
                 return;
             }
-            GB.toast("Successfully overwritten buttons", Toast.LENGTH_SHORT, GB.INFO);
+            GB.toast(getString(R.string.qhybrid_buttons_overwrite_success), Toast.LENGTH_SHORT, GB.INFO);
         }
     };
 
