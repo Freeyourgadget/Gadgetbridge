@@ -195,6 +195,7 @@ public class ConfigActivity extends AbstractGBActivity {
             GB.toast("error getting configurations", Toast.LENGTH_SHORT, GB.ERROR, e);
             list = new ArrayList<>();
         }
+        // null is added to indicate the plus button added handled in PackageAdapter#getView
         list.add(null);
         appList.setAdapter(adapter = new PackageAdapter(this, R.layout.qhybrid_package_settings_item, list));
         appList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -495,6 +496,7 @@ public class ConfigActivity extends AbstractGBActivity {
             e.printStackTrace();
             GB.toast("error getting configurations", Toast.LENGTH_SHORT, GB.ERROR, e);
         }
+        // null is added to indicate the plus button added handled in PackageAdapter#getView
         list.add(null);
         adapter.notifyDataSetChanged();
     }
