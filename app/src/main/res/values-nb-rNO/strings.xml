@@ -325,7 +325,7 @@
     <string name="dateformat_time">Tid</string>
     <string name="dateformat_date_time">Tid og dato</string>
     <string name="mi2_prefs_button_actions">Knappevalg</string>
-    <string name="mi2_prefs_button_actions_summary">Angi handlinger for Mi Band 2 knappetrykk</string>
+    <string name="mi2_prefs_button_actions_summary">Angi handlinger for knappetrykk</string>
     <string name="mi2_prefs_button_press_count">Antall trykk på knapp</string>
     <string name="mi2_prefs_button_press_count_summary">Antall trykk på knapp for å utløse meldingskringkasting</string>
     <string name="mi2_prefs_button_press_broadcast">Kringkastingsmelding å sende</string>
@@ -791,4 +791,5 @@
 \nMerk: Du må ikke installere .res og .gps hvis disse er akkurat de samme som dem som allerede er installert.
 \n
 \nFORTSETT PÅ EGEN RISIKO!</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
 </resources>

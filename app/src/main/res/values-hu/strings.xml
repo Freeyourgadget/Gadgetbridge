@@ -450,4 +450,5 @@
     <string name="notif_battery_low">%1$ akkumulátora merül</string>
     <string name="notif_battery_low_extended">%1$ akkumulátora merül: %2$s</string>
     <string name="debugactivity_really_factoryreset">A gyári beállítások visszaállítása minden adatot töröl a kapcsolódott eszközről (ha támogatott). A Xiaomi/Huami eszközökön emellett megváltozik a Bluetooth MAC cím is, így új eszközként jelennek meg a Gadgetbridge számára.</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
 </resources>

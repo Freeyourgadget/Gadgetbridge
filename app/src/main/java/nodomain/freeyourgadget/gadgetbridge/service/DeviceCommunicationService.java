@@ -1,8 +1,8 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Avamander, Carsten Pfeiffer,
-    dakhnod, Daniele Gobbetti, Daniel Hauck, Dikay900, Frank Slezak, ivanovlev,
-    João Paulo Barraca, José Rebelo, Julien Pivotto, Kasha, Martin, Matthieu
-    Baerts, Sebastian Kranz, Sergey Trofimov, Steffen Liebergeld, Taavi Eomäe,
-    Uwe Hermann
+/*  Copyright (C) 2015-2019 Andreas Böhler, Andreas Shimokawa, Avamander,
+    Carsten Pfeiffer, dakhnod, Daniele Gobbetti, Daniel Hauck, Dikay900, Frank
+    Slezak, ivanovlev, João Paulo Barraca, José Rebelo, Julien Pivotto, Kasha,
+    keeshii, Martin, Matthieu Baerts, Nephiel, Sebastian Kranz, Sergey Trofimov,
+    Steffen Liebergeld, Taavi Eomäe, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -44,14 +44,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmClockReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
@@ -75,13 +73,13 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.service.receivers.AutoConnectIntervalReceiver;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBAutoFetchReceiver;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.EmojiConverter;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ADD_CALENDAREVENT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_APP_CONFIGURE;
@@ -193,6 +191,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private BluetoothPairingRequestReceiver mBlueToothPairingRequestReceiver = null;
     private AlarmClockReceiver mAlarmClockReceiver = null;
     private GBAutoFetchReceiver mGBAutoFetchReceiver = null;
+    private AutoConnectIntervalReceiver mAutoConnectInvervalReceiver= null;
 
     private AlarmReceiver mAlarmReceiver = null;
     private CalendarReceiver mCalendarReceiver = null;
@@ -760,6 +759,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mGBAutoFetchReceiver = new GBAutoFetchReceiver();
                 registerReceiver(mGBAutoFetchReceiver, new IntentFilter("android.intent.action.USER_PRESENT"));
             }
+            if (mAutoConnectInvervalReceiver == null) {
+                mAutoConnectInvervalReceiver= new AutoConnectIntervalReceiver(this);
+                registerReceiver(mAutoConnectInvervalReceiver, new IntentFilter("GB_RECONNECT"));
+            }
         } else {
             if (mPhoneCallReceiver != null) {
                 unregisterReceiver(mPhoneCallReceiver);
@@ -808,6 +811,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if (mGBAutoFetchReceiver != null) {
                 unregisterReceiver(mGBAutoFetchReceiver);
                 mGBAutoFetchReceiver = null;
+            }
+            if (mAutoConnectInvervalReceiver != null) {
+                unregisterReceiver(mAutoConnectInvervalReceiver);
+                mAutoConnectInvervalReceiver = null;
             }
         }
     }

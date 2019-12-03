@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Christian
-    Fischer, Daniele Gobbetti, José Rebelo, Szymon Tomasz Stefanek
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Lem Dulfo,
+    vanous
 
     This file is part of Gadgetbridge.
 

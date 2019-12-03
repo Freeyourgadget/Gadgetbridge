@@ -25,4 +25,5 @@
     <string name="appmananger_app_delete">刪除</string>
     <string name="appmananger_app_delete_cache">刪除並清除緩存</string>
     <string name="appmananger_app_reinstall">重新安裝</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
 </resources>

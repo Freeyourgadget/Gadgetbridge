@@ -108,7 +108,7 @@
     <string name="pref_title_enable_outgoing_call">Soporte para llamadas salientes</string>
     <string name="pref_summary_enable_outgoing_call">Desactivar esto evitará que el Pebble 2/LE vibre en llamadas salientes</string>
     <string name="pref_title_enable_pebblekit">Permitir el acceso a aplicaciones Android de terceros</string>
-    <string name="pref_summary_enable_pebblekit">habilitar el soporte experimental para aplicaciones Android que usan PebbleKit</string>
+    <string name="pref_summary_enable_pebblekit">Habilitar el soporte experimental para aplicaciones Android que usan PebbleKit</string>
     <string name="pref_header_pebble_timeline">Timeline Pebble</string>
     <string name="pref_title_sunrise_sunset">Salida y puesta de Sol</string>
     <string name="pref_summary_sunrise_sunset">Enviar las horas de salida y puesta de Sol basándose en la localización a la timeline del Pebble</string>
@@ -231,7 +231,7 @@
     <string name="stats_y_axis_label">Pasos por minuto</string>
     <string name="control_center_find_lost_device">Encuentra un dispositivo perdido</string>
     <string name="control_center_cancel_to_stop_vibration">Cancelar para detener la vibración.</string>
-    <string name="title_activity_charts">Tu actividad</string>
+    <string name="title_activity_charts">Actividad y sueño</string>
     <string name="title_activity_set_alarm">Configurar alarmas</string>
     <string name="controlcenter_start_configure_alarms">Configurar alarmas</string>
     <string name="title_activity_alarm_details">Detalles de alarma</string>
@@ -259,11 +259,11 @@
     <string name="notif_battery_low_percent">A %1$s le queda: %2$s%% batería</string>
     <string name="notif_battery_low_bigtext_last_charge_time">Última carga: %s \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Número de cargas: %s</string>
-    <string name="sleepchart_your_sleep">Tu sueño</string>
+    <string name="sleepchart_your_sleep">Sueño</string>
     <string name="weeksleepchart_sleep_a_week">Sueño por semana</string>
     <string name="weeksleepchart_today_sleep_description">Sueño hoy, objetivo: %1$s</string>
     <string name="weekstepschart_steps_a_week">Pasos por semana</string>
-    <string name="activity_sleepchart_activity_and_sleep">Tu actividad y sueño</string>
+    <string name="activity_sleepchart_activity_and_sleep">Actividad</string>
     <string name="updating_firmware">Instalando firmware…</string>
     <string name="fwapp_install_device_not_ready">El archivo no puede ser instalado, el dispositivo no está listo.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
@@ -291,7 +291,7 @@
     <string name="pref_summary_dont_ack_transfers">Si los datos no son marcados como descargados, no serán borrados de tu Mi Band. Útil si Gadgetbridge se usa conjuntamente con otras apps.</string>
     <string name="pref_summary_keep_data_on_device">Mantendrá los datos de actividad en la Mi Band incluso después de la sincronización. Útil si GB se usa junto con otras apps.</string>
     <string name="pref_title_low_latency_fw_update">Usa el modo de baja latencia para las instalaciones de firmware</string>
-    <string name="pref_summary_low_latency_fw_update">Esto podría ayudar en dispositivos donde las instalaciones de firmware fallan</string>
+    <string name="pref_summary_low_latency_fw_update">Esto podría ayudar en dispositivos donde las instalaciones de firmware fallan.</string>
     <string name="live_activity_steps_history">Historial de pasos</string>
     <string name="live_activity_current_steps_per_minute">Pasos/min actuales</string>
     <string name="live_activity_total_steps">Pasos totales</string>
@@ -348,7 +348,7 @@
     <string name="charts_legend_heartrate">Ritmo cardíaco</string>
     <string name="live_activity_heart_rate">Ritmo cardíaco</string>
     <string name="pref_title_pebble_health_store_raw">Almacenar datos en bruto en la base de datos </string>
-    <string name="pref_summary_pebble_health_store_raw">Una vez seleccionado, los datos archivados se guardan en bruto y están disponibles para ser interpretados más tarde. Nota: ¡La base de datos será más grande!</string>
+    <string name="pref_summary_pebble_health_store_raw">Guarda los datos en bruto para poder ser interpretados más tarde, esto incrementa el tamaño de la base de datos.</string>
     <string name="action_db_management">Administración de bases de datos</string>
     <string name="title_activity_db_management">Administración de bases de datos</string>
     <string name="activity_db_management_import_export_explanation">La base de datos usa la siguiente ubicación en su dispositivo.\nEsta ubicación está accesible para otras aplicaciones Android y para su ordenador.\nEncontrará sus bases de datos exportadas (o la que quiere importar) aquí:</string>
@@ -377,7 +377,7 @@
     <string name="title_activity_vibration">Vibración</string>
     <!--Strings related to Pebble Pairing Activity-->
     <string name="title_activity_pebble_pairing">Emparejando con Pebble</string>
-    <string name="pebble_pairing_hint">En su dispositivo Android aparecerá un mensaje para emparejar. Si no aparece, mira en el cajón de notificaciones y acepta la propuesta de emparejamiento. Después acepta también en tu Pebble</string>
+    <string name="pebble_pairing_hint">En su dispositivo Android aparecerá un mensaje para emparejar. Si no aparece, mira en el cajón de notificaciones y acepta la propuesta de emparejamiento. Después acepta también en tu Pebble.</string>
     <string name="weather_notification_label">Asegúrate de que este tema esté activado en la aplicación de notificación del tiempo para obtener la información en tu Pebble.\n\nNo se requiere configuración.\n\nPuedes activar la aplicación del tiempo del sistema desde la configuración de la app.\n\nLas watchfaces soportadas mostrarán la información del tiempo automáticamente.</string>
     <string name="pref_title_setup_bt_pairing">Activar el emparejamiento Bluetooth</string>
     <string name="pref_summary_setup_bt_pairing">Desactiva esto si tienes problemas de conexión</string>
@@ -418,7 +418,6 @@
     <string name="mi2_prefs_button_press_count_summary">Número de presiones para activar el envío del mensaje</string>
     <string name="mi2_prefs_button_press_broadcast">Mensaje para enviar</string>
     <string name="mi2_prefs_button_press_broadcast_summary">Enviar mensaje después de un número definido de pulsaciones</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value">nodomain.freeyourgadget.gadgetbridge.mibandButtonPressed</string>
     <string name="mi2_prefs_button_action">Activar acción por botón</string>
     <string name="mi2_prefs_button_action_summary">Activar acción por un número definido de pulsaciones</string>
     <string name="mi2_prefs_button_action_vibrate">Activar la vibración de la pulsera</string>
@@ -663,15 +662,15 @@
     <string name="title_activity_device_specific_settings">Configuraciones específicas del dispositivo</string>
     <string name="pref_title_authkey">Clave de autenticación</string>
     <string name="pref_summary_authkey">Cambie la clave de autenticación a una clave común en todos sus dispositivos Android desde los que desea conectarse. La clave predeterminada anterior para todos los dispositivos es 0123456789@ABCDE</string>
-    <string name="fw_upgrade_notice_amazfitcor2">Está a punto de instalar el «firmware» %s en su Amazfit Cor 2.
-\n
-\nAsegúrese de instalar el archivo .fw y, a continuación, el archivo .res. Se reiniciará la pulsera tras instalar el archivo .fw.
-\n
+    <string name="fw_upgrade_notice_amazfitcor2">Está a punto de instalar el firmware %s en su Amazfit Cor 2. 
+\n 
+\nAsegúrese de instalar el archivo .fw y, a continuación, el archivo .res. La pulsera se reiniciará despues de instalar el archivo .fw. 
+\n 
 \nNota: no es necesario instalar el archivo .res si es idéntico al instalado previamente. 
-\n
-\nPROCEDA BAJO SU PROPIA CUENTA Y RIESGO.
-\n
-\nNO SE HA REALIZADO NINGUNA PRUEBA. QUIZÁ NECESITE INSTALAR UN «FIRMWARE» BEATS_W SI EL NOMBRE DE SU DISPOSITIVO ES «Amazfit Band 2»</string>
+\n 
+\nPROCEDA BAJO SU PROPIO RIESGO. 
+\n 
+\nNO SE HA REALIZADO NINGUNA PRUEBA. QUIZÁ NECESITE INSTALAR UN FIRMWARE BEATS_W SI EL NOMBRE DE SU DISPOSITIVO ES \"Amazfit Band 2\"</string>
     <string name="fw_upgrade_notice_miband4">Está a punto de instalar el «firmware» %s en su Mi Band 4.
 \n
 \nAsegúrese de instalar el archivo .fw y, a continuación, el archivo .res. Se reiniciará la pulsera tras instalar el archivo .fw.
@@ -774,4 +773,18 @@
     <string name="pref_title_chart_sleep_rolling_24_hour">Intervalo de sueño</string>
     <string name="pref_chart_sleep_rolling_24_on">Últimas 24 horas</string>
     <string name="pref_chart_sleep_rolling_24_off">De mediodía a mediodía</string>
+    <string name="appwidget_sleep_alarm_widget_label">Alarma de sueño</string>
+    <string name="widget_sleep_label">Sueño: %1$s</string>
+    <string name="pref_display_add_device_fab">Botón de añadir nuevo dispositivo</string>
+    <string name="devicetype_makibes_hr3">Makibes HR3</string>
+    <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
+    <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
+    <string name="devicetype_amazfit_gts">Amazfit GTS</string>
+    <string name="fw_upgrade_notice_amazfitgts">Está a punto de instalar el firmware %s en su Amazfit GTS.
+\n
+\nPor favor, asegúrese de instalar el archivo .fw primero, el archivo .res a continuación y por ultimo el archivo .gps. Su reloj se reiniciara después de instalar el archivo .fw.
+\n
+\nNota: No hace falta instalar los archivos .res y .gps si los archivos son idénticos a los previamente instalados.
+\n
+\n¡PROCEDE BAJO TU PROPIO RIESGO!</string>
 </resources>

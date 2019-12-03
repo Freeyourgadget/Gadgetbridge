@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2019 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti, Dikay900, Pavel Elagin, walkjivefly
+    Daniele Gobbetti, Dikay900, Pavel Elagin, vanous, walkjivefly
 
     This file is part of Gadgetbridge.
 

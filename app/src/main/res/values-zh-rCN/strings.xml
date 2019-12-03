@@ -324,7 +324,7 @@
     <string name="dateformat_time">仅时间</string>
     <string name="dateformat_date_time">时间和日期</string>
     <string name="mi2_prefs_button_actions">按钮操作</string>
-    <string name="mi2_prefs_button_actions_summary">指定小米手环2按钮上的操作</string>
+    <string name="mi2_prefs_button_actions_summary">指定按钮按下时的操作</string>
     <string name="mi2_prefs_button_press_count">按钮按下计数</string>
     <string name="mi2_prefs_button_press_count_summary">触发消息广播的按钮按数</string>
     <string name="mi2_prefs_button_action">启用按钮操作</string>
@@ -792,4 +792,5 @@
 \n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件。
 \n
 \n风险自担！</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
 </resources>

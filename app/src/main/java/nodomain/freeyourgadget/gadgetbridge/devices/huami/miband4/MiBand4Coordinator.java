@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2019 Andreas Shimokawa
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, HardLight, José Rebelo
 
     This file is part of Gadgetbridge.
 

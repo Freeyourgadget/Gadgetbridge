@@ -1,5 +1,5 @@
-/*  Copyright (C) 2017-2019 Carsten Pfeiffer, Daniele Gobbetti, João Paulo
-    Barraca, Roi Greenberg
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, João Paulo Barraca, Nephiel, Roi Greenberg
 
     This file is part of Gadgetbridge.
 

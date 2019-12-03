@@ -17,7 +17,7 @@
     <string name="controlcenter_navigation_drawer_close">Pechar menú de navegación</string>
     <string name="controlcenter_snackbar_need_longpress">Manter pulsado o icono para desconectar</string>
     <string name="controlcenter_snackbar_disconnecting">Desconectando</string>
-    <string name="controlcenter_snackbar_connecting">Conectando</string>
+    <string name="controlcenter_snackbar_connecting">Conectando…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Capturando pantalla do dispositivo</string>
     <string name="title_activity_debug">Depurar</string>
     <string name="title_activity_appmanager">Xestor de App</string>
@@ -40,13 +40,13 @@
     <string name="title_activity_appblacklist">Bloqueo de notificacións</string>
     <string name="title_activity_calblacklist">Calendarios bloqueados</string>
     <string name="title_activity_fw_app_insaller">Instalador de FW/App</string>
-    <string name="fw_upgrade_notice">Está a piques de instalar o firmware %s no lugar do actual na súa Mi Band.</string>
+    <string name="fw_upgrade_notice">Está a piques de instalar o firmware %s.</string>
     <string name="fw_multi_upgrade_notice">Está a piques de instalar os firmwares %1$s e %2$s no canto dos que están actualmente na súa Mi Band.</string>
     <string name="miband_firmware_known">Este firmware foi probado e é compatíbel co Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">Este firmware non foi probado e pode non ser compatíbel co Gadgetbridge. 
 \n 
-\nRECOMENDASE QUE NON o instale na súa Mi Band!</string>
-    <string name="miband_firmware_suggest_whitelist">Se aínda así quere proceder e todo continúa a funcionar normalmente, por favor avise aos programadores do Gadgetbridge para que permitan a versión %s do firmware</string>
+\nRECOMENDASE QUE NON o instale!</string>
+    <string name="miband_firmware_suggest_whitelist">Se aínda así quere proceder e todo continúa a funcionar normalmente, por favor avise aos programadores do Gadgetbridge para que permitan a versión %s do firmware.</string>
     <string name="title_activity_settings">Axustes</string>
     <string name="pref_header_general">Axustes xerais</string>
     <string name="pref_title_general_autoconnectonbluetooth">Conectar ao dispositivo ao activar o Bluetooth</string>
@@ -240,8 +240,8 @@
     <string name="alarm_fri_short">Ven</string>
     <string name="alarm_sat_short">Sáb</string>
     <string name="alarm_smart_wakeup">Espertador intelixente</string>
-    <string name="user_feedback_miband_set_alarms_failed">Houbo un erro configurando as alarmas, por favor téntao de novo!</string>
-    <string name="user_feedback_miband_set_alarms_ok">Alarmas enviadas ao dispositivo!</string>
+    <string name="user_feedback_miband_set_alarms_failed">Houbo un erro configurando as alarmas, por favor téntao de novo.</string>
+    <string name="user_feedback_miband_set_alarms_ok">Alarmas enviadas ao dispositivo.</string>
     <string name="chart_no_data_synchronize">Sen datos. Sincronizar dispositivo?</string>
     <string name="user_feedback_miband_activity_data_transfer">A piques de transferir %1$s de datos desde %2$s</string>
     <string name="miband_prefs_fitness_goal">Obxectivo de pasos diarios</string>
@@ -257,11 +257,11 @@
     <string name="notif_battery_low_bigtext_last_charge_time">Última carga: %s 
 \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Número de cargas: %s</string>
-    <string name="sleepchart_your_sleep">O teu sono</string>
+    <string name="sleepchart_your_sleep">Sono</string>
     <string name="weeksleepchart_sleep_a_week">Sono por semana</string>
     <string name="weeksleepchart_today_sleep_description">Sono hoxe, obxectivo: %1$s</string>
     <string name="weekstepschart_steps_a_week">Pasos por semana</string>
-    <string name="activity_sleepchart_activity_and_sleep">A túa actividade e sono</string>
+    <string name="activity_sleepchart_activity_and_sleep">Actividade</string>
     <string name="updating_firmware">Anovando Firmware…</string>
     <string name="fwapp_install_device_not_ready">O arquivo non pode ser instalado, o dispositivo non está preparado.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
@@ -306,7 +306,7 @@
     <string name="fwinstaller_firmware_not_compatible_to_device">Este firmware non é compatíbel co dispositivo</string>
     <string name="miband_prefs_reserve_alarm_calendar">Alarmas reservadas para próximos eventos</string>
     <string name="miband_prefs_hr_sleep_detection">Usar sensor de ritmo cardíaco para mellorar a detección de sono</string>
-    <string name="miband2_prefs_dateformat">Mi2: Formato de data</string>
+    <string name="miband2_prefs_dateformat">Formato de data</string>
     <string name="dateformat_time">Hora</string>
     <string name="dateformat_date_time">Hora e data</string>
     <string name="mi2_prefs_button_actions">Accións do botón</string>
@@ -426,7 +426,7 @@
     <string name="mi2_prefs_button_press_broadcast_summary">Enviar mensaxe despois dun número definido de pulsacións</string>
     <string name="mi2_prefs_button_press_count_match_delay_summary">Retardo despois dunha acción do botón (o número está en button_id intent extra) ou ben 0 para efecto inmediato</string>
     <string name="pref_summary_pebble_health_store_raw">Se marcado, os datos son almacenados no seu formato orixinal ficando disponíbeis para posterior interpretación. Nota: A base de datos será máis grande!</string>
-    <string name="pebble_pairing_hint">Verá unha notificación de emparellamento no seu dispositivo Android. Se non, acceda ás notificacións e acepte a solicitude de emparellamento. posteriormente a solicitude de emparellamento no seu Pebble</string>
+    <string name="pebble_pairing_hint">Verá unha notificación de emparellamento no seu dispositivo Android. Se non, acceda ás notificacións e acepte a solicitude de emparellamento. posteriormente a solicitude de emparellamento no seu Pebble.</string>
     <string name="weather_notification_label">Asegúrate de que este tema esté activado na aplicación de notificación do clima para obter a información no teu Pebble.
 \n
 \nNon se require configuración.
@@ -435,7 +435,7 @@
 \n
 \nAs \"watchfaces\" soportadas amosarán a información do clima automáticamente.</string>
     <string name="discovery_pair_question">Selecciona Emparellar para emparellar os teus dispositivos. Se isto falla, proba de novo sen emparellar.</string>
-    <string name="controlcenter_connect">Conectar</string>
+    <string name="controlcenter_connect">Conectar…</string>
     <string name="fw_upgrade_notice_amazfitcor">Estás a piques de instalar firmware %s no teu Amazfit Cor.
 \n
 \nPor favor, asegúrate de instalar o ficheiro .fw, e despois diso o ficheiro .res. O teu reloxo reiniciará despois de instalar o arquivo .fw.
@@ -516,4 +516,5 @@
     <string name="menuitem_compass">Compás</string>
     <string name="menuitem_settings">Axustes</string>
     <string name="menuitem_alipay">Alipay</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
 </resources>

@@ -1,4 +1,5 @@
-/*  Copyright (C) 2018-2019 jcrode, Johann C. Rode, Sergio Lopez
+/*  Copyright (C) 2018-2019 Carsten Pfeiffer, jcrode, Johann C. Rode,
+    Sergio Lopez
 
     This file is part of Gadgetbridge.
 

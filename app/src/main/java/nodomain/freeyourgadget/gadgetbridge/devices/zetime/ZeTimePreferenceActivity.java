@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018-2019 Sebastian Kranz
+/*  Copyright (C) 2018-2019 Andreas Shimokawa, Sebastian Kranz
 
     This file is part of Gadgetbridge.
 

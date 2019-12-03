@@ -11,13 +11,13 @@
 
         public static final String PREF_BUTTON_ACTION_PRESS_DELAY = "button_action_press_count_delay";
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="button_action_enable"
             android:summary="@string/mi2_prefs_button_action_summary"
             android:title="@string/mi2_prefs_button_action" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:dependency="button_action_enable"
             android:key="button_action_vibrate"

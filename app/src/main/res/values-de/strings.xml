@@ -426,7 +426,7 @@
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_actions">Tastenaktionen</string>
-    <string name="mi2_prefs_button_actions_summary">Bestimmte Aktion bei Tastendruck auf dem Mi Band 2</string>
+    <string name="mi2_prefs_button_actions_summary">Festlegen der Tastendruckaktionen</string>
     <string name="mi2_prefs_button_press_count_summary">Anzahl der Tastendrücke, um die Nachrichtenübertragung auszulösen</string>
     <string name="mi2_prefs_button_press_broadcast">Zu sendende Nachricht</string>
     <string name="mi2_prefs_button_action">Aktiviere Tastenaktion</string>
@@ -802,4 +802,5 @@
 \nHinweis: Du musst die .res und .gps nicht installieren, wenn diese Dateien genau die gleichen sind wie die zuvor installierten.
 \n 
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
 </resources>

@@ -415,7 +415,6 @@
     <string name="mi2_prefs_button_press_count_summary">ブロードキャスト メッセージをトリガーするボタンを押した数</string>
     <string name="mi2_prefs_button_press_broadcast">送信するブロードキャスト メッセージ</string>
     <string name="mi2_prefs_button_press_broadcast_summary">ボタンを押した数で定義された数に達したブロードキャスト メッセージ</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value">nodomain.freeyourgadget.gadgetbridge.mibandButtonPressed</string>
     <string name="mi2_prefs_button_action">ボタンの動作を有効にする</string>
     <string name="mi2_prefs_button_action_summary">指定したボタンを押した数の動作を有効にします</string>
     <string name="mi2_prefs_button_action_vibrate">band の振動を有効にする</string>

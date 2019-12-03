@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2019 Daniele Gobbetti, João Paulo Barraca, tiparega
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Cre3per,
+    Daniele Gobbetti, José Rebelo, Petr Kadlec, protomors
 
     This file is part of Gadgetbridge.
 

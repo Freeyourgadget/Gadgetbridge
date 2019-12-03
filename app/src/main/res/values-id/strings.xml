@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources><string name="app_name">Gadgetbridge</string>
+<resources>
+    <string name="app_name">Gadgetbridge</string>
     <string name="title_activity_controlcenter">Gadgetbridge</string>
     <string name="action_settings">Pengaturan</string>
     <string name="action_quit">Keluar</string>
@@ -23,4 +24,5 @@
     <string name="controlcenter_calibrate_device">Kalibrasi perangkat</string>
     <string name="title_activity_debug">Perbaikan</string>
     <string name="debugactivity_really_factoryreset_title">Kembalikan ke pengaturan pabrik\?</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
 </resources>

@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Julien Pivotto, Uwe Hermann
+    Gobbetti, Julien Pivotto, Matej Drobnič, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -28,6 +28,8 @@ import android.webkit.ValueCallback;
 import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +46,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.UUID;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ExternalPebbleJSActivity;
@@ -110,7 +111,7 @@ class PebbleIoThread extends GBDeviceIoThread {
         }
     }
 
-    public static void sendAppMessage(GBDeviceEventAppMessage message) {
+    private static void sendAppMessage(GBDeviceEventAppMessage message) {
         final String jsEvent;
         try {
             WebViewSingleton.getInstance().checkAppRunning(message.appUUID);
@@ -190,7 +191,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                     mOutStream = new PipedOutputStream();
                     mPebbleLESupport = new PebbleLESupport(this.getContext(), btDevice, (PipedInputStream) mInStream, (PipedOutputStream) mOutStream);
                 } else {
-                    ParcelUuid uuids[] = btDevice.getUuids();
+                    ParcelUuid[] uuids = btDevice.getUuids();
                     if (uuids == null) {
                         return false;
                     }
@@ -364,7 +365,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                     mInStream.skip(2);
                 }
 
-                GBDeviceEvent deviceEvents[] = mPebbleProtocol.decodeResponse(buffer);
+                GBDeviceEvent[] deviceEvents = mPebbleProtocol.decodeResponse(buffer);
                 if (deviceEvents == null) {
                     LOG.info("unhandled message to endpoint " + endpoint + " (" + length + " bytes)");
                 } else {
@@ -386,31 +387,9 @@ class PebbleIoThread extends GBDeviceIoThread {
                 if (e.getMessage() != null && (e.getMessage().equals("broken pipe") || e.getMessage().contains("socket closed"))) { //FIXME: this does not feel right
                     LOG.info(e.getMessage());
                     mIsConnected = false;
-                    int reconnectAttempts = prefs.getInt("pebble_reconnect_attempts", 10);
-                    if (!mQuit && GBApplication.getGBPrefs().getAutoReconnect() && reconnectAttempts > 0) {
-                        gbDevice.setState(GBDevice.State.WAITING_FOR_RECONNECT);
-                        gbDevice.sendDeviceUpdateIntent(getContext());
-
-                        long delaySeconds = 1;
-                        while (reconnectAttempts-- > 0 && !mQuit && !mIsConnected) {
-                            LOG.info("Trying to reconnect (attempts left " + reconnectAttempts + ")");
-                            mIsConnected = connect();
-                            if (!mIsConnected) {
-                                try {
-                                    Thread.sleep(delaySeconds * 1000);
-                                } catch (InterruptedException ignored) {
-                                }
-                                if (delaySeconds < 64) {
-                                    delaySeconds *= 2;
-                                }
-                            }
-                        }
-                    }
-                    if (!mIsConnected) {
-                        mBtSocket = null;
-                        LOG.info("Bluetooth socket closed, will quit IO Thread");
-                        break;
-                    }
+                    mBtSocket = null;
+                    LOG.info("Bluetooth socket closed, will quit IO Thread");
+                    break;
                 }
             }
         }
@@ -426,7 +405,7 @@ class PebbleIoThread extends GBDeviceIoThread {
 
         enablePebbleKitSupport(false);
 
-        if (mQuit) {
+        if (mQuit || !GBApplication.getGBPrefs().getAutoReconnect()) {
             gbDevice.setState(GBDevice.State.NOT_CONNECTED);
         } else {
             gbDevice.setState(GBDevice.State.WAITING_FOR_RECONNECT);

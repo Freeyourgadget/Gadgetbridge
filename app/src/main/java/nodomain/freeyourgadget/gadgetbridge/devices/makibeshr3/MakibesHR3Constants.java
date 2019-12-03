@@ -1,5 +1,4 @@
-/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, João
-    Paulo Barraca
+/*  Copyright (C) 2019 Andreas Shimokawa, Cre3per
 
     This file is part of Gadgetbridge.
 

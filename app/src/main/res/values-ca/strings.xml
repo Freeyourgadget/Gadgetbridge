@@ -44,14 +44,14 @@
     <string name="fw_upgrade_notice">Sou a punt d\'instal·lar el %s.</string>
     <string name="fw_upgrade_notice_amazfitbip">Esteu a punt d\'instal·lar el microprogramari %s en el vostre Amazfit Bip.
 \n
-\nSi us plau, assegure-vos d\'instal·lar el fitxer .fw, el fitxer .res i, finalment, el fitxer .gps. El vostre rellotge reiniciarà després d\'instal·lar l\'arxiu .fw.
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, el fitxer .res i, finalment, el fitxer .gps. El vostre rellotge es reiniciarà després d\'instal·lar l\'arxiu .fw.
 \n
 \nNota: no heu d\'instal·lar els fitxers .res i .gps si aquests fitxers són exactament els mateixos que els prèviament instal·lats.
 \n
 \nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Sou a punt d\'instal·lar el microprogramari %s en el vostre Amazfit Cor.
+    <string name="fw_upgrade_notice_amazfitcor">Sou a punt d\'instal·lar el microprogramari %s en la vostra Amazfit Cor.
 \n
-\nSi us plau, assegure-vos d\'instal·lar el fitxer .fw i el fitxer .res. La vostra polsera reiniciarà després d\'instal·lar l\'arxiu .fw.
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. La vostra polsera es reiniciarà després d\'instal·lar el fitxer .fw.
 \n
 \nNota: no heu d\'instal·lar el fitxer .res si és exactament el mateix que el prèviament instal·lat.
 \n
@@ -253,7 +253,7 @@
     <string name="stats_y_axis_label">Passes per minut</string>
     <string name="control_center_find_lost_device">Troba l\'aparell perdut</string>
     <string name="control_center_cancel_to_stop_vibration">Cancel·leu per aturar la vibració.</string>
-    <string name="title_activity_charts">La vostra activitat</string>
+    <string name="title_activity_charts">Activitat i son</string>
     <string name="title_activity_set_alarm">Configura les alarmes</string>
     <string name="controlcenter_start_configure_alarms">Configura les alarmes</string>
     <string name="title_activity_alarm_details">Detalls d\'alarma</string>
@@ -282,11 +282,11 @@
     <string name="notif_battery_low_bigtext_last_charge_time">Darrera càrrega: %s</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Nombre de càrregues: %s</string>
     <string name="notif_export_failed_title">L\'exportació de la base de dades ha fallat! Si us plau, comproveu la configuració.</string>
-    <string name="sleepchart_your_sleep">El vostre son</string>
+    <string name="sleepchart_your_sleep">Son</string>
     <string name="weeksleepchart_sleep_a_week">Son per setmana</string>
     <string name="weeksleepchart_today_sleep_description">Son avui, objectiu: %1$s</string>
     <string name="weekstepschart_steps_a_week">Passes per setmana</string>
-    <string name="activity_sleepchart_activity_and_sleep">La vostra activitat i el vostre son</string>
+    <string name="activity_sleepchart_activity_and_sleep">Activitat</string>
     <string name="updating_firmware">El microprogramari s\'està instal·lant…</string>
     <string name="fwapp_install_device_not_ready">No es pot instal·lar el fitxer. L\'aparell no està preparat.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
@@ -333,7 +333,7 @@
     <string name="dateformat_time">Temps</string>
     <string name="dateformat_date_time">Hora i data</string>
     <string name="mi2_prefs_button_actions">Accions del botó</string>
-    <string name="mi2_prefs_button_actions_summary">Especifiqueu les accions en prémer el botó de la Mi Band 2</string>
+    <string name="mi2_prefs_button_actions_summary">Especifiqueu les accions en prémer el botó</string>
     <string name="mi2_prefs_button_press_count">Nombre de pulsacions del botó</string>
     <string name="mi2_prefs_button_press_count_summary">Nombre de vegades que cal prémer el botó per activar la difusió de missatge</string>
     <string name="mi2_prefs_button_press_broadcast">Missatge de difusió a enviar</string>
@@ -388,7 +388,7 @@
     <string name="pref_summary_pebble_gatt_clientonly">Això només és per a Pebble 2 i és experimental. Proveu-ho si teniu problemes de connexió</string>
     <string name="fw_upgrade_notice_miband3">Sou a punt d\'instal·lar el microprogramari %s en la vostra Mi Band 3.
 \n
-\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. El vostre rellotge es reiniciarà després d\'instal·lar el fitxer .fw.
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. La vostra polsera es reiniciarà després d\'instal·lar el fitxer .fw.
 \n
 \nObservació: No cal que instal·leu el fitxer .res si és exactament el mateix que ja estava instal·lat.
 \n
@@ -418,7 +418,7 @@
     <string name="zetime_analog_mode_hands">Només mans</string>
     <string name="zetime_analog_mode_handsandsteps">Mans i passes</string>
     <string name="pref_title_support_voip_calls">Activa les trucades de VoIP</string>
-    <string name="fw_upgrade_notice_amazfitcor2">Sou a punt d\'instal·lar el microprogramari %s en el vostre Amazfit Cor 2.
+    <string name="fw_upgrade_notice_amazfitcor2">Sou a punt d\'instal·lar el microprogramari %s en la vostra Amazfit Cor 2.
 \n
 \nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. La vostra polsera es reiniciarà després d\'instal·lar el fitxer .fw.
 \n
@@ -701,4 +701,95 @@
     <string name="portuguese">Portuguès</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="devicetype_miband4">Mi Band 4</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="fw_upgrade_notice_miband4">Esteu a punt d\'instal·lar el microprogramari %s en la vostra Mi Band 4.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. La vostra polsera es reiniciarà després d\'instal·lar l\'arxiu .fw.
+\n
+\nNota: no heu d\'instal·lar el fitxer .res si és exactament el mateix que ja estava instal·lat.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="prefs_hr_alarm_low">Límit baix</string>
+    <string name="prefs_hr_alarm_high">Límit alt</string>
+    <string name="average">Mitjana: %1$s</string>
+    <string name="pref_header_charts">Configuració dels gràfics</string>
+    <string name="pref_title_charts_average">Mostra mitjanes als gràfics</string>
+    <string name="pref_title_charts_range">Rang dels gràfics</string>
+    <string name="weekstepschart_steps_a_month">Passes per mes</string>
+    <string name="weeksleepchart_sleep_a_month">Son per mes</string>
+    <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
+    <string name="menuitem_nfc">NFC</string>
+    <string name="pref_summary_expose_hr">Permet altres aplicacions accedir a les dades de freqüència cardíaca en temps real mentre Gadgetbridge estigui connectat</string>
+    <string name="pref_title_expose_hr">Accés a tercers a freqüència cardíaca en temps real</string>
+    <string name="pref_title_use_custom_font">Utilitza un tipus de lletra personalitzat</string>
+    <string name="pref_summary_use_custom_font">Activa-ho si el vostre dispositiu inclou microprogramari de tipus de lletra personalitzat amb suport per a emojis</string>
+    <string name="activity_db_management_autoexport_label">Exportació automàtica</string>
+    <string name="activity_DB_ExportButton">Exporta BD</string>
+    <string name="activity_DB_import_button">Importa BD</string>
+    <string name="activity_DB_test_export_button">Executa l\'exportació automàtica ara</string>
+    <string name="activity_DB_test_export_message">Exportant base de dades…</string>
+    <string name="activity_DB_delete_legacy_button">Esborra BD antiga</string>
+    <string name="activity_DB_empty_button">Buida la BD</string>
+    <string name="appwidget_sleep_alarm_widget_label">Alarma de son</string>
+    <string name="widget_steps_label">Passes: %1$02d</string>
+    <string name="widget_sleep_label">Son: %1$s</string>
+    <string name="widget_listing_label">Estat i alarmes</string>
+    <string name="widget_5_minutes">5 minuts</string>
+    <string name="widget_10_minutes">10 minuts</string>
+    <string name="widget_20_minutes">20 minuts</string>
+    <string name="widget_1_hour">1 hora</string>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="one">%d hora</item>
+        <item quantity="other">%d hores</item>
+    </plurals>
+    <string name="pref_display_add_device_fab">Botó d\'afegir nou dispositiu</string>
+    <string name="pref_display_add_device_fab_on">Sempre visible</string>
+    <string name="pref_display_add_device_fab_off">Visible només si no hi ha cap dispositiu afegit</string>
+    <string name="preferences_makibes_hr3_settings">Configuració de Makibes HR3</string>
+    <string name="devicetype_makibes_hr3">Makibes HR3</string>
+    <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
+    <string name="prefs_find_phone">Troba el telèfon</string>
+    <string name="prefs_enable_find_phone">Activa «Troba el telèfon»</string>
+    <string name="prefs_find_phone_duration">Duració del to en segons</string>
+    <string name="maximum_duration">Durada</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">Esteu a punt d\'instal·lar el microprogramari %s en el vostre Amazfit Bip Lite.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. El vostre rellotge es reiniciarà després d\'instal·lar l\'arxiu .fw.
+\n
+\nNota: no heu d\'instal·lar el fitxer .res si és exactament el mateix que ja estava instal·lat.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
+    <string name="fw_upgrade_notice_amazfitgtr">Esteu a punt d\'instal·lar el microprogramari %s en el vostre Amazfit GTR.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, el fitxer .res i, finalment, el fitxer .gps. El vostre rellotge es reiniciarà després d\'instal·lar l\'arxiu .fw.
+\n
+\nNota: no heu d\'instal·lar els fitxers .res i .gps si aquests fitxers són exactament els mateixos que els prèviament instal·lats.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="pref_chart_heartrate_color_red">Vermell</string>
+    <string name="pref_chart_heartrate_color_orange">Taronja</string>
+    <string name="pref_title_chart_heartrate_color">Color de freqüència cardíaca</string>
+    <string name="pref_title_chart_sleep_rolling_24_hour">Interval de son</string>
+    <string name="pref_chart_sleep_rolling_24_on">Últimes 24 hores</string>
+    <string name="pref_chart_sleep_rolling_24_off">De migdia a migdia</string>
+    <string name="devicetype_amazfit_gts">Amazfit GTS</string>
+    <string name="fw_upgrade_notice_amazfitgts">Esteu a punt d\'instal·lar el microprogramari %s en el vostre Amazfit GTS.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, el fitxer .res i, finalment, el fitxer .gps. El vostre rellotge es reiniciarà després d\'instal·lar l\'arxiu .fw.
+\n
+\nNota: no heu d\'instal·lar els fitxers .res i .gps si aquests fitxers són exactament els mateixos que els prèviament instal·lats.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="prefs_hr_alarm_activity">Alarma de freqüència cardíaca durant activitat esportiva</string>
+    <string name="pref_charts_range_on">El rang dels gràfics està configurat a un mes</string>
+    <string name="pref_charts_range_off">El rang dels gràfics està configurat a una setmana</string>
+    <string name="activity_db_management_autoexport_explanation">La ubicació de l\'exportació automàtica s\'ha definit a:</string>
+    <string name="activity_db_management_empty_DB">Buida la base de dades</string>
+    <string name="activity_db_management_exportimport_label">Exportar i importar</string>
+    <string name="activity_db_management_empty_db_warning">Atenció! En prémer aquest botó esborrareu tota la base de dades i començareu de zero.</string>
+    <string name="widget_set_alarm_after">Fixa una alarma al cap de:</string>
+    <string name="activity_error_no_app_for_gpx">Per a veure la traça d\'activitat, instal·leu una app que pugui manejar fitxers GPX.</string>
+    <string name="prefs_find_phone_summary">Fes servir la teva banda per a reproduir el to del telèfon.</string>
+    <string name="discovery_need_to_enter_authkey">Aquest aparell requereix una clau d\'autenticació secreta, mantingueu premut sobre l\'aparell per a introduir-la. Consulteu la wiki.</string>
 </resources>

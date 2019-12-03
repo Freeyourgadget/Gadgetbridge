@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2019 Andreas Shimokawa
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, Matej Drobnič
 
     This file is part of Gadgetbridge.
 

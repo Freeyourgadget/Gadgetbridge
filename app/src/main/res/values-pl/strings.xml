@@ -551,4 +551,5 @@
     <string name="DEVINFO_HR_VER">"Puls: "</string>
     <string name="filter_mode_whitelist">Pokazuj gdy zawiera słowa</string>
     <string name="pref_chart_heartrate_color_red">Czerwony</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
 </resources>

@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2019 Andreas Böhler, Andreas Shimokawa, Carsten
-    Pfeiffer, Daniele Gobbetti, Sergey Trofimov, Uwe Hermann
+    Pfeiffer, Cre3per, Daniele Gobbetti, Sergey Trofimov, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -49,6 +49,7 @@ import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.receivers.AutoConnectIntervalReceiver;
 
 /**
  * One queue/thread per connectable device.
@@ -301,8 +302,6 @@ public final class BtLEQueue {
             mWaitForServerActionResultLatch.countDown();
         }
 
-        boolean wasInitialized = mGbDevice.isInitialized();
-
         setDeviceConnectionState(State.NOT_CONNECTED);
 
         // either we've been disconnected because the device is out of range
@@ -312,7 +311,7 @@ public final class BtLEQueue {
         // reconnecting automatically, so we try to fix this by re-creating mBluetoothGatt.
         // Not sure if this actually works without re-initializing the device...
         if (mBluetoothGatt != null) {
-            if (!wasInitialized || !maybeReconnect()) {
+            if (!maybeReconnect()) {
                 disconnect(); // ensure that we start over cleanly next time
             }
         }
