@@ -201,13 +201,13 @@ public class ConfigActivity extends AbstractGBActivity {
             @Override
             public boolean onItemLongClick(final AdapterView<?> adapterView, View view, final int i, long l) {
                 PopupMenu menu = new PopupMenu(ConfigActivity.this, view);
-                menu.getMenu().add("edit");
-                menu.getMenu().add("delete");
+                menu.getMenu().add(0, 0, 0, "edit");
+                menu.getMenu().add(0, 1, 1, "delete");
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
-                        switch (menuItem.getTitle().toString()) {
-                            case "edit": {
+                        switch (menuItem.getItemId()) {
+                            case 0: {
                                 TimePicker picker = new TimePicker(ConfigActivity.this, (NotificationConfiguration) adapterView.getItemAtPosition(i));
                                 picker.finishListener = new TimePicker.OnFinishListener() {
                                     @Override
@@ -240,7 +240,7 @@ public class ConfigActivity extends AbstractGBActivity {
                                 setControl(true, picker.getSettings());
                                 break;
                             }
-                            case "delete": {
+                            case 1: {
                                 try {
                                     helper.deleteNotificationConfiguration((NotificationConfiguration) adapterView.getItemAtPosition(i));
                                     LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED));
