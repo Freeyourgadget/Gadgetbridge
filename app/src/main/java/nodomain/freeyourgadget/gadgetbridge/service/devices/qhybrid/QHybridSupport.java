@@ -195,8 +195,8 @@ public class QHybridSupport extends QHybridBaseSupport {
         try {
             helper = new PackageConfigHelper(GBApplication.getContext());
         } catch (GBException e) {
-            e.printStackTrace();
-            GB.toast("erroe getting database", Toast.LENGTH_SHORT, GB.ERROR, e);
+            GB.log("error getting database", GB.ERROR, e);
+            GB.toast("error getting database", Toast.LENGTH_SHORT, GB.ERROR, e);
             try {
                 throw e;
             } catch (GBException ex) {
@@ -224,7 +224,7 @@ public class QHybridSupport extends QHybridBaseSupport {
                                     PlayNotificationRequest.VibrationType.NO_VIBE
                             ));
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            GB.log("wrong number format", GB.ERROR, e);
                             logger.debug("trash extra should be number 0.0-1.0");
                         }
                         break;
@@ -300,7 +300,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         try {
             config = helper.getNotificationConfiguration(packageName);
         } catch (GBException e) {
-            e.printStackTrace();
+            GB.log("error getting notification configuration", GB.ERROR, e);
             GB.toast("error getting notification configuration", Toast.LENGTH_SHORT, GB.ERROR, e);
         }
         if (config == null) return;
@@ -353,7 +353,8 @@ public class QHybridSupport extends QHybridBaseSupport {
                 configs.put(config, false);
             }
         } catch (GBException e) {
-            e.printStackTrace();
+            GB.log("error getting notification configuration", GB.ERROR, e);
+
             GB.toast("error getting notification configs", Toast.LENGTH_SHORT, GB.ERROR, e);
         }
 
@@ -422,7 +423,7 @@ public class QHybridSupport extends QHybridBaseSupport {
                         try {
                             Thread.sleep(2500);
                         } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            GB.log("error", GB.ERROR, e);
                         }
                     }
                 }
@@ -458,7 +459,7 @@ public class QHybridSupport extends QHybridBaseSupport {
             //TODO file stuff
             // queueWrite(new EraseFileRequest((short) request.fileHandle));
         } catch (Exception e) {
-            e.printStackTrace();
+            GB.log("error", GB.ERROR, e);
             if (request.fileHandle > 257) {
                 // queueWrite(new DownloadFileRequest((short) (request.fileHandle - 1)));
             }

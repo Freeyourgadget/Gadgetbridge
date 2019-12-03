@@ -170,7 +170,7 @@ public class MisfitWatchAdapter extends WatchAdapter {
                     FileOutputStream fos = new FileOutputStream(charLog, true);
                     fos.write((new Date().toString() + ": " + characteristic.getUuid().toString() + ": " + arrayToString(characteristic.getValue())).getBytes());
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    GB.log("error", GB.ERROR, e);
                 }
                 break;
             }
@@ -242,7 +242,7 @@ public class MisfitWatchAdapter extends WatchAdapter {
                 fos.close();
                 logger.debug("file written.");
             } catch (Exception e) {
-                e.printStackTrace();
+                GB.log("error", GB.ERROR, e);
             }
             gbDevice.addDeviceInfo(new GenericItem(ITEM_STEP_COUNT, String.valueOf(((GetCurrentStepCountRequest) request).steps)));
         } else if (request instanceof OTAEnterRequest) {

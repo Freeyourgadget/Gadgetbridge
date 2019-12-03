@@ -208,7 +208,7 @@ public class FossilWatchAdapter extends WatchAdapter {
             };
             queueWrite(fileUploadRequets);
         } catch (JSONException e) {
-            e.printStackTrace();
+            GB.log("error", GB.ERROR, e);
         }
     }
 
@@ -311,7 +311,7 @@ public class FossilWatchAdapter extends WatchAdapter {
                 }
             }, false);
         } catch (GBException e) {
-            e.printStackTrace();
+            GB.log("error", GB.ERROR, e);
         }
     }
 
@@ -442,7 +442,7 @@ public class FossilWatchAdapter extends WatchAdapter {
                         fossilRequest.handleResponse(characteristic);
                         requestFinished = fossilRequest.isFinished();
                     } catch (RuntimeException e) {
-                        e.printStackTrace();
+                        GB.log("error", GB.ERROR, e);
                         getDeviceSupport().notifiyException(e);
                         GB.toast(fossilRequest.getName() + " failed", Toast.LENGTH_SHORT, GB.ERROR);
                         requestFinished = true;

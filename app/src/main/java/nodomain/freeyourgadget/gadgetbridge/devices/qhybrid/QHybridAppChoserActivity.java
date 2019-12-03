@@ -46,7 +46,7 @@ public class QHybridAppChoserActivity extends AbstractGBActivity {
         try {
             helper = new PackageConfigHelper(getApplicationContext());
         } catch (GBException e) {
-            e.printStackTrace();
+            GB.log("database error", GB.ERROR, e);
             GB.toast("error getting database helper", Toast.LENGTH_SHORT, GB.ERROR, e);
             finish();
             return;
@@ -125,7 +125,7 @@ public class QHybridAppChoserActivity extends AbstractGBActivity {
                         helper.saveNotificationConfiguration(config);
                         LocalBroadcastManager.getInstance(QHybridAppChoserActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED));
                     } catch (GBException e) {
-                        e.printStackTrace();
+                        GB.log("error saving config", GB.ERROR, e);
                         GB.toast("error saving configuration", Toast.LENGTH_SHORT, GB.ERROR, e);
                     }
                     finish();

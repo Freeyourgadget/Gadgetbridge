@@ -10,6 +10,7 @@ import java.util.HashMap;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileCloseAndPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ConfigurationPutRequest extends FilePutRequest {
     private static HashMap<Short, Class<? extends ConfigItem>> itemsById = new HashMap<>();
@@ -45,7 +46,7 @@ public class ConfigurationPutRequest extends FilePutRequest {
             try {
                 item = configClass.newInstance();
             } catch (IllegalAccessException | InstantiationException e) {
-                e.printStackTrace();
+                GB.log("error", GB.ERROR, e);
                 continue;
             }
 
