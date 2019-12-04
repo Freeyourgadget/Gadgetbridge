@@ -33,6 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInf
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.no1f1.No1F1Constants;
@@ -183,6 +184,18 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 GBDeviceEventCallControl deviceEventCallControl = new GBDeviceEventCallControl();
                 deviceEventCallControl.event = GBDeviceEventCallControl.Event.valueOf(json.getString("n").toUpperCase());
                 evaluateGBDeviceEvent(deviceEventCallControl);
+            } break;
+            case "notify" : {
+                GBDeviceEventNotificationControl deviceEvtNotificationControl = new GBDeviceEventNotificationControl();
+                // .title appears unused
+                deviceEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.valueOf(json.getString("n").toUpperCase());
+                if (json.has("id"))
+                    deviceEvtNotificationControl.handle = json.getInt("id");
+                if (json.has("tel"))
+                    deviceEvtNotificationControl.phoneNumber = json.getString("tel");
+                if (json.has("msg"))
+                    deviceEvtNotificationControl.reply = json.getString("msg");
+                evaluateGBDeviceEvent(deviceEvtNotificationControl);
             } break;
             /*case "activity": {
                 BangleJSActivitySample sample = new BangleJSActivitySample();
