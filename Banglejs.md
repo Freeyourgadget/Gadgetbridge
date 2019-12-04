@@ -1,5 +1,15 @@
 
+https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Developer-Documentation
+
+```Bash
+./gradlew assembleDebug
 adb install app/build/outputs/apk/debug/app-debug.apk
+```
+
+Messages sent to Bangle.js from Phone
+--------------------------------------
+
+wrapped in `GB(json)\n`
 
 `t:"notify", id:id, src,title,subject,body,sender,tel`  - new notification
 `t:"notify-", id:id`  - delete notification
@@ -7,6 +17,18 @@ adb install app/build/outputs/apk/debug/app-debug.apk
 `t:"find", n:bool`  - findDevice
 `t:"vibrate", n:int`  - vibrate
 `t:"weather", temp,hum,txt,wind,loc`  - weather report
+`t:"musicstate", state,position,shuffle,repeat`
+`t:"musicinfo", artist,album,track,dur,c(track count),n(track num)`
 
-"musicstate", state,position,shuffle,repeat
-"musicinfo", artist,album,track,dur,c(track count),n(track num)
+Messages from Bangle.js to Phone
+--------------------------------
+
+Just raw newline-terminated JSON lines:
+
+`t:"info", msg:"..."`
+`t:"warn", msg:"..."`
+`t:"error", msg:"..."`
+`t:"status", bat:0..100, volt:float(voltage)` - status update
+`t:"findPhone", n:bool`
+`t:"music", n:"play/pause/next/previous/volumeup/volumedown"`
+`t:"call", n:"ACCEPT/END/INCOMING/OUTGOING/REJECT/START/IGNORE"`
