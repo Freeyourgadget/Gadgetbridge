@@ -790,4 +790,16 @@
 \n
 \nהמשך התהליך הוא על אחריותך!</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
+    <string name="preferences_qhybrid_settings">הגדרות Q Hybrid</string>
+    <string name="watch_not_connected">השעון לא מחובר</string>
+    <string name="qhybrid_vibration_strength">עצמת רטט:</string>
+    <string name="qhybrid_goal_in_steps">יעד בצעדים</string>
+    <string name="qhybrid_time_shift">הזחת זמן</string>
+    <string name="qhybrid_second_timezone_offset_relative_to_utc">היסט אזור זמן שני ביחס ל־UTC</string>
+    <string name="qhybrid_overwrite_buttons">דריסת כפתורים</string>
+    <string name="qhybrid_prompt_million_steps">נא להגדיר את מניין הצעדים למיליון כדי להפעיל זאת.</string>
+    <string name="qhybrid_buttons_overwrite_success">הכפתורים נדרסו בהצלחה</string>
+    <string name="qhybrid_buttons_overwrite_error">דריסת הכפתורים נכשלה</string>
+    <string name="qhybrid_changes_delay_prompt">השינויים יתבצעו בהקדם…</string>
 </resources>
