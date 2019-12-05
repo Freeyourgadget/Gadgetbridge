@@ -209,4 +209,9 @@ public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport>
     public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
         mSupport.onReadRemoteRssi(gatt, rssi, status);
     }
+
+    @Override
+    public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
+        mSupport.onMtuChanged(gatt, mtu, status);
+    }
 }

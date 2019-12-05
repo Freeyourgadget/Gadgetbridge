@@ -80,7 +80,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     private ScanCallback newLeScanCallback = null;
 
     // Disabled for testing, it seems worse for a few people
-    private final boolean disableNewBLEScanning = true;
+    private final boolean disableNewBLEScanning = false;
 
     private final Handler handler = new Handler();
 
@@ -394,7 +394,11 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             LOG.warn("Not starting discovery, because already scanning.");
             return;
         }
-        startDiscovery(Scanning.SCANNING_BT);
+        if (GBApplication.isRunningLollipopOrLater() && !disableNewBLEScanning) {
+            startDiscovery(Scanning.SCANNING_NEW_BTLE);
+        } else {
+            startDiscovery(Scanning.SCANNING_BTLE);
+        }
     }
 
     private void startDiscovery(Scanning what) {

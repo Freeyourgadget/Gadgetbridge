@@ -54,6 +54,7 @@ vendor's servers.
 * XWatch (Affordable Chinese Casio-like smartwatches)
 * Vibratissimo (experimental)
 * ZeTime [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/MyKronoz-ZeTime)
+* Fossil Q Hybrid (not officially supported by Fossil)
 
 
 ## Features

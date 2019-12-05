@@ -104,6 +104,8 @@ public interface GattCallback {
      */
     void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status);
 
+    void onMtuChanged(BluetoothGatt gatt, int mtu, int status);
+
 //    /**
 //     * @see BluetoothGattCallback#onMtuChanged(BluetoothGatt, int, int)
 //     * @param gatt
