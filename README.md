@@ -37,6 +37,7 @@ vendor's servers.
 * Amazfit GTS (NOT RECOMMENDED, NEEDS MI FIT WITH ACCOUNT ONCE) [Wiki] (https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS)
 * BFH-16
 * Casio GB-6900B
+* Fossil Q Hybrid
 * HPlus Devices (e.g. ZeBand) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
 * ID115
 * Lenovo Watch 9
@@ -54,7 +55,6 @@ vendor's servers.
 * XWatch (Affordable Chinese Casio-like smartwatches)
 * Vibratissimo (experimental)
 * ZeTime [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/MyKronoz-ZeTime)
-* Fossil Q Hybrid (not officially supported by Fossil)
 
 
 ## Features
@@ -80,6 +80,7 @@ Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/ma
 * Jean-François Greffier (Mi Scale 2)
 * Johannes Schmitt (BFH-16)
 * Lukas Schwichtenberg (Makibes HR3)
+* Daniel Dakhno (Fossil Q Hybrid)
 
 ## Contribute
 
