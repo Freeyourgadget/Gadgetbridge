@@ -429,8 +429,8 @@
     <string name="mi2_prefs_button_actions_summary">Festlegen der Tastendruckaktionen</string>
     <string name="mi2_prefs_button_press_count_summary">Anzahl der Tastendrücke, um die Nachrichtenübertragung auszulösen</string>
     <string name="mi2_prefs_button_press_broadcast">Zu sendende Nachricht</string>
-    <string name="mi2_prefs_button_action">Aktiviere Tastenaktion</string>
-    <string name="mi2_prefs_button_action_summary">Aktiviere Aktion bei einer bestimmten Anzahl an Tastendrücken</string>
+    <string name="mi2_prefs_button_action">Tastenaktion aktivieren</string>
+    <string name="mi2_prefs_button_action_summary">Aktion bei einer bestimmten Anzahl an Tastendrücken aktivieren</string>
     <string name="mi2_prefs_button_action_vibrate">Bandvibration aktivieren</string>
     <string name="mi2_prefs_button_action_vibrate_summary">Bandvibration aktivieren, wenn die Tastenaktion ausgelöst wurde</string>
     <string name="mi2_prefs_button_press_count_max_delay">Maximale Verzögerung zwischen den Tastendrücken</string>
@@ -740,7 +740,7 @@
     <string name="activity_DB_ExportButton">Datenbank exportieren</string>
     <string name="activity_DB_import_button">Datenbank importieren</string>
     <string name="activity_DB_delete_legacy_button">Alte Datenbank löschen</string>
-    <string name="activity_DB_empty_button">leere Datenbank</string>
+    <string name="activity_DB_empty_button">Leere Datenbank</string>
     <string name="activity_db_management_empty_DB">Leere Datenbank</string>
     <string name="activity_db_management_exportimport_label">Exportieren und Importieren</string>
     <string name="widget_5_minutes">5 Minuten</string>
@@ -803,4 +803,19 @@
 \n 
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
+    <string name="tasker_notification">Q Hybrid Benachrichtigung abspielen</string>
+    <string name="watch_not_connected">Uhr nicht verbunden</string>
+    <string name="qhybrid_vibration_strength">Vibrationsstärke:</string>
+    <string name="qhybrid_goal_in_steps">Ziel in Schritten</string>
+    <string name="qhybrid_time_shift">Zeitverschiebung</string>
+    <string name="qhybrid_second_timezone_offset_relative_to_utc">Verschiebung der zweiten Zeitzone relativ zu UTC</string>
+    <string name="qhybrid_overwrite_buttons">Tasten überschreiben</string>
+    <string name="qhybrid_use_activity_hand_as_notification_counter">Aktivitätshand als Benachrichtigungszähler verwenden</string>
+    <string name="qhybrid_prompt_million_steps">Bitte stelle die Schrittzahl auf eine Million ein, um dies zu aktivieren.</string>
+    <string name="qhybrid_buttons_overwrite_success">Tasten erfolgreich überschrieben</string>
+    <string name="qhybrid_buttons_overwrite_error">Fehler beim Überschreiben der Tasten</string>
+    <string name="qhybrid_offset_timezone">Verschiebung der Zeitzone um</string>
+    <string name="qhybrid_changes_delay_prompt">Änderung kann einige Sekunden dauern...</string>
+    <string name="qhybrid_offset_time_by">Zeitverschiebung um</string>
 </resources>
