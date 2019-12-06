@@ -1,7 +1,7 @@
 /*  Copyright (C) 2015-2019 abettenburg, Andreas Shimokawa, AndrewBedscastle,
-    Carsten Pfeiffer, Daniele Gobbetti, Frank Slezak, Hasan Ammar, José Rebelo,
-    Julien Pivotto, Kevin Richter, Matthieu Baerts, Normano64, Steffen Liebergeld,
-    Taavi Eomäe, veecue, Zhong Jianxin
+    Carsten Pfeiffer, Daniel Dakhno, Daniele Gobbetti, Frank Slezak, Hasan Ammar,
+    José Rebelo, Julien Pivotto, Kevin Richter, Matthieu Baerts, Normano64,
+    Steffen Liebergeld, Taavi Eomäe, veecue, Zhong Jianxin
 
     This file is part of Gadgetbridge.
 

@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Daniele Gobbetti, Julien Pivotto
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Daniel Dakhno, Daniele Gobbetti,
+    Julien Pivotto
 
     This file is part of Gadgetbridge.
 
