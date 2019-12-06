@@ -802,4 +802,8 @@
     <string name="qhybrid_buttons_overwrite_success">הכפתורים נדרסו בהצלחה</string>
     <string name="qhybrid_buttons_overwrite_error">דריסת הכפתורים נכשלה</string>
     <string name="qhybrid_changes_delay_prompt">השינויים יתבצעו בהקדם…</string>
+    <string name="tasker_notification">הקפצת התראה ב־Q Hybrid</string>
+    <string name="qhybrid_use_activity_hand_as_notification_counter">להשתמש ביד הפעילות כמונה התראות</string>
+    <string name="qhybrid_offset_timezone">מרחק מאזור זמן</string>
+    <string name="qhybrid_offset_time_by">מרחק מהשעה</string>
 </resources>
