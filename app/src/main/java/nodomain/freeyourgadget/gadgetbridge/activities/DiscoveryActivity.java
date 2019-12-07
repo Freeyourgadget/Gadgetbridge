@@ -81,7 +81,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     private ScanCallback newLeScanCallback = null;
 
     // Disabled for testing, it seems worse for a few people
-    private final boolean disableNewBLEScanning = false;
+    private boolean disableNewBLEScanning = false;
 
     private final Handler handler = new Handler();
 
@@ -268,6 +268,11 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        disableNewBLEScanning = GBApplication.getPrefs().getBoolean("disable_new_ble_scanning", false);
+        if (disableNewBLEScanning) {
+            LOG.info("new BLE scanning disabled via settings, using old method");
+        }
+
         setContentView(R.layout.activity_discovery);
         startButton = findViewById(R.id.discovery_start);
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -395,11 +400,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             LOG.warn("Not starting discovery, because already scanning.");
             return;
         }
-        if (GBApplication.isRunningLollipopOrLater() && !disableNewBLEScanning) {
-            startDiscovery(Scanning.SCANNING_NEW_BTLE);
-        } else {
-            startDiscovery(Scanning.SCANNING_BTLE);
-        }
+        startDiscovery(Scanning.SCANNING_BT);
     }
 
     private void startDiscovery(Scanning what) {
