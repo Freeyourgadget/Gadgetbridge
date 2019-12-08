@@ -17,7 +17,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file;
 
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.widget.Toast;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -25,28 +24,25 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.zip.CRC32;
 
-import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEQueue;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.CRC32C;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.CRC32C;
 
 public class FilePutRequest extends FossilRequest {
     public enum UploadState {INITIALIZED, UPLOADING, CLOSING, UPLOADED}
 
     public UploadState state;
 
-    public ArrayList<byte[]> packets = new ArrayList<>();
+    private ArrayList<byte[]> packets = new ArrayList<>();
 
     private short handle;
 
     private FossilWatchAdapter adapter;
 
-    byte[] file;
+    private byte[] file;
 
-    int fullCRC;
+    private int fullCRC;
 
     public FilePutRequest(short handle, byte[] file, FossilWatchAdapter adapter) {
         this.handle = handle;
@@ -205,7 +201,7 @@ public class FilePutRequest extends FossilRequest {
 
         CRC32C crc = new CRC32C();
 
-        crc.update(file);
+        crc.update(file,0,data.length);
         buffer.putInt((int) crc.getValue());
 
         byte[] data = buffer.array();
