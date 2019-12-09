@@ -800,4 +800,20 @@
 \n
 \nPROSSIGA AO SEU PRÓPRIO RISCO!</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
+    <string name="preferences_qhybrid_settings">Configurações de Q Hybrid</string>
+    <string name="tasker_notification">Reproduzir notificação do Q Hybrid</string>
+    <string name="watch_not_connected">Relógio não conectado</string>
+    <string name="qhybrid_vibration_strength">força da vibração:</string>
+    <string name="qhybrid_goal_in_steps">Meta em passos</string>
+    <string name="qhybrid_time_shift">deslocamento de tempo</string>
+    <string name="qhybrid_second_timezone_offset_relative_to_utc">segundo deslocamento de fuso horário relativo a UTC</string>
+    <string name="qhybrid_overwrite_buttons">sobrescrever botões</string>
+    <string name="qhybrid_use_activity_hand_as_notification_counter">usar mão de atividade como contador da notificação</string>
+    <string name="qhybrid_prompt_million_steps">Defina a contagem de passos para um milhão para ativá-lo.</string>
+    <string name="qhybrid_buttons_overwrite_success">Botões sobrescritos com sucesso</string>
+    <string name="qhybrid_buttons_overwrite_error">Erro ao sobrescrever botões</string>
+    <string name="qhybrid_offset_timezone">deslocar fuso horário por</string>
+    <string name="qhybrid_changes_delay_prompt">a alteração pode levar alguns segundos...</string>
+    <string name="qhybrid_offset_time_by">deslocar tempo por</string>
 </resources>

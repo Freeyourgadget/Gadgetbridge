@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Uwe Hermann
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniel
+    Dakhno, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -208,5 +209,10 @@ public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport>
     @Override
     public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
         mSupport.onReadRemoteRssi(gatt, rssi, status);
+    }
+
+    @Override
+    public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
+        mSupport.onMtuChanged(gatt, mtu, status);
     }
 }

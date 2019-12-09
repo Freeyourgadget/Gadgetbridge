@@ -1,8 +1,8 @@
 /*  Copyright (C) 2015-2019 0nse, Andreas Böhler, Andreas Shimokawa, Carsten
-    Pfeiffer, Cre3per, criogenic, Daniele Gobbetti, Jean-François Greffier,
-    João Paulo Barraca, José Rebelo, Kranz, ladbsoft, Manuel Ruß, maxirnilian,
-    protomors, Quallenauge, Sami Alaoui, Sergey Trofimov, Sophanimus, tiparega,
-    Vadim Kaushan
+    Pfeiffer, Cre3per, criogenic, Daniel Dakhno, Daniele Gobbetti, Jean-François
+    Greffier, João Paulo Barraca, José Rebelo, Kranz, ladbsoft, Manuel Ruß,
+    maxirnilian, protomors, Quallenauge, Sami Alaoui, Sergey Trofimov, Sophanimus,
+    tiparega, Vadim Kaushan
 
     This file is part of Gadgetbridge.
 
@@ -53,6 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.mijia_lywsd02.MijiaL
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miscale2.MiScale2DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.no1f1.No1F1Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.roidmi.RoidmiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vibratissimo.VibratissimoSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.watch9.Watch9DeviceSupport;
@@ -184,7 +185,10 @@ public class DeviceSupportFactory {
                     case XWATCH:
                         deviceSupport = new ServiceDeviceSupport(new XWatchSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
-		            case ZETIME:
+                    case FOSSILQHYBRID:
+                        deviceSupport = new ServiceDeviceSupport(new QHybridSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
+                    case ZETIME:
                         deviceSupport = new ServiceDeviceSupport(new ZeTimeDeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
                     case ID115:

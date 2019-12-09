@@ -1,5 +1,6 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, boun, Carsten Pfeiffer,
-    Daniele Gobbetti, JohnnySun, jonnsoft, Lem Dulfo, Taavi Eomäe, Uwe Hermann
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, boun, Carsten Pfeiffer, Daniel
+    Dakhno, Daniele Gobbetti, JohnnySun, jonnsoft, Lem Dulfo, Taavi Eomäe,
+    Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -80,7 +81,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     private ScanCallback newLeScanCallback = null;
 
     // Disabled for testing, it seems worse for a few people
-    private final boolean disableNewBLEScanning = true;
+    private boolean disableNewBLEScanning = false;
 
     private final Handler handler = new Handler();
 
@@ -266,6 +267,11 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        disableNewBLEScanning = GBApplication.getPrefs().getBoolean("disable_new_ble_scanning", false);
+        if (disableNewBLEScanning) {
+            LOG.info("new BLE scanning disabled via settings, using old method");
+        }
 
         setContentView(R.layout.activity_discovery);
         startButton = findViewById(R.id.discovery_start);

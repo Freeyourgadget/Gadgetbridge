@@ -1,5 +1,6 @@
 /*  Copyright (C) 2015-2019 Andreas Böhler, Andreas Shimokawa, Carsten
-    Pfeiffer, Cre3per, Daniele Gobbetti, Sergey Trofimov, Uwe Hermann
+    Pfeiffer, Cre3per, Daniel Dakhno, Daniele Gobbetti, Sergey Trofimov,
+    Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -531,6 +532,19 @@ public final class BtLEQueue {
             }
             checkWaitingCharacteristic(characteristic, status);
         }
+
+
+
+        @Override
+        public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
+            super.onMtuChanged(gatt, mtu, status);
+
+            if(getCallbackToUse() != null){
+                getCallbackToUse().onMtuChanged(gatt, mtu, status);
+            }
+        }
+
+
 
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt,

@@ -1,5 +1,5 @@
 **IF YOU WANT TO EDIT THE WIKI**, do so on [codeberg.org](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki)
-The wiki on github.com is a read-only mirror, as is the git repo itself. Issues and PRs will move to codeberg summer 2019, if you want your issue/PR comments migrated properly, please create a codeberg acount before we will migrate.
+The wiki on github.com is a read-only mirror, as is the git repo itself. Issues and PRs will move to codeberg on 2019-12-10 if everything works out as planned, if you want your issue/PR comments migrated properly, please create a codeberg acount before we will migrate.
 
 Gadgetbridge
 ============
@@ -37,6 +37,7 @@ vendor's servers.
 * Amazfit GTS (NOT RECOMMENDED, NEEDS MI FIT WITH ACCOUNT ONCE) [Wiki] (https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS)
 * BFH-16
 * Casio GB-6900B
+* Fossil Q Hybrid
 * HPlus Devices (e.g. ZeBand) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
 * ID115
 * Lenovo Watch 9
@@ -79,6 +80,7 @@ Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/ma
 * Jean-François Greffier (Mi Scale 2)
 * Johannes Schmitt (BFH-16)
 * Lukas Schwichtenberg (Makibes HR3)
+* Daniel Dakhno (Fossil Q Hybrid)
 
 ## Contribute
 

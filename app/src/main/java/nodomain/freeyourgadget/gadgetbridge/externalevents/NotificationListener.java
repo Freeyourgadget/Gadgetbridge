@@ -1,7 +1,7 @@
 /*  Copyright (C) 2015-2019 abettenburg, Andreas Shimokawa, AndrewBedscastle,
-    Carsten Pfeiffer, Daniele Gobbetti, Frank Slezak, Hasan Ammar, José Rebelo,
-    Julien Pivotto, Kevin Richter, Matthieu Baerts, Normano64, Steffen Liebergeld,
-    Taavi Eomäe, veecue, Zhong Jianxin
+    Carsten Pfeiffer, Daniel Dakhno, Daniele Gobbetti, Frank Slezak, Hasan Ammar,
+    José Rebelo, Julien Pivotto, Kevin Richter, Matthieu Baerts, Normano64,
+    Steffen Liebergeld, Taavi Eomäe, veecue, Zhong Jianxin
 
     This file is part of Gadgetbridge.
 
@@ -32,6 +32,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaMetadata;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.RemoteException;
@@ -43,6 +44,7 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.RemoteInput;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -105,6 +107,8 @@ public class NotificationListener extends NotificationListenerService {
 
     private HashMap<String, Long> notificationBurstPrevention = new HashMap<>();
     private HashMap<String, Long> notificationOldRepeatPrevention = new HashMap<>();
+
+    public static ArrayList<String> notificationStack = new ArrayList<>();
 
     private long activeCallPostTime;
 
@@ -223,6 +227,7 @@ public class NotificationListener extends NotificationListenerService {
     @Override
     public void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+        notificationStack.clear();
         super.onDestroy();
     }
 
@@ -240,6 +245,9 @@ public class NotificationListener extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         Prefs prefs = GBApplication.getPrefs();
+
+        notificationStack.remove(sbn.getPackageName());
+        notificationStack.add(sbn.getPackageName());
 
         if (GBApplication.isRunningLollipopOrLater()) {
             if ("call".equals(sbn.getNotification().category) && prefs.getBoolean("notification_support_voip_calls", false)) {
@@ -384,7 +392,6 @@ public class NotificationListener extends NotificationListenerService {
         }else {
             LOG.info("This app might show old/duplicate notifications. notification.when is 0 for " + source);
         }
-
         GBApplication.deviceService().onNotification(notificationSpec);
     }
 
@@ -626,29 +633,30 @@ public class NotificationListener extends NotificationListenerService {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
-        LOG.info("Notification removed: " + sbn.getPackageName());
-        if (GBApplication.isRunningLollipopOrLater()) {
-            LOG.info("Notification removed: " + sbn.getPackageName() + ", category: " + sbn.getNotification().category);
-            if (Notification.CATEGORY_CALL.equals(sbn.getNotification().category) && activeCallPostTime == sbn.getPostTime()) {
-                activeCallPostTime = 0;
-                CallSpec callSpec = new CallSpec();
-                callSpec.command = CallSpec.CALL_END;
-                GBApplication.deviceService().onSetCallState(callSpec);
-            }
+        LOG.info("Notification removed: " + sbn.getPackageName() + ": " + sbn.getNotification().category);
+
+        notificationStack.remove(sbn.getPackageName());
+
+        if(Notification.CATEGORY_CALL.equals(sbn.getNotification().category) && activeCallPostTime == sbn.getPostTime()) {
+            activeCallPostTime = 0;
+            CallSpec callSpec = new CallSpec();
+            callSpec.command = CallSpec.CALL_END;
+            GBApplication.deviceService().onSetCallState(callSpec);
         }
         // FIXME: DISABLED for now
-        /*
+
         if (shouldIgnore(sbn))
             return;
 
         Prefs prefs = GBApplication.getPrefs();
-        if (prefs.getBoolean("autoremove_notifications", false)) {
+        if (prefs.getBoolean("autoremove_notifications", true)) {
             LOG.info("notification removed, will ask device to delete it");
             GBApplication.deviceService().onDeleteNotification((int) sbn.getPostTime());
         }
-        */
+
     }
 
 

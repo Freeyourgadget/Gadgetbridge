@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2019 Carsten Pfeiffer
+/*  Copyright (C) 2015-2019 Carsten Pfeiffer, Daniel Dakhno
 
     This file is part of Gadgetbridge.
 
@@ -59,5 +59,9 @@ public abstract class AbstractGattCallback implements GattCallback {
 
     @Override
     public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
+    }
+
+    @Override
+    public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
     }
 }

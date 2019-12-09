@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2019 Andreas Böhler, Andreas Shimokawa, Carsten
-    Pfeiffer, Daniele Gobbetti, JohnnySun, José Rebelo
+    Pfeiffer, Daniel Dakhno, Daniele Gobbetti, JohnnySun, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -349,6 +349,11 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
         for (AbstractBleProfile profile : mSupportedProfiles) {
             profile.onReadRemoteRssi(gatt, rssi, status);
         }
+    }
+
+    @Override
+    public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
+
     }
 
     @Override

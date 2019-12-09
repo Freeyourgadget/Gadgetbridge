@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniel
+    Dakhno, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -18,13 +18,17 @@
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.os.Build;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.NotifyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ReadAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.RequestMtuAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
 
@@ -54,6 +58,13 @@ public class TransactionBuilder {
         }
         WriteAction action = new WriteAction(characteristic, data);
         return add(action);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public TransactionBuilder requestMtu(int mtu){
+        return add(
+                new RequestMtuAction(mtu)
+        );
     }
 
     public TransactionBuilder notify(BluetoothGattCharacteristic characteristic, boolean enable) {

@@ -228,7 +228,7 @@
     <string name="stats_y_axis_label">Pas par minute</string>
     <string name="control_center_find_lost_device">Trouver l\'appareil perdu</string>
     <string name="control_center_cancel_to_stop_vibration">Annuler pour arrêter les vibrations.</string>
-    <string name="title_activity_charts">Votre activité</string>
+    <string name="title_activity_charts">Activité et Sommeil</string>
     <string name="title_activity_set_alarm">Configurer les alarmes</string>
     <string name="controlcenter_start_configure_alarms">Configurer les alarmes</string>
     <string name="title_activity_alarm_details">Détails des alarmes</string>
@@ -256,11 +256,11 @@
     <string name="notif_battery_low_percent">%1$s batterie restante : %2$s%%</string>
     <string name="notif_battery_low_bigtext_last_charge_time">Dernière charge : %s \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Nombre de charges : %s</string>
-    <string name="sleepchart_your_sleep">Votre sommeil</string>
+    <string name="sleepchart_your_sleep">Sommeil</string>
     <string name="weeksleepchart_sleep_a_week">Sommeil de la semaine</string>
     <string name="weeksleepchart_today_sleep_description">Sommeil aujourd\'hui, objectif : %1$s</string>
     <string name="weekstepschart_steps_a_week">Pas de la semaine</string>
-    <string name="activity_sleepchart_activity_and_sleep">Votre activité et sommeil</string>
+    <string name="activity_sleepchart_activity_and_sleep">Activité</string>
     <string name="updating_firmware">Installation du micrologiciel…</string>
     <string name="fwapp_install_device_not_ready">Le fichier ne peut pas être installé, l\'appareil n\'est pas prêt.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
@@ -413,7 +413,7 @@ Temps de sommeil préféré en heures</string>
 \n
 \nCONTINUEZ À VOS RISQUES !</string>
     <string name="mi2_prefs_button_actions">Actions du bouton</string>
-    <string name="mi2_prefs_button_actions_summary">Spécifier les actions par pression du bouton du Mi Band 2</string>
+    <string name="mi2_prefs_button_actions_summary">Spécifier les actions par pression du bouton</string>
     <string name="mi2_prefs_button_press_count">Nombre de pressions du bouton</string>
     <string name="mi2_prefs_button_press_count_summary">Nombre de pressions pour envoyer message</string>
     <string name="mi2_prefs_button_press_broadcast">Message à envoyer</string>
@@ -758,4 +758,8 @@ Temps de sommeil préféré en heures</string>
     <string name="prefs_enable_find_phone">Activer « Trouver le tél. »</string>
     <string name="prefs_find_phone_summary">Utilisez votre bande pour lire l\'alarme de votre téléphone.</string>
     <string name="discovery_need_to_enter_authkey">Cet appareil a besoin d\'une clé d\'auth. Pression longue sur celui-ci pour la saisir. Lisez le wiki.</string>
+    <string name="pref_chart_heartrate_color_red">Rouge</string>
+    <string name="pref_chart_heartrate_color_orange">Orange</string>
+    <string name="pref_chart_sleep_rolling_24_on">Dernières 24 heures</string>
+    <string name="pref_chart_sleep_rolling_24_off">De midi à midi</string>
 </resources>

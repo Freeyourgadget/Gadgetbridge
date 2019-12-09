@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Daniele Gobbetti, Julien Pivotto
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Daniel Dakhno, Daniele Gobbetti,
+    Julien Pivotto
 
     This file is part of Gadgetbridge.
 
@@ -49,6 +50,15 @@ public class LimitedQueue {
         for (Pair entry : list) {
             if (id == (Integer) entry.first) {
                 return entry.second;
+            }
+        }
+        return null;
+    }
+
+    synchronized public Object lookupByValue(Object value){
+        for (Pair entry : list) {
+            if (value.equals(entry.second)) {
+                return entry.first;
             }
         }
         return null;

@@ -1,6 +1,6 @@
 /*  Copyright (C) 2015-2019 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti, Felix Konstantin Maurer, José Rebelo, Martin, Normano64,
-    Pavel Elagin, Sebastian Kranz, vanous
+    Daniel Dakhno, Daniele Gobbetti, Felix Konstantin Maurer, José Rebelo,
+    Martin, Normano64, Pavel Elagin, Sebastian Kranz, vanous
 
     This file is part of Gadgetbridge.
 
@@ -55,6 +55,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.ConfigActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimePreferenceActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsPreferencesActivity;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
@@ -112,6 +113,15 @@ public class SettingsActivity extends AbstractSettingsActivity {
             public boolean onPreferenceClick(Preference preference) {
                 Intent enableIntent = new Intent(SettingsActivity.this, MiBandPreferencesActivity.class);
                 startActivity(enableIntent);
+                return true;
+            }
+        });
+
+        pref = findPreference("pref_key_qhybrid");
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(SettingsActivity.this, ConfigActivity.class));
                 return true;
             }
         });
@@ -296,16 +306,16 @@ public class SettingsActivity extends AbstractSettingsActivity {
 
         pref = findPreference("weather_city");
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-           @Override
-           public boolean onPreferenceChange(Preference preference, Object newVal) {
-               // reset city id and force a new lookup
-               GBApplication.getPrefs().getPreferences().edit().putString("weather_cityid", null).apply();
-               preference.setSummary(newVal.toString());
-               Intent intent = new Intent("GB_UPDATE_WEATHER");
-               intent.setPackage(BuildConfig.APPLICATION_ID);
-               sendBroadcast(intent);
-               return true;
-           }
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                // reset city id and force a new lookup
+                GBApplication.getPrefs().getPreferences().edit().putString("weather_cityid", null).apply();
+                preference.setSummary(newVal.toString());
+                Intent intent = new Intent("GB_UPDATE_WEATHER");
+                intent.setPackage(BuildConfig.APPLICATION_ID);
+                sendBroadcast(intent);
+                return true;
+            }
         });
 
         pref = findPreference(GBPrefs.AUTO_EXPORT_LOCATION);
@@ -435,8 +445,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 if (cursor != null && cursor.moveToFirst()) {
                     return cursor.getString(cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DISPLAY_NAME));
                 }
-            }
-            catch (Exception fdfsdfds) {
+            } catch (Exception fdfsdfds) {
                 LOG.warn("fuck");
             }
         }

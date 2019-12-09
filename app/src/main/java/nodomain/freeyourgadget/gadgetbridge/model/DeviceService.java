@@ -1,6 +1,6 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, dakhnod,
-    Daniele Gobbetti, Frank Slezak, ivanovlev, JohnnySun, José Rebelo, Julien
-    Pivotto, Kasha, Sebastian Kranz, Steffen Liebergeld
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniel
+    Dakhno, Daniele Gobbetti, Frank Slezak, ivanovlev, JohnnySun, José Rebelo,
+    Julien Pivotto, Kasha, Sebastian Kranz, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 

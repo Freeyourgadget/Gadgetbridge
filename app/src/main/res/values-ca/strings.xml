@@ -712,9 +712,9 @@
     <string name="prefs_hr_alarm_low">Límit baix</string>
     <string name="prefs_hr_alarm_high">Límit alt</string>
     <string name="average">Mitjana: %1$s</string>
-    <string name="pref_header_charts">Configuració de gràfiques</string>
-    <string name="pref_title_charts_average">Mostra mitjanes a les gràfiques</string>
-    <string name="pref_title_charts_range">Rang de les gràfiques</string>
+    <string name="pref_header_charts">Configuració dels gràfics</string>
+    <string name="pref_title_charts_average">Mostra mitjanes als gràfics</string>
+    <string name="pref_title_charts_range">Rang dels gràfics</string>
     <string name="weekstepschart_steps_a_month">Passes per mes</string>
     <string name="weeksleepchart_sleep_a_month">Son per mes</string>
     <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
@@ -781,4 +781,15 @@
 \nNota: no heu d\'instal·lar els fitxers .res i .gps si aquests fitxers són exactament els mateixos que els prèviament instal·lats.
 \n
 \nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="prefs_hr_alarm_activity">Alarma de freqüència cardíaca durant activitat esportiva</string>
+    <string name="pref_charts_range_on">El rang dels gràfics està configurat a un mes</string>
+    <string name="pref_charts_range_off">El rang dels gràfics està configurat a una setmana</string>
+    <string name="activity_db_management_autoexport_explanation">La ubicació de l\'exportació automàtica s\'ha definit a:</string>
+    <string name="activity_db_management_empty_DB">Buida la base de dades</string>
+    <string name="activity_db_management_exportimport_label">Exportar i importar</string>
+    <string name="activity_db_management_empty_db_warning">Atenció! En prémer aquest botó esborrareu tota la base de dades i començareu de zero.</string>
+    <string name="widget_set_alarm_after">Fixa una alarma al cap de:</string>
+    <string name="activity_error_no_app_for_gpx">Per a veure la traça d\'activitat, instal·leu una app que pugui manejar fitxers GPX.</string>
+    <string name="prefs_find_phone_summary">Fes servir la teva banda per a reproduir el to del telèfon.</string>
+    <string name="discovery_need_to_enter_authkey">Aquest aparell requereix una clau d\'autenticació secreta, mantingueu premut sobre l\'aparell per a introduir-la. Consulteu la wiki.</string>
 </resources>
