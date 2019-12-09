@@ -49,12 +49,17 @@ public class BangleJSCoordinator extends AbstractDeviceCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
-        // FIXME - disabled for debug
-        //if (name != null && name.startsWith("Bangle.js")) {
+        /* Filter by Espruino devices to avoid getting
+        the device chooser full of spam devices. */
+        if (name != null && (
+              name.startsWith("Bangle.js") ||
+              name.startsWith("Pixl.js") ||
+              name.startsWith("Puck.js") ||
+              name.startsWith("MDBT42Q") ||
+              name.startsWith("Espruino"))) 
             return DeviceType.BANGLEJS;
-        //}
 
-        //return DeviceType.UNKNOWN;
+        return DeviceType.UNKNOWN;
     }
 
     @Override
