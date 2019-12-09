@@ -64,8 +64,8 @@ public class BangleJSCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public int getBondingStyle(){
-        return BONDING_STYLE_NONE;
-        // BONDING_STYLE_BOND/BONDING_STYLE_ASK?
+        // Let the user decide whether to bond or not after discovery.
+        return BONDING_STYLE_ASK;
     }
 
     @Override
