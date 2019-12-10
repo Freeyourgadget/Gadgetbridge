@@ -32,8 +32,8 @@ vendor's servers.
 * Amazfit Bip Lite (NOT RECOMMENDED, NEEDS MI FIT WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-Lite)
 * Amazfit Cor [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor)
 * Amazfit Cor 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor-2)
-* Amazfit GTR (NOT RECOMMENDED, NEEDS MI FIT WITH ACCOUNT ONCE) [Wiki] (https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR)
-* Amazfit GTS (NOT RECOMMENDED, NEEDS MI FIT WITH ACCOUNT ONCE) [Wiki] (https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS)
+* Amazfit GTR (NOT RECOMMENDED, NEEDS MI FIT WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR)
+* Amazfit GTS (NOT RECOMMENDED, NEEDS MI FIT WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS)
 * BFH-16
 * Casio GB-6900B
 * Fossil Q Hybrid
