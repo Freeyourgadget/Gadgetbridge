@@ -1,5 +1,4 @@
-Codeberg is now hosted on [codeberg.org](https://codeberg.org/Freeyourgadget/Gadgetbridge/)
-If you are reading this on GitHub, you are not where development happens
+Gadgetbridge is now hosted on [codeberg.org](https://codeberg.org/Freeyourgadget/Gadgetbridge/)
 
 Gadgetbridge
 ============
@@ -85,7 +84,7 @@ Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/ma
 ## Contribute
 
 Contributions are welcome, be it feedback, bug reports, documentation, translation, research or code. Feel free to work
-on any of the open [issues](https://github.com/Freeyourgadget/Gadgetbridge/issues?q=is%3Aopen+is%3Aissue);
+on any of the open [issues](https://codeberg.org/Freeyourgadget/Gadgetbridge/issues);
 just leave a comment that you're working on one to avoid duplicated work.
 
 Translations can be contributed via https://hosted.weblate.org/projects/freeyourgadget/gadgetbridge/
@@ -104,7 +103,7 @@ Feel free to open an issue on our issue tracker, but please:
 1. Open Gadgetbridge's settings and check the option to write log files
 2. Reproduce the problem you encountered
 3. Check the logfile at /sdcard/Android/data/nodomain.freeyourgadget.gadgetbridge/files/gadgetbridge.log
-4. File an issue at https://github.com/Freeyourgadget/Gadgetbridge/issues/new and possibly provide the logfile
+4. File an issue at https://codeberg.org/Freeyourgadget/Gadgetbridge/issues/new and possibly provide the logfile
 
 Alternatively you may use the standard logcat functionality to access the log.
 
