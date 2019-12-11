@@ -65,7 +65,6 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(XWatchSupport.class);
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     TransactionBuilder builder = null;
-    private DeviceInfo mDeviceInfo;
     private byte dayToFetch; //0 = Today; 1 = Yesterday ...
     private byte maxDayToFetch;
     long lastButtonTimestamp;
@@ -359,7 +358,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
 
     private void handleDeviceInfo(byte[] value, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
-            mDeviceInfo = new DeviceInfo(value);
+            DeviceInfo mDeviceInfo = new DeviceInfo(value);
             LOG.warn("Device info: " + mDeviceInfo);
             versionCmd.hwVersion = "1.0";
             versionCmd.fwVersion = "1.0";
