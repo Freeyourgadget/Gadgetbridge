@@ -255,7 +255,6 @@
     <!-- developer/debug preferences-->
     <string name="pref_disable_new_ble_scanning">Disable new BLE scanning</string>
     <string name="pref_summary_disable_new_ble_scanning">Check this option if your device cannot be found during discovery</string>
-
     <string name="not_connected">Not connected</string>
     <string name="connecting">Connecting</string>
     <string name="connected">Connected</string>
@@ -768,10 +767,10 @@
     <string name="qhybrid_overwrite_buttons">overwrite buttons</string>
     <string name="qhybrid_use_activity_hand_as_notification_counter">use activity hand as notification counter</string>
     <string name="qhybrid_prompt_million_steps">Please set the step count to a million to activate that.</string>
-    <string name="qhybrid_buttons_overwrite_success">Successfully overwritten buttons</string>
+    <string name="qhybrid_buttons_overwrite_success">Buttons overwritten</string>
     <string name="qhybrid_buttons_overwrite_error">Error overwriting buttons</string>
     <string name="qhybrid_offset_timezone">offset timezone by</string>
-    <string name="qhybrid_changes_delay_prompt">change might take some seconds...</string>
+    <string name="qhybrid_changes_delay_prompt">change might take some seconds…</string>
     <string name="qhybrid_offset_time_by">offset time by</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>
