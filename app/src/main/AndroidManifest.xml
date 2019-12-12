@@ -515,26 +515,6 @@
         <activity
             android:name=".devices.qhybrid.QHybridAppChoserActivity"
             android:exported="true" />
-        <activity
-            android:name=".devices.qhybrid.TaskerPluginActivity"
-            android:exported="true"
-            android:icon="@drawable/ic_device_pebble"
-            android:label="@string/tasker_notification">
-            <intent-filter>
-                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
-            </intent-filter>
-        </activity>
-
-        <receiver
-            android:name=".devices.qhybrid.TaskerPluginReceiver"
-            android:enabled="true"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING"/>
-            </intent-filter>
-
-        </receiver>
     </application>
 
 </manifest>
