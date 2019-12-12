@@ -69,6 +69,33 @@
         <item>never</item>
     </string-array>
 
+    <string-array name="wxp_language">
+        <item name="0">@string/simplified_chinese</item>
+        <item name="1">@string/english</item>
+    </string-array>
+    <string-array name="wxp_language_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="wxp_bp_cal">
+        <item name="0">@string/prefs_wxp_button_bp_calibration</item>
+        <item name="1">@string/Cancel</item>
+    </string-array>
+    <string-array name="wxp_bp_cal_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="wxp_mode">
+        <item name="0">@string/wxp_mode_normal</item>
+        <item name="1">@string/wxp_mode_saving</item>
+        <item name="2">@string/wxp_mode_watch</item>
+    </string-array>
+    <string-array name="wxp_mode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="gender">
         <item name="1">@string/male</item>
         <item name="0">@string/female</item>
