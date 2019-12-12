@@ -794,4 +794,22 @@
 \n
 \nGA VERDER OP EIGEN RISICO!</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
+    <string name="preferences_qhybrid_settings">Q Hybrid Instellingen</string>
+    <string name="watch_not_connected">Horloge niet verbonden</string>
+    <string name="qhybrid_vibration_strength">trillingssterkte:</string>
+    <string name="qhybrid_goal_in_steps">Doel in stappen</string>
+    <string name="qhybrid_time_shift">tijdsverschuiving</string>
+    <string name="qhybrid_second_timezone_offset_relative_to_utc">tweede tijdzone offset ten opzichte van UTC</string>
+    <string name="qhybrid_overwrite_buttons">knoppen overschrijven</string>
+    <string name="qhybrid_use_activity_hand_as_notification_counter">gebruik activiteitswijzer als notificatieteller</string>
+    <string name="qhybrid_prompt_million_steps">Zet het aantal stappen op een miljoen om dat te activeren.</string>
+    <string name="qhybrid_buttons_overwrite_success">Knoppen overschreven</string>
+    <string name="qhybrid_buttons_overwrite_error">Fout bij het overschrijven van knoppen</string>
+    <string name="qhybrid_offset_timezone">offset tijdzone met</string>
+    <string name="qhybrid_changes_delay_prompt">wijziging kan enkele seconden duren…</string>
+    <string name="qhybrid_offset_time_by">offset tijdzone met</string>
+    <string name="pref_disable_new_ble_scanning">Nieuwe BLE-scanning uitschakelen</string>
+    <string name="pref_summary_disable_new_ble_scanning">Vink deze optie aan als uw apparaat niet kan worden gevonden tijdens discovery</string>
+    <string name="devicetype_banglejs">Bangle.js</string>
 </resources>
