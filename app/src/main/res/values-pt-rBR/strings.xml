@@ -811,9 +811,12 @@
     <string name="qhybrid_overwrite_buttons">sobrescrever botões</string>
     <string name="qhybrid_use_activity_hand_as_notification_counter">usar mão de atividade como contador da notificação</string>
     <string name="qhybrid_prompt_million_steps">Defina a contagem de passos para um milhão para ativá-lo.</string>
-    <string name="qhybrid_buttons_overwrite_success">Botões sobrescritos com sucesso</string>
+    <string name="qhybrid_buttons_overwrite_success">Botões sobrescritos</string>
     <string name="qhybrid_buttons_overwrite_error">Erro ao sobrescrever botões</string>
     <string name="qhybrid_offset_timezone">deslocar fuso horário por</string>
-    <string name="qhybrid_changes_delay_prompt">a alteração pode levar alguns segundos...</string>
+    <string name="qhybrid_changes_delay_prompt">a alteração pode levar alguns segundos…</string>
     <string name="qhybrid_offset_time_by">deslocar tempo por</string>
+    <string name="pref_disable_new_ble_scanning">Desabilitar nova varredura de BLE</string>
+    <string name="pref_summary_disable_new_ble_scanning">Marque essa opção se seu dispositivo não pode ser encontrado durante descobertas</string>
+    <string name="devicetype_banglejs">Bangle.js</string>
 </resources>
