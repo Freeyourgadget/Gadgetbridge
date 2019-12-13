@@ -92,7 +92,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 
 public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
-    private static Prefs prefs  = GBApplication.getPrefs();
+    private static final Prefs prefs  = GBApplication.getPrefs();
 
     private boolean needsAuth;
     private int sequenceNumber = 0;
@@ -489,11 +489,11 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         final int repeatDelay = 5000;       // repeat delay of 5 sec (watch show call notifications for about 5 sec.)
         final int repeatMissedDelay = 60000;       // repeat missed call delay of 60 sec
         // get settings for continuous vibration while phone rings
-        final boolean continuousRing = WatchXPlusDeviceCoordinator.getContiniousVibrationOnCall(getDevice().getAddress());
+        final boolean continuousRing = WatchXPlusDeviceCoordinator.getContiniousVibrationOnCall();
         // set settings for missed call
-        boolean missedCall = WatchXPlusDeviceCoordinator.getMissedCallReminder(getDevice().getAddress());
-        int repeatCount = WatchXPlusDeviceCoordinator.getRepeatOnCall(getDevice().getAddress());
-        int repeatCountMissed = WatchXPlusDeviceCoordinator.getMissedCallRepeat(getDevice().getAddress());
+        boolean missedCall = WatchXPlusDeviceCoordinator.getMissedCallReminder();
+        int repeatCount = WatchXPlusDeviceCoordinator.getRepeatOnCall();
+        int repeatCountMissed = WatchXPlusDeviceCoordinator.getMissedCallRepeat();
         // check if repeatCount is in boundaries min=0, max=10
         if (repeatCount < 0) repeatCount = 0;
         if (repeatCount > 10) repeatCount = 10;   // limit repeats to 10
@@ -610,13 +610,11 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     /** handle button press while ringing
-     * @param value - reply from watch
-     *  while phone rings choose what to do when watch button is pressed
      */
-    private void handleButtonWhenRing(byte[] value) {
+    private void handleButtonWhenRing() {
         GBDeviceEventCallControl callCmd = new GBDeviceEventCallControl();
         // get saved settings if true - reject call, otherwise ignore call
-        boolean buttonReject = WatchXPlusDeviceCoordinator.getButtonReject(getDevice().getAddress());
+        boolean buttonReject = WatchXPlusDeviceCoordinator.getButtonReject();
         if (buttonReject) {
             LOG.info(" call rejected ");
             isRinging = false;
@@ -873,9 +871,8 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
      * @param minuteStart   - begin minute
      * @param hourEnd       - end hour
      * @param minuteEnd     - end minute
-     * set long sit reminder (inactivity reminder) on watch
      */
-    private WatchXPlusDeviceSupport setLongSitHours(TransactionBuilder builder, boolean enable, int hourStart, int minuteStart, int hourEnd, int minuteEnd, int period) {
+    private void setLongSitHours(TransactionBuilder builder, boolean enable, int hourStart, int minuteStart, int hourEnd, int minuteEnd, int period) {
         LOG.warn(" Setting Long sit reminder... Enabled:"+enable+" Period:"+period);
         LOG.warn(" Setting Long sit time... Hs:"+hourEnd+" Ms:"+minuteEnd+" He:"+hourStart+" Me:"+minuteStart);
         LOG.warn(" Setting Long sit DND time... Hs:"+hourStart+" Ms:"+minuteStart+" He:"+hourEnd+" Me:"+minuteEnd);
@@ -898,7 +895,6 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 buildCommand(command, WatchXPlusConstants.WRITE_VALUE, bArr));
         // set long sit reminder state (enabled, disabled)
         setLongSitSwitch(builder, enable);
-        return this;
     }
 
     /** get Long sit settings from app, and send it to watch
@@ -925,15 +921,13 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     /** set long sit reminder switch
      * @param tbuilder - transaction builder
      * @param enable - true or false
-     * enabled or disables long sit reminder (inactivity reminder) on watch
      */
-    private WatchXPlusDeviceSupport setLongSitSwitch(TransactionBuilder tbuilder, boolean enable) {
+    private void setLongSitSwitch(TransactionBuilder tbuilder, boolean enable) {
         LOG.warn("Setting Long sit reminder switch to" + enable);
         tbuilder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
                 buildCommand(WatchXPlusConstants.CMD_INACTIVITY_REMINDER_SWITCH,
                         WatchXPlusConstants.WRITE_VALUE,
                         new byte[]{(byte) (enable ? 0x01 : 0x00)}));
-        return this;
     }
 
 
@@ -945,9 +939,8 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
      * @param minuteStart   - begin minute
      * @param hourEnd       - end hour
      * @param minuteEnd     - end minute
-     * set do not disturb on watch
      */
-    private WatchXPlusDeviceSupport setQuiteHours(TransactionBuilder builder, boolean enable, int hourStart, int minuteStart, int hourEnd, int minuteEnd) {
+    private void setQuiteHours(TransactionBuilder builder, boolean enable, int hourStart, int minuteStart, int hourEnd, int minuteEnd) {
          LOG.warn(" Setting DND time... Hs:"+hourStart+" Ms:"+minuteStart+" He:"+hourEnd+" Me:"+minuteEnd);
          // set DND time
          byte[] command = WatchXPlusConstants.CMD_SET_QUITE_HOURS_TIME;
@@ -961,21 +954,18 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
               buildCommand(command, WatchXPlusConstants.WRITE_VALUE, bArr));
          // set DND state (enabled, disabled)
          setQuiteHoursSwitch(builder, enable);
-         return this;
     }
 
     /** set do not disturb switch
      * @param tbuilder - transaction builder
      * @param enable - true or false
-     * enabled or disables DND on watch
      */
-    private WatchXPlusDeviceSupport setQuiteHoursSwitch(TransactionBuilder tbuilder, boolean enable) {
+    private void setQuiteHoursSwitch(TransactionBuilder tbuilder, boolean enable) {
             LOG.warn("Setting DND switch to" + enable);
             tbuilder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
                 buildCommand(WatchXPlusConstants.CMD_SET_QUITE_HOURS_SWITCH,
                         WatchXPlusConstants.WRITE_VALUE,
                         new byte[]{(byte) (enable ? 0x01 : 0x00)}));
-        return this;
     }
 
     /** get DND settings from app, and send it to watch
@@ -1360,7 +1350,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_SET_PERSONAL_INFO, 5)) {
                 handlePersonalInfo(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_BUTTON_WHILE_RING, 5)) {
-                handleButtonWhenRing(value);
+                handleButtonWhenRing();
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_DISCONNECT_REMIND, 5)) {
                 handleDisconnectReminderState(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_BATTERY_INFO, 5)) {
@@ -1855,7 +1845,6 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
      * for test purposes only
      */
     private void handleShakeState(byte[] value) {
-        boolean z = true;
         String light = "lightScreen";
         if ((value[11] & 1) == 1) {
             light = light + " on";
@@ -1939,8 +1928,8 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     // Command to toggle Lift Wrist to Light Screen, and shake to ignore/reject call
-    private WatchXPlusDeviceSupport setHeadsUpScreen(TransactionBuilder transactionBuilder, boolean enable) {
-        boolean shakeReject = WatchXPlusDeviceCoordinator.getShakeReject(getDevice().getAddress());
+    private void setHeadsUpScreen(TransactionBuilder transactionBuilder, boolean enable) {
+        boolean shakeReject = WatchXPlusDeviceCoordinator.getShakeReject();
         byte refuseCall = 0x00; // force shake wrist to ignore/reject call to OFF
                                 // returned characteristic is equal with button press while ringing
         if (shakeReject) refuseCall = 0x01;
@@ -1958,7 +1947,6 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 buildCommand(WatchXPlusConstants.CMD_SHAKE_SWITCH,
                              WatchXPlusConstants.WRITE_VALUE,
                              liftScreen));
-        return this;
     }
 
     private void setDisconnectReminder(TransactionBuilder transactionBuilder, SharedPreferences sharedPreferences) {
@@ -1966,12 +1954,11 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 WatchXPlusDeviceCoordinator.shouldEnableDisconnectReminder(sharedPreferences));
     }
 
-    private WatchXPlusDeviceSupport setDisconnectReminder(TransactionBuilder transactionBuilder, boolean enable) {
+    private void setDisconnectReminder(TransactionBuilder transactionBuilder, boolean enable) {
         transactionBuilder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
                 buildCommand(WatchXPlusConstants.CMD_DISCONNECT_REMIND,
                         WatchXPlusConstants.WRITE_VALUE,
                         new byte[]{(byte) (enable ? 0x01 : 0x00)}));
-        return this;
     }
 
 // Request status of Disconnect reminder
@@ -1989,7 +1976,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
 // calibrate altitude
     private void setAltitude(TransactionBuilder transactionBuilder) {
-        int mAltitude = WatchXPlusDeviceCoordinator.getAltitude(getDevice().getAddress());
+        int mAltitude = WatchXPlusDeviceCoordinator.getAltitude();
         if (mAltitude < 0) {
             mAltitude = (Math.abs(mAltitude) ^ 65535) + 1;
         }
@@ -2007,7 +1994,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     // set time format
-    private WatchXPlusDeviceSupport setLanguageAndTimeFormat(TransactionBuilder transactionBuilder, byte timeMode, byte language) {
+    private void setLanguageAndTimeFormat(TransactionBuilder transactionBuilder, byte timeMode, byte language) {
         byte[] bArr = new byte[2];
         bArr[0] = language;           //byte[08] language
         bArr[1] = timeMode;           //byte[09] time
@@ -2015,13 +2002,12 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 buildCommand(WatchXPlusConstants.CMD_TIME_LANGUAGE,
                         WatchXPlusConstants.WRITE_VALUE,
                         bArr));
-        return this;
     }
 
     private void setLanguageAndTimeFormat(TransactionBuilder transactionBuilder, SharedPreferences sharedPreferences) {
         this.setLanguageAndTimeFormat(transactionBuilder,
                 WatchXPlusDeviceCoordinator.getTimeMode(sharedPreferences),
-                WatchXPlusDeviceCoordinator.getLanguage(sharedPreferences));
+                WatchXPlusDeviceCoordinator.getLanguage());
     }
 
     @Override
@@ -2084,14 +2070,16 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                     (byte) value};
         }
 
-        static int calculateLow(byte... bArr) {
-            int i = 0;
-            int i2 = 0;
-            while (i < bArr.length) {
-                i2 += (bArr[i] & 255) << (i * 8);
-                i++;
-            }
-            return i2;
-        }
+// --Commented out by Inspection START (13.12.2019 г. 23:38):
+//        static int calculateLow(byte... bArr) {
+//            int i = 0;
+//            int i2 = 0;
+//            while (i < bArr.length) {
+//                i2 += (bArr[i] & 255) << (i * 8);
+//                i++;
+//            }
+//            return i2;
+//        }
+// --Commented out by Inspection STOP (13.12.2019 г. 23:38)
     }
 }

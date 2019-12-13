@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.Collections;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
@@ -47,7 +46,7 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
     public static final int FindPhone_OFF = 0;
     public static boolean isBPCalibrated = false;
 
-    private static Prefs prefs  = GBApplication.getPrefs();
+    private static final Prefs prefs  = GBApplication.getPrefs();
 
     @NonNull
     @Override
@@ -194,7 +193,7 @@ Prefs from device settings on main page
     }
 
 // return watch language pref
-    public static byte getLanguage(SharedPreferences sharedPrefs) {
+    public static byte getLanguage() {
         int settingRead = prefs.getInt(WatchXPlusConstants.PREF_WXP_LANGUAGE, 1);
         return (byte) settingRead;
     }
@@ -308,38 +307,38 @@ Prefs from device settings on main page
 Values from device specific settings page
  */
 // read altitude from preferences
-    public static int getAltitude(String address) {
+    public static int getAltitude() {
         return prefs.getInt(WatchXPlusConstants.PREF_ALTITUDE, 200);
     }
 
 // read repeat call notification
-    public static int getRepeatOnCall(String address) {
+    public static int getRepeatOnCall() {
         return prefs.getInt(WatchXPlusConstants.PREF_REPEAT, 1);
     }
 
 //read continious call notification
-    public static boolean getContiniousVibrationOnCall(String address) {
+    public static boolean getContiniousVibrationOnCall() {
         return prefs.getBoolean(WatchXPlusConstants.PREF_CONTINIOUS, false);
     }
 
 //read missed call notification
-    public static boolean getMissedCallReminder(String address) {
+    public static boolean getMissedCallReminder() {
         return prefs.getBoolean(WatchXPlusConstants.PREF_MISSED_CALL, false);
     }
 
 //read missed call notification
-    public static int getMissedCallRepeat(String address) {
+    public static int getMissedCallRepeat() {
         return prefs.getInt(WatchXPlusConstants.PREF_MISSED_CALL_REPEAT, 0);
     }
 
 
 //read button reject call settings
-    public static boolean getButtonReject(String address) {
+    public static boolean getButtonReject() {
         return prefs.getBoolean(WatchXPlusConstants.PREF_BUTTON_REJECT, false);
     }
 
 //read shake wrist reject call settings
-    public static boolean getShakeReject(String address) {
+    public static boolean getShakeReject() {
         return prefs.getBoolean(WatchXPlusConstants.PREF_SHAKE_REJECT, false);
     }
 

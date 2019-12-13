@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
 
+import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
@@ -31,12 +32,12 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 public class LenovoWatchCalibrationActivity extends AbstractGBActivity {
 
     private static final String STATE_DEVICE = "stateDevice";
-    GBDevice device;
+    private GBDevice device;
 
-    NumberPicker pickerHour, pickerMinute, pickerSecond;
+    private NumberPicker pickerHour, pickerMinute, pickerSecond;
 
-    Handler handler;
-    Runnable holdCalibration;
+    private Handler handler;
+    private Runnable holdCalibration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +93,7 @@ public class LenovoWatchCalibrationActivity extends AbstractGBActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(STATE_DEVICE, device);
     }

@@ -9,7 +9,7 @@ public enum DataType {
     ENVIRONMENT_TEMPERATURE(new byte[]{0x00, 0x09}),
     AIR_PRESSURE(new byte[]{0x00, 0x0A});
 
-    private byte[] value;
+    private final byte[] value;
 
     DataType(byte[] value) {
         this.value = value;
