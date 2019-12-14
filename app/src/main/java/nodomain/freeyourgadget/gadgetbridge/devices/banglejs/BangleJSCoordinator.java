@@ -1,25 +1,23 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.banglejs;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.bluetooth.le.ScanFilter;
+import android.content.Context;
+import android.net.Uri;
+import android.os.Build;
+import android.os.ParcelUuid;
+
+import androidx.annotation.NonNull;
+
 import java.util.Collection;
 import java.util.Collections;
 
-
-import android.app.Activity;
-import android.content.Context;
-import android.net.Uri;
-import android.bluetooth.le.ScanFilter;
-import android.os.ParcelUuid;
-import androidx.annotation.NonNull;
-
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusConstants;
-import nodomain.freeyourgadget.gadgetbridge.devices.id115.ID115SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
-import nodomain.freeyourgadget.gadgetbridge.entities.HPlusHealthActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -37,7 +35,9 @@ public class BangleJSCoordinator extends AbstractDeviceCoordinator {
         return "Espruino";
     }
 
+    @NonNull
     @Override
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public Collection<? extends ScanFilter> createBLEScanFilters() {
         // TODO: filter on name beginning Bangle.js? Doesn't appear to be built-in :(
         // https://developer.android.com/reference/android/bluetooth/le/ScanFilter.Builder.html#setDeviceName(java.lang.String)
@@ -46,6 +46,7 @@ public class BangleJSCoordinator extends AbstractDeviceCoordinator {
         return Collections.singletonList(filter);
     }
 
+    @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
@@ -130,7 +131,7 @@ public class BangleJSCoordinator extends AbstractDeviceCoordinator {
 
 
     @Override
-    protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
+    protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) {
     }
 
     @Override
