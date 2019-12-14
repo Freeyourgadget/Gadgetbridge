@@ -1542,8 +1542,8 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     private HuamiSupport sendCalendarEvents(TransactionBuilder builder) {
         BluetoothGattCharacteristic characteristic = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION);
 
-        Prefs prefs = GBApplication.getPrefs();
-        int availableSlots = prefs.getInt(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, 0);
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        int availableSlots = prefs.getInt(DeviceSettingsPreferenceConst.PREF_RESERVER_ALARMS_CALENDAR, 0);
 
         if (availableSlots > 0) {
             CalendarEvents upcomingEvents = new CalendarEvents();
