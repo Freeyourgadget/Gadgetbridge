@@ -40,7 +40,7 @@ vendor's servers.
 * HPlus Devices (e.g. ZeBand) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
 * ID115
 * Lenovo Watch 9
-* Lenovo Watch X Plus
+* Lenovo Watch X (Plus) [Wiki](https://codeberg.org/mamutcho/Gadgetbridge/wiki)
 * Liveview
 * Makibes HR3
 * Mi Band, Mi Band 1A, Mi Band 1S [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band)
