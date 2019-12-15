@@ -414,7 +414,11 @@ public class ConfigActivity extends AbstractGBActivity {
                     });
                 }
 
-                final String buttonJson = device.getDeviceInfo(FossilWatchAdapter.ITEM_BUTTONS).getDetails();
+                ItemWithDetails item = device.getDeviceInfo(FossilWatchAdapter.ITEM_BUTTONS);
+                String buttonJson = null;
+                if(item != null) {
+                    buttonJson = item.getDetails();
+                }
                 try {
                     JSONArray buttonConfig_;
                     if (buttonJson == null || buttonJson.isEmpty()) {

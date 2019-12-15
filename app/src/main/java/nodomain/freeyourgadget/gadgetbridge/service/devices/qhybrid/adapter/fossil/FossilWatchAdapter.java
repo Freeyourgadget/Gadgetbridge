@@ -443,6 +443,7 @@ public class FossilWatchAdapter extends WatchAdapter {
             }
             case "3dda0002-957f-7d4a-34a6-74696673696d":
             case "3dda0004-957f-7d4a-34a6-74696673696d":
+            case "3dda0005-957f-7d4a-34a6-74696673696d":
             case "3dda0003-957f-7d4a-34a6-74696673696d": {
                 if (fossilRequest != null) {
                     boolean requestFinished;
@@ -591,7 +592,7 @@ public class FossilWatchAdapter extends WatchAdapter {
         queueNextRequest();
     }
 
-    void queueWrite(Request request) {
+    protected void queueWrite(Request request) {
         if (request instanceof SetDeviceStateRequest)
             queueWrite((SetDeviceStateRequest) request, false);
         else if (request instanceof RequestMtuRequest)

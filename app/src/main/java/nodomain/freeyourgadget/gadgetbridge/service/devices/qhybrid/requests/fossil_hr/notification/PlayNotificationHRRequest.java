@@ -1,54 +1,33 @@
-/*  Copyright (C) 2019 Daniel Dakhno
-
-    This file is part of Gadgetbridge.
-
-    Gadgetbridge is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as published
-    by the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    Gadgetbridge is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.notification;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.util.zip.CRC32;
 
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.utils.StringUtils;
 
-public class PlayNotificationRequest extends FilePutRequest {
+public class PlayNotificationHRRequest extends FilePutRequest {
 
-    public PlayNotificationRequest(String packageName, FossilWatchAdapter adapter) {
-        super((short) 0x0900, createFile(packageName, packageName, packageName), adapter);
+    public PlayNotificationHRRequest(NotificationSpec spec, FossilWatchAdapter adapter) {
+        this(spec.sourceAppId, spec.sender, spec.body, adapter);
     }
 
-    public PlayNotificationRequest(String packageName, String sender, String message, FossilWatchAdapter adapter) {
+    public PlayNotificationHRRequest(String packageName, String sender, String message, FossilWatchAdapter adapter){
         super((short) 0x0900, createFile(packageName, sender, message), adapter);
     }
 
-
-    private static byte[] createFile(String packageName, String sender, String message){
-        CRC32 crc = new CRC32();
-        crc.update(packageName.getBytes());
-        return createFile(packageName, sender, message, (int)crc.getValue());
-    }
-
-    private static byte[] createFile(String title, String sender, String message, int packageCrc) {
+    private static byte[] createFile(String packageName, String sender, String message) {
         byte lengthBufferLength = (byte) 10;
         byte typeId = 3;
         byte flags = getFlags();
         byte uidLength = (byte) 4;
         byte appBundleCRCLength = (byte) 4;
-        String nullTerminatedTitle = StringUtils.terminateNull(title);
+        String nullTerminatedTitle = StringUtils.terminateNull(packageName);
 
         Charset charsetUTF8 = Charset.forName("UTF-8");
         byte[] titleBytes = nullTerminatedTitle.getBytes(charsetUTF8);
@@ -77,8 +56,22 @@ public class PlayNotificationRequest extends FilePutRequest {
 
         lengthBuffer = ByteBuffer.allocate(mainBufferLength - lengthBufferLength);
         lengthBuffer.order(ByteOrder.LITTLE_ENDIAN);
-        lengthBuffer.putInt(0);
-        lengthBuffer.putInt(packageCrc);
+        // lengthBuffer.putInt(0);
+        lengthBuffer.put((byte) 0x00);
+        lengthBuffer.put((byte) 0x00);
+        lengthBuffer.put((byte) 0x00);
+        lengthBuffer.put((byte) 0x00);
+
+        CRC32 packageNameCrc = new CRC32();
+        packageNameCrc.update(packageName.getBytes());
+        // lengthBuffer.putInt((int) packageNameCrc.getValue());
+
+        lengthBuffer.putInt((int) 0);
+
+        // lengthBuffer.put((byte) 0x19);
+        // lengthBuffer.put((byte) 0x38);
+        // lengthBuffer.put((byte) 0xE0);
+        // lengthBuffer.put((byte) 0xDA);
         lengthBuffer.put(titleBytes);
         lengthBuffer.put(senderBytes);
         lengthBuffer.put(messageBytes);
@@ -86,8 +79,9 @@ public class PlayNotificationRequest extends FilePutRequest {
         return mainBuffer.array();
     }
 
+
+
     private static byte getFlags(){
         return (byte) 2;
     }
-
 }

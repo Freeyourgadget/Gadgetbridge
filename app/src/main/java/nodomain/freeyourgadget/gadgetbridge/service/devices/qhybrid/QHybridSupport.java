@@ -49,6 +49,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
@@ -68,6 +69,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.WatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.WatchAdapterFactory;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr.FossilHRWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.DownloadFileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -310,6 +312,11 @@ public class QHybridSupport extends QHybridBaseSupport {
     public void onNotification(NotificationSpec notificationSpec) {
         log("notif from " + notificationSpec.sourceAppId + "  " + notificationSpec.sender + "   " + notificationSpec.phoneNumber);
         //new Exception().printStackTrace();
+
+        if(this.watchAdapter instanceof FossilHRWatchAdapter){
+            if(((FossilHRWatchAdapter) watchAdapter).playRawNotification(notificationSpec)) return;
+        }
+
         String packageName = notificationSpec.sourceName;
 
         NotificationConfiguration config = null;
