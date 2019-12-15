@@ -108,14 +108,12 @@
                 android:inputType="number"
                 android:key="pref_wxp_bp_calibration_low"
                 android:defaultValue="80"
-                android:title="@string/pref_wxp_bp_calibration_low"
-                android:summary="@string/pref_rtl_max_line_length_summary"/>
+                android:title="@string/pref_wxp_bp_calibration_low" />
             <EditTextPreference
                 android:inputType="number"
                 android:key="pref_wxp_bp_calibration_high"
                 android:defaultValue="130"
-                android:title="@string/pref_wxp_bp_calibration_high"
-                android:summary="@string/pref_rtl_max_line_length_summary"/>
+                android:title="@string/pref_wxp_bp_calibration_high" />
             <ListPreference
                 android:defaultValue="1"
                 android:title="@string/prefs_wxp_button_bp_calibration"

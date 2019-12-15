@@ -730,8 +730,18 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFetchRecordedData(int dataTypes) {
-
         TransactionBuilder builder;
+        // get battery state
+        try {
+            builder = performInitialized("getBatteryInfo");
+            builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
+                buildCommand(WatchXPlusConstants.CMD_BATTERY_INFO,
+                        WatchXPlusConstants.READ_VALUE));
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.warn("Unable to retrieve battery data", e);
+        }
+
         try {
             builder = performInitialized("fetchData");
 
