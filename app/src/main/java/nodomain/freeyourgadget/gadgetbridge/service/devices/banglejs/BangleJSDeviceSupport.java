@@ -1,44 +1,30 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.banglejs;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.TimeZone;
-import java.util.UUID;
-
-
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.net.Uri;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONArray;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.TimeZone;
+import java.util.UUID;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
-import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSConstants;
-import nodomain.freeyourgadget.gadgetbridge.devices.no1f1.No1F1Constants;
-import nodomain.freeyourgadget.gadgetbridge.devices.no1f1.No1F1SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.entities.No1F1ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
@@ -56,8 +42,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(BangleJSDeviceSupport.class);
-    public BluetoothGattCharacteristic rxCharacteristic = null;
-    public BluetoothGattCharacteristic txCharacteristic = null;
+    private BluetoothGattCharacteristic rxCharacteristic = null;
+    private BluetoothGattCharacteristic txCharacteristic = null;
 
     private String receivedLine = "";
 
@@ -93,27 +79,21 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     /// Write a string of data, and chunk it up
-    public void uartTx(TransactionBuilder builder, String str) {
-        LOG.info("UART TX: ", str);
-        byte bytes[];
-        try {
-            bytes = str.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            LOG.error("TX: UnsupportedEncodingException");
-            return;
-        }
+    private void uartTx(TransactionBuilder builder, String str) {
+        LOG.info("UART TX: " + str);
+        byte[] bytes;
+        bytes = str.getBytes(StandardCharsets.UTF_8);
         for (int i=0;i<bytes.length;i+=20) {
             int l = bytes.length-i;
             if (l>20) l=20;
-            byte packet[] = new byte[l];
-            for (int b=0;b<l;b++)
-                packet[b] = bytes[i+b];
+            byte[] packet = new byte[l];
+            System.arraycopy(bytes, i, packet, 0, l);
             builder.write(txCharacteristic, packet);
         }
     }
 
     /// Write a string of data, and chunk it up
-    public void uartTxJSON(String taskName, JSONObject json) {
+    private void uartTxJSON(String taskName, JSONObject json) {
         try {
             TransactionBuilder builder = performInitialized(taskName);
             uartTx(builder, "\u0010GB("+json.toString()+")\n");
@@ -123,10 +103,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    void handleUartRxLine(String line) {
+    private void handleUartRxLine(String line) {
         LOG.info("UART RX LINE: " + line);
 
-        if (line==">Uncaught ReferenceError: \"gb\" is not defined")
+        if (">Uncaught ReferenceError: \"gb\" is not defined".equals(line))
           GB.toast(getContext(), "Gadgetbridge plugin not installed on Bangle.js", Toast.LENGTH_LONG, GB.ERROR);
         else if (line.charAt(0)=='{') {
             // JSON - we hope!
@@ -139,7 +119,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    void handleUartRxJSON(JSONObject json) throws JSONException {
+    private void handleUartRxJSON(JSONObject json) throws JSONException {
         switch (json.getString("t")) {
             case "info":
                 GB.toast(getContext(), "Bangle.js: " + json.getString("msg"), Toast.LENGTH_LONG, GB.INFO);
@@ -222,11 +202,11 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             return true;
         }
         if (BangleJSConstants.UUID_CHARACTERISTIC_NORDIC_UART_RX.equals(characteristic.getUuid())) {
-            byte chars[] = characteristic.getValue();
+            byte[] chars = characteristic.getValue();
             String packetStr = new String(chars);
             LOG.info("RX: " + packetStr);
             receivedLine += packetStr;
-            while (receivedLine.indexOf("\n")>=0) {
+            while (receivedLine.contains("\n")) {
                 int p = receivedLine.indexOf("\n");
                 String line =  receivedLine.substring(0,p-1);
                 receivedLine = receivedLine.substring(p+1);
@@ -316,7 +296,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         try {
             JSONObject o = new JSONObject();
             o.put("t", "call");
-            String cmdString[] = {"","undefined","accept","incoming","outgoing","reject","start","end"};
+            String[] cmdString = {"", "undefined", "accept", "incoming", "outgoing", "reject", "start", "end"};
             o.put("cmd", cmdString[callSpec.command]);
             o.put("name", callSpec.name);
             o.put("number", callSpec.number);
@@ -336,7 +316,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         try {
             JSONObject o = new JSONObject();
             o.put("t", "musicstate");
-            String musicStates[] = {"play","pause","stop",""};
+            String[] musicStates = {"play", "pause", "stop", ""};
             o.put("state", musicStates[stateSpec.state]);
             o.put("position", stateSpec.position);
             o.put("shuffle", stateSpec.shuffle);

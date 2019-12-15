@@ -804,9 +804,12 @@
     <string name="qhybrid_overwrite_buttons">覆盖按钮</string>
     <string name="qhybrid_use_activity_hand_as_notification_counter">使用活动手作为通知计数</string>
     <string name="qhybrid_prompt_million_steps">请将步数设置为100万来激活它。</string>
-    <string name="qhybrid_buttons_overwrite_success">已成功覆盖按钮</string>
+    <string name="qhybrid_buttons_overwrite_success">按钮覆盖</string>
     <string name="qhybrid_buttons_overwrite_error">覆盖按钮时出错</string>
     <string name="qhybrid_offset_timezone">基于时区偏移</string>
     <string name="qhybrid_changes_delay_prompt">修改可能需要几秒…</string>
     <string name="qhybrid_offset_time_by">经由时间偏移</string>
+    <string name="pref_disable_new_ble_scanning">禁用新低功率蓝牙扫描</string>
+    <string name="pref_summary_disable_new_ble_scanning">若您的设备无法在扫描过程中发现，请选中此选项</string>
+    <string name="devicetype_banglejs">Bangle.js</string>
 </resources>

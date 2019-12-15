@@ -792,4 +792,7 @@
 \n
 \nFORTSETT PÅ EGEN RISIKO!</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="watch_not_connected">Klokke ikke tilkoblet</string>
+    <string name="qhybrid_vibration_strength">vibrasjonsstyrke:</string>
+    <string name="devicetype_banglejs">Bangle.js</string>
 </resources>

@@ -248,8 +248,8 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static int getReservedAlarmSlots(String miBandAddress) throws IllegalArgumentException {
-        Prefs prefs = GBApplication.getPrefs();
-        return prefs.getInt(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, 0);
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(miBandAddress));
+        return prefs.getInt(DeviceSettingsPreferenceConst.PREF_RESERVER_ALARMS_CALENDAR, 0);
     }
 
     @Override
@@ -263,6 +263,7 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
         return new int[]{
                 R.xml.devicesettings_wearlocation,
                 R.xml.devicesettings_lowlatency_fwupdate,
+                R.xml.devicesettings_reserve_alarms_calendar,
                 R.xml.devicesettings_fake_timeoffset
         };
     }
