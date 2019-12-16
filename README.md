@@ -82,6 +82,7 @@ Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/ma
 * Johannes Schmitt (BFH-16)
 * Lukas Schwichtenberg (Makibes HR3)
 * Daniel Dakhno (Fossil Q Hybrid)
+* Gordon Williams (Bangle.js)
 
 ## Contribute
 

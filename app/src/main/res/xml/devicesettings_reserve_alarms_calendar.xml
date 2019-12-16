@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:defaultValue="0"
+        android:digits="0123"
+        android:inputType="number"
+        android:key="reserve_alarms_calendar"
+        android:maxLength="1"
+        android:title="@string/miband_prefs_reserve_alarm_calendar" />
+
+</androidx.preference.PreferenceScreen>
