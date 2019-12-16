@@ -1,6 +1,6 @@
 ### Changelog
 
-#### Version 0.40.0 (WIP)
+#### Version 0.40.0
 * Fossil Q Hybrid: Initial support
 * Bangle.js: Initial support
 * Reserve Alarm for Calendar feature restricted to Mi Band 1/2 and moved to per-device settings
