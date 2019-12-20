@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.40.0" versioncode="163">
+        <change>Fossil Q Hybrid: Initial support</change>
+        <change>Bangle.js: Initial support</change>
+        <change>Reserve Alarm for Calendar feature restricted to Mi Band 1/2 and moved to per-device settings</change>
+        <change>New icon for App Manager</change>
+    </release>
     <release version="0.39.1" versioncode="162">
         <change>Try to actively re-connect when a connection gets interrupted (interval grows up to 64 seconds)</change>
         <change>Mi Band2/Amazfip Bip: Make button action settings per-device and enable for Amazfit Bip</change>
