@@ -12,10 +12,13 @@ import nodomain.freeyourgadget.gadgetbridge.entities.WatchXPlusActivitySampleDao
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class WatchXPlusSampleProvider extends AbstractSampleProvider<WatchXPlusActivitySample> {
+    private GBDevice mDevice;
+    private DaoSession mSession;
 
     public WatchXPlusSampleProvider(GBDevice device, DaoSession session) {
         super(device, session);
-
+        mSession = session;
+        mDevice = device;
     }
 
     @Override

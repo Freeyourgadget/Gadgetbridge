@@ -51,7 +51,7 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final String PREF_LONGSIT_SWITCH = "pref_watchxplus_longsit_switch";
     public static final String PREF_LONGSIT_PERIOD = "pref_watchxplus_longsit_period";
     public static final String PREF_WXP_LANGUAGE = "pref_wxp_language";
-    public static final String PREF_POWER_MODE = "pref_wxp_power_mode";
+    public static final String PREF_POWER_MODE = "pref_wxp_power";
 
 
     // time format constants

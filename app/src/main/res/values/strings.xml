@@ -197,11 +197,8 @@
     <string name="pref_wxp_title_repeat_on_call">Repeat call notification</string>
     <string name="pref_wxp_title_repeat_on_call_summary">Possible values min=0, max=10</string>
     <string name="prefs_wxp_continious">Vibration during phone ring</string>
-    <string name="prefs_wxp_missed">Vibration on missed call</string>
     <string name="preferences_watchxplus_settings">Watch X Plus settings</string>
     <string name="pref_header_wxp_call_notification">Notifications and Calls</string>
-    <string name="pref_header_wxp_notification_call">Call notifications</string>
-    <string name="pref_header_wxp_notification_misscall">MissCall notifications</string>
     <string name="pref_wxp_title_reject_summary">Off - ignore, On - reject</string>
     <string name="prefs_wxp_reject">Button ignore/reject call</string>
     <string name="pref_wxp_title_shake_reject_summary">Duplicates watch button action</string>

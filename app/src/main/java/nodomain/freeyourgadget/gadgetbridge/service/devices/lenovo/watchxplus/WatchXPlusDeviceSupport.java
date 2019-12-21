@@ -90,6 +90,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Prefs prefs  = GBApplication.getPrefs();
@@ -471,7 +473,6 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private boolean isRinging = false;  // store ringing state
-    private boolean outCall = false;    // store outgoing call state
     private boolean isMissedCall = false;    // missed call state
     private int remainingRepeats = 0;   // initialize call notification reminds
     private int remainingMissedRepeats = 0;   // initialize missed call notification reminds
@@ -488,10 +489,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     public void onSetCallState(final CallSpec callSpec) {
         final int repeatDelay = 5000;       // repeat delay of 5 sec (watch show call notifications for about 5 sec.)
         final int repeatMissedDelay = 60000;       // repeat missed call delay of 60 sec
-        // get settings for continuous vibration while phone rings
-        final boolean continuousRing = WatchXPlusDeviceCoordinator.getContiniousVibrationOnCall();
         // set settings for missed call
-        boolean missedCall = WatchXPlusDeviceCoordinator.getMissedCallReminder();
         int repeatCount = WatchXPlusDeviceCoordinator.getRepeatOnCall();
         int repeatCountMissed = WatchXPlusDeviceCoordinator.getMissedCallRepeat();
         // check if repeatCount is in boundaries min=0, max=10
@@ -504,12 +502,13 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         switch (callSpec.command) {
             case CallSpec.CALL_INCOMING:
                 isRinging = true;
-                isMissedCall = false;
                 remainingRepeats = repeatCount;
                 LOG.info(" Incomming call ");
                 if (("Phone".equals(callSpec.name)) || (callSpec.name.contains("ropusn")) || (callSpec.name.contains("issed"))) {
                     // do nothing for notifications without caller name, e.g. system call event
                 } else {
+                    // possible missed call
+                    isMissedCall = true;
                     // send first notification
                     sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, callSpec.name);
                     // init repeat handler
@@ -517,7 +516,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                     handler.postDelayed(new Runnable() {
                         public void run() {
                             // Actions to do after repeatDelay seconds
-                            if (((isRinging) && (remainingRepeats > 0)) || ((isRinging) && (continuousRing))) {
+                            if (((isRinging) && (remainingRepeats > 0)) || ((isRinging) && (WatchXPlusDeviceCoordinator.getContiniousVibrationOnCall()))) {
                                 remainingRepeats = remainingRepeats - 1;
                                 sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, callSpec.name);
                                 // re-run handler
@@ -534,43 +533,37 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 break;
             case CallSpec.CALL_START:
                 isRinging = false;
-                outCall = false;
                 isMissedCall = false;
                 cancelNotification();
                 LOG.info(" Call start ");
                 break;
             case CallSpec.CALL_REJECT:
                 isRinging = false;
-                outCall = false;
                 isMissedCall = false;
                 cancelNotification();
                 LOG.info(" Call reject ");
                 break;
             case CallSpec.CALL_ACCEPT:
                 isRinging = false;
-                outCall = false;
                 isMissedCall = false;
                 cancelNotification();
                 LOG.info(" Call accept ");
                 break;
             case CallSpec.CALL_OUTGOING:
-                outCall = true;
                 isRinging = false;
                 isMissedCall = false;
                 cancelNotification();
                 LOG.info(" Outgoing call ");
                 break;
             case CallSpec.CALL_END:
-                if ((isRinging) && (!outCall)) {
-                    LOG.info(" End call ");
-                    // it's a missed call, don't clear notification to preserve small icon near bluetooth
-                    isRinging = false;
-                    outCall = false;
-                    isMissedCall = true;
+                LOG.info(" End call ");
+                isRinging = false;
+                // it's a missed call, don't clear notification to preserve small icon near bluetooth
+                if (isMissedCall) {
                     remainingMissedRepeats = repeatCountMissed;
                     // send missed call notification if enabled in settings
-                    if (missedCall) {
-                        LOG.info(" Missed call ");
+                    if (WatchXPlusDeviceCoordinator.getMissedCallReminder()) {
+                        LOG.info(" Missed call reminder ");
                         sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, "Missed call");
                         // repeat missed call notification
                         final Handler handler = new Handler();
@@ -580,10 +573,12 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                                 if ((isMissedCall) && (remainingMissedRepeats > 0)) {
                                     remainingMissedRepeats = remainingMissedRepeats - 1;
                                     sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, "Missed call");
+                                    LOG.info(" Missed call reminder repeats to go: " + remainingMissedRepeats);
                                     // re-run handler
                                     handler.postDelayed(this, repeatMissedDelay);
                                 } else {
                                     remainingMissedRepeats = 0;
+                                    LOG.info(" Missed call reminder repeats to go: " + remainingMissedRepeats);
                                     isMissedCall = false;
                                     // stop handler
                                     handler.removeCallbacks(this);
@@ -591,10 +586,13 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                                 }
                             }
                         }, repeatMissedDelay);
+                    } else {
+                        remainingMissedRepeats = 0;
+                        isMissedCall = false;
+                        cancelNotification();
                     }
                 } else {
                     isRinging = false;
-                    outCall = false;
                     isMissedCall = false;
                     cancelNotification();
                     LOG.info(" Outgoing call end ");
@@ -1016,6 +1014,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         }   catch (IOException e) {
             LOG.warn("Unable to set power mode", e);
         }
+        //prefs.getPreferences().edit().putInt("PREF_POWER_MODE", 0).apply();
     }
 
      /** request watch units
