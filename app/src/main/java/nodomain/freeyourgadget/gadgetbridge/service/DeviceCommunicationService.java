@@ -814,6 +814,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             }
             if (mAutoConnectInvervalReceiver != null) {
                 unregisterReceiver(mAutoConnectInvervalReceiver);
+                mAutoConnectIntervalReceiver.destroy();
                 mAutoConnectInvervalReceiver = null;
             }
         }
