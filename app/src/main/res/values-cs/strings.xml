@@ -307,7 +307,7 @@
     <string name="activity_prefs_weight_kg">Váha v kg</string>
     <string name="authenticating">Ověřování</string>
     <string name="authentication_required">Ověřování vyžadováno</string>
-    <string name="appwidget_text">Spí…</string>
+    <string name="appwidget_text">Spí</string>
     <string name="add_widget">Přidat widget</string>
     <string name="activity_prefs_sleep_duration">Preferovaná doba spánku v hodinách</string>
     <string name="appwidget_setting_alarm">Budík nastaven na %1$02d:%2$02d</string>
@@ -356,7 +356,7 @@
     <string name="unit_metric">Metrické</string>
     <string name="unit_imperial">Imperiální</string>
     <string name="timeformat_24h">24h</string>
-    <string name="timeformat_am_pm">dop./odp.</string>
+    <string name="timeformat_am_pm">Dop./Odp.</string>
     <string name="pref_screen_notification_profile_alarm_clock">Budík</string>
     <string name="StringUtils_sender">(%1$s)</string>
     <string name="find_device_you_found_it">Nalezeno!</string>
@@ -576,7 +576,7 @@
     <string name="ok">Ok</string>
     <string name="mi3_night_mode_sunset">Při západu slunce</string>
     <string name="controlcenter_start_activity_tracks">Záznamy aktivit</string>
-    <string name="activity_type_treadmill">Běh na pásu</string>
+    <string name="activity_type_treadmill">Běžecký pás</string>
     <string name="devicetype_miband3">Mi Band 3</string>
     <string name="devicetype_q8">Q8</string>
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
@@ -725,7 +725,7 @@
     <string name="pref_title_use_custom_font">Využít vlastní font</string>
     <string name="pref_summary_use_custom_font">Vaše zařízení má vlastní font s podporou emoji</string>
     <string name="activity_db_management_autoexport_explanation">Cesta autoexportu databáze je nastaveno na:</string>
-    <string name="activity_db_management_autoexport_label">AutoExport</string>
+    <string name="activity_db_management_autoexport_label">Automatický export</string>
     <string name="activity_DB_ExportButton">Exportovat Databázi</string>
     <string name="activity_DB_import_button">Importovat Databázi</string>
     <string name="activity_DB_test_export_button">Spustit AutoExport Teď</string>
@@ -792,4 +792,22 @@
 \n
 \nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
+    <string name="preferences_qhybrid_settings">Q hybrid nastavení</string>
+    <string name="watch_not_connected">Hodinky nejsou připojeny</string>
+    <string name="qhybrid_vibration_strength">síla vibrace:</string>
+    <string name="qhybrid_goal_in_steps">Cíl v krocích</string>
+    <string name="qhybrid_time_shift">časový posun</string>
+    <string name="qhybrid_second_timezone_offset_relative_to_utc">posun dalšího časového pásma vzhledem k UTC</string>
+    <string name="qhybrid_overwrite_buttons">přepsat tlačítka</string>
+    <string name="qhybrid_use_activity_hand_as_notification_counter">použít čítač aktivity jako čítač oznámení</string>
+    <string name="qhybrid_prompt_million_steps">Chcete-li aktivovat počítadlo, nastavte počet kroků na milion.</string>
+    <string name="qhybrid_buttons_overwrite_success">Tlačítka přepsána</string>
+    <string name="qhybrid_buttons_overwrite_error">Chyba při přepisování tlačítek</string>
+    <string name="qhybrid_offset_timezone">posun časového pásma podle</string>
+    <string name="qhybrid_changes_delay_prompt">změna může trvat několik sekund…</string>
+    <string name="qhybrid_offset_time_by">posun času o</string>
+    <string name="pref_disable_new_ble_scanning">Zakázat nové BLE skenování</string>
+    <string name="pref_summary_disable_new_ble_scanning">Tuto možnost zaškrtněte pokud Vaše zařízení nelze najít během vyhledávání</string>
+    <string name="devicetype_banglejs">Bangle.js</string>
 </resources>
