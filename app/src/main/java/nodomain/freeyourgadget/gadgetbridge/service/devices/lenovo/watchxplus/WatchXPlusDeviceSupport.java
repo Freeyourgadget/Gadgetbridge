@@ -353,22 +353,26 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         nowDevice.set(Calendar.DAY_OF_WEEK, Conversion.fromBcd8(time[16]) + 1);
 
         long timeDiff = (Math.abs(now.getTimeInMillis() - nowDevice.getTimeInMillis())) / 1000;
+
         LOG.info(" Time diff: " + timeDiff);
         if (10 < timeDiff && timeDiff < 120) {
-            LOG.info(" Set new time ");
-            boolean onlyDigital = prefs.getBoolean(WatchXPlusConstants.PREF_ONLY_DIGITAL, true);
-            if (onlyDigital) {
-                LOG.info(" Auto set time ");
-                enableCalibration(true);
-                setTime(BLETypeConversions.createCalendar());
-                enableCalibration(false);
-            } else {
-                LOG.info(" Auto set time is OFF ");
-            }
+            LOG.info(" Auto set time ");
+            enableCalibration(true);
+            setTime(BLETypeConversions.createCalendar());
+            enableCalibration(false);
         } else if (timeDiff > 120) {
             LOG.info(" Time diff is too big ");
             GB.toast("Manual time calibration needed!", Toast.LENGTH_LONG, GB.WARN);
             sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_DEFAULT, "Calibrate time");
+            boolean forceTime = prefs.getBoolean(WatchXPlusConstants.PREF_FORCE_TIME, false);
+            if (forceTime) {
+                LOG.info(" Force set time ");
+                enableCalibration(true);
+                setTime(BLETypeConversions.createCalendar());
+                enableCalibration(false);
+                GB.toast("Check analog time!", Toast.LENGTH_LONG, GB.WARN);
+                sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_DEFAULT, "Check analog time");
+            }
         }
     }
 

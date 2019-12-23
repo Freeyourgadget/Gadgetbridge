@@ -316,8 +316,8 @@
     <string name="prefs_wxp_longsit_switch">Включи напомняне за активност</string>
     <string name="pref_wxp_title_longsit">Период на неактивност (минути)</string>
     <string name="wxp_language_title">Език</string>
-    <string name="pref_wxp_title_only_digital">Синхронизирай часа</string>
-    <string name="pref_wxp_title_only_digital_sum">Синхронизирай дата и час при свързване</string>
+    <string name="pref_wxp_title_force_time">Принудително синхронизирай часа</string>
+    <string name="pref_wxp_title_force_time_sum">Принудително синхронизирай дата и час при свързване. Стрелките може да показват грешно време.</string>
     <string name="pref_header_wxp_call_notification">Известия и Обаждания</string>
 
     <string name="title_activity_sleepmonitor">Наблюдение/анализ на съня</string>

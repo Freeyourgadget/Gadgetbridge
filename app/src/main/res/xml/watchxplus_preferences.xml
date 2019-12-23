@@ -91,10 +91,10 @@
         </PreferenceScreen>
         <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
-            android:defaultValue="true"
-            android:key="pref_wxp_only_digital"
-            android:summary="@string/pref_wxp_title_only_digital_sum"
-            android:title="@string/pref_wxp_title_only_digital" />
+            android:defaultValue="false"
+            android:key="pref_wxp_force_time"
+            android:summary="@string/pref_wxp_title_force_time_sum"
+            android:title="@string/pref_wxp_title_force_time" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_category_watchxplus_calibration"
