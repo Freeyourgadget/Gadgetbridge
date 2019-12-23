@@ -249,9 +249,9 @@ Prefs from device settings on main page
     /**
      * @param startOut out Only hour/minute are used.
      * @param endOut   out Only hour/minute are used.
-     * @return True if quite hours are enabled.
+     * @return True if DND hours are enabled.
      */
-    public static boolean getQuiteHours(SharedPreferences sharedPrefs, Calendar startOut, Calendar endOut) {
+    public static boolean getDNDHours(SharedPreferences sharedPrefs, Calendar startOut, Calendar endOut) {
         String doNotDisturb = sharedPrefs.getString(WatchXPlusConstants.PREF_DO_NOT_DISTURB, getContext().getString(R.string.p_off));
 
         assert doNotDisturb != null;
@@ -278,7 +278,7 @@ Prefs from device settings on main page
     /**
      * @param startOut out Only hour/minute are used.
      * @param endOut   out Only hour/minute are used.
-     * @return True if quite hours are enabled.
+     * @return True if DND hours are enabled.
      */
     public static boolean getLongSitHours(SharedPreferences sharedPrefs, Calendar startOut, Calendar endOut) {
         boolean enabled = prefs.getBoolean(WatchXPlusConstants.PREF_LONGSIT_SWITCH, false);

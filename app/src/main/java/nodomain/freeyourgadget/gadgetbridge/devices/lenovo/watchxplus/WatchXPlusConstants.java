@@ -52,7 +52,7 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final String PREF_LONGSIT_PERIOD = "pref_watchxplus_longsit_period";
     public static final String PREF_WXP_LANGUAGE = "pref_wxp_language";
     public static final String PREF_POWER_MODE = "pref_wxp_power";
-
+    public static final String PREF_ONLY_DIGITAL = "pref_wxp_only_digital";
 
     // time format constants
     public static final byte ARG_SET_TIMEMODE_24H = 0x00;
@@ -74,10 +74,9 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final byte[] CMD_NOTIFICATION_TEXT_TASK       = new byte[]{0x03, 0x06};
     public static final byte[] CMD_NOTIFICATION_CANCEL          = new byte[]{0x03, 0x04};
     public static final byte[] CMD_NOTIFICATION_SETTINGS        = new byte[]{0x03, 0x02};
-    public static final byte[] CMD_DO_NOT_DISTURB_SETTINGS      = new byte[]{0x03, 0x61};
     public static final byte[] CMD_POWER_MODE                   = new byte[]{0x03, -0x7F};
-    public static final byte[] CMD_SET_QUITE_HOURS_TIME         = new byte[]{0x03, 0x62};
-    public static final byte[] CMD_SET_QUITE_HOURS_SWITCH       = new byte[]{0x03, 0x61};
+    public static final byte[] CMD_SET_DND_HOURS_TIME         = new byte[]{0x03, 0x62};
+    public static final byte[] CMD_SET_DND_HOURS_SWITCH       = new byte[]{0x03, 0x61};
     public static final byte[] CMD_SET_PERSONAL_INFO            = new byte[]{0x01, 0x0E};
     public static final byte[] CMD_INACTIVITY_REMINDER_SWITCH   = new byte[]{0x03, 0x51};
     public static final byte[] CMD_INACTIVITY_REMINDER_SET      = new byte[]{0x03, 0x52};

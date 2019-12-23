@@ -291,10 +291,7 @@
     <string name="pref_wxp_title_repeat_on_call">Повтаряй известие за позвъняване</string>
     <string name="pref_wxp_title_repeat_on_call_summary">Възможни стойности min=0, max=10</string>
     <string name="prefs_wxp_continious">Известявай докато телефона звъни</string>
-    <string name="prefs_wxp_missed">Известие за пропуснато обаждане</string>
     <string name="preferences_watchxplus_settings">Watch X Plus настройки</string>
-    <string name="pref_header_wxp_notification_call">Известия при обаждане</string>
-    <string name="pref_header_wxp_notification_misscall">Известия при пропуснато обаждане</string>
     <string name="pref_wxp_title_reject_summary">Изкл. - заглуши, Вкл. - откажи</string>
     <string name="prefs_wxp_reject">Бутона заглушава/отказва повикване</string>
     <string name="pref_wxp_title_shake_reject_summary">Повтаря действието на бутона</string>
@@ -319,6 +316,8 @@
     <string name="prefs_wxp_longsit_switch">Включи напомняне за активност</string>
     <string name="pref_wxp_title_longsit">Период на неактивност (минути)</string>
     <string name="wxp_language_title">Език</string>
+    <string name="pref_wxp_title_only_digital">Синхронизирай часа</string>
+    <string name="pref_wxp_title_only_digital_sum">Синхронизирай дата и час при свързване</string>
     <string name="pref_header_wxp_call_notification">Известия и Обаждания</string>
 
     <string name="title_activity_sleepmonitor">Наблюдение/анализ на съня</string>

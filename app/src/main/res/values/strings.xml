@@ -222,6 +222,8 @@
     <string name="pref_wxp_longsit_switch_summary">Inactivity time interval is from DND setting</string>
     <string name="prefs_wxp_longsit_switch">Enable inactivity reminder</string>
     <string name="pref_wxp_title_longsit">Inactivity period (minutes)</string>
+    <string name="pref_wxp_title_only_digital">Synchronize time</string>
+    <string name="pref_wxp_title_only_digital_sum">On reconnect auto synchronize time</string>
     <string name="wxp_language_title">Language</string>
 
     <!-- Makibes HR3 Preferences -->

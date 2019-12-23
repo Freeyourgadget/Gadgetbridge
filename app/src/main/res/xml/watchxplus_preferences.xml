@@ -89,6 +89,12 @@
                 android:summary="@string/pref_wxp_longsit_switch_summary"
                 android:title="@string/prefs_wxp_longsit_switch" />
         </PreferenceScreen>
+        <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
+            android:defaultValue="true"
+            android:key="pref_wxp_only_digital"
+            android:summary="@string/pref_wxp_title_only_digital_sum"
+            android:title="@string/pref_wxp_title_only_digital" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_category_watchxplus_calibration"
