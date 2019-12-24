@@ -21,14 +21,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBAlarmListAdapter;
@@ -136,7 +137,7 @@ public class ConfigureAlarms extends AbstractGBActivity {
     }
 
     private Alarm createDefaultAlarm(@NonNull Device device, @NonNull User user, int position) {
-        return new Alarm(device.getId(), user.getId(), position, false, false,0, 6, 30);
+        return new Alarm(device.getId(), user.getId(), position, false, false, 0, 6, 30, false);
     }
 
     @Override

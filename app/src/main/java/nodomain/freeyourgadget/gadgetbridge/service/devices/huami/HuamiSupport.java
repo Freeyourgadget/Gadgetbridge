@@ -1487,13 +1487,17 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
 
         int base = 0;
-        if (alarm.getEnabled()) {
+        int daysMask = 0;
+        if (alarm.getEnabled() && !alarm.getUnused()) {
             base = 128;
         }
-        int daysMask = alarm.getRepetition();
-        if (!alarm.isRepetitive()) {
-            daysMask = 128;
+        if (!alarm.getUnused()) {
+            daysMask = alarm.getRepetition();
+            if (!alarm.isRepetitive()) {
+                daysMask = 128;
+            }
         }
+
         byte[] alarmMessage = new byte[] {
                 (byte) 0x2, // TODO what is this?
                 (byte) (base + alarm.getPosition()), // 128 is the base, alarm slot is added

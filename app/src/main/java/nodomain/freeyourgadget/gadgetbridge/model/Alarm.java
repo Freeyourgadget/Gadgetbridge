@@ -37,6 +37,8 @@ public interface Alarm extends Serializable {
 
     boolean getEnabled();
 
+    boolean getUnused();
+
     boolean getSmartWakeup();
 
     int getRepetition();
