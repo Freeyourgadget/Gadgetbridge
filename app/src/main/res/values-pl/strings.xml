@@ -346,7 +346,7 @@
     <string name="activity_type_running">Bieganie</string>
     <string name="activity_type_swimming">Pływanie</string>
     <string name="activity_type_treadmill">Bieżnia</string>
-    <string name="controlcenter_connect">Połącz</string>
+    <string name="controlcenter_connect">Połącz…</string>
     <string name="controlcenter_navigation_drawer_open">Otwórz okno nawigacji</string>
     <string name="controlcenter_navigation_drawer_close">Zamknij okno nawigacji</string>
     <string name="controlcenter_calibrate_device">Kalibracja urządzenia</string>
