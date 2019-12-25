@@ -48,7 +48,7 @@
     <string name="whitelist_all_for_notifications">Разрешаване на всички известия</string>
     <string name="title_activity_calblacklist">Блокирани Календари</string>
     <string name="title_activity_fw_app_insaller">FW/App инсталатор</string>
-    <string name="fw_upgrade_notice">Ще се инсталира %s</string>
+    <string name="fw_upgrade_notice">Ще се инсталира %s.</string>
     <string name="fw_upgrade_notice_amazfitbip">Ще се инсталира %s firmware на вашия Amazfit Bip.
 \n
 \nПърво трябва да се инсталира .fw file, след това .res file и накрая .gps file. Часовникът ще се рестартира след инсталирането на .fw file.
@@ -56,13 +56,13 @@
 \nНе е необходимо да се инсталират .res и .gps файловете ако те са същите като инсталираните по-рано.
 \n
 \nПРОДЪЛЖАВАТЕ НА СВОЯ ОТГОВОРНОСТ!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Ще се инсталира %s firmware на вашия Amazfit Cor.
-\n
-\nПърво трябва да се инсталира .fw file и след това .res file. Устройството ще се рестартира след инсталирането на .fw file.
-\n
-\nНе е необходимо да се инсталира .res файл, ако е същия като инсталирания по-рано.
-\n
-\nПРОДЪЛЖАВАТЕ НА СВОЯ ОТГОВОРНОСТ!</string>
+    <string name="fw_upgrade_notice_amazfitcor">Ще се инсталира %s фърмуеърът на вашия Amazfit Cor. 
+\n 
+\nПърво трябва да инсталирате .fw файла, а след това .res файла. Гривната Ви ще се рестартира след инсталирането на .fw файла. 
+\n 
+\nВнимание: Не е необходимо да се инсталира .res файла, ако сте инсталирали същия преди. 
+\n 
+\nИНСТАЛИРАЙТЕ НА СВОЯ ОТГОВОРНОСТ!</string>
     <string name="fw_upgrade_notice_miband3">Ще се инсталира %s firmware на вашия Mi Band 3.
 \n
 \nПърво трябва да се инсталира .fw file и след това .res file. Устройството ще се рестартира след инсталирането на .fw file.
@@ -234,7 +234,7 @@
     <string name="pairing_unable_to_pair_with">Не може да се сдвои с/със %1$s (%2$s)</string>
     <string name="pairing_in_progress">Установява се връзка: %1$s (%2$s)</string>
     <string name="pairing_already_bonded">Установена е връзка с/със %1$s (%2$s), свързване…</string>
-    <string name="message_cannot_pair_no_mac">Липсва MAC адрес, не може да се установи връзка</string>
+    <string name="message_cannot_pair_no_mac">Липсва MAC адрес, не може да се установи връзка.</string>
     <string name="preferences_category_device_specific_settings">Специфични настройки за устройствата</string>
     <string name="preferences_miband_settings">Mi Band / Amazfit настройки</string>
     <string name="male">Мъж</string>
@@ -252,7 +252,7 @@
     <string name="candidate_item_device_image">Изображение на устройството</string>
     <string name="miband_prefs_alias">Име/Псевдоним</string>
     <string name="pref_header_vibration_count">Брой на вибрациите</string>
-    <string name="watch9_pairing_tap_hint">Когато часовникът завибрира, разклатете устройството или натиснете бутона</string>
+    <string name="watch9_pairing_tap_hint">Когато часовникът завибрира, разклатете устройството или натиснете бутона.</string>
     <string name="title_activity_sleepmonitor">Наблюдение/анализ на съня</string>
     <string name="pref_write_logfiles">Съхраняване на log файлове</string>
     <string name="initializing">Инициализиране</string>
@@ -287,7 +287,7 @@
     <string name="zetime_title_heartrate">Сърдечен ритъм настройки</string>
     <string name="zetime_title_screentime">Продължителност на включен екран в секунди</string>
     <string name="zetime_title_heart_rate_alarm">Сърдечен ритъм аларма</string>
-    <string name="zetime_title_heart_rate_alarm_summary">Часовникът ще ви предупреди, когато сърдечният ритъм премине границите</string>
+    <string name="zetime_title_heart_rate_alarm_summary">Часовникът ще ви предупреди, когато сърдечният ритъм премине границите.</string>
     <string name="zetime_heart_rate_alarm_enable">Включване на алармата за сърдечния ритъм</string>
     <string name="activity_prefs_alarm_max_heart_rate">Максимален сърдечен ритъм</string>
     <string name="activity_prefs_alarm_min_heart_rate">Минимален сърдечен ритъм</string>
@@ -296,7 +296,7 @@
     <string name="zetime_analog_mode_handsandsteps">Ръце и крачки</string>
     <string name="zetime_activity_tracking">Проследяване на активност</string>
     <string name="zetime_handmove_display">Движение на ръката</string>
-    <string name="zetime_handmove_display_summary">Завъртете китката, за активиране или деактивиране на екрана</string>
+    <string name="zetime_handmove_display_summary">Завъртете китката, за активиране или деактивиране на екрана.</string>
     <string name="zetime_calories_type">Вид калории</string>
     <string name="zetime_calories_type_active">Само активно изгорени калории</string>
     <string name="zetime_calories_type_all">Активно и неактивно изгорени калории</string>
@@ -334,7 +334,7 @@
     <string name="stats_x_axis_label">Общо минути</string>
     <string name="stats_y_axis_label">Крачки в минута</string>
     <string name="control_center_find_lost_device">Търсене на загубено устройство</string>
-    <string name="control_center_cancel_to_stop_vibration">Отменете за спиране на вибрацията</string>
+    <string name="control_center_cancel_to_stop_vibration">Отменете за спиране на вибрацията.</string>
     <string name="title_activity_charts">Вашата активност</string>
     <string name="title_activity_set_alarm">Настройка на алармите</string>
     <string name="controlcenter_start_configure_alarms">Настройка на алармите</string>
