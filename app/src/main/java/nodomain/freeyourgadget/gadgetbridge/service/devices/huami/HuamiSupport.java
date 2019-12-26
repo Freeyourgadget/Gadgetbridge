@@ -164,7 +164,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     };
 
     private BluetoothGattCharacteristic characteristicHRControlPoint;
-    protected BluetoothGattCharacteristic characteristicChunked;
+    private BluetoothGattCharacteristic characteristicChunked;
 
     private boolean needsAuth;
     private volatile boolean telephoneRinging;
@@ -181,6 +181,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     private MusicSpec bufferMusicSpec = null;
     private MusicStateSpec bufferMusicStateSpec = null;
     private boolean heartRateNotifyEnabled;
+    private int mMTU = 23;
 
     public HuamiSupport() {
         this(LOG);
@@ -293,13 +294,13 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         builder.notify(getCharacteristic(GattService.UUID_SERVICE_CURRENT_TIME), enable);
         // Notify CHARACTERISTIC9 to receive random auth code
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_AUTH), enable);
+        builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_DEVICEEVENT), enable);
         return this;
     }
 
     public HuamiSupport enableFurtherNotifications(TransactionBuilder builder, boolean enable) {
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), enable);
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_6_BATTERY_INFO), enable);
-        builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_DEVICEEVENT), enable);
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_AUDIO), enable);
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_AUDIODATA), enable);
 
@@ -1212,8 +1213,31 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 }
                 evaluateGBDeviceEvent(deviceEventMusicControl);
                 break;
+            case HuamiDeviceEvent.MTU_REQUEST:
+                int mtu = (value[2] & 0xff) << 8 | value[1] & 0xff;
+                LOG.info("device announced MTU of " + mtu);
+                mMTU = mtu;
+                /*
+                 * not really sure if this would make sense, is this event already a proof of a successful MTU
+                 * negotiation initiated by the Huami device, and acknowledged by the phone? do we really have to
+                 * requestMTU() from our side after receiving this?
+                 * /
+                if (mMTU != mtu) {
+                    requestMTU(mtu);
+                }
+                */
+                break;
             default:
                 LOG.warn("unhandled event " + value[0]);
+        }
+    }
+
+    private void requestMTU(int mtu) {
+        if (GBApplication.isRunningLollipopOrLater()) {
+            new TransactionBuilder("requestMtu")
+                    .requestMtu(mtu)
+                    .queue(getQueue());
+            mMTU = mtu;
         }
     }
 
@@ -2174,8 +2198,8 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    protected void writeToChunked(TransactionBuilder builder, int type, byte[] data) {
-        final int MAX_CHUNKLENGTH = 17;
+    private void writeToChunked(TransactionBuilder builder, int type, byte[] data) {
+        final int MAX_CHUNKLENGTH = mMTU - 6;
         int remaining = data.length;
         byte count = 0;
         while (remaining > 0) {
@@ -2274,5 +2298,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     public UpdateFirmwareOperation createUpdateFirmwareOperation(Uri uri) {
         return new UpdateFirmwareOperation(uri, this);
+    }
+
+    public int getMTU() {
+        return mMTU;
     }
 }

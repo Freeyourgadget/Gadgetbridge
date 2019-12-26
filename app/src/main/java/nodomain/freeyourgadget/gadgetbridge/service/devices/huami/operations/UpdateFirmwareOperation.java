@@ -232,7 +232,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
     private boolean sendFirmwareData(HuamiFirmwareInfo info) {
         byte[] fwbytes = info.getBytes();
         int len = fwbytes.length;
-        final int packetLength = 20;
+        final int packetLength = getSupport().getMTU() - 3;
         int packets = len / packetLength;
 
         try {

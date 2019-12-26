@@ -30,5 +30,6 @@ public class HuamiDeviceEvent {
     public static final byte BUTTON_PRESSED_LONG = 0x0b;
     public static final byte TICK_30MIN = 0x0e; // unsure
     public static final byte FIND_PHONE_STOP = 0x0f;
+    public static final byte MTU_REQUEST = 0x16;
     public static final byte MUSIC_CONTROL = (byte) 0xfe;
 }
