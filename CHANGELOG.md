@@ -1,5 +1,10 @@
 ### Changelog
 
+#### Version 0.40.1 (WIP)
+* Mi Band/Amazfit: Recogize changes when toggling alarm on device (immediately when connected, else when connecting)
+* Mi Band/Amazfit: Fix some bugs with stuck connection when re-connecting
+* Mi Band 4: Support higher MTU for multiple times faster firmware transfer (probably also Amazfit GTR/GTS)
+
 #### Version 0.40.0
 * Fossil Q Hybrid: Initial support
 * Bangle.js: Initial support
