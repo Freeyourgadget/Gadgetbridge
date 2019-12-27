@@ -16,18 +16,20 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEQueue;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr.FossilHRWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 
 public class VerifyPrivateKeyRequest extends FossilRequest {
-    private final BtLEQueue queue;
-    private byte[] key;
+    private final FossilHRWatchAdapter adapter;
+    private byte[] key, randomPhoneNumber;
     private boolean isFinished = false;
 
-    public VerifyPrivateKeyRequest(byte[] key, BtLEQueue queue) {
-        this.queue = queue;
+    public VerifyPrivateKeyRequest(byte[] key, FossilHRWatchAdapter adapter) {
+        this.adapter = adapter;
         this.key = key;
+
+        adapter.setPhoneRandomNumber(randomPhoneNumber);
     }
 
     @Override
@@ -56,6 +58,11 @@ public class VerifyPrivateKeyRequest extends FossilRequest {
                 System.arraycopy(result, 0, bytesToEncrypt, 8, 8);
                 System.arraycopy(result, 8, bytesToEncrypt, 0, 8);
 
+                byte[] watchRandomNumber = new byte[8];
+                System.arraycopy(result, 0, watchRandomNumber, 0, 8);
+
+                adapter.setWatchRandomNumber(watchRandomNumber);
+
                 cipher = Cipher.getInstance("AES/CBC/NoPadding");
                 cipher.init(Cipher.ENCRYPT_MODE, keySpec, new IvParameterSpec(new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}));
                 result = cipher.doFinal(bytesToEncrypt);
@@ -69,7 +76,7 @@ public class VerifyPrivateKeyRequest extends FossilRequest {
 
                 new TransactionBuilder("send encrypted random numbers")
                         .write(characteristic, payload)
-                        .queue(this.queue);
+                        .queue(this.adapter.getDeviceSupport().getQueue());
             } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidAlgorithmParameterException e) {
                 throw new RuntimeException(e);
             }
@@ -93,11 +100,11 @@ public class VerifyPrivateKeyRequest extends FossilRequest {
         buffer.put((byte) 0x01);
         buffer.put((byte) 0x01);
 
-        byte[] random = new byte[8];
+        this.randomPhoneNumber = new byte[8];
 
-        new Random().nextBytes(random);
+        new Random().nextBytes(randomPhoneNumber);
 
-        buffer.put(random);
+        buffer.put(randomPhoneNumber);
 
         return buffer.array();
     }

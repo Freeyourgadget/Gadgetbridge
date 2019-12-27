@@ -48,9 +48,10 @@ public class PlayNotificationRequest extends FilePutRequest {
         byte flags = getFlags();
         byte uidLength = (byte) 4;
         byte appBundleCRCLength = (byte) 4;
-        String nullTerminatedTitle = StringUtils.terminateNull(title);
 
         Charset charsetUTF8 = Charset.forName("UTF-8");
+
+        String nullTerminatedTitle = StringUtils.terminateNull(title);
         byte[] titleBytes = nullTerminatedTitle.getBytes(charsetUTF8);
         String nullTerminatedSender = StringUtils.terminateNull(sender);
         byte[] senderBytes = nullTerminatedSender.getBytes(charsetUTF8);
@@ -77,7 +78,7 @@ public class PlayNotificationRequest extends FilePutRequest {
 
         lengthBuffer = ByteBuffer.allocate(mainBufferLength - lengthBufferLength);
         lengthBuffer.order(ByteOrder.LITTLE_ENDIAN);
-        lengthBuffer.putInt(0);
+        lengthBuffer.putInt(10); // messageId
         lengthBuffer.putInt(packageCrc);
         lengthBuffer.put(titleBytes);
         lengthBuffer.put(senderBytes);
