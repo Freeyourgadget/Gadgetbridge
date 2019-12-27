@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.40.1" versioncode="164">
+        <change>Mi Band/Amazfit: Recogize changes when toggling alarm on device (immediately when connected, else when connecting)</change>
+        <change>Mi Band/Amazfit: Fix some bugs with stuck connection when re-connecting</change>
+        <change>Mi Band 4: Support higher MTU for multiple times faster firmware transfer (probably also Amazfit GTR/GTS)</change>
+        <change>Amazfit Cor: Fix setting language to Chinese manually</change>
+    </release>
     <release version="0.40.0" versioncode="163">
         <change>Fossil Q Hybrid: Initial support</change>
         <change>Bangle.js: Initial support</change>
