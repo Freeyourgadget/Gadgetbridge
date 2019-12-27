@@ -26,9 +26,6 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.EN
 public class AmazfitBipService {
     public static final UUID UUID_CHARACTERISTIC_WEATHER = UUID.fromString("0000000e-0000-3512-2118-0009af100700");
 
-    // goes to UUID_CHARACTERISTIC_3_CONFIGURATION, TODO: validate this for Mi Band 2, it maybe triggers more than only GPS version...
-    public static final byte[] COMMAND_REQUEST_GPS_VERSION = new byte[]{0x0e};
-
     public static final byte COMMAND_ACTIVITY_DATA_TYPE_DEBUGLOGS = 0x07;
 
     public static final byte[] COMMAND_SET_LANGUAGE_SIMPLIFIED_CHINESE = new byte[]{ENDPOINT_DISPLAY, 0x13, 0x00, 0x00};

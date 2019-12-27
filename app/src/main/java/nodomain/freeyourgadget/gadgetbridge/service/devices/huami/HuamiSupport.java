@@ -1152,6 +1152,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 break;
             case HuamiDeviceEvent.ALARM_TOGGLED:
                 LOG.info("An alarm was toggled");
+                TransactionBuilder builder = new TransactionBuilder("requestAlarms");
+                requestAlarms(builder);
+                builder.queue(getQueue());
                 break;
             case HuamiDeviceEvent.FELL_ASLEEP:
                 LOG.info("Fell asleep");
@@ -1325,6 +1328,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         } else if (HuamiService.UUID_CHARACTERISTIC_7_REALTIME_STEPS.equals(characteristicUUID)) {
             handleRealtimeSteps(characteristic.getValue());
             return true;
+        } else if (HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION.equals(characteristicUUID)) {
+            handleConfigurationInfo(characteristic.getValue());
+            return true;
         } else {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
@@ -1416,6 +1422,51 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             getRealtimeSamplesSupport().setSteps(steps);
         } else {
             LOG.warn("Unrecognized realtime steps value: " + Logging.formatBytes(value));
+        }
+    }
+
+    private void handleConfigurationInfo(byte[] value) {
+        if (value == null || value.length < 4) {
+            return;
+        }
+        if (value[0] == 0x10 && value[2] == 0x01) {
+            if (value[1] == 0x0e) {
+                String gpsVersion = new String(value, 3, value.length - 3);
+                LOG.info("got gps version = " + gpsVersion);
+                gbDevice.setFirmwareVersion2(gpsVersion);
+            } else if (value[1] == 0x0d) {
+                LOG.info("got alarms from watch");
+                decodeAndUpdateAlarmStatus(value);
+            } else {
+                LOG.warn("got configuration info we do not handle yet " + GB.hexdump(value, 3, -1));
+            }
+        } else {
+            LOG.warn("error received from configuration request " + GB.hexdump(value, 0, -1));
+        }
+    }
+
+    private void decodeAndUpdateAlarmStatus(byte[] response) {
+        List<nodomain.freeyourgadget.gadgetbridge.entities.Alarm> alarms = DBHelper.getAlarms(gbDevice);
+        boolean[] alarmsInUse = new boolean[10];
+        boolean[] alarmsEnabled = new boolean[10];
+        int nr_alarms = response[8];
+        for (int i = 0; i < nr_alarms; i++) {
+            byte alarm_data = response[9 + i];
+            int index = alarm_data & 0xf;
+            alarmsInUse[index] = true;
+            boolean enabled = (alarm_data & 0x10) == 0x10;
+            alarmsEnabled[index] = enabled;
+            LOG.info("alarm " + index + " is enabled:" + enabled);
+        }
+        for (nodomain.freeyourgadget.gadgetbridge.entities.Alarm alarm : alarms) {
+            boolean enabled = alarmsEnabled[alarm.getPosition()];
+            boolean unused = !alarmsInUse[alarm.getPosition()];
+            if (alarm.getEnabled() != enabled || alarm.getUnused() != unused) {
+                LOG.info("updating alarm index " + alarm.getPosition() + " unused=" + unused + ", enabled=" + enabled);
+                alarm.setEnabled(enabled);
+                alarm.setUnused(unused);
+                DBHelper.store(alarm);
+            }
         }
     }
 
@@ -2227,6 +2278,19 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+
+    protected HuamiSupport requestGPSVersion(TransactionBuilder builder) {
+        LOG.info("Requesting GPS version");
+        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), HuamiService.COMMAND_REQUEST_GPS_VERSION);
+        return this;
+    }
+
+    private HuamiSupport requestAlarms(TransactionBuilder builder) {
+        LOG.info("Requesting alarms");
+        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), HuamiService.COMMAND_REQUEST_ALARMS);
+        return this;
+    }
+
     @Override
     public String customStringFilter(String inputString) {
         if (HuamiCoordinator.getUseCustomFont(gbDevice.getAddress())) {
@@ -2287,6 +2351,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         setDisconnectNotification(builder);
         setExposeHRThridParty(builder);
         setHeartrateMeasurementInterval(builder, getHeartRateMeasurementInterval());
+        requestAlarms(builder);
     }
 
     private int getHeartRateMeasurementInterval() {
