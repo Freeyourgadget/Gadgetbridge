@@ -4,7 +4,7 @@
     <string name="title_activity_controlcenter">Gadgetbridge</string>
     <string name="action_settings">Ustawienia</string>
     <string name="action_debug">Debuguj</string>
-    <string name="action_quit">Zakończ</string>
+    <string name="action_quit">Zamknij</string>
     <string name="controlcenter_fetch_activity_data">Synchronizuj</string>
     <string name="controlcenter_find_device">Znajdź zgubione urządzenie</string>
     <string name="controlcenter_take_screenshot">Zrób zrzut ekranu</string>
@@ -31,12 +31,12 @@
     <!--Strings related to AppBlacklist-->
     <string name="title_activity_appblacklist">Czarna lista powiadomień</string>
     <!--Strings related to FwAppInstaller-->
-    <string name="title_activity_fw_app_insaller">Instalator FW/App</string>
-    <string name="fw_upgrade_notice">Zamierzasz zainstalować firmware %s zamiast aktualnie zainstalowanego na Twoim Mi Band.</string>
+    <string name="title_activity_fw_app_insaller">Instalator oprogramowania/aplikacji</string>
+    <string name="fw_upgrade_notice">Zamierzasz zainstalować %s.</string>
     <string name="miband_firmware_known">Te oprogramowanie zostało przetestowane i jest zgodne z Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">Te oprogramowanie nie zostało przetestowane i może być niezgodne z Gadgetbridge. 
 \n 
-\nWgranie go na Twój Mi Band jest NIEZALECANE!</string>
+\nWgranie go jest NIEZALECANE!</string>
     <string name="miband_firmware_suggest_whitelist">Jeśli nadal chcesz kontynuować i po instalacji wszystko będzie działać prawidłowo, proszę powiadom programistów Gadgetbridge aby dodali wersję %s firmware do białej listy.</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Ustawienia</string>
@@ -167,7 +167,7 @@
     <string name="pref_screen_notification_profile_generic_social">Sieć społecznościowa</string>
     <string name="control_center_find_lost_device">Odnajdź zgubione urządzenie</string>
     <string name="control_center_cancel_to_stop_vibration">Anuluj by przerwać wibracje.</string>
-    <string name="title_activity_charts">Twoja aktywność</string>
+    <string name="title_activity_charts">Aktywność i Sen</string>
     <string name="title_activity_set_alarm">Konfiguruj alarmy</string>
     <string name="controlcenter_start_configure_alarms">Konfiguruj alarmy</string>
     <string name="title_activity_alarm_details">Szczegóły alarmu</string>
@@ -198,7 +198,7 @@
     <string name="notif_battery_low_bigtext_number_of_charges">Liczba ładowań: %s</string>
     <string name="sleepchart_your_sleep">Sen</string>
     <string name="weekstepschart_steps_a_week">Kroki (tyg.)</string>
-    <string name="activity_sleepchart_activity_and_sleep">Twoja aktywność i sen</string>
+    <string name="activity_sleepchart_activity_and_sleep">Aktywność</string>
     <string name="updating_firmware">Aktualizacja oprogramowania…</string>
     <string name="fwapp_install_device_not_ready">Plik nie może być zainstalowany, urządzenie nie gotowe.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
@@ -237,7 +237,7 @@
     <string name="fwinstaller_firmware_not_compatible_to_device">Ten firmware nie jest kompatybilny z tym urządzeniem</string>
     <string name="miband_prefs_reserve_alarm_calendar">Alarmy zarezerwowane dla nadchodzących zdarzeń</string>
     <string name="miband_prefs_hr_sleep_detection">Użyj czujnika tętna alby poprawić detekcje snu</string>
-    <string name="miband2_prefs_dateformat">Mi2: Format daty</string>
+    <string name="miband2_prefs_dateformat">Format daty</string>
     <string name="dateformat_time">Czas</string>
     <string name="waiting_for_reconnect">Oczekiwanie na ponowne połączenie</string>
     <string name="activity_prefs_about_you">O Tobie</string>
@@ -319,7 +319,7 @@
     <string name="battery">Bateria</string>
     <string name="dateformat_date_time">Data i czas</string>
     <string name="mi2_prefs_button_actions">Akcje przycisku</string>
-    <string name="mi2_prefs_button_actions_summary">Wybierz akcję po przyciśnięciu przycisku na Mi Band 2</string>
+    <string name="mi2_prefs_button_actions_summary">Wybierz akcję po przyciśnięciu przycisku</string>
     <string name="mi2_prefs_button_press_count">Licznik wciśnięć przycisku</string>
     <string name="mi2_prefs_button_press_count_summary">Ilość przyciśnięć w celu uruchomienia rozsyłania wiadomości</string>
     <string name="mi2_prefs_button_action">Uruchom przycisk akcji</string>
@@ -349,7 +349,7 @@
     <string name="controlcenter_connect">Połącz…</string>
     <string name="controlcenter_navigation_drawer_open">Otwórz okno nawigacji</string>
     <string name="controlcenter_navigation_drawer_close">Zamknij okno nawigacji</string>
-    <string name="controlcenter_calibrate_device">Kalibracja urządzenia</string>
+    <string name="controlcenter_calibrate_device">Kalibracja Urządzenia</string>
     <string name="blacklist_all_for_notifications">Zablokuj wszystkie powiadomienia</string>
     <string name="whitelist_all_for_notifications">Zezwól na wszystkie powiadomienia</string>
     <string name="fw_upgrade_notice_amazfitbip">Zamierzasz zainstalować firmware %s na Twoim Amazfit Bip.
@@ -359,19 +359,19 @@
 \nUwaga: Nie instaluj plików .res i .gps jeśli są takie same jak poprzednio zainstalowane w zegarku.
 \n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Zamierzasz zainstalować firmware %s na Twoim Amazfit Cor.
-\n
-\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie plik .res. Twój zegarek zresetuje się po instalacji pliku .fw.
-\n
-\nUwaga: Nie instaluj pliku .res jeśli jest taki sam jak poprzednio zainstalowany.
-\n
+    <string name="fw_upgrade_notice_amazfitcor">Zamierzasz zainstalować firmware %s na Twoim Amazfit Cor. 
+\n 
+\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie plik .res. Twój zegarek zresetuje się po instalacji pliku .fw. 
+\n 
+\nUwaga: Nie musisz instalować pliku .res jeśli jest dokładnie taki sam jak poprzednio zainstalowany. 
+\n 
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
-    <string name="fw_upgrade_notice_miband3">Zamierzasz zainstalować oprogramowanie %s na Twoim Mi Band 3.
-\n
-\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie .res. Twój zegarek zresetuje się po instalacji pliku .fw.
-\n
-\nUwaga: Nie instaluj plików .res jeśli jest taki sam jak poprzednio zainstalowany.
-\n
+    <string name="fw_upgrade_notice_miband3">Zamierzasz zainstalować oprogramowanie %s na Twoim Mi Band 3. 
+\n 
+\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie .res. Twój zegarek zresetuje się po instalacji pliku .fw. 
+\n 
+\nUwaga: Nie musisz instalować pliku .res jeśli jest taki sam jak poprzednio zainstalowany. 
+\n 
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
     <string name="fw_multi_upgrade_notice">Zamierzasz zainstalować oprogramowanie %1$s oraz %2$s, na miejsce obecnie zainstalowanego na Twoim Mi Band.</string>
     <string name="pref_title_charts_swipe">Włącz gest przesuwania w lewo/prawo na wykresach aktywności</string>
@@ -531,7 +531,7 @@
     <string name="language_and_region_prefs">Ustawienia językowe i regionalne</string>
     <string name="pref_title_auto_export_interval">Częstość eksportowania</string>
     <string name="unit_imperial">imperialne</string>
-    <string name="debugactivity_really_factoryreset_title">Czy na pewno zresetować\?</string>
+    <string name="debugactivity_really_factoryreset_title">Czy na pewno zresetować do ustawień fabrycznych\?</string>
     <string name="debugactivity_really_factoryreset">Po zresetowaniu wszelkie dane na urządzeniu zostaną usunięte (jeśli jest to wspierane). Urządzenia Xiaomi/Huami zmieniają także adres MAC Bluetooth, w ten sposób pojawiają się jako nowe urządzenia w Gadgetbridge.</string>
     <string name="overslept">Zaspałem: %1$s</string>
     <string name="overstep">Przekroczenie: %1$d</string>
