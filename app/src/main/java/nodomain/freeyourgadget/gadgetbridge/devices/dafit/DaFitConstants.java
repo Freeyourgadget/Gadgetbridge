@@ -1,0 +1,258 @@
+/*  Copyright (C) 2019 krzys_h
+
+    This file is part of Gadgetbridge.
+
+    Gadgetbridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Gadgetbridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+package nodomain.freeyourgadget.gadgetbridge.devices.dafit;
+
+import java.util.UUID;
+
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
+
+public class DaFitConstants {
+    // (*) - based only on static reverse engineering of the original app code,
+    //       not supported by my watch so not implemented
+    //       (or at least I didn't manage to get any response out of it)
+
+    // (?) - not checked
+
+
+    // The device communicates by sending packets by writing to UUID_CHARACTERISTIC_DATA_OUT
+    // in MTU-sized chunks. The value of MTU seems to be somehow changeable (?), but the default
+    // is 20. Responses are received via notify on UUID_CHARACTERISTIC_DATA_IN in similar format.
+    // The write success notification comes AFTER the responses.
+
+    // Packet format:
+    // packet[0] = 0xFE;
+    // packet[1] = 0xEA;
+    // if (MTU == 20) // could be a protocol version check?
+    // {
+    //     packet[2] = 16;
+    //     packet[3] = packet.length;
+    // }
+    // else
+    // {
+    //     packet[2] = 32 + (packet.length >> 8) & 0xFF;
+    //     packet[3] = packet.length & 0xFF;
+    // }
+    // packet[4] = packetType;
+    // packet[5:] = payload;
+
+    // Protocol version is determined by reading manufacturer name. MOYOUNG for old fixed-size
+    // or MOYOUNG-V2 for MTU. The non-MTU version uses packets of size 256
+    // for firmware >= 1.6.5, and 64 otherwise.
+
+    // The firmware version is also used to detect availability of some features.
+
+    // Additionally, there seems to be a trace of special packets with cmd 1 and 2, that are sent
+    // to UUID_CHARACTERISTIC_DATA_SPECIAL_1 and UUID_CHARACTERISTIC_DATA_SPECIAL_2 instead.
+    // They don't appear on my watch though.
+
+    // The response to CMD_ECG is special and is returned using UUID_CHARACTERISTIC_DATA_ECG_OLD
+    // or UUID_CHARACTERISTIC_DATA_ECG_NEW. The old version is clearly labeled as old in the
+    // unobfuscated part of the code. If both of them exist, old is used (but I presume only one
+    // of them is supposed to exist at a time). They also don't appear on my watch as it doesn't
+    // support ECG.
+
+    // In addition to the proprietary protocol described above, the following standard BLE services
+    // are used:
+    // * org.bluetooth.service.generic_access for device name
+    // * org.bluetooth.service.device_information for manufacturer, model, serial number and
+    //   firmware version
+    // * org.bluetooth.service.battery_service for battery level
+    // * org.bluetooth.service.heart_rate is exposed, but doesn't seem to work
+    // * org.bluetooth.service.human_interface_device is exposed, but not even mentioned
+    //   in the official app (?) - needs further research
+    // * the custom UUID_CHARACTERISTIC_STEPS is used to sync the pedometer data in real time
+    //   via READ or NOTIFY - it's identical to the "sync past data" packet
+    //   ({distance:uint24, steps:uint24, calories:uint24})
+    // * (?) 0000FEE7-0000-1000-8000-00805F9B34FB another custom service
+    //   (NOT UUID_CHARACTERISTIC_DATA_ECG_OLD!!!) not mentioned anywhere in the official app,
+    //   containing the following characteristics:
+    //   * 0000FEA1-0000-1000-8000-00805F9B34FB - READ, NOTIFY
+    //   * 0000FEC9-0000-1000-8000-00805F9B34FB - READ
+
+    // The above standard services are internally handled by the app using the following
+    // "packet numbers":
+    // * 16 - query steps
+    // * 17 - firmware version
+    // * 18 - query battery
+    // * 19 - DFU status (queries model number, looks for the string DFU and a number == 0 or != 0)
+    // * 20 - protocol version (queries manufacturer name, see description above)
+
+
+    public static final UUID UUID_SERVICE_DAFIT                 = UUID.fromString(String.format(AbstractBTLEDeviceSupport.BASE_UUID, "feea"));
+    public static final UUID UUID_CHARACTERISTIC_STEPS          = UUID.fromString(String.format(AbstractBTLEDeviceSupport.BASE_UUID, "fee1"));
+    public static final UUID UUID_CHARACTERISTIC_DATA_OUT       = UUID.fromString(String.format(AbstractBTLEDeviceSupport.BASE_UUID, "fee2"));
+    public static final UUID UUID_CHARACTERISTIC_DATA_IN        = UUID.fromString(String.format(AbstractBTLEDeviceSupport.BASE_UUID, "fee3"));
+    public static final UUID UUID_CHARACTERISTIC_DATA_SPECIAL_1 = UUID.fromString(String.format(AbstractBTLEDeviceSupport.BASE_UUID, "fee5")); // (*)
+    public static final UUID UUID_CHARACTERISTIC_DATA_SPECIAL_2 = UUID.fromString(String.format(AbstractBTLEDeviceSupport.BASE_UUID, "fee6")); // (*)
+    public static final UUID UUID_CHARACTERISTIC_DATA_ECG_OLD   = UUID.fromString(String.format(AbstractBTLEDeviceSupport.BASE_UUID, "fee7")); // (*)
+    public static final UUID UUID_CHARACTERISTIC_DATA_ECG_NEW   = UUID.fromString(String.format(AbstractBTLEDeviceSupport.BASE_UUID, "fee8")); // (*)
+
+
+    // Special
+    public static final byte CMD_SHUTDOWN = 81;                                     //     {-1}
+    public static final byte CMD_FIND_MY_WATCH = 97;                                //     {}
+    public static final byte CMD_FIND_MY_PHONE = 98;                                // (*) outgoing {-1} to stop, incoming {0} start, {!=0} stop
+    public static final byte CMD_HS_DFU = 99;                                       // (?) {1} - enableHsDfu(), {0} - queryHsDfuAddress()
+
+
+    // Activity tracking (?)
+    public static final byte CMD_QUERY_LAST_DYNAMIC_RATE = 52;                      // (?) {} -> ???
+    public static final byte CMD_QUERY_PAST_HEART_RATE_1 = 53;                      // (?) {4} - pastHeartRate(), {0} - todayHeartRate(1) -> ???
+    public static final byte CMD_QUERY_PAST_HEART_RATE_2 = 54;                      // (?) {0} - todayHeartRate(2) -> ???
+    public static final byte CMD_QUERY_MOVEMENT_HEART_RATE = 55;                    // (?) {} -> ???
+
+    // Health measurements
+    public static final byte CMD_QUERY_TIMING_MEASURE_HEART_RATE = 47;              // (*) {} -> ???
+    public static final byte CMD_SET_TIMING_MEASURE_HEART_RATE = 31;                // (*) {i}, i >= 0, 0 is disabled
+    public static final byte CMD_START_STOP_MEASURE_DYNAMIC_RATE = 104;             // (*) {enabled ? 0 : -1}
+
+    public static final byte CMD_TRIGGER_MEASURE_BLOOD_PRESSURE = 105;              // (?) {0, 0, 0} to start, {-1, -1, -1} to stop -> {unused?, num1, num2}
+    public static final byte CMD_TRIGGER_MEASURE_BLOOD_OXYGEN = 107;                // (?) {start ? 0 : -1} -> {num}
+    public static final byte CMD_TRIGGER_MEASURE_HEARTRATE = 109;                   //     {start ? 0 : -1} -> {bpm}
+    public static final byte CMD_ECG = 111;                                         // (?) {heart_rate} or {1} to start or {0} to stop or {2} to query
+    // ECG data is special and comes from UUID_CHARACTERISTIC_DATA_ECG_OLD or UUID_CHARACTERISTIC_DATA_ECG_NEW
+
+
+    // Functionality
+    public static final byte CMD_SYNC_TIME = 49;                                    //     {time >> 24, time >> 16, time >> 8, time, 8}, time is a timestamp in seconds in GMT+8
+
+    public static final byte CMD_SYNC_SLEEP = 50;                                   //     {} -> {type, start_h, start_m}, repeating, type is SOBER(0),LIGHT(1),RESTFUL(2)
+    public static final byte CMD_SYNC_PAST_SLEEP_AND_STEP = 51;                     //     {b (see below)} -> {x<=2, distance:uint24, steps:uint24, calories:uint24} or {x>2, (sleep data like above)} - two functions same CMD
+    
+    public static final byte ARG_SYNC_YESTERDAY_STEPS = 1;
+    public static final byte ARG_SYNC_DAY_BEFORE_YESTERDAY_STEPS = 2;
+    public static final byte ARG_SYNC_YESTERDAY_SLEEP = 3;
+    public static final byte ARG_SYNC_DAY_BEFORE_YESTERDAY_SLEEP = 4;
+
+    public static final byte SLEEP_SOBER = 0;
+    public static final byte SLEEP_LIGHT = 1;
+    public static final byte SLEEP_RESTFUL = 2;
+
+    public static final byte CMD_QUERY_SLEEP_ACTION = 58;                           // (*) {i} -> {hour, x[60]}
+
+    public static final byte CMD_SEND_MESSAGE = 65;                                 //     {type, message[]}, message is encoded with manual splitting by String.valueOf(0x2080)
+    //                       CMD_SEND_CALL_OFF_HOOK = 65;                           //     {-1} - the same ID as above, different arguments
+
+    public static final byte CMD_SET_WEATHER_FUTURE = 66;                           //     {weatherId, low_temp, high_temp} * 7
+    public static final byte CMD_SET_WEATHER_TODAY = 67;                            //     {have_pm25 ? 1 : 0, weatherId, temp[, pm25 >> 8, pm25], lunar_or_festival[8], city[8]}, names are UTF-16BE encoded (4 characters each!)
+
+    public static final byte CMD_GSENSOR_CALIBRATION = 82;                          // (?) {}
+
+    public static final byte CMD_QUERY_STEPS_CATEGORY = 89;                         // (*) {i} -> {0, data:uint16[*]}, {1}, {2, data:uint16[*]}, {3}, query 0+1 together and 2+3 together
+    //public static final byte ARG_QUERY_STEPS_CATEGORY_TODAY_STEPS = 0;
+    //public static final byte ARG_QUERY_STEPS_CATEGORY_YESTERDAY_STEPS = 2;
+
+    public static final byte CMD_SWITCH_CAMERA_VIEW = 102;                          //     {} -> {}, outgoing open screen, incoming take photo
+
+    public static final byte CMD_NOTIFY_PHONE_OPERATION = 103;                      //     ONLY INCOMING! -> {x}, x -> 0 = play/pause, 1 = prev, 2 = next, 3 = reject incoming call)
+    public static final byte CMD_NOTIFY_WEATHER_CHANGE = 100;                       // (?) ONLY INCOMING! -> {}
+
+    public static final byte ARG_OPERATION_PLAY_PAUSE = 0;
+    public static final byte ARG_OPERATION_PREV_SONG = 1;
+    public static final byte ARG_OPERATION_NEXT_SONG = 2;
+    public static final byte ARG_OPERATION_DROP_INCOMING_CALL = 3;
+
+    public static final byte CMD_QUERY_ALARM_CLOCK = 33;                            // (?) {} -> a list of entries like below
+    public static final byte CMD_SET_ALARM_CLOCK = 17;                              // (?) {id, enable ? 1 : 0, repeat, hour, minute, i >> 8, i, repeatMode}, repeatMode is 0(SINGLE), 127(EVERYDAY), or bitmask of 1,2,4,8,16,32,64(SUNDAY-SATURDAY) is 0,1,2, i is ((year << 12) + (month << 8) + day) for repeatMode=SINGLE and 0 otherwise, repeat is 0(SINGLE),1(EVERYDAY),2(OTHER)
+
+    // Settings
+    public static final byte CMD_SET_USER_INFO = 18;                                // (?) {height, weight, age, gender}, MALE = 0, FEMALE = 1
+
+    public static final byte CMD_QUERY_DOMINANT_HAND = 36;                          // (*) {} -> {value}
+    public static final byte CMD_SET_DOMINANT_HAND = 20;                            // (*) {value}
+
+    public static final byte CMD_QUERY_DISPLAY_DEVICE_FUNCTION = 37;                // (*) {} - current, {-1} - list all supported -> {[-1, ], ...} (prefixed with -1 if lists supported, nothing otherwise)
+    public static final byte CMD_SET_DISPLAY_DEVICE_FUNCTION = 21;                  // (*) {..., 0} - null terminated list of functions to enable
+
+    public static final byte CMD_QUERY_GOAL_STEP = 38;                              //     {} -> {value, value >> 8, value >> 16, value >> 24}   // this has the endianness swapped between query and set
+    public static final byte CMD_SET_GOAL_STEP = 22;                                //     {value >> 24, value >> 16, value >> 8, value}         // yes, really
+
+    public static final byte CMD_QUERY_TIME_SYSTEM = 39;                            //     {} -> {value}
+    public static final byte CMD_SET_TIME_SYSTEM = 23;                              //     {value}
+
+    // quick view = enable display when wrist is lifted
+    public static final byte CMD_QUERY_QUICK_VIEW = 40;                             //     {} -> {value}
+    public static final byte CMD_SET_QUICK_VIEW = 24;                               //     {enabled ? 1 : 0}
+
+    public static final byte CMD_QUERY_DISPLAY_WATCH_FACE = 41;                     //     {} -> {value}
+    public static final byte CMD_SET_DISPLAY_WATCH_FACE = 25;                       //     {value}
+
+    public static final byte CMD_QUERY_METRIC_SYSTEM = 42;                          //     {} -> {value}
+    public static final byte CMD_SET_METRIC_SYSTEM = 26;                            //    {value}
+
+    public static final byte CMD_QUERY_DEVICE_LANGUAGE = 43;                        //     {} -> {value, bitmask_of_supported_langs:uint32}
+    public static final byte CMD_SET_DEVICE_LANGUAGE = 27;                          //     {new_value}
+
+    // enables "other" (as in "not a messaging app") on the notifications configuration screen in the official app
+    // seems to be used only in the app, not sure why they even store it on the watch
+    public static final byte CMD_QUERY_OTHER_MESSAGE_STATE = 44;                    //     {} -> {value}
+    public static final byte CMD_SET_OTHER_MESSAGE_STATE = 28;                      //     {enabled ? 1 : 0}
+
+    public static final byte CMD_QUERY_SEDENTARY_REMINDER = 45;                     //     {} -> {value}
+    public static final byte CMD_SET_SEDENTARY_REMINDER = 29;                       //     {enabled ? 1 : 0}
+
+    public static final byte CMD_QUERY_DEVICE_VERSION = 46;                         //     {} -> {value}
+    public static final byte CMD_SET_DEVICE_VERSION = 30;                           //     {new_value}
+
+    public static final byte CMD_QUERY_WATCH_FACE_LAYOUT = 57;                      // (*) {} -> {time_position, time_top_content, time_bottom_content, text_color >> 8, text_color, background_picture_md5[32]}
+    public static final byte CMD_SET_WATCH_FACE_LAYOUT = 56;                        // (*) {time_position, time_top_content, time_bottom_content, text_color >> 8, text_color, background_picture_md5[32]}, text_color is R5G6B5, background_picture is stored as hex digits (numbers 0-15 not chars '0'-'F' !)
+
+    public static final byte CMD_SET_STEP_LENGTH = 84;                              // (?) {value}
+
+    public static final byte CMD_QUERY_DO_NOT_DISTURB_TIME = -127;                  //     {} -> {start >> 8, start, end >> 8, end} these are 16-bit values (somebody was drunk while writing this or what?)
+    public static final byte CMD_SET_DO_NOT_DISTURB_TIME = 113;                     //     {start_hour, start_min, end_hour, end_min}
+
+    public static final byte CMD_QUERY_QUICK_VIEW_TIME = -126;                      //     {} -> {start >> 8, start, end >> 8, end} these are 16-bit values (somebody was drunk while writing this or what?)
+    public static final byte CMD_SET_QUICK_VIEW_TIME = 114;                         //     {start_hour, start_min, end_hour, end_min}
+
+    public static final byte CMD_QUERY_REMINDERS_TO_MOVE_PERIOD = -125;             //     {} -> {period, steps, start_hour, end_hour}
+    public static final byte CMD_SET_REMINDERS_TO_MOVE_PERIOD = 115;                //     {period, steps, start_hour, end_hour}
+
+    public static final byte CMD_QUERY_SUPPORT_WATCH_FACE = -124;                   // (*) {} -> {count >> 8, count, ...}
+
+    public static final byte CMD_QUERY_PSYCHOLOGICAL_PERIOD = -123;                 // (*) {} -> ??? (too lazy to check, sorry :P)
+    public static final byte CMD_SET_PSYCHOLOGICAL_PERIOD = 117;                    // (*) {encodeConfiguredReminders(info), 15, info.getPhysiologcalPeriod(), info.getMenstrualPeriod(), info.startDate.get(Calendar.MONTH), info.startDate.get(Calendar.DATE), info.getReminderHour(), info.getReminderMinute(), info.getReminderHour(), info.getReminderMinute(), info.getReminderHour(), info.getReminderMinute(), info.getReminderHour(), info.getReminderMinute()}
+    //    encodeConfiguredReminders(CRPPhysiologcalPeriodInfo info) {
+    //        int i = info.isMenstrualReminder() ? 241 : 240;
+    //        if (info.isOvulationReminder())
+    //            i += 2;
+    //        if (info.isOvulationDayReminder())
+    //            i += 4;
+    //        if (info.isOvulationEndReminder())
+    //            i += 8;
+    //        return (byte) i;
+    //    }
+
+    // no idea what this does
+    public static final byte CMD_QUERY_BREATHING_LIGHT = -120;                      //     {} -> {value}
+    public static final byte CMD_SET_BREATHING_LIGHT = 120;                         //     {enabled ? 1 : 0}
+
+
+    public static final byte TRAINING_TYPE_WALK = 0;
+    public static final byte TRAINING_TYPE_RUN = 1;
+    public static final byte TRAINING_TYPE_BIKING = 2;
+    public static final byte TRAINING_TYPE_ROPE = 3;
+    public static final byte TRAINING_TYPE_BADMINTON = 4;
+    public static final byte TRAINING_TYPE_BASKETBALL = 5;
+    public static final byte TRAINING_TYPE_FOOTBALL = 6;
+    public static final byte TRAINING_TYPE_SWIM = 7;
+    public static final byte TRAINING_TYPE_MOUNTAINEERING = 8;
+    public static final byte TRAINING_TYPE_TENNIS = 9;
+    public static final byte TRAINING_TYPE_RUGBY = 10;
+    public static final byte TRAINING_TYPE_GOLF = 11;
+}
