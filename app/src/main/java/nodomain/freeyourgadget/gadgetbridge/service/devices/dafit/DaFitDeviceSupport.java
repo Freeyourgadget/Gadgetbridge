@@ -47,6 +47,8 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallContro
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.dafit.DaFitConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.DaFitWeatherForecast;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.DaFitWeatherToday;
 import nodomain.freeyourgadget.gadgetbridge.devices.dafit.DaFitSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaFitActivitySample;
@@ -952,7 +954,38 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
-        // TODO
+        try {
+            TransactionBuilder builder = performInitialized("onSendWeather");
+
+            DaFitWeatherToday weatherToday = new DaFitWeatherToday(weatherSpec);
+            ByteBuffer packetWeatherToday = ByteBuffer.allocate(weatherToday.pm25 != null ? 21 : 19);
+            packetWeatherToday.put(weatherToday.pm25 != null ? (byte)1 : (byte)0);
+            packetWeatherToday.put(weatherToday.conditionId);
+            packetWeatherToday.put(weatherToday.currentTemp);
+            if (weatherToday.pm25 != null)
+                packetWeatherToday.putShort(weatherToday.pm25);
+            packetWeatherToday.put(weatherToday.lunar_or_festival.getBytes("unicodebigunmarked"));
+            packetWeatherToday.put(weatherToday.city.getBytes("unicodebigunmarked"));
+            sendPacket(builder, DaFitPacketOut.buildPacket(DaFitConstants.CMD_SET_WEATHER_TODAY, packetWeatherToday.array()));
+
+            ByteBuffer packetWeatherForecast = ByteBuffer.allocate(7 * 3);
+            for(int i = 0; i < 7; i++)
+            {
+                DaFitWeatherForecast forecast;
+                if (weatherSpec.forecasts.size() > i)
+                    forecast = new DaFitWeatherForecast(weatherSpec.forecasts.get(i));
+                else
+                    forecast = new DaFitWeatherForecast(DaFitConstants.WEATHER_HAZE, (byte)-100, (byte)-100); // I don't think there is a way to send less (my watch shows only tomorrow anyway...)
+                packetWeatherForecast.put(forecast.conditionId);
+                packetWeatherForecast.put(forecast.minTemp);
+                packetWeatherForecast.put(forecast.maxTemp);
+            }
+            sendPacket(builder, DaFitPacketOut.buildPacket(DaFitConstants.CMD_SET_WEATHER_FUTURE, packetWeatherForecast.array()));
+
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
