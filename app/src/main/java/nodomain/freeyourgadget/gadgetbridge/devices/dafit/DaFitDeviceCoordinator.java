@@ -90,17 +90,17 @@ public class DaFitDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsActivityDataFetching() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean supportsActivityTracking() {
-        return false;
+        return true;
     }
 
     @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        return null;
+        return new DaFitSampleProvider(device, session);
     }
 
     @Override
@@ -145,7 +145,7 @@ public class DaFitDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsRealtimeData() {
-        return false;
+        return true;
     }
 
     @Override

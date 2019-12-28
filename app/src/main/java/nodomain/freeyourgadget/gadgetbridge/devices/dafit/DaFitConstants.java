@@ -137,7 +137,8 @@ public class DaFitConstants {
 
     public static final byte CMD_SYNC_SLEEP = 50;                                   //     {} -> {type, start_h, start_m}, repeating, type is SOBER(0),LIGHT(1),RESTFUL(2)
     public static final byte CMD_SYNC_PAST_SLEEP_AND_STEP = 51;                     //     {b (see below)} -> {x<=2, distance:uint24, steps:uint24, calories:uint24} or {x>2, (sleep data like above)} - two functions same CMD
-    
+
+    // NOTE: these names are as specified in the original app. They do NOT match what my watch actually does. See note in FetchDataOperation.
     public static final byte ARG_SYNC_YESTERDAY_STEPS = 1;
     public static final byte ARG_SYNC_DAY_BEFORE_YESTERDAY_STEPS = 2;
     public static final byte ARG_SYNC_YESTERDAY_SLEEP = 3;
