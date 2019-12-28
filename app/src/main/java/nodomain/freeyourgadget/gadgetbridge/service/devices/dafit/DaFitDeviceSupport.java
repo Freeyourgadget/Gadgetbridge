@@ -27,7 +27,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -102,6 +104,7 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
         builder.notify(getCharacteristic(DaFitConstants.UUID_CHARACTERISTIC_DATA_IN), true);
         deviceInfoProfile.requestDeviceInfo(builder);
+        setTime(builder);
         batteryInfoProfile.requestBatteryInfo(builder);
         batteryInfoProfile.enableNotify(builder);
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
@@ -197,9 +200,22 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
         // not supported :(
     }
 
+    private void setTime(TransactionBuilder builder) {
+        ByteBuffer buffer = ByteBuffer.allocate(5);
+        buffer.putInt(DaFitConstants.LocalTimeToWatchTime(new Date())); // The watch is hardcoded to GMT+8 internally...
+        buffer.put((byte)8); // I guess this means GMT+8 but changing it has no effect at all (it was hardcoded in the original app too)
+        sendPacket(builder, DaFitPacketOut.buildPacket(DaFitConstants.CMD_SYNC_TIME, buffer.array()));
+    }
+
     @Override
     public void onSetTime() {
-        // TODO
+        try {
+            TransactionBuilder builder = performInitialized("onSetTime");
+            setTime(builder);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -16,6 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.dafit;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
@@ -255,4 +259,33 @@ public class DaFitConstants {
     public static final byte TRAINING_TYPE_TENNIS = 9;
     public static final byte TRAINING_TYPE_RUGBY = 10;
     public static final byte TRAINING_TYPE_GOLF = 11;
+
+    // The watch stores all dates in GMT+8 time zone with seconds resolution
+    // These helper functions convert between the watch time representation and local system representation
+
+    public static int LocalTimeToWatchTime(Date localTime)
+    {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        simpleDateFormat.setTimeZone(TimeZone.getDefault());
+        String format = simpleDateFormat.format(localTime);
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+        try {
+            return (int)(simpleDateFormat.parse(format).getTime() / 1000);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    public static Date WatchTimeToLocalTime(int watchTime)
+    {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+        String format = simpleDateFormat.format(new Date((long)watchTime * 1000));
+        simpleDateFormat.setTimeZone(TimeZone.getDefault());
+        try {
+            return simpleDateFormat.parse(format);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
 }
