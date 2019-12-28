@@ -288,4 +288,47 @@ public class DaFitConstants {
             throw new IllegalArgumentException(e);
         }
     }
+
+    // The notification types used by CMD_SEND_MESSAGE
+    public static final byte NOTIFICATION_TYPE_CALL_OFF_HOOK = -1;
+    public static final byte NOTIFICATION_TYPE_CALL = 0;
+    public static final byte NOTIFICATION_TYPE_MESSAGE_SMS = 1;
+    public static final byte NOTIFICATION_TYPE_MESSAGE_WECHAT = 2;
+    public static final byte NOTIFICATION_TYPE_MESSAGE_QQ = 3;
+    public static final byte NOTIFICATION_TYPE_MESSAGE_FACEBOOK = 4;
+    public static final byte NOTIFICATION_TYPE_MESSAGE_TWITTER = 5;
+    public static final byte NOTIFICATION_TYPE_MESSAGE_INSTAGRAM = 6;
+    public static final byte NOTIFICATION_TYPE_MESSAGE_SKYPE = 7;
+    public static final byte NOTIFICATION_TYPE_MESSAGE_WHATSAPP = 8;
+    public static final byte NOTIFICATION_TYPE_MESSAGE_LINE = 9;
+    public static final byte NOTIFICATION_TYPE_MESSAGE_KAKAO = 10;
+    public static final byte NOTIFICATION_TYPE_MESSAGE_OTHER = 11;
+
+    public static byte notificationType(NotificationType type)
+    {
+        switch(type)
+        {
+            case FACEBOOK:
+            case FACEBOOK_MESSENGER:
+                return NOTIFICATION_TYPE_MESSAGE_FACEBOOK;
+            case GENERIC_SMS:
+                return NOTIFICATION_TYPE_MESSAGE_SMS;
+            case INSTAGRAM:
+                return NOTIFICATION_TYPE_MESSAGE_INSTAGRAM;
+            case KAKAO_TALK:
+                return NOTIFICATION_TYPE_MESSAGE_KAKAO;
+            case LINE:
+                return NOTIFICATION_TYPE_MESSAGE_LINE;
+            case SKYPE:
+                return NOTIFICATION_TYPE_MESSAGE_SKYPE;
+            case TWITTER:
+                return NOTIFICATION_TYPE_MESSAGE_TWITTER;
+            case WECHAT:
+                return NOTIFICATION_TYPE_MESSAGE_WECHAT;
+            case WHATSAPP:
+                return NOTIFICATION_TYPE_MESSAGE_WHATSAPP;
+            default:
+                return NOTIFICATION_TYPE_MESSAGE_OTHER;
+        }
+    }
 }

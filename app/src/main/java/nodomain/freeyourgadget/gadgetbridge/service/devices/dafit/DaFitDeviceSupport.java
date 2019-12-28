@@ -35,6 +35,8 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.dafit.DaFitConstants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -55,6 +57,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.Batter
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
+import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 // TODO: figure out the training data
 
@@ -158,7 +162,46 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private boolean handlePacket(byte packetType, byte[] payload)
     {
-        LOG.warn("Got packet " + packetType + ": " + Logging.formatBytes(payload));
+        if (packetType == DaFitConstants.CMD_NOTIFY_PHONE_OPERATION)
+        {
+            byte operation = payload[0];
+            if (operation == DaFitConstants.ARG_OPERATION_PLAY_PAUSE)
+            {
+                GBDeviceEventMusicControl musicCmd = new GBDeviceEventMusicControl();
+                musicCmd.event = GBDeviceEventMusicControl.Event.PLAYPAUSE;
+                evaluateGBDeviceEvent(musicCmd);
+                return true;
+            }
+            if (operation == DaFitConstants.ARG_OPERATION_PREV_SONG)
+            {
+                GBDeviceEventMusicControl musicCmd = new GBDeviceEventMusicControl();
+                musicCmd.event = GBDeviceEventMusicControl.Event.PREVIOUS;
+                evaluateGBDeviceEvent(musicCmd);
+                return true;
+            }
+            if (operation == DaFitConstants.ARG_OPERATION_NEXT_SONG)
+            {
+                GBDeviceEventMusicControl musicCmd = new GBDeviceEventMusicControl();
+                musicCmd.event = GBDeviceEventMusicControl.Event.NEXT;
+                evaluateGBDeviceEvent(musicCmd);
+                return true;
+            }
+            if (operation == DaFitConstants.ARG_OPERATION_DROP_INCOMING_CALL)
+            {
+                GBDeviceEventCallControl callCmd = new GBDeviceEventCallControl();
+                callCmd.event = GBDeviceEventCallControl.Event.REJECT;
+                evaluateGBDeviceEvent(callCmd);
+                return true;
+            }
+        }
+
+        if (packetType == DaFitConstants.CMD_SWITCH_CAMERA_VIEW)
+        {
+            // TODO: trigger camera photo
+            return true;
+        }
+
+        LOG.warn("Unhandled packet " + packetType + ": " + Logging.formatBytes(payload));
         return false;
     }
 
@@ -180,9 +223,33 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
         return true;
     }
 
+    private void sendNotification(byte type, String text)
+    {
+        try {
+            TransactionBuilder builder = performInitialized("sendNotification");
+            byte[] str = text.getBytes();
+            byte[] payload = new byte[str.length + 1];
+            payload[0] = type;
+            System.arraycopy(str, 0, payload, 1, str.length);
+            sendPacket(builder, DaFitPacketOut.buildPacket(DaFitConstants.CMD_SEND_MESSAGE, payload));
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
-        // TODO
+        String sender = StringUtils.getFirstOf(notificationSpec.sender, StringUtils.getFirstOf(notificationSpec.sourceName, notificationSpec.sourceAppId));
+        if (sender.isEmpty())
+            sender = "(unknown)";
+
+        String text = NotificationUtils.getPreferredTextFor(notificationSpec, 0, 75, getContext());
+        if (text.isEmpty())
+            text = StringUtils.getFirstOf(StringUtils.getFirstOf(notificationSpec.title, notificationSpec.subject), notificationSpec.body);
+
+        // The notification is split at first : into sender and text
+        sendNotification(DaFitConstants.notificationType(notificationSpec.type), sender + ":" + text);
     }
 
     @Override
@@ -192,7 +259,10 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetCallState(CallSpec callSpec) {
-        // TODO
+        if (callSpec.command == CallSpec.CALL_INCOMING)
+            sendNotification(DaFitConstants.NOTIFICATION_TYPE_CALL, NotificationUtils.getPreferredTextFor(callSpec));
+        else
+            sendNotification(DaFitConstants.NOTIFICATION_TYPE_CALL_OFF_HOOK, "");
     }
 
     @Override
