@@ -57,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.Batter
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.heartrate.HeartRateProfile;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -68,6 +69,7 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private final DeviceInfoProfile<DaFitDeviceSupport> deviceInfoProfile;
     private final BatteryInfoProfile<DaFitDeviceSupport> batteryInfoProfile;
+    private final HeartRateProfile<DaFitDeviceSupport> heartRateProfile;
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
     private final IntentListener mListener = new IntentListener() {
@@ -93,14 +95,18 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ATTRIBUTE);
         addSupportedService(GattService.UUID_SERVICE_DEVICE_INFORMATION);
         addSupportedService(GattService.UUID_SERVICE_BATTERY_SERVICE);
+        addSupportedService(GattService.UUID_SERVICE_HEART_RATE);
         addSupportedService(DaFitConstants.UUID_SERVICE_DAFIT);
 
         deviceInfoProfile = new DeviceInfoProfile<>(this);
         deviceInfoProfile.addListener(mListener);
         batteryInfoProfile = new BatteryInfoProfile<>(this);
         batteryInfoProfile.addListener(mListener);
+        heartRateProfile = new HeartRateProfile<>(this);
+        heartRateProfile.addListener(mListener);
         addSupportedProfile(deviceInfoProfile);
         addSupportedProfile(batteryInfoProfile);
+        addSupportedProfile(heartRateProfile); // TODO: this profile doesn't seem to work...
     }
 
     @Override
@@ -111,6 +117,8 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
         setTime(builder);
         batteryInfoProfile.requestBatteryInfo(builder);
         batteryInfoProfile.enableNotify(builder);
+        heartRateProfile.enableNotify(builder);
+        builder.notify(getCharacteristic(DaFitConstants.UUID_CHARACTERISTIC_STEPS), true);
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
 
         return builder;
@@ -140,6 +148,12 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
         UUID charUuid = characteristic.getUuid();
+        if (charUuid.equals(DaFitConstants.UUID_CHARACTERISTIC_STEPS))
+        {
+            byte[] payload = characteristic.getValue();
+            Log.i("AAAAAAAAAAAAAAAA", "Update step count: " + Logging.formatBytes(characteristic.getValue()));
+            return true;
+        }
         if (charUuid.equals(DaFitConstants.UUID_CHARACTERISTIC_DATA_IN))
         {
             if (packetIn.putFragment(characteristic.getValue())) {
@@ -162,6 +176,30 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private boolean handlePacket(byte packetType, byte[] payload)
     {
+        if (packetType == DaFitConstants.CMD_TRIGGER_MEASURE_HEARTRATE)
+        {
+            int heartRate = payload[0];
+            Log.i("XXXXXXXX", "Measure heart rate finished: " + heartRate + " BPM");
+
+            return true;
+        }
+        if (packetType == DaFitConstants.CMD_TRIGGER_MEASURE_BLOOD_OXYGEN)
+        {
+            int percent = payload[0];
+            Log.i("XXXXXXXX", "Measure blood oxygen finished: " + percent + "%");
+
+            return true;
+        }
+        if (packetType == DaFitConstants.CMD_TRIGGER_MEASURE_BLOOD_PRESSURE)
+        {
+            int dataUnknown = payload[0];
+            int data1 = payload[1];
+            int data2 = payload[2];
+            Log.i("XXXXXXXX", "Measure blood pressure finished: " + data1 + "/" + data2 + " (" + dataUnknown + ")");
+
+            return true;
+        }
+
         if (packetType == DaFitConstants.CMD_NOTIFY_PHONE_OPERATION)
         {
             byte operation = payload[0];
@@ -352,9 +390,24 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    private void triggerHeartRateTest(boolean start)
+    {
+        try {
+            TransactionBuilder builder = performInitialized("onHeartRateTest");
+            sendPacket(builder, DaFitPacketOut.buildPacket(DaFitConstants.CMD_TRIGGER_MEASURE_HEARTRATE, new byte[] { start ? (byte)0 : (byte)-1 }));
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onHeartRateTest() {
-        // TODO
+        triggerHeartRateTest(true);
+    }
+
+    public void onAbortHeartRateTest() {
+        triggerHeartRateTest(false);
     }
 
     // TODO: starting other tests
