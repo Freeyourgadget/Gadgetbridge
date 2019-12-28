@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:icon="@drawable/ic_language"
+        android:defaultValue="0"
+        android:key="dafit_language"
+        android:summary="%s"
+        android:title="@string/pref_title_language" />
+</androidx.preference.PreferenceScreen>

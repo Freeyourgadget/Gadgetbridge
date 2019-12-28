@@ -19,8 +19,10 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.dafit;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Handler;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.util.Pair;
 import android.widget.Toast;
@@ -32,29 +34,51 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventConfigurationRead;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.dafit.DaFitConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.dafit.DaFitWeatherForecast;
 import nodomain.freeyourgadget.gadgetbridge.devices.dafit.DaFitWeatherToday;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.DaFitDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.dafit.DaFitSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitEnumDeviceVersion;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitEnumLanguage;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitEnumMetricSystem;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitEnumTimeSystem;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitSetting;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitSettingEnum;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitSettingLanguage;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitSettingRemindersToMove;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitSettingTimeRange;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaFitActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -75,8 +99,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.Batter
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.heartrate.HeartRateProfile;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 // TODO: figure out the training data
@@ -139,6 +165,8 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
         builder.notify(getCharacteristic(DaFitConstants.UUID_CHARACTERISTIC_DATA_IN), true);
         deviceInfoProfile.requestDeviceInfo(builder);
         setTime(builder);
+        sendSetting(builder, getSetting("USER_INFO"), new ActivityUser()); // these settings are write-only, so write them just in case because there is no way to know if they desynced somehow
+        sendSetting(builder, getSetting("GOAL_STEP"), new ActivityUser().getStepsGoal());
         batteryInfoProfile.requestBatteryInfo(builder);
         batteryInfoProfile.enableNotify(builder);
         heartRateProfile.enableNotify(builder);
@@ -329,6 +357,17 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
         {
             // TODO: trigger camera photo
             return true;
+        }
+
+        for (DaFitSetting setting : queriedSettings)
+        {
+            if (setting.cmdQuery == packetType)
+            {
+                Object value = setting.decode(payload);
+                onReadConfigurationDone(setting, value, payload);
+                queriedSettings.remove(setting);
+                return true;
+            }
         }
 
         LOG.warn("Unhandled packet " + packetType + ": " + Logging.formatBytes(payload));
@@ -938,18 +977,377 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
         throw new UnsupportedOperationException();
     }
 
+    @SuppressWarnings("unchecked")
+    private <T extends DaFitSetting> T getSetting(String id) {
+        DaFitDeviceCoordinator coordinator = (DaFitDeviceCoordinator) DeviceHelper.getInstance().getCoordinator(getDevice());
+        for(DaFitSetting setting : coordinator.getSupportedSettings())
+        {
+            if (setting.name.equals(id))
+                return (T) setting;
+        }
+        throw new IllegalArgumentException("No such setting: " + id);
+    }
+
+    private static Calendar getTimePref(Prefs prefs, String key, String defaultValue) {
+        String timePref = prefs.getString(key, defaultValue);
+        Date time = null;
+        try {
+            time = new SimpleDateFormat("HH:mm").parse(timePref);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(time);
+        return cal;
+    }
+
+    private <T> void sendSetting(TransactionBuilder builder, DaFitSetting<T> setting, T newValue)
+    {
+        sendPacket(builder, DaFitPacketOut.buildPacket(setting.cmdSet, setting.encode(newValue)));
+    }
+
+    private <T> void sendSetting(DaFitSetting<T> setting, T newValue)
+    {
+        try {
+            TransactionBuilder builder = performInitialized("sendSetting");
+            sendSetting(builder, setting, newValue);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Set<DaFitSetting> queriedSettings = new HashSet<>();
+
+    private void querySetting(DaFitSetting setting)
+    {
+        if (queriedSettings.contains(setting))
+            return;
+
+        try {
+            TransactionBuilder builder = performInitialized("querySetting");
+            sendPacket(builder, DaFitPacketOut.buildPacket(setting.cmdQuery, new byte[0]));
+            builder.queue(getQueue());
+            queriedSettings.add(setting);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onSendConfiguration(String config) {
-        // TODO
+        Log.i("OOOOOOOOOOOOOOOOsend", config);
+
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
+        switch (config) {
+            case ActivityUser.PREF_USER_HEIGHT_CM:
+            case ActivityUser.PREF_USER_WEIGHT_KG:
+            case ActivityUser.PREF_USER_YEAR_OF_BIRTH:
+            case ActivityUser.PREF_USER_GENDER:
+                sendSetting(getSetting("USER_INFO"), new ActivityUser());
+                break;
+
+            case ActivityUser.PREF_USER_STEPS_GOAL:
+                sendSetting(getSetting("GOAL_STEP"), new ActivityUser().getStepsGoal());
+                break;
+
+            case DeviceSettingsPreferenceConst.PREF_TIMEFORMAT:
+                String timeSystemPref = prefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_24h));
+
+                DaFitEnumTimeSystem timeSystem;
+                if (timeSystemPref.equals(getContext().getString(R.string.p_timeformat_24h)))
+                    timeSystem = DaFitEnumTimeSystem.TIME_SYSTEM_24;
+                else if (timeSystemPref.equals(getContext().getString(R.string.p_timeformat_am_pm)))
+                    timeSystem = DaFitEnumTimeSystem.TIME_SYSTEM_12;
+                else
+                    throw new IllegalArgumentException();
+
+                sendSetting(getSetting("TIME_SYSTEM"), timeSystem);
+                break;
+
+            case DeviceSettingsPreferenceConst.PREF_MEASUREMENTSYSTEM:
+                String metricSystemPref = prefs.getString(DeviceSettingsPreferenceConst.PREF_MEASUREMENTSYSTEM, getContext().getString(R.string.p_unit_metric));
+
+                DaFitEnumMetricSystem metricSystem;
+                if (metricSystemPref.equals(getContext().getString(R.string.p_unit_metric)))
+                    metricSystem = DaFitEnumMetricSystem.METRIC_SYSTEM;
+                else if (metricSystemPref.equals(getContext().getString(R.string.p_unit_imperial)))
+                    metricSystem = DaFitEnumMetricSystem.IMPERIAL_SYSTEM;
+                else
+                    throw new IllegalArgumentException();
+
+                sendSetting(getSetting("METRIC_SYSTEM"), metricSystem);
+                break;
+
+            case DaFitConstants.PREF_WATCH_FACE:
+                String watchFacePref = prefs.getString(DaFitConstants.PREF_WATCH_FACE, String.valueOf(1));
+                byte watchFace = Byte.valueOf(watchFacePref);
+                sendSetting(getSetting("DISPLAY_WATCH_FACE"), watchFace);
+                break;
+
+            case DaFitConstants.PREF_LANGUAGE:
+                String languagePref = prefs.getString(DaFitConstants.PREF_LANGUAGE,
+                    String.valueOf(DaFitEnumLanguage.LANGUAGE_ENGLISH.value()));
+                byte languageNum = Byte.valueOf(languagePref);
+                DaFitSettingEnum<DaFitEnumLanguage> languageSetting = getSetting("DEVICE_LANGUAGE");
+                sendSetting(languageSetting, languageSetting.findByValue(languageNum));
+                break;
+
+            case DaFitConstants.PREF_DEVICE_VERSION:
+                String versionPref = prefs.getString(DaFitConstants.PREF_DEVICE_VERSION,
+                    String.valueOf(DaFitEnumDeviceVersion.INTERNATIONAL_EDITION.value()));
+                byte versionNum = Byte.valueOf(versionPref);
+                DaFitSettingEnum<DaFitEnumDeviceVersion> versionSetting = getSetting("DEVICE_VERSION");
+                sendSetting(versionSetting, versionSetting.findByValue(versionNum));
+                break;
+
+            case MiBandConst.PREF_DO_NOT_DISTURB:
+            case MiBandConst.PREF_DO_NOT_DISTURB_START:
+            case MiBandConst.PREF_DO_NOT_DISTURB_END:
+                String doNotDisturbPref = prefs.getString(MiBandConst.PREF_DO_NOT_DISTURB, MiBandConst.PREF_DO_NOT_DISTURB_OFF);
+                boolean doNotDisturbEnabled = !MiBandConst.PREF_DO_NOT_DISTURB_OFF.equals(doNotDisturbPref);
+
+                Calendar doNotDisturbStart = getTimePref(prefs, MiBandConst.PREF_DO_NOT_DISTURB_START, "01:00");
+                Calendar doNotDisturbEnd = getTimePref(prefs, MiBandConst.PREF_DO_NOT_DISTURB_END, "06:00");
+
+                DaFitSettingTimeRange.TimeRange doNotDisturb;
+                if (doNotDisturbEnabled)
+                    doNotDisturb = new DaFitSettingTimeRange.TimeRange(
+                        (byte) doNotDisturbStart.get(Calendar.HOUR_OF_DAY), (byte) doNotDisturbStart.get(Calendar.MINUTE),
+                        (byte) doNotDisturbEnd.get(Calendar.HOUR_OF_DAY), (byte) doNotDisturbEnd.get(Calendar.MINUTE));
+                else
+                    doNotDisturb = new DaFitSettingTimeRange.TimeRange((byte)0, (byte)0, (byte)0, (byte)0);
+
+                sendSetting(getSetting("DO_NOT_DISTURB_TIME"), doNotDisturb);
+                break;
+
+            case HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT:
+            case HuamiConst.PREF_DISPLAY_ON_LIFT_START:
+            case HuamiConst.PREF_DISPLAY_ON_LIFT_END:
+                String quickViewPref = prefs.getString(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, MiBandConst.PREF_DO_NOT_DISTURB_OFF);
+                boolean quickViewEnabled = !quickViewPref.equals(getContext().getString(R.string.p_off));
+                boolean quickViewScheduled = quickViewPref.equals(getContext().getString(R.string.p_scheduled));
+
+                Calendar quickViewStart = getTimePref(prefs, HuamiConst.PREF_DISPLAY_ON_LIFT_START, "00:00");
+                Calendar quickViewEnd = getTimePref(prefs, HuamiConst.PREF_DISPLAY_ON_LIFT_END, "00:00");
+
+                DaFitSettingTimeRange.TimeRange quickViewTime;
+                if (quickViewEnabled && quickViewScheduled)
+                    quickViewTime = new DaFitSettingTimeRange.TimeRange(
+                        (byte) quickViewStart.get(Calendar.HOUR_OF_DAY), (byte) quickViewStart.get(Calendar.MINUTE),
+                        (byte) quickViewEnd.get(Calendar.HOUR_OF_DAY), (byte) quickViewEnd.get(Calendar.MINUTE));
+                else
+                    quickViewTime = new DaFitSettingTimeRange.TimeRange((byte)0, (byte)0, (byte)0, (byte)0);
+
+                sendSetting(getSetting("QUICK_VIEW"), quickViewEnabled);
+                sendSetting(getSetting("QUICK_VIEW_TIME"), quickViewTime);
+                break;
+
+            case DaFitConstants.PREF_SEDENTARY_REMINDER:
+                String sedentaryReminderPref = prefs.getString(DaFitConstants.PREF_SEDENTARY_REMINDER, "off");
+                boolean sedentaryReminderEnabled = !sedentaryReminderPref.equals("off");
+                sendSetting(getSetting("SEDENTARY_REMINDER"), sedentaryReminderEnabled);
+                break;
+
+            case DaFitConstants.PREF_SEDENTARY_REMINDER_PERIOD:
+            case DaFitConstants.PREF_SEDENTARY_REMINDER_STEPS:
+            case DaFitConstants.PREF_SEDENTARY_REMINDER_START:
+            case DaFitConstants.PREF_SEDENTARY_REMINDER_END:
+                byte sedentaryPeriod = (byte) prefs.getInt(DaFitConstants.PREF_SEDENTARY_REMINDER_PERIOD, 30);
+                byte sedentarySteps = (byte) prefs.getInt(DaFitConstants.PREF_SEDENTARY_REMINDER_STEPS, 100);
+                byte sedentaryStart = (byte) prefs.getInt(DaFitConstants.PREF_SEDENTARY_REMINDER_START, 10);
+                byte sedentaryEnd = (byte) prefs.getInt(DaFitConstants.PREF_SEDENTARY_REMINDER_END, 22);
+                sendSetting(getSetting("REMINDERS_TO_MOVE_PERIOD"),
+                    new DaFitSettingRemindersToMove.RemindersToMove(sedentaryPeriod, sedentarySteps, sedentaryStart, sedentaryEnd));
+                break;
+        }
+
+        // Query the setting to make sure the configuration got actually applied
+        // TODO: breaks sedentary
+        //onReadConfiguration(config);
     }
 
     @Override
     public void onReadConfiguration(String config) {
-        // TODO
+        Log.i("OOOOOOOOOOOOOOOOread", config);
+
+        switch (config) {
+            /* These use the global Gadgetbridge configuration and are always forced on device upon connection
+            case ActivityUser.PREF_USER_HEIGHT_CM:
+            case ActivityUser.PREF_USER_WEIGHT_KG:
+            case ActivityUser.PREF_USER_YEAR_OF_BIRTH:
+            case ActivityUser.PREF_USER_GENDER:
+                querySetting(getSetting("USER_INFO"));
+                break;
+
+            case ActivityUser.PREF_USER_STEPS_GOAL:
+                querySetting(getSetting("GOAL_STEP"));
+                break;*/
+
+            case DeviceSettingsPreferenceConst.PREF_TIMEFORMAT:
+                querySetting(getSetting("TIME_SYSTEM"));
+                break;
+
+            case DeviceSettingsPreferenceConst.PREF_MEASUREMENTSYSTEM:
+                querySetting(getSetting("METRIC_SYSTEM"));
+                break;
+
+            case DaFitConstants.PREF_WATCH_FACE:
+                querySetting(getSetting("DISPLAY_WATCH_FACE"));
+                break;
+
+            case DaFitConstants.PREF_LANGUAGE:
+                querySetting(getSetting("DEVICE_LANGUAGE"));
+                break;
+
+            case DaFitConstants.PREF_DEVICE_VERSION:
+                querySetting(getSetting("DEVICE_VERSION"));
+                break;
+
+            case MiBandConst.PREF_DO_NOT_DISTURB:
+            case MiBandConst.PREF_DO_NOT_DISTURB_START:
+            case MiBandConst.PREF_DO_NOT_DISTURB_END:
+                querySetting(getSetting("DO_NOT_DISTURB_TIME"));
+                break;
+
+            case HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT:
+            case HuamiConst.PREF_DISPLAY_ON_LIFT_START:
+            case HuamiConst.PREF_DISPLAY_ON_LIFT_END:
+                querySetting(getSetting("QUICK_VIEW"));
+                querySetting(getSetting("QUICK_VIEW_TIME"));
+                break;
+
+            case DaFitConstants.PREF_SEDENTARY_REMINDER:
+                querySetting(getSetting("SEDENTARY_REMINDER"));
+                break;
+
+            case DaFitConstants.PREF_SEDENTARY_REMINDER_PERIOD:
+            case DaFitConstants.PREF_SEDENTARY_REMINDER_STEPS:
+            case DaFitConstants.PREF_SEDENTARY_REMINDER_START:
+            case DaFitConstants.PREF_SEDENTARY_REMINDER_END:
+                querySetting(getSetting("REMINDERS_TO_MOVE_PERIOD"));
+                break;
+            default:
+                return;
+        }
+
+        GBDeviceEventConfigurationRead configReadEvent = new GBDeviceEventConfigurationRead();
+        configReadEvent.config = config;
+        configReadEvent.event = GBDeviceEventConfigurationRead.Event.IN_PROGRESS;
+        evaluateGBDeviceEvent(configReadEvent);
+    }
+
+    public void onReadConfigurationDone(DaFitSetting setting, Object value, byte[] data)
+    {
+        Log.i("CONFIG", setting.name + " = " + value);
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
+        Map<String, String> changedProperties = new ArrayMap<>();
+        SharedPreferences.Editor prefsEditor = prefs.getPreferences().edit();
+        switch (setting.name) {
+            case "TIME_SYSTEM":
+                DaFitEnumTimeSystem timeSystem = (DaFitEnumTimeSystem) value;
+                if (timeSystem == DaFitEnumTimeSystem.TIME_SYSTEM_24)
+                    changedProperties.put(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_24h));
+                else if (timeSystem == DaFitEnumTimeSystem.TIME_SYSTEM_12)
+                    changedProperties.put(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_am_pm));
+                else
+                    throw new IllegalArgumentException("Invalid value");
+                break;
+
+            case "METRIC_SYSTEM":
+                DaFitEnumMetricSystem metricSystem = (DaFitEnumMetricSystem) value;
+                if (metricSystem == DaFitEnumMetricSystem.METRIC_SYSTEM)
+                    changedProperties.put(DeviceSettingsPreferenceConst.PREF_MEASUREMENTSYSTEM, getContext().getString(R.string.p_unit_metric));
+                else if (metricSystem == DaFitEnumMetricSystem.IMPERIAL_SYSTEM)
+                    changedProperties.put(DeviceSettingsPreferenceConst.PREF_MEASUREMENTSYSTEM, getContext().getString(R.string.p_unit_imperial));
+                else
+                    throw new IllegalArgumentException("Invalid value");
+                break;
+
+            case "DISPLAY_WATCH_FACE":
+                byte watchFace = (Byte) value;
+                changedProperties.put(DaFitConstants.PREF_WATCH_FACE, String.valueOf(watchFace));
+                break;
+
+            case "DEVICE_LANGUAGE":
+                DaFitEnumLanguage language = (DaFitEnumLanguage) value;
+                changedProperties.put(DaFitConstants.PREF_LANGUAGE, String.valueOf(language.value()));
+                DaFitEnumLanguage[] supportedLanguages = ((DaFitSettingLanguage) setting).decodeSupportedValues(data);
+                Set<String> supportedLanguagesList = new HashSet<>();
+                for(DaFitEnumLanguage supportedLanguage : supportedLanguages)
+                    supportedLanguagesList.add(String.valueOf(supportedLanguage.value()));
+                prefsEditor.putStringSet(DaFitConstants.PREF_LANGUAGE_SUPPORT, supportedLanguagesList);
+                break;
+
+            case "DEVICE_VERSION":
+                DaFitEnumDeviceVersion deviceVersion = (DaFitEnumDeviceVersion) value;
+                changedProperties.put(DaFitConstants.PREF_DEVICE_VERSION, String.valueOf(deviceVersion.value()));
+                break;
+
+            case "DO_NOT_DISTURB_TIME":
+                DaFitSettingTimeRange.TimeRange doNotDisturb = (DaFitSettingTimeRange.TimeRange) value;
+                if (doNotDisturb.start_h == 0 && doNotDisturb.start_m == 0 &&
+                    doNotDisturb.end_h == 0 && doNotDisturb.end_m == 0)
+                    changedProperties.put(MiBandConst.PREF_DO_NOT_DISTURB, MiBandConst.PREF_DO_NOT_DISTURB_OFF);
+                else
+                    changedProperties.put(MiBandConst.PREF_DO_NOT_DISTURB, MiBandConst.PREF_DO_NOT_DISTURB_SCHEDULED);
+                changedProperties.put(MiBandConst.PREF_DO_NOT_DISTURB_START, String.format(Locale.ROOT, "%02d:%02d", doNotDisturb.start_h, doNotDisturb.start_m));
+                changedProperties.put(MiBandConst.PREF_DO_NOT_DISTURB_END, String.format(Locale.ROOT, "%02d:%02d", doNotDisturb.end_h, doNotDisturb.end_m));
+                break;
+
+            case "QUICK_VIEW":
+                boolean quickViewEnabled = (Boolean) value;
+                boolean quickViewScheduled = prefs.getString(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, getContext().getString(R.string.p_off)).equals(getContext().getString(R.string.p_scheduled));
+                changedProperties.put(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, quickViewEnabled ? (quickViewScheduled ? getContext().getString(R.string.p_scheduled) : getContext().getString(R.string.p_on)) : getContext().getString(R.string.p_off));
+                break;
+
+            case "QUICK_VIEW_TIME":
+                boolean quickViewEnabled2 = !prefs.getString(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, getContext().getString(R.string.p_off)).equals(getContext().getString(R.string.p_off));
+                DaFitSettingTimeRange.TimeRange quickViewTime = (DaFitSettingTimeRange.TimeRange) value;
+                if (quickViewEnabled2)
+                {
+                    if (quickViewTime.start_h == 0 && quickViewTime.start_m == 0 &&
+                        quickViewTime.end_h == 0 && quickViewTime.end_m == 0)
+                        changedProperties.put(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, getContext().getString(R.string.p_on));
+                    else
+                        changedProperties.put(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, getContext().getString(R.string.p_scheduled));
+                }
+                changedProperties.put(HuamiConst.PREF_DISPLAY_ON_LIFT_START, String.format(Locale.ROOT, "%02d:%02d", quickViewTime.start_h, quickViewTime.start_m));
+                changedProperties.put(HuamiConst.PREF_DISPLAY_ON_LIFT_END, String.format(Locale.ROOT, "%02d:%02d", quickViewTime.end_h, quickViewTime.end_m));
+                break;
+
+            case "SEDENTARY_REMINDER":
+                boolean sedentaryReminderEnabled = (Boolean) value;
+                changedProperties.put(DaFitConstants.PREF_SEDENTARY_REMINDER, sedentaryReminderEnabled ? "on": "off");
+                break;
+
+            case "REMINDERS_TO_MOVE_PERIOD":
+                DaFitSettingRemindersToMove.RemindersToMove remindersToMove = (DaFitSettingRemindersToMove.RemindersToMove) value;
+                changedProperties.put(DaFitConstants.PREF_SEDENTARY_REMINDER_PERIOD, String.valueOf(remindersToMove.period));
+                changedProperties.put(DaFitConstants.PREF_SEDENTARY_REMINDER_STEPS, String.valueOf(remindersToMove.steps));
+                changedProperties.put(DaFitConstants.PREF_SEDENTARY_REMINDER_START, String.valueOf(remindersToMove.start_h));
+                changedProperties.put(DaFitConstants.PREF_SEDENTARY_REMINDER_END, String.valueOf(remindersToMove.end_h));
+                break;
+        }
+        for (Map.Entry<String, String> property : changedProperties.entrySet())
+            prefsEditor.putString(property.getKey(), property.getValue());
+        prefsEditor.apply();
+        for (Map.Entry<String, String> property : changedProperties.entrySet())
+        {
+            GBDeviceEventConfigurationRead configReadEvent = new GBDeviceEventConfigurationRead();
+            configReadEvent.config = property.getKey();
+            configReadEvent.event = GBDeviceEventConfigurationRead.Event.SUCCESS;
+            evaluateGBDeviceEvent(configReadEvent);
+        }
     }
 
     @Override
     public void onTestNewFunction() {
+        try {
+            new QuerySettingsOperation(this).perform();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

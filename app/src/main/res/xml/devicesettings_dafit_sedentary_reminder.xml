@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceScreen
+        android:icon="@drawable/ic_sitting"
+        android:key="screen_sedentary_reminder"
+        android:persistent="false"
+        android:title="@string/pref_sedentary_reminder">
+
+        <!-- workaround for missing toolbar -->
+        <PreferenceCategory android:title="@string/pref_sedentary_reminder" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XListPreference
+            android:defaultValue="@string/p_off"
+            android:entries="@array/sedentary_reminder"
+            android:entryValues="@array/sedentary_reminder_values"
+            android:key="sedentary_reminder"
+            android:summary="%s"
+            app:dependentValue="@string/p_on"
+            android:title="@string/pref_sedentary_reminder" />
+
+        <androidx.preference.EditTextPreference
+            android:defaultValue="30"
+            android:inputType="number"
+            android:key="sedentary_reminder_period"
+            android:maxLength="3"
+            app:useSimpleSummaryProvider="true"
+            android:dependency="sedentary_reminder"
+            android:title="@string/pref_sedentary_reminder_period" />
+
+        <androidx.preference.EditTextPreference
+            android:defaultValue="100"
+            android:inputType="number"
+            android:key="sedentary_reminder_steps"
+            android:maxLength="3"
+            app:useSimpleSummaryProvider="true"
+            android:dependency="sedentary_reminder"
+            android:title="@string/pref_sedentary_reminder_steps" />
+
+        <androidx.preference.EditTextPreference
+            android:defaultValue="10"
+            android:inputType="number"
+            android:key="sedentary_reminder_start"
+            android:maxLength="2"
+            app:useSimpleSummaryProvider="true"
+            android:dependency="sedentary_reminder"
+            android:title="@string/pref_sedentary_reminder_start" />
+
+        <androidx.preference.EditTextPreference
+            android:defaultValue="22"
+            android:inputType="number"
+            android:key="sedentary_reminder_end"
+            android:maxLength="2"
+            app:useSimpleSummaryProvider="true"
+            android:dependency="sedentary_reminder"
+            android:title="@string/pref_sedentary_reminder_end" />
+
+    </PreferenceScreen>
+
+
+</androidx.preference.PreferenceScreen>

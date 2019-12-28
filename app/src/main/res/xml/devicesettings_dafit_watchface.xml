@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:icon="@drawable/ic_widgets"
+        android:defaultValue="1"
+        android:entries="@array/pref_dafit_watch_face"
+        android:entryValues="@array/pref_dafit_watch_face_values"
+        android:key="dafit_watch_face"
+        android:summary="%s"
+        android:title="@string/pref_watch_face" />
+</androidx.preference.PreferenceScreen>

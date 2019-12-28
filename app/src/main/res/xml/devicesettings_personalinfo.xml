@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:icon="@drawable/ic_person"
+        android:key="personal_info"
+        android:title="@string/activity_prefs_about_you">
+        <intent
+            android:targetPackage="nodomain.freeyourgadget.gadgetbridge"
+            android:targetClass="nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity" />
+        <!-- TODO: link this to proper subscreen -->
+    </Preference>
+
+</androidx.preference.PreferenceScreen>

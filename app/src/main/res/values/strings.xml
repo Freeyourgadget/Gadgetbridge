@@ -436,6 +436,13 @@
     <string name="pref_display_add_device_fab_off">Visible only if no device is added</string>
     <string name="pref_title_huami_force_new_protocol">New Auth Protocol</string>
     <string name="pref_summary_huami_force_new_protocol">Enable if your device no longer connects after a firmware upgrade</string>
+    <string name="pref_watch_face">Watch face</string>
+    <string name="pref_device_version">Device version</string>
+    <string name="pref_sedentary_reminder">Sedentary reminder</string>
+    <string name="pref_sedentary_reminder_period">Time period (minutes)</string>
+    <string name="pref_sedentary_reminder_steps">Minimum steps</string>
+    <string name="pref_sedentary_reminder_start">Start time (hour)</string>
+    <string name="pref_sedentary_reminder_end">End time (hour)</string>
     <!-- HPlus Preferences -->
     <string name="pref_title_unit_system">Units</string>
     <string name="pref_title_timeformat">Time format</string>

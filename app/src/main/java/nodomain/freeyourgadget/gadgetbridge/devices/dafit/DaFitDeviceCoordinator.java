@@ -31,9 +31,22 @@ import java.util.Collection;
 import java.util.Collections;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitEnumDeviceVersion;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitEnumMetricSystem;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitEnumTimeSystem;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitSetting;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitSettingBool;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitSettingByte;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitSettingEnum;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitSettingInt;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitSettingLanguage;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitSettingRemindersToMove;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitSettingTimeRange;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitSettingUserInfo;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -187,8 +200,52 @@ public class DaFitDeviceCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsUnicodeEmojis() { return false; }
 
+    private static final DaFitSetting[] DAFIT_SETTINGS = new DaFitSetting[] {
+        new DaFitSettingUserInfo("USER_INFO", DaFitConstants.CMD_SET_USER_INFO),
+        new DaFitSettingByte("STEP_LENGTH", (byte)-1, DaFitConstants.CMD_SET_STEP_LENGTH),
+        // (*) new DaFitSettingEnum<>("DOMINANT_HAND", DaFitConstants.CMD_QUERY_DOMINANT_HAND, DaFitConstants.CMD_SET_DOMINANT_HAND, DaFitEnumDominantHand.class),
+        new DaFitSettingInt("GOAL_STEP", DaFitConstants.CMD_QUERY_GOAL_STEP, DaFitConstants.CMD_SET_GOAL_STEP),
+
+        new DaFitSettingEnum<>("DEVICE_VERSION", DaFitConstants.CMD_QUERY_DEVICE_VERSION, DaFitConstants.CMD_SET_DEVICE_VERSION, DaFitEnumDeviceVersion.class),
+        new DaFitSettingLanguage("DEVICE_LANGUAGE", DaFitConstants.CMD_QUERY_DEVICE_LANGUAGE, DaFitConstants.CMD_SET_DEVICE_LANGUAGE),
+        new DaFitSettingEnum<>("TIME_SYSTEM", DaFitConstants.CMD_QUERY_TIME_SYSTEM, DaFitConstants.CMD_SET_TIME_SYSTEM, DaFitEnumTimeSystem.class),
+        new DaFitSettingEnum<>("METRIC_SYSTEM", DaFitConstants.CMD_QUERY_METRIC_SYSTEM, DaFitConstants.CMD_SET_METRIC_SYSTEM, DaFitEnumMetricSystem.class),
+
+        // (*) new DaFitSetting("DISPLAY_DEVICE_FUNCTION", DaFitConstants.CMD_QUERY_DISPLAY_DEVICE_FUNCTION, DaFitConstants.CMD_SET_DISPLAY_DEVICE_FUNCTION),
+        // (*) new DaFitSetting("SUPPORT_WATCH_FACE", DaFitConstants.CMD_QUERY_SUPPORT_WATCH_FACE, (byte)-1),
+        // (*) new DaFitSetting("WATCH_FACE_LAYOUT", DaFitConstants.CMD_QUERY_WATCH_FACE_LAYOUT, DaFitConstants.CMD_SET_WATCH_FACE_LAYOUT),
+        new DaFitSettingByte("DISPLAY_WATCH_FACE", DaFitConstants.CMD_QUERY_DISPLAY_WATCH_FACE, DaFitConstants.CMD_SET_DISPLAY_WATCH_FACE),
+        new DaFitSettingBool("OTHER_MESSAGE_STATE", DaFitConstants.CMD_QUERY_OTHER_MESSAGE_STATE, DaFitConstants.CMD_SET_OTHER_MESSAGE_STATE),
+
+        new DaFitSettingBool("QUICK_VIEW", DaFitConstants.CMD_QUERY_QUICK_VIEW, DaFitConstants.CMD_SET_QUICK_VIEW),
+        new DaFitSettingTimeRange("QUICK_VIEW_TIME", DaFitConstants.CMD_QUERY_QUICK_VIEW_TIME, DaFitConstants.CMD_SET_QUICK_VIEW_TIME),
+        new DaFitSettingBool("SEDENTARY_REMINDER", DaFitConstants.CMD_QUERY_SEDENTARY_REMINDER, DaFitConstants.CMD_SET_SEDENTARY_REMINDER),
+        new DaFitSettingRemindersToMove("REMINDERS_TO_MOVE_PERIOD", DaFitConstants.CMD_QUERY_REMINDERS_TO_MOVE_PERIOD, DaFitConstants.CMD_SET_REMINDERS_TO_MOVE_PERIOD),
+        new DaFitSettingTimeRange("DO_NOT_DISTURB_TIME", DaFitConstants.CMD_QUERY_DO_NOT_DISTURB_TIME, DaFitConstants.CMD_SET_DO_NOT_DISTURB_TIME),
+        // (*) new DaFitSetting("PSYCHOLOGICAL_PERIOD", DaFitConstants.CMD_QUERY_PSYCHOLOGICAL_PERIOD, DaFitConstants.CMD_SET_PSYCHOLOGICAL_PERIOD),
+
+        new DaFitSettingBool("BREATHING_LIGHT", DaFitConstants.CMD_QUERY_BREATHING_LIGHT, DaFitConstants.CMD_SET_BREATHING_LIGHT)
+    };
+
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-        return null;
+        return new int[]{
+            R.xml.devicesettings_personalinfo,
+            //R.xml.devicesettings_steplength, // TODO is this needed? does it work? write-only so hard to tell
+            R.xml.devicesettings_dafit_device_version,
+            R.xml.devicesettings_dafit_language,
+            R.xml.devicesettings_timeformat,
+            R.xml.devicesettings_measurementsystem,
+            R.xml.devicesettings_dafit_watchface,
+            //R.xml.devicesettings_dafit_othermessage, // not implemented because this doesn't really do anything on the watch side, only enables/disables sending of "other" notifications in the app (no idea why they store the setting on the watch)
+            R.xml.devicesettings_liftwrist_display,
+            R.xml.devicesettings_dafit_sedentary_reminder,
+            R.xml.devicesettings_donotdisturb_no_auto_v2,
+            //R.xml.devicesettings_dafit_breathinglight, // No idea what this does but it doesn't seem to change anything
+        };
+    }
+
+    public DaFitSetting[] getSupportedSettings() {
+        return DAFIT_SETTINGS;
     }
 }

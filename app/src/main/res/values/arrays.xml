@@ -366,6 +366,16 @@
         <item>@string/p_scheduled</item>
     </string-array>
 
+    <string-array name="sedentary_reminder">
+        <item>@string/off</item>
+        <item>@string/on</item>
+    </string-array>
+
+    <string-array name="sedentary_reminder_values">
+        <item>@string/p_off</item>
+        <item>@string/p_on</item>
+    </string-array>
+
     <string-array name="mi2_do_not_disturb">
         <item>@string/mi2_dnd_off</item>
         <item>@string/mi2_dnd_automatic</item>
@@ -2622,6 +2632,28 @@
         <item>en_US</item>
         <item>es_ES</item>
         <item>ru_RU</item>
+    </string-array>
+
+    <string-array name="pref_dafit_watch_face">
+        <item>Watch face 1</item>
+        <item>Watch face 2</item>
+        <item>Watch face 3</item>
+    </string-array>
+
+    <string-array name="pref_dafit_watch_face_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="pref_dafit_device_version">
+        <item>Chinese edition</item>
+        <item>International edition</item>
+    </string-array>
+
+    <string-array name="pref_dafit_device_version_values">
+        <item>0</item>
+        <item>1</item>
     </string-array>
 
     <string-array name="prefs_heartrate_measurement_interval">
