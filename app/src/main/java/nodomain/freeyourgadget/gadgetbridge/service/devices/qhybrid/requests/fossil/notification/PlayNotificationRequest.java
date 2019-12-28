@@ -27,6 +27,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.utils.String
 
 public class PlayNotificationRequest extends FilePutRequest {
 
+    static int id = 0;
+
     public PlayNotificationRequest(String packageName, FossilWatchAdapter adapter) {
         super((short) 0x0900, createFile(packageName, packageName, packageName), adapter);
     }
@@ -60,30 +62,25 @@ public class PlayNotificationRequest extends FilePutRequest {
 
         short mainBufferLength = (short) (lengthBufferLength + uidLength + appBundleCRCLength + titleBytes.length + senderBytes.length + messageBytes.length);
 
-        ByteBuffer lengthBuffer = ByteBuffer.allocate(lengthBufferLength);
-        lengthBuffer.order(ByteOrder.LITTLE_ENDIAN);
-        lengthBuffer.putShort(mainBufferLength);
-        lengthBuffer.put(lengthBufferLength);
-        lengthBuffer.put(typeId);
-        lengthBuffer.put(flags);
-        lengthBuffer.put(uidLength);
-        lengthBuffer.put(appBundleCRCLength);
-        lengthBuffer.put((byte) titleBytes.length);
-        lengthBuffer.put((byte) senderBytes.length);
-        lengthBuffer.put((byte) messageBytes.length);
-
         ByteBuffer mainBuffer = ByteBuffer.allocate(mainBufferLength);
         mainBuffer.order(ByteOrder.LITTLE_ENDIAN);
-        mainBuffer.put(lengthBuffer.array());
 
-        lengthBuffer = ByteBuffer.allocate(mainBufferLength - lengthBufferLength);
-        lengthBuffer.order(ByteOrder.LITTLE_ENDIAN);
-        lengthBuffer.putInt(10); // messageId
-        lengthBuffer.putInt(packageCrc);
-        lengthBuffer.put(titleBytes);
-        lengthBuffer.put(senderBytes);
-        lengthBuffer.put(messageBytes);
-        mainBuffer.put(lengthBuffer.array());
+        mainBuffer.putShort(mainBufferLength);
+
+        mainBuffer.put(lengthBufferLength);
+        mainBuffer.put(typeId);
+        mainBuffer.put(flags);
+        mainBuffer.put(uidLength);
+        mainBuffer.put(appBundleCRCLength);
+        mainBuffer.put((byte) titleBytes.length);
+        mainBuffer.put((byte) senderBytes.length);
+        mainBuffer.put((byte) messageBytes.length);
+
+        mainBuffer.putInt(id++); // messageId
+        mainBuffer.putInt(packageCrc);
+        mainBuffer.put(titleBytes);
+        mainBuffer.put(senderBytes);
+        mainBuffer.put(messageBytes);
         return mainBuffer.array();
     }
 
