@@ -136,7 +136,7 @@
     <string name="pref_summary_pebble_forcele">Utiliser le support expérimental du LE pour toutes les Pebble au lieu du Bluetooth classique. Cela requiert le jumelage d\'une Pebble non LE, puis d\'une Pebble LE</string>
     <string name="pref_title_pebble_mtu_limit">Limite du GATT MTU de Pebble 2/LE</string>
     <string name="pref_summary_pebble_mtu_limit">Si votre Pebble 2/LE ne fonctionne pas correctement, essayez d\'activer cette option pour limiter le MTU (plage valide 20–512)</string>
-    <string name="pref_title_pebble_enable_applogs">Activer les logs des Watch App</string>
+    <string name="pref_title_pebble_enable_applogs">Activer les logs des apps du bracelet</string>
     <string name="pref_summary_pebble_enable_applogs">Ceci permettra à Gadgetbridge de conserver les logs des Watch App (requiert une reconnexion)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">ACK à l\'avance du PebbleKit</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Ceci permettra aux messages envoyés à des apps tierces d\'être toujours reconnus immédiatement</string>
@@ -405,12 +405,12 @@ Temps de sommeil préféré en heures</string>
     <string name="discovery_pair_question">Sélectionnez Jumeler pour associer vos dispositifs. Si cela échoue, essayez à nouveau sans jumelage.</string>
     <string name="discovery_yes_pair">Appairer</string>
     <string name="discovery_dont_pair">Ne pas appairer</string>
-    <string name="fw_upgrade_notice_amazfitbip">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Bip.
-\n
-\nVeuillez installer le fichier .fw, puis le fichier .res, puis le fichier.gps.. Votre montre redémarrera après installation du .fw.
-\n
-\nNote : vous ne devez pas installer .res et .gps si ceux-ci sont identiques à ceux installés précédemment.
-\n
+    <string name="fw_upgrade_notice_amazfitbip">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Bip. 
+\n 
+\nVeuillez installer le fichier .fw, puis le fichier .res, puis le fichier.gps. Votre montre redémarrera après installation du .fw. 
+\n 
+\nNote : vous ne devez pas installer .res et .gps si ceux-ci sont identiques à ceux installés précédemment. 
+\n 
 \nCONTINUEZ À VOS RISQUES !</string>
     <string name="mi2_prefs_button_actions">Actions du bouton</string>
     <string name="mi2_prefs_button_actions_summary">Spécifier les actions par pression du bouton</string>
@@ -432,7 +432,7 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_title_pebble_enable_bgjs">Activer tâche de fond JS</string>
     <string name="pref_summary_pebble_enable_bgjs">Si activé, autorise l\'affichage de la météo, niveau de batterie, etc.</string>
     <string name="activity_web_view">Activité Web View</string>
-    <string name="controlcenter_connect">Connexion …</string>
+    <string name="controlcenter_connect">Connexion…</string>
     <string name="fw_upgrade_notice_amazfitcor">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Cor.
 \n
 \nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après installation du fichier .fw.
@@ -541,7 +541,7 @@ Temps de sommeil préféré en heures</string>
     <string name="controlcenter_change_led_color">Changer la couleur de la LED</string>
     <string name="controlcenter_change_fm_frequency">Changer la fréquence FM</string>
     <string name="controlcenter_calibrate_device">Calibrer l\'appareil</string>
-    <string name="pref_title_notifications_timeout">Temps minimum entre deux notifications</string>
+    <string name="pref_title_notifications_timeout">Durée minimum entre deux notifications</string>
     <string name="pref_title_rtl">De droite à gauche</string>
     <string name="pref_summary_rtl">Cocher ceci si votre appareil n\'est pas compatible avec les langues \"droite-à-gauche\"</string>
     <string name="pref_rtl_max_line_length">Longueur max. d\'une ligne en mode Droite-à-Gauche</string>
@@ -602,7 +602,7 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_title_contextual_arabic">Arabe contextuel</string>
     <string name="pref_summary_contextual_arabic">A cocher pour activer le support \"Arabe contextuel\"</string>
     <string name="debugactivity_really_factoryreset_title">Confirmer la réinitialisation usine \?</string>
-    <string name="debugactivity_really_factoryreset">Procéder à une réinitialisation usine supprimera toutes es données de l\'appareil connecté (si cela est supporté). Les appareils Xiami/Huami changeront aussi leur adresse MAC Bluetooth, ils apparaîtront donc comme de nouveau appareils dans GadgetBridge.</string>
+    <string name="debugactivity_really_factoryreset">Une réinitialisation d\'usine effacera toutes les données de l\'appareil connecté (si supporté). Les appareils Xiaomi/Huami modifient également l\'adresse MAC Bluetooth, de sorte qu\'ils apparaissent comme de nouveaux appareils dans Gadgetbrige.</string>
     <string name="mi3_prefs_band_screen_unlock">Déverrouillage de l\'écran du Band</string>
     <string name="activity_type_exercise">Activité physique</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
@@ -672,7 +672,7 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_prefs_activetime_minutes">Objectif Quotidien : Temps d\'activité en minutes</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
     <string name="pref_title_support_voip_calls">Activer les applications d\'appel VoIP</string>
-    <string name="title_activity_device_specific_settings">"  "</string>
+    <string name="title_activity_device_specific_settings">Paramètres spécifiques de l\'appareil</string>
     <string name="pref_title_authkey">Clé Auteur</string>
     <string name="pref_summary_authkey">Changez la clé auteur à une clé générale sur tous vos appareils Android sur lesquels vous souhaitez vous connecter. La précédente clé par défaut était 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
@@ -716,8 +716,8 @@ Temps de sommeil préféré en heures</string>
     <string name="menuitem_nfc">NFC</string>
     <string name="pref_title_use_custom_font">Utiliser une police personnalisée</string>
     <string name="activity_DB_test_export_message">Exportation de la base de données …</string>
-    <string name="activity_db_management_exportimport_label">Exportation et importation</string>
-    <string name="widget_steps_label">Étapes : %1$02d</string>
+    <string name="activity_db_management_exportimport_label">Exporter et Importer</string>
+    <string name="widget_steps_label">Pas : %1$02d</string>
     <string name="widget_listing_label">État et alarmes</string>
     <string name="widget_set_alarm_after">Régler l’alarme après :</string>
     <string name="widget_5_minutes">5 minutes</string>
@@ -741,10 +741,10 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_DB_test_export_button">Lancer l\'export maintenant</string>
     <string name="activity_DB_delete_legacy_button">Supprimer les anciennes données</string>
     <string name="activity_DB_empty_button">Vider la base de données</string>
-    <string name="activity_db_management_empty_DB">Vide la base de données</string>
+    <string name="activity_db_management_empty_DB">Vider la base de données</string>
     <string name="activity_db_management_empty_db_warning">Attention ! Ce bouton détruit votre base de données et réinitialise.</string>
     <string name="appwidget_sleep_alarm_widget_label">Réveil</string>
-    <string name="widget_sleep_label">"Dormir  %1$ s"</string>
+    <string name="widget_sleep_label">Sommeil : %1$s</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d heure</item>
         <item quantity="other">%d heures</item>
@@ -762,4 +762,41 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_chart_heartrate_color_orange">Orange</string>
     <string name="pref_chart_sleep_rolling_24_on">Dernières 24 heures</string>
     <string name="pref_chart_sleep_rolling_24_off">De midi à midi</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Bip Lite.
+\n
+\nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après installation du fichier .fw.
+\n
+\nNote : vous n\'avez pas à installer le fichier .res si c\'est exactement le même que celui installé précédemment.
+\n
+\nÀ VOS RISQUES ET PÉRILS !</string>
+    <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
+    <string name="fw_upgrade_notice_amazfitgtr">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit GTR.
+\n
+\nVeuillez installer le fichier .fw, puis le fichier .res et enfin le fichier .gps. Votre montre redémarrera après installation du fichier .fw.
+\n
+\nNote : vous n\'avez pas à installer les fichiers .res et .gps s\'ils sont exactement les mêmes que ceux installés précédemment.
+\n
+\nÀ VOS RISQUES ET PÉRILS !</string>
+    <string name="pref_title_chart_heartrate_color">Couleur du rythme cardiaque</string>
+    <string name="pref_title_chart_sleep_rolling_24_hour">Plage de sommeil</string>
+    <string name="devicetype_amazfit_gts">Amazfit GTS</string>
+    <string name="fw_upgrade_notice_amazfitgts">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit GTS.
+\n
+\nVeuillez installer le fichier .fw, puis le fichier .res et enfin le fichier .gps. Votre montre redémarrera après installation du fichier .fw.
+\n
+\nNote : vous n\'avez pas à installer les fichiers .res et .gps s\'ils sont exactement les mêmes que ceux installés précédemment.
+\n
+\nÀ VOS RISQUES ET PÉRILS !</string>
+    <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
+    <string name="preferences_qhybrid_settings">Paramètres du Q Hybrid</string>
+    <string name="watch_not_connected">Montre non connectée</string>
+    <string name="qhybrid_vibration_strength">Puissance de vibration :</string>
+    <string name="qhybrid_goal_in_steps">Objectif de pas</string>
+    <string name="qhybrid_time_shift">décalage horaire</string>
+    <string name="qhybrid_second_timezone_offset_relative_to_utc">décalage du deuxième fuseau horaire par rapport à UTC</string>
+    <string name="qhybrid_prompt_million_steps">Veuillez régler le compteur de pas à un million pour l\'activer.</string>
+    <string name="qhybrid_changes_delay_prompt">les changements peuvent prendre quelques secondes…</string>
+    <string name="pref_disable_new_ble_scanning">Désactiver le nouveau scan BLE</string>
+    <string name="pref_summary_disable_new_ble_scanning">Cochez cette option si votre appareil ne peut être découvert</string>
+    <string name="devicetype_banglejs">Bangle.js</string>
 </resources>
