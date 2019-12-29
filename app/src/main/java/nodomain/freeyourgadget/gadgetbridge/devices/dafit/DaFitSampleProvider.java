@@ -107,6 +107,19 @@ public class DaFitSampleProvider extends AbstractSampleProvider<DaFitActivitySam
             return ActivityKind.TYPE_DEEP_SLEEP;
         else if (rawType == ACTIVITY_SLEEP_START || rawType == ACTIVITY_SLEEP_END)
             return ActivityKind.TYPE_NOT_MEASURED;
+        else if (rawType == ACTIVITY_TRAINING_WALK)
+            return ActivityKind.TYPE_WALKING;
+        else if (rawType == ACTIVITY_TRAINING_RUN)
+            return ActivityKind.TYPE_RUNNING;
+        else if (rawType == ACTIVITY_TRAINING_BIKING)
+            return ActivityKind.TYPE_CYCLING;
+        else if (rawType == ACTIVITY_TRAINING_SWIM)
+            return ActivityKind.TYPE_SWIMMING;
+        else if (rawType == ACTIVITY_TRAINING_ROPE || rawType == ACTIVITY_TRAINING_BADMINTON ||
+            rawType == ACTIVITY_TRAINING_BASKETBALL || rawType == ACTIVITY_TRAINING_FOOTBALL ||
+            rawType == ACTIVITY_TRAINING_MOUNTAINEERING || rawType == ACTIVITY_TRAINING_TENNIS ||
+            rawType == ACTIVITY_TRAINING_RUGBY || rawType == ACTIVITY_TRAINING_GOLF)
+            return ActivityKind.TYPE_EXERCISE;
         else
             return ActivityKind.TYPE_ACTIVITY;
     }

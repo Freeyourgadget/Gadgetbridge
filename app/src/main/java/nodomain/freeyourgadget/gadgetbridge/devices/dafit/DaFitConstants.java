@@ -114,11 +114,31 @@ public class DaFitConstants {
     public static final byte CMD_HS_DFU = 99;                                       // (?) {1} - enableHsDfu(), {0} - queryHsDfuAddress()
 
 
-    // Activity tracking (?)
-    public static final byte CMD_QUERY_LAST_DYNAMIC_RATE = 52;                      // (?) {} -> ???
-    public static final byte CMD_QUERY_PAST_HEART_RATE_1 = 53;                      // (?) {4} - pastHeartRate(), {0} - todayHeartRate(1) -> ???
-    public static final byte CMD_QUERY_PAST_HEART_RATE_2 = 54;                      // (?) {0} - todayHeartRate(2) -> ???
-    public static final byte CMD_QUERY_MOVEMENT_HEART_RATE = 55;                    // (?) {} -> ???
+    // Activity/training tracking
+
+    // CMD_QUERY_LAST_DYNAMIC_RATE is triggered immediately after a training recording is finished on the watch.
+    // The watch sends CMD_QUERY_LAST_DYNAMIC_RATE command to the phone with the first part of the data, and then
+    // the phone is supposed to respond with empty CMD_QUERY_LAST_DYNAMIC_RATE to retrieve the next part.
+    // There seems to be no way to query this data later, or to start communication from phone side.
+    // The data format is uint32 date_recorded, uint8 heart_rate[] (where 0 is invalid measurement and
+    // data is recorded every 1 minute)
+
+    // CMD_QUERY_MOVEMENT_HEART_RATE returns the summary of last 3 trainings recorded on the watch.
+    // This is a cyclic buffer, so the watch will first overwrite entry number 0, then 1, then 2, then 0 again
+
+    // CMD_QUERY_PAST_HEART_RATE_1 and CMD_QUERY_PAST_HEART_RATE_2 don't seem to work at all on my watch.
+
+    // All "date recorded" values are in the hardcoded GMT+8 watch timezone
+
+    public static final byte CMD_QUERY_LAST_DYNAMIC_RATE = 52;                      //     TRANSMISSION TRIGGERED FROM WATCH SIDE AFTER FINISHED TRAINING. Does custom packet splitting. The packet takes no data as input. Send the query repeatedly until you get all the data. THE FIRST PACKET IS SENT BY THE WATCH - THE PHONE QUERIES THIS COMMAND TO GET THE NEXT PART. The response starts with one byte: 0 for first packet, 1 for continuation packet, 2 for end of data. 0,time:uint32,measurement:uint8[] 1,measurement:uint8[] 1,measurement:uint8[] 2
+    public static final byte CMD_QUERY_PAST_HEART_RATE_1 = 53;                      // (*) Two arrays built of 4 packets each. See below. todayHeartRate(1) starts at 0 and ends at 3, yesterdayHeartRate() starts at 4 and ends at 7. Sampled every 5 minutes.
+    public static final byte CMD_QUERY_PAST_HEART_RATE_2 = 54;                      // (*) An array built of 20 packets. The packet takes the index as input. i.e. {x} -> {data[N*x], data[N*x+1], ..., data[N*x+N-1]} for x in 0-19   -- todayHeartRate(2). Sampled every 1 minute.
+    public static final byte CMD_QUERY_MOVEMENT_HEART_RATE = 55;                    //     {} -> One packet with 3 entries of 24 bytes each {startTime:uint32, endTime:uint32, validTime:uint16, entry_number:uint8, type:uint8, steps:uint32, distance:uint32, calories:uint16}, everything little endian
+
+    // first byte for CMD_QUERY_LAST_DYNAMIC_RATE packets
+    public static final byte ARG_TRANSMISSION_FIRST = 0;
+    public static final byte ARG_TRANSMISSION_NEXT = 1;
+    public static final byte ARG_TRANSMISSION_LAST = 2; // note: last packet always empty
 
     // Health measurements
     public static final byte CMD_QUERY_TIMING_MEASURE_HEART_RATE = 47;              // (*) {} -> ???
@@ -165,7 +185,7 @@ public class DaFitConstants {
     public static final byte CMD_SWITCH_CAMERA_VIEW = 102;                          //     {} -> {}, outgoing open screen, incoming take photo
 
     public static final byte CMD_NOTIFY_PHONE_OPERATION = 103;                      //     ONLY INCOMING! -> {x}, x -> 0 = play/pause, 1 = prev, 2 = next, 3 = reject incoming call)
-    public static final byte CMD_NOTIFY_WEATHER_CHANGE = 100;                       // (?) ONLY INCOMING! -> {}
+    public static final byte CMD_NOTIFY_WEATHER_CHANGE = 100;                       //     ONLY INCOMING! -> {} - when the watch really wants us to retransmit the weather again (it seems to often happen after stopping training - running the training blocks access to main menu so I guess it restarts afterwards or something). Will repeat whenever navigating the menu where the weather should be, and weather won't be visible on watch screen until that happens.
 
     public static final byte ARG_OPERATION_PLAY_PAUSE = 0;
     public static final byte ARG_OPERATION_PREV_SONG = 1;

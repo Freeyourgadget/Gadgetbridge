@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -73,10 +75,13 @@ import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitSettingR
 import nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings.DaFitSettingTimeRange;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
+import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
+import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaFitActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
@@ -99,13 +104,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.Batter
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.heartrate.HeartRateProfile;
+import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
-
-// TODO: figure out the training data
 
 public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
 
@@ -320,6 +324,17 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
             return true;
         }
 
+        if (packetType == DaFitConstants.CMD_QUERY_LAST_DYNAMIC_RATE)
+        {
+            // Training on the watch just finished and it wants us to fetch the details
+            LOG.info("Starting training fetch");
+            try {
+                new TrainingFinishedDataOperation(this, payload).perform();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         if (packetType == DaFitConstants.CMD_NOTIFY_PHONE_OPERATION)
         {
             byte operation = payload[0];
@@ -356,6 +371,13 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
         if (packetType == DaFitConstants.CMD_SWITCH_CAMERA_VIEW)
         {
             // TODO: trigger camera photo
+            return true;
+        }
+
+        if (packetType == DaFitConstants.CMD_NOTIFY_WEATHER_CHANGE)
+        {
+            LOG.info("The watch really wants us to transmit the weather data for some reason...");
+            // TODO: transmit weather
             return true;
         }
 
@@ -853,6 +875,96 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
                 if (prevActivityType == DaFitSampleProvider.ACTIVITY_SLEEP_END)
                     prevActivityType = DaFitSampleProvider.ACTIVITY_SLEEP_START;
                 prevSampleTimestamp = thisSampleTimestamp;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                GB.toast(getContext(), "Error saving samples: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
+            }
+        }
+    }
+
+    public void handleTrainingData(byte[] data)
+    {
+        if (data.length % 24 != 0)
+            throw new IllegalArgumentException();
+
+        for(int i = 0; i < data.length / 24; i++)
+        {
+            if (ArrayUtils.isAllZeros(data, 24*i, 24)) // no data recorded in this slot
+                continue;
+
+            ByteBuffer buffer = ByteBuffer.wrap(data, 24 * i, 24);
+            buffer.order(ByteOrder.LITTLE_ENDIAN);
+            Date startTime = DaFitConstants.WatchTimeToLocalTime(buffer.getInt());
+            Date endTime = DaFitConstants.WatchTimeToLocalTime(buffer.getInt());
+            int validTime = buffer.getShort();
+            byte num = buffer.get(); // == i
+            byte type = buffer.get();
+            int steps = buffer.getInt();
+            int distance = buffer.getInt();
+            int calories = buffer.getShort();
+            Log.i("Training data", "start=" + startTime + " end=" + endTime + " totalTimeWithoutPause=" + validTime + " num=" + num + " type=" + type + " steps=" + steps + " distance=" + distance + " calories=" + calories);
+
+            // NOTE: We are ignoring the step/distance/calories data here
+            // If we had the phone connected, the realtime data is already stored anyway, and I'm
+            // too lazy to try to integrate this info into the main timeline without messing
+            // something up or counting the steps twice
+
+            try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                User user = DBHelper.getUser(dbHandler.getDaoSession());
+                Device device = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession());
+
+                DaFitSampleProvider provider = new DaFitSampleProvider(getDevice(), dbHandler.getDaoSession());
+                BaseActivitySummaryDao summaryDao = provider.getSession().getBaseActivitySummaryDao();
+
+                QueryBuilder<BaseActivitySummary> qb = summaryDao.queryBuilder();
+                qb.where(BaseActivitySummaryDao.Properties.DeviceId.eq(device.getId()))
+                    .where(BaseActivitySummaryDao.Properties.StartTime.eq(startTime))
+                    .where(BaseActivitySummaryDao.Properties.EndTime.eq(endTime));
+                boolean alreadyHaveThisSample = qb.count() > 0;
+
+                if (alreadyHaveThisSample)
+                {
+                    LOG.info("Already had this training sample, ignoring");
+                }
+                else
+                {
+                    BaseActivitySummary summary = new BaseActivitySummary();
+
+                    summary.setDevice(device);
+                    summary.setUser(user);
+
+                    int gbType = provider.normalizeType(type);
+                    String name;
+                    if (type == DaFitSampleProvider.ACTIVITY_TRAINING_ROPE)
+                        name = "Rope";
+                    else if (type == DaFitSampleProvider.ACTIVITY_TRAINING_BADMINTON)
+                        name = "Badminton";
+                    else if (type == DaFitSampleProvider.ACTIVITY_TRAINING_BASKETBALL)
+                        name = "Basketball";
+                    else if (type == DaFitSampleProvider.ACTIVITY_TRAINING_FOOTBALL)
+                        name = "Football";
+                    else if (type == DaFitSampleProvider.ACTIVITY_TRAINING_MOUNTAINEERING)
+                        name = "Mountaineering";
+                    else if (type == DaFitSampleProvider.ACTIVITY_TRAINING_TENNIS)
+                        name = "Tennis";
+                    else if (type == DaFitSampleProvider.ACTIVITY_TRAINING_RUGBY)
+                        name = "Rugby";
+                    else if (type == DaFitSampleProvider.ACTIVITY_TRAINING_GOLF)
+                        name = "Golf";
+                    else
+                        name = ActivityKind.asString(gbType, getContext());
+                    summary.setName(name);
+                    summary.setActivityKind(gbType);
+
+                    summary.setStartTime(startTime);
+                    summary.setEndTime(endTime);
+
+                    summaryDao.insert(summary);
+
+                    // NOTE: The type format from device maps directly to the database format
+                    provider.updateActivityInRange((int)(startTime.getTime() / 1000), (int)(endTime.getTime() / 1000), type);
+                }
             } catch (Exception ex) {
                 ex.printStackTrace();
                 GB.toast(getContext(), "Error saving samples: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
