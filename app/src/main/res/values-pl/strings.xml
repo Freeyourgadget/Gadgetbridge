@@ -412,7 +412,7 @@
     <string name="notif_export_failed_title">Eksport bazy danych nie udał się! Proszę sprawdź ustawienia.</string>
     <string name="weeksleepchart_sleep_a_week">Sen (tyg.)</string>
     <string name="weeksleepchart_today_sleep_description">Sen dzisiaj, cel: %1$s</string>
-    <string name="lack_of_sleep">Brak snu: %1$s</string>
+    <string name="lack_of_sleep">Niedobór snu: %1$s</string>
     <string name="no_limit">Bez ograniczeń</string>
     <string name="seconds_5">5 sekund</string>
     <string name="seconds_10">10 sekund</string>
@@ -533,7 +533,7 @@
     <string name="unit_imperial">imperialne</string>
     <string name="debugactivity_really_factoryreset_title">Czy na pewno zresetować do ustawień fabrycznych\?</string>
     <string name="debugactivity_really_factoryreset">Po zresetowaniu wszelkie dane na urządzeniu zostaną usunięte (jeśli jest to wspierane). Urządzenia Xiaomi/Huami zmieniają także adres MAC Bluetooth, w ten sposób pojawiają się jako nowe urządzenia w Gadgetbridge.</string>
-    <string name="overslept">Zaspałem: %1$s</string>
+    <string name="overslept">Nadmiar snu: %1$s</string>
     <string name="overstep">Przekroczenie: %1$d</string>
     <string name="you_did_not_sleep">Nie spałeś</string>
     <string name="mi2_prefs_button_press_broadcast">Wiadomość do wysłania</string>
