@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -104,6 +105,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.Batter
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.heartrate.HeartRateProfile;
+import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -176,6 +178,9 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
         heartRateProfile.enableNotify(builder);
         builder.notify(getCharacteristic(DaFitConstants.UUID_CHARACTERISTIC_STEPS), true);
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
+
+        // TODO: I would prefer this to be done when the alarms screen is open, not on initialization...
+        sendPacket(builder, DaFitPacketOut.buildPacket(DaFitConstants.CMD_QUERY_ALARM_CLOCK, new byte[0]));
 
         return builder;
     }
@@ -392,6 +397,12 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
             }
         }
 
+        if (packetType == DaFitConstants.CMD_QUERY_ALARM_CLOCK)
+        {
+            handleGetAlarmsResponse(payload);
+            return true;
+        }
+
         LOG.warn("Unhandled packet " + packetType + ": " + Logging.formatBytes(payload));
         return false;
     }
@@ -529,9 +540,95 @@ public class DaFitDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    private void handleGetAlarmsResponse(byte[] payload)
+    {
+        if (payload.length % 8 != 0)
+            throw new IllegalArgumentException();
+
+        List<nodomain.freeyourgadget.gadgetbridge.entities.Alarm> alarms = DBHelper.getAlarms(gbDevice);
+        int i = 0;
+        for (nodomain.freeyourgadget.gadgetbridge.entities.Alarm alarm : alarms) {
+            ByteBuffer buffer = ByteBuffer.wrap(payload, 8 * i, 8);
+            buffer.order(ByteOrder.LITTLE_ENDIAN);
+            if (buffer.get() != i)
+                throw new IllegalArgumentException();
+            if (alarm.getPosition() != i)
+                throw new IllegalArgumentException();
+            alarm.setEnabled(buffer.get() != 0);
+            byte repetition = buffer.get();
+            alarm.setRepetition(AlarmUtils.createRepetitionMask(
+                (repetition & 2) != 0,
+                (repetition & 4) != 0,
+                (repetition & 8) != 0,
+                (repetition & 16) != 0,
+                (repetition & 32) != 0,
+                (repetition & 64) != 0,
+                (repetition & 1) != 0));
+            alarm.setHour(buffer.get());
+            alarm.setMinute(buffer.get());
+            byte singleShotYearAndMonth = buffer.get();
+            byte singleShotDay = buffer.get();
+            byte repetitionEnabled = buffer.get(); // not sure why they store the same info in two places
+            DBHelper.store(alarm);
+            i++;
+        }
+    }
+
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
-        // TODO: set alarms
+        try {
+            TransactionBuilder builder = performInitialized("onSetAlarms");
+            for(int i = 0; i < 3; i++) {
+                Alarm alarm = alarms.get(i);
+
+                ByteBuffer buffer = ByteBuffer.allocate(8);
+                buffer.order(ByteOrder.LITTLE_ENDIAN);
+                buffer.put((byte)i);
+                buffer.put(alarm.getEnabled() ? (byte)1 : (byte)0);
+                byte repetition = 0;
+                if (alarm.getRepetition(Alarm.ALARM_SUN))
+                    repetition |= 1;
+                if (alarm.getRepetition(Alarm.ALARM_MON))
+                    repetition |= 2;
+                if (alarm.getRepetition(Alarm.ALARM_TUE))
+                    repetition |= 4;
+                if (alarm.getRepetition(Alarm.ALARM_WED))
+                    repetition |= 8;
+                if (alarm.getRepetition(Alarm.ALARM_THU))
+                    repetition |= 16;
+                if (alarm.getRepetition(Alarm.ALARM_FRI))
+                    repetition |= 32;
+                if (alarm.getRepetition(Alarm.ALARM_SAT))
+                    repetition |= 64;
+                buffer.put(repetition);
+                buffer.put((byte)alarm.getHour());
+                buffer.put((byte)alarm.getMinute());
+                if (repetition == 0)
+                {
+                    // TODO: it would be possible to set an "once" alarm on a set day, but Gadgetbridge does not seem to support that
+                    Calendar calendar = AlarmUtils.toCalendar(alarm);
+                    buffer.put((byte)(((calendar.get(Calendar.YEAR) - 2015) << 4) + calendar.get(Calendar.MONTH) + 1));
+                    buffer.put((byte)calendar.get(Calendar.DAY_OF_MONTH));
+                }
+                else
+                {
+                    buffer.put((byte)0);
+                    buffer.put((byte)0);
+                }
+                byte repeat;
+                if (repetition == 0)
+                    repeat = 0;
+                else if (repetition == 127)
+                    repeat = 1;
+                else
+                    repeat = 2;
+                buffer.put(repeat);
+                sendPacket(builder, DaFitPacketOut.buildPacket(DaFitConstants.CMD_SET_ALARM_CLOCK, buffer.array()));
+            }
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
