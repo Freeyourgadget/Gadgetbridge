@@ -17,11 +17,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
@@ -59,6 +64,10 @@ public class ConfigureAlarms extends AbstractGBActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_configure_alarms);
+
+        IntentFilter filterLocal = new IntentFilter();
+        filterLocal.addAction(DeviceService.ACTION_SAVE_ALARMS);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
         gbDevice = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
 
@@ -166,4 +175,25 @@ public class ConfigureAlarms extends AbstractGBActivity {
     private void sendAlarmsToDevice() {
         GBApplication.deviceService().onSetAlarms(mGBAlarmListAdapter.getAlarmList());
     }
+
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            switch (action) {
+                case DeviceService.ACTION_SAVE_ALARMS: {
+                    updateAlarmsFromDB();
+                    break;
+                }
+            }
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+        super.onDestroy();
+    }
+
 }

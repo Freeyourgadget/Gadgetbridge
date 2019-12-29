@@ -143,6 +143,7 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ge
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefStringValue;
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL;
 
+
 public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     // We introduce key press counter for notification purposes
@@ -1466,6 +1467,8 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 alarm.setEnabled(enabled);
                 alarm.setUnused(unused);
                 DBHelper.store(alarm);
+                Intent intent = new Intent(DeviceService.ACTION_SAVE_ALARMS);
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
             }
         }
     }
