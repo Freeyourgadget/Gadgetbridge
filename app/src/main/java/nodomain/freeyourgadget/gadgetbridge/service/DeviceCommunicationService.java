@@ -287,7 +287,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 return START_NOT_STICKY;
             }
 
-            if (mDeviceSupport == null || (!isInitialized() && !mDeviceSupport.useAutoConnect())) {
+            if (mDeviceSupport == null || (!isInitialized() && !action.equals(ACTION_DISCONNECT) && (!mDeviceSupport.useAutoConnect() || isConnected()))) {
                 // trying to send notification without valid Bluetooth connection
                 if (mGBDevice != null) {
                     // at least send back the current device state
@@ -814,6 +814,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             }
             if (mAutoConnectInvervalReceiver != null) {
                 unregisterReceiver(mAutoConnectInvervalReceiver);
+                mAutoConnectInvervalReceiver.destroy();
                 mAutoConnectInvervalReceiver = null;
             }
         }

@@ -26,4 +26,19 @@
     <string name="appmananger_app_delete_cache">刪除並清除緩存</string>
     <string name="appmananger_app_reinstall">重新安裝</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="app_name">Gadgetbridge</string>
+    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="controlcenter_snackbar_connecting">連接中…</string>
+    <string name="controlcenter_snackbar_requested_screenshot">截取設備的屏幕截圖</string>
+    <string name="controlcenter_calibrate_device">校正設備</string>
+    <string name="title_activity_appmanager">應用管理器</string>
+    <string name="appmanager_cached_watchapps_watchfaces">緩存的應用程式</string>
+    <string name="appmanager_installed_watchfaces">已安裝的錶盤</string>
+    <string name="appmanager_app_openinstore">在Pebble應用商店中搜索</string>
+    <string name="appmanager_health_activate">啟動</string>
+    <string name="appmanager_health_deactivate">停用</string>
+    <string name="appmanager_hrm_activate">激活HRM</string>
+    <string name="appmanager_hrm_deactivate">停用HRM</string>
+    <string name="appmanager_weather_activate">啟動系統天氣應用</string>
+    <string name="appmanager_weather_deactivate">停用系统天气应用</string>
 </resources>

@@ -139,8 +139,8 @@ public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
                         value[2] == HuamiService.AUTH_SUCCESS) {
                     TransactionBuilder builder = createTransactionBuilder("Authenticated, now initialize phase 2");
                     builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
-                    huamiSupport.requestDeviceInfo(builder);
                     huamiSupport.enableFurtherNotifications(builder, true);
+                    huamiSupport.requestDeviceInfo(builder);
                     huamiSupport.phase2Initialize(builder);
                     huamiSupport.phase3Initialize(builder);
                     huamiSupport.setInitialized(builder);

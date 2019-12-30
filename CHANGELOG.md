@@ -1,6 +1,12 @@
 ### Changelog
 
-#### Version 0.40.0 (WIP)
+#### Version 0.40.1
+* Mi Band/Amazfit: Recogize changes when toggling alarm on device (immediately when connected, else when connecting)
+* Mi Band/Amazfit: Fix some bugs with stuck connection when re-connecting
+* Mi Band 4: Support higher MTU for multiple times faster firmware transfer (probably also Amazfit GTR/GTS)
+* Amazfit Cor: Fix setting language to Chinese manually
+
+#### Version 0.40.0
 * Fossil Q Hybrid: Initial support
 * Bangle.js: Initial support
 * Reserve Alarm for Calendar feature restricted to Mi Band 1/2 and moved to per-device settings

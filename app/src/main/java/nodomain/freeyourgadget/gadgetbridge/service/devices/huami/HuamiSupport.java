@@ -143,6 +143,7 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ge
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefStringValue;
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL;
 
+
 public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     // We introduce key press counter for notification purposes
@@ -164,7 +165,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     };
 
     private BluetoothGattCharacteristic characteristicHRControlPoint;
-    protected BluetoothGattCharacteristic characteristicChunked;
+    private BluetoothGattCharacteristic characteristicChunked;
 
     private boolean needsAuth;
     private volatile boolean telephoneRinging;
@@ -181,6 +182,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     private MusicSpec bufferMusicSpec = null;
     private MusicStateSpec bufferMusicStateSpec = null;
     private boolean heartRateNotifyEnabled;
+    private int mMTU = 23;
 
     public HuamiSupport() {
         this(LOG);
@@ -293,15 +295,16 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         builder.notify(getCharacteristic(GattService.UUID_SERVICE_CURRENT_TIME), enable);
         // Notify CHARACTERISTIC9 to receive random auth code
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_AUTH), enable);
+
         return this;
     }
 
     public HuamiSupport enableFurtherNotifications(TransactionBuilder builder, boolean enable) {
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), enable);
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_6_BATTERY_INFO), enable);
-        builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_DEVICEEVENT), enable);
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_AUDIO), enable);
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_AUDIODATA), enable);
+        builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_DEVICEEVENT), enable);
 
         return this;
     }
@@ -1150,6 +1153,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 break;
             case HuamiDeviceEvent.ALARM_TOGGLED:
                 LOG.info("An alarm was toggled");
+                TransactionBuilder builder = new TransactionBuilder("requestAlarms");
+                requestAlarms(builder);
+                builder.queue(getQueue());
                 break;
             case HuamiDeviceEvent.FELL_ASLEEP:
                 LOG.info("Fell asleep");
@@ -1212,8 +1218,31 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 }
                 evaluateGBDeviceEvent(deviceEventMusicControl);
                 break;
+            case HuamiDeviceEvent.MTU_REQUEST:
+                int mtu = (value[2] & 0xff) << 8 | value[1] & 0xff;
+                LOG.info("device announced MTU of " + mtu);
+                mMTU = mtu;
+                /*
+                 * not really sure if this would make sense, is this event already a proof of a successful MTU
+                 * negotiation initiated by the Huami device, and acknowledged by the phone? do we really have to
+                 * requestMTU() from our side after receiving this?
+                 * /
+                if (mMTU != mtu) {
+                    requestMTU(mtu);
+                }
+                */
+                break;
             default:
                 LOG.warn("unhandled event " + value[0]);
+        }
+    }
+
+    private void requestMTU(int mtu) {
+        if (GBApplication.isRunningLollipopOrLater()) {
+            new TransactionBuilder("requestMtu")
+                    .requestMtu(mtu)
+                    .queue(getQueue());
+            mMTU = mtu;
         }
     }
 
@@ -1299,6 +1328,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             return true;
         } else if (HuamiService.UUID_CHARACTERISTIC_7_REALTIME_STEPS.equals(characteristicUUID)) {
             handleRealtimeSteps(characteristic.getValue());
+            return true;
+        } else if (HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION.equals(characteristicUUID)) {
+            handleConfigurationInfo(characteristic.getValue());
             return true;
         } else {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
@@ -1391,6 +1423,53 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             getRealtimeSamplesSupport().setSteps(steps);
         } else {
             LOG.warn("Unrecognized realtime steps value: " + Logging.formatBytes(value));
+        }
+    }
+
+    private void handleConfigurationInfo(byte[] value) {
+        if (value == null || value.length < 4) {
+            return;
+        }
+        if (value[0] == 0x10 && value[2] == 0x01) {
+            if (value[1] == 0x0e) {
+                String gpsVersion = new String(value, 3, value.length - 3);
+                LOG.info("got gps version = " + gpsVersion);
+                gbDevice.setFirmwareVersion2(gpsVersion);
+            } else if (value[1] == 0x0d) {
+                LOG.info("got alarms from watch");
+                decodeAndUpdateAlarmStatus(value);
+            } else {
+                LOG.warn("got configuration info we do not handle yet " + GB.hexdump(value, 3, -1));
+            }
+        } else {
+            LOG.warn("error received from configuration request " + GB.hexdump(value, 0, -1));
+        }
+    }
+
+    private void decodeAndUpdateAlarmStatus(byte[] response) {
+        List<nodomain.freeyourgadget.gadgetbridge.entities.Alarm> alarms = DBHelper.getAlarms(gbDevice);
+        boolean[] alarmsInUse = new boolean[10];
+        boolean[] alarmsEnabled = new boolean[10];
+        int nr_alarms = response[8];
+        for (int i = 0; i < nr_alarms; i++) {
+            byte alarm_data = response[9 + i];
+            int index = alarm_data & 0xf;
+            alarmsInUse[index] = true;
+            boolean enabled = (alarm_data & 0x10) == 0x10;
+            alarmsEnabled[index] = enabled;
+            LOG.info("alarm " + index + " is enabled:" + enabled);
+        }
+        for (nodomain.freeyourgadget.gadgetbridge.entities.Alarm alarm : alarms) {
+            boolean enabled = alarmsEnabled[alarm.getPosition()];
+            boolean unused = !alarmsInUse[alarm.getPosition()];
+            if (alarm.getEnabled() != enabled || alarm.getUnused() != unused) {
+                LOG.info("updating alarm index " + alarm.getPosition() + " unused=" + unused + ", enabled=" + enabled);
+                alarm.setEnabled(enabled);
+                alarm.setUnused(unused);
+                DBHelper.store(alarm);
+                Intent intent = new Intent(DeviceService.ACTION_SAVE_ALARMS);
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+            }
         }
     }
 
@@ -1487,13 +1566,17 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
 
         int base = 0;
-        if (alarm.getEnabled()) {
+        int daysMask = 0;
+        if (alarm.getEnabled() && !alarm.getUnused()) {
             base = 128;
         }
-        int daysMask = alarm.getRepetition();
-        if (!alarm.isRepetitive()) {
-            daysMask = 128;
+        if (!alarm.getUnused()) {
+            daysMask = alarm.getRepetition();
+            if (!alarm.isRepetitive()) {
+                daysMask = 128;
+            }
         }
+
         byte[] alarmMessage = new byte[] {
                 (byte) 0x2, // TODO what is this?
                 (byte) (base + alarm.getPosition()), // 128 is the base, alarm slot is added
@@ -2170,8 +2253,8 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    protected void writeToChunked(TransactionBuilder builder, int type, byte[] data) {
-        final int MAX_CHUNKLENGTH = 17;
+    private void writeToChunked(TransactionBuilder builder, int type, byte[] data) {
+        final int MAX_CHUNKLENGTH = mMTU - 6;
         int remaining = data.length;
         byte count = 0;
         while (remaining > 0) {
@@ -2196,6 +2279,19 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             builder.write(characteristicChunked, chunk);
             remaining -= copybytes;
         }
+    }
+
+
+    protected HuamiSupport requestGPSVersion(TransactionBuilder builder) {
+        LOG.info("Requesting GPS version");
+        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), HuamiService.COMMAND_REQUEST_GPS_VERSION);
+        return this;
+    }
+
+    private HuamiSupport requestAlarms(TransactionBuilder builder) {
+        LOG.info("Requesting alarms");
+        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), HuamiService.COMMAND_REQUEST_ALARMS);
+        return this;
     }
 
     @Override
@@ -2258,6 +2354,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         setDisconnectNotification(builder);
         setExposeHRThridParty(builder);
         setHeartrateMeasurementInterval(builder, getHeartRateMeasurementInterval());
+        requestAlarms(builder);
     }
 
     private int getHeartRateMeasurementInterval() {
@@ -2270,5 +2367,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     public UpdateFirmwareOperation createUpdateFirmwareOperation(Uri uri) {
         return new UpdateFirmwareOperation(uri, this);
+    }
+
+    public int getMTU() {
+        return mMTU;
     }
 }

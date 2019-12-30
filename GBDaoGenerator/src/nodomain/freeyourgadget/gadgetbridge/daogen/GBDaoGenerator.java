@@ -15,8 +15,6 @@
  */
 package nodomain.freeyourgadget.gadgetbridge.daogen;
 
-import java.util.Date;
-
 import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
 import de.greenrobot.daogenerator.Index;
@@ -45,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(21, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(22, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -378,6 +376,7 @@ public class GBDaoGenerator {
         );
         alarm.addIntProperty("hour").notNull();
         alarm.addIntProperty("minute").notNull();
+        alarm.addBooleanProperty("unused").notNull();
         alarm.addToOne(user, userId);
         alarm.addToOne(device, deviceId);
     }

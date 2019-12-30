@@ -103,4 +103,8 @@ public class AutoConnectIntervalReceiver extends BroadcastReceiver {
         }
     }
 
+    public void destroy() {
+        LocalBroadcastManager.getInstance(service).unregisterReceiver(this);
+    }
+
 }

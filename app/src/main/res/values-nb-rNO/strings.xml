@@ -795,4 +795,9 @@
     <string name="watch_not_connected">Klokke ikke tilkoblet</string>
     <string name="qhybrid_vibration_strength">vibrasjonsstyrke:</string>
     <string name="devicetype_banglejs">Bangle.js</string>
+    <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
+    <string name="preferences_qhybrid_settings">Q Hybrid-innstillinger</string>
+    <string name="qhybrid_overwrite_buttons">overskriv taster</string>
+    <string name="qhybrid_buttons_overwrite_success">Knapper overskrevet</string>
+    <string name="qhybrid_buttons_overwrite_error">Kunne ikke overskrive knapper</string>
 </resources>

@@ -48,7 +48,7 @@ public class AlarmUtils {
      * @return
      */
     public static nodomain.freeyourgadget.gadgetbridge.model.Alarm createSingleShot(int index, boolean smartWakeup, Calendar calendar) {
-        return new Alarm(-1, -1, index, true, smartWakeup, Alarm.ALARM_ONCE, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+        return new Alarm(-1, -1, index, true, smartWakeup, Alarm.ALARM_ONCE, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
     }
 
     /**
@@ -127,7 +127,7 @@ public class AlarmUtils {
         int hour = Integer.parseInt(tokens[4]);
         int minute = Integer.parseInt(tokens[5]);
 
-        return new Alarm(device.getId(), user.getId(), index, enabled, smartWakeup, repetition, hour, minute);
+        return new Alarm(device.getId(), user.getId(), index, enabled, smartWakeup, repetition, hour, minute, false);
     }
 
     private static Comparator<Alarm> createComparator() {
