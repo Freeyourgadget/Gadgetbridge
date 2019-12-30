@@ -1,6 +1,12 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr;
 
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.os.Build;
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,9 +20,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.SetDeviceStateRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.VerifyPrivateKeyRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration.ConfigurationGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.notification.NotificationFilterPutHRRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.notification.NotificationImagePutRequest;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class FossilHRWatchAdapter extends FossilWatchAdapter {
     private byte[] secretKey = new byte[]{(byte) 0x60, (byte) 0x26, (byte) 0xB7, (byte) 0xFD, (byte) 0xB2, (byte) 0x6D, (byte) 0x05, (byte) 0x5E, (byte) 0xDA, (byte) 0xF7, (byte) 0x4B, (byte) 0x49, (byte) 0x98, (byte) 0x78, (byte) 0x02, (byte) 0x38};
@@ -70,6 +78,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         queueWrite(new PlayNotificationRequest("twitterrrr", "Twitterr", "tWITTER", this));
 
         syncSettings();
+
+        queueWrite(new ButtonConfigurationPutRequest(this));
 
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED));
     }
@@ -126,5 +136,25 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     public byte[] getWatchRandomNumber() {
         return watchRandomNumber;
+    }
+
+    @Override
+    protected void handleBackgroundCharacteristic(BluetoothGattCharacteristic characteristic) {
+        super.handleBackgroundCharacteristic(characteristic);
+
+        byte[] value = characteristic.getValue();
+
+        int eventId = value[2];
+
+        try {
+            JSONObject requestJson = new JSONObject(new String(value, 3, value.length - 3));
+
+            String action = requestJson.getJSONObject("commuteApp._.config.commute_info")
+                    .getString("dest");
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

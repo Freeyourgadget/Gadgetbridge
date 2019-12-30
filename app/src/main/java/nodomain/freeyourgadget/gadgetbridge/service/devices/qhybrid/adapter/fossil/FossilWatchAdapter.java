@@ -478,7 +478,7 @@ public class FossilWatchAdapter extends WatchAdapter {
         return true;
     }
 
-    private void handleBackgroundCharacteristic(BluetoothGattCharacteristic characteristic) {
+    protected void handleBackgroundCharacteristic(BluetoothGattCharacteristic characteristic) {
         byte[] value = characteristic.getValue();
         switch (value[1]) {
             case 2: {
