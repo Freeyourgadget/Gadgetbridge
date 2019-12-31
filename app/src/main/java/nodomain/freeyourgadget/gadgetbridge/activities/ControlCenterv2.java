@@ -218,6 +218,12 @@ public class ControlCenterv2 extends AppCompatActivity
         } else {
             GBApplication.deviceService().requestDeviceInfo();
         }
+
+        List<GBDevice> devices = deviceManager.getDevices();
+
+        if(devices.size() > 0){
+            GBApplication.deviceService().connect(devices.get(0));
+        }
     }
 
     @Override
