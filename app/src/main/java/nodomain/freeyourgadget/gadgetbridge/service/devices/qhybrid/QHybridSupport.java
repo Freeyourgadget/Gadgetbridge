@@ -84,6 +84,8 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String QHYBRID_COMMAND_NOTIFICATION = "qhybrid_command_notification";
     public static final String QHYBRID_COMMAND_UPDATE_SETTINGS = "nodomain.freeyourgadget.gadgetbridge.Q_UPDATE_SETTINGS";
     public static final String QHYBRID_COMMAND_OVERWRITE_BUTTONS = "nodomain.freeyourgadget.gadgetbridge.Q_OVERWRITE_BUTTONS";
+    public static final String QHYBRID_COMMAND_SET_MENU_MESSAGE = "nodomain.freeyourgadget.gadgetbridge.Q_SET_MENU_MESSAGE";
+    public static final String QHYBRID_COMMAND_SEND_MENU_ITEMS = "nodomain.freeyourgadget.gadgetbridge.Q_SEND_MENU_ITEMS";
 
     private static final String QHYBRID_ACTION_SET_ACTIVITY_HAND = "nodomain.freeyourgadget.gadgetbridge.Q_SET_ACTIVITY_HAND";
 
@@ -93,6 +95,7 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     public static final String QHYBRID_EVENT_BUTTON_PRESS = "nodomain.freeyourgadget.gadgetbridge.Q_BUTTON_PRESSED";
     public static final String QHYBRID_EVENT_MULTI_BUTTON_PRESS = "nodomain.freeyourgadget.gadgetbridge.Q_MULTI_BUTTON_PRESSED";
+    public static final String QHYBRID_EVENT_COMMUTE_MENU = "nodomain.freeyourgadget.gadgetbridge.Q_COMMUTE_MENU";
 
     public static final String ITEM_STEP_GOAL = "STEP_GOAL";
     public static final String ITEM_STEP_COUNT = "STEP_COUNT";
@@ -132,6 +135,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         commandFilter.addAction(QHYBRID_COMMAND_UPDATE_SETTINGS);
         commandFilter.addAction(QHYBRID_COMMAND_OVERWRITE_BUTTONS);
         commandFilter.addAction(QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED);
+        commandFilter.addAction(QHYBRID_COMMAND_SEND_MENU_ITEMS);
         BroadcastReceiver commandReceiver = new BroadcastReceiver() {
 
             @Override
@@ -224,6 +228,7 @@ public class QHybridSupport extends QHybridBaseSupport {
 
         IntentFilter globalFilter = new IntentFilter();
         globalFilter.addAction(QHYBRID_ACTION_SET_ACTIVITY_HAND);
+        globalFilter.addAction(QHYBRID_COMMAND_SET_MENU_MESSAGE);
         BroadcastReceiver globalCommandReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -245,6 +250,14 @@ public class QHybridSupport extends QHybridBaseSupport {
                             GB.log("wrong number format", GB.ERROR, e);
                             logger.debug("trash extra should be number 0.0-1.0");
                         }
+                        break;
+                    }
+                    case QHYBRID_COMMAND_SET_MENU_MESSAGE: {
+                        String message = String.valueOf(intent.getExtras().get("EXTRA_MESSAGE"));
+                        boolean finished = Boolean.valueOf(String.valueOf(intent.getExtras().get("EXTRA_FINISHED")));
+
+                        watchAdapter.setCommuteMenuMessage(message, finished);
+
                         break;
                     }
                 }
