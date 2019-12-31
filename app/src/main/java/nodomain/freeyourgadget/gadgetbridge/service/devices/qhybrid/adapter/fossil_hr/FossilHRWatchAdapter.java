@@ -88,11 +88,11 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             e.printStackTrace();
         } // icons
 
-        // queueWrite(new NotificationFilterPutHRRequest(new NotificationHRConfiguration[]{
-        //         new NotificationHRConfiguration("com.whatsapp", -1),
-        //         new NotificationHRConfiguration("asdasdasdasdasd", -1),
-        //         // new NotificationHRConfiguration("twitter", -1),
-        // }, this));
+        queueWrite(new NotificationFilterPutHRRequest(new NotificationHRConfiguration[]{
+                 // new NotificationHRConfiguration("com.whatsapp", -1),
+                 new NotificationHRConfiguration("generic", -1),
+                 // new NotificationHRConfiguration("twitter", -1),
+        }, this));
 
         // queueWrite(new PlayNotificationRequest("com.whatsapp", "WhatsAp", "wHATSaPP", this));
         // queueWrite(new PlayNotificationRequest("twitterrrr", "Twitterr", "tWITTER", this));
@@ -101,22 +101,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
         setTime();
 
-        // overwriteButtons(null);
-
-        // negotiateSymmetricKey();
-        // queueWrite(
-        //         new ConfigurationPutRequest(
-        //                 new nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.CurrentStepCountConfigItem(99999),
-        //                 this
-        //         )
-        // );
-
-        queueWrite(new MusicInfoSetRequest(
-                "This is an artist",
-                "Some stupid album",
-                "What the Track!",
-                this
-        ));
+        overwriteButtons(null);
 
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED));
     }
