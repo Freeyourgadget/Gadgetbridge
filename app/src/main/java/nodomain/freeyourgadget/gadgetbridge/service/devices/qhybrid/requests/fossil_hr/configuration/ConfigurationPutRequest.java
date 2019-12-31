@@ -29,8 +29,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.ConfigItem;
 
 public class ConfigurationPutRequest extends FileEncryptedPutRequest {
-    private static HashMap<Short, Class<? extends ConfigItem>> itemsById = new HashMap<>();
-
     public ConfigurationPutRequest(ConfigItem item, FossilHRWatchAdapter adapter) {
         super((short) 0x0800, createFileContent(new ConfigItem[]{item}), adapter);
     }
@@ -40,9 +38,9 @@ public class ConfigurationPutRequest extends FileEncryptedPutRequest {
     }
 
     private static byte[] createFileContent(ConfigItem[] items) {
-        int overallSize = 0;
+        int overallSize = items.length * 3;
         for(ConfigItem item : items){
-            overallSize += item.getItemSize() + 3;
+            overallSize += item.getItemSize();
         }
         ByteBuffer buffer = ByteBuffer.allocate(overallSize);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
