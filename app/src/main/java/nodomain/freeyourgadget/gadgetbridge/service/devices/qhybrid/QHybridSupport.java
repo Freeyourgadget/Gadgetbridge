@@ -61,6 +61,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCallback;
@@ -312,6 +314,20 @@ public class QHybridSupport extends QHybridBaseSupport {
         loadTimeOffset();
 
         return builder;
+    }
+
+    @Override
+    public void onSetMusicInfo(MusicSpec musicSpec) {
+        super.onSetMusicInfo(musicSpec);
+
+        watchAdapter.setMusicInfo(musicSpec);
+    }
+
+    @Override
+    public void onSetMusicState(MusicStateSpec stateSpec) {
+        super.onSetMusicState(stateSpec);
+
+        watchAdapter.setMusicState(stateSpec);
     }
 
     @Override

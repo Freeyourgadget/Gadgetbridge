@@ -21,6 +21,8 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HRConfigActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationHRConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
@@ -35,13 +37,19 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.Image;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.ImagesPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.menu.SetCommuteMenuMessage;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicInfoSetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.notification.NotificationFilterPutHRRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.notification.NotificationImagePutRequest;
+
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.*;
 
 public class FossilHRWatchAdapter extends FossilWatchAdapter {
     private byte[] secretKey = new byte[]{(byte) 0x60, (byte) 0x26, (byte) 0xB7, (byte) 0xFD, (byte) 0xB2, (byte) 0x6D, (byte) 0x05, (byte) 0x5E, (byte) 0xDA, (byte) 0xF7, (byte) 0x4B, (byte) 0x49, (byte) 0x98, (byte) 0x78, (byte) 0x02, (byte) 0x38};
     private byte[] phoneRandomNumber;
     private byte[] watchRandomNumber;
+
+    MusicSpec currentSpec = null;
 
     public FossilHRWatchAdapter(QHybridSupport deviceSupport) {
         super(deviceSupport);
@@ -93,7 +101,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
         setTime();
 
-        overwriteButtons(null);
+        // overwriteButtons(null);
 
         // negotiateSymmetricKey();
         // queueWrite(
@@ -102,6 +110,13 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         //                 this
         //         )
         // );
+
+        queueWrite(new MusicInfoSetRequest(
+                "This is an artist",
+                "Some stupid album",
+                "What the Track!",
+                this
+        ));
 
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED));
     }
@@ -131,7 +146,33 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         );
     }
 
-    private void setBackgroundImages(Image background, Image[] complications){
+    @Override
+    public void setMusicInfo(MusicSpec musicSpec) {
+        if (
+                currentSpec != null
+                        && currentSpec.album.equals(musicSpec.album)
+                        && currentSpec.artist.equals(musicSpec.artist)
+                        && currentSpec.track.equals(musicSpec.track)
+        ) return;
+        currentSpec = musicSpec;
+        queueWrite(new MusicInfoSetRequest(
+                musicSpec.artist,
+                musicSpec.album,
+                musicSpec.track,
+                this
+        ));
+    }
+
+    @Override
+    public void setMusicState(MusicStateSpec stateSpec) {
+        super.setMusicState(stateSpec);
+
+        queueWrite(new MusicControlRequest(
+                stateSpec.state == MusicStateSpec.STATE_PLAYING ? MUSIC_PHONE_REQUEST.MUSIC_REQUEST_SET_PLAYING : MUSIC_PHONE_REQUEST.MUSIC_REQUEST_SET_PAUSED
+        ));
+    }
+
+    private void setBackgroundImages(Image background, Image[] complications) {
         background.setAngle(0);
         background.setDistance(0);
         background.setIndexZ(0);
@@ -193,7 +234,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                     GBApplication.getPrefs().getString(HRConfigActivity.CONFIG_KEY_Q_ACTIONS, "[]")
             );
             String[] menuItems = new String[jsonArray.length()];
-            for(int i = 0; i < jsonArray.length(); i++) menuItems[i] = jsonArray.getString(i);
+            for (int i = 0; i < jsonArray.length(); i++) menuItems[i] = jsonArray.getString(i);
 
             queueWrite(new ButtonConfigurationPutRequest(
                     menuItems,
@@ -210,6 +251,13 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
         byte[] value = characteristic.getValue();
 
+        byte requestType = value[1];
+
+        if (requestType == (byte) 0x05) {
+            handleMusicRequest(value);
+            return;
+        }
+
         int eventId = value[2];
 
         try {
@@ -221,7 +269,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             String startStop = requestJson.getJSONObject("req").getJSONObject("commuteApp._.config.commute_info")
                     .getString("action");
 
-            if(startStop.equals("stop")){
+            if (startStop.equals("stop")) {
                 // overwriteButtons(null);
                 return;
             }
@@ -233,6 +281,29 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             getContext().sendBroadcast(menuIntent);
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void handleMusicRequest(byte[] value) {
+        byte command = value[3];
+
+        MUSIC_WATCH_REQUEST request = MUSIC_WATCH_REQUEST.fromCommandByte(command);
+
+        MusicControlRequest r = new MusicControlRequest(MUSIC_PHONE_REQUEST.MUSIC_REQUEST_PLAY_PAUSE);
+
+        switch (request) {
+            case MUSIC_REQUEST_PLAY_PAUSE: {
+                queueWrite(new MusicControlRequest(MUSIC_PHONE_REQUEST.MUSIC_REQUEST_PLAY_PAUSE));
+                break;
+            }
+            case MUSIC_REQUEST_LOUDER: {
+                queueWrite(new MusicControlRequest(MUSIC_PHONE_REQUEST.MUSIC_REQUEST_LOUDER));
+                break;
+            }
+            case MUSIC_REQUEST_QUITER: {
+                queueWrite(new MusicControlRequest(MUSIC_PHONE_REQUEST.MUSIC_REQUEST_QUITER));
+                break;
+            }
         }
     }
 
