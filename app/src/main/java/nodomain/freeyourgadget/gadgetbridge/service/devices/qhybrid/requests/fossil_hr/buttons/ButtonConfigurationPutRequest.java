@@ -11,37 +11,16 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ButtonConfigurationPutRequest extends JsonPutRequest {
-    public ButtonConfigurationPutRequest(FossilWatchAdapter adapter) {
-        super((short) 0x0500, createObject(), adapter);
+    public ButtonConfigurationPutRequest(String[] menuItems, FossilWatchAdapter adapter) {
+        super((short) 0x0500, createObject(menuItems), adapter);
     }
 
-    private static JSONObject createObject() {
+    private static JSONObject createObject(String[] menuItems) {
         try {
             return new JSONObject()
                     .put("push", new JSONObject()
                             .put("set", new JSONObject()
-                                    .put("commuteApp._.config.destinations", new JSONArray()
-                                            .put("LAMP 1")
-                                            .put("LAMP 3")
-                                            .put("LAMP 4")
-                                            .put("LAMP 5")
-                                            .put("LAMP 6")
-                                            .put("LAMP 7")
-                                            .put("LAMP 8")
-                                            .put("LAMP 9")
-                                            .put("LAMP 10")
-                                            .put("LAMP 11")
-                                            .put("LAMP 12")
-                                            .put("LAMP 13")
-                                            .put("LAMP 14")
-                                            .put("LAMP 8")
-                                            .put("LAMP 9")
-                                            .put("LAMP 10")
-                                            .put("LAMP 11")
-                                            .put("LAMP 12")
-                                            .put("LAMP 13")
-                                            .put("LAMP 14")
-                                    )
+                                    .put("commuteApp._.config.destinations", new JSONArray(menuItems))
                                     .put("master._.config.buttons", new JSONArray()
                                             .put(new JSONObject()
                                                     .put("name", "commuteApp")

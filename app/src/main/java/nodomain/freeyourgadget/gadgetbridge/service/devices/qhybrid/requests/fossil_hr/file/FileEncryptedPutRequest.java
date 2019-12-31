@@ -1,3 +1,19 @@
+/*  Copyright (C) 2019 Daniel Dakhno
+
+    This file is part of Gadgetbridge.
+
+    Gadgetbridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Gadgetbridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file;
 
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -9,33 +25,37 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.zip.CRC32;
 
-import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEQueue;
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr.FossilHRWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
+import nodomain.freeyourgadget.gadgetbridge.util.CRC32C;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class FilePutRawRequest extends FossilRequest {
+public class FileEncryptedPutRequest extends FossilRequest {
     public enum UploadState {INITIALIZED, UPLOADING, CLOSING, UPLOADED}
 
     public UploadState state;
 
-    public ArrayList<byte[]> packets = new ArrayList<>();
+    private ArrayList<byte[]> packets = new ArrayList<>();
 
     private short handle;
 
-    private FossilWatchAdapter adapter;
+    private FossilHRWatchAdapter adapter;
 
-    byte[] file;
+    private byte[] file;
 
-    int fullCRC;
+    private int fullCRC;
 
-    public FilePutRawRequest(short handle, byte[] file, FossilWatchAdapter adapter) {
+    public FileEncryptedPutRequest(short handle, byte[] file, FossilHRWatchAdapter adapter) {
         this.handle = handle;
         this.adapter = adapter;
 
-        int fileLength = file.length;
+        int fileLength = file.length + 16;
         ByteBuffer buffer = this.createBuffer();
         buffer.putShort(1, handle);
         buffer.putInt(3, 0);
@@ -71,8 +91,29 @@ public class FilePutRawRequest extends FossilRequest {
 
                     this.prepareFilePackets(this.file);
 
-                    for (byte[] packet : packets) {
-                        transactionBuilder.write(uploadCharacteristic, packet);
+                    SecretKeySpec keySpec = new SecretKeySpec(this.adapter.getSecretKey(), "AES");
+                    try {
+                        Cipher cipher = Cipher.getInstance("AES/CTR/NoPadding");
+
+                        byte[] fileIV = new byte[16];
+
+
+                        byte[] phoneRandomNumber = adapter.getPhoneRandomNumber();
+                        byte[] watchRandomNumber = adapter.getWatchRandomNumber();
+
+                        System.arraycopy(phoneRandomNumber, 0, fileIV, 2, 6);
+                        System.arraycopy(watchRandomNumber, 0, fileIV, 9, 7);
+
+                        fileIV[7]++;
+
+                        cipher.init(Cipher.ENCRYPT_MODE, keySpec, new IvParameterSpec(fileIV));
+
+                        for (byte[] packet : packets) {
+                            byte[] result = cipher.doFinal(packet);
+                            transactionBuilder.write(uploadCharacteristic, result);
+                        }
+                    }catch (Exception e){
+                        GB.toast("error encrypting file", Toast.LENGTH_LONG, GB.ERROR, e);
                     }
 
                     transactionBuilder.queue(adapter.getDeviceSupport().getQueue());
@@ -175,7 +216,23 @@ public class FilePutRawRequest extends FossilRequest {
     private void prepareFilePackets(byte[] file) {
         int maxPacketSize = adapter.getMTU() - 4;
 
-        byte[] data = file;
+        ByteBuffer buffer = ByteBuffer.allocate(file.length + 12 + 4);
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+
+        buffer.putShort(handle);
+        buffer.put((byte) 2);
+        buffer.put((byte) 0);
+        buffer.putInt(0);
+        buffer.putInt(file.length);
+
+        buffer.put(file);
+
+        CRC32C crc = new CRC32C();
+
+        crc.update(file,0,file.length);
+        buffer.putInt((int) crc.getValue());
+
+        byte[] data = buffer.array();
 
         CRC32 fullCRC = new CRC32();
 

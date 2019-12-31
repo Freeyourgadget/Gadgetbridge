@@ -24,6 +24,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.ResultCode;
 
 public class FileCloseRequest extends FossilRequest {
     private boolean isFinished = false;
@@ -64,7 +65,7 @@ public class FileCloseRequest extends FossilRequest {
 
         byte status = buffer.get(3);
 
-        if(status != 0) throw new RuntimeException("wrong response status");
+        if(status != 0) throw new RuntimeException("wrong response status: " + ResultCode.fromCode(status) + "   (" + status + ")");
 
         this.isFinished = true;
 

@@ -28,6 +28,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.ResultCode;
 
 public abstract class FileGetRequest extends FossilRequest {
     private short handle;
@@ -75,7 +76,7 @@ public abstract class FileGetRequest extends FossilRequest {
                 byte status = buffer.get(3);
 
                 if(status != 0){
-                    throw new RuntimeException("FileGet error: " + status);
+                    throw new RuntimeException("FileGet error: " + ResultCode.fromCode(status) + "   (" + status + ")");
                 }
 
                 if(this.handle != handle){

@@ -505,6 +505,9 @@
         <activity
             android:name=".devices.qhybrid.QHybridAppChoserActivity"
             android:exported="true" />
+        <activity
+            android:name=".devices.qhybrid.HRConfigActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

@@ -86,7 +86,7 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
                 byte status = buffer.get(3);
 
                 if(status != 0){
-                    throw new RuntimeException("FileGet error: " + status);
+                    throw new RuntimeException("FileGet error: " + ResultCode.fromCode(status) + "   (" + status + ")");
                 }
 
                 if(this.handle != handle){
@@ -111,7 +111,7 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
                 int crcExpected = buffer.getInt(8);
 
                 if((int) crc.getValue() != crcExpected){
-                    throw new RuntimeException("handle: " + handle + "   expected: " + this.handle);
+                    throw new RuntimeException("crc: " + crc.getValue() + "   expected: " + crcExpected);
                 }
 
                 this.handleFileData(this.fileData);

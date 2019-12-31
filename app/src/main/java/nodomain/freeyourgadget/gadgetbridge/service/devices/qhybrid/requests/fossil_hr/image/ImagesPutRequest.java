@@ -9,7 +9,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 
 public class ImagesPutRequest extends JsonPutRequest {
     public ImagesPutRequest(Image[] images, FossilWatchAdapter adapter) {
-        super((short) 0x0501, prepareObject(images), adapter);
+        super((short) 0x0500, prepareObject(images), adapter);
     }
 
     private static JSONObject prepareObject(Image[] images){

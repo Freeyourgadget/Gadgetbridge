@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_weight="0.4"
+        android:layout_height="0dp"
+        android:id="@+id/qhybrid_action_list"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="add action"
+        android:id="@+id/qhybrid_action_add"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="top button single press"
+        android:id="@+id/qhybrid_button_top_single_press"
+        android:textSize="20dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="middle button single press"
+        android:id="@+id/qhybrid_button_middle_single_press"
+        android:textSize="20dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="bottom button single press"
+        android:id="@+id/qhybrid_button_bottom_single_press"
+        android:textSize="20dp"/>
+
+</LinearLayout>

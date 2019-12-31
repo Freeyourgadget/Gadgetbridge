@@ -22,6 +22,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.ResultCode;
 
 public class FileVerifyRequest extends FossilRequest {
     private boolean isFinished = false;
@@ -64,7 +65,7 @@ public class FileVerifyRequest extends FossilRequest {
 
         byte status = buffer.get(3);
 
-        if(status != 0) throw new RuntimeException("wrong response status");
+        if(status != 0) throw new RuntimeException("wrong response status: " + ResultCode.fromCode(status) + "   (" + status + ")");
 
         this.isFinished = true;
 

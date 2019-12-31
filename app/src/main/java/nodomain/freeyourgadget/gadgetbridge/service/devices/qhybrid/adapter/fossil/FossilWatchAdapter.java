@@ -86,7 +86,7 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     private int lastButtonIndex = -1;
 
-    Logger logger = LoggerFactory.getLogger(getClass());
+    Logger logger = LoggerFactory.getLogger(getClass().getSimpleName());
 
     public FossilWatchAdapter(QHybridSupport deviceSupport) {
         super(deviceSupport);

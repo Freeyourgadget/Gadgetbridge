@@ -94,4 +94,7 @@ public abstract class WatchAdapter {
         }
         return s.substring(0, s.length() - 1) + "\n";
     }
+
+    public void setCommuteMenuMessage(String message, boolean finished) {
+    }
 }

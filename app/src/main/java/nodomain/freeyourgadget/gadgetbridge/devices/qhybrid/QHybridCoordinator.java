@@ -145,7 +145,9 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public Class<? extends Activity> getAppsManagementActivity() {
-        return ConfigActivity.class;
+        GBDevice connectedDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
+        boolean isHR = connectedDevice.getFirmwareVersion().charAt(2) == '1';
+        return isHR ? HRConfigActivity.class : ConfigActivity.class;
     }
 
     @Override

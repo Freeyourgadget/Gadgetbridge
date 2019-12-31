@@ -37,4 +37,36 @@ public class Image {
         }
         return null;
     }
+
+    public int getAngle() {
+        return angle;
+    }
+
+    public void setAngle(int angle) {
+        this.angle = angle;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
+    public int getIndexZ() {
+        return indexZ;
+    }
+
+    public void setIndexZ(int indexZ) {
+        this.indexZ = indexZ;
+    }
+
+    public String getImageFile() {
+        return imageFile;
+    }
+
+    public void setImageFile(String imageFile) {
+        this.imageFile = imageFile;
+    }
 }

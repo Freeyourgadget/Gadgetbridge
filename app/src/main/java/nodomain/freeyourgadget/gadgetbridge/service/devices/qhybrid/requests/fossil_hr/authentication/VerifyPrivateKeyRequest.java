@@ -19,6 +19,7 @@ import javax.crypto.spec.SecretKeySpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr.FossilHRWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.ResultCode;
 
 public class VerifyPrivateKeyRequest extends FossilRequest {
     private final FossilHRWatchAdapter adapter;
@@ -29,7 +30,6 @@ public class VerifyPrivateKeyRequest extends FossilRequest {
         this.adapter = adapter;
         this.key = key;
 
-        adapter.setPhoneRandomNumber(randomPhoneNumber);
     }
 
     @Override
@@ -62,6 +62,7 @@ public class VerifyPrivateKeyRequest extends FossilRequest {
                 System.arraycopy(result, 0, watchRandomNumber, 0, 8);
 
                 adapter.setWatchRandomNumber(watchRandomNumber);
+                adapter.setPhoneRandomNumber(randomPhoneNumber);
 
                 cipher = Cipher.getInstance("AES/CBC/NoPadding");
                 cipher.init(Cipher.ENCRYPT_MODE, keySpec, new IvParameterSpec(new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}));
@@ -81,7 +82,8 @@ public class VerifyPrivateKeyRequest extends FossilRequest {
                 throw new RuntimeException(e);
             }
         } else if (value[1] == 2) {
-            if (value[2] != 0) throw new RuntimeException("Authentication error: " + value[2]);
+            if (value[2] != 0) throw new RuntimeException("Authentication error: " + ResultCode.fromCode(value[2]) + "   (" + value[2] + ")");
+
 
             this.isFinished = true;
         }
