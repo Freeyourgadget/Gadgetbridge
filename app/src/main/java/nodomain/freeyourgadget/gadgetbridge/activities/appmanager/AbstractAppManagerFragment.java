@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Konrad Iturbe, Lem Dulfo
 
     This file is part of Gadgetbridge.
@@ -24,18 +24,14 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -47,6 +43,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ExternalPebbleJSActivity;
@@ -428,7 +429,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                 startActivity(startIntent);
                 return true;
             case R.id.appmanager_app_openinstore:
-                String url = "https://pebble-appstore.romanport.com/" + ((selectedApp.getType() == GBDeviceApp.Type.WATCHFACE) ? "watchfaces" : "watchapps") + "/0/?query=" + selectedApp.getName();
+                String url = "https://apps.rebble.io/en_US/search/" + ((selectedApp.getType() == GBDeviceApp.Type.WATCHFACE) ? "watchfaces" : "watchapps") + "/1/?native=true&?query=" +  Uri.encode(selectedApp.getName());
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(url));
                 startActivity(intent);

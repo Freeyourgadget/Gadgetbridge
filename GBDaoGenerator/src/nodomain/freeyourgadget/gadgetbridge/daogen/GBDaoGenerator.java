@@ -15,8 +15,6 @@
  */
 package nodomain.freeyourgadget.gadgetbridge.daogen;
 
-import java.util.Date;
-
 import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
 import de.greenrobot.daogenerator.Index;
@@ -45,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(19, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(22, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -60,6 +58,7 @@ public class GBDaoGenerator {
         Entity tag = addTag(schema);
         Entity userDefinedActivityOverlay = addActivityDescription(schema, tag, user);
 
+        addMakibesHR3ActivitySample(schema, user, device);
         addMiBandActivitySample(schema, user, device);
         addPebbleHealthActivitySample(schema, user, device);
         addPebbleHealthActivityKindOverlay(schema, user, device);
@@ -73,6 +72,11 @@ public class GBDaoGenerator {
         addID115ActivitySample(schema, user, device);
         addJYouActivitySample(schema, user, device);
         addCalendarSyncState(schema, device);
+        addAlarms(schema, user, device);
+
+        Entity notificationFilter = addNotificationFilters(schema);
+
+        addNotificationFilterEntry(schema, notificationFilter);
 
         addBipActivitySummary(schema, user, device);
 
@@ -179,6 +183,16 @@ public class GBDaoGenerator {
         addDateValidityTo(deviceAttributes);
 
         return deviceAttributes;
+    }
+
+    private static Entity addMakibesHR3ActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "MakibesHR3ActivitySample");
+        activitySample.implementsSerializable();
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        addHeartRateProperties(activitySample);
+        return activitySample;
     }
 
     private static Entity addMiBandActivitySample(Schema schema, Entity user, Entity device) {
@@ -353,6 +367,55 @@ public class GBDaoGenerator {
         calendarSyncState.addIndex(indexUnique);
         calendarSyncState.addToOne(device, deviceId);
         calendarSyncState.addIntProperty("hash").notNull();
+    }
+
+    private static void addAlarms(Schema schema, Entity user, Entity device) {
+        Entity alarm = addEntity(schema, "Alarm");
+        alarm.implementsInterface("nodomain.freeyourgadget.gadgetbridge.model.Alarm");
+        Property deviceId = alarm.addLongProperty("deviceId").notNull().getProperty();
+        Property userId = alarm.addLongProperty("userId").notNull().getProperty();
+        Property position = alarm.addIntProperty("position").notNull().getProperty();
+        Index indexUnique = new Index();
+        indexUnique.addProperty(deviceId);
+        indexUnique.addProperty(userId);
+        indexUnique.addProperty(position);
+        indexUnique.makeUnique();
+        alarm.addIndex(indexUnique);
+        alarm.addBooleanProperty("enabled").notNull();
+        alarm.addBooleanProperty("smartWakeup").notNull();
+        alarm.addIntProperty("repetition").notNull().codeBeforeGetter(
+                "public boolean isRepetitive() { return getRepetition() != ALARM_ONCE; } " +
+                        "public boolean getRepetition(int dow) { return (this.repetition & dow) > 0; }"
+        );
+        alarm.addIntProperty("hour").notNull();
+        alarm.addIntProperty("minute").notNull();
+        alarm.addBooleanProperty("unused").notNull();
+        alarm.addToOne(user, userId);
+        alarm.addToOne(device, deviceId);
+    }
+
+    private static void addNotificationFilterEntry(Schema schema, Entity notificationFilterEntity) {
+        Entity notificatonFilterEntry = addEntity(schema, "NotificationFilterEntry");
+        notificatonFilterEntry.addIdProperty().autoincrement();
+        Property notificationFilterId = notificatonFilterEntry.addLongProperty("notificationFilterId").notNull().getProperty();
+        notificatonFilterEntry.addStringProperty("notificationFilterContent").notNull().getProperty();
+        notificatonFilterEntry.addToOne(notificationFilterEntity, notificationFilterId);
+    }
+
+    private static Entity addNotificationFilters(Schema schema) {
+        Entity notificatonFilter = addEntity(schema, "NotificationFilter");
+        Property appIdentifier = notificatonFilter.addStringProperty("appIdentifier").notNull().getProperty();
+
+        notificatonFilter.addIdProperty().autoincrement();
+
+        Index indexUnique = new Index();
+        indexUnique.addProperty(appIdentifier);
+        indexUnique.makeUnique();
+        notificatonFilter.addIndex(indexUnique);
+
+        Property notificationFilterMode = notificatonFilter.addIntProperty("notificationFilterMode").notNull().getProperty();
+        Property notificationFilterSubMode = notificatonFilter.addIntProperty("notificationFilterSubMode").notNull().getProperty();
+        return notificatonFilter;
     }
 
     private static void addBipActivitySummary(Schema schema, Entity user, Entity device) {

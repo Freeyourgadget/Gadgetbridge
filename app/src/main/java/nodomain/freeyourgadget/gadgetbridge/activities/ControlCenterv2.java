@@ -1,5 +1,5 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Taavi Eomäe
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Johannes Tysiak, Taavi Eomäe, vanous
 
     This file is part of Gadgetbridge.
 
@@ -27,22 +27,27 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,8 +77,13 @@ public class ControlCenterv2 extends AppCompatActivity
 
     private GBDeviceAdapterv2 mGBDeviceAdapter;
     private RecyclerView deviceListView;
+    private FloatingActionButton fab;
 
     private boolean isLanguageInvalid = false;
+
+    public static final int MENU_REFRESH_CODE=1;
+
+    private static PhoneStateListener fakeStateListener;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -102,14 +112,6 @@ public class ControlCenterv2 extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchDiscoveryActivity();
-            }
-        });
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.controlcenter_navigation_drawer_open, R.string.controlcenter_navigation_drawer_close);
@@ -130,6 +132,16 @@ public class ControlCenterv2 extends AppCompatActivity
         mGBDeviceAdapter = new GBDeviceAdapterv2(this, deviceList);
 
         deviceListView.setAdapter(this.mGBDeviceAdapter);
+
+        fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchDiscoveryActivity();
+            }
+        });
+
+        showFabIfNeccessary();
 
         /* uncomment to enable fixed-swipe to reveal more actions
 
@@ -191,7 +203,12 @@ public class ControlCenterv2 extends AppCompatActivity
 
         ChangeLog cl = createChangeLog();
         if (cl.isFirstRun()) {
-            cl.getLogDialog().show();
+            try {
+                cl.getLogDialog().show();
+            } catch (Exception ignored){
+                GB.toast(getBaseContext(), "Error showing Changelog", Toast.LENGTH_LONG, GB.ERROR);
+
+            }
         }
 
         GBApplication.deviceService().start();
@@ -230,6 +247,15 @@ public class ControlCenterv2 extends AppCompatActivity
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MENU_REFRESH_CODE) {
+            showFabIfNeccessary();
+        }
+    }
+
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -238,7 +264,7 @@ public class ControlCenterv2 extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.action_settings:
                 Intent settingsIntent = new Intent(this, SettingsActivity.class);
-                startActivity(settingsIntent);
+                startActivityForResult(settingsIntent, MENU_REFRESH_CODE);
                 return true;
             case R.id.action_debug:
                 Intent debugIntent = new Intent(this, DebugActivity.class);
@@ -252,6 +278,9 @@ public class ControlCenterv2 extends AppCompatActivity
                 Intent blIntent = new Intent(this, AppBlacklistActivity.class);
                 startActivity(blIntent);
                 return true;
+            case R.id.device_action_discover:
+                launchDiscoveryActivity();
+                return true;
             case R.id.action_quit:
                 GBApplication.quit();
                 return true;
@@ -262,7 +291,11 @@ public class ControlCenterv2 extends AppCompatActivity
                 return true;
             case R.id.external_changelog:
                 ChangeLog cl = createChangeLog();
-                cl.getFullLogDialog().show();
+                try {
+                    cl.getLogDialog().show();
+                } catch (Exception ignored) {
+                    GB.toast(getBaseContext(), "Error showing Changelog", Toast.LENGTH_LONG, GB.ERROR);
+                }
                 return true;
         }
 
@@ -276,13 +309,26 @@ public class ControlCenterv2 extends AppCompatActivity
                 + "background-color: " + AndroidUtils.getBackgroundColorHex(getBaseContext()) + ";" +
                 "}";
         return new ChangeLog(this, css);
-}
+    }
+
     private void launchDiscoveryActivity() {
         startActivity(new Intent(this, DiscoveryActivity.class));
     }
 
     private void refreshPairedDevices() {
         mGBDeviceAdapter.notifyDataSetChanged();
+    }
+
+    private void showFabIfNeccessary() {
+        if (GBApplication.getPrefs().getBoolean("display_add_device_fab", true)) {
+            fab.show();
+        } else {
+            if (deviceListView.getChildCount() < 1) {
+                fab.show();
+            } else {
+                fab.hide();
+            }
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -320,7 +366,15 @@ public class ControlCenterv2 extends AppCompatActivity
         }
 
         if (!wantedPermissions.isEmpty())
-            ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[wantedPermissions.size()]), 0);
+            ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[0]), 0);
+
+        // HACK: On Lineage we have to do this so that the permission dialog pops up
+        if (fakeStateListener == null) {
+            fakeStateListener = new PhoneStateListener();
+            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+            telephonyManager.listen(fakeStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+            telephonyManager.listen(fakeStateListener, PhoneStateListener.LISTEN_NONE);
+        }
     }
 
     public void setLanguage(Locale language, boolean invalidateLanguage) {

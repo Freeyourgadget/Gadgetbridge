@@ -1,12 +1,11 @@
 package nodomain.freeyourgadget.gadgetbridge.test;
 
-import android.support.annotation.NonNull;
-
 import org.junit.After;
 import org.junit.Test;
 
 import java.io.File;
 
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;

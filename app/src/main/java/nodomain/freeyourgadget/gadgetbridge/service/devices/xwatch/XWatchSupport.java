@@ -1,4 +1,5 @@
-/*  Copyright (C) 2018 Andreas Shimokawa, ladbsoft
+/*  Copyright (C) 2018-2019 Andreas Shimokawa, Carsten Pfeiffer, ladbsoft,
+    Sebastian Kranz
 
     This file is part of Gadgetbridge.
 
@@ -233,7 +234,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
         //Not supported
     }
 
@@ -372,6 +373,11 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onReadConfiguration(String config) {
+
+    }
+
+    @Override
     public void onTestNewFunction() {
         //Not supported
     }
@@ -455,7 +461,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
                         try {
                             builder = performInitialized("fetchActivityData");
                             requestDetailedData(builder);
-                            performConnected(builder.getTransaction());
+                            builder.queue(getQueue());
                         } catch (IOException e) {
                             GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                         }

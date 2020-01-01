@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti
+/*  Copyright (C) 2015-2019 0nse, Andreas Shimokawa, Carsten Pfeiffer,
+    Daniele Gobbetti, Pavel Elagin, vanous
 
     This file is part of Gadgetbridge.
 
@@ -18,8 +18,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -30,7 +29,12 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     @Override
     public String getTitle() {
-        return getString(R.string.weekstepschart_steps_a_week);
+        if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
+            return getString(R.string.weekstepschart_steps_a_month);
+        }
+        else{
+                return getString(R.string.weekstepschart_steps_a_week);
+        }
     }
 
     @Override
@@ -77,17 +81,17 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    IValueFormatter getPieValueFormatter() {
+    ValueFormatter getPieValueFormatter() {
         return null;
     }
 
     @Override
-    IValueFormatter getBarValueFormatter() {
+    ValueFormatter getBarValueFormatter() {
         return null;
     }
 
     @Override
-    IAxisValueFormatter getYAxisFormatter() {
+    ValueFormatter getYAxisFormatter() {
         return null;
     }
 
@@ -105,12 +109,17 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     @Override
     protected String getBalanceMessage(long balance, int targetValue) {
         if (balance > 0) {
-            final long totalBalance = balance - (targetValue * TOTAL_DAYS);
+            final long totalBalance = balance - ((long)targetValue * TOTAL_DAYS);
             if (totalBalance > 0)
                 return getString(R.string.overstep, Math.abs(totalBalance));
             else
                 return getString(R.string.lack_of_step, Math.abs(totalBalance));
         } else
             return getString(R.string.no_data);
+    }
+
+    @Override
+    String getAverage(float value) {
+        return String.format("%.0f", value);
     }
 }

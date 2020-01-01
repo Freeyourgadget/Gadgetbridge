@@ -57,11 +57,14 @@ public class LanguageUtilsTest extends TestBase {
         assertEquals("Farsi transiteration failed", farsiExpected, farsiActual);
     }
 
+    @Test
     public void testStringTransliterateBengali() throws Exception {
         // input with cyrillic and diacritic letters
-        String[] inputs = { "অনিরুদ্ধ", "বিজ্ঞানযাত্রা চলছে চলবে।", "আমি সব দেখেশুনে ক্ষেপে গিয়ে করি বাঙলায় চিৎকার!" };
-        String[] outputs = { "aniruddha", "biggaanaJaatraa chalachhe chalabe.",
-                "aami saba dekheshune kkhepe giye kari baangalaaya chitkaara!" };
+        String[] inputs = { "অনিরুদ্ধ", "বিজ্ঞানযাত্রা চলছে চলবে।", "আমি সব দেখেশুনে ক্ষেপে গিয়ে করি বাঙলায় চিৎকার!",
+                "আমার জাভা কোড is so bad! কী আর বলবো!" };
+        String[] outputs = { "oniruddho", "biggaanJaatraa cholchhe cholbe.",
+                "aami sob dekheshune kkhepe giye kori baanglaay chitkaar!",
+                "aamaar jaabhaa koD is so bad! kii aar bolbo!"};
 
         String result;
 

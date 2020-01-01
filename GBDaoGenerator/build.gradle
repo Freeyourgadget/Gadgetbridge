@@ -1,5 +1,5 @@
 apply plugin: 'java'
-//apply plugin: 'maven'
+apply plugin: 'maven'
 apply plugin:'application'
 
 archivesBaseName = 'gadgetbridge-daogenerator'
@@ -8,7 +8,7 @@ archivesBaseName = 'gadgetbridge-daogenerator'
 dependencies {
 //    compile 'org.greenrobot:greendao-generator:2.2.0'
 //    compile project(":DaoGenerator")
-    compile 'com.github.freeyourgadget:greendao:1998d7cd2d21f662c6044f6ccf3b3a251bbad341'
+    compile 'com.github.Freeyourgadget:greendao:1998d7cd2d21f662c6044f6ccf3b3a251bbad341'
 }
 
 sourceSets {

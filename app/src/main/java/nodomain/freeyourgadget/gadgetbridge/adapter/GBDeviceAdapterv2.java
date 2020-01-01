@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, José Rebelo, Lem Dulfo, maxirnilian
 
     This file is part of Gadgetbridge.
@@ -23,11 +23,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
@@ -43,18 +38,24 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.RecyclerView;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ActivitySummariesActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
 import nodomain.freeyourgadget.gadgetbridge.activities.VibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.watch9.Watch9CalibrationActivity;
@@ -146,9 +147,24 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             }
         } else if (BatteryState.NO_BATTERY.equals(batteryState) && batteryVoltage != GBDevice.BATTERY_UNKNOWN) {
             holder.batteryStatusBox.setVisibility(View.VISIBLE);
-            holder.batteryStatusLabel.setText(String.format(Locale.getDefault(), "%.1fV", batteryVoltage));
+            holder.batteryStatusLabel.setText(String.format(Locale.getDefault(), "%.2f", batteryVoltage));
             holder.batteryIcon.setImageLevel(200);
         }
+
+        //device specific settings
+        holder.deviceSpecificSettingsView.setVisibility(coordinator.getSupportedDeviceSpecificSettings(device) != null ? View.VISIBLE : View.GONE);
+        holder.deviceSpecificSettingsView.setOnClickListener(new View.OnClickListener()
+
+                                                {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        Intent startIntent;
+                                                        startIntent = new Intent(context, DeviceSettingsActivity.class);
+                                                        startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                                                        context.startActivity(startIntent);
+                                                    }
+                                                }
+        );
 
         //fetch activity data
         holder.fetchActivityDataBox.setVisibility((device.isInitialized() && coordinator.supportsActivityDataFetching()) ? View.VISIBLE : View.GONE);
@@ -196,7 +212,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         );
 
         //set alarms
-        holder.setAlarmsView.setVisibility(coordinator.supportsAlarmConfiguration() ? View.VISIBLE : View.GONE);
+        holder.setAlarmsView.setVisibility(coordinator.getAlarmSlotCount() > 0 ? View.VISIBLE : View.GONE);
         holder.setAlarmsView.setOnClickListener(new View.OnClickListener()
 
                                                 {
@@ -378,16 +394,23 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                     ColorPickerDialog.Builder builder = ColorPickerDialog.newBuilder();
                     builder.setDialogTitle(R.string.preferences_led_color);
 
+                    int[] presets = coordinator.getColorPresets();
+
                     builder.setColor((int) device.getExtraInfo("led_color"));
+                    builder.setShowAlphaSlider(false);
+                    builder.setShowColorShades(false);
                     if (coordinator.supportsRgbLedColor()) {
                         builder.setAllowCustom(true);
-                        builder.setShowAlphaSlider(false);
-                        builder.setAllowPresets(true);
+                        if (presets.length == 0) {
+                            builder.setDialogType(ColorPickerDialog.TYPE_CUSTOM);
+                        }
                     } else {
                         builder.setAllowCustom(false);
+                    }
+
+                    if (presets.length > 0) {
                         builder.setAllowPresets(true);
-                        builder.setShowColorShades(false);
-                        builder.setPresets(coordinator.getColorPresets());
+                        builder.setPresets(presets);
                     }
 
                     ColorPickerDialog dialog = builder.create();
@@ -465,6 +488,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         LinearLayout batteryStatusBox;
         TextView batteryStatusLabel;
         ImageView batteryIcon;
+        ImageView deviceSpecificSettingsView;
         LinearLayout fetchActivityDataBox;
         ImageView fetchActivityData;
         ProgressBar busyIndicator;
@@ -497,6 +521,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             batteryStatusBox = view.findViewById(R.id.device_battery_status_box);
             batteryStatusLabel = view.findViewById(R.id.battery_status);
             batteryIcon = view.findViewById(R.id.device_battery_status);
+            deviceSpecificSettingsView = view.findViewById(R.id.device_specific_settings);
             fetchActivityDataBox = view.findViewById(R.id.device_action_fetch_activity_box);
             fetchActivityData = view.findViewById(R.id.device_action_fetch_activity);
             busyIndicator = view.findViewById(R.id.device_busy_indicator);

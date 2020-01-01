@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -25,14 +25,13 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Set;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor.AmazfitCorFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor.AmazfitCorService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class AmazfitCorSupport extends AmazfitBipSupport {
 
@@ -41,8 +40,7 @@ public class AmazfitCorSupport extends AmazfitBipSupport {
     @Override
     protected AmazfitCorSupport setDisplayItems(TransactionBuilder builder) {
 
-        Prefs prefs = GBApplication.getPrefs();
-        Set<String> pages = prefs.getStringSet("cor_display_items", null);
+        Set<String> pages = HuamiCoordinator.getDisplayItems(getDevice().getAddress());
         LOG.info("Setting display items to " + (pages == null ? "none" : pages));
         byte[] command = AmazfitCorService.COMMAND_CHANGE_SCREENS.clone();
 

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -36,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleMisfitSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMisfitSample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 class AppMessageHandlerMisfit extends AppMessageHandler {
@@ -71,6 +72,7 @@ class AppMessageHandlerMisfit extends AppMessageHandler {
                     LOG.info("incoming data start");
                     break;
                 case KEY_INCOMING_DATA_END:
+                    GB.signalActivityDataFinish();
                     LOG.info("incoming data end");
                     break;
                 case KEY_INCOMING_DATA:

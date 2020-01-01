@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa
+/*  Copyright (C) 2017-2019 Andreas Shimokawa
 
     This file is part of Gadgetbridge.
 
@@ -49,8 +49,10 @@ public abstract class HuamiFirmwareInfo {
     };
 
     protected static final int FONT_TYPE_OFFSET = 0x9;
+    protected static final int COMPRESSED_RES_HEADER_OFFSET = 0x9;
+    protected static final int COMPRESSED_RES_HEADER_OFFSET_NEW = 0xd;
 
-    private HuamiFirmwareType firmwareType = HuamiFirmwareType.FIRMWARE;
+    private HuamiFirmwareType firmwareType;
 
     public String toVersion(int crc16) {
         String version = getCrcMap().get(crc16);
@@ -60,16 +62,16 @@ public abstract class HuamiFirmwareInfo {
                     version = searchFirmwareVersion(bytes);
                     break;
                 case RES:
-                    version = "RES " + Integer.toString(bytes[5]);
+                    version = "RES " + bytes[5];
                     break;
                 case RES_COMPRESSED:
-                    version = "RES " + Integer.toString(bytes[14]);
+                    version = "RES " + bytes[14];
                     break;
                 case FONT:
-                    version = "FONT " + Integer.toString(bytes[4]);
+                    version = "FONT " + bytes[4];
                     break;
                 case FONT_LATIN:
-                    version = "FONT LATIN " + Integer.toString(bytes[4]);
+                    version = "FONT LATIN " + bytes[4];
                     break;
             }
         }
@@ -104,12 +106,14 @@ public abstract class HuamiFirmwareInfo {
     }
 
     private final int crc16;
+    private final int crc32;
 
     private byte[] bytes;
 
     public HuamiFirmwareInfo(byte[] bytes) {
         this.bytes = bytes;
         crc16 = CheckSums.getCRC16(bytes);
+        crc32 = CheckSums.getCRC32(bytes);
         firmwareType = determineFirmwareType(bytes);
     }
 
@@ -138,6 +142,9 @@ public abstract class HuamiFirmwareInfo {
     public int getCrc16() {
         return crc16;
     }
+    public int getCrc32() {
+        return crc32;
+    }
 
     public int getFirmwareVersion() {
         return getCrc16(); // HACK until we know how to determine the version from the fw bytes
@@ -163,7 +170,7 @@ public abstract class HuamiFirmwareInfo {
                     if (word == 0x642e2564) {
                         word = buf.getInt();
                         if (word == 0x00000000) {
-                            byte version[] = new byte[8];
+                            byte[] version = new byte[8];
                             buf.get(version);
                             return new String(version);
                         }

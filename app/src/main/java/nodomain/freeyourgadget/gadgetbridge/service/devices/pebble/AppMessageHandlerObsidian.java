@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Daniele Gobbetti
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Daniele Gobbetti, Johann C. Rode
 
     This file is part of Gadgetbridge.
 
@@ -142,7 +142,7 @@ class AppMessageHandlerObsidian extends AppMessageHandler {
         return (!isNight) ? iconToLoad : iconToLoad.toUpperCase();
     }
 
-    private byte[] encodeObisdianWeather(WeatherSpec weatherSpec) {
+    private byte[] encodeObsidianWeather(WeatherSpec weatherSpec) {
 
         if (weatherSpec == null) {
             return null;
@@ -165,12 +165,12 @@ class AppMessageHandlerObsidian extends AppMessageHandler {
             return new GBDeviceEvent[]{null};
         }
         GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
-        sendBytes.encodedBytes = encodeObisdianWeather(weatherSpec);
+        sendBytes.encodedBytes = encodeObsidianWeather(weatherSpec);
         return new GBDeviceEvent[]{sendBytes};
     }
 
     @Override
     public byte[] encodeUpdateWeather(WeatherSpec weatherSpec) {
-        return encodeObisdianWeather(weatherSpec);
+        return encodeObsidianWeather(weatherSpec);
     }
 }

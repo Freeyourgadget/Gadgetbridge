@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 João Paulo Barraca
+/*  Copyright (C) 2017-2019 Daniele Gobbetti, João Paulo Barraca, Stan Gomin
 
     This file is part of Gadgetbridge.
 
@@ -21,8 +21,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.hplus;
 */
 
 
-import android.support.annotation.NonNull;
-
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
@@ -35,7 +34,7 @@ public class MakibesF68Coordinator extends HPlusCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
-        if(name != null && name.startsWith("SPORT")){
+        if(name != null && name.startsWith("SPORT") && !name.startsWith("SPORTAGE")){
             return DeviceType.MAKIBESF68;
         }
 

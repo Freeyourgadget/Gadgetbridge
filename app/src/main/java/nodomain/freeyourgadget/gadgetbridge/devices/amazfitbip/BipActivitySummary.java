@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 Carsten Pfeiffer
+/*  Copyright (C) 2017-2019 Carsten Pfeiffer, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -16,10 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip;
 
-import java.util.Date;
-
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
-import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 public class BipActivitySummary extends BaseActivitySummary {
     private int version;

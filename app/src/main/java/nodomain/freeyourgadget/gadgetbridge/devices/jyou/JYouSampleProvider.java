@@ -1,7 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.jyou;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;

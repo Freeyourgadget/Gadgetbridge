@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018 Sebastian Kranz
+/*  Copyright (C) 2018-2019 Daniele Gobbetti, Sebastian Kranz
 
     This file is part of Gadgetbridge.
 
@@ -16,9 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.zetime;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;

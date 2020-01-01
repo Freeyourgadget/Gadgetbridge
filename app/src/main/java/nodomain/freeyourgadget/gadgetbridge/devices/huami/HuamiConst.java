@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer, Nephiel
 
     This file is part of Gadgetbridge.
 
@@ -47,6 +47,28 @@ public class HuamiConst {
     public static final String MI_BAND2_NAME = "MI Band 2";
     public static final String MI_BAND2_NAME_HRX = "Mi Band HRX";
     public static final String MI_BAND3_NAME = "Mi Band 3";
+    public static final String MI_BAND3_NAME_2 = "Xiaomi Band 3";
+    public static final String MI_BAND4_NAME = "Mi Smart Band 4";
+
+    public static final String PREF_ACTIVATE_DISPLAY_ON_LIFT = "activate_display_on_lift_wrist";
+    public static final String PREF_DISPLAY_ON_LIFT_START = "display_on_lift_start";
+    public static final String PREF_DISPLAY_ON_LIFT_END = "display_on_lift_end";
+
+    public static final String PREF_DISCONNECT_NOTIFICATION = "disconnect_notification";
+    public static final String PREF_DISCONNECT_NOTIFICATION_START = "disconnect_notification_start";
+    public static final String PREF_DISCONNECT_NOTIFICATION_END = "disconnect_notification_end";
+
+    public static final String PREF_DISPLAY_ITEMS = "display_items";
+    public static final String PREF_LANGUAGE = "language";
+    public static final String PREF_EXPOSE_HR_THIRDPARTY = "expose_hr_thirdparty";
+    public static final String PREF_USE_CUSTOM_FONT = "use_custom_font";
+
+    public static final String PREF_BUTTON_ACTION_ENABLE = "button_action_enable";
+    public static final String PREF_BUTTON_ACTION_VIBRATE = "button_action_vibrate";
+    public static final String PREF_BUTTON_ACTION_PRESS_COUNT = "button_action_press_count";
+    public static final String PREF_BUTTON_ACTION_PRESS_MAX_INTERVAL = "button_action_press_max_interval";
+    public static final String PREF_BUTTON_ACTION_BROADCAST_DELAY = "button_action_broadcast_delay";
+    public static final String PREF_BUTTON_ACTION_BROADCAST = "button_action_broadcast";
 
     public static int toActivityKind(int rawType) {
         switch (rawType) {

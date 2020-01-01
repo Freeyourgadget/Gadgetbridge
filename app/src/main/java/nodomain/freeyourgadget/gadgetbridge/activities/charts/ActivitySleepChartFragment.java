@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Pavel Elagin
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Dikay900, Pavel Elagin
 
     This file is part of Gadgetbridge.
 
@@ -143,7 +143,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
 
     @Override
     protected void renderCharts() {
-        mChart.animateX(ANIM_TIME, Easing.EasingOption.EaseInOutQuart);
+        mChart.animateX(ANIM_TIME, Easing.EaseInOutQuart);
 //        mChart.invalidate();
     }
 

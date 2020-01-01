@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Daniele Gobbetti
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Daniele Gobbetti, Sebastian
+    Kranz
 
     This file is part of Gadgetbridge.
 
@@ -123,5 +124,10 @@ public class LiveviewSupport extends AbstractSerialDeviceSupport {
     @Override
     public void onTestNewFunction() {
         //nothing to do ATM
+    }
+
+    @Override
+    public void onReadConfiguration(String config) {
+
     }
 }

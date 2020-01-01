@@ -1,5 +1,5 @@
-/*  Copyright (C) 2016-2018 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
-    ivanovlev, João Paulo Barraca, Pavel Motyrev, Quallenauge
+/*  Copyright (C) 2016-2019 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
+    ivanovlev, João Paulo Barraca, Pavel Motyrev, Quallenauge, Sebastian Kranz
 
     This file is part of Gadgetbridge.
 
@@ -58,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
+import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -415,7 +416,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
             setCurrentDate(builder);
             setCurrentTime(builder);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         }catch(IOException e){
 
         }
@@ -430,13 +431,13 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
             for (Alarm alarm : alarms) {
 
-                if (!alarm.isEnabled())
+                if (!alarm.getEnabled())
                     continue;
 
-                if (alarm.isSmartWakeup()) //Not available
+                if (alarm.getSmartWakeup()) //Not available
                     continue;
 
-                Calendar t = alarm.getAlarmCal();
+                Calendar t = AlarmUtils.toCalendar(alarm);
                 setAlarm(builder, t);
                 builder.queue(getQueue());
 
@@ -446,7 +447,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             }
 
             setAlarm(builder, null);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
 
             GB.toast(getContext(), getContext().getString(R.string.user_feedback_all_alarms_disabled), Toast.LENGTH_SHORT, GB.INFO);
         }catch(Exception e){}
@@ -526,13 +527,13 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
         try {
             getQueue().clear();
 
             TransactionBuilder builder = performInitialized("Shutdown");
             builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SHUTDOWN, HPlusConstants.ARG_SHUTDOWN_EN});
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         }catch(Exception e){
 
         }
@@ -545,7 +546,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("HeartRateTest");
 
             builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_HEARTRATE_STATE, HPlusConstants.ARG_HEARTRATE_MEASURE_ON}); //Set Real Time... ?
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         }catch(Exception e){
 
         }
@@ -563,7 +564,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 state = HPlusConstants.ARG_HEARTRATE_ALLDAY_OFF;
 
             builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_ALLDAY_HRM, state});
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         }catch(Exception e){
 
         }
@@ -575,7 +576,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("findMe");
 
             setFindMe(builder, start);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error toggling Find Me: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -591,10 +592,10 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             msg[0] = HPlusConstants.CMD_SET_INCOMING_CALL_NUMBER;
 
             for (int i = 0; i < msg.length - 1; i++)
-                msg[i + 1] = (byte) "GadgetBridge".charAt(i);
+                msg[i + 1] = (byte) "Gadgetbridge".charAt(i);
 
             builder.write(ctrlCharacteristic, msg);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error setting Vibration: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -640,6 +641,11 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         } catch (IOException e) {
             GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR, e);
         }
+    }
+
+    @Override
+    public void onReadConfiguration(String config) {
+
     }
 
     @Override
@@ -711,7 +717,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 builder.write(ctrlCharacteristic, msg);
             }
 
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error showing incoming call: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
 
@@ -774,7 +780,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             msg[2] = (byte) remaining;
 
             builder.write(ctrlCharacteristic, msg);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error showing device Notification: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
 
@@ -800,7 +806,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     private byte[] encodeStringToDevice(String s) {
 
         List<Byte> outBytes = new ArrayList<Byte>();
-        Boolean unicode = HPlusCoordinator.getUnicodeSupport(this.gbDevice.getAddress());
+        boolean unicode = HPlusCoordinator.getUnicodeSupport(this.gbDevice.getAddress());
         LOG.info("Encode String: Unicode=" + unicode);
 
         for (int i = 0; i < s.length(); i++) {
@@ -827,7 +833,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 outBytes.add(cs[j]);
         }
 
-        return ArrayUtils.toPrimitive(outBytes.toArray(new Byte[outBytes.size()]));
+        return ArrayUtils.toPrimitive(outBytes.toArray(new Byte[0]));
     }
 
     @Override

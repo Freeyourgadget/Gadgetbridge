@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -17,8 +18,11 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
 
 /**
  * A base activity that supports paging through fragments by swiping.
@@ -35,12 +39,12 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 public abstract class AbstractGBFragmentActivity extends AbstractGBActivity {
     /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
+     * The {@link PagerAdapter} that will provide
      * fragments for each of the sections. We use a
      * {@link FragmentPagerAdapter} derivative, which will keep every
      * loaded fragment in memory. If this becomes too memory intensive, it
      * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     * {@link FragmentStatePagerAdapter}.
      */
     private AbstractFragmentPagerAdapter mSectionsPagerAdapter;
 

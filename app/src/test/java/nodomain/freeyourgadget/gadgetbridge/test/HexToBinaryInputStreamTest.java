@@ -19,10 +19,10 @@ public class HexToBinaryInputStreamTest extends TestBase {
         byte[] hexString;
         byte[] binString;
 
-        try (InputStream in = ActivityDetailsParserTest.class.getClassLoader().getResourceAsStream("ActivityDetailsDump1.txt")) {
+        try (InputStream in = HuamiActivityDetailsParserTest.class.getClassLoader().getResourceAsStream("ActivityDetailsDump1.txt")) {
             hexString = FileUtils.readAll(in, 1024 * 1024);
             assertTrue(hexString.length > 1);
-            try (InputStream in2 = getContents(ActivityDetailsParserTest.class.getClassLoader().getResource("ActivityDetailsDump1.txt"))) {
+            try (InputStream in2 = getContents(HuamiActivityDetailsParserTest.class.getClassLoader().getResource("ActivityDetailsDump1.txt"))) {
                 binString = FileUtils.readAll(in2, 1024 * 1024);
                 assertTrue(binString.length > 1);
             }

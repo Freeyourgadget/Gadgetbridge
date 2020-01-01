@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Daniele Gobbetti
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -27,7 +27,6 @@ import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.support.v4.app.ActivityCompat;
 
 import net.e175.klaus.solarpositioning.DeltaT;
 import net.e175.klaus.solarpositioning.SPA;
@@ -39,6 +38,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import androidx.core.app.ActivityCompat;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;

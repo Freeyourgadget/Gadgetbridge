@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Julien
-    Pivotto, Steffen Liebergeld
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, José Rebelo,
+    Julien Pivotto, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 
@@ -27,6 +27,9 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
 public abstract class GBDeviceProtocol {
+
+    public static final int RESET_FLAGS_REBOOT = 1;
+    public static final int RESET_FLAGS_FACTORY_RESET = 2;
 
     private GBDevice mDevice;
 
@@ -90,7 +93,7 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
-    public byte[] encodeReboot() {
+    public byte[] encodeReset(int flags) {
         return null;
     }
 

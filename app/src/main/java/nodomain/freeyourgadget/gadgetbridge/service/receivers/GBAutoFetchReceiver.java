@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018 Daniele Gobbetti, Martin
+/*  Copyright (C) 2018-2019 Daniele Gobbetti, Martin
 
     This file is part of Gadgetbridge.
 
@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import org.apache.commons.lang3.time.DateUtils;
+
 import java.util.Date;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;

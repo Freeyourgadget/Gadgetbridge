@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti
 
     This file is part of Gadgetbridge.
@@ -49,9 +49,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-//import java.util.concurrent.Executors;
-//import java.util.concurrent.ScheduledExecutorService;
-//import java.util.concurrent.ScheduledFuture;
 
 /**
  * An operation that fetches activity data. For every fetch, a new operation must
@@ -71,7 +68,7 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
     private final boolean hasPacketCounter;
 
     private class ActivityStruct {
-        private int maxDataPacketLength = 20;
+        private int maxDataPacketLength;
         private int lastNotifiedProgress;
         private final byte[] activityDataHolder;
         private final int activityDataHolderSize;
@@ -197,6 +194,7 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
         activityStruct = null;
         operationFinished();
         unsetBusy();
+        GB.signalActivityDataFinish();
     }
 
     /**
@@ -254,7 +252,7 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
         // byte 0 is the data type: 1 means that each minute is represented by a triplet of bytes
         int dataType = value[0];
         // byte 1 to 6 represent a timestamp
-        GregorianCalendar timestamp = MiBandDateConverter.rawBytesToCalendar(value, 1);
+        GregorianCalendar timestamp = MiBandDateConverter.rawBytesToCalendar(value, 1, getDevice().getAddress());
 
         // counter of all data held by the band
         int totalDataToRead = (value[7] & 0xff) | ((value[8] & 0xff) << 8);
@@ -405,7 +403,7 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
      * @param bytesTransferred
      */
     private void sendAckDataTransfer(Calendar time, int bytesTransferred) {
-        byte[] ackTime = MiBandDateConverter.calendarToRawBytes(time);
+        byte[] ackTime = MiBandDateConverter.calendarToRawBytes(time, getDevice().getAddress());
         Prefs prefs = GBApplication.getPrefs();
 
         byte[] ackChecksum = new byte[]{

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, AnthonyDiGirolamo, Carsten
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, AnthonyDiGirolamo, Carsten
     Pfeiffer, Daniele Gobbetti, Frank Slezak, Julien Pivotto, Kaz Wolfe, Kevin
     Richter, Lukas Veneziano
 

@@ -1,5 +1,5 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, vanous
 
     This file is part of Gadgetbridge.
 
@@ -20,9 +20,10 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.SharedPreferences;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
 import android.widget.Toast;
+
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,13 +40,12 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbstractGattListenerWriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
@@ -58,11 +58,10 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractFetchOperation.class);
 
     protected byte lastPacketCounter;
-    protected int fetchCount;
+    int fetchCount;
     protected BluetoothGattCharacteristic characteristicActivityData;
     protected BluetoothGattCharacteristic characteristicFetch;
-    protected Calendar startTimestamp;
-    protected int expectedDataLength;
+    Calendar startTimestamp;
 
     public AbstractFetchOperation(HuamiSupport support) {
         super(support);
@@ -92,6 +91,7 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
         }
         fetchCount++;
 
+        // TODO: this probably returns null when device is not connected/initialized yet!
         characteristicActivityData = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_5_ACTIVITY_DATA);
         builder.notify(characteristicActivityData, false);
 
@@ -123,7 +123,7 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
 
     @CallSuper
     protected void handleActivityFetchFinish(boolean success) {
-        GB.updateTransferNotification(null,"",false,100,getContext());
+        GB.updateTransferNotification(null, "", false, 100, getContext());
         operationFinished();
         unsetBusy();
     }
@@ -175,13 +175,13 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
         });
     }
 
-    protected void handleActivityMetadata(byte[] value) {
+    private void handleActivityMetadata(byte[] value) {
         if (value.length == 15) {
             // first two bytes are whether our request was accepted
             if (ArrayUtils.equals(value, HuamiService.RESPONSE_ACTIVITY_DATA_START_DATE_SUCCESS, 0)) {
                 // the third byte (0x01 on success) = ?
                 // the 4th - 7th bytes epresent the number of bytes/packets to expect, excluding the counter bytes
-                expectedDataLength = BLETypeConversions.toUint32(Arrays.copyOfRange(value, 3, 7));
+                //int expectedDataLength = BLETypeConversions.toUint32(Arrays.copyOfRange(value, 3, 7));
 
                 // last 8 bytes are the start date
                 Calendar startTimestamp = getSupport().fromTimeBytes(Arrays.copyOfRange(value, 7, value.length));
@@ -189,7 +189,7 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
 
                 GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data),
                         getContext().getString(R.string.FetchActivityOperation_about_to_transfer_since,
-                        DateFormat.getDateTimeInstance().format(startTimestamp.getTime())), true, 0, getContext());;
+                                DateFormat.getDateTimeInstance().format(startTimestamp.getTime())), true, 0, getContext());
             } else {
                 LOG.warn("Unexpected activity metadata: " + Logging.formatBytes(value));
                 handleActivityFetchFinish(false);
@@ -207,30 +207,30 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
         }
     }
 
-    protected void setStartTimestamp(Calendar startTimestamp) {
+    private void setStartTimestamp(Calendar startTimestamp) {
         this.startTimestamp = startTimestamp;
     }
 
-    protected Calendar getLastStartTimestamp() {
+    Calendar getLastStartTimestamp() {
         return startTimestamp;
     }
 
-    protected void saveLastSyncTimestamp(@NonNull GregorianCalendar timestamp) {
-        SharedPreferences.Editor editor = GBApplication.getPrefs().getPreferences().edit();
+    void saveLastSyncTimestamp(@NonNull GregorianCalendar timestamp) {
+        SharedPreferences.Editor editor = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()).edit();
         editor.putLong(getLastSyncTimeKey(), timestamp.getTimeInMillis());
         editor.apply();
     }
 
 
     protected GregorianCalendar getLastSuccessfulSyncTime() {
-        long timeStampMillis = GBApplication.getPrefs().getLong(getLastSyncTimeKey(), 0);
+        long timeStampMillis = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()).getLong(getLastSyncTimeKey(), 0);
         if (timeStampMillis != 0) {
             GregorianCalendar calendar = BLETypeConversions.createCalendar();
             calendar.setTimeInMillis(timeStampMillis);
             return calendar;
         }
         GregorianCalendar calendar = BLETypeConversions.createCalendar();
-        calendar.add(Calendar.DAY_OF_MONTH, - 100);
+        calendar.add(Calendar.DAY_OF_MONTH, -100);
         return calendar;
     }
 }

@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, José Rebelo
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, José Rebelo, Matthieu Baerts
 
     This file is part of Gadgetbridge.
 
@@ -20,8 +20,8 @@ package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
+import androidx.annotation.NonNull;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
@@ -117,8 +117,8 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAlarmConfiguration() {
-        return false;
+    public int getAlarmSlotCount() {
+        return 0;
     }
 
     @Override
@@ -170,4 +170,7 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     public boolean supportsMusicInfo() {
         return true;
     }
+
+    @Override
+    public boolean supportsUnicodeEmojis() { return true; }
 }

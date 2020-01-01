@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, José Rebelo
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -19,11 +20,13 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
@@ -43,11 +46,6 @@ public class MiBand2Coordinator extends HuamiCoordinator {
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        if (candidate.supportsService(HuamiService.UUID_SERVICE_MIBAND2_SERVICE)) {
-            return DeviceType.MIBAND2;
-        }
-
-        // and a heuristic for now
         try {
             BluetoothDevice device = candidate.getDevice();
             String name = device.getName();
@@ -75,5 +73,20 @@ public class MiBand2Coordinator extends HuamiCoordinator {
     @Override
     public boolean supportsWeather() {
         return false;
+    }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_miband2,
+                R.xml.devicesettings_wearlocation,
+                R.xml.devicesettings_donotdisturb_withauto,
+                R.xml.devicesettings_liftwrist_display,
+                R.xml.devicesettings_rotatewrist_cycleinfo,
+                R.xml.devicesettings_buttonactions,
+                R.xml.devicesettings_reserve_alarms_calendar,
+                R.xml.devicesettings_expose_hr_thirdparty,
+                R.xml.devicesettings_pairingkey
+        };
     }
 }

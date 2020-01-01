@@ -1,4 +1,5 @@
-/*  Copyright (C) 2018 José Rebelo
+/*  Copyright (C) 2017-2019 Daniele Gobbetti, João Paulo Barraca, José
+    Rebelo, tiparega
 
     This file is part of Gadgetbridge.
 
@@ -17,11 +18,11 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.roidmi;
 
 import android.bluetooth.BluetoothDevice;
-import android.support.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
@@ -36,8 +37,7 @@ public class Roidmi3Coordinator extends RoidmiCoordinator {
             String name = device.getName();
 
             if (name != null && name.contains("Roidmi Music Blue C")) {
-                LOG.warn("Found a Roidmi 3, but support is disabled.");
-                return DeviceType.UNKNOWN; // TODO Roidmi 3 is not working atm
+                return DeviceType.ROIDMI3;
             }
         } catch (Exception ex) {
             LOG.error("unable to check device support", ex);

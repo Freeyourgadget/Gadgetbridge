@@ -1,5 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.40.1" versioncode="164">
+        <change>Mi Band/Amazfit: Recogize changes when toggling alarm on device (immediately when connected, else when connecting)</change>
+        <change>Mi Band/Amazfit: Fix some bugs with stuck connection when re-connecting</change>
+        <change>Mi Band 4: Support higher MTU for multiple times faster firmware transfer (probably also Amazfit GTR/GTS)</change>
+        <change>Amazfit Cor: Fix setting language to Chinese manually</change>
+    </release>
+    <release version="0.40.0" versioncode="163">
+        <change>Fossil Q Hybrid: Initial support</change>
+        <change>Bangle.js: Initial support</change>
+        <change>Reserve Alarm for Calendar feature restricted to Mi Band 1/2 and moved to per-device settings</change>
+        <change>New icon for App Manager</change>
+    </release>
+    <release version="0.39.1" versioncode="162">
+        <change>Try to actively re-connect when a connection gets interrupted (interval grows up to 64 seconds)</change>
+        <change>Mi Band2/Amazfip Bip: Make button action settings per-device and enable for Amazfit Bip</change>
+    </release>
+    <release version="0.39.0" versioncode="161">
+        <change>Amazfit GTS: Initial and incomplete support, mostly untested</change>
+        <change>Add forward/backward buttons to charts for faster navigation</change>
+        <change>Debug: allow to reset last fetch date for Huami devices</change>
+    </release>
+    <release version="0.38.0" versioncode="160">
+        <change>Amazfit GTR: Initial and incomplete support, mostly untested</change>
+        <change>Amazfit Bip: add Portuguese to the list of selectable languages</change>
+        <change>Mi Band 4: Enable emoji font setting</change>
+        <change>Makibes HR3: Support the english version</change>
+        <change>Makibes HR3: Enable bluetooth pairing for working reconnection</change>
+        <change>Work around crash when trying to display changelog</change>
+        <change>Sleep detection settings: Rolling 24 hours (existing style) or Noon to noon</change>
+        <change>Add alternative color to heartrate in chart settings</change>
+    </release>
+    <release version="0.37.1" versioncode="159">
+        <change>Amazfit Bip Lite: Support flashing firmware and watchfaces</change>
+    </release>
+    <release version="0.37.0" versioncode="158">
+        <change>Initial Makibes HR3 support</change>
+        <change>Amazfit Bip Lite: Initial working support, firmware update is disabled for now (we do not have any firmware for testing)</change>
+        <change>Amazfit Cor 2: Enable Emoji Font setting and 3rd party HR access</change>
+        <change>Find Phone now also vibration in addition to playing the ring tone</change>
+        <change>ID115: All settings are now per-device</change>
+        <change>Time format settings are now per-device for all supported devices</change>
+        <change>Wrist location settings are now per-device for all supported devices</change>
+        <change>Work around broken layout in database management activity</change>
+        <change>Show toast in case no app is installed which can handle GPX files</change>
+        <change>Mi Band 4/Amazfit Bip Lite: Trim white spaces and new lines from auth key</change>
+        <change>Mi Band 4/Amazfit Bip Lite: Display a toast and do not try to pair if there was no auth key supplied</change>
+        <change>Skip service scan if supported device could be recognized without uuids during discovery</change>
+    </release>
+    <release version="0.36.2" versioncode="157">
+        <change>Amazfit Bip: Untested support for Lite variant </change>
+        <change>Force Lineage OS to ask for permission when Trust is used to fix non-working incoming calls</change>
+        <change>Charts: List multiple sleep sessions per day</change>
+    </release>
+    <release version="0.36.1" versioncode="156">
+        <change>Mi Band 2/3/4, Amazfit Bip/Cor: Add setting to expose the HR sensor to 3rd party apps</change>
+        <change>Mi Band 4: Really fix weather location not being updated on the Band</change>
+        <change>Mi Band 4: Fix call notifcation not stopping when call gets answered or rejected on the phone</change>
+        <change>Amazfit Bip/Cor: Support for custom emoji font</change>
+        <change>ZeTime: Enable emoji support</change>
+        <change>ZeTime: Make watch language the same as the phone language by default</change>
+        <change>New status and alarms widget</change>
+        <change>Fix crash when entering notification filter settings</change>
+        <change>Make diagram settings accessible from charts activity</change>
+        <change>Add option to hide the floating plus button in the main activity</change>
+        <change>Fix a potential crash on Android 4.4 KitKat</change>
+    </release>
+    <release version="0.36.0" versioncode="155">
+        <change>Initial Mijia LYWSD02 support (Smart Clock with Humidity and Temperature Sensor), just for setting the time</change>
+        <change>Mi Band 3/4: Allow enabling the NFC menu where supported (useless for now)</change>
+        <change>Mi Band 3/4, Amazfit Cor/Bip: Set language immediately when changing it (not only on connect)</change>
+        <change>Mi Band 3/4, Amazfir Cor/Bip: Add icons for "swimming" and "exercise"</change>
+        <change>Mi Band 4: Support flashing the V2 font</change>
+        <change>Mi Band 4: Fix weather location not being updated on the Band</change>
+        <change>Mi Band 4: remove unsupported DND setting from settings menu</change>
+        <change>Amazfit Bip/Cor: Fix resetting of last fetched date for sports activities</change>
+        <change>Amazfit Bip: Fix sharing GPX files for some Apps</change>
+        <change>Pebble: Use Rebble Store URI</change>
+        <change>Support LineageOS 16.0 weather provider</change>
+        <change>Add Averages to Charts</change>
+        <change>Allow togging between weekly and monthly charts</change>
+    </release>
+    <release version="0.35.2" versioncode="154">
+        <change>Mi Band 1/2: Crash when updating firmware while phone is set to Spanish</change>
+        <change>Mi Band 4: Enable music info support (displays now on the band)</change>
+        <change>Mi Band 4: Support setting date format (for built-in watchfaces)</change>
+        <change>Amazfit Cor 2: Try to fix empty menu on device</change>
+    </release>
+    <release version="0.35.1" versioncode="153">
+        <change>Mi Band 4: Support flashing watchfaces, res and firmware (fonts untested)</change>
+    </release>
+    <release version="0.35.0" versioncode="152">
+        <change>Mi Band 4: Initial support (WARNING: INITIAL SETUP NEEDS MI FIT WITH ACCOUNT AND ROOT, NOT A RECOMMENDED DEVICE FOR GADGETBRIDGE)</change>
+    </release>
+    <release version="0.34.1" versioncode="151">
+        <change>Mi Band 1: Fix crash when entering per-device settings</change>
+        <change>Mi Band 3: Allow setting date format in per-device settings</change>
+        <change>ZeTime: Fix timestmaps</change>
+        <change>Fix a crash when flashing an non-whitelisted firmware while using Gadgetbridge in Spanish</change>
+    </release>
+    <release version="0.34.0" versioncode="150">
+        <change>Mi Band 1/2/3/Bip/Cor: Migrate many settings to per-device settings (new settings icon in device card in main activity)</change>
+        <change>Mi Band 3: Fix setting menu items with 2.4 firmware and add support for the new timer menu</change>
+        <change>Amazfit Bip/Cor, Casio: Add support for muting incoming calls</change>
+        <change>ZeTime: Remove endless recursion in ZeTime settings</change>
+        <change>Recognize FairEmail notifications as generic email notifications</change>
+    </release>
+    <release version="0.33.1" versioncode="149">
+        <change>Mi Band 3: Recognize "Xiaomi Band 3"</change>
+        <change>Amazfit Bip: Add German, Italian, French and Turkish to language settings</change>
+    </release>
+    <release version="0.33.0" versioncode="148">
+        <change> BFH-16: Initial support</change>
+        <change> Mi Band 2/3/Bip/Cor: Generate random per-device security keys when pairing, allow manual override to still support multiple android devices connecting to the same device</change>
+        <change> Mi Band 3: Add Indonesian, Thai, Arabic, Vietnamese, Portuguese, Dutch, Turkish and Ukrainian to language settings</change>
+        <change> Mi Band 3: Support flashing latest Japanese-Korean font</change>
+        <change> Amazfit Cor 2: Initial experimental support (untested)</change>
+        <change> Pebble: Add pebblekit extension for reopening last app</change>
+        <change> Casio: Bugfixes and improvements</change>
+        <change> Lookup contacts also in work profile</change>
+        <change> Fix searching in application name when blacklisting</change>
+        <change> Remove misleading title from database management activity when no legacy database is available</change>
+    </release>
+    <release version="0.32.4" versioncode="147">
+        <change>Make voip call support optional (disabled by default)</change>
+        <change>Amazfit Bip: GPX export corrections</change>
+        <change>ZeTime: Fix setting alarms</change>
+        <change>ZeTime: Fix wrong activity timestamps</change>
+        <change>ZeTime: Set HR alarm limits when changed, not only on connect</change>
+        <change>ZeTime: Sync preferences from the watch to Gadgetbridge settings</change>
+    </release>
+    <release version="0.32.3" versioncode="146">
+        <change>Fix a crash in charts due to a broken German translation</change>
+        <change>Fix a crash when transliterating emoji</change>
+        <change>Amazfit Bip/Cor: Support disconnect notification (must be configured in Bip settings for Cor also for now)</change>
+    </release>
+    <release version="0.32.2" versioncode="145">
+        <change>Fix setting alarms under some circumstances</change>
+        <change>Support calls notifications for some VoIP apps</change>
+        <change>Mi Band 3: Enable fetching sports activities (currently only useful for flushing activities)</change>
+        <change>Casio: Improve stability</change>
+        <change>Casio: Add explicit support for GB-6900B, GB-X6900B and GB-5600B</change>
+    </release>
+    <release version="0.32.1" versioncode="144">
+        <change>Fix db deadlock on alarm migration</change>
+    </release>
+    <release version="0.32.0" versioncode="143">
+        <change>Initial support for Casio GB-6900B</change>
+        <change>Increase number of alarms and store them per-device </change>
+        <change>Support factory reset in debug activity (Mi Band 1/2/3, Bip, Cor)</change>
+        <change>Filter out unicode control sequences (fixes problems with Telegram and probably others)</change>
+        <change>Fix endless loop resulting in OOM when RTL support is enabled</change>
+        <change>Recoginize p≡p as an email app</change>
+        <change>No longer display Android paired devices in that were not a paired with Gadgetbridge</change>
+        <change>Amazfit Bip: Allow flashing latest GPS firmware</change>
+        <change>Pebble: Native support for M7S watch face</change>
+        <change>No1 F1: Support for a Chinese clone</change>
+    </release>
+    <release version="0.31.3" versioncode="142">
+        <change>Pebble: Fix crash with DISMISS and OPEN actions</change>
+    </release>
+    <release version="0.31.2" versioncode="141">
+        <change>Pebble: Fix a regression that caused non-working mute, open and dismiss actions</change>
+        <change>Fix setting language to Czech manually</change>
+        <change>Ignore summary notification from K-9 Mail (caused notification spamming)</change>
+    </release>
+    <release version="0.31.1" versioncode="140">
+        <change>Pebble: Fix crash when no canned replies have been set</change>
+        <change>Pebble: Let the firmware show localized default canned replies if none have been set</change>
+        <change>Amazfit Bip: Fix importing GPS tracks that have been recorded with Firmware 1.1.5.02</change>
+        <change>Display measured hr value in debug screen</change>
+    </release>
+    <release version="0.31.0" versioncode="139">
+        <change>Pebble: Send all wearable notification actions (not only reply)</change>
+        <change>Pebble: Always allow reply action even if untested features are turned off</change>
+        <change>Pebble: Temporarily disable broken autoremove notification feature</change>
+        <change>Amazfit Bip: Allow flashing latest gps firmware (Mili_dth.gps)</change>
+        <change>Mi Band 3/Amazfit Bip/Amazfit Cor: Send Fahrenheit if units are set to imperial</change>
+        <change>Roidmi 3: Fix and enable support</change>
+        <change>Mi Band 3/Amazfit Bip: fix find phone crash</change>
+        <change>Prevent re-sending old notifications to the wearable</change>
+        <change>Enhancement and Fixes for Bengali Transliteration</change>
+        <change>Disable excessive logging in RTL support</change>
+    </release>
+    <release version="0.30.0" versioncode="138">
+        <change>Amazfit Bip + Mi Band 3: Support for right to left display (configurable) (#976)</change>
+        <change>Add Arabic, Bengali Farsi, Persian, Scandinavian transliteration</change>
+        <change>Add support for some Roidmi FM receivers</change>
+        <change>Mi Band 3: Allow enabling the "Workout" menu item</change>
+        <change>Mi Band 3: Support for night mode configuration</change>
+        <change>Huami devices: fix seldom activity/sports synchronization problem (#1264)</change>
+        <change>Preferences: Make minimum heart rate configurable (lower values will be disregarded)</change>
+        <change>Preferences: Configure minimum time between notifications</change>
+        <change>Preferences: Group language settings</change>
+        <change>Attempt to fix BLE connection issues on Samsung S devices</change>
+        <change>Week sleep and steps charts: display balance (actual value vs. desired value)</change>
+        <change>Live Activity: show current/maximum heart rate, display minute steps and total steps and more improvements</change>
+        <change>Live Activity: fix discrepancy between number of steps in Gadgetbridge and wearable device</change>
+        <change>Fix missing caller ID for incoming calls on Android 9</change>
+        <change>Support for easy sharing of log files via the Debug screen</change>
+        <change>Misc small bugfixes</change>
+    </release>
     <release version="0.29.1" versioncode="137">
         <change>Mi Band 3: Support setting language to to German, Italian, French, Polish, Japanese, Korean (read wiki)</change>
         <change>Mi Band 3: Support flashing latest RES files</change>

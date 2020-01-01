@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti
 
     This file is part of Gadgetbridge.
@@ -25,10 +25,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.FileProvider;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -39,6 +35,12 @@ import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.core.content.FileProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.IOException;
@@ -239,10 +241,10 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                 date.set(year, monthOfYear, dayOfMonth);
 
                 long timestamp = date.getTimeInMillis() - 1000;
-                SharedPreferences.Editor editor = GBApplication.getPrefs().getPreferences().edit();
-                editor.remove(mGBDevice.getAddress() + "_" + "lastSportsActivityTimeMillis"); //FIXME: key reconstruction is BAD
-                editor.putLong(mGBDevice.getAddress() + "_" + "lastSportsActivityTimeMillis", timestamp);
-                editor.commit();
+                SharedPreferences.Editor editor = GBApplication.getDeviceSpecificSharedPrefs(mGBDevice.getAddress()).edit();
+                editor.remove("lastSportsActivityTimeMillis"); //FIXME: key reconstruction is BAD
+                editor.putLong("lastSportsActivityTimeMillis", timestamp);
+                editor.apply();
             }
         }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
     }

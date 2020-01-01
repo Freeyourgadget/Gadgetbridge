@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Carsten Pfeiffer
+/*  Copyright (C) 2015-2019 Carsten Pfeiffer, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -17,8 +17,8 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.support.annotation.Nullable;
 
+import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;

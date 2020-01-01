@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer, Pavel Elagin
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer, Pavel
+    Elagin, vanous
 
     This file is part of Gadgetbridge.
 
@@ -17,13 +18,9 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IValueFormatter;
-import com.github.mikephil.charting.utils.ViewPortHandler;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +37,12 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     @Override
     public String getTitle() {
-        return getString(R.string.weeksleepchart_sleep_a_week);
+        if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
+            return getString(R.string.weeksleepchart_sleep_a_month);
+        }
+        else{
+            return getString(R.string.weeksleepchart_sleep_a_week);
+        }
     }
 
     @Override
@@ -74,7 +76,7 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     @Override
     protected String getBalanceMessage(long balance, int targetValue) {
         if (balance > 0) {
-            final long totalBalance = balance - (targetValue * TOTAL_DAYS);
+            final long totalBalance = balance - ((long)targetValue * TOTAL_DAYS);
             if (totalBalance > 0)
                 return getString(R.string.overslept, getHM(totalBalance));
             else
@@ -110,30 +112,30 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    IValueFormatter getPieValueFormatter() {
-        return new IValueFormatter() {
+    ValueFormatter getPieValueFormatter() {
+        return new ValueFormatter() {
             @Override
-            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            public String getFormattedValue(float value) {
                 return formatPieValue((long) value);
             }
         };
     }
 
     @Override
-    IValueFormatter getBarValueFormatter() {
-        return new IValueFormatter() {
+    ValueFormatter getBarValueFormatter() {
+        return new ValueFormatter() {
             @Override
-            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            public String getFormattedValue(float value) {
                 return DateTimeUtils.minutesToHHMM((int) value);
             }
         };
     }
 
     @Override
-    IAxisValueFormatter getYAxisFormatter() {
-        return new IAxisValueFormatter() {
+    ValueFormatter getYAxisFormatter() {
+        return new ValueFormatter() {
             @Override
-            public String getFormattedValue(float value, AxisBase axis) {
+            public String getFormattedValue(float value) {
                 return DateTimeUtils.minutesToHHMM((int) value);
             }
         };
@@ -167,4 +169,10 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     private String getHM(long value) {
         return DateTimeUtils.formatDurationHoursMinutes(value, TimeUnit.MINUTES);
     }
+
+    @Override
+    String getAverage(float value) {
+        return getHM((long)value);
+    }
+
 }

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Szymon Tomasz Stefanek
 
     This file is part of Gadgetbridge.
@@ -34,9 +34,9 @@ public class MiBandDateConverter {
      * @param value
      * @return
      */
-    public static GregorianCalendar rawBytesToCalendar(byte[] value) {
+    public static GregorianCalendar rawBytesToCalendar(byte[] value, String deviceAddress) {
         if (value.length == 6) {
-            return rawBytesToCalendar(value, 0);
+            return rawBytesToCalendar(value, 0, deviceAddress);
         }
         return createCalendar();
     }
@@ -47,7 +47,7 @@ public class MiBandDateConverter {
      * @param value
      * @return
      */
-    public static GregorianCalendar rawBytesToCalendar(byte[] value, int offset) {
+    public static GregorianCalendar rawBytesToCalendar(byte[] value, int offset, String deviceAddress) {
         if (value.length - offset >= 6) {
             GregorianCalendar timestamp = new GregorianCalendar(
                     value[offset] + 2000,
@@ -57,7 +57,7 @@ public class MiBandDateConverter {
                     value[offset + 4],
                     value[offset + 5]);
 
-	        int offsetInHours = MiBandCoordinator.getDeviceTimeOffsetHours();
+            int offsetInHours = MiBandCoordinator.getDeviceTimeOffsetHours(deviceAddress);
 	        if(offsetInHours != 0)
 		        timestamp.add(Calendar.HOUR_OF_DAY,-offsetInHours);
 
@@ -73,7 +73,7 @@ public class MiBandDateConverter {
      * @param timestamp
      * @return
      */
-    public static byte[] calendarToRawBytes(Calendar timestamp) {
+    public static byte[] calendarToRawBytes(Calendar timestamp, String deviceAddress) {
 
 	    // The mi-band device currently records sleep
 	    // only if it happens after 10pm and before 7am.
@@ -82,7 +82,7 @@ public class MiBandDateConverter {
 	    // If you usually sleep, say, from 6am to 2pm, set the
 	    // shift to -8, so at 6am the device thinks it's still 10pm
 	    // of the day before.
-	    int offsetInHours = MiBandCoordinator.getDeviceTimeOffsetHours();
+        int offsetInHours = MiBandCoordinator.getDeviceTimeOffsetHours(deviceAddress);
 	    if(offsetInHours != 0)
 			timestamp.add(Calendar.HOUR_OF_DAY,offsetInHours);
 

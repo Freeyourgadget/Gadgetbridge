@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -15,8 +16,6 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification;
-
-import android.icu.util.IslamicCalendar;
 
 /**
  * https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.characteristic.new_alert.xml&u=org.bluetooth.characteristic.new_alert.xml

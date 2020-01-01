@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Lukas Veneziano
 
     This file is part of Gadgetbridge.
@@ -40,22 +40,7 @@ public class BLETypeConversions {
      * @return
      * @see GattCharacteristic#UUID_CHARACTERISTIC_CURRENT_TIME
      */
-    public static byte[] calendarToRawBytes(Calendar timestamp, boolean honorDeviceTimeOffset) {
-
-        // The mi-band device currently records sleep
-        // only if it happens after 10pm and before 7am.
-        // The offset is used to trick the device to record sleep
-        // in non-standard hours.
-        // If you usually sleep, say, from 6am to 2pm, set the
-        // shift to -8, so at 6am the device thinks it's still 10pm
-        // of the day before.
-        if (honorDeviceTimeOffset) {
-            int offsetInHours = MiBandCoordinator.getDeviceTimeOffsetHours();
-            if (offsetInHours != 0) {
-                timestamp.add(Calendar.HOUR_OF_DAY, offsetInHours);
-            }
-        }
-
+    public static byte[] calendarToRawBytes(Calendar timestamp) {
         // MiBand2:
         // year,year,month,dayofmonth,hour,minute,second,dayofweek,0,0,tz
 
@@ -78,25 +63,9 @@ public class BLETypeConversions {
     /**
      * Similar to calendarToRawBytes, but only up to (and including) the MINUTES.
      * @param timestamp
-     * @param honorDeviceTimeOffset
      * @return
      */
-    public static byte[] shortCalendarToRawBytes(Calendar timestamp, boolean honorDeviceTimeOffset) {
-
-        // The mi-band device currently records sleep
-        // only if it happens after 10pm and before 7am.
-        // The offset is used to trick the device to record sleep
-        // in non-standard hours.
-        // If you usually sleep, say, from 6am to 2pm, set the
-        // shift to -8, so at 6am the device thinks it's still 10pm
-        // of the day before.
-        if (honorDeviceTimeOffset) {
-            int offsetInHours = MiBandCoordinator.getDeviceTimeOffsetHours();
-            if (offsetInHours != 0) {
-                timestamp.add(Calendar.HOUR_OF_DAY, offsetInHours);
-            }
-        }
-
+    public static byte[] shortCalendarToRawBytes(Calendar timestamp) {
         // MiBand2:
         // year,year,month,dayofmonth,hour,minute
 
@@ -136,7 +105,7 @@ public class BLETypeConversions {
      * @param value
      * @return
      */
-    public static GregorianCalendar rawBytesToCalendar(byte[] value, boolean honorDeviceTimeOffset) {
+    public static GregorianCalendar rawBytesToCalendar(byte[] value) {
         if (value.length >= 7) {
             int year = toUint16(value[0], value[1]);
             GregorianCalendar timestamp = new GregorianCalendar(
@@ -153,14 +122,6 @@ public class BLETypeConversions {
                 timeZone.setRawOffset(value[7] * 15 * 60 * 1000);
                 timestamp.setTimeZone(timeZone);
             }
-
-            if (honorDeviceTimeOffset) {
-                int offsetInHours = MiBandCoordinator.getDeviceTimeOffsetHours();
-                if (offsetInHours != 0) {
-                    timestamp.add(Calendar.HOUR_OF_DAY,-offsetInHours);
-                }
-            }
-
             return timestamp;
         }
 

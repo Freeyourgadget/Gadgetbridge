@@ -1,5 +1,6 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, boun, Carsten Pfeiffer,
-    Daniele Gobbetti, JohnnySun, jonnsoft, Lem Dulfo, Taavi Eomäe, Uwe Hermann
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, boun, Carsten Pfeiffer, Daniel
+    Dakhno, Daniele Gobbetti, JohnnySun, jonnsoft, Lem Dulfo, Taavi Eomäe,
+    Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -35,6 +36,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,13 +44,15 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.ParcelUuid;
 import android.os.Parcelable;
-import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +63,7 @@ import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.adapter.DeviceCandidateAdapter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -69,11 +74,14 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 
-public class DiscoveryActivity extends AbstractGBActivity implements AdapterView.OnItemClickListener {
+public class DiscoveryActivity extends AbstractGBActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
     private static final Logger LOG = LoggerFactory.getLogger(DiscoveryActivity.class);
     private static final long SCAN_DURATION = 60000; // 60s
 
     private ScanCallback newLeScanCallback = null;
+
+    // Disabled for testing, it seems worse for a few people
+    private boolean disableNewBLEScanning = false;
 
     private final Handler handler = new Handler();
 
@@ -93,7 +101,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
                             // continue with LE scan, if available
                             if (isScanning == Scanning.SCANNING_BT) {
                                 checkAndRequestLocationPermission();
-                                if (GBApplication.isRunningLollipopOrLater()) {
+                                if (GBApplication.isRunningLollipopOrLater() && !disableNewBLEScanning) {
                                     startDiscovery(Scanning.SCANNING_NEW_BTLE);
                                 } else {
                                     startDiscovery(Scanning.SCANNING_BTLE);
@@ -189,8 +197,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     private final BluetoothAdapter.LeScanCallback leScanCallback = new BluetoothAdapter.LeScanCallback() {
         @Override
         public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
-            LOG.warn(device.getName() + ": " + ((scanRecord != null) ? scanRecord.length : -1));
-            logMessageContent(scanRecord);
+            //logMessageContent(scanRecord);
             handleDeviceFound(device, (short) rssi);
         }
     };
@@ -261,6 +268,11 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        disableNewBLEScanning = GBApplication.getPrefs().getBoolean("disable_new_ble_scanning", false);
+        if (disableNewBLEScanning) {
+            LOG.info("new BLE scanning disabled via settings, using old method");
+        }
+
         setContentView(R.layout.activity_discovery);
         startButton = findViewById(R.id.discovery_start);
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -279,6 +291,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         cadidateListAdapter = new DeviceCandidateAdapter(this, deviceCandidates);
         deviceCandidatesView.setAdapter(cadidateListAdapter);
         deviceCandidatesView.setOnItemClickListener(this);
+        deviceCandidatesView.setOnItemLongClickListener(this);
 
         IntentFilter bluetoothIntents = new IntentFilter();
         bluetoothIntents.addAction(BluetoothDevice.ACTION_FOUND);
@@ -294,7 +307,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList("deviceCandidates", deviceCandidates);
     }
@@ -331,6 +344,12 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     }
 
     private void handleDeviceFound(BluetoothDevice device, short rssi) {
+        if (device.getName() != null) {
+            if (handleDeviceFound(device,rssi, null)) {
+                LOG.info("found supported device " + device.getName() + " without scanning services, skipping service scan.");
+                return;
+            }
+        }
         ParcelUuid[] uuids = device.getUuids();
         if (uuids == null) {
             if (device.fetchUuidsWithSdp()) {
@@ -342,7 +361,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     }
 
 
-    private void handleDeviceFound(BluetoothDevice device, short rssi, ParcelUuid[] uuids) {
+    private boolean handleDeviceFound(BluetoothDevice device, short rssi, ParcelUuid[] uuids) {
         LOG.debug("found device: " + device.getName() + ", " + device.getAddress());
         if (LOG.isDebugEnabled()) {
             if (uuids != null && uuids.length > 0) {
@@ -352,7 +371,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             }
         }
         if (device.getBondState() == BluetoothDevice.BOND_BONDED) {
-            return; // ignore already bonded devices
+            return true; // ignore already bonded devices
         }
 
         GBDeviceCandidate candidate = new GBDeviceCandidate(device, rssi, uuids);
@@ -367,7 +386,9 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
                 deviceCandidates.add(candidate);
             }
             cadidateListAdapter.notifyDataSetChanged();
+            return true;
         }
+        return false;
     }
 
     /**
@@ -578,6 +599,27 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     }
 
     @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+        GBDeviceCandidate deviceCandidate = deviceCandidates.get(position);
+        if (deviceCandidate == null) {
+            LOG.error("Device candidate clicked, but item not found");
+            return true;
+        }
+
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(deviceCandidate);
+        GBDevice device = DeviceHelper.getInstance().toSupportedDevice(deviceCandidate);
+        if (coordinator.getSupportedDeviceSpecificSettings(device) == null) {
+            return true;
+        }
+
+        Intent startIntent;
+        startIntent = new Intent(this, DeviceSettingsActivity.class);
+        startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+        startActivity(startIntent);
+        return true;
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         GBDeviceCandidate deviceCandidate = deviceCandidates.get(position);
         if (deviceCandidate == null) {
@@ -588,6 +630,17 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         stopDiscovery();
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(deviceCandidate);
         LOG.info("Using device candidate " + deviceCandidate + " with coordinator: " + coordinator.getClass());
+
+        if (coordinator.getBondingStyle() == DeviceCoordinator.BONDING_STYLE_REQUIRE_KEY) {
+            SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(deviceCandidate.getMacAddress());
+
+            String authKey = sharedPrefs.getString("authkey", null);
+            if (authKey == null || authKey.isEmpty() || authKey.getBytes().length < 34 || !authKey.substring(0, 2).equals("0x")) {
+                GB.toast(DiscoveryActivity.this, getString(R.string.discovery_need_to_enter_authkey), Toast.LENGTH_LONG, GB.WARN);
+                return;
+            }
+        }
+
         Class<? extends Activity> pairingActivity = coordinator.getPairingActivity();
         if (pairingActivity != null) {
             Intent intent = new Intent(this, pairingActivity);
@@ -595,7 +648,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             startActivity(intent);
         } else {
             GBDevice device = DeviceHelper.getInstance().toSupportedDevice(deviceCandidate);
-            int bondingStyle = coordinator.getBondingStyle(device);
+            int bondingStyle = coordinator.getBondingStyle();
             if (bondingStyle == DeviceCoordinator.BONDING_STYLE_NONE) {
                 LOG.info("No bonding needed, according to coordinator, so connecting right away");
                 connectAndFinish(device);
@@ -628,7 +681,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         super.onPause();
         stopBTDiscovery();
         stopBTLEDiscovery();
-        if (GBApplication.isRunningLollipopOrLater()) {
+        if (GBApplication.isRunningLollipopOrLater() && !disableNewBLEScanning) {
             stopNewBTLEDiscovery();
         }
     }

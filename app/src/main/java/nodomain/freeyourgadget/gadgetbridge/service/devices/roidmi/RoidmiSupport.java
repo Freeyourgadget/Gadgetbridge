@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018 José Rebelo
+/*  Copyright (C) 2018-2019 José Rebelo, Sebastian Kranz
 
     This file is part of Gadgetbridge.
 
@@ -122,6 +122,11 @@ public class RoidmiSupport extends AbstractSerialDeviceSupport {
                 LOG.error("Invalid Roidmi configuration " + config);
                 break;
         }
+    }
+
+    @Override
+    public void onReadConfiguration(String config) {
+
     }
 
     @Override

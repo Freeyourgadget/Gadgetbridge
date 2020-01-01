@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Carsten Pfeiffer
+/*  Copyright (C) 2016-2019 Carsten Pfeiffer, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -16,11 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 
-import android.support.annotation.NonNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 

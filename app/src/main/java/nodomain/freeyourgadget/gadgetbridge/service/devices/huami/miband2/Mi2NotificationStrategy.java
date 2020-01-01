@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Martin Piatka
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Martin Piatka
 
     This file is part of Gadgetbridge.
 
@@ -17,8 +18,8 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2;
 
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.support.annotation.Nullable;
 
+import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;

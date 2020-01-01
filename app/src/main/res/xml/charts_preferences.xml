@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_charts"
+        android:title="@string/activity_prefs_charts">
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="chart_max_heart_rate"
+            android:maxLength="3"
+            android:defaultValue="250"
+            android:title="@string/activity_prefs_chart_max_heart_rate" />
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="chart_min_heart_rate"
+            android:maxLength="3"
+            android:defaultValue="10"
+            android:title="@string/activity_prefs_chart_min_heart_rate" />
+
+        <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
+            android:defaultValue="false"
+            android:key="chart_heartrate_color"
+            android:summaryOff="@string/pref_chart_heartrate_color_orange"
+            android:summaryOn="@string/pref_chart_heartrate_color_red"
+            android:title="@string/pref_title_chart_heartrate_color" />
+
+        <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
+            android:defaultValue="true"
+            android:key="charts_allow_swipe"
+            android:title="@string/pref_title_charts_swipe" />
+
+        <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
+            android:defaultValue="false"
+            android:key="chart_sleep_range_24h"
+            android:summaryOff="@string/pref_chart_sleep_rolling_24_off"
+            android:summaryOn="@string/pref_chart_sleep_rolling_24_on"
+            android:title="@string/pref_title_chart_sleep_rolling_24_hour" />
+
+        <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
+            android:defaultValue="true"
+            android:key="charts_show_average"
+            android:title="@string/pref_title_charts_average" />
+
+        <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
+            android:defaultValue="false"
+            android:key="charts_range"
+            android:summaryOff="@string/pref_charts_range_off"
+            android:summaryOn="@string/pref_charts_range_on"
+            android:title="@string/pref_title_charts_range" />
+
+
+    </PreferenceCategory>
+</PreferenceScreen>

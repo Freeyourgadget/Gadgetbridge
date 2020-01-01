@@ -3,8 +3,8 @@ package nodomain.freeyourgadget.gadgetbridge.devices.jyou.y5;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
@@ -57,7 +57,7 @@ public class Y5Coordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsActivityDataFetching() {
-        return false;
+        return true;
     }
 
     @Override
@@ -81,13 +81,13 @@ public class Y5Coordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAlarmConfiguration() {
-        return true;
+    public int getAlarmSlotCount() {
+        return 3;
     }
 
     @Override
     public boolean supportsSmartWakeup(GBDevice device) {
-        return false;
+        return true;
     }
 
     @Override
@@ -127,6 +127,6 @@ public class Y5Coordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsFindDevice() {
-        return false;
+        return true;
     }
 }

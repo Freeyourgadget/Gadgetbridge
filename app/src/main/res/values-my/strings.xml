@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gadgetbridge</string>
+    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="action_settings">ခ်ိန္ညွိရန္</string>
+    <string name="action_debug">ျပစ္ခ်က္</string>
+    <string name="action_quit">ထြက္မည္</string>
+    <string name="action_donate">လွဴဒါန္းရန္</string>
+    <string name="controlcenter_fetch_activity_data">အခ်ိန္ကိုက္လႈပ္ရွားမည္</string>
+    <string name="controlcenter_find_device">ေပ်ာက္ေနေသာအရာကိုရွာမည္</string>
+    <string name="controlcenter_take_screenshot">စကရင္ကိုဓာတ္ပံုရိုက္မည္</string>
+    <string name="controlcenter_change_led_color">အေရာင္ေျပာင္းမည္</string>
+    <string name="controlcenter_change_fm_frequency">ေရဒီယိုလႈိင္းေျပာင္းလဲမည္</string>
+    <string name="controlcenter_connect">ခ်ိတ္ဆက္မိပါျပီ…</string>
+    <string name="controlcenter_disconnect">အဆက္အသြယ္ျပက္သြားသည္</string>
+    <string name="controlcenter_delete_device">ဤအရာကိုဖ်က္မည္</string>
+    <string name="controlcenter_delete_device_name">%1$s ကိုဖ်က္မည္</string>
+    <string name="controlcenter_delete_device_dialogmessage">ထိုအရာသည္ခ်ိတ္ဆက္ထားေသာအရာႏွင့္ေဒတာအားလံုးကိုဖ်က္ပစ္ပါမည္</string>
+    <string name="controlcenter_snackbar_need_longpress">ခ်ိတ္ဆက္မႈျဖတ္ေတာက္ရန္ ဤကဒ္ကိုဖိထားပါ</string>
+    <string name="controlcenter_snackbar_disconnecting">ခ်ိတ္ဆက္မႈျဖတ္ေတာက္ေနသည္</string>
+    <string name="controlcenter_snackbar_connecting">ခ်ိတ္ဆက္ေနပါသည္…</string>
+    <string name="title_activity_debug">ျပစ္ခ်က္</string>
+    <string name="debugactivity_really_factoryreset_title">အရာအားလံုးကိုမူလအတိုင္းျပန္ထားမည္မွသခ်ာပါသလား\?</string>
+    <string name="title_activity_appmanager">အက္ပလီေကးရွင္းကိုစီမံခန္႔ခြဲမည္</string>
+    <string name="appmanager_installed_watchapps">သြင္းထားေသာ အက္ပလီေကးရွင္းမ်ား</string>
+    <string name="appmanager_installed_watchfaces">သြင္းထားေသာ နာရီပံုစံမ်ား</string>
+    <string name="appmananger_app_delete">ဖ်က္မည္</string>
+    <string name="appmananger_app_delete_cache">ေဒတာမ်ားႏွင့္အတူဖ်က္မည္</string>
+    <string name="appmananger_app_reinstall">အက္ပလီေကးရွင္းျပန္လည္သြင္းရန္</string>
+    <string name="appmanager_app_openinstore">Pebble စတိုးတြင္ရွာမည္</string>
+    <string name="appmanager_health_activate">စတင္မည္</string>
+    <string name="appmanager_health_deactivate">ပိတ္မည္</string>
+    <string name="appmanager_hrm_activate">HRM စတင္မည္</string>
+    <string name="appmanager_hrm_deactivate">HRM ပိတ္မည္</string>
+    <string name="appmanager_weather_activate"/>
+    <string name="mode_configuration">အခ်က္အလက္ကြဲမ်ား</string>
+    <string name="save_configuration">အခ်က္အလက္မ်ားကိုသိမ္းဆည္းမည္</string>
+    <string name="appwidget_not_connected">မခ်ိတ္ဆက္ထားျခင္းမရွိပါ , သတိေပးခ်က္မထားရေသးပါ</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+</resources>

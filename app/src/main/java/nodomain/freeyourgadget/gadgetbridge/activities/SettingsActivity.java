@@ -1,6 +1,6 @@
-/*  Copyright (C) 2015-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti, Felix Konstantin Maurer, José Rebelo, Martin, Normano64,
-    Pavel Elagin
+/*  Copyright (C) 2015-2019 0nse, Andreas Shimokawa, Carsten Pfeiffer,
+    Daniel Dakhno, Daniele Gobbetti, Felix Konstantin Maurer, José Rebelo,
+    Martin, Normano64, Pavel Elagin, Sebastian Kranz, vanous
 
     This file is part of Gadgetbridge.
 
@@ -36,9 +36,10 @@ import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,8 +54,10 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.ConfigActivity;
+import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimePreferenceActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsPreferencesActivity;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -62,15 +65,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DATEFORMAT;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DISPLAY_ITEMS;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ENABLE_TEXT_NOTIFICATIONS;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI3_BAND_SCREEN_UNLOCK;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI3_NIGHT_MODE;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI3_NIGHT_MODE_END;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI3_NIGHT_MODE_OFF;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI3_NIGHT_MODE_SCHEDULED;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI3_NIGHT_MODE_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_HEIGHT_CM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_SLEEP_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_STEPS_GOAL;
@@ -104,10 +98,38 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 return true;
             }
         });
+
+        pref = findPreference("pref_charts");
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                Intent enableIntent = new Intent(SettingsActivity.this, ChartsPreferencesActivity.class);
+                startActivity(enableIntent);
+                return true;
+            }
+        });
+
         pref = findPreference("pref_key_miband");
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
                 Intent enableIntent = new Intent(SettingsActivity.this, MiBandPreferencesActivity.class);
+                startActivity(enableIntent);
+                return true;
+            }
+        });
+
+        pref = findPreference("pref_key_qhybrid");
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(SettingsActivity.this, ConfigActivity.class));
+                return true;
+            }
+        });
+
+        pref = findPreference("pref_key_zetime");
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                Intent enableIntent = new Intent(SettingsActivity.this, ZeTimePreferenceActivity.class);
                 startActivity(enableIntent);
                 return true;
             }
@@ -284,16 +306,16 @@ public class SettingsActivity extends AbstractSettingsActivity {
 
         pref = findPreference("weather_city");
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-           @Override
-           public boolean onPreferenceChange(Preference preference, Object newVal) {
-               // reset city id and force a new lookup
-               GBApplication.getPrefs().getPreferences().edit().putString("weather_cityid", null).apply();
-               preference.setSummary(newVal.toString());
-               Intent intent = new Intent("GB_UPDATE_WEATHER");
-               intent.setPackage(BuildConfig.APPLICATION_ID);
-               sendBroadcast(intent);
-               return true;
-           }
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                // reset city id and force a new lookup
+                GBApplication.getPrefs().getPreferences().edit().putString("weather_cityid", null).apply();
+                preference.setSummary(newVal.toString());
+                Intent intent = new Intent("GB_UPDATE_WEATHER");
+                intent.setPackage(BuildConfig.APPLICATION_ID);
+                sendBroadcast(intent);
+                return true;
+            }
         });
 
         pref = findPreference(GBPrefs.AUTO_EXPORT_LOCATION);
@@ -355,146 +377,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 getApplicationContext().getString(R.string.pref_auto_fetch_limit_fetches_summary),
                 autoFetchInterval);
         pref.setSummary(summary);
-
-
-
-        final Preference displayPages = findPreference("bip_display_items");
-        displayPages.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DISPLAY_ITEMS);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference setDateFormat = findPreference(PREF_MI2_DATEFORMAT);
-        setDateFormat.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DATEFORMAT);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference miBand2DisplayItems = findPreference(PREF_MI2_DISPLAY_ITEMS);
-        miBand2DisplayItems.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DISPLAY_ITEMS);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference miBand3ScreenUnlock = findPreference(PREF_MI3_BAND_SCREEN_UNLOCK);
-        miBand3ScreenUnlock.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI3_BAND_SCREEN_UNLOCK);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference miBand3DisplayItems = findPreference("miband3_display_items");
-        miBand3DisplayItems.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DISPLAY_ITEMS);
-                    }
-                });
-                return true;
-            }
-        });
-
-        String nightModeState = prefs.getString(MiBandConst.PREF_MI3_NIGHT_MODE, PREF_MI3_NIGHT_MODE_OFF);
-        boolean nightModeScheduled = nightModeState.equals(PREF_MI3_NIGHT_MODE_SCHEDULED);
-
-        final Preference nightModeStart = findPreference(PREF_MI3_NIGHT_MODE_START);
-        nightModeStart.setEnabled(nightModeScheduled);
-        nightModeStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI3_NIGHT_MODE_START);
-                    }
-                });
-                return true;
-            }
-        });
-
-
-        final Preference nightModeEnd = findPreference(PREF_MI3_NIGHT_MODE_END);
-        nightModeEnd.setEnabled(nightModeScheduled);
-        nightModeEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI3_NIGHT_MODE_END);
-                    }
-                });
-                return true;
-            }
-        });
-
-
-        final Preference nightMode = findPreference(PREF_MI3_NIGHT_MODE);
-        nightMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                final boolean scheduled = PREF_MI3_NIGHT_MODE_SCHEDULED.equals(newVal.toString());
-
-                nightModeStart.setEnabled(scheduled);
-                nightModeEnd.setEnabled(scheduled);
-
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI3_NIGHT_MODE);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference corDisplayItems = findPreference("cor_display_items");
-        corDisplayItems.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DISPLAY_ITEMS);
-                    }
-                });
-                return true;
-            }
-        });
 
         // Get all receivers of Media Buttons
         Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
@@ -563,8 +445,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 if (cursor != null && cursor.moveToFirst()) {
                     return cursor.getString(cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DISPLAY_NAME));
                 }
-            }
-            catch (Exception fdfsdfds) {
+            } catch (Exception fdfsdfds) {
                 LOG.warn("fuck");
             }
         }
@@ -624,7 +505,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 PREF_USER_WEIGHT_KG,
                 PREF_USER_SLEEP_DURATION,
                 PREF_USER_STEPS_GOAL,
-                PREF_MI2_ENABLE_TEXT_NOTIFICATIONS,
                 "weather_city",
         };
     }

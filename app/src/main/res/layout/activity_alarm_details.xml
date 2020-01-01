@@ -23,7 +23,7 @@
             android:paddingTop="@dimen/activity_vertical_margin"
             android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatCheckedTextView
+        <androidx.appcompat.widget.AppCompatCheckedTextView
             android:id="@+id/alarm_cb_smart_wakeup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             android:baselineAligned="false"
             android:orientation="horizontal">
 
-            <android.support.v7.widget.AppCompatCheckedTextView
+            <androidx.appcompat.widget.AppCompatCheckedTextView
                 android:id="@+id/alarm_cb_monday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                 android:text="@string/alarm_mon_short"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <android.support.v7.widget.AppCompatCheckedTextView
+            <androidx.appcompat.widget.AppCompatCheckedTextView
                 android:id="@+id/alarm_cb_tuesday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                 android:text="@string/alarm_tue_short"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <android.support.v7.widget.AppCompatCheckedTextView
+            <androidx.appcompat.widget.AppCompatCheckedTextView
                 android:id="@+id/alarm_cb_wednesday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
                 android:text="@string/alarm_wed_short"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <android.support.v7.widget.AppCompatCheckedTextView
+            <androidx.appcompat.widget.AppCompatCheckedTextView
                 android:id="@+id/alarm_cb_thursday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
                 android:text="@string/alarm_thu_short"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <android.support.v7.widget.AppCompatCheckedTextView
+            <androidx.appcompat.widget.AppCompatCheckedTextView
                 android:id="@+id/alarm_cb_friday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
                 android:text="@string/alarm_fri_short"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <android.support.v7.widget.AppCompatCheckedTextView
+            <androidx.appcompat.widget.AppCompatCheckedTextView
                 android:id="@+id/alarm_cb_saturday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
                 android:text="@string/alarm_sat_short"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <android.support.v7.widget.AppCompatCheckedTextView
+            <androidx.appcompat.widget.AppCompatCheckedTextView
                 android:id="@+id/alarm_cb_sunday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

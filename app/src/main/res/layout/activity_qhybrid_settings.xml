@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/qhybridMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:id="@+id/settingsLayout"
+        android:focusableInTouchMode="true" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/vibrationStrengthLayout"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/qhybrid_vibration_strength" />
+
+
+            <SeekBar
+                android:id="@+id/vibrationStrengthBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="2"
+                android:min="0" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/qhybrid_goal_in_steps" />
+
+        <EditText
+            android:id="@+id/stepGoalEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="@string/qhybrid_time_shift" />
+
+            <TextView
+                android:id="@+id/qhybridTimeOffset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="@string/qhybrid_second_timezone_offset_relative_to_utc" />
+
+            <TextView
+                android:id="@+id/timezoneOffset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/buttonOverwriteButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/qhybrid_overwrite_buttons" />
+
+
+        <CheckBox
+            android:id="@+id/checkBoxUserActivityHand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/qhybrid_use_activity_hand_as_notification_counter" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonConfigLayout"
+            android:orientation="vertical"/>
+
+    </LinearLayout>
+
+    <!-- <ProgressBar
+        android:id="@+id/vibrationSettingProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/settingsLayout"
+        android:layout_alignTop="@id/settingsLayout"
+        android:layout_centerHorizontal="true"
+        android:gravity="center" /> -->
+
+    <TextView
+        android:id="@+id/settingsErrorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/settingsLayout"
+        android:layout_alignBottom="@id/settingsLayout"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:gravity="center" />
+    <ListView
+        android:id="@+id/qhybrid_appList"
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_below="@id/settingsLayout"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

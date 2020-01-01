@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Sebastian
+    Kranz
 
     This file is part of Gadgetbridge.
 
@@ -197,7 +198,7 @@ public class VibratissimoSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
 
     }
 
@@ -281,6 +282,11 @@ public class VibratissimoSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendConfiguration(String config) {
+
+    }
+
+    @Override
+    public void onReadConfiguration(String config) {
 
     }
 

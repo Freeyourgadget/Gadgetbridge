@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -16,13 +17,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import de.greenrobot.dao.query.QueryBuilder;

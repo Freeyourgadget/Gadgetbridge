@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -17,9 +17,10 @@
 package nodomain.freeyourgadget.gadgetbridge.deviceevents;
 
 public class GBDeviceEventNotificationControl extends GBDeviceEvent {
-    public int handle;
+    public long handle;
     public String phoneNumber;
     public String reply;
+    public String title;
     public Event event = Event.UNKNOWN;
 
     public enum Event {

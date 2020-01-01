@@ -1,6 +1,6 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, atkyritsis, Carsten Pfeiffer,
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, atkyritsis, Carsten Pfeiffer,
     Christian Fischer, Daniele Gobbetti, freezed-or-frozen, JohnnySun, Julien
-    Pivotto, Kasha, Sergey Trofimov, Steffen Liebergeld
+    Pivotto, Kasha, Sebastian Kranz, Sergey Trofimov, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 
@@ -22,9 +22,10 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +41,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
@@ -56,7 +58,6 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -86,6 +87,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotificat
 import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.UpdateFirmwareOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
+import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
@@ -270,6 +273,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     static final byte[] reboot = new byte[]{MiBandService.COMMAND_REBOOT};
+    static final byte[] factoryReset = new byte[]{MiBandService.COMMAND_FACTORYRESET};
 
     static final byte[] startHeartMeasurementManual = new byte[]{0x15, MiBandService.COMMAND_SET_HR_MANUAL, 1};
     static final byte[] stopHeartMeasurementManual = new byte[]{0x15, MiBandService.COMMAND_SET_HR_MANUAL, 0};
@@ -558,7 +562,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("Set alarm");
             boolean anyAlarmEnabled = false;
             for (Alarm alarm : alarms) {
-                anyAlarmEnabled |= alarm.isEnabled();
+                anyAlarmEnabled |= alarm.getEnabled();
                 queueAlarm(alarm, builder, characteristic);
             }
             builder.queue(getQueue());
@@ -623,7 +627,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         Calendar now = GregorianCalendar.getInstance();
         Date date = now.getTime();
         LOG.info("Sending current time to Mi Band: " + DateTimeUtils.formatDate(date) + " (" + date.toGMTString() + ")");
-        byte[] nowBytes = MiBandDateConverter.calendarToRawBytes(now);
+        byte[] nowBytes = MiBandDateConverter.calendarToRawBytes(now, gbDevice.getAddress());
         byte[] time = new byte[]{
                 nowBytes[0],
                 nowBytes[1],
@@ -689,13 +693,17 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
         try {
-            TransactionBuilder builder = performInitialized("Reboot");
-            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), reboot);
+            TransactionBuilder builder = performInitialized("reset");
+            if ((flags & GBDeviceProtocol.RESET_FLAGS_FACTORY_RESET) != 0) {
+                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), factoryReset);
+            } else {
+                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), reboot);
+            }
             builder.queue(getQueue());
         } catch (IOException ex) {
-            LOG.error("Unable to reboot MI", ex);
+            LOG.error("Unable to reset", ex);
         }
     }
 
@@ -937,7 +945,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     public void logDate(byte[] value, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
-            GregorianCalendar calendar = MiBandDateConverter.rawBytesToCalendar(value);
+            GregorianCalendar calendar = MiBandDateConverter.rawBytesToCalendar(value, gbDevice.getAddress());
             LOG.info("Got Mi Band Date: " + DateTimeUtils.formatDateTime(calendar.getTime()));
         } else {
             logMessageContent(value);
@@ -1128,20 +1136,20 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * @param characteristic
      */
     private void queueAlarm(Alarm alarm, TransactionBuilder builder, BluetoothGattCharacteristic characteristic) {
-        byte[] alarmCalBytes = MiBandDateConverter.calendarToRawBytes(alarm.getAlarmCal());
+        byte[] alarmCalBytes = MiBandDateConverter.calendarToRawBytes(AlarmUtils.toCalendar(alarm), gbDevice.getAddress());
 
         byte[] alarmMessage = new byte[]{
                 MiBandService.COMMAND_SET_TIMER,
-                (byte) alarm.getIndex(),
-                (byte) (alarm.isEnabled() ? 1 : 0),
+                (byte) alarm.getPosition(),
+                (byte) (alarm.getEnabled() ? 1 : 0),
                 alarmCalBytes[0],
                 alarmCalBytes[1],
                 alarmCalBytes[2],
                 alarmCalBytes[3],
                 alarmCalBytes[4],
                 alarmCalBytes[5],
-                (byte) (alarm.isSmartWakeup() ? 30 : 0),
-                (byte) alarm.getRepetitionMask()
+                (byte) (alarm.getSmartWakeup() ? 30 : 0),
+                (byte) alarm.getRepetition()
         };
         builder.write(characteristic, alarmMessage);
     }
@@ -1166,7 +1174,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             BatteryInfo info = new BatteryInfo(value);
             batteryCmd.level = ((short) info.getLevelInPercent());
             batteryCmd.state = info.getState();
-            batteryCmd.lastChargeTime = info.getLastChargeTime();
+            batteryCmd.lastChargeTime = info.getLastChargeTime(gbDevice.getAddress());
             batteryCmd.numCharges = info.getNumCharges();
             handleGBDeviceEvent(batteryCmd);
         }
@@ -1218,22 +1226,24 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("Send upcoming events");
             BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
 
-            Prefs prefs = GBApplication.getPrefs();
-            int availableSlots = prefs.getInt(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, 0);
-
+            Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+            int availableSlots = prefs.getInt(DeviceSettingsPreferenceConst.PREF_RESERVER_ALARMS_CALENDAR, 0);
+            if (availableSlots >3) {
+                availableSlots = 3;
+            }
             if (availableSlots > 0) {
                 CalendarEvents upcomingEvents = new CalendarEvents();
                 List<CalendarEvents.CalendarEvent> mEvents = upcomingEvents.getCalendarEventList(getContext());
 
                 int iteration = 0;
                 for (CalendarEvents.CalendarEvent mEvt : mEvents) {
-                    if (iteration >= availableSlots || iteration > 2) {
+                    if (iteration >= availableSlots) {
                         break;
                     }
                     int slotToUse = 2 - iteration;
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(mEvt.getBegin());
-                    Alarm alarm = GBAlarm.createSingleShot(slotToUse, false, calendar);
+                    Alarm alarm = AlarmUtils.createSingleShot(slotToUse, false, calendar);
                     queueAlarm(alarm, builder, characteristic);
                     iteration++;
                 }
@@ -1247,6 +1257,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSendConfiguration(String config) {
         // nothing yet
+    }
+
+    @Override
+    public void onReadConfiguration(String config) {
+
     }
 
     @Override

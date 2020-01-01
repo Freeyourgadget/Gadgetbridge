@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Felix Konstantin Maurer, Taavi Eomäe, Uwe Hermann, Yar
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniel Dakhno,
+    Daniele Gobbetti, Felix Konstantin Maurer, Taavi Eomäe, Uwe Hermann, Yar
 
     This file is part of Gadgetbridge.
 
@@ -28,9 +28,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -41,6 +38,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
@@ -96,7 +98,7 @@ public class GB {
         builder.setContentTitle(deviceName)
                 .setTicker(deviceName + " - " + text)
                 .setContentText(text)
-                .setSmallIcon(connected ? R.drawable.ic_notification : R.drawable.ic_notification_disconnected)
+                .setSmallIcon(connected ? device.getNotificationIconConnected() : device.getNotificationIconDisconnected())
                 .setContentIntent(getContentIntent(context))
                 .setColor(context.getResources().getColor(R.color.accent))
                 .setOngoing(true);
@@ -192,6 +194,16 @@ public class GB {
             hexChars[i * 2 + 1] = hexArray[v & 0x0F];
         }
         return new String(hexChars);
+    }
+
+    public static byte[] hexStringToByteArray(String s) {
+        int len = s.length();
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i+1), 16));
+        }
+        return data;
     }
 
     public static String formatRssi(short rssi) {
@@ -481,5 +493,10 @@ public class GB {
         if (!condition) {
             throw new AssertionError(errorMessage);
         }
+    }
+
+    public static void signalActivityDataFinish() {
+        Intent intent = new Intent(GBApplication.ACTION_NEW_DATA);
+        LocalBroadcastManager.getInstance(GBApplication.getContext()).sendBroadcast(intent);
     }
 }

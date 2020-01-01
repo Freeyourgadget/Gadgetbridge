@@ -1,6 +1,8 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, João Paulo Barraca, José Rebelo, Kranz, ladbsoft, maxirnilian,
-    protomors, Quallenauge, Sami Alaoui, tiparega, Vadim Kaushan
+/*  Copyright (C) 2015-2019 Andreas Böhler, Andreas Shimokawa, Carsten
+    Pfeiffer, Cre3per, Daniel Dakhno, Daniele Gobbetti, Gordon Williams,
+    Jean-François Greffier, João Paulo Barraca, José Rebelo, Kranz, ladbsoft,
+    Manuel Ruß, maxirnilian, protomors, Quallenauge, Sami Alaoui, Sebastian
+    Kranz, Sophanimus, tiparega, Vadim Kaushan
 
     This file is part of Gadgetbridge.
 
@@ -18,9 +20,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-import android.support.annotation.DrawableRes;
-import android.support.annotation.StringRes;
-
+import androidx.annotation.DrawableRes;
+import androidx.annotation.StringRes;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 /**
@@ -37,6 +38,11 @@ public enum DeviceType {
     AMAZFITBIP(12, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_amazfit_bip),
     AMAZFITCOR(13, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_amazfit_cor),
     MIBAND3(14, R.drawable.ic_device_miband2, R.drawable.ic_device_miband2_disabled, R.string.devicetype_miband3),
+    AMAZFITCOR2(15, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_amazfit_cor2),
+    MIBAND4(16, R.drawable.ic_device_miband2, R.drawable.ic_device_miband2_disabled, R.string.devicetype_miband4),
+    AMAZFITBIP_LITE(17, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_amazfit_bip_lite),
+    AMAZFITGTR(18, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_amazfit_gtr),
+    AMAZFITGTS(19, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_amazfit_gts),
     VIBRATISSIMO(20, R.drawable.ic_device_lovetoy, R.drawable.ic_device_lovetoy_disabled, R.string.devicetype_vibratissimo),
     LIVEVIEW(30, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_liveview),
     HPLUS(40, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_hplus),
@@ -46,12 +52,19 @@ public enum DeviceType {
     NO1F1(50, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_no1_f1),
     TECLASTH30(60, R.drawable.ic_device_h30_h10, R.drawable.ic_device_h30_h10_disabled, R.string.devicetype_teclast_h30),
     XWATCH(70, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_xwatch),
-    ZETIME(80, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_mykronoz_zetime),
+    FOSSILQHYBRID(80, R.drawable.ic_device_zetime, R.drawable.ic_device_zetime_disabled, R.string.devicetype_qhybrid),
+    ZETIME(80, R.drawable.ic_device_zetime, R.drawable.ic_device_zetime_disabled, R.string.devicetype_mykronoz_zetime),
     ID115(90, R.drawable.ic_device_h30_h10, R.drawable.ic_device_h30_h10_disabled, R.string.devicetype_id115),
     WATCH9(100, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_watch9),
     ROIDMI(110, R.drawable.ic_device_roidmi, R.drawable.ic_device_roidmi_disabled, R.string.devicetype_roidmi),
     ROIDMI3(112, R.drawable.ic_device_roidmi, R.drawable.ic_device_roidmi_disabled, R.string.devicetype_roidmi3),
-    Y5(120, R.drawable.ic_device_h30_h10, R.drawable.ic_device_roidmi_disabled, R.string.devicetype_y5),
+    Y5(113, R.drawable.ic_device_h30_h10, R.drawable.ic_device_roidmi_disabled, R.string.devicetype_y5),
+    CASIOGB6900(120, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_casiogb6900),
+    MISCALE2(131, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_miscale2),
+    BFH16(140, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_bfh16),
+    MAKIBESHR3(150, R.drawable.ic_device_default, R.drawable.ic_device_hplus_disabled, R.string.devicetype_makibes_hr3),
+    BANGLEJS(160, R.drawable.ic_device_zetime, R.drawable.ic_device_zetime_disabled, R.string.devicetype_banglejs),
+    MIJIA_LYWSD02(200, R.drawable.ic_device_pebble, R.drawable.ic_device_pebble_disabled, R.string.devicetype_mijia_lywsd02),
     TEST(1000, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_test);
 
     private final int key;

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018 maxirnilian
+/*  Copyright (C) 2018-2019 Daniele Gobbetti, maxirnilian
 
     This file is part of Gadgetbridge.
 
@@ -21,13 +21,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 Sami Alaoui
+/*  Copyright (C) 2017-2019 Sami Alaoui
 
     This file is part of Gadgetbridge.
 

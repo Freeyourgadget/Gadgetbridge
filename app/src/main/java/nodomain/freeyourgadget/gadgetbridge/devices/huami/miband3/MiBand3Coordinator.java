@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, José Rebelo
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -19,7 +20,8 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Date;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
@@ -50,7 +53,7 @@ public class MiBand3Coordinator extends HuamiCoordinator {
         try {
             BluetoothDevice device = candidate.getDevice();
             String name = device.getName();
-            if (name != null && name.equalsIgnoreCase(HuamiConst.MI_BAND3_NAME)) {
+            if (name != null && (name.equalsIgnoreCase(HuamiConst.MI_BAND3_NAME) || name.equalsIgnoreCase(HuamiConst.MI_BAND3_NAME_2))) {
                 return DeviceType.MIBAND3;
             }
         } catch (Exception ex) {
@@ -76,22 +79,38 @@ public class MiBand3Coordinator extends HuamiCoordinator {
         return true;
     }
 
-    public static boolean getBandScreenUnlock() {
-        Prefs prefs = GBApplication.getPrefs();
-        return prefs.getBoolean(MiBandConst.PREF_MI3_BAND_SCREEN_UNLOCK, false);
+    @Override
+    public boolean supportsActivityTracks() {
+        return true;
     }
 
-    public static String getNightMode() {
-        Prefs prefs = GBApplication.getPrefs();
 
-        return prefs.getString(MiBandConst.PREF_MI3_NIGHT_MODE, MiBandConst.PREF_MI3_NIGHT_MODE_OFF);
+    public static String getNightMode(String deviceAddress) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+
+        return prefs.getString(MiBandConst.PREF_NIGHT_MODE, MiBandConst.PREF_NIGHT_MODE_OFF);
     }
 
-    public static Date getNightModeStart() {
-        return getTimePreference( MiBandConst.PREF_MI3_NIGHT_MODE_START, "16:00");
+    public static Date getNightModeStart(String deviceAddress) {
+        return getTimePreference(MiBandConst.PREF_NIGHT_MODE_START, "16:00", deviceAddress);
     }
 
-    public static Date getNightModeEnd() {
-        return getTimePreference(MiBandConst.PREF_MI3_NIGHT_MODE_END, "07:00");
+    public static Date getNightModeEnd(String deviceAddress) {
+        return getTimePreference(MiBandConst.PREF_NIGHT_MODE_END, "07:00", deviceAddress);
+    }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_miband3,
+                R.xml.devicesettings_wearlocation,
+                R.xml.devicesettings_dateformat,
+                R.xml.devicesettings_nightmode,
+                R.xml.devicesettings_donotdisturb_withauto,
+                R.xml.devicesettings_liftwrist_display,
+                R.xml.devicesettings_swipeunlock,
+                R.xml.devicesettings_expose_hr_thirdparty,
+                R.xml.devicesettings_pairingkey
+        };
     }
 }

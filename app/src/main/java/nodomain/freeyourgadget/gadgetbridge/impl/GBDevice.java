@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Taavi Eomäe, Uwe Hermann
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniel
+    Dakhno, Daniele Gobbetti, José Rebelo, Taavi Eomäe, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -21,9 +21,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +30,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
@@ -82,6 +82,10 @@ public class GBDevice implements Parcelable {
     private List<ItemWithDetails> mDeviceInfos;
     private HashMap<String, Object> mExtraInfos;
 
+    private int mNotificationIconConnected = R.drawable.ic_notification;
+    private int mNotificationIconDisconnected = R.drawable.ic_notification_disconnected;
+    private int mNotificationIconLowBattery = R.drawable.ic_notification_low_battery;
+
     public GBDevice(String address, String name, DeviceType deviceType) {
         this(address, null, name, deviceType);
     }
@@ -110,6 +114,9 @@ public class GBDevice implements Parcelable {
         mBusyTask = in.readString();
         mDeviceInfos = in.readArrayList(getClass().getClassLoader());
         mExtraInfos = (HashMap) in.readSerializable();
+        mNotificationIconConnected = in.readInt();
+        mNotificationIconDisconnected = in.readInt();
+        mNotificationIconLowBattery = in.readInt();
 
         validate();
     }
@@ -131,6 +138,9 @@ public class GBDevice implements Parcelable {
         dest.writeString(mBusyTask);
         dest.writeList(mDeviceInfos);
         dest.writeSerializable(mExtraInfos);
+        dest.writeInt(mNotificationIconConnected);
+        dest.writeInt(mNotificationIconDisconnected);
+        dest.writeInt(mNotificationIconLowBattery);
     }
 
     private void validate() {
@@ -221,6 +231,30 @@ public class GBDevice implements Parcelable {
         return mBusyTask;
     }
 
+    public int getNotificationIconConnected() {
+        return mNotificationIconConnected;
+    }
+
+    public void setNotificationIconConnected(int mNotificationIconConnected) {
+        this.mNotificationIconConnected = mNotificationIconConnected;
+    }
+
+    public int getNotificationIconDisconnected() {
+        return mNotificationIconDisconnected;
+    }
+
+    public void setNotificationIconDisconnected(int notificationIconDisconnected) {
+        this.mNotificationIconDisconnected = notificationIconDisconnected;
+    }
+
+    public int getNotificationIconLowBattery() {
+        return mNotificationIconLowBattery;
+    }
+
+    public void setNotificationIconLowBattery(int mNotificationIconLowBattery) {
+        this.mNotificationIconLowBattery = mNotificationIconLowBattery;
+    }
+
     /**
      * Marks the device as busy, performing a certain task. While busy, no other operations will
      * be performed on the device.
@@ -274,6 +308,7 @@ public class GBDevice implements Parcelable {
         setFirmwareVersion(null);
         setFirmwareVersion2(null);
         setRssi(RSSI_UNKNOWN);
+        resetExtraInfos();
         if (mBusyTask != null) {
             unsetBusyTask();
         }
@@ -401,6 +436,13 @@ public class GBDevice implements Parcelable {
         }
 
         mExtraInfos.put(key, info);
+    }
+
+    /**
+     * Deletes all the extra infos
+     */
+    public void resetExtraInfos() {
+        mExtraInfos = null;
     }
 
     /**

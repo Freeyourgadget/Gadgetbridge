@@ -120,7 +120,7 @@ class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
 
     }
 
@@ -176,6 +176,11 @@ class TestDeviceSupport extends AbstractDeviceSupport {
 
     @Override
     public void onSendConfiguration(String config) {
+
+    }
+
+    @Override
+    public void onReadConfiguration(String config) {
 
     }
 

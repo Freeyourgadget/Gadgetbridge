@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, José Rebelo
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -22,7 +22,7 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.EN
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.ENDPOINT_DISPLAY_ITEMS;
 
 public class MiBand3Service {
-    public static final byte[] COMMAND_CHANGE_SCREENS = new byte[]{ENDPOINT_DISPLAY_ITEMS, DISPLAY_ITEM_BIT_CLOCK, 0x30, 0x00, 0x00, 0x00, 0x06, 0x00, 0x00, 0x00};
+    public static final byte[] COMMAND_CHANGE_SCREENS = new byte[]{ENDPOINT_DISPLAY_ITEMS, DISPLAY_ITEM_BIT_CLOCK, 0x30, 0x00, 0x00, 0x00, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00};
     public static final byte[] COMMAND_ENABLE_BAND_SCREEN_UNLOCK = new byte[]{ENDPOINT_DISPLAY, 0x16, 0x00, 0x01};
     public static final byte[] COMMAND_DISABLE_BAND_SCREEN_UNLOCK = new byte[]{ENDPOINT_DISPLAY, 0x16, 0x00, 0x00};
     public static final byte[] COMMAND_NIGHT_MODE_OFF = new byte[]{0x1a, 0x00};

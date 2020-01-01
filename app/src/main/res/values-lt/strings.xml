@@ -1,6 +1,6 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<resources><string name="app_name">Gadgetbridge</string>
-
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gadgetbridge</string>
     <string name="title_activity_controlcenter">Gadgetbridge</string>
     <string name="action_settings">Nustatymai</string>
     <string name="action_debug">Šalinti riktus</string>
@@ -15,8 +15,6 @@
     <string name="controlcenter_delete_device_name">Ištrinti %1$s</string>
     <string name="controlcenter_delete_device_dialogmessage">Šiuo veiksmu ištrinsite įrenginį ir visus jo sukauptus duomenis!</string>
     <string name="controlcenter_snackbar_requested_screenshot">Daroma įrenginio ekrano nuotrauka</string>
-
-
     <string name="appmanager_installed_watchfaces">Įdiegti laikrodžio stiliai</string>
     <string name="menuitem_weather">Oras</string>
     <string name="menuitem_alarm">Žadintuvas</string>
@@ -24,13 +22,12 @@
     <string name="menuitem_compass">Kompasas</string>
     <string name="menuitem_settings">Nustatymai</string>
     <string name="menuitem_alipay">Alipay</string>
-<string name="controlcenter_navigation_drawer_open">Atverti programos meniu</string>
+    <string name="controlcenter_navigation_drawer_open">Atverti programos meniu</string>
     <string name="controlcenter_navigation_drawer_close">Užverti programos meniu</string>
     <string name="controlcenter_snackbar_need_longpress">Norėdami atjungti ilgai spauskite kortelę</string>
     <string name="controlcenter_snackbar_disconnecting">Atjungiama</string>
     <string name="controlcenter_snackbar_connecting">Jungiama</string>
     <string name="title_activity_debug">Derinti</string>
-
     <string name="title_activity_appmanager">Programų tvarkyklė</string>
     <string name="appmanager_cached_watchapps_watchfaces">Programos talpykloje</string>
     <string name="appmanager_installed_watchapps">Įdiegtos programos</string>
@@ -47,11 +44,8 @@
     <string name="appmanager_weather_install_provider">Įdiegti orų prognozės pranešimų programą</string>
     <string name="app_configure">Konfigūruoti</string>
     <string name="app_move_to_top">Perkelti į viršų</string>
-
     <string name="title_activity_appblacklist">Pranešimų juodasis sąrašas</string>
-
     <string name="title_activity_calblacklist">Kalendorių juodasis sąrašas</string>
-
     <string name="title_activity_fw_app_insaller">FW/Programų diegyklė</string>
     <string name="devicetype_test">Išbandyti įrenginį</string>
     <string name="devicetype_pebble">Pebble</string>
@@ -66,6 +60,5 @@
     <string name="devicetype_exrizu_k8">Exrizu K8</string>
     <string name="menuitem_activity">Veikla</string>
     <string name="controlcenter_calibrate_device">Kalibruoti įrenginį</string>
-
-
-    </resources>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+</resources>

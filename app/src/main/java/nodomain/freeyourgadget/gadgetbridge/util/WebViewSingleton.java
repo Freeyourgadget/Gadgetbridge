@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Lem Dulfo, Uwe Hermann
 
     This file is part of Gadgetbridge.
@@ -32,7 +32,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
-import android.support.annotation.NonNull;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -47,6 +46,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.GBChromeClient;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.GBWebClient;

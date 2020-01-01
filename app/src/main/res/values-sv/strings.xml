@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gadgetbridge</string>
+    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="action_settings">Inställningar</string>
+    <string name="action_quit">Avsluta</string>
+    <string name="action_donate">Donera</string>
+    <string name="controlcenter_fetch_activity_data">Synkronisera</string>
+    <string name="controlcenter_find_device">Hitta försvunnen enhet</string>
+    <string name="controlcenter_take_screenshot">Skärmdump</string>
+    <string name="controlcenter_change_led_color">Ändra LED-färg</string>
+    <string name="controlcenter_change_fm_frequency">Ändra FM-frekvens</string>
+    <string name="controlcenter_connect">Anslut…</string>
+    <string name="controlcenter_disconnect">Koppla ifrån</string>
+    <string name="controlcenter_delete_device">Ta bort enhet</string>
+    <string name="controlcenter_delete_device_name">Ta bort %1$s</string>
+    <string name="controlcenter_delete_device_dialogmessage">Detta kommer att ta bort enheten och radera all tillhörande information!</string>
+    <string name="controlcenter_navigation_drawer_open">Öppna navigationspanel</string>
+    <string name="controlcenter_navigation_drawer_close">Stäng navigationspanel</string>
+    <string name="controlcenter_snackbar_need_longpress">Tryck länge på kortet för att koppla ifrån</string>
+    <string name="controlcenter_snackbar_disconnecting">Kopplar ifrån</string>
+    <string name="controlcenter_snackbar_connecting">Ansluter…</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Tar en skärmdump av enheten</string>
+    <string name="controlcenter_calibrate_device">Kalibrera enhet</string>
+    <string name="title_activity_debug">Avlusa</string>
+    <string name="debugactivity_really_factoryreset_title">Vill du verkligen återställa till fabriksinställningar\?</string>
+    <string name="debugactivity_really_factoryreset">En återställning till fabriksinställningar kommer att radera all data från den anslutna enheten (om detta stöds). Enheter från Xiaomi/Huami kommer också att få nya/ändrade Blåtands- och MAC-adresser, och kommer att synas som nya enheter i Gadgetbridge.</string>
+    <string name="title_activity_appmanager">Apphanterare</string>
+    <string name="appmanager_cached_watchapps_watchfaces">Appar i cachen</string>
+    <string name="appmanager_installed_watchapps">Installerade appar</string>
+    <string name="appmanager_installed_watchfaces">Installerade urtavlor</string>
+    <string name="appmananger_app_delete">Ta bort</string>
+    <string name="appmananger_app_delete_cache">Ta bort och radera från cache</string>
+    <string name="appmananger_app_reinstall">Installera om</string>
+    <string name="appmanager_app_openinstore">Sök i Pebble appstore</string>
+    <string name="appmanager_health_activate">Aktivera</string>
+    <string name="appmanager_health_deactivate">Avaktivera</string>
+    <string name="appmanager_weather_activate">Aktivera systemets väderapp</string>
+    <string name="appmanager_weather_deactivate">Avaktivera systemets väderapp</string>
+    <string name="appmanager_weather_install_provider">Installera appen för vädernotifiering</string>
+    <string name="app_move_to_top">Lägg överst</string>
+    <string name="title_activity_appblacklist">Svartlistade notifieringar</string>
+    <string name="blacklist_all_for_notifications">Svartlista alla notifieringar</string>
+    <string name="title_activity_calblacklist">Svartlistade kalendrar</string>
+    <string name="title_activity_fw_app_insaller">FW/App-installerare</string>
+    <string name="pref_chart_heartrate_color_red">Röd</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="appmanager_hrm_activate">Aktivera pulsmätare</string>
+    <string name="appmanager_hrm_deactivate">Avaktivera pulsmätare</string>
+    <string name="app_configure">Konfigurera</string>
+</resources>

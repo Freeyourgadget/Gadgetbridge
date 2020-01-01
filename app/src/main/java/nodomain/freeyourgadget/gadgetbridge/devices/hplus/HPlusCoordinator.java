@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, João Paulo Barraca, José Rebelo
 
     This file is part of Gadgetbridge.
@@ -29,14 +29,21 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelUuid;
-import android.support.annotation.NonNull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Locale;
+
+import androidx.annotation.NonNull;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -49,13 +56,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Locale;
 
 import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getContext;
 
@@ -84,7 +84,7 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public int getBondingStyle(GBDevice deviceCandidate){
+    public int getBondingStyle(){
         return BONDING_STYLE_NONE;
     }
 
@@ -144,8 +144,8 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAlarmConfiguration() {
-        return true;
+    public int getAlarmSlotCount() {
+        return 3; // FIXME - check the real value
     }
 
     @Override
@@ -197,10 +197,10 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         }
     }
 
-    public static byte getTimeMode(String address) {
-        String tmode = prefs.getString(HPlusConstants.PREF_HPLUS_TIMEFORMAT, getContext().getString(R.string.p_timeformat_24h));
+    public static byte getTimeMode(String deviceAddress) {
+        String tmode = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress).getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, "24h");
 
-        if(tmode.equals(getContext().getString(R.string.p_timeformat_24h))) {
+        if ("24h".equals(tmode)) {
             return HPlusConstants.ARG_TIMEMODE_24H;
         }else{
             return HPlusConstants.ARG_TIMEMODE_12H;
@@ -270,12 +270,14 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         return (byte) 255;
     }
 
-    public static byte getUserWrist(String address) {
-        String value = prefs.getString(HPlusConstants.PREF_HPLUS_WRIST, getContext().getString(R.string.left));
+    //FIXME: unused
+    public static byte getUserWrist(String deviceAddress) {
+        SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
+        String value = sharedPreferences.getString(DeviceSettingsPreferenceConst.PREF_WEARLOCATION, "left");
 
-        if(value.equals(getContext().getString(R.string.left))){
+        if ("left".equals(value)) {
             return HPlusConstants.ARG_WRIST_LEFT;
-        }else{
+        } else {
             return HPlusConstants.ARG_WRIST_RIGHT;
         }
     }
@@ -291,10 +293,19 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     public static void setUnicodeSupport(String address, boolean state){
         SharedPreferences.Editor editor = prefs.getPreferences().edit();
         editor.putBoolean(HPlusConstants.PREF_HPLUS_UNICODE + "_" + address, state);
-        editor.commit();
+        editor.apply();
     }
 
     public static boolean getUnicodeSupport(String address){
         return (prefs.getBoolean(HPlusConstants.PREF_HPLUS_UNICODE + "_" + address, false));
     }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                //R.xml.devicesettings_wearlocation, // disabled, since it is never used in code
+                R.xml.devicesettings_timeformat
+        };
+    }
+
 }

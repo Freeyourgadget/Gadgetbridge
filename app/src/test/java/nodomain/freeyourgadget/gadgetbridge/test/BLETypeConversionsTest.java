@@ -17,8 +17,8 @@ public class BLETypeConversionsTest extends TestBase {
         byte[] received = new byte[] {
                 (byte) 0xe1, 0x07, 0x0a, 0x1c, 0x17, 0x1c, 0x00, 0x04
         };
-        GregorianCalendar calRequested = BLETypeConversions.rawBytesToCalendar(requested, false);
-        GregorianCalendar calReceived = BLETypeConversions.rawBytesToCalendar(received, false);
+        GregorianCalendar calRequested = BLETypeConversions.rawBytesToCalendar(requested);
+        GregorianCalendar calReceived = BLETypeConversions.rawBytesToCalendar(received);
 
         assertTrue(calRequested.getTime().equals(calReceived.getTime()));
     }
@@ -31,8 +31,8 @@ public class BLETypeConversionsTest extends TestBase {
         byte[] received = new byte[] {
                 (byte) 0xe1,0x07,0x0a,0x09,0x10,0x23,0x00,0x04
         };
-        GregorianCalendar calRequested = BLETypeConversions.rawBytesToCalendar(requested, false);
-        GregorianCalendar calReceived = BLETypeConversions.rawBytesToCalendar(received, false);
+        GregorianCalendar calRequested = BLETypeConversions.rawBytesToCalendar(requested);
+        GregorianCalendar calReceived = BLETypeConversions.rawBytesToCalendar(received);
 
         assertTrue(calRequested.getTime().equals(calReceived.getTime()));
     }

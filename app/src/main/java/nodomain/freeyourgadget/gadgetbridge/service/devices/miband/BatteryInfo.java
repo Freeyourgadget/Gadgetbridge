@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti
 
     This file is part of Gadgetbridge.
@@ -59,13 +59,14 @@ public class BatteryInfo extends AbstractInfo {
         return BatteryState.UNKNOWN;
     }
 
-    public GregorianCalendar getLastChargeTime() {
+    public GregorianCalendar getLastChargeTime(String deviceAddress) {
         GregorianCalendar lastCharge = MiBandDateConverter.createCalendar();
 
         if (mData.length >= 10) {
             lastCharge = MiBandDateConverter.rawBytesToCalendar(new byte[]{
-                    mData[1], mData[2], mData[3], mData[4], mData[5], mData[6]
-            });
+                            mData[1], mData[2], mData[3], mData[4], mData[5], mData[6]},
+                    deviceAddress
+            );
         }
 
         return lastCharge;

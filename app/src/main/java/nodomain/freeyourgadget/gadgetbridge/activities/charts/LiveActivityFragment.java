@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Cre3per,
+    Daniele Gobbetti, Dikay900, Pavel, Pavel Elagin
 
     This file is part of Gadgetbridge.
 
@@ -22,9 +23,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +53,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
@@ -63,7 +64,6 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
-import nodomain.freeyourgadget.gadgetbridge.model.Measurement;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class LiveActivityFragment extends AbstractChartFragment {
@@ -85,7 +85,6 @@ public class LiveActivityFragment extends AbstractChartFragment {
     private final Steps mSteps = new Steps();
     private ScheduledExecutorService pulseScheduler;
     private int maxStepsResetCounter;
-    private List<Measurement> heartRateValues;
     private LineDataSet mHeartRateSet;
     private int mHeartRate;
     private int mMaxHeartRate = 0;
@@ -266,14 +265,13 @@ public class LiveActivityFragment extends AbstractChartFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(DeviceService.ACTION_REALTIME_SAMPLES);
-        heartRateValues = new ArrayList<>();
         tsTranslation = new TimestampTranslation();
 
         View rootView = inflater.inflate(R.layout.fragment_live_activity, container, false);
 
-        mStepsPerMinuteCurrentChart = (CustomBarChart) rootView.findViewById(R.id.livechart_steps_per_minute_current);
-        mTotalStepsChart = (CustomBarChart) rootView.findViewById(R.id.livechart_steps_total);
-        mStepsPerMinuteHistoryChart = (BarLineChartBase) rootView.findViewById(R.id.livechart_steps_per_minute_history);
+        mStepsPerMinuteCurrentChart = rootView.findViewById(R.id.livechart_steps_per_minute_current);
+        mTotalStepsChart = rootView.findViewById(R.id.livechart_steps_total);
+        mStepsPerMinuteHistoryChart = rootView.findViewById(R.id.livechart_steps_per_minute_history);
 
         totalStepsEntry = new BarEntry(1, 0);
         stepsPerMinuteEntry = new BarEntry(1, 0);
@@ -348,7 +346,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
 
         renderCharts();
 
-        // have to enable it again and again to keep it measureing
+        // have to enable it again and again to keep it measuring
         GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
     }
 

@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -18,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +27,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -50,7 +51,7 @@ public abstract class AbstractMiBandFWHelper {
         }
 
         try (InputStream in = new BufferedInputStream(uriHelper.openInputStream())) {
-            this.fw = FileUtils.readAll(in, 1024 * 1536); // 1.5 MB
+            this.fw = FileUtils.readAll(in, 1024 * 2048); // 2.0 MB
             determineFirmwareInfo(fw);
         } catch (IOException ex) {
             throw ex; // pass through

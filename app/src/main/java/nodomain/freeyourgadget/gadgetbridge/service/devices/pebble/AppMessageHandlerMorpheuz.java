@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -35,7 +35,6 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepMonitorResult;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleMorpheuzSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMorpheuzSample;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -70,7 +69,7 @@ class AppMessageHandlerMorpheuz extends AppMessageHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(AppMessageHandlerMorpheuz.class);
 
-    public AppMessageHandlerMorpheuz(UUID uuid, PebbleProtocol pebbleProtocol) {
+    AppMessageHandlerMorpheuz(UUID uuid, PebbleProtocol pebbleProtocol) {
         super(uuid, pebbleProtocol);
 
         try {
@@ -108,16 +107,11 @@ class AppMessageHandlerMorpheuz extends AppMessageHandler {
     @Override
     public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
         int ctrl_message = 0;
-        GBDeviceEventSleepMonitorResult sleepMonitorResult = null;
 
         for (Pair<Integer, Object> pair : pairs) {
             if (Objects.equals(pair.first, keyTransmit)) {
-                sleepMonitorResult = new GBDeviceEventSleepMonitorResult();
-                sleepMonitorResult.smartalarm_from = smartalarm_from;
-                sleepMonitorResult.smartalarm_to = smartalarm_to;
-                sleepMonitorResult.alarm_gone_off = alarm_gone_off;
-                sleepMonitorResult.recording_base_timestamp = recording_base_timestamp;
                 ctrl_message |= CTRL_TRANSMIT_DONE;
+                GB.signalActivityDataFinish();
             } else if (pair.first.equals(keyGoneoff)) {
                 alarm_gone_off = (int) pair.second;
                 LOG.info("got gone off: " + alarm_gone_off / 60 + ":" + alarm_gone_off % 60);
@@ -187,7 +181,7 @@ class AppMessageHandlerMorpheuz extends AppMessageHandler {
             sendBytesCtrl.encodedBytes = encodeMorpheuzMessage(keyCtrl, ctrl_message);
         }
 
-        // ctrl and sleep monitor might be null, thats okay
-        return new GBDeviceEvent[]{sendBytesAck, sendBytesCtrl, sleepMonitorResult};
+        // ctrl might be null, thats okay
+        return new GBDeviceEvent[]{sendBytesAck, sendBytesCtrl};
     }
 }

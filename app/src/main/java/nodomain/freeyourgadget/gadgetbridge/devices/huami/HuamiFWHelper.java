@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -18,10 +19,10 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
 import java.io.IOException;
 
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWHelper;

@@ -1,6 +1,6 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Aniruddha Adhikary, Daniele
-    Gobbetti, ivanovlev, kalaee, lazarosfs, McSym28, Ted Stein, Thomas, Yaron
-    Shahrabani
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, Aniruddha Adhikary, Daniele
+    Gobbetti, ivanovlev, kalaee, lazarosfs, McSym28, M. Hadi, Roi Greenberg,
+    Ted Stein, Thomas, Yaron Shahrabani
 
     This file is part of Gadgetbridge.
 
@@ -79,8 +79,10 @@ public class LanguageUtils {
             put('آ', "2"); put('ئ', "2"); put('إ', "2"); put('ؤ', "2"); put('أ', "2"); put('ء', "2");
 
             // Persian(Farsi)
-            put('پ', "p"); put('چ', "ch"); put('ژ', "zh"); put('ک', "k"); put('گ', "g"); put('ی', "y");
-	    put('؟', "?"); put('٪', "%"); put('؛', ";"); put('،', ","); 
+            put('پ', "p"); put('چ', "ch"); put('ژ', "zh"); put('ک', "k"); put('گ', "g"); put('ی', "y"); put('‌', " "); 
+            put('؟', "?"); put('٪', "%"); put('؛', ";"); put('،', ","); put('۱', "1"); put('۲', "2"); put('۳', "3"); 
+            put('۴', "4"); put('۵', "5"); put('۶', "6"); put('۷', "7"); put('۸', "8"); put('۹', "9"); put('۰', "0"); 
+	    put('»', "<"); put('«', ">"); put('ِ', "e"); put('َ', "a"); put('ُ', "o"); put('ّ', "");
 
             // Polish
             put('Ł', "L"); put('ł', "l");

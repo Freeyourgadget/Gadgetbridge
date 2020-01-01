@@ -1,4 +1,5 @@
-/*  Copyright (C) 2018 maxirnilian
+/*  Copyright (C) 2018-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, maxirnilian, Sebastian Kranz
 
     This file is part of Gadgetbridge.
 
@@ -23,8 +24,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
-import android.support.annotation.IntRange;
-import android.support.v4.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +36,8 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.UUID;
 
+import androidx.annotation.IntRange;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.watch9.Watch9Constants;
@@ -57,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.watch9.operations.InitOperation;
+import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
 public class Watch9DeviceSupport extends AbstractBTLEDeviceSupport {
@@ -331,7 +333,7 @@ public class Watch9DeviceSupport extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("setAlarms");
             for (Alarm alarm : alarms) {
-                setAlarm(alarm, alarm.getIndex() + 1, builder);
+                setAlarm(alarm, alarm.getPosition() + 1, builder);
             }
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -352,14 +354,14 @@ public class Watch9DeviceSupport extends AbstractBTLEDeviceSupport {
 
     private void setAlarm(Alarm alarm, int index, TransactionBuilder builder) {
         // Shift the GB internal repetition mask to match the device specific one.
-        byte repetitionMask = (byte) ((alarm.getRepetitionMask() << 1) | (alarm.isRepetitive() ? 0x80 : 0x00));
+        byte repetitionMask = (byte) ((alarm.getRepetition() << 1) | (alarm.isRepetitive() ? 0x80 : 0x00));
         repetitionMask |= (alarm.getRepetition(Alarm.ALARM_SUN) ? 0x01 : 0x00);
         if (0 < index && index < 4) {
             byte[] alarmValue = new byte[]{(byte) index,
-                    Conversion.toBcd8(alarm.getAlarmCal().get(Calendar.HOUR_OF_DAY)),
-                    Conversion.toBcd8(alarm.getAlarmCal().get(Calendar.MINUTE)),
+                    Conversion.toBcd8(AlarmUtils.toCalendar(alarm).get(Calendar.HOUR_OF_DAY)),
+                    Conversion.toBcd8(AlarmUtils.toCalendar(alarm).get(Calendar.MINUTE)),
                     repetitionMask,
-                    (byte) (alarm.isEnabled() ? 0x01 : 0x00),
+                    (byte) (alarm.getEnabled() ? 0x01 : 0x00),
                     0x00 // TODO: Unknown
             };
             builder.write(getCharacteristic(Watch9Constants.UUID_CHARACTERISTIC_WRITE),
@@ -440,7 +442,7 @@ public class Watch9DeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
 
     }
 
@@ -503,6 +505,11 @@ public class Watch9DeviceSupport extends AbstractBTLEDeviceSupport {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onReadConfiguration(String config) {
+
     }
 
     @Override

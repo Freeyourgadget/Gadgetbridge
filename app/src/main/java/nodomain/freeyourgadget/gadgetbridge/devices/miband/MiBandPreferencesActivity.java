@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Christian
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Christian
     Fischer, Daniele Gobbetti, José Rebelo, Szymon Tomasz Stefanek
 
     This file is part of Gadgetbridge.
@@ -20,8 +20,9 @@ package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -38,17 +39,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_ALARM_CLOCK;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_INCOMING_CALL;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_ACTIVATE_DISPLAY_ON_LIFT;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DISPLAY_ON_LIFT_END;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DISPLAY_ON_LIFT_START;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DATEFORMAT;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DISPLAY_ITEMS;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_END;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_OFF;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_SCHEDULED;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_START;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ENABLE_TEXT_NOTIFICATIONS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_GOAL_NOTIFICATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND;
@@ -57,10 +47,7 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PR
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_END;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_ADDRESS;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_USER_ALIAS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_COUNT;
@@ -109,37 +96,6 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
             }
         });
 
-        final Preference activateDisplayOnLift = findPreference(PREF_ACTIVATE_DISPLAY_ON_LIFT);
-        activateDisplayOnLift.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_ACTIVATE_DISPLAY_ON_LIFT);
-                    }
-                });
-                return true;
-            }
-        });
-
-        String displayOnLiftState = prefs.getString(MiBandConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, PREF_MI2_DO_NOT_DISTURB_OFF);
-        boolean displayOnLiftScheduled = displayOnLiftState.equals(PREF_MI2_DO_NOT_DISTURB_SCHEDULED);
-
-        final Preference rotateWristCycleInfo = findPreference(PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO);
-        rotateWristCycleInfo.setEnabled(!PREF_MI2_DO_NOT_DISTURB_OFF.equals(displayOnLiftState));
-        rotateWristCycleInfo.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO);
-                    }
-                });
-                return true;
-            }
-        });
 
         final Preference inactivityWarnings = findPreference(PREF_MI2_INACTIVITY_WARNINGS);
         inactivityWarnings.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -239,108 +195,6 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
             }
         });
 
-        String doNotDisturbState = prefs.getString(MiBandConst.PREF_MI2_DO_NOT_DISTURB, PREF_MI2_DO_NOT_DISTURB_OFF);
-        boolean doNotDisturbScheduled = doNotDisturbState.equals(PREF_MI2_DO_NOT_DISTURB_SCHEDULED);
-
-        final Preference doNotDisturbStart = findPreference(PREF_MI2_DO_NOT_DISTURB_START);
-        doNotDisturbStart.setEnabled(doNotDisturbScheduled);
-        doNotDisturbStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DO_NOT_DISTURB_START);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference doNotDisturbEnd = findPreference(PREF_MI2_DO_NOT_DISTURB_END);
-        doNotDisturbEnd.setEnabled(doNotDisturbScheduled);
-        doNotDisturbEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DO_NOT_DISTURB_END);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference doNotDisturb = findPreference(PREF_MI2_DO_NOT_DISTURB);
-        doNotDisturb.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                final boolean scheduled = PREF_MI2_DO_NOT_DISTURB_SCHEDULED.equals(newVal.toString());
-
-                doNotDisturbStart.setEnabled(scheduled);
-                doNotDisturbEnd.setEnabled(scheduled);
-
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DO_NOT_DISTURB);
-                    }
-                });
-                return true;
-            }
-        });
-
-        final Preference displayOnLiftStart = findPreference(PREF_DISPLAY_ON_LIFT_START);
-        displayOnLiftStart.setEnabled(displayOnLiftScheduled);
-        displayOnLiftStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_DISPLAY_ON_LIFT_START);
-                    }
-                });
-                return true;
-            }
-        });
-
-
-        final Preference displayOnLiftEnd = findPreference(PREF_DISPLAY_ON_LIFT_END);
-        displayOnLiftEnd.setEnabled(displayOnLiftScheduled);
-        displayOnLiftEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_DISPLAY_ON_LIFT_END);
-                    }
-                });
-                return true;
-            }
-        });
-
-
-        final Preference displayOnLift = findPreference(PREF_ACTIVATE_DISPLAY_ON_LIFT);
-        displayOnLift.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                final boolean scheduled = PREF_MI2_DO_NOT_DISTURB_SCHEDULED.equals(newVal.toString());
-
-                displayOnLiftStart.setEnabled(scheduled);
-                displayOnLiftEnd.setEnabled(scheduled);
-                rotateWristCycleInfo.setEnabled(!PREF_MI2_DO_NOT_DISTURB_OFF.equals(newVal.toString()));
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_ACTIVATE_DISPLAY_ON_LIFT);
-                    }
-                });
-                return true;
-            }
-        });
 
         final Preference fitnessGoal = findPreference(ActivityUser.PREF_USER_STEPS_GOAL);
         fitnessGoal.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -410,8 +264,6 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
         prefKeys.add(PREF_USER_ALIAS);
         prefKeys.add(PREF_MIBAND_ADDRESS);
         prefKeys.add(ActivityUser.PREF_USER_STEPS_GOAL);
-        prefKeys.add(PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR);
-        prefKeys.add(PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS);
         prefKeys.add(PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD);
         prefKeys.add(getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_ALARM_CLOCK));
         prefKeys.add(getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_INCOMING_CALL));

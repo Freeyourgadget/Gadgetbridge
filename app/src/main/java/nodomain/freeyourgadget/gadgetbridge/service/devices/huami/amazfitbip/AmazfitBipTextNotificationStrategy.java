@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa
+/*  Copyright (C) 2017-2019 Andreas Shimokawa, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -16,8 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip;
 
-import android.support.annotation.NonNull;
-
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;

@@ -1,6 +1,6 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Frank Slezak, ivanovlev, Kasha, Lem Dulfo, Pavel Elagin, Steffen
-    Liebergeld
+    Liebergeld, vanous
 
     This file is part of Gadgetbridge.
 
@@ -19,6 +19,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -26,29 +27,36 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.RemoteInput;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.core.app.NavUtils;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.RemoteInput;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
@@ -56,6 +64,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
+import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static android.content.Intent.EXTRA_SUBJECT;
@@ -67,10 +76,6 @@ public class DebugActivity extends AbstractGBActivity {
     private static final String EXTRA_REPLY = "reply";
     private static final String ACTION_REPLY
             = "nodomain.freeyourgadget.gadgetbridge.DebugActivity.action.reply";
-
-    private Spinner sendTypeSpinner;
-
-    private EditText editContent;
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -82,12 +87,24 @@ public class DebugActivity extends AbstractGBActivity {
                     GB.toast(context, "got wearable reply: " + reply, Toast.LENGTH_SHORT, GB.INFO);
                     break;
                 }
+                case DeviceService.ACTION_REALTIME_SAMPLES:
+                    handleRealtimeSample(intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE));
+                    break;
                 default:
                     LOG.info("ignoring intent action " + intent.getAction());
                     break;
             }
         }
     };
+    private Spinner sendTypeSpinner;
+    private EditText editContent;
+
+    private void handleRealtimeSample(Serializable extra) {
+        if (extra instanceof ActivitySample) {
+            ActivitySample sample = (ActivitySample) extra;
+            GB.toast(this, "Heart Rate measured: " + sample.getHeartRate(), Toast.LENGTH_LONG, GB.INFO);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +113,7 @@ public class DebugActivity extends AbstractGBActivity {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_REPLY);
-        filter.addAction(DeviceService.ACTION_HEARTRATE_MEASUREMENT);
+        filter.addAction(DeviceService.ACTION_REALTIME_SAMPLES);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
         registerReceiver(mReceiver, filter); // for ACTION_REPLY
 
@@ -122,7 +139,6 @@ public class DebugActivity extends AbstractGBActivity {
                 notificationSpec.subject = testString;
                 notificationSpec.type = NotificationType.values()[sendTypeSpinner.getSelectedItemPosition()];
                 notificationSpec.pebbleColor = notificationSpec.type.color;
-                notificationSpec.id = -1;
                 GBApplication.deviceService().onNotification(notificationSpec);
             }
         });
@@ -171,9 +187,33 @@ public class DebugActivity extends AbstractGBActivity {
         rebootButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GBApplication.deviceService().onReboot();
+                GBApplication.deviceService().onReset(GBDeviceProtocol.RESET_FLAGS_REBOOT);
             }
         });
+
+        Button factoryResetButton = findViewById(R.id.factoryResetButton);
+        factoryResetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(DebugActivity.this)
+                        .setCancelable(true)
+                        .setTitle(R.string.debugactivity_really_factoryreset_title)
+                        .setMessage(R.string.debugactivity_really_factoryreset)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                GBApplication.deviceService().onReset(GBDeviceProtocol.RESET_FLAGS_FACTORY_RESET);
+                            }
+                        })
+                        .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
+            }
+        });
+
         Button heartRateButton = findViewById(R.id.HeartRateButton);
         heartRateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,6 +222,43 @@ public class DebugActivity extends AbstractGBActivity {
                 GBApplication.deviceService().onHeartRateTest();
             }
         });
+
+        Button setFetchTimeButton = findViewById(R.id.SetFetchTimeButton);
+        setFetchTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final Calendar currentDate = Calendar.getInstance();
+                Context context = getApplicationContext();
+
+                if (context instanceof GBApplication) {
+                    GBApplication gbApp = (GBApplication) context;
+                    final GBDevice device = gbApp.getDeviceManager().getSelectedDevice();
+                    if (device != null) {
+                        new DatePickerDialog(DebugActivity.this, new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                Calendar date = Calendar.getInstance();
+                                date.set(year, monthOfYear, dayOfMonth);
+
+                                long timestamp = date.getTimeInMillis() - 1000;
+                                GB.toast("Setting lastSyncTimeMillis: " + timestamp, Toast.LENGTH_LONG, GB.INFO);
+
+                                SharedPreferences.Editor editor = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).edit();
+                                editor.remove("lastSyncTimeMillis"); //FIXME: key reconstruction is BAD
+                                editor.putLong("lastSyncTimeMillis", timestamp);
+                                editor.apply();
+                            }
+                        }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
+                    } else {
+                        GB.toast("Device not selected/connected", Toast.LENGTH_LONG, GB.INFO);
+                    }
+                }
+
+
+            }
+        });
+
 
         Button setMusicInfoButton = findViewById(R.id.setMusicInfoButton);
         setMusicInfoButton.setOnClickListener(new View.OnClickListener() {
@@ -225,6 +302,14 @@ public class DebugActivity extends AbstractGBActivity {
             }
         });
 
+        Button testPebbleKitNotificationButton = findViewById(R.id.testPebbleKitNotificationButton);
+        testPebbleKitNotificationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testPebbleKitNotification();
+            }
+        });
+
         Button fetchDebugLogsButton = findViewById(R.id.fetchDebugLogsButton);
         fetchDebugLogsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,14 +343,7 @@ public class DebugActivity extends AbstractGBActivity {
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String fileName = GBApplication.getLogPath();
-                        if (fileName != null && fileName.length() > 0) {
-                            Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-                            emailIntent.setType("*/*");
-                            emailIntent.putExtra(EXTRA_SUBJECT, "Gadgetbridge log file");
-                            emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(fileName)));
-                            startActivity(Intent.createChooser(emailIntent, "Share File"));
-                        }
+                        shareLog();
                     }
                 })
                 .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
@@ -283,11 +361,17 @@ public class DebugActivity extends AbstractGBActivity {
 
     private void shareLog() {
         String fileName = GBApplication.getLogPath();
-        if(fileName != null && fileName.length() > 0) {
+        if (fileName != null && fileName.length() > 0) {
+            File logFile = new File(fileName);
+            if (!logFile.exists()) {
+                GB.toast("File does not exist", Toast.LENGTH_LONG, GB.INFO);
+                return;
+            }
+
             Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
             emailIntent.setType("*/*");
             emailIntent.putExtra(EXTRA_SUBJECT, "Gadgetbridge log file");
-            emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(fileName)));
+            emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(logFile));
             startActivity(Intent.createChooser(emailIntent, "Share File"));
         }
     }
@@ -327,6 +411,13 @@ public class DebugActivity extends AbstractGBActivity {
         if (nManager != null) {
             nManager.notify((int) System.currentTimeMillis(), ncomp.build());
         }
+    }
+
+    private void testPebbleKitNotification() {
+        Intent pebbleKitIntent = new Intent("com.getpebble.action.SEND_NOTIFICATION");
+        pebbleKitIntent.putExtra("messageType", "PEBBLE_ALERT");
+        pebbleKitIntent.putExtra("notificationData", "[{\"title\":\"PebbleKitTest\",\"body\":\"sent from Gadgetbridge\"}]");
+        getApplicationContext().sendBroadcast(pebbleKitIntent);
     }
 
     @Override

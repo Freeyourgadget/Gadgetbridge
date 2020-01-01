@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, José Rebelo, Matthieu Baerts, Nephiel, vanous
 
     This file is part of Gadgetbridge.
 
@@ -20,7 +20,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices;
 import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.le.ScanFilter;
-import android.support.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,16 +27,20 @@ import org.slf4j.LoggerFactory;
 import java.util.Collection;
 import java.util.Collections;
 
+import androidx.annotation.NonNull;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributesDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getPrefs;
 
 public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractDeviceCoordinator.class);
@@ -68,6 +71,17 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
         LOG.info("will try to delete device: " + gbDevice.getName());
         if (gbDevice.isConnected() || gbDevice.isConnecting()) {
             GBApplication.deviceService().disconnect();
+        }
+        Prefs prefs = getPrefs();
+        String lastDevice = prefs.getPreferences().getString("last_device_address","");
+        if (gbDevice.getAddress() == lastDevice){
+            LOG.debug("#1605 removing last device");
+            prefs.getPreferences().edit().remove("last_device_address").apply();
+        }
+        String macAddress = prefs.getPreferences().getString(MiBandConst.PREF_MIBAND_ADDRESS,"");
+        if (gbDevice.getAddress() == macAddress){
+            LOG.debug("#1605 removing devel miband");
+            prefs.getPreferences().edit().remove(MiBandConst.PREF_MIBAND_ADDRESS).apply();
         }
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             DaoSession session = dbHandler.getDaoSession();
@@ -122,7 +136,7 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
-    public int getBondingStyle(GBDevice device) {
+    public int getBondingStyle() {
         return BONDING_STYLE_ASK;
     }
 
@@ -145,8 +159,18 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
         return false;
     }
 
+    @NonNull
     @Override
     public int[] getColorPresets() {
         return new int[0];
     }
+
+    @Override
+    public boolean supportsUnicodeEmojis() { return false; }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return null;
+    }
+
 }

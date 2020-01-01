@@ -9,14 +9,6 @@
             android:maxLength="17"
             android:title="@string/miband_prefs_alias" />
 
-        <ListPreference
-            android:defaultValue="left"
-            android:entries="@array/wearside"
-            android:entryValues="@array/wearside_values"
-            android:key="mi_wearside"
-            android:title="@string/miband_prefs_wearside"
-            android:summary="%s" />
-
         <EditTextPreference
             android:defaultValue="10000"
             android:inputType="number"
@@ -30,69 +22,6 @@
             android:summary="@string/mi2_prefs_goal_notification_summary"
             android:title="@string/mi2_prefs_goal_notification" />
 
-        <PreferenceScreen
-            android:key="mi2_button_actions_key"
-            android:summary="@string/mi2_prefs_button_actions_summary"
-            android:title="@string/mi2_prefs_button_actions"
-            android:persistent="false">
-
-            <!-- workaround for missing toolbar -->
-            <PreferenceCategory
-                android:title="@string/mi2_prefs_button_action"
-                />
-
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="mi2_enable_button_action"
-                android:summary="@string/mi2_prefs_button_action_summary"
-                android:title="@string/mi2_prefs_button_action" />
-
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:dependency="mi2_enable_button_action"
-                android:key="mi2_button_action_vibrate"
-                android:summary="@string/mi2_prefs_button_action_vibrate_summary"
-                android:title="@string/mi2_prefs_button_action_vibrate" />
-
-            <EditTextPreference
-                android:defaultValue="6"
-                android:dependency="mi2_enable_button_action"
-                android:inputType="number"
-                android:key="mi_button_press_count"
-                android:summary="@string/mi2_prefs_button_press_count_summary"
-                android:title="@string/mi2_prefs_button_press_count" />
-
-            <EditTextPreference
-                android:defaultValue="@string/mi2_prefs_button_press_broadcast_default_value"
-                android:dependency="mi2_enable_button_action"
-                android:key="mi_button_press_broadcast"
-                android:summary="@string/mi2_prefs_button_press_broadcast_summary"
-                android:title="@string/mi2_prefs_button_press_broadcast" />
-
-            <EditTextPreference
-                android:defaultValue="2000"
-                android:dependency="mi2_enable_button_action"
-                android:inputType="number"
-                android:key="mi_button_press_count_max_delay"
-                android:summary="@string/mi2_prefs_button_press_count_max_delay_summary"
-                android:title="@string/mi2_prefs_button_press_count_max_delay" />
-
-            <EditTextPreference
-                android:defaultValue="0"
-                android:dependency="mi2_enable_button_action"
-                android:inputType="number"
-                android:key="mi_button_press_count_match_delay"
-                android:summary="@string/mi2_prefs_button_press_count_match_delay_summary"
-                android:title="@string/mi2_prefs_button_press_count_match_delay" />
-        </PreferenceScreen>
-
-        <EditTextPreference
-            android:defaultValue="0"
-            android:inputType="number"
-            android:key="mi_reserve_alarm_calendar"
-            android:maxLength="1"
-            android:digits="0123"
-            android:title="@string/miband_prefs_reserve_alarm_calendar" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="mi_hr_sleep_detection"
@@ -105,44 +34,6 @@
             android:key="heartrate_measurement_interval"
             android:summary="%s"
             android:title="@string/prefs_title_heartrate_measurement_interval" />
-
-        <EditTextPreference
-			android:defaultValue="0"
-			android:inputType="numberSigned"
-			android:key="mi_device_time_offset_hours"
-			android:maxLength="2"
-			android:title="@string/miband_prefs_device_time_offset_hours" />
-
-        <PreferenceScreen
-            android:persistent="false"
-            android:title="@string/mi2_prefs_activate_display_on_lift">
-
-            <!-- workaround for missing toolbar -->
-            <PreferenceCategory android:title="@string/mi2_prefs_activate_display_on_lift" />
-
-            <ListPreference
-                android:defaultValue="@string/p_off"
-                android:entries="@array/activate_display_on_lift"
-                android:entryValues="@array/activate_display_on_lift_values"
-                android:key="activate_display_on_lift_wrist"
-                android:summary="%s"
-                android:title="@string/mi2_prefs_activate_display_on_lift" />
-
-            <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
-                android:defaultValue="00:00"
-                android:key="display_on_lift_start"
-                android:title="@string/mi2_prefs_do_not_disturb_start" />
-
-            <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
-                android:defaultValue="00:00"
-                android:key="display_on_lift_end"
-                android:title="@string/mi2_prefs_do_not_disturb_end" />
-
-        </PreferenceScreen>
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="mi2_rotate_wrist_to_switch_info"
-            android:title="@string/mi2_prefs_rotate_wrist_to_switch_info" />
 
         <PreferenceScreen
             android:key="mi2_inactivity_warning_key"
@@ -202,37 +93,6 @@
         </PreferenceScreen>
 
     </PreferenceCategory>
-
-    <PreferenceScreen
-        android:key="mi2_do_not_disturb_key"
-        android:title="@string/mi2_prefs_do_not_disturb"
-        android:persistent="false"
-        android:summary="@string/mi2_prefs_do_not_disturb_summary">
-
-        <!-- workaround for missing toolbar -->
-        <PreferenceCategory
-            android:title="@string/mi2_prefs_do_not_disturb"
-            />
-
-        <ListPreference
-            android:defaultValue="@string/p_off"
-            android:entries="@array/mi2_do_not_disturb"
-            android:entryValues="@array/mi2_do_not_disturb_values"
-            android:key="mi2_do_not_disturb"
-            android:title="@string/mi2_prefs_do_not_disturb"
-            android:summary="%s" />
-
-        <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
-            android:defaultValue="01:00"
-            android:key="mi2_do_not_disturb_start"
-            android:title="@string/mi2_prefs_do_not_disturb_start" />
-
-        <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
-            android:defaultValue="06:00"
-            android:key="mi2_do_not_disturb_end"
-            android:title="@string/mi2_prefs_do_not_disturb_end" />
-
-    </PreferenceScreen>
 
     <PreferenceCategory
         android:key="pref_category_miband_notification"
@@ -495,10 +355,5 @@
             android:title="@string/pref_title_keep_data_on_device"
             android:summary="@string/pref_summary_keep_data_on_device"
             android:defaultValue="false" />
-        <CheckBoxPreference
-            android:key="mi_low_latency_fw_update"
-            android:title="@string/pref_title_low_latency_fw_update"
-            android:summary="@string/pref_summary_low_latency_fw_update"
-            android:defaultValue="true" />
     </PreferenceCategory>
 </PreferenceScreen>

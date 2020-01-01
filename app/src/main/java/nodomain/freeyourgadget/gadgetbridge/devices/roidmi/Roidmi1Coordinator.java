@@ -1,4 +1,5 @@
-/*  Copyright (C) 2018 José Rebelo
+/*  Copyright (C) 2017-2019 Daniele Gobbetti, João Paulo Barraca, José
+    Rebelo, Quallenauge
 
     This file is part of Gadgetbridge.
 
@@ -17,11 +18,11 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.roidmi;
 
 import android.bluetooth.BluetoothDevice;
-import android.support.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
@@ -48,10 +49,5 @@ public class Roidmi1Coordinator extends RoidmiCoordinator {
     @Override
     public DeviceType getDeviceType() {
         return DeviceType.ROIDMI;
-    }
-
-    @Override
-    public int[] getColorPresets() {
-        return RoidmiConst.COLOR_PRESETS;
     }
 }

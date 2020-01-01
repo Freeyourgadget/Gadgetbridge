@@ -4,7 +4,7 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -43,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.jyou.RealtimeSamplesSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -337,11 +338,11 @@ public class Y5Support extends AbstractBTLEDeviceSupport {
                     default:
                         return;
                 }
-                Calendar cal = alarms.get(i).getAlarmCal();
+                Calendar cal = AlarmUtils.toCalendar(alarms.get(i));
                 builder.write(ctrlCharacteristic, commandWithChecksum(
                         cmd,
-                        alarms.get(i).isEnabled() ? cal.get(Calendar.HOUR_OF_DAY) : -1,
-                        alarms.get(i).isEnabled() ? cal.get(Calendar.MINUTE) : -1
+                        alarms.get(i).getEnabled() ? cal.get(Calendar.HOUR_OF_DAY) : -1,
+                        alarms.get(i).getEnabled() ? cal.get(Calendar.MINUTE) : -1
                 ));
             }
             performConnected(builder.getTransaction());
@@ -432,7 +433,7 @@ public class Y5Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
         try {
             TransactionBuilder builder = performInitialized("Reboot");
             builder.write(ctrlCharacteristic, commandWithChecksum(
@@ -512,6 +513,11 @@ public class Y5Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendConfiguration(String config) {
+
+    }
+
+    @Override
+    public void onReadConfiguration(String config) {
 
     }
 

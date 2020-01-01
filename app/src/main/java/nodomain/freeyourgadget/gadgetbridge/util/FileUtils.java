@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Felix
-    Konstantin Maurer, JohnnySun, Taavi Eomäe
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Felix Konstantin Maurer, JohnnySun, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -19,10 +19,8 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.icu.util.Output;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.annotation.NonNull;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -41,6 +39,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
 

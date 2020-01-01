@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2018 Carsten Pfeiffer, Daniele Gobbetti
+/*  Copyright (C) 2017-2019 abettenburg, AndrewBedscastle, Carsten Pfeiffer,
+    Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -17,9 +18,9 @@
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,12 +39,17 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Set;
 
+import androidx.recyclerview.widget.RecyclerView;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.GBApplication.packageNameToPebbleMsgSender;
 
 public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapter.AppBLViewHolder> implements Filterable {
+
+    public static final String STRING_EXTRA_PACKAGE_NAME = "packageName";
 
     private List<ApplicationInfo> applicationInfoList;
     private final int mLayoutId;
@@ -91,7 +98,7 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
     }
 
     @Override
-    public void onBindViewHolder(AppBlacklistAdapter.AppBLViewHolder holder, int position) {
+    public void onBindViewHolder(final AppBlacklistAdapter.AppBLViewHolder holder, int position) {
         final ApplicationInfo appInfo = applicationInfoList.get(position);
 
         holder.deviceAppVersionAuthorLabel.setText(appInfo.packageName);
@@ -105,7 +112,7 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
             @Override
             public void onClick(View view) {
                 ((CheckedTextView) view).toggle();
-                if ( ((CheckedTextView)view).isChecked() ) {
+                if (((CheckedTextView) view).isChecked()) {
                     GBApplication.addAppToPebbleBlacklist(appInfo.packageName);
                 } else {
                     GBApplication.removeFromAppsPebbleBlacklist(appInfo.packageName);
@@ -116,7 +123,7 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CheckedTextView checkBox = ((CheckedTextView) v.findViewById(R.id.item_checkbox));
+                CheckedTextView checkBox = (v.findViewById(R.id.item_checkbox));
                 checkBox.toggle();
                 if (checkBox.isChecked()) {
                     GBApplication.addAppToNotifBlacklist(appInfo.packageName);
@@ -126,6 +133,19 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
             }
         });
 
+        holder.btnConfigureApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (holder.blacklist_checkbox.isChecked()) {
+                    GB.toast(mContext, mContext.getString(R.string.toast_app_must_not_be_blacklisted), Toast.LENGTH_SHORT, GB.INFO);
+                } else {
+                    Intent intentStartNotificationFilterActivity = new Intent(mContext, NotificationFilterActivity.class);
+                    intentStartNotificationFilterActivity.putExtra(STRING_EXTRA_PACKAGE_NAME, appInfo.packageName);
+                    mContext.startActivity(intentStartNotificationFilterActivity);
+                }
+            }
+        });
     }
 
     public void blacklistAllNotif() {
@@ -163,15 +183,17 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
         final ImageView deviceImageView;
         final TextView deviceAppVersionAuthorLabel;
         final TextView deviceAppNameLabel;
+        final ImageView btnConfigureApp;
 
         AppBLViewHolder(View itemView) {
             super(itemView);
 
-            blacklist_checkbox = (CheckedTextView) itemView.findViewById(R.id.item_checkbox);
-            blacklist_pebble_checkbox = (CheckedTextView) itemView.findViewById(R.id.item_pebble_checkbox);
-            deviceImageView = (ImageView) itemView.findViewById(R.id.item_image);
-            deviceAppVersionAuthorLabel = (TextView) itemView.findViewById(R.id.item_details);
-            deviceAppNameLabel = (TextView) itemView.findViewById(R.id.item_name);
+            blacklist_checkbox = itemView.findViewById(R.id.item_checkbox);
+            blacklist_pebble_checkbox = itemView.findViewById(R.id.item_pebble_checkbox);
+            deviceImageView = itemView.findViewById(R.id.item_image);
+            deviceAppVersionAuthorLabel = itemView.findViewById(R.id.item_details);
+            deviceAppNameLabel = itemView.findViewById(R.id.item_name);
+            btnConfigureApp = itemView.findViewById(R.id.btn_configureApp);
         }
 
     }
@@ -201,7 +223,7 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
 
                 for (ApplicationInfo ai : originalList) {
                     CharSequence name = mPm.getApplicationLabel(ai);
-                    if (name.toString().contains(filterPattern) ||
+                    if (name.toString().toLowerCase().contains(filterPattern) ||
                             (ai.packageName.contains(filterPattern))) {
                         filteredList.add(ai);
                     }

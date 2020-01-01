@@ -1,4 +1,5 @@
-/*  Copyright (C) 2018 Vadim Kaushan
+/*  Copyright (C) 2018-2019 Andreas Shimokawa, Carsten Pfeiffer, Sebastian
+    Kranz, Vadim Kaushan
 
     This file is part of Gadgetbridge.
 
@@ -29,6 +30,7 @@ import java.util.TimeZone;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.id115.ID115Constants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
@@ -101,7 +103,7 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("time");
             setTime(builder);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch(IOException e) {
             LOG.warn("Unable to send current time", e);
         }
@@ -185,7 +187,7 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
         try {
             getQueue().clear();
 
@@ -193,7 +195,7 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
             builder.write(normalWriteCharacteristic, new byte[] {
                     ID115Constants.CMD_ID_DEVICE_RESTART, ID115Constants.CMD_KEY_REBOOT
             });
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch(Exception e) {
         }
     }
@@ -249,6 +251,11 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onReadConfiguration(String config) {
+
+    }
+
+    @Override
     public void onTestNewFunction() {
 
     }
@@ -290,11 +297,11 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
     }
 
     ID115Support setWrist(TransactionBuilder builder) {
-        String value = GBApplication.getPrefs().getString(ID115Constants.PREF_WRIST,
+        String value = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_WEARLOCATION,
                 "left");
 
         byte wrist;
-        if (value.equals("left")) {
+        if ("left".equals(value)) {
             wrist = ID115Constants.CMD_ARG_LEFT;
         } else {
             wrist = ID115Constants.CMD_ARG_RIGHT;
@@ -308,11 +315,11 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
     }
 
     ID115Support setScreenOrientation(TransactionBuilder builder) {
-        String value = GBApplication.getPrefs().getString(ID115Constants.PREF_SCREEN_ORIENTATION,
+        String value = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_SCREEN_ORIENTATION,
                 "horizontal");
 
         byte orientation;
-        if (value.equals("horizontal")) {
+        if ("horizontal".equals(value)) {
             orientation = ID115Constants.CMD_ARG_HORIZONTAL;
         } else {
             orientation = ID115Constants.CMD_ARG_VERTICAL;
@@ -350,7 +357,7 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
                     ID115Constants.CMD_KEY_NOTIFY_STOP,
                     1
             });
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch(IOException e) {
             LOG.warn("Unable to stop call notification", e);
         }

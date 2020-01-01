@@ -120,6 +120,7 @@ public class DeviceCommunicationServiceTestCase extends TestBase {
     public void testRtlSupport() {
         SharedPreferences settings = GBApplication.getPrefs().getPreferences();
         SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("transliteration", false);
         editor.putBoolean(GBPrefs.RTL_SUPPORT, true);
         editor.commit();
 

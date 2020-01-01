@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal">
 
-    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -139,12 +139,31 @@
 
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/device_specific_settings"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/device_image"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="4dp"
+                android:layout_toEndOf="@id/device_battery_status_box"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="4dp"
+                android:scaleType="fitXY"
+                android:tint="@color/secondarytext"
+                card_view:srcCompat="@drawable/ic_settings" />
+
+
             <LinearLayout
                 android:id="@+id/device_fm_frequency_box"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/device_image"
-                android:layout_toEndOf="@id/device_battery_status_box"
+                android:layout_toEndOf="@id/device_specific_settings"
                 android:layout_margin="4dp"
                 android:orientation="vertical">
 
@@ -178,7 +197,6 @@
                 android:layout_toEndOf="@id/device_fm_frequency_box"
                 android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
-                android:contentDescription="@string/controlcenter_take_screenshot"
                 android:padding="4dp"
                 android:scaleType="fitXY"
                 card_view:srcCompat="@drawable/ic_led_color"
@@ -331,7 +349,7 @@
 
         </RelativeLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

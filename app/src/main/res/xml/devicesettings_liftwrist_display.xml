@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_arrow_upward"
+        android:key="screen_liftwrist_display"
+        android:persistent="false"
+        android:title="@string/mi2_prefs_activate_display_on_lift">
+
+        <!-- workaround for missing toolbar -->
+        <PreferenceCategory android:title="@string/mi2_prefs_activate_display_on_lift" />
+
+        <ListPreference
+            android:defaultValue="@string/p_off"
+            android:entries="@array/activate_display_on_lift"
+            android:entryValues="@array/activate_display_on_lift_values"
+            android:key="activate_display_on_lift_wrist"
+            android:summary="%s"
+            android:title="@string/mi2_prefs_activate_display_on_lift" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="00:00"
+            android:key="display_on_lift_start"
+            android:title="@string/mi2_prefs_do_not_disturb_start" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="00:00"
+            android:key="display_on_lift_end"
+            android:title="@string/mi2_prefs_do_not_disturb_end" />
+
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

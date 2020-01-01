@@ -32,6 +32,7 @@
     <item name="p_menuitem_notifications" type="string">notifications</item>
     <item name="p_menuitem_music" type="string">music</item>
     <item name="p_menuitem_more" type="string">more</item>
+    <item name="p_menuitem_nfc" type="string">nfc</item>
 
     <item name="p_off" type="string">off</item>
     <item name="p_on" type="string">on</item>

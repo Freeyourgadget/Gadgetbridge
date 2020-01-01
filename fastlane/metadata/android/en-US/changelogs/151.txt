@@ -1,0 +1,4 @@
+* Mi Band 1: Fix crash when entering per-device settings
+* Mi Band 3: Allow setting date format in per-device settings
+* ZeTime: Fix timestmaps
+* Fix a crash when flashing an non-whitelisted firmware while using Gadgetbridge in Spanish

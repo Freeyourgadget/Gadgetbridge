@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti
 
     This file is part of Gadgetbridge.
@@ -33,6 +33,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -41,6 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAc
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.AbstractMiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -155,7 +157,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand1Operation {
                 } else if (updateCoordinator.needsReboot()) {
                     displayMessage(getContext(), getContext().getString(R.string.updatefirmwareoperation_update_complete_rebooting), Toast.LENGTH_LONG, GB.INFO);
                     GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_update_complete), false, 100, getContext());
-                    getSupport().onReboot();
+                    getSupport().onReset(GBDeviceProtocol.RESET_FLAGS_REBOOT);
                 } else {
                     LOG.error("BUG: Successful firmware update without reboot???");
                 }
@@ -186,7 +188,6 @@ public class UpdateFirmwareOperation extends AbstractMiBand1Operation {
      * The Mi Band will send a notification after receiving these data to confirm if the metadata looks good to it.
      *
      * @param newFwVersion
-     * @see MiBandSupport#handleNotificationNotif
      */
     private UpdateCoordinator prepareFirmwareInfo(byte[] fwBytes, int newFwVersion) throws IOException {
         int newFwSize = fwBytes.length;
@@ -296,7 +297,6 @@ public class UpdateFirmwareOperation extends AbstractMiBand1Operation {
      *
      * @param fwbytes
      * @return whether the transfer succeeded or not. Only a BT layer exception will cause the transmission to fail.
-     * @see MiBandSupport#handleNotificationNotif
      */
     private boolean sendFirmwareData(byte[] fwbytes) {
         int len = fwbytes.length;
@@ -310,7 +310,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand1Operation {
             int firmwareProgress = 0;
 
             TransactionBuilder builder = performInitialized("send firmware packet");
-            if (prefs.getBoolean("mi_low_latency_fw_update", true)) {
+            if (GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()).getBoolean("low_latency_fw_update", true)) {
                 getSupport().setLowLatency(builder);
             }
             for (int i = 0; i < packets; i++) {
