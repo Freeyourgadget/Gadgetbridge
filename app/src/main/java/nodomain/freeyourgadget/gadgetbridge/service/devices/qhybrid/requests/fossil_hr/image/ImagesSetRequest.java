@@ -7,8 +7,8 @@ import org.json.JSONObject;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.json.JsonPutRequest;
 
-public class ImagesPutRequest extends JsonPutRequest {
-    public ImagesPutRequest(AssetImage[] images, FossilWatchAdapter adapter) {
+public class ImagesSetRequest extends JsonPutRequest {
+    public ImagesSetRequest(AssetImage[] images, FossilWatchAdapter adapter) {
         super((short) 0x0503, prepareObject(images), adapter);
     }
 
