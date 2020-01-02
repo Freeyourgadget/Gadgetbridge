@@ -5,15 +5,16 @@ import androidx.annotation.NonNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Image {
-    private int angle, distance, indexZ;
-    private String imageFile;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFile;
 
-    public Image(int angle, int distance, int indexZ, String imageFile) {
+public class AssetImage extends AssetFile {
+    private int angle, distance, indexZ;
+
+    protected AssetImage(String fileName, byte[] fileData, int angle, int distance, int indexZ) {
+        super(fileName, fileData);
         this.angle = angle;
         this.distance = distance;
         this.indexZ = indexZ;
-        this.imageFile = imageFile;
     }
 
     @NonNull
@@ -25,7 +26,7 @@ public class Image {
     public JSONObject toJsonObject(){
         try {
             return new JSONObject()
-                    .put("image_name", this.imageFile)
+                    .put("image_name", getFileName())
                     .put("pos",
                         new JSONObject()
                             .put("angle", angle)
@@ -62,11 +63,5 @@ public class Image {
         this.indexZ = indexZ;
     }
 
-    public String getImageFile() {
-        return imageFile;
-    }
 
-    public void setImageFile(String imageFile) {
-        this.imageFile = imageFile;
-    }
 }

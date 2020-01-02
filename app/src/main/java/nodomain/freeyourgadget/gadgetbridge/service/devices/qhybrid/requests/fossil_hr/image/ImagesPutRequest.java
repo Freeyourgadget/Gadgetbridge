@@ -8,14 +8,14 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.foss
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.json.JsonPutRequest;
 
 public class ImagesPutRequest extends JsonPutRequest {
-    public ImagesPutRequest(Image[] images, FossilWatchAdapter adapter) {
-        super((short) 0x0500, prepareObject(images), adapter);
+    public ImagesPutRequest(AssetImage[] images, FossilWatchAdapter adapter) {
+        super((short) 0x0503, prepareObject(images), adapter);
     }
 
-    private static JSONObject prepareObject(Image[] images){
+    private static JSONObject prepareObject(AssetImage[] images){
         try {
             JSONArray imageArray = new JSONArray();
-            for (Image image : images) imageArray.put(image.toJsonObject());
+            for (AssetImage image : images) imageArray.put(image.toJsonObject());
             return new JSONObject()
                     .put("push",
                             new JSONObject()

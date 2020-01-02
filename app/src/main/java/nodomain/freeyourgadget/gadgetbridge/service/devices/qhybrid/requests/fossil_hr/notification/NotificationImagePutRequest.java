@@ -8,20 +8,21 @@ import java.util.stream.Stream;
 import java.util.zip.CRC32;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFile;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.utils.StringUtils;
 
 public class NotificationImagePutRequest extends AssetFilePutRequest {
-    private NotificationImagePutRequest(String packageName, byte[] file, FossilWatchAdapter adapter) {
-        super(prepareFileCrc(packageName), file, adapter);
+    private NotificationImagePutRequest(String packageName, AssetFile file, FossilWatchAdapter adapter) throws IOException {
+        super(file, adapter);
     }
 
-    private NotificationImagePutRequest(NotificationImage image, FossilWatchAdapter adapter) {
-        super(prepareFileCrc(image.getPackageName()), image.getImageData(), adapter);
+    private NotificationImagePutRequest(NotificationImage image, FossilWatchAdapter adapter) throws IOException {
+        super(image, adapter);
     }
 
-    public NotificationImagePutRequest(String[] fileNames, byte[][] files, FossilWatchAdapter adapter) throws IOException {
-        super(prepareFileCrc(fileNames), files, adapter);
+    public NotificationImagePutRequest(NotificationImage[] images, FossilWatchAdapter adapter) throws IOException {
+        super(images, adapter);
     }
 
 

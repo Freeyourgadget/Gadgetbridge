@@ -10,33 +10,35 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.utils.StringUtils;
 
 public class AssetFilePutRequest extends FilePutRequest {
-    public AssetFilePutRequest(byte[] fileName, byte[] file, FossilWatchAdapter adapter) {
-        super((short) 0x0701, prepareFileData(fileName, file), adapter);
+    public AssetFilePutRequest(AssetFile[] files, FossilWatchAdapter adapter) throws IOException {
+        super((short) 0x0700, prepareFileData(files), adapter);
     }
-    public AssetFilePutRequest(byte[][] fileNames, byte[][] files, FossilWatchAdapter adapter) throws IOException {
-        super((short) 0x0701, prepareFileData(fileNames, files), adapter);
+    public AssetFilePutRequest(AssetFile file, FossilWatchAdapter adapter) throws IOException {
+        super((short) 0x0700, prepareFileData(file), adapter);
     }
 
-    private static byte[] prepareFileData(byte[][] fileNames, byte[][] files) throws IOException {
+    private static byte[] prepareFileData(AssetFile[] files) throws IOException {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
-        for(int i = 0; i < fileNames.length; i++){
+        for(int i = 0; i < files.length; i++){
             stream.write(
-                    prepareFileData(fileNames[i], files[i])
+                    prepareFileData(files[i])
             );
         }
 
         return stream.toByteArray();
     }
 
-    private static byte[] prepareFileData(byte[] fileNameNullTerminated, byte[] file){
-        ByteBuffer buffer = ByteBuffer.allocate(fileNameNullTerminated.length + 2 + file.length);
+    private static byte[] prepareFileData(AssetFile file){
+        int size = file.getFileName().length() + file.getFileData().length;
+        ByteBuffer buffer = ByteBuffer.allocate(size + 3);
 
         buffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        buffer.putShort((short)(fileNameNullTerminated.length + file.length));
-        buffer.put(fileNameNullTerminated);
-        buffer.put(file);
+        buffer.putShort((short)(size));
+        buffer.put(file.getFileName().getBytes());
+        buffer.put((byte) 0x00);
+        buffer.put(file.getFileData());
 
         return buffer.array();
     }
