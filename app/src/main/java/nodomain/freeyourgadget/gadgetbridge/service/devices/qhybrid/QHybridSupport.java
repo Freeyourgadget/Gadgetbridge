@@ -111,6 +111,8 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String ITEM_TIMEZONE_OFFSET = "STEPTIMEZONE_OFFSET_COUNT";
 
     private static final Logger logger = LoggerFactory.getLogger(QHybridSupport.class);
+    private final BroadcastReceiver commandReceiver;
+    private final BroadcastReceiver globalCommandReceiver;
 
     private PackageConfigHelper helper;
 
@@ -139,7 +141,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         commandFilter.addAction(QHYBRID_COMMAND_OVERWRITE_BUTTONS);
         commandFilter.addAction(QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED);
         commandFilter.addAction(QHYBRID_COMMAND_SEND_MENU_ITEMS);
-        BroadcastReceiver commandReceiver = new BroadcastReceiver() {
+        commandReceiver = new BroadcastReceiver() {
 
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -233,7 +235,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         globalFilter.addAction(QHYBRID_ACTION_SET_ACTIVITY_HAND);
         globalFilter.addAction(QHYBRID_COMMAND_SET_MENU_MESSAGE);
         globalFilter.addAction(QHYBRID_COMMAND_SET_WIDGET_CONTENT);
-        BroadcastReceiver globalCommandReceiver = new BroadcastReceiver() {
+        globalCommandReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 //noinspection SwitchStatementWithTooFewBranches
@@ -274,6 +276,13 @@ public class QHybridSupport extends QHybridBaseSupport {
             }
         };
         GBApplication.getContext().registerReceiver(globalCommandReceiver, globalFilter);
+    }
+
+    @Override
+    public void dispose() {
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(commandReceiver);
+        GBApplication.getContext().unregisterReceiver(globalCommandReceiver);
+        super.dispose();
     }
 
     @Override
