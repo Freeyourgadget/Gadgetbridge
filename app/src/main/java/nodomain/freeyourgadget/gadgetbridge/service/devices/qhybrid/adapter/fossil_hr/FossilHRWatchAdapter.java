@@ -86,9 +86,14 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
         overwriteButtons(null);
 
-        drawWidgetText("19.00");
+        drawWidgetText("-");
 
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED));
+    }
+
+    @Override
+    public void setWidgetContent(String widgetID, String content) {
+        drawWidgetText(content);
     }
 
     private void drawWidgetText(String text){
@@ -108,8 +113,15 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             circlePaint.setStrokeWidth(4);
             circlePaint.setTextSize(17f);
             circlePaint.setStyle(Paint.Style.FILL);
+            circlePaint.setTextAlign(Paint.Align.CENTER);
 
-            testCanvas.drawText(text, 16, 60, circlePaint);
+            testCanvas.drawText("ETH", 38, 76f / 3f * 1f - (circlePaint.descent() + circlePaint.ascent()) / 2f, circlePaint);
+            testCanvas.drawText(text, 38, 76f / 3f * 2f - (circlePaint.descent() + circlePaint.ascent()) / 2f, circlePaint);
+
+            circlePaint.setStrokeWidth(1);
+            circlePaint.setStyle(Paint.Style.STROKE);
+
+            // for(int i = 0; i <= 3; i++) testCanvas.drawLine(0, 76f / 3f * i - (i / 3), 76, 76f / 3f * i - (i / 3), circlePaint);
 
             AssetImage image = AssetImageFactory.createAssetImage(
                     StringUtils.bytesToHex(

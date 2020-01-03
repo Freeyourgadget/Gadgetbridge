@@ -105,4 +105,7 @@ public abstract class WatchAdapter {
 
     public void setMusicState(MusicStateSpec stateSpec) {
     }
+
+    public void setWidgetContent(String widgetID, String content) {
+    }
 }

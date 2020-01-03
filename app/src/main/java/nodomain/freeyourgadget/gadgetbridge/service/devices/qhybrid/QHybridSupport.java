@@ -88,6 +88,7 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String QHYBRID_COMMAND_OVERWRITE_BUTTONS = "nodomain.freeyourgadget.gadgetbridge.Q_OVERWRITE_BUTTONS";
     public static final String QHYBRID_COMMAND_SET_MENU_MESSAGE = "nodomain.freeyourgadget.gadgetbridge.Q_SET_MENU_MESSAGE";
     public static final String QHYBRID_COMMAND_SEND_MENU_ITEMS = "nodomain.freeyourgadget.gadgetbridge.Q_SEND_MENU_ITEMS";
+    public static final String QHYBRID_COMMAND_SET_WIDGET_CONTENT = "nodomain.freeyourgadget.gadgetbridge.Q_SET_WIDGET_CONTENT";
 
     private static final String QHYBRID_ACTION_SET_ACTIVITY_HAND = "nodomain.freeyourgadget.gadgetbridge.Q_SET_ACTIVITY_HAND";
 
@@ -231,6 +232,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         IntentFilter globalFilter = new IntentFilter();
         globalFilter.addAction(QHYBRID_ACTION_SET_ACTIVITY_HAND);
         globalFilter.addAction(QHYBRID_COMMAND_SET_MENU_MESSAGE);
+        globalFilter.addAction(QHYBRID_COMMAND_SET_WIDGET_CONTENT);
         BroadcastReceiver globalCommandReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -260,6 +262,12 @@ public class QHybridSupport extends QHybridBaseSupport {
 
                         watchAdapter.setCommuteMenuMessage(message, finished);
 
+                        break;
+                    }
+                    case QHYBRID_COMMAND_SET_WIDGET_CONTENT: {
+                        String id = String.valueOf(intent.getExtras().get("EXTRA_WIDGET_ID"));
+                        String content = String.valueOf(intent.getExtras().get("EXTRA_CONTENT"));
+                        watchAdapter.setWidgetContent(id, content);
                         break;
                     }
                 }
