@@ -185,7 +185,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     @Override
-    public void setWidgetContent(String widgetID, String content) {
+    public void setWidgetContent(String widgetID, String content, boolean render) {
         boolean update = false;
         for(CustomWidget widget : this.widgets){
             CustomWidgetElement element = widget.getElement(widgetID);
@@ -195,7 +195,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             update = true;
         }
 
-        if(update) renderWidgets();
+        if(render && update) renderWidgets();
     }
 
     private void negotiateSymmetricKey() {

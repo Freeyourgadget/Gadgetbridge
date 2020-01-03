@@ -269,7 +269,8 @@ public class QHybridSupport extends QHybridBaseSupport {
                     case QHYBRID_COMMAND_SET_WIDGET_CONTENT: {
                         String id = String.valueOf(intent.getExtras().get("EXTRA_WIDGET_ID"));
                         String content = String.valueOf(intent.getExtras().get("EXTRA_CONTENT"));
-                        watchAdapter.setWidgetContent(id, content);
+                        boolean render = intent.getBooleanExtra("EXTRA_RENDER", true);
+                        watchAdapter.setWidgetContent(id, content, render);
                         break;
                     }
                 }
