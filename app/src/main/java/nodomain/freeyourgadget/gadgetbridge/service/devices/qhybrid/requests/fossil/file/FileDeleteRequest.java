@@ -22,6 +22,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.ResultCode;
 
 public class FileDeleteRequest extends FossilRequest {
     private boolean finished = false;
@@ -53,7 +54,8 @@ public class FileDeleteRequest extends FossilRequest {
 
         if(buffer.getShort(1) != this.handle) throw new RuntimeException("wrong response handle");
 
-        if(buffer.get(3) != 0) throw new RuntimeException("wrong response status: " + buffer.get(3));
+        byte status = buffer.get(3);
+        if(status != 0) throw new RuntimeException("wrong response status: " + ResultCode.fromCode(status) + "(" + status + ")");
 
         this.finished = true;
     }

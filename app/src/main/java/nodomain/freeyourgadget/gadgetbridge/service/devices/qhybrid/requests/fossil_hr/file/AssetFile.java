@@ -16,4 +16,8 @@ public class AssetFile {
     public byte[] getFileData() {
         return fileData;
     }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 }

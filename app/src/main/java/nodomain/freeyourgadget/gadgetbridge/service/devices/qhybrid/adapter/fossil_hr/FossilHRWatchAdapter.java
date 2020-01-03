@@ -19,10 +19,12 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Random;
 import java.util.TimeZone;
 import java.util.zip.CRC32;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.Widget;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HRConfigActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
@@ -34,11 +36,13 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.encoder.RLEE
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.RequestMtuRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.SetDeviceStateRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.*;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileDeleteRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.VerifyPrivateKeyRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration.ConfigurationGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration.ConfigurationPutRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFile;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.AssetImage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.AssetImageFactory;
@@ -46,6 +50,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.menu.SetCommuteMenuMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicInfoSetRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomWidget;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomWidgetElement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.utils.StringUtils;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.*;
@@ -55,7 +61,11 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     private byte[] phoneRandomNumber;
     private byte[] watchRandomNumber;
 
+    CustomWidget[] widgets;
+
     private MusicSpec currentSpec = null;
+
+    int imageNameIndex = 0;
 
     public FossilHRWatchAdapter(QHybridSupport deviceSupport) {
         super(deviceSupport);
@@ -86,67 +96,108 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
         overwriteButtons(null);
 
-        drawWidgetText("-");
+        queueWrite(new FileDeleteRequest((short) 0x0700));
+
+        loadWidgets();
+        renderWidgets();
+        // dunno if there is any point in doing this at start since when no watch is connected the QHybridSupport will not receive any intents anyway
 
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED));
     }
 
-    @Override
-    public void setWidgetContent(String widgetID, String content) {
-        drawWidgetText(content);
+    private void loadWidgets() {
+        CustomWidget ethWidget = new CustomWidget(0, 63);
+        ethWidget.addElement(new CustomWidgetElement(CustomWidgetElement.WidgetElementType.TYPE_TEXT, "date", "-", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_UPPER_HALF));
+        ethWidget.addElement(new CustomWidgetElement(CustomWidgetElement.WidgetElementType.TYPE_TEXT, "eth", "-", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_LOWER_HALF));
+
+
+        CustomWidget btcWidget = new CustomWidget(90, 63);
+        btcWidget.addElement(new CustomWidgetElement(CustomWidgetElement.WidgetElementType.TYPE_TEXT, "", "BTC", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_UPPER_HALF));
+        btcWidget.addElement(new CustomWidgetElement(CustomWidgetElement.WidgetElementType.TYPE_TEXT, "btc", "wtf", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_LOWER_HALF));
+        this.widgets = new CustomWidget[]{
+                ethWidget,
+                // btcWidget,
+        };
     }
 
-    private void drawWidgetText(String text){
-
+    private void renderWidgets() {
         try {
-            Bitmap testBitmap = Bitmap.createBitmap(76, 76, Bitmap.Config.ARGB_8888);
+            AssetImage[] widgetImages = new AssetImage[this.widgets.length];
 
-            Canvas testCanvas = new Canvas(testBitmap);
+            for (int i = 0; i < this.widgets.length; i++) {
+                CustomWidget widget = widgets[i];
 
-            Paint circlePaint = new Paint();
-            circlePaint.setColor(Color.WHITE);
-            circlePaint.setStyle(Paint.Style.STROKE);
-            circlePaint.setStrokeWidth(3);
+                Bitmap widgetBitmap = Bitmap.createBitmap(76, 76, Bitmap.Config.ARGB_8888);
 
-            testCanvas.drawCircle(38, 38, 37, circlePaint);
+                Canvas widgetCanvas = new Canvas(widgetBitmap);
 
-            circlePaint.setStrokeWidth(4);
-            circlePaint.setTextSize(17f);
-            circlePaint.setStyle(Paint.Style.FILL);
-            circlePaint.setTextAlign(Paint.Align.CENTER);
+                Paint circlePaint = new Paint();
+                circlePaint.setColor(Color.WHITE);
+                circlePaint.setStyle(Paint.Style.STROKE);
+                circlePaint.setStrokeWidth(3);
 
-            testCanvas.drawText("ETH", 38, 76f / 3f * 1f - (circlePaint.descent() + circlePaint.ascent()) / 2f, circlePaint);
-            testCanvas.drawText(text, 38, 76f / 3f * 2f - (circlePaint.descent() + circlePaint.ascent()) / 2f, circlePaint);
+                widgetCanvas.drawCircle(38, 38, 37, circlePaint);
 
-            circlePaint.setStrokeWidth(1);
-            circlePaint.setStyle(Paint.Style.STROKE);
+                for (CustomWidgetElement element : widget.getElements()) {
+                    if (element.getWidgetElementType() == CustomWidgetElement.WidgetElementType.TYPE_TEXT) {
+                        Paint textPaint = new Paint();
+                        textPaint.setStrokeWidth(4);
+                        textPaint.setTextSize(17f);
+                        textPaint.setStyle(Paint.Style.FILL);
+                        textPaint.setColor(Color.WHITE);
+                        textPaint.setTextAlign(Paint.Align.CENTER);
 
-            // for(int i = 0; i <= 3; i++) testCanvas.drawLine(0, 76f / 3f * i - (i / 3), 76, 76f / 3f * i - (i / 3), circlePaint);
+                        widgetCanvas.drawText(element.getValue(), element.getX(), element.getY() - (textPaint.descent() + textPaint.ascent()) / 2f, textPaint);
+                    }
+                }
+                widgetImages[i] = AssetImageFactory.createAssetImage(
+                        StringUtils.bytesToHex(
+                                ByteBuffer.allocate(8)
+                                        .putLong(System.currentTimeMillis() + imageNameIndex++)
+                                        .array()
+                        )
+                        ,
+                        widgetBitmap,
+                        true,
+                        widget.getAngle(),
+                        widget.getDistance(),
+                        1
+                );
+            }
 
-            AssetImage image = AssetImageFactory.createAssetImage(
-                    StringUtils.bytesToHex(
-                            ByteBuffer.allocate(4)
-                                    .putInt((int) System.currentTimeMillis())
-                                    .array()
-                    )
-                    , testBitmap, true, 0, 60, 1);
-
-            AssetImage[] images = new AssetImage[]{
-                    image,
-            };
 
             queueWrite(new AssetFilePutRequest(
-                    images,
+                    new AssetFile[]{widgetImages[0]},
                     this
             ));
 
+            // for(int i = 0; i < widgetImages.length; i++){
+            //     queueWrite(new AssetFilePutRequest(widgetImages[i], i + 1, this));
+            // }
+
+            // widgetImages[1].setFileName(widgetImages[0].getFileName());
+
             queueWrite(new ImagesSetRequest(
-                    images,
+                    widgetImages,
                     this
             ));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void setWidgetContent(String widgetID, String content) {
+        boolean update = false;
+        for(CustomWidget widget : this.widgets){
+            CustomWidgetElement element = widget.getElement(widgetID);
+            if(element == null) continue;
+
+            element.setValue(content);
+            update = true;
+        }
+
+        if(update) renderWidgets();
     }
 
     private void negotiateSymmetricKey() {
@@ -279,32 +330,31 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
         if (requestType == (byte) 0x05) {
             handleMusicRequest(value);
-            return;
-        }
+        }else if(requestType == (byte) 0x01) {
+            int eventId = value[2];
 
-        int eventId = value[2];
+            try {
+                JSONObject requestJson = new JSONObject(new String(value, 3, value.length - 3));
 
-        try {
-            JSONObject requestJson = new JSONObject(new String(value, 3, value.length - 3));
+                String action = requestJson.getJSONObject("req").getJSONObject("commuteApp._.config.commute_info")
+                        .getString("dest");
 
-            String action = requestJson.getJSONObject("req").getJSONObject("commuteApp._.config.commute_info")
-                    .getString("dest");
+                String startStop = requestJson.getJSONObject("req").getJSONObject("commuteApp._.config.commute_info")
+                        .getString("action");
 
-            String startStop = requestJson.getJSONObject("req").getJSONObject("commuteApp._.config.commute_info")
-                    .getString("action");
+                if (startStop.equals("stop")) {
+                    // overwriteButtons(null);
+                    return;
+                }
 
-            if (startStop.equals("stop")) {
-                // overwriteButtons(null);
-                return;
+                queueWrite(new SetCommuteMenuMessage("Anfrage wird weitergeleitet...", false, this));
+
+                Intent menuIntent = new Intent(QHybridSupport.QHYBRID_EVENT_COMMUTE_MENU);
+                menuIntent.putExtra("EXTRA_ACTION", action);
+                getContext().sendBroadcast(menuIntent);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
-            queueWrite(new SetCommuteMenuMessage("Anfrage wird weitergeleitet...", false, this));
-
-            Intent menuIntent = new Intent(QHybridSupport.QHYBRID_EVENT_COMMUTE_MENU);
-            menuIntent.putExtra("EXTRA_ACTION", action);
-            getContext().sendBroadcast(menuIntent);
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
     }
 

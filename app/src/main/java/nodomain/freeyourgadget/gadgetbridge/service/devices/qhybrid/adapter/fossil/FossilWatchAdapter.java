@@ -460,7 +460,7 @@ public class FossilWatchAdapter extends WatchAdapter {
                         requestFinished = fossilRequest.isFinished();
                     } catch (RuntimeException e) {
                         GB.log("error", GB.ERROR, e);
-                        getDeviceSupport().notifiyException(e);
+                        getDeviceSupport().notifiyException(fossilRequest.getName(), e);
                         GB.toast(fossilRequest.getName() + " failed", Toast.LENGTH_SHORT, GB.ERROR);
                         requestFinished = true;
                     }

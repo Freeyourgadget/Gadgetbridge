@@ -532,6 +532,10 @@ public class QHybridSupport extends QHybridBaseSupport {
     }
 
     public void notifiyException(Exception e){
+        notifiyException("", e);
+    }
+
+    public void notifiyException(String requestName, Exception e){
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
@@ -544,7 +548,7 @@ public class QHybridSupport extends QHybridBaseSupport {
             notificationBuilder = new Notification.Builder(getContext());
         }
         notificationBuilder
-                .setContentTitle("Q Error")
+                .setContentTitle("Q Error " + requestName)
                 .setSmallIcon(R.drawable.ic_notification_qhybrid)
                 .setContentText(sStackTrace)
                 .setStyle(new Notification.BigTextStyle())

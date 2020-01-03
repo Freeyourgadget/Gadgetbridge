@@ -17,6 +17,10 @@ public class AssetFilePutRequest extends FilePutRequest {
         super((short) 0x0700, prepareFileData(file), adapter);
     }
 
+    public AssetFilePutRequest(AssetFile file, int subHandle, FossilWatchAdapter adapter) throws IOException {
+        super((short) (0x0700 | subHandle), prepareFileData(file), adapter);
+    }
+
     private static byte[] prepareFileData(AssetFile[] files) throws IOException {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
