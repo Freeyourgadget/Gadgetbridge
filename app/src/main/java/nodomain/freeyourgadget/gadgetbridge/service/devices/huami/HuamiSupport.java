@@ -130,6 +130,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
@@ -1700,6 +1701,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case MiBandConst.PREF_SWIPE_UNLOCK:
                     setBandScreenUnlock(builder);
                     break;
+                case DeviceSettingsPreferenceConst.PREF_TIMEFORMAT:
+                    setTimeFormat(builder);
+                    break;
                 case DeviceSettingsPreferenceConst.PREF_DATEFORMAT:
                     setDateFormat(builder);
                     break;
@@ -1952,9 +1956,11 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HuamiSupport setTimeFormat(TransactionBuilder builder) {
-        boolean is24Format = DateFormat.is24HourFormat(getContext());
-        LOG.info("Setting 24h time format to " + is24Format);
-        if (is24Format) {
+        GBPrefs gbPrefs = new GBPrefs(new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress())));
+        String timeFormat = gbPrefs.getTimeFormat();
+
+        LOG.info("Setting time format to " + timeFormat);
+        if (timeFormat.equals("24h")) {
             builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), HuamiService.DATEFORMAT_TIME_24_HOURS);
         } else {
             builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), HuamiService.DATEFORMAT_TIME_12_HOURS);

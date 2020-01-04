@@ -17,8 +17,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import android.text.format.DateFormat;
+
 import java.text.ParseException;
 import java.util.Date;
+
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 
 public class GBPrefs {
     public static final String PACKAGE_BLACKLIST = "package_blacklist";
@@ -80,5 +85,18 @@ public class GBPrefs {
 
     public int getUserGender() {
         return 0;
+    }
+
+    public String getTimeFormat() {
+        String timeFormat = mPrefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, "auto");
+        if ("auto".equals(timeFormat)) {
+            if (DateFormat.is24HourFormat(GBApplication.getContext())) {
+                timeFormat = "24h";
+            } else {
+                timeFormat = "am/pm";
+            }
+        }
+
+        return timeFormat;
     }
 }

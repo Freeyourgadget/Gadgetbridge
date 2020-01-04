@@ -91,6 +91,7 @@ public class MiBand4Coordinator extends HuamiCoordinator {
                 R.xml.devicesettings_miband3,
                 R.xml.devicesettings_wearlocation,
                 R.xml.devicesettings_custom_emoji_font,
+                R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_dateformat,
                 R.xml.devicesettings_nightmode,
                 R.xml.devicesettings_liftwrist_display,
