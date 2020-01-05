@@ -85,8 +85,9 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
 
                 byte status = buffer.get(3);
 
-                if(status != 0){
-                    throw new RuntimeException("FileGet error: " + ResultCode.fromCode(status) + "   (" + status + ")");
+                ResultCode code = ResultCode.fromCode(status);
+                if(!code.inidicatesSuccess()){
+                    throw new RuntimeException("FileGet error: " + code + "   (" + status + ")");
                 }
 
                 if(this.handle != handle){

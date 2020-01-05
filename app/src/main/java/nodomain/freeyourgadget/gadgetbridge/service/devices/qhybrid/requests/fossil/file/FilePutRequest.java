@@ -100,8 +100,9 @@ public class FilePutRequest extends FossilRequest {
                     int crc = buffer.getInt(8);
                     byte status = value[3];
 
-                    if (status != 0) {
-                        throw new RuntimeException("upload status: " + ResultCode.fromCode(status) + "   (" + status + ")");
+                    ResultCode code = ResultCode.fromCode(status);
+                    if(!code.inidicatesSuccess()){
+                        throw new RuntimeException("upload status: " + code + "   (" + status + ")");
                     }
 
                     if (handle != this.handle) {
@@ -145,9 +146,10 @@ public class FilePutRequest extends FossilRequest {
 
                     byte status = buffer.get(3);
 
-                    if (status != 0) {
+                    ResultCode code = ResultCode.fromCode(status);
+                    if(!code.inidicatesSuccess()){
                         onFilePut(false);
-                        throw new RuntimeException("wrong closing status: " + ResultCode.fromCode(status) + "   (" + status + ")");
+                        throw new RuntimeException("wrong closing status: " + code + "   (" + status + ")");
                     }
 
                     this.state = UploadState.UPLOADED;

@@ -70,8 +70,9 @@ public class DownloadFileRequest extends FileRequest {
                 buffer1.order(ByteOrder.LITTLE_ENDIAN);
                 this.status = buffer1.get(3);
                 short realHandle = buffer1.getShort(1);
-                if(status != 0){
-                    log("wrong status: " + ResultCode.fromCode(status) + "   (" + status + ")");
+                ResultCode code = ResultCode.fromCode(status);
+                if(!code.inidicatesSuccess()){
+                    log("wrong status: " + code + "   (" + status + ")");
                 }else if(realHandle != fileHandle){
                     log("wrong handle: " + realHandle);
                     completed = true;

@@ -82,7 +82,9 @@ public class VerifyPrivateKeyRequest extends FossilRequest {
                 throw new RuntimeException(e);
             }
         } else if (value[1] == 2) {
-            if (value[2] != 0) throw new RuntimeException("Authentication error: " + ResultCode.fromCode(value[2]) + "   (" + value[2] + ")");
+            ResultCode code = ResultCode.fromCode(value[2]);
+
+            if (!code.inidicatesSuccess()) throw new RuntimeException("Authentication error: " + code + "   (" + value[2] + ")");
 
 
             this.isFinished = true;

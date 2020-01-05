@@ -57,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.NotificationFilterPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayNotificationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.VerifyPrivateKeyRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.AnimationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.MoveHandsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.ReleaseHandsControlRequest;
@@ -459,6 +460,11 @@ public class FossilWatchAdapter extends WatchAdapter {
                         fossilRequest.handleResponse(characteristic);
                         requestFinished = fossilRequest.isFinished();
                     } catch (RuntimeException e) {
+                        if(fossilRequest instanceof VerifyPrivateKeyRequest){
+                            getDeviceSupport().getDevice().setState(GBDevice.State.AUTHENTICATION_REQUIRED);
+                            requestQueue.clear();
+                        }
+
                         GB.log("error", GB.ERROR, e);
                         getDeviceSupport().notifiyException(fossilRequest.getName(), e);
                         GB.toast(fossilRequest.getName() + " failed", Toast.LENGTH_SHORT, GB.ERROR);

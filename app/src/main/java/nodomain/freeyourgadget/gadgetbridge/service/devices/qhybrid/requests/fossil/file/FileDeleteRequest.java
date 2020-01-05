@@ -55,7 +55,8 @@ public class FileDeleteRequest extends FossilRequest {
         if(buffer.getShort(1) != this.handle) throw new RuntimeException("wrong response handle");
 
         byte status = buffer.get(3);
-        if(status != 0) throw new RuntimeException("wrong response status: " + ResultCode.fromCode(status) + "(" + status + ")");
+        ResultCode code = ResultCode.fromCode(status);
+        if(!code.inidicatesSuccess()) throw new RuntimeException("wrong response status: " + code + "(" + status + ")");
 
         this.finished = true;
     }

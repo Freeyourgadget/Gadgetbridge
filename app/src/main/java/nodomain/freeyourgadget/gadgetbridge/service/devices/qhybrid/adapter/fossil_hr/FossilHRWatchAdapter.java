@@ -75,7 +75,11 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             queueWrite(new RequestMtuRequest(512));
         }
 
+        queueWrite(new SetDeviceStateRequest(GBDevice.State.AUTHENTICATING));
+
         negotiateSymmetricKey();
+
+        queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZING));
 
         // icons
 
@@ -94,10 +98,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
         overwriteButtons(null);
 
-        queueWrite(new FileDeleteRequest((short) 0x0700));
-
         loadWidgets();
-        renderWidgets();
+        // renderWidgets();
         // dunno if there is any point in doing this at start since when no watch is connected the QHybridSupport will not receive any intents anyway
 
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED));
@@ -164,6 +166,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             }
 
 
+            // queueWrite(new FileDeleteRequest((short) 0x0700));
             queueWrite(new AssetFilePutRequest(
                     new AssetFile[]{widgetImages[0]},
                     this
@@ -175,6 +178,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
             // widgetImages[1].setFileName(widgetImages[0].getFileName());
 
+            queueWrite(new FileDeleteRequest((short) 0x0503));
             queueWrite(new ImagesSetRequest(
                     widgetImages,
                     this
