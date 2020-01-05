@@ -821,4 +821,5 @@
     <string name="pref_disable_new_ble_scanning">Deaktivieren des neuen BLE-Scans</string>
     <string name="pref_summary_disable_new_ble_scanning">Aktiviere diese Option, wenn dein Gerät bei der Erkennung nicht gefunden wird</string>
     <string name="devicetype_banglejs">Bangle.js</string>
+    <string name="devicetype_y5">Y5</string>
 </resources>
