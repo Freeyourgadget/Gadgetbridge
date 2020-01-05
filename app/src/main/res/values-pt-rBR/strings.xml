@@ -819,4 +819,5 @@
     <string name="pref_disable_new_ble_scanning">Desabilitar nova varredura de BLE</string>
     <string name="pref_summary_disable_new_ble_scanning">Marque essa opção se seu dispositivo não pode ser encontrado durante descobertas</string>
     <string name="devicetype_banglejs">Bangle.js</string>
+    <string name="devicetype_y5">Y5</string>
 </resources>
