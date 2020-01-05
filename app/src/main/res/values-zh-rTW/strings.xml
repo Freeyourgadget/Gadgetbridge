@@ -13,7 +13,7 @@
     <string name="controlcenter_disconnect">離線</string>
     <string name="controlcenter_delete_device">刪除裝置</string>
     <string name="controlcenter_delete_device_name">刪除 %1$s</string>
-    <string name="controlcenter_delete_device_dialogmessage">這將刪除設備和所有相關資料！</string>
+    <string name="controlcenter_delete_device_dialogmessage">這將刪除裝置和所有相關資料！</string>
     <string name="controlcenter_navigation_drawer_open">打開導航列</string>
     <string name="controlcenter_navigation_drawer_close">關閉導航列</string>
     <string name="controlcenter_snackbar_need_longpress">長按此卡片以斷開連結接</string>
@@ -35,10 +35,89 @@
     <string name="appmanager_cached_watchapps_watchfaces">緩存的應用程式</string>
     <string name="appmanager_installed_watchfaces">已安裝的錶盤</string>
     <string name="appmanager_app_openinstore">在Pebble應用商店中搜索</string>
-    <string name="appmanager_health_activate">啟動</string>
+    <string name="appmanager_health_activate">啟用</string>
     <string name="appmanager_health_deactivate">停用</string>
     <string name="appmanager_hrm_activate">激活HRM</string>
     <string name="appmanager_hrm_deactivate">停用HRM</string>
     <string name="appmanager_weather_activate">啟動系統天氣應用</string>
     <string name="appmanager_weather_deactivate">停用系统天气应用</string>
+    <string name="fw_upgrade_notice_miband3">您即將在您的小米手環3上安裝韌體 %s
+\n
+\n請確定先安裝 .fw 檔，然後再安裝 .res 檔。您的手環將在安裝完 .fw 檔後重新啟動。
+\n
+\n注意：如果您安裝的是與先前同樣的版本，您就不必再安裝 .res 檔。
+\n
+\n過程中的風險請自負！</string>
+    <string name="miband_firmware_known">此韌體已經過測試且確認與 Gadgetbridge 相容。</string>
+    <string name="title_activity_settings">設定</string>
+    <string name="pref_header_general">一般設定</string>
+    <string name="pref_title_general_autoconnectonbluetooth">在藍芽開啟時連線到 Gadgetbridge 裝置</string>
+    <string name="pref_title_general_autostartonboot">自動啟動</string>
+    <string name="pref_title_general_autoreconnect">自動重新連線</string>
+    <string name="pref_title_audio_player">預設音樂播放器</string>
+    <string name="pref_default">預設</string>
+    <string name="pref_header_datetime">日期與時間</string>
+    <string name="pref_title_datetime_syctimeonconnect">時間同步</string>
+    <string name="pref_summary_datetime_syctimeonconnect">當您 Android 裝置上的時區改變或連接到 Gadgetbridge 裝置時同步時間</string>
+    <string name="pref_title_theme">主題</string>
+    <string name="pref_theme_light">亮色</string>
+    <string name="pref_theme_dark">暗色</string>
+    <string name="pref_title_language">語言</string>
+    <string name="pref_title_minimize_priority">隱藏 Gadgetbridge 通知</string>
+    <string name="pref_header_notifications">通知</string>
+    <string name="pref_title_notifications_sms">SMS</string>
+    <string name="pref_title_notifications_generic">一般通知支援</string>
+    <string name="pref_title_notification_filter">請勿打擾</string>
+    <string name="always">總是</string>
+    <string name="when_screen_off">當螢幕關閉時</string>
+    <string name="never">從不</string>
+    <string name="pref_header_privacy">隱私</string>
+    <string name="pref_title_call_privacy_mode">來電隱私模式</string>
+    <string name="pref_call_privacy_mode_off">顯示名稱及號碼</string>
+    <string name="pref_call_privacy_mode_name">隱藏名稱但顯示號碼</string>
+    <string name="pref_call_privacy_mode_number">隱藏號碼但顯示名稱</string>
+    <string name="pref_call_privacy_mode_complete">隱藏名稱及號碼</string>
+    <string name="pref_title_weather">天氣</string>
+    <string name="pref_title_weather_location">天氣偵測位置(僅適用於CM/LOS)</string>
+    <string name="zetime_date_format">日期格式</string>
+    <string name="zetime_date_format_1">年/月/日</string>
+    <string name="zetime_date_format_2">日/月/年</string>
+    <string name="zetime_date_format_3">月/日/年</string>
+    <string name="title_activity_device_specific_settings">裝置額外設定</string>
+    <string name="pref_header_auto_export">自動匯出</string>
+    <string name="pref_title_auto_export_enabled">啟用自動匯出</string>
+    <string name="pref_title_auto_export_interval">匯出間隔</string>
+    <string name="pref_summary_auto_export_interval">每 %d 小時匯出一次</string>
+    <string name="not_connected">未連線</string>
+    <string name="connected">已連線</string>
+    <string name="action_discover">連接新裝置</string>
+    <string name="preferences_category_device_specific_settings">裝置額外設定</string>
+    <string name="sleep_activity_date_range">從 %1$s 到 %2$s</string>
+    <string name="title_activity_charts">活動與睡眠</string>
+    <string name="sleepchart_your_sleep">睡眠</string>
+    <string name="weeksleepchart_sleep_a_week">每週睡眠</string>
+    <string name="weeksleepchart_today_sleep_description">今日睡眠，目標：%1$s</string>
+    <string name="activity_sleepchart_activity_and_sleep">活動</string>
+    <string name="lack_of_sleep">睡眠不足：%1$s</string>
+    <string name="abstract_chart_fragment_kind_light_sleep">淺層睡眠</string>
+    <string name="abstract_chart_fragment_kind_deep_sleep">深層睡眠</string>
+    <string name="you_did_not_sleep">你還沒有睡覺</string>
+    <string name="device_not_connected">未連線。</string>
+    <string name="miband_prefs_hr_sleep_detection">使用心律感測器來改善睡眠偵測</string>
+    <string name="miband2_prefs_dateformat">日期格式</string>
+    <string name="dateformat_date_time">時間與日期</string>
+    <string name="mi2_prefs_display_items">顯示項目</string>
+    <string name="mi2_prefs_display_items_summary">選擇要在手環螢幕上顯示的項目</string>
+    <string name="mi3_prefs_band_screen_unlock">手環螢幕解鎖</string>
+    <string name="mi3_prefs_band_screen_unlock_summary">上滑以解鎖手環螢幕</string>
+    <string name="activity_prefs_about_you">關於你</string>
+    <string name="weeksleepchart_sleep_a_month">每月睡眠</string>
+    <string name="pref_chart_sleep_rolling_24_on">過去 24 小時</string>
+    <string name="menuitem_weather">天氣</string>
+    <string name="menuitem_settings">設定</string>
+    <string name="language_and_region_prefs">語言與地區設定</string>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="one">%d 小時</item>
+        <item quantity="other"></item>
+    </plurals>
 </resources>
