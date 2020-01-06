@@ -34,8 +34,8 @@ public class AssetFilePutRequest extends FilePutRequest {
     }
 
     private static byte[] prepareFileData(AssetFile file){
-        int size = file.getFileName().length() + file.getFileData().length;
-        ByteBuffer buffer = ByteBuffer.allocate(size + 3);
+        int size = file.getFileName().length() + file.getFileData().length + 1 /**null byte **/;
+        ByteBuffer buffer = ByteBuffer.allocate(size + 2);
 
         buffer.order(ByteOrder.LITTLE_ENDIAN);
 
