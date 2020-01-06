@@ -267,10 +267,31 @@ public class QHybridSupport extends QHybridBaseSupport {
                         break;
                     }
                     case QHYBRID_COMMAND_SET_WIDGET_CONTENT: {
-                        String id = String.valueOf(intent.getExtras().get("EXTRA_WIDGET_ID"));
-                        String content = String.valueOf(intent.getExtras().get("EXTRA_CONTENT"));
-                        boolean render = intent.getBooleanExtra("EXTRA_RENDER", true);
-                        watchAdapter.setWidgetContent(id, content, render);
+                        HashMap<String, String> widgetValues = new HashMap<>();
+
+                        for(String key : intent.getExtras().keySet()){
+                            if(key.matches("^EXTRA_WIDGET_ID_.*$")){
+                                widgetValues.put(key.substring(16), String.valueOf(intent.getExtras().get(key)));
+                            }
+                        }
+                        if(widgetValues.size() > 0){
+                            Iterator<String> valuesIterator = widgetValues.keySet().iterator();
+                            valuesIterator.next();
+
+                            while(valuesIterator.hasNext()){
+                                String id = valuesIterator.next();
+                                watchAdapter.setWidgetContent(id, widgetValues.get(id), false);
+                            }
+
+                            valuesIterator = widgetValues.keySet().iterator();
+                            String id = valuesIterator.next();
+                            watchAdapter.setWidgetContent(id, widgetValues.get(id), true);
+                        }else {
+                            String id = String.valueOf(intent.getExtras().get("EXTRA_WIDGET_ID"));
+                            String content = String.valueOf(intent.getExtras().get("EXTRA_CONTENT"));
+                            boolean render = intent.getBooleanExtra("EXTRA_RENDER", true);
+                            watchAdapter.setWidgetContent(id, content, render);
+                        }
                         break;
                     }
                 }
@@ -338,7 +359,11 @@ public class QHybridSupport extends QHybridBaseSupport {
     public void onSetMusicInfo(MusicSpec musicSpec) {
         super.onSetMusicInfo(musicSpec);
 
-        watchAdapter.setMusicInfo(musicSpec);
+        try {
+            watchAdapter.setMusicInfo(musicSpec);
+        }catch (Exception e){
+            GB.log("setMusicInfo error", GB.ERROR, e);
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music;
 
+import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -11,7 +12,7 @@ public class MusicInfoSetRequest extends FilePutRequest {
         super((short) 0x0400, createFile(artist, album, title), adapter);
     }
 
-    private static byte[] createFile(String artist, String album, String title){
+    private static byte[] createFile(String artist, String album, String title) {
         int length = artist.length() + album.length() + title.length()
                 + 3 // null terminators
                 + 8; // length and header
