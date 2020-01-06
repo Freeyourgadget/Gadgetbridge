@@ -203,6 +203,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                     this
             ));
 
+            queueWrite(new FileDeleteRequest((short) 0x0503));
             queueWrite(new ImagesSetRequest(
                     widgetImages,
                     this
