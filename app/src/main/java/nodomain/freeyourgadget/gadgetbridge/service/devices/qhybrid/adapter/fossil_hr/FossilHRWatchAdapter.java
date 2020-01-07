@@ -140,7 +140,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         overwriteButtons(null);
 
         loadWidgets();
-        // renderWidgets();
+        renderWidgets();
         // dunno if there is any point in doing this at start since when no watch is connected the QHybridSupport will not receive any intents anyway
 
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED));
