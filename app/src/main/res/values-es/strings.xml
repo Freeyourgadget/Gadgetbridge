@@ -7,7 +7,7 @@
     <string name="action_quit">Salir</string>
     <string name="action_donate">Hacer donación</string>
     <string name="controlcenter_fetch_activity_data">Sincronizar</string>
-    <string name="controlcenter_find_device">Localiza dispositivo perdido</string>
+    <string name="controlcenter_find_device">Localizar dispositivo perdido</string>
     <string name="controlcenter_take_screenshot">Capturar pantalla</string>
     <string name="controlcenter_disconnect">Desconectar</string>
     <string name="controlcenter_delete_device">Borrar Dispositivo</string>
@@ -18,7 +18,7 @@
     <string name="controlcenter_snackbar_need_longpress">Mantener pulsado el icono para desconectar</string>
     <string name="controlcenter_snackbar_disconnecting">Desconectando</string>
     <string name="controlcenter_snackbar_connecting">Conectando…</string>
-    <string name="controlcenter_snackbar_requested_screenshot">Captura de pantalla del dispositivo</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Capturando un pantallazo del dispositivo</string>
     <string name="title_activity_debug">Depuración</string>
     <!--Strings related to AppManager-->
     <string name="title_activity_appmanager">Gestor de app</string>
@@ -405,12 +405,12 @@
     <string name="discovery_pair_question">Selecciona Emparejar para emparejar tus dispositivos. Si esto falla, prueba de nuevo sin emparejar.</string>
     <string name="discovery_yes_pair">Emparejar</string>
     <string name="discovery_dont_pair">No emparejar</string>
-    <string name="fw_upgrade_notice_amazfitbip">Está a punto de instalar el «firmware» %s en su Amazfit Bip.
-\n
-\nAsegúrese de instalar el archivo .fw y, a continuación, el archivo .res. Se reiniciará el reloj tras instalar el archivo .fw.
-\n
-\nNota: no es necesario instalar los archivos .res y .gps si son idénticos a los instalados previamente.
-\n
+    <string name="fw_upgrade_notice_amazfitbip">Está a punto de instalar el «firmware» %s en su Amazfit Bip. 
+\n 
+\nAsegúrese de instalar el archivo .fw y, a continuación, el archivo .res. Su reloj se reiniciará tras instalar el archivo .fw. 
+\n 
+\nNota: no es necesario instalar los archivos .res y .gps si son idénticos a los instalados previamente. 
+\n 
 \nPROCEDA BAJO SU PROPIA CUENTA Y RIESGO.</string>
     <string name="mi2_prefs_button_actions">Acciones del botón</string>
     <string name="mi2_prefs_button_actions_summary">Especificar acción para pulsación del botón del Mi Band 2</string>
@@ -787,4 +787,16 @@
 \nNota: No hace falta instalar los archivos .res y .gps si los archivos son idénticos a los previamente instalados.
 \n
 \n¡PROCEDE BAJO TU PROPIO RIESGO!</string>
+    <string name="watch_not_connected">Reloj no conectado</string>
+    <string name="qhybrid_vibration_strength">Fuerza de vibración:</string>
+    <string name="qhybrid_goal_in_steps">Objetivo en pasos</string>
+    <string name="qhybrid_time_shift">diferencia horaria</string>
+    <string name="qhybrid_second_timezone_offset_relative_to_utc">segunda zona horaria compensación en relación a UTC</string>
+    <string name="qhybrid_overwrite_buttons">botones de sobreescritura</string>
+    <string name="qhybrid_prompt_million_steps">Por favor, establezca el conteo de pasos a un millon para activar eso.</string>
+    <string name="qhybrid_buttons_overwrite_success">Botones sobrescritos</string>
+    <string name="qhybrid_offset_timezone">zona horaria compensada por</string>
+    <string name="qhybrid_changes_delay_prompt">El cambio puede demorar varios segundos…</string>
+    <string name="qhybrid_offset_time_by">tiempo compensado por</string>
+    <string name="pref_summary_disable_new_ble_scanning">Marque esta opción si su dispositivo no es encontrado durante el descubrimiento</string>
 </resources>
