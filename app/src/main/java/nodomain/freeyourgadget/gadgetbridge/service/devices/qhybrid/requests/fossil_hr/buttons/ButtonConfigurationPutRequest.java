@@ -7,12 +7,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr.FossilHRWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.json.JsonPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ButtonConfigurationPutRequest extends JsonPutRequest {
-    public ButtonConfigurationPutRequest(String[] menuItems, FossilWatchAdapter adapter) {
-        super((short) 0x0500, createObject(menuItems), adapter);
+    public ButtonConfigurationPutRequest(String[] menuItems, FossilHRWatchAdapter adapter) {
+        super(createObject(menuItems), adapter);
     }
 
     private static JSONObject createObject(String[] menuItems) {
