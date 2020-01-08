@@ -815,4 +815,9 @@
     <string name="huami_prefs_button_triple_press_action_selection_title">פעולה של אירוע 3</string>
     <string name="huami_prefs_button_variable_actions">הגדרות נרחבות ללחיצת כפתור</string>
     <string name="huami_prefs_button_long_press_action_selection_title">פעולת לחיצה ארוכה על הכפתור</string>
+    <string name="prefs_button_single_press_action_selection_title">פעולה עם אירוע 1</string>
+    <string name="prefs_button_double_press_action_selection_title">פעולה עם אירוע 2</string>
+    <string name="prefs_button_triple_press_action_selection_title">פעולה עם אירוע 3</string>
+    <string name="prefs_button_variable_actions">הגדרות נרחבות ללחיצת כפתור</string>
+    <string name="prefs_button_long_press_action_selection_title">פעולה ללחיצה ארוכה על הכפתור</string>
 </resources>
