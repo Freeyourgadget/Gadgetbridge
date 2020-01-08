@@ -810,4 +810,10 @@
     <string name="qhybrid_offset_time_by">forskyv tid med</string>
     <string name="pref_disable_new_ble_scanning">Skru av ny BLE-skanning</string>
     <string name="pref_summary_disable_new_ble_scanning">Velg dette hvis enheten du ikke finner enheten din under oppdagelse</string>
+    <string name="devicetype_y5">Y5</string>
+    <string name="huami_prefs_button_single_press_action_selection_title">Handling for hendelse 1</string>
+    <string name="huami_prefs_button_double_press_action_selection_title">Handling for hendelse 2</string>
+    <string name="huami_prefs_button_triple_press_action_selection_title">Handling for hendelse 3</string>
+    <string name="huami_prefs_button_variable_actions">Detaljerte knappetrykkingsinnstillinger</string>
+    <string name="huami_prefs_button_long_press_action_selection_title">Handling for langt knappetrykk</string>
 </resources>
