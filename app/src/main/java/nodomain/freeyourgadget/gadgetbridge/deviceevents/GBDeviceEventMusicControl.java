@@ -29,5 +29,7 @@ public class GBDeviceEventMusicControl extends GBDeviceEvent {
         PREVIOUS,
         VOLUMEUP,
         VOLUMEDOWN,
+        FORWARD,
+        REWIND
     }
 }

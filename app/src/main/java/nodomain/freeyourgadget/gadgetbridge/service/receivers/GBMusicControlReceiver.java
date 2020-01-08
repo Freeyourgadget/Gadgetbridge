@@ -64,6 +64,12 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
             case PLAYPAUSE:
                 keyCode = KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE;
                 break;
+            case REWIND:
+                keyCode = KeyEvent.KEYCODE_MEDIA_REWIND;
+                break;
+            case FORWARD:
+                keyCode = KeyEvent.KEYCODE_MEDIA_FAST_FORWARD;
+                break;
             case VOLUMEUP:
                 // change default and fall through, :P
                 volumeAdjust = AudioManager.ADJUST_RAISE;

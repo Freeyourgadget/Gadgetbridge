@@ -604,4 +604,53 @@
         <item>14</item>
     </string-array>
 
+    <string-array name="button_action_options">
+        <item>@string/pref_button_action_disabled</item>
+        <item>@string/pref_media_play</item>
+        <item>@string/pref_media_pause</item>
+        <item>@string/pref_media_playpause</item>
+        <item>@string/pref_media_next</item>
+        <item>@string/pref_media_previous</item>
+        <item>@string/pref_media_volumeup</item>
+        <item>@string/pref_media_volumedown</item>
+        <item>@string/pref_media_forward</item>
+        <item>@string/pref_media_rewind</item>
+    </string-array>
+    
+    <string name="pref_button_action_disabled">Disabled</string>
+    <string name="pref_media_play">Media Play</string>
+    <string name="pref_media_pause">Media Pause</string>
+    <string name="pref_media_playpause">Toggle playback</string>
+    <string name="pref_media_next">Next Track</string>
+    <string name="pref_media_previous">Previous Track</string>
+    <string name="pref_media_volumeup">Volume Up</string>
+    <string name="pref_media_volumedown">Volume Down</string>
+    <string name="pref_media_forward">Skip forward</string>
+    <string name="pref_media_rewind">Skip back</string>
+
+    <string-array name="button_action_values">
+        <item>@string/pref_button_action_disabled_value</item>
+        <item>@string/pref_media_play_value</item>
+        <item>@string/pref_media_pause_value</item>
+        <item>@string/pref_media_playpause_value</item>
+        <item>@string/pref_media_next_value</item>
+        <item>@string/pref_media_previous_value</item>
+        <item>@string/pref_media_volumeup_value</item>
+        <item>@string/pref_media_volumedown_value</item>
+        <item>@string/pref_media_forward_value</item>
+        <item>@string/pref_media_rewind_value</item>
+
+    </string-array>
+
+    <string name="pref_button_action_disabled_value" translatable="false">UNKNOWN</string>
+    <string name="pref_media_play_value" translatable="false">PLAY</string>
+    <string name="pref_media_pause_value" translatable="false">PAUSE</string>
+    <string name="pref_media_playpause_value" translatable="false">PLAYPAUSE</string>
+    <string name="pref_media_next_value" translatable="false">NEXT</string>
+    <string name="pref_media_previous_value" translatable="false">PREVIOUS</string>
+    <string name="pref_media_volumeup_value" translatable="false">VOLUMEUP</string>
+    <string name="pref_media_volumedown_value" translatable="false">VOLUMEDOWN</string>
+    <string name="pref_media_forward_value" translatable="false">FORWARD</string>
+    <string name="pref_media_rewind_value" translatable="false">REWIND</string>
+
 </resources>
