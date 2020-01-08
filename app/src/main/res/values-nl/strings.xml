@@ -812,4 +812,5 @@
     <string name="pref_disable_new_ble_scanning">Nieuwe BLE-scanning uitschakelen</string>
     <string name="pref_summary_disable_new_ble_scanning">Vink deze optie aan als uw apparaat niet kan worden gevonden tijdens discovery</string>
     <string name="devicetype_banglejs">Bangle.js</string>
+    <string name="devicetype_y5">Y5</string>
 </resources>
