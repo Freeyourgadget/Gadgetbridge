@@ -31,7 +31,7 @@
             android:key="button_single_press_action_selection"
             android:defaultValue="@string/pref_button_action_disabled_value"
             android:summary="%s"
-            android:title="@string/huami_prefs_button_single_press_action_selection_title" />
+            android:title="@string/prefs_button_single_press_action_selection_title" />
 
         <ListPreference
             android:dependency="button_action_enable"
@@ -40,7 +40,7 @@
             android:key="button_double_press_action_selection"
             android:summary="%s"
             android:defaultValue="@string/pref_button_action_disabled_value"
-            android:title="@string/huami_prefs_button_double_press_action_selection_title" />
+            android:title="@string/prefs_button_double_press_action_selection_title" />
 
         <ListPreference
             android:dependency="button_action_enable"
@@ -49,7 +49,7 @@
             android:key="button_triple_press_action_selection"
             android:summary="%s"
             android:defaultValue="@string/pref_button_action_disabled_value"
-            android:title=  "@string/huami_prefs_button_triple_press_action_selection_title" />
+            android:title="@string/prefs_button_triple_press_action_selection_title" />
 
         <ListPreference
             android:dependency="button_action_enable"
@@ -58,8 +58,8 @@
             android:key="button_long_press_action_selection"
             android:defaultValue="@string/pref_button_action_disabled_value"
             android:summary="%s"
-            android:title="@string/huami_prefs_button_long_press_action_selection_title" />
-        <PreferenceCategory android:title="@string/huami_prefs_button_variable_actions">
+            android:title="@string/prefs_button_long_press_action_selection_title" />
+        <PreferenceCategory android:title="@string/prefs_button_variable_actions">
 
             <EditTextPreference
                 android:defaultValue="6"
