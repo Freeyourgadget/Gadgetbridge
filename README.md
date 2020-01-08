@@ -39,6 +39,7 @@ vendor's servers.
 * Fossil Q Hybrid
 * HPlus Devices (e.g. ZeBand) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
 * ID115
+* JYou Y5
 * Lenovo Watch 9
 * Liveview
 * Makibes HR3
@@ -81,6 +82,7 @@ Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/ma
 * Lukas Schwichtenberg (Makibes HR3)
 * Daniel Dakhno (Fossil Q Hybrid)
 * Gordon Williams (Bangle.js)
+* Pavel Elagin (JYou Y5)
 
 ## Contribute
 
