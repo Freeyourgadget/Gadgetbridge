@@ -772,11 +772,11 @@
     <string name="qhybrid_changes_delay_prompt">change might take some seconds…</string>
     <string name="qhybrid_offset_time_by">offset time by</string>
 
-    <string name="huami_prefs_button_single_press_action_selection_title">Event 1 action</string>
-    <string name="huami_prefs_button_double_press_action_selection_title">Event 2 action</string>
-    <string name="huami_prefs_button_triple_press_action_selection_title">Event 3 action</string>
-    <string name="huami_prefs_button_variable_actions">Detailed button press settings</string>
-    <string name="huami_prefs_button_long_press_action_selection_title">Long press button action</string>
+    <string name="prefs_button_single_press_action_selection_title">Event 1 action</string>
+    <string name="prefs_button_double_press_action_selection_title">Event 2 action</string>
+    <string name="prefs_button_triple_press_action_selection_title">Event 3 action</string>
+    <string name="prefs_button_variable_actions">Detailed button press settings</string>
+    <string name="prefs_button_long_press_action_selection_title">Long press button action</string>
 
 
     <plurals name="widget_alarm_target_hours">
