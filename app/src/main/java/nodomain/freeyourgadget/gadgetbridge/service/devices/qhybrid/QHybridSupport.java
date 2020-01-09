@@ -109,7 +109,7 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String ITEM_HAS_ACTIVITY_HAND = "HAS_ACTIVITY_HAND";
     public static final String ITEM_USE_ACTIVITY_HAND = "USE_ACTIVITY_HAND";
     public static final String ITEM_LAST_HEARTBEAT = "LAST_HEARTBEAT";
-    public static final String ITEM_TIMEZONE_OFFSET = "STEPTIMEZONE_OFFSET_COUNT";
+    public static final String ITEM_TIMEZONE_OFFSET = "TIMEZONE_OFFSET_COUNT";
 
     private static final Logger logger = LoggerFactory.getLogger(QHybridSupport.class);
     private final BroadcastReceiver commandReceiver;
@@ -130,6 +130,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         addSupportedService(UUID.fromString("3dda0001-957f-7d4a-34a6-74696673696d"));
         addSupportedService(UUID.fromString("0000180a-0000-1000-8000-00805f9b34fb"));
         addSupportedService(UUID.fromString("00001800-0000-1000-8000-00805f9b34fb"));
+        addSupportedService(UUID.fromString("0000180d-0000-1000-8000-00805f9b34fb"));
         addSupportedService(UUID.fromString("0000180f-0000-1000-8000-00805f9b34fb"));
         IntentFilter commandFilter = new IntentFilter(QHYBRID_COMMAND_CONTROL);
         commandFilter.addAction(QHYBRID_COMMAND_UNCONTROL);
@@ -349,7 +350,9 @@ public class QHybridSupport extends QHybridBaseSupport {
                 .read(getCharacteristic(UUID.fromString("00002a19-0000-1000-8000-00805f9b34fb")))
                 .read(getCharacteristic(UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb")))
                 .read(getCharacteristic(UUID.fromString("00002a24-0000-1000-8000-00805f9b34fb")))
+                .notify(getCharacteristic(UUID.fromString("00002a37-0000-1000-8000-00805f9b34fb")), true)
         ;
+
 
         loadTimeOffset();
 
