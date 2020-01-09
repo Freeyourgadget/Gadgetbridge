@@ -44,6 +44,8 @@ public class ConfigurationGetRequest extends FileEncryptedLookupAndGetRequest {
                 batteryInfo.level = (short) ((ConfigurationPutRequest.BatteryConfigItem) item).getBatteryPercentage();
                 batteryInfo.state = BatteryState.BATTERY_NORMAL;
                 getAdapter().getDeviceSupport().handleGBDeviceEvent(batteryInfo);
+            }else if(item instanceof ConfigurationPutRequest.HeartRateMeasurementModeItem){
+                device.addDeviceInfo(new GenericItem(QHybridSupport.ITEM_HEART_RATE_MEASUREMENT_MODE, String.valueOf(((ConfigurationPutRequest.HeartRateMeasurementModeItem) item).getValue())));
             }
         }
 

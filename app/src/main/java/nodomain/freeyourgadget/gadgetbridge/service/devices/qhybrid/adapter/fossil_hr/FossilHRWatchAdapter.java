@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Random;
 import java.util.TimeZone;
+import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Widget;
@@ -31,6 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.RequestMtuRequest;
@@ -133,6 +135,10 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             ));
         }*/
 
+        // no effect
+        // negotiateSymmetricKey();
+        // queueWrite(new ConfigurationPutRequest(new nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.HeartRateMeasurementModeItem((byte) 2), this));
+
         syncSettings();
 
         setTime();
@@ -140,7 +146,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         overwriteButtons(null);
 
         loadWidgets();
-        renderWidgets();
+        // renderWidgets();
         // dunno if there is any point in doing this at start since when no watch is connected the QHybridSupport will not receive any intents anyway
 
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED));
@@ -154,13 +160,13 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     private void loadWidgets() {
         CustomWidget ethWidget = new CustomWidget(0, 63);
-        ethWidget.addElement(new CustomWidgetElement(CustomWidgetElement.WidgetElementType.TYPE_TEXT, "date", "-", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_UPPER_HALF));
-        ethWidget.addElement(new CustomWidgetElement(CustomWidgetElement.WidgetElementType.TYPE_TEXT, "eth", "-", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_LOWER_HALF));
+        ethWidget.addElement(new CustomWidgetElement(CustomWidgetElement.WidgetElementType.TYPE_TEXT, "date", "wtf", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_UPPER_HALF));
+        ethWidget.addElement(new CustomWidgetElement(CustomWidgetElement.WidgetElementType.TYPE_TEXT, "eth", "", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_LOWER_HALF));
 
 
         CustomWidget btcWidget = new CustomWidget(90, 63);
         btcWidget.addElement(new CustomWidgetElement(CustomWidgetElement.WidgetElementType.TYPE_TEXT, "", "BTC", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_UPPER_HALF));
-        btcWidget.addElement(new CustomWidgetElement(CustomWidgetElement.WidgetElementType.TYPE_TEXT, "btc", "wtf", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_LOWER_HALF));
+        btcWidget.addElement(new CustomWidgetElement(CustomWidgetElement.WidgetElementType.TYPE_TEXT, "btc", "", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_LOWER_HALF));
         this.widgets = new CustomWidget[]{
                 ethWidget,
                 btcWidget,
@@ -216,10 +222,11 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             // queueWrite(new FileDeleteRequest((short) 0x0700));
             queueWrite(new AssetFilePutRequest(
                     widgetImages,
+                    (byte) 0x00,
                     this
             ));
 
-            queueWrite(new FileDeleteRequest((short) 0x0503));
+            // queueWrite(new FileDeleteRequest((short) 0x0503));
             queueWrite(new ImagesSetRequest(
                     widgetImages,
                     this
@@ -392,6 +399,17 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void handleHeartRateCharacteristic(BluetoothGattCharacteristic characteristic) {
+        super.handleHeartRateCharacteristic(characteristic);
+
+        byte[] value = characteristic.getValue();
+
+        int heartRate = value[1];
+
+        logger.debug("heart rate: " + heartRate);
     }
 
     @Override

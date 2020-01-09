@@ -23,6 +23,7 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileCloseAndPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
@@ -37,6 +38,7 @@ public class ConfigurationPutRequest extends FilePutRequest {
         itemsById.put((short)0x0A, VibrationStrengthConfigItem.class);
         itemsById.put((short)0x0C, TimeConfigItem.class);
         itemsById.put((short)0x0D, BatteryConfigItem.class);
+        itemsById.put((short)0x0E, HeartRateMeasurementModeItem.class);
     }
 
     public static ConfigItem[] parsePayload(byte[] data) {
@@ -225,6 +227,16 @@ public class ConfigurationPutRequest extends FilePutRequest {
 
             this.batteryVoltage = buffer.getShort();
             this.batteryPercentage = buffer.get();
+        }
+    }
+
+    static public class HeartRateMeasurementModeItem extends GenericConfigItem<Byte>{
+        public HeartRateMeasurementModeItem() {
+            this((byte)-1);
+        }
+
+        public HeartRateMeasurementModeItem(byte value) {
+            super((short) 14, value);
         }
     }
 

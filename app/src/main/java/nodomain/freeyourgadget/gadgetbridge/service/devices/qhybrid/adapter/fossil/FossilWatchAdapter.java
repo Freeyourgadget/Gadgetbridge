@@ -87,7 +87,7 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     private int lastButtonIndex = -1;
 
-    Logger logger = LoggerFactory.getLogger(getClass().getSimpleName());
+    protected Logger logger = LoggerFactory.getLogger(getClass().getSimpleName());
 
     public FossilWatchAdapter(QHybridSupport deviceSupport) {
         super(deviceSupport);
@@ -442,6 +442,10 @@ public class FossilWatchAdapter extends WatchAdapter {
                 handleBackgroundCharacteristic(characteristic);
                 break;
             }
+            case "00002a37-0000-1000-8000-00805f9b34fb": {
+                handleHeartRateCharacteristic(characteristic);
+                break;
+            }
             case "3dda0002-957f-7d4a-34a6-74696673696d":
             case "3dda0004-957f-7d4a-34a6-74696673696d":
             case "3dda0005-957f-7d4a-34a6-74696673696d":
@@ -482,6 +486,9 @@ public class FossilWatchAdapter extends WatchAdapter {
             }
         }
         return true;
+    }
+
+    public void handleHeartRateCharacteristic(BluetoothGattCharacteristic characteristic) {
     }
 
     protected void handleBackgroundCharacteristic(BluetoothGattCharacteristic characteristic) {

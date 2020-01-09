@@ -110,6 +110,7 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String ITEM_USE_ACTIVITY_HAND = "USE_ACTIVITY_HAND";
     public static final String ITEM_LAST_HEARTBEAT = "LAST_HEARTBEAT";
     public static final String ITEM_TIMEZONE_OFFSET = "TIMEZONE_OFFSET_COUNT";
+    public static final String ITEM_HEART_RATE_MEASUREMENT_MODE = "HEART_RATE_MEASUREMENT_MODE";
 
     private static final Logger logger = LoggerFactory.getLogger(QHybridSupport.class);
     private final BroadcastReceiver commandReceiver;
