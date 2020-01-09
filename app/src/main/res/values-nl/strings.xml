@@ -349,9 +349,9 @@
     <string name="mi2_prefs_button_actions">Knoppen acties</string>
     <string name="mi2_prefs_button_actions_summary">Specificeer actie voor knop druk</string>
     <string name="mi2_prefs_button_press_count">Aantal knopdrukken</string>
-    <string name="mi2_prefs_button_press_count_summary">Aantal knopdrukken nodig om een bericht te sturen</string>
+    <string name="mi2_prefs_button_press_count_summary">Aantal knopdrukken nodig om een Event 1 te sturen. Hetzelfde aantal knopdrukken geeft een Event 2 enz.</string>
     <string name="mi2_prefs_button_press_broadcast">Uit te sturen bericht</string>
-    <string name="mi2_prefs_button_press_broadcast_summary">Uit te sturen bericht bij het bereiken van een aantal gedefinieerde knopdrukken</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Uit te sturen bericht verdonden met een event. Parameter `button_id` wordt automatisch aan ieder bericht toegevoegd.</string>
     <string name="mi2_prefs_button_action">Activeer knop actie</string>
     <string name="mi2_prefs_button_action_summary">Activeer actie na een bepaald aantal knopdrukken</string>
     <string name="mi2_prefs_button_action_vibrate">Schakel band vibratie in</string>
@@ -813,4 +813,9 @@
     <string name="pref_summary_disable_new_ble_scanning">Vink deze optie aan als uw apparaat niet kan worden gevonden tijdens discovery</string>
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="devicetype_y5">Y5</string>
+    <string name="prefs_button_single_press_action_selection_title">Event 1 actie</string>
+    <string name="prefs_button_double_press_action_selection_title">Event 2 actie</string>
+    <string name="prefs_button_triple_press_action_selection_title">Event 3 actie</string>
+    <string name="prefs_button_variable_actions">Gedetailleerde knopdrukinstellingen</string>
+    <string name="prefs_button_long_press_action_selection_title">Lange druk op de knop actie</string>
 </resources>
