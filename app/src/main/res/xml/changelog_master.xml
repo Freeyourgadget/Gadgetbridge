@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="0.40.1" versioncode="164">
+    <release version="0.41.0" versioncode="165">
         <change>JYou Y5: Initial support</change>
         <change>Mi Band 2/Amazfit Bip: Redesign button actions for easy music control setup and support long presses on Bip</change>
         <change>Amazfit Bip: Remove RES file limit (for BipOS)</change>
         <change>Huami: Automatically toggle alarm switch when toggling on the Band/Watch while in Alarm settings in Gadetbridge</change>
         <change>Recogize Pixart-Messenger as Chat App</change>
-        <change>
+    </release>
     <release version="0.40.1" versioncode="164">
         <change>Mi Band/Amazfit: Recogize changes when toggling alarm on device (immediately when connected, else when connecting)</change>
         <change>Mi Band/Amazfit: Fix some bugs with stuck connection when re-connecting</change>
