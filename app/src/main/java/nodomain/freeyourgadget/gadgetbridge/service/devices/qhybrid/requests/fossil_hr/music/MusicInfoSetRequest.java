@@ -13,8 +13,12 @@ public class MusicInfoSetRequest extends FilePutRequest {
     }
 
     private static byte[] createFile(String artist, String album, String title) {
-        int length = artist.length() + album.length() + title.length()
-                + 3 // null terminators
+        //counting byte array length because of utf chars, they may take up two bytes
+        int titleLength = title.getBytes().length + 1; // +1 = null terminator
+        int albumLength = album.getBytes().length + 1;
+        int artistLength = artist.getBytes().length + 1;
+
+        int length = artistLength + albumLength + titleLength
                 + 8; // length and header
 
         ByteBuffer buffer = ByteBuffer.allocate(length);
@@ -22,9 +26,9 @@ public class MusicInfoSetRequest extends FilePutRequest {
 
         buffer.putShort((short) length);
         buffer.put((byte) 0x01); // dunno
-        buffer.put((byte) (title.length() + 1));
-        buffer.put((byte) (artist.length() + 1));
-        buffer.put((byte) (album.length() + 1));
+        buffer.put((byte) (titleLength));
+        buffer.put((byte) (artistLength));
+        buffer.put((byte) (albumLength));
         buffer.put((byte) 0x0C); // dunno
         buffer.put((byte) 0x00); // dunno
 

@@ -590,6 +590,11 @@ public class FossilWatchAdapter extends WatchAdapter {
         log("executing request: " + request.getName());
         this.fossilRequest = request;
         new TransactionBuilder(request.getClass().getSimpleName()).write(getDeviceSupport().getCharacteristic(request.getRequestUUID()), request.getRequestData()).queue(getDeviceSupport().getQueue());
+
+        if(request.isFinished()){
+            this.fossilRequest = null;
+            queueNextRequest();
+        }
     }
 
     public void queueWrite(Request request, boolean priorise) {
