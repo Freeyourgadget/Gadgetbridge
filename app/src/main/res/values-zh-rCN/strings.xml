@@ -326,7 +326,7 @@
     <string name="mi2_prefs_button_actions">按钮操作</string>
     <string name="mi2_prefs_button_actions_summary">指定按钮按下时的操作</string>
     <string name="mi2_prefs_button_press_count">按钮按下计数</string>
-    <string name="mi2_prefs_button_press_count_summary">触发消息广播的按钮按数</string>
+    <string name="mi2_prefs_button_press_count_summary">触发事件的按钮按下按数 1.后续相同数量的按下创建事件 2.以此类推。</string>
     <string name="mi2_prefs_button_action">启用按钮操作</string>
     <string name="mi2_prefs_button_action_summary">对按下指定次数的按钮启用相应的操作</string>
     <string name="mi2_prefs_button_action_vibrate">启用手环震动</string>
@@ -472,7 +472,7 @@
     <string name="tap_connected_device_for_app_mananger">点按为已连接的设备管理应用</string>
     <string name="notif_export_failed_title">数据库导出失败！ 请检查您的设置。</string>
     <string name="miband_prefs_reserve_alarm_calendar">预警未来事件</string>
-    <string name="mi2_prefs_button_press_broadcast_summary">在指定按键次数后发送消息</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">事件与广播消息一起发送。参数 `button_id` 将会自动添加到每条消息中。</string>
     <string name="DEVINFO_HR_VER">"心率： "</string>
     <string name="timeformat_am_pm">AM/PM</string>
     <string name="devicetype_vibratissimo">Vibratissimo</string>
@@ -813,4 +813,9 @@
     <string name="pref_summary_disable_new_ble_scanning">若您的设备无法在扫描过程中发现，请选中此选项</string>
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="devicetype_y5">Y5</string>
+    <string name="prefs_button_single_press_action_selection_title">事件 1 操作</string>
+    <string name="prefs_button_double_press_action_selection_title">事件 2 操作</string>
+    <string name="prefs_button_triple_press_action_selection_title">事件 3 操作</string>
+    <string name="prefs_button_variable_actions">按下按钮时的详细设置</string>
+    <string name="prefs_button_long_press_action_selection_title">长按按钮的动作</string>
 </resources>
