@@ -90,6 +90,7 @@ public class AmazfitGTRCoordinator extends HuamiCoordinator {
         return new int[]{
                 R.xml.devicesettings_amazfitgtr,
                 R.xml.devicesettings_wearlocation,
+                R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_liftwrist_display,
                 R.xml.devicesettings_disconnectnotification,
                 R.xml.devicesettings_expose_hr_thirdparty,

@@ -45,7 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband3.MiBand
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband4.MiBand4Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.id115.ID115Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.jyou.BFH16DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.jyou.TeclastH30Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.jyou.TeclastH30.TeclastH30Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.liveview.LiveviewSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.makibeshr3.MakibesHR3DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
@@ -57,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.devices.roidmi.RoidmiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vibratissimo.VibratissimoSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.watch9.Watch9DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.jyou.y5.Y5Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xwatch.XWatchSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.zetime.ZeTimeDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -202,6 +203,9 @@ public class DeviceSupportFactory {
                         break;
                     case ROIDMI3:
                         deviceSupport = new ServiceDeviceSupport(new RoidmiSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
+                    case Y5:
+                        deviceSupport = new ServiceDeviceSupport(new Y5Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
                     case CASIOGB6900:
                         deviceSupport = new ServiceDeviceSupport(new CasioGB6900DeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));

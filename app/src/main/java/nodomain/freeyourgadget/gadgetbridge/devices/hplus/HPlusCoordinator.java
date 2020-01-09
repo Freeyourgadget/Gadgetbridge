@@ -55,6 +55,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getContext;
@@ -198,7 +199,9 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static byte getTimeMode(String deviceAddress) {
-        String tmode = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress).getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, "24h");
+        GBPrefs gbPrefs = new GBPrefs(new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress)));
+
+        String tmode = gbPrefs.getTimeFormat();
 
         if ("24h".equals(tmode)) {
             return HPlusConstants.ARG_TIMEMODE_24H;

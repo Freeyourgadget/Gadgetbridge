@@ -23,7 +23,6 @@ import android.net.Uri;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -50,29 +49,32 @@ import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
-public class TeclastH30Support extends AbstractBTLEDeviceSupport {
+public class JYouSupport extends AbstractBTLEDeviceSupport {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TeclastH30Support.class);
+    private Logger logger;
 
-    public BluetoothGattCharacteristic ctrlCharacteristic = null;
-    public BluetoothGattCharacteristic measureCharacteristic = null;
+    protected BluetoothGattCharacteristic ctrlCharacteristic = null;
 
-    private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
-    private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
+    protected final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
+    protected final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
 
-    public TeclastH30Support() {
-        super(LOG);
+    public JYouSupport(Logger logger) {
+        super(logger);
+        this.logger = logger;
+        if (logger == null) {
+            throw new IllegalArgumentException("logger must not be null");
+        }
         addSupportedService(JYouConstants.UUID_SERVICE_JYOU);
     }
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
-        LOG.info("Initializing");
+        logger.info("Initializing");
 
         gbDevice.setState(GBDevice.State.INITIALIZING);
         gbDevice.sendDeviceUpdateIntent(getContext());
 
-        measureCharacteristic = getCharacteristic(JYouConstants.UUID_CHARACTERISTIC_MEASURE);
+        BluetoothGattCharacteristic measureCharacteristic = getCharacteristic(JYouConstants.UUID_CHARACTERISTIC_MEASURE);
         ctrlCharacteristic = getCharacteristic(JYouConstants.UUID_CHARACTERISTIC_CONTROL);
 
         builder.setGattCallback(this);
@@ -83,7 +85,7 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
         gbDevice.setState(GBDevice.State.INITIALIZED);
         gbDevice.sendDeviceUpdateIntent(getContext());
 
-        LOG.info("Initialization Done");
+        logger.info("Initialization Done");
 
         return builder;
     }
@@ -91,41 +93,10 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt,
                                            BluetoothGattCharacteristic characteristic) {
-        if (super.onCharacteristicChanged(gatt, characteristic)) {
-            return true;
-        }
-
-        UUID characteristicUUID = characteristic.getUuid();
-        byte[] data = characteristic.getValue();
-        if (data.length == 0)
-            return true;
-
-        switch (data[0]) {
-            case JYouConstants.RECEIVE_DEVICE_INFO:
-                int fwVerNum = data[4] & 0xFF;
-                versionCmd.fwVersion = (fwVerNum / 100) + "." + ((fwVerNum % 100) / 10) + "." + ((fwVerNum % 100) % 10);
-                handleGBDeviceEvent(versionCmd);
-                LOG.info("Firmware version is: " + versionCmd.fwVersion);
-                return true;
-            case JYouConstants.RECEIVE_BATTERY_LEVEL:
-                batteryCmd.level = data[8];
-                handleGBDeviceEvent(batteryCmd);
-                LOG.info("Battery level is: " + batteryCmd.level);
-                return true;
-            case JYouConstants.RECEIVE_STEPS_DATA:
-                int steps = ByteBuffer.wrap(data, 5, 4).getInt();
-                LOG.info("Number of walked steps: " + steps);
-                return true;
-            case JYouConstants.RECEIVE_HEARTRATE:
-                LOG.info("Current heart rate: " + data[8]);
-                return true;
-            default:
-                LOG.info("Unhandled characteristic change: " + characteristicUUID + " code: " + String.format("0x%1x ...", data[0]));
-                return true;
-        }
+        return super.onCharacteristicChanged(gatt, characteristic);
     }
 
-    private void syncDateAndTime(TransactionBuilder builder) {
+    protected void syncDateAndTime(TransactionBuilder builder) {
         Calendar cal = Calendar.getInstance();
         String strYear = String.valueOf(cal.get(Calendar.YEAR));
         byte year1 = (byte)Integer.parseInt(strYear.substring(0, 2));
@@ -144,45 +115,7 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
         ));
     }
 
-    private void syncSettings(TransactionBuilder builder) {
-        syncDateAndTime(builder);
-
-        // TODO: unhardcode and separate stuff
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                JYouConstants.CMD_SET_HEARTRATE_WARNING_VALUE, 0, 152
-        ));
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                JYouConstants.CMD_SET_TARGET_STEPS, 0, 10000
-        ));
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                JYouConstants.CMD_GET_STEP_COUNT, 0, 0
-        ));
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                JYouConstants.CMD_GET_SLEEP_TIME, 0, 0
-        ));
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                JYouConstants.CMD_SET_NOON_TIME, 12 * 60 * 60, 14 * 60 * 60 // 12:00 - 14:00
-        ));
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                JYouConstants.CMD_SET_SLEEP_TIME, 21 * 60 * 60, 8 * 60 * 60 // 21:00 - 08:00
-        ));
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                JYouConstants.CMD_SET_INACTIVITY_WARNING_TIME, 0, 0
-        ));
-
-        // do not disturb and a couple more features
-        byte dndStartHour = 22;
-        byte dndStartMin = 0;
-        byte dndEndHour = 8;
-        byte dndEndMin = 0;
-        boolean dndToggle = false;
-        boolean vibrationToggle = true;
-        boolean wakeOnRaiseToggle = true;
-        builder.write(ctrlCharacteristic, commandWithChecksum(
-                JYouConstants.CMD_SET_DND_SETTINGS,
-                (dndStartHour << 24) | (dndStartMin << 16) | (dndEndHour << 8) | dndEndMin,
-                ((dndToggle ? 0 : 1) << 2) | ((vibrationToggle ? 1 : 0) << 1) | (wakeOnRaiseToggle ? 1 : 0)
-        ));
+    protected void syncSettings(TransactionBuilder builder) {
     }
 
     private void showNotification(byte icon, String title, String message) {
@@ -217,9 +150,9 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
                 }
                 builder.write(ctrlCharacteristic, currentPacket);
             }
-            builder.queue(getQueue());
+            performConnected(builder.getTransaction());
         } catch (IOException e) {
-            LOG.warn(e.getMessage());
+            logger.warn(e.getMessage());
         }
     }
 
@@ -286,10 +219,10 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
                         alarms.get(i).getEnabled() ? cal.get(Calendar.MINUTE) : -1
                 ));
             }
-            builder.queue(getQueue());
+            performConnected(builder.getTransaction());
             GB.toast(getContext(), "Alarm settings applied - do note that the current device does not support day specification", Toast.LENGTH_LONG, GB.INFO);
         } catch(IOException e) {
-            LOG.warn(e.getMessage());
+            logger.warn(e.getMessage());
         }
     }
 
@@ -298,18 +231,16 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("SetTime");
             syncDateAndTime(builder);
-            builder.queue(getQueue());
+            performConnected(builder.getTransaction());
         } catch(IOException e) {
-            LOG.warn(e.getMessage());
+            logger.warn(e.getMessage());
         }
     }
 
     @Override
     public void onSetCallState(CallSpec callSpec) {
-        switch (callSpec.command) {
-            case CallSpec.CALL_INCOMING:
-                showNotification(JYouConstants.ICON_CALL, callSpec.name, callSpec.number);
-                break;
+        if(callSpec.command == CallSpec.CALL_INCOMING) {
+            showNotification(JYouConstants.ICON_CALL, callSpec.name, callSpec.number);
         }
     }
 
@@ -375,9 +306,9 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
             builder.write(ctrlCharacteristic, commandWithChecksum(
                     JYouConstants.CMD_ACTION_REBOOT_DEVICE, 0, 0
             ));
-            builder.queue(getQueue());
+            performConnected(builder.getTransaction());
         } catch(Exception e) {
-            LOG.warn(e.getMessage());
+            logger.warn(e.getMessage());
         }
     }
 
@@ -388,15 +319,14 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
             builder.write(ctrlCharacteristic, commandWithChecksum(
                     JYouConstants.CMD_ACTION_HEARTRATE_SWITCH, 0, 1
             ));
-            builder.queue(getQueue());
+            performConnected(builder.getTransaction());
         } catch(Exception e) {
-            LOG.warn(e.getMessage());
+            logger.warn(e.getMessage());
         }
     }
 
     @Override
     public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
-        // TODO: test
         try {
             TransactionBuilder builder = performInitialized("RealTimeHeartMeasurement");
             builder.write(ctrlCharacteristic, commandWithChecksum(
@@ -404,7 +334,7 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
             ));
             builder.queue(getQueue());
         } catch(Exception e) {
-            LOG.warn(e.getMessage());
+            logger.warn(e.getMessage());
         }
     }
 
@@ -466,7 +396,7 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
 
     }
 
-    private byte[] commandWithChecksum(byte cmd, int argSlot1, int argSlot2)
+    protected byte[] commandWithChecksum(byte cmd, int argSlot1, int argSlot2)
     {
         ByteBuffer buf = ByteBuffer.allocate(10);
         buf.put(cmd);
@@ -505,7 +435,7 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
                 }
             }
         } catch (UnsupportedEncodingException e) {
-            LOG.warn(e.getMessage());
+            logger.warn(e.getMessage());
         }
         return null;
     }

@@ -365,11 +365,13 @@
     </string-array>
 
     <string-array name="pref_timeformat_entries">
+        <item>@string/automatic</item>
         <item>@string/timeformat_24h</item>
         <item>@string/timeformat_am_pm</item>
     </string-array>
 
     <string-array name="pref_timeformat_values">
+        <item>@string/p_timeformat_auto</item>
         <item>@string/p_timeformat_24h</item>
         <item>@string/p_timeformat_am_pm</item>
     </string-array>

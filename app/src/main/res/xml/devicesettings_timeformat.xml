@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <ListPreference
-        android:defaultValue="24h"
+        android:defaultValue="@string/p_timeformat_auto"
         android:entries="@array/pref_timeformat_entries"
         android:entryValues="@array/pref_timeformat_values"
         android:icon="@drawable/ic_access_time"

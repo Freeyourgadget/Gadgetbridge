@@ -5,11 +5,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr.FossilHRWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.json.JsonPutRequest;
 
 public class ImagesSetRequest extends JsonPutRequest {
-    public ImagesSetRequest(AssetImage[] images, FossilWatchAdapter adapter) {
-        super((short) 0x0503, prepareObject(images), adapter);
+    public ImagesSetRequest(AssetImage[] images, FossilHRWatchAdapter adapter) {
+        super(prepareObject(images), adapter);
     }
 
     private static JSONObject prepareObject(AssetImage[] images){

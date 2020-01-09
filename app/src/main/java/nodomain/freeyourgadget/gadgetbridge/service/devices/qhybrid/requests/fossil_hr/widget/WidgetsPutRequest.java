@@ -5,12 +5,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr.FossilHRWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.FilePutRawRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.json.JsonPutRequest;
 
 public class WidgetsPutRequest extends JsonPutRequest {
-    public WidgetsPutRequest(Widget[] widgets, FossilWatchAdapter adapter) {
-        super((short) 0x0501, prepareFile(widgets), adapter);
+    public WidgetsPutRequest(Widget[] widgets, FossilHRWatchAdapter adapter) {
+        super(prepareFile(widgets), adapter);
     }
 
     private static JSONObject prepareFile(Widget[] widgets){

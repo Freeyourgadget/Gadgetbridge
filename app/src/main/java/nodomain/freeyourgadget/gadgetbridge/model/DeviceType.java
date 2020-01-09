@@ -43,7 +43,6 @@ public enum DeviceType {
     AMAZFITBIP_LITE(17, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_amazfit_bip_lite),
     AMAZFITGTR(18, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_amazfit_gtr),
     AMAZFITGTS(19, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_amazfit_gts),
-    VIBRATISSIMO(20, R.drawable.ic_device_lovetoy, R.drawable.ic_device_lovetoy_disabled, R.string.devicetype_vibratissimo),
     LIVEVIEW(30, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_liveview),
     HPLUS(40, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_hplus),
     MAKIBESF68(41, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_makibes_f68),
@@ -51,6 +50,7 @@ public enum DeviceType {
     Q8(43, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_q8),
     NO1F1(50, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_no1_f1),
     TECLASTH30(60, R.drawable.ic_device_h30_h10, R.drawable.ic_device_h30_h10_disabled, R.string.devicetype_teclast_h30),
+    Y5(61, R.drawable.ic_device_h30_h10, R.drawable.ic_device_roidmi_disabled, R.string.devicetype_y5),
     XWATCH(70, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_xwatch),
     FOSSILQHYBRID(80, R.drawable.ic_device_zetime, R.drawable.ic_device_zetime_disabled, R.string.devicetype_qhybrid),
     ZETIME(80, R.drawable.ic_device_zetime, R.drawable.ic_device_zetime_disabled, R.string.devicetype_mykronoz_zetime),
@@ -64,6 +64,7 @@ public enum DeviceType {
     MAKIBESHR3(150, R.drawable.ic_device_default, R.drawable.ic_device_hplus_disabled, R.string.devicetype_makibes_hr3),
     BANGLEJS(160, R.drawable.ic_device_zetime, R.drawable.ic_device_zetime_disabled, R.string.devicetype_banglejs),
     MIJIA_LYWSD02(200, R.drawable.ic_device_pebble, R.drawable.ic_device_pebble_disabled, R.string.devicetype_mijia_lywsd02),
+    VIBRATISSIMO(300, R.drawable.ic_device_lovetoy, R.drawable.ic_device_lovetoy_disabled, R.string.devicetype_vibratissimo),
     TEST(1000, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_test);
 
     private final int key;
