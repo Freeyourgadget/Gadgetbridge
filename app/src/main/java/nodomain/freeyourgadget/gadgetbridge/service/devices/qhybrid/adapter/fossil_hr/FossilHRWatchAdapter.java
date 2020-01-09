@@ -66,7 +66,6 @@ import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.reque
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_WATCH_REQUEST;
 
 public class FossilHRWatchAdapter extends FossilWatchAdapter {
-    private byte[] secretKey = new byte[]{(byte) 0x60, (byte) 0x26, (byte) 0xB7, (byte) 0xFD, (byte) 0xB2, (byte) 0x6D, (byte) 0x05, (byte) 0x5E, (byte) 0xDA, (byte) 0xF7, (byte) 0x4B, (byte) 0x49, (byte) 0x98, (byte) 0x78, (byte) 0x02, (byte) 0x38};
     private byte[] phoneRandomNumber;
     private byte[] watchRandomNumber;
 
@@ -357,14 +356,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         }
 
         return authKeyBytes;
-    }
-
-//    public byte[] getSecretKey() {
-//        return secretKey;
-//    }
-
-    public void setSecretKey(byte[] secretKey) {
-        this.secretKey = secretKey;
     }
 
     public void setPhoneRandomNumber(byte[] phoneRandomNumber) {
