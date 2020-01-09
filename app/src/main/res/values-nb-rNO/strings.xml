@@ -816,4 +816,9 @@
     <string name="huami_prefs_button_triple_press_action_selection_title">Handling for hendelse 3</string>
     <string name="huami_prefs_button_variable_actions">Detaljerte knappetrykkingsinnstillinger</string>
     <string name="huami_prefs_button_long_press_action_selection_title">Handling for langt knappetrykk</string>
+    <string name="prefs_button_single_press_action_selection_title">Handling for hendelse 1</string>
+    <string name="prefs_button_double_press_action_selection_title">Handling for hendelse 2</string>
+    <string name="prefs_button_triple_press_action_selection_title">Handling for hendelse 3</string>
+    <string name="prefs_button_variable_actions">Detaljerte knappetrykksinnstillinger</string>
+    <string name="prefs_button_long_press_action_selection_title">Handling for langt knappetrykk</string>
 </resources>
