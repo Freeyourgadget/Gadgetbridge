@@ -14,15 +14,15 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.utils.String
 
 public class NotificationImagePutRequest extends AssetFilePutRequest {
     private NotificationImagePutRequest(String packageName, AssetFile file, FossilWatchAdapter adapter) throws IOException {
-        super(file, adapter);
+        super(file, (byte) 0x01, adapter);
     }
 
     private NotificationImagePutRequest(NotificationImage image, FossilWatchAdapter adapter) throws IOException {
-        super(image, adapter);
+        super(image, (byte) 0x01, adapter);
     }
 
     public NotificationImagePutRequest(NotificationImage[] images, FossilWatchAdapter adapter) throws IOException {
-        super(images, adapter);
+        super(images, (byte) 0x01, adapter);
     }
 
 

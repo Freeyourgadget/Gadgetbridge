@@ -10,14 +10,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.utils.StringUtils;
 
 public class AssetFilePutRequest extends FilePutRequest {
-    public AssetFilePutRequest(AssetFile[] files, FossilWatchAdapter adapter) throws IOException {
-        super((short) 0x0700, prepareFileData(files), adapter);
+    public AssetFilePutRequest(AssetFile[] files, byte subHandle, FossilWatchAdapter adapter) throws IOException {
+        super((short) (0x0700 | subHandle), prepareFileData(files), adapter);
     }
-    public AssetFilePutRequest(AssetFile file, FossilWatchAdapter adapter) throws IOException {
-        super((short) 0x0700, prepareFileData(file), adapter);
-    }
-
-    public AssetFilePutRequest(AssetFile file, int subHandle, FossilWatchAdapter adapter) throws IOException {
+    public AssetFilePutRequest(AssetFile file, byte subHandle, FossilWatchAdapter adapter) throws IOException {
         super((short) (0x0700 | subHandle), prepareFileData(file), adapter);
     }
 
