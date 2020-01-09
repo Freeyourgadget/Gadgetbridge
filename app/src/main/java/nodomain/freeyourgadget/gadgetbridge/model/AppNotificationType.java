@@ -1,6 +1,6 @@
-/*  Copyright (C) 2016-2019 Andreas Shimokawa, AnthonyDiGirolamo, Daniele
+/*  Copyright (C) 2016-2020 Andreas Shimokawa, AnthonyDiGirolamo, Daniele
     Gobbetti, Frank Slezak, Kaz Wolfe, Kevin Richter, Lukas Veneziano, Marvin D,
-    Matthieu Baerts, michaelneu, NotAFIle, Tomas Radej
+    Matthieu Baerts, michaelneu, NotAFIle, Tomas Radej, w2q
 
     This file is part of Gadgetbridge.
 

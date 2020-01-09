@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2019 0nse, Alberto, Andreas Shimokawa, Carsten Pfeiffer,
+/*  Copyright (C) 2015-2020 0nse, Alberto, Andreas Shimokawa, Carsten Pfeiffer,
     Daniele Gobbetti, Pavel Elagin, vanous
 
     This file is part of Gadgetbridge.

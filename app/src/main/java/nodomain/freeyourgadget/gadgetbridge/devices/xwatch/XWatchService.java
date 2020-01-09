@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018-2019 ladbsoft
+/*  Copyright (C) 2018-2020 ladbsoft
 
     This file is part of Gadgetbridge.
 

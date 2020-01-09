@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, atkyritsis, Carsten Pfeiffer,
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, atkyritsis, Carsten Pfeiffer,
     Christian Fischer, Daniele Gobbetti, freezed-or-frozen, JohnnySun, Julien
     Pivotto, Kasha, Sebastian Kranz, Sergey Trofimov, Steffen Liebergeld
 

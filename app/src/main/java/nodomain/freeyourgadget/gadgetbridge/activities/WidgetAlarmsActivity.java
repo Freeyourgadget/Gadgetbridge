@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 vanous
+/*  Copyright (C) 2019-2020 vanous
 
     This file is part of Gadgetbridge.
 

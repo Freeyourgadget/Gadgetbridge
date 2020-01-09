@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2019 Andreas Shimokawa, Aniruddha Adhikary, Daniele
+/*  Copyright (C) 2017-2020 Andreas Shimokawa, Aniruddha Adhikary, Daniele
     Gobbetti, ivanovlev, kalaee, lazarosfs, McSym28, M. Hadi, Roi Greenberg,
     Ted Stein, Thomas, Yaron Shahrabani
 

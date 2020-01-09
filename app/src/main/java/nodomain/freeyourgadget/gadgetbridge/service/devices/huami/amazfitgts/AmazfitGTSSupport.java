@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 Andreas Shimokawa, Manuel Ruß
+/*  Copyright (C) 2019-2020 Andreas Shimokawa, Manuel Ruß
 
     This file is part of Gadgetbridge.
 

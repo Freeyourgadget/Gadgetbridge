@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018-2019 Carsten Pfeiffer, Felix Konstantin Maurer
+/*  Copyright (C) 2018-2020 Carsten Pfeiffer, Felix Konstantin Maurer
 
     This file is part of Gadgetbridge.
 

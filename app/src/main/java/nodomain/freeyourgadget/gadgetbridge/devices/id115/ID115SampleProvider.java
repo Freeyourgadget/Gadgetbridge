@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018-2019 Daniele Gobbetti, Vadim Kaushan
+/*  Copyright (C) 2018-2020 Daniele Gobbetti, Vadim Kaushan
 
     This file is part of Gadgetbridge.
 
