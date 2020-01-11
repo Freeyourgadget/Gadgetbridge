@@ -15,7 +15,7 @@ public class CustomWidgetElement {
     private String id, value;
     private int x, y;
 
-    public CustomWidgetElement(WidgetElementType widgetElementType, String id, String value, int x, int y) {
+    protected CustomWidgetElement(WidgetElementType widgetElementType, String id, String value, int x, int y) {
         this.widgetElementType = widgetElementType;
         this.id = id;
         this.value = value;

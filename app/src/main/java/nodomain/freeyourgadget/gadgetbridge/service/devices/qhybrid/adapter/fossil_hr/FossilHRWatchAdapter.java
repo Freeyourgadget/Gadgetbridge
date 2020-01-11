@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -23,6 +24,7 @@ import java.util.Random;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import cyanogenmod.app.CustomTile;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Widget;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HRConfigActivity;
@@ -57,6 +59,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.notification.NotificationImage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.notification.NotificationImagePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.notification.PlayNotificationHRRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomBackgroundWidgetElement;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomTextWidgetElement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomWidget;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomWidgetElement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.utils.StringUtils;
@@ -145,7 +149,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         overwriteButtons(null);
 
         loadWidgets();
-        // renderWidgets();
+        renderWidgets();
         // dunno if there is any point in doing this at start since when no watch is connected the QHybridSupport will not receive any intents anyway
 
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED));
@@ -158,17 +162,29 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     private void loadWidgets() {
-        CustomWidget ethWidget = new CustomWidget(0, 63);
-        ethWidget.addElement(new CustomWidgetElement(CustomWidgetElement.WidgetElementType.TYPE_TEXT, "date", "wtf", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_UPPER_HALF));
-        ethWidget.addElement(new CustomWidgetElement(CustomWidgetElement.WidgetElementType.TYPE_TEXT, "eth", "", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_LOWER_HALF));
+        CustomWidget ethWidget = new CustomWidget(90, 63);
+        // ethWidget.addElement(new CustomWidgetElement(CustomWidgetElement.WidgetElementType.TYPE_TEXT, "date", "-", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_UPPER_HALF));
+        ethWidget.addElement(new CustomTextWidgetElement("ETH", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_UPPER_HALF));
+        ethWidget.addElement(new CustomTextWidgetElement("eth", "-", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_LOWER_HALF));
 
 
-        CustomWidget btcWidget = new CustomWidget(90, 63);
-        btcWidget.addElement(new CustomWidgetElement(CustomWidgetElement.WidgetElementType.TYPE_TEXT, "", "BTC", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_UPPER_HALF));
-        btcWidget.addElement(new CustomWidgetElement(CustomWidgetElement.WidgetElementType.TYPE_TEXT, "btc", "", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_LOWER_HALF));
+        CustomWidget btcWidget = new CustomWidget(270, 63);
+        btcWidget.addElement(new CustomTextWidgetElement("BTC", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_UPPER_HALF));
+        btcWidget.addElement(new CustomTextWidgetElement("btc", "-", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_LOWER_HALF));
+
+        CustomWidget dateWidget = new CustomWidget(0, 63);
+        dateWidget.addElement(new CustomTextWidgetElement("Time", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_UPPER_HALF));
+        dateWidget.addElement(new CustomTextWidgetElement("date", "-", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_LOWER_HALF));
+
+        CustomWidget helloWidget = new CustomWidget(180, 63);
+        helloWidget.addElement(new CustomTextWidgetElement("Hello", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_UPPER_HALF));
+        helloWidget.addElement(new CustomTextWidgetElement("Reddit", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_LOWER_HALF));
+        // helloWidget.addElement(new CustomBackgroundWidgetElement("/sdcard/reddit.png"));
         this.widgets = new CustomWidget[]{
                 ethWidget,
                 btcWidget,
+                dateWidget,
+                helloWidget
         };
     }
 
@@ -200,6 +216,27 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                         textPaint.setTextAlign(Paint.Align.CENTER);
 
                         widgetCanvas.drawText(element.getValue(), element.getX(), element.getY() - (textPaint.descent() + textPaint.ascent()) / 2f, textPaint);
+                    }else if(element.getWidgetElementType() == CustomWidgetElement.WidgetElementType.TYPE_IMAGE) {
+                        Bitmap imageBitmap = BitmapFactory.decodeFile(element.getValue());
+
+                        widgetCanvas.drawBitmap(imageBitmap, element.getX() - imageBitmap.getWidth() / 2f, element.getY() - imageBitmap.getHeight() / 2f, null);
+                    }else if(element.getWidgetElementType() == CustomWidgetElement.WidgetElementType.TYPE_BACKGROUND) {
+                        Bitmap imageBitmap = BitmapFactory.decodeFile(element.getValue());
+
+                        imageBitmap.setConfig(Bitmap.Config.ARGB_4444);
+
+                        Paint paint = new Paint();
+                        paint.setColor(Color.WHITE);
+
+                        Bitmap scaledBitmap = Bitmap.createScaledBitmap(imageBitmap, 76, 76, false);
+
+                        // new Canvas(scaledBitmap).drawColor(Color.GRAY);
+
+                        widgetCanvas.drawBitmap(
+                                scaledBitmap,
+                                0,
+                                0,
+                                paint);
                     }
                 }
                 widgetImages[i] = AssetImageFactory.createAssetImage(
@@ -239,11 +276,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     public void setWidgetContent(String widgetID, String content, boolean renderOnWatch) {
         boolean update = false;
         for (CustomWidget widget : this.widgets) {
-            CustomWidgetElement element = widget.getElement(widgetID);
-            if (element == null) continue;
-
-            element.setValue(content);
-            update = true;
+            if(widget.updateElementValue(widgetID, content)) update = true;
         }
 
         if (renderOnWatch && update) renderWidgets();

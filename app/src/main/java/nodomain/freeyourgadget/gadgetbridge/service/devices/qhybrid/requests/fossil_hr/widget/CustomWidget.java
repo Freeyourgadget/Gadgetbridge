@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CustomWidget {
-    private HashMap<String, CustomWidgetElement> elements = new HashMap<>();
+    private ArrayList<CustomWidgetElement> elements = new ArrayList<>();
     private int angle, distance;
 
     public CustomWidget(int angle, int distance) {
@@ -23,18 +23,30 @@ public class CustomWidget {
     }
 
     public Collection<CustomWidgetElement> getElements(){
-        return this.elements.values();
+        return this.elements;
     }
 
     public void addElement(CustomWidgetElement element){
-        this.elements.put(element.getId(), element);
+        this.elements.add(element);
     }
 
-    public CustomWidgetElement getElement(String id){
-        return elements.get(id);
+    public boolean updateElementValue(String id, String value){
+        boolean updatedValue = false;
+        for(CustomWidgetElement element : this.elements){
+            String elementId = element.getId();
+            if(elementId != null && elementId.equals(id)){
+                element.setValue(value);
+                updatedValue = true;
+            }
+        }
+        return updatedValue;
     }
 
-    public CustomWidgetElement removeElement(String id){
-        return elements.remove(id);
+    private CustomWidgetElement getElement(String id){
+        for(CustomWidgetElement element : this.elements){
+            String elementId = element.getId();
+            if(elementId != null && elementId.equals(id)) return element;
+        }
+        return null;
     }
 }
