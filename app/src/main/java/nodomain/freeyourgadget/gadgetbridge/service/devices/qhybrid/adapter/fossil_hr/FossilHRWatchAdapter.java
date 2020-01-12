@@ -18,6 +18,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Random;
@@ -82,6 +83,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     int imageNameIndex = 0;
     private byte jsonIndex = 0;
 
+    private AssetImage backGroundImage = null;
+
     public FossilHRWatchAdapter(QHybridSupport deviceSupport) {
         super(deviceSupport);
     }
@@ -103,18 +106,17 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         loadNotificationConfigurations();
         // queueWrite(new NotificationFilterPutHRRequest(this.notificationConfigurations,this));
 
-        String[] appNames = {"instagram", "snapchat", "line", "whatsapp"};
-        String[] paths = {
-                "/storage/emulated/0/Q/images/icInstagram.icon",
-                "/storage/emulated/0/Q/images/icSnapchat.icon",
-                "/storage/emulated/0/Q/images/icLine.icon",
-                "/storage/emulated/0/Q/images/icWhatsapp.icon"
-        };
-        /*NotificationHRConfiguration[] configs = new NotificationHRConfiguration[4];
-        NotificationImage[] images = new NotificationImage[4];
+        /*try {
+            final String[] appNames = {"instagram", "snapchat", "line", "whatsapp"};
+            final String[] paths = {
+                    "/storage/emulated/0/Q/images/icInstagram.icon",
+                    "/storage/emulated/0/Q/images/icSnapchat.icon",
+                    "/storage/emulated/0/Q/images/icLine.icon",
+                    "/storage/emulated/0/Q/images/icWhatsapp.icon"
+            };
 
-
-        try {
+            NotificationHRConfiguration[] configs = new NotificationHRConfiguration[4];
+            NotificationImage[] images = new NotificationImage[4];
             for(int i = 0; i < 4; i++){
                 FileInputStream fis = new FileInputStream(paths[i]);
                 byte[] imageData = new byte[fis.available()];
@@ -125,22 +127,20 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             }
             queueWrite(new NotificationImagePutRequest(images, this));
             queueWrite(new NotificationFilterPutHRRequest(configs, this));
+
+            for(String appName : appNames){
+                queueWrite(new PlayNotificationHRRequest(
+                        appName,
+                        appName.toUpperCase(),
+                        "this is some strange message",
+                        this
+                ));
+            }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-
-        for(String appName : appNames){
-            queueWrite(new PlayNotificationHRRequest(
-                    appName,
-                    appName.toUpperCase(),
-                    "this is some strange message",
-                    this
-            ));
         }*/
 
-        // no effect
-        // negotiateSymmetricKey();
-        // queueWrite(new ConfigurationPutRequest(new nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.HeartRateMeasurementModeItem((byte) 2), this));
+        setVibrationStrength((short) 75);
 
         syncSettings();
 
@@ -155,10 +155,25 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED));
     }
 
+    @Override
+    public void setVibrationStrength(short strength) {
+        negotiateSymmetricKey();
+        queueWrite(new ConfigurationPutRequest(new nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.VibrationStrengthConfigItem((byte) strength), this));
+    }
+
     private void loadNotificationConfigurations(){
         this.notificationConfigurations = new NotificationHRConfiguration[]{
                 new NotificationHRConfiguration("generic", 0),
         };
+    }
+
+    private void loadBackground(){
+        Bitmap backgroundBitmap = BitmapFactory.decodeFile("");
+        try {
+            this.backGroundImage = AssetImageFactory.createAssetImage(backgroundBitmap, false, 0, 0, 0);
+        } catch (IOException e) {
+            GB.log("Backgroundimage error", GB.ERROR, e);
+        }
     }
 
     private void loadWidgets() {
@@ -190,7 +205,11 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     private void renderWidgets() {
         try {
-            AssetImage[] widgetImages = new AssetImage[this.widgets.length];
+            ArrayList<AssetImage> widgetImages = new ArrayList<>();
+
+            if(this.backGroundImage != null){
+                widgetImages.add(this.backGroundImage);
+            }
 
             for (int i = 0; i < this.widgets.length; i++) {
                 CustomWidget widget = widgets[i];
@@ -239,32 +258,27 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                                 paint);
                     }
                 }
-                widgetImages[i] = AssetImageFactory.createAssetImage(
-                        StringUtils.bytesToHex(
-                                ByteBuffer.allocate(8)
-                                        .putLong(System.currentTimeMillis() + imageNameIndex++)
-                                        .array()
-                        )
-                        ,
+                widgetImages.add(AssetImageFactory.createAssetImage(
                         widgetBitmap,
                         true,
                         widget.getAngle(),
                         widget.getDistance(),
                         1
-                );
+                ));
             }
 
+            AssetImage[] images = widgetImages.toArray(new AssetImage[0]);
 
             // queueWrite(new FileDeleteRequest((short) 0x0700));
             queueWrite(new AssetFilePutRequest(
-                    widgetImages,
+                    images,
                     (byte) 0x00,
                     this
             ));
 
             // queueWrite(new FileDeleteRequest((short) 0x0503));
             queueWrite(new ImagesSetRequest(
-                    widgetImages,
+                    images,
                     this
             ));
         } catch (IOException e) {

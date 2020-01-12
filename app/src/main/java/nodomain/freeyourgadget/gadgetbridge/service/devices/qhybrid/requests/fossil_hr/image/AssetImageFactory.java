@@ -9,11 +9,11 @@ import androidx.annotation.ColorInt;
 import java.io.IOException;
 
 public class AssetImageFactory {
-    public static AssetImage createAssetImage(String fileName, byte[] fileData, int angle, int distance, int indexZ){
-        return new AssetImage(fileName, fileData, angle, distance, indexZ);
+    public static AssetImage createAssetImage(byte[] fileData, int angle, int distance, int indexZ){
+        return new AssetImage(fileData, angle, distance, indexZ);
     }
 
-    public static AssetImage createAssetImage(String fileName, Bitmap fileData, boolean RLEencode, int angle, int distance, int indexZ) throws IOException {
+    public static AssetImage createAssetImage(Bitmap fileData, boolean RLEencode, int angle, int distance, int indexZ) throws IOException {
         int height = fileData.getHeight();
         int width = fileData.getWidth();
 
@@ -33,7 +33,9 @@ public class AssetImageFactory {
         }
 
         if(RLEencode){
-            return new AssetImage(fileName, ImageConverter.encodeToRLEImage(pixelBytes, height, width), angle, distance, indexZ);
+            return new AssetImage(ImageConverter.encodeToRLEImage(pixelBytes, height, width), angle, distance, indexZ);
+        }else{
+
         }
 
         return null;

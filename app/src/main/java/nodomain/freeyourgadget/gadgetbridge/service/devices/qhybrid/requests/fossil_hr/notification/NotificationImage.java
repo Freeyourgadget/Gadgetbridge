@@ -8,7 +8,7 @@ public class NotificationImage extends AssetFile {
 
     public NotificationImage(String packageName, byte[] imageData) {
         //TODO this is defo not functional
-        super("whatever", imageData);
+        super(packageName, imageData);
         this.packageName = packageName;
         this.imageData = imageData;
     }

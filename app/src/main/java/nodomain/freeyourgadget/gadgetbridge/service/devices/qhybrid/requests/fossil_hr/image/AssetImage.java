@@ -10,8 +10,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 public class AssetImage extends AssetFile {
     private int angle, distance, indexZ;
 
-    protected AssetImage(String fileName, byte[] fileData, int angle, int distance, int indexZ) {
-        super(fileName, fileData);
+    protected AssetImage(byte[] fileData, int angle, int distance, int indexZ) {
+        super(fileData);
         this.angle = angle;
         this.distance = distance;
         this.indexZ = indexZ;
