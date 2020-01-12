@@ -1243,7 +1243,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                     int slotToUse = 2 - iteration;
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(mEvt.getBegin());
-                    Alarm alarm = AlarmUtils.createSingleShot(slotToUse, false, calendar);
+                    Alarm alarm = AlarmUtils.createSingleShot(slotToUse, false, false, calendar);
                     queueAlarm(alarm, builder, characteristic);
                     iteration++;
                 }

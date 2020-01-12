@@ -1608,10 +1608,14 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             return;
         }
 
-        int base = 0;
+        int actionMask = 0;
         int daysMask = 0;
         if (alarm.getEnabled() && !alarm.getUnused()) {
-            base = 128;
+            actionMask = 0x80;
+
+            if (coordinator.supportsAlarmSnoozing() && !alarm.getSnooze()) {
+                actionMask |= 0x40;
+            }
         }
         if (!alarm.getUnused()) {
             daysMask = alarm.getRepetition();
@@ -1622,7 +1626,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
         byte[] alarmMessage = new byte[] {
                 (byte) 0x2, // TODO what is this?
-                (byte) (base + alarm.getPosition()), // 128 is the base, alarm slot is added
+                (byte) (actionMask | alarm.getPosition()), // action mask + alarm slot
                 (byte) calendar.get(Calendar.HOUR_OF_DAY),
                 (byte) calendar.get(Calendar.MINUTE),
                 (byte) daysMask,
@@ -1684,7 +1688,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 int slotToUse = 2 - iteration;
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(mEvt.getBegin());
-                Alarm alarm = AlarmUtils.createSingleShot(slotToUse, false, calendar);
+                Alarm alarm = AlarmUtils.createSingleShot(slotToUse, false, true, calendar);
                 queueAlarm(alarm, builder, characteristic);
                 iteration++;
             }

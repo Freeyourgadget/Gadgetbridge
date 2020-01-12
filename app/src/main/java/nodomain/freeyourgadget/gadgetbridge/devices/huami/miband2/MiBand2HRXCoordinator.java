@@ -68,6 +68,11 @@ public class MiBand2HRXCoordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supportsAlarmSnoozing() {
+        return true;
+    }
+
+    @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
         return false;
     }

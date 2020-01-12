@@ -146,10 +146,16 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean supportsAlarmSnoozing() {
+        return false;
+    }
+
+    @Override
     public boolean supportsMusicInfo() {
         return false;
     }
 
+    @Override
     public boolean supportsLedColor() {
         return false;
     }

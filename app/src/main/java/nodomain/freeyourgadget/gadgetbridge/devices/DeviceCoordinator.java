@@ -202,6 +202,12 @@ public interface DeviceCoordinator {
     boolean supportsSmartWakeup(GBDevice device);
 
     /**
+     * Returns true if this device/coordinator supports alarm snoozing
+     * @return
+     */
+    boolean supportsAlarmSnoozing();
+
+    /**
      * Returns true if the given device supports heart rate measurements.
      * @return
      */

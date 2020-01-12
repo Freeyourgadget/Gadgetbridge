@@ -43,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(22, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(23, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -383,6 +383,7 @@ public class GBDaoGenerator {
         alarm.addIndex(indexUnique);
         alarm.addBooleanProperty("enabled").notNull();
         alarm.addBooleanProperty("smartWakeup").notNull();
+        alarm.addBooleanProperty("snooze").notNull();
         alarm.addIntProperty("repetition").notNull().codeBeforeGetter(
                 "public boolean isRepetitive() { return getRepetition() != ALARM_ONCE; } " +
                         "public boolean getRepetition(int dow) { return (this.repetition & dow) > 0; }"
