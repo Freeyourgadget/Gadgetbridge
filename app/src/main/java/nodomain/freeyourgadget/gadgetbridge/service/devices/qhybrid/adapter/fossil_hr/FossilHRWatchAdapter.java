@@ -101,6 +101,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         // icons
 
         loadNotificationConfigurations();
+        queueWrite(new NotificationFilterPutHRRequest(this.notificationConfigurations, this));
         // queueWrite(new NotificationFilterPutHRRequest(this.notificationConfigurations,this));
 
         String[] appNames = {"instagram", "snapchat", "line", "whatsapp"};
