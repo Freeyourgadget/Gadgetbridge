@@ -820,4 +820,5 @@
     <string name="prefs_button_triple_press_action_selection_title">פעולה עם אירוע 3</string>
     <string name="prefs_button_variable_actions">הגדרות נרחבות ללחיצת כפתור</string>
     <string name="prefs_button_long_press_action_selection_title">פעולה ללחיצה ארוכה על הכפתור</string>
+    <string name="alarm_snooze">נודניק</string>
 </resources>
