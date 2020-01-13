@@ -26,16 +26,17 @@ public class ImageConverter {
         return bos.toByteArray();
     }
 
-    public static byte[] encodeToRawImage(byte[] monochromeImage, int height, int width){
-        int pixelCount = height * width;
+    public static byte[] encodeToRawImage(byte[] monochromeImage){
+        int imageSize = monochromeImage.length;
 
-        byte[] result = new byte[pixelCount / 4]; // 4 pixels per byte e.g. 2 bits per pixel
+        byte[] result = new byte[imageSize / 4]; // 4 pixels per byte e.g. 2 bits per pixel
 
-        for(int i = 0; i < pixelCount; i++){
+        for(int i = 0; i < imageSize; i++){
             int resultPixelIndex = i / 4;
-            int shiftIndex = i % 4 * 2;
+            int shiftIndex = 6 - i % 4 * 2;
 
-            result[resultPixelIndex] = (byte) ((monochromeImage[i] >> 6) << shiftIndex);
+            result[resultPixelIndex] |= (byte) (((monochromeImage[i] & 0xFF) >> 6) << shiftIndex);
+            assert Boolean.TRUE;
         }
 
         return result;

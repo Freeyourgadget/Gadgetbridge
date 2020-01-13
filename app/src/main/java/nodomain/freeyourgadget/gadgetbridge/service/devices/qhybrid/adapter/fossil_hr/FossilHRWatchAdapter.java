@@ -149,6 +149,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
         overwriteButtons(null);
 
+
+        loadBackground();
         loadWidgets();
         renderWidgets();
         // dunno if there is any point in doing this at start since when no watch is connected the QHybridSupport will not receive any intents anyway
@@ -169,7 +171,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     private void loadBackground(){
-        Bitmap backgroundBitmap = BitmapFactory.decodeFile("");
+        Bitmap backgroundBitmap = BitmapFactory
+                .decodeFile("/sdcard/DCIM/Camera/IMG_20191129_200726.jpg");
+
         try {
             this.backGroundImage = AssetImageFactory.createAssetImage(backgroundBitmap, false, 0, 0, 0);
         } catch (IOException e) {
@@ -193,9 +197,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         dateWidget.addElement(new CustomTextWidgetElement("date", "-", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_LOWER_HALF));
 
         CustomWidget helloWidget = new CustomWidget(180, 63);
-        helloWidget.addElement(new CustomTextWidgetElement("Hello", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_UPPER_HALF));
-        helloWidget.addElement(new CustomTextWidgetElement("Reddit", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_LOWER_HALF));
-        // helloWidget.addElement(new CustomBackgroundWidgetElement("/sdcard/reddit.png"));
+        // helloWidget.addElement(new CustomTextWidgetElement("Hello", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_UPPER_HALF));
+        // helloWidget.addElement(new CustomTextWidgetElement("Reddit", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_LOWER_HALF));
+        helloWidget.addElement(new CustomBackgroundWidgetElement("reddit", "/sdcard/reddit.png"));
         this.widgets = new CustomWidget[]{
                 ethWidget,
                 btcWidget,
@@ -212,19 +216,43 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 widgetImages.add(this.backGroundImage);
             }
 
+
             for (int i = 0; i < this.widgets.length; i++) {
                 CustomWidget widget = widgets[i];
 
-                Bitmap widgetBitmap = Bitmap.createBitmap(76, 76, Bitmap.Config.ARGB_4444);
+                Bitmap widgetBitmap = Bitmap.createBitmap(76, 76, Bitmap.Config.ARGB_8888);
 
                 Canvas widgetCanvas = new Canvas(widgetBitmap);
 
-                Paint circlePaint = new Paint();
-                circlePaint.setColor(Color.WHITE);
-                circlePaint.setStyle(Paint.Style.STROKE);
-                circlePaint.setStrokeWidth(3);
+                boolean backgroundDrawn = false;
 
-                widgetCanvas.drawCircle(38, 38, 37, circlePaint);
+                Paint circlePaint = new Paint();
+                if(!backgroundDrawn){
+                    circlePaint.setColor(Color.BLACK);
+                    circlePaint.setStyle(Paint.Style.FILL);
+                    circlePaint.setStrokeWidth(3);
+                    widgetCanvas.drawCircle(38, 38, 37, circlePaint);
+
+                    circlePaint.setColor(Color.WHITE);
+                    circlePaint.setStyle(Paint.Style.STROKE);
+                    circlePaint.setStrokeWidth(3);
+                    widgetCanvas.drawCircle(38, 38, 37, circlePaint);
+                }
+
+                for (CustomWidgetElement element : widget.getElements()) {
+                    if (element.getWidgetElementType() == CustomWidgetElement.WidgetElementType.TYPE_BACKGROUND) {
+                        Bitmap imageBitmap = BitmapFactory.decodeFile(element.getValue());
+                        Bitmap scaledBitmap = Bitmap.createScaledBitmap(imageBitmap, 76, 76, false);
+
+                        widgetCanvas.drawBitmap(
+                                scaledBitmap,
+                                0,
+                                0,
+                                null);
+                        backgroundDrawn = true;
+                        break;
+                    }
+                }
 
                 for (CustomWidgetElement element : widget.getElements()) {
                     if (element.getWidgetElementType() == CustomWidgetElement.WidgetElementType.TYPE_TEXT) {
@@ -240,23 +268,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                         Bitmap imageBitmap = BitmapFactory.decodeFile(element.getValue());
 
                         widgetCanvas.drawBitmap(imageBitmap, element.getX() - imageBitmap.getWidth() / 2f, element.getY() - imageBitmap.getHeight() / 2f, null);
-                    }else if(element.getWidgetElementType() == CustomWidgetElement.WidgetElementType.TYPE_BACKGROUND) {
-                        Bitmap imageBitmap = BitmapFactory.decodeFile(element.getValue());
-
-                        imageBitmap.setConfig(Bitmap.Config.ARGB_4444);
-
-                        Paint paint = new Paint();
-                        paint.setColor(Color.WHITE);
-
-                        Bitmap scaledBitmap = Bitmap.createScaledBitmap(imageBitmap, 76, 76, false);
-
-                        // new Canvas(scaledBitmap).drawColor(Color.GRAY);
-
-                        widgetCanvas.drawBitmap(
-                                scaledBitmap,
-                                0,
-                                0,
-                                paint);
                     }
                 }
                 widgetImages.add(AssetImageFactory.createAssetImage(
