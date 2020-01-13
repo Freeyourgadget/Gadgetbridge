@@ -30,7 +30,6 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
@@ -63,11 +62,6 @@ public class MiBand2Coordinator extends HuamiCoordinator {
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         MiBand2FWInstallHandler handler = new MiBand2FWInstallHandler(uri, context);
         return handler.isValid() ? handler : null;
-    }
-
-    @Override
-    public boolean supportsAlarmSnoozing() {
-        return true;
     }
 
     @Override

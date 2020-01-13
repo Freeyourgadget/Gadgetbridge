@@ -323,4 +323,9 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     public boolean supportsFindDevice() {
         return true;
     }
+
+    @Override
+    public boolean supportsAlarmSnoozing() {
+        return true;
+    }
 }
