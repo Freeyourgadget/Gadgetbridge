@@ -543,6 +543,11 @@ public class FossilWatchAdapter extends WatchAdapter {
     public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
         super.onMtuChanged(gatt, mtu, status);
 
+        if(this.MTU == mtu){
+            log("MTU changed, same value tho");
+            return;
+        }
+
         log("MTU changed: " + mtu);
 
         this.MTU = mtu;
