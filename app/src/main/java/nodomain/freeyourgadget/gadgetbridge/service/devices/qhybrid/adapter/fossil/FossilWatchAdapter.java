@@ -555,6 +555,11 @@ public class FossilWatchAdapter extends WatchAdapter {
     }
 
     public void queueWrite(RequestMtuRequest request, boolean priorise) {
+        log("is connected: " + getDeviceSupport().isConnected());
+        if(!getDeviceSupport().isConnected()){
+            log("dropping requetst " + request.getName());
+            return;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             new TransactionBuilder("requestMtu")
                     .requestMtu(512)
@@ -585,6 +590,11 @@ public class FossilWatchAdapter extends WatchAdapter {
     }
 
     public void queueWrite(FossilRequest request, boolean priorise) {
+        log("is connected: " + getDeviceSupport().isConnected());
+        if(!getDeviceSupport().isConnected()){
+            log("dropping requetst " + request.getName());
+            return;
+        }
         if (fossilRequest != null && !fossilRequest.isFinished()) {
             log("queing request: " + request.getName());
             if (priorise) {
@@ -605,12 +615,22 @@ public class FossilWatchAdapter extends WatchAdapter {
     }
 
     public void queueWrite(Request request, boolean priorise) {
+        log("is connected: " + getDeviceSupport().isConnected());
+        if(!getDeviceSupport().isConnected()){
+            log("dropping requetst " + request.getName());
+            return;
+        }
         new TransactionBuilder(request.getClass().getSimpleName()).write(getDeviceSupport().getCharacteristic(request.getRequestUUID()), request.getRequestData()).queue(getDeviceSupport().getQueue());
 
         queueNextRequest();
     }
 
     protected void queueWrite(Request request) {
+        log("is connected: " + getDeviceSupport().isConnected());
+        if(!getDeviceSupport().isConnected()){
+            log("dropping requetst " + request.getName());
+            return;
+        }
         if (request instanceof SetDeviceStateRequest)
             queueWrite((SetDeviceStateRequest) request, false);
         else if (request instanceof RequestMtuRequest)
