@@ -818,4 +818,5 @@
     <string name="prefs_button_triple_press_action_selection_title">Event 3 actie</string>
     <string name="prefs_button_variable_actions">Gedetailleerde knopdrukinstellingen</string>
     <string name="prefs_button_long_press_action_selection_title">Lange druk op de knop actie</string>
+    <string name="alarm_snooze">Sluimeren</string>
 </resources>
