@@ -172,14 +172,14 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     private void loadBackground(){
-        Bitmap backgroundBitmap = BitmapFactory
+        /*Bitmap backgroundBitmap = BitmapFactory
                 .decodeFile("/sdcard/DCIM/Camera/IMG_20191129_200726.jpg");
 
         try {
             this.backGroundImage = AssetImageFactory.createAssetImage(backgroundBitmap, false, 0, 0, 0);
         } catch (IOException e) {
             GB.log("Backgroundimage error", GB.ERROR, e);
-        }
+        }*/
     }
 
     private void loadWidgets() {
