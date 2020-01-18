@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.BufferOverflowException;
@@ -152,7 +153,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
         loadBackground();
         loadWidgets();
-        renderWidgets();
+        // renderWidgets();
         // dunno if there is any point in doing this at start since when no watch is connected the QHybridSupport will not receive any intents anyway
 
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED));
@@ -241,7 +242,17 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
                 for (CustomWidgetElement element : widget.getElements()) {
                     if (element.getWidgetElementType() == CustomWidgetElement.WidgetElementType.TYPE_BACKGROUND) {
+                        File imageFile = new File(element.getValue());
+
+                        if(!imageFile.exists() || !imageFile.isFile()){
+                            logger.debug("Image file " + element.getValue() + " not found");
+                            continue;
+                        }
                         Bitmap imageBitmap = BitmapFactory.decodeFile(element.getValue());
+                        if(imageBitmap == null){
+                            logger.debug("image file " + element.getValue() + " could not be decoded");
+                            continue;
+                        }
                         Bitmap scaledBitmap = Bitmap.createScaledBitmap(imageBitmap, 76, 76, false);
 
                         widgetCanvas.drawBitmap(
