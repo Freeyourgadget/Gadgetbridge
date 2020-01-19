@@ -8,6 +8,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr.FossilHRWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.FileEncryptedLookupAndGetRequest;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ConfigurationGetRequest extends FileEncryptedLookupAndGetRequest {
     public ConfigurationGetRequest(FossilHRWatchAdapter adapter) {
@@ -48,6 +49,8 @@ public class ConfigurationGetRequest extends FileEncryptedLookupAndGetRequest {
                 device.addDeviceInfo(new GenericItem(QHybridSupport.ITEM_HEART_RATE_MEASUREMENT_MODE, String.valueOf(((ConfigurationPutRequest.HeartRateMeasurementModeItem) item).getValue())));
             }
         }
+
+        GB.toast("got config", 0, GB.INFO);
 
         device.sendDeviceUpdateIntent(getAdapter().getContext());
     }

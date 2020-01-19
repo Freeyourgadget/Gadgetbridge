@@ -16,7 +16,11 @@ public class WidgetsPutRequest extends JsonPutRequest {
 
     private static JSONObject prepareFile(Widget[] widgets){
         try {
-            JSONArray widgetArray = new JSONArray(widgets);
+            JSONArray widgetArray = new JSONArray();
+
+            for(Widget widget : widgets){
+                widgetArray.put(widget.toJson());
+            }
 
             JSONObject object = new JSONObject()
                     .put(

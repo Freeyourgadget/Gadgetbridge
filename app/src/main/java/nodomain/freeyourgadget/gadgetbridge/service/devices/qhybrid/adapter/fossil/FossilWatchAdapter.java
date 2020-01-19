@@ -43,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.WatchAdapter;
@@ -128,6 +129,25 @@ public class FossilWatchAdapter extends WatchAdapter {
         String buttonConfig = getDeviceSpecificPreferences().getString(CONFIG_ITEM_BUTTONS, null);
         getDeviceSupport().getDevice().addDeviceInfo(new GenericItem(ITEM_BUTTONS, buttonConfig));
         overwriteButtons(buttonConfig);
+    }
+
+    @Override
+    public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+        if(status != BluetoothGatt.GATT_SUCCESS){
+            log("characteristic write failed: " + status);
+            fossilRequest = null;
+
+            queueNextRequest();
+        }
+    }
+
+    @Override
+    public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+        if(newState != BluetoothGatt.STATE_CONNECTED){
+            log("status " + newState + "  clearing queue...");
+            requestQueue.clear();
+            fossilRequest = null;
+        }
     }
 
     private SharedPreferences getDeviceSpecificPreferences(){

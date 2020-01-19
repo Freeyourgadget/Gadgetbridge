@@ -5,13 +5,16 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-public class CustomWidget {
+public class CustomWidget extends Widget {
     private ArrayList<CustomWidgetElement> elements = new ArrayList<>();
     private int angle, distance;
+    private String name;
 
-    public CustomWidget(int angle, int distance) {
+    public CustomWidget(String name, int angle, int distance) {
+        super(null, angle, distance);
         this.angle = angle;
         this.distance = distance;
+        this.name = name;
     }
 
     public int getAngle() {
@@ -22,7 +25,23 @@ public class CustomWidget {
         return distance;
     }
 
-    public Collection<CustomWidgetElement> getElements(){
+    public void setElements(ArrayList<CustomWidgetElement> elements) {
+        this.elements = elements;
+    }
+
+    public void setAngle(int angle) {
+        this.angle = angle;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ArrayList<CustomWidgetElement> getElements(){
         return this.elements;
     }
 
@@ -48,5 +67,9 @@ public class CustomWidget {
             if(elementId != null && elementId.equals(id)) return element;
         }
         return null;
+    }
+
+    public String getName() {
+        return name;
     }
 }

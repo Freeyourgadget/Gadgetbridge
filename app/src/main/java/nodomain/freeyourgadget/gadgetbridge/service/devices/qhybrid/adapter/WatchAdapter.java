@@ -108,4 +108,13 @@ public abstract class WatchAdapter {
 
     public void setWidgetContent(String widgetID, String content, boolean render) {
     }
+
+    public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+    }
+
+    public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+    }
+
+    public void updateWidgets() {
+    }
 }

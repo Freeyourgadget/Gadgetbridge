@@ -1,10 +1,37 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget;
 
-public class CustomWidgetElement {
+import java.io.Serializable;
+
+import nodomain.freeyourgadget.gadgetbridge.R;
+
+public class CustomWidgetElement implements Serializable {
     public enum WidgetElementType {
-        TYPE_TEXT,
-        TYPE_IMAGE,
-        TYPE_BACKGROUND
+        TYPE_TEXT(R.id.qhybrid_widget_elements_type_text, "text"),
+        TYPE_IMAGE(0, "image"),
+        TYPE_BACKGROUND(R.id.qhybrid_widget_elements_type_background, "background");
+
+        private String jsonIdentifier;
+        private int radioButtonResource;
+
+        WidgetElementType(int radioButtonResource, String jsonIdentifier){
+            this.radioButtonResource = radioButtonResource;
+            this.jsonIdentifier = jsonIdentifier;
+        }
+
+        public int getRadioButtonResource() {
+            return radioButtonResource;
+        }
+
+        public String getJsonIdentifier() {
+            return jsonIdentifier;
+        }
+
+        static public WidgetElementType fromRadioButtonRessource(int radioButtonResource){
+            for(WidgetElementType type : values()){
+                if(type.getRadioButtonResource() == radioButtonResource) return type;
+            }
+            return null;
+        }
     }
 
     public final static int X_CENTER = 38;
@@ -14,6 +41,22 @@ public class CustomWidgetElement {
     private WidgetElementType widgetElementType;
     private String id, value;
     private int x, y;
+
+    public void setWidgetElementType(WidgetElementType widgetElementType) {
+        this.widgetElementType = widgetElementType;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
 
     protected CustomWidgetElement(WidgetElementType widgetElementType, String id, String value, int x, int y) {
         this.widgetElementType = widgetElementType;

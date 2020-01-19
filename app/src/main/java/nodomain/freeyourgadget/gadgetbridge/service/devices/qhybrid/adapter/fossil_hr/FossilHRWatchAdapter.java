@@ -9,47 +9,39 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
+import android.os.CpuUsageInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.BufferOverflowException;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Random;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.TimeZone;
-import java.util.UUID;
 
-import cyanogenmod.app.CustomTile;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.Widget;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HRConfigActivity;
-import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationHRConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.RequestMtuRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.SetDeviceStateRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.TimeConfigItem;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileCloseRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileDeleteRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.VerifyPrivateKeyRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration.ConfigurationGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration.ConfigurationPutRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFile;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.AssetImage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.AssetImageFactory;
@@ -58,14 +50,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicInfoSetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.notification.NotificationFilterPutHRRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.notification.NotificationImage;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.notification.NotificationImagePutRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.notification.PlayNotificationHRRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomBackgroundWidgetElement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomTextWidgetElement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomWidget;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomWidgetElement;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.utils.StringUtils;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.Widget;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.WidgetsPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_PHONE_REQUEST;
@@ -75,7 +65,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     private byte[] phoneRandomNumber;
     private byte[] watchRandomNumber;
 
-    CustomWidget[] widgets = new CustomWidget[0];
+    ArrayList<Widget> widgets = new ArrayList<>();
 
     NotificationHRConfiguration[] notificationConfigurations;
 
@@ -176,37 +166,87 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 .decodeFile("/sdcard/DCIM/Camera/IMG_20191129_200726.jpg");
 
         try {
-            this.backGroundImage = AssetImageFactory.createAssetImage(backgroundBitmap, false, 0, 0, 0);
+            this.backGroundImage = AssetImageFactory.createAssetImage(backgroundBitmap, false, 0,:wq
+             0, 0);
         } catch (IOException e) {
             GB.log("Backgroundimage error", GB.ERROR, e);
         }*/
     }
 
     private void loadWidgets() {
-        CustomWidget ethWidget = new CustomWidget(90, 63);
-        // ethWidget.addElement(new CustomWidgetElement(CustomWidgetElement.WidgetElementType.TYPE_TEXT, "date", "-", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_UPPER_HALF));
-        ethWidget.addElement(new CustomTextWidgetElement("ETH", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_UPPER_HALF));
-        ethWidget.addElement(new CustomTextWidgetElement("eth", "-", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_LOWER_HALF));
+        this.widgets.clear();
+        String widgetJson = GBApplication.getPrefs().getPreferences().getString("FOSSIL_HR_WIDGETS", "{}");
+        String customWidgetJson = GBApplication.getPrefs().getString("QHYBRID_CUSTOM_WIDGETS", "[]");
 
+        try {
+            JSONObject widgetConfig = new JSONObject(widgetJson);
+            JSONArray customWidgets = new JSONArray(customWidgetJson);
 
-        CustomWidget btcWidget = new CustomWidget(270, 63);
-        btcWidget.addElement(new CustomTextWidgetElement("BTC", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_UPPER_HALF));
-        btcWidget.addElement(new CustomTextWidgetElement("btc", "-", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_LOWER_HALF));
+            Iterator<String> keyIterator = widgetConfig.keys();
+            HashMap<String, Integer> positionMap = new HashMap<>(4);
+            positionMap.put("top", 0);
+            positionMap.put("right", 90);
+            positionMap.put("bottom", 180);
+            positionMap.put("left", 270);
 
-        CustomWidget dateWidget = new CustomWidget(0, 63);
-        dateWidget.addElement(new CustomTextWidgetElement("Time", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_UPPER_HALF));
-        dateWidget.addElement(new CustomTextWidgetElement("date", "-", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_LOWER_HALF));
+            while(keyIterator.hasNext()){
+                String position = keyIterator.next();
+                String identifier = widgetConfig.getString(position);
+                Widget.WidgetType type = Widget.WidgetType.fromJsonIdentifier(identifier);
 
-        CustomWidget helloWidget = new CustomWidget(180, 63);
-        // helloWidget.addElement(new CustomTextWidgetElement("Hello", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_UPPER_HALF));
-        // helloWidget.addElement(new CustomTextWidgetElement("Reddit", CustomWidgetElement.X_CENTER, CustomWidgetElement.Y_LOWER_HALF));
-        helloWidget.addElement(new CustomBackgroundWidgetElement("reddit", "/sdcard/reddit.png"));
-        this.widgets = new CustomWidget[]{
-                ethWidget,
-                btcWidget,
-                dateWidget,
-                helloWidget
-        };
+                Widget widget = null;
+                if(type != null) {
+                    widget = new Widget(type, positionMap.get(position), 63);
+                }else{
+                    identifier = identifier.substring(7);
+                    for(int i = 0; i < customWidgets.length(); i++){
+                        JSONObject customWidget = customWidgets.getJSONObject(i);
+                        if(customWidget.getString("name").equals(identifier)){
+                            CustomWidget newWidget = new CustomWidget(
+                                    customWidget.getString("name"),
+                                    positionMap.get(position),
+                                    63
+                            );
+                            JSONArray elements = customWidget.getJSONArray("elements");
+
+                            for (int i2 = 0; i2 < elements.length(); i2++) {
+                                JSONObject element = elements.getJSONObject(i2);
+                                if (element.getString("type").equals("text")) {
+                                    newWidget.addElement(new CustomTextWidgetElement(
+                                            element.getString("id"),
+                                            element.getString("value"),
+                                            element.getInt("x"),
+                                            element.getInt("y")
+                                    ));
+                                } else if (element.getString("type").equals("background")) {
+                                    newWidget.addElement(new CustomBackgroundWidgetElement(
+                                            element.getString("id"),
+                                            element.getString("value")
+                                    ));
+                                }
+                            }
+                            widget = newWidget;
+                        }
+                    }
+                }
+
+                if(widget == null) continue;
+                this.widgets.add(widget);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        uploadWidgets();
+    }
+
+    private void uploadWidgets(){
+        negotiateSymmetricKey();
+        ArrayList<Widget> systemWidgets = new ArrayList<>(widgets.size());
+        for(Widget widget : this.widgets){
+            if(!(widget instanceof CustomWidget)) systemWidgets.add(widget);
+        }
+        queueWrite(new WidgetsPutRequest(systemWidgets.toArray(new Widget[0]), this));
     }
 
     private void renderWidgets() {
@@ -218,8 +258,10 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             }
 
 
-            for (int i = 0; i < this.widgets.length; i++) {
-                CustomWidget widget = widgets[i];
+            for (int i = 0; i < this.widgets.size(); i++) {
+                Widget w = widgets.get(i);
+                if(!(w instanceof CustomWidget)) continue;
+                CustomWidget widget = (CustomWidget) w;
 
                 Bitmap widgetBitmap = Bitmap.createBitmap(76, 76, Bitmap.Config.ARGB_8888);
 
@@ -312,8 +354,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     @Override
     public void setWidgetContent(String widgetID, String content, boolean renderOnWatch) {
         boolean update = false;
-        for (CustomWidget widget : this.widgets) {
-            if(widget.updateElementValue(widgetID, content)) update = true;
+        for (Widget widget : this.widgets) {
+            if(!(widget instanceof CustomWidget)) continue;
+            if(((CustomWidget) widget).updateElementValue(widgetID, content)) update = true;
         }
 
         if (renderOnWatch && update) renderWidgets();
@@ -372,6 +415,12 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         queueWrite(new MusicControlRequest(
                 stateSpec.state == MusicStateSpec.STATE_PLAYING ? MUSIC_PHONE_REQUEST.MUSIC_REQUEST_SET_PLAYING : MUSIC_PHONE_REQUEST.MUSIC_REQUEST_SET_PAUSED
         ));
+    }
+
+    @Override
+    public void updateWidgets() {
+        loadWidgets();
+        renderWidgets();
     }
 
     private void setBackgroundImages(AssetImage background, AssetImage[] complications) {

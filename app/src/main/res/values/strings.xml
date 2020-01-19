@@ -773,6 +773,13 @@
     <string name="qhybrid_offset_timezone">offset timezone by</string>
     <string name="qhybrid_changes_delay_prompt">change might take some seconds…</string>
     <string name="qhybrid_offset_time_by">offset time by</string>
+    <string name="hr_widget_heart_rate">Heart rate</string>
+    <string name="hr_widget_steps">Steps</string>
+    <string name="hr_widget_date">Date</string>
+    <string name="hr_widget_active_minutes">Active minutes</string>
+    <string name="hr_widget_calories">Calories</string>
+    <string name="hr_widget_battery">Battery</string>
+    <string name="hr_widget_nothing">Nothing</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>
         <item quantity="two">%d hours</item>

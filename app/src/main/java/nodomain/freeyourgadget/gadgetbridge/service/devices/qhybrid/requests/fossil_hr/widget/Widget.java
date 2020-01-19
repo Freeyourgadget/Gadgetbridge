@@ -5,12 +5,18 @@ import androidx.annotation.NonNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public abstract class Widget {
+import java.io.Serializable;
+
+import nodomain.freeyourgadget.gadgetbridge.R;
+
+public class Widget implements Serializable {
     private WidgetType widgetType;
     int angle, distance;
 
-    public Widget(WidgetType type, int angle, int distance){
+    public Widget(WidgetType type, int angle, int distance) {
         this.widgetType = type;
+        this.angle = angle;
+        this.distance = distance;
     }
 
     @NonNull
@@ -19,7 +25,7 @@ public abstract class Widget {
         return toJson().toString();
     }
 
-    public JSONObject toJson(){
+    public JSONObject toJson() {
         JSONObject object = new JSONObject();
 
         try {
@@ -27,13 +33,13 @@ public abstract class Widget {
                     .put("name", widgetType.getIdentifier())
                     .put("pos",
                             new JSONObject()
-                            .put("angle", angle)
-                            .put("distance", distance)
-                            )
+                                    .put("angle", angle)
+                                    .put("distance", distance)
+                    )
                     .put("data", new JSONObject())
                     .put("theme",
                             new JSONObject()
-                            .put("font_color", "default")
+                                    .put("font_color", "default")
                     );
         } catch (JSONException e) {
             e.printStackTrace();
@@ -43,17 +49,35 @@ public abstract class Widget {
     }
 
 
-    enum WidgetType{
-        TIMEZONE("timeZone2SSE");
+    public enum WidgetType {
+        HEART_RATE("hrSSE", R.string.hr_widget_heart_rate),
+        STEPS("stepsSSE", R.string.hr_widget_steps),
+        DATE("dateSSE", R.string.hr_widget_date),
+        ACTIVE_MINUTES("activeMinutesSSE", R.string.hr_widget_active_minutes),
+        CALORIES("caloriesSSE", R.string.hr_widget_calories),
+        BATTERY("batterySSE", R.string.hr_widget_battery),
+        NOTHING(null, R.string.hr_widget_nothing);
 
         private String identifier;
+        private int stringResource;
 
-
-        WidgetType(String identifier){
+        WidgetType(String identifier, int stringResource) {
             this.identifier = identifier;
+            this.stringResource = stringResource;
         }
 
-        public String getIdentifier(){
+        public static WidgetType fromJsonIdentifier(String jsonIdentifier){
+            for(WidgetType type : values()){
+                if(type.getIdentifier() != null && type.getIdentifier().equals(jsonIdentifier)) return type;
+            }
+            return null;
+        }
+
+        public int getStringResource() {
+            return stringResource;
+        }
+
+        public String getIdentifier() {
             return this.identifier;
         }
     }

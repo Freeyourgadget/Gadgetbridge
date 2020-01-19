@@ -87,6 +87,7 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String QHYBRID_COMMAND_NOTIFICATION = "qhybrid_command_notification";
     public static final String QHYBRID_COMMAND_UPDATE_SETTINGS = "nodomain.freeyourgadget.gadgetbridge.Q_UPDATE_SETTINGS";
     public static final String QHYBRID_COMMAND_OVERWRITE_BUTTONS = "nodomain.freeyourgadget.gadgetbridge.Q_OVERWRITE_BUTTONS";
+    public static final String QHYBRID_COMMAND_UPDATE_WIDGETS = "nodomain.freeyourgadget.gadgetbridge.Q_UPDATE_WIDGETS";
     public static final String QHYBRID_COMMAND_SET_MENU_MESSAGE = "nodomain.freeyourgadget.gadgetbridge.Q_SET_MENU_MESSAGE";
     public static final String QHYBRID_COMMAND_SEND_MENU_ITEMS = "nodomain.freeyourgadget.gadgetbridge.Q_SEND_MENU_ITEMS";
     public static final String QHYBRID_COMMAND_SET_WIDGET_CONTENT = "nodomain.freeyourgadget.gadgetbridge.Q_SET_WIDGET_CONTENT";
@@ -143,6 +144,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         commandFilter.addAction(QHYBRID_COMMAND_UPDATE_SETTINGS);
         commandFilter.addAction(QHYBRID_COMMAND_OVERWRITE_BUTTONS);
         commandFilter.addAction(QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED);
+        commandFilter.addAction(QHYBRID_COMMAND_UPDATE_WIDGETS);
         commandFilter.addAction(QHYBRID_COMMAND_SEND_MENU_ITEMS);
         commandReceiver = new BroadcastReceiver() {
 
@@ -217,6 +219,10 @@ public class QHybridSupport extends QHybridBaseSupport {
                         watchAdapter.syncNotificationSettings();
                         break;
                     }
+                    case QHYBRID_COMMAND_UPDATE_WIDGETS: {
+                        watchAdapter.updateWidgets();
+                        break;
+                    }
                 }
             }
         };
@@ -278,6 +284,7 @@ public class QHybridSupport extends QHybridBaseSupport {
                                 widgetValues.put(key.substring(16), String.valueOf(intent.getExtras().get(key)));
                             }
                         }
+                        boolean render = intent.getBooleanExtra("EXTRA_RENDER", true);
                         if(widgetValues.size() > 0){
                             Iterator<String> valuesIterator = widgetValues.keySet().iterator();
                             valuesIterator.next();
@@ -289,11 +296,10 @@ public class QHybridSupport extends QHybridBaseSupport {
 
                             valuesIterator = widgetValues.keySet().iterator();
                             String id = valuesIterator.next();
-                            watchAdapter.setWidgetContent(id, widgetValues.get(id), true);
+                            watchAdapter.setWidgetContent(id, widgetValues.get(id), render);
                         }else {
                             String id = String.valueOf(intent.getExtras().get("EXTRA_WIDGET_ID"));
                             String content = String.valueOf(intent.getExtras().get("EXTRA_CONTENT"));
-                            boolean render = intent.getBooleanExtra("EXTRA_RENDER", true);
                             watchAdapter.setWidgetContent(id, content, render);
                         }
                         break;
@@ -352,7 +358,7 @@ public class QHybridSupport extends QHybridBaseSupport {
                 .read(getCharacteristic(UUID.fromString("00002a19-0000-1000-8000-00805f9b34fb")))
                 .read(getCharacteristic(UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb")))
                 .read(getCharacteristic(UUID.fromString("00002a24-0000-1000-8000-00805f9b34fb")))
-                .notify(getCharacteristic(UUID.fromString("00002a37-0000-1000-8000-00805f9b34fb")), true)
+                // .notify(getCharacteristic(UUID.fromString("00002a37-0000-1000-8000-00805f9b34fb")), true)
         ;
 
 
@@ -472,6 +478,12 @@ public class QHybridSupport extends QHybridBaseSupport {
         }
 
         return notificationProgress;
+    }
+
+    @Override
+    public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+        super.onConnectionStateChange(gatt, status, newState);
+        watchAdapter.onConnectionStateChange(gatt, status, newState);
     }
 
     //TODO toggle "Notifications when screen on" options on this check
@@ -610,6 +622,12 @@ public class QHybridSupport extends QHybridBaseSupport {
 
         ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify((int) System.currentTimeMillis(), notificationBuilder.build());
 
+    }
+
+    @Override
+    public boolean onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+        watchAdapter.onCharacteristicWrite(gatt, characteristic, status);
+        return super.onCharacteristicWrite(gatt, characteristic, status);
     }
 
     @Override

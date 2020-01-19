@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nodomain.freeyourgadget.gadgetbridge">
-
     <!--
         Comment in for testing Pebble Emulator
         <uses-permission android:name="android.permission.INTERNET" />
@@ -22,7 +21,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.VIBRATE" /> <!-- Used for reverse find device -->
-
     <uses-permission android:name="cyanogenmod.permission.ACCESS_WEATHER_MANAGER" />
     <uses-permission android:name="cyanogenmod.permission.READ_WEATHER" />
     <uses-permission android:name="lineageos.permission.ACCESS_WEATHER_MANAGER" />
@@ -44,16 +42,19 @@
         android:allowBackup="false"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/GadgetbridgeTheme">
+        <activity android:name=".devices.qhybrid.WidgetSettingsActivity"></activity>
         <activity
             android:name=".activities.ControlCenterv2"
             android:label="@string/title_activity_controlcenter"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -78,9 +79,9 @@
             android:label="@string/activity_summaries"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
-            android:launchMode="singleTop"
             android:name=".activities.appmanager.AppManagerActivity"
             android:label="@string/title_activity_appmanager"
+            android:launchMode="singleTop"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
             android:name=".activities.AppBlacklistActivity"
@@ -290,7 +291,7 @@
 
                 <data android:mimeType="application/octet-stream" />
             </intent-filter>
-            <!-- to receive firmwares from the download content provider if recognized as zip-->
+            <!-- to receive firmwares from the download content provider if recognized as zip -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -306,7 +307,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="*/*" />
-
             </intent-filter>
         </activity>
 
@@ -331,18 +331,19 @@
 
         <activity android:name=".externalevents.WeatherNotificationConfig">
             <intent-filter>
-                <action android:name="ru.gelin.android.weather.notification.ACTION_WEATHER_SKIN_PREFERENCES"/>
+                <action android:name="ru.gelin.android.weather.notification.ACTION_WEATHER_SKIN_PREFERENCES" />
             </intent-filter>
         </activity>
 
-        <receiver android:name=".externalevents.AutoStartReceiver"
+        <receiver
+            android:name=".externalevents.AutoStartReceiver"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".externalevents.BluetoothStateChangeReceiver"
             android:exported="false">
@@ -365,16 +366,13 @@
             </intent-filter>
         </receiver>
         <receiver
+            android:name=".database.PeriodicExporter"
             android:enabled="true"
-            android:name="nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter"
-            android:exported="false">
-
-        </receiver>
-
+            android:exported="false"></receiver>
         <!--
             forcing the DebugActivity to portrait mode avoids crashes with the progress
             dialog when changing orientation
-         -->
+        -->
         <activity
             android:name=".activities.DebugActivity"
             android:label="@string/title_activity_debug"
@@ -402,10 +400,10 @@
             android:label="@string/title_activity_pebble_pairing" />
         <activity
             android:name=".devices.watch9.Watch9PairingActivity"
-            android:label="@string/title_activity_watch9_pairing"  />
+            android:label="@string/title_activity_watch9_pairing" />
         <activity
             android:name=".devices.watch9.Watch9CalibrationActivity"
-            android:label="@string/title_activity_watch9_calibration"  />
+            android:label="@string/title_activity_watch9_calibration" />
         <activity
             android:name=".activities.charts.ChartsActivity"
             android:label="@string/title_activity_charts"
@@ -429,8 +427,8 @@
         <activity
             android:name=".activities.NotificationFilterActivity"
             android:label="@string/title_activity_notification_filter"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            android:parentActivityName=".activities.AppBlacklistActivity" />
+            android:parentActivityName=".activities.AppBlacklistActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".activities.FindPhoneActivity"
             android:label="Find Phone" />
@@ -439,7 +437,6 @@
             android:name=".contentprovider.PebbleContentProvider"
             android:authorities="com.getpebble.android.provider"
             android:exported="true" />
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.screenshot_provider"
@@ -450,7 +447,8 @@
                 android:resource="@xml/shared_paths" />
         </provider>
 
-        <receiver android:name=".SleepAlarmWidget"
+        <receiver
+            android:name=".SleepAlarmWidget"
             android:label="@string/appwidget_sleep_alarm_widget_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -461,41 +459,41 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/sleep_alarm_widget_info" />
         </receiver>
-
         <receiver
             android:name=".Widget"
             android:label="@string/widget_listing_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="nodomain.freeyourgadget.gadgetbridge.WidgetClick" />
-         </intent-filter>
+            </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info" />
         </receiver>
 
-
         <activity
             android:name=".activities.WidgetAlarmsActivity"
+            android:excludeFromRecents="true"
             android:launchMode="singleInstance"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"
-            android:excludeFromRecents="true"/>
-
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
-            android:launchMode="singleTask"
+            android:name=".activities.ExternalPebbleJSActivity"
             android:allowTaskReparenting="true"
             android:clearTaskOnLaunch="true"
-            android:name=".activities.ExternalPebbleJSActivity"
             android:label="@string/app_configure"
+            android:launchMode="singleTask"
             android:parentActivityName=".activities.appmanager.AppManagerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2" />
+
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="gadgetbridge" />
             </intent-filter>
         </activity>
