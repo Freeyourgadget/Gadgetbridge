@@ -26,7 +26,7 @@
     <!-- Strings related to Debug Activity -->
     <string name="title_activity_debug">Debug</string>
     <string name="debugactivity_really_factoryreset_title">Really factory reset?</string>
-    <string name="debugactivity_really_factoryreset">Doing a factory reset will delete all data from the connected device (if supported). Xiaomi/Huami devices also change Bluetooth MAC address, so they appear as a new devices to Gadgetbrige.</string>
+    <string name="debugactivity_really_factoryreset">Doing a factory reset will delete all data from the connected device (if supported). Xiaomi/Huami devices also change Bluetooth MAC address, so they appear as a new devices to Gadgetbridge.</string>
     <!-- Strings related to AppManager -->
     <string name="title_activity_appmanager">App Manager</string>
     <string name="appmanager_cached_watchapps_watchfaces">Apps in cache</string>
@@ -772,14 +772,11 @@
     <string name="qhybrid_offset_timezone">offset timezone by</string>
     <string name="qhybrid_changes_delay_prompt">change might take some seconds…</string>
     <string name="qhybrid_offset_time_by">offset time by</string>
-
     <string name="prefs_button_single_press_action_selection_title">Event 1 action</string>
     <string name="prefs_button_double_press_action_selection_title">Event 2 action</string>
     <string name="prefs_button_triple_press_action_selection_title">Event 3 action</string>
     <string name="prefs_button_variable_actions">Detailed button press settings</string>
     <string name="prefs_button_long_press_action_selection_title">Long press button action</string>
-
-
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>
         <item quantity="two">%d hours</item>
