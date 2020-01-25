@@ -229,7 +229,7 @@
     <string name="pref_screen_notification_profile_generic">Generisk merknad</string>
     <string name="pref_screen_notification_profile_email">E-postmerknad</string>
     <string name="pref_screen_notification_profile_incoming_call">Innkommende ringemerknad</string>
-    <string name="pref_screen_notification_profile_generic_chat">Sludre</string>
+    <string name="pref_screen_notification_profile_generic_chat">Sludring</string>
     <string name="pref_screen_notification_profile_generic_navigation">Navigasjon</string>
     <string name="pref_screen_notification_profile_generic_social">Sosialt nettverk</string>
     <string name="prefs_title_heartrate_measurement_interval">Heldagspulsmåling</string>
