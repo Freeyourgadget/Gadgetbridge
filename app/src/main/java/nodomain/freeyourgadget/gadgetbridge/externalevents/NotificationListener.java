@@ -451,6 +451,10 @@ public class NotificationListener extends NotificationListenerService {
             for (Notification.Action action : noti.actions) {
                 LOG.info("Found call action: " + action.title);
             }
+            if (noti.actions.length == 1) {
+                LOG.info("There is only one call action, assuming outgoing call and ignoring");
+                return;
+            }
             /*try {
                 LOG.info("Executing first action");
                 noti.actions[0].actionIntent.send();
