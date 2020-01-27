@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HRConfigActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationHRConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -567,20 +568,30 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
         MusicControlRequest r = new MusicControlRequest(MUSIC_PHONE_REQUEST.MUSIC_REQUEST_PLAY_PAUSE);
 
+        GBDeviceEventMusicControl deviceEventMusicControl = new GBDeviceEventMusicControl();
+        deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.PLAY;
+
+        // TODO add skipping/seeking
+
         switch (request) {
             case MUSIC_REQUEST_PLAY_PAUSE: {
                 queueWrite(new MusicControlRequest(MUSIC_PHONE_REQUEST.MUSIC_REQUEST_PLAY_PAUSE));
+                deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.PLAYPAUSE;
                 break;
             }
             case MUSIC_REQUEST_LOUDER: {
                 queueWrite(new MusicControlRequest(MUSIC_PHONE_REQUEST.MUSIC_REQUEST_LOUDER));
+                deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.VOLUMEUP;
                 break;
             }
             case MUSIC_REQUEST_QUITER: {
                 queueWrite(new MusicControlRequest(MUSIC_PHONE_REQUEST.MUSIC_REQUEST_QUITER));
+                deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.VOLUMEDOWN;
                 break;
             }
         }
+
+        getDeviceSupport().evaluateGBDeviceEvent(deviceEventMusicControl);
     }
 
     @Override
