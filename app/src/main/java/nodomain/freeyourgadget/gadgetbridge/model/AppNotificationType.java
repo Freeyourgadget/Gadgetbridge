@@ -51,6 +51,7 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
 
         // Generic Calendar
         put("com.android.calendar", NotificationType.GENERIC_CALENDAR);
+        put("mikado.bizcalpro", NotificationType.BUSINESS_CALENDAR);
 
         // Google
         put("com.google.android.gm", NotificationType.GMAIL);

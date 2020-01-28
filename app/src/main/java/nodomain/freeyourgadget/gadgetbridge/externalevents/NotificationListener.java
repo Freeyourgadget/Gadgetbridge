@@ -55,6 +55,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -107,6 +108,10 @@ public class NotificationListener extends NotificationListenerService {
 
     private HashMap<String, Long> notificationBurstPrevention = new HashMap<>();
     private HashMap<String, Long> notificationOldRepeatPrevention = new HashMap<>();
+
+    private static final List<String> groupSummaryWhitelist = Arrays.asList(
+            "mikado.bizcalpro"
+    );
 
     public static ArrayList<String> notificationStack = new ArrayList<>();
 
@@ -342,7 +347,7 @@ public class NotificationListener extends NotificationListenerService {
         List<NotificationCompat.Action> actions = wearableExtender.getActions();
 
 
-        if (actions.size() == 0 && NotificationCompat.isGroupSummary(notification)) { //this could cause #395 to come back
+        if (actions.size() == 0 && NotificationCompat.isGroupSummary(notification) && !groupSummaryWhitelist.contains(source)) { //this could cause #395 to come back
             LOG.info("Not forwarding notification, FLAG_GROUP_SUMMARY is set and no wearable action present. Notification flags: " + notification.flags);
             return;
         }
