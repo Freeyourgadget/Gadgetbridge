@@ -1,9 +1,10 @@
 ### Changelog
 
-
-#### Next Version
+#### Version 0.41.1
 * Huami: allow to have alarms without snooze feature
 * Mi Band 2: Properly stop a call notification when text notifications are disabled
+* VoIP calls: ignore notifications with only one action, assuming it is an outgoing call
+* Try to fix notifications from Business Calendar
 
 #### Version 0.41.0
 * JYou Y5: Initial support
