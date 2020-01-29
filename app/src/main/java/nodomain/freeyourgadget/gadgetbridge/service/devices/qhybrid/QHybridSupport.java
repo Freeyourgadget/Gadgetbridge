@@ -145,6 +145,10 @@ public class QHybridSupport extends QHybridBaseSupport {
             public void onReceive(Context context, Intent intent) {
                 Bundle extras = intent.getExtras();
                 NotificationConfiguration config = extras == null ? null : (NotificationConfiguration) intent.getExtras().get("CONFIG");
+                if (intent.getAction() == null) {
+                    return;
+                }
+
                 switch (intent.getAction()) {
                     case QHYBRID_COMMAND_CONTROL: {
                         log("sending control request");
@@ -161,16 +165,21 @@ public class QHybridSupport extends QHybridBaseSupport {
                         break;
                     }
                     case QHYBRID_COMMAND_SET: {
-                        watchAdapter.setHands(config.getHour(), config.getMin());
-
+                        if (config != null) {
+                            watchAdapter.setHands(config.getHour(), config.getMin());
+                        }
                         break;
                     }
                     case QHYBRID_COMMAND_VIBRATE: {
-                        watchAdapter.vibrate(config.getVibration());
+                        if (config != null) {
+                            watchAdapter.vibrate(config.getVibration());
+                        }
                         break;
                     }
                     case QHYBRID_COMMAND_NOTIFICATION: {
-                        watchAdapter.playNotification(config);
+                        if (config != null) {
+                            watchAdapter.playNotification(config);
+                        }
                         break;
                     }
                     case QHYBRID_COMMAND_UPDATE: {

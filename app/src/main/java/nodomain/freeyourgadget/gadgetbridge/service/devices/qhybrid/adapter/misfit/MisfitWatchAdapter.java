@@ -92,7 +92,7 @@ public class MisfitWatchAdapter extends WatchAdapter {
 
     private Queue<Request> requestQueue = new ArrayDeque<>();
 
-    Logger logger = LoggerFactory.getLogger(getClass());
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     public MisfitWatchAdapter(QHybridSupport deviceSupport) {
         super(deviceSupport);
@@ -179,12 +179,9 @@ public class MisfitWatchAdapter extends WatchAdapter {
                 log("unknown shit on " + characteristic.getUuid().toString() + ":  " + arrayToString(characteristic.getValue()));
                 try {
                     File charLog = new File("/sdcard/qFiles/charLog.txt");
-                    if (!charLog.exists()) {
-                        charLog.createNewFile();
+                    try (FileOutputStream fos = new FileOutputStream(charLog, true)) {
+                        fos.write((new Date().toString() + ": " + characteristic.getUuid().toString() + ": " + arrayToString(characteristic.getValue())).getBytes());
                     }
-
-                    FileOutputStream fos = new FileOutputStream(charLog, true);
-                    fos.write((new Date().toString() + ": " + characteristic.getUuid().toString() + ": " + arrayToString(characteristic.getValue())).getBytes());
                 } catch (IOException e) {
                     GB.log("error", GB.ERROR, e);
                 }
@@ -249,13 +246,10 @@ public class MisfitWatchAdapter extends WatchAdapter {
                 if (!f.exists()) f.mkdir();
 
                 File file = new File("/sdcard/qFiles/steps");
-                if (!file.exists()) {
-                    file.createNewFile();
-                }
                 logger.debug("Writing file " + file.getPath());
-                FileOutputStream fos = new FileOutputStream(file, true);
-                fos.write((System.currentTimeMillis() + ": " + steps + "\n").getBytes());
-                fos.close();
+                try (FileOutputStream fos = new FileOutputStream(file, true)) {
+                    fos.write((System.currentTimeMillis() + ": " + steps + "\n").getBytes());
+                }
                 logger.debug("file written.");
             } catch (Exception e) {
                 GB.log("error", GB.ERROR, e);
