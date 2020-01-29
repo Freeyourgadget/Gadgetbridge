@@ -231,11 +231,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         };
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(commandReceiver, commandFilter);
 
-        try {
-            helper = new PackageConfigHelper(GBApplication.getContext());
-        } catch (GBException e) {
-            GB.toast("error getting database", Toast.LENGTH_SHORT, GB.ERROR, e);
-        }
+        helper = new PackageConfigHelper(GBApplication.getContext());
 
         IntentFilter globalFilter = new IntentFilter();
         globalFilter.addAction(QHYBRID_ACTION_SET_ACTIVITY_HAND);
@@ -403,7 +399,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         NotificationConfiguration config = null;
         try {
             config = helper.getNotificationConfiguration(packageName);
-        } catch (GBException e) {
+        } catch (Exception e) {
             GB.toast("error getting notification configuration", Toast.LENGTH_SHORT, GB.ERROR, e);
         }
         if (config == null) return;
@@ -455,7 +451,7 @@ public class QHybridSupport extends QHybridBaseSupport {
             for (NotificationConfiguration config : helper.getNotificationConfigurations()) {
                 configs.put(config, false);
             }
-        } catch (GBException e) {
+        } catch (Exception e) {
             GB.toast("error getting notification configs", Toast.LENGTH_SHORT, GB.ERROR, e);
         }
 

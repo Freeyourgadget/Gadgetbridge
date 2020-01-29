@@ -206,7 +206,7 @@ public class ConfigActivity extends AbstractGBActivity {
         try {
             helper = new PackageConfigHelper(getApplicationContext());
             list = helper.getNotificationConfigurations();
-        } catch (GBException e) {
+        } catch (Exception e) {
             GB.toast("error getting configurations", Toast.LENGTH_SHORT, GB.ERROR, e);
             list = new ArrayList<>();
         }
@@ -233,7 +233,7 @@ public class ConfigActivity extends AbstractGBActivity {
                                             try {
                                                 helper.saveNotificationConfiguration(config);
                                                 LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED));
-                                            } catch (GBException e) {
+                                            } catch (Exception e) {
                                                 GB.toast("error saving notification", Toast.LENGTH_SHORT, GB.ERROR, e);
                                             }
                                             refreshList();
@@ -259,7 +259,7 @@ public class ConfigActivity extends AbstractGBActivity {
                                 try {
                                     helper.deleteNotificationConfiguration((NotificationConfiguration) adapterView.getItemAtPosition(i));
                                     LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED));
-                                } catch (GBException e) {
+                                } catch (Exception e) {
                                     GB.toast("error deleting setting", Toast.LENGTH_SHORT, GB.ERROR, e);
                                 }
                                 refreshList();
@@ -508,7 +508,7 @@ public class ConfigActivity extends AbstractGBActivity {
         list.clear();
         try {
             list.addAll(helper.getNotificationConfigurations());
-        } catch (GBException e) {
+        } catch (Exception e) {
             GB.toast("error getting configurations", Toast.LENGTH_SHORT, GB.ERROR, e);
         }
         // null is added to indicate the plus button added handled in PackageAdapter#getView

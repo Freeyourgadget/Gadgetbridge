@@ -344,7 +344,7 @@ public class FossilWatchAdapter extends WatchAdapter {
                     getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
                 }
             }, false);
-        } catch (GBException e) {
+        } catch (Exception e) {
             GB.log("error", GB.ERROR, e);
         }
     }
