@@ -94,6 +94,11 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsUnicodeEmojis() {
+        return true;
+    }
+
+    @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
         return null;
     }
