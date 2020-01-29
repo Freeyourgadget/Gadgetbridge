@@ -59,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.Widget;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.WidgetsPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_PHONE_REQUEST;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_WATCH_REQUEST;
@@ -446,16 +447,16 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     public boolean playRawNotification(NotificationSpec notificationSpec) {
-        String sender = notificationSpec.sender;
-        if (sender == null) sender = notificationSpec.sourceName;
+        String senderOrTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
+
         try {
             for (NotificationHRConfiguration configuration : this.notificationConfigurations){
                 if(configuration.getPackageName().equals(notificationSpec.sourceAppId)){
-                    queueWrite(new PlayNotificationRequest(notificationSpec.sourceAppId, notificationSpec.sender, notificationSpec.body, this));
+                    queueWrite(new PlayNotificationRequest(notificationSpec.sourceAppId, senderOrTitle, notificationSpec.body, this));
                     return true;
                 }
             }
-            queueWrite(new PlayNotificationRequest("generic", notificationSpec.sender, notificationSpec.body, this));
+            queueWrite(new PlayNotificationRequest("generic", senderOrTitle, notificationSpec.body, this));
         }catch (Exception e){
             e.printStackTrace();
         }
