@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HRConfigActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationHRConfiguration;
@@ -535,26 +536,43 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             handleMusicRequest(value);
         } else if (requestType == (byte) 0x01) {
             int eventId = value[2];
-
+            logger.info("got event id " + eventId);
             try {
-                JSONObject requestJson = new JSONObject(new String(value, 3, value.length - 3));
+                String jsonString = new String(value, 3, value.length - 3);
+                logger.info(jsonString);
+                JSONObject requestJson = new JSONObject(jsonString);
 
-                String action = requestJson.getJSONObject("req").getJSONObject("commuteApp._.config.commute_info")
-                        .getString("dest");
-
-                String startStop = requestJson.getJSONObject("req").getJSONObject("commuteApp._.config.commute_info")
-                        .getString("action");
-
-                if (startStop.equals("stop")) {
-                    // overwriteButtons(null);
-                    return;
+                if (requestJson.getJSONObject("req").has("ringMyPhone")) {
+                    String action = requestJson.getJSONObject("req").getJSONObject("ringMyPhone").getString("action");
+                    logger.info("got ringMyPhone request; " + action);
+                    GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
+                    if ("on".equals(action)) {
+                        findPhoneEvent.event = GBDeviceEventFindPhone.Event.START;
+                        getDeviceSupport().evaluateGBDeviceEvent(findPhoneEvent);
+                    }
+                    else if ("off".equals(action)) {
+                        findPhoneEvent.event = GBDeviceEventFindPhone.Event.STOP;
+                        getDeviceSupport().evaluateGBDeviceEvent(findPhoneEvent);
+                    }
                 }
+                else {
+                    String action = requestJson.getJSONObject("req").getJSONObject("commuteApp._.config.commute_info")
+                            .getString("dest");
 
-                queueWrite(new SetCommuteMenuMessage("Anfrage wird weitergeleitet...", false, this));
+                    String startStop = requestJson.getJSONObject("req").getJSONObject("commuteApp._.config.commute_info")
+                            .getString("action");
 
-                Intent menuIntent = new Intent(QHybridSupport.QHYBRID_EVENT_COMMUTE_MENU);
-                menuIntent.putExtra("EXTRA_ACTION", action);
-                getContext().sendBroadcast(menuIntent);
+                    if (startStop.equals("stop")) {
+                        // overwriteButtons(null);
+                        return;
+                    }
+
+                    queueWrite(new SetCommuteMenuMessage("Anfrage wird weitergeleitet...", false, this));
+
+                    Intent menuIntent = new Intent(QHybridSupport.QHYBRID_EVENT_COMMUTE_MENU);
+                    menuIntent.putExtra("EXTRA_ACTION", action);
+                    getContext().sendBroadcast(menuIntent);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
