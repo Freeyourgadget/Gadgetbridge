@@ -5,11 +5,10 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.zip.CRC32;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationHRConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.utils.StringUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class NotificationFilterPutHRRequest extends FilePutRequest {
     public NotificationFilterPutHRRequest(NotificationHRConfiguration[] configs, FossilWatchAdapter adapter) {

@@ -7,7 +7,6 @@ import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.utils.StringUtils;
 
 public class AssetFilePutRequest extends FilePutRequest {
     public AssetFilePutRequest(AssetFile[] files, byte subHandle, FossilWatchAdapter adapter) throws IOException {

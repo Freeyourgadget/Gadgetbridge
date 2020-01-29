@@ -8,8 +8,7 @@ import java.util.zip.CRC32;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayNotificationRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.utils.StringUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class PlayNotificationHRRequest extends FilePutRequest {
 

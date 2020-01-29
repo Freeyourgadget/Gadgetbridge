@@ -3,7 +3,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fo
 import java.nio.ByteBuffer;
 import java.util.zip.CRC32;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.utils.StringUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
+
 
 public class AssetFile {
     private String fileName;
