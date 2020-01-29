@@ -33,8 +33,10 @@ public class MusicControlRequest extends FossilRequest {
         return UUID.fromString("3dda0006-957f-7d4a-34a6-74696673696d");
     }
 
-    public static enum MUSIC_WATCH_REQUEST{
+    public enum MUSIC_WATCH_REQUEST {
         MUSIC_REQUEST_PLAY_PAUSE((byte) 0x02),
+        MUSIC_REQUEST_NEXT((byte) 0x03),
+        MUSIC_REQUEST_PREVIOUS((byte) 0x04),
         MUSIC_REQUEST_LOUDER((byte) 0x05),
         MUSIC_REQUEST_QUITER((byte) 0x06),
         ;
@@ -52,10 +54,12 @@ public class MusicControlRequest extends FossilRequest {
         }
     }
 
-    public static enum MUSIC_PHONE_REQUEST{
+    public enum MUSIC_PHONE_REQUEST {
         MUSIC_REQUEST_SET_PLAYING((byte) 0x00),
         MUSIC_REQUEST_SET_PAUSED((byte) 0x01),
         MUSIC_REQUEST_PLAY_PAUSE((byte) 0x02),
+        MUSIC_REQUEST_NEXT((byte) 0x03),
+        MUSIC_REQUEST_PREVIOUS((byte) 0x04),
         MUSIC_REQUEST_LOUDER((byte) 0x05),
         MUSIC_REQUEST_QUITER((byte) 0x06),
         ;

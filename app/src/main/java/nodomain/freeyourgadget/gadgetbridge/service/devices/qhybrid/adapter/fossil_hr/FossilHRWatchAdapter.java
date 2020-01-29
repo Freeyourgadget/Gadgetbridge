@@ -581,10 +581,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     private void handleMusicRequest(byte[] value) {
         byte command = value[3];
-
+        logger.info("got music command: " + command);
         MUSIC_WATCH_REQUEST request = MUSIC_WATCH_REQUEST.fromCommandByte(command);
-
-        MusicControlRequest r = new MusicControlRequest(MUSIC_PHONE_REQUEST.MUSIC_REQUEST_PLAY_PAUSE);
 
         GBDeviceEventMusicControl deviceEventMusicControl = new GBDeviceEventMusicControl();
         deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.PLAY;
@@ -595,6 +593,16 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             case MUSIC_REQUEST_PLAY_PAUSE: {
                 queueWrite(new MusicControlRequest(MUSIC_PHONE_REQUEST.MUSIC_REQUEST_PLAY_PAUSE));
                 deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.PLAYPAUSE;
+                break;
+            }
+            case MUSIC_REQUEST_NEXT: {
+                queueWrite(new MusicControlRequest(MUSIC_PHONE_REQUEST.MUSIC_REQUEST_NEXT));
+                deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.NEXT;
+                break;
+            }
+            case MUSIC_REQUEST_PREVIOUS: {
+                queueWrite(new MusicControlRequest(MUSIC_PHONE_REQUEST.MUSIC_REQUEST_PREVIOUS));
+                deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.PREVIOUS;
                 break;
             }
             case MUSIC_REQUEST_LOUDER: {
