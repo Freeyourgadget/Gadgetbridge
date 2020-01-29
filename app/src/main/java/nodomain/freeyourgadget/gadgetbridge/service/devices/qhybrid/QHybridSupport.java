@@ -29,8 +29,9 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,19 +45,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.UUID;
 
-import androidx.annotation.RequiresApi;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
-import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
-import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
-import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
@@ -66,7 +60,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCallback;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.WatchAdapter;
@@ -231,13 +224,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         try {
             helper = new PackageConfigHelper(GBApplication.getContext());
         } catch (GBException e) {
-            GB.log("error getting database", GB.ERROR, e);
             GB.toast("error getting database", Toast.LENGTH_SHORT, GB.ERROR, e);
-            try {
-                throw e;
-            } catch (GBException ex) {
-                ex.printStackTrace();
-            }
         }
 
         IntentFilter globalFilter = new IntentFilter();
@@ -407,7 +394,6 @@ public class QHybridSupport extends QHybridBaseSupport {
         try {
             config = helper.getNotificationConfiguration(packageName);
         } catch (GBException e) {
-            GB.log("error getting notification configuration", GB.ERROR, e);
             GB.toast("error getting notification configuration", Toast.LENGTH_SHORT, GB.ERROR, e);
         }
         if (config == null) return;
@@ -460,8 +446,6 @@ public class QHybridSupport extends QHybridBaseSupport {
                 configs.put(config, false);
             }
         } catch (GBException e) {
-            GB.log("error getting notification configuration", GB.ERROR, e);
-
             GB.toast("error getting notification configs", Toast.LENGTH_SHORT, GB.ERROR, e);
         }
 
