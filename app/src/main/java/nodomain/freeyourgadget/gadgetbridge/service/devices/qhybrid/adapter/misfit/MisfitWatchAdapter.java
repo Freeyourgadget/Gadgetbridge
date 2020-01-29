@@ -74,6 +74,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mis
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SetVibrationStrengthRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.UploadFileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.VibrateRequest;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.ITEM_ACTIVITY_POINT;
@@ -178,7 +179,7 @@ public class MisfitWatchAdapter extends WatchAdapter {
             default: {
                 log("unknown shit on " + characteristic.getUuid().toString() + ":  " + arrayToString(characteristic.getValue()));
                 try {
-                    File charLog = new File("/sdcard/qFiles/charLog.txt");
+                    File charLog = FileUtils.getExternalFile("qFiles/charLog.txt");
                     try (FileOutputStream fos = new FileOutputStream(charLog, true)) {
                         fos.write((new Date().toString() + ": " + characteristic.getUuid().toString() + ": " + arrayToString(characteristic.getValue())).getBytes());
                     }
@@ -242,10 +243,7 @@ public class MisfitWatchAdapter extends WatchAdapter {
             int steps = ((GetCurrentStepCountRequest) request).steps;
             logger.debug("get current steps: " + steps);
             try {
-                File f = new File("/sdcard/qFiles/");
-                if (!f.exists()) f.mkdir();
-
-                File file = new File("/sdcard/qFiles/steps");
+                File file = FileUtils.getExternalFile("qFiles/steps");
                 logger.debug("Writing file " + file.getPath());
                 try (FileOutputStream fos = new FileOutputStream(file, true)) {
                     fos.write((System.currentTimeMillis() + ": " + steps + "\n").getBytes());

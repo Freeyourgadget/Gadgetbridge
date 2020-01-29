@@ -68,6 +68,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.foss
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr.FossilHRWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.DownloadFileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class QHybridSupport extends QHybridBaseSupport {
@@ -544,23 +545,20 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     private void backupFile(DownloadFileRequest request) {
         try {
-            File f = new File("/sdcard/qFiles/");
-            if (!f.exists()) f.mkdir();
-
-            File file = new File("/sdcard/qFiles/" + request.timeStamp);
+            File file = FileUtils.getExternalFile("qFiles/" + request.timeStamp);
             if (file.exists()) {
                 throw new Exception("file " + file.getPath() + " exists");
             }
             logger.debug("Writing file " + file.getPath());
-            file.createNewFile();
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(request.file);
-            fos.close();
+            try (FileOutputStream fos = new FileOutputStream(file)) {
+                fos.write(request.file);
+            }
             logger.debug("file written.");
 
-            FileOutputStream fos2 = new FileOutputStream("/sdcard/qFiles/steps", true);
-            fos2.write(("file " + request.timeStamp + " cut\n\n").getBytes());
-            fos2.close();
+            file = FileUtils.getExternalFile("qFiles/steps");
+            try (FileOutputStream fos = new FileOutputStream(file, true)) {
+                fos.write(("file " + request.timeStamp + " cut\n\n").getBytes());
+            }
 
             //TODO file stuff
             // queueWrite(new EraseFileRequest((short) request.fileHandle));
