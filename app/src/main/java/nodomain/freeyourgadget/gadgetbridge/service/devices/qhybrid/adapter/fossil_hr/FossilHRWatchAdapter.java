@@ -451,11 +451,11 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         try {
             for (NotificationHRConfiguration configuration : this.notificationConfigurations){
                 if(configuration.getPackageName().equals(notificationSpec.sourceAppId)){
-                    queueWrite(new PlayNotificationRequest(notificationSpec.sourceAppId, notificationSpec.sourceName, notificationSpec.body, this));
+                    queueWrite(new PlayNotificationRequest(notificationSpec.sourceAppId, notificationSpec.sender, notificationSpec.body, this));
                     return true;
                 }
             }
-            queueWrite(new PlayNotificationRequest("generic", notificationSpec.sourceName, notificationSpec.body, this));
+            queueWrite(new PlayNotificationRequest("generic", notificationSpec.sender, notificationSpec.body, this));
         }catch (Exception e){
             e.printStackTrace();
         }
