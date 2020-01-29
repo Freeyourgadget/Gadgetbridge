@@ -60,6 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.WatchAdapter;
@@ -124,10 +125,10 @@ public class QHybridSupport extends QHybridBaseSupport {
     public QHybridSupport() {
         super(logger);
         addSupportedService(UUID.fromString("3dda0001-957f-7d4a-34a6-74696673696d"));
-        addSupportedService(UUID.fromString("0000180a-0000-1000-8000-00805f9b34fb"));
-        addSupportedService(UUID.fromString("00001800-0000-1000-8000-00805f9b34fb"));
-        addSupportedService(UUID.fromString("0000180d-0000-1000-8000-00805f9b34fb"));
-        addSupportedService(UUID.fromString("0000180f-0000-1000-8000-00805f9b34fb"));
+        addSupportedService(GattService.UUID_SERVICE_DEVICE_INFORMATION);
+        addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
+        addSupportedService(GattService.UUID_SERVICE_HEART_RATE);
+        addSupportedService(GattService.UUID_SERVICE_BATTERY_SERVICE);
         IntentFilter commandFilter = new IntentFilter(QHYBRID_COMMAND_CONTROL);
         commandFilter.addAction(QHYBRID_COMMAND_UNCONTROL);
         commandFilter.addAction(QHYBRID_COMMAND_SET);
