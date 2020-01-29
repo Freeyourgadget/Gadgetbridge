@@ -195,7 +195,8 @@ public class FileUtils {
      */
     public static File getExternalFile(String child) throws IOException {
         File file = new File(getExternalFilesDir(), child);
-        if (!file.getParentFile().mkdirs()) {
+        File dir = file.getParentFile();
+        if (!dir.exists() && !dir.mkdirs()) {
             throw new IOException("Unable to create directory " + file.getParent());
         }
         return file;
