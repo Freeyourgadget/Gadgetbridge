@@ -116,6 +116,7 @@ public class NotificationListener extends NotificationListenerService {
     public static ArrayList<String> notificationStack = new ArrayList<>();
 
     private long activeCallPostTime;
+    private int mLastCallCommand = CallSpec.CALL_UNDEFINED;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
@@ -452,13 +453,20 @@ public class NotificationListener extends NotificationListenerService {
         }
         Notification noti = sbn.getNotification();
         dumpExtras(noti.extras);
+        boolean callStarted = false;
         if(noti.actions != null && noti.actions.length > 0) {
             for (Notification.Action action : noti.actions) {
                 LOG.info("Found call action: " + action.title);
             }
             if (noti.actions.length == 1) {
-                LOG.info("There is only one call action, assuming outgoing call and ignoring");
-                return;
+                if (mLastCallCommand == CallSpec.CALL_INCOMING) {
+                    LOG.info("There is only one call action and previous state was CALL_INCOMING, assuming call started");
+                    callStarted = true;
+                } else {
+                    LOG.info("There is only one call action and previous state was not CALL_INCOMING, assuming outgoing call / duplicate notification and ignoring");
+                    // FIXME: is there a way to detect transition CALL_OUTGOING -> CALL_START for more complete VoIP call state tracking?
+                    return;
+                }
             }
             /*try {
                 LOG.info("Executing first action");
@@ -481,7 +489,8 @@ public class NotificationListener extends NotificationListenerService {
         activeCallPostTime = sbn.getPostTime();
         CallSpec callSpec = new CallSpec();
         callSpec.number = number;
-        callSpec.command = CallSpec.CALL_INCOMING;
+        callSpec.command = callStarted ? CallSpec.CALL_START : CallSpec.CALL_INCOMING;
+        mLastCallCommand = callSpec.command;
         GBApplication.deviceService().onSetCallState(callSpec);
     }
 
@@ -653,6 +662,7 @@ public class NotificationListener extends NotificationListenerService {
             activeCallPostTime = 0;
             CallSpec callSpec = new CallSpec();
             callSpec.command = CallSpec.CALL_END;
+            mLastCallCommand = callSpec.command;
             GBApplication.deviceService().onSetCallState(callSpec);
         }
         // FIXME: DISABLED for now
