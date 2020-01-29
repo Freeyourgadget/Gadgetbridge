@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Gabe Schrecker
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Gabe Schrecker, vanous
 
     This file is part of Gadgetbridge.
 
@@ -63,6 +63,12 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
                 break;
             case PLAYPAUSE:
                 keyCode = KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE;
+                break;
+            case REWIND:
+                keyCode = KeyEvent.KEYCODE_MEDIA_REWIND;
+                break;
+            case FORWARD:
+                keyCode = KeyEvent.KEYCODE_MEDIA_FAST_FORWARD;
                 break;
             case VOLUMEUP:
                 // change default and fall through, :P

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2019 Carsten Pfeiffer
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -40,6 +40,8 @@ public interface Alarm extends Serializable {
     boolean getUnused();
 
     boolean getSmartWakeup();
+
+    boolean getSnooze();
 
     int getRepetition();
 

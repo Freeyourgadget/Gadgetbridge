@@ -33,6 +33,16 @@
             android:text="@string/alarm_smart_wakeup"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
+        <androidx.appcompat.widget.AppCompatCheckedTextView
+            android:id="@+id/alarm_cb_snooze"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+            android:gravity="center"
+            android:text="@string/alarm_snooze"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
         <TimePicker
             android:id="@+id/alarm_time_picker"
             android:layout_width="match_parent"

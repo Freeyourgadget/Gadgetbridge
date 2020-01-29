@@ -26,7 +26,7 @@
     <!-- Strings related to Debug Activity -->
     <string name="title_activity_debug">Debug</string>
     <string name="debugactivity_really_factoryreset_title">Really factory reset?</string>
-    <string name="debugactivity_really_factoryreset">Doing a factory reset will delete all data from the connected device (if supported). Xiaomi/Huami devices also change Bluetooth MAC address, so they appear as a new devices to Gadgetbrige.</string>
+    <string name="debugactivity_really_factoryreset">Doing a factory reset will delete all data from the connected device (if supported). Xiaomi/Huami devices also change Bluetooth MAC address, so they appear as a new devices to Gadgetbridge.</string>
     <!-- Strings related to AppManager -->
     <string name="title_activity_appmanager">App Manager</string>
     <string name="appmanager_cached_watchapps_watchfaces">Apps in cache</string>
@@ -366,6 +366,7 @@
     <string name="alarm_fri_short">Fri</string>
     <string name="alarm_sat_short">Sat</string>
     <string name="alarm_smart_wakeup">Smart wakeup</string>
+    <string name="alarm_snooze">Snooze</string>
     <string name="user_feedback_miband_set_alarms_failed">There was an error setting the alarms, please try again.</string>
     <string name="user_feedback_miband_set_alarms_ok">Alarms sent to device.</string>
     <string name="chart_no_data_synchronize">No data. Synchronize device?</string>
@@ -463,9 +464,9 @@
     <string name="mi2_prefs_button_actions">Button actions</string>
     <string name="mi2_prefs_button_actions_summary">Specify button press actions</string>
     <string name="mi2_prefs_button_press_count">Button press count</string>
-    <string name="mi2_prefs_button_press_count_summary">Number of button presses to trigger message broadcast</string>
+    <string name="mi2_prefs_button_press_count_summary">Number of button presses to trigger an Event 1. Subsequent same amount of presses create Event 2 and so on.</string>
     <string name="mi2_prefs_button_press_broadcast">Broadcast message to send</string>
-    <string name="mi2_prefs_button_press_broadcast_summary">Broadcast message on defined number of button presses reached</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Broadcast message sent with the event. Parameter `button_id` is added automatically to each message.</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
     <string name="mi2_prefs_button_action">Enable button action</string>
     <string name="mi2_prefs_button_action_summary">Enable action on specified number of button presses</string>
@@ -473,8 +474,6 @@
     <string name="mi2_prefs_button_action_vibrate_summary">Enable band vibration on button action triggered</string>
     <string name="mi2_prefs_button_press_count_max_delay">Maximum delay between presses</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Maximum delay between button presses in milliseconds</string>
-    <string name="mi2_prefs_button_press_count_match_delay">Delay after button action</string>
-    <string name="mi2_prefs_button_press_count_match_delay_summary">Delay after one button action match (number is in button_id intent extra) or 0 for immediately</string>
     <string name="mi2_prefs_goal_notification">Goal notification</string>
     <string name="mi2_prefs_goal_notification_summary">The band will vibrate when the daily steps goal is reached</string>
     <string name="mi2_prefs_display_items">Display items</string>
@@ -773,6 +772,7 @@
     <string name="qhybrid_offset_timezone">offset timezone by</string>
     <string name="qhybrid_changes_delay_prompt">change might take some seconds…</string>
     <string name="qhybrid_offset_time_by">offset time by</string>
+
     <string name="hr_widget_heart_rate">Heart rate</string>
     <string name="hr_widget_steps">Steps</string>
     <string name="hr_widget_date">Date</string>
@@ -780,6 +780,13 @@
     <string name="hr_widget_calories">Calories</string>
     <string name="hr_widget_battery">Battery</string>
     <string name="hr_widget_nothing">Nothing</string>
+
+    <string name="prefs_button_single_press_action_selection_title">Event 1 action</string>
+    <string name="prefs_button_double_press_action_selection_title">Event 2 action</string>
+    <string name="prefs_button_triple_press_action_selection_title">Event 3 action</string>
+    <string name="prefs_button_variable_actions">Detailed button press settings</string>
+    <string name="prefs_button_long_press_action_selection_title">Long press button action</string>
+
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>
         <item quantity="two">%d hours</item>

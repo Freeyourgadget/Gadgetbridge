@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2019 Carsten Pfeiffer
+/*  Copyright (C) 2016-2020 Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 

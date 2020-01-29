@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 Sophanimus
+/*  Copyright (C) 2019-2020 Sophanimus
 
     This file is part of Gadgetbridge.
 

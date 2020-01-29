@@ -229,7 +229,7 @@
     <string name="pref_screen_notification_profile_generic">Generisk merknad</string>
     <string name="pref_screen_notification_profile_email">E-postmerknad</string>
     <string name="pref_screen_notification_profile_incoming_call">Innkommende ringemerknad</string>
-    <string name="pref_screen_notification_profile_generic_chat">Sludre</string>
+    <string name="pref_screen_notification_profile_generic_chat">Sludring</string>
     <string name="pref_screen_notification_profile_generic_navigation">Navigasjon</string>
     <string name="pref_screen_notification_profile_generic_social">Sosialt nettverk</string>
     <string name="prefs_title_heartrate_measurement_interval">Heldagspulsmåling</string>
@@ -325,7 +325,7 @@
     <string name="dateformat_time">Tid</string>
     <string name="dateformat_date_time">Tid og dato</string>
     <string name="mi2_prefs_button_actions">Knappevalg</string>
-    <string name="mi2_prefs_button_actions_summary">Angi handlinger for knappetrykk</string>
+    <string name="mi2_prefs_button_actions_summary">Angi knappetrykkshandlinger</string>
     <string name="mi2_prefs_button_press_count">Antall trykk på knapp</string>
     <string name="mi2_prefs_button_press_count_summary">Antall trykk på knapp for å utløse meldingskringkasting</string>
     <string name="mi2_prefs_button_press_broadcast">Kringkastingsmelding å sende</string>
@@ -800,4 +800,25 @@
     <string name="qhybrid_overwrite_buttons">overskriv taster</string>
     <string name="qhybrid_buttons_overwrite_success">Knapper overskrevet</string>
     <string name="qhybrid_buttons_overwrite_error">Kunne ikke overskrive knapper</string>
+    <string name="qhybrid_goal_in_steps">Mål i steg</string>
+    <string name="qhybrid_time_shift">tidsforskyvning</string>
+    <string name="qhybrid_second_timezone_offset_relative_to_utc">antall sekunders tidssoneforskyvelse sett i forhold til UTC</string>
+    <string name="qhybrid_use_activity_hand_as_notification_counter">bruk aktivitetsviser som merknadsteller</string>
+    <string name="qhybrid_prompt_million_steps">Sett stegtelleren til én million for å aktivere dette.</string>
+    <string name="qhybrid_offset_timezone">forskyv tidssone med</string>
+    <string name="qhybrid_changes_delay_prompt">det kan ta en stund å utføre endringer…</string>
+    <string name="qhybrid_offset_time_by">forskyv tid med</string>
+    <string name="pref_disable_new_ble_scanning">Skru av ny BLE-skanning</string>
+    <string name="pref_summary_disable_new_ble_scanning">Velg dette hvis enheten du ikke finner enheten din under oppdagelse</string>
+    <string name="devicetype_y5">Y5</string>
+    <string name="huami_prefs_button_single_press_action_selection_title">Handling for hendelse 1</string>
+    <string name="huami_prefs_button_double_press_action_selection_title">Handling for hendelse 2</string>
+    <string name="huami_prefs_button_triple_press_action_selection_title">Handling for hendelse 3</string>
+    <string name="huami_prefs_button_variable_actions">Detaljerte knappetrykkingsinnstillinger</string>
+    <string name="huami_prefs_button_long_press_action_selection_title">Handling for langt knappetrykk</string>
+    <string name="prefs_button_single_press_action_selection_title">Handling for hendelse 1</string>
+    <string name="prefs_button_double_press_action_selection_title">Handling for hendelse 2</string>
+    <string name="prefs_button_triple_press_action_selection_title">Handling for hendelse 3</string>
+    <string name="prefs_button_variable_actions">Detaljerte knappetrykksinnstillinger</string>
+    <string name="prefs_button_long_press_action_selection_title">Handling for langt knappetrykk</string>
 </resources>

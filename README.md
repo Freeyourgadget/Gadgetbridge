@@ -39,6 +39,7 @@ vendor's servers.
 * Fossil Q Hybrid
 * HPlus Devices (e.g. ZeBand) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
 * ID115
+* JYou Y5
 * Lenovo Watch 9
 * Liveview
 * Makibes HR3
@@ -46,13 +47,13 @@ vendor's servers.
 * Mi Band 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2)
 * Mi Band 3 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-3)
 * Mi Band 4 (NOT RECOMMENDED, NEEDS MI FIT WITH ACCOUNT AND ROOT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-4)
-* Mi Scale 2 (currently only displays a toast after stepping on the scale)
+* Mi Scale 2 (Currently only displays a toast after stepping on the scale)
 * NO.1 F1
 * Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
 * Pebble 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
 * Teclast H10, H30
 * XWatch (Affordable Chinese Casio-like smartwatches)
-* Vibratissimo (experimental)
+* Vibratissimo (Experimental)
 * ZeTime [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/MyKronoz-ZeTime)
 
 
@@ -81,6 +82,7 @@ Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/ma
 * Lukas Schwichtenberg (Makibes HR3)
 * Daniel Dakhno (Fossil Q Hybrid)
 * Gordon Williams (Bangle.js)
+* Pavel Elagin (JYou Y5)
 
 ## Contribute
 
@@ -89,6 +91,12 @@ on any of the open [issues](https://codeberg.org/Freeyourgadget/Gadgetbridge/iss
 just leave a comment that you're working on one to avoid duplicated work.
 
 Translations can be contributed via https://hosted.weblate.org/projects/freeyourgadget/gadgetbridge/
+
+## Community
+
+If you would like to get in touch with other Gadgetbridge users and developers outside of Codeberg, you can do so via:
+* Matrix: #gadgetbridge:matrix.org - The most active channel
+* IRC: #gadgetbridge on Freenode
 
 ## Do you have further questions or feedback?
 
@@ -107,4 +115,3 @@ Feel free to open an issue on our issue tracker, but please:
 4. File an issue at https://codeberg.org/Freeyourgadget/Gadgetbridge/issues/new and possibly provide the logfile
 
 Alternatively you may use the standard logcat functionality to access the log.
-

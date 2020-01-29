@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2019 Daniele Gobbetti, João Paulo Barraca, Stan Gomin
+/*  Copyright (C) 2017-2020 Daniele Gobbetti, João Paulo Barraca, Stan Gomin
 
     This file is part of Gadgetbridge.
 

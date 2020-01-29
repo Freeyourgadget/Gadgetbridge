@@ -1,8 +1,8 @@
-/*  Copyright (C) 2015-2019 Andreas Böhler, Andreas Shimokawa, Carsten
+/*  Copyright (C) 2015-2020 Andreas Böhler, Andreas Shimokawa, Carsten
     Pfeiffer, Cre3per, Daniel Dakhno, Daniele Gobbetti, Gordon Williams,
     Jean-François Greffier, João Paulo Barraca, José Rebelo, Kranz, ladbsoft,
-    Manuel Ruß, maxirnilian, protomors, Quallenauge, Sami Alaoui, Sebastian
-    Kranz, Sophanimus, tiparega, Vadim Kaushan
+    Manuel Ruß, maxirnilian, Pavel, Pavel Elagin, protomors, Quallenauge,
+    Sami Alaoui, Sebastian Kranz, Sophanimus, tiparega, Vadim Kaushan
 
     This file is part of Gadgetbridge.
 

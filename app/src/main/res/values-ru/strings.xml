@@ -42,10 +42,12 @@
     <!--Strings related to CalBlacklist-->
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">Установщик прошивки/приложений</string>
-    <string name="fw_upgrade_notice">Вы собираетесь установить на Mi Band прошивку %s вместо текущей.</string>
+    <string name="fw_upgrade_notice">Вы собираетесь установить прошивку %s.</string>
     <string name="fw_multi_upgrade_notice">Вы собираетесь установить прошивки %1$s и %2$s вместо текущей на вашем Mi Band.</string>
     <string name="miband_firmware_known">Эта прошивка была проверена и совместима с Gadgetbridge.</string>
-    <string name="miband_firmware_unknown_warning">Эта прошивка не протестирована и может быть несовместима с Gadgetbridge.\n\nНе рекомендуется устанавливать её на ваш Mi Band!</string>
+    <string name="miband_firmware_unknown_warning">Эта прошивка не протестирована и может быть несовместима с Gadgetbridge.
+\n
+\nНЕ РЕКОМЕНДУЕТСЯ устанавливать её!</string>
     <string name="miband_firmware_suggest_whitelist">Если вы установите эту прошивку и убедитесь, что всё работает без сбоев, пожалуйста, сообщите об этом разработчикам Gadgetbridge. Они пометят эту версию прошивки (%s) как совместимую.</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Настройки</string>
@@ -219,7 +221,7 @@
     <string name="pref_screen_notification_profile_generic_social">Социальные сети</string>
     <string name="control_center_find_lost_device">Поиск потерянного устройства</string>
     <string name="control_center_cancel_to_stop_vibration">Отмените, чтобы прекратить вибрацию.</string>
-    <string name="title_activity_charts">Ваша активность</string>
+    <string name="title_activity_charts">Активность и сон</string>
     <string name="title_activity_set_alarm">Завести Будильник</string>
     <string name="controlcenter_start_configure_alarms">Настроить будильники</string>
     <string name="title_activity_alarm_details">Настройки будильника</string>
@@ -247,11 +249,11 @@
     <string name="notif_battery_low_percent">%1$s осталось заряда: %2$s%%</string>
     <string name="notif_battery_low_bigtext_last_charge_time">Последний раз устройство заряжалось: %s \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Количество циклов перезарядки: %s</string>
-    <string name="sleepchart_your_sleep">Ваш сон</string>
+    <string name="sleepchart_your_sleep">Сон</string>
     <string name="weeksleepchart_sleep_a_week">Сон за неделю</string>
     <string name="weeksleepchart_today_sleep_description">Сон сегодня, цель: %1$s</string>
     <string name="weekstepschart_steps_a_week">Шагов в неделю</string>
-    <string name="activity_sleepchart_activity_and_sleep">Ваши активность и сон</string>
+    <string name="activity_sleepchart_activity_and_sleep">Активность</string>
     <string name="lack_of_sleep">Недосып: %1$s</string>
     <string name="overslept">Пересып: %1$s</string>
     <string name="updating_firmware">Обновление прошивки…</string>
@@ -427,11 +429,11 @@
     <string name="heart_rate">Пульс</string>
     <string name="battery">Заряд батарейки</string>
     <string name="mi2_prefs_button_actions">Действия кнопки</string>
-    <string name="mi2_prefs_button_actions_summary">Настройте действия при нажатии на кнопку вашего Mi Band 2</string>
+    <string name="mi2_prefs_button_actions_summary">Настройте действия при нажатии на кнопку</string>
     <string name="mi2_prefs_button_press_count">Нажатий на кнопку</string>
-    <string name="mi2_prefs_button_press_count_summary">Количество нажатий, необходимое чтобы запустить трансляцию сообщений</string>
+    <string name="mi2_prefs_button_press_count_summary">Количество нажатий, необходимое для генерации События 1. Ещё столько же нажатий потребуется для генерации События 2 и т.д.</string>
     <string name="mi2_prefs_button_press_broadcast">Сообщение для трансляции</string>
-    <string name="mi2_prefs_button_press_broadcast_summary">Заданное количество нажатий для трансляции сообщения выполнено</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Сообщение транслируемое при наступлении события. Параметр `button_id` добавляется к каждому сообщению автоматически.</string>
     <string name="mi2_prefs_button_action">Включить действия при нажатии на кнопку</string>
     <string name="mi2_prefs_button_action_summary">Включить действия для заданного количества нажатий на кнопку</string>
     <string name="mi2_prefs_button_action_vibrate">Включить вибрацию</string>
@@ -620,4 +622,30 @@
     <string name="save_configuration">Сохранить конфигурацию</string>
     <string name="appwidget_not_connected">Не подключено, будильник не установлено.</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="debugactivity_really_factoryreset">Сброс настроек приведёт к удалению всех данных с подключённого устройства (если поддерживается). Устройства Xiaomi / Huami также меняют MAC-адрес Bluetooth, поэтому для Gadgetbridge они отображаются как новые устройства.</string>
+    <string name="zetime_date_format_1">ГГ/ММ/ДД</string>
+    <string name="zetime_date_format_2">ДД/ММ/ГГ</string>
+    <string name="zetime_date_format_3">ММ/ДД/ГГ</string>
+    <string name="zetime_prefs_inactivity_mo">Понедельник</string>
+    <string name="zetime_prefs_inactivity_tu">Вторник</string>
+    <string name="zetime_prefs_inactivity_we">Среда</string>
+    <string name="zetime_prefs_inactivity_th">Четверг</string>
+    <string name="zetime_prefs_inactivity_fr">Пятница</string>
+    <string name="zetime_prefs_inactivity_sa">Суббота</string>
+    <string name="zetime_prefs_inactivity_su">Воскресенье</string>
+    <string name="pref_screen_notification_profile_missed_call">Уведомления о пропущенных звонках</string>
+    <string name="pref_screen_notification_profile_calendar">Уведомления календаря</string>
+    <string name="pref_screen_notification_profile_inactivity">Уведомления о бездействии</string>
+    <string name="pref_screen_notification_profile_low_power">Предупреждение о низком заряде</string>
+    <string name="average">В среднем: %1$s</string>
+    <string name="pref_summary_expose_hr">Разрешает другим приложениям доступ к датчику сердцебиения при активном соединении через Gadgetbridge</string>
+    <string name="pref_title_expose_hr">Доступ к пульсометру</string>
+    <string name="pref_display_add_device_fab">Кнопка подключения новых устройств</string>
+    <string name="pref_display_add_device_fab_on">Всегда отображать</string>
+    <string name="pref_display_add_device_fab_off">Когда нет добавленных устройств</string>
+    <string name="prefs_button_single_press_action_selection_title">Реакция на Событие 1</string>
+    <string name="prefs_button_double_press_action_selection_title">Реакция на Событие 2</string>
+    <string name="prefs_button_triple_press_action_selection_title">Реакция на Событие 3</string>
+    <string name="prefs_button_variable_actions">Детальная настройка реакции на нажатие кнопки</string>
+    <string name="prefs_button_long_press_action_selection_title">Реакция на долгое нажатие</string>
 </resources>

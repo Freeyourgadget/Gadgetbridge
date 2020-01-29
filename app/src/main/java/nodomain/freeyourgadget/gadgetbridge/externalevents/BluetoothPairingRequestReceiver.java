@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2019 Andreas Shimokawa, Daniele Gobbetti, João
+/*  Copyright (C) 2016-2020 Andreas Shimokawa, Daniele Gobbetti, João
     Paulo Barraca
 
     This file is part of Gadgetbridge.

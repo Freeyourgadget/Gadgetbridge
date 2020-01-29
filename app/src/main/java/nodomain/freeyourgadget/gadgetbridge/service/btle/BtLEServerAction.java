@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2019 Andreas Böhler, Andreas Shimokawa, Carsten
+/*  Copyright (C) 2015-2020 Andreas Böhler, Andreas Shimokawa, Carsten
     Pfeiffer, Uwe Hermann
 
     This file is part of Gadgetbridge.

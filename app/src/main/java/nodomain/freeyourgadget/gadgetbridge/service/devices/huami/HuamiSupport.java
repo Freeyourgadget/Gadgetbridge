@@ -1,6 +1,6 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Christian
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Christian
     Fischer, Daniele Gobbetti, JohnnySun, José Rebelo, Julien Pivotto, Kasha,
-    Michal Novotny, Sebastian Kranz, Sergey Trofimov, Steffen Liebergeld
+    Michal Novotny, Sebastian Kranz, Sergey Trofimov, Steffen Liebergeld, vanous
 
     This file is part of Gadgetbridge.
 
@@ -152,6 +152,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     private static int currentButtonPressCount = 0;
     private static long currentButtonPressTime = 0;
     private static long currentButtonTimerActivationTime = 0;
+    private Timer buttonActionTimer = null;
 
     private static final Logger LOG = LoggerFactory.getLogger(HuamiSupport.class);
     private final DeviceInfoProfile<HuamiSupport> deviceInfoProfile;
@@ -1106,6 +1107,23 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         if (currentButtonTimerActivationTime != currentButtonPressTime) {
             return;
         }
+        //handle user events settings. 0 is long press, rest are button_id 1-3
+        switch (currentButtonActionId) {
+            case 0:
+                handleMediaButton(prefs.getString("button_long_press_action_selection","UNKNOWN"));
+                break;
+            case 1:
+                handleMediaButton(prefs.getString("button_single_press_action_selection", "UNKNOWN"));
+                break;
+            case 2:
+                handleMediaButton(prefs.getString("button_double_press_action_selection", "UNKNOWN"));
+                break;
+            case 3:
+                handleMediaButton(prefs.getString("button_triple_press_action_selection", "UNKNOWN"));
+                break;
+            default:
+                break;
+        }
 
         String requiredButtonPressMessage = prefs.getString(HuamiConst.PREF_BUTTON_ACTION_BROADCAST,
                 this.getContext().getString(R.string.mi2_prefs_button_press_broadcast_default_value));
@@ -1115,14 +1133,23 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         in.putExtra("button_id", currentButtonActionId);
         LOG.info("Sending " + requiredButtonPressMessage + " with button_id " + currentButtonActionId);
         this.getContext().getApplicationContext().sendBroadcast(in);
+
         if (prefs.getBoolean(HuamiConst.PREF_BUTTON_ACTION_VIBRATE, false)) {
             vibrateOnce();
         }
 
         currentButtonActionId = 0;
-
         currentButtonPressCount = 0;
         currentButtonPressTime = System.currentTimeMillis();
+    }
+
+    private void handleMediaButton(String MediaAction) {
+        if (MediaAction.equals("UNKNOWN")) {
+            return;
+        }
+        GBDeviceEventMusicControl deviceEventMusicControl = new GBDeviceEventMusicControl();
+        deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.valueOf(MediaAction);
+        evaluateGBDeviceEvent(deviceEventMusicControl);
     }
 
     private void handleDeviceEvent(byte[] value) {
@@ -1148,6 +1175,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 break;
             case HuamiDeviceEvent.BUTTON_PRESSED_LONG:
                 LOG.info("button long-pressed ");
+                handleLongButtonEvent();
                 break;
             case HuamiDeviceEvent.START_NONWEAR:
                 LOG.info("non-wear start detected");
@@ -1258,6 +1286,20 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    private void handleLongButtonEvent(){
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+
+        if (!prefs.getBoolean(HuamiConst.PREF_BUTTON_ACTION_ENABLE, false)) {
+            return;
+        }
+
+        currentButtonActionId = 0;
+        currentButtonPressTime = System.currentTimeMillis();
+        currentButtonTimerActivationTime = currentButtonPressTime;
+        runButtonAction();
+
+    }
+
     private void handleButtonEvent() {
 
         // If disabled we return from function immediately
@@ -1267,7 +1309,6 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
 
         int buttonPressMaxDelay = prefs.getInt(HuamiConst.PREF_BUTTON_ACTION_PRESS_MAX_INTERVAL, 2000);
-        int buttonActionDelay = prefs.getInt(HuamiConst.PREF_BUTTON_ACTION_BROADCAST_DELAY, 0);
         int requiredButtonPressCount = prefs.getInt(HuamiConst.PREF_BUTTON_ACTION_PRESS_COUNT, 0);
 
         if (requiredButtonPressCount > 0) {
@@ -1280,30 +1321,31 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 currentButtonPressCount = 1;
                 currentButtonActionId = 0;
             }
+            if (buttonActionTimer != null){
+                buttonActionTimer.cancel();
+            }
 
             currentButtonPressTime = System.currentTimeMillis();
             if (currentButtonPressCount == requiredButtonPressCount) {
                 currentButtonTimerActivationTime = currentButtonPressTime;
-                if (buttonActionDelay > 0) {
-                    LOG.info("Activating timer");
-                    final Timer buttonActionTimer = new Timer("Huami Button Action Timer");
-                    buttonActionTimer.scheduleAtFixedRate(new TimerTask() {
-                        @Override
-                        public void run() {
-                            runButtonAction();
-                            buttonActionTimer.cancel();
-                        }
-                    }, buttonActionDelay, buttonActionDelay);
-                }
-                else {
-                    LOG.info("Activating button action");
-                    runButtonAction();
-                }
+                LOG.info("Activating button timer");
+                buttonActionTimer = new Timer("Huami Button Action Timer");
+                buttonActionTimer.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        runButtonAction();
+                        buttonActionTimer.cancel();
+                    }
+                }, buttonPressMaxDelay, buttonPressMaxDelay);
+
                 currentButtonActionId++;
                 currentButtonPressCount = 0;
             }
         }
     }
+
+
+
 
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt,
@@ -1566,10 +1608,14 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             return;
         }
 
-        int base = 0;
+        int actionMask = 0;
         int daysMask = 0;
         if (alarm.getEnabled() && !alarm.getUnused()) {
-            base = 128;
+            actionMask = 0x80;
+
+            if (coordinator.supportsAlarmSnoozing() && !alarm.getSnooze()) {
+                actionMask |= 0x40;
+            }
         }
         if (!alarm.getUnused()) {
             daysMask = alarm.getRepetition();
@@ -1580,7 +1626,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
         byte[] alarmMessage = new byte[] {
                 (byte) 0x2, // TODO what is this?
-                (byte) (base + alarm.getPosition()), // 128 is the base, alarm slot is added
+                (byte) (actionMask | alarm.getPosition()), // action mask + alarm slot
                 (byte) calendar.get(Calendar.HOUR_OF_DAY),
                 (byte) calendar.get(Calendar.MINUTE),
                 (byte) daysMask,
@@ -1642,7 +1688,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 int slotToUse = 2 - iteration;
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(mEvt.getBegin());
-                Alarm alarm = AlarmUtils.createSingleShot(slotToUse, false, calendar);
+                Alarm alarm = AlarmUtils.createSingleShot(slotToUse, false, true, calendar);
                 queueAlarm(alarm, builder, characteristic);
                 iteration++;
             }

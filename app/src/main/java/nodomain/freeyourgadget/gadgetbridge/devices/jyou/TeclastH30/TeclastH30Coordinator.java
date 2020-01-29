@@ -1,5 +1,5 @@
-/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Dougal19, José Rebelo, protomors, Sami Alaoui
+/*  Copyright (C) 2016-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Dougal19, José Rebelo, Pavel Elagin, protomors, Sami Alaoui
 
     This file is part of Gadgetbridge.
 

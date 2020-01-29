@@ -1,6 +1,6 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniel
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniel
     Dakhno, Daniele Gobbetti, Frank Slezak, ivanovlev, JohnnySun, José Rebelo,
-    Julien Pivotto, Kasha, Sebastian Kranz, Steffen Liebergeld
+    Julien Pivotto, Kasha, Sebastian Kranz, Steffen Liebergeld, vanous
 
     This file is part of Gadgetbridge.
 

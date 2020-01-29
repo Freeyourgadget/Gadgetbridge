@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2019 Carsten Pfeiffer, Dikay900
+/*  Copyright (C) 2016-2020 Carsten Pfeiffer, Dikay900
 
     This file is part of Gadgetbridge.
 

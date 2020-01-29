@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Daniele Gobbetti, Frank Slezak
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Daniele Gobbetti, Frank Slezak
 
     This file is part of Gadgetbridge.
 

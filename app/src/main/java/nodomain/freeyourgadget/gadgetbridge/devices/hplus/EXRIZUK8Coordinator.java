@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2019 Daniele Gobbetti, João Paulo Barraca, Quallenauge
+/*  Copyright (C) 2017-2020 Daniele Gobbetti, João Paulo Barraca, Quallenauge
 
     This file is part of Gadgetbridge.
 

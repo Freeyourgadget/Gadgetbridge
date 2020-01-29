@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, atkyritsis, Carsten Pfeiffer,
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, atkyritsis, Carsten Pfeiffer,
     Christian Fischer, Daniele Gobbetti, freezed-or-frozen, JohnnySun, Julien
     Pivotto, Kasha, Sebastian Kranz, Sergey Trofimov, Steffen Liebergeld
 
@@ -1243,7 +1243,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                     int slotToUse = 2 - iteration;
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(mEvt.getBegin());
-                    Alarm alarm = AlarmUtils.createSingleShot(slotToUse, false, calendar);
+                    Alarm alarm = AlarmUtils.createSingleShot(slotToUse, false, false, calendar);
                     queueAlarm(alarm, builder, characteristic);
                     iteration++;
                 }

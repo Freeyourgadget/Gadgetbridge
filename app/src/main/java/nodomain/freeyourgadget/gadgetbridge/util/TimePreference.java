@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2019 Carsten Pfeiffer, José Rebelo
+/*  Copyright (C) 2017-2020 Carsten Pfeiffer, José Rebelo
 
     This file is part of Gadgetbridge.
 

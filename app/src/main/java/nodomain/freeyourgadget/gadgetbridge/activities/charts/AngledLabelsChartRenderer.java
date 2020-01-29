@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 Andreas Shimokawa, vanous
+/*  Copyright (C) 2019-2020 Andreas Shimokawa, vanous
 
     This file is part of Gadgetbridge.
 

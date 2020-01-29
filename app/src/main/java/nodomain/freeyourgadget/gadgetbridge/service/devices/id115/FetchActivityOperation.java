@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018-2019 Vadim Kaushan
+/*  Copyright (C) 2018-2020 Vadim Kaushan
 
     This file is part of Gadgetbridge.
 

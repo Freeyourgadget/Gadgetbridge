@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2019 0nse, Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2016-2020 0nse, Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -121,7 +121,7 @@ public class SleepAlarmWidget extends AppWidgetProvider {
                     context.getString(R.string.appwidget_setting_alarm, hours, minutes),
                     Toast.LENGTH_SHORT, GB.INFO);
 
-            Alarm alarm = AlarmUtils.createSingleShot(0,true, calendar);
+            Alarm alarm = AlarmUtils.createSingleShot(0, true, false, calendar);
             ArrayList<Alarm> alarms = new ArrayList<>(1);
             alarms.add(alarm);
             GBApplication.deviceService().onSetAlarms(alarms);

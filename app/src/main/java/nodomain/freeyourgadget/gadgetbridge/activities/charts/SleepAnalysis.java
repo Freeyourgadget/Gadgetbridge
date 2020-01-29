@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 Q-er
+/*  Copyright (C) 2019-2020 Q-er
 
     This file is part of Gadgetbridge.
 

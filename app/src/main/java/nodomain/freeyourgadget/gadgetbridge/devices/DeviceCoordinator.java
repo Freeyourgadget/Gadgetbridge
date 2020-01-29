@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, JohnnySun, José Rebelo, Matthieu Baerts, Nephiel, Uwe Hermann
 
     This file is part of Gadgetbridge.
@@ -200,6 +200,12 @@ public interface DeviceCoordinator {
      * @return
      */
     boolean supportsSmartWakeup(GBDevice device);
+
+    /**
+     * Returns true if this device/coordinator supports alarm snoozing
+     * @return
+     */
+    boolean supportsAlarmSnoozing();
 
     /**
      * Returns true if the given device supports heart rate measurements.

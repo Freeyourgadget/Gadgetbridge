@@ -17,7 +17,7 @@
     <string name="controlcenter_snackbar_need_longpress">Podržte déle pro odpojení</string>
     <string name="controlcenter_snackbar_disconnecting">Odpojuji</string>
     <string name="controlcenter_snackbar_connecting">Připojuji…</string>
-    <string name="controlcenter_snackbar_requested_screenshot">Sejmout snímek obrazovky</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Pořídit snímek obrazovky</string>
     <string name="title_activity_debug">Ladění</string>
     <!--Strings related to AppManager-->
     <string name="title_activity_appmanager">Manažer aplikací</string>

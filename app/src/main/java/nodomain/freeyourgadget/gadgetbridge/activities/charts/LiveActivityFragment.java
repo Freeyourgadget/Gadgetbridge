@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Cre3per,
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Cre3per,
     Daniele Gobbetti, Dikay900, Pavel, Pavel Elagin
 
     This file is part of Gadgetbridge.

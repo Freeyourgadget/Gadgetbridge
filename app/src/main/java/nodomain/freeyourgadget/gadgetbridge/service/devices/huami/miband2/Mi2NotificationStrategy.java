@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Martin Piatka
 
     This file is part of Gadgetbridge.
@@ -24,6 +24,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.V2NotificationStrategy;
@@ -50,8 +51,11 @@ public class Mi2NotificationStrategy extends V2NotificationStrategy<HuamiSupport
             builder.write(alert, new byte[]{-1, (byte) (vibration & 255), (byte) (vibration >> 8 & 255), (byte) (pause & 255), (byte) (pause >> 8 & 255), repeat});
         }
 
-        waitDuration = Math.max(waitDuration, 4000);
-        builder.wait(waitDuration);
+        // Don't wait during an incoming call, otherwise we'll not be able to stop the call notification
+        if (simpleNotification == null || simpleNotification.getAlertCategory() != AlertCategory.IncomingCall) {
+            waitDuration = Math.max(waitDuration, 4000);
+            builder.wait(waitDuration);
+        }
 
         if (extraAction != null) {
             builder.add(extraAction);
