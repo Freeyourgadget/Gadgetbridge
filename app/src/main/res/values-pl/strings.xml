@@ -4,7 +4,7 @@
     <string name="title_activity_controlcenter">Gadgetbridge</string>
     <string name="action_settings">Ustawienia</string>
     <string name="action_debug">Debuguj</string>
-    <string name="action_quit">Zamknij</string>
+    <string name="action_quit">Wyjdź</string>
     <string name="controlcenter_fetch_activity_data">Synchronizuj</string>
     <string name="controlcenter_find_device">Znajdź zagubione urządzenie</string>
     <string name="controlcenter_take_screenshot">Zrób zrzut ekranu</string>
@@ -349,7 +349,7 @@
     <string name="controlcenter_connect">Połącz…</string>
     <string name="controlcenter_navigation_drawer_open">Otwórz okno nawigacji</string>
     <string name="controlcenter_navigation_drawer_close">Zamknij okno nawigacji</string>
-    <string name="controlcenter_calibrate_device">Kalibracja urządzenia</string>
+    <string name="controlcenter_calibrate_device">Skalibruj urządzenie</string>
     <string name="blacklist_all_for_notifications">Zablokuj wszystkie powiadomienia</string>
     <string name="whitelist_all_for_notifications">Zezwól na wszystkie powiadomienia</string>
     <string name="fw_upgrade_notice_amazfitbip">Zamierzasz zainstalować firmware %s na swoim Amazfit Bip.
@@ -379,7 +379,7 @@
     <string name="pref_title_call_privacy_mode">Tryb prywatności połączeń telefonicznych</string>
     <string name="pref_title_weather_location">Lokalizacja pogody (CM/LOS)</string>
     <string name="pref_summary_enable_outgoing_call">Wyłączenie tej opcji spowoduje również, że Pebble 2/LE przestanie wibrować przy połączeniach wychodzących</string>
-    <string name="pref_summary_autoremove_notifications">Powiadomienia są automatycznie usuwane z Pebble po usunięciu ich z urządzenia Android</string>
+    <string name="pref_summary_autoremove_notifications">Powiadomienia są automatycznie usuwane z Pebble po usunięciu z urządzenia Android</string>
     <string name="pref_pebble_privacy_mode_content">Przesuń tekst powiadomienia poza ekran</string>
     <string name="pref_summary_location_keep_uptodate">Spróbuj pobrać obecną lokalizację po uruchomieniu, awaryjnie użyj zapisanej lokalizacji</string>
     <string name="controlcenter_change_led_color">Zmień kolor diody LED</string>
@@ -768,7 +768,7 @@
     <string name="toast_app_must_not_be_blacklisted">Nie można skonfigurować aplikacji będącej na czarnej liście</string>
     <string name="edittext_notification_filter_words_hint">Wprowadź żądane wyrazy, każdy w nowej linii</string>
     <string name="toast_notification_filter_saved_successfully">Zapisano filtr powiadomień</string>
-    <string name="filter_mode_blacklist">Blokuj, gdy zawiera słowa</string>
+    <string name="filter_mode_blacklist">Blokuj jeśli zawiera słowa</string>
     <string name="filter_mode">Tryb filtrowania</string>
     <string name="mode_configuration">Ustawienia trybu</string>
     <string name="appwidget_not_connected">Nie połączony, alarm nie ustawiony.</string>
@@ -778,7 +778,7 @@
     <string name="zetime_signaling_beep_once">Zabrzęcz raz</string>
     <string name="zetime_signaling_beep_twice">Zabrzęcz dwa razy</string>
     <string name="zetime_signaling_vibrate_beep_once">Wibracja i brzęczenie raz</string>
-    <string name="pref_title_support_voip_calls">Włącz powiadomienia o połączeniach z aplikacji VoIP</string>
+    <string name="pref_title_support_voip_calls">Włącz VoIP połączenia</string>
     <string name="pref_summary_authkey">Zmień klucz autoryzacji na wspólny dla wszystkich urządzeń z Androidem, z których chcesz się połączyć. Poprzedni domyślny klucz dla wszystkich urządzeń to 0123456789@ABCDE</string>
     <string name="prefs_hr_alarm_activity">Alarm tętna podczas aktywności sportowej</string>
     <string name="prefs_hr_alarm_low">Dolny limit</string>
@@ -817,4 +817,9 @@
     <string name="prefs_button_triple_press_action_selection_title">Akcja zdarzenia 3</string>
     <string name="prefs_button_variable_actions">Szczegółowe ustawienia naciśnięcia przycisku</string>
     <string name="prefs_button_long_press_action_selection_title">Akcja przytrzymania przycisku</string>
+    <string name="activity_web_view">Przeglądanie aktywności w sieci</string>
+    <string name="reset_index">Zresetuj datę pobierania</string>
+    <string name="zetime_activity_tracking_summary">Monitirowanie aktywności, liczy twoje kroki i inne.</string>
+    <string name="qhybrid_time_shift">przesunięcie czasowe</string>
+    <string name="qhybrid_use_activity_hand_as_notification_counter">użyj ręki aktywności jako licznika powiadomień</string>
 </resources>
