@@ -831,4 +831,6 @@
     <string name="prefs_button_variable_actions">Configurações detalhado de pressionamento de botão</string>
     <string name="prefs_button_long_press_action_selection_title">Ação do botão de pressionamento longo</string>
     <string name="alarm_snooze">Adiar</string>
+    <string name="error_no_location_access">Acesso a localização deve ser concedido e habilitado para varredura funcionar adequadamente</string>
+    <string name="devicetype_itag">iTag</string>
 </resources>
