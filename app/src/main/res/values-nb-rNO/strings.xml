@@ -821,4 +821,7 @@
     <string name="prefs_button_triple_press_action_selection_title">Handling for hendelse 3</string>
     <string name="prefs_button_variable_actions">Detaljerte knappetrykksinnstillinger</string>
     <string name="prefs_button_long_press_action_selection_title">Handling for langt knappetrykk</string>
+    <string name="alarm_snooze">Slumre</string>
+    <string name="error_no_location_access">Plasseringstilgang må innvilges og skrus på for at skanning skal fungere</string>
+    <string name="devicetype_itag">iTag</string>
 </resources>
