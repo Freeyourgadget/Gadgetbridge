@@ -777,6 +777,7 @@
     <string name="prefs_button_triple_press_action_selection_title">Event 3 action</string>
     <string name="prefs_button_variable_actions">Detailed button press settings</string>
     <string name="prefs_button_long_press_action_selection_title">Long press button action</string>
+    <string name="error_no_location_access">Location access must be granted and enabled for scanning to work properly</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>
         <item quantity="two">%d hours</item>
