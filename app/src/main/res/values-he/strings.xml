@@ -821,4 +821,6 @@
     <string name="prefs_button_variable_actions">הגדרות נרחבות ללחיצת כפתור</string>
     <string name="prefs_button_long_press_action_selection_title">פעולה ללחיצה ארוכה על הכפתור</string>
     <string name="alarm_snooze">נודניק</string>
+    <string name="error_no_location_access">יש להעניק גישה למיקום כדי שהסריקה תעבוד כראוי</string>
+    <string name="devicetype_itag">iTag</string>
 </resources>
