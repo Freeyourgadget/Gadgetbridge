@@ -1,5 +1,10 @@
 ### Changelog
 
+#### WIP
+* Initial iTag support
+* Fix indefinitely lasting bluetooth scans when location permission has not been granted
+* Try to stop incoming VoIP call notification when the call is answered
+
 #### Version 0.41.1
 * Huami: allow to have alarms without snooze feature
 * Mi Band 2: Properly stop a call notification when text notifications are disabled
