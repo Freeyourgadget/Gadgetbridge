@@ -825,4 +825,6 @@
     <string name="prefs_button_variable_actions">Detaillierte Einstellungen zum Drücken von Tasten</string>
     <string name="prefs_button_long_press_action_selection_title">Langer Tastendruck</string>
     <string name="alarm_snooze">Schlummern</string>
+    <string name="error_no_location_access">Der Standortzugriff muss gewährt werden und aktiviert sein, damit das Scannen ordnungsgemäß funktioniert</string>
+    <string name="devicetype_itag">iTag</string>
 </resources>
