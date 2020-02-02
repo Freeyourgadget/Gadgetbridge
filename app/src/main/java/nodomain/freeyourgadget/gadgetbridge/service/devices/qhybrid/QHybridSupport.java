@@ -55,6 +55,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
@@ -302,6 +303,12 @@ public class QHybridSupport extends QHybridBaseSupport {
             }
         };
         GBApplication.getContext().registerReceiver(globalCommandReceiver, globalFilter);
+    }
+
+    @Override
+    public void onSetCallState(CallSpec callSpec) {
+        super.onSetCallState(callSpec);
+        watchAdapter.onSetCallState(callSpec);
     }
 
     @Override

@@ -31,6 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicContr
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HRConfigActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationHRConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -39,7 +40,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.foss
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.RequestMtuRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.SetDeviceStateRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.TimeConfigItem;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayCallNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayNotificationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayTextNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.VerifyPrivateKeyRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration.ConfigurationGetRequest;
@@ -452,15 +455,21 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         try {
             for (NotificationHRConfiguration configuration : this.notificationConfigurations){
                 if(configuration.getPackageName().equals(notificationSpec.sourceAppId)){
-                    queueWrite(new PlayNotificationRequest(notificationSpec.sourceAppId, senderOrTitle, notificationSpec.body, this));
+                    queueWrite(new PlayTextNotificationRequest(notificationSpec.sourceAppId, senderOrTitle, notificationSpec.body, this));
                     return true;
                 }
             }
-            queueWrite(new PlayNotificationRequest("generic", senderOrTitle, notificationSpec.body, this));
+            queueWrite(new PlayTextNotificationRequest("generic", senderOrTitle, notificationSpec.body, this));
         }catch (Exception e){
             e.printStackTrace();
         }
         return true;
+    }
+
+    @Override
+    public void onSetCallState(CallSpec callSpec) {
+        super.onSetCallState(callSpec);
+        queueWrite(new PlayCallNotificationRequest(callSpec.number, callSpec.command == CallSpec.CALL_INCOMING, this));
     }
 
     public byte[] getSecretKey() {

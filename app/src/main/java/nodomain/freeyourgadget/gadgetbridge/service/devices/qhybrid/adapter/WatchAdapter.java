@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
@@ -116,5 +117,8 @@ public abstract class WatchAdapter {
     }
 
     public void updateWidgets() {
+    }
+
+    public void onSetCallState(CallSpec callSpec) {
     }
 }

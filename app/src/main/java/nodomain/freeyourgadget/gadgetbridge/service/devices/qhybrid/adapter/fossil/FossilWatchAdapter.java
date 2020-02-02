@@ -55,6 +55,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.NotificationFilterPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayNotificationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayTextNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.VerifyPrivateKeyRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.AnimationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.MoveHandsRequest;
@@ -140,6 +141,7 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     @Override
     public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+        log("status " + status + " newState: " + newState);
         if(newState != BluetoothGatt.STATE_CONNECTED){
             log("status " + newState + "  clearing queue...");
             requestQueue.clear();
@@ -190,7 +192,7 @@ public class FossilWatchAdapter extends WatchAdapter {
             log("package name in notification not set");
             return;
         }
-        queueWrite(new PlayNotificationRequest(config.getPackageName(), this), false);
+        queueWrite(new PlayTextNotificationRequest(config.getPackageName(), this), false);
     }
 
     @Override
