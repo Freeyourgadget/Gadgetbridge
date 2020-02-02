@@ -47,6 +47,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.IntentListener;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 
@@ -57,18 +58,14 @@ public class ITagSupport extends AbstractBTLEDeviceSupport {
     private final DeviceInfoProfile<ITagSupport> deviceInfoProfile;
     private final BatteryInfoProfile<ITagSupport> batteryInfoProfile;
 
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private final IntentListener mListener = new IntentListener() {
         @Override
-        public void onReceive(Context context, Intent intent) {
-            String intentAction = intent.getAction();
-            if(intentAction != null) {
-                if (intentAction.equals(DeviceInfoProfile.ACTION_DEVICE_INFO)) {
-                    handleDeviceInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo) intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO));
-                } else if (intentAction.equals(BatteryInfoProfile.ACTION_BATTERY_INFO)) {
-                    handleBatteryInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfo) intent.getParcelableExtra(BatteryInfoProfile.EXTRA_BATTERY_INFO));
-                }
-            } else{
-                LOG.warn("ITagSupport", "Error reading intent action");
+        public void notify(Intent intent) {
+            String s = intent.getAction();
+            if (s.equals(DeviceInfoProfile.ACTION_DEVICE_INFO)) {
+                handleDeviceInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo) intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO));
+            } else if (s.equals(BatteryInfoProfile.ACTION_BATTERY_INFO)) {
+                handleBatteryInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfo) intent.getParcelableExtra(BatteryInfoProfile.EXTRA_BATTERY_INFO));
             }
         }
     };
@@ -76,37 +73,25 @@ public class ITagSupport extends AbstractBTLEDeviceSupport {
     public ITagSupport() {
         super(LOG);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
-        //TODO: Might not exist! Enabling on unsupported devices causes reconnection loops that
-        // might cause the device to become unresponsive and drain its battery
-        //addSupportedService(GattService.UUID_SERVICE_GENERIC_ATTRIBUTE);
-        //addSupportedService(GattService.UUID_SERVICE_BATTERY_SERVICE);
+        addSupportedService(GattService.UUID_SERVICE_GENERIC_ATTRIBUTE);
+        addSupportedService(GattService.UUID_SERVICE_BATTERY_SERVICE);
 
         addSupportedService(GattService.UUID_SERVICE_IMMEDIATE_ALERT);
         addSupportedService(ITagConstants.UUID_SERVICE_BUTTON);
 
 
-
         deviceInfoProfile = new DeviceInfoProfile<>(this);
+        deviceInfoProfile.addListener(mListener);
         batteryInfoProfile = new BatteryInfoProfile<>(this);
+        batteryInfoProfile.addListener(mListener);
+
         addSupportedProfile(deviceInfoProfile);
         addSupportedProfile(batteryInfoProfile);
-
-        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getContext());
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(BatteryInfoProfile.ACTION_BATTERY_INFO);
-        broadcastManager.registerReceiver(mReceiver, intentFilter);
     }
 
     private void handleBatteryInfo(nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfo info) {
         batteryCmd.level = (short) info.getPercentCharged();
         handleGBDeviceEvent(batteryCmd);
-    }
-
-    @Override
-    public void dispose() {
-        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getContext());
-        broadcastManager.unregisterReceiver(mReceiver);
-        super.dispose();
     }
 
     @Override
@@ -134,7 +119,7 @@ public class ITagSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void handleDeviceInfo(nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo info) {
-        ;
+
     }
 
     @Override
@@ -239,7 +224,7 @@ public class ITagSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetConstantVibration(int intensity) {
         getQueue().clear();
-        BluetoothGattCharacteristic characteristic = getCharacteristic(UUID.fromString("00002a06-0000-1000-8000-00805f9b34fb"));
+        BluetoothGattCharacteristic characteristic = getCharacteristic(ITagConstants.UUID_LINK_LOSS_ALERT_LEVEL);
 
         TransactionBuilder builder = new TransactionBuilder("beeping");
         builder.write(characteristic, new byte[]{(byte) intensity});
