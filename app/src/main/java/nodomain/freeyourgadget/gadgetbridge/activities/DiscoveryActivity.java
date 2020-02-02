@@ -674,6 +674,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
                         bondingDevice = deviceCandidate;
                         break;
                     case BluetoothDevice.BOND_BONDED:
+                        bondingDevice = deviceCandidate;
                         handleDeviceBonded();
                         break;
                 }
