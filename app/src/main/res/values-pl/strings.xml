@@ -822,4 +822,5 @@
     <string name="zetime_activity_tracking_summary">Monitirowanie aktywności, liczy twoje kroki i inne.</string>
     <string name="qhybrid_time_shift">przesunięcie czasowe</string>
     <string name="qhybrid_use_activity_hand_as_notification_counter">użyj ręki aktywności jako licznika powiadomień</string>
+    <string name="devicetype_itag">iTag</string>
 </resources>
