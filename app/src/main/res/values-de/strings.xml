@@ -636,7 +636,7 @@
     <string name="mode_configuration">Modus-Konfiguration</string>
     <string name="save_configuration">Konfiguration speichern</string>
     <string name="appwidget_not_connected">Nicht verbunden, Alarm nicht eingestellt.</string>
-    <string name="prefs_disconnect_notification">Benachichtigung beim Verbindung trennen</string>
+    <string name="prefs_disconnect_notification">Benachrichtigung beim Verbindung trennen</string>
     <string name="activity_prefs_calories_burnt">Tägliches Ziel: verbrannte Kalorien</string>
     <string name="activity_prefs_distance_meters">Tägliches Ziel: zurückgelegte Strecke in Meter</string>
     <string name="activity_prefs_activetime_minutes">Tägliches Ziel: aktive Zeit in Minuten</string>
