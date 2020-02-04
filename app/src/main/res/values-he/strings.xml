@@ -823,4 +823,6 @@
     <string name="alarm_snooze">נודניק</string>
     <string name="error_no_location_access">יש להעניק גישה למיקום כדי שהסריקה תעבוד כראוי</string>
     <string name="devicetype_itag">iTag</string>
+    <string name="pref_title_allow_high_mtu">לאפשר MTU גבוה</string>
+    <string name="pref_summary_allow_high_mtu">מגביר את קצב ההעברה, יש מכשירי Android שלא תומכים בזה.</string>
 </resources>
