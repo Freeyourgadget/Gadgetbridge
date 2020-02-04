@@ -827,4 +827,5 @@
     <string name="alarm_snooze">Schlummern</string>
     <string name="error_no_location_access">Der Standortzugriff muss gewährt werden und aktiviert sein, damit das Scannen ordnungsgemäß funktioniert</string>
     <string name="devicetype_itag">iTag</string>
+    <string name="pref_summary_allow_high_mtu">Erhöht die Übertragungsgeschwindigkeit, funktioniert aber möglicherweise nicht auf einigen Android-Geräten.</string>
 </resources>
