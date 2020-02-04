@@ -824,4 +824,6 @@
     <string name="alarm_snooze">Slumre</string>
     <string name="error_no_location_access">Plasseringstilgang må innvilges og skrus på for at skanning skal fungere</string>
     <string name="devicetype_itag">iTag</string>
+    <string name="pref_title_allow_high_mtu">Tillat høy MTU</string>
+    <string name="pref_summary_allow_high_mtu">Øker overføringshastighet, men kan forårsake problemer på noen Android-enheter.</string>
 </resources>
