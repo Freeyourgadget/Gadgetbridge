@@ -180,6 +180,8 @@
     <string name="pref_title_expose_hr">3rd party realtime HR access</string>
     <string name="pref_title_use_custom_font">Use custom font</string>
     <string name="pref_summary_use_custom_font">Enable this if your device has a custom font firmware for emoji support</string>
+    <string name="pref_title_allow_high_mtu">Allow high MTU</string>
+    <string name="pref_summary_allow_high_mtu">Increases transfer speed, but might not work on some Android devices.</string>
     <string name="pref_display_add_device_fab">Connect new device button</string>
     <string name="pref_display_add_device_fab_on">Always visible</string>
     <string name="pref_display_add_device_fab_off">Visible only if no device is added</string>
@@ -686,6 +688,7 @@
     <string name="devicetype_y5">Y5</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
+    <string name="devicetype_itag">iTag</string>
     <string name="devicetype_bfh16">BFH-16</string>
     <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
@@ -786,6 +789,8 @@
     <string name="prefs_button_triple_press_action_selection_title">Event 3 action</string>
     <string name="prefs_button_variable_actions">Detailed button press settings</string>
     <string name="prefs_button_long_press_action_selection_title">Long press button action</string>
+
+    <string name="error_no_location_access">Location access must be granted and enabled for scanning to work properly</string>
 
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>

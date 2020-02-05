@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="allow_high_mtu"
+        android:summary="@string/pref_summary_allow_high_mtu"
+        android:title="@string/pref_title_allow_high_mtu" />
+</androidx.preference.PreferenceScreen>

@@ -410,9 +410,9 @@
     <string name="mi2_prefs_button_actions">Akce tlačítka</string>
     <string name="mi2_prefs_button_actions_summary">Nastavení akcí po stisknutí tlačítka</string>
     <string name="mi2_prefs_button_press_count">Počet stisknutí tlačítka</string>
-    <string name="mi2_prefs_button_press_count_summary">Počet stisknutí tlačítka na spuštění vysílání zpráv</string>
+    <string name="mi2_prefs_button_press_count_summary">Počet stisknutí tlačítka pro vyvolání Události 1. Další stejné množství stisků vyvolá Událost 2 atd.</string>
     <string name="mi2_prefs_button_press_broadcast">Vysílání zpráv</string>
-    <string name="mi2_prefs_button_press_broadcast_summary">Vysílání zprávy po definovaném počtu stisknutí tlačítka</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Vysílání broadcast zprávy po při události. Parametr button_id je doplněn do každé zprávy automaticky.</string>
     <string name="mi2_prefs_button_action">Zapnout akci tlačítka</string>
     <string name="mi2_prefs_button_action_summary">Zapnout akci na zadaný počet stisknutí tlačítka</string>
     <string name="mi2_prefs_button_action_vibrate">Zapnout vibrování náramku</string>
@@ -810,4 +810,13 @@
     <string name="pref_disable_new_ble_scanning">Zakázat nové BLE skenování</string>
     <string name="pref_summary_disable_new_ble_scanning">Tuto možnost zaškrtněte pokud Vaše zařízení nelze najít během vyhledávání</string>
     <string name="devicetype_banglejs">Bangle.js</string>
+    <string name="devicetype_y5">Y5</string>
+    <string name="prefs_button_single_press_action_selection_title">Akce události 1</string>
+    <string name="prefs_button_double_press_action_selection_title">Akce události 2</string>
+    <string name="prefs_button_triple_press_action_selection_title">Akce události 3</string>
+    <string name="prefs_button_variable_actions">Detailní nastavení stisku tlačítka</string>
+    <string name="prefs_button_long_press_action_selection_title">Akce pro dlouhý stisk</string>
+    <string name="alarm_snooze">Později...</string>
+    <string name="error_no_location_access">Přístup k poloze musí být díky systému Android přístupů povolen a zapnut, aby bylo možno správně naskenovat zařízení</string>
+    <string name="devicetype_itag">iTag</string>
 </resources>

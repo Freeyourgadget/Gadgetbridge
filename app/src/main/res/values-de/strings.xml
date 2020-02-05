@@ -636,7 +636,7 @@
     <string name="mode_configuration">Modus-Konfiguration</string>
     <string name="save_configuration">Konfiguration speichern</string>
     <string name="appwidget_not_connected">Nicht verbunden, Alarm nicht eingestellt.</string>
-    <string name="prefs_disconnect_notification">Benachichtigung beim Verbindung trennen</string>
+    <string name="prefs_disconnect_notification">Benachrichtigung beim Verbindung trennen</string>
     <string name="activity_prefs_calories_burnt">Tägliches Ziel: verbrannte Kalorien</string>
     <string name="activity_prefs_distance_meters">Tägliches Ziel: zurückgelegte Strecke in Meter</string>
     <string name="activity_prefs_activetime_minutes">Tägliches Ziel: aktive Zeit in Minuten</string>
@@ -825,4 +825,7 @@
     <string name="prefs_button_variable_actions">Detaillierte Einstellungen zum Drücken von Tasten</string>
     <string name="prefs_button_long_press_action_selection_title">Langer Tastendruck</string>
     <string name="alarm_snooze">Schlummern</string>
+    <string name="error_no_location_access">Der Standortzugriff muss gewährt werden und aktiviert sein, damit das Scannen ordnungsgemäß funktioniert</string>
+    <string name="devicetype_itag">iTag</string>
+    <string name="pref_summary_allow_high_mtu">Erhöht die Übertragungsgeschwindigkeit, funktioniert aber möglicherweise nicht auf einigen Android-Geräten.</string>
 </resources>

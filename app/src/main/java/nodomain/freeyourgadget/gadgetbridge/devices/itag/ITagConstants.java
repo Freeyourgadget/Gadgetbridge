@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2020 Andreas Shimokawa
+/*  Copyright (C) 2020 Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -14,18 +14,11 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.model;
+package nodomain.freeyourgadget.gadgetbridge.devices.itag;
 
-public class CallSpec {
-    public static final int CALL_UNDEFINED = 0;
-    public static final int CALL_ACCEPT = 1;
-    public static final int CALL_INCOMING = 2;
-    public static final int CALL_OUTGOING = 3;
-    public static final int CALL_REJECT = 4;
-    public static final int CALL_START = 5;
-    public static final int CALL_END = 6;
+import java.util.UUID;
 
-    public String number;
-    public String name;
-    public int command;
+public final class ITagConstants {
+    public static final UUID UUID_SERVICE_BUTTON = UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb"); // Contains information about the button state
+    public static final UUID UUID_LINK_LOSS_ALERT_LEVEL = UUID.fromString("00002a06-0000-1000-8000-00805f9b34fb"); // Contains information about the button state
 }

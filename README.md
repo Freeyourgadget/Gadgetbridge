@@ -38,6 +38,7 @@ vendor's servers.
 * Casio GB-6900B
 * Fossil Q Hybrid
 * HPlus Devices (e.g. ZeBand) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
+* iTag
 * ID115
 * JYou Y5
 * Lenovo Watch 9
@@ -83,6 +84,7 @@ Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/ma
 * Daniel Dakhno (Fossil Q Hybrid)
 * Gordon Williams (Bangle.js)
 * Pavel Elagin (JYou Y5)
+* Taavi Eomäe (iTag)
 
 ## Contribute
 

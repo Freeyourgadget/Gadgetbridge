@@ -819,4 +819,8 @@
     <string name="prefs_button_variable_actions">按下按钮时的详细设置</string>
     <string name="prefs_button_long_press_action_selection_title">长按按钮的动作</string>
     <string name="alarm_snooze">打盹</string>
+    <string name="error_no_location_access">为确保工作正常必须授权地理位置访问和扫描</string>
+    <string name="devicetype_itag">iTag</string>
+    <string name="pref_title_allow_high_mtu">允许高 MTU</string>
+    <string name="pref_summary_allow_high_mtu">增加传输速度，但是在某些 Android 设备上可能不会工作。</string>
 </resources>
