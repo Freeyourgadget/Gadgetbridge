@@ -467,7 +467,7 @@ class PebbleIoThread extends GBDeviceIoThread {
         write_real(bytes);
     }
 
-    // FIXME: parts are supporsed to be generic code
+    // FIXME: parts are supposed to be generic code
     private boolean evaluateGBDeviceEventPebble(GBDeviceEvent deviceEvent) {
 
         if (deviceEvent instanceof GBDeviceEventVersionInfo) {
