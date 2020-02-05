@@ -833,4 +833,6 @@
     <string name="alarm_snooze">Adiar</string>
     <string name="error_no_location_access">Acesso a localização deve ser concedido e habilitado para varredura funcionar adequadamente</string>
     <string name="devicetype_itag">iTag</string>
+    <string name="pref_title_allow_high_mtu">Permitir MTU alto</string>
+    <string name="pref_summary_allow_high_mtu">Aumenta velocidade de transferência, mas pode não funcionar em alguns dispositivos Android.</string>
 </resources>
