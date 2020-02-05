@@ -1,9 +1,12 @@
 ### Changelog
 
-#### WIP
+#### Version 0.42.0
 * Initial iTag support
 * Fix indefinitely lasting bluetooth scans when location permission has not been granted
 * Try to stop incoming VoIP call notification when the call is answered
+* Vectorize some icons and add a new Mi Scale 2 icon
+* Mi Band 4: Make high MTU optional, fixes problems on some phones
+* ZeTime: Fix probably broken support (duplicate id used by Fossil)
 
 #### Version 0.41.1
 * Huami: allow to have alarms without snooze feature
