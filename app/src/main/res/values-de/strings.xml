@@ -355,9 +355,9 @@
     <string name="pref_summary_pebble_health_store_raw">Speichert Daten \"wie sie sind\" und erhöht die Datenbanknutzung, um eine spätere Auswertung zu ermöglichen.</string>
     <string name="action_db_management">Datenbankverwaltung</string>
     <string name="title_activity_db_management">Datenbankverwaltung</string>
-    <string name="activity_db_management_import_export_explanation">Die Datenbankoperationen verwenden den folgenden Pfad auf deinem Gerät.
-\nDieser Pfad ist für andere Android-Apps und deinem Computer zugänglich.
-\nDu findest die exportierte Datenbank hier (bzw. lege die zu importierende dort ab):</string>
+    <string name="activity_db_management_import_export_explanation">Die Datenbankoperationen verwenden den folgenden Pfad auf deinem Gerät. 
+\nDieser Pfad ist für andere Android-Apps und deinem Computer zugänglich. 
+\nDu findest die exportierte Datenbank hier (bzw. lege die zu Importierende dort ab):</string>
     <string name="activity_db_management_merge_old_title">Legacy-Datenbank löschen</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Kann nicht auf den Exportpfad zugreifen. Bitte die Entwickler kontaktieren.</string>
     <string name="dbmanagementactivity_exported_to">Exportiert nach: %1$s</string>
@@ -384,15 +384,15 @@
     <!--Strings related to Pebble Pairing Activity-->
     <string name="title_activity_pebble_pairing">Pebble koppeln</string>
     <string name="pebble_pairing_hint">Auf deinem Android-Gerät erscheint ein Koppeln-Dialog. Wenn nicht, schaue in die Benachrichtigungsübersicht und akzeptiere die Kopplungsanforderung. Akzeptiere es auch danach auf deiner Pebble.</string>
-    <string name="weather_notification_label">Stelle sicher, dass dieser Skin in der Wetterbenachrichtigungs-App aktiviert ist, damit du Wetterdaten auf deiner Pebble erhältst.
-\n
-\nHier ist keine Konfiguration nötig.
+    <string name="weather_notification_label">Stelle sicher, dass dieser Skin in der Wetterbenachrichtigungs-App aktiviert ist, damit du Wetterdaten auf deiner Pebble erhältst. 
 \n 
-\nDu kannst die Systemwetter-App deiner Pebble in App-Verwaltung aktivieren.
-\n
-\nUnterstützte Zifferblätter zeigen das Wetter automatisch an.</string>
+\nHier ist keine Konfiguration nötig. 
+\n 
+\nDu kannst die Systemwetter-App deiner Pebble in App-Verwaltung aktivieren. 
+\n 
+\nUnterstützte Ziffernblätter zeigen das Wetter automatisch an.</string>
     <string name="pref_title_setup_bt_pairing">Bluetooth-Kopplung aktivieren</string>
-    <string name="pref_summary_setup_bt_pairing">Deaktiviere dies, wenn du Probleme beim Verbinden hast</string>
+    <string name="pref_summary_setup_bt_pairing">Hier deaktivieren, wenn du Probleme beim Verbinden hast</string>
     <string name="unit_metric">Metrisch</string>
     <string name="unit_imperial">Imperial (US/UK)</string>
     <string name="timeformat_24h">24h</string>
@@ -408,7 +408,7 @@
     <string name="mi2_dnd_off">Aus</string>
     <string name="mi2_dnd_automatic">Automatisch (Schlaferkennung)</string>
     <string name="mi2_dnd_scheduled">Geplant (Zeitintervall)</string>
-    <string name="discovery_attempting_to_pair">Versucht mit %1$s zu koppeln</string>
+    <string name="discovery_attempting_to_pair">Versuche mit %1$s zu koppeln</string>
     <string name="discovery_bonding_failed_immediately">Bindung mit %1$s sofort fehlgeschlagen.</string>
     <string name="discovery_trying_to_connect_to">Versuchen zu verbinden mit: %1$s</string>
     <string name="discovery_enable_bluetooth">Aktiviere Bluetooth, um Geräte zu erkennen.</string>
@@ -426,8 +426,8 @@
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_actions">Tastenaktionen</string>
-    <string name="mi2_prefs_button_actions_summary">Festlegen der Tastendruckaktionen</string>
-    <string name="mi2_prefs_button_press_count_summary">Anzahl der Tastendrücke, um Ereignis 1 auszulösen. Die darauffolgende Anzahl der Tastendrücke erzeugt Ereignis 2 und so weiter.</string>
+    <string name="mi2_prefs_button_actions_summary">Tastendruckaktionen bestimmen</string>
+    <string name="mi2_prefs_button_press_count_summary">Anzahl der Tastendrücke, um Event 1 auszulösen. Wenn die gleiche Anzahl an Tastendrücken wiederholt wird, wird Event 2 erstellt (und so weiter).</string>
     <string name="mi2_prefs_button_press_broadcast">Zu sendende Nachricht</string>
     <string name="mi2_prefs_button_action">Tastenaktion aktivieren</string>
     <string name="mi2_prefs_button_action_summary">Aktion bei einer bestimmten Anzahl an Tastendrücken aktivieren</string>
@@ -494,7 +494,7 @@
     <string name="controlcenter_start_activity_tracks">Deine Aktivitätsverläufe</string>
     <string name="activity_type_not_measured">Nicht gemessen</string>
     <string name="activity_type_activity">Aktivität</string>
-    <string name="activity_type_light_sleep">Leichter Schlaf</string>
+    <string name="activity_type_light_sleep">Seichter Schlaf</string>
     <string name="activity_type_deep_sleep">Tiefschlaf</string>
     <string name="activity_type_not_worn">Gerät nicht getragen</string>
     <string name="activity_type_running">Laufen</string>
@@ -514,8 +514,8 @@
     <string name="kind_resources">Quellen</string>
     <string name="kind_watchface">Zifferblatt</string>
     <string name="devicetype_xwatch">XWatch</string>
-    <string name="choose_auto_export_location">Exportort wählen</string>
-    <string name="notification_channel_name">Gadgetbridge-Benachrichtigungen</string>
+    <string name="choose_auto_export_location">Speicherort für Export auswählen</string>
+    <string name="notification_channel_name">Benachrichtigungen von Gadgetbridge</string>
     <string name="menuitem_status">Status</string>
     <string name="menuitem_activity">Aktivität</string>
     <string name="menuitem_weather">Wetter</string>
@@ -548,13 +548,13 @@
     <string name="watch9_time_hours">Stunden:</string>
     <string name="watch9_time_seconds">Sekunden:</string>
     <string name="title_activity_watch9_calibration">Watch 9 kalibrieren</string>
-    <string name="watch9_calibration_hint">Zeit einstellen, die dir dein Gerät gerade anzeigt.</string>
+    <string name="watch9_calibration_hint">Stelle die Zeit ein, die dir dein Gerät gerade anzeigt.</string>
     <string name="controlcenter_calibrate_device">Gerät kalibrieren</string>
     <string name="horizontal">Horizontal</string>
     <string name="vertical">Vertikal</string>
     <string name="you_slept">Du hast von %1$s bis %2$s geschlafen</string>
     <string name="you_did_not_sleep">Du hast nicht geschlafen</string>
-    <string name="norwegian_bokmal">Norwegisch</string>
+    <string name="norwegian_bokmal">Norwegisch (Bokmål)</string>
     <string name="russian">Russisch</string>
     <string name="german">Deutsch</string>
     <string name="italian">Italienisch</string>
@@ -604,7 +604,7 @@
     <string name="preferences_fm_frequency">FM-Frequenz</string>
     <string name="pref_invalid_frequency_title">Ungültige Frequenz</string>
     <string name="pref_invalid_frequency_message">Bitte eine Frequenz zwischen 87,5 und 108,0 eingeben</string>
-    <string name="language_and_region_prefs">Sprach- und Gebietseinstellungen</string>
+    <string name="language_and_region_prefs">Sprach- und Regionseinstellungen</string>
     <string name="debugactivity_really_factoryreset_title">Wirklich auf Werkseinstellungen zurücksetzen\?</string>
     <string name="debugactivity_really_factoryreset">Beim Zurücksetzen auf die Werkseinstellungen werden alle Daten vom angeschlossenen Gerät gelöscht (falls unterstützt). Xiaomi/Huami-Geräte ändern auch die Bluetooth-MAC-Adresse, so dass sie als neue Geräte bei Gadgetbridge erscheinen.</string>
     <string name="pref_rtl_max_line_length_summary">Verlängert oder verkürzt die Zeilen, in die der Rechts-nach-Links Text getrennt wird</string>
@@ -621,7 +621,7 @@
     <string name="pref_summary_contextual_arabic">Aktivieren, um kontextabhängiges Arabisch zu unterstützen</string>
     <string name="preferences_rtl_settings">Rechts nach Links Unterstützung</string>
     <string name="share_log">Protokoll teilen</string>
-    <string name="share_log_warning">Bitte beachte, dass Gadgetbridge Dateien protokolliert, die viele persönliche Informationen enthalten können, einschließlich, aber nicht beschränkt auf Gesundheitsdaten, eindeutige Identifikatoren (wie die MAC-Adresse eines Geräts), Musikpräferenzen usw. Erwäge, die Datei zu bearbeiten und diese Informationen zu entfernen, bevor du die Datei in einem Bericht über öffentliche Probleme sendest.</string>
+    <string name="share_log_warning">Bitte beachte, dass Gadgetbridge Dateien protokolliert, die viele persönliche Informationen enthalten können, einschließlich, aber nicht beschränkt auf Gesundheitsdaten, eindeutige Identifikatoren (wie die MAC-Adresse eines Geräts), Musikpräferenzen usw. Erwäge, die Datei zu bearbeiten und diese Informationen zu entfernen, bevor du die Datei in einem Bugreport sendest.</string>
     <string name="title_activity_notification_filter">Benachrichtigungsfilter</string>
     <string name="toast_app_must_not_be_blacklisted">App muss nicht auf der Blacklist stehen, um konfiguriert zu werden</string>
     <string name="edittext_notification_filter_words_hint">Gewünschte Wörter eingeben, neue Zeile für jedes Wort</string>
@@ -636,7 +636,7 @@
     <string name="mode_configuration">Modus-Konfiguration</string>
     <string name="save_configuration">Konfiguration speichern</string>
     <string name="appwidget_not_connected">Nicht verbunden, Alarm nicht eingestellt.</string>
-    <string name="prefs_disconnect_notification">Benachrichtigung beim Trennen</string>
+    <string name="prefs_disconnect_notification">Trennungsbenachrichtigung</string>
     <string name="activity_prefs_calories_burnt">Tägliches Ziel: verbrannte Kalorien</string>
     <string name="activity_prefs_distance_meters">Tägliches Ziel: zurückgelegte Strecke in Meter</string>
     <string name="activity_prefs_activetime_minutes">Tägliches Ziel: aktive Zeit in Minuten</string>
@@ -724,7 +724,7 @@
     <string name="prefs_hr_alarm_low">Untere Grenze</string>
     <string name="prefs_hr_alarm_high">Obere Grenze</string>
     <string name="average">Durchschnitt: %1$s</string>
-    <string name="pref_header_charts">Einstellungen - Diagrammeinstellungen</string>
+    <string name="pref_header_charts">Diagrammeinstellungen</string>
     <string name="pref_title_charts_average">Durchschnittswerte im Diagramm anzeigen</string>
     <string name="pref_title_charts_range">Diagrammbereich</string>
     <string name="pref_charts_range_on">Diagrammbereich ist auf einen Monat eingestellt</string>
@@ -752,14 +752,14 @@
     <string name="pref_display_add_device_fab_off">Nur sichtbar, wenn kein Gerät hinzugefügt wird</string>
     <string name="activity_db_management_autoexport_explanation">Speicherort für automatischen Datenbank-Export auf:</string>
     <string name="activity_db_management_autoexport_label">Automatischer Export</string>
-    <string name="activity_DB_test_export_button">Automatischer Export jetzt starten</string>
+    <string name="activity_DB_test_export_button">Automatischen Export jetzt starten</string>
     <string name="activity_DB_test_export_message">Datenbank exportieren…</string>
     <string name="activity_db_management_empty_db_warning">Achtung! Wenn du auf diese Schaltfläche klickst, löschst du deine Datenbank und beginnst von Grund auf neu.</string>
     <string name="appwidget_sleep_alarm_widget_label">Schlafalarm</string>
     <string name="widget_steps_label">Schritte: %1$02d</string>
     <string name="widget_sleep_label">Schlaf: %1$s</string>
-    <string name="widget_listing_label">Status und Alarme</string>
-    <string name="widget_set_alarm_after">Alarm einstellen nach:</string>
+    <string name="widget_listing_label">Status und Wecker</string>
+    <string name="widget_set_alarm_after">Wecker einstellen nach:</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d Std</item>
         <item quantity="other">%d Std</item>
@@ -811,8 +811,8 @@
     <string name="qhybrid_time_shift">Zeitverschiebung</string>
     <string name="qhybrid_second_timezone_offset_relative_to_utc">Verschiebung der zweiten Zeitzone relativ zu UTC</string>
     <string name="qhybrid_overwrite_buttons">Tasten überschreiben</string>
-    <string name="qhybrid_use_activity_hand_as_notification_counter">Aktive Hand als Benachrichtigungszähler verwenden</string>
-    <string name="qhybrid_prompt_million_steps">Bitte die Schrittzahl auf eine Million einstellen, um dies zu aktivieren.</string>
+    <string name="qhybrid_use_activity_hand_as_notification_counter">Verwende Aktivitätsfortschrittzeiger als Benachrichtigungszähler</string>
+    <string name="qhybrid_prompt_million_steps">Dafür bitte die Schrittzahl auf eine Million einstellen</string>
     <string name="qhybrid_buttons_overwrite_success">Tasten überschrieben</string>
     <string name="qhybrid_buttons_overwrite_error">Fehler beim Überschreiben der Tasten</string>
     <string name="qhybrid_offset_timezone">Verschiebung der Zeitzone um</string>
@@ -822,14 +822,14 @@
     <string name="pref_summary_disable_new_ble_scanning">Aktiviere diese Option, wenn dein Gerät bei der Erkennung nicht gefunden wird</string>
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="devicetype_y5">Y5</string>
-    <string name="prefs_button_variable_actions">Detaillierte Einstellungen zum Drücken von Tasten</string>
+    <string name="prefs_button_variable_actions">Detaillierte Einstellungen zu Tastendrücken</string>
     <string name="prefs_button_long_press_action_selection_title">Lange Tastendruckaktion</string>
     <string name="alarm_snooze">Schlummern</string>
     <string name="error_no_location_access">Der Standortzugriff muss gewährt werden und aktiviert sein, damit das Scannen ordnungsgemäß funktioniert</string>
     <string name="devicetype_itag">iTag</string>
     <string name="pref_summary_allow_high_mtu">Erhöht die Übertragungsgeschwindigkeit, funktioniert aber möglicherweise nicht auf einigen Android-Geräten.</string>
-    <string name="prefs_button_single_press_action_selection_title">1x drücken Aktion</string>
-    <string name="prefs_button_double_press_action_selection_title">2x drücken Aktion</string>
-    <string name="prefs_button_triple_press_action_selection_title">3x tippen Aktion</string>
+    <string name="prefs_button_single_press_action_selection_title">Aktion bei einem einzigen Tastendruck</string>
+    <string name="prefs_button_double_press_action_selection_title">Aktion bei 2 Tastendrücken</string>
+    <string name="prefs_button_triple_press_action_selection_title">Aktion bei 3 Tastendrücken</string>
     <string name="pref_title_allow_high_mtu">Hohe MTU erlauben</string>
 </resources>
