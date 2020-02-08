@@ -342,7 +342,7 @@
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Widget hinzufügen</string>
     <string name="activity_prefs_sleep_duration">Gewünschte Schlafdauer in Stunden</string>
-    <string name="appwidget_setting_alarm">Ein Wecker wurde auf %1$02d:%2$02d gestellt</string>
+    <string name="appwidget_setting_alarm">Wecker wurde auf %1$02d:%2$02d gestellt</string>
     <string name="device_hw">Hardwarerevision: %1$s</string>
     <string name="device_fw">Firmwareversion: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Fehler beim Erstellen des Verzeichnisses für Protokolldateien: %1$s</string>
@@ -427,7 +427,7 @@
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_actions">Tastenaktionen</string>
     <string name="mi2_prefs_button_actions_summary">Festlegen der Tastendruckaktionen</string>
-    <string name="mi2_prefs_button_press_count_summary">Anzahl der Tastendrücke, um die Nachrichtenübertragung auszulösen</string>
+    <string name="mi2_prefs_button_press_count_summary">Anzahl der Tastendrücke, um Ereignis 1 auszulösen. Die darauffolgende Anzahl der Tastendrücke erzeugt Ereignis 2 und so weiter.</string>
     <string name="mi2_prefs_button_press_broadcast">Zu sendende Nachricht</string>
     <string name="mi2_prefs_button_action">Tastenaktion aktivieren</string>
     <string name="mi2_prefs_button_action_summary">Aktion bei einer bestimmten Anzahl an Tastendrücken aktivieren</string>
@@ -487,7 +487,7 @@
     <string name="pref_title_auto_export_interval">Exportintervall</string>
     <string name="pref_summary_auto_export_interval">Alle %d Stunden exportieren</string>
     <string name="notif_export_failed_title">Datenbankexport fehlgeschlagen! Bitte überprüfe deine Einstellungen.</string>
-    <string name="mi2_prefs_button_press_broadcast_summary">Nachricht senden, wenn eingestellte Anzahl an Tastendrücken erreicht ist</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Broadcast-Nachricht, die mit dem Ereignis gesendet wurde. Der Parameter \"button_id\" wird automatisch zu jeder Nachricht hinzugefügt.</string>
     <string name="mi2_prefs_button_press_count_match_delay_summary">Verzögerung nach einer Tastenaktion (Zahl in button_id) oder 0 für sofort</string>
     <string name="spanish">Spanisch</string>
     <string name="on">Ein</string>
@@ -535,8 +535,8 @@
     <string name="pref_auto_fetch">Aktivitätsdaten automatisch abrufen</string>
     <string name="devicetype_miband3">Mi Band 3</string>
     <string name="devicetype_q8">Q8</string>
-    <string name="menuitem_shortcut_alipay">Alipay (Schnellzugriff)</string>
-    <string name="menuitem_shortcut_weather">Wetter (Schnellzugriff)</string>
+    <string name="menuitem_shortcut_alipay">Alipay (Verknüpfung)</string>
+    <string name="menuitem_shortcut_weather">Wetter (Verknüpfung)</string>
     <string name="blacklist_all_for_notifications">Blacklist für alle Benachrichtigungen</string>
     <string name="whitelist_all_for_notifications">Whitelist für alle Benachrichtigungen</string>
     <string name="pref_auto_fetch_summary">Abruf erfolgt beim Entsperren des Bildschirms. Funktioniert nur, wenn ein Sperrmechanismus eingestellt ist!</string>
@@ -548,7 +548,7 @@
     <string name="watch9_time_hours">Stunden:</string>
     <string name="watch9_time_seconds">Sekunden:</string>
     <string name="title_activity_watch9_calibration">Watch 9 kalibrieren</string>
-    <string name="watch9_calibration_hint">Stelle die Zeit ein, die dir dein Gerät gerade anzeigt.</string>
+    <string name="watch9_calibration_hint">Zeit einstellen, die dir dein Gerät gerade anzeigt.</string>
     <string name="controlcenter_calibrate_device">Gerät kalibrieren</string>
     <string name="horizontal">Horizontal</string>
     <string name="vertical">Vertikal</string>
@@ -636,7 +636,7 @@
     <string name="mode_configuration">Modus-Konfiguration</string>
     <string name="save_configuration">Konfiguration speichern</string>
     <string name="appwidget_not_connected">Nicht verbunden, Alarm nicht eingestellt.</string>
-    <string name="prefs_disconnect_notification">Benachrichtigung beim Verbindung trennen</string>
+    <string name="prefs_disconnect_notification">Benachrichtigung beim Trennen</string>
     <string name="activity_prefs_calories_burnt">Tägliches Ziel: verbrannte Kalorien</string>
     <string name="activity_prefs_distance_meters">Tägliches Ziel: zurückgelegte Strecke in Meter</string>
     <string name="activity_prefs_activetime_minutes">Tägliches Ziel: aktive Zeit in Minuten</string>
@@ -811,8 +811,8 @@
     <string name="qhybrid_time_shift">Zeitverschiebung</string>
     <string name="qhybrid_second_timezone_offset_relative_to_utc">Verschiebung der zweiten Zeitzone relativ zu UTC</string>
     <string name="qhybrid_overwrite_buttons">Tasten überschreiben</string>
-    <string name="qhybrid_use_activity_hand_as_notification_counter">Aktivitätshand als Benachrichtigungszähler verwenden</string>
-    <string name="qhybrid_prompt_million_steps">Bitte stelle die Schrittzahl auf eine Million ein, um dies zu aktivieren.</string>
+    <string name="qhybrid_use_activity_hand_as_notification_counter">Aktive Hand als Benachrichtigungszähler verwenden</string>
+    <string name="qhybrid_prompt_million_steps">Bitte die Schrittzahl auf eine Million einstellen, um dies zu aktivieren.</string>
     <string name="qhybrid_buttons_overwrite_success">Tasten überschrieben</string>
     <string name="qhybrid_buttons_overwrite_error">Fehler beim Überschreiben der Tasten</string>
     <string name="qhybrid_offset_timezone">Verschiebung der Zeitzone um</string>
@@ -823,9 +823,13 @@
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="devicetype_y5">Y5</string>
     <string name="prefs_button_variable_actions">Detaillierte Einstellungen zum Drücken von Tasten</string>
-    <string name="prefs_button_long_press_action_selection_title">Langer Tastendruck</string>
+    <string name="prefs_button_long_press_action_selection_title">Lange Tastendruckaktion</string>
     <string name="alarm_snooze">Schlummern</string>
     <string name="error_no_location_access">Der Standortzugriff muss gewährt werden und aktiviert sein, damit das Scannen ordnungsgemäß funktioniert</string>
     <string name="devicetype_itag">iTag</string>
     <string name="pref_summary_allow_high_mtu">Erhöht die Übertragungsgeschwindigkeit, funktioniert aber möglicherweise nicht auf einigen Android-Geräten.</string>
+    <string name="prefs_button_single_press_action_selection_title">1x drücken Aktion</string>
+    <string name="prefs_button_double_press_action_selection_title">2x drücken Aktion</string>
+    <string name="prefs_button_triple_press_action_selection_title">3x tippen Aktion</string>
+    <string name="pref_title_allow_high_mtu">Hohe MTU erlauben</string>
 </resources>
