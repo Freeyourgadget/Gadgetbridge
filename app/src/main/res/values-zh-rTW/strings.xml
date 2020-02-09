@@ -398,4 +398,7 @@
     <string name="pref_title_contextual_arabic">阿拉伯語的文句</string>
     <string name="pref_summary_contextual_arabic">啟用此選項以支援阿拉伯語的文句</string>
     <string name="preferences_rtl_settings">由右至左顯示支援</string>
+    <string name="fw_upgrade_notice">您即將安裝 %s。</string>
+    <string name="notif_battery_low_title">裝置電量不足！</string>
+    <string name="notif_battery_low_percent">%1$s 電量剩餘：%2$s%%</string>
 </resources>
