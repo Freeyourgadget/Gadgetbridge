@@ -23,7 +23,7 @@
     <string name="title_activity_appmanager">Управление приложением</string>
     <string name="appmanager_cached_watchapps_watchfaces">Приложения в памяти</string>
     <string name="appmanager_installed_watchapps">Установленные приложения</string>
-    <string name="appmanager_installed_watchfaces">Установленный циферблаты</string>
+    <string name="appmanager_installed_watchfaces">Установленные циферблаты</string>
     <string name="appmananger_app_delete">Удалить</string>
     <string name="appmananger_app_delete_cache">Удалить и очистить кеш</string>
     <string name="appmananger_app_reinstall">Переустановка</string>
@@ -306,7 +306,7 @@
     <string name="miband2_prefs_dateformat">Формат даты</string>
     <string name="dateformat_time">Время</string>
     <string name="dateformat_date_time">Время и дата</string>
-    <string name="mi2_prefs_activate_display_on_lift">Активировать экран при подъёме</string>
+    <string name="mi2_prefs_activate_display_on_lift">Активировать экран поднятием руки</string>
     <string name="FetchActivityOperation_about_to_transfer_since">Готов к передаче данных с %1$s</string>
     <string name="waiting_for_reconnect">Ожидание переподключения</string>
     <string name="activity_prefs_about_you">Ваши данные</string>
@@ -332,11 +332,9 @@
     <string name="pref_summary_pebble_health_store_raw">Если флажок установлен, данные сохраняются как есть. В дальнейшем их можно будет обрабатывать. Обратите внимание: в этом случае база данных будет занимать больше места.</string>
     <string name="action_db_management">Управление базой данных</string>
     <string name="title_activity_db_management">Управление базой данных</string>
-    <string name="activity_db_management_import_export_explanation">"Операции с базой данных используют  этот путь на устройстве. 
-\n
-\nОн доступен для других приложений Android и. компьютера. 
-\n
-\nВы можете найти экспортированную базу данных (или разместить базу данных, которую вы хотите импортировать) здесь:"</string>
+    <string name="activity_db_management_import_export_explanation">Операции с базой данных используют этот путь на устройстве. 
+\nОн доступен для других приложений Android и компьютера. 
+\nВы можете найти экспортированную базу данных (или разместить базу данных, которую вы хотите импортировать) здесь:</string>
     <string name="activity_db_management_merge_old_title">Удаление устаревшей базы данных</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Нет доступа к пути экспорта. Обратитесь, пожалуйста, к разработчикам.</string>
     <string name="dbmanagementactivity_exported_to">Экспортировано в: %1$s</string>
@@ -403,12 +401,12 @@
 \nОбратите внимание: если файлы .gps и .res такие же, как в текущей версии, их не нужно переустанавливать.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Вы собираетесь установить прошивку %s на ваш Amazfit Cor.
-\n
-\nСоблюдайте последовательность: вначале установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся.
-\n
-\nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать.
-\n
+    <string name="fw_upgrade_notice_amazfitcor">Вы собираетесь установить прошивку %s на ваш Amazfit Cor. 
+\n 
+\nСоблюдайте последовательность: вначале установите файл .fw, затем .res. После установки файла .fw устройство перезагрузится. 
+\n 
+\nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать. 
+\n 
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_title_charts_swipe">Включить жесты \"провести направо и налево\" в графиках активности</string>
     <string name="pref_blacklist_calendars">Заблокировать Календари</string>
@@ -430,14 +428,14 @@
     <string name="battery">Заряд батарейки</string>
     <string name="mi2_prefs_button_actions">Действия кнопки</string>
     <string name="mi2_prefs_button_actions_summary">Настройте действия при нажатии на кнопку</string>
-    <string name="mi2_prefs_button_press_count">Нажатий на кнопку</string>
+    <string name="mi2_prefs_button_press_count">Кол-во нажатий на кнопку</string>
     <string name="mi2_prefs_button_press_count_summary">Количество нажатий, необходимое для генерации События 1. Ещё столько же нажатий потребуется для генерации События 2 и т.д.</string>
     <string name="mi2_prefs_button_press_broadcast">Сообщение для трансляции</string>
     <string name="mi2_prefs_button_press_broadcast_summary">Сообщение транслируемое при наступлении события. Параметр `button_id` добавляется к каждому сообщению автоматически.</string>
-    <string name="mi2_prefs_button_action">Включить действия при нажатии на кнопку</string>
-    <string name="mi2_prefs_button_action_summary">Включить действия для заданного количества нажатий на кнопку</string>
-    <string name="mi2_prefs_button_action_vibrate">Включить вибрацию</string>
-    <string name="mi2_prefs_button_action_vibrate_summary">Включить вибрацию браслета в ответ на исполняющееся при нажатии действие</string>
+    <string name="mi2_prefs_button_action">Включить действия для кнопки</string>
+    <string name="mi2_prefs_button_action_summary">Включить действия на заданное кол-во нажатий кнопки</string>
+    <string name="mi2_prefs_button_action_vibrate">Включить вибро-отклик браслета</string>
+    <string name="mi2_prefs_button_action_vibrate_summary">Включить вибро-отклик браслета в ответ на исполнение действия при нажатии</string>
     <string name="mi2_prefs_button_press_count_max_delay">Максимальная задержка между нажатиями</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Максимальная задержка между нажатиями в миллисекундах</string>
     <string name="mi2_prefs_button_press_count_match_delay">Задержка после действия при нажатии</string>
@@ -446,7 +444,7 @@
     <string name="mi2_prefs_goal_notification_summary">Браслет завибрирует, когда будет выполнена дневная норма шагов</string>
     <string name="mi2_prefs_display_items">Что показывать на экране</string>
     <string name="mi2_prefs_display_items_summary">Выберите, что показывать на экране браслета</string>
-    <string name="mi2_prefs_rotate_wrist_to_switch_info">Поверните запястье, чтобы переключиться на другую информацию</string>
+    <string name="mi2_prefs_rotate_wrist_to_switch_info">Переключать информацию поворотом запястья</string>
     <string name="mi2_prefs_do_not_disturb">Не беспокоить</string>
     <string name="mi2_prefs_do_not_disturb_summary">Браслет не будет получать уведомления, даже если включён</string>
     <string name="mi2_prefs_inactivity_warnings">Напоминания о низкой активности</string>
@@ -479,23 +477,23 @@
     <string name="menuitem_weather">Погода</string>
     <string name="menuitem_compass">Компас</string>
     <string name="menuitem_settings">Настройки</string>
-    <string name="blacklist_all_for_notifications">Заблокировать все уведомления</string>
-    <string name="whitelist_all_for_notifications">Разблокировать все уведомления</string>
+    <string name="blacklist_all_for_notifications">Черный список уведомлений</string>
+    <string name="whitelist_all_for_notifications">Белый список уведомлений</string>
     <string name="fw_upgrade_notice_miband3">Вы собираетесь установить прошивку %s на ваш Mi Band 3.
 \n
-\nСоблюдайте последовательность: вначале установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся.
-\n
-\nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать.
-\n
+\nСоблюдайте последовательность: вначале установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся. 
+\n 
+\nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать. 
+\n 
 \nНЕ ПРОВЕРЯЛОСЬ, ЕСТЬ ВЕРОЯТНОСТЬ СЛОМАТЬ ВАШЕ УСТРОЙСТВО. ВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_title_weather_location">Местоположение для погоды (CM/LOS)</string>
     <string name="pref_title_pebble_gatt_clientonly">Подключаться только в режиме GATT-клиента</string>
     <string name="pref_summary_pebble_gatt_clientonly">Экспериментальные настройки только для Pebble 2. Попробуйте, если связь не очень</string>
     <string name="pref_header_auto_export">Автоматический экспорт данных</string>
-    <string name="pref_title_auto_export_enabled">Включить автоматический экспорт</string>
-    <string name="pref_title_auto_export_location">Путь экспорта</string>
+    <string name="pref_title_auto_export_enabled">Автоматический экспорт включён</string>
+    <string name="pref_title_auto_export_location">Путь для экспорта данных</string>
     <string name="pref_title_auto_export_interval">Интервал экспорта</string>
-    <string name="pref_summary_auto_export_interval">Экспортировать каждые %d часов</string>
+    <string name="pref_summary_auto_export_interval">Экспортировать каждые %d часа(ов)</string>
     <string name="spanish">Испанский</string>
     <string name="russian">Русский</string>
     <string name="activity_type_not_measured">Не измерялось</string>
@@ -640,7 +638,7 @@
     <string name="average">В среднем: %1$s</string>
     <string name="pref_summary_expose_hr">Разрешает другим приложениям доступ к датчику сердцебиения при активном соединении через Gadgetbridge</string>
     <string name="pref_title_expose_hr">Доступ к пульсометру</string>
-    <string name="pref_display_add_device_fab">Кнопка подключения новых устройств</string>
+    <string name="pref_display_add_device_fab">Кнопка подключения нового устройства</string>
     <string name="pref_display_add_device_fab_on">Всегда отображать</string>
     <string name="pref_display_add_device_fab_off">Когда нет добавленных устройств</string>
     <string name="prefs_button_single_press_action_selection_title">Реакция на Событие 1</string>
@@ -648,4 +646,181 @@
     <string name="prefs_button_triple_press_action_selection_title">Реакция на Событие 3</string>
     <string name="prefs_button_variable_actions">Детальная настройка реакции на нажатие кнопки</string>
     <string name="prefs_button_long_press_action_selection_title">Реакция на долгое нажатие</string>
+    <string name="toast_app_must_not_be_blacklisted">Приложение не должно находиться в черном списке для дальнейшей настройки</string>
+    <string name="edittext_notification_filter_words_hint">Введите нужные слова, где каждому новому слову соответствует своя строка</string>
+    <string name="toast_notification_filter_saved_successfully">Фильтр уведомлений сохранён</string>
+    <string name="filter_mode_none">Не фильтровать</string>
+    <string name="filter_mode_whitelist">Показывать, когда слова находятся в списке</string>
+    <string name="filter_mode_blacklist">Блокировать, когда слова находятся в списке</string>
+    <string name="mode_configuration">Режим конфигурации</string>
+    <string name="zetime_title_settings">Настройки ZeTime</string>
+    <string name="zetime_title_heartrate">Настройки пульса</string>
+    <string name="zetime_title_screentime">Продолжительность отображения в секундах</string>
+    <string name="zetime_title_heart_rate_alarm">Пульсовой сигнал</string>
+    <string name="zetime_title_heart_rate_alarm_summary">Часы предупредят вас, когда частота пульса превысит допустимые значения.</string>
+    <string name="zetime_heart_rate_alarm_enable">Включить пульсовой сигнал</string>
+    <string name="activity_prefs_alarm_max_heart_rate">Максимальный пульс</string>
+    <string name="activity_prefs_alarm_min_heart_rate">Минимальный пульс</string>
+    <string name="zetime_analog_mode">Аналоговый режим</string>
+    <string name="zetime_analog_mode_hands">Только руки</string>
+    <string name="zetime_analog_mode_handsandsteps">Руки и шаги</string>
+    <string name="zetime_activity_tracking">Отслеживание активности</string>
+    <string name="zetime_activity_tracking_summary">Включение отслеживания активности, будет считать ваши шаги и так далее.</string>
+    <string name="zetime_handmove_display">Движение руки</string>
+    <string name="zetime_handmove_display_summary">Поверните запястье, чтобы активировать или деактивировать дисплей.</string>
+    <string name="zetime_calories_type">Тип калорий</string>
+    <string name="zetime_calories_type_active">Только активные сжигаемые калории</string>
+    <string name="zetime_calories_type_all">Активные и неактивные сжигаемые калории</string>
+    <string name="zetime_date_format">Формат даты</string>
+    <string name="zetime_prefs_inactivity_repetitions">Повторения</string>
+    <string name="zetime_title_alarm_signaling">Установить тип сигнализации для будильника</string>
+    <string name="zetime_signaling_none">Тишина</string>
+    <string name="zetime_signaling_vibrate">Непрерывная вибрация</string>
+    <string name="zetime_signaling_beep">Непрерывный звуковой сигнал</string>
+    <string name="zetime_signaling_vibrate_beep">Непрерывная вибрация и звуковой сигнал</string>
+    <string name="zetime_signaling_vibrate_once">Вибрировать единожды</string>
+    <string name="zetime_signaling_vibrate_twice">Вибрировать дважды</string>
+    <string name="zetime_signaling_beep_once">Сигнализировать единожды</string>
+    <string name="zetime_signaling_beep_twice">Сигнализировать дважды</string>
+    <string name="zetime_signaling_vibrate_beep_once">Вибрировать и сигнализировать единожды</string>
+    <string name="pref_screen_notification_profile_anti_loss">Предупреждение о потерях</string>
+    <string name="interval_fifteen_minutes">каждые 15 минут</string>
+    <string name="interval_forty_five_minutes">каждые 45 минут</string>
+    <string name="activity_prefs_calories_burnt">Ежедневная цель: сожженные калории</string>
+    <string name="activity_prefs_distance_meters">Ежедневная цель: дистанция в метрах</string>
+    <string name="activity_prefs_activetime_minutes">Ежедневная цель: время активности в минутах</string>
+    <string name="devicetype_miscale2">Mi Scale 2</string>
+    <string name="pref_title_support_voip_calls">Активировать VoIP звонки внутри приложения</string>
+    <string name="title_activity_device_specific_settings">Специфичные настройки устройства</string>
+    <string name="pref_title_authkey">Ключ авторизации</string>
+    <string name="pref_summary_authkey">Измените ключ авторизации на общий ключ на всех ваших Android-устройствах, с которых вы хотели бы подключиться. Предыдущий ключ по умолчанию для всех устройств 0123456789@ABCDE</string>
+    <string name="devicetype_bfh16">BFH-16</string>
+    <string name="fw_upgrade_notice_amazfitcor2">Вы собираетесь установить прошивку %s на ваш Amazfit Cor 2. 
+\n 
+\nСоблюдайте последовательность: вначале установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся. 
+\n 
+\nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать. 
+\n 
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!
+\n
+\nПОЛНОСТЬЮ НЕ ПРОТЕСТИРОВАНО, ВОЗМОЖНО НУЖНО ПРОШИТЬ ПРОШИВКУ BEATS_W, ЕСЛИ ИМЯ ВАШЕГО УСТРОЙСТВА \"Amazfit Band 2\"</string>
+    <string name="dutch">Голландский язык</string>
+    <string name="turkish">Турецкий язык</string>
+    <string name="ukrainian">Украинский язык</string>
+    <string name="arabic">Арабский язык</string>
+    <string name="indonesian">Индонезийский язык</string>
+    <string name="thai">Тайский язык</string>
+    <string name="vietnamese">Вьетнамский язык</string>
+    <string name="portuguese">Португальский язык</string>
+    <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
+    <string name="devicetype_miband4">Mi Band 4</string>
+    <string name="fw_upgrade_notice_miband4">Вы собираетесь установить прошивку %s на ваш Mi Band 4. 
+\n 
+\nСоблюдайте последовательность: вначале установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся. 
+\n 
+\nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать. 
+\n 
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="prefs_hr_alarm_activity">Сигнал пульсометра в течение занятия спортом</string>
+    <string name="prefs_hr_alarm_low">Нижний предел</string>
+    <string name="prefs_hr_alarm_high">Верхний предел</string>
+    <string name="pref_header_charts">Настройки Графиков</string>
+    <string name="pref_title_charts_average">Показывать средние значения на графиках</string>
+    <string name="pref_title_charts_range">Диапазон графиков</string>
+    <string name="pref_charts_range_on">Диапазон графиков в рамках месяца</string>
+    <string name="pref_charts_range_off">Диапазон графиков в рамках недели</string>
+    <string name="weekstepschart_steps_a_month">Шаги за месяц</string>
+    <string name="weeksleepchart_sleep_a_month">Сон за месяц</string>
+    <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
+    <string name="menuitem_nfc">NFC</string>
+    <string name="pref_title_use_custom_font">Использовать пользовательский шрифт</string>
+    <string name="pref_summary_use_custom_font">Активируйте это для поддержки emoji, если ваше устройство имеет установленный пользовательский шрифт</string>
+    <string name="activity_db_management_autoexport_explanation">Местоположение авто-экспорта базы данных установлено:</string>
+    <string name="activity_db_management_autoexport_label">Авто-экспорт</string>
+    <string name="activity_DB_ExportButton">Экспорт базы данных</string>
+    <string name="activity_DB_import_button">Импорт базы данных</string>
+    <string name="activity_DB_test_export_button">Запустить Авто-экспорт сейчас</string>
+    <string name="activity_DB_test_export_message">Экспортирование базы данных…</string>
+    <string name="activity_DB_delete_legacy_button">Удалить старую базу данных</string>
+    <string name="activity_DB_empty_button">Пустая база данных</string>
+    <string name="activity_db_management_empty_DB">Пустая база данных</string>
+    <string name="activity_db_management_exportimport_label">Экспорт и Импорт</string>
+    <string name="activity_db_management_empty_db_warning">Внимание! Нажав эту кнопку, вы сотрете вашу базу данных и начнете с нуля.</string>
+    <string name="appwidget_sleep_alarm_widget_label">Сигнализация сна</string>
+    <string name="widget_steps_label">Шаги: %1$02d</string>
+    <string name="widget_sleep_label">Сон: %1$s</string>
+    <string name="widget_listing_label">Статус и будильники</string>
+    <string name="widget_set_alarm_after">Установить сигнал после:</string>
+    <string name="widget_5_minutes">5 минут</string>
+    <string name="widget_10_minutes">10 минут</string>
+    <string name="widget_20_minutes">20 минут</string>
+    <string name="widget_1_hour">1 час</string>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="one">час</item>
+        <item quantity="few">часа</item>
+        <item quantity="many">часов</item>
+    </plurals>
+    <string name="activity_error_no_app_for_gpx">Для просмотра трассировки активности установите приложение, которое может работать с GPX файлами.</string>
+    <string name="preferences_makibes_hr3_settings">Настройки Makibes HR3</string>
+    <string name="devicetype_makibes_hr3">Makibes HR3</string>
+    <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
+    <string name="prefs_find_phone">Найти телефон</string>
+    <string name="prefs_enable_find_phone">Включить \\\'Найти телефон\\\'</string>
+    <string name="prefs_find_phone_summary">Использовать ваш браслет для проигрывания рингтонов.</string>
+    <string name="prefs_find_phone_duration">Продолжительность звонка в секундах</string>
+    <string name="maximum_duration">Продолжительность</string>
+    <string name="discovery_need_to_enter_authkey">Это устройство нуждается в ключе авторизации, используйте длительное нажатие на устройство, чтобы войти в него. Читайте Wiki.</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">Вы собираетесь установить прошивку %s на ваш Amazfit Bip Lite. 
+\n 
+\nСоблюдайте последовательность: вначале установите файл .fw, затем .res, и затем .gps. После установки файла .fw часы перезагрузятся. 
+\n 
+\nОбратите внимание: если файлы .gps и .res такие же, как в текущей версии, их не нужно переустанавливать. 
+\n 
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
+    <string name="fw_upgrade_notice_amazfitgtr">Вы собираетесь установить прошивку %s на ваш Amazfit GTR. 
+\n 
+\nСоблюдайте последовательность: вначале установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся. 
+\n 
+\nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать. 
+\n 
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="pref_chart_heartrate_color_red">Красный</string>
+    <string name="pref_chart_heartrate_color_orange">Оранжевый</string>
+    <string name="pref_title_chart_heartrate_color">Цвет пульса</string>
+    <string name="pref_title_chart_sleep_rolling_24_hour">Диапазон сна</string>
+    <string name="pref_chart_sleep_rolling_24_on">Последние 24 часа</string>
+    <string name="pref_chart_sleep_rolling_24_off">С полудня до полудня</string>
+    <string name="devicetype_amazfit_gts">Amazfit GTS</string>
+    <string name="fw_upgrade_notice_amazfitgts">Вы собираетесь установить прошивку %s на ваш Amazfit GTS. 
+\n 
+\nСоблюдайте последовательность: вначале установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся. 
+\n 
+\nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать. 
+\n 
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
+    <string name="preferences_qhybrid_settings">Настройки Q Hybrid</string>
+    <string name="watch_not_connected">Часы не подсоединены</string>
+    <string name="qhybrid_vibration_strength">сила вибрации:</string>
+    <string name="qhybrid_goal_in_steps">Цель в шагах</string>
+    <string name="qhybrid_time_shift">сдвиг по времени</string>
+    <string name="qhybrid_second_timezone_offset_relative_to_utc">смещение второго часового пояса относительно UTC</string>
+    <string name="qhybrid_overwrite_buttons">кнопки перезаписи</string>
+    <string name="qhybrid_use_activity_hand_as_notification_counter">использовать активную руку в качестве счетчика уведомлений</string>
+    <string name="qhybrid_prompt_million_steps">Пожалуйста, установите счетчик шагов на миллион, чтобы активировать это.</string>
+    <string name="qhybrid_buttons_overwrite_success">Кнопки перезаписаны</string>
+    <string name="qhybrid_buttons_overwrite_error">Ошибка перезаписи кнопок</string>
+    <string name="qhybrid_offset_timezone">смещение часового пояса на</string>
+    <string name="qhybrid_changes_delay_prompt">изменения могут занять несколько секунд…</string>
+    <string name="qhybrid_offset_time_by">смещение часового пояса на</string>
+    <string name="pref_disable_new_ble_scanning">Отключить новое BLE сканирование</string>
+    <string name="pref_summary_disable_new_ble_scanning">Установите этот флажок, если устройство не может быть найдено во время обнаружения</string>
+    <string name="devicetype_banglejs">Bangle.js</string>
+    <string name="devicetype_y5">Y5</string>
+    <string name="alarm_snooze">Короткий сон</string>
+    <string name="error_no_location_access">Доступ к местоположению должен быть разрешен и включен для корректной работы поиска</string>
+    <string name="devicetype_itag">iTag</string>
+    <string name="pref_title_allow_high_mtu">Разрешить высокий MTU</string>
+    <string name="pref_summary_allow_high_mtu">Увеличивает скорость передачи данных, но может не работать на некоторых Android-устройствах.</string>
 </resources>
