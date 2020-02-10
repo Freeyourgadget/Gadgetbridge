@@ -132,6 +132,11 @@ public class FossilWatchAdapter extends WatchAdapter {
     @Override
     public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
         if(status != BluetoothGatt.GATT_SUCCESS){
+            if(characteristic.getUuid().toString().equals("3dda0005-957f-7d4a-34a6-74696673696d")){
+                GB.log("authentication failed", GB.ERROR, null);
+                setDeviceState(GBDevice.State.AUTHENTICATION_REQUIRED);
+                requestQueue.clear();
+            }
             log("characteristic write failed: " + status);
             fossilRequest = null;
 
@@ -483,8 +488,9 @@ public class FossilWatchAdapter extends WatchAdapter {
                         fossilRequest.handleResponse(characteristic);
                         requestFinished = fossilRequest.isFinished();
                     } catch (RuntimeException e) {
-                        if(fossilRequest instanceof VerifyPrivateKeyRequest){
-                            getDeviceSupport().getDevice().setState(GBDevice.State.AUTHENTICATION_REQUIRED);
+                        if(characteristic.getUuid().toString().equals("3dda0005-957f-7d4a-34a6-74696673696d")){
+                            GB.log("authentication failed", GB.ERROR, null);
+                            setDeviceState(GBDevice.State.AUTHENTICATION_REQUIRED);
                             requestQueue.clear();
                         }
 
@@ -608,9 +614,13 @@ public class FossilWatchAdapter extends WatchAdapter {
             return;
         }
         log("setting device state: " + request.getDeviceState());
-        getDeviceSupport().getDevice().setState(request.getDeviceState());
-        getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
+        setDeviceState(request.getDeviceState());
         queueNextRequest();
+    }
+
+    private void setDeviceState(GBDevice.State state){
+        getDeviceSupport().getDevice().setState(state);
+        getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
     }
 
     public void queueWrite(FossilRequest request, boolean priorise) {
