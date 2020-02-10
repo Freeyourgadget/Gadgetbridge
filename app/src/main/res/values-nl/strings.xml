@@ -557,7 +557,7 @@
     <string name="controlcenter_change_led_color">Wijzig LED kleur</string>
     <string name="controlcenter_change_fm_frequency">Wijzig FM frequentie</string>
     <string name="debugactivity_really_factoryreset_title">Weet U zeker dat u de fabrieksinstellingen wilt terugzetten\?</string>
-    <string name="debugactivity_really_factoryreset">Het terugzetten van de fabrieksinstellingen zal alle data van het verbonden toestel verwijderen (indien ondersteud). Xiaomi/Huami toestellen veranderen ook van Bluetooth MAC address, zodat deze zullen verschijnen als nieuwe toestellen in Gadgetbridge.</string>
+    <string name="debugactivity_really_factoryreset">Het terugzetten van de fabrieksinstellingen zal alle data van het verbonden toestel verwijderen (indien ondersteund). Xiaomi/Huami toestellen veranderen ook van Bluetooth MAC address, zodat deze zullen verschijnen als nieuwe toestellen in Gadgetbridge.</string>
     <string name="pref_title_notifications_timeout">Minimum tijd tussen meldingen</string>
     <string name="pref_title_rtl">Van rechts naar links</string>
     <string name="pref_summary_rtl">Schakel dit in als uw toestel geen talen van rechts naar links kan weergeven</string>
@@ -819,4 +819,8 @@
     <string name="prefs_button_variable_actions">Gedetailleerde knopdrukinstellingen</string>
     <string name="prefs_button_long_press_action_selection_title">Lange druk op de knop actie</string>
     <string name="alarm_snooze">Sluimeren</string>
+    <string name="error_no_location_access">Voor een goede werking van het scannen moet de locatietoegang worden verleend en ingeschakeld</string>
+    <string name="devicetype_itag">iTag</string>
+    <string name="pref_title_allow_high_mtu">Hoge MTU toestaan</string>
+    <string name="pref_summary_allow_high_mtu">Verhoogt de overdrachtssnelheid, maar werkt mogelijk niet op sommige Android-apparaten.</string>
 </resources>

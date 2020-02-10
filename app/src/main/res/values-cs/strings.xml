@@ -819,4 +819,6 @@
     <string name="alarm_snooze">Později...</string>
     <string name="error_no_location_access">Přístup k poloze musí být díky systému Android přístupů povolen a zapnut, aby bylo možno správně naskenovat zařízení</string>
     <string name="devicetype_itag">iTag</string>
+    <string name="pref_title_allow_high_mtu">Povolit vyšší MTU</string>
+    <string name="pref_summary_allow_high_mtu">Zrychluje přenosovou rychlost, ale na některých Android zařízení nemusí pracovat správně.</string>
 </resources>

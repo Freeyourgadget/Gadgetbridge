@@ -509,7 +509,7 @@
     <string name="watch9_calibration_button">Calibrar</string>
     <string name="watch9_pairing_tap_hint">Cuando el dispositivo vibre, agítelo o pulse un botón.</string>
     <string name="debugactivity_really_factoryreset_title">¿Confirmar reinicio de fábrica\?</string>
-    <string name="debugactivity_really_factoryreset">Al hacer un restablecimiento de fábrica se eliminarán todos los datos del dispositivo conectado (si se admite). Los dispositivos Xiaomi / Huami también cambian la dirección MAC de Bluetooth, por lo que aparecen como nuevos dispositivos para Gadgetbrige.</string>
+    <string name="debugactivity_really_factoryreset">Al hacer un restablecimiento de fábrica se eliminarán todos los datos del dispositivo conectado (si se admite). Los dispositivos Xiaomi / Huami también cambian la dirección MAC de Bluetooth, por lo que aparecen como nuevos dispositivos para Gadgetbridge.</string>
     <string name="blacklist_all_for_notifications">Lista negra para todas las notificaciones</string>
     <string name="whitelist_all_for_notifications">Lista blanca para todas las notificaciones</string>
     <string name="fw_upgrade_notice_miband3">Está a punto de instalar el «firmware» %s en su Mi Band 3.
