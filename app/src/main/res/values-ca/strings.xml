@@ -792,4 +792,5 @@
     <string name="activity_error_no_app_for_gpx">Per a veure la traça d\'activitat, instal·leu una app que pugui manejar fitxers GPX.</string>
     <string name="prefs_find_phone_summary">Fes servir la teva banda per a reproduir el to del telèfon.</string>
     <string name="discovery_need_to_enter_authkey">Aquest aparell requereix una clau d\'autenticació secreta, mantingueu premut sobre l\'aparell per a introduir-la. Consulteu la wiki.</string>
+    <string name="pref_summary_allow_high_mtu">Augmenta la velocitat de transferència, però pot ser que no funcioni en alguns aparells Android.</string>
 </resources>
