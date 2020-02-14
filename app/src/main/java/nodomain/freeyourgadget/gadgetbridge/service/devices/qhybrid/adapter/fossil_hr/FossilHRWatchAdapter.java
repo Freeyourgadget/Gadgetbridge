@@ -51,6 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.AssetImage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.AssetImageFactory;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.ImagesSetRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.json.JsonPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.menu.SetCommuteMenuMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicInfoSetRequest;
@@ -429,10 +430,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         renderWidgets();
     }
 
-    private void setBackgroundImages(AssetImage background, AssetImage[] complications) {
-        queueWrite(new ImagesSetRequest(new AssetImage[]{background}, this));
-    }
-
     @Override
     public void onFetchActivityData() {
         syncSettings();
@@ -552,20 +549,42 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 logger.info(jsonString);
                 JSONObject requestJson = new JSONObject(jsonString);
 
+                int requestId = requestJson.getJSONObject("req").getInt("id");
+
                 if (requestJson.getJSONObject("req").has("ringMyPhone")) {
                     String action = requestJson.getJSONObject("req").getJSONObject("ringMyPhone").getString("action");
                     logger.info("got ringMyPhone request; " + action);
                     GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
+
+                    JSONObject responseObject = new JSONObject()
+                            .put("res", new JSONObject()
+                                    .put("id", requestId)
+                                    .put("set", new JSONObject()
+                                            .put("ringMyPhone", new JSONObject()
+                                            )
+                                    )
+                            );
+
                     if ("on".equals(action)) {
                         findPhoneEvent.event = GBDeviceEventFindPhone.Event.START;
                         getDeviceSupport().evaluateGBDeviceEvent(findPhoneEvent);
-                    }
-                    else if ("off".equals(action)) {
+                        responseObject
+                                .getJSONObject("res")
+                                .getJSONObject("set")
+                                .getJSONObject("ringMyPhone")
+                                .put("result", "on");
+                        queueWrite(new JsonPutRequest(responseObject, this));
+                    } else if ("off".equals(action)) {
                         findPhoneEvent.event = GBDeviceEventFindPhone.Event.STOP;
                         getDeviceSupport().evaluateGBDeviceEvent(findPhoneEvent);
+                        responseObject
+                                .getJSONObject("res")
+                                .getJSONObject("set")
+                                .getJSONObject("ringMyPhone")
+                                .put("result", "off");
+                        queueWrite(new JsonPutRequest(responseObject, this));
                     }
-                }
-                else {
+                } else {
                     String action = requestJson.getJSONObject("req").getJSONObject("commuteApp._.config.commute_info")
                             .getString("dest");
 
