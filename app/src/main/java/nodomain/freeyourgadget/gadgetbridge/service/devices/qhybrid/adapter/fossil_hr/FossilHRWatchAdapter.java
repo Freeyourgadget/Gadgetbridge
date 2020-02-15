@@ -8,8 +8,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Picture;
 import android.os.Build;
 import android.os.CpuUsageInfo;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
+import androidx.annotation.Nullable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +29,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
@@ -356,6 +362,40 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void renderHTML(String url) {
+        WebView renderWebView = new WebView(getContext());
+
+        final AtomicBoolean finished = new AtomicBoolean(false);
+        renderWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                finished.set(true);
+            }
+        });
+        renderWebView.setPictureListener(new WebView.PictureListener() {
+            @Override
+            public void onNewPicture(WebView webView, @Nullable Picture picture) {
+                if (finished.get()) {
+                    Bitmap bitmap = Bitmap.createBitmap(240, 240, Bitmap.Config.ARGB_8888);
+                    webView.draw(new Canvas(bitmap));
+
+                    try {
+                        queueWrite(new AssetFilePutRequest(
+                                AssetImageFactory.createAssetImage(bitmap, true, 0, 0, 1),
+                                (byte) 1,
+                                FossilHRWatchAdapter.this
+                        ));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        renderWebView.layout(0, 0, 240, 240);
+        renderWebView.loadUrl(url);
     }
 
     @Override
