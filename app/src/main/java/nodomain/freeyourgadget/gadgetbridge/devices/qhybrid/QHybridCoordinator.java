@@ -167,7 +167,7 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsWeather() {
-        return false;
+        return true; // FIXME: not for old Q?
     }
 
     @Override

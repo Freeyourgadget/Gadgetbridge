@@ -583,7 +583,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                                         .put("set", new JSONObject()
                                                 .put("weatherInfo", new JSONObject()
                                                         .put("alive", ts + 60 * 60)
-                                                        .put("unit", "C") // FIXME: do not hardcode
+                                                        .put("unit", "c") // FIXME: do not hardcode
                                                         .put("temp", weatherSpec.currentTemp - 273)
                                                         .put("cond_id", 2) // FIXME do not hardcode 2=cloudy
                                                 )
