@@ -9,7 +9,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
-import android.os.CpuUsageInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,17 +36,15 @@ import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.Transaction;
+import nodomain.freeyourgadget.gadgetbridge.model.Weather;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.RequestMtuRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.SetDeviceStateRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.TimeConfigItem;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayCallNotificationRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayTextNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.VerifyPrivateKeyRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfigurationPutRequest;
@@ -574,7 +571,30 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                                 .put("result", "off");
                         queueWrite(new JsonPutRequest(responseObject, this));
                     }
-                } else {
+                } else if (requestJson.getJSONObject("req").has("weatherInfo")) {
+                    logger.info("Got weatherInfo request");
+                    WeatherSpec weatherSpec = Weather.getInstance().getWeatherSpec();
+                    if (weatherSpec != null) {
+                        long ts = System.currentTimeMillis();
+                        ts /= 1000;
+                        JSONObject responseObject = new JSONObject()
+                                .put("res", new JSONObject()
+                                        .put("id", requestId)
+                                        .put("set", new JSONObject()
+                                                .put("weatherInfo", new JSONObject()
+                                                        .put("alive", ts + 60 * 60)
+                                                        .put("unit", "C") // FIXME: do not hardcode
+                                                        .put("temp", weatherSpec.currentTemp - 273)
+                                                        .put("cond_id", 2) // FIXME do not hardcode 2=cloudy
+                                                )
+                                        )
+                                );
+
+                        queueWrite(new JsonPutRequest(responseObject, this));
+                    } else {
+                        logger.info("no weather data available  - ignoring request");
+                    }
+                } else if (requestJson.getJSONObject("req").has("commuteApp._.config.commute_info")) {
                     String action = requestJson.getJSONObject("req").getJSONObject("commuteApp._.config.commute_info")
                             .getString("dest");
 
@@ -591,6 +611,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                     Intent menuIntent = new Intent(QHybridSupport.QHYBRID_EVENT_COMMUTE_MENU);
                     menuIntent.putExtra("EXTRA_ACTION", action);
                     getContext().sendBroadcast(menuIntent);
+                } else {
+                    logger.warn("Unhandled request from watch: " + requestJson.toString());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -56,6 +56,7 @@ public class Widget implements Serializable {
         ACTIVE_MINUTES("activeMinutesSSE", R.string.hr_widget_active_minutes),
         CALORIES("caloriesSSE", R.string.hr_widget_calories),
         BATTERY("batterySSE", R.string.hr_widget_battery),
+        WEATHER("weatherSSE", R.string.hr_widget_weather),
         NOTHING(null, R.string.hr_widget_nothing);
 
         private String identifier;

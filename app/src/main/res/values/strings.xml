@@ -782,6 +782,7 @@
     <string name="hr_widget_active_minutes">Active minutes</string>
     <string name="hr_widget_calories">Calories</string>
     <string name="hr_widget_battery">Battery</string>
+    <string name="hr_widget_weather">Weather</string>
     <string name="hr_widget_nothing">Nothing</string>
 
     <string name="prefs_button_single_press_action_selection_title">Event 1 action</string>
