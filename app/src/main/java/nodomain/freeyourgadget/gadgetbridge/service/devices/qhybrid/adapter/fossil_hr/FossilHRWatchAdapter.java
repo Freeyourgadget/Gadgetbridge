@@ -451,7 +451,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     @Override
     public void onSetCallState(CallSpec callSpec) {
         super.onSetCallState(callSpec);
-        queueWrite(new PlayCallNotificationRequest(callSpec.number, callSpec.command == CallSpec.CALL_INCOMING, this));
+        queueWrite(new PlayCallNotificationRequest(StringUtils.getFirstOf(callSpec.name, callSpec.number), callSpec.command == CallSpec.CALL_INCOMING, this));
     }
 
     // this method is based on the one from AppMessageHandlerYWeather.java
