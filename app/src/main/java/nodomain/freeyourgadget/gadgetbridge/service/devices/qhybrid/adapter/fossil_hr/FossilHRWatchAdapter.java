@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HRConfigActivity;
@@ -37,9 +38,11 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.RequestMtuRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.SetDeviceStateRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.TimeConfigItem;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayCallNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayTextNotificationRequest;
@@ -99,46 +102,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZING));
 
-        // icons
-
         loadNotificationConfigurations();
         queueWrite(new NotificationFilterPutHRRequest(this.notificationConfigurations, this));
-        // queueWrite(new NotificationFilterPutHRRequest(this.notificationConfigurations,this));
-
-        /*try {
-            final String[] appNames = {"instagram", "snapchat", "line", "whatsapp"};
-            final String[] paths = {
-                    "/storage/emulated/0/Q/images/icInstagram.icon",
-                    "/storage/emulated/0/Q/images/icSnapchat.icon",
-                    "/storage/emulated/0/Q/images/icLine.icon",
-                    "/storage/emulated/0/Q/images/icWhatsapp.icon"
-            };
-
-            NotificationHRConfiguration[] configs = new NotificationHRConfiguration[4];
-            NotificationImage[] images = new NotificationImage[4];
-            for(int i = 0; i < 4; i++){
-                FileInputStream fis = new FileInputStream(paths[i]);
-                byte[] imageData = new byte[fis.available()];
-                fis.read(imageData);
-                fis.close();
-                configs[i] = new NotificationHRConfiguration(appNames[i], i);
-                images[i] = new NotificationImage(appNames[i], imageData);
-            }
-            queueWrite(new NotificationImagePutRequest(images, this));
-            queueWrite(new NotificationFilterPutHRRequest(configs, this));
-
-            for(String appName : appNames){
-                queueWrite(new PlayNotificationHRRequest(
-                        appName,
-                        appName.toUpperCase(),
-                        "this is some strange message",
-                        this
-                ));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-
         setVibrationStrength((short) 75);
 
         syncSettings();
@@ -165,6 +130,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     private void loadNotificationConfigurations(){
         this.notificationConfigurations = new NotificationHRConfiguration[]{
                 new NotificationHRConfiguration("generic", 0),
+                new NotificationHRConfiguration("call", new byte[]{(byte)0x80, (byte) 0x00, (byte) 0x59, (byte) 0xB7}, 0)
         };
     }
 
@@ -539,7 +505,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
         byte requestType = value[1];
 
-        if (requestType == (byte) 0x05) {
+        if(requestType == (byte) 0x04){
+            handleCallRequest(value);
+        }else if (requestType == (byte) 0x05) {
             handleMusicRequest(value);
         } else if (requestType == (byte) 0x01) {
             int eventId = value[2];
@@ -606,6 +574,16 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void handleCallRequest(byte[] value) {
+        boolean acceptCall = value[7] == (byte) 0x00;
+        queueWrite(new PlayCallNotificationRequest("", false, this));
+
+        GBDeviceEventCallControl callControlEvent = new GBDeviceEventCallControl();
+        callControlEvent.event = acceptCall ? GBDeviceEventCallControl.Event.START : GBDeviceEventCallControl.Event.REJECT;
+
+        getDeviceSupport().evaluateGBDeviceEvent(callControlEvent);
     }
 
     private void handleMusicRequest(byte[] value) {

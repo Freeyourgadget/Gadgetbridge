@@ -53,7 +53,7 @@ public class GBCallControlReceiver extends BroadcastReceiver {
                         telephonyService.answerRingingCall();
                     }
                 } catch (Exception e) {
-                    LOG.warn("could not start or hangup call");
+                    LOG.warn("could not start or hangup call", e);
                 }
                 break;
             default:
