@@ -24,6 +24,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TimeZone;
+import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
@@ -36,6 +37,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.Transaction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
@@ -427,6 +430,25 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             e.printStackTrace();
         }
         return true;
+    }
+
+    @Override
+    public void onFindDevice(boolean start) {
+        if(start){
+            new TransactionBuilder("vibrate find")
+                    .write(
+                            getDeviceSupport().getCharacteristic(UUID.fromString("3dda0005-957f-7d4a-34a6-74696673696d")),
+                            new byte[]{(byte) 0x01, (byte) 0x04, (byte) 0x30, (byte) 0x75, (byte) 0x00, (byte) 0x00}
+                            )
+                    .queue(getDeviceSupport().getQueue());
+        }else{
+            new TransactionBuilder("vibrate find")
+                    .write(
+                            getDeviceSupport().getCharacteristic(UUID.fromString("3dda0005-957f-7d4a-34a6-74696673696d")),
+                            new byte[]{(byte) 0x02, (byte) 0x05, (byte) 0x04}
+                    )
+                    .queue(getDeviceSupport().getQueue());
+        }
     }
 
     @Override

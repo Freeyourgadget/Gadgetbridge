@@ -516,6 +516,39 @@ public class FossilWatchAdapter extends WatchAdapter {
     public void handleHeartRateCharacteristic(BluetoothGattCharacteristic characteristic) {
     }
 
+    @Override
+    public void onFindDevice(boolean start) {
+        try {
+            if (this.supportsExtendedVibration()) {
+                GB.toast("Device does not support brr brr", Toast.LENGTH_SHORT, GB.INFO);
+            }
+        } catch (UnsupportedOperationException e) {
+            getDeviceSupport().notifiyException(e);
+            GB.toast("Please contact dakhnod@gmail.com\n", Toast.LENGTH_SHORT, GB.INFO);
+        }
+
+        if (start && getDeviceSupport().searchDevice) return;
+
+        getDeviceSupport().searchDevice = start;
+
+        if (start) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    int i = 0;
+                    while (getDeviceSupport().searchDevice) {
+                        vibrateFindMyDevicePattern();
+                        try {
+                            Thread.sleep(2500);
+                        } catch (InterruptedException e) {
+                            GB.log("error", GB.ERROR, e);
+                        }
+                    }
+                }
+            }).start();
+        }
+    }
+
     protected void handleBackgroundCharacteristic(BluetoothGattCharacteristic characteristic) {
         byte[] value = characteristic.getValue();
         switch (value[1]) {

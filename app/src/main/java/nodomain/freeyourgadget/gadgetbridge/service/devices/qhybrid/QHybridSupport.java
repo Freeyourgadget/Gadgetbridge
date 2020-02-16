@@ -115,7 +115,7 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     private PackageConfigHelper helper;
 
-    private volatile boolean searchDevice = false;
+    public volatile boolean searchDevice = false;
 
     private long timeOffset;
 
@@ -511,35 +511,7 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     @Override
     public void onFindDevice(boolean start) {
-        try {
-            if (watchAdapter.supportsExtendedVibration()) {
-                GB.toast("Device does not support brr brr", Toast.LENGTH_SHORT, GB.INFO);
-            }
-        } catch (UnsupportedOperationException e) {
-            notifiyException(e);
-            GB.toast("Please contact dakhnod@gmail.com\n", Toast.LENGTH_SHORT, GB.INFO);
-        }
-
-        if (start && searchDevice) return;
-
-        searchDevice = start;
-
-        if (start) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    int i = 0;
-                    while (searchDevice) {
-                        QHybridSupport.this.watchAdapter.vibrateFindMyDevicePattern();
-                        try {
-                            Thread.sleep(2500);
-                        } catch (InterruptedException e) {
-                            GB.log("error", GB.ERROR, e);
-                        }
-                    }
-                }
-            }).start();
-        }
+        watchAdapter.onFindDevice(start);
     }
 
     @Override

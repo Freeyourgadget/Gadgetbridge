@@ -121,4 +121,7 @@ public abstract class WatchAdapter {
 
     public void onSetCallState(CallSpec callSpec) {
     }
+
+    public void onFindDevice(boolean start) {
+    }
 }
