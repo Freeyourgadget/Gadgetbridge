@@ -454,6 +454,110 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         queueWrite(new PlayCallNotificationRequest(callSpec.number, callSpec.command == CallSpec.CALL_INCOMING, this));
     }
 
+    // this method is based on the one from AppMessageHandlerYWeather.java
+    private int getIconForConditionCode(int conditionCode, boolean isNight) {
+        final int CLEAR_DAY = 0;
+        final int CLEAR_NIGHT = 1;
+        final int CLOUDY = 2;
+        final int PARTLY_CLOUDY_DAY = 3;
+        final int PARTLY_CLOUDY_NIGHT = 4;
+        final int RAIN = 5;
+        final int SNOW = 6;
+        final int SNOW_2 = 7; // same as 6?
+        final int THUNDERSTORM = 8;
+        final int CLOUDY_2 = 9; // same as 2?
+        final int WINDY = 10;
+
+        if (conditionCode == 800 || conditionCode == 951) {
+            return isNight ? CLEAR_NIGHT : CLEAR_DAY;
+        } else if (conditionCode > 800 && conditionCode < 900) {
+            return isNight ? PARTLY_CLOUDY_NIGHT : PARTLY_CLOUDY_DAY;
+        } else if (conditionCode >= 300 && conditionCode < 400) {
+            return RAIN; // drizzle mapped to rain
+        } else if (conditionCode >= 500 && conditionCode < 600) {
+            return RAIN;
+        } else if (conditionCode >= 700 && conditionCode < 732) {
+            return CLOUDY;
+        } else if (conditionCode == 741 || conditionCode == 751 || conditionCode == 761 || conditionCode == 762) {
+            return CLOUDY; // fog mapped to cloudy
+        } else if (conditionCode == 771) {
+            return CLOUDY; // squalls mapped to cloudy
+        } else if (conditionCode == 781) {
+            return WINDY; // tornato mapped to windy
+        } else if (conditionCode >= 200 && conditionCode < 300) {
+            return THUNDERSTORM;
+        } else if (conditionCode >= 600 && conditionCode <= 602) {
+            return SNOW;
+        } else if (conditionCode >= 611 && conditionCode <= 622) {
+            return RAIN;
+        } else if (conditionCode == 906) {
+            return RAIN; // hail mapped to rain
+        } else if (conditionCode >= 907 && conditionCode < 957) {
+            return WINDY;
+        } else if (conditionCode == 905) {
+            return WINDY;
+        } else if (conditionCode == 900) {
+            return WINDY;
+        } else if (conditionCode == 901 || conditionCode == 902 || conditionCode == 962) {
+            return WINDY;
+        }
+        return isNight ? CLEAR_NIGHT : CLEAR_DAY;
+    }
+
+    @Override
+    public void onSendWeather(WeatherSpec weatherSpec) {
+        long ts = System.currentTimeMillis();
+        ts /= 1000;
+        try {
+            JSONObject responseObject = new JSONObject()
+                    .put("res", new JSONObject()
+                            .put("id", 0) // seems the id does not matter?
+                            .put("set", new JSONObject()
+                                    .put("weatherInfo", new JSONObject()
+                                            .put("alive", ts + 60 * 60)
+                                            .put("unit", "c") // FIXME: do not hardcode
+                                            .put("temp", weatherSpec.currentTemp - 273)
+                                            .put("cond_id", getIconForConditionCode(weatherSpec.currentConditionCode, false)) // FIXME do not hardcode 2=cloudy
+                                    )
+                            )
+                    );
+
+            queueWrite(new JsonPutRequest(responseObject, this));
+
+        } catch (JSONException e) {
+            logger.error("JSON exception: ", e);
+        }
+    }
+
+
+    // this was used to enumerate the weather icons :)
+    /*
+    static int i = 0;
+
+    @Override
+    public void onTestNewFunction() {
+        long ts = System.currentTimeMillis();
+        ts /= 1000;
+        try {
+            JSONObject responseObject = new JSONObject()
+                    .put("res", new JSONObject()
+                            .put("id", 0) // seems the id does not matter?
+                            .put("set", new JSONObject()
+                                    .put("weatherInfo", new JSONObject()
+                                            .put("alive", ts + 60 * 60)
+                                            .put("unit", "c")
+                                            .put("temp", i)
+                                            .put("cond_id", i++)
+                                    )
+                            ));
+
+            queueWrite(new JsonPutRequest(responseObject, this));
+
+        } catch (JSONException e) {
+            logger.error(" JSON exception: ", e);
+        }
+    }
+*/
     public byte[] getSecretKey() {
         byte[] authKeyBytes = new byte[16];
 
@@ -575,22 +679,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                     logger.info("Got weatherInfo request");
                     WeatherSpec weatherSpec = Weather.getInstance().getWeatherSpec();
                     if (weatherSpec != null) {
-                        long ts = System.currentTimeMillis();
-                        ts /= 1000;
-                        JSONObject responseObject = new JSONObject()
-                                .put("res", new JSONObject()
-                                        .put("id", requestId)
-                                        .put("set", new JSONObject()
-                                                .put("weatherInfo", new JSONObject()
-                                                        .put("alive", ts + 60 * 60)
-                                                        .put("unit", "c") // FIXME: do not hardcode
-                                                        .put("temp", weatherSpec.currentTemp - 273)
-                                                        .put("cond_id", 2) // FIXME do not hardcode 2=cloudy
-                                                )
-                                        )
-                                );
-
-                        queueWrite(new JsonPutRequest(responseObject, this));
+                        onSendWeather(weatherSpec);
                     } else {
                         logger.info("no weather data available  - ignoring request");
                     }

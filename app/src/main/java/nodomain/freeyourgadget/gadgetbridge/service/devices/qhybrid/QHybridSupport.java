@@ -46,7 +46,6 @@ import java.util.Iterator;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
@@ -61,6 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
@@ -512,6 +512,11 @@ public class QHybridSupport extends QHybridBaseSupport {
     @Override
     public void onFindDevice(boolean start) {
         watchAdapter.onFindDevice(start);
+    }
+
+    @Override
+    public void onSendWeather(WeatherSpec weatherSpec) {
+        watchAdapter.onSendWeather(weatherSpec);
     }
 
     @Override
