@@ -24,7 +24,7 @@ public class ButtonConfigurationPutRequest extends JsonPutRequest {
                                     .put("commuteApp._.config.destinations", new JSONArray(menuItems))
                                     .put("master._.config.buttons", new JSONArray()
                                             .put(new JSONObject()
-                                                    .put("name", "commuteApp")
+                                                    .put("name", "weatherApp")
                                                     .put("button_evt", "top_short_press_release")
                                             )
                                             .put(new JSONObject()

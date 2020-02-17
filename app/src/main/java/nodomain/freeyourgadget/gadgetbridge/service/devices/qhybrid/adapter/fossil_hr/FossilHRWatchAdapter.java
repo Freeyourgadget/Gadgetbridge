@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.BufferOverflowException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -517,12 +518,64 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                                             .put("alive", ts + 60 * 60)
                                             .put("unit", "c") // FIXME: do not hardcode
                                             .put("temp", weatherSpec.currentTemp - 273)
-                                            .put("cond_id", getIconForConditionCode(weatherSpec.currentConditionCode, false)) // FIXME do not hardcode 2=cloudy
+                                            .put("cond_id", getIconForConditionCode(weatherSpec.currentConditionCode, false)) // FIXME do not assume daylight
                                     )
                             )
                     );
 
             queueWrite(new JsonPutRequest(responseObject, this));
+
+            JSONArray forecastWeekArray = new JSONArray();
+            final String[] weekdays = {"", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeInMillis(weatherSpec.timestamp * 1000L);
+            int i = 0;
+            for (WeatherSpec.Forecast forecast : weatherSpec.forecasts) {
+                cal.add(Calendar.DATE, 1);
+                int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+                forecastWeekArray.put(new JSONObject()
+                        .put("day", weekdays[dayOfWeek])
+                        .put("cond_id", getIconForConditionCode(forecast.conditionCode, false)) // FIXME do not assume daylight
+                        .put("high", forecast.maxTemp - 273)
+                        .put("low", forecast.minTemp - 273)
+                );
+                if (++i == 3) break; // max 3
+            }
+
+            JSONArray forecastDayArray = new JSONArray();
+            final int[] hours = {0, 0, 0};
+
+            for (int hour : hours) {
+                forecastDayArray.put(new JSONObject()
+                        .put("hour", hour)
+                        .put("cond_id", 0)
+                        .put("temp", 0)
+                );
+            }
+
+
+            JSONObject forecastResponseObject = new JSONObject()
+                    .put("res", new JSONObject()
+                            .put("id", 0)
+                            .put("set", new JSONObject()
+                                    .put("weatherApp._.config.locations", new JSONArray()
+                                            .put(new JSONObject()
+                                                    .put("alive", ts + 60 * 60)
+                                                    .put("city", weatherSpec.location)
+                                                    .put("unit", "c") // FIXME: do not hardcode
+                                                    .put("temp", weatherSpec.currentTemp - 273)
+                                                    .put("high", weatherSpec.todayMaxTemp - 273)
+                                                    .put("low", weatherSpec.todayMinTemp - 273)
+                                                    .put("rain", 0)
+                                                    .put("cond_id", getIconForConditionCode(weatherSpec.currentConditionCode, false)) // FIXME do not assume daylight
+                                                    .put("forecast_day", forecastDayArray)
+                                                    .put("forecast_week", forecastWeekArray)
+                                            )
+                                    )
+                            )
+                    );
+
+            queueWrite(new JsonPutRequest(forecastResponseObject, this));
 
         } catch (JSONException e) {
             logger.error("JSON exception: ", e);
@@ -640,10 +693,11 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 logger.info(jsonString);
                 JSONObject requestJson = new JSONObject(jsonString);
 
-                int requestId = requestJson.getJSONObject("req").getInt("id");
+                JSONObject request = requestJson.getJSONObject("req");
+                int requestId = request.getInt("id");
 
-                if (requestJson.getJSONObject("req").has("ringMyPhone")) {
-                    String action = requestJson.getJSONObject("req").getJSONObject("ringMyPhone").getString("action");
+                if (request.has("ringMyPhone")) {
+                    String action = request.getJSONObject("ringMyPhone").getString("action");
                     logger.info("got ringMyPhone request; " + action);
                     GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
 
@@ -675,7 +729,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                                 .put("result", "off");
                         queueWrite(new JsonPutRequest(responseObject, this));
                     }
-                } else if (requestJson.getJSONObject("req").has("weatherInfo")) {
+                } else if (request.has("weatherInfo") || request.has("weatherApp._.config.locations")) {
                     logger.info("Got weatherInfo request");
                     WeatherSpec weatherSpec = Weather.getInstance().getWeatherSpec();
                     if (weatherSpec != null) {
@@ -683,11 +737,11 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                     } else {
                         logger.info("no weather data available  - ignoring request");
                     }
-                } else if (requestJson.getJSONObject("req").has("commuteApp._.config.commute_info")) {
-                    String action = requestJson.getJSONObject("req").getJSONObject("commuteApp._.config.commute_info")
+                } else if (request.has("commuteApp._.config.commute_info")) {
+                    String action = request.getJSONObject("commuteApp._.config.commute_info")
                             .getString("dest");
 
-                    String startStop = requestJson.getJSONObject("req").getJSONObject("commuteApp._.config.commute_info")
+                    String startStop = request.getJSONObject("commuteApp._.config.commute_info")
                             .getString("action");
 
                     if (startStop.equals("stop")) {
