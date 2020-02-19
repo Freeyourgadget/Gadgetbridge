@@ -737,7 +737,14 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("Set date and time");
             setCurrentTimeWithService(builder);
             //TODO: once we have a common strategy for sending events (e.g. EventHandler), remove this call from here. Meanwhile it does no harm.
-            sendCalendarEvents(builder);
+            // = we should genaralize the pebble calender code
+            if (characteristicChunked == null) {
+                sendCalendarEvents(builder);
+            }
+            else {
+                // TODO: make this configurable
+                sendCalendarEventsAsReminder(builder);
+            }
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to set time on Huami device", ex);
@@ -1719,7 +1726,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
             buf.order(ByteOrder.LITTLE_ENDIAN);
             buf.put((byte) 0x0b); // always 0x0b?
-            buf.put((byte) 0); // îd
+            buf.put((byte) iteration); // îd
             buf.putInt(0x08 | 0x04 | 0x01); // flags 0x01 = enable, 0x04 = end date present, 0x08 = has text
             calendar.setTimeInMillis(calendarEvent.getBegin());
             buf.put(BLETypeConversions.shortCalendarToRawBytes(calendar));
@@ -1730,7 +1737,6 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             buf.put(body);
             buf.put((byte) 0); // 0 Terminated
             writeToChunked(builder, 2, buf.array());
-            builder.queue(getQueue());
 
             iteration++;
         }
