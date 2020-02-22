@@ -344,6 +344,10 @@ public class GBApplication extends Application {
         return VERSION.SDK_INT >= Build.VERSION_CODES.O;
     }
 
+    public static boolean isRunningPieOrLater() {
+        return VERSION.SDK_INT >= Build.VERSION_CODES.P;
+    }
+
     private static boolean isPrioritySender(int prioritySenders, String number) {
         if (prioritySenders == Policy.PRIORITY_SENDERS_ANY) {
             return true;
