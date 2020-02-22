@@ -9,7 +9,7 @@
     <string name="controlcenter_fetch_activity_data">Sinchronizuoti</string>
     <string name="controlcenter_find_device">Surasti pamestą įrenginį</string>
     <string name="controlcenter_take_screenshot">Padaryti ekrano nuotrauką</string>
-    <string name="controlcenter_connect">Prijungti</string>
+    <string name="controlcenter_connect">Prijungti…</string>
     <string name="controlcenter_disconnect">Atjungti</string>
     <string name="controlcenter_delete_device">Ištrinti įrenginį</string>
     <string name="controlcenter_delete_device_name">Ištrinti %1$s</string>
@@ -26,7 +26,7 @@
     <string name="controlcenter_navigation_drawer_close">Užverti programos meniu</string>
     <string name="controlcenter_snackbar_need_longpress">Norėdami atjungti ilgai spauskite kortelę</string>
     <string name="controlcenter_snackbar_disconnecting">Atjungiama</string>
-    <string name="controlcenter_snackbar_connecting">Jungiama</string>
+    <string name="controlcenter_snackbar_connecting">Jungiama…</string>
     <string name="title_activity_debug">Derinti</string>
     <string name="title_activity_appmanager">Programų tvarkyklė</string>
     <string name="appmanager_cached_watchapps_watchfaces">Programos talpykloje</string>

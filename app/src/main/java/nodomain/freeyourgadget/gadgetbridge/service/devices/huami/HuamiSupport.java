@@ -737,7 +737,14 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("Set date and time");
             setCurrentTimeWithService(builder);
             //TODO: once we have a common strategy for sending events (e.g. EventHandler), remove this call from here. Meanwhile it does no harm.
-            sendCalendarEvents(builder);
+            // = we should genaralize the pebble calender code
+            if (characteristicChunked == null) {
+                sendCalendarEvents(builder);
+            }
+            else {
+                // TODO: make this configurable
+                sendCalendarEventsAsReminder(builder);
+            }
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to set time on Huami device", ex);
@@ -816,7 +823,6 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
 
     }
-
 
 
     private void sendMusicStateToDevice() {
@@ -1323,8 +1329,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
             if ((currentButtonPressTime == 0) || (timeSinceLastPress < buttonPressMaxDelay)) {
                 currentButtonPressCount++;
-            }
-            else {
+            } else {
                 currentButtonPressCount = 1;
                 currentButtonActionId = 0;
             }
@@ -1350,8 +1355,6 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             }
         }
     }
-
-
 
 
     @Override
@@ -1700,6 +1703,44 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 iteration++;
             }
         }
+        return this;
+    }
+
+    private HuamiSupport sendCalendarEventsAsReminder(TransactionBuilder builder) {
+        CalendarEvents upcomingEvents = new CalendarEvents();
+        List<CalendarEvents.CalendarEvent> calendarEvents = upcomingEvents.getCalendarEventList(getContext());
+        Calendar calendar = Calendar.getInstance();
+
+        int iteration = 0;
+
+        for (CalendarEvents.CalendarEvent calendarEvent : calendarEvents) {
+            if (iteration > 8) { // limit ?
+                break;
+            }
+            calendar.setTimeInMillis(calendarEvent.getBegin());
+            byte[] title = calendarEvent.getTitle().getBytes();
+            byte[] body = calendarEvent.getDescription().getBytes();
+
+            int length = 18 + title.length + 1 + body.length + 1;
+            ByteBuffer buf = ByteBuffer.allocate(length);
+
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+            buf.put((byte) 0x0b); // always 0x0b?
+            buf.put((byte) iteration); // îd
+            buf.putInt(0x08 | 0x04 | 0x01); // flags 0x01 = enable, 0x04 = end date present, 0x08 = has text
+            calendar.setTimeInMillis(calendarEvent.getBegin());
+            buf.put(BLETypeConversions.shortCalendarToRawBytes(calendar));
+            calendar.setTimeInMillis(calendarEvent.getEnd());
+            buf.put(BLETypeConversions.shortCalendarToRawBytes(calendar));
+            buf.put(title);
+            buf.put((byte) 0); // 0 Terminated
+            buf.put(body);
+            buf.put((byte) 0); // 0 Terminated
+            writeToChunked(builder, 2, buf.array());
+
+            iteration++;
+        }
+
         return this;
     }
 
