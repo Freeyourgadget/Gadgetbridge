@@ -823,4 +823,6 @@
     <string name="devicetype_itag">iTag</string>
     <string name="pref_title_allow_high_mtu">Hoge MTU toestaan</string>
     <string name="pref_summary_allow_high_mtu">Verhoogt de overdrachtssnelheid, maar werkt mogelijk niet op sommige Android-apparaten.</string>
+    <string name="pref_summary_sync_calendar">Schakelt agendameldingen in, zelfs wanneer U niet verbonden bent</string>
+    <string name="pref_title_sync_caldendar">Agenda-afspraken synchroniseren</string>
 </resources>
