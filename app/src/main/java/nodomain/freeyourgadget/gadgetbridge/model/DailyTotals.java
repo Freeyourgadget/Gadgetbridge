@@ -40,11 +40,11 @@ public class DailyTotals {
     private static final Logger LOG = LoggerFactory.getLogger(DailyTotals.class);
 
 
-    public int[] getDailyTotalsForAllDevices(Calendar day) {
+    public long[] getDailyTotalsForAllDevices(Calendar day) {
         Context context = GBApplication.getContext();
         //get today's steps for all devices in GB
-        int all_steps = 0;
-        int all_sleep = 0;
+        long all_steps = 0;
+        long all_sleep = 0;
 
 
         if (context instanceof GBApplication) {
@@ -55,18 +55,18 @@ public class DailyTotals {
                 if (!coordinator.supportsActivityDataFetching()) {
                     continue;
                 }
-                int[] all_daily = getDailyTotalsForDevice(device, day);
+                long[] all_daily = getDailyTotalsForDevice(device, day);
                 all_steps += all_daily[0];
                 all_sleep += all_daily[1] + all_daily[2];
             }
         }
         LOG.debug("gbwidget daily totals, all steps:" + all_steps);
         LOG.debug("gbwidget  daily totals, all sleep:" + all_sleep);
-        return new int[]{all_steps, all_sleep};
+        return new long[]{all_steps, all_sleep};
     }
 
 
-    public int[] getDailyTotalsForDevice(GBDevice device, Calendar day) {
+    public long[] getDailyTotalsForDevice(GBDevice device, Calendar day) {
 
         try (DBHandler handler = GBApplication.acquireDB()) {
             ActivityAnalysis analysis = new ActivityAnalysis();
@@ -76,19 +76,19 @@ public class DailyTotals {
             amountsSteps = analysis.calculateActivityAmounts(getSamplesOfDay(handler, day, 0, device));
             amountsSleep = analysis.calculateActivityAmounts(getSamplesOfDay(handler, day, -12, device));
 
-            int[] Sleep = getTotalsSleepForActivityAmounts(amountsSleep);
-            int Steps = getTotalsStepsForActivityAmounts(amountsSteps);
+            long[] sleep = getTotalsSleepForActivityAmounts(amountsSleep);
+            long steps = getTotalsStepsForActivityAmounts(amountsSteps);
 
-            return new int[]{Steps, Sleep[0], Sleep[1]};
+            return new long[]{steps, sleep[0], sleep[1]};
 
         } catch (Exception e) {
 
             GB.toast("Error loading activity summaries.", Toast.LENGTH_SHORT, GB.ERROR, e);
-            return new int[]{0, 0, 0};
+            return new long[]{0, 0, 0};
         }
     }
 
-    private int[] getTotalsSleepForActivityAmounts(ActivityAmounts activityAmounts) {
+    private long[] getTotalsSleepForActivityAmounts(ActivityAmounts activityAmounts) {
         long totalSecondsDeepSleep = 0;
         long totalSecondsLightSleep = 0;
         for (ActivityAmount amount : activityAmounts.getAmounts()) {
@@ -98,14 +98,14 @@ public class DailyTotals {
                 totalSecondsLightSleep += amount.getTotalSeconds();
             }
         }
-        int totalMinutesDeepSleep = (int) (totalSecondsDeepSleep / 60);
-        int totalMinutesLightSleep = (int) (totalSecondsLightSleep / 60);
-        return new int[]{totalMinutesDeepSleep, totalMinutesLightSleep};
+        long totalMinutesDeepSleep = (totalSecondsDeepSleep / 60);
+        long totalMinutesLightSleep = (totalSecondsLightSleep / 60);
+        return new long[]{totalMinutesDeepSleep, totalMinutesLightSleep};
     }
 
 
-    private int getTotalsStepsForActivityAmounts(ActivityAmounts activityAmounts) {
-        int totalSteps = 0;
+    private long getTotalsStepsForActivityAmounts(ActivityAmounts activityAmounts) {
+        long totalSteps = 0;
 
         for (ActivityAmount amount : activityAmounts.getAmounts()) {
             totalSteps += amount.getTotalSteps();
