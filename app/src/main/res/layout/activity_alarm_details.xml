@@ -47,8 +47,8 @@
             android:id="@+id/alarm_time_picker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleX="0.7"
-            android:scaleY="0.7"
+            android:scaleX="1"
+            android:scaleY="1"
             android:layout_marginBottom="20dp" />
 
         <LinearLayout
