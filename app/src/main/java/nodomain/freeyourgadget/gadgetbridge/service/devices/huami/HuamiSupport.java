@@ -1501,12 +1501,17 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     private void decodeAndUpdateAlarmStatus(byte[] response) {
         List<nodomain.freeyourgadget.gadgetbridge.entities.Alarm> alarms = DBHelper.getAlarms(gbDevice);
-        boolean[] alarmsInUse = new boolean[10];
-        boolean[] alarmsEnabled = new boolean[10];
+        int maxAlarms = 10;
+        boolean[] alarmsInUse = new boolean[maxAlarms];
+        boolean[] alarmsEnabled = new boolean[maxAlarms];
         int nr_alarms = response[8];
         for (int i = 0; i < nr_alarms; i++) {
             byte alarm_data = response[9 + i];
             int index = alarm_data & 0xf;
+            if (index >= maxAlarms) {
+                GB.toast("Unexpected alarm index from device, ignoring: " + index, Toast.LENGTH_SHORT, GB.ERROR);
+                return;
+            }
             alarmsInUse[index] = true;
             boolean enabled = (alarm_data & 0x10) == 0x10;
             alarmsEnabled[index] = enabled;
