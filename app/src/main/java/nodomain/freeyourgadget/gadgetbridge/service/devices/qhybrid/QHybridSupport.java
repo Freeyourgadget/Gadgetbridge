@@ -45,6 +45,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
@@ -560,7 +561,13 @@ public class QHybridSupport extends QHybridBaseSupport {
         notifiyException("", e);
     }
 
-    public void notifiyException(String requestName, Exception e){
+    public void notifiyException(String requestName, Exception e) {
+        if (!BuildConfig.DEBUG) {
+            logger.error("Error: " + requestName, e);
+            return;
+        }
+        GB.toast("Please contact dakhnod@gmail.com\n", Toast.LENGTH_SHORT, GB.ERROR, e);
+
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
@@ -593,7 +600,6 @@ public class QHybridSupport extends QHybridBaseSupport {
         }
 
         ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify((int) System.currentTimeMillis(), notificationBuilder.build());
-
     }
 
     @Override
@@ -623,7 +629,6 @@ public class QHybridSupport extends QHybridBaseSupport {
                     gbDevice.addDeviceInfo(new GenericItem(ITEM_HAS_ACTIVITY_HAND, String.valueOf(watchAdapter.supportsActivityHand())));
                 } catch (UnsupportedOperationException e) {
                     notifiyException(e);
-                    GB.toast("Please contact dakhnod@gmail.com\n", Toast.LENGTH_SHORT, GB.INFO);
                     gbDevice.addDeviceInfo(new GenericItem(ITEM_EXTENDED_VIBRATION_SUPPORT, "false"));
                 }
                 break;

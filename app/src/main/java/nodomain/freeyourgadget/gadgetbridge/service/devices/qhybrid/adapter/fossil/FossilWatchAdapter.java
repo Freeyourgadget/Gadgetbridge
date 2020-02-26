@@ -521,7 +521,6 @@ public class FossilWatchAdapter extends WatchAdapter {
             }
         } catch (UnsupportedOperationException e) {
             getDeviceSupport().notifiyException(e);
-            GB.toast("Please contact dakhnod@gmail.com\n", Toast.LENGTH_SHORT, GB.INFO);
         }
 
         if (start && getDeviceSupport().searchDevice) return;
