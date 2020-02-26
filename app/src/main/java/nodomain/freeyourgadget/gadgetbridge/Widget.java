@@ -117,7 +117,7 @@ public class Widget extends AppWidgetProvider {
         long[] dailyTotals = getSteps();
 
         views.setTextViewText(R.id.todaywidget_steps, context.getString(R.string.widget_steps_label,  dailyTotals[0]));
-        views.setTextViewText(R.id.todaywidget_sleep, context.getString(R.string.widget_sleep_label, getHM((dailyTotals[1])));
+        views.setTextViewText(R.id.todaywidget_sleep, context.getString(R.string.widget_sleep_label, getHM(dailyTotals[1])));
 
         if (device != null) {
             String status = String.format("%1s", device.getStateString());
