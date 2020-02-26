@@ -140,9 +140,9 @@
     <string name="pref_title_pebble_reconnect_attempts">Tentativi di riconessione</string>
     <!--HPlus Preferences-->
     <string name="pref_title_unit_system">Unità</string>
-    <string name="pref_title_timeformat">Formato dell\'orario</string>
+    <string name="pref_title_timeformat">Formato orario</string>
     <string name="pref_title_screentime">Durata dell\'accensione dello schermo</string>
-    <string name="prefs_title_all_day_heart_rate">Misura il battito cardiaco continuativamente</string>
+    <string name="prefs_title_all_day_heart_rate">Misurazione della frequenza cardiaca per tutto il giorno</string>
     <string name="preferences_hplus_settings">Impostazioni HPlus/Makibes</string>
     <string name="not_connected">Non connesso</string>
     <string name="connecting">In collegamento</string>
@@ -225,7 +225,7 @@
     <string name="stats_y_axis_label">Passi al minuto</string>
     <string name="control_center_find_lost_device">Trova dispositivo smarrito</string>
     <string name="control_center_cancel_to_stop_vibration">Annulla per fermare la vibrazione.</string>
-    <string name="title_activity_charts">Le tue attività</string>
+    <string name="title_activity_charts">Attività e Sonno</string>
     <string name="title_activity_set_alarm">Configurazione sveglia</string>
     <string name="controlcenter_start_configure_alarms">Configurazione sveglia</string>
     <string name="title_activity_alarm_details">Sveglia</string>
@@ -253,11 +253,11 @@
     <string name="notif_battery_low_percent">%1$s batteria rimanente: %2$s%%</string>
     <string name="notif_battery_low_bigtext_last_charge_time">Ultima ricarica: %s \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Numero di ricariche: %s</string>
-    <string name="sleepchart_your_sleep">Il tuo sonno</string>
+    <string name="sleepchart_your_sleep">Sonno</string>
     <string name="weeksleepchart_sleep_a_week">Sonno settimanale</string>
     <string name="weeksleepchart_today_sleep_description">Sonno di oggi, obiettivo: %1$s</string>
     <string name="weekstepschart_steps_a_week">Passi della settimana</string>
-    <string name="activity_sleepchart_activity_and_sleep">Attività e sonno</string>
+    <string name="activity_sleepchart_activity_and_sleep">Attività</string>
     <string name="updating_firmware">Aggiornamento del Firmware…</string>
     <string name="fwapp_install_device_not_ready">Il file non può essere installato, il dispositivo non è pronto.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
@@ -430,11 +430,11 @@
     <string name="interval_one_hour">ogni ora</string>
     <string name="notif_export_failed_title">Esportazione del database fallita! Per favore controlla le impostazioni.</string>
     <string name="mi2_prefs_button_actions">Azioni tasto</string>
-    <string name="mi2_prefs_button_actions_summary">Specifica le azioni alla pressione del pulsante del Mi Band 2</string>
+    <string name="mi2_prefs_button_actions_summary">Specifica le azioni alla pressione del pulsante</string>
     <string name="mi2_prefs_button_press_count">Conteggio pressione tasto</string>
-    <string name="mi2_prefs_button_press_count_summary">Numero di volte che il tasto deve essere premuto per inviare un messaggio in broadcast</string>
+    <string name="mi2_prefs_button_press_count_summary">Numero di volte che il tasto deve essere premuto per generare un Evento 1. Successivo medesimo numero di volte che il tasto deve essere premuto per un Evento 2 e così via.</string>
     <string name="mi2_prefs_button_press_broadcast">Messaggio da inviare in broadcast</string>
-    <string name="mi2_prefs_button_press_broadcast_summary">Numero di pressioni del tasto per il messaggio in broadcast raggiunto</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Messaggio inviato con l\'evento. Il parametro `button_id` è aggiunto automaticamente al ogni messaggio.</string>
     <string name="mi2_prefs_button_action">Abilita azioni tasto</string>
     <string name="mi2_prefs_button_action_summary">Abilita azioni selezionando un numero specifico di pressioni del tasto</string>
     <string name="mi2_prefs_button_action_vibrate">Abilita vibrazione band</string>
@@ -484,7 +484,7 @@
     <string name="notification_channel_name">Notifiche Gadgetbridge</string>
     <string name="devicetype_xwatch">XWatch</string>
     <string name="on">Acceso</string>
-    <string name="blacklist_all_for_notifications">Blocca le notifiche da tutte le applicazioni</string>
+    <string name="blacklist_all_for_notifications">Blocca tutte le notifiche</string>
     <string name="whitelist_all_for_notifications">Consenti le notifiche da tutte le applicazioni</string>
     <string name="fw_upgrade_notice_miband3">Si sta per installare il firmware %s sul Mi Band 3.
 \n
@@ -602,7 +602,7 @@
     <string name="lack_of_step">Passi mancanti: %1$d</string>
     <string name="overstep">Passi eccedenti: %1$d</string>
     <string name="debugactivity_really_factoryreset_title">Vuoi ripristinare alle impostazioni di fabbrica\?</string>
-    <string name="debugactivity_really_factoryreset">Effettuare il ripristino delle impostazioni di fabbrica cancellerà tutti i dati presenti sul dispositivo connesso (se supportato). I dispositivi Xiaomi/Huami cambieranno anche il proprio MAC Address Bluetooth, in modo da risultare dispositivi nuovi per Gadgetbrige.</string>
+    <string name="debugactivity_really_factoryreset">Effettuare il ripristino delle impostazioni di fabbrica cancellerà tutti i dati presenti sul dispositivo connesso (se supportato). I dispositivi Xiaomi/Huami cambiano anche MAC Address Bluetooth, e in modo risultano dispositivi nuovi per Gadgetbrige.</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="title_activity_notification_filter">Filtro Notifiche</string>
     <string name="toast_app_must_not_be_blacklisted">L\'app non deve trovarsi nella blacklist per essere configurata</string>
@@ -676,15 +676,15 @@
     <string name="activity_prefs_activetime_minutes">Obiettivo giornaliero: tempo di attività in minuti</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
     <string name="devicetype_bfh16">BFH-16</string>
-    <string name="fw_upgrade_notice_amazfitcor2">Stai per installare il firmware %s sul tuo Amazfit Cor 2.
-\n
-\nAssicurati di installare il file .fw e successivamente il file .res. L\' Amazfit Cor 2 si riavvierà dopo aver installato il file .fw.
-\n
-\nNota: non è necessario installare .res se è esattamente lo stesso di quello precedentemente installato.
-\n
-\nPROCEDI A TUO RISCHIO!
-\n
-\nNON COMPLETAMENTE TESTATO, PROBABILMENTE DOVRAI FLASHARE IL FIRMWARE BEATS_W SE IL NOME DEL TUO DISPOSITIVO è \"Amazfit Band 2\"</string>
+    <string name="fw_upgrade_notice_amazfitcor2">Stai per installare il firmware %s sul tuo Amazfit Cor 2. 
+\n 
+\nAssicurati di installare il file .fw e successivamente il file .res. La band si riavvierà dopo aver installato il file .fw. 
+\n 
+\nNota: non è necessario installare .res se è esattamente lo stesso di quello installato in precedenza. 
+\n 
+\nPROCEDI A TUO RISCHIO! 
+\n 
+\nCOMPLETAMENTE NON TESTATO, PROBABILMENTE DOVRAI FLASHARE IL FIRMWARE BEATS_W SE IL NOME DEL TUO DISPOSITIVO è \"Amazfit Band 2\"</string>
     <string name="dutch">Olandese</string>
     <string name="turkish">Turco</string>
     <string name="ukrainian">Ucraino</string>
@@ -706,4 +706,72 @@
     <string name="prefs_hr_alarm_low">Limite inferiore</string>
     <string name="prefs_hr_alarm_high">Limite Superiore</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="pref_header_charts">Impostazioni dei grafici</string>
+    <string name="pref_title_charts_average">Mostra le medie nei grafici</string>
+    <string name="pref_title_charts_range">Intervallo dei grafici</string>
+    <string name="pref_charts_range_on">L\'intervallo dei grafici è impostato su di un mese</string>
+    <string name="pref_charts_range_off">L\'intervallo dei grafici è impostato su di una settimana</string>
+    <string name="weekstepschart_steps_a_month">Passi al mese</string>
+    <string name="weeksleepchart_sleep_a_month">Sonno per mese</string>
+    <string name="menuitem_nfc">NFC</string>
+    <string name="pref_summary_expose_hr">Consente ad altre applicazioni di accedere ai dati cardiaci in tempo reale mentre Gadgetbridge è collegato</string>
+    <string name="pref_title_expose_hr">Accesso ai dati cardiaci in tempo reale a terze parti</string>
+    <string name="pref_title_use_custom_font">Utilizza un font personalizzato</string>
+    <string name="pref_summary_use_custom_font">Abilita questa opzione se il tuo dispositivo ha un firmware dei caratteri personalizzato per il supporto emoji</string>
+    <string name="activity_db_management_autoexport_explanation">Il percorso di esportazione automatica del database è stato impostato su:</string>
+    <string name="activity_db_management_autoexport_label">Esportazione automatica</string>
+    <string name="activity_DB_ExportButton">Esporta DB</string>
+    <string name="activity_DB_import_button">Importa DB</string>
+    <string name="activity_DB_test_export_button">Esegui esportazione automatica ora</string>
+    <string name="activity_DB_test_export_message">Esportazione database in corso…</string>
+    <string name="activity_DB_delete_legacy_button">Elimina db precedente</string>
+    <string name="activity_DB_empty_button">DB vuoto</string>
+    <string name="activity_db_management_empty_DB">Database vuoto</string>
+    <string name="activity_db_management_exportimport_label">Esportazione e importazione</string>
+    <string name="activity_db_management_empty_db_warning">Attenzione! Premendo questo pulsante si cancella il database e si riparte da zero.</string>
+    <string name="widget_steps_label">Passi: %1$02d</string>
+    <string name="widget_sleep_label">Riposo:% 1 $ s</string>
+    <string name="widget_set_alarm_after">Imposta sveglia dopo:</string>
+    <string name="widget_5_minutes">5 minuti</string>
+    <string name="widget_10_minutes">10 minuti</string>
+    <string name="widget_20_minutes">20 minuti</string>
+    <string name="widget_1_hour">1 ora</string>
+    <string name="pref_display_add_device_fab_on">Sempre visibile</string>
+    <string name="pref_display_add_device_fab_off">Visibile solo se non viene aggiunto alcun dispositivo</string>
+    <string name="activity_error_no_app_for_gpx">Per visualizzare la traccia delle attività, installare un\'applicazione in grado di gestire i file GPX.</string>
+    <string name="preferences_makibes_hr3_settings">Impostazioni Makibes HR3</string>
+    <string name="devicetype_makibes_hr3">Makibes HR3</string>
+    <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
+    <string name="prefs_find_phone">Trova telefono</string>
+    <string name="prefs_enable_find_phone">Attivare \'\'Trova telefono\'</string>
+    <string name="prefs_find_phone_summary">Usa la tua band per riprodurre la suoneria del tuo telefono.</string>
+    <string name="prefs_find_phone_duration">Durata dello squillo in secondi</string>
+    <string name="maximum_duration">Durata</string>
+    <string name="discovery_need_to_enter_authkey">Questo dispositivo ha bisogno di una chiave di autenticazione segreta, premere a lungo sul dispositivo per inserirla. Leggi il wiki.</string>
+    <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
+    <string name="pref_chart_heartrate_color_red">Rosso</string>
+    <string name="pref_chart_heartrate_color_orange">Arancione</string>
+    <string name="pref_title_chart_heartrate_color">Colore della frequenza cardiaca</string>
+    <string name="pref_title_chart_sleep_rolling_24_hour">Intervallo di sonno</string>
+    <string name="pref_chart_sleep_rolling_24_on">Ultime 24 ore</string>
+    <string name="pref_chart_sleep_rolling_24_off">Da mezzogiorno a mezzogiorno</string>
+    <string name="devicetype_amazfit_gts">Amazfit GTS</string>
+    <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
+    <string name="watch_not_connected">Orologio non connesso</string>
+    <string name="qhybrid_vibration_strength">forza della vibrazione:</string>
+    <string name="qhybrid_goal_in_steps">Obiettivo in passi</string>
+    <string name="qhybrid_changes_delay_prompt">Il cambiamento potrebbe richiedere qualche secondo…</string>
+    <string name="pref_disable_new_ble_scanning">Disattivare nuove scansioni BLE</string>
+    <string name="pref_summary_disable_new_ble_scanning">Selezionare questa opzione se il dispositivo non può essere trovato durante il rilevamento</string>
+    <string name="devicetype_banglejs">Bangle.js</string>
+    <string name="devicetype_y5">Y5</string>
+    <string name="prefs_button_single_press_action_selection_title">Evento 1 azione</string>
+    <string name="prefs_button_double_press_action_selection_title">Evento 2 azione</string>
+    <string name="prefs_button_triple_press_action_selection_title">Evento 3 azione</string>
+    <string name="prefs_button_long_press_action_selection_title">Azione di pressione prolungata del pulsante</string>
+    <string name="alarm_snooze">Snooze</string>
+    <string name="error_no_location_access">Per il corretto funzionamento della scansione dei dispositivi occorre concedere e abilitare l\'accesso alla posizione</string>
+    <string name="devicetype_itag">iTag</string>
+    <string name="pref_title_allow_high_mtu">Consenti MTU elevato</string>
+    <string name="pref_summary_allow_high_mtu">Aumenta la velocità di trasferimento, ma potrebbe non funzionare su alcuni dispositivi Android.</string>
 </resources>

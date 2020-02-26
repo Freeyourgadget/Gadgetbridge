@@ -137,6 +137,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Version;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DATEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_RESERVER_ALARMS_CALENDAR;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SYNC_CALENDAR;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WEARLOCATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_COUNT;
@@ -738,11 +739,10 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             setCurrentTimeWithService(builder);
             //TODO: once we have a common strategy for sending events (e.g. EventHandler), remove this call from here. Meanwhile it does no harm.
             // = we should genaralize the pebble calender code
-            if (characteristicChunked == null) {
+            if (characteristicChunked == null) { // all except Mi Band 2
                 sendCalendarEvents(builder);
             }
             else {
-                // TODO: make this configurable
                 sendCalendarEventsAsReminder(builder);
             }
             builder.queue(getQueue());
@@ -1707,6 +1707,11 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HuamiSupport sendCalendarEventsAsReminder(TransactionBuilder builder) {
+        boolean syncCalendar = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(PREF_SYNC_CALENDAR, false);
+        if (!syncCalendar) {
+            return this;
+        }
+
         CalendarEvents upcomingEvents = new CalendarEvents();
         List<CalendarEvents.CalendarEvent> calendarEvents = upcomingEvents.getCalendarEventList(getContext());
         Calendar calendar = Calendar.getInstance();
