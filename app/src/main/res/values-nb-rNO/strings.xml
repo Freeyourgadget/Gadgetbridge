@@ -327,7 +327,7 @@
     <string name="mi2_prefs_button_actions">Knappevalg</string>
     <string name="mi2_prefs_button_actions_summary">Angi knappetrykkshandlinger</string>
     <string name="mi2_prefs_button_press_count">Antall trykk på knapp</string>
-    <string name="mi2_prefs_button_press_count_summary">Antall trykk på knapp for å utløse meldingskringkasting</string>
+    <string name="mi2_prefs_button_press_count_summary">Antall knappetrykk for å utløse hendelse 1. Etterfølgende likt antall trykk utløser hendelse 2, osv.</string>
     <string name="mi2_prefs_button_press_broadcast">Kringkastingsmelding å sende</string>
     <string name="mi2_prefs_goal_notification">Målmerknad</string>
     <string name="mi2_prefs_goal_notification_summary">Båndet vil vibrere når daglig stegmål nås</string>
@@ -445,7 +445,7 @@
     <string name="pref_summary_pebble_always_ack_pebblekit">Meldinger sendt til eksterne tredjepartsprogrammer vil alltid bli anerkjent umiddelbart</string>
     <string name="pref_title_screentime">Demp skjerm etter</string>
     <string name="miband_prefs_device_time_offset_hours">Tidsjustering i timer (for oppdagelse av søvn for skiftarbeidere)</string>
-    <string name="mi2_prefs_button_press_broadcast_summary">Kringkast melding ved et gitt antall knappetrykk</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Kringkastingsmelding sendt sammen med hendelsen. Parameter `button_id` legges til automatisk for hver melding.</string>
     <string name="mi2_prefs_button_action">Skru på knappehandling</string>
     <string name="mi2_prefs_button_action_summary">Skru på handling ved gitt antall knappetrykk</string>
     <string name="mi2_prefs_button_action_vibrate">Skru på båndvibrasjon</string>
@@ -828,4 +828,12 @@
     <string name="pref_summary_allow_high_mtu">Øker overføringshastighet, men kan forårsake problemer på noen Android-enheter.</string>
     <string name="pref_summary_sync_calendar">Skru på kalendervarsler, selv når frakoblet.</string>
     <string name="pref_title_sync_caldendar">Synkroniser kalenderhendelser</string>
+    <string name="hr_widget_heart_rate">Puls</string>
+    <string name="hr_widget_steps">Steg</string>
+    <string name="hr_widget_date">Dato</string>
+    <string name="hr_widget_active_minutes">Aktive minutter</string>
+    <string name="hr_widget_calories">Kalorier</string>
+    <string name="hr_widget_battery">Batteri</string>
+    <string name="hr_widget_weather">Vær</string>
+    <string name="hr_widget_nothing">Ingenting</string>
 </resources>
