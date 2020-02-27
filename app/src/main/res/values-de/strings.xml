@@ -834,4 +834,15 @@
     <string name="pref_title_allow_high_mtu">Hohe MTU erlauben</string>
     <string name="pref_summary_sync_calendar">Aktiviert Kalendererinnerungen, auch wenn die Verbindung getrennt ist</string>
     <string name="pref_title_sync_caldendar">Kalenderereignisse synchronisieren</string>
+    <string name="hr_widget_heart_rate">Herzfrequenz</string>
+    <string name="hr_widget_steps">Schritte</string>
+    <string name="hr_widget_date">Datum</string>
+    <string name="hr_widget_active_minutes">Aktive Minuten</string>
+    <string name="hr_widget_calories">Kalorien</string>
+    <string name="hr_widget_battery">Akku</string>
+    <string name="hr_widget_weather">Wetter</string>
+    <string name="hr_widget_nothing">Nichts</string>
+    <string name="find_lost_device_you_found_it">Gefunden!</string>
+    <string name="pref_title_force_white_color_scheme">Schwarz-Weiß-Farbschema erzwingen</string>
+    <string name="pref_summary_force_white_color_scheme">Nützlich, wenn deine Uhr dunkle Zeiger hat</string>
 </resources>
