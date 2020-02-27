@@ -718,7 +718,7 @@
     <string name="pref_summary_expose_hr">Consente ad altre applicazioni di accedere ai dati cardiaci in tempo reale mentre Gadgetbridge è collegato</string>
     <string name="pref_title_expose_hr">Accesso ai dati cardiaci in tempo reale a terze parti</string>
     <string name="pref_title_use_custom_font">Utilizza un font personalizzato</string>
-    <string name="pref_summary_use_custom_font">Abilita questa opzione se il tuo dispositivo ha un firmware dei caratteri personalizzato per il supporto emoji</string>
+    <string name="pref_summary_use_custom_font">Attiva se il tuo dispositivo ha un firmware personalizzato che supporta gli emoji</string>
     <string name="activity_db_management_autoexport_explanation">Il percorso di esportazione automatica del database è stato impostato su:</string>
     <string name="activity_db_management_autoexport_label">Esportazione automatica</string>
     <string name="activity_DB_ExportButton">Esporta DB</string>
@@ -739,12 +739,12 @@
     <string name="widget_1_hour">1 ora</string>
     <string name="pref_display_add_device_fab_on">Sempre visibile</string>
     <string name="pref_display_add_device_fab_off">Visibile solo se non viene aggiunto alcun dispositivo</string>
-    <string name="activity_error_no_app_for_gpx">Per visualizzare la traccia delle attività, installare un\'applicazione in grado di gestire i file GPX.</string>
+    <string name="activity_error_no_app_for_gpx">Per visualizzare la traccia delle attività, installare un\'app in grado di gestire i file GPX.</string>
     <string name="preferences_makibes_hr3_settings">Impostazioni Makibes HR3</string>
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
     <string name="prefs_find_phone">Trova telefono</string>
-    <string name="prefs_enable_find_phone">Attivare \'\'Trova telefono\'</string>
+    <string name="prefs_enable_find_phone">Attivare \\\'Trova telefono \\\'</string>
     <string name="prefs_find_phone_summary">Usa la tua band per riprodurre la suoneria del tuo telefono.</string>
     <string name="prefs_find_phone_duration">Durata dello squillo in secondi</string>
     <string name="maximum_duration">Durata</string>
@@ -763,7 +763,7 @@
     <string name="qhybrid_goal_in_steps">Obiettivo in passi</string>
     <string name="qhybrid_changes_delay_prompt">Il cambiamento potrebbe richiedere qualche secondo…</string>
     <string name="pref_disable_new_ble_scanning">Disattivare nuove scansioni BLE</string>
-    <string name="pref_summary_disable_new_ble_scanning">Selezionare questa opzione se il dispositivo non può essere trovato durante il rilevamento</string>
+    <string name="pref_summary_disable_new_ble_scanning">Selezionare questa opzione se il dispositivo viene trovato durante il rilevamento</string>
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="devicetype_y5">Y5</string>
     <string name="prefs_button_single_press_action_selection_title">Evento 1 azione</string>
@@ -776,4 +776,46 @@
     <string name="pref_title_allow_high_mtu">Consenti MTU elevato</string>
     <string name="pref_summary_allow_high_mtu">Aumenta la velocità di trasferimento, ma potrebbe non funzionare su alcuni dispositivi Android.</string>
     <string name="pref_title_sync_caldendar">Sincronizza gli eventi del calendario</string>
+    <string name="average">Media: %1$s</string>
+    <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
+    <string name="appwidget_sleep_alarm_widget_label">Sveglia</string>
+    <string name="widget_listing_label">Stato e Sveglie</string>
+    <string name="pref_display_add_device_fab">Pulsante per connettere un nuovo dispositivo</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">Stai per installare il firmware %s sull\'Amazfit Bip Lite.
+\n
+\nAssicurati di installare prima il file .fw e dopo il file .res. L\'orologio si riavvierà al termine del caricamento del file .fw.
+\n
+\nNota: non devi installare il file .res se è uguale a quello installato in precedenza.
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="fw_upgrade_notice_amazfitgtr">Stai per installare il firmware% s sul tuo Amazfit GTR.
+\n
+\nAssicurati di installare il file .fw, quindi il file .res e infine il file .gps. L\'orologio si riavvierà dopo aver installato il file .fw.
+\n
+\nNota: non è necessario installare .res e .gps se questi file sono esattamente gli stessi installati in precedenza.
+\n
+\nPROCEDI A TUO RISCHIO!</string>
+    <string name="fw_upgrade_notice_amazfitgts">Stai per installare il firmware% s sul tuo Amazfit GTS.
+\n
+\nAssicurati di installare il file .fw, quindi il file .res e infine il file .gps. L\'orologio si riavvierà dopo aver installato il file .fw.
+\n
+\nNota: non è necessario installare .res e .gps se questi file sono esattamente gli stessi installati in precedenza.
+\n
+\nPROCEDI A TUO RISCHIO!</string>
+    <string name="preferences_qhybrid_settings">Impostazioni Q Hybrid</string>
+    <string name="qhybrid_prompt_million_steps">Impostare il contatore dei passi a un milione per attivare.</string>
+    <string name="qhybrid_buttons_overwrite_success">Pulsanti sovrascritti</string>
+    <string name="qhybrid_buttons_overwrite_error">Errore durante la modifica dei pulsanti</string>
+    <string name="prefs_button_variable_actions">Impostazioni dettagliate per la pressione del pulsante</string>
+    <string name="pref_summary_sync_calendar">Abilita gli avvisi del calendario, anche quando è scollegato</string>
+    <string name="hr_widget_heart_rate">Frequenza cardiaca</string>
+    <string name="hr_widget_steps">Passi</string>
+    <string name="hr_widget_date">Data</string>
+    <string name="hr_widget_active_minutes">Minuti attivi</string>
+    <string name="hr_widget_calories">Calorie</string>
+    <string name="hr_widget_battery">Batteria</string>
+    <string name="hr_widget_weather">Meteo</string>
+    <string name="hr_widget_nothing">Nulla</string>
+    <string name="pref_title_force_white_color_scheme">Forza la combinazione di colori nero su bianco</string>
+    <string name="pref_summary_force_white_color_scheme">Utile se il vostro orologio ha le lancette scure</string>
 </resources>
