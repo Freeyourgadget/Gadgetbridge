@@ -827,4 +827,12 @@
     <string name="pref_summary_allow_high_mtu">מגביר את קצב ההעברה, יש מכשירי Android שלא תומכים בזה.</string>
     <string name="pref_summary_sync_calendar">הפעלת התראות לוח שנה, אפילו ללא חיבור</string>
     <string name="pref_title_sync_caldendar">סנכרון אירועי לוח שנה</string>
+    <string name="hr_widget_heart_rate">דופק</string>
+    <string name="hr_widget_steps">צעדים</string>
+    <string name="hr_widget_date">תאריך</string>
+    <string name="hr_widget_active_minutes">דקות פעילות</string>
+    <string name="hr_widget_calories">קלוריות</string>
+    <string name="hr_widget_battery">סוללה</string>
+    <string name="hr_widget_weather">מזג אוויר</string>
+    <string name="hr_widget_nothing">כלום</string>
 </resources>
