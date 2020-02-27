@@ -837,4 +837,15 @@
     <string name="pref_summary_allow_high_mtu">Aumenta velocidade de transferência, mas pode não funcionar em alguns dispositivos Android.</string>
     <string name="pref_summary_sync_calendar">Possibilita alertas de calendário, mesmo quando desconectado</string>
     <string name="pref_title_sync_caldendar">Sincronizar eventos de calendário</string>
+    <string name="hr_widget_heart_rate">Frequência cardíaca</string>
+    <string name="hr_widget_steps">Passos</string>
+    <string name="hr_widget_date">Data</string>
+    <string name="hr_widget_active_minutes">Minutos ativo</string>
+    <string name="hr_widget_calories">Calorias</string>
+    <string name="hr_widget_battery">Bateria</string>
+    <string name="hr_widget_weather">Clima</string>
+    <string name="hr_widget_nothing">Nada</string>
+    <string name="find_lost_device_you_found_it">Encontrei!</string>
+    <string name="pref_title_force_white_color_scheme">Forçar preto no esquema de cores branco</string>
+    <string name="pref_summary_force_white_color_scheme">Útil se seu relógio possui ponteiros escuros</string>
 </resources>
