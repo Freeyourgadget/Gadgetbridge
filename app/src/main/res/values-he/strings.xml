@@ -836,4 +836,6 @@
     <string name="hr_widget_weather">מזג אוויר</string>
     <string name="hr_widget_nothing">כלום</string>
     <string name="find_lost_device_you_found_it">מצאתי!</string>
+    <string name="pref_title_force_white_color_scheme">לאכוף ערכת צבעים שחור על לבן</string>
+    <string name="pref_summary_force_white_color_scheme">שימושי לידיים כהות</string>
 </resources>
