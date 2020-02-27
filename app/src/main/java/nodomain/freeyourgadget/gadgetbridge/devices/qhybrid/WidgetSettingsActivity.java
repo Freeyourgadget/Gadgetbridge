@@ -1,32 +1,26 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.Widget;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomBackgroundWidgetElement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomTextWidgetElement;
@@ -56,7 +50,7 @@ public class WidgetSettingsActivity extends AbstractGBActivity {
             ((EditText) findViewById(R.id.qhybrid_widget_name)).setText(subject.getName());
             resultCode = RESULT_CODE_WIDGET_UPDATED;
         }else{
-            subject = new CustomWidget("", 0, 63);
+            subject = new CustomWidget("", 0, 63, "default"); // FIXME: handle force white background
             resultCode = RESULT_CODE_WIDGET_CREATED;
             findViewById(R.id.qhybrid_widget_delete).setEnabled(false);
         }

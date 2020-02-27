@@ -11,12 +11,14 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class Widget implements Serializable {
     private WidgetType widgetType;
-    int angle, distance;
+    private int angle, distance;
+    private String fontColor;
 
-    public Widget(WidgetType type, int angle, int distance) {
+    public Widget(WidgetType type, int angle, int distance, String fontColor) {
         this.widgetType = type;
         this.angle = angle;
         this.distance = distance;
+        this.fontColor = fontColor;
     }
 
     @NonNull
@@ -39,7 +41,7 @@ public class Widget implements Serializable {
                     .put("data", new JSONObject())
                     .put("theme",
                             new JSONObject()
-                                    .put("font_color", "default")
+                                    .put("font_color", fontColor)
                     );
         } catch (JSONException e) {
             e.printStackTrace();

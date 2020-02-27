@@ -205,7 +205,7 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
             for (int i = 0; i < customWidgets.length(); i++) {
                 JSONObject customWidgetObject = customWidgets.getJSONObject(i);
                 CustomWidget widget = new CustomWidget(
-                        customWidgetObject.getString("name"), 0, 0
+                        customWidgetObject.getString("name"), 0, 0, "default" // FIXME: handle force white background
                 );
                 JSONArray elements = customWidgetObject.getJSONArray("elements");
 

@@ -67,6 +67,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.Widget;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.WidgetsPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_PHONE_REQUEST;
@@ -76,9 +77,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     private byte[] phoneRandomNumber;
     private byte[] watchRandomNumber;
 
-    ArrayList<Widget> widgets = new ArrayList<>();
+    private ArrayList<Widget> widgets = new ArrayList<>();
 
-    NotificationHRConfiguration[] notificationConfigurations;
+    private NotificationHRConfiguration[] notificationConfigurations;
 
     private MusicSpec currentSpec = null;
 
@@ -136,18 +137,29 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     private void loadBackground(){
-        /*Bitmap backgroundBitmap = BitmapFactory
-                .decodeFile("/sdcard/DCIM/Camera/IMG_20191129_200726.jpg");
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDeviceSupport().getDevice().getAddress()));
+        boolean forceWhiteBackground = prefs.getBoolean("force_white_color_scheme", false);
+        if (forceWhiteBackground) {
+            byte[] whiteGIF = new byte[]{
+                     0x47, 0x49, 0x46, 0x38, 0x37, 0x61, 0x01, 0x00, 0x01, 0x00, (byte) 0x80, 0x01, 0x00, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, 0x00, 0x00, 0x00, 0x2C, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0x02, 0x02, 0x44, 0x01, 0x00, 0x3B
+            };
 
-        try {
-            this.backGroundImage = AssetImageFactory.createAssetImage(backgroundBitmap, false, 0,:wq
-             0, 0);
-        } catch (IOException e) {
-            GB.log("Backgroundimage error", GB.ERROR, e);
-        }*/
+            Bitmap backgroundBitmap = BitmapFactory.decodeByteArray(whiteGIF, 0, whiteGIF.length);
+            //Bitmap backgroundBitmap = BitmapFactory.decodeFile("/sdcard/DCIM/Camera/IMG_20191129_200726.jpg");
+
+            try {
+                this.backGroundImage = AssetImageFactory.createAssetImage(backgroundBitmap, false, 0, 0, 0);
+            } catch (IOException e) {
+                logger.error("Backgroundimage error", e);
+            }
+        }
     }
 
     private void loadWidgets() {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDeviceSupport().getDevice().getAddress()));
+        boolean forceWhiteBackground = prefs.getBoolean("force_white_color_scheme", false);
+        String fontColor = forceWhiteBackground ? "black" : "default";
+
         this.widgets.clear();
         String widgetJson = GBApplication.getPrefs().getPreferences().getString("FOSSIL_HR_WIDGETS", "{}");
         String customWidgetJson = GBApplication.getPrefs().getString("QHYBRID_CUSTOM_WIDGETS", "[]");
@@ -170,7 +182,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
                 Widget widget = null;
                 if(type != null) {
-                    widget = new Widget(type, positionMap.get(position), 63);
+                    widget = new Widget(type, positionMap.get(position), 63, fontColor);
                 }else{
                     identifier = identifier.substring(7);
                     for(int i = 0; i < customWidgets.length(); i++){
@@ -179,7 +191,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                             CustomWidget newWidget = new CustomWidget(
                                     customWidget.getString("name"),
                                     positionMap.get(position),
-                                    63
+                                    63,
+                                    fontColor
                             );
                             JSONArray elements = customWidget.getJSONArray("elements");
 
@@ -224,6 +237,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     private void renderWidgets() {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDeviceSupport().getDevice().getAddress()));
+        boolean forceWhiteBackground = prefs.getBoolean("force_white_color_scheme", false);
         try {
             ArrayList<AssetImage> widgetImages = new ArrayList<>();
 
@@ -245,12 +260,12 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
                 Paint circlePaint = new Paint();
                 if(!backgroundDrawn){
-                    circlePaint.setColor(Color.BLACK);
+                    circlePaint.setColor(forceWhiteBackground ? Color.WHITE : Color.BLACK);
                     circlePaint.setStyle(Paint.Style.FILL);
                     circlePaint.setStrokeWidth(3);
                     widgetCanvas.drawCircle(38, 38, 37, circlePaint);
 
-                    circlePaint.setColor(Color.WHITE);
+                    circlePaint.setColor(forceWhiteBackground ? Color.BLACK : Color.WHITE);
                     circlePaint.setStyle(Paint.Style.STROKE);
                     circlePaint.setStrokeWidth(3);
                     widgetCanvas.drawCircle(38, 38, 37, circlePaint);
@@ -287,7 +302,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                         textPaint.setStrokeWidth(4);
                         textPaint.setTextSize(17f);
                         textPaint.setStyle(Paint.Style.FILL);
-                        textPaint.setColor(Color.WHITE);
+                        textPaint.setColor(forceWhiteBackground ? Color.BLACK : Color.WHITE);
                         textPaint.setTextAlign(Paint.Align.CENTER);
 
                         widgetCanvas.drawText(element.getValue(), element.getX(), element.getY() - (textPaint.descent() + textPaint.ascent()) / 2f, textPaint);

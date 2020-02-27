@@ -10,8 +10,8 @@ public class CustomWidget extends Widget {
     private int angle, distance;
     private String name;
 
-    public CustomWidget(String name, int angle, int distance) {
-        super(null, angle, distance);
+    public CustomWidget(String name, int angle, int distance, String fontColor) {
+        super(null, angle, distance, fontColor);
         this.angle = angle;
         this.distance = distance;
         this.name = name;
