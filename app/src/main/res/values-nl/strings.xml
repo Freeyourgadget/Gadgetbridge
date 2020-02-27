@@ -825,4 +825,15 @@
     <string name="pref_summary_allow_high_mtu">Verhoogt de overdrachtssnelheid, maar werkt mogelijk niet op sommige Android-apparaten.</string>
     <string name="pref_summary_sync_calendar">Schakelt agendameldingen in, zelfs wanneer U niet verbonden bent</string>
     <string name="pref_title_sync_caldendar">Agenda-afspraken synchroniseren</string>
+    <string name="hr_widget_heart_rate">Hartslag</string>
+    <string name="hr_widget_steps">Stappen</string>
+    <string name="hr_widget_date">Datum</string>
+    <string name="hr_widget_active_minutes">Minuten actief</string>
+    <string name="hr_widget_calories">Calorieën</string>
+    <string name="hr_widget_battery">Batterij</string>
+    <string name="hr_widget_weather">Weer</string>
+    <string name="hr_widget_nothing">Niets</string>
+    <string name="find_lost_device_you_found_it">Gevonden!</string>
+    <string name="pref_title_force_white_color_scheme">Zwart op wit kleurenschema forceren</string>
+    <string name="pref_summary_force_white_color_scheme">Nuttig als je horloge donkere wijzers heeft</string>
 </resources>
