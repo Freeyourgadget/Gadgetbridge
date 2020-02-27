@@ -381,6 +381,7 @@
     <string name="timeformat_am_pm">AM/PM</string>
     <string name="pref_screen_notification_profile_alarm_clock">Sveglia</string>
     <string name="find_device_you_found_it">Trovato!</string>
+    <string name="find_lost_device_you_found_it">Trovato!</string>
     <string name="miband2_prefs_timeformat">Mi2: Formato dell\'orario</string>
     <string name="mi2_fw_installhandler_fw53_hint">E\' necessario installare la verione %1$s prima di installare questo firmware!</string>
     <string name="mi2_enable_text_notifications">Notifiche</string>
