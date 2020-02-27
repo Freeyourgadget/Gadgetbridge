@@ -825,4 +825,12 @@
     <string name="pref_summary_allow_high_mtu">增加传输速度，但是在某些 Android 设备上可能不会工作。</string>
     <string name="pref_summary_sync_calendar">即使已经断开连接，也启用日历提醒</string>
     <string name="pref_title_sync_caldendar">同步日历事件</string>
+    <string name="hr_widget_heart_rate">心率</string>
+    <string name="hr_widget_steps">步数</string>
+    <string name="hr_widget_date">日期</string>
+    <string name="hr_widget_active_minutes">活动分钟</string>
+    <string name="hr_widget_calories">卡路里</string>
+    <string name="hr_widget_battery">电池</string>
+    <string name="hr_widget_weather">天气</string>
+    <string name="hr_widget_nothing">无</string>
 </resources>
