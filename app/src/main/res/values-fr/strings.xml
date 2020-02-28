@@ -816,4 +816,17 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_itag">iTag</string>
     <string name="pref_title_allow_high_mtu">Autoriser une grande MTU</string>
     <string name="pref_summary_allow_high_mtu">Augmente la vitesse de transfert, mais peut ne pas fonctionner avec quelques appareils Android.</string>
+    <string name="pref_summary_sync_calendar">Permet les alertes de calendrier, même en cas de déconnexion</string>
+    <string name="pref_title_sync_caldendar">Sync calendrier des événements</string>
+    <string name="hr_widget_heart_rate">Fréquence cardiaque</string>
+    <string name="hr_widget_steps">Étapes</string>
+    <string name="hr_widget_date">Date</string>
+    <string name="hr_widget_active_minutes">Les minutes actives</string>
+    <string name="hr_widget_calories">Calories</string>
+    <string name="hr_widget_battery">Batterie</string>
+    <string name="hr_widget_weather">Météo</string>
+    <string name="hr_widget_nothing">Rien</string>
+    <string name="find_lost_device_you_found_it">Trouvé !</string>
+    <string name="pref_title_force_white_color_scheme">Forcer le noir sur le blanc</string>
+    <string name="pref_summary_force_white_color_scheme">Utile si votre montre a les mains noires</string>
 </resources>
