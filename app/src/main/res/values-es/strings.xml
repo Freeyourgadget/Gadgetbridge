@@ -802,4 +802,11 @@
     <string name="pref_summary_allow_high_mtu">Incrementa la velocidad de transferencia, pero puede no trabajar en algunos dispositivos Android.</string>
     <string name="pref_summary_sync_calendar">Habilita las alertas del calendario, incluso cuando se encuentre desconectado</string>
     <string name="pref_title_sync_caldendar">Sincronizar eventos del calendario</string>
+    <string name="qhybrid_use_activity_hand_as_notification_counter">utilizar la mano de la actividad como contador de notificación</string>
+    <string name="qhybrid_buttons_overwrite_error">Error al sobrescribir botones</string>
+    <string name="alarm_snooze">Dormir</string>
+    <string name="hr_widget_heart_rate">Ritmo cardíaco</string>
+    <string name="hr_widget_steps">Pasos</string>
+    <string name="hr_widget_active_minutes">Minutos activos</string>
+    <string name="pref_title_force_white_color_scheme">Forzar el esquema de color negro sobre blanco</string>
 </resources>
