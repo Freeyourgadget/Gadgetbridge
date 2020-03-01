@@ -821,4 +821,17 @@
     <string name="devicetype_itag">iTag</string>
     <string name="pref_title_allow_high_mtu">Povolit vyšší MTU</string>
     <string name="pref_summary_allow_high_mtu">Zrychluje přenosovou rychlost, ale na některých Android zařízení nemusí pracovat správně.</string>
+    <string name="pref_summary_sync_calendar">Umožňuje upozornění kalendáře, i při odpojeném zařízení</string>
+    <string name="pref_title_sync_caldendar">Synchronizace události kalendáře</string>
+    <string name="hr_widget_heart_rate">Tepová frekvence</string>
+    <string name="hr_widget_steps">Kroky</string>
+    <string name="hr_widget_date">Datum</string>
+    <string name="hr_widget_active_minutes">Minuty aktivity</string>
+    <string name="hr_widget_calories">Kalorie</string>
+    <string name="hr_widget_battery">Baterie</string>
+    <string name="hr_widget_weather">Počasí</string>
+    <string name="hr_widget_nothing">Nic</string>
+    <string name="find_lost_device_you_found_it">Nalezeno!</string>
+    <string name="pref_title_force_white_color_scheme">Vynutit barevné schéma Černá na bílé</string>
+    <string name="pref_summary_force_white_color_scheme">Užitečné, pokud máte hodinky s tmavými ručičkami</string>
 </resources>
