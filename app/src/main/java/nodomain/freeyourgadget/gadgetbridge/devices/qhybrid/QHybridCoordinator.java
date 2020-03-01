@@ -19,26 +19,22 @@ package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelUuid;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import java.util.Collection;
+import java.util.Collections;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -48,9 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 public class QHybridCoordinator extends AbstractDeviceCoordinator {
     @NonNull
@@ -85,7 +79,7 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsActivityDataFetching() {
-        return true;
+        return false;
     }
 
     @Override
@@ -113,7 +107,7 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
         return false;
     }
 
-    public boolean supportsAlarmConfiguration() {
+    private boolean supportsAlarmConfiguration() {
         GBDevice connectedDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
         if(connectedDevice == null || connectedDevice.getType() != DeviceType.FOSSILQHYBRID || connectedDevice.getState() != GBDevice.State.INITIALIZED){
             return false;
@@ -136,8 +130,6 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
         return false;
     }
 
-
-
     @Override
     public String getManufacturer() {
         return "Fossil";
@@ -150,9 +142,7 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public Class<? extends Activity> getAppsManagementActivity() {
-        GBDevice connectedDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
-        boolean isHR = connectedDevice.getFirmwareVersion().charAt(2) == '1';
-        return isHR ? HRConfigActivity.class : ConfigActivity.class;
+        return isHybridHR() ? HRConfigActivity.class : ConfigActivity.class;
     }
 
     @Override
@@ -167,7 +157,7 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsWeather() {
-        return false;
+        return isHybridHR();
     }
 
     @Override
@@ -188,5 +178,24 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
 
     }
 
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        if (isHybridHR()) {
+            return new int[]{
+                    R.xml.devicesettings_fossilhybridhr,
+                    R.xml.devicesettings_pairingkey
+            };
+        }
+        return new int[]{
+                R.xml.devicesettings_pairingkey
+        };
+    }
 
+    private boolean isHybridHR() {
+        GBDevice connectedDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
+        if (connectedDevice != null) {
+            return connectedDevice.getName().startsWith("Hybrid HR");
+        }
+        return false;
+    }
 }

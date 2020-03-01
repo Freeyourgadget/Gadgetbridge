@@ -1,5 +1,9 @@
 ### Changelog
 
+#### Version 0.42.1
+* Fix accepting/rejecting calls on Android 9
+* Mi Band 3/4, Amazfit Bip/Cor/GTS/GTR: Option to sync calender events as reminder
+
 #### Version 0.42.0
 * Initial iTag support
 * Fix indefinitely lasting bluetooth scans when location permission has not been granted

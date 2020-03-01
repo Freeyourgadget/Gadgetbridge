@@ -26,8 +26,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public abstract class PlayNotificationRequest extends FilePutRequest {
-    static int id = 0;
-
     public PlayNotificationRequest(int notificationType, int flags, String packageName, FossilWatchAdapter adapter) {
         super((short) 0x0900, createFile(notificationType, flags, packageName, packageName, packageName), adapter);
     }
@@ -36,6 +34,9 @@ public abstract class PlayNotificationRequest extends FilePutRequest {
         super((short) 0x0900, createFile(notificationType, flags, packageName, sender, message), adapter);
     }
 
+    public PlayNotificationRequest(int notificationType, int flags, int packageCRC, String sender, String message, FossilWatchAdapter adapter) {
+        super((short) 0x0900, createFile(notificationType, flags, "whatever", sender, message, packageCRC), adapter);
+    }
 
     private static byte[] createFile(int notificationType, int flags, String packageName, String sender, String message){
         CRC32 crc = new CRC32();
@@ -73,7 +74,7 @@ public abstract class PlayNotificationRequest extends FilePutRequest {
         mainBuffer.put((byte) senderBytes.length);
         mainBuffer.put((byte) messageBytes.length);
 
-        mainBuffer.putInt(id++); // messageId
+        mainBuffer.putInt(0); // messageId
         mainBuffer.putInt(packageCrc);
         mainBuffer.put(titleBytes);
         mainBuffer.put(senderBytes);

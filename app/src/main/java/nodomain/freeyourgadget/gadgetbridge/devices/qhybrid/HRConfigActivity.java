@@ -11,9 +11,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -205,7 +208,7 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
             for (int i = 0; i < customWidgets.length(); i++) {
                 JSONObject customWidgetObject = customWidgets.getJSONObject(i);
                 CustomWidget widget = new CustomWidget(
-                        customWidgetObject.getString("name"), 0, 0
+                        customWidgetObject.getString("name"), 0, 0, "default" // FIXME: handle force white background
                 );
                 JSONArray elements = customWidgetObject.getJSONArray("elements");
 
@@ -375,7 +378,8 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
     public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
         final EditText input = new EditText(this);
         input.setId(0);
-        input.setText(((TextView) view).getText());
+        TextView subject = findViewById(0);
+        input.setText(subject.getText());
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
@@ -405,6 +409,22 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
                 })
                 .setTitle("edit action")
                 .show();
+    }
+
+    private void moveActionUp(int position){
+        this.menuActions.add(position - 1, this.menuActions.remove(position));
+        this.actionListAdapter.notifyDataSetChanged();
+        putActionItems(menuActions);
+
+        LocalBroadcastManager.getInstance(HRConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_OVERWRITE_BUTTONS));
+    }
+
+    private void moveActionDown(int position){
+        this.menuActions.add(position + 1, this.menuActions.remove(position));
+        this.actionListAdapter.notifyDataSetChanged();
+        putActionItems(menuActions);
+
+        LocalBroadcastManager.getInstance(HRConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_OVERWRITE_BUTTONS));
     }
 
     private void putActionItems(List<MenuAction> actions) {
@@ -456,15 +476,57 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
 
         @NonNull
         @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            if (convertView == null) convertView = new TextView(getContext());
-            TextView view = (TextView) convertView;
+        public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            RelativeLayout layout = new RelativeLayout(getContext());
 
-            view.setText(getItem(position).getAction());
+            TextView text = new TextView(getContext());
+            text.setId(0);
+
+            text.setText(getItem(position).getAction());
             // view.setTextColor(Color.WHITE);
-            view.setTextSize(25);
+            text.setTextSize(25);
+            RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            textParams.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE);
+            layout.addView(text);
 
-            return view;
+            try {
+                getItem(position + 1);
+                ImageView downView = new ImageView(getContext());
+                downView.setImageResource(R.drawable.ic_arrow_upward);
+                downView.setRotation(180);
+                RelativeLayout.LayoutParams downParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                downParams.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
+                downView.setLayoutParams(downParams);
+                downView.setId(2);
+                downView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        moveActionDown(position);
+                    }
+                });
+                layout.addView(downView);
+            }catch (IndexOutOfBoundsException e){
+                // no following item
+            }
+
+            if (position != 0) {
+                ImageView upView = new ImageView(getContext());
+                upView.setImageResource(R.drawable.ic_arrow_upward);
+                RelativeLayout.LayoutParams upParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                upParams.setMarginEnd(100);
+                upParams.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
+                upView.setLayoutParams(upParams);
+                upView.setId(1);
+                upView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        moveActionUp(position);
+                    }
+                });
+                layout.addView(upView);
+            }
+
+            return layout;
         }
     }
 }

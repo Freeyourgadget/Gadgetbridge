@@ -137,6 +137,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Version;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DATEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_RESERVER_ALARMS_CALENDAR;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SYNC_CALENDAR;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WEARLOCATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_COUNT;
@@ -737,7 +738,13 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("Set date and time");
             setCurrentTimeWithService(builder);
             //TODO: once we have a common strategy for sending events (e.g. EventHandler), remove this call from here. Meanwhile it does no harm.
-            sendCalendarEvents(builder);
+            // = we should genaralize the pebble calender code
+            if (characteristicChunked == null) { // all except Mi Band 2
+                sendCalendarEvents(builder);
+            }
+            else {
+                sendCalendarEventsAsReminder(builder);
+            }
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to set time on Huami device", ex);
@@ -816,7 +823,6 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
 
     }
-
 
 
     private void sendMusicStateToDevice() {
@@ -1323,8 +1329,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
             if ((currentButtonPressTime == 0) || (timeSinceLastPress < buttonPressMaxDelay)) {
                 currentButtonPressCount++;
-            }
-            else {
+            } else {
                 currentButtonPressCount = 1;
                 currentButtonActionId = 0;
             }
@@ -1350,8 +1355,6 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             }
         }
     }
-
-
 
 
     @Override
@@ -1498,12 +1501,17 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     private void decodeAndUpdateAlarmStatus(byte[] response) {
         List<nodomain.freeyourgadget.gadgetbridge.entities.Alarm> alarms = DBHelper.getAlarms(gbDevice);
-        boolean[] alarmsInUse = new boolean[10];
-        boolean[] alarmsEnabled = new boolean[10];
+        int maxAlarms = 10;
+        boolean[] alarmsInUse = new boolean[maxAlarms];
+        boolean[] alarmsEnabled = new boolean[maxAlarms];
         int nr_alarms = response[8];
         for (int i = 0; i < nr_alarms; i++) {
             byte alarm_data = response[9 + i];
             int index = alarm_data & 0xf;
+            if (index >= maxAlarms) {
+                GB.toast("Unexpected alarm index from device, ignoring: " + index, Toast.LENGTH_SHORT, GB.ERROR);
+                return;
+            }
             alarmsInUse[index] = true;
             boolean enabled = (alarm_data & 0x10) == 0x10;
             alarmsEnabled[index] = enabled;
@@ -1700,6 +1708,49 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 iteration++;
             }
         }
+        return this;
+    }
+
+    private HuamiSupport sendCalendarEventsAsReminder(TransactionBuilder builder) {
+        boolean syncCalendar = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(PREF_SYNC_CALENDAR, false);
+        if (!syncCalendar) {
+            return this;
+        }
+
+        CalendarEvents upcomingEvents = new CalendarEvents();
+        List<CalendarEvents.CalendarEvent> calendarEvents = upcomingEvents.getCalendarEventList(getContext());
+        Calendar calendar = Calendar.getInstance();
+
+        int iteration = 0;
+
+        for (CalendarEvents.CalendarEvent calendarEvent : calendarEvents) {
+            if (iteration > 8) { // limit ?
+                break;
+            }
+            calendar.setTimeInMillis(calendarEvent.getBegin());
+            byte[] title = calendarEvent.getTitle().getBytes();
+            byte[] body = calendarEvent.getDescription().getBytes();
+
+            int length = 18 + title.length + 1 + body.length + 1;
+            ByteBuffer buf = ByteBuffer.allocate(length);
+
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+            buf.put((byte) 0x0b); // always 0x0b?
+            buf.put((byte) iteration); // îd
+            buf.putInt(0x08 | 0x04 | 0x01); // flags 0x01 = enable, 0x04 = end date present, 0x08 = has text
+            calendar.setTimeInMillis(calendarEvent.getBegin());
+            buf.put(BLETypeConversions.shortCalendarToRawBytes(calendar));
+            calendar.setTimeInMillis(calendarEvent.getEnd());
+            buf.put(BLETypeConversions.shortCalendarToRawBytes(calendar));
+            buf.put(title);
+            buf.put((byte) 0); // 0 Terminated
+            buf.put(body);
+            buf.put((byte) 0); // 0 Terminated
+            writeToChunked(builder, 2, buf.array());
+
+            iteration++;
+        }
+
         return this;
     }
 

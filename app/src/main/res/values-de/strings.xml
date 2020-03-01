@@ -832,4 +832,6 @@
     <string name="prefs_button_double_press_action_selection_title">Aktion bei 2 Tastendrücken</string>
     <string name="prefs_button_triple_press_action_selection_title">Aktion bei 3 Tastendrücken</string>
     <string name="pref_title_allow_high_mtu">Hohe MTU erlauben</string>
+    <string name="pref_summary_sync_calendar">Aktiviert Kalendererinnerungen, auch wenn die Verbindung getrennt ist</string>
+    <string name="pref_title_sync_caldendar">Kalenderereignisse synchronisieren</string>
 </resources>

@@ -24,14 +24,17 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.BufferOverflowException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HRConfigActivity;
@@ -41,13 +44,15 @@ import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.Weather;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.RequestMtuRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.SetDeviceStateRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.TimeConfigItem;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayCallNotificationRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayTextNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.VerifyPrivateKeyRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfigurationPutRequest;
@@ -69,6 +74,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.Widget;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.WidgetsPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_PHONE_REQUEST;
@@ -78,9 +84,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     private byte[] phoneRandomNumber;
     private byte[] watchRandomNumber;
 
-    ArrayList<Widget> widgets = new ArrayList<>();
+    private ArrayList<Widget> widgets = new ArrayList<>();
 
-    NotificationHRConfiguration[] notificationConfigurations;
+    private NotificationHRConfiguration[] notificationConfigurations;
 
     private MusicSpec currentSpec = null;
 
@@ -105,46 +111,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZING));
 
-        // icons
-
         loadNotificationConfigurations();
         queueWrite(new NotificationFilterPutHRRequest(this.notificationConfigurations, this));
-        // queueWrite(new NotificationFilterPutHRRequest(this.notificationConfigurations,this));
-
-        /*try {
-            final String[] appNames = {"instagram", "snapchat", "line", "whatsapp"};
-            final String[] paths = {
-                    "/storage/emulated/0/Q/images/icInstagram.icon",
-                    "/storage/emulated/0/Q/images/icSnapchat.icon",
-                    "/storage/emulated/0/Q/images/icLine.icon",
-                    "/storage/emulated/0/Q/images/icWhatsapp.icon"
-            };
-
-            NotificationHRConfiguration[] configs = new NotificationHRConfiguration[4];
-            NotificationImage[] images = new NotificationImage[4];
-            for(int i = 0; i < 4; i++){
-                FileInputStream fis = new FileInputStream(paths[i]);
-                byte[] imageData = new byte[fis.available()];
-                fis.read(imageData);
-                fis.close();
-                configs[i] = new NotificationHRConfiguration(appNames[i], i);
-                images[i] = new NotificationImage(appNames[i], imageData);
-            }
-            queueWrite(new NotificationImagePutRequest(images, this));
-            queueWrite(new NotificationFilterPutHRRequest(configs, this));
-
-            for(String appName : appNames){
-                queueWrite(new PlayNotificationHRRequest(
-                        appName,
-                        appName.toUpperCase(),
-                        "this is some strange message",
-                        this
-                ));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-
         setVibrationStrength((short) 75);
 
         syncSettings();
@@ -171,22 +139,34 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     private void loadNotificationConfigurations(){
         this.notificationConfigurations = new NotificationHRConfiguration[]{
                 new NotificationHRConfiguration("generic", 0),
+                new NotificationHRConfiguration("call", new byte[]{(byte)0x80, (byte) 0x00, (byte) 0x59, (byte) 0xB7}, 0)
         };
     }
 
     private void loadBackground(){
-        /*Bitmap backgroundBitmap = BitmapFactory
-                .decodeFile("/sdcard/DCIM/Camera/IMG_20191129_200726.jpg");
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDeviceSupport().getDevice().getAddress()));
+        boolean forceWhiteBackground = prefs.getBoolean("force_white_color_scheme", false);
+        if (forceWhiteBackground) {
+            byte[] whiteGIF = new byte[]{
+                     0x47, 0x49, 0x46, 0x38, 0x37, 0x61, 0x01, 0x00, 0x01, 0x00, (byte) 0x80, 0x01, 0x00, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, 0x00, 0x00, 0x00, 0x2C, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0x02, 0x02, 0x44, 0x01, 0x00, 0x3B
+            };
 
-        try {
-            this.backGroundImage = AssetImageFactory.createAssetImage(backgroundBitmap, false, 0,:wq
-             0, 0);
-        } catch (IOException e) {
-            GB.log("Backgroundimage error", GB.ERROR, e);
-        }*/
+            Bitmap backgroundBitmap = BitmapFactory.decodeByteArray(whiteGIF, 0, whiteGIF.length);
+            //Bitmap backgroundBitmap = BitmapFactory.decodeFile("/sdcard/DCIM/Camera/IMG_20191129_200726.jpg");
+
+            try {
+                this.backGroundImage = AssetImageFactory.createAssetImage(backgroundBitmap, false, 0, 0, 0);
+            } catch (IOException e) {
+                logger.error("Backgroundimage error", e);
+            }
+        }
     }
 
     private void loadWidgets() {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDeviceSupport().getDevice().getAddress()));
+        boolean forceWhiteBackground = prefs.getBoolean("force_white_color_scheme", false);
+        String fontColor = forceWhiteBackground ? "black" : "default";
+
         this.widgets.clear();
         String widgetJson = GBApplication.getPrefs().getPreferences().getString("FOSSIL_HR_WIDGETS", "{}");
         String customWidgetJson = GBApplication.getPrefs().getString("QHYBRID_CUSTOM_WIDGETS", "[]");
@@ -209,7 +189,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
                 Widget widget = null;
                 if(type != null) {
-                    widget = new Widget(type, positionMap.get(position), 63);
+                    widget = new Widget(type, positionMap.get(position), 63, fontColor);
                 }else{
                     identifier = identifier.substring(7);
                     for(int i = 0; i < customWidgets.length(); i++){
@@ -218,7 +198,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                             CustomWidget newWidget = new CustomWidget(
                                     customWidget.getString("name"),
                                     positionMap.get(position),
-                                    63
+                                    63,
+                                    fontColor
                             );
                             JSONArray elements = customWidget.getJSONArray("elements");
 
@@ -263,6 +244,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     private void renderWidgets() {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDeviceSupport().getDevice().getAddress()));
+        boolean forceWhiteBackground = prefs.getBoolean("force_white_color_scheme", false);
         try {
             ArrayList<AssetImage> widgetImages = new ArrayList<>();
 
@@ -284,12 +267,12 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
                 Paint circlePaint = new Paint();
                 if(!backgroundDrawn){
-                    circlePaint.setColor(Color.BLACK);
+                    circlePaint.setColor(forceWhiteBackground ? Color.WHITE : Color.BLACK);
                     circlePaint.setStyle(Paint.Style.FILL);
                     circlePaint.setStrokeWidth(3);
                     widgetCanvas.drawCircle(38, 38, 37, circlePaint);
 
-                    circlePaint.setColor(Color.WHITE);
+                    circlePaint.setColor(forceWhiteBackground ? Color.BLACK : Color.WHITE);
                     circlePaint.setStyle(Paint.Style.STROKE);
                     circlePaint.setStrokeWidth(3);
                     widgetCanvas.drawCircle(38, 38, 37, circlePaint);
@@ -326,7 +309,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                         textPaint.setStrokeWidth(4);
                         textPaint.setTextSize(17f);
                         textPaint.setStyle(Paint.Style.FILL);
-                        textPaint.setColor(Color.WHITE);
+                        textPaint.setColor(forceWhiteBackground ? Color.BLACK : Color.WHITE);
                         textPaint.setTextAlign(Paint.Align.CENTER);
 
                         widgetCanvas.drawText(element.getValue(), element.getX(), element.getY() - (textPaint.descent() + textPaint.ascent()) / 2f, textPaint);
@@ -504,11 +487,186 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     @Override
-    public void onSetCallState(CallSpec callSpec) {
-        super.onSetCallState(callSpec);
-        queueWrite(new PlayCallNotificationRequest(callSpec.number, callSpec.command == CallSpec.CALL_INCOMING, this));
+    public void onFindDevice(boolean start) {
+        if(start){
+            new TransactionBuilder("vibrate find")
+                    .write(
+                            getDeviceSupport().getCharacteristic(UUID.fromString("3dda0005-957f-7d4a-34a6-74696673696d")),
+                            new byte[]{(byte) 0x01, (byte) 0x04, (byte) 0x30, (byte) 0x75, (byte) 0x00, (byte) 0x00}
+                            )
+                    .queue(getDeviceSupport().getQueue());
+        }else{
+            new TransactionBuilder("vibrate find")
+                    .write(
+                            getDeviceSupport().getCharacteristic(UUID.fromString("3dda0005-957f-7d4a-34a6-74696673696d")),
+                            new byte[]{(byte) 0x02, (byte) 0x05, (byte) 0x04}
+                    )
+                    .queue(getDeviceSupport().getQueue());
+        }
     }
 
+    @Override
+    public void onSetCallState(CallSpec callSpec) {
+        super.onSetCallState(callSpec);
+        queueWrite(new PlayCallNotificationRequest(StringUtils.getFirstOf(callSpec.name, callSpec.number), callSpec.command == CallSpec.CALL_INCOMING, this));
+    }
+
+    // this method is based on the one from AppMessageHandlerYWeather.java
+    private int getIconForConditionCode(int conditionCode, boolean isNight) {
+        final int CLEAR_DAY = 0;
+        final int CLEAR_NIGHT = 1;
+        final int CLOUDY = 2;
+        final int PARTLY_CLOUDY_DAY = 3;
+        final int PARTLY_CLOUDY_NIGHT = 4;
+        final int RAIN = 5;
+        final int SNOW = 6;
+        final int SNOW_2 = 7; // same as 6?
+        final int THUNDERSTORM = 8;
+        final int CLOUDY_2 = 9; // same as 2?
+        final int WINDY = 10;
+
+        if (conditionCode == 800 || conditionCode == 951) {
+            return isNight ? CLEAR_NIGHT : CLEAR_DAY;
+        } else if (conditionCode > 800 && conditionCode < 900) {
+            return isNight ? PARTLY_CLOUDY_NIGHT : PARTLY_CLOUDY_DAY;
+        } else if (conditionCode >= 300 && conditionCode < 400) {
+            return RAIN; // drizzle mapped to rain
+        } else if (conditionCode >= 500 && conditionCode < 600) {
+            return RAIN;
+        } else if (conditionCode >= 700 && conditionCode < 732) {
+            return CLOUDY;
+        } else if (conditionCode == 741 || conditionCode == 751 || conditionCode == 761 || conditionCode == 762) {
+            return CLOUDY; // fog mapped to cloudy
+        } else if (conditionCode == 771) {
+            return CLOUDY; // squalls mapped to cloudy
+        } else if (conditionCode == 781) {
+            return WINDY; // tornato mapped to windy
+        } else if (conditionCode >= 200 && conditionCode < 300) {
+            return THUNDERSTORM;
+        } else if (conditionCode >= 600 && conditionCode <= 602) {
+            return SNOW;
+        } else if (conditionCode >= 611 && conditionCode <= 622) {
+            return RAIN;
+        } else if (conditionCode == 906) {
+            return RAIN; // hail mapped to rain
+        } else if (conditionCode >= 907 && conditionCode < 957) {
+            return WINDY;
+        } else if (conditionCode == 905) {
+            return WINDY;
+        } else if (conditionCode == 900) {
+            return WINDY;
+        } else if (conditionCode == 901 || conditionCode == 902 || conditionCode == 962) {
+            return WINDY;
+        }
+        return isNight ? CLEAR_NIGHT : CLEAR_DAY;
+    }
+
+    @Override
+    public void onSendWeather(WeatherSpec weatherSpec) {
+        long ts = System.currentTimeMillis();
+        ts /= 1000;
+        try {
+            JSONObject responseObject = new JSONObject()
+                    .put("res", new JSONObject()
+                            .put("id", 0) // seems the id does not matter?
+                            .put("set", new JSONObject()
+                                    .put("weatherInfo", new JSONObject()
+                                            .put("alive", ts + 60 * 60)
+                                            .put("unit", "c") // FIXME: do not hardcode
+                                            .put("temp", weatherSpec.currentTemp - 273)
+                                            .put("cond_id", getIconForConditionCode(weatherSpec.currentConditionCode, false)) // FIXME do not assume daylight
+                                    )
+                            )
+                    );
+
+            queueWrite(new JsonPutRequest(responseObject, this));
+
+            JSONArray forecastWeekArray = new JSONArray();
+            final String[] weekdays = {"", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeInMillis(weatherSpec.timestamp * 1000L);
+            int i = 0;
+            for (WeatherSpec.Forecast forecast : weatherSpec.forecasts) {
+                cal.add(Calendar.DATE, 1);
+                int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+                forecastWeekArray.put(new JSONObject()
+                        .put("day", weekdays[dayOfWeek])
+                        .put("cond_id", getIconForConditionCode(forecast.conditionCode, false)) // FIXME do not assume daylight
+                        .put("high", forecast.maxTemp - 273)
+                        .put("low", forecast.minTemp - 273)
+                );
+                if (++i == 3) break; // max 3
+            }
+
+            JSONArray forecastDayArray = new JSONArray();
+            final int[] hours = {0, 0, 0};
+
+            for (int hour : hours) {
+                forecastDayArray.put(new JSONObject()
+                        .put("hour", hour)
+                        .put("cond_id", 0)
+                        .put("temp", 0)
+                );
+            }
+
+
+            JSONObject forecastResponseObject = new JSONObject()
+                    .put("res", new JSONObject()
+                            .put("id", 0)
+                            .put("set", new JSONObject()
+                                    .put("weatherApp._.config.locations", new JSONArray()
+                                            .put(new JSONObject()
+                                                    .put("alive", ts + 60 * 60)
+                                                    .put("city", weatherSpec.location)
+                                                    .put("unit", "c") // FIXME: do not hardcode
+                                                    .put("temp", weatherSpec.currentTemp - 273)
+                                                    .put("high", weatherSpec.todayMaxTemp - 273)
+                                                    .put("low", weatherSpec.todayMinTemp - 273)
+                                                    .put("rain", 0)
+                                                    .put("cond_id", getIconForConditionCode(weatherSpec.currentConditionCode, false)) // FIXME do not assume daylight
+                                                    .put("forecast_day", forecastDayArray)
+                                                    .put("forecast_week", forecastWeekArray)
+                                            )
+                                    )
+                            )
+                    );
+
+            queueWrite(new JsonPutRequest(forecastResponseObject, this));
+
+        } catch (JSONException e) {
+            logger.error("JSON exception: ", e);
+        }
+    }
+
+
+    // this was used to enumerate the weather icons :)
+    /*
+    static int i = 0;
+
+    @Override
+    public void onTestNewFunction() {
+        long ts = System.currentTimeMillis();
+        ts /= 1000;
+        try {
+            JSONObject responseObject = new JSONObject()
+                    .put("res", new JSONObject()
+                            .put("id", 0) // seems the id does not matter?
+                            .put("set", new JSONObject()
+                                    .put("weatherInfo", new JSONObject()
+                                            .put("alive", ts + 60 * 60)
+                                            .put("unit", "c")
+                                            .put("temp", i)
+                                            .put("cond_id", i++)
+                                    )
+                            ));
+
+            queueWrite(new JsonPutRequest(responseObject, this));
+
+        } catch (JSONException e) {
+            logger.error(" JSON exception: ", e);
+        }
+    }
+*/
     public byte[] getSecretKey() {
         byte[] authKeyBytes = new byte[16];
 
@@ -579,7 +737,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
         byte requestType = value[1];
 
-        if (requestType == (byte) 0x05) {
+        if(requestType == (byte) 0x04){
+            handleCallRequest(value);
+        }else if (requestType == (byte) 0x05) {
             handleMusicRequest(value);
         } else if (requestType == (byte) 0x01) {
             int eventId = value[2];
@@ -589,10 +749,11 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 logger.info(jsonString);
                 JSONObject requestJson = new JSONObject(jsonString);
 
-                int requestId = requestJson.getJSONObject("req").getInt("id");
+                JSONObject request = requestJson.getJSONObject("req");
+                int requestId = request.getInt("id");
 
-                if (requestJson.getJSONObject("req").has("ringMyPhone")) {
-                    String action = requestJson.getJSONObject("req").getJSONObject("ringMyPhone").getString("action");
+                if (request.has("ringMyPhone")) {
+                    String action = request.getJSONObject("ringMyPhone").getString("action");
                     logger.info("got ringMyPhone request; " + action);
                     GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
 
@@ -624,11 +785,19 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                                 .put("result", "off");
                         queueWrite(new JsonPutRequest(responseObject, this));
                     }
-                } else {
-                    String action = requestJson.getJSONObject("req").getJSONObject("commuteApp._.config.commute_info")
+                } else if (request.has("weatherInfo") || request.has("weatherApp._.config.locations")) {
+                    logger.info("Got weatherInfo request");
+                    WeatherSpec weatherSpec = Weather.getInstance().getWeatherSpec();
+                    if (weatherSpec != null) {
+                        onSendWeather(weatherSpec);
+                    } else {
+                        logger.info("no weather data available  - ignoring request");
+                    }
+                } else if (request.has("commuteApp._.config.commute_info")) {
+                    String action = request.getJSONObject("commuteApp._.config.commute_info")
                             .getString("dest");
 
-                    String startStop = requestJson.getJSONObject("req").getJSONObject("commuteApp._.config.commute_info")
+                    String startStop = request.getJSONObject("commuteApp._.config.commute_info")
                             .getString("action");
 
                     if (startStop.equals("stop")) {
@@ -641,11 +810,23 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                     Intent menuIntent = new Intent(QHybridSupport.QHYBRID_EVENT_COMMUTE_MENU);
                     menuIntent.putExtra("EXTRA_ACTION", action);
                     getContext().sendBroadcast(menuIntent);
+                } else {
+                    logger.warn("Unhandled request from watch: " + requestJson.toString());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void handleCallRequest(byte[] value) {
+        boolean acceptCall = value[7] == (byte) 0x00;
+        queueWrite(new PlayCallNotificationRequest("", false, this));
+
+        GBDeviceEventCallControl callControlEvent = new GBDeviceEventCallControl();
+        callControlEvent.event = acceptCall ? GBDeviceEventCallControl.Event.START : GBDeviceEventCallControl.Event.REJECT;
+
+        getDeviceSupport().evaluateGBDeviceEvent(callControlEvent);
     }
 
     private void handleMusicRequest(byte[] value) {

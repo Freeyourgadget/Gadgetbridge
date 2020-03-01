@@ -45,8 +45,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
@@ -61,6 +61,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
@@ -115,7 +116,7 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     private PackageConfigHelper helper;
 
-    private volatile boolean searchDevice = false;
+    public volatile boolean searchDevice = false;
 
     private long timeOffset;
 
@@ -511,35 +512,12 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     @Override
     public void onFindDevice(boolean start) {
-        try {
-            if (watchAdapter.supportsExtendedVibration()) {
-                GB.toast("Device does not support brr brr", Toast.LENGTH_SHORT, GB.INFO);
-            }
-        } catch (UnsupportedOperationException e) {
-            notifiyException(e);
-            GB.toast("Please contact dakhnod@gmail.com\n", Toast.LENGTH_SHORT, GB.INFO);
-        }
+        watchAdapter.onFindDevice(start);
+    }
 
-        if (start && searchDevice) return;
-
-        searchDevice = start;
-
-        if (start) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    int i = 0;
-                    while (searchDevice) {
-                        QHybridSupport.this.watchAdapter.vibrateFindMyDevicePattern();
-                        try {
-                            Thread.sleep(2500);
-                        } catch (InterruptedException e) {
-                            GB.log("error", GB.ERROR, e);
-                        }
-                    }
-                }
-            }).start();
-        }
+    @Override
+    public void onSendWeather(WeatherSpec weatherSpec) {
+        watchAdapter.onSendWeather(weatherSpec);
     }
 
     @Override
@@ -583,7 +561,13 @@ public class QHybridSupport extends QHybridBaseSupport {
         notifiyException("", e);
     }
 
-    public void notifiyException(String requestName, Exception e){
+    public void notifiyException(String requestName, Exception e) {
+        if (!BuildConfig.DEBUG) {
+            logger.error("Error: " + requestName, e);
+            return;
+        }
+        GB.toast("Please contact dakhnod@gmail.com\n", Toast.LENGTH_SHORT, GB.ERROR, e);
+
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
@@ -616,7 +600,6 @@ public class QHybridSupport extends QHybridBaseSupport {
         }
 
         ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify((int) System.currentTimeMillis(), notificationBuilder.build());
-
     }
 
     @Override
@@ -646,7 +629,6 @@ public class QHybridSupport extends QHybridBaseSupport {
                     gbDevice.addDeviceInfo(new GenericItem(ITEM_HAS_ACTIVITY_HAND, String.valueOf(watchAdapter.supportsActivityHand())));
                 } catch (UnsupportedOperationException e) {
                     notifiyException(e);
-                    GB.toast("Please contact dakhnod@gmail.com\n", Toast.LENGTH_SHORT, GB.INFO);
                     gbDevice.addDeviceInfo(new GenericItem(ITEM_EXTENDED_VIBRATION_SUPPORT, "false"));
                 }
                 break;

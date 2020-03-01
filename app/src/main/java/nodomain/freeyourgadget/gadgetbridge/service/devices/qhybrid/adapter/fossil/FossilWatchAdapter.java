@@ -35,7 +35,6 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -54,9 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.NotificationFilterPutRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayTextNotificationRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.VerifyPrivateKeyRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.AnimationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.MoveHandsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.ReleaseHandsControlRequest;
@@ -514,6 +511,38 @@ public class FossilWatchAdapter extends WatchAdapter {
     }
 
     public void handleHeartRateCharacteristic(BluetoothGattCharacteristic characteristic) {
+    }
+
+    @Override
+    public void onFindDevice(boolean start) {
+        try {
+            if (this.supportsExtendedVibration()) {
+                GB.toast("Device does not support brr brr", Toast.LENGTH_SHORT, GB.INFO);
+            }
+        } catch (UnsupportedOperationException e) {
+            getDeviceSupport().notifiyException(e);
+        }
+
+        if (start && getDeviceSupport().searchDevice) return;
+
+        getDeviceSupport().searchDevice = start;
+
+        if (start) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    int i = 0;
+                    while (getDeviceSupport().searchDevice) {
+                        vibrateFindMyDevicePattern();
+                        try {
+                            Thread.sleep(2500);
+                        } catch (InterruptedException e) {
+                            GB.log("error", GB.ERROR, e);
+                        }
+                    }
+                }
+            }).start();
+        }
     }
 
     protected void handleBackgroundCharacteristic(BluetoothGattCharacteristic characteristic) {

@@ -799,4 +799,7 @@
     <string name="qhybrid_changes_delay_prompt">El cambio puede demorar varios segundos…</string>
     <string name="qhybrid_offset_time_by">tiempo compensado por</string>
     <string name="pref_summary_disable_new_ble_scanning">Marque esta opción si su dispositivo no es encontrado durante el descubrimiento</string>
+    <string name="pref_summary_allow_high_mtu">Incrementa la velocidad de transferencia, pero puede no trabajar en algunos dispositivos Android.</string>
+    <string name="pref_summary_sync_calendar">Habilita las alertas del calendario, incluso cuando se encuentre desconectado</string>
+    <string name="pref_title_sync_caldendar">Sincronizar eventos del calendario</string>
 </resources>

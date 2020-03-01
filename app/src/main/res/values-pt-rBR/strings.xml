@@ -835,4 +835,6 @@
     <string name="devicetype_itag">iTag</string>
     <string name="pref_title_allow_high_mtu">Permitir MTU alto</string>
     <string name="pref_summary_allow_high_mtu">Aumenta velocidade de transferência, mas pode não funcionar em alguns dispositivos Android.</string>
+    <string name="pref_summary_sync_calendar">Possibilita alertas de calendário, mesmo quando desconectado</string>
+    <string name="pref_title_sync_caldendar">Sincronizar eventos de calendário</string>
 </resources>
