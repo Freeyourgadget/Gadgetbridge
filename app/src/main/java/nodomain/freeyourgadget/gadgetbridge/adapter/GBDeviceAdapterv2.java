@@ -291,7 +291,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                                          return;
                                                      }
                                                      GBApplication.deviceService().onFindDevice(true);
-                                                     Snackbar.make(parent, R.string.control_center_find_lost_device, Snackbar.LENGTH_INDEFINITE).setAction(R.string.find_lost_device_you_found_it, new View.OnClickListener()) {
+                                                     Snackbar.make(parent, R.string.control_center_find_lost_device, Snackbar.LENGTH_INDEFINITE).setAction(R.string.find_lost_device_you_found_it, new View.OnClickListener() {
                                                          @Override
                                                          public void onClick(View v) {
                                                              GBApplication.deviceService().onFindDevice(false);
