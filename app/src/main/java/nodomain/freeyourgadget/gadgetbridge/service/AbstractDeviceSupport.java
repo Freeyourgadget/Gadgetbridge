@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.telephony.SmsManager;
 
 import org.slf4j.Logger;
@@ -67,6 +68,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBMusicControlRece
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
+import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
 
 // TODO: support option for a single reminder notification when notifications could not be delivered?
@@ -85,6 +87,8 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     private BluetoothAdapter btAdapter;
     private Context context;
     private boolean autoReconnect;
+
+
 
     @Override
     public void setContext(GBDevice gbDevice, BluetoothAdapter btAdapter, Context context) {
@@ -170,9 +174,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         LOG.info("Got GBDeviceEventFindPhone");
         switch (deviceEvent.event) {
             case START:
-                Intent startIntent = new Intent(getContext(), FindPhoneActivity.class);
-                startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(startIntent);
+                handleGBDeviceEventFindPhoneStart();
                 break;
             case STOP:
                 Intent intent = new Intent(FindPhoneActivity.ACTION_FOUND);
@@ -182,6 +184,38 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                 LOG.warn("unknown GBDeviceEventFindPhone");
         }
     }
+
+    private void handleGBDeviceEventFindPhoneStart() {
+        if ( Build.VERSION.SDK_INT < 29 ) { // this could be used if app in foreground
+            Intent startIntent = new Intent(getContext(), FindPhoneActivity.class);
+            startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(startIntent);
+        }
+        else {
+            handleGBDeviceEventFindPhoneStartNotification();
+        }
+    }
+
+    private void handleGBDeviceEventFindPhoneStartNotification() {
+        LOG.info("Got handleGBDeviceEventFindPhoneStartNotification");
+        Intent intent = new Intent(context, FindPhoneActivity.class);
+
+        PendingIntent pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID );
+        notification
+                .setSmallIcon(R.drawable.ic_notification)
+                .setOngoing(false)
+                .setFullScreenIntent(pi, true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+                .setContentTitle(  context.getString( R.string.find_my_phone_notification ) );
+        notification.setGroup("BackgroundService");
+
+        notificationManager.notify( GB.NOTIFICATION_ID_PHONE_FIND, notification.build());
+    }
+
 
     private void handleGBDeviceEvent(GBDeviceEventMusicControl musicEvent) {
         Context context = getContext();

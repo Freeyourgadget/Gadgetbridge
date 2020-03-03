@@ -59,6 +59,7 @@ import static nodomain.freeyourgadget.gadgetbridge.GBApplication.isRunningOreoOr
 public class GB {
 
     public static final String NOTIFICATION_CHANNEL_ID = "gadgetbridge";
+    public static final String NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID = "gadgetbridge_high_priority";
     public static final String NOTIFICATION_CHANNEL_ID_TRANSFER = "gadgetbridge transfer";
 
     public static final int NOTIFICATION_ID = 1;
@@ -66,6 +67,7 @@ public class GB {
     public static final int NOTIFICATION_ID_LOW_BATTERY = 3;
     public static final int NOTIFICATION_ID_TRANSFER = 4;
     public static final int NOTIFICATION_ID_EXPORT_FAILED = 5;
+    public static final int NOTIFICATION_ID_PHONE_FIND = 6;
 
     private static final Logger LOG = LoggerFactory.getLogger(GB.class);
     public static final int INFO = 1;

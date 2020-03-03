@@ -267,6 +267,7 @@
     <string name="test">Test</string>
     <string name="test_notification">Test notification</string>
     <string name="this_is_a_test_notification_from_gadgetbridge">This is a test notification from Gadgetbridge</string>
+    <string name="find_my_phone_notification">Find my phone</string>
     <string name="bluetooth_is_not_supported_">Bluetooth is not supported.</string>
     <string name="bluetooth_is_disabled_">Bluetooth is disabled.</string>
     <string name="tap_connected_device_for_app_mananger">Tap connected device for App manager</string>
@@ -700,6 +701,7 @@
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>
+    <string name="notification_channel_high_priority_name">Gadgetbridge notifications high priority</string>
     <string name="devicetype_amazfit_gts">Amazfit GTS</string>
     <!-- Menus on the smart device -->
     <string name="menuitem_shortcut_alipay">Alipay (Shortcut)</string>

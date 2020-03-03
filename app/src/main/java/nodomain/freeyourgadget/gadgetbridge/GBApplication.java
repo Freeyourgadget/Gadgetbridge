@@ -90,7 +90,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND4;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.ZETIME;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.fromKey;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
-
+import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID;
 /**
  * Main Application class that initializes and provides access to certain things like
  * logging and DB access.
@@ -209,6 +209,14 @@ public class GBApplication extends Application {
                             getString(R.string.notification_channel_name),
                             NotificationManager.IMPORTANCE_LOW);
                     notificationManager.createNotificationChannel(channel);
+                }
+
+                NotificationChannel channelHighPr = notificationManager.getNotificationChannel(NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID );
+                if (channelHighPr == null) {
+                    channelHighPr = new NotificationChannel(NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID,
+                            getString(R.string.notification_channel_high_priority_name),
+                            NotificationManager.IMPORTANCE_HIGH);
+                    notificationManager.createNotificationChannel(channelHighPr);
                 }
 
                 bluetoothStateChangeReceiver = new BluetoothStateChangeReceiver();
