@@ -165,7 +165,7 @@
     <string name="pref_screen_notification_profile_incoming_call">Powiadomienia o połączeniach przychodzących</string>
     <string name="pref_screen_notification_profile_generic_navigation">Nawigacja</string>
     <string name="pref_screen_notification_profile_generic_social">Sieć społecznościowa</string>
-    <string name="control_center_find_lost_device">Odnajdź zgubione urządzenie</string>
+    <string name="control_center_find_lost_device">Odnajdź zagubione urządzenie</string>
     <string name="control_center_cancel_to_stop_vibration">Anuluj by przerwać wibracje.</string>
     <string name="title_activity_charts">Aktywność i Sen</string>
     <string name="title_activity_set_alarm">Konfiguruj alarmy</string>
@@ -826,4 +826,14 @@
     <string name="error_no_location_access">Dostęp do lokalizacji musi zostać przyznany i włączony, aby skanowanie działało poprawnie</string>
     <string name="pref_summary_allow_high_mtu">Zwiększa szybkość transferu, ale może nie działać na niektórych urządzeniach z Androidem.</string>
     <string name="pref_title_allow_high_mtu">Zezwól na wysoki MTU</string>
+    <string name="pref_summary_sync_calendar">Włącza alerty kalendarza, nawet po rozłączeniu</string>
+    <string name="pref_title_sync_caldendar">Synchronizuj wydarzenia kalendarza</string>
+    <string name="hr_widget_heart_rate">Tętno</string>
+    <string name="hr_widget_steps">Kroki</string>
+    <string name="hr_widget_date">Data</string>
+    <string name="hr_widget_calories">Kalorie</string>
+    <string name="hr_widget_battery">Bateria</string>
+    <string name="hr_widget_weather">Pogoda</string>
+    <string name="hr_widget_nothing">Nic</string>
+    <string name="find_lost_device_you_found_it">Odnaleziono!</string>
 </resources>
