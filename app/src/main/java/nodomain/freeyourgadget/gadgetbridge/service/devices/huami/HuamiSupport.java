@@ -1727,9 +1727,20 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             if (iteration > 8) { // limit ?
                 break;
             }
+
             calendar.setTimeInMillis(calendarEvent.getBegin());
-            byte[] title = calendarEvent.getTitle().getBytes();
-            byte[] body = calendarEvent.getDescription().getBytes();
+            byte[] title;
+            byte[] body;
+            if (calendarEvent.getTitle() != null) {
+                title = calendarEvent.getTitle().getBytes();
+            } else {
+                title = new byte[]{};
+            }
+            if (calendarEvent.getDescription() != null) {
+                body = calendarEvent.getDescription().getBytes();
+            } else {
+                body = new byte[]{};
+            }
 
             int length = 18 + title.length + 1 + body.length + 1;
             ByteBuffer buf = ByteBuffer.allocate(length);
