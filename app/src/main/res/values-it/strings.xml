@@ -807,7 +807,7 @@
     <string name="qhybrid_buttons_overwrite_success">Pulsanti sovrascritti</string>
     <string name="qhybrid_buttons_overwrite_error">Errore durante la modifica dei pulsanti</string>
     <string name="prefs_button_variable_actions">Impostazioni dettagliate per la pressione del pulsante</string>
-    <string name="pref_summary_sync_calendar">Abilita gli avvisi del calendario, anche quando è scollegato</string>
+    <string name="pref_summary_sync_calendar">Abilita gli avvisi del calendario, anche in caso di disconnessione</string>
     <string name="hr_widget_heart_rate">Frequenza cardiaca</string>
     <string name="hr_widget_steps">Passi</string>
     <string name="hr_widget_date">Data</string>
@@ -818,4 +818,12 @@
     <string name="hr_widget_nothing">Nulla</string>
     <string name="pref_title_force_white_color_scheme">Forza la combinazione di colori nero su bianco</string>
     <string name="pref_summary_force_white_color_scheme">Utile se il vostro orologio ha le lancette scure</string>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="one">%d ora</item>
+        <item quantity="other">%d ore</item>
+    </plurals>
+    <string name="qhybrid_time_shift">scostamento orario</string>
+    <string name="qhybrid_second_timezone_offset_relative_to_utc">compensazione del secondo fuso orario rispetto a UTC</string>
+    <string name="qhybrid_offset_timezone">compensazione del fuso orario di</string>
+    <string name="qhybrid_offset_time_by">compensazione dell\'ora di</string>
 </resources>
