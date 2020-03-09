@@ -21,14 +21,14 @@
     <string name="controlcenter_snackbar_requested_screenshot">Capturando un pantallazo del dispositivo</string>
     <string name="title_activity_debug">Depuración</string>
     <!--Strings related to AppManager-->
-    <string name="title_activity_appmanager">Gestor de app</string>
-    <string name="appmanager_cached_watchapps_watchfaces">Apps en caché</string>
-    <string name="appmanager_installed_watchapps">Apps instaladas</string>
+    <string name="title_activity_appmanager">Gestor de aplicaciones</string>
+    <string name="appmanager_cached_watchapps_watchfaces">Aplicaciones en antememoria</string>
+    <string name="appmanager_installed_watchapps">Aplicaciones instaladas</string>
     <string name="appmanager_installed_watchfaces">Esferas instaladas</string>
-    <string name="appmananger_app_delete">Borrar</string>
-    <string name="appmananger_app_delete_cache">Borrar y quitar de la caché</string>
+    <string name="appmananger_app_delete">Eliminar</string>
+    <string name="appmananger_app_delete_cache">Eliminar y quitar de antememoria</string>
     <string name="appmananger_app_reinstall">Reinstalar</string>
-    <string name="appmanager_app_openinstore">Buscar en la appstore de Pebble</string>
+    <string name="appmanager_app_openinstore">Buscar en tienda de aplicaciones de Pebble</string>
     <string name="appmanager_health_activate">Activar</string>
     <string name="appmanager_health_deactivate">Desactivar</string>
     <string name="appmanager_hrm_activate">Activar Monitor de Ritmo Cardíaco</string>
@@ -145,7 +145,7 @@
     <string name="pref_title_timeformat">Formato de hora</string>
     <string name="pref_title_screentime">Tiempo de pantalla encendida</string>
     <string name="prefs_title_all_day_heart_rate">Medición del ritmo cardíaco todo el día</string>
-    <string name="preferences_hplus_settings">Ajustes de HPlus/Makibes</string>
+    <string name="preferences_hplus_settings">Configuración de HPlus/Makibes</string>
     <string name="not_connected">No conectado</string>
     <string name="connecting">Conectando</string>
     <string name="connected">Conectado</string>
@@ -154,7 +154,7 @@
     <string name="test">Probar</string>
     <string name="test_notification">Probar notificación</string>
     <string name="this_is_a_test_notification_from_gadgetbridge">Notificación de prueba desde Gadgetbridge</string>
-    <string name="bluetooth_is_not_supported_">El Bluetooth no está soportado.</string>
+    <string name="bluetooth_is_not_supported_">No se admite el Bluetooth.</string>
     <string name="bluetooth_is_disabled_">El Bluetooth está desactivado.</string>
     <string name="tap_connected_device_for_app_mananger">Toque el dispositivo conectado para el administrador de aplicaciones</string>
     <string name="tap_connected_device_for_activity">Toca el dispositivo conectado para actividad</string>
@@ -248,12 +248,12 @@
     <string name="chart_no_data_synchronize">Sin datos. ¿Sincronizar dispositivo?</string>
     <string name="user_feedback_miband_activity_data_transfer">A punto de transferir %1$s de datos desde %2$s</string>
     <string name="miband_prefs_fitness_goal">Objetivo de pasos diarios</string>
-    <string name="dbaccess_error_executing">Error al ejecutar \'%1$s\'</string>
-    <string name="controlcenter_start_activitymonitor">Tu actividad (ALPHA)</string>
+    <string name="dbaccess_error_executing">Error al ejecutar «%1$s»</string>
+    <string name="controlcenter_start_activitymonitor">Su actividad (ALFA)</string>
     <string name="cannot_connect">No se puede conectar: %1$s</string>
     <string name="installer_activity_unable_to_find_handler">No se ha podido encontrar un controlador para instalar este archivo.</string>
-    <string name="pbw_install_handler_unable_to_install">No se ha podido instalar el fichero: %1$s</string>
-    <string name="pbw_install_handler_hw_revision_mismatch">No se puede instalar este firmware: no coincide con la revision hardware de tu Pebble.</string>
+    <string name="pbw_install_handler_unable_to_install">No se pudo instalar el archivo indicado: %1$s</string>
+    <string name="pbw_install_handler_hw_revision_mismatch">No se puede instalar el «firmware» indicado: no coincide con la revisión de «hardware» del Pebble.</string>
     <string name="installer_activity_wait_while_determining_status">Por favor, espera mientras se determina el estado de la instalación…</string>
     <string name="notif_battery_low_title">¡Batería baja del Gadget!</string>
     <string name="notif_battery_low_percent">A %1$s le queda: %2$s%% batería</string>
@@ -310,7 +310,7 @@
     <string name="miband_prefs_hr_sleep_detection">Usar sensor de pulso para mejorar la detección del sueño</string>
     <string name="miband_prefs_device_time_offset_hours">Compensación de la hora del dispositivo en horas (para detectar el sueño de trabajadores a turnos)</string>
     <string name="miband2_prefs_dateformat">Formato de fecha</string>
-    <string name="dateformat_time">Tiempo</string>
+    <string name="dateformat_time">Hora</string>
     <string name="dateformat_date_time"><![CDATA[Fecha y hora]]></string>
     <string name="mi2_prefs_goal_notification">Notificación de objetivo</string>
     <string name="mi2_prefs_goal_notification_summary">La pulsera vibrará cuando llegues al objetivo diario de pasos</string>
@@ -372,19 +372,25 @@
     <string name="dbmanagementactivity_old_activity_db_deletion_failed">El borrado de la Base de datos antiguos ha fallado.</string>
     <string name="dbmanagementactivity_overwrite">Sobreescribir</string>
     <string name="Cancel">Cancelar</string>
-    <string name="Delete">Borrar</string>
+    <string name="Delete">Eliminar</string>
     <!--Strings related to Vibration Activity-->
     <string name="title_activity_vibration">Vibración</string>
     <!--Strings related to Pebble Pairing Activity-->
-    <string name="title_activity_pebble_pairing">Emparejando con Pebble</string>
-    <string name="pebble_pairing_hint">En su dispositivo Android aparecerá un mensaje para emparejar. Si no aparece, mira en el cajón de notificaciones y acepta la propuesta de emparejamiento. Después acepta también en tu Pebble.</string>
-    <string name="weather_notification_label">Asegúrate de que este tema esté activado en la aplicación de notificación del tiempo para obtener la información en tu Pebble.\n\nNo se requiere configuración.\n\nPuedes activar la aplicación del tiempo del sistema desde la configuración de la app.\n\nLas watchfaces soportadas mostrarán la información del tiempo automáticamente.</string>
+    <string name="title_activity_pebble_pairing">Emparejamiento con Pebble</string>
+    <string name="pebble_pairing_hint">Aparecerá un diálogo de emparejamiento en el dispositivo Android. Si no, busque la notificación en el cajón y acepte la solicitud. Posteriormente, acéptela también en el Pebble.</string>
+    <string name="weather_notification_label">Cerciórese de que esta máscara esté activada en la aplicación Notificación del tiempo para obtener información meteorológica en el Pebble.
+\n
+\nNo hace falta configurar nada aquí.
+\n
+\nPuede activar la aplicación del tiempo del sistema Pebble en la gestión de aplicaciones.
+\n
+\nLas esferas compatibles mostrarán automáticamente el estado del tiempo.</string>
     <string name="pref_title_setup_bt_pairing">Activar el emparejamiento Bluetooth</string>
     <string name="pref_summary_setup_bt_pairing">Desactiva esto si tienes problemas de conexión</string>
     <string name="unit_metric">Métrica</string>
     <string name="unit_imperial">Imperial</string>
     <string name="timeformat_24h">24H</string>
-    <string name="timeformat_am_pm">AM/PM</string>
+    <string name="timeformat_am_pm">a. m./p. m.</string>
     <string name="pref_screen_notification_profile_alarm_clock">Despertador</string>
     <string name="StringUtils_sender">(%1$s)</string>
     <string name="find_device_you_found_it">¡Lo ha encontrado!</string>
@@ -413,9 +419,9 @@
 \n 
 \nPROCEDA BAJO SU PROPIA CUENTA Y RIESGO.</string>
     <string name="mi2_prefs_button_actions">Acciones del botón</string>
-    <string name="mi2_prefs_button_actions_summary">Especificar acción para pulsación del botón del Mi Band 2</string>
+    <string name="mi2_prefs_button_actions_summary">Especifique acciones al presionar botones</string>
     <string name="mi2_prefs_button_press_count">Número de presiones</string>
-    <string name="mi2_prefs_button_press_count_summary">Número de presiones para activar el envío del mensaje</string>
+    <string name="mi2_prefs_button_press_count_summary">Número de presiones de botón para desencadenar un Suceso 1. Después, presionar la misma cantidad de veces creará un Suceso 2 y así sucesivamente.</string>
     <string name="mi2_prefs_button_press_broadcast">Mensaje para enviar</string>
     <string name="mi2_prefs_button_press_broadcast_summary">Enviar mensaje después de un número definido de pulsaciones</string>
     <string name="mi2_prefs_button_action">Activar acción por botón</string>
@@ -429,9 +435,9 @@
     <string name="_pebble_watch_open_on_phone">Abrir en el dispositivo Android</string>
     <string name="_pebble_watch_mute">Silenciar</string>
     <string name="_pebble_watch_reply">Responder</string>
-    <string name="pref_title_pebble_enable_bgjs">Habilitar JS de fondo</string>
+    <string name="pref_title_pebble_enable_bgjs">Activar JS en 2.º plano</string>
     <string name="pref_summary_pebble_enable_bgjs">Permite a las watchfaces mostrar el tiempo, información de batería, etc.</string>
-    <string name="activity_web_view">Actividad Web View</string>
+    <string name="activity_web_view">Vista de actividad web</string>
     <string name="controlcenter_connect">Conectar…</string>
     <string name="fw_upgrade_notice_amazfitcor">Está a punto de instalar el «firmware» %s en su Amazfit Cor.
 \n
@@ -481,7 +487,7 @@
     <string name="pref_title_auto_export_interval">Intervalo de exportación</string>
     <string name="pref_summary_auto_export_interval">Exportar cada %d hora(s)</string>
     <string name="notif_export_failed_title">¡La exportación de la base de datos ha fallado! Por favor, revisa los ajustes.</string>
-    <string name="choose_auto_export_location">Elije la ubicación para exportación</string>
+    <string name="choose_auto_export_location">Elija la ubicación para exportación</string>
     <string name="spanish">Español</string>
     <string name="notification_channel_name">Notificaciones de Gadgetbridge</string>
     <string name="devicetype_xwatch">XWatch</string>
@@ -527,7 +533,7 @@
     <string name="pref_title_pebble_gatt_clientonly">Sólo cliente GATT</string>
     <string name="pref_summary_pebble_gatt_clientonly">Esto es solo para Pebble 2 y experimental, intente esto si tiene problemas de conectividad</string>
     <string name="prefs_screen_orientation">Orientación de pamtalla</string>
-    <string name="pref_auto_fetch_summary">Extracciones suceden al desbloquear la pantalla. Sólo funciona si se establece un mecanismo de bloqueo!</string>
+    <string name="pref_auto_fetch_summary">La recuperación funciona luego de desbloquear la pantalla, y solo si se ha definido un mecanismo de bloqueo.</string>
     <string name="horizontal">"Horizontal "</string>
     <string name="vertical">Vertical</string>
     <string name="notif_battery_low">%1$s batería baja</string>
@@ -564,7 +570,7 @@
     <string name="activity_prefs_charts">Configuraciones de gráfico</string>
     <string name="activity_prefs_chart_max_heart_rate">Frecuencia cardíaca máxima</string>
     <string name="activity_prefs_chart_min_heart_rate">Frecuencia cardíaca mínima</string>
-    <string name="ok">OK</string>
+    <string name="ok">Aceptar</string>
     <string name="on">Encendido</string>
     <string name="mi3_night_mode_sunset">Al atardecer</string>
     <string name="controlcenter_start_activity_tracks">Sus pistas de actividad</string>
@@ -619,18 +625,18 @@
     <string name="preferences_rtl_settings">Compatibilidad con escrituras de derecha a izquierda</string>
     <string name="share_log">Compartir registro</string>
     <string name="warning">¡Advertencia!</string>
-    <string name="zetime_title_settings">Configuraciones de ZeTime</string>
-    <string name="zetime_title_heartrate">Ajustes de frecuencia cardíaca</string>
-    <string name="zetime_title_screentime">Duración de la pantalla en seguntos</string>
+    <string name="zetime_title_settings">Configuración de ZeTime</string>
+    <string name="zetime_title_heartrate">Configuración de frecuencia cardíaca</string>
+    <string name="zetime_title_screentime">Duración de encendido de pantalla en segundos</string>
     <string name="zetime_title_heart_rate_alarm">Alarma de frecuencia cardíaca</string>
-    <string name="zetime_title_heart_rate_alarm_summary">El reloj te avisará cuando tu frecuencia cardíaca exceda los límites.</string>
-    <string name="zetime_heart_rate_alarm_enable">Habilitar la alarma de frecuencia cardíaca</string>
+    <string name="zetime_title_heart_rate_alarm_summary">El reloj le avisará cuando su frecuencia cardíaca exceda los límites.</string>
+    <string name="zetime_heart_rate_alarm_enable">Activar alarma de frecuencia cardíaca</string>
     <string name="activity_prefs_alarm_max_heart_rate">Frecuencia cardíaca máxima</string>
     <string name="activity_prefs_alarm_min_heart_rate">Frecuencia cardíaca mínima</string>
     <string name="zetime_analog_mode">Modo analógico</string>
     <string name="zetime_analog_mode_hands">Solo manos</string>
     <string name="zetime_analog_mode_handsandsteps">Manos y pasos</string>
-    <string name="zetime_activity_tracking">"Seguimiento de  actividad"</string>
+    <string name="zetime_activity_tracking">Seguimiento de actividad</string>
     <string name="zetime_activity_tracking_summary">Al activar el seguimiento de actividad, contará sus pasos, etc.</string>
     <string name="zetime_handmove_display">Movimiento de mano</string>
     <string name="zetime_handmove_display_summary">Gire la muñeca para activar o desactivar la pantalla.</string>
@@ -650,7 +656,7 @@
     <string name="zetime_prefs_inactivity_su">Domingo</string>
     <string name="zetime_title_alarm_signaling">Establecer el tipo de señalización para la alarma</string>
     <string name="zetime_signaling_none">Silencio</string>
-    <string name="zetime_signaling_vibrate">Vibración Continua</string>
+    <string name="zetime_signaling_vibrate">Vibración continua</string>
     <string name="zetime_signaling_beep">Pitido continuo</string>
     <string name="zetime_signaling_vibrate_beep">Vibración continua y pitidos</string>
     <string name="zetime_signaling_vibrate_once">Vibrar una vez</string>
@@ -679,8 +685,8 @@
 \n
 \nPROCEDA BAJO SU PROPIA CUENTA Y RIESGO.</string>
     <string name="prefs_hr_alarm_activity">Alarma de frecuencia cardíaca durante actividad deportiva.</string>
-    <string name="prefs_hr_alarm_low">Límite Bajo</string>
-    <string name="prefs_hr_alarm_high">Límite Alto</string>
+    <string name="prefs_hr_alarm_low">Límite bajo</string>
+    <string name="prefs_hr_alarm_high">Límite alto</string>
     <string name="pref_screen_notification_profile_missed_call">Notificación de llamada perdida</string>
     <string name="pref_screen_notification_profile_calendar">Notificación de calendario</string>
     <string name="pref_screen_notification_profile_inactivity">Notificación de inactividad</string>
@@ -791,22 +797,33 @@
     <string name="qhybrid_vibration_strength">Fuerza de vibración:</string>
     <string name="qhybrid_goal_in_steps">Objetivo en pasos</string>
     <string name="qhybrid_time_shift">diferencia horaria</string>
-    <string name="qhybrid_second_timezone_offset_relative_to_utc">segunda zona horaria compensación en relación a UTC</string>
+    <string name="qhybrid_second_timezone_offset_relative_to_utc">segunda compensación de huso horario en relación a UTC</string>
     <string name="qhybrid_overwrite_buttons">botones de sobreescritura</string>
-    <string name="qhybrid_prompt_million_steps">Por favor, establezca el conteo de pasos a un millon para activar eso.</string>
+    <string name="qhybrid_prompt_million_steps">Establezca el contador de pasos a un millón para activarlo.</string>
     <string name="qhybrid_buttons_overwrite_success">Botones sobrescritos</string>
-    <string name="qhybrid_offset_timezone">zona horaria compensada por</string>
+    <string name="qhybrid_offset_timezone">compensar huso horario por</string>
     <string name="qhybrid_changes_delay_prompt">El cambio puede demorar varios segundos…</string>
     <string name="qhybrid_offset_time_by">tiempo compensado por</string>
     <string name="pref_summary_disable_new_ble_scanning">Marque esta opción si su dispositivo no es encontrado durante el descubrimiento</string>
-    <string name="pref_summary_allow_high_mtu">Incrementa la velocidad de transferencia, pero puede no trabajar en algunos dispositivos Android.</string>
-    <string name="pref_summary_sync_calendar">Habilita las alertas del calendario, incluso cuando se encuentre desconectado</string>
+    <string name="pref_summary_allow_high_mtu">Incrementa la velocidad de transferencia, pero puede no funcionar en algunos dispositivos Android.</string>
+    <string name="pref_summary_sync_calendar">Activa las alertas del calendario, incluso cuando se encuentre desconectado</string>
     <string name="pref_title_sync_caldendar">Sincronizar eventos del calendario</string>
-    <string name="qhybrid_use_activity_hand_as_notification_counter">utilizar la mano de la actividad como contador de notificación</string>
+    <string name="qhybrid_use_activity_hand_as_notification_counter">utilizar manecilla de actividad como contador de notificaciones</string>
     <string name="qhybrid_buttons_overwrite_error">Error al sobrescribir botones</string>
     <string name="alarm_snooze">Dormir</string>
     <string name="hr_widget_heart_rate">Ritmo cardíaco</string>
     <string name="hr_widget_steps">Pasos</string>
     <string name="hr_widget_active_minutes">Minutos activos</string>
     <string name="pref_title_force_white_color_scheme">Forzar el esquema de color negro sobre blanco</string>
+    <string name="preferences_qhybrid_settings">Configuración de Q Hybrid</string>
+    <string name="pref_disable_new_ble_scanning">Desactivar exploración de BLE nueva</string>
+    <string name="prefs_button_single_press_action_selection_title">Acción de suceso 1</string>
+    <string name="prefs_button_double_press_action_selection_title">Acción de suceso 2</string>
+    <string name="prefs_button_triple_press_action_selection_title">Acción de suceso 3</string>
+    <string name="error_no_location_access">Debe concederse y activarse el permiso de ubicación para que funcione adecuadamente la exploración</string>
+    <string name="hr_widget_date">Fecha</string>
+    <string name="hr_widget_calories">Calorías</string>
+    <string name="hr_widget_battery">Batería</string>
+    <string name="hr_widget_weather">Tiempo</string>
+    <string name="hr_widget_nothing">Nada</string>
 </resources>
