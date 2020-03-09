@@ -810,7 +810,7 @@
     <string name="pref_title_sync_caldendar">Sincronizar eventos del calendario</string>
     <string name="qhybrid_use_activity_hand_as_notification_counter">utilizar manecilla de actividad como contador de notificaciones</string>
     <string name="qhybrid_buttons_overwrite_error">Error al sobrescribir botones</string>
-    <string name="alarm_snooze">Dormir</string>
+    <string name="alarm_snooze">Dormitar</string>
     <string name="hr_widget_heart_rate">Ritmo cardíaco</string>
     <string name="hr_widget_steps">Pasos</string>
     <string name="hr_widget_active_minutes">Minutos activos</string>
@@ -826,4 +826,7 @@
     <string name="hr_widget_battery">Batería</string>
     <string name="hr_widget_weather">Tiempo</string>
     <string name="hr_widget_nothing">Nada</string>
+    <string name="devicetype_banglejs">Bangle.js</string>
+    <string name="devicetype_y5">Y5</string>
+    <string name="devicetype_itag">iTag</string>
 </resources>
