@@ -53,10 +53,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import de.greenrobot.dao.query.Query;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
@@ -107,7 +109,7 @@ public class NotificationListener extends NotificationListenerService {
     private HashMap<String, Long> notificationBurstPrevention = new HashMap<>();
     private HashMap<String, Long> notificationOldRepeatPrevention = new HashMap<>();
 
-    private static final List<String> groupSummaryWhitelist = Arrays.asList(
+    private static final Set<String> GROUP_SUMMARY_WHITELIST = Collections.singleton(
             "mikado.bizcalpro"
     );
 
@@ -287,20 +289,22 @@ public class NotificationListener extends NotificationListenerService {
 
         String source = sbn.getPackageName().toLowerCase();
         Notification notification = sbn.getNotification();
-        if (notificationOldRepeatPrevention.containsKey(source)) {
-            if (notification.when <= notificationOldRepeatPrevention.get(source)) {
-                LOG.info("NOT processing notification, already sent newer notifications from this source.");
-                return;
-            }
+
+        Long notificationOldRepeatPreventionValue = notificationOldRepeatPrevention.get(source);
+        if (notificationOldRepeatPreventionValue != null
+                && notification.when <= notificationOldRepeatPreventionValue) {
+            LOG.info("NOT processing notification, already sent newer notifications from this source.");
+            return;
         }
 
         // Ignore too frequent notifications, according to user preference
-        long min_timeout = (long)prefs.getInt("notifications_timeout", 0) * 1000L;
-        long cur_time = System.currentTimeMillis();
-        if (notificationBurstPrevention.containsKey(source)) {
-            long last_time = notificationBurstPrevention.get(source);
-            if (cur_time - last_time < min_timeout) {
-                LOG.info("Ignoring frequent notification, last one was " + (cur_time - last_time) + "ms ago");
+        long curTime = System.nanoTime();
+        Long notificationBurstPreventionValue = notificationBurstPrevention.get(source);
+        if (notificationBurstPreventionValue != null) {
+            long diff = curTime - notificationBurstPreventionValue;
+            if (diff < TimeUnit.SECONDS.toNanos(prefs.getInt("notifications_timeout", 0))) {
+                LOG.info("Ignoring frequent notification, last one was "
+                        + TimeUnit.NANOSECONDS.toMillis(diff) + "ms ago");
                 return;
             }
         }
@@ -356,7 +360,8 @@ public class NotificationListener extends NotificationListenerService {
         List<NotificationCompat.Action> actions = wearableExtender.getActions();
 
 
-        if (actions.size() == 0 && NotificationCompat.isGroupSummary(notification) && !groupSummaryWhitelist.contains(source)) { //this could cause #395 to come back
+        if (actions.isEmpty() && NotificationCompat.isGroupSummary(notification)
+                && !GROUP_SUMMARY_WHITELIST.contains(source)) { //this could cause #395 to come back
             LOG.info("Not forwarding notification, FLAG_GROUP_SUMMARY is set and no wearable action present. Notification flags: " + notification.flags);
             return;
         }
@@ -400,7 +405,7 @@ public class NotificationListener extends NotificationListenerService {
         mNotificationHandleLookup.add(notificationSpec.getId(), sbn.getPostTime()); // for both DISMISS and OPEN
         mPackageLookup.add(notificationSpec.getId(), sbn.getPackageName()); // for MUTE
 
-        notificationBurstPrevention.put(source, cur_time);
+        notificationBurstPrevention.put(source, curTime);
         if(0 != notification.when) {
             notificationOldRepeatPrevention.put(source, notification.when);
         }else {
