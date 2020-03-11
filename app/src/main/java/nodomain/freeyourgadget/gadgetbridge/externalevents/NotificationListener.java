@@ -32,7 +32,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaMetadata;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.RemoteException;
@@ -44,7 +43,6 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.RemoteInput;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -250,19 +248,31 @@ public class NotificationListener extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        Prefs prefs = GBApplication.getPrefs();
+        logNotification(sbn, true);
 
         notificationStack.remove(sbn.getPackageName());
         notificationStack.add(sbn.getPackageName());
 
+        Prefs prefs = GBApplication.getPrefs();
         if (GBApplication.isRunningLollipopOrLater()) {
-            if ("call".equals(sbn.getNotification().category) && prefs.getBoolean("notification_support_voip_calls", false)) {
+            if (NotificationCompat.CATEGORY_CALL.equals(sbn.getNotification().category)
+                    && prefs.getBoolean("notification_support_voip_calls", false)) {
                 handleCallNotification(sbn);
                 return;
             }
         }
-        if (shouldIgnore(sbn)) {
-            LOG.info("Ignore notification");
+
+        if (shouldIgnoreNotifications()) return;
+
+        if (shouldIgnoreSource(sbn)) {
+            LOG.debug("Ignoring notification source");
+            return;
+        }
+
+        if (handleMediaSessionNotification(sbn)) return;
+
+        if (shouldIgnoreNotification(sbn)) {
+            LOG.info("Ignoring notification");
             return;
         }
 
@@ -591,6 +601,11 @@ public class NotificationListener extends NotificationListenerService {
         return false;
     }
 
+    private boolean handleMediaSessionNotification(StatusBarNotification sbn) {
+        MediaSessionCompat.Token mediaSession = getMediaSession(sbn.getNotification());
+        return mediaSession != null && handleMediaSessionNotification(mediaSession);
+    }
+
     /**
      * Try to handle media session notifications that tell info about the current play state.
      *
@@ -651,24 +666,28 @@ public class NotificationListener extends NotificationListenerService {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
-        LOG.info("Notification removed: " + sbn.getPackageName() + ": " + sbn.getNotification().category);
+        logNotification(sbn, false);
 
         notificationStack.remove(sbn.getPackageName());
 
-        if(Notification.CATEGORY_CALL.equals(sbn.getNotification().category) && activeCallPostTime == sbn.getPostTime()) {
-            activeCallPostTime = 0;
-            CallSpec callSpec = new CallSpec();
-            callSpec.command = CallSpec.CALL_END;
-            mLastCallCommand = callSpec.command;
-            GBApplication.deviceService().onSetCallState(callSpec);
+        if (GBApplication.isRunningLollipopOrLater()) {
+            if(Notification.CATEGORY_CALL.equals(sbn.getNotification().category)
+                    && activeCallPostTime == sbn.getPostTime()) {
+                activeCallPostTime = 0;
+                CallSpec callSpec = new CallSpec();
+                callSpec.command = CallSpec.CALL_END;
+                mLastCallCommand = callSpec.command;
+                GBApplication.deviceService().onSetCallState(callSpec);
+            }
         }
         // FIXME: DISABLED for now
 
-        if (shouldIgnore(sbn))
-            return;
+        if (shouldIgnoreNotifications()) return;
+        if (shouldIgnoreSource(sbn)) return;
+        if (handleMediaSessionNotification(sbn)) return;
+        if (shouldIgnoreNotification(sbn)) return;
 
         Prefs prefs = GBApplication.getPrefs();
         if (prefs.getBoolean("autoremove_notifications", true)) {
@@ -678,6 +697,16 @@ public class NotificationListener extends NotificationListenerService {
 
     }
 
+    private void logNotification(StatusBarNotification sbn, boolean posted) {
+        String infoMsg = (posted ? "Notification posted" : "Notification removed")
+                + ": " + sbn.getPackageName();
+
+        if (GBApplication.isRunningLollipopOrLater()) {
+            infoMsg += ": " + sbn.getNotification().category;
+        }
+
+        LOG.debug(infoMsg);
+    }
 
     private void dumpExtras(Bundle bundle) {
         for (String key : bundle.keySet()) {
@@ -690,7 +719,7 @@ public class NotificationListener extends NotificationListenerService {
     }
 
 
-    private boolean shouldIgnore(StatusBarNotification sbn) {
+    private boolean shouldIgnoreNotifications() {
         /*
          * return early if DeviceCommunicationService is not running,
          * else the service would get started every time we get a notification.
@@ -698,16 +727,16 @@ public class NotificationListener extends NotificationListenerService {
          * broadcast receivers because it seems to invalidate the permissions that are
          * necessary for NotificationListenerService
          */
-        if (!isServiceRunning() || sbn == null) {
+        if (!isServiceRunning()) {
+            LOG.trace("Service is not running, ignoring notification");
             return true;
         }
-
-        return shouldIgnoreSource(sbn.getPackageName()) || shouldIgnoreNotification(
-                sbn.getNotification(), sbn.getPackageName());
-
+        return false;
     }
 
-    private boolean shouldIgnoreSource(String source) {
+    private boolean shouldIgnoreSource(StatusBarNotification sbn) {
+        String source = sbn.getPackageName();
+
         Prefs prefs = GBApplication.getPrefs();
 
         /* do not display messages from "android"
@@ -741,12 +770,9 @@ public class NotificationListener extends NotificationListenerService {
         return false;
     }
 
-    private boolean shouldIgnoreNotification(Notification notification, String source) {
-
-        MediaSessionCompat.Token mediaSession = getMediaSession(notification);
-        //try to handle media session notifications
-        if (mediaSession != null && handleMediaSessionNotification(mediaSession))
-            return true;
+    private boolean shouldIgnoreNotification(StatusBarNotification sbn) {
+        Notification notification = sbn.getNotification();
+        String source = sbn.getPackageName();
 
         NotificationType type = AppNotificationType.getInstance().get(source);
         //ignore notifications marked as LocalOnly https://developer.android.com/reference/android/app/Notification.html#FLAG_LOCAL_ONLY
