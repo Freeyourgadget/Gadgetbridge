@@ -253,15 +253,6 @@ public class NotificationListener extends NotificationListenerService {
         notificationStack.remove(sbn.getPackageName());
         notificationStack.add(sbn.getPackageName());
 
-        Prefs prefs = GBApplication.getPrefs();
-        if (GBApplication.isRunningLollipopOrLater()) {
-            if (NotificationCompat.CATEGORY_CALL.equals(sbn.getNotification().category)
-                    && prefs.getBoolean("notification_support_voip_calls", false)) {
-                handleCallNotification(sbn);
-                return;
-            }
-        }
-
         if (shouldIgnoreNotifications()) return;
 
         if (shouldIgnoreSource(sbn)) {
@@ -271,20 +262,27 @@ public class NotificationListener extends NotificationListenerService {
 
         if (handleMediaSessionNotification(sbn)) return;
 
-        if (shouldIgnoreNotification(sbn)) {
-            LOG.info("Ignoring notification");
-            return;
-        }
-
         switch (GBApplication.getGrantedInterruptionFilter()) {
-            case NotificationManager.INTERRUPTION_FILTER_ALL:
-                break;
             case NotificationManager.INTERRUPTION_FILTER_ALARMS:
             case NotificationManager.INTERRUPTION_FILTER_NONE:
                 return;
             case NotificationManager.INTERRUPTION_FILTER_PRIORITY:
                 // FIXME: Handle Reminders and Events if they are enabled in Do Not Disturb
                 return;
+        }
+
+        Prefs prefs = GBApplication.getPrefs();
+        if (GBApplication.isRunningLollipopOrLater()) {
+            if (NotificationCompat.CATEGORY_CALL.equals(sbn.getNotification().category)
+                    && prefs.getBoolean("notification_support_voip_calls", false)) {
+                handleCallNotification(sbn);
+                return;
+            }
+        }
+
+        if (shouldIgnoreNotification(sbn)) {
+            LOG.info("Ignoring notification");
+            return;
         }
 
         String source = sbn.getPackageName().toLowerCase();
@@ -672,6 +670,11 @@ public class NotificationListener extends NotificationListenerService {
 
         notificationStack.remove(sbn.getPackageName());
 
+        if (shouldIgnoreNotifications()) return;
+        if (shouldIgnoreSource(sbn)) return;
+
+        if (handleMediaSessionNotification(sbn)) return;
+
         if (GBApplication.isRunningLollipopOrLater()) {
             if(Notification.CATEGORY_CALL.equals(sbn.getNotification().category)
                     && activeCallPostTime == sbn.getPostTime()) {
@@ -684,9 +687,6 @@ public class NotificationListener extends NotificationListenerService {
         }
         // FIXME: DISABLED for now
 
-        if (shouldIgnoreNotifications()) return;
-        if (shouldIgnoreSource(sbn)) return;
-        if (handleMediaSessionNotification(sbn)) return;
         if (shouldIgnoreNotification(sbn)) return;
 
         Prefs prefs = GBApplication.getPrefs();
