@@ -838,4 +838,6 @@
     <string name="pref_summary_force_white_color_scheme">如果您双手颜色较深，将会有帮助</string>
     <string name="find_my_phone_notification">查找我的手机</string>
     <string name="notification_channel_high_priority_name">Gadgetbridge 通知高优先级</string>
+    <string name="pref_title_custom_deviceicon">显示设备特定的通知图标</string>
+    <string name="pref_summary_custom_deviceicon">显示设备指定的 Android 通知图标以替代已连接时的 Gadgetbridge 图标</string>
 </resources>
