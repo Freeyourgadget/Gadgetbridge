@@ -836,4 +836,6 @@
     <string name="find_lost_device_you_found_it">找到它了！</string>
     <string name="pref_title_force_white_color_scheme">当处于白色方案时始终使用黑色</string>
     <string name="pref_summary_force_white_color_scheme">如果您双手颜色较深，将会有帮助</string>
+    <string name="find_my_phone_notification">查找我的手机</string>
+    <string name="notification_channel_high_priority_name">Gadgetbridge 通知高优先级</string>
 </resources>
