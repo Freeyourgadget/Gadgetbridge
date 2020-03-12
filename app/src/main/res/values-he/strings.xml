@@ -838,4 +838,6 @@
     <string name="find_lost_device_you_found_it">מצאתי!</string>
     <string name="pref_title_force_white_color_scheme">לאכוף ערכת צבעים שחור על לבן</string>
     <string name="pref_summary_force_white_color_scheme">שימושי לידיים כהות</string>
+    <string name="find_my_phone_notification">איתור הטלפון שלי</string>
+    <string name="notification_channel_high_priority_name">התראות מ־Gadgetbridge בעדיפות גבוהה</string>
 </resources>
