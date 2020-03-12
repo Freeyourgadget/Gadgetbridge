@@ -848,4 +848,6 @@
     <string name="find_lost_device_you_found_it">Encontrei!</string>
     <string name="pref_title_force_white_color_scheme">Forçar preto no esquema de cores branco</string>
     <string name="pref_summary_force_white_color_scheme">Útil se seu relógio possui ponteiros escuros</string>
+    <string name="find_my_phone_notification">Localizar meu telefone</string>
+    <string name="notification_channel_high_priority_name">Notificações de Gadgetbridge de alta prioridade</string>
 </resources>
