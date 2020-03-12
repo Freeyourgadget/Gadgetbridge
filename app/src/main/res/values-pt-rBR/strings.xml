@@ -850,4 +850,6 @@
     <string name="pref_summary_force_white_color_scheme">Útil se seu relógio possui ponteiros escuros</string>
     <string name="find_my_phone_notification">Localizar meu telefone</string>
     <string name="notification_channel_high_priority_name">Notificações de Gadgetbridge de alta prioridade</string>
+    <string name="pref_title_custom_deviceicon">Mostrar ícone de notificação específica do dispositivo</string>
+    <string name="pref_summary_custom_deviceicon">Mostra o ícone de notificação Android específico de um dispositivo em vez do ícone do Gadgetbridge quando conectado</string>
 </resources>
