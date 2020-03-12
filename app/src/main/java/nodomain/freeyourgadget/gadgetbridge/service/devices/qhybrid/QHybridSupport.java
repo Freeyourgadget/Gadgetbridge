@@ -48,6 +48,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
@@ -350,8 +351,10 @@ public class QHybridSupport extends QHybridBaseSupport {
         this.useActivityHand = GBApplication.getPrefs().getBoolean("QHYBRID_USE_ACTIVITY_HAND", false);
         getDevice().addDeviceInfo(new GenericItem(ITEM_USE_ACTIVITY_HAND, String.valueOf(this.useActivityHand)));
 
-        getDevice().setNotificationIconConnected(R.drawable.ic_notification_qhybrid);
-        getDevice().setNotificationIconDisconnected(R.drawable.ic_notification_disconnected_qhybrid);
+        if (GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREF_USE_CUSTOM_DEVICEICON, true)) {
+            getDevice().setNotificationIconConnected(R.drawable.ic_notification_qhybrid);
+            getDevice().setNotificationIconDisconnected(R.drawable.ic_notification_disconnected_qhybrid);
+        }
 
         for (int i = 2; i <= 7; i++)
             builder.notify(getCharacteristic(UUID.fromString("3dda000" + i + "-957f-7d4a-34a6-74696673696d")), true);

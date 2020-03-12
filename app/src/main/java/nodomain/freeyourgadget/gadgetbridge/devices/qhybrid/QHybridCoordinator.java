@@ -183,11 +183,13 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
         if (isHybridHR()) {
             return new int[]{
                     R.xml.devicesettings_fossilhybridhr,
-                    R.xml.devicesettings_pairingkey
+                    R.xml.devicesettings_pairingkey,
+                    R.xml.devicesettings_custom_deviceicon
             };
         }
         return new int[]{
-                R.xml.devicesettings_pairingkey
+                R.xml.devicesettings_pairingkey,
+                R.xml.devicesettings_custom_deviceicon
         };
     }
 
