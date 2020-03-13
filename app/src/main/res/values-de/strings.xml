@@ -845,4 +845,8 @@
     <string name="find_lost_device_you_found_it">Gefunden!</string>
     <string name="pref_title_force_white_color_scheme">Schwarz-Weiß-Farbschema erzwingen</string>
     <string name="pref_summary_force_white_color_scheme">Nützlich, wenn deine Uhr dunkle Zeiger hat</string>
+    <string name="find_my_phone_notification">Mein Telefon finden</string>
+    <string name="notification_channel_high_priority_name">Gadgetbridge-Benachrichtigungen mit hoher Priorität</string>
+    <string name="pref_title_custom_deviceicon">Gerätespezifisches Benachrichtigungssymbol anzeigen</string>
+    <string name="pref_summary_custom_deviceicon">Zeige ein gerätespezifisches Android-Benachrichtigungssymbol anstelle des Gadgetbridge-Symbols, wenn eine Verbindung besteht</string>
 </resources>
