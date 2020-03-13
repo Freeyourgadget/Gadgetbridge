@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.nio.BufferOverflowException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -370,7 +369,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                         new TimeConfigItem(
                                 (int) (millis / 1000 + getDeviceSupport().getTimeOffset() * 60),
                                 (short) (millis % 1000),
-                                (short) ((zone.getRawOffset() + (zone.inDaylightTime(new Date()) ? 1 : 0)) / 60000)
+                                (short) (zone.getOffset(millis) / 60000)
                         ),
                         this), false
         );
