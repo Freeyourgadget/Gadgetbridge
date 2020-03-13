@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2016-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti
 
     This file is part of Gadgetbridge.
@@ -232,7 +232,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
     private boolean sendFirmwareData(HuamiFirmwareInfo info) {
         byte[] fwbytes = info.getBytes();
         int len = fwbytes.length;
-        final int packetLength = 20;
+        final int packetLength = getSupport().getMTU() - 3;
         int packets = len / packetLength;
 
         try {

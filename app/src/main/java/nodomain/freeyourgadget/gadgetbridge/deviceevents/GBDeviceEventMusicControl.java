@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, vanous
 
     This file is part of Gadgetbridge.
 
@@ -29,5 +29,7 @@ public class GBDeviceEventMusicControl extends GBDeviceEvent {
         PREVIOUS,
         VOLUMEUP,
         VOLUMEDOWN,
+        FORWARD,
+        REWIND
     }
 }

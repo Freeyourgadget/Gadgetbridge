@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2019 Andreas Shimokawa, Daniele Gobbetti
+/*  Copyright (C) 2017-2020 Andreas Shimokawa, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -41,12 +41,14 @@ public class MiBand4FirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(43437, "1.0.5.66");
         crcToVersion.put(31632, "1.0.6.00");
         crcToVersion.put(6856, "1.0.7.14");
+        crcToVersion.put(50145, "1.0.7.60");
 
         // resources
         crcToVersion.put(27412, "1.0.5.22");
         crcToVersion.put(5466, "1.0.5.66");
         crcToVersion.put(20047, "1.0.6.00");
         crcToVersion.put(62914, "1.0.7.14");
+        crcToVersion.put(17303, "1.0.7.60");
 
         // font
         crcToVersion.put(31978, "1");

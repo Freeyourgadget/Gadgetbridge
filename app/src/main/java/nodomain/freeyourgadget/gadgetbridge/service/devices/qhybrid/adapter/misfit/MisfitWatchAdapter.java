@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 Daniel Dakhno
+/*  Copyright (C) 2019-2020 Daniel Dakhno
 
     This file is part of Gadgetbridge.
 
@@ -74,6 +74,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mis
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SetVibrationStrengthRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.UploadFileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.VibrateRequest;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.ITEM_ACTIVITY_POINT;
@@ -92,7 +93,7 @@ public class MisfitWatchAdapter extends WatchAdapter {
 
     private Queue<Request> requestQueue = new ArrayDeque<>();
 
-    Logger logger = LoggerFactory.getLogger(getClass());
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     public MisfitWatchAdapter(QHybridSupport deviceSupport) {
         super(deviceSupport);
@@ -178,13 +179,10 @@ public class MisfitWatchAdapter extends WatchAdapter {
             default: {
                 log("unknown shit on " + characteristic.getUuid().toString() + ":  " + arrayToString(characteristic.getValue()));
                 try {
-                    File charLog = new File("/sdcard/qFiles/charLog.txt");
-                    if (!charLog.exists()) {
-                        charLog.createNewFile();
+                    File charLog = FileUtils.getExternalFile("qFiles/charLog.txt");
+                    try (FileOutputStream fos = new FileOutputStream(charLog, true)) {
+                        fos.write((new Date().toString() + ": " + characteristic.getUuid().toString() + ": " + arrayToString(characteristic.getValue())).getBytes());
                     }
-
-                    FileOutputStream fos = new FileOutputStream(charLog, true);
-                    fos.write((new Date().toString() + ": " + characteristic.getUuid().toString() + ": " + arrayToString(characteristic.getValue())).getBytes());
                 } catch (IOException e) {
                     GB.log("error", GB.ERROR, e);
                 }
@@ -245,17 +243,11 @@ public class MisfitWatchAdapter extends WatchAdapter {
             int steps = ((GetCurrentStepCountRequest) request).steps;
             logger.debug("get current steps: " + steps);
             try {
-                File f = new File("/sdcard/qFiles/");
-                if (!f.exists()) f.mkdir();
-
-                File file = new File("/sdcard/qFiles/steps");
-                if (!file.exists()) {
-                    file.createNewFile();
-                }
+                File file = FileUtils.getExternalFile("qFiles/steps");
                 logger.debug("Writing file " + file.getPath());
-                FileOutputStream fos = new FileOutputStream(file, true);
-                fos.write((System.currentTimeMillis() + ": " + steps + "\n").getBytes());
-                fos.close();
+                try (FileOutputStream fos = new FileOutputStream(file, true)) {
+                    fos.write((System.currentTimeMillis() + ": " + steps + "\n").getBytes());
+                }
                 logger.debug("file written.");
             } catch (Exception e) {
                 GB.log("error", GB.ERROR, e);

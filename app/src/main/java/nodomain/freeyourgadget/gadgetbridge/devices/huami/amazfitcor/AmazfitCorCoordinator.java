@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2019 Andreas Shimokawa, Daniele Gobbetti, João
+/*  Copyright (C) 2017-2020 Andreas Shimokawa, Daniele Gobbetti, João
     Paulo Barraca, Matthieu Baerts
 
     This file is part of Gadgetbridge.
@@ -85,9 +85,11 @@ public class AmazfitCorCoordinator extends HuamiCoordinator {
         return new int[]{
                 R.xml.devicesettings_amazfitcor,
                 R.xml.devicesettings_wearlocation,
+                R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_custom_emoji_font,
                 R.xml.devicesettings_liftwrist_display,
                 R.xml.devicesettings_disconnectnotification,
+                R.xml.devicesettings_sync_calendar,
                 R.xml.devicesettings_expose_hr_thirdparty,
                 R.xml.devicesettings_pairingkey
         };

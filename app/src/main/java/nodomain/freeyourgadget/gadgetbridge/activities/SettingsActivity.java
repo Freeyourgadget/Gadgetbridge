@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2019 0nse, Andreas Shimokawa, Carsten Pfeiffer,
+/*  Copyright (C) 2015-2020 0nse, Andreas Shimokawa, Carsten Pfeiffer,
     Daniel Dakhno, Daniele Gobbetti, Felix Konstantin Maurer, José Rebelo,
     Martin, Normano64, Pavel Elagin, Sebastian Kranz, vanous
 

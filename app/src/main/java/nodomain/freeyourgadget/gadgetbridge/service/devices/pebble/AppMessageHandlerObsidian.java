@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Daniele Gobbetti, Johann C. Rode
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Daniele Gobbetti, Johann C. Rode
 
     This file is part of Gadgetbridge.
 

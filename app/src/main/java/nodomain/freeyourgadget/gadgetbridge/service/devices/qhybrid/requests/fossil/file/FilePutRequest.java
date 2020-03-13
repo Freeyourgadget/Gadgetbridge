@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 Daniel Dakhno
+/*  Copyright (C) 2019-2020 Andreas Shimokawa, Daniel Dakhno
 
     This file is part of Gadgetbridge.
 
@@ -27,6 +27,7 @@ import java.util.zip.CRC32;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.ResultCode;
 import nodomain.freeyourgadget.gadgetbridge.util.CRC32C;
 
 public class FilePutRequest extends FossilRequest {
@@ -99,8 +100,9 @@ public class FilePutRequest extends FossilRequest {
                     int crc = buffer.getInt(8);
                     byte status = value[3];
 
-                    if (status != 0) {
-                        throw new RuntimeException("upload status: " + status);
+                    ResultCode code = ResultCode.fromCode(status);
+                    if(!code.inidicatesSuccess()){
+                        throw new RuntimeException("upload status: " + code + "   (" + status + ")");
                     }
 
                     if (handle != this.handle) {
@@ -144,9 +146,10 @@ public class FilePutRequest extends FossilRequest {
 
                     byte status = buffer.get(3);
 
-                    if (status != 0) {
+                    ResultCode code = ResultCode.fromCode(status);
+                    if(!code.inidicatesSuccess()){
                         onFilePut(false);
-                        throw new RuntimeException("wrong closing status: " + status);
+                        throw new RuntimeException("wrong closing status: " + code + "   (" + status + ")");
                     }
 
                     this.state = UploadState.UPLOADED;

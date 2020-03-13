@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, boun, Carsten Pfeiffer, Daniel
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, boun, Carsten Pfeiffer, Daniel
     Dakhno, Daniele Gobbetti, JohnnySun, jonnsoft, Lem Dulfo, Taavi Eomäe,
     Uwe Hermann
 
@@ -53,6 +53,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -303,7 +304,13 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
         registerReceiver(bluetoothReceiver, bluetoothIntents);
 
-        startDiscovery();
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            GB.toast(DiscoveryActivity.this, getString(R.string.error_no_location_access), Toast.LENGTH_SHORT, GB.ERROR);
+            LOG.error("No permission to access coarse location!");
+            checkAndRequestLocationPermission();
+        } else {
+            startDiscovery();
+        }
     }
 
     @Override
@@ -667,6 +674,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
                         bondingDevice = deviceCandidate;
                         break;
                     case BluetoothDevice.BOND_BONDED:
+                        bondingDevice = deviceCandidate;
                         handleDeviceBonded();
                         break;
                 }

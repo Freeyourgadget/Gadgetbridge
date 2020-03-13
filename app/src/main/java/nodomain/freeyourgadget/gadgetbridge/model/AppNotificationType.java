@@ -1,6 +1,6 @@
-/*  Copyright (C) 2016-2019 Andreas Shimokawa, AnthonyDiGirolamo, Daniele
+/*  Copyright (C) 2016-2020 Andreas Shimokawa, AnthonyDiGirolamo, Daniele
     Gobbetti, Frank Slezak, Kaz Wolfe, Kevin Richter, Lukas Veneziano, Marvin D,
-    Matthieu Baerts, michaelneu, NotAFIle, Tomas Radej
+    Matthieu Baerts, michaelneu, NotAFIle, Tomas Radej, w2q
 
     This file is part of Gadgetbridge.
 
@@ -51,6 +51,7 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
 
         // Generic Calendar
         put("com.android.calendar", NotificationType.GENERIC_CALENDAR);
+        put("mikado.bizcalpro", NotificationType.BUSINESS_CALENDAR);
 
         // Google
         put("com.google.android.gm", NotificationType.GMAIL);
@@ -63,6 +64,7 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
 
         // Conversations
         put("eu.siacs.conversations", NotificationType.CONVERSATIONS);
+        put("de.pixart.messenger", NotificationType.CONVERSATIONS);
 
         // Riot
         put("im.vector.alpha", NotificationType.RIOT);

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 vanous
+/*  Copyright (C) 2019-2020 vanous
 
     This file is part of Gadgetbridge.
 
@@ -135,7 +135,7 @@ public class WidgetAlarmsActivity extends Activity implements View.OnClickListen
                 this.getString(R.string.appwidget_setting_alarm, hours, minutes),
                 Toast.LENGTH_SHORT, GB.INFO);
 
-        Alarm alarm = AlarmUtils.createSingleShot(0, true, calendar);
+        Alarm alarm = AlarmUtils.createSingleShot(0, true, false, calendar);
         ArrayList<Alarm> alarms = new ArrayList<>(1);
         alarms.add(alarm);
         GBApplication.deviceService().onSetAlarms(alarms);

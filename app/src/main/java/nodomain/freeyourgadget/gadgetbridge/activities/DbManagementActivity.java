@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2019 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
+/*  Copyright (C) 2016-2020 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
     Daniele Gobbetti, vanous
 
     This file is part of Gadgetbridge.

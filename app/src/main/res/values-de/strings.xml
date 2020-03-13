@@ -44,7 +44,7 @@
     <string name="title_activity_calblacklist">Kalender auf Blacklist</string>
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">FW/App-Installer</string>
-    <string name="fw_upgrade_notice">Du installierst jetzt %s.</string>
+    <string name="fw_upgrade_notice">Du bist dabei, die %s zu installieren.</string>
     <string name="fw_multi_upgrade_notice">Du bist dabei, die %1$s und %2$s Firmware zu installieren, anstatt die, die sich derzeit auf deinem Mi Band befinden.</string>
     <string name="miband_firmware_known">Diese Firmware wurde getestet und ist bekanntlich mit Gadgetbridge kompatibel.</string>
     <string name="miband_firmware_unknown_warning">Diese Firmware ist nicht getestet und ist möglicherweise nicht mit Gadgetbridge kompatibel.
@@ -147,7 +147,7 @@
     <string name="prefs_title_all_day_heart_rate">Ganztägige Herzfrequenzmessung</string>
     <string name="preferences_hplus_settings">HPlus/Makibes Einstellungen</string>
     <string name="not_connected">Nicht verbunden</string>
-    <string name="connecting">Verbinden</string>
+    <string name="connecting">Verbindung wird hergestellt</string>
     <string name="connected">Verbunden</string>
     <string name="unknown_state">Unbekannter Zustand</string>
     <string name="_unknown_">(unbekannt)</string>
@@ -162,16 +162,16 @@
     <string name="tap_a_device_to_connect">Tippe auf ein Gerät, um eine Verbindung herzustellen</string>
     <string name="cannot_connect_bt_address_invalid_">Keine Verbindung möglich. Bluetooth-Adresse ungültig\?</string>
     <string name="gadgetbridge_running">Gadgetbridge läuft</string>
-    <string name="installing_binary_d_d">Binärdatei installieren %1$d/%2$d</string>
+    <string name="installing_binary_d_d">Binärdatei %1$d/%2$d wird installiert</string>
     <string name="installation_failed_">Installation fehlgeschlagen</string>
     <string name="installation_successful">Installiert</string>
     <string name="firmware_install_warning">DU VERSUCHST EINE FIRMWARE ZU INSTALLIEREN , FAHRE AUF EIGENES RISIKO FORT.
 \n
 \n
 \nDiese Firmware ist für HW Revision: %s</string>
-    <string name="app_install_info">Du bist dabei die folgende App zu installieren:
-\n
-\n
+    <string name="app_install_info">Du bist dabei die folgende App zu installieren: 
+\n 
+\n 
 \n%1$s Version %2$s von %3$s
 \n</string>
     <string name="n_a">N/A</string>
@@ -198,12 +198,12 @@
     <string name="other">Andere</string>
     <string name="left">Links</string>
     <string name="right">Rechts</string>
-    <string name="miband_pairing_using_dummy_userdata">Keine gültigen Benutzerdaten angegeben, für die jetzt Dummy-Benutzerdaten verwendet werden.</string>
-    <string name="miband_pairing_tap_hint">Wenn dein Mi Band vibriert und blinkt, tippe ein paar Mal hintereinander darauf.</string>
+    <string name="miband_pairing_using_dummy_userdata">Keine gültigen Benutzerdaten angegeben, es werden jetzt Dummy-Benutzerdaten verwendet.</string>
+    <string name="miband_pairing_tap_hint">Wenn dein Mi Band vibriert und blinkt, tippe es ein paar Mal hintereinander an.</string>
     <string name="appinstaller_install">Installieren</string>
-    <string name="discovery_connected_devices_hint">Mache dein Gerät auffindbar. Derzeit verbundene Geräte werden wahrscheinlich nicht erkannt. Standort aktivieren (zum Beispiel GPS) in Android 6+. Deaktiviere den Privatsphäreschutz für Gadgetbridge, da er zu Abstürzen und Neustarts deines Telefons führen kann. Wenn nach einigen Minuten kein Gerät erkannt wird, versuche es nach dem Neustart deines mobilen Gerätes erneut.</string>
+    <string name="discovery_connected_devices_hint">Mache dein Gerät auffindbar. Derzeit verbundene Geräte werden wahrscheinlich nicht erkannt. Aktiviere die Standortsbestimmung (zum Beispiel GPS) in Android 6+. Deaktiviere Privacy Guard für Gadgetbridge, da er zu Abstürzen und Neustarts deines Telefons führen kann. Wenn nach einigen Minuten kein Gerät erkannt wird, versuche es nach dem Neustart deines mobilen Gerätes erneut.</string>
     <string name="discovery_note">Hinweis:</string>
-    <string name="candidate_item_device_image">Geräteabbild</string>
+    <string name="candidate_item_device_image">Geräte Image</string>
     <string name="miband_prefs_alias">Name/Alias</string>
     <string name="pref_header_vibration_count">Vibrationszähler</string>
     <string name="title_activity_sleepmonitor">Schlafüberwachung</string>
@@ -235,9 +235,9 @@
     <string name="control_center_find_lost_device">Verlorenes Gerät finden</string>
     <string name="control_center_cancel_to_stop_vibration">Abbrechen, um die Vibration zu stoppen.</string>
     <string name="title_activity_charts">Aktivität und Schlaf</string>
-    <string name="title_activity_set_alarm">Alarme konfigurieren</string>
-    <string name="controlcenter_start_configure_alarms">Alarme konfigurieren</string>
-    <string name="title_activity_alarm_details">Alarmdetails</string>
+    <string name="title_activity_set_alarm">Wecker konfigurieren</string>
+    <string name="controlcenter_start_configure_alarms">Wecker konfigurieren</string>
+    <string name="title_activity_alarm_details">Wecker-Details</string>
     <string name="alarm_sun_short">So</string>
     <string name="alarm_mon_short">Mo</string>
     <string name="alarm_tue_short">Di</string>
@@ -246,12 +246,12 @@
     <string name="alarm_fri_short">Fr</string>
     <string name="alarm_sat_short">Sa</string>
     <string name="alarm_smart_wakeup">Intelligentes Aufwecken</string>
-    <string name="user_feedback_miband_set_alarms_failed">Beim Einstellen der Alarme ist ein Fehler aufgetreten. Bitte erneut versuchen.</string>
+    <string name="user_feedback_miband_set_alarms_failed">Beim Einstellen der Wecker ist ein Fehler aufgetreten. Bitte erneut versuchen.</string>
     <string name="user_feedback_miband_set_alarms_ok">Wecker ans Gerät gesendet.</string>
     <string name="chart_no_data_synchronize">Keine Daten. Gerät synchronisieren?</string>
     <string name="user_feedback_miband_activity_data_transfer">Im Begriff %1$s Daten zu übertragen, beginnend mit %2$s</string>
     <string name="miband_prefs_fitness_goal">Tägliches Schrittziel</string>
-    <string name="dbaccess_error_executing">Fehler beim Ausführen \'%1$s\'</string>
+    <string name="dbaccess_error_executing">Fehler beim Ausführen von \'%1$s\'</string>
     <string name="controlcenter_start_activitymonitor">Deine Aktivität (ALPHA)</string>
     <string name="cannot_connect">Keine Verbindung möglich: %1$s</string>
     <string name="installer_activity_unable_to_find_handler">Es konnte kein Programm gefunden werden, das diese Datei installiert.</string>
@@ -285,11 +285,11 @@
     <string name="updatefirmwareoperation_write_failed">Firmware aktualisieren fehlgeschlagen</string>
     <string name="chart_steps">Schritte</string>
     <string name="calories">Kalorien</string>
-    <string name="distance">Distanz</string>
+    <string name="distance">Strecke</string>
     <string name="clock">Uhr</string>
     <string name="heart_rate">Herzfrequenz</string>
     <string name="battery">Akku</string>
-    <string name="liveactivity_live_activity">Live-Aktivität</string>
+    <string name="liveactivity_live_activity">Jetzige Aktivität (live)</string>
     <string name="weeksteps_today_steps_description">Schritte heute, Ziel: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Keine ACK-Aktivitätsdatenübertragung durchführen</string>
     <string name="pref_summary_dont_ack_transfers">Wenn die Aktivitätsdaten nicht an das Band gesendet werden, werden sie nicht gelöscht. Nützlich, wenn Gadgetbridge zusammen mit anderen Apps verwendet wird.</string>
@@ -302,15 +302,15 @@
     <string name="live_activity_steps_per_minute_history">Schrittverlauf pro Minute</string>
     <string name="live_activity_start_your_activity">Starte deine Aktivität</string>
     <string name="abstract_chart_fragment_kind_activity">Aktivität</string>
-    <string name="abstract_chart_fragment_kind_light_sleep">Leichter Schlaf</string>
+    <string name="abstract_chart_fragment_kind_light_sleep">Seichter Schlaf</string>
     <string name="abstract_chart_fragment_kind_deep_sleep">Tiefschlaf</string>
     <string name="abstract_chart_fragment_kind_not_worn">Nicht getragen</string>
     <string name="device_not_connected">Nicht verbunden.</string>
-    <string name="user_feedback_all_alarms_disabled">Alle Alarme deaktiviert</string>
+    <string name="user_feedback_all_alarms_disabled">Alle Wecker deaktiviert</string>
     <string name="pref_title_keep_data_on_device">Aktivitätsdaten auf dem Gerät lassen</string>
     <string name="miband_fwinstaller_incompatible_version">Inkompatible Firmware</string>
     <string name="fwinstaller_firmware_not_compatible_to_device">Diese Firmware ist nicht mit dem Gerät kompatibel</string>
-    <string name="miband_prefs_reserve_alarm_calendar">Alarme für zukünftige Ereignisse vormerken</string>
+    <string name="miband_prefs_reserve_alarm_calendar">Wecker für zukünftige Ereignisse vormerken</string>
     <string name="miband_prefs_hr_sleep_detection">Verwende den Herzfrequenzsensor, um die Schlaferkennung zu verbessern</string>
     <string name="miband_prefs_device_time_offset_hours">Gerätezeitversatz in Stunden (Erkennung des Schlafes von Schichtarbeitern)</string>
     <string name="miband2_prefs_dateformat">Datumsformat</string>
@@ -342,7 +342,7 @@
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Widget hinzufügen</string>
     <string name="activity_prefs_sleep_duration">Gewünschte Schlafdauer in Stunden</string>
-    <string name="appwidget_setting_alarm">Ein Wecker wurde auf %1$02d:%2$02d gestellt</string>
+    <string name="appwidget_setting_alarm">Wecker wurde auf %1$02d:%2$02d gestellt</string>
     <string name="device_hw">Hardwarerevision: %1$s</string>
     <string name="device_fw">Firmwareversion: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Fehler beim Erstellen des Verzeichnisses für Protokolldateien: %1$s</string>
@@ -355,9 +355,9 @@
     <string name="pref_summary_pebble_health_store_raw">Speichert Daten \"wie sie sind\" und erhöht die Datenbanknutzung, um eine spätere Auswertung zu ermöglichen.</string>
     <string name="action_db_management">Datenbankverwaltung</string>
     <string name="title_activity_db_management">Datenbankverwaltung</string>
-    <string name="activity_db_management_import_export_explanation">Die Datenbankoperationen verwenden den folgenden Pfad auf deinem Gerät.
-\nDieser Pfad ist für andere Android-Apps und deinem Computer zugänglich.
-\nDu findest die exportierte Datenbank hier (bzw. lege die zu importierende dort ab):</string>
+    <string name="activity_db_management_import_export_explanation">Die Datenbankoperationen verwenden den folgenden Pfad auf deinem Gerät. 
+\nDieser Pfad ist für andere Android-Apps und deinem Computer zugänglich. 
+\nDu findest die exportierte Datenbank hier (bzw. lege die zu Importierende dort ab):</string>
     <string name="activity_db_management_merge_old_title">Legacy-Datenbank löschen</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Kann nicht auf den Exportpfad zugreifen. Bitte die Entwickler kontaktieren.</string>
     <string name="dbmanagementactivity_exported_to">Exportiert nach: %1$s</string>
@@ -384,15 +384,15 @@
     <!--Strings related to Pebble Pairing Activity-->
     <string name="title_activity_pebble_pairing">Pebble koppeln</string>
     <string name="pebble_pairing_hint">Auf deinem Android-Gerät erscheint ein Koppeln-Dialog. Wenn nicht, schaue in die Benachrichtigungsübersicht und akzeptiere die Kopplungsanforderung. Akzeptiere es auch danach auf deiner Pebble.</string>
-    <string name="weather_notification_label">Stelle sicher, dass dieser Skin in der Wetterbenachrichtigungs-App aktiviert ist, damit du Wetterdaten auf deiner Pebble erhältst.
-\n
-\nHier ist keine Konfiguration nötig.
+    <string name="weather_notification_label">Stelle sicher, dass dieser Skin in der Wetterbenachrichtigungs-App aktiviert ist, damit du Wetterdaten auf deiner Pebble erhältst. 
 \n 
-\nDu kannst die Systemwetter-App deiner Pebble in App-Verwaltung aktivieren.
-\n
-\nUnterstützte Zifferblätter zeigen das Wetter automatisch an.</string>
+\nHier ist keine Konfiguration nötig. 
+\n 
+\nDu kannst die Systemwetter-App deiner Pebble in App-Verwaltung aktivieren. 
+\n 
+\nUnterstützte Ziffernblätter zeigen das Wetter automatisch an.</string>
     <string name="pref_title_setup_bt_pairing">Bluetooth-Kopplung aktivieren</string>
-    <string name="pref_summary_setup_bt_pairing">Deaktiviere dies, wenn du Probleme beim Verbinden hast</string>
+    <string name="pref_summary_setup_bt_pairing">Hier deaktivieren, wenn du Probleme beim Verbinden hast</string>
     <string name="unit_metric">Metrisch</string>
     <string name="unit_imperial">Imperial (US/UK)</string>
     <string name="timeformat_24h">24h</string>
@@ -408,7 +408,7 @@
     <string name="mi2_dnd_off">Aus</string>
     <string name="mi2_dnd_automatic">Automatisch (Schlaferkennung)</string>
     <string name="mi2_dnd_scheduled">Geplant (Zeitintervall)</string>
-    <string name="discovery_attempting_to_pair">Versucht mit %1$s zu koppeln</string>
+    <string name="discovery_attempting_to_pair">Versuche mit %1$s zu koppeln</string>
     <string name="discovery_bonding_failed_immediately">Bindung mit %1$s sofort fehlgeschlagen.</string>
     <string name="discovery_trying_to_connect_to">Versuchen zu verbinden mit: %1$s</string>
     <string name="discovery_enable_bluetooth">Aktiviere Bluetooth, um Geräte zu erkennen.</string>
@@ -426,8 +426,8 @@
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_actions">Tastenaktionen</string>
-    <string name="mi2_prefs_button_actions_summary">Festlegen der Tastendruckaktionen</string>
-    <string name="mi2_prefs_button_press_count_summary">Anzahl der Tastendrücke, um die Nachrichtenübertragung auszulösen</string>
+    <string name="mi2_prefs_button_actions_summary">Tastendruckaktionen bestimmen</string>
+    <string name="mi2_prefs_button_press_count_summary">Anzahl der Tastendrücke, um Event 1 auszulösen. Wenn die gleiche Anzahl an Tastendrücken wiederholt wird, wird Event 2 erstellt (und so weiter).</string>
     <string name="mi2_prefs_button_press_broadcast">Zu sendende Nachricht</string>
     <string name="mi2_prefs_button_action">Tastenaktion aktivieren</string>
     <string name="mi2_prefs_button_action_summary">Aktion bei einer bestimmten Anzahl an Tastendrücken aktivieren</string>
@@ -483,18 +483,18 @@
     <string name="pref_title_weather_location">Wetterstandort (CM/LOS)</string>
     <string name="pref_header_auto_export">Automatischer Export</string>
     <string name="pref_title_auto_export_enabled">Automatischer Export aktiviert</string>
-    <string name="pref_title_auto_export_location">Speicherort für Export</string>
+    <string name="pref_title_auto_export_location">Speicherort für den Export</string>
     <string name="pref_title_auto_export_interval">Exportintervall</string>
-    <string name="pref_summary_auto_export_interval">Exportiere alle %d Stunden</string>
+    <string name="pref_summary_auto_export_interval">Alle %d Stunden exportieren</string>
     <string name="notif_export_failed_title">Datenbankexport fehlgeschlagen! Bitte überprüfe deine Einstellungen.</string>
-    <string name="mi2_prefs_button_press_broadcast_summary">Nachricht senden, wenn eingestellte Anzahl an Tastendrücken erreicht ist</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Broadcast-Nachricht, die mit dem Ereignis gesendet wurde. Der Parameter \"button_id\" wird automatisch zu jeder Nachricht hinzugefügt.</string>
     <string name="mi2_prefs_button_press_count_match_delay_summary">Verzögerung nach einer Tastenaktion (Zahl in button_id) oder 0 für sofort</string>
     <string name="spanish">Spanisch</string>
     <string name="on">Ein</string>
     <string name="controlcenter_start_activity_tracks">Deine Aktivitätsverläufe</string>
     <string name="activity_type_not_measured">Nicht gemessen</string>
     <string name="activity_type_activity">Aktivität</string>
-    <string name="activity_type_light_sleep">Leichter Schlaf</string>
+    <string name="activity_type_light_sleep">Seichter Schlaf</string>
     <string name="activity_type_deep_sleep">Tiefschlaf</string>
     <string name="activity_type_not_worn">Gerät nicht getragen</string>
     <string name="activity_type_running">Laufen</string>
@@ -514,8 +514,8 @@
     <string name="kind_resources">Quellen</string>
     <string name="kind_watchface">Zifferblatt</string>
     <string name="devicetype_xwatch">XWatch</string>
-    <string name="choose_auto_export_location">Exportort wählen</string>
-    <string name="notification_channel_name">Gadgetbridge-Benachrichtigungen</string>
+    <string name="choose_auto_export_location">Speicherort für Export auswählen</string>
+    <string name="notification_channel_name">Benachrichtigungen von Gadgetbridge</string>
     <string name="menuitem_status">Status</string>
     <string name="menuitem_activity">Aktivität</string>
     <string name="menuitem_weather">Wetter</string>
@@ -535,8 +535,8 @@
     <string name="pref_auto_fetch">Aktivitätsdaten automatisch abrufen</string>
     <string name="devicetype_miband3">Mi Band 3</string>
     <string name="devicetype_q8">Q8</string>
-    <string name="menuitem_shortcut_alipay">Alipay (Schnellzugriff)</string>
-    <string name="menuitem_shortcut_weather">Wetter (Schnellzugriff)</string>
+    <string name="menuitem_shortcut_alipay">Alipay (Verknüpfung)</string>
+    <string name="menuitem_shortcut_weather">Wetter (Verknüpfung)</string>
     <string name="blacklist_all_for_notifications">Blacklist für alle Benachrichtigungen</string>
     <string name="whitelist_all_for_notifications">Whitelist für alle Benachrichtigungen</string>
     <string name="pref_auto_fetch_summary">Abruf erfolgt beim Entsperren des Bildschirms. Funktioniert nur, wenn ein Sperrmechanismus eingestellt ist!</string>
@@ -554,7 +554,7 @@
     <string name="vertical">Vertikal</string>
     <string name="you_slept">Du hast von %1$s bis %2$s geschlafen</string>
     <string name="you_did_not_sleep">Du hast nicht geschlafen</string>
-    <string name="norwegian_bokmal">Norwegisch</string>
+    <string name="norwegian_bokmal">Norwegisch (Bokmål)</string>
     <string name="russian">Russisch</string>
     <string name="german">Deutsch</string>
     <string name="italian">Italienisch</string>
@@ -569,8 +569,8 @@
     <string name="pref_summary_rtl">Aktivieren, wenn dein Gerät keine Sprachen von rechts-nach-links anzeigen kann</string>
     <string name="pref_title_pebble_gatt_clientonly">Nur GATT-Client</string>
     <string name="prefs_screen_orientation">Bildschirmausrichtung</string>
-    <string name="pref_auto_fetch_limit_fetches">Minimale Zeit zwischen den Abrufen</string>
-    <string name="pref_auto_fetch_limit_fetches_summary">Alle %d Minuten abrufen</string>
+    <string name="pref_auto_fetch_limit_fetches">Minimale Zeit zwischen Abfragen</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Ruft alle %d Minuten ab</string>
     <string name="notif_battery_low">%1$s Akku schwach</string>
     <string name="no_limit">Kein Limit</string>
     <string name="seconds_5">5 Sekunden</string>
@@ -581,8 +581,8 @@
     <string name="minutes_5">5 Minuten</string>
     <string name="minutes_10">10 Minuten</string>
     <string name="minutes_30">30 Minuten</string>
-    <string name="lack_of_step">Fehlende Schritte: %1$d</string>
-    <string name="overstep">Überschritten: %1$d</string>
+    <string name="lack_of_step">Schritte unter Tagesziel: %1$d</string>
+    <string name="overstep">Schritte über Tagesziel: %1$d</string>
     <string name="live_activity_max_heart_rate">Aktuelle / Maximale Herzfrequenz: %1$d / %2$d</string>
     <string name="mi3_prefs_band_screen_unlock">Band-Bildschirm entsperren</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Nach oben wischen, um den Band-Bildschirm zu entsperren</string>
@@ -594,7 +594,7 @@
     <string name="ok">Ok</string>
     <string name="mi3_night_mode_sunset">Bei Sonnenuntergang</string>
     <string name="pref_rtl_max_line_length">Rechts-nach-Links maximale Zeilenlänge</string>
-    <string name="overslept">Verschlafen: %1$s</string>
+    <string name="overslept">Schlafüberschuss: %1$s</string>
     <string name="menuitem_notifications">Benachrichtigungen</string>
     <string name="menuitem_music">Musik</string>
     <string name="menuitem_more">Mehr</string>
@@ -604,9 +604,9 @@
     <string name="preferences_fm_frequency">FM-Frequenz</string>
     <string name="pref_invalid_frequency_title">Ungültige Frequenz</string>
     <string name="pref_invalid_frequency_message">Bitte eine Frequenz zwischen 87,5 und 108,0 eingeben</string>
-    <string name="language_and_region_prefs">Sprach- und Gebietseinstellungen</string>
+    <string name="language_and_region_prefs">Sprach- und Regionseinstellungen</string>
     <string name="debugactivity_really_factoryreset_title">Wirklich auf Werkseinstellungen zurücksetzen\?</string>
-    <string name="debugactivity_really_factoryreset">Beim Zurücksetzen auf die Werkseinstellungen werden alle Daten vom angeschlossenen Gerät gelöscht (falls unterstützt). Xiaomi/Huami-Geräte ändern auch die Bluetooth-MAC-Adresse, so dass sie als neue Geräte bei Gadgetbrige erscheinen.</string>
+    <string name="debugactivity_really_factoryreset">Beim Zurücksetzen auf die Werkseinstellungen werden alle Daten vom angeschlossenen Gerät gelöscht (falls unterstützt). Xiaomi/Huami-Geräte ändern auch die Bluetooth-MAC-Adresse, so dass sie als neue Geräte bei Gadgetbridge erscheinen.</string>
     <string name="pref_rtl_max_line_length_summary">Verlängert oder verkürzt die Zeilen, in die der Rechts-nach-Links Text getrennt wird</string>
     <string name="notif_battery_low_extended">%1$s Akku schwach: %2$s</string>
     <string name="lack_of_sleep">Schlafmangel: %1$s</string>
@@ -621,7 +621,7 @@
     <string name="pref_summary_contextual_arabic">Aktivieren, um kontextabhängiges Arabisch zu unterstützen</string>
     <string name="preferences_rtl_settings">Rechts nach Links Unterstützung</string>
     <string name="share_log">Protokoll teilen</string>
-    <string name="share_log_warning">Bitte beachte, dass Gadgetbridge Dateien protokolliert, die viele persönliche Informationen enthalten können, einschließlich, aber nicht beschränkt auf Gesundheitsdaten, eindeutige Identifikatoren (wie die MAC-Adresse eines Geräts), Musikpräferenzen usw. Erwäge, die Datei zu bearbeiten und diese Informationen zu entfernen, bevor du die Datei in einem Bericht über öffentliche Probleme sendest.</string>
+    <string name="share_log_warning">Bitte beachte, dass Gadgetbridge Dateien protokolliert, die viele persönliche Informationen enthalten können, einschließlich, aber nicht beschränkt auf Gesundheitsdaten, eindeutige Identifikatoren (wie die MAC-Adresse eines Geräts), Musikpräferenzen usw. Erwäge, die Datei zu bearbeiten und diese Informationen zu entfernen, bevor du die Datei in einem Bugreport sendest.</string>
     <string name="title_activity_notification_filter">Benachrichtigungsfilter</string>
     <string name="toast_app_must_not_be_blacklisted">App muss nicht auf der Blacklist stehen, um konfiguriert zu werden</string>
     <string name="edittext_notification_filter_words_hint">Gewünschte Wörter eingeben, neue Zeile für jedes Wort</string>
@@ -636,16 +636,16 @@
     <string name="mode_configuration">Modus-Konfiguration</string>
     <string name="save_configuration">Konfiguration speichern</string>
     <string name="appwidget_not_connected">Nicht verbunden, Alarm nicht eingestellt.</string>
-    <string name="prefs_disconnect_notification">Benachichtigung beim Verbindung trennen</string>
+    <string name="prefs_disconnect_notification">Trennungsbenachrichtigung</string>
     <string name="activity_prefs_calories_burnt">Tägliches Ziel: verbrannte Kalorien</string>
     <string name="activity_prefs_distance_meters">Tägliches Ziel: zurückgelegte Strecke in Meter</string>
     <string name="activity_prefs_activetime_minutes">Tägliches Ziel: aktive Zeit in Minuten</string>
     <!-- ZeTime Preferences -->
     <string name="zetime_title_settings">ZeTime Einstellungen</string>
-    <string name="zetime_title_screentime">Bildschirm-An-Dauer in Sekunden</string>
-    <string name="activity_prefs_alarm_max_heart_rate">Max Puls Alarm</string>
-    <string name="activity_prefs_alarm_min_heart_rate">Min Puls Alarm</string>
-    <string name="zetime_title_heartrate">Herzfrequenz Einstellungen</string>
+    <string name="zetime_title_screentime">Display-Aktivierungsdauer in Sekunden</string>
+    <string name="activity_prefs_alarm_max_heart_rate">Hohe Herzfrequenzschwelle</string>
+    <string name="activity_prefs_alarm_min_heart_rate">Niedrige Herzfrequenzschwelle</string>
+    <string name="zetime_title_heartrate">Herzfrequenz-Menü</string>
     <string name="zetime_title_heart_rate_alarm">Herzfrequenz Alarm</string>
     <string name="zetime_heart_rate_alarm_enable">Herzfrequenz Alarm aktivieren</string>
     <string name="zetime_date_format">Datumsformat</string>
@@ -661,19 +661,19 @@
     <string name="zetime_prefs_inactivity_su">Sonntag</string>
     <string name="zetime_signaling_none">Lautlos</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
-    <string name="zetime_title_heart_rate_alarm_summary">Die Uhr warnt dich, wenn deine Herzfrequenz die Grenzwerte überschreitet.</string>
+    <string name="zetime_title_heart_rate_alarm_summary">Löst eine Warnung aus, wenn deine Herzfrequenz die Grenzwerte überschreitet.</string>
     <string name="zetime_analog_mode">Analog-Modus</string>
-    <string name="zetime_analog_mode_hands">Nur Hände</string>
-    <string name="zetime_analog_mode_handsandsteps">Hände und Schritte</string>
+    <string name="zetime_analog_mode_hands">Nur Zeiger</string>
+    <string name="zetime_analog_mode_handsandsteps">Zeiger und Schrittanzahl</string>
     <string name="zetime_activity_tracking">Aktivitätsverfolgung</string>
-    <string name="zetime_activity_tracking_summary">Wenn du die Aktivitätsverfolgung einschaltest, werden deine Schritte gezählt und so weiter.</string>
+    <string name="zetime_activity_tracking_summary">Bei eingeschalteter Aktivitätenverfolgung werden unter anderem deine Schritte gezählt.</string>
     <string name="zetime_handmove_display">Handbewegung</string>
     <string name="zetime_handmove_display_summary">Drehe dein Handgelenk, um die Anzeige zu aktivieren oder zu deaktivieren.</string>
     <string name="zetime_calories_type">Kalorientyp</string>
-    <string name="zetime_calories_type_active">Nur aktive verbrannte Kalorien</string>
-    <string name="zetime_calories_type_all">Aktive und inaktive verbrannte Kalorien</string>
+    <string name="zetime_calories_type_active">Nur aktiv verbrannte Kalorien</string>
+    <string name="zetime_calories_type_all">Aktiv und inaktiv verbrannte Kalorien</string>
     <string name="zetime_prefs_inactivity_repetitions">Wiederholungen</string>
-    <string name="zetime_title_alarm_signaling">Art der Signalisierung für den Alarm einstellen</string>
+    <string name="zetime_title_alarm_signaling">Signalisierungart für den Alarm einstellen</string>
     <string name="zetime_signaling_vibrate">Kontinuierliche Vibration</string>
     <string name="zetime_signaling_beep">Kontinuierliches Piepen</string>
     <string name="zetime_signaling_vibrate_beep">Kontinuierliche Vibration und Piepen</string>
@@ -686,7 +686,7 @@
     <string name="pref_screen_notification_profile_calendar">Kalenderbenachrichtigung</string>
     <string name="pref_screen_notification_profile_inactivity">Inaktivitätsbenachrichtigung</string>
     <string name="pref_screen_notification_profile_low_power">Warnung bei niedrigem Akku</string>
-    <string name="pref_screen_notification_profile_anti_loss">Warnung vor Verlust</string>
+    <string name="pref_screen_notification_profile_anti_loss">Warnung bei Kontaktverlust</string>
     <string name="interval_fifteen_minutes">alle 15 Minuten</string>
     <string name="interval_forty_five_minutes">alle 45 Minuten</string>
     <string name="pref_title_support_voip_calls">VoIP App-Anrufe aktivieren</string>
@@ -724,7 +724,7 @@
     <string name="prefs_hr_alarm_low">Untere Grenze</string>
     <string name="prefs_hr_alarm_high">Obere Grenze</string>
     <string name="average">Durchschnitt: %1$s</string>
-    <string name="pref_header_charts">Einstellungen - Diagrammeinstellungen</string>
+    <string name="pref_header_charts">Diagrammeinstellungen</string>
     <string name="pref_title_charts_average">Durchschnittswerte im Diagramm anzeigen</string>
     <string name="pref_title_charts_range">Diagrammbereich</string>
     <string name="pref_charts_range_on">Diagrammbereich ist auf einen Monat eingestellt</string>
@@ -752,14 +752,14 @@
     <string name="pref_display_add_device_fab_off">Nur sichtbar, wenn kein Gerät hinzugefügt wird</string>
     <string name="activity_db_management_autoexport_explanation">Speicherort für automatischen Datenbank-Export auf:</string>
     <string name="activity_db_management_autoexport_label">Automatischer Export</string>
-    <string name="activity_DB_test_export_button">Automatischer Export jetzt starten</string>
+    <string name="activity_DB_test_export_button">Automatischen Export jetzt starten</string>
     <string name="activity_DB_test_export_message">Datenbank exportieren…</string>
     <string name="activity_db_management_empty_db_warning">Achtung! Wenn du auf diese Schaltfläche klickst, löschst du deine Datenbank und beginnst von Grund auf neu.</string>
     <string name="appwidget_sleep_alarm_widget_label">Schlafalarm</string>
     <string name="widget_steps_label">Schritte: %1$02d</string>
     <string name="widget_sleep_label">Schlaf: %1$s</string>
-    <string name="widget_listing_label">Status und Alarme</string>
-    <string name="widget_set_alarm_after">Alarm einstellen nach:</string>
+    <string name="widget_listing_label">Status und Wecker</string>
+    <string name="widget_set_alarm_after">Wecker einstellen nach:</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d Std</item>
         <item quantity="other">%d Std</item>
@@ -772,7 +772,7 @@
     <string name="prefs_find_phone_summary">Verwende dein Band, um den Klingelton deines Telefons wiederzugeben.</string>
     <string name="prefs_find_phone_duration">Klingeldauer in Sekunden</string>
     <string name="maximum_duration">Dauer</string>
-    <string name="discovery_need_to_enter_authkey">Dieses Gerät benötigt eine geheime Authentifikationstaste, die du mit einem langen Druck auf das Gerät eingeben kannst. Lies das Wiki.</string>
+    <string name="discovery_need_to_enter_authkey">Dieses Gerät benötigt einen geheimen Authentifikationsschlüssel, den du durch langes Drücken auf den Gerätnamen eingeben kannst. Genaueres im Wiki.</string>
     <string name="fw_upgrade_notice_amazfitbip_lite">Du bist dabei, die Firmware %s auf deine Amazfit Bip Lite zu installieren.
 \n
 \nBitte stelle sicher, dass du die .fw Datei und danach die .res Datei installierst. Deine Uhr wird nach der Installation der .fw Datei neu gestartet.
@@ -811,8 +811,8 @@
     <string name="qhybrid_time_shift">Zeitverschiebung</string>
     <string name="qhybrid_second_timezone_offset_relative_to_utc">Verschiebung der zweiten Zeitzone relativ zu UTC</string>
     <string name="qhybrid_overwrite_buttons">Tasten überschreiben</string>
-    <string name="qhybrid_use_activity_hand_as_notification_counter">Aktivitätshand als Benachrichtigungszähler verwenden</string>
-    <string name="qhybrid_prompt_million_steps">Bitte stelle die Schrittzahl auf eine Million ein, um dies zu aktivieren.</string>
+    <string name="qhybrid_use_activity_hand_as_notification_counter">Verwende Aktivitätsfortschrittzeiger als Benachrichtigungszähler</string>
+    <string name="qhybrid_prompt_million_steps">Dafür bitte die Schrittzahl auf eine Million einstellen</string>
     <string name="qhybrid_buttons_overwrite_success">Tasten überschrieben</string>
     <string name="qhybrid_buttons_overwrite_error">Fehler beim Überschreiben der Tasten</string>
     <string name="qhybrid_offset_timezone">Verschiebung der Zeitzone um</string>
@@ -821,4 +821,28 @@
     <string name="pref_disable_new_ble_scanning">Deaktivieren des neuen BLE-Scans</string>
     <string name="pref_summary_disable_new_ble_scanning">Aktiviere diese Option, wenn dein Gerät bei der Erkennung nicht gefunden wird</string>
     <string name="devicetype_banglejs">Bangle.js</string>
+    <string name="devicetype_y5">Y5</string>
+    <string name="prefs_button_variable_actions">Detaillierte Einstellungen zu Tastendrücken</string>
+    <string name="prefs_button_long_press_action_selection_title">Lange Tastendruckaktion</string>
+    <string name="alarm_snooze">Schlummern</string>
+    <string name="error_no_location_access">Der Standortzugriff muss gewährt werden und aktiviert sein, damit das Scannen ordnungsgemäß funktioniert</string>
+    <string name="devicetype_itag">iTag</string>
+    <string name="pref_summary_allow_high_mtu">Erhöht die Übertragungsgeschwindigkeit, funktioniert aber möglicherweise nicht auf einigen Android-Geräten.</string>
+    <string name="prefs_button_single_press_action_selection_title">Aktion bei einem einzigen Tastendruck</string>
+    <string name="prefs_button_double_press_action_selection_title">Aktion bei 2 Tastendrücken</string>
+    <string name="prefs_button_triple_press_action_selection_title">Aktion bei 3 Tastendrücken</string>
+    <string name="pref_title_allow_high_mtu">Hohe MTU erlauben</string>
+    <string name="pref_summary_sync_calendar">Aktiviert Kalendererinnerungen, auch wenn die Verbindung getrennt ist</string>
+    <string name="pref_title_sync_caldendar">Kalenderereignisse synchronisieren</string>
+    <string name="hr_widget_heart_rate">Herzfrequenz</string>
+    <string name="hr_widget_steps">Schritte</string>
+    <string name="hr_widget_date">Datum</string>
+    <string name="hr_widget_active_minutes">Aktive Minuten</string>
+    <string name="hr_widget_calories">Kalorien</string>
+    <string name="hr_widget_battery">Akku</string>
+    <string name="hr_widget_weather">Wetter</string>
+    <string name="hr_widget_nothing">Nichts</string>
+    <string name="find_lost_device_you_found_it">Gefunden!</string>
+    <string name="pref_title_force_white_color_scheme">Schwarz-Weiß-Farbschema erzwingen</string>
+    <string name="pref_summary_force_white_color_scheme">Nützlich, wenn deine Uhr dunkle Zeiger hat</string>
 </resources>

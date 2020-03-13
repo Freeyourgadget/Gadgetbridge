@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 Daniel Dakhno
+/*  Copyright (C) 2019-2020 Daniel Dakhno
 
     This file is part of Gadgetbridge.
 
@@ -21,14 +21,12 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.util.Log;
 import android.widget.Toast;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -37,7 +35,6 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -56,7 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.NotificationFilterPutRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayNotificationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayTextNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.AnimationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.MoveHandsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.ReleaseHandsControlRequest;
@@ -86,7 +83,7 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     private int lastButtonIndex = -1;
 
-    Logger logger = LoggerFactory.getLogger(getClass());
+    protected Logger logger = LoggerFactory.getLogger(getClass().getSimpleName());
 
     public FossilWatchAdapter(QHybridSupport deviceSupport) {
         super(deviceSupport);
@@ -127,6 +124,31 @@ public class FossilWatchAdapter extends WatchAdapter {
         String buttonConfig = getDeviceSpecificPreferences().getString(CONFIG_ITEM_BUTTONS, null);
         getDeviceSupport().getDevice().addDeviceInfo(new GenericItem(ITEM_BUTTONS, buttonConfig));
         overwriteButtons(buttonConfig);
+    }
+
+    @Override
+    public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+        if(status != BluetoothGatt.GATT_SUCCESS){
+            if(characteristic.getUuid().toString().equals("3dda0005-957f-7d4a-34a6-74696673696d")){
+                GB.log("authentication failed", GB.ERROR, null);
+                setDeviceState(GBDevice.State.AUTHENTICATION_REQUIRED);
+                requestQueue.clear();
+            }
+            log("characteristic write failed: " + status);
+            fossilRequest = null;
+
+            queueNextRequest();
+        }
+    }
+
+    @Override
+    public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+        log("status " + status + " newState: " + newState);
+        if(newState != BluetoothGatt.STATE_CONNECTED){
+            log("status " + newState + "  clearing queue...");
+            requestQueue.clear();
+            fossilRequest = null;
+        }
     }
 
     private SharedPreferences getDeviceSpecificPreferences(){
@@ -172,7 +194,7 @@ public class FossilWatchAdapter extends WatchAdapter {
             log("package name in notification not set");
             return;
         }
-        queueWrite(new PlayNotificationRequest(config.getPackageName(), this), false);
+        queueWrite(new PlayTextNotificationRequest(config.getPackageName(), this), false);
     }
 
     @Override
@@ -326,7 +348,7 @@ public class FossilWatchAdapter extends WatchAdapter {
                     getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
                 }
             }, false);
-        } catch (GBException e) {
+        } catch (Exception e) {
             GB.log("error", GB.ERROR, e);
         }
     }
@@ -441,8 +463,13 @@ public class FossilWatchAdapter extends WatchAdapter {
                 handleBackgroundCharacteristic(characteristic);
                 break;
             }
+            case "00002a37-0000-1000-8000-00805f9b34fb": {
+                handleHeartRateCharacteristic(characteristic);
+                break;
+            }
             case "3dda0002-957f-7d4a-34a6-74696673696d":
             case "3dda0004-957f-7d4a-34a6-74696673696d":
+            case "3dda0005-957f-7d4a-34a6-74696673696d":
             case "3dda0003-957f-7d4a-34a6-74696673696d": {
                 if (fossilRequest != null) {
                     boolean requestFinished;
@@ -458,8 +485,14 @@ public class FossilWatchAdapter extends WatchAdapter {
                         fossilRequest.handleResponse(characteristic);
                         requestFinished = fossilRequest.isFinished();
                     } catch (RuntimeException e) {
+                        if(characteristic.getUuid().toString().equals("3dda0005-957f-7d4a-34a6-74696673696d")){
+                            GB.log("authentication failed", GB.ERROR, null);
+                            setDeviceState(GBDevice.State.AUTHENTICATION_REQUIRED);
+                            requestQueue.clear();
+                        }
+
                         GB.log("error", GB.ERROR, e);
-                        getDeviceSupport().notifiyException(e);
+                        getDeviceSupport().notifiyException(fossilRequest.getName(), e);
                         GB.toast(fossilRequest.getName() + " failed", Toast.LENGTH_SHORT, GB.ERROR);
                         requestFinished = true;
                     }
@@ -477,7 +510,42 @@ public class FossilWatchAdapter extends WatchAdapter {
         return true;
     }
 
-    private void handleBackgroundCharacteristic(BluetoothGattCharacteristic characteristic) {
+    public void handleHeartRateCharacteristic(BluetoothGattCharacteristic characteristic) {
+    }
+
+    @Override
+    public void onFindDevice(boolean start) {
+        try {
+            if (this.supportsExtendedVibration()) {
+                GB.toast("Device does not support brr brr", Toast.LENGTH_SHORT, GB.INFO);
+            }
+        } catch (UnsupportedOperationException e) {
+            getDeviceSupport().notifiyException(e);
+        }
+
+        if (start && getDeviceSupport().searchDevice) return;
+
+        getDeviceSupport().searchDevice = start;
+
+        if (start) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    int i = 0;
+                    while (getDeviceSupport().searchDevice) {
+                        vibrateFindMyDevicePattern();
+                        try {
+                            Thread.sleep(2500);
+                        } catch (InterruptedException e) {
+                            GB.log("error", GB.ERROR, e);
+                        }
+                    }
+                }
+            }).start();
+        }
+    }
+
+    protected void handleBackgroundCharacteristic(BluetoothGattCharacteristic characteristic) {
         byte[] value = characteristic.getValue();
         switch (value[1]) {
             case 2: {
@@ -529,6 +597,11 @@ public class FossilWatchAdapter extends WatchAdapter {
     public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
         super.onMtuChanged(gatt, mtu, status);
 
+        if(this.MTU == mtu){
+            log("MTU changed, same value tho");
+            return;
+        }
+
         log("MTU changed: " + mtu);
 
         this.MTU = mtu;
@@ -541,6 +614,11 @@ public class FossilWatchAdapter extends WatchAdapter {
     }
 
     public void queueWrite(RequestMtuRequest request, boolean priorise) {
+        log("is connected: " + getDeviceSupport().isConnected());
+        if(!getDeviceSupport().isConnected()){
+            log("dropping requetst " + request.getName());
+            return;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             new TransactionBuilder("requestMtu")
                     .requestMtu(512)
@@ -565,12 +643,21 @@ public class FossilWatchAdapter extends WatchAdapter {
             return;
         }
         log("setting device state: " + request.getDeviceState());
-        getDeviceSupport().getDevice().setState(request.getDeviceState());
-        getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
+        setDeviceState(request.getDeviceState());
         queueNextRequest();
     }
 
+    private void setDeviceState(GBDevice.State state){
+        getDeviceSupport().getDevice().setState(state);
+        getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
+    }
+
     public void queueWrite(FossilRequest request, boolean priorise) {
+        log("is connected: " + getDeviceSupport().isConnected());
+        if(!getDeviceSupport().isConnected()){
+            log("dropping requetst " + request.getName());
+            return;
+        }
         if (fossilRequest != null && !fossilRequest.isFinished()) {
             log("queing request: " + request.getName());
             if (priorise) {
@@ -583,15 +670,30 @@ public class FossilWatchAdapter extends WatchAdapter {
         log("executing request: " + request.getName());
         this.fossilRequest = request;
         new TransactionBuilder(request.getClass().getSimpleName()).write(getDeviceSupport().getCharacteristic(request.getRequestUUID()), request.getRequestData()).queue(getDeviceSupport().getQueue());
+
+        if(request.isFinished()){
+            this.fossilRequest = null;
+            queueNextRequest();
+        }
     }
 
     public void queueWrite(Request request, boolean priorise) {
+        log("is connected: " + getDeviceSupport().isConnected());
+        if(!getDeviceSupport().isConnected()){
+            log("dropping requetst " + request.getName());
+            return;
+        }
         new TransactionBuilder(request.getClass().getSimpleName()).write(getDeviceSupport().getCharacteristic(request.getRequestUUID()), request.getRequestData()).queue(getDeviceSupport().getQueue());
 
         queueNextRequest();
     }
 
-    void queueWrite(Request request) {
+    protected void queueWrite(Request request) {
+        log("is connected: " + getDeviceSupport().isConnected());
+        if(!getDeviceSupport().isConnected()){
+            log("dropping requetst " + request.getName());
+            return;
+        }
         if (request instanceof SetDeviceStateRequest)
             queueWrite((SetDeviceStateRequest) request, false);
         else if (request instanceof RequestMtuRequest)

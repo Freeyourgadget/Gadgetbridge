@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Felix Konstantin Maurer, JohnnySun, Taavi Eomäe
 
     This file is part of Gadgetbridge.
@@ -183,6 +183,25 @@ public class FileUtils {
         }
         throw new IOException("no writable external directory found");
     }
+
+    /**
+     * Returns a File object representing the "child" argument, but relative
+     * to the Android "external files directory" (e.g. /sdcard).
+     * It doesn't matter whether child shall represent a file or a directory.
+     * The parent directory will automatically be created, if necessary.
+     * @param child the path to become relative to the external files directory
+     * @throws IOException
+     * @see #getExternalFilesDir()
+     */
+    public static File getExternalFile(String child) throws IOException {
+        File file = new File(getExternalFilesDir(), child);
+        File dir = file.getParentFile();
+        if (!dir.exists() && !dir.mkdirs()) {
+            throw new IOException("Unable to create directory " + file.getParent());
+        }
+        return file;
+    }
+
 
     private static boolean canWriteTo(File dir) {
         File file = new File(dir, "gbtest");

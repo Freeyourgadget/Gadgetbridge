@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2016-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, José Rebelo, Nephiel
 
     This file is part of Gadgetbridge.
@@ -321,6 +321,11 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsFindDevice() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsAlarmSnoozing() {
         return true;
     }
 }

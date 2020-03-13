@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 Daniel Dakhno
+/*  Copyright (C) 2019-2020 Daniel Dakhno
 
     This file is part of Gadgetbridge.
 
@@ -59,7 +59,7 @@ public abstract class Request {
 
     public abstract byte[] getStartSequence();
 
-    public void handleResponse(BluetoothGattCharacteristic characteristic){};
+    public void handleResponse(BluetoothGattCharacteristic characteristic) {}
 
     public String getName(){
         Class thisClass = getClass();

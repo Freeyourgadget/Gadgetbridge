@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 Andreas Shimokawa, Manuel Ruß
+/*  Copyright (C) 2019-2020 Andreas Shimokawa, Manuel Ruß
 
     This file is part of Gadgetbridge.
 
@@ -90,8 +90,10 @@ public class AmazfitGTSCoordinator extends HuamiCoordinator {
         return new int[]{
                 R.xml.devicesettings_amazfitgtr,
                 R.xml.devicesettings_wearlocation,
+                R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_liftwrist_display,
                 R.xml.devicesettings_disconnectnotification,
+                R.xml.devicesettings_sync_calendar,
                 R.xml.devicesettings_expose_hr_thirdparty,
                 R.xml.devicesettings_pairingkey
         };

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 Andreas Shimokawa, vanous
+/*  Copyright (C) 2019-2020 Andreas Shimokawa, vanous
 
     This file is part of Gadgetbridge.
 
@@ -66,12 +66,12 @@ public class Widget extends AppWidgetProvider {
         return gbApp.getDeviceManager().getSelectedDevice();
     }
 
-    private int[] getSteps() {
+    private long[] getSteps() {
         Context context = GBApplication.getContext();
         Calendar day = GregorianCalendar.getInstance();
 
         if (!(context instanceof GBApplication)) {
-            return new int[]{0, 0, 0};
+            return new long[]{0, 0, 0};
         }
         DailyTotals ds = new DailyTotals();
         return ds.getDailyTotalsForAllDevices(day);
@@ -114,10 +114,10 @@ public class Widget extends AppWidgetProvider {
         }
 
 
-        int[] DailyTotals = getSteps();
+        long[] dailyTotals = getSteps();
 
-        views.setTextViewText(R.id.todaywidget_steps, context.getString(R.string.widget_steps_label, (int) DailyTotals[0]));
-        views.setTextViewText(R.id.todaywidget_sleep, context.getString(R.string.widget_sleep_label, getHM((long) DailyTotals[1])));
+        views.setTextViewText(R.id.todaywidget_steps, context.getString(R.string.widget_steps_label,  dailyTotals[0]));
+        views.setTextViewText(R.id.todaywidget_sleep, context.getString(R.string.widget_sleep_label, getHM(dailyTotals[1])));
 
         if (device != null) {
             String status = String.format("%1s", device.getStateString());

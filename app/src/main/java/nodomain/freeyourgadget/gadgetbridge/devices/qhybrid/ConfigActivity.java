@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 Daniel Dakhno
+/*  Copyright (C) 2019-2020 Daniel Dakhno
 
     This file is part of Gadgetbridge.
 
@@ -206,8 +206,7 @@ public class ConfigActivity extends AbstractGBActivity {
         try {
             helper = new PackageConfigHelper(getApplicationContext());
             list = helper.getNotificationConfigurations();
-        } catch (GBException e) {
-            GB.log("error getting configurations", GB.ERROR, e);
+        } catch (Exception e) {
             GB.toast("error getting configurations", Toast.LENGTH_SHORT, GB.ERROR, e);
             list = new ArrayList<>();
         }
@@ -234,9 +233,7 @@ public class ConfigActivity extends AbstractGBActivity {
                                             try {
                                                 helper.saveNotificationConfiguration(config);
                                                 LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED));
-                                            } catch (GBException e) {
-                                                GB.log("error saving configuration", GB.ERROR, e);
-
+                                            } catch (Exception e) {
                                                 GB.toast("error saving notification", Toast.LENGTH_SHORT, GB.ERROR, e);
                                             }
                                             refreshList();
@@ -262,8 +259,7 @@ public class ConfigActivity extends AbstractGBActivity {
                                 try {
                                     helper.deleteNotificationConfiguration((NotificationConfiguration) adapterView.getItemAtPosition(i));
                                     LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED));
-                                } catch (GBException e) {
-                                    GB.log("error deleting configuration", GB.ERROR, e);
+                                } catch (Exception e) {
                                     GB.toast("error deleting setting", Toast.LENGTH_SHORT, GB.ERROR, e);
                                 }
                                 refreshList();
@@ -312,7 +308,7 @@ public class ConfigActivity extends AbstractGBActivity {
         });
 
         device = GBApplication.app().getDeviceManager().getSelectedDevice();
-        if (device == null || device.getType() != DeviceType.FOSSILQHYBRID) {
+        if (device == null || device.getType() != DeviceType.FOSSILQHYBRID || device.getFirmwareVersion().charAt(2) != '0') {
             setSettingsError(getString(R.string.watch_not_connected));
         } else {
             updateSettings();
@@ -414,7 +410,11 @@ public class ConfigActivity extends AbstractGBActivity {
                     });
                 }
 
-                final String buttonJson = device.getDeviceInfo(FossilWatchAdapter.ITEM_BUTTONS).getDetails();
+                ItemWithDetails item = device.getDeviceInfo(FossilWatchAdapter.ITEM_BUTTONS);
+                String buttonJson = null;
+                if(item != null) {
+                    buttonJson = item.getDetails();
+                }
                 try {
                     JSONArray buttonConfig_;
                     if (buttonJson == null || buttonJson.isEmpty()) {
@@ -476,7 +476,6 @@ public class ConfigActivity extends AbstractGBActivity {
                         buttonLayout.addView(buttonTextView);
                     }
                 } catch (JSONException e) {
-                    GB.log("error parsing button config", GB.ERROR, e);
                     GB.toast("error parsing button config", Toast.LENGTH_LONG, GB.ERROR);
                 }
             }
@@ -509,8 +508,7 @@ public class ConfigActivity extends AbstractGBActivity {
         list.clear();
         try {
             list.addAll(helper.getNotificationConfigurations());
-        } catch (GBException e) {
-            GB.log("error getting configurations", GB.ERROR, e);
+        } catch (Exception e) {
             GB.toast("error getting configurations", Toast.LENGTH_SHORT, GB.ERROR, e);
         }
         // null is added to indicate the plus button added handled in PackageAdapter#getView

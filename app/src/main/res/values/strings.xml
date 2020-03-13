@@ -26,7 +26,7 @@
     <!-- Strings related to Debug Activity -->
     <string name="title_activity_debug">Debug</string>
     <string name="debugactivity_really_factoryreset_title">Really factory reset?</string>
-    <string name="debugactivity_really_factoryreset">Doing a factory reset will delete all data from the connected device (if supported). Xiaomi/Huami devices also change Bluetooth MAC address, so they appear as a new devices to Gadgetbrige.</string>
+    <string name="debugactivity_really_factoryreset">Doing a factory reset will delete all data from the connected device (if supported). Xiaomi/Huami devices also change Bluetooth MAC address, so they appear as a new devices to Gadgetbridge.</string>
     <!-- Strings related to AppManager -->
     <string name="title_activity_appmanager">App Manager</string>
     <string name="appmanager_cached_watchapps_watchfaces">Apps in cache</string>
@@ -145,6 +145,8 @@
     <string name="pref_summary_sunrise_sunset">Send sunrise and sunset times based on the location to the Pebble timeline</string>
     <string name="pref_title_enable_calendar_sync">Sync calendar</string>
     <string name="pref_summary_enable_calendar_sync">Send calendar events to the timeline</string>
+    <string name="pref_title_custom_deviceicon">Show device specific notification icon</string>
+    <string name="pref_summary_custom_deviceicon">Show a device specific Android notification icon instead the Gadgetbridge icon when connected</string>
     <string name="pref_title_autoremove_notifications">Autoremove dismissed notifications</string>
     <string name="pref_summary_autoremove_notifications">Notifications are automatically removed from the Pebble when dismissed from the Android device</string>
     <string name="pref_title_pebble_privacy_mode">Privacy mode</string>
@@ -180,6 +182,10 @@
     <string name="pref_title_expose_hr">3rd party realtime HR access</string>
     <string name="pref_title_use_custom_font">Use custom font</string>
     <string name="pref_summary_use_custom_font">Enable this if your device has a custom font firmware for emoji support</string>
+    <string name="pref_title_allow_high_mtu">Allow high MTU</string>
+    <string name="pref_summary_allow_high_mtu">Increases transfer speed, but might not work on some Android devices.</string>
+    <string name="pref_summary_sync_calendar">Enables calendar alerts, even when disconnected</string>
+    <string name="pref_title_sync_caldendar">Sync calendar events</string>
     <string name="pref_display_add_device_fab">Connect new device button</string>
     <string name="pref_display_add_device_fab_on">Always visible</string>
     <string name="pref_display_add_device_fab_off">Visible only if no device is added</string>
@@ -300,6 +306,7 @@
     <string name="test">Test</string>
     <string name="test_notification">Test notification</string>
     <string name="this_is_a_test_notification_from_gadgetbridge">This is a test notification from Gadgetbridge</string>
+    <string name="find_my_phone_notification">Find my phone</string>
     <string name="bluetooth_is_not_supported_">Bluetooth is not supported.</string>
     <string name="bluetooth_is_disabled_">Bluetooth is disabled.</string>
     <string name="tap_connected_device_for_app_mananger">Tap connected device for App manager</string>
@@ -403,6 +410,7 @@
     <string name="alarm_fri_short">Fri</string>
     <string name="alarm_sat_short">Sat</string>
     <string name="alarm_smart_wakeup">Smart wakeup</string>
+    <string name="alarm_snooze">Snooze</string>
     <string name="user_feedback_miband_set_alarms_failed">There was an error setting the alarms, please try again.</string>
     <string name="user_feedback_miband_set_alarms_ok">Alarms sent to device.</string>
     <string name="chart_no_data_synchronize">No data. Synchronize device?</string>
@@ -500,9 +508,9 @@
     <string name="mi2_prefs_button_actions">Button actions</string>
     <string name="mi2_prefs_button_actions_summary">Specify button press actions</string>
     <string name="mi2_prefs_button_press_count">Button press count</string>
-    <string name="mi2_prefs_button_press_count_summary">Number of button presses to trigger message broadcast</string>
+    <string name="mi2_prefs_button_press_count_summary">Number of button presses to trigger an Event 1. Subsequent same amount of presses create Event 2 and so on.</string>
     <string name="mi2_prefs_button_press_broadcast">Broadcast message to send</string>
-    <string name="mi2_prefs_button_press_broadcast_summary">Broadcast message on defined number of button presses reached</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Broadcast message sent with the event. Parameter `button_id` is added automatically to each message.</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
     <string name="mi2_prefs_button_action">Enable button action</string>
     <string name="mi2_prefs_button_action_summary">Enable action on specified number of button presses</string>
@@ -510,8 +518,6 @@
     <string name="mi2_prefs_button_action_vibrate_summary">Enable band vibration on button action triggered</string>
     <string name="mi2_prefs_button_press_count_max_delay">Maximum delay between presses</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Maximum delay between button presses in milliseconds</string>
-    <string name="mi2_prefs_button_press_count_match_delay">Delay after button action</string>
-    <string name="mi2_prefs_button_press_count_match_delay_summary">Delay after one button action match (number is in button_id intent extra) or 0 for immediately</string>
     <string name="mi2_prefs_goal_notification">Goal notification</string>
     <string name="mi2_prefs_goal_notification_summary">The band will vibrate when the daily steps goal is reached</string>
     <string name="mi2_prefs_display_items">Display items</string>
@@ -530,6 +536,8 @@
     <string name="mi3_prefs_band_screen_unlock_summary">Swipe up to unlock the band\'s screen</string>
     <string name="mi3_prefs_night_mode">Night mode</string>
     <string name="mi3_prefs_night_mode_summary">Lower band screen brightness automatically at night</string>
+    <string name="pref_title_force_white_color_scheme">Force black on white color scheme</string>
+    <string name="pref_summary_force_white_color_scheme">Useful if you your watch has dark hands</string>
     <string name="automatic">Automatic</string>
     <string name="simplified_chinese">Simplified Chinese</string>
     <string name="traditional_chinese">Traditional Chinese</string>
@@ -644,6 +652,7 @@
     <string name="activity_web_view">Web View Activity</string>
     <string name="StringUtils_sender"> (%1$s)</string>
     <string name="find_device_you_found_it">You found it!</string>
+    <string name="find_lost_device_you_found_it">Found it!</string>
     <string name="miband2_prefs_timeformat">Mi2: Time format</string>
     <string name="mi2_fw_installhandler_fw53_hint">You need to install version %1$s before installing this firmware!</string>
     <string name="mi2_enable_text_notifications">Text notifications</string>
@@ -723,14 +732,17 @@
     <string name="devicetype_watchxplus">Watch X Plus</string>
     <string name="devicetype_roidmi">Roidmi</string>
     <string name="devicetype_roidmi3">Roidmi 3</string>
+    <string name="devicetype_y5">Y5</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
+    <string name="devicetype_itag">iTag</string>
     <string name="devicetype_bfh16">BFH-16</string>
     <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>
+    <string name="notification_channel_high_priority_name">Gadgetbridge notifications high priority</string>
     <string name="devicetype_amazfit_gts">Amazfit GTS</string>
     <!-- Menus on the smart device -->
     <string name="menuitem_shortcut_alipay">Alipay (Shortcut)</string>
@@ -811,6 +823,24 @@
     <string name="qhybrid_offset_timezone">offset timezone by</string>
     <string name="qhybrid_changes_delay_prompt">change might take some seconds…</string>
     <string name="qhybrid_offset_time_by">offset time by</string>
+
+    <string name="hr_widget_heart_rate">Heart rate</string>
+    <string name="hr_widget_steps">Steps</string>
+    <string name="hr_widget_date">Date</string>
+    <string name="hr_widget_active_minutes">Active minutes</string>
+    <string name="hr_widget_calories">Calories</string>
+    <string name="hr_widget_battery">Battery</string>
+    <string name="hr_widget_weather">Weather</string>
+    <string name="hr_widget_nothing">Nothing</string>
+
+    <string name="prefs_button_single_press_action_selection_title">Event 1 action</string>
+    <string name="prefs_button_double_press_action_selection_title">Event 2 action</string>
+    <string name="prefs_button_triple_press_action_selection_title">Event 3 action</string>
+    <string name="prefs_button_variable_actions">Detailed button press settings</string>
+    <string name="prefs_button_long_press_action_selection_title">Long press button action</string>
+
+    <string name="error_no_location_access">Location access must be granted and enabled for scanning to work properly</string>
+
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>
         <item quantity="two">%d hours</item>

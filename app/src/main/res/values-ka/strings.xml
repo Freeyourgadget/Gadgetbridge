@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">გაჯეტბრიჯი</string>
+    <string name="title_activity_controlcenter">გაჯეტბრიდჯი</string>
+    <string name="action_settings">პარამეტრები</string>
+    <string name="action_quit">შეწყვეტა</string>
+    <string name="action_donate">დონაცია</string>
+    <string name="controlcenter_fetch_activity_data">სინქრონიზაცია</string>
+    <string name="controlcenter_find_device">დაკარგული მოწყობილობის პოვნა</string>
+    <string name="controlcenter_change_led_color">LED ფერის შეცვლა</string>
+    <string name="controlcenter_change_fm_frequency">FM სიხშირის შეცვლა</string>
+    <string name="controlcenter_connect">დაკავშირება…</string>
+    <string name="controlcenter_disconnect">გათიშვა</string>
+    <string name="controlcenter_delete_device">მოწყობილობის წაშლა</string>
+    <string name="controlcenter_delete_device_name">წაშლა %1$s</string>
+    <string name="controlcenter_delete_device_dialogmessage">ეს წაშლის ხელსაწყოს და მასთან დაკავშირებულ ყველა მონაცემს!</string>
+    <string name="controlcenter_snackbar_need_longpress">დააჭირეთ ბარათს გათიშვისთვის</string>
+    <string name="controlcenter_snackbar_disconnecting">გათიშავს</string>
+    <string name="controlcenter_snackbar_connecting">აკავშირებს…</string>
+    <string name="controlcenter_calibrate_device">მოწყობილობის დაკალიბრება</string>
+    <string name="debugactivity_really_factoryreset_title">გსურთ რეალურად მოწყობილობის გადატვირთვა\?</string>
+    <string name="title_activity_appmanager">აპლიკაციას მენეჭერი</string>
+    <string name="appmanager_cached_watchapps_watchfaces">აპლიკაციები ქეშიში</string>
+    <string name="appmanager_installed_watchapps">დაინსტალირებული აპლიკაციები</string>
+    <string name="appmanager_installed_watchfaces">დაინსტალირებული ციფერბლატები</string>
+    <string name="appmananger_app_delete">წაშლა</string>
+    <string name="appmananger_app_delete_cache">წაშლა და ქეშიდან ამოღება</string>
+    <string name="appmananger_app_reinstall">ისევ ინსტალაცია</string>
+    <string name="appmanager_app_openinstore">ფებლის მაღაზიაში ძებნა</string>
+    <string name="appmanager_health_activate">გააქტიურება</string>
+    <string name="appmanager_health_deactivate">გამორტვა</string>
+    <string name="app_configure">კონფიგურაცია</string>
+</resources>

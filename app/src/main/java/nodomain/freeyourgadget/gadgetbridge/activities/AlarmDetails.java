@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Lem Dulfo
 
     This file is part of Gadgetbridge.
@@ -38,6 +38,7 @@ public class AlarmDetails extends AbstractGBActivity {
     private Alarm alarm;
     private TimePicker timePicker;
     private CheckedTextView cbSmartWakeup;
+    private CheckedTextView cbSnooze;
     private CheckedTextView cbMonday;
     private CheckedTextView cbTuesday;
     private CheckedTextView cbWednesday;
@@ -57,6 +58,7 @@ public class AlarmDetails extends AbstractGBActivity {
 
         timePicker = findViewById(R.id.alarm_time_picker);
         cbSmartWakeup = findViewById(R.id.alarm_cb_smart_wakeup);
+        cbSnooze = findViewById(R.id.alarm_cb_snooze);
         cbMonday = findViewById(R.id.alarm_cb_monday);
         cbTuesday = findViewById(R.id.alarm_cb_tuesday);
         cbWednesday = findViewById(R.id.alarm_cb_wednesday);
@@ -67,6 +69,11 @@ public class AlarmDetails extends AbstractGBActivity {
 
 
         cbSmartWakeup.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ((CheckedTextView) v).toggle();
+            }
+        });
+        cbSnooze.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ((CheckedTextView) v).toggle();
             }
@@ -115,6 +122,10 @@ public class AlarmDetails extends AbstractGBActivity {
         int smartAlarmVisibility = supportsSmartWakeup() ? View.VISIBLE : View.GONE;
         cbSmartWakeup.setVisibility(smartAlarmVisibility);
 
+        cbSnooze.setChecked(alarm.getSnooze());
+        int snoozeVisibility = supportsSnoozing() ? View.VISIBLE : View.GONE;
+        cbSnooze.setVisibility(snoozeVisibility);
+
         cbMonday.setChecked(alarm.getRepetition(Alarm.ALARM_MON));
         cbTuesday.setChecked(alarm.getRepetition(Alarm.ALARM_TUE));
         cbWednesday.setChecked(alarm.getRepetition(Alarm.ALARM_WED));
@@ -133,6 +144,14 @@ public class AlarmDetails extends AbstractGBActivity {
         return false;
     }
 
+    private boolean supportsSnoozing() {
+        if (device != null) {
+            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+            return coordinator.supportsAlarmSnoozing();
+        }
+        return false;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -146,6 +165,7 @@ public class AlarmDetails extends AbstractGBActivity {
 
     private void updateAlarm() {
         alarm.setSmartWakeup(supportsSmartWakeup() && cbSmartWakeup.isChecked());
+        alarm.setSnooze(supportsSnoozing() && cbSnooze.isChecked());
         int repetitionMask = AlarmUtils.createRepetitionMassk(cbMonday.isChecked(), cbTuesday.isChecked(), cbWednesday.isChecked(), cbThursday.isChecked(), cbFriday.isChecked(), cbSaturday.isChecked(), cbSunday.isChecked());
         alarm.setRepetition(repetitionMask);
         alarm.setHour(timePicker.getCurrentHour());

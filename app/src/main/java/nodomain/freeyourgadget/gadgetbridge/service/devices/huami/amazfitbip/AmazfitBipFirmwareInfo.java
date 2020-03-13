@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer, MyTimeKill
+/*  Copyright (C) 2017-2020 Andreas Shimokawa, Carsten Pfeiffer, MyTimeKill
 
     This file is part of Gadgetbridge.
 
@@ -159,9 +159,11 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
 
         // BipOS FW
         crcToVersion.put(28373, "1.1.2.05 (BipOS 0.5)");
+        crcToVersion.put(62977, "1.1.2.05 (BipOS 0.5.1)");
 
         // BipOS RES
         crcToVersion.put(16303, "1.1.2.05 (BipOS 0.5)");
+        crcToVersion.put(61135, "1.1.2.05 (BipOS 0.5.1)");
     }
 
     public AmazfitBipFirmwareInfo(byte[] bytes) {
@@ -171,7 +173,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
     @Override
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
         if (ArrayUtils.startsWith(bytes, RES_HEADER) || ArrayUtils.startsWith(bytes, NEWRES_HEADER)) {
-            if ((bytes.length <= 100000) || (bytes.length > 700000)) { // dont know how to distinguish from Cor/Mi Band 3 .res
+            if (bytes.length <= 100000) { // dont know how to distinguish from Cor/Mi Band 3 .res
                 return HuamiFirmwareType.INVALID;
             }
             return HuamiFirmwareType.RES;

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018-2019 José Rebelo, Sebastian Kranz
+/*  Copyright (C) 2018-2020 José Rebelo, Sebastian Kranz
 
     This file is part of Gadgetbridge.
 

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 Daniel Dakhno
+/*  Copyright (C) 2019-2020 Daniel Dakhno
 
     This file is part of Gadgetbridge.
 
@@ -74,11 +74,12 @@ public class NotificationFilterPutRequest extends FilePutRequest {
     }
 
     enum PacketID{
-        PACKAGE_NAME((byte) 1),
-        SENDER_NAME((byte) 2),
-        PACKAGE_NAME_CRC((byte) 4),
-        GROUP_ID((byte) 128),
-        APP_DISPLAY_NAME((byte) 129),
+        PACKAGE_NAME((byte) 0x01),
+        SENDER_NAME((byte) 0x02),
+        PACKAGE_NAME_CRC((byte) 0x04),
+        GROUP_ID((byte) 0x80),
+        APP_DISPLAY_NAME((byte) 0x81),
+        ICON((byte) 0x82),
         PRIORITY((byte) 0xC1),
         MOVEMENT((byte) 0xC2),
         VIBRATION((byte) 0xC3);

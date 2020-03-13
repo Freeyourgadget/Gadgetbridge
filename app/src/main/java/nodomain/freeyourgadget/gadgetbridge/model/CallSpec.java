@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2019 Andreas Shimokawa
+/*  Copyright (C) 2016-2020 Andreas Shimokawa
 
     This file is part of Gadgetbridge.
 
@@ -17,7 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 public class CallSpec {
-    public static final int CALL_UNDEFINED = 1;
+    public static final int CALL_UNDEFINED = 0;
     public static final int CALL_ACCEPT = 1;
     public static final int CALL_INCOMING = 2;
     public static final int CALL_OUTGOING = 3;

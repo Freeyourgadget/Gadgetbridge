@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Julien Pivotto, Matej Drobnič, Uwe Hermann
 
     This file is part of Gadgetbridge.
@@ -467,7 +467,7 @@ class PebbleIoThread extends GBDeviceIoThread {
         write_real(bytes);
     }
 
-    // FIXME: parts are supporsed to be generic code
+    // FIXME: parts are supposed to be generic code
     private boolean evaluateGBDeviceEventPebble(GBDeviceEvent deviceEvent) {
 
         if (deviceEvent instanceof GBDeviceEventVersionInfo) {

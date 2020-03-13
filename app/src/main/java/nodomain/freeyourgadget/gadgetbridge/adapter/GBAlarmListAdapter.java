@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti
 
     This file is part of Gadgetbridge.
@@ -27,12 +27,13 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -71,7 +72,7 @@ public class GBAlarmListAdapter extends RecyclerView.Adapter<GBAlarmListAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
         final Alarm alarm = alarmList.get(position);
 
@@ -82,7 +83,7 @@ public class GBAlarmListAdapter extends RecyclerView.Adapter<GBAlarmListAdapter.
         holder.alarmDayFriday.setChecked(alarm.getRepetition(Alarm.ALARM_FRI));
         holder.alarmDaySaturday.setChecked(alarm.getRepetition(Alarm.ALARM_SAT));
         holder.alarmDaySunday.setChecked(alarm.getRepetition(Alarm.ALARM_SUN));
-
+        holder.container.setAlpha(alarm.getUnused() ? 0.5f : 1.0f);
         holder.isEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -97,6 +98,16 @@ public class GBAlarmListAdapter extends RecyclerView.Adapter<GBAlarmListAdapter.
                 ((ConfigureAlarms) mContext).configureAlarm(alarm);
             }
         });
+        holder.container.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                alarm.setUnused(!alarm.getUnused());
+                holder.container.setAlpha(alarm.getUnused() ? 0.5f : 1.0f);
+                updateInDB(alarm);
+                return true;
+            }
+        });
+
         holder.alarmTime.setText(DateTimeUtils.formatTime(alarm.getHour(), alarm.getMinute()));
         holder.isEnabled.setChecked(alarm.getEnabled());
         if (alarm.getSmartWakeup()) {

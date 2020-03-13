@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018-2019 Andreas Shimokawa, Carsten Pfeiffer, Roi Greenberg
+/*  Copyright (C) 2018-2020 Andreas Shimokawa, Carsten Pfeiffer, Roi Greenberg
 
     This file is part of Gadgetbridge.
 

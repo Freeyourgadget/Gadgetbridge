@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 Daniel Dakhno
+/*  Copyright (C) 2019-2020 Daniel Dakhno
 
     This file is part of Gadgetbridge.
 
@@ -33,16 +33,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.IdentityHashMap;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
@@ -53,21 +52,14 @@ import static android.view.View.GONE;
 public class QHybridAppChoserActivity extends AbstractGBActivity {
     boolean hasControl = false;
 
-    PackageConfigHelper helper;
+    private PackageConfigHelper helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qhybrid_app_choser);
 
-        try {
-            helper = new PackageConfigHelper(getApplicationContext());
-        } catch (GBException e) {
-            GB.log("database error", GB.ERROR, e);
-            GB.toast("error getting database helper", Toast.LENGTH_SHORT, GB.ERROR, e);
-            finish();
-            return;
-        }
+        helper = new PackageConfigHelper(getApplicationContext());
 
         final ListView appList = findViewById(R.id.qhybrid_appChooserList);
         final PackageManager manager = getPackageManager();
@@ -146,8 +138,7 @@ public class QHybridAppChoserActivity extends AbstractGBActivity {
                     try {
                         helper.saveNotificationConfiguration(config);
                         LocalBroadcastManager.getInstance(QHybridAppChoserActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED));
-                    } catch (GBException e) {
-                        GB.log("error saving config", GB.ERROR, e);
+                    } catch (Exception e) {
                         GB.toast("error saving configuration", Toast.LENGTH_SHORT, GB.ERROR, e);
                     }
                     finish();

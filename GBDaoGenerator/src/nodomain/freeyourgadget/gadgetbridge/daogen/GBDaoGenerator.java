@@ -15,8 +15,6 @@
  */
 package nodomain.freeyourgadget.gadgetbridge.daogen;
 
-import java.util.Date;
-
 import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
 import de.greenrobot.daogenerator.Index;
@@ -45,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(21, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(24, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -72,6 +70,7 @@ public class GBDaoGenerator {
         addXWatchActivitySample(schema, user, device);
         addZeTimeActivitySample(schema, user, device);
         addID115ActivitySample(schema, user, device);
+        addJYouActivitySample(schema, user, device);
         addWatchXPlusHealthActivitySample(schema, user, device);
         addWatchXPlusHealthActivityKindOverlay(schema, user, device);
 
@@ -332,6 +331,19 @@ public class GBDaoGenerator {
         return activitySample;
     }
 
+    private static Entity addJYouActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "JYouActivitySample");
+        activitySample.implementsSerializable();
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty("caloriesBurnt");
+        activitySample.addIntProperty("distanceMeters");
+        activitySample.addIntProperty("activeTimeMinutes");
+        addHeartRateProperties(activitySample);
+        return activitySample;
+    }
+
     private static Entity addWatchXPlusHealthActivitySample(Schema schema, Entity user, Entity device) {
         Entity activitySample = addEntity(schema, "WatchXPlusActivitySample");
         activitySample.implementsSerializable();
@@ -404,12 +416,14 @@ public class GBDaoGenerator {
         alarm.addIndex(indexUnique);
         alarm.addBooleanProperty("enabled").notNull();
         alarm.addBooleanProperty("smartWakeup").notNull();
+        alarm.addBooleanProperty("snooze").notNull();
         alarm.addIntProperty("repetition").notNull().codeBeforeGetter(
                 "public boolean isRepetitive() { return getRepetition() != ALARM_ONCE; } " +
                         "public boolean getRepetition(int dow) { return (this.repetition & dow) > 0; }"
         );
         alarm.addIntProperty("hour").notNull();
         alarm.addIntProperty("minute").notNull();
+        alarm.addBooleanProperty("unused").notNull();
         alarm.addToOne(user, userId);
         alarm.addToOne(device, deviceId);
     }

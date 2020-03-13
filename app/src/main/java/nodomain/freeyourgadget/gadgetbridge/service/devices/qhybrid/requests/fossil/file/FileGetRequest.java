@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 Daniel Dakhno
+/*  Copyright (C) 2019-2020 Daniel Dakhno
 
     This file is part of Gadgetbridge.
 
@@ -28,6 +28,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.ResultCode;
 
 public abstract class FileGetRequest extends FossilRequest {
     private short handle;
@@ -74,8 +75,9 @@ public abstract class FileGetRequest extends FossilRequest {
 
                 byte status = buffer.get(3);
 
-                if(status != 0){
-                    throw new RuntimeException("FileGet error: " + status);
+                ResultCode code = ResultCode.fromCode(status);
+                if(!code.inidicatesSuccess()){
+                    throw new RuntimeException("FileGet error: " + code + "   (" + status + ")");
                 }
 
                 if(this.handle != handle){

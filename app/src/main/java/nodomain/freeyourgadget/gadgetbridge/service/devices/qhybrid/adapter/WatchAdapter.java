@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 Daniel Dakhno
+/*  Copyright (C) 2019-2020 Daniel Dakhno
 
     This file is part of Gadgetbridge.
 
@@ -24,6 +24,10 @@ import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 
@@ -93,5 +97,35 @@ public abstract class WatchAdapter {
             s.append(chars.charAt((b >> 4) & 0xF)).append(chars.charAt(b & 0xF)).append(" ");
         }
         return s.substring(0, s.length() - 1) + "\n";
+    }
+
+    public void setCommuteMenuMessage(String message, boolean finished) {
+    }
+
+    public void setMusicInfo(MusicSpec musicSpec) {
+    }
+
+    public void setMusicState(MusicStateSpec stateSpec) {
+    }
+
+    public void setWidgetContent(String widgetID, String content, boolean render) {
+    }
+
+    public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+    }
+
+    public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+    }
+
+    public void updateWidgets() {
+    }
+
+    public void onSetCallState(CallSpec callSpec) {
+    }
+
+    public void onFindDevice(boolean start) {
+    }
+
+    public void onSendWeather(WeatherSpec weatherSpec) {
     }
 }

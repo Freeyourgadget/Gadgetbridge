@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 Daniel Dakhno
+/*  Copyright (C) 2019-2020 Daniel Dakhno
 
     This file is part of Gadgetbridge.
 
@@ -22,6 +22,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.ResultCode;
 
 public class FileVerifyRequest extends FossilRequest {
     private boolean isFinished = false;
@@ -64,7 +65,8 @@ public class FileVerifyRequest extends FossilRequest {
 
         byte status = buffer.get(3);
 
-        if(status != 0) throw new RuntimeException("wrong response status");
+        ResultCode code = ResultCode.fromCode(status);
+        if(!code.inidicatesSuccess()) throw new RuntimeException("wrong response status: " + code + "   (" + status + ")");
 
         this.isFinished = true;
 

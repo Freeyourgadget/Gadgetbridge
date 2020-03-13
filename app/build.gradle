@@ -22,11 +22,11 @@ android {
     defaultConfig {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
         minSdkVersion 19
-        targetSdkVersion 27
+        targetSdkVersion 28
 
         // Note: always bump BOTH versionCode and versionName!
-        versionName "0.40.0"
-        versionCode 163
+        versionName "0.43.0"
+        versionCode 169
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -73,7 +73,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
     implementation "androidx.gridlayout:gridlayout:1.0.0"
-    implementation "com.google.android.material:material:1.0.0"
+    implementation "com.google.android.material:material:1.1.0"
     implementation "androidx.palette:palette:1.0.0"
     implementation("com.github.tony19:logback-android-classic:1.1.1-6") {
         exclude group: "com.google.android", module: "android"

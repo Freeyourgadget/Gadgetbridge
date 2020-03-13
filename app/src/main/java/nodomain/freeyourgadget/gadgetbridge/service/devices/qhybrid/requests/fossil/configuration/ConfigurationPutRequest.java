@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 Daniel Dakhno
+/*  Copyright (C) 2019-2020 Daniel Dakhno
 
     This file is part of Gadgetbridge.
 
@@ -23,6 +23,7 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileCloseAndPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
@@ -32,14 +33,15 @@ public class ConfigurationPutRequest extends FilePutRequest {
     private static HashMap<Short, Class<? extends ConfigItem>> itemsById = new HashMap<>();
 
     static {
-        itemsById.put((short)3, DailyStepGoalConfigItem.class);
-        itemsById.put((short)10, VibrationStrengthConfigItem.class);
-        itemsById.put((short)2, CurrentStepCountConfigItem.class);
-        itemsById.put((short)3, DailyStepGoalConfigItem.class);
-        itemsById.put((short)12, TimeConfigItem.class);
+        itemsById.put((short)0x02, CurrentStepCountConfigItem.class);
+        itemsById.put((short)0x03, DailyStepGoalConfigItem.class);
+        itemsById.put((short)0x0A, VibrationStrengthConfigItem.class);
+        itemsById.put((short)0x0C, TimeConfigItem.class);
+        itemsById.put((short)0x0D, BatteryConfigItem.class);
+        itemsById.put((short)0x0E, HeartRateMeasurementModeItem.class);
     }
 
-    static ConfigItem[] parsePayload(byte[] data) {
+    public static ConfigItem[] parsePayload(byte[] data) {
         ByteBuffer buffer = ByteBuffer.wrap(data);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
 
@@ -189,6 +191,52 @@ public class ConfigurationPutRequest extends FilePutRequest {
                     break;
                 }
             }
+        }
+    }
+
+    static public class BatteryConfigItem extends ConfigItem{
+        private int batteryPercentage, batteryVoltage;
+
+        public int getBatteryPercentage() {
+            return batteryPercentage;
+        }
+
+        public int getBatteryVoltage() {
+            return batteryVoltage;
+        }
+
+        @Override
+        public int getItemSize() {
+            return 3;
+        }
+
+        @Override
+        public short getId() {
+            return 0x0D;
+        }
+
+        @Override
+        public byte[] getContent() {
+            return new byte[0];
+        }
+
+        @Override
+        public void parseData(byte[] data) {
+            ByteBuffer buffer = ByteBuffer.wrap(data);
+            buffer.order(ByteOrder.LITTLE_ENDIAN);
+
+            this.batteryVoltage = buffer.getShort();
+            this.batteryPercentage = buffer.get();
+        }
+    }
+
+    static public class HeartRateMeasurementModeItem extends GenericConfigItem<Byte>{
+        public HeartRateMeasurementModeItem() {
+            this((byte)-1);
+        }
+
+        public HeartRateMeasurementModeItem(byte value) {
+            super((short) 14, value);
         }
     }
 

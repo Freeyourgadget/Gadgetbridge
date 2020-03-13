@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2019 Andreas Shimokawa, Carsten Pfeiffer, JohnnySun,
+/*  Copyright (C) 2016-2020 Andreas Shimokawa, Carsten Pfeiffer, JohnnySun,
     José Rebelo, Uwe Hermann
 
     This file is part of Gadgetbridge.
@@ -58,6 +58,7 @@ public class HuamiService {
     public static final int ALERT_LEVEL_MESSAGE = 1;
     public static final int ALERT_LEVEL_PHONE_CALL = 2;
     public static final int ALERT_LEVEL_VIBRATE_ONLY = 3;
+
 
     // set metric distance
     // set 12 hour time mode
@@ -157,6 +158,9 @@ public class HuamiService {
     public static final byte[] COMMAND_FACTORY_RESET = new byte[]{ENDPOINT_DISPLAY, 0x0b, 0x00, 0x01};
     public static final byte[] COMMAND_ENABLE_DISCONNECT_NOTIFCATION = new byte[]{ENDPOINT_DISPLAY, 0x0c, 0x00, 0x01, 0, 0, 0, 0};
     public static final byte[] COMMAND_DISABLE_DISCONNECT_NOTIFCATION = new byte[]{ENDPOINT_DISPLAY, 0x0c, 0x00, 0x00, 0, 0, 0, 0};
+
+    public static final byte[] COMMAND_REQUEST_ALARMS = new byte[]{0x0d};
+    public static final byte[] COMMAND_REQUEST_GPS_VERSION = new byte[]{0x0e};
 
     // The third byte controls the threshold, in minutes
     // The last 8 bytes represent 2 separate time intervals for the inactivity warnings

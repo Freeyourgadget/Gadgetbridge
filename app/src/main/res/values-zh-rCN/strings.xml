@@ -326,7 +326,7 @@
     <string name="mi2_prefs_button_actions">按钮操作</string>
     <string name="mi2_prefs_button_actions_summary">指定按钮按下时的操作</string>
     <string name="mi2_prefs_button_press_count">按钮按下计数</string>
-    <string name="mi2_prefs_button_press_count_summary">触发消息广播的按钮按数</string>
+    <string name="mi2_prefs_button_press_count_summary">触发事件的按钮按下按数 1.后续相同数量的按下创建事件 2.以此类推。</string>
     <string name="mi2_prefs_button_action">启用按钮操作</string>
     <string name="mi2_prefs_button_action_summary">对按下指定次数的按钮启用相应的操作</string>
     <string name="mi2_prefs_button_action_vibrate">启用手环震动</string>
@@ -472,7 +472,7 @@
     <string name="tap_connected_device_for_app_mananger">点按为已连接的设备管理应用</string>
     <string name="notif_export_failed_title">数据库导出失败！ 请检查您的设置。</string>
     <string name="miband_prefs_reserve_alarm_calendar">预警未来事件</string>
-    <string name="mi2_prefs_button_press_broadcast_summary">在指定按键次数后发送消息</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">事件与广播消息一起发送。参数 `button_id` 将会自动添加到每条消息中。</string>
     <string name="DEVINFO_HR_VER">"心率： "</string>
     <string name="timeformat_am_pm">AM/PM</string>
     <string name="devicetype_vibratissimo">Vibratissimo</string>
@@ -610,7 +610,7 @@
     <string name="pref_invalid_frequency_message">请输入一个在 87.5 至 108.0 之间的频率</string>
     <string name="language_and_region_prefs">语言和区域设置</string>
     <string name="debugactivity_really_factoryreset_title">确定要恢复出厂设置？</string>
-    <string name="debugactivity_really_factoryreset">恢复出厂设置将会删除已连接设备上的所有数据（如果支持）。小米/华米设备将会同时改变蓝牙MAC地址。对Gadgetbrige而言，这将是一个新设备。</string>
+    <string name="debugactivity_really_factoryreset">恢复出厂设置将会删除已连接设备上的所有数据（如果支持）。小米/华米设备将会同时改变蓝牙MAC地址。对Gadgetbridge而言，这将是一个新设备。</string>
     <string name="devicetype_casiogb6900">卡西欧 GB-6900</string>
     <string name="title_activity_notification_filter">通知过滤器</string>
     <string name="toast_app_must_not_be_blacklisted">只有不在黑名单中的应用才能够进行配置</string>
@@ -812,4 +812,30 @@
     <string name="pref_disable_new_ble_scanning">禁用新低功率蓝牙扫描</string>
     <string name="pref_summary_disable_new_ble_scanning">若您的设备无法在扫描过程中发现，请选中此选项</string>
     <string name="devicetype_banglejs">Bangle.js</string>
+    <string name="devicetype_y5">Y5</string>
+    <string name="prefs_button_single_press_action_selection_title">事件 1 操作</string>
+    <string name="prefs_button_double_press_action_selection_title">事件 2 操作</string>
+    <string name="prefs_button_triple_press_action_selection_title">事件 3 操作</string>
+    <string name="prefs_button_variable_actions">按下按钮时的详细设置</string>
+    <string name="prefs_button_long_press_action_selection_title">长按按钮的动作</string>
+    <string name="alarm_snooze">打盹</string>
+    <string name="error_no_location_access">为确保工作正常必须授权地理位置访问和扫描</string>
+    <string name="devicetype_itag">iTag</string>
+    <string name="pref_title_allow_high_mtu">允许高 MTU</string>
+    <string name="pref_summary_allow_high_mtu">增加传输速度，但是在某些 Android 设备上可能不会工作。</string>
+    <string name="pref_summary_sync_calendar">即使已经断开连接，也启用日历提醒</string>
+    <string name="pref_title_sync_caldendar">同步日历事件</string>
+    <string name="hr_widget_heart_rate">心率</string>
+    <string name="hr_widget_steps">步数</string>
+    <string name="hr_widget_date">日期</string>
+    <string name="hr_widget_active_minutes">活动分钟</string>
+    <string name="hr_widget_calories">卡路里</string>
+    <string name="hr_widget_battery">电池</string>
+    <string name="hr_widget_weather">天气</string>
+    <string name="hr_widget_nothing">无</string>
+    <string name="find_lost_device_you_found_it">找到它了！</string>
+    <string name="pref_title_force_white_color_scheme">当处于白色方案时始终使用黑色</string>
+    <string name="pref_summary_force_white_color_scheme">如果您双手颜色较深，将会有帮助</string>
+    <string name="find_my_phone_notification">查找我的手机</string>
+    <string name="notification_channel_high_priority_name">Gadgetbridge 通知高优先级</string>
 </resources>

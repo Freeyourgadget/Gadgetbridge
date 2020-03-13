@@ -1,5 +1,36 @@
 ### Changelog
 
+#### Version 0.42.1
+* Fix accepting/rejecting calls on Android 9
+* Mi Band 3/4, Amazfit Bip/Cor/GTS/GTR: Option to sync calendar events as reminder
+
+#### Version 0.42.0
+* Initial iTag support
+* Fix indefinitely lasting Bluetooth scans when location permission has not been granted
+* Try to stop incoming VoIP call notification when the call is answered
+* Vectorize some icons and add a new Mi Scale 2 icon
+* Mi Band 4: Make high MTU optional, fixes problems on some phones
+* ZeTime: Fix probably broken support (duplicate id used by Fossil)
+
+#### Version 0.41.1
+* Huami: allow to have alarms without snooze feature
+* Mi Band 2: Properly stop a call notification when text notifications are disabled
+* VoIP calls: ignore notifications with only one action, assuming it is an outgoing call
+* Try to fix notifications from Business Calendar
+
+#### Version 0.41.0
+* JYou Y5: Initial support
+* Mi Band 2/Amazfit Bip: Redesign button actions for easy music control setup and support long presses on Bip
+* Amazfit Bip: Remove RES file limit (for BipOS)
+* Huami: Automatically toggle alarm switch when toggling on the Band/Watch while in Alarm settings in Gadgetbridge
+* Recognize Pixart-Messenger as Chat App
+
+#### Version 0.40.1
+* Mi Band/Amazfit: Recognize changes when toggling alarm on device (immediately when connected, else when connecting)
+* Mi Band/Amazfit: Fix some bugs with stuck connection when re-connecting
+* Mi Band 4: Support higher MTU for multiple times faster firmware transfer (probably also Amazfit GTR/GTS)
+* Amazfit Cor: Fix setting language to Chinese manually
+
 #### Version 0.40.0
 * Fossil Q Hybrid: Initial support
 * Bangle.js: Initial support
@@ -8,7 +39,7 @@
 
 #### Version 0.39.1
 * Try to actively re-connect when a connection gets interrupted (interval grows up to 64 seconds)
-* Mi Band2/Amazfip Bip: Make button action settings per-device and enable for Amazfit Bip
+* Mi Band2/Amazfit Bip: Make button action settings per-device and enable for Amazfit Bip
 
 #### Version 0.39.0
 * Amazfit GTS: Initial and incomplete support, mostly untested
@@ -19,14 +50,14 @@
 * Amazfit GTR: Initial and incomplete support, mostly untested
 * Amazfit Bip: add Portuguese to the list of selectable languages
 * Mi Band 4: Enable emoji font setting
-* Makibes HR3: Support the english version
-* Makibes HR3: Enable bluetooth pairing for working reconnection
+* Makibes HR3: Support the English version
+* Makibes HR3: Enable Bluetooth pairing for working re-connection
 * Work around crash when trying to display changelog
 * Sleep detection settings: Rolling 24 hours (existing style) or Noon to noon
-* Add alternative color to heartrate in chart settings
+* Add alternative color to heart rate in chart settings
 
 #### Version 0.37.1
-* Amazfit Bip Lite: Support flashing firmware and watchfaces
+* Amazfit Bip Lite: Support flashing firmware and watch faces
 
 #### Version 0.37.0
 * Initial Makibes HR3 support
@@ -40,7 +71,7 @@
 * Show toast in case no app is installed which can handle GPX files
 * Mi Band 4/Amazfit Bip Lite: Trim white spaces and new lines from auth key
 * Mi Band 4/Amazfit Bip Lite: Display a toast and do not try to pair if there was no auth key supplied
-* Skip service scan if supported device could be recognized without uuids during discovery
+* Skip service scan if supported device could be recognized without UUIDs during discovery
 
 #### Version 0.36.2
 * Amazfit Bip: Untested support for Lite variant 
@@ -50,7 +81,7 @@
 #### Version 0.36.1
 * Mi Band 2/3/4, Amazfit Bip/Cor: Add setting to expose the HR sensor to 3rd party apps
 * Mi Band 4: Really fix weather location not being updated on the Band
-* Mi Band 4: Fix call notifcation not stopping when call gets answered or rejected on the phone
+* Mi Band 4: Fix call notification not stopping when call gets answered or rejected on the phone
 * Amazfit Bip/Cor: Support for custom emoji font
 * ZeTime: Enable emoji support
 * ZeTime: Make watch language the same as the phone language by default
@@ -64,7 +95,7 @@
 * Initial Mijia LYWSD02 support (Smart Clock with Humidity and Temperature Sensor), just for setting the time
 * Mi Band 3/4: Allow enabling the NFC menu where supported (useless for now)
 * Mi Band 3/4, Amazfit Cor/Bip: Set language immediately when changing it (not only on connect)
-* Mi Band 3/4, Amazfir Cor/Bip: Add icons for "swimming" and "exercise"
+* Mi Band 3/4, Amazfit Cor/Bip: Add icons for "swimming" and "exercise"
 * Mi Band 4: Support flashing the V2 font
 * Mi Band 4: Fix weather location not being updated on the Band
 * Mi Band 4: remove unsupported DND setting from settings menu
@@ -78,11 +109,11 @@
 #### Version 0.35.2
 * Mi Band 1/2: Crash when updating firmware while phone is set to Spanish
 * Mi Band 4: Enable music info support (displays now on the band)
-* Mi Band 4: Support setting date format (for built-in watchfaces)
+* Mi Band 4: Support setting date format (for built-in watch-faces)
 * Amazfit Cor 2: Try to fix empty menu on device
 
 #### Version 0.35.1
-* Mi Band 4: Support flashing watchfaces, res and firmware (.ft untested)
+* Mi Band 4: Support flashing watch-faces, res and firmware (.ft untested)
 
 #### Version 0.35.0
 * Mi Band 4: Initial support (WARNING: INITIAL SETUP NEEDS MI FIT WITH ACCOUNT AND ROOT, NOT A RECOMMENDED DEVICE FOR GADGETBRIDGE)
@@ -90,7 +121,7 @@
 #### Version 0.34.1
 * Mi Band 1: Fix crash when entering per-device settings
 * Mi Band 3: Allow setting date format in per-device settings
-* ZeTime: Fix timestmaps
+* ZeTime: Fix time stamps
 * Fix a crash when flashing an non-whitelisted firmware while using Gadgetbridge in Spanish
 
 #### Version 0.34.0
@@ -110,14 +141,14 @@
 * Mi Band 3: Add Indonesian, Thai, Arabic, Vietnamese, Portuguese, Dutch, Turkish and Ukrainian to language settings
 * Mi Band 3: Support flashing latest Japanese-Korean font
 * Amazfit Cor 2: Initial experimental support (untested)
-* Pebble: Add pebblekit extension for reopening last app
-* Casio: Bugfixes and improvements
+* Pebble: Add PebbleKit extension for reopening last app
+* Casio: Bug fixes and improvements
 * Lookup contacts also in work profile
 * Fix searching in application name when blacklisting
 * Remove misleading title from database management activity when no legacy database is available
 
 #### Version 0.32.4
-* Make voip call support optional (disabled by default)
+* Make VoIP call support optional (disabled by default)
 * Amazfit Bip: GPX export corrections
 * ZeTime: Fix setting alarms
 * ZeTime: Fix wrong activity timestamps
@@ -143,9 +174,9 @@
 * Initial support for Casio GB-6900B
 * Increase number of alarms and store them per-device 
 * Support factory reset in debug activity (Mi Band 1/2/3, Bip, Cor)
-* Filter out unicode control sequences (fixes problems with Telegram and probably others)
+* Filter out Unicode control sequences (fixes problems with Telegram and probably others)
 * Fix endless loop resulting in OOM when RTL support is enabled
-* Recoginize p≡p as an email app
+* Recognize p≡p as an email app
 * No longer display Android paired devices in that were not a paired with Gadgetbridge
 * Amazfit Bip: Allow flashing latest GPS firmware
 * Pebble: Native support for M7S watch face
@@ -168,8 +199,8 @@
 #### Version 0.31.0
 * Pebble: Send all wearable notification actions (not only reply)
 * Pebble: Always allow reply action even if untested features are turned off
-* Pebble: Temporarily disable broken autoremove notification feature
-* Amazfit Bip: Allow flashing latest gps firmware (Mili_dth.gps)
+* Pebble: Temporarily disable broken auto remove notification feature
+* Amazfit Bip: Allow flashing latest GPS firmware (Mili_dth.gps)
 * Mi Band 3/Amazfit Bip/Amazfit Cor: Send Fahrenheit if units are set to imperial
 * Roidmi 3: Fix and enable support
 * Mi Band 3/Amazfit Bip: fix find phone crash
@@ -253,7 +284,7 @@
 * Initial support for Mi Band 3 (largely untested, needs to be connected to Mi Fit once)
 * Option for automatic activity sync after screen unlock
 * Allow hiding activity transfer notification on Android Oreo and above
-* Allow blacklisting of pebblekit notifications for individual apps
+* Allow blacklisting of PebbleKit notifications for individual apps
 * Allow blacklisting all application at once
 * Forward Skype notifications to wearable even if "local only" flag is set
 * Show Gadgetbridge logo behind cards in main activity
@@ -554,7 +585,7 @@
 
 #### Version 0.17.5
 * Automatically start the service on boot (can be turned off)
-* Pebble: PebbleKit compatibility improvements (Datalogging)
+* Pebble: PebbleKit compatibility improvements (Data logging)
 * Pebble: Display music shuffle and repeat states for some players
 * Pebble 2/LE: Speed up data transfer
 
@@ -562,7 +593,7 @@
 * Better integration with android music players
 * Privacy options for calls (hide caller name/number)
 * Send a notification to the connected if the Android Alarm Clock rings (com.android.deskclock)
-* Fixes for cyrillic transliteration
+* Fixes for Cyrillic transliteration
 * Pebble: Implement notification privacy modes
 * Pebble: Support weather for Obisdian watchface
 * Pebble: add a dev option to always and immediately ACK PebbleKit messages to the watch
@@ -633,7 +664,7 @@
 * Mi Band 2: Initial support for firmware update (tested so far: 1.0.0.39)
 
 #### Version 0.14.4
-* Pebble 2/LE: Fix multiple bugs in reconnection code, honor reconnect tries from settings
+* Pebble 2/LE: Fix multiple bugs in re-connection code, honor reconnect tries from settings
 * Mi Band 2: Experimental support for activity recognition
 * Mi Band 2: Fix time setting code
 
@@ -678,7 +709,7 @@
 * Mi Band 2: Initial support for heart rate readings (Debug activity only)
 * Mi Band 2: Support disabled alarms
 * Attempt to fix spurious device discovery problems
-* Correctly recognize Toffeed, Slimsocial and MaterialFBook as facebook notification sources 
+* Correctly recognize Toffeed, Slimsocial and MaterialFBook as Facebook notification sources 
 
 #### Version 0.13.6
 * Mi Band 2: Support for multiple alarms (3 at the moment)
@@ -694,10 +725,10 @@
 * Mi Band: Support for testing vibration patterns directly from the preferences
 * Mi Band: Clean up vibration preferences
 * Possibly fix logging to file on certain devices (#406)
-* Mi Band 2: Possibly fix weird connection interdependency between Mi 1 and 2 (#323)
-* Mi Band 1S: Whitelist firmware 4.16.4.22
+* Mi Band 2: Possibly fix weird connection interdependence between Mi 1 and 2 (#323)
+* Mi Band 1S: White list firmware 4.16.4.22
 * Mi Band: try application level pairing again, in order to support data sharing with Mi Fit (#250)
-* Pebble: new icons and colours for certain apps
+* Pebble: new icons and colors for certain apps
 * Debug-screen: added button to test "new functionality", currently live sensor data for Mi Band 1
 
 #### Version 0.13.3
@@ -747,7 +778,7 @@
 * Fix a rare crash when, due to Bluetooth problems, when a device has no name
 * Fix activity fetching getting stuck when double tapping (#333)
 * Mi Band: in the Device Discovery activity, do not display devices that are already paired
-* Mi Band: only allow automatic reconnection on disconnect when the device was previously fully connected
+* Mi Band: only allow automatic re-connection on disconnect when the device was previously fully connected
 * Mi Band: fix a rare crash when reading data fails due to Bluetooth problems
 * Mi Band: log full activity sample to help deciphering activity kinds (#341)
 * Mi Band 2: improved discovery mechanism to not rely on MAC addresses (#323)
@@ -819,7 +850,7 @@
 #### Version 0.9.4
 * Pebble: support pebble health datalog messages of firmware 3.11 (this adds support for deep sleep!)
 * Pebble: try to reconnect on new notifications and phone calls when connection was lost unexpectedly
-* Pebble: delay between reconnection attempts (from 1 up to 64 seconds)
+* Pebble: delay between re-connection attempts (from 1 up to 64 seconds)
 * Fix crash in charts activities when changing the date, quickly (#277)
 * Mi Band: preference to enable heart rate measurement during sleep (#232, thanks computerlyrik!)
 * Mi Band: display measured heart rate in charts (#232)
@@ -875,7 +906,7 @@
 * Fix layout of the alarms activity
 
 #### Version 0.7.4
-* Refactored the settings activity: User details are now generic instead of miband specific. Old settings are preserved.
+* Refactored the settings activity: User details are now generic instead of Mi Band specific. Old settings are preserved.
 * Pebble: Fix regression with broken active reconnect since 0.7.0
 * Pebble: Support activation and deactivation of Pebble Health. Activation uses the User details as seen above. Insights are NOT activated.
   Please be aware that deactivation does NOT delete the data stored on the watch (but it seems to stop the tracking), and we do not know how to switch to metric length units.
@@ -893,7 +924,7 @@
 * Sort blacklist by package names
 
 #### Version 0.7.1
-* Pebble: allow reinstallation of apps in pbw-cache from App Manager (long press menu)
+* Pebble: allow re-installation of apps in pbw-cache from App Manager (long press menu)
 * Pebble: Fix regression which freezes Gadgetbridge when disconnecting via long-press menu
 
 #### Version 0.7.0
@@ -902,7 +933,7 @@
 * Pebble: Support replying to SMS form the watch (canned replies)
 * Pebble: Allow installing apps compiled with SDK 2.x also on the basalt platform (Time, Time Steel)
 * Pebble: Fix decoding strings in appmessages from the pebble (fixes sending SMS from "Dialer for Pebble")
-* Pebble: Support incoming reconnections when device returns from "Airplane Mode" or "Stand-By Mode"
+* Pebble: Support incoming re-connections when device returns from "Airplane Mode" or "Stand-By Mode"
 * Pebble: Fix crash when turning off Bluetooth when connected on Android 6.0
 * Mi Band: reserve some alarm slots for alerting when upcoming events begin. NB: the band will vibrate at the start time of the event, android reminders are ignored
 * Mi Band: Display unique devices Names, not just "MI"
@@ -961,7 +992,7 @@
 * Try to prevent service being killed by disallowing backups
 
 #### Version 0.6.2
-* Mi Band: support firmware version 1.0.10.14 (and onwards?) vibration
+* Mi Band: support firmware version 1.0.10.14 (and onward?) vibration
 * Mi Band: get device name from official BT SIG endpoint
 * Mi Band: initial support for displaying live activity data, screen stays on
 
@@ -969,12 +1000,12 @@
 * Pebble: Allow muting (blacklisting) Apps from within generic notifications on the watch
 * Pebble: Detect all known Pebble Versions including new "chalk" platform (Pebble Time Round)
 * Option to ignore phone calls (useful for Pebble Dialer)
-* Mi Band: Added progressbar for activity data transfer and fixes for firmware transfer progressbar
+* Mi Band: Added progress bar for activity data transfer and fixes for firmware transfer progress bar
 * Bugfix for app blacklist (some checkboxes where wrongly drawn as checked)
 
 #### Version 0.6.0
 * Pebble: WIP implementation of PebbleKit Intents to make some 3rd party Android apps work with the Pebble (eg. Ventoo)
-* Pebble: Option to set reconnection attempts in settings (one attempt usually takes about 5 seconds)
+* Pebble: Option to set re-connection attempts in settings (one attempt usually takes about 5 seconds)
 * Support controlling all audio players that react to media buttons (can be chosen in settings)
 * Treat SMS as generic notification if set to "never" (can be blacklisted there also if desired)
 * Treat Conversations messages as chat messages, even if arrived via Pebble Intents (nice icon for Pebble FW 3.x)
@@ -1024,7 +1055,7 @@
 * Fixed slight steps graph distortion through black text labels
 * Fixed control center activity and notification showing different device connection state
 * Small firmware installation improvements
-* Various refactorings and code cleanups
+* Various refactoring and code cleanups
 
 #### Version 0.4.5
 * Enhancement to activity graphs: new graph showing the number of steps done today and in the last week

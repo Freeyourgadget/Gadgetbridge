@@ -17,7 +17,7 @@
     <string name="controlcenter_snackbar_need_longpress">Podržte déle pro odpojení</string>
     <string name="controlcenter_snackbar_disconnecting">Odpojuji</string>
     <string name="controlcenter_snackbar_connecting">Připojuji…</string>
-    <string name="controlcenter_snackbar_requested_screenshot">Sejmout snímek obrazovky</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Pořídit snímek obrazovky</string>
     <string name="title_activity_debug">Ladění</string>
     <!--Strings related to AppManager-->
     <string name="title_activity_appmanager">Manažer aplikací</string>
@@ -307,7 +307,7 @@
     <string name="activity_prefs_weight_kg">Váha v kg</string>
     <string name="authenticating">Ověřování</string>
     <string name="authentication_required">Ověřování vyžadováno</string>
-    <string name="appwidget_text">Spí…</string>
+    <string name="appwidget_text">Spí</string>
     <string name="add_widget">Přidat widget</string>
     <string name="activity_prefs_sleep_duration">Preferovaná doba spánku v hodinách</string>
     <string name="appwidget_setting_alarm">Budík nastaven na %1$02d:%2$02d</string>
@@ -356,7 +356,7 @@
     <string name="unit_metric">Metrické</string>
     <string name="unit_imperial">Imperiální</string>
     <string name="timeformat_24h">24h</string>
-    <string name="timeformat_am_pm">dop./odp.</string>
+    <string name="timeformat_am_pm">Dop./Odp.</string>
     <string name="pref_screen_notification_profile_alarm_clock">Budík</string>
     <string name="StringUtils_sender">(%1$s)</string>
     <string name="find_device_you_found_it">Nalezeno!</string>
@@ -410,9 +410,9 @@
     <string name="mi2_prefs_button_actions">Akce tlačítka</string>
     <string name="mi2_prefs_button_actions_summary">Nastavení akcí po stisknutí tlačítka</string>
     <string name="mi2_prefs_button_press_count">Počet stisknutí tlačítka</string>
-    <string name="mi2_prefs_button_press_count_summary">Počet stisknutí tlačítka na spuštění vysílání zpráv</string>
+    <string name="mi2_prefs_button_press_count_summary">Počet stisknutí tlačítka pro vyvolání Události 1. Další stejné množství stisků vyvolá Událost 2 atd.</string>
     <string name="mi2_prefs_button_press_broadcast">Vysílání zpráv</string>
-    <string name="mi2_prefs_button_press_broadcast_summary">Vysílání zprávy po definovaném počtu stisknutí tlačítka</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Vysílání broadcast zprávy po při události. Parametr button_id je doplněn do každé zprávy automaticky.</string>
     <string name="mi2_prefs_button_action">Zapnout akci tlačítka</string>
     <string name="mi2_prefs_button_action_summary">Zapnout akci na zadaný počet stisknutí tlačítka</string>
     <string name="mi2_prefs_button_action_vibrate">Zapnout vibrování náramku</string>
@@ -576,7 +576,7 @@
     <string name="ok">Ok</string>
     <string name="mi3_night_mode_sunset">Při západu slunce</string>
     <string name="controlcenter_start_activity_tracks">Záznamy aktivit</string>
-    <string name="activity_type_treadmill">Běh na pásu</string>
+    <string name="activity_type_treadmill">Běžecký pás</string>
     <string name="devicetype_miband3">Mi Band 3</string>
     <string name="devicetype_q8">Q8</string>
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
@@ -725,7 +725,7 @@
     <string name="pref_title_use_custom_font">Využít vlastní font</string>
     <string name="pref_summary_use_custom_font">Vaše zařízení má vlastní font s podporou emoji</string>
     <string name="activity_db_management_autoexport_explanation">Cesta autoexportu databáze je nastaveno na:</string>
-    <string name="activity_db_management_autoexport_label">AutoExport</string>
+    <string name="activity_db_management_autoexport_label">Automatický export</string>
     <string name="activity_DB_ExportButton">Exportovat Databázi</string>
     <string name="activity_DB_import_button">Importovat Databázi</string>
     <string name="activity_DB_test_export_button">Spustit AutoExport Teď</string>
@@ -792,4 +792,46 @@
 \n
 \nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
+    <string name="preferences_qhybrid_settings">Q hybrid nastavení</string>
+    <string name="watch_not_connected">Hodinky nejsou připojeny</string>
+    <string name="qhybrid_vibration_strength">síla vibrace:</string>
+    <string name="qhybrid_goal_in_steps">Cíl v krocích</string>
+    <string name="qhybrid_time_shift">časový posun</string>
+    <string name="qhybrid_second_timezone_offset_relative_to_utc">posun dalšího časového pásma vzhledem k UTC</string>
+    <string name="qhybrid_overwrite_buttons">přepsat tlačítka</string>
+    <string name="qhybrid_use_activity_hand_as_notification_counter">použít čítač aktivity jako čítač oznámení</string>
+    <string name="qhybrid_prompt_million_steps">Chcete-li aktivovat počítadlo, nastavte počet kroků na milion.</string>
+    <string name="qhybrid_buttons_overwrite_success">Tlačítka přepsána</string>
+    <string name="qhybrid_buttons_overwrite_error">Chyba při přepisování tlačítek</string>
+    <string name="qhybrid_offset_timezone">posun časového pásma podle</string>
+    <string name="qhybrid_changes_delay_prompt">změna může trvat několik sekund…</string>
+    <string name="qhybrid_offset_time_by">posun času o</string>
+    <string name="pref_disable_new_ble_scanning">Zakázat nové BLE skenování</string>
+    <string name="pref_summary_disable_new_ble_scanning">Tuto možnost zaškrtněte pokud Vaše zařízení nelze najít během vyhledávání</string>
+    <string name="devicetype_banglejs">Bangle.js</string>
+    <string name="devicetype_y5">Y5</string>
+    <string name="prefs_button_single_press_action_selection_title">Akce události 1</string>
+    <string name="prefs_button_double_press_action_selection_title">Akce události 2</string>
+    <string name="prefs_button_triple_press_action_selection_title">Akce události 3</string>
+    <string name="prefs_button_variable_actions">Detailní nastavení stisku tlačítka</string>
+    <string name="prefs_button_long_press_action_selection_title">Akce pro dlouhý stisk</string>
+    <string name="alarm_snooze">Později...</string>
+    <string name="error_no_location_access">Přístup k poloze musí být díky systému Android přístupů povolen a zapnut, aby bylo možno správně naskenovat zařízení</string>
+    <string name="devicetype_itag">iTag</string>
+    <string name="pref_title_allow_high_mtu">Povolit vyšší MTU</string>
+    <string name="pref_summary_allow_high_mtu">Zrychluje přenosovou rychlost, ale na některých Android zařízení nemusí pracovat správně.</string>
+    <string name="pref_summary_sync_calendar">Umožňuje upozornění kalendáře, i při odpojeném zařízení</string>
+    <string name="pref_title_sync_caldendar">Synchronizace události kalendáře</string>
+    <string name="hr_widget_heart_rate">Tepová frekvence</string>
+    <string name="hr_widget_steps">Kroky</string>
+    <string name="hr_widget_date">Datum</string>
+    <string name="hr_widget_active_minutes">Minuty aktivity</string>
+    <string name="hr_widget_calories">Kalorie</string>
+    <string name="hr_widget_battery">Baterie</string>
+    <string name="hr_widget_weather">Počasí</string>
+    <string name="hr_widget_nothing">Nic</string>
+    <string name="find_lost_device_you_found_it">Nalezeno!</string>
+    <string name="pref_title_force_white_color_scheme">Vynutit barevné schéma Černá na bílé</string>
+    <string name="pref_summary_force_white_color_scheme">Užitečné, pokud máte hodinky s tmavými ručičkami</string>
 </resources>

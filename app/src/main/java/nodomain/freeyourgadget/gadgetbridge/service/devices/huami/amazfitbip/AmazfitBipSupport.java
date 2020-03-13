@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer, DerFetzer,
+/*  Copyright (C) 2017-2020 Andreas Shimokawa, Carsten Pfeiffer, DerFetzer,
     Matthieu Baerts, Roi Greenberg
 
     This file is part of Gadgetbridge.
@@ -17,11 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip;
 
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 
 import org.slf4j.Logger;
@@ -29,7 +25,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Set;
-import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
@@ -37,21 +32,14 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiIcon;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSportsSummaryOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.HuamiFetchDebugLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
-import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class AmazfitBipSupport extends HuamiSupport {
 
@@ -160,39 +148,6 @@ public class AmazfitBipSupport extends HuamiSupport {
         } catch (IOException ex) {
             LOG.error("Unable to fetch recorded data types" + dataTypes, ex);
         }
-    }
-
-    @Override
-    public boolean onCharacteristicChanged(BluetoothGatt gatt,
-                                           BluetoothGattCharacteristic characteristic) {
-        boolean handled = super.onCharacteristicChanged(gatt, characteristic);
-        if (!handled) {
-            UUID characteristicUUID = characteristic.getUuid();
-            if (HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION.equals(characteristicUUID)) {
-                return handleConfigurationInfo(characteristic.getValue());
-            }
-        }
-        return false;
-    }
-
-    private boolean handleConfigurationInfo(byte[] value) {
-        if (value == null || value.length < 4) {
-            return false;
-        }
-        if (value[0] == 0x10 && value[1] == 0x0e && value[2] == 0x01) {
-            String gpsVersion = new String(value, 3, value.length - 3);
-            LOG.info("got gps version = " + gpsVersion);
-            gbDevice.setFirmwareVersion2(gpsVersion);
-            return true;
-        }
-        return false;
-    }
-
-    // this probably does more than only getting the GPS version...
-    private AmazfitBipSupport requestGPSVersion(TransactionBuilder builder) {
-        LOG.info("Requesting GPS version");
-        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), AmazfitBipService.COMMAND_REQUEST_GPS_VERSION);
-        return this;
     }
 
     @Override

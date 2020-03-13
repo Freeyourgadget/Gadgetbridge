@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2019 Andreas Shimokawa, Daniele Gobbetti
+/*  Copyright (C) 2017-2020 Andreas Shimokawa, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -44,6 +44,7 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(51575, "1.0.7.88");
         crcToVersion.put(6346, "1.2.5.00");
         crcToVersion.put(24277, "1.2.7.20");
+        crcToVersion.put(10078, "1.2.7.32");
 
         // resources
         crcToVersion.put(46341, "RES 1.0.5.60");
@@ -53,6 +54,7 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(31263, "RES 1.0.7.77-91");
         crcToVersion.put(20920, "RES 1.2.5.00-69");
         crcToVersion.put(25397, "RES 1.2.7.20");
+        crcToVersion.put(54167, "RES 1.2.7.32");
 
         // font
         crcToVersion.put(61054, "8");

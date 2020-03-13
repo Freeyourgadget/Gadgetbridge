@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2019 Frank Slezak
+/*  Copyright (C) 2017-2020 Frank Slezak
 
     This file is part of Gadgetbridge.
 

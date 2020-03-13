@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2017-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, João Paulo Barraca, Nephiel, Roi Greenberg
 
     This file is part of Gadgetbridge.
@@ -95,5 +95,24 @@ public class StringUtils {
             return message;
         }
         return "";
+    }
+
+    public static String terminateNull(String input) {
+        if (input == null || input.length() == 0) {
+            return new String(new byte[]{(byte) 0});
+        }
+        char lastChar = input.charAt(input.length() - 1);
+        if (lastChar == 0) return input;
+
+        byte[] newArray = new byte[input.getBytes().length + 1];
+        System.arraycopy(input.getBytes(), 0, newArray, 0, input.getBytes().length);
+
+        newArray[newArray.length - 1] = 0;
+
+        return new String(newArray);
+    }
+
+    public static String bytesToHex(byte[] array) {
+        return GB.hexdump(array, 0, -1);
     }
 }

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2019 Andreas Shimokawa, keeshii
+/*  Copyright (C) 2017-2020 Andreas Shimokawa, keeshii
 
     This file is part of Gadgetbridge.
 

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2019 Andreas Böhler, Andreas Shimokawa, Carsten
+/*  Copyright (C) 2015-2020 Andreas Böhler, Andreas Shimokawa, Carsten
     Pfeiffer, Cre3per, Daniel Dakhno, Daniele Gobbetti, Sergey Trofimov,
     Uwe Hermann
 
@@ -265,9 +265,6 @@ public final class BtLEQueue {
 
         mGbDevice.setState(newState);
         mGbDevice.sendDeviceUpdateIntent(mContext);
-        if (mConnectionLatch != null && newState == State.CONNECTED) {
-            mConnectionLatch.countDown();
-        }
     }
 
     public void disconnect() {
@@ -515,6 +512,9 @@ public final class BtLEQueue {
                 if (getCallbackToUse() != null) {
                     // only propagate the successful event
                     getCallbackToUse().onServicesDiscovered(gatt);
+                }
+                if (mConnectionLatch != null) {
+                    mConnectionLatch.countDown();
                 }
             } else {
                 LOG.warn("onServicesDiscovered received: " + status);

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2019 abettenburg, Andreas Shimokawa, Carsten Pfeiffer,
+/*  Copyright (C) 2015-2020 abettenburg, Andreas Shimokawa, Carsten Pfeiffer,
     Daniele Gobbetti, Lem Dulfo
 
     This file is part of Gadgetbridge.
