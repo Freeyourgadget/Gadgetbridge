@@ -823,4 +823,9 @@
     <string name="devicetype_itag">iTag</string>
     <string name="pref_title_allow_high_mtu">Разрешить высокий MTU</string>
     <string name="pref_summary_allow_high_mtu">Увеличивает скорость передачи данных, но может не работать на некоторых Android-устройствах.</string>
+    <string name="pref_summary_sync_calendar">Включает уведомления календаря, даже когда отключено</string>
+    <string name="pref_title_sync_caldendar">Синхронизировать события в календаре</string>
+    <string name="find_my_phone_notification">Найти телефон</string>
+    <string name="pref_title_custom_deviceicon">Показывать собственную иконку устройства</string>
+    <string name="pref_summary_custom_deviceicon">При подключении показывать в уведомлении собственную иконку устройства вместо иконки Gadgetbridge</string>
 </resources>
