@@ -151,7 +151,7 @@ public class FossilWatchAdapter extends WatchAdapter {
         }
     }
 
-    private SharedPreferences getDeviceSpecificPreferences(){
+    protected SharedPreferences getDeviceSpecificPreferences(){
         return GBApplication.getDeviceSpecificSharedPrefs(
                 getDeviceSupport().getDevice().getAddress()
         );
@@ -454,6 +454,11 @@ public class FossilWatchAdapter extends WatchAdapter {
                 else  GB.toast("error setting alarms", Toast.LENGTH_SHORT, GB.INFO);
             }
         });
+    }
+
+    @Override
+    public void onSendConfiguration(String config) {
+
     }
 
     @Override

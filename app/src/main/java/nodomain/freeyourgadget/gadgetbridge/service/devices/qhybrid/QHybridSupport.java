@@ -330,6 +330,12 @@ public class QHybridSupport extends QHybridBaseSupport {
         this.watchAdapter.onSetAlarms(alarms);
     }
 
+    @Override
+    public void onSendConfiguration(String config) {
+        if (watchAdapter != null) {
+            watchAdapter.onSendConfiguration(config);
+        }
+    }
     private void loadTimeOffset() {
         timeOffset = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE).getInt("QHYBRID_TIME_OFFSET", 0);
     }

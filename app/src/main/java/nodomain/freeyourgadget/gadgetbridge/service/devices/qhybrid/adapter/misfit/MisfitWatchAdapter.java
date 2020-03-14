@@ -466,6 +466,11 @@ public class MisfitWatchAdapter extends WatchAdapter {
     }
 
     @Override
+    public void onSendConfiguration(String config) {
+
+    }
+
+    @Override
     public void overwriteButtons(String jsonConfigString) {
         uploadFileRequest = new UploadFileRequest((short) 0x0800, new byte[]{
                 (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x03, (byte) 0x10, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x20, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0x00,

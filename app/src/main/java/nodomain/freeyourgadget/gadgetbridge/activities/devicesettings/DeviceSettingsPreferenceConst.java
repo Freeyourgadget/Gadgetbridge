@@ -25,4 +25,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_ALLOW_HIGH_MTU = "allow_high_mtu";
     public static final String PREF_SYNC_CALENDAR = "sync_calendar";
     public static final String PREF_USE_CUSTOM_DEVICEICON = "use_custom_deviceicon";
+    public static final String PREF_BUTTON_1_FUNCTION = "button_1_function";
+    public static final String PREF_BUTTON_2_FUNCTION = "button_2_function";
+    public static final String PREF_BUTTON_3_FUNCTION = "button_3_function";
 }

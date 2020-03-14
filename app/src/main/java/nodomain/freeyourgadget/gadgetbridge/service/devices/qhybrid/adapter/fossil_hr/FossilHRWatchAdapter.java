@@ -26,6 +26,7 @@ import java.util.TimeZone;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
@@ -667,12 +668,30 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             String[] menuItems = new String[jsonArray.length()];
             for (int i = 0; i < jsonArray.length(); i++) menuItems[i] = jsonArray.getString(i);
 
+            SharedPreferences prefs = getDeviceSpecificPreferences();
+            String upperButtonApp = prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_1_FUNCTION, "weatherApp");
+            String middleButtonApp = prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION, "commuteApp");
+            String lowerButtonApp = prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION, "musicApp");
+
             queueWrite(new ButtonConfigurationPutRequest(
                     menuItems,
+                    upperButtonApp,
+                    middleButtonApp,
+                    lowerButtonApp,
                     this
             ));
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onSendConfiguration(String config) {
+        switch (config) {
+            case DeviceSettingsPreferenceConst.PREF_BUTTON_1_FUNCTION:
+            case DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION:
+            case DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION:
+                overwriteButtons(null);
         }
     }
 

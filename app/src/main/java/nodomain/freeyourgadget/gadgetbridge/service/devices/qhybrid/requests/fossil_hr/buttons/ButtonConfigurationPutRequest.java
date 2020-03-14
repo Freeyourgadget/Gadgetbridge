@@ -12,11 +12,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ButtonConfigurationPutRequest extends JsonPutRequest {
-    public ButtonConfigurationPutRequest(String[] menuItems, FossilHRWatchAdapter adapter) {
-        super(createObject(menuItems), adapter);
+    public ButtonConfigurationPutRequest(String[] menuItems, String upperButtonApp, String middleButtonApp, String lowerButtonApp, FossilHRWatchAdapter adapter) {
+        super(createObject(menuItems, upperButtonApp, middleButtonApp, lowerButtonApp), adapter);
     }
 
-    private static JSONObject createObject(String[] menuItems) {
+    private static JSONObject createObject(String[] menuItems, String upperButtonApp, String middleButtonApp, String lowerButtonApp) {
         try {
             return new JSONObject()
                     .put("push", new JSONObject()
@@ -24,15 +24,15 @@ public class ButtonConfigurationPutRequest extends JsonPutRequest {
                                     .put("commuteApp._.config.destinations", new JSONArray(menuItems))
                                     .put("master._.config.buttons", new JSONArray()
                                             .put(new JSONObject()
-                                                    .put("name", "weatherApp")
+                                                    .put("name", upperButtonApp)
                                                     .put("button_evt", "top_short_press_release")
                                             )
                                             .put(new JSONObject()
-                                                    .put("name", "commuteApp")
+                                                    .put("name", middleButtonApp)
                                                     .put("button_evt", "middle_short_press_release")
                                             )
                                             .put(new JSONObject()
-                                                    .put("name", "commuteApp")
+                                                    .put("name", lowerButtonApp)
                                                     .put("button_evt", "bottom_short_press_release")
                                             )
                                     )
