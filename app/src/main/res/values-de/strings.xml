@@ -849,4 +849,10 @@
     <string name="notification_channel_high_priority_name">Gadgetbridge-Benachrichtigungen mit hoher Priorität</string>
     <string name="pref_title_custom_deviceicon">Gerätespezifisches Benachrichtigungssymbol anzeigen</string>
     <string name="pref_summary_custom_deviceicon">Zeige ein gerätespezifisches Android-Benachrichtigungssymbol anstelle des Gadgetbridge-Symbols, wenn eine Verbindung besteht</string>
+    <string name="hr_appname_wellness">Wellness</string>
+    <string name="hr_appname_workout">Training</string>
+    <string name="hr_appname_stopwatch">Stoppuhr</string>
+    <string name="pref_title_upper_button_function">Obere Taste</string>
+    <string name="pref_title_middle_button_function">Mittlere Taste</string>
+    <string name="pref_title_lower_button_function">Untere Taste</string>
 </resources>
