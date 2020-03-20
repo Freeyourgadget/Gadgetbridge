@@ -855,4 +855,5 @@
     <string name="pref_title_upper_button_function">Obere Taste</string>
     <string name="pref_title_middle_button_function">Mittlere Taste</string>
     <string name="pref_title_lower_button_function">Untere Taste</string>
+    <string name="pref_title_vibration_strength">Vibrationsstärke</string>
 </resources>
