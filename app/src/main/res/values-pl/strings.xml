@@ -836,4 +836,6 @@
     <string name="hr_widget_weather">Pogoda</string>
     <string name="hr_widget_nothing">Nic</string>
     <string name="find_lost_device_you_found_it">Odnaleziono!</string>
+    <string name="find_my_phone_notification">Znajdź mój telefon</string>
+    <string name="pref_title_custom_deviceicon">Pokaż specyficzną dla urządzenia ikonę powiadomienia</string>
 </resources>
