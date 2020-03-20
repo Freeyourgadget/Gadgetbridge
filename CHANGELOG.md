@@ -1,4 +1,11 @@
 ### Changelog
+#### Version 0.43.0 (WIP)
+* Initial support for Fossil Hybrid HR (needs complicated key extraction, read wiki)
+* Fossil: Allow switching off the Q Icon and use the default Gadgetbridge icon
+* Fix VoIP call handling during DND
+* Fix find-my-phone for Android 10
+* Huami: Fix crash when calendar event desctription or title was null
+* Huami: Igore all-day events when syncing calendar events
 
 #### Version 0.42.1
 * Fix accepting/rejecting calls on Android 9
