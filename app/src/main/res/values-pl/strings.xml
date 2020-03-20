@@ -838,4 +838,15 @@
     <string name="find_lost_device_you_found_it">Odnaleziono!</string>
     <string name="find_my_phone_notification">Znajdź mój telefon</string>
     <string name="pref_title_custom_deviceicon">Pokaż specyficzną dla urządzenia ikonę powiadomienia</string>
+    <string name="hr_widget_active_minutes">Minuty aktywności</string>
+    <string name="pref_title_force_white_color_scheme">Wymuś schemat kolorów czarno na białym</string>
+    <string name="pref_summary_force_white_color_scheme">Użyteczne, jeśli twój zegarek ma ciemne wskazówki</string>
+    <string name="notification_channel_high_priority_name">Powiadomienia Gadgetbridge o wysokim priorytecie</string>
+    <string name="pref_summary_custom_deviceicon">Pokaż specyficzną dla urządzenia ikonę powiadomienia zamiast ikony Gadgetbridge, gdy połączono</string>
+    <string name="hr_appname_workout">Trening</string>
+    <string name="hr_appname_stopwatch">Stoper</string>
+    <string name="pref_title_upper_button_function">Górny przycisk</string>
+    <string name="pref_title_middle_button_function">Środkowy przycisk</string>
+    <string name="pref_title_lower_button_function">Dolny przycisk</string>
+    <string name="pref_title_vibration_strength">Siła wibracji</string>
 </resources>
