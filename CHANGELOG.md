@@ -1,5 +1,5 @@
 ### Changelog
-#### Version 0.43.0 (WIP)
+#### Version 0.43.0
 * Initial support for Fossil Hybrid HR (needs complicated key extraction, read wiki)
 * Fossil: Allow switching off the Q Icon and use the default Gadgetbridge icon
 * Fix VoIP call handling during DND
