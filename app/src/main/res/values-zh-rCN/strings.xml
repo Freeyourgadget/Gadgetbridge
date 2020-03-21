@@ -847,4 +847,5 @@
     <string name="pref_title_upper_button_function">上按钮</string>
     <string name="pref_title_middle_button_function">中按钮</string>
     <string name="pref_title_lower_button_function">下按钮</string>
+    <string name="pref_title_vibration_strength">振动强度</string>
 </resources>
