@@ -680,4 +680,25 @@
     <string name="pref_media_forward_value" translatable="false">FORWARD</string>
     <string name="pref_media_rewind_value" translatable="false">REWIND</string>
 
+    <string-array name="pref_hybridhr_buttonfunctions">
+        <item name="notificationsPanelApp">@string/menuitem_notifications</item>
+        <item name="weatherApp">@string/menuitem_weather</item>
+        <item name="musicApp">@string/menuitem_music</item>
+        <item name="stopwatchApp">@string/hr_appname_stopwatch</item>
+        <item name="timerApp">@string/menuitem_timer</item>
+        <item name="commuteApp">@string/hr_appname_commute</item>
+        <item name="wellnessApp">@string/hr_appname_wellness</item>
+        <item name="workoutApp">@string/hr_appname_workout</item>
+    </string-array>
+    <string-array name="pref_hybridhr_buttonfunctions_values">
+        <item>notificationsPanelApp</item>
+        <item>weatherApp</item>
+        <item>musicApp</item>
+        <item>stopwatchApp</item>
+        <item>timerApp</item>
+        <item>commuteApp"</item>
+        <item>wellnessApp</item>
+        <item>workoutApp</item>
+    </string-array>
+
 </resources>

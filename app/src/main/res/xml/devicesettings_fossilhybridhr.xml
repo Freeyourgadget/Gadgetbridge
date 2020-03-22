@@ -1,8 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ListPreference
+        android:defaultValue="weatherApp"
+        android:entries="@array/pref_hybridhr_buttonfunctions"
+        android:entryValues="@array/pref_hybridhr_buttonfunctions_values"
+        android:key="button_1_function"
+        android:summary="%s"
+        android:title="@string/pref_title_upper_button_function" />
+    <ListPreference
+        android:defaultValue="commuteApp"
+        android:entries="@array/pref_hybridhr_buttonfunctions"
+        android:entryValues="@array/pref_hybridhr_buttonfunctions_values"
+        android:key="button_2_function"
+        android:summary="%s"
+        android:title="@string/pref_title_middle_button_function" />
+    <ListPreference
+        android:defaultValue="musicApp"
+        android:entries="@array/pref_hybridhr_buttonfunctions"
+        android:entryValues="@array/pref_hybridhr_buttonfunctions_values"
+        android:key="button_3_function"
+        android:summary="%s"
+        android:title="@string/pref_title_lower_button_function" />
     <SwitchPreference
         android:defaultValue="false"
         android:key="force_white_color_scheme"
         android:summary="@string/pref_summary_force_white_color_scheme"
         android:title="@string/pref_title_force_white_color_scheme" />
+    <SeekBarPreference
+        android:defaultValue="2"
+        android:key="@string/pref_title_vibration_strength"
+        android:max="3"
+        android:title="@string/pref_title_vibration_strength"
+        app:showSeekBarValue="true" />
+
 </androidx.preference.PreferenceScreen>

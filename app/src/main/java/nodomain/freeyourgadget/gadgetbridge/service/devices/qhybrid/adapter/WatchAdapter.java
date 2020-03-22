@@ -85,6 +85,8 @@ public abstract class WatchAdapter {
 
     public abstract void onSetAlarms(ArrayList<? extends Alarm> alarms);
 
+    public abstract void onSendConfiguration(String config);
+
     public abstract boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic);
     public void onMtuChanged(BluetoothGatt gatt, int mtu, int status){};
 

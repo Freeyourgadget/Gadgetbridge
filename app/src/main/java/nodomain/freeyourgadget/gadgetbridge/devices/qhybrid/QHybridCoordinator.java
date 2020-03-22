@@ -79,7 +79,7 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsActivityDataFetching() {
-        return false;
+        return true;
     }
 
     @Override

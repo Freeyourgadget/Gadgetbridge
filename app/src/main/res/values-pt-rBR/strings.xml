@@ -848,4 +848,15 @@
     <string name="find_lost_device_you_found_it">Encontrei!</string>
     <string name="pref_title_force_white_color_scheme">Forçar preto no esquema de cores branco</string>
     <string name="pref_summary_force_white_color_scheme">Útil se seu relógio possui ponteiros escuros</string>
+    <string name="find_my_phone_notification">Localizar meu telefone</string>
+    <string name="notification_channel_high_priority_name">Notificações de Gadgetbridge de alta prioridade</string>
+    <string name="pref_title_custom_deviceicon">Mostrar ícone de notificação específica do dispositivo</string>
+    <string name="pref_summary_custom_deviceicon">Mostra o ícone de notificação Android específico de um dispositivo em vez do ícone do Gadgetbridge quando conectado</string>
+    <string name="hr_appname_wellness">Bem-estar</string>
+    <string name="hr_appname_workout">Treino</string>
+    <string name="hr_appname_stopwatch">Cronômetro</string>
+    <string name="hr_appname_commute">Comutar</string>
+    <string name="pref_title_upper_button_function">Botão superior</string>
+    <string name="pref_title_middle_button_function">Botão do meio</string>
+    <string name="pref_title_lower_button_function">Botão inferior</string>
 </resources>

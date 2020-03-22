@@ -836,4 +836,15 @@
     <string name="find_lost_device_you_found_it">Gevonden!</string>
     <string name="pref_title_force_white_color_scheme">Zwart op wit kleurenschema forceren</string>
     <string name="pref_summary_force_white_color_scheme">Nuttig als je horloge donkere wijzers heeft</string>
+    <string name="find_my_phone_notification">Vind mijn telefoon</string>
+    <string name="notification_channel_high_priority_name">Gadgetbridge hoge prioriteit meldingen</string>
+    <string name="pref_title_custom_deviceicon">Toon apparaat specifieke meldingspictogram</string>
+    <string name="pref_summary_custom_deviceicon">Toon een apparaatspecifiek Android-meldpictogram in plaats van het Gadgetbridge-pictogram indien verbonden</string>
+    <string name="hr_appname_wellness">Welzijn</string>
+    <string name="hr_appname_workout">Training</string>
+    <string name="hr_appname_stopwatch">Stopwatch</string>
+    <string name="hr_appname_commute">Woon-werkverkeer</string>
+    <string name="pref_title_upper_button_function">Bovenste knop</string>
+    <string name="pref_title_middle_button_function">Middelste knop</string>
+    <string name="pref_title_lower_button_function">Onderste knop</string>
 </resources>

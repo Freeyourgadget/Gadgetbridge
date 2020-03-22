@@ -186,6 +186,7 @@
     <string name="pref_summary_allow_high_mtu">Increases transfer speed, but might not work on some Android devices.</string>
     <string name="pref_summary_sync_calendar">Enables calendar alerts, even when disconnected</string>
     <string name="pref_title_sync_caldendar">Sync calendar events</string>
+    <string name="pref_title_vibration_strength">Vibration strength</string>
     <string name="pref_display_add_device_fab">Connect new device button</string>
     <string name="pref_display_add_device_fab_on">Always visible</string>
     <string name="pref_display_add_device_fab_off">Visible only if no device is added</string>
@@ -832,6 +833,15 @@
     <string name="hr_widget_battery">Battery</string>
     <string name="hr_widget_weather">Weather</string>
     <string name="hr_widget_nothing">Nothing</string>
+
+    <string name="hr_appname_wellness">Wellness</string>
+    <string name="hr_appname_workout">Workout</string>
+    <string name="hr_appname_stopwatch">Stopwatch</string>
+    <string name="hr_appname_commute">Commute</string>
+
+    <string name="pref_title_upper_button_function">Upper Button</string>
+    <string name="pref_title_middle_button_function">Middle Button</string>
+    <string name="pref_title_lower_button_function">Lower Button</string>
 
     <string name="prefs_button_single_press_action_selection_title">Event 1 action</string>
     <string name="prefs_button_double_press_action_selection_title">Event 2 action</string>
