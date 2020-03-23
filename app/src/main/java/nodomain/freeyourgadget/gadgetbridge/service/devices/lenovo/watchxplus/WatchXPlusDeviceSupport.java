@@ -213,6 +213,116 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+
+    private String transliterate(String inputText) {
+        String outText = "";
+        String returnText = "";
+        for (int messageIndex = 0; messageIndex < inputText.length(); messageIndex++) {
+            String checkLetter = inputText.substring(messageIndex, messageIndex + 1);
+            returnText = checkLetter;
+            switch (checkLetter) {
+                case "а":
+                    returnText = "А";
+                    break;
+                case "б":
+                    returnText = "Б";
+                    break;
+                case "в":
+                    returnText = "В";
+                    break;
+                case "г":
+                    returnText = "Г";
+                    break;
+                case "д":
+                    returnText = "Д";
+                    break;
+                case "е":
+                    returnText = "Е";
+                    break;
+                case "ж":
+                    returnText = "Ж";
+                    break;
+                case "з":
+                    returnText = "З";
+                    break;
+                case "и":
+                    returnText = "И";
+                    break;
+                case "й":
+                    returnText = "Й";
+                    break;
+                case "к":
+                    returnText = "К";
+                    break;
+                case "л":
+                    returnText = "Л";
+                    break;
+                case "м":
+                    returnText = "М";
+                    break;
+                case "н":
+                    returnText = "Н";
+                    break;
+                case "о":
+                    returnText = "О";
+                    break;
+                case "п":
+                    returnText = "П";
+                    break;
+                case "Р":
+                    returnText = "р";
+                    break;
+                case "С":
+                    returnText = "с";
+                    break;
+                case "Т":
+                    returnText = "т";
+                    break;
+                case "У":
+                    returnText = "у";
+                    break;
+                case "Ф":
+                    returnText = "ф";
+                    break;
+                case "Х":
+                    returnText = "х";
+                    break;
+                case "Ц":
+                    returnText = "ц";
+                    break;
+                case "Ч":
+                    returnText = "ч";
+                    break;
+                case "Ш":
+                    returnText = "ш";
+                    break;
+                case "Щ":
+                    returnText = "щ";
+                    break;
+                case "Ъ":
+                    returnText = "ъ";
+                    break;
+                case "Ь":
+                    returnText = "ь";
+                    break;
+                case "Ю":
+                    returnText = "ю";
+                    break;
+                case "Я":
+                    returnText = "я";
+                    break;
+                case "Ы":
+                    returnText = "ы";
+                    break;
+                case "Э":
+                    returnText = "э";
+                    break;
+            }
+            outText = outText + returnText;
+        }
+        return outText;
+    }
+
     /** Format text and send it to watch
      * @param notificationChannel - text or call
      * @param notificationText - text to show
@@ -221,13 +331,15 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("showNotification");
             byte[] command = WatchXPlusConstants.CMD_NOTIFICATION_TEXT_TASK;
-            byte[] text = notificationText.getBytes(StandardCharsets.UTF_8);
+
+            //byte[] text = notificationText.getBytes(StandardCharsets.UTF_8);
+            byte[] text = transliterate(notificationText).getBytes(StandardCharsets.UTF_8);
+
             byte[] messagePart;
 
             int messageLength = text.length;
             int parts = messageLength / 9;
             int remainder = messageLength % 9;
-
 //            Increment parts quantity if message length is not multiple of 9
             if (remainder != 0) {
                 parts++;

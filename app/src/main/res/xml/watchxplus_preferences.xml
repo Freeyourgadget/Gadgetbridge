@@ -33,7 +33,7 @@
                 android:layout="@layout/preference_checkbox"
                 android:defaultValue="false"
                 android:key="watchxplus_missed"
-                android:title="@string/pref_screen_notification_profile_incoming_call" />
+                android:title="@string/pref_wxp_title_repeat_on_misscall" />
         </PreferenceScreen>
         <PreferenceScreen
             android:key="pref_category_watchxplus_callhandling"
