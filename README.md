@@ -29,13 +29,14 @@ vendor's servers.
 
 ## Supported Devices (Some of them WIP and some of them without maintainer)
 * Amazfit Bip [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
-* Amazfit Bip Lite (NOT RECOMMENDED, NEEDS MI FIT WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-Lite)
+* Amazfit Bip Lite (WARNING: NEEDS MI FIT WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-Lite)
 * Amazfit Cor [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor)
 * Amazfit Cor 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor-2)
-* Amazfit GTR (NOT RECOMMENDED, NEEDS MI FIT WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR)
-* Amazfit GTS (NOT RECOMMENDED, NEEDS MI FIT WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS)
+* Amazfit GTR (WARNING: NEEDS MI FIT WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR)
+* Amazfit GTS (WARNING: NEEDS MI FIT WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS)
 * BFH-16
 * Casio GB-6900B
+* Fossil Hybrid HR (WARNING: NEEDS FOSSIL APP WITH ACCOUNT ONCE AND COMPLICATED PROCEDURE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Fossil-Hybrid-HR)
 * Fossil Q Hybrid
 * HPlus Devices (e.g. ZeBand) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
 * iTag
@@ -81,7 +82,7 @@ Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/ma
 * Jean-François Greffier (Mi Scale 2)
 * Johannes Schmitt (BFH-16)
 * Lukas Schwichtenberg (Makibes HR3)
-* Daniel Dakhno (Fossil Q Hybrid)
+* Daniel Dakhno (Fossil Q Hybrid, Fossil Hybrid HR)
 * Gordon Williams (Bangle.js)
 * Pavel Elagin (JYou Y5)
 * Taavi Eomäe (iTag)
