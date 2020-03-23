@@ -91,4 +91,9 @@ public class AmazfitBipSCoordinator extends HuamiCoordinator {
                 R.xml.devicesettings_pairingkey
         };
     }
+
+    @Override
+    public int getBondingStyle() {
+        return BONDING_STYLE_REQUIRE_KEY;
+    }
 }
