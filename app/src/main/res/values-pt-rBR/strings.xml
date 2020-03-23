@@ -860,4 +860,5 @@
     <string name="pref_title_middle_button_function">Botão do meio</string>
     <string name="pref_title_lower_button_function">Botão inferior</string>
     <string name="pref_title_vibration_strength">Intensidade da vibração</string>
+    <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
 </resources>
