@@ -450,7 +450,7 @@
     <string name="devicetype_miband">小米手环</string>
     <string name="devicetype_miband2">小米手环2</string>
     <string name="devicetype_amazfit_bip">华米手表青春版</string>
-    <string name="devicetype_amazfit_cor">米动手环</string>
+    <string name="devicetype_amazfit_cor">华米手环</string>
     <string name="pref_title_weather">天气</string>
     <string name="vibration_profile_waterdrop">水滴</string>
     <string name="devicetype_test">测试设备</string>
@@ -701,7 +701,7 @@
     <string name="thai">泰语</string>
     <string name="vietnamese">越南语</string>
     <string name="portuguese">葡萄牙语</string>
-    <string name="devicetype_amazfit_cor2">米动手环2</string>
+    <string name="devicetype_amazfit_cor2">华米手环2</string>
     <string name="devicetype_miband4">小米手环4</string>
     <string name="fw_upgrade_notice_miband4">您即将在您的的小米手环4上安装 %s 固件。
 \n
@@ -784,7 +784,7 @@
     <string name="pref_title_chart_sleep_rolling_24_hour">睡眠范围</string>
     <string name="pref_chart_sleep_rolling_24_on">过去 24 小时</string>
     <string name="pref_chart_sleep_rolling_24_off">中午到中午</string>
-    <string name="devicetype_amazfit_gts">米动 GTS</string>
+    <string name="devicetype_amazfit_gts">华米 GTS</string>
     <string name="fw_upgrade_notice_amazfitgts">您即将在华米手表 GTS(Amazfit GTS)上安装 %s 版本的固件 
 \n 
 \n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启。 
@@ -848,5 +848,5 @@
     <string name="pref_title_middle_button_function">中按钮</string>
     <string name="pref_title_lower_button_function">下按钮</string>
     <string name="pref_title_vibration_strength">振动强度</string>
-    <string name="devicetype_amazfit_bips">米动手表青春版 S</string>
+    <string name="devicetype_amazfit_bips">华米手表青春版 S</string>
 </resources>
