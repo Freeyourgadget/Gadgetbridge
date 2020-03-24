@@ -834,4 +834,17 @@
     <string name="find_lost_device_you_found_it">Nalezeno!</string>
     <string name="pref_title_force_white_color_scheme">Vynutit barevné schéma Černá na bílé</string>
     <string name="pref_summary_force_white_color_scheme">Užitečné, pokud máte hodinky s tmavými ručičkami</string>
+    <string name="find_my_phone_notification">Najít telefon</string>
+    <string name="notification_channel_high_priority_name">Gadgetbridge oznámení s vysokou prioritou</string>
+    <string name="pref_title_custom_deviceicon">Zobrazit v oznámení ikonu připojeného zařízení</string>
+    <string name="pref_summary_custom_deviceicon">Zobrazit ikonu konkrétního připojeného zařízení v oznámení Androidu namísto ikony Gadgetbridge</string>
+    <string name="hr_appname_wellness">Wellness</string>
+    <string name="hr_appname_workout">Cvičení</string>
+    <string name="hr_appname_stopwatch">Stopky</string>
+    <string name="hr_appname_commute">Dojíždění</string>
+    <string name="pref_title_upper_button_function">Horní Tlačítko</string>
+    <string name="pref_title_middle_button_function">Prostřední Tlačítko</string>
+    <string name="pref_title_lower_button_function">Dolní Tlačítko</string>
+    <string name="pref_title_vibration_strength">Síla vibrací</string>
+    <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
 </resources>
