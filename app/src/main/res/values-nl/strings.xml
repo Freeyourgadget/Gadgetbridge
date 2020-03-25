@@ -847,4 +847,6 @@
     <string name="pref_title_upper_button_function">Bovenste knop</string>
     <string name="pref_title_middle_button_function">Middelste knop</string>
     <string name="pref_title_lower_button_function">Onderste knop</string>
+    <string name="pref_title_vibration_strength">Trillingssterkte</string>
+    <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
 </resources>
