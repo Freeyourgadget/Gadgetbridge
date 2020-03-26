@@ -22,7 +22,7 @@ import android.net.Uri;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipLiteFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 
 public class AmazfitBipSSupport extends AmazfitBipSupport {
 
@@ -30,7 +30,12 @@ public class AmazfitBipSSupport extends AmazfitBipSupport {
     public byte getCryptFlags() {
         return (byte) 0x80;
     }
-    
+
+    @Override
+    public void onNotification(NotificationSpec notificationSpec) {
+        super.sendNotificationNew(notificationSpec, true);
+    }
+
     @Override
     protected byte getAuthFlags() {
         return 0x00;
