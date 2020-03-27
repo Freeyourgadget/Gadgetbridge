@@ -186,6 +186,8 @@
     <string name="pref_summary_allow_high_mtu">Increases transfer speed, but might not work on some Android devices.</string>
     <string name="pref_summary_sync_calendar">Enables calendar alerts, even when disconnected</string>
     <string name="pref_title_sync_caldendar">Sync calendar events</string>
+    <string name="pref_summary_relax_firmware_checks">Relax firmware checks</string>
+    <string name="pref_title_relax_firmware_checks">Enable this if you want to flash a firmware not intended for you device (at your own risk)</string>
     <string name="pref_title_vibration_strength">Vibration strength</string>
     <string name="pref_display_add_device_fab">Connect new device button</string>
     <string name="pref_display_add_device_fab_on">Always visible</string>

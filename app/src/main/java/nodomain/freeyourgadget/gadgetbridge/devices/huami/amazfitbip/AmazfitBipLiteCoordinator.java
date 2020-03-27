@@ -26,7 +26,9 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
@@ -62,5 +64,22 @@ public class AmazfitBipLiteCoordinator extends AmazfitBipCoordinator {
     @Override
     public int getBondingStyle() {
         return BONDING_STYLE_REQUIRE_KEY;
+    }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_amazfitbip,
+                R.xml.devicesettings_timeformat,
+                R.xml.devicesettings_wearlocation,
+                R.xml.devicesettings_custom_emoji_font,
+                R.xml.devicesettings_liftwrist_display,
+                R.xml.devicesettings_disconnectnotification,
+                R.xml.devicesettings_sync_calendar,
+                R.xml.devicesettings_expose_hr_thirdparty,
+                R.xml.devicesettings_buttonactions_with_longpress,
+                R.xml.devicesettings_pairingkey,
+                R.xml.devicesettings_relax_firmware_checks,
+        };
     }
 }
