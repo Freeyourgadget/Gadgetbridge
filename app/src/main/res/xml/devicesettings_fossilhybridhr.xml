@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <ListPreference
         android:defaultValue="weatherApp"
         android:entries="@array/pref_hybridhr_buttonfunctions"
@@ -26,4 +27,11 @@
         android:key="force_white_color_scheme"
         android:summary="@string/pref_summary_force_white_color_scheme"
         android:title="@string/pref_title_force_white_color_scheme" />
+    <SeekBarPreference
+        android:defaultValue="2"
+        android:key="@string/pref_title_vibration_strength"
+        android:max="3"
+        android:title="@string/pref_title_vibration_strength"
+        app:showSeekBarValue="true" />
+
 </androidx.preference.PreferenceScreen>

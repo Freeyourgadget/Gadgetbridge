@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.43.0" versioncode="169">
+        <change>Initial support for Fossil Hybrid HR (needs complicated key extraction, read wiki)</change>
+        <change>Fossil: Allow switching off the Q Icon and use the default Gadgetbridge icon</change>
+        <change>Fix VoIP call handling during DND</change>
+        <change>Fix find-my-phone for Android 10</change>
+        <change>Huami: Fix crash when calendar event desctription or title was null</change>
+        <change>Huami: Igore all-day events when syncing calendar events</change>
+    </release>
     <release version="0.42.1" versioncode="168">
         <change>Fix accepting/rejecting calls on Android 9</change>
         <change>Mi Band 3/4, Amazfit Bip/Cor/GTS/GTR: Option to sync calender events as reminder</change>

@@ -838,4 +838,15 @@
     <string name="find_lost_device_you_found_it">מצאתי!</string>
     <string name="pref_title_force_white_color_scheme">לאכוף ערכת צבעים שחור על לבן</string>
     <string name="pref_summary_force_white_color_scheme">שימושי לידיים כהות</string>
+    <string name="find_my_phone_notification">איתור הטלפון שלי</string>
+    <string name="notification_channel_high_priority_name">התראות מ־Gadgetbridge בעדיפות גבוהה</string>
+    <string name="pref_title_custom_deviceicon">הצגת סמל התראה ייעודי למכשיר</string>
+    <string name="pref_summary_custom_deviceicon">הצגת התראת Android תואמת מכשיר במקום הסמל של Gadgetbridge כשיש חיבור</string>
+    <string name="hr_appname_wellness">רווחה</string>
+    <string name="hr_appname_workout">אימון</string>
+    <string name="hr_appname_stopwatch">שעון עצר</string>
+    <string name="hr_appname_commute">התניידות</string>
+    <string name="pref_title_upper_button_function">כפתור עליון</string>
+    <string name="pref_title_middle_button_function">כפתור אמצעי</string>
+    <string name="pref_title_lower_button_function">כפתור תחתון</string>
 </resources>

@@ -1697,6 +1697,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             int iteration = 0;
 
             for (CalendarEvents.CalendarEvent mEvt : mEvents) {
+                if (mEvt.isAllDay()) {
+                    continue;
+                }
                 if (iteration >= availableSlots || iteration > 2) {
                     break;
                 }
@@ -1724,6 +1727,10 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         int iteration = 0;
 
         for (CalendarEvents.CalendarEvent calendarEvent : calendarEvents) {
+            if (calendarEvent.isAllDay()) {
+                continue;
+            }
+
             if (iteration > 8) { // limit ?
                 break;
             }

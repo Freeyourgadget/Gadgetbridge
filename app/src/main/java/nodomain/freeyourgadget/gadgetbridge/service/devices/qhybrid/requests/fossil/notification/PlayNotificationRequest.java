@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fo
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.zip.CRC32;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
@@ -57,7 +58,9 @@ public abstract class PlayNotificationRequest extends FilePutRequest {
         byte[] senderBytes = nullTerminatedSender.getBytes(charsetUTF8);
         String nullTerminatedMessage = StringUtils.terminateNull(message);
         byte[] messageBytes = nullTerminatedMessage.getBytes(charsetUTF8);
-
+        if (messageBytes.length > 490) {
+            messageBytes = Arrays.copyOf(messageBytes, 490);
+        }
         short mainBufferLength = (short) (lengthBufferLength + uidLength + appBundleCRCLength + titleBytes.length + senderBytes.length + messageBytes.length);
 
         ByteBuffer mainBuffer = ByteBuffer.allocate(mainBufferLength);

@@ -106,7 +106,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
         loadNotificationConfigurations();
         queueWrite(new NotificationFilterPutHRRequest(this.notificationConfigurations, this));
-        setVibrationStrength((short) 75);
+        setVibrationStrength();
 
         syncSettings();
 
@@ -121,6 +121,15 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         // dunno if there is any point in doing this at start since when no watch is connected the QHybridSupport will not receive any intents anyway
 
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED));
+    }
+
+    private void setVibrationStrength() {
+        Prefs prefs = new Prefs(getDeviceSpecificPreferences());
+        int vibrationStrengh = prefs.getInt(DeviceSettingsPreferenceConst.PREF_VIBRATION_STRENGH_PERCENTAGE, 2);
+        if (vibrationStrengh > 0) {
+            vibrationStrengh = (vibrationStrengh + 1) * 25; // Seems 0,50,75,100 are working...
+        }
+        setVibrationStrength((short) (vibrationStrengh));
     }
 
     @Override
@@ -692,6 +701,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             case DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION:
             case DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION:
                 overwriteButtons(null);
+                break;
+            case DeviceSettingsPreferenceConst.PREF_VIBRATION_STRENGH_PERCENTAGE:
+                setVibrationStrength();
         }
     }
 

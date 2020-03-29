@@ -1,5 +1,5 @@
-/*  Copyright (C) 2017-2020 Andreas Shimokawa, Daniele Gobbetti, João
-    Paulo Barraca, José Rebelo, tiparega
+/*  Copyright (C) 2017-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, João Paulo Barraca, Nephiel, vanous
 
     This file is part of Gadgetbridge.
 
@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbips;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -28,16 +28,17 @@ import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-public class AmazfitBipLiteCoordinator extends AmazfitBipCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(AmazfitBipLiteCoordinator.class);
+public class AmazfitBipSCoordinator extends HuamiCoordinator {
+    private static final Logger LOG = LoggerFactory.getLogger(AmazfitBipSCoordinator.class);
 
     @Override
     public DeviceType getDeviceType() {
-        return DeviceType.AMAZFITBIP_LITE;
+        return DeviceType.AMAZFITBIPS;
     }
 
     @NonNull
@@ -46,8 +47,8 @@ public class AmazfitBipLiteCoordinator extends AmazfitBipCoordinator {
         try {
             BluetoothDevice device = candidate.getDevice();
             String name = device.getName();
-            if (name != null && name.equalsIgnoreCase("Amazfit Bip Lite")) {
-                return DeviceType.AMAZFITBIP_LITE;
+            if (name != null && (name.equalsIgnoreCase("Amazfit Bip S"))) {
+                return DeviceType.AMAZFITBIPS;
             }
         } catch (Exception ex) {
             LOG.error("unable to check device support", ex);
@@ -57,13 +58,22 @@ public class AmazfitBipLiteCoordinator extends AmazfitBipCoordinator {
 
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
-        AmazfitBipLiteFWInstallHandler handler = new AmazfitBipLiteFWInstallHandler(uri, context);
-        return handler.isValid() ? handler : null;
+        return null;
     }
 
     @Override
-    public int getBondingStyle() {
-        return BONDING_STYLE_REQUIRE_KEY;
+    public boolean supportsHeartRateMeasurement(GBDevice device) {
+        return true;
+    }
+
+    @Override
+    public boolean supportsActivityTracks() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsWeather() {
+        return true;
     }
 
     @Override
@@ -78,8 +88,12 @@ public class AmazfitBipLiteCoordinator extends AmazfitBipCoordinator {
                 R.xml.devicesettings_sync_calendar,
                 R.xml.devicesettings_expose_hr_thirdparty,
                 R.xml.devicesettings_buttonactions_with_longpress,
-                R.xml.devicesettings_pairingkey,
-                R.xml.devicesettings_relax_firmware_checks,
+                R.xml.devicesettings_pairingkey
         };
+    }
+
+    @Override
+    public int getBondingStyle() {
+        return BONDING_STYLE_REQUIRE_KEY;
     }
 }
