@@ -836,4 +836,14 @@
     <string name="hr_widget_battery">Batteri</string>
     <string name="hr_widget_weather">Vær</string>
     <string name="hr_widget_nothing">Ingenting</string>
+    <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
+    <string name="hr_appname_wellness">Velvære</string>
+    <string name="hr_appname_workout">Treningsøkt</string>
+    <string name="pref_title_custom_deviceicon">Vis enhetsspesifikt merknadsikon</string>
+    <string name="hr_appname_stopwatch">Stoppeklokke</string>
+    <string name="pref_title_lower_button_function">Nedre knapp</string>
+    <string name="pref_title_middle_button_function">Midtknapp</string>
+    <string name="pref_title_upper_button_function">Øvre knapp</string>
+    <string name="find_lost_device_you_found_it">Fant den!</string>
+    <string name="pref_title_vibration_strength">Vibrasjonsstyrke</string>
 </resources>
