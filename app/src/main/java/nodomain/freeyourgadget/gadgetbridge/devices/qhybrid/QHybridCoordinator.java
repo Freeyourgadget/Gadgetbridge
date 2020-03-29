@@ -79,7 +79,8 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsActivityDataFetching() {
-        return false;
+        GBDevice connectedDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
+        return connectedDevice != null && connectedDevice.getType() == DeviceType.FOSSILQHYBRID && connectedDevice.getState() == GBDevice.State.INITIALIZED;
     }
 
     @Override
