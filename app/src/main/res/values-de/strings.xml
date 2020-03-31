@@ -858,4 +858,6 @@
     <string name="pref_title_vibration_strength">Vibrationsstärke</string>
     <string name="hr_appname_commute">Pendeln</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
+    <string name="pref_summary_relax_firmware_checks">Firmwareüberprüfung deaktivieren</string>
+    <string name="pref_title_relax_firmware_checks">Aktiviere diese Option, wenn du Firmware, die nicht für das Gerät bestimmt ist, flashen möchtest (auf eigenes Risiko)</string>
 </resources>
