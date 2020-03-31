@@ -268,7 +268,7 @@
     <string name="weeksleepchart_today_sleep_description">Schlaf heute, Ziel: %1$s</string>
     <string name="weekstepschart_steps_a_week">Schritte pro Woche</string>
     <string name="activity_sleepchart_activity_and_sleep">Aktivität</string>
-    <string name="updating_firmware">Firmware aktualisieren…</string>
+    <string name="updating_firmware">Aktualisiere Firmware…</string>
     <string name="fwapp_install_device_not_ready">Datei kann nicht installiert werden, Gerät nicht bereit.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
     <string name="miband_fwinstaller_compatible_version">Kompatible Version</string>
@@ -859,5 +859,5 @@
     <string name="hr_appname_commute">Pendeln</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
     <string name="pref_summary_relax_firmware_checks">Firmwareüberprüfung deaktivieren</string>
-    <string name="pref_title_relax_firmware_checks">Aktiviere diese Option, wenn du Firmware, die nicht für das Gerät bestimmt ist, flashen möchtest (auf eigenes Risiko)</string>
+    <string name="pref_title_relax_firmware_checks">Aktiviere das flashen von Firmware, die nicht für dieses Gerät bestimmt ist (auf eigenes Risiko)</string>
 </resources>
