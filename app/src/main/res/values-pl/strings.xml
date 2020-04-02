@@ -849,4 +849,7 @@
     <string name="pref_title_middle_button_function">Środkowy przycisk</string>
     <string name="pref_title_lower_button_function">Dolny przycisk</string>
     <string name="pref_title_vibration_strength">Siła wibracji</string>
+    <string name="devicetype_amazfit_bips"></string>
+    <string name="pref_title_relax_firmware_checks">Włącz to, jeśli chcesz błyskać oprogramowaniem sprzętowym, które nie jest przeznaczone dla Twojego urządzenia (na własne ryzyko)</string>
+    <string name="pref_summary_relax_firmware_checks">Zrelaksuj kontrolę oprogramowania sprzętowego</string>
 </resources>
