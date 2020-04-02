@@ -149,15 +149,11 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDeviceSupport().getDevice().getAddress()));
         boolean forceWhiteBackground = prefs.getBoolean("force_white_color_scheme", false);
         if (forceWhiteBackground) {
-            byte[] whiteGIF = new byte[]{
-                     0x47, 0x49, 0x46, 0x38, 0x37, 0x61, 0x01, 0x00, 0x01, 0x00, (byte) 0x80, 0x01, 0x00, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, 0x00, 0x00, 0x00, 0x2C, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0x02, 0x02, 0x44, 0x01, 0x00, 0x3B
-            };
-
-            Bitmap backgroundBitmap = BitmapFactory.decodeByteArray(whiteGIF, 0, whiteGIF.length);
-            //Bitmap backgroundBitmap = BitmapFactory.decodeFile("/sdcard/DCIM/Camera/IMG_20191129_200726.jpg");
+            Bitmap whiteBitmap = Bitmap.createBitmap(239, 239, Bitmap.Config.ARGB_8888);
+            new Canvas(whiteBitmap).drawColor(Color.WHITE);
 
             try {
-                this.backGroundImage = AssetImageFactory.createAssetImage(backgroundBitmap, false, 0, 0, 0);
+                this.backGroundImage = AssetImageFactory.createAssetImage(whiteBitmap, true, 0, 1, 0);
             } catch (IOException e) {
                 logger.error("Backgroundimage error", e);
             }
