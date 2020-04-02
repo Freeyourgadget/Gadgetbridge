@@ -847,4 +847,6 @@
     <string name="pref_title_lower_button_function">Dolní Tlačítko</string>
     <string name="pref_title_vibration_strength">Síla vibrací</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
+    <string name="pref_title_relax_firmware_checks">Aktivujte tuto možnost, pokud chcete flashovat firmware, který není určen pro vaše zařízení (na vlastní nebezpečí)</string>
+    <string name="pref_summary_relax_firmware_checks">Uvolněte kontroly firmwaru</string>
 </resources>
