@@ -78,7 +78,7 @@
     <string name="pref_title_notifications_generic">Unterstützung allgemeine Benachrichtigung</string>
     <string name="pref_title_whenscreenon">…auch wenn der Bildschirm an ist</string>
     <string name="pref_title_notification_filter">Bitte nicht stören</string>
-    <string name="pref_summary_notification_filter">Unerwünschte Benachrichtigungen werden in diesem Modus gestoppt</string>
+    <string name="pref_summary_notification_filter">Unerwünschte Benachrichtigungen werden in diesem Modus unterdrückt</string>
     <string name="pref_title_transliteration">Umwandlung</string>
     <string name="pref_summary_transliteration">Aktiviere dies, falls dein Gerät keine Unterstützung für die Schriftart deiner Sprache hat</string>
     <string name="always">Immer</string>
