@@ -816,7 +816,7 @@
     <string name="prefs_button_triple_press_action_selection_title">Akce události 3</string>
     <string name="prefs_button_variable_actions">Detailní nastavení stisku tlačítka</string>
     <string name="prefs_button_long_press_action_selection_title">Akce pro dlouhý stisk</string>
-    <string name="alarm_snooze">Později...</string>
+    <string name="alarm_snooze">Odložit</string>
     <string name="error_no_location_access">Přístup k poloze musí být díky systému Android přístupů povolen a zapnut, aby bylo možno správně naskenovat zařízení</string>
     <string name="devicetype_itag">iTag</string>
     <string name="pref_title_allow_high_mtu">Povolit vyšší MTU</string>
