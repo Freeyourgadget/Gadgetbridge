@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.util.LanguageUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.KoreanLanguageUtils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -80,6 +81,43 @@ public class LanguageUtilsTest extends TestBase {
             result = LanguageUtils.transliterate(inputs[i]);
             assertEquals("Transliteration failed", outputs[i], result);
         }
+    }
+
+    @Test
+    public void testStringTransliterateKorean() {
+        // A familiar phrase with no special provisions.
+        String hello = "안녕하세요";
+        String helloExpected = "annyeonghaseyo";
+        String helloActual = LanguageUtils.transliterate(hello);
+        assertEquals("Korean hello transliteration failed", helloExpected, helloActual);
+
+        // Korean pangram. Includes some ASCII punctuation which should not be changed by
+        // transliteration.
+        //
+        // Translation: "Chocolate!? What I wanted was some rice puffs and clothes." "Child, why are
+        // you complaining again?"
+        String pangram = "\"웬 초콜릿? 제가 원했던 건 뻥튀기 쬐끔과 의류예요.\" \"얘야, 왜 또 불평?\"";
+        String pangramExpected = "\"wen chokollit? jega wonhaetdeon geon ppeongtwigi jjoekkeumgwa uiryuyeyo.\" \"yaeya, wae tto bulpyeong?\"";
+        String pangramActual = LanguageUtils.transliterate(pangram);
+        assertEquals("Korean pangram transliteration failed", pangramExpected, pangramActual);
+
+        // Several words excercising special provisions, from Wikipedia.
+        String special = "좋고, 놓다, 잡혀, 낳지";
+        String specialExpected = "joko, nota, japhyeo, nachi";
+        String specialActual = LanguageUtils.transliterate(special);
+        assertEquals("Korean special provisions transliteration failed", specialExpected, specialActual);
+
+        // Isolated jamo.
+        String isolatedJamo = "ㅋㅋㅋ";
+        String isolatedJamoExpected = "kkk";
+        String isolatedJamoActual = LanguageUtils.transliterate(isolatedJamo);
+        assertEquals("Korean isolated jamo transliteration failed", isolatedJamoExpected, isolatedJamoActual);
+
+        // Korean transliteration shouldn't touch non-Hangul composites.
+        String german = "schön";
+        String germanExpected = german;
+        String germanActual = KoreanLanguageUtils.transliterate(german);
+        assertEquals("Korean transliteration modified a non-Hangul composite", germanExpected, germanActual);
     }
 
     @Test

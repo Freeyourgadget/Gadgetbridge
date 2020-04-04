@@ -116,18 +116,21 @@ public class LanguageUtils {
             return txt;
         }
 
-        StringBuilder message = new StringBuilder();
+        StringBuilder messageBuilder = new StringBuilder();
 
+        // Simple, char-by-char transliteration.
         char[] chars = txt.toCharArray();
-
         for (char c : chars)
         {
-            message.append(transliterate(c));
+            messageBuilder.append(transliterate(c));
         }
+        String message = messageBuilder.toString();
 
-        String messageString = BengaliLanguageUtils.transliterate(message.toString());
+        // More complex transliteration for specific languages.
+        message = BengaliLanguageUtils.transliterate(message);
+        message = KoreanLanguageUtils.transliterate(message);
 
-        return flattenToAscii(messageString);
+        return flattenToAscii(message);
     }
 
     /**
