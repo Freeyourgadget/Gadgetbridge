@@ -9,12 +9,22 @@ public class CustomWidget extends Widget {
     private ArrayList<CustomWidgetElement> elements = new ArrayList<>();
     private int angle, distance;
     private String name;
+    private boolean drawCircle;
 
-    public CustomWidget(String name, int angle, int distance, String fontColor) {
+    public CustomWidget(String name, int angle, int distance, String fontColor, boolean drawCircle) {
         super(null, angle, distance, fontColor);
         this.angle = angle;
         this.distance = distance;
         this.name = name;
+        this.drawCircle = drawCircle;
+    }
+
+    public boolean getDrawCircle(){
+        return this.drawCircle;
+    }
+
+    public void setDrawCircle(boolean drawCircle){
+        this.drawCircle = drawCircle;
     }
 
     public int getAngle() {

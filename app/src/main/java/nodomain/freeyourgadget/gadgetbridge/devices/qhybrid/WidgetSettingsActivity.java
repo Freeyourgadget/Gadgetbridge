@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -48,9 +50,10 @@ public class WidgetSettingsActivity extends AbstractGBActivity {
         if(getIntent().hasExtra("EXTRA_WIDGET")){
             subject = (CustomWidget) getIntent().getExtras().get("EXTRA_WIDGET");
             ((EditText) findViewById(R.id.qhybrid_widget_name)).setText(subject.getName());
+            ((CheckBox)findViewById(R.id.qhybrid_widget_circle)).setChecked(subject.getDrawCircle());
             resultCode = RESULT_CODE_WIDGET_UPDATED;
         }else{
-            subject = new CustomWidget("", 0, 63, "default"); // FIXME: handle force white background
+            subject = new CustomWidget("", 0, 63, "default", false); // FIXME: handle force white background
             resultCode = RESULT_CODE_WIDGET_CREATED;
             findViewById(R.id.qhybrid_widget_delete).setEnabled(false);
         }
@@ -91,6 +94,13 @@ public class WidgetSettingsActivity extends AbstractGBActivity {
             @Override
             public void onClick(View v) {
                 showElementDialog(null);
+            }
+        });
+
+        ((CheckBox)findViewById(R.id.qhybrid_widget_circle)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                subject.setDrawCircle(b);
             }
         });
     }

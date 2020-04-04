@@ -193,11 +193,14 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                     for(int i = 0; i < customWidgets.length(); i++){
                         JSONObject customWidget = customWidgets.getJSONObject(i);
                         if(customWidget.getString("name").equals(identifier)){
+                            boolean drawCircle = false;
+                            if(customWidget.has("drawCircle")) drawCircle = customWidget.getBoolean("drawCircle");
                             CustomWidget newWidget = new CustomWidget(
                                     customWidget.getString("name"),
                                     positionMap.get(position),
                                     63,
-                                    fontColor
+                                    fontColor,
+                                    drawCircle
                             );
                             JSONArray elements = customWidget.getJSONArray("elements");
 
@@ -263,8 +266,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
                 boolean backgroundDrawn = false;
 
-                Paint circlePaint = new Paint();
-                if(!backgroundDrawn){
+                if(widget.getDrawCircle() && !backgroundDrawn){
+                    Paint circlePaint = new Paint();
                     circlePaint.setColor(forceWhiteBackground ? Color.WHITE : Color.BLACK);
                     circlePaint.setStyle(Paint.Style.FILL);
                     circlePaint.setStrokeWidth(3);
