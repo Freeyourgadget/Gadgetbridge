@@ -31,6 +31,7 @@ import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 
@@ -122,4 +123,6 @@ public abstract class AbstractMiBandFWHelper {
     protected abstract void determineFirmwareInfo(byte[] wholeFirmwareBytes);
 
     public abstract void checkValid() throws IllegalArgumentException;
+
+    public abstract HuamiFirmwareType getFirmwareType();
 }

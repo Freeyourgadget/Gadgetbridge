@@ -29,6 +29,7 @@ import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.AbstractMiFirmwareInfo;
 
 /**
@@ -120,6 +121,11 @@ public class MiBandFWHelper extends AbstractMiBandFWHelper {
     @Override
     public void checkValid() throws IllegalArgumentException {
         firmwareInfo.checkValid();
+    }
+
+    @Override
+    public HuamiFirmwareType getFirmwareType() {
+        return null;
     }
 
     /**

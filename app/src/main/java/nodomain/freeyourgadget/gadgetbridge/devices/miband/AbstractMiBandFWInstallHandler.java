@@ -30,6 +30,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType.WATCHFACE;
+
 public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractMiBandFWInstallHandler.class);
 
@@ -58,7 +60,7 @@ public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
 
     protected abstract AbstractMiBandFWHelper createHelper(Uri uri, Context context) throws IOException;
 
-    protected GenericItem createInstallItem(GBDevice device) {
+    private GenericItem createInstallItem(GBDevice device) {
         return new GenericItem(mContext.getString(R.string.installhandler_firmware_name, mContext.getString(device.getType().getName()), helper.getFirmwareKind(), helper.getHumanFirmwareVersion()));
     }
 
@@ -98,23 +100,25 @@ public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
             return;
         }
         StringBuilder builder = new StringBuilder();
-        if (helper.isSingleFirmware()) {
-            getFwUpgradeNotice();
-            builder.append(getFwUpgradeNotice());
-        } else {
-            builder.append(mContext.getString(R.string.fw_multi_upgrade_notice, helper.getHumanFirmwareVersion(), helper.getHumanFirmwareVersion2()));
-        }
+        if (helper.getFirmwareType() != WATCHFACE) {
+            if (helper.isSingleFirmware()) {
+                getFwUpgradeNotice();
+                builder.append(getFwUpgradeNotice());
+            } else {
+                builder.append(mContext.getString(R.string.fw_multi_upgrade_notice, helper.getHumanFirmwareVersion(), helper.getHumanFirmwareVersion2()));
+            }
 
 
-        if (helper.isFirmwareWhitelisted()) {
-            builder.append(" ").append(mContext.getString(R.string.miband_firmware_known));
-            fwItem.setDetails(mContext.getString(R.string.miband_fwinstaller_compatible_version));
-            // TODO: set a CHECK (OKAY) button
-        } else {
-            builder.append("  ").append(mContext.getString(R.string.miband_firmware_unknown_warning)).append(" \n\n")
-                    .append(mContext.getString(R.string.miband_firmware_suggest_whitelist, String.valueOf(helper.getFirmwareVersion())));
-            fwItem.setDetails(mContext.getString(R.string.miband_fwinstaller_untested_version));
-            // TODO: set a UNKNOWN (question mark) button
+            if (helper.isFirmwareWhitelisted()) {
+                builder.append(" ").append(mContext.getString(R.string.miband_firmware_known));
+                fwItem.setDetails(mContext.getString(R.string.miband_fwinstaller_compatible_version));
+                // TODO: set a CHECK (OKAY) button
+            } else {
+                builder.append("  ").append(mContext.getString(R.string.miband_firmware_unknown_warning)).append(" \n\n")
+                        .append(mContext.getString(R.string.miband_firmware_suggest_whitelist, String.valueOf(helper.getFirmwareVersion())));
+                fwItem.setDetails(mContext.getString(R.string.miband_fwinstaller_untested_version));
+                // TODO: set a UNKNOWN (question mark) button
+            }
         }
         installActivity.setInfoText(builder.toString());
         installActivity.setInstallItem(fwItem);
