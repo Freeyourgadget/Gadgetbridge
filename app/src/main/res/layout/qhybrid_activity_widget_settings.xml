@@ -43,12 +43,6 @@
                 android:layout_height="wrap_content"
                 android:text="add element" />
 
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="draw circle"
-                android:id="@+id/qhybrid_widget_circle" />
-
         </LinearLayout>
 
         <LinearLayout
