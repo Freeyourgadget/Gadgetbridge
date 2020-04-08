@@ -96,4 +96,11 @@
         android:layout_height="wrap_content"
         android:text="add widget" />
 
+
+    <Button
+        android:id="@+id/qhybrid_set_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="set background" />
+
 </LinearLayout>
