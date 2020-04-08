@@ -130,4 +130,7 @@ public abstract class WatchAdapter {
 
     public void onSendWeather(WeatherSpec weatherSpec) {
     }
+
+    public void setBackgroundImage(byte[] pixels) {
+    }
 }

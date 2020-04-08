@@ -507,6 +507,9 @@
         <activity
             android:name=".devices.qhybrid.HRConfigActivity"
             android:exported="true" />
+        <activity
+            android:name=".devices.qhybrid.ImageEditActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

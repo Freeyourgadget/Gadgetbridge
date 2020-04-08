@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr;
 
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -9,12 +10,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.BufferOverflowException;
 import java.util.ArrayList;
@@ -26,6 +31,7 @@ import java.util.TimeZone;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.activities.GBActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
@@ -145,19 +151,56 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         };
     }
 
-    private void loadBackground(){
-        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDeviceSupport().getDevice().getAddress()));
-        boolean forceWhiteBackground = prefs.getBoolean("force_white_color_scheme", false);
-        if (forceWhiteBackground) {
-            Bitmap whiteBitmap = Bitmap.createBitmap(239, 239, Bitmap.Config.ARGB_8888);
-            new Canvas(whiteBitmap).drawColor(Color.WHITE);
+    private File getBackgroundFile(){
+        return new File(getContext().getExternalFilesDir(null), "hr_background.bin");
+    }
 
+    private void loadBackground(){
+        try {
+            FileInputStream fis = new FileInputStream(getBackgroundFile());
+            int count = fis.available();
+            if(count != 14400){
+                throw new RuntimeException("wrong background file length");
+            }
+            byte[] file = new byte[14400];
+            fis.read(file);
+            fis.close();
+            this.backGroundImage = AssetImageFactory.createAssetImage(file, 0, 0, 0);
+        } catch (FileNotFoundException e) {
+            SharedPreferences preferences = getDeviceSpecificPreferences();
+            if (preferences.getBoolean("force_white_color_scheme", false)) {
+                Bitmap whiteBitmap = Bitmap.createBitmap(239, 239, Bitmap.Config.ARGB_8888);
+                new Canvas(whiteBitmap).drawColor(Color.WHITE);
+
+                try {
+                    this.backGroundImage = AssetImageFactory.createAssetImage(whiteBitmap, true, 0, 1, 0);
+                    queueWrite(new AssetFilePutRequest(this.backGroundImage, (byte) 0x00, this));
+                } catch (IOException e2) {
+                    logger.error("Backgroundimage error", e2);
+                }
+            }
+        } catch (IOException | RuntimeException e) {
+            GB.log("error opening background file", GB.ERROR, e);
+            GB.toast("error opening background file", Toast.LENGTH_LONG, GB.ERROR);
+        }
+    }
+
+    @Override
+    public void setBackgroundImage(byte[] pixels) {
+        if(pixels == null){
+            getBackgroundFile().delete();
+            this.backGroundImage = null;
+        }else{
+            this.backGroundImage = AssetImageFactory.createAssetImage(pixels, 0, 0, 0);
             try {
-                this.backGroundImage = AssetImageFactory.createAssetImage(whiteBitmap, true, 0, 1, 0);
+                FileOutputStream fos = new FileOutputStream(getBackgroundFile(), false);
+                fos.write(pixels);
             } catch (IOException e) {
-                logger.error("Backgroundimage error", e);
+                GB.log("error saving background", GB.ERROR, e);
+                GB.toast("error persistent saving background", Toast.LENGTH_LONG, GB.ERROR);
             }
         }
+        renderWidgets();
     }
 
     private void loadWidgets() {
@@ -267,9 +310,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         try {
             ArrayList<AssetImage> widgetImages = new ArrayList<>();
 
-            if(this.backGroundImage != null){
-                widgetImages.add(this.backGroundImage);
-            }
 
             for (int i = 0; i < this.widgets.size(); i++) {
                 Widget w = widgets.get(i);
@@ -344,15 +384,18 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 ));
             }
 
+
+            if(this.backGroundImage != null){
+                widgetImages.add(this.backGroundImage);
+            }
+
             AssetImage[] images = widgetImages.toArray(new AssetImage[0]);
 
-            // queueWrite(new FileDeleteRequest((short) 0x0700));
             queueWrite(new AssetFilePutRequest(
                     images,
                     (byte) 0x00,
                     this
             ));
-
             // queueWrite(new FileDeleteRequest((short) 0x0503));
             queueWrite(new ImagesSetRequest(
                     images,
