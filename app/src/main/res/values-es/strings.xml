@@ -829,4 +829,19 @@
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="devicetype_y5">Y5</string>
     <string name="devicetype_itag">iTag</string>
+    <string name="pref_title_lower_button_function">Botón inferior</string>
+    <string name="pref_title_middle_button_function">Botón central</string>
+    <string name="pref_title_upper_button_function">Botón superior</string>
+    <string name="hr_appname_commute">Conmutar</string>
+    <string name="hr_appname_stopwatch">Cronógrafa</string>
+    <string name="hr_appname_workout">Rutina de ejercicio</string>
+    <string name="hr_appname_wellness">Bienestar</string>
+    <string name="pref_summary_force_white_color_scheme">Útil si tu reloj tiene manecillas oscuras</string>
+    <string name="find_my_phone_notification">Encuentra mi teléfono</string>
+    <string name="pref_title_vibration_strength">Resistencia a la vibración</string>
+    <string name="pref_title_relax_firmware_checks">Habilite esto si desea actualizar un firmware no destinado a su dispositivo (bajo su propio riesgo)</string>
+    <string name="pref_summary_relax_firmware_checks">Relaje las comprobaciones de firmware</string>
+    <string name="pref_title_allow_high_mtu">Permitir MTU alta</string>
+    <string name="pref_summary_custom_deviceicon">Mostrar un icono de notificación de Android específico del dispositivo en lugar del icono de Gadgetbridge cuando esté conectado</string>
+    <string name="pref_title_custom_deviceicon">Mostrar icono de notificación específica del dispositivo</string>
 </resources>

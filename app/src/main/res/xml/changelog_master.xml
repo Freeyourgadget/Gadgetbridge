@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.43.1" versioncode="170">
+        <change>Initial support for Amazfit Bip S (incomplete, needs the official app once to obtain the pairing key)</change>
+        <change>Amazift Bip Lite: Allow relaxing firmware checks to allow flashing of the regular Bip firmware (for the brave)</change>
+        <change>Fossil Hybrid HR: Fix notification history on newer firmwares</change>
+        <change>Fossil Hybrid HR: Add option to disable widget circle</change>
+        <change>Bangle.js: Don't set time if the option is turned off in settings</change>
+        <change>Bangle.js: DST and time zone fixes</change>
+        <change>Add Arabic-style Eastern Arabic numerals to transliteration</change>
+    </release>
     <release version="0.43.0" versioncode="169">
         <change>Initial support for Fossil Hybrid HR (needs complicated key extraction, read wiki)</change>
         <change>Fossil: Allow switching off the Q Icon and use the default Gadgetbridge icon</change>

@@ -103,7 +103,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private void uartTx(TransactionBuilder builder, String str) {
         LOG.info("UART TX: " + str);
         byte[] bytes;
-        bytes = str.getBytes(StandardCharsets.UTF_8);
+        bytes = str.getBytes(StandardCharsets.ISO_8859_1);
         for (int i=0;i<bytes.length;i+=20) {
             int l = bytes.length-i;
             if (l>20) l=20;

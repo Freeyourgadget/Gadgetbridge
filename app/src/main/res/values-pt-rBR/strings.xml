@@ -859,4 +859,8 @@
     <string name="pref_title_upper_button_function">Botão superior</string>
     <string name="pref_title_middle_button_function">Botão do meio</string>
     <string name="pref_title_lower_button_function">Botão inferior</string>
+    <string name="pref_title_vibration_strength">Intensidade da vibração</string>
+    <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
+    <string name="pref_title_relax_firmware_checks">Habilite isso se você deseja instalar um firmware não destinado para seu dispositivo (a seu próprio risco)</string>
+    <string name="pref_summary_relax_firmware_checks">Verificações de firmware relaxadas</string>
 </resources>

@@ -67,7 +67,7 @@
     <string name="pref_title_canned_replies">Відповіді</string>
     <string name="pref_title_canned_reply_suffix">Загальний суфікс</string>
     <string name="pref_header_development">Параметри для розробників</string>
-    <string name="pref_title_development_miaddr">Адреса Mi Band</string>
+    <string name="pref_title_development_miaddr">Адреса Mi-Band</string>
     <string name="pref_title_pebble_settings">Параметри Pebble</string>
     <string name="pref_header_activitytrackers">Трекер активності</string>
     <string name="pref_title_pebble_activitytracker">Бажаний трекер активності</string>
@@ -117,7 +117,7 @@
     <string name="title_activity_mi_band_pairing">Створення пари з Вашим Mi Band</string>
     <string name="message_cannot_pair_no_mac">Немає MAC-адресу, не вдалося створити пару.</string>
     <string name="preferences_category_device_specific_settings">Параметри специфічні для пристрою</string>
-    <string name="preferences_miband_settings">Параметри Mi—Band / Amazfit</string>
+    <string name="preferences_miband_settings">Параметри Mi-Band / Amazfit</string>
     <string name="male">Чоловіча</string>
     <string name="female">Жіноча</string>
     <string name="other">Інше</string>
@@ -145,9 +145,9 @@
     <string name="vibration_profile_alarm_clock">Будильник</string>
     <string name="miband_prefs_vibration">Вібрація</string>
     <string name="pref_screen_notification_profile_sms">SMS-сповіщення</string>
-    <string name="pref_header_vibration_settings">Параметри вібровідгуку</string>
+    <string name="pref_header_vibration_settings">Параметри вібрації</string>
     <string name="pref_screen_notification_profile_generic">Загальні сповіщення</string>
-    <string name="pref_screen_notification_profile_incoming_call">Сповіщення під час вхідного дзвінку</string>
+    <string name="pref_screen_notification_profile_incoming_call">Сповіщення вхідного дзвінка</string>
     <string name="pref_screen_notification_profile_generic_chat">Чат</string>
     <string name="pref_screen_notification_profile_generic_navigation">Навігація</string>
     <string name="pref_screen_notification_profile_generic_social">Соціальні мережі</string>
@@ -204,7 +204,7 @@
     <string name="weeksteps_today_steps_description">Кроків сьогодні, мета: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Не передавати дані про активність</string>
     <string name="pref_summary_dont_ack_transfers">Якщо дані не будуть передані на пристрій, пристрій не буде очищений. Корисно, якщо Gadgetbridge використовується разом з іншими додатками.</string>
-    <string name="pref_summary_keep_data_on_device">Дозволяє лишити дані на Mi-браслеті після синхронізації. Зазвичай використовується, якщо GB працює ще з іншими додатками.</string>
+    <string name="pref_summary_keep_data_on_device">Дозволяє залишити дані на Mi-Band після синхронізації. Зазвичай використовується, якщо GB працює разом з іншими додатками.</string>
     <string name="live_activity_steps_history">Історія кроків</string>
     <string name="live_activity_current_steps_per_minute">Поточні кроки/хв</string>
     <string name="live_activity_total_steps">Загалом кроків</string>

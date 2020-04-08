@@ -826,4 +826,19 @@
     <string name="qhybrid_second_timezone_offset_relative_to_utc">compensazione del secondo fuso orario rispetto a UTC</string>
     <string name="qhybrid_offset_timezone">compensazione del fuso orario di</string>
     <string name="qhybrid_offset_time_by">compensazione dell\'ora di</string>
+    <string name="pref_title_lower_button_function">Pulsante inferiore</string>
+    <string name="pref_title_middle_button_function">Pulsante centrale</string>
+    <string name="pref_title_upper_button_function">Pulsante superiore</string>
+    <string name="hr_appname_commute">Commute</string>
+    <string name="hr_appname_stopwatch">Cronometro</string>
+    <string name="hr_appname_workout">Allenamento</string>
+    <string name="hr_appname_wellness">Benessere</string>
+    <string name="qhybrid_use_activity_hand_as_notification_counter">utilizzare la mano di attività come contatore di notifica</string>
+    <string name="qhybrid_overwrite_buttons">sovrascrivere i pulsanti</string>
+    <string name="notification_channel_high_priority_name">Notifiche di Gadgetbridge ad alta priorità</string>
+    <string name="find_my_phone_notification">Trova il mio telefono</string>
+    <string name="pref_title_vibration_strength">Resistenza alle vibrazioni</string>
+    <string name="pref_title_relax_firmware_checks">Attivare questo se si vuole far lampeggiare un firmware non destinato al proprio dispositivo (a proprio rischio e pericolo)</string>
+    <string name="pref_summary_custom_deviceicon">Mostra l\'icona di notifica di un dispositivo specifico per Android invece l\'icona di Gadgetbridge quando è connesso</string>
+    <string name="pref_title_custom_deviceicon">Mostra l\'icona di notifica specifica del dispositivo</string>
 </resources>

@@ -829,4 +829,19 @@ Temps de sommeil préféré en heures</string>
     <string name="find_lost_device_you_found_it">Trouvé !</string>
     <string name="pref_title_force_white_color_scheme">Forcer le noir sur le blanc</string>
     <string name="pref_summary_force_white_color_scheme">Utile si votre montre a les mains noires</string>
+    <string name="pref_title_lower_button_function">Bouton inférieur</string>
+    <string name="pref_title_middle_button_function">Bouton du milieu</string>
+    <string name="pref_title_upper_button_function">Bouton supérieur</string>
+    <string name="hr_appname_commute">Trajet</string>
+    <string name="hr_appname_stopwatch">Chronomètre</string>
+    <string name="hr_appname_workout">Entraînement</string>
+    <string name="hr_appname_wellness">Bien-être</string>
+    <string name="notification_channel_high_priority_name">Priorité haute des notifications Gadgetbridge</string>
+    <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
+    <string name="find_my_phone_notification">Trouver mon téléphone</string>
+    <string name="pref_title_vibration_strength">Puissance du vibreur</string>
+    <string name="pref_title_relax_firmware_checks">Activez cette option si vous souhaitez flasher un microprogramme qui n\'est pas destiné à votre appareil (à vos propres risques)</string>
+    <string name="pref_summary_relax_firmware_checks">Assouplir les contrôles des microprogrammes</string>
+    <string name="pref_summary_custom_deviceicon">Afficher une icône de notification Android spécifique à l\'appareil à la place de l\'icône Gadgetbridge lors de la connexion</string>
+    <string name="pref_title_custom_deviceicon">Afficher l’icône de notification spécifique à l’appareil</string>
 </resources>

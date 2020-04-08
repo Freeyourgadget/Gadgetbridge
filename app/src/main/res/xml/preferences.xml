@@ -603,7 +603,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Auto fetch">
+        android:title="@string/pref_header_auto_fetch">
         <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="false"

@@ -54,7 +54,7 @@
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Einstellungen</string>
     <string name="pref_header_general">Allgemeine Einstellungen</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Mit Gadgetbridge-Gerät verbinden, wenn Bluetooth eingeschaltet ist</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Mit Gadgetbridge-Gerät verbinden, wenn Bluetooth eingeschaltet wird</string>
     <string name="pref_title_general_autostartonboot">Automatisch starten</string>
     <string name="pref_title_general_autoreconnect">Verbindung automatisch wiederherstellen</string>
     <string name="pref_title_audio_player">Bevorzugter Audioplayer</string>
@@ -78,7 +78,7 @@
     <string name="pref_title_notifications_generic">Unterstützung allgemeine Benachrichtigung</string>
     <string name="pref_title_whenscreenon">…auch wenn der Bildschirm an ist</string>
     <string name="pref_title_notification_filter">Bitte nicht stören</string>
-    <string name="pref_summary_notification_filter">Unerwünschte Benachrichtigungen werden in diesem Modus gestoppt</string>
+    <string name="pref_summary_notification_filter">Unerwünschte Benachrichtigungen werden in diesem Modus unterdrückt</string>
     <string name="pref_title_transliteration">Umwandlung</string>
     <string name="pref_summary_transliteration">Aktiviere dies, falls dein Gerät keine Unterstützung für die Schriftart deiner Sprache hat</string>
     <string name="always">Immer</string>
@@ -131,7 +131,7 @@
     <string name="pref_title_pebble_forceprotocol">Benachrichtigungsprotokoll erzwingen</string>
     <string name="pref_summary_pebble_forceprotocol">Diese Option erzwingt das neuste Benachrichtigungsprotokoll abhängig von der Firmwareversion. NUR EINSCHALTEN, WENN DU WEISST, WAS DU TUST!</string>
     <string name="pref_title_pebble_forceuntested">Ungetestete Features aktivieren</string>
-    <string name="pref_summary_pebble_forceuntested">Ungetestete Funktionen aktivieren. WEISST DU WAS DU TUST!</string>
+    <string name="pref_summary_pebble_forceuntested">Aktiviere ungetestete Funktionen. SEI DIR SICHER WAS DU DA TUST!</string>
     <string name="pref_title_pebble_forcele">BLE immer bevorzugen</string>
     <string name="pref_summary_pebble_forcele">Nutze die experimentelle LE-Unterstützung für alle Pebbles anstelle von BT-Classic. Dies erfordert zuerst eine Kopplung mit Nicht-LE und dann Pebble LE</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU Limit</string>
@@ -268,7 +268,7 @@
     <string name="weeksleepchart_today_sleep_description">Schlaf heute, Ziel: %1$s</string>
     <string name="weekstepschart_steps_a_week">Schritte pro Woche</string>
     <string name="activity_sleepchart_activity_and_sleep">Aktivität</string>
-    <string name="updating_firmware">Firmware aktualisieren…</string>
+    <string name="updating_firmware">Aktualisiere Firmware…</string>
     <string name="fwapp_install_device_not_ready">Datei kann nicht installiert werden, Gerät nicht bereit.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
     <string name="miband_fwinstaller_compatible_version">Kompatible Version</string>
@@ -606,7 +606,7 @@
     <string name="pref_invalid_frequency_message">Bitte eine Frequenz zwischen 87,5 und 108,0 eingeben</string>
     <string name="language_and_region_prefs">Sprach- und Regionseinstellungen</string>
     <string name="debugactivity_really_factoryreset_title">Wirklich auf Werkseinstellungen zurücksetzen\?</string>
-    <string name="debugactivity_really_factoryreset">Beim Zurücksetzen auf die Werkseinstellungen werden alle Daten vom angeschlossenen Gerät gelöscht (falls unterstützt). Xiaomi/Huami-Geräte ändern auch die Bluetooth-MAC-Adresse, so dass sie als neue Geräte bei Gadgetbridge erscheinen.</string>
+    <string name="debugactivity_really_factoryreset">Beim Zurücksetzen auf die Werkseinstellungen werden alle Daten vom angeschlossenen Gerät gelöscht (falls unterstützt). Xiaomi/Huami-Geräte wechseln dabei auch die Bluetooth-MAC-Adresse, so dass sie als neue Geräte bei Gadgetbridge erscheinen.</string>
     <string name="pref_rtl_max_line_length_summary">Verlängert oder verkürzt die Zeilen, in die der Rechts-nach-Links Text getrennt wird</string>
     <string name="notif_battery_low_extended">%1$s Akku schwach: %2$s</string>
     <string name="lack_of_sleep">Schlafmangel: %1$s</string>
@@ -831,7 +831,7 @@
     <string name="prefs_button_single_press_action_selection_title">Aktion bei einem einzigen Tastendruck</string>
     <string name="prefs_button_double_press_action_selection_title">Aktion bei 2 Tastendrücken</string>
     <string name="prefs_button_triple_press_action_selection_title">Aktion bei 3 Tastendrücken</string>
-    <string name="pref_title_allow_high_mtu">Hohe MTU erlauben</string>
+    <string name="pref_title_allow_high_mtu">Größere MTU erlauben</string>
     <string name="pref_summary_sync_calendar">Aktiviert Kalendererinnerungen, auch wenn die Verbindung getrennt ist</string>
     <string name="pref_title_sync_caldendar">Kalenderereignisse synchronisieren</string>
     <string name="hr_widget_heart_rate">Herzfrequenz</string>
@@ -855,4 +855,9 @@
     <string name="pref_title_upper_button_function">Obere Taste</string>
     <string name="pref_title_middle_button_function">Mittlere Taste</string>
     <string name="pref_title_lower_button_function">Untere Taste</string>
+    <string name="pref_title_vibration_strength">Vibrationsstärke</string>
+    <string name="hr_appname_commute">Pendeln</string>
+    <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
+    <string name="pref_summary_relax_firmware_checks">Firmwareüberprüfung deaktivieren</string>
+    <string name="pref_title_relax_firmware_checks">Aktiviere das flashen von Firmware, die nicht für dieses Gerät bestimmt ist (auf eigenes Risiko)</string>
 </resources>
