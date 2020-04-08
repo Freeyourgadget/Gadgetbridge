@@ -187,13 +187,18 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void setBackgroundImage(byte[] pixels) {
-        this.backGroundImage = AssetImageFactory.createAssetImage(pixels, 0, 0, 0);
-        try {
-            FileOutputStream fos = new FileOutputStream(getBackgroundFile(), false);
-            fos.write(pixels);
-        } catch (IOException e) {
-            GB.log("error saving background", GB.ERROR, e);
-            GB.toast("error persistent saving background", Toast.LENGTH_LONG, GB.ERROR);
+        if(pixels == null){
+            getBackgroundFile().delete();
+            this.backGroundImage = null;
+        }else{
+            this.backGroundImage = AssetImageFactory.createAssetImage(pixels, 0, 0, 0);
+            try {
+                FileOutputStream fos = new FileOutputStream(getBackgroundFile(), false);
+                fos.write(pixels);
+            } catch (IOException e) {
+                GB.log("error saving background", GB.ERROR, e);
+                GB.toast("error persistent saving background", Toast.LENGTH_LONG, GB.ERROR);
+            }
         }
         renderWidgets();
     }

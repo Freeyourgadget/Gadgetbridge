@@ -125,6 +125,15 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
             }
         });
 
+        findViewById(R.id.qhybrid_unset_background).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(QHybridSupport.QHYBRID_COMMAND_SET_BACKGROUND_IMAGE);
+                intent.putIntegerArrayListExtra("EXTRA_PIXELS", null);
+                LocalBroadcastManager.getInstance(HRConfigActivity.this).sendBroadcast(intent);
+            }
+        });
+
         for (int i = 0; i < widgetButtonsMapping.size(); i++) {
             final int widgetButtonId = widgetButtonsMapping.keyAt(i);
             findViewById(widgetButtonId).setOnClickListener(new View.OnClickListener() {
