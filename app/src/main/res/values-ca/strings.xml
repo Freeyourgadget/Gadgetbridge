@@ -849,4 +849,5 @@
     <string name="pref_summary_relax_firmware_checks">Relaxa les comprovacions de microprogramari</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
     <string name="pref_title_vibration_strength">Intensitat de vibració</string>
+    <string name="pref_header_auto_fetch">Recollida automàtica</string>
 </resources>
