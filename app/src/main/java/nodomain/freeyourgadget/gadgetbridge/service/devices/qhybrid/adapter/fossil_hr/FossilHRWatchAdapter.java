@@ -389,14 +389,16 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 widgetImages.add(this.backGroundImage);
             }
 
+            AssetImage[] images = widgetImages.toArray(new AssetImage[0]);
+
             queueWrite(new AssetFilePutRequest(
-                    widgetImages.toArray(new AssetImage[0]),
+                    images,
                     (byte) 0x00,
                     this
             ));
             // queueWrite(new FileDeleteRequest((short) 0x0503));
             queueWrite(new ImagesSetRequest(
-                    widgetImages.toArray(new AssetImage[0]),
+                    images,
                     this
             ));
         } catch (IOException e) {
