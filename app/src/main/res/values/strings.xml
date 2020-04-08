@@ -815,6 +815,7 @@
     <string name="prefs_button_long_press_action_selection_title">Long press button action</string>
 
     <string name="error_no_location_access">Location access must be granted and enabled for scanning to work properly</string>
+    <string name="pref_qhybrid_title_widget_draw_circles">Draw widget circles</string>
 
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>

@@ -17,24 +17,8 @@ public class CustomWidget extends Widget {
         this.name = name;
     }
 
-    public int getAngle() {
-        return angle;
-    }
-
-    public int getDistance() {
-        return distance;
-    }
-
     public void setElements(ArrayList<CustomWidgetElement> elements) {
         this.elements = elements;
-    }
-
-    public void setAngle(int angle) {
-        this.angle = angle;
-    }
-
-    public void setDistance(int distance) {
-        this.distance = distance;
     }
 
     public void setName(String name) {

@@ -21,6 +21,22 @@ public class Widget implements Serializable {
         this.fontColor = fontColor;
     }
 
+    public int getAngle() {
+        return angle;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setAngle(int angle) {
+        this.angle = angle;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
     @NonNull
     @Override
     public String toString() {

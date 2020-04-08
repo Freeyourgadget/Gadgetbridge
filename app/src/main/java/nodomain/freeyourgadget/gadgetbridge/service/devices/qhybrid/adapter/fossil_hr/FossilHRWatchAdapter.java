@@ -246,6 +246,24 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     private void renderWidgets() {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDeviceSupport().getDevice().getAddress()));
         boolean forceWhiteBackground = prefs.getBoolean("force_white_color_scheme", false);
+        boolean drawCircles = prefs.getBoolean("widget_draw_circles", false);
+
+        Bitmap circleBitmap = null;
+        if(drawCircles) {
+            circleBitmap = Bitmap.createBitmap(76, 76, Bitmap.Config.ARGB_8888);
+            Canvas circleCanvas = new Canvas(circleBitmap);
+            Paint circlePaint = new Paint();
+            circlePaint.setColor(forceWhiteBackground ? Color.WHITE : Color.BLACK);
+            circlePaint.setStyle(Paint.Style.FILL);
+            circlePaint.setStrokeWidth(3);
+            circleCanvas.drawCircle(38, 38, 37, circlePaint);
+
+            circlePaint.setColor(forceWhiteBackground ? Color.BLACK : Color.WHITE);
+            circlePaint.setStyle(Paint.Style.STROKE);
+            circlePaint.setStrokeWidth(3);
+            circleCanvas.drawCircle(38, 38, 37, circlePaint);
+        }
+
         try {
             ArrayList<AssetImage> widgetImages = new ArrayList<>();
 
@@ -253,29 +271,28 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 widgetImages.add(this.backGroundImage);
             }
 
-
             for (int i = 0; i < this.widgets.size(); i++) {
                 Widget w = widgets.get(i);
-                if(!(w instanceof CustomWidget)) continue;
+                if(!(w instanceof CustomWidget)){
+                    if(drawCircles) {
+                        widgetImages.add(AssetImageFactory.createAssetImage(
+                                circleBitmap,
+                                true,
+                                w.getAngle(),
+                                w.getDistance(),
+                                1
+                        ));
+                    }
+                    continue;
+                };
                 CustomWidget widget = (CustomWidget) w;
 
                 Bitmap widgetBitmap = Bitmap.createBitmap(76, 76, Bitmap.Config.ARGB_8888);
 
                 Canvas widgetCanvas = new Canvas(widgetBitmap);
 
-                boolean backgroundDrawn = false;
-
-                if(!backgroundDrawn){
-                    Paint circlePaint = new Paint();
-                    circlePaint.setColor(forceWhiteBackground ? Color.WHITE : Color.BLACK);
-                    circlePaint.setStyle(Paint.Style.FILL);
-                    circlePaint.setStrokeWidth(3);
-                    widgetCanvas.drawCircle(38, 38, 37, circlePaint);
-
-                    circlePaint.setColor(forceWhiteBackground ? Color.BLACK : Color.WHITE);
-                    circlePaint.setStyle(Paint.Style.STROKE);
-                    circlePaint.setStrokeWidth(3);
-                    widgetCanvas.drawCircle(38, 38, 37, circlePaint);
+                if(drawCircles){
+                    widgetCanvas.drawBitmap(circleBitmap, 0, 0, null);
                 }
 
                 for (CustomWidgetElement element : widget.getElements()) {
@@ -298,7 +315,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                                 0,
                                 0,
                                 null);
-                        backgroundDrawn = true;
                         break;
                     }
                 }
