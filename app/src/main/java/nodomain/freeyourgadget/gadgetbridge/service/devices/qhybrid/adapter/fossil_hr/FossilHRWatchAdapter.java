@@ -296,15 +296,16 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             circleBitmap = Bitmap.createBitmap(76, 76, Bitmap.Config.ARGB_8888);
             Canvas circleCanvas = new Canvas(circleBitmap);
             Paint circlePaint = new Paint();
+            circlePaint.setAntiAlias(true);
             circlePaint.setColor(forceWhiteBackground ? Color.WHITE : Color.BLACK);
             circlePaint.setStyle(Paint.Style.FILL);
             circlePaint.setStrokeWidth(3);
-            circleCanvas.drawCircle(38, 38, 37, circlePaint);
+            circleCanvas.drawCircle(38, 38, 35, circlePaint);
 
             circlePaint.setColor(forceWhiteBackground ? Color.BLACK : Color.WHITE);
             circlePaint.setStyle(Paint.Style.STROKE);
             circlePaint.setStrokeWidth(3);
-            circleCanvas.drawCircle(38, 38, 37, circlePaint);
+            circleCanvas.drawCircle(38, 38, 35, circlePaint);
         }
 
         try {
