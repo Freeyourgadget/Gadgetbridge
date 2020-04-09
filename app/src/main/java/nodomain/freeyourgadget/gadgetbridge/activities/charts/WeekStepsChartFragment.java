@@ -109,7 +109,7 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     @Override
     protected String getBalanceMessage(long balance, int targetValue) {
         if (balance > 0) {
-            final long totalBalance = balance - ((long)targetValue * TOTAL_DAYS);
+            final long totalBalance = balance - ((long)targetValue * TOTAL_DAYS_FOR_AVERAGE);
             if (totalBalance > 0)
                 return getString(R.string.overstep, Math.abs(totalBalance));
             else

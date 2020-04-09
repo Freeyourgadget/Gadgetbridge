@@ -1,5 +1,8 @@
 ### Changelog
 
+#### Version 0.43.2
+* Fossil Q Hybrid: Allow choosing and cropping image to be set as watch background
+* Steps/Sleep averages: skip days with zero data 
 
 #### Version 0.43.1
 * Initial support for Amazfit Bip S (incomplete, needs the official app once to obtain the pairing key)
