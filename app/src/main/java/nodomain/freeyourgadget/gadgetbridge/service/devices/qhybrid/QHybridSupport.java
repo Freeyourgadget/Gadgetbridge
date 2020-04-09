@@ -541,6 +541,11 @@ public class QHybridSupport extends QHybridBaseSupport {
         watchAdapter.onTestNewFunction();
     }
 
+    @Override
+    public void onInstallApp(Uri uri) {
+        watchAdapter.onInstallApp(uri);
+    }
+
     private void backupFile(DownloadFileRequest request) {
         try {
             File file = FileUtils.getExternalFile("qFiles/" + request.timeStamp);

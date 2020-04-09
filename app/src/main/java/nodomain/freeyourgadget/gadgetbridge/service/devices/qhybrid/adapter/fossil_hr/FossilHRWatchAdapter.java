@@ -1,7 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr;
 
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -9,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Build;
 import android.widget.Toast;
 
@@ -16,11 +16,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.BufferOverflowException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,7 +33,6 @@ import java.util.TimeZone;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.activities.GBActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
@@ -58,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration.ConfigurationGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration.ConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFilePutRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.FirmwareFilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.AssetImage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.AssetImageFactory;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.ImagesSetRequest;
@@ -72,9 +74,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomWidgetElement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.Widget;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.WidgetsPutRequest;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_PHONE_REQUEST;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_WATCH_REQUEST;
@@ -693,6 +697,25 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         }
     }
 */
+
+    @Override
+    public void onInstallApp(Uri uri) {
+        UriHelper uriHelper = null;
+        try {
+            uriHelper = UriHelper.get(uri, getContext());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Could not open firmare: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
+        }
+        if (uriHelper != null) {
+            try (InputStream in = new BufferedInputStream(uriHelper.openInputStream())) {
+                byte[] firmwareBytes = FileUtils.readAll(in, 1024 * 2024); // 2MB
+                queueWrite(new FirmwareFilePutRequest(firmwareBytes, this));
+            } catch (Exception e) {
+                GB.toast(getContext(), "Firmware cannot be installed: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
+            }
+        }
+    }
+
     public byte[] getSecretKey() {
         byte[] authKeyBytes = new byte[16];
 

@@ -1,7 +1,9 @@
 ### Changelog
 
-#### Version 0.43.2
-* Fossil Q Hybrid: Allow choosing and cropping image to be set as watch background
+#### NEXT
+* Fossil Hybrid HR: Allow choosing and cropping image to be set as watch background
+* Fossil Hybrid HR: Option to draw circles around widgets
+* Fossil Hybrid HR: Experimenal firmware update support
 * Steps/Sleep averages: skip days with zero data 
 
 #### Version 0.43.1

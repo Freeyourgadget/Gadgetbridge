@@ -100,6 +100,10 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
+        if (isHybridHR()) {
+            FossilHRInstallHandler installHandler = new FossilHRInstallHandler(uri, context);
+            return installHandler.isValid() ? installHandler : null;
+        }
         return null;
     }
 

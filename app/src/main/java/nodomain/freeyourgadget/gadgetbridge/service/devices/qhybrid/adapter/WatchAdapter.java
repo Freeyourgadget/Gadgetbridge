@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
+import android.net.Uri;
 
 import java.util.ArrayList;
 
@@ -63,6 +64,7 @@ public abstract class WatchAdapter {
     public abstract void syncNotificationSettings();
     public abstract void onTestNewFunction();
     public abstract void setTimezoneOffsetMinutes(short offset);
+    public abstract void onInstallApp(Uri uri);
 
     public abstract boolean supportsFindDevice();
     public abstract boolean supportsExtendedVibration();

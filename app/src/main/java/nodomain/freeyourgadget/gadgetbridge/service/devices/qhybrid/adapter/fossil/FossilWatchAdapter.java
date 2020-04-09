@@ -20,6 +20,7 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.widget.Toast;
 
@@ -380,6 +381,11 @@ public class FossilWatchAdapter extends WatchAdapter {
                 else GB.toast("error updating timezone", Toast.LENGTH_SHORT, GB.ERROR);
             }
         });
+    }
+
+    @Override
+    public void onInstallApp(Uri uri) {
+
     }
 
     @Override

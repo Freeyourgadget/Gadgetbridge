@@ -19,7 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.mis
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
-import android.util.Log;
+import android.net.Uri;
 import android.util.SparseArray;
 import android.widget.Toast;
 
@@ -49,6 +49,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.WatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.ActivityPointGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.AnimationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.BatteryLevelRequest;
@@ -66,7 +67,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mis
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.OTAEraseRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.ReleaseHandsControlRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.RequestHandControlRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SetCurrentStepCountRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SetStepGoalRequest;
@@ -416,6 +416,11 @@ public class MisfitWatchAdapter extends WatchAdapter {
     @Override
     public void setTimezoneOffsetMinutes(short offset) {
         GB.toast("old firmware does't support timezones", Toast.LENGTH_LONG, GB.ERROR);
+    }
+
+    @Override
+    public void onInstallApp(Uri uri) {
+
     }
 
     @Override
