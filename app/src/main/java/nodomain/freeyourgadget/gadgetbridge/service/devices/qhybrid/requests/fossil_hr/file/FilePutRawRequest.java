@@ -1,7 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file;
 
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.widget.Toast;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -9,12 +8,9 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.zip.CRC32;
 
-import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEQueue;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class FilePutRawRequest extends FossilRequest {
     public enum UploadState {INITIALIZED, UPLOADING, CLOSING, UPLOADED}
@@ -71,8 +67,10 @@ public class FilePutRawRequest extends FossilRequest {
 
                     this.prepareFilePackets(this.file);
 
-                    for (byte[] packet : packets) {
+                    for (int i = 0, packetCount = packets.size(); i < packetCount; i++) {
+                        byte[] packet = packets.get(i);
                         transactionBuilder.write(uploadCharacteristic, packet);
+                        onPacketWritten(transactionBuilder, i, packetCount);
                     }
 
                     transactionBuilder.queue(adapter.getDeviceSupport().getQueue());
@@ -197,6 +195,11 @@ public class FilePutRawRequest extends FossilRequest {
     }
 
     public void onFilePut(boolean success) {
+
+    }
+
+    public void onPacketWritten(TransactionBuilder transactionBuilder, int packetNr, int packetCount) {
+
     }
 
     @Override
