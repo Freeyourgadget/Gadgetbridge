@@ -112,7 +112,7 @@ Bu yola diğer Android uygulamaları ve bilgisayarınız tarafından erişilebil
     <string name="app_name">GadgetBridge</string>
     <string name="appbar_scrolling_view_behavior">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
     <string name="appinstaller_install">Kur</string>
-    <string name="appmanager_app_openinstore">Pebble Uygulama Mağazasında Ara</string>
+    <string name="appmanager_app_openinstore">Pebble Mağazasında Ara</string>
     <string name="appmanager_cached_watchapps_watchfaces">Önbellekteki Uygulamalar</string>
     <string name="appmanager_health_activate">Aktif</string>
     <string name="appmanager_health_deactivate">Pasif</string>
@@ -176,11 +176,11 @@ Bu yola diğer Android uygulamaları ve bilgisayarınız tarafından erişilebil
     <string name="controlcenter_fetch_activity_data">Senkronize Et</string>
     <string name="controlcenter_find_device">Kayıp Cihazı Bul</string>
     <string name="controlcenter_navigation_drawer_close">Gezinti Çizimini Kapat</string>
-    <string name="controlcenter_navigation_drawer_open">Gezinti Çizimini Aç</string>
+    <string name="controlcenter_navigation_drawer_open">Gezinme Menüsünü Aç</string>
     <string name="controlcenter_snackbar_connecting">Bağlanıyor…</string>
     <string name="controlcenter_snackbar_disconnecting">Bağlantı Kesiliyor</string>
     <string name="controlcenter_snackbar_need_longpress">Bağlantıyı kesmek için çizelgeye uzunca basın</string>
-    <string name="controlcenter_snackbar_requested_screenshot">Cihazın Ekran Görüntüsünü Alma</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Cihazın Ekran Görüntüsü Alınıyor</string>
     <string name="controlcenter_start_activity_tracks">Aktivite İzleriniz</string>
     <string name="controlcenter_start_activitymonitor">Aktiviteniz (ALPHA)</string>
     <string name="controlcenter_start_configure_alarms">Alarmları Kurgula</string>
@@ -485,7 +485,9 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="miband2_prefs_timeformat">Mi2: Zaman Formatı</string>
     <string name="miband_firmware_known">Bu ürün yazılımı test edilmiştir ve Gadgetbridge ile uyumlu olduğu bilinmektedir.</string>
     <string name="miband_firmware_suggest_whitelist">Herşey düzgün çalışıyorsa, lütfen GadgetBridge geliştiricilerine %s ürün yazılımı sürümünü beyaz listeye eklemelerini söyleyin.</string>
-    <string name="miband_firmware_unknown_warning">"Bu Firmware test edilmemiştir ve Gadgetbridge ile uyumlu olmayabilir. Format atmanız gerekebilir!"</string>
+    <string name="miband_firmware_unknown_warning">Bu Firmware test edilmemiştir ve Gadgetbridge ile uyumlu olmayabilir. 
+\n
+\nFormat atmanız gerekebilir!</string>
     <string name="miband_fwinstaller_compatible_version">Uyumlu Sürüm</string>
     <string name="miband_fwinstaller_incompatible_version">Uyumsuz Firmware</string>
     <string name="miband_fwinstaller_untested_version">Test edilmemiş Sürüm!</string>
