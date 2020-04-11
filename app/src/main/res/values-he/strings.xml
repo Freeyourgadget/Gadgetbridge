@@ -854,4 +854,5 @@
     <string name="pref_title_relax_firmware_checks">יש להפעיל זאת אם מטרתך היא לצרוב קושחה שאינה מיועדת להתקן שלך (באחריותך הבלעדית)</string>
     <string name="pref_summary_relax_firmware_checks">הפחתת בדיקות חומרה</string>
     <string name="pref_header_auto_fetch">קבלה אוטומטית</string>
+    <string name="pref_qhybrid_title_widget_draw_circles">ציור עיגולי וידג׳טים</string>
 </resources>
