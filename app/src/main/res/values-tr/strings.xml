@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="Cancel">İptal</string>
     <string name="DEVINFO_HR_VER">"HR: "</string>
@@ -214,7 +214,7 @@ Bu yola diğer Android uygulamaları ve bilgisayarınız tarafından erişilebil
     <string name="dbmanagementactivvity_cannot_access_export_path">Dışa Aktarma Yoluna Erişilemiyor. Lütfen Geliştiricilere Başvurun.</string>
     <string name="debugactivity_really_factoryreset">Fabrika ayarlarına sıfırlama yapılması bağlı cihazdaki tüm verileri silecektir. Xiaomi / Huami cihazları da Bluetooth MAC adresini değiştirir, bu nedenle GadgetBridge yeni bir cihaz olarak görür.</string>
     <string name="debugactivity_really_factoryreset_title">Gerçekten Fabrika Ayarlarına Sıfırlansın mı?</string>
-    <string name="define_ckChangeLog" />
+    <string name="define_ckChangeLog"/>
     <string name="device_fw">Firmware Sürümü: %1$s</string>
     <string name="device_hw">Donanım Revizyonu: %1$s</string>
     <string name="device_not_connected">Bağlanmadı.</string>
@@ -319,22 +319,21 @@ Lütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyas
 Note: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
 
 YÜKLEME RİSKİ RİZE AİTTİR!"</string>
-    <string name="fw_upgrade_notice_amazfitcor2">"Amazfit Core 2 üzerine %s Firmware yüklemek üzeresiniz.
-
-Lütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak.
-
-Note: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
-
-YÜKLEME RİSKİ RİZE AİTTİR! 
- TAM OLARAK TEST EDİLMEMİŞTİR, CİHAZINIZIN İSMİ \"Amazfit Band 2\" İSE FLASLAMAK GEREKİR."</string>
-    <string name="fw_upgrade_notice_amazfitgtr">"
-Amazfit GTR üzerine %s Firmware yüklemek üzeresiniz.
-
-Lütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak.
-
-Note: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
-
-YÜKLEME RİSKİ RİZE AİTTİR!"</string>
+    <string name="fw_upgrade_notice_amazfitcor2">Amazfit Core 2 üzerine %s Firmware yüklemek üzeresiniz.
+\n
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak.
+\n
+\nNot: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
+\n
+\nYÜKLEME RİSKİ RİZE AİTTİR! 
+\n TAM OLARAK TEST EDİLMEMİŞTİR, CİHAZINIZIN İSMİ \"Amazfit Band 2\" İSE FLASLAMAK GEREKİR.</string>
+    <string name="fw_upgrade_notice_amazfitgtr">Amazfit GTR üzerine %s Firmware yüklemek üzeresiniz.
+\n
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak.
+\n
+\nNote: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
+\n
+\nYÜKLEME RİSKİ RİZE AİTTİR!</string>
     <string name="fw_upgrade_notice_amazfitgts">"Amazfit GTS üzerine %s Firmware yüklemek üzeresiniz.
 
 Lütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak.
@@ -448,7 +447,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="mi2_dnd_off">Kapalı</string>
     <string name="mi2_dnd_scheduled">Zamanlanmış (Zaman Aralığı)</string>
     <string name="mi2_enable_text_notifications">Metin Bildirimleri</string>
-    <string name="mi2_enable_text_notifications_summary">Firmware gerekiyor >= 1.0.1.28 ve Mili_pro.ft* yüklendi.</string>
+    <string name="mi2_enable_text_notifications_summary">Firmware gerekiyor &gt;= 1.0.1.28 ve Mili_pro.ft* yüklendi.</string>
     <string name="mi2_fw_installhandler_fw53_hint">Bu Firmware yüklenmeden önce %1$s Sürümü yüklenmelidir!</string>
     <string name="mi2_prefs_activate_display_on_lift">Saati Kaldırınca Ekranı Aç</string>
     <string name="mi2_prefs_button_action">Düğme Basma Eylemini Etkinleştir</string>
@@ -1024,4 +1023,9 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <item type="string" name="APKTOOL_DUMMY_199">false</item>
     <item type="string" name="APKTOOL_DUMMY_304">false</item>
     <item type="string" name="APKTOOL_DUMMY_344">false</item>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="one">%d Saat</item>
+        <item quantity="other">%d Saat</item>
+    </plurals>
+    <string name="pref_qhybrid_title_widget_draw_circles">Widget Çerçevesi Çiz</string>
 </resources>
