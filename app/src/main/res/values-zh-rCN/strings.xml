@@ -852,4 +852,5 @@
     <string name="pref_title_relax_firmware_checks">若您希望刷入并非为您设备设计的固件，请选中此项（风险自担）</string>
     <string name="pref_summary_relax_firmware_checks">放宽固件检查</string>
     <string name="pref_header_auto_fetch">自动获取</string>
+    <string name="pref_qhybrid_title_widget_draw_circles">绘制小部件圆圈</string>
 </resources>
