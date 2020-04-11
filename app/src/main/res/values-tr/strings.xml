@@ -57,8 +57,9 @@
     <string name="activity_db_management_empty_DB">VeriTabanını Boşalt</string>
     <string name="activity_db_management_empty_db_warning">Dikkat! Bu düğmeye basarak veritabanınızı silecek ve sıfırdan başlayacaksınız.</string>
     <string name="activity_db_management_exportimport_label">DışaAktarma ve İçeAktarma</string>
-    <string name="activity_db_management_import_export_explanation">"Veritabanı işlemleri cihazınızda aşağıdaki yolu kullanır.
-Bu yola diğer Android uygulamaları ve bilgisayarınız tarafından erişilebilir. Dışa aktarılan veritabanınızı bulmayı bekleyin (veya içe aktarmak istediğiniz veritabanını yerleştirin):"</string>
+    <string name="activity_db_management_import_export_explanation">Veritabanı işlemleri cihazınızda aşağıdaki yolu kullanır. 
+\nBu yola diğer Android uygulamaları ve bilgisayarınız tarafından erişilebilir. 
+\nDışa aktarılan veritabanınızı bulmayı bekleyin (veya içe aktarmak istediğiniz veritabanını yerleştirin):</string>
     <string name="activity_db_management_merge_old_title">Eski VeriTabanını Silme</string>
     <string name="activity_error_no_app_for_gpx">Aktivite izlemesini görüntülemek için GPX dosyalarını işleyebilen bir uygulama yükleyin.</string>
     <string name="activity_prefs_about_you">Hakkınızda</string>
@@ -103,11 +104,11 @@ Bu yola diğer Android uygulamaları ve bilgisayarınız tarafından erişilebil
     <string name="always">Daima</string>
     <string name="android_pairing_hint">Cihazı eşleştirmek için Android Bluetooth eşleştirme iletişim kutusunu kullan.</string>
     <string name="app_configure">Yapılandır</string>
-    <string name="app_install_info">"Aşağıdaki uygulamayı yüklemek üzeresiniz: Sürüm: 
-
-
-%1$s - %2$s Sahibi: %3$s
-"</string>
+    <string name="app_install_info">Aşağıdaki uygulamayı yüklemek üzeresiniz: Sürüm: 
+\n
+\n
+\n%1$s - %2$s Sahibi: %3$s
+\n</string>
     <string name="app_move_to_top">Yukarı Taşı</string>
     <string name="app_name">GadgetBridge</string>
     <string name="appbar_scrolling_view_behavior">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
@@ -145,7 +146,7 @@ Bu yola diğer Android uygulamaları ve bilgisayarınız tarafından erişilebil
     <string name="calories">Kalori</string>
     <string name="candidate_item_device_image">Cihaz Simgesi</string>
     <string name="cannot_connect">Bağlanamadı: %1$s</string>
-    <string name="cannot_connect_bt_address_invalid_">Bağlanamadı. Bluetooth Adresi Geçersiz!</string>
+    <string name="cannot_connect_bt_address_invalid_">Bağlanamadı. Bluetooth Adresi Geçersiz\?</string>
     <string name="changelog_full_title">Kaydı Değiştir</string>
     <string name="changelog_ok_button">Tamam</string>
     <string name="changelog_show_full">DahaFazla…</string>
@@ -154,7 +155,7 @@ Bu yola diğer Android uygulamaları ve bilgisayarınız tarafından erişilebil
     <string name="character_counter_content_description">%1$d / %2$d Karakter Girildi</string>
     <string name="character_counter_overflowed_content_description">%1$d / %2$d Karakter Limiti Aşıldı</string>
     <string name="character_counter_pattern">%1$d / %2$d</string>
-    <string name="chart_no_data_synchronize">Veri Yok! Cihazı Senkronize Et!</string>
+    <string name="chart_no_data_synchronize">Veri Yok! Cihazı Senkronize Et\?</string>
     <string name="chart_steps">Adımlar</string>
     <string name="charts_legend_heartrate">Kalp Hızı</string>
     <string name="chip_text">Parça Metin</string>
@@ -256,7 +257,7 @@ Bu yola diğer Android uygulamaları ve bilgisayarınız tarafından erişilebil
     <string name="devicetype_watch9">Watch 9</string>
     <string name="devicetype_xwatch">XWatch</string>
     <string name="devicetype_y5">Y5</string>
-    <string name="discovery_attempting_to_pair">%1$s ile eşleşmeye çalışılıyor.</string>
+    <string name="discovery_attempting_to_pair">%1$s ile eşleşmeye çalışılıyor</string>
     <string name="discovery_bonding_failed_immediately">%1$s ile etkileşim aniden başarısız oldu.</string>
     <string name="discovery_connected_devices_hint">Cihazınızı Görünür Yapın. Halen Eşleşmiş Cihazlar Muhtemelen Bulunmayabilir. Android 6 ve sonraki sürümlerinde konumu (ör. GPS) etkinleştirin. GadgetBridge için Privacy Guardı devre dışı bırakın, çünkü telefonunuz çökebilir ve yeniden başlatılabilir. Birkaç dakika sonra hiçbir cihaz bulunmazsa, mobil cihazınızı yeniden başlattıktan sonra tekrar deneyin.</string>
     <string name="discovery_dont_pair">"Eşlenmesin"</string>
@@ -272,11 +273,11 @@ Bu yola diğer Android uygulamaları ve bilgisayarınız tarafından erişilebil
     <string name="discovery_yes_pair">Eşleştir</string>
     <string name="distance">Mesafe</string>
     <string name="dutch">Dutch</string>
-    <string name="edittext_notification_filter_words_hint">Her bir kelimeyi yeni bir satıra girin.</string>
+    <string name="edittext_notification_filter_words_hint">Her bir kelimeyi yeni bir satıra girin</string>
     <string name="english">English</string>
     <string name="error_creating_directory_for_logfiles">Günlük dosyaları oluşturmada hata: %1$s</string>
     <string name="error_icon_content_description">Hata</string>
-    <string name="error_no_location_access">Taramanın düzgün çalışması için Konum Erişimi verilmeli ve etkinleştirilmelidir.</string>
+    <string name="error_no_location_access">Taramanın düzgün çalışması için Konum Erişimi verilmeli ve etkinleştirilmelidir</string>
     <string name="expand_button_title">Gelişmiş</string>
     <string name="exposed_dropdown_menu_content_description">Açılır Menüyü Göster</string>
     <string name="fab_transformation_scrim_behavior">com.google.android.material.transformation.FabTransformationScrimBehavior</string>
@@ -290,7 +291,7 @@ Bu yola diğer Android uygulamaları ve bilgisayarınız tarafından erişilebil
     <string name="filter_submode_at_least_one">Kelimelerin EnAz Birisi</string>
     <string name="find_device_you_found_it">Buldunuz!</string>
     <string name="find_lost_device_you_found_it">Cihazı Bul!</string>
-    <string name="find_my_phone_notification">Telefonumu Bul!</string>
+    <string name="find_my_phone_notification">Telefonumu Bul</string>
     <string name="firmware_install_warning">"Riski size ait olan bir FIRMWARE yüklüyorsunuz.
 
 
@@ -298,13 +299,13 @@ Bu yola diğer Android uygulamaları ve bilgisayarınız tarafından erişilebil
     <string name="french">French</string>
     <string name="fw_multi_upgrade_notice">Mevcut Mi Band cihazınıza %1$s ve %2$s için Firmware yüklemek üzeresiniz.</string>
     <string name="fw_upgrade_notice">%s yüklemek üzeresiniz.</string>
-    <string name="fw_upgrade_notice_amazfitbip">"Amazfit Bip üzerine %s Firmware yüklemek üzeresiniz.
-
-Lütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak.
-
-Note: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
-
-YÜKLEME RİSKİ RİZE AİTTİR!"</string>
+    <string name="fw_upgrade_notice_amazfitbip">Amazfit Bip\'inize % S yazılımını yüklemek üzeresiniz.
+\n
+\nLütfen .fw dosyasını, ardından .res dosyasını ve son olarak .gps dosyasını yüklediğinizden emin olun. Saatiniz .fw dosyasını yükledikten sonra yeniden başlatılacak.
+\n
+\nNot: Bu dosyalar, daha önce yüklenenler ile aynıysa, .res ve .gps yüklemeniz gerekmez.
+\n
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="fw_upgrade_notice_amazfitbip_lite">"Amazfit Bip lİTE üzerine %s Firmware yüklemek üzeresiniz.
 
 Lütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak.
@@ -319,14 +320,15 @@ Lütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyas
 Note: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
 
 YÜKLEME RİSKİ RİZE AİTTİR!"</string>
-    <string name="fw_upgrade_notice_amazfitcor2">Amazfit Core 2 üzerine %s Firmware yüklemek üzeresiniz.
-\n
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak.
-\n
+    <string name="fw_upgrade_notice_amazfitcor2">Amazfit Core 2 üzerine %s Firmware yüklemek üzeresiniz. 
+\n 
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak. 
+\n 
 \nNot: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
-\n
+\n 
 \nYÜKLEME RİSKİ RİZE AİTTİR! 
-\n TAM OLARAK TEST EDİLMEMİŞTİR, CİHAZINIZIN İSMİ \"Amazfit Band 2\" İSE FLASLAMAK GEREKİR.</string>
+\n
+\n TAM OLARAK TEST EDİLMEMİŞTİR, CİHAZINIZIN İSMİ \"Amazfit Band 2\" İSE FLASLAMAK GEREKİR</string>
     <string name="fw_upgrade_notice_amazfitgtr">Amazfit GTR üzerine %s Firmware yüklemek üzeresiniz.
 \n
 \nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak.
@@ -357,7 +359,7 @@ Note: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps d
 YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="fwapp_install_device_not_ready">Dosya kurulamadı, Cihaz hazır değil.</string>
     <string name="fwappinstaller_connection_state">Bağlanacak Cihaz: %1$s</string>
-    <string name="fwinstaller_firmware_not_compatible_to_device">Bu Firmware bu cihaza uyumlu değil.</string>
+    <string name="fwinstaller_firmware_not_compatible_to_device">Bu Firmware bu cihaza uyumlu değil</string>
     <string name="gadgetbridge_running">GadgetBridge Çalışıyor</string>
     <string name="german">German</string>
     <string name="heart_rate">Kalp Hızı</string>
@@ -398,7 +400,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="kind_firmware">Firmware</string>
     <string name="kind_font">Font</string>
     <string name="kind_gps">GPS Firmware</string>
-    <string name="kind_gps_almanac">GPS Almanac</string>
+    <string name="kind_gps_almanac">GPS Almanak</string>
     <string name="kind_gps_cep">GPS Hata Düzeltme</string>
     <string name="kind_invalid">Geçersiz Veri</string>
     <string name="kind_resources">Kaynaklar</string>
@@ -472,7 +474,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="mi2_prefs_goal_notification">Hedefe Ulaşma Bildirimi</string>
     <string name="mi2_prefs_goal_notification_summary">Günlük Adım hedefine ulaşıldığında Band titreyecek</string>
     <string name="mi2_prefs_inactivity_warnings">Hareketsizlik Uyarıları</string>
-    <string name="mi2_prefs_inactivity_warnings_dnd_summary">Belirli zaman arasında Hareketsizlik Uyarısı vermesin!</string>
+    <string name="mi2_prefs_inactivity_warnings_dnd_summary">Belirli zaman arasında Hareketsizlik Uyarısı vermesin</string>
     <string name="mi2_prefs_inactivity_warnings_summary">Belirli süre Hareketsiz kaldığınızda Band titreyecek</string>
     <string name="mi2_prefs_inactivity_warnings_threshold">Hareketsizlik Sınırı Dakika</string>
     <string name="mi2_prefs_rotate_wrist_to_switch_info">Ekran bilgisini değiştirmek için Bileği döndür</string>
@@ -619,7 +621,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="path_password_strike_through">M3.27,4.27 L19.74,20.74</string>
     <string name="pbw_install_handler_hw_revision_mismatch">"Belirtilen Firmware yüklenemiyor: Pebble donanım revizyonuyla eşleşmiyor."</string>
     <string name="pbw_install_handler_unable_to_install">Dosya Yükleme Hatası: %1$s</string>
-    <string name="pbw_installhandler_pebble_firmware">Pebble Firmware %1$s</string>
+    <string name="pbw_installhandler_pebble_firmware">Pebble Sürümü %1$s</string>
     <string name="pbwinstallhandler_app_item">%1$s (%2$s)</string>
     <string name="pbwinstallhandler_correct_hw_revision">Donanım Revizyonunu Doğrula</string>
     <string name="pbwinstallhandler_incorrect_hw_revision">Donanım Revizyonu Benzemiyor!</string>
@@ -708,8 +710,8 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="pref_summary_autoremove_notifications">Android cihazdan silinen bildirimleri Pebble cihazından otomatik olarak kaldır</string>
     <string name="pref_summary_contextual_arabic">Arabça içeriği desteklemek için bunu Etkinleştirin</string>
     <string name="pref_summary_custom_deviceicon">Bağlandığında Gadgetbridge simgesi yerine cihaza özel bir Android bildirim simgesi göster</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Android cihazda Saat ve Saat Dilimi değiştiği zaman, bağlanırken GatgetBridge ile senkronize et.</string>
-    <string name="pref_summary_disable_new_ble_scanning">Tarama sırasında cihazınız bulunmak ise bu seçeneği işaretleyin</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Android cihazda Saat ve Saat Dilimi değiştiği zaman, bağlanırken GatgetBridge ile senkronize et</string>
+    <string name="pref_summary_disable_new_ble_scanning">Tarama sırasında cihazınız bulunmaz ise bu seçeneği işaretleyin</string>
     <string name="pref_summary_dont_ack_transfers">Aktivite verileri, Band bağlı olmadığında silinmez. Eğer veriler bir başka uygulamada kullanılıyorsa yararlıdır.</string>
     <string name="pref_summary_enable_calendar_sync">Takvim etkinliklerini Zaman çizelgesine gönder</string>
     <string name="pref_summary_enable_outgoing_call">Bunu devre dışı bırakırsanız, Pebble 2/LE giden aramalarda titremesini durduracaktır</string>
@@ -822,7 +824,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="pref_title_vibration_strength">Titreşim Gücü</string>
     <string name="pref_title_weather">HavaDurumu</string>
     <string name="pref_title_weather_location">HavaDurumu Konumu (CM/LOS)</string>
-    <string name="pref_title_whenscreenon">…ekran açıkken de!</string>
+    <string name="pref_title_whenscreenon">…ayrıca ekran açıkken</string>
     <string name="pref_write_logfiles">Günlük Dosyalarını Yaz</string>
     <string name="preference_copied">\"%1$s\" Panoya Kopyalandı.</string>
     <string name="preferences_category_device_specific_settings">Cihaz Özel Ayarları</string>
@@ -959,7 +961,13 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="watch9_time_minutes">Dakika:</string>
     <string name="watch9_time_seconds">Saniye:</string>
     <string name="watch_not_connected">Saat Bağlanmadı</string>
-    <string name="weather_notification_label">"Pebble üzerinde hava durumu bilgisi almak için bu dış görünümün Hava Durumu Bildirimi uygulamasında etkinleştirildiğinden emin olun.Burada herhangi bir yapılandırma gerekmez.Pebble sistem hava durumu uygulamasını uygulama yönetiminden etkinleştirebilirsiniz.Desteklenen saat yüzleri hava durumunu otomatik olarak gösterir."</string>
+    <string name="weather_notification_label">Pebble üzerinde hava durumu bilgisi almak için bu dış görünümün Hava Durumu Bildirimi uygulamasında etkinleştirildiğinden emin olun.
+\n
+\nBurada herhangi bir yapılandırma gerekmez.
+\n
+\nPebble sistem hava durumu uygulamasını uygulama yönetiminden etkinleştirebilirsiniz.
+\n
+\nDesteklenen saat yüzleri hava durumunu otomatik olarak gösterir.</string>
     <string name="weeksleepchart_sleep_a_month">Aylık Uykular</string>
     <string name="weeksleepchart_sleep_a_week">Haftalık Uykular</string>
     <string name="weeksleepchart_today_sleep_description">Bugünkü Uyku, Hedef: %1$s</string>
