@@ -179,7 +179,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
                 try {
                     this.backGroundImage = AssetImageFactory.createAssetImage(whiteBitmap, true, 0, 1, 0);
-                    queueWrite(new AssetFilePutRequest(this.backGroundImage, (byte) 0x00, this));
                 } catch (IOException e2) {
                     logger.error("Backgroundimage error", e2);
                 }
@@ -194,7 +193,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     public void setBackgroundImage(byte[] pixels) {
         if (pixels == null) {
             getBackgroundFile().delete();
-            this.backGroundImage = null;
+            loadBackground(); // recreates the white background in force-white mode, else backgroundImage=null
         } else {
             this.backGroundImage = AssetImageFactory.createAssetImage(pixels, 0, 0, 0);
             try {
