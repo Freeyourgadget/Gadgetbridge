@@ -315,6 +315,10 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         try {
             ArrayList<AssetImage> widgetImages = new ArrayList<>();
 
+            if(this.backGroundImage != null){
+                widgetImages.add(this.backGroundImage);
+            }
+
 
             for (int i = 0; i < this.widgets.size(); i++) {
                 Widget w = widgets.get(i);
@@ -389,10 +393,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 ));
             }
 
-
-            if(this.backGroundImage != null){
-                widgetImages.add(this.backGroundImage);
-            }
 
             AssetImage[] images = widgetImages.toArray(new AssetImage[0]);
 
