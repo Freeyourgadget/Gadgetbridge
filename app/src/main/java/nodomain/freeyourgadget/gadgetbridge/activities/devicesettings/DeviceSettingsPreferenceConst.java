@@ -30,4 +30,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_BUTTON_3_FUNCTION = "button_3_function";
     public static final String PREF_VIBRATION_STRENGH_PERCENTAGE = "vibration_strength";
     public static final String PREF_RELAX_FIRMWARE_CHECKS = "relax_firmware_checks";
+
+    public static final String PREF_HYBRID_HR_FORCE_WHITE_COLOR = "force_white_color_scheme";
+    public static final String PREF_HYBRID_HR_DRAW_WIDGET_CIRCLES = "widget_draw_circles";
 }
