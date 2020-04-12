@@ -34,7 +34,7 @@
 
     <SeekBarPreference
         android:defaultValue="2"
-        android:key="@string/pref_title_vibration_strength"
+        android:key="vibration_strength"
         android:max="3"
         android:title="@string/pref_title_vibration_strength"
         app:showSeekBarValue="true" />
