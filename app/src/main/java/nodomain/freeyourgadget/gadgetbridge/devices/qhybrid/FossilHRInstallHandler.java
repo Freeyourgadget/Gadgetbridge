@@ -36,10 +36,11 @@ import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 public class FossilHRInstallHandler implements InstallHandler {
     private final Context mContext;
     private boolean mIsValid;
+    private String mVersion = "(Unknown version)";
 
     FossilHRInstallHandler(Uri uri, Context context) {
         mContext = context;
-        UriHelper uriHelper = null;
+        UriHelper uriHelper;
         try {
             uriHelper = UriHelper.get(uri, mContext);
         } catch (IOException e) {
@@ -47,18 +48,28 @@ public class FossilHRInstallHandler implements InstallHandler {
             return;
         }
         try (InputStream in = new BufferedInputStream(uriHelper.openInputStream())) {
-            byte[] bytes = new byte[16];
-            in.read(bytes);
+            byte[] bytes = new byte[32];
+            int read = in.read(bytes);
+            if (read < 32) {
+                mIsValid = false;
+                return;
+            }
+
             ByteBuffer buf = ByteBuffer.wrap(bytes);
             buf.order(ByteOrder.LITTLE_ENDIAN);
             int header0 = buf.getInt();
-            int size = buf.getInt();
+            buf.getInt(); // size
             int header2 = buf.getInt();
             int header3 = buf.getInt();
             if (header0 != 1 || header2 != 0x00012000 || header3 != 0x00012000) {
                 mIsValid = false;
                 return;
             }
+
+            buf.getInt(); // unknown
+            int version1 = buf.get() % 0xff;
+            int version2 = buf.get() & 0xff;
+            mVersion = "DN1.0." + version1 + "." + version2;
         } catch (Exception e) {
             mIsValid = false;
             return;
@@ -81,7 +92,7 @@ public class FossilHRInstallHandler implements InstallHandler {
         GenericItem installItem = new GenericItem();
         installItem.setIcon(R.drawable.ic_firmware);
         installItem.setName("Fossil Hybrid HR Firmware");
-        installItem.setDetails("Unknown version");
+        installItem.setDetails(mVersion);
 
         installActivity.setInfoText(mContext.getString(R.string.firmware_install_warning, "(unknown)"));
         installActivity.setInstallEnabled(true);
