@@ -88,6 +88,7 @@
     <string name="pref_title_theme">Theme</string>
     <string name="pref_theme_light">Light</string>
     <string name="pref_theme_dark">Dark</string>
+    <string name="pref_theme_system">System</string>
     <string name="pref_title_language">Language</string>
     <string name="pref_title_minimize_priority">Hide the Gadgetbridge notification</string>
     <string name="pref_summary_minimize_priority_off">The icon in the status bar and the notification in the lockscreen are shown</string>

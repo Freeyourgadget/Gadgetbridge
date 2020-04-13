@@ -22,6 +22,7 @@ import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.NotificationManager.Policy;
+import android.app.UiModeManager;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
@@ -81,13 +82,9 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITBIP;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITCOR;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITCOR2;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.HPLUS;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.ID115;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND2;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND3;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND4;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.ZETIME;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.fromKey;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID;
@@ -937,7 +934,13 @@ public class GBApplication extends Application {
     }
 
     public static boolean isDarkThemeEnabled() {
-        return prefs.getString("pref_key_theme", context.getString(R.string.pref_theme_value_light)).equals(context.getString(R.string.pref_theme_value_dark));
+        String selectedTheme = prefs.getString("pref_key_theme", context.getString(R.string.pref_theme_value_light));
+
+        UiModeManager umm = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
+
+        return selectedTheme.equals(context.getString(R.string.pref_theme_value_dark)) ||
+                (selectedTheme.equals(context.getString(R.string.pref_theme_value_system))
+                        && (umm.getNightMode() == UiModeManager.MODE_NIGHT_YES));
     }
 
     public static int getTextColor(Context context) {
