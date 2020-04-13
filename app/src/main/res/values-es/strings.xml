@@ -844,4 +844,5 @@
     <string name="pref_title_allow_high_mtu">Permitir MTU alta</string>
     <string name="pref_summary_custom_deviceicon">Mostrar un icono de notificación de Android específico del dispositivo en lugar del icono de Gadgetbridge cuando esté conectado</string>
     <string name="pref_title_custom_deviceicon">Mostrar icono de notificación específica del dispositivo</string>
+    <string name="pref_theme_system">Sistema</string>
 </resources>
