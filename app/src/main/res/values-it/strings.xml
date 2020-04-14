@@ -383,7 +383,7 @@
     <string name="find_device_you_found_it">Trovato!</string>
     <string name="find_lost_device_you_found_it">Trovato!</string>
     <string name="miband2_prefs_timeformat">Mi2: Formato dell\'orario</string>
-    <string name="mi2_fw_installhandler_fw53_hint">E\' necessario installare la verione %1$s prima di installare questo firmware!</string>
+    <string name="mi2_fw_installhandler_fw53_hint">È necessario installare la verione %1$s prima di installare questo firmware!</string>
     <string name="mi2_enable_text_notifications">Notifiche</string>
     <string name="mi2_enable_text_notifications_summary">Richiede firmware versione minima 1.9.1.28 e Mili_pro.ft* installati.</string>
     <string name="off">spento</string>
