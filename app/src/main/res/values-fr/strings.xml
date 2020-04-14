@@ -218,7 +218,7 @@
     <string name="pref_screen_notification_profile_sms">Notification Texto</string>
     <string name="pref_header_vibration_settings">Paramètres des vibrations</string>
     <string name="pref_screen_notification_profile_generic">Notification générique</string>
-    <string name="pref_screen_notification_profile_email">Notification des mails</string>
+    <string name="pref_screen_notification_profile_email">Notification des emails</string>
     <string name="pref_screen_notification_profile_incoming_call">Notification d\'appels entrants</string>
     <string name="pref_screen_notification_profile_generic_chat">Tchat</string>
     <string name="pref_screen_notification_profile_generic_navigation">Navigation</string>
