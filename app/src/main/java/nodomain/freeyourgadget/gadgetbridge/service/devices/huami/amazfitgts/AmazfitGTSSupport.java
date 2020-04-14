@@ -22,11 +22,11 @@ import android.net.Uri;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr.AmazfitGTRFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts.AmazfitGTSFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperationNew;
 
 public class AmazfitGTSSupport extends AmazfitBipSupport {
 
@@ -49,6 +49,11 @@ public class AmazfitGTSSupport extends AmazfitBipSupport {
     @Override
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
         return new AmazfitGTSFWHelper(uri, context);
+    }
+
+    @Override
+    public UpdateFirmwareOperationNew createUpdateFirmwareOperation(Uri uri) {
+        return new UpdateFirmwareOperationNew(uri, this);
     }
 
     @Override
