@@ -405,13 +405,13 @@ Temps de sommeil préféré en heures</string>
     <string name="discovery_pair_question">Sélectionnez Jumeler pour associer vos dispositifs. Si cela échoue, essayez à nouveau sans jumelage.</string>
     <string name="discovery_yes_pair">Appairer</string>
     <string name="discovery_dont_pair">Ne pas appairer</string>
-    <string name="fw_upgrade_notice_amazfitbip">Vous êtes sur le point d\'installer le firmware %s sur votre Amazfit Bip. 
+    <string name="fw_upgrade_notice_amazfitbip">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Bip. 
 \n 
 \nVeuillez installer le fichier .fw, puis le fichier .res, puis le fichier.gps.. Votre montre redémarrera après installation du .fw. 
 \n 
 \nNote : vous ne devez pas installer les fichiers .res et .gps si ceux-ci sont identiques à ceux installés précédemment. 
 \n 
-\nCONTINUEZ À VOS RISQUES ET PÉRILS !</string>
+\nCONTINUEZ À VOS RISQUES ET PÉRILS !</string>
     <string name="mi2_prefs_button_actions">Actions du bouton</string>
     <string name="mi2_prefs_button_actions_summary">Spécifier les actions par pression du bouton</string>
     <string name="mi2_prefs_button_press_count">Nombre de pressions du bouton</string>
