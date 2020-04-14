@@ -715,7 +715,7 @@ Temps de sommeil préféré en heures</string>
     <string name="weeksleepchart_sleep_a_month">Sommeil par mois</string>
     <string name="menuitem_nfc">NFC</string>
     <string name="pref_title_use_custom_font">Utiliser une police personnalisée</string>
-    <string name="activity_DB_test_export_message">Exportation de la base de données …</string>
+    <string name="activity_DB_test_export_message">Exportation de la base de données en cours...</string>
     <string name="activity_db_management_exportimport_label">Exporter et Importer</string>
     <string name="widget_steps_label">Pas : %1$02d</string>
     <string name="widget_listing_label">État et alarmes</string>
@@ -738,7 +738,7 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_db_management_autoexport_label">Exportation automatique</string>
     <string name="activity_DB_ExportButton">Exporter la base de données</string>
     <string name="activity_DB_import_button">Importer la base de données</string>
-    <string name="activity_DB_test_export_button">Lancer l\'export maintenant</string>
+    <string name="activity_DB_test_export_button">Lancer immédiatement l\'exportation automatique</string>
     <string name="activity_DB_delete_legacy_button">Supprimer les anciennes données</string>
     <string name="activity_DB_empty_button">Vider la base de données</string>
     <string name="activity_db_management_empty_DB">Vider la base de données</string>
