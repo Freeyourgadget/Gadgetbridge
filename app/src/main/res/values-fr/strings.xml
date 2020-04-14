@@ -520,7 +520,7 @@ Temps de sommeil préféré en heures</string>
 \n 
 \nÀ VOS RISQUES ET PÉRILS ET PÉRILS !</string>
     <string name="pref_title_pebble_gatt_clientonly">client GATT uniquement</string>
-    <string name="pref_summary_pebble_gatt_clientonly">C\'est uniquement pour les Pebble 2 et expérimental, à essayer si vous avez des problèmes de connectivité</string>
+    <string name="pref_summary_pebble_gatt_clientonly">Pour Pebble 2 seulement et expérimental, essayez seulement si vous avez des problèmes de connexion.</string>
     <string name="prefs_screen_orientation">Orientation de l\'écran</string>
     <string name="pref_auto_fetch">Récupérer automatiquement les données d\'activité</string>
     <string name="pref_auto_fetch_summary">Récupération au déverrouillage de l\'écran. Fonctionne uniquement si un mécanisme de verrouillage est configuré !</string>
