@@ -50,7 +50,7 @@
     <string name="miband_firmware_unknown_warning">Ce micrologiciel n\'a pas été testé et peut ne pas être compatible avec Gadgetbridge. 
 \n 
 \nIl n\'est PAS conseillé de le flasher !</string>
-    <string name="miband_firmware_suggest_whitelist">Si vous désirez continuer malgré-tout, et que tout fonctionne correctement par la suite, veuillez en informer les développeurs de Gadgetbridge pour demander l\'ajout du micrologiciel %s à leur liste blanche</string>
+    <string name="miband_firmware_suggest_whitelist">Si vous désirez continuer malgré tout, et que tout fonctionne correctement par la suite, veuillez en informer les développeurs de Gadgetbridge pour demander l\'ajout du micrologiciel %s à leur liste blanche.</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Paramètres</string>
     <string name="pref_header_general">Paramètres généraux</string>
