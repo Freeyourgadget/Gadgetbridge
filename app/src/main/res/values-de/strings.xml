@@ -352,7 +352,7 @@
     <string name="charts_legend_heartrate">Herzfrequenz</string>
     <string name="live_activity_heart_rate">Herzfrequenz</string>
     <string name="pref_title_pebble_health_store_raw">Rohdaten in der Datenbank speichern</string>
-    <string name="pref_summary_pebble_health_store_raw">Speichert Daten \"wie sie sind\" und erhöht die Datenbanknutzung, um eine spätere Auswertung zu ermöglichen.</string>
+    <string name="pref_summary_pebble_health_store_raw">Speichert Daten „wie sie sind“ und erhöht die Datenbanknutzung, um eine spätere Auswertung zu ermöglichen.</string>
     <string name="action_db_management">Datenbankverwaltung</string>
     <string name="title_activity_db_management">Datenbankverwaltung</string>
     <string name="activity_db_management_import_export_explanation">Die Datenbankoperationen verwenden den folgenden Pfad auf deinem Gerät. 
@@ -487,7 +487,7 @@
     <string name="pref_title_auto_export_interval">Exportintervall</string>
     <string name="pref_summary_auto_export_interval">Alle %d Stunden exportieren</string>
     <string name="notif_export_failed_title">Datenbankexport fehlgeschlagen! Bitte überprüfe deine Einstellungen.</string>
-    <string name="mi2_prefs_button_press_broadcast_summary">Broadcast-Nachricht, die mit dem Ereignis gesendet wurde. Der Parameter \"button_id\" wird automatisch zu jeder Nachricht hinzugefügt.</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Broadcast-Nachricht, die mit dem Ereignis gesendet wurde. Der Parameter „button_id“ wird automatisch zu jeder Nachricht hinzugefügt.</string>
     <string name="mi2_prefs_button_press_count_match_delay_summary">Verzögerung nach einer Tastenaktion (Zahl in button_id) oder 0 für sofort</string>
     <string name="spanish">Spanisch</string>
     <string name="on">Ein</string>
