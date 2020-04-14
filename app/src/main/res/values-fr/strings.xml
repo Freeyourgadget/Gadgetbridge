@@ -218,7 +218,7 @@
     <string name="pref_screen_notification_profile_sms">Notification Texto</string>
     <string name="pref_header_vibration_settings">Paramètres des vibrations</string>
     <string name="pref_screen_notification_profile_generic">Notification générique</string>
-    <string name="pref_screen_notification_profile_email">Notification des emails</string>
+    <string name="pref_screen_notification_profile_email">Notification par courriel</string>
     <string name="pref_screen_notification_profile_incoming_call">Notification d\'appels entrants</string>
     <string name="pref_screen_notification_profile_generic_chat">Tchat</string>
     <string name="pref_screen_notification_profile_generic_navigation">Navigation</string>
@@ -327,7 +327,7 @@
     <string name="waiting_for_reconnect">En attente de reconnexion</string>
     <string name="activity_prefs_about_you">À propos de vous</string>
     <string name="activity_prefs_year_birth">Année de naissance</string>
-    <string name="activity_prefs_gender">Genre</string>
+    <string name="activity_prefs_gender">Sexe</string>
     <string name="activity_prefs_height_cm">Taille en cm</string>
     <string name="activity_prefs_weight_kg">Poids en kg</string>
     <string name="authenticating">Authentification</string>
@@ -346,7 +346,7 @@ Temps de sommeil préféré en heures</string>
     <string name="charts_legend_heartrate">Fréquence cardiaque</string>
     <string name="live_activity_heart_rate">Fréquence cardiaque</string>
     <string name="pref_title_pebble_health_store_raw">Stockez les enregistrements brut dans la base de données</string>
-    <string name="pref_summary_pebble_health_store_raw">Si coché, les données \"brutes\" sont stockées pour une interprétation ultérieure, augmentant la taille de la base de données.</string>
+    <string name="pref_summary_pebble_health_store_raw">Si coché, les données « brutes » sont stockées pour une interprétation ultérieure, augmentant la taille de la base de données.</string>
     <string name="action_db_management">Gestion de base de données</string>
     <string name="title_activity_db_management">Gestion de base de données</string>
     <string name="activity_db_management_import_export_explanation">Les opérations sur la base de données ont utilisé le chemin suivant sur votre appareil. 
@@ -667,9 +667,9 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_screen_notification_profile_anti_loss">Alerte Anti-Perte</string>
     <string name="interval_fifteen_minutes">Toutes les 15 min</string>
     <string name="interval_forty_five_minutes">Toutes les 45 min</string>
-    <string name="activity_prefs_calories_burnt">Objectif Quotidien : Calories Brulées</string>
-    <string name="activity_prefs_distance_meters">Objectif Quotidien : Distance en mètres</string>
-    <string name="activity_prefs_activetime_minutes">Objectif Quotidien : Temps d\'activité en minutes</string>
+    <string name="activity_prefs_calories_burnt">Objectif quotidien : calories brulées</string>
+    <string name="activity_prefs_distance_meters">Objectif quotidien : distance en mètres</string>
+    <string name="activity_prefs_activetime_minutes">Objectif quotidien : temps d\'activité en minutes</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
     <string name="pref_title_support_voip_calls">Activer les applications d\'appel VoIP</string>
     <string name="title_activity_device_specific_settings">Paramètres spécifiques de l\'appareil</string>
