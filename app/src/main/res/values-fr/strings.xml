@@ -439,7 +439,7 @@ Temps de sommeil préféré en heures</string>
 \n 
 \nNote : vous ne devez pas installer .res si celui-ci est identique à celui installé précédemment. 
 \n 
-\nNON TESTÉ, PEUT BRIQUER L\'APPAREIL. CONTINUEZ À VOS RISQUES !</string>
+\nCONTINUEZ À VOS RISQUES ET PÉRILS !</string>
     <string name="pref_title_charts_swipe">Permettre le balayage gauche/droite dans les graphiques d\'activité</string>
     <string name="automatic">Automatique</string>
     <string name="simplified_chinese">Chinois simplifié</string>
