@@ -718,7 +718,7 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_DB_test_export_message">Exportation de la base de données…</string>
     <string name="activity_db_management_exportimport_label">Exporter et Importer</string>
     <string name="widget_steps_label">Pas : %1$02d</string>
-    <string name="widget_listing_label">État et alarmes</string>
+    <string name="widget_listing_label">Statuts et Alarmes</string>
     <string name="widget_set_alarm_after">Définir l\'alarme après :</string>
     <string name="widget_5_minutes">5 minutes</string>
     <string name="widget_10_minutes">10 minutes</string>
