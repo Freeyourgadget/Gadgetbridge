@@ -433,13 +433,13 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_summary_pebble_enable_bgjs">Si activé, autorise l\'affichage de la météo, niveau de batterie, etc.</string>
     <string name="activity_web_view">Activité Web View</string>
     <string name="controlcenter_connect">Connexion…</string>
-    <string name="fw_upgrade_notice_amazfitcor">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Cor.
-\n
-\nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après installation du fichier .fw.
-\n
-\nNote : Il n\'est pas nécessaire d\'installer le fichier .res si celui-ci est identique à celui installé précédemment.
-\n
-\nCONTINUEZ À VOS RISQUES !</string>
+    <string name="fw_upgrade_notice_amazfitcor">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Cor. 
+\n 
+\nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après installation du .fw. 
+\n 
+\nNote : vous ne devez pas installer .res si celui-ci est identique à celui installé précédemment. 
+\n 
+\nNON TESTÉ, PEUT BRIQUER L\'APPAREIL. CONTINUEZ À VOS RISQUES !</string>
     <string name="pref_title_charts_swipe">Permettre le balayage gauche/droite dans les graphiques d\'activité</string>
     <string name="automatic">Automatique</string>
     <string name="simplified_chinese">Chinois simplifié</string>
