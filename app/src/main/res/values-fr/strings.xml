@@ -619,7 +619,7 @@ Temps de sommeil préféré en heures</string>
     <string name="filter_mode">Mode Filtre</string>
     <string name="mode_configuration">Mode Configuration</string>
     <string name="save_configuration">Sauvegarder la configuration</string>
-    <string name="appwidget_not_connected">Non connecté, l’alarme n’est pas définie.</string>
+    <string name="appwidget_not_connected">Non connecté, l\'alarme n\'est pas définie.</string>
     <string name="prefs_disconnect_notification">Notification de déconnexion</string>
     <string name="zetime_title_settings">Paramètres ZeTime</string>
     <string name="zetime_title_heartrate">Paramètres Fréquence Cardiaque</string>
@@ -719,7 +719,7 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_db_management_exportimport_label">Exporter et Importer</string>
     <string name="widget_steps_label">Pas : %1$02d</string>
     <string name="widget_listing_label">État et alarmes</string>
-    <string name="widget_set_alarm_after">Régler l’alarme après :</string>
+    <string name="widget_set_alarm_after">Mettre l\'alarme après:</string>
     <string name="widget_5_minutes">5 minutes</string>
     <string name="widget_10_minutes">10 minutes</string>
     <string name="widget_20_minutes">20 minutes</string>
@@ -739,10 +739,10 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_DB_ExportButton">Exporter la base de données</string>
     <string name="activity_DB_import_button">Importer la base de données</string>
     <string name="activity_DB_test_export_button">Lancer immédiatement l\'exportation automatique</string>
-    <string name="activity_DB_delete_legacy_button">Supprimer les anciennes données</string>
+    <string name="activity_DB_delete_legacy_button">Supprimer l\'ancienne base de données</string>
     <string name="activity_DB_empty_button">Vider la base de données</string>
     <string name="activity_db_management_empty_DB">Vider la base de données</string>
-    <string name="activity_db_management_empty_db_warning">Attention ! Ce bouton détruit votre base de données et réinitialise.</string>
+    <string name="activity_db_management_empty_db_warning">Attention! En cliquant sur ce bouton, vous supprimerez toutes vos données et recommencerez à zéro.</string>
     <string name="appwidget_sleep_alarm_widget_label">Réveil</string>
     <string name="widget_sleep_label">Sommeil : %1$s</string>
     <plurals name="widget_alarm_target_hours">
