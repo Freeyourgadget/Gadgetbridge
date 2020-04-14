@@ -733,7 +733,7 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
     <string name="pref_summary_expose_hr">Permettre aux autres applis d\'accéder aux données de fréquence cardiaque en temps réel lorsque Gadgetbridge est connecté</string>
     <string name="pref_title_expose_hr">Accès tiers fréq. cardiaque</string>
-    <string name="pref_summary_use_custom_font">À activer si votre appareil a une police spéciale embarquée pour prendre en charge les émoticônes</string>
+    <string name="pref_summary_use_custom_font">Activer ceci afin d’afficher les émojis si votre appareil utilise un firmware de police personnalisée</string>
     <string name="activity_db_management_autoexport_explanation">L\'export automatique des données est réglé vers :</string>
     <string name="activity_db_management_autoexport_label">Export auto</string>
     <string name="activity_DB_ExportButton">Export de données</string>
