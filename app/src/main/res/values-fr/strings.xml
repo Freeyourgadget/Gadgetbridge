@@ -737,7 +737,7 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_db_management_autoexport_explanation">L\'export automatique des données est réglé vers :</string>
     <string name="activity_db_management_autoexport_label">Exportation automatique</string>
     <string name="activity_DB_ExportButton">Exporter la base de données</string>
-    <string name="activity_DB_import_button">Importer une base de données</string>
+    <string name="activity_DB_import_button">Importer la base de données</string>
     <string name="activity_DB_test_export_button">Lancer l\'export maintenant</string>
     <string name="activity_DB_delete_legacy_button">Supprimer les anciennes données</string>
     <string name="activity_DB_empty_button">Vider la base de données</string>
