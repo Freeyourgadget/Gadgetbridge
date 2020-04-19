@@ -43,7 +43,7 @@
     <string name="activity_prefs_chart_max_heart_rate">EnYüksek Kalp Atış Hızı</string>
     <string name="activity_prefs_chart_min_heart_rate">EnDüşük Kalp Atış Hızı</string>
     <string name="activity_prefs_charts">Gösterge Ayarları</string>
-    <string name="activity_prefs_distance_meters">Günlük Hedefiniz: Metre Mesafe</string>
+    <string name="activity_prefs_distance_meters">Günlük Hedef: Metre Mesafe</string>
     <string name="activity_prefs_gender">Cinsiyet</string>
     <string name="activity_prefs_height_cm">Boy Santim</string>
     <string name="activity_prefs_sleep_duration">Hedeflenen Uyku Saati Süresi</string>
@@ -64,7 +64,7 @@
     <string name="activity_type_unknown">Bilinmeyen Aktivite</string>
     <string name="activity_type_walking">Yürüme</string>
     <string name="activity_web_view">Aktivite Web Görünümü</string>
-    <string name="add_widget">AnaSayfa Göstergesi Ekle</string>
+    <string name="add_widget">AnaSayfa Göstergesi (Widget) Ekle</string>
     <string name="alarm_fri_short">Cum</string>
     <string name="alarm_mon_short">Pzt</string>
     <string name="alarm_sat_short">Cts</string>
@@ -86,13 +86,13 @@
     <string name="app_name">GadgetBridge</string>
     <string name="appinstaller_install">Kur</string>
     <string name="appmanager_app_openinstore">Pebble Mağazasında Ara</string>
-    <string name="appmanager_cached_watchapps_watchfaces">Önbellekteki Uygulamalar</string>
+    <string name="appmanager_cached_watchapps_watchfaces">ÖnBellekteki Uygulamalar</string>
     <string name="appmanager_health_activate">Aktifleştir</string>
     <string name="appmanager_health_deactivate">Pasifleştir</string>
     <string name="appmanager_hrm_activate">KalpHızı Kontrolünü Aktifleştir</string>
     <string name="appmanager_hrm_deactivate">KalpHızı Kontrolünü Pasifleştir</string>
     <string name="appmanager_installed_watchapps">Yüklenmiş Uygulamalar</string>
-    <string name="appmanager_installed_watchfaces">Yüklenmiş SaatAraYüzleri</string>
+    <string name="appmanager_installed_watchfaces">Yüklenmiş Saat AraYüzleri</string>
     <string name="appmanager_weather_activate">Sistem Hava Durumu uygulamasını Aktifleştir</string>
     <string name="appmanager_weather_deactivate">Sistem Hava Durumu uygulamasını Pasifleştir</string>
     <string name="appmanager_weather_install_provider">Weather Notification Uygulamasını Yükle</string>
@@ -137,8 +137,8 @@
     <string name="controlcenter_disconnect">Bağlantıyı Kes</string>
     <string name="controlcenter_fetch_activity_data">Senkronize Et</string>
     <string name="controlcenter_find_device">Kayıp Cihazı Bul</string>
-    <string name="controlcenter_navigation_drawer_close">Gezinme Kontrolünü Kapat</string>
-    <string name="controlcenter_navigation_drawer_open">Gezinme Kontrolünü Aç</string>
+    <string name="controlcenter_navigation_drawer_close">Navigasyon Kontrolünü Kapat</string>
+    <string name="controlcenter_navigation_drawer_open">Navigasyon Kontrolünü Aç</string>
     <string name="controlcenter_snackbar_connecting">Bağlanıyor…</string>
     <string name="controlcenter_snackbar_disconnecting">Bağlantı Kesiliyor</string>
     <string name="controlcenter_snackbar_need_longpress">Bağlantıyı kesmek için satıra uzunca basın</string>
@@ -423,7 +423,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="miband2_prefs_dateformat">Tarih Formatı</string>
     <string name="miband2_prefs_timeformat">Mi2: Zaman Formatı</string>
     <string name="miband_firmware_known">Bu ürün yazılımı test edilmiştir ve Gadgetbridge ile uyumlu olduğu bilinmektedir.</string>
-    <string name="miband_firmware_suggest_whitelist">Herşey düzgün çalışıyorsa, lütfen GadgetBridge geliştiricilerine %s ürün yazılımı sürümünü beyaz listeye eklemelerini söyleyin.</string>
+    <string name="miband_firmware_suggest_whitelist">Her şey düzgün çalışıyorsa, lütfen GadgetBridge geliştiricilerine %s ürün yazılımı sürümünü beyaz listeye eklemelerini söyleyin.</string>
     <string name="miband_firmware_unknown_warning">Bu Firmware test edilmemiştir ve Gadgetbridge ile uyumlu olmayabilir. 
 \n
 \nFormat atmanız gerekebilir!</string>
@@ -455,7 +455,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Sarj Sayısı: %s</string>
     <string name="notif_battery_low_extended">%1$s Batarya Az: %2$s</string>
     <string name="notif_battery_low_percent">%1$s Batarya kaldı: %2$s%%</string>
-    <string name="notif_battery_low_title">Gadget Batarya Az!</string>
+    <string name="notif_battery_low_title">Cihaz Bataryası Az!</string>
     <string name="notif_export_failed_title">VeriTabanı DışaAktarma Hata verdi. Ayarları kontrol edin.</string>
     <string name="notification_channel_high_priority_name">GadgetBridge Bildirimlerine Yüksek Öncelik</string>
     <string name="notification_channel_name">GadgetBridge Bildirimleri</string>
@@ -547,7 +547,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="pref_screen_notification_profile_email">E-Posta Bildirimi</string>
     <string name="pref_screen_notification_profile_generic">Genel Bildirim</string>
     <string name="pref_screen_notification_profile_generic_chat">Sohbet</string>
-    <string name="pref_screen_notification_profile_generic_navigation">Gezinti</string>
+    <string name="pref_screen_notification_profile_generic_navigation">Navigasyon</string>
     <string name="pref_screen_notification_profile_generic_social">Sosyal Medya</string>
     <string name="pref_screen_notification_profile_inactivity">Hareketsizlik Bildirimi</string>
     <string name="pref_screen_notification_profile_incoming_call">GelenÇağrı Bildirimi</string>
@@ -561,7 +561,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="pref_summary_autoremove_notifications">Android cihazdan silinen bildirimleri Pebble cihazından otomatik olarak kaldır</string>
     <string name="pref_summary_contextual_arabic">Arabça içeriği desteklemek için bunu Etkinleştirin</string>
     <string name="pref_summary_custom_deviceicon">Bağlandığında GadgetBridge simgesi yerine cihaza özel bir Android bildirim simgesi göster</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Android cihazda Saat ve Saat Dilimi değiştiği zaman, bağlanırken Zamanı GadgetBridge ile senkronize et</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Android cihazda Saat ve Saat Dilimi değiştiği zaman bağlanırken, Zamanı GadgetBridge ile senkronize et</string>
     <string name="pref_summary_disable_new_ble_scanning">Tarama sırasında cihazınız bulunmaz ise bu seçeneği işaretleyin</string>
     <string name="pref_summary_dont_ack_transfers">Aktivite verileri, Band bağlı olmadığında silinmez. Eğer veriler bir başka uygulamada kullanılıyorsa yararlıdır.</string>
     <string name="pref_summary_enable_calendar_sync">Takvim etkinliklerini Zaman Çizgisine gönder</string>
@@ -620,7 +620,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="pref_title_dont_ack_transfer">ACK Aktivite veri aktarımı yapma</string>
     <string name="pref_title_enable_calendar_sync">Takvimi Senkronize Et</string>
     <string name="pref_title_enable_outgoing_call">Giden Çağrıları Destekle</string>
-    <string name="pref_title_enable_pebblekit">3.Taraf Android Uygulaması erişimine izin ver</string>
+    <string name="pref_title_enable_pebblekit">3.Taraf Android Uygulama erişimine izin ver</string>
     <string name="pref_title_expose_hr">3.Taraf gerçek zamanlı Kalp Hızı erişimi</string>
     <string name="pref_title_force_white_color_scheme">Beyaz renk şemasında siyahı zorla</string>
     <string name="pref_title_general_autoconnectonbluetooth">Bluetooth açıkken GadgetBridge cihazına Bağlan</string>
@@ -772,7 +772,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="traditional_chinese">Traditional Chinese</string>
     <string name="turkish">Turkish</string>
     <string name="ukrainian">Ukrainian</string>
-    <string name="unit_imperial">Emperyal</string>
+    <string name="unit_imperial">Imperyal</string>
     <string name="unit_metric">Metrik</string>
     <string name="unknown_state">Bilinmeyen Durum</string>
     <string name="updatefirmwareoperation_firmware_not_sent">Firmware Gönderilmedi</string>
@@ -781,7 +781,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="updatefirmwareoperation_update_complete_rebooting">Firmware Yükleme Tamamlandı, Cihaz Yeniden Başlatılıyor…</string>
     <string name="updatefirmwareoperation_update_in_progress">Firmware Yazılıyor</string>
     <string name="updatefirmwareoperation_updateproblem_do_not_reboot">Firmware Aktarımı Sorunu. Mi Bandınızı YENİDEN BAŞLATMAYIN!</string>
-    <string name="updatefirmwareoperation_write_failed">Firmware Yazma Başarısız</string>
+    <string name="updatefirmwareoperation_write_failed">Firmware Yazımı Başarısız</string>
     <string name="updating_firmware">Firmware Yazılıyor…</string>
     <string name="user_feedback_all_alarms_disabled">Bütün Alarmlar Etkisizleştirildi</string>
     <string name="user_feedback_miband_activity_data_transfer">Veri Aktarımı Durumu: %1$s / %2$s</string>
