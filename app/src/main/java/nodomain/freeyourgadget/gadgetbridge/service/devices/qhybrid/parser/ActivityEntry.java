@@ -18,11 +18,11 @@ public class ActivityEntry {
 
     public WEARING_STATE wearingState;
 
-    public HybridHRActivitySample toDAOActivitySample(long deviceId){
+    public HybridHRActivitySample toDAOActivitySample(long userId, long deviceId) {
         HybridHRActivitySample sample = new HybridHRActivitySample(
                 timestamp,
                 deviceId,
-                -1,
+                userId,
                 stepCount,
                 calories,
                 variability,
