@@ -43,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(24, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(25, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -71,6 +71,7 @@ public class GBDaoGenerator {
         addZeTimeActivitySample(schema, user, device);
         addID115ActivitySample(schema, user, device);
         addJYouActivitySample(schema, user, device);
+        addHybridHRActivitySample(schema, user, device);
         addCalendarSyncState(schema, device);
         addAlarms(schema, user, device);
 
@@ -337,6 +338,23 @@ public class GBDaoGenerator {
         activitySample.addIntProperty("caloriesBurnt");
         activitySample.addIntProperty("distanceMeters");
         activitySample.addIntProperty("activeTimeMinutes");
+        addHeartRateProperties(activitySample);
+        return activitySample;
+    }
+
+    private static Entity addHybridHRActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "HybridHRActivitySample");
+        activitySample.implementsSerializable();
+
+        addCommonActivitySampleProperties("AbstractHybridHRActivitySample", activitySample, user, device);
+
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty("calories").notNull();
+        activitySample.addIntProperty("variability").notNull();
+        activitySample.addIntProperty("max_variability").notNull();
+        activitySample.addIntProperty("heartrate_quality").notNull();
+        activitySample.addBooleanProperty("active").notNull();
+        activitySample.addByteProperty("wear_type").notNull();
         addHeartRateProperties(activitySample);
         return activitySample;
     }

@@ -23,7 +23,6 @@ import java.nio.ByteOrder;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.UUID;
 import java.util.zip.CRC32;
 
@@ -34,11 +33,10 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr.FossilHRWatchAdapter;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
+import nodomain.freeyourgadget.gadgetbridge.util.CRC32C;
 
 public abstract class FileEncryptedGetRequest extends FossilRequest {
     private short handle;
@@ -49,6 +47,10 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
     private byte[] fileData;
 
     private boolean finished = false;
+
+    private Cipher cipher;
+    private SecretKeySpec keySpec;
+    private byte[] iv;
 
     public FileEncryptedGetRequest(short handle, FossilHRWatchAdapter adapter) {
         this.handle = handle;
@@ -62,12 +64,42 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
                         .array();
     }
 
+    private void initDecryption() {
+        try {
+            cipher = Cipher.getInstance("AES/CTR/NoPadding");
+            keySpec = new SecretKeySpec(this.adapter.getSecretKey(), "AES");
+
+
+            iv = new byte[16];
+
+
+            byte[] phoneRandomNumber = adapter.getPhoneRandomNumber();
+            byte[] watchRandomNumber = adapter.getWatchRandomNumber();
+
+            System.arraycopy(phoneRandomNumber, 0, iv, 2, 6);
+            System.arraycopy(watchRandomNumber, 0, iv, 9, 7);
+
+            iv[7]++;
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+            e.printStackTrace();
+        }
+    }
+
     public FossilWatchAdapter getAdapter() {
         return adapter;
     }
 
+    private void incrementIV(){
+        ByteBuffer buffer = ByteBuffer.wrap(this.iv);
+        int number = buffer.getInt(12);
+        number += 0x1F;
+        buffer.position(12);
+        buffer.putInt(number);
+        this.iv = buffer.array();
+    }
+
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return finished;
     }
 
@@ -75,10 +107,12 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
     public void handleResponse(BluetoothGattCharacteristic characteristic) {
         byte[] value = characteristic.getValue();
         byte first = value[0];
-        if(characteristic.getUuid().toString().equals("3dda0003-957f-7d4a-34a6-74696673696d")){
-            if((first & 0x0F) == 1){
+        if (characteristic.getUuid().toString().equals("3dda0003-957f-7d4a-34a6-74696673696d")) {
+            if ((first & 0x0F) == 1) {
                 ByteBuffer buffer = ByteBuffer.wrap(value);
                 buffer.order(ByteOrder.LITTLE_ENDIAN);
+
+                this.initDecryption();
 
                 short handle = buffer.getShort(1);
                 int size = buffer.getInt(4);
@@ -86,62 +120,53 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
                 byte status = buffer.get(3);
 
                 ResultCode code = ResultCode.fromCode(status);
-                if(!code.inidicatesSuccess()){
+                if (!code.inidicatesSuccess()) {
                     throw new RuntimeException("FileGet error: " + code + "   (" + status + ")");
                 }
 
-                if(this.handle != handle){
+                if (this.handle != handle) {
                     throw new RuntimeException("handle: " + handle + "   expected: " + this.handle);
                 }
                 log("file size: " + size);
                 fileBuffer = ByteBuffer.allocate(size);
-            }else if((first & 0x0F) == 8){
+            } else if ((first & 0x0F) == 8) {
                 this.finished = true;
 
                 ByteBuffer buffer = ByteBuffer.wrap(value);
                 buffer.order(ByteOrder.LITTLE_ENDIAN);
 
                 short handle = buffer.getShort(1);
-                if(this.handle != handle){
+                if (this.handle != handle) {
                     throw new RuntimeException("handle: " + handle + "   expected: " + this.handle);
                 }
 
                 CRC32 crc = new CRC32();
                 crc.update(this.fileData);
 
+                CRC32C c = new CRC32C();
+                c.update(this.fileData, 0, fileData.length);
+
                 int crcExpected = buffer.getInt(8);
 
-                if((int) crc.getValue() != crcExpected){
+                if ((int) crc.getValue() != crcExpected) {
                     throw new RuntimeException("crc: " + crc.getValue() + "   expected: " + crcExpected);
                 }
 
                 this.handleFileData(this.fileData);
             }
-        }else if(characteristic.getUuid().toString().equals("3dda0004-957f-7d4a-34a6-74696673696d")){
-            SecretKeySpec keySpec = new SecretKeySpec(this.adapter.getSecretKey(), "AES");
+        } else if (characteristic.getUuid().toString().equals("3dda0004-957f-7d4a-34a6-74696673696d")) {
             try {
-                Cipher cipher = Cipher.getInstance("AES/CTR/NoPadding");
-
-                byte[] fileIV = new byte[16];
-
-
-                byte[] phoneRandomNumber = adapter.getPhoneRandomNumber();
-                byte[] watchRandomNumber = adapter.getWatchRandomNumber();
-
-                System.arraycopy(phoneRandomNumber, 0, fileIV, 2, 6);
-                System.arraycopy(watchRandomNumber, 0, fileIV, 9, 7);
-
-                fileIV[7]++;
-
-                cipher.init(Cipher.DECRYPT_MODE, keySpec, new IvParameterSpec(fileIV));
-
+                cipher.init(Cipher.DECRYPT_MODE, keySpec, new IvParameterSpec(iv));
                 byte[] result = cipher.doFinal(value);
 
+                incrementIV();
+
                 fileBuffer.put(result, 1, result.length - 1);
-                if((result[0] & 0x80) == 0x80){
+                if ((result[0] & 0x80) == 0x80) {
                     this.fileData = fileBuffer.array();
                 }
-            } catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
+            } catch (BadPaddingException | IllegalBlockSizeException | InvalidAlgorithmParameterException | InvalidKeyException e) {
+                e.printStackTrace();
                 throw new RuntimeException(e);
             }
         }

@@ -34,11 +34,16 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HRConfigActivity;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HybridHRActivitySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationHRConfiguration;
+import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.HybridHRActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
@@ -49,16 +54,23 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.parser.ActivityEntry;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.parser.ActivityFileParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.RequestMtuRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.SetDeviceStateRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.TimeConfigItem;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileDeleteRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileLookupRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayCallNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayTextNotificationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.activity.ActivityFilesGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.VerifyPrivateKeyRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration.ConfigurationGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration.ConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFilePutRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.FileEncryptedGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.FirmwareFilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.AssetImage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.AssetImageFactory;
@@ -74,6 +86,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomWidgetElement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.Widget;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.WidgetsPutRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.ListFilesRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -488,6 +501,64 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     @Override
     public void onFetchActivityData() {
         syncSettings();
+
+        queueWrite(new VerifyPrivateKeyRequest(this.getSecretKey(), this));
+        queueWrite(new FileLookupRequest((byte) 0x01, this){
+            @Override
+            public void handleFileLookup(final short fileHandle) {
+                queueWrite(new FileEncryptedGetRequest(fileHandle, FossilHRWatchAdapter.this) {
+                    @Override
+                    public void handleFileData(byte[] fileData) {
+                        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                            ActivityFileParser parser = new ActivityFileParser();
+                            ArrayList<ActivityEntry> entries = parser.parseFile(fileData);
+                            HybridHRActivitySampleProvider provider = new HybridHRActivitySampleProvider(getDeviceSupport().getDevice(), dbHandler.getDaoSession());
+
+                            HybridHRActivitySample[] samples = new HybridHRActivitySample[entries.size()];
+
+                            for(int i = 0; i < entries.size(); i++){
+                                samples[i] = entries.get(i).toDAOActivitySample(DBHelper.getDevice(getDeviceSupport().getDevice(), dbHandler.getDaoSession()).getId());
+                            }
+
+                            provider.addGBActivitySamples(samples);
+
+                            writeFile(String.valueOf(System.currentTimeMillis()), fileData);
+                            queueWrite(new FileDeleteRequest(fileHandle));
+                            GB.toast("synced activity data", Toast.LENGTH_SHORT, GB.INFO);
+                        } catch (Exception ex) {
+                            GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                            GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
+                        }
+                        getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
+                    }
+                });
+            }
+
+            @Override
+            public void handleFileLookupError(FILE_LOOKUP_ERROR error) {
+                if(error == FILE_LOOKUP_ERROR.FILE_EMPTY){
+                    GB.toast("activity file empty yet", Toast.LENGTH_LONG,  GB.ERROR);
+                }else{
+                    throw new RuntimeException("strange lookup stuff");
+                }
+                getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
+            }
+        });
+    }
+
+    private void writeFile(String fileName, byte[] value){
+        File activityDir = new File(getContext().getExternalFilesDir(null), "activity_hr");
+        activityDir.mkdir();
+        File f = new File(activityDir, fileName);
+        try {
+            f.createNewFile();
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(value);
+            fos.close();
+            GB.toast("saved file data", Toast.LENGTH_SHORT, GB.INFO);
+        } catch (IOException e) {
+            GB.log("file error", GB.ERROR, e);
+        }
     }
 
     private void syncSettings() {
@@ -670,35 +741,28 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         }
     }
 
-
-    // this was used to enumerate the weather icons :)
-    /*
-    static int i = 0;
-
     @Override
     public void onTestNewFunction() {
-        long ts = System.currentTimeMillis();
-        ts /= 1000;
-        try {
-            JSONObject responseObject = new JSONObject()
-                    .put("res", new JSONObject()
-                            .put("id", 0) // seems the id does not matter?
-                            .put("set", new JSONObject()
-                                    .put("weatherInfo", new JSONObject()
-                                            .put("alive", ts + 60 * 60)
-                                            .put("unit", "c")
-                                            .put("temp", i)
-                                            .put("cond_id", i++)
-                                    )
-                            ));
-
-            queueWrite(new JsonPutRequest(responseObject, this));
-
-        } catch (JSONException e) {
-            logger.error(" JSON exception: ", e);
-        }
+        /*queueWrite(new ActivityFilesGetRequest(this){
+            @Override
+            public void handleFileData(byte[] fileData) {
+                super.handleFileData(fileData);
+                File activityDir = new File(getContext().getExternalFilesDir(null), "activity_hr");
+                activityDir.mkdir();
+                File f = new File(activityDir, String.valueOf(System.currentTimeMillis()));
+                try {
+                    f.createNewFile();
+                    FileOutputStream fos = new FileOutputStream(f);
+                    fos.write(fileData);
+                    fos.close();
+                    GB.toast("saved file data", Toast.LENGTH_SHORT, GB.INFO);
+                } catch (IOException e) {
+                    GB.log("activity file error", GB.ERROR, e);
+                }
+                queueWrite(new FileDeleteRequest((short) 0x0101));
+            }
+        });*/
     }
-*/
 
     @Override
     public void onInstallApp(Uri uri) {
@@ -717,6 +781,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             }
         }
     }
+
 
     public byte[] getSecretKey() {
         byte[] authKeyBytes = new byte[16];
