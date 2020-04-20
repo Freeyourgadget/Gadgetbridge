@@ -223,6 +223,7 @@
     <string name="wxp_mode_watch">Only watch</string>
     <string name="pref_wxp_title_repeat_on_misscall_summary">Repeat missed call notification every minute for X times</string>
     <string name="pref_wxp_title_repeat_on_misscall">Repeat missed call notification</string>
+    <string name="pref_wxp_enable_misscall">Notify for missed call</string>
     <string name="pref_header_wxp_notification_callhandling">Call Handling</string>
     <string name="pref_header_wxp_longsit">Inactivity reminder</string>
     <string name="pref_wxp_longsit_period_summary">Remind if there is no activity for more than X minutes</string>

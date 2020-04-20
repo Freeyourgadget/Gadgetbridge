@@ -309,6 +309,7 @@
     <string name="wxp_mode_watch">Само часовник</string>
     <string name="pref_wxp_title_repeat_on_misscall_summary">Повтаряй известие за пропуснато повикване всяка минута за X пъти</string>
     <string name="pref_wxp_title_repeat_on_misscall">Повтаряй известието за пропуснато повикване</string>
+    <string name="pref_wxp_enable_misscall">Известявай за пропуснато повикване</string>
     <string name="pref_header_wxp_notification_callhandling">Управление на обажданията</string>
     <string name="pref_header_wxp_longsit">Напомняне за бездействие</string>
     <string name="pref_wxp_longsit_period_summary">Напомняй ако няма активност за повече от X минути</string>

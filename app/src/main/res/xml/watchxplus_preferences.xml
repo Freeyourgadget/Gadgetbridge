@@ -24,16 +24,17 @@
             android:title="@string/pref_screen_notification_profile_missed_call">
             <PreferenceCategory
                 android:title="@string/pref_screen_notification_profile_missed_call"/>
-            <EditTextPreference
-                android:defaultValue="0"
-                android:key="watchxplus_repeat_missedcall"
-                android:summary="@string/pref_wxp_title_repeat_on_misscall_summary"
-                android:title="@string/pref_wxp_title_repeat_on_misscall"/>
             <CheckBoxPreference
                 android:layout="@layout/preference_checkbox"
                 android:defaultValue="false"
                 android:key="watchxplus_missed"
-                android:title="@string/pref_wxp_title_repeat_on_misscall" />
+                android:title="@string/pref_wxp_enable_misscall" />
+            <EditTextPreference
+                android:defaultValue="0"
+                android:key="watchxplus_repeat_missedcall"
+                android:dependency="watchxplus_missed"
+                android:summary="@string/pref_wxp_title_repeat_on_misscall_summary"
+                android:title="@string/pref_wxp_title_repeat_on_misscall"/>
         </PreferenceScreen>
         <PreferenceScreen
             android:key="pref_category_watchxplus_callhandling"
