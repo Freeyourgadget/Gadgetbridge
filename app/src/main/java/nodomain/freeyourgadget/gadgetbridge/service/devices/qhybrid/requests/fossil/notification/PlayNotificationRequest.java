@@ -28,24 +28,28 @@ import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public abstract class PlayNotificationRequest extends FilePutRequest {
     public PlayNotificationRequest(int notificationType, int flags, String packageName, FossilWatchAdapter adapter) {
-        super((short) 0x0900, createFile(notificationType, flags, packageName, packageName, packageName), adapter);
+        super((short) 0x0900, createFile(notificationType, flags, packageName, packageName, packageName, getCurrentMessageId()), adapter);
     }
 
     public PlayNotificationRequest(int notificationType, int flags, String packageName, String sender, String message, FossilWatchAdapter adapter) {
-        super((short) 0x0900, createFile(notificationType, flags, packageName, sender, message), adapter);
+        super((short) 0x0900, createFile(notificationType, flags, packageName, sender, message, getCurrentMessageId()), adapter);
     }
 
-    public PlayNotificationRequest(int notificationType, int flags, int packageCRC, String sender, String message, FossilWatchAdapter adapter) {
-        super((short) 0x0900, createFile(notificationType, flags, "whatever", sender, message, packageCRC), adapter);
+    public PlayNotificationRequest(int notificationType, int flags, int packageCRC, String sender, String message, int messageId, FossilWatchAdapter adapter) {
+        super((short) 0x0900, createFile(notificationType, flags, "whatever", sender, message, packageCRC, messageId), adapter);
     }
 
-    private static byte[] createFile(int notificationType, int flags, String packageName, String sender, String message){
+    private static int getCurrentMessageId(){
+        return (int) System.currentTimeMillis();
+    }
+
+    private static byte[] createFile(int notificationType, int flags, String packageName, String sender, String message, int messageId){
         CRC32 crc = new CRC32();
         crc.update(packageName.getBytes());
-        return createFile(notificationType, flags, packageName, sender, message, (int)crc.getValue());
+        return createFile(notificationType, flags, packageName, sender, message, (int)crc.getValue(), messageId);
     }
 
-    private static byte[] createFile(int notificationType, int flags, String title, String sender, String message, int packageCrc) {
+    private static byte[] createFile(int notificationType, int flags, String title, String sender, String message, int packageCrc, int messageId) {
         byte lengthBufferLength = (byte) 10;
         byte uidLength = (byte) 4;
         byte appBundleCRCLength = (byte) 4;
@@ -59,7 +63,7 @@ public abstract class PlayNotificationRequest extends FilePutRequest {
         String nullTerminatedMessage = StringUtils.terminateNull(message);
         byte[] messageBytes = nullTerminatedMessage.getBytes(charsetUTF8);
         if (messageBytes.length > 490) {
-            messageBytes = Arrays.copyOf(messageBytes, 490);
+            messageBytes = Arrays.copyOf(messageBytes, 475);
         }
         short mainBufferLength = (short) (lengthBufferLength + uidLength + appBundleCRCLength + titleBytes.length + senderBytes.length + messageBytes.length);
 
@@ -77,7 +81,7 @@ public abstract class PlayNotificationRequest extends FilePutRequest {
         mainBuffer.put((byte) senderBytes.length);
         mainBuffer.put((byte) messageBytes.length);
 
-        mainBuffer.putInt(0); // messageId
+        mainBuffer.putInt(messageId);
         mainBuffer.putInt(packageCrc);
         mainBuffer.put(titleBytes);
         mainBuffer.put(senderBytes);

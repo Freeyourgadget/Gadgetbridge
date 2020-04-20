@@ -8,14 +8,21 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Build;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.BufferOverflowException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,11 +34,15 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HRConfigActivity;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HybridHRActivitySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationHRConfiguration;
+import nodomain.freeyourgadget.gadgetbridge.entities.HybridHRActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
@@ -42,9 +53,13 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.parser.ActivityEntry;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.parser.ActivityFileParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.RequestMtuRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.SetDeviceStateRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.TimeConfigItem;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileDeleteRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileLookupRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayCallNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayTextNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.VerifyPrivateKeyRequest;
@@ -52,6 +67,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration.ConfigurationGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration.ConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFilePutRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.FileEncryptedGetRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.FirmwareFilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.AssetImage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.AssetImageFactory;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.ImagesSetRequest;
@@ -66,9 +83,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomWidgetElement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.Widget;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.WidgetsPutRequest;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_PHONE_REQUEST;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_WATCH_REQUEST;
@@ -138,30 +157,63 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         queueWrite(new ConfigurationPutRequest(new nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.VibrationStrengthConfigItem((byte) strength), this));
     }
 
-    private void loadNotificationConfigurations(){
+    private void loadNotificationConfigurations() {
         this.notificationConfigurations = new NotificationHRConfiguration[]{
                 new NotificationHRConfiguration("generic", 0),
-                new NotificationHRConfiguration("call", new byte[]{(byte)0x80, (byte) 0x00, (byte) 0x59, (byte) 0xB7}, 0)
+                new NotificationHRConfiguration("call", new byte[]{(byte) 0x80, (byte) 0x00, (byte) 0x59, (byte) 0xB7}, 0)
         };
     }
 
-    private void loadBackground(){
-        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDeviceSupport().getDevice().getAddress()));
-        boolean forceWhiteBackground = prefs.getBoolean("force_white_color_scheme", false);
-        if (forceWhiteBackground) {
-            byte[] whiteGIF = new byte[]{
-                     0x47, 0x49, 0x46, 0x38, 0x37, 0x61, 0x01, 0x00, 0x01, 0x00, (byte) 0x80, 0x01, 0x00, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, 0x00, 0x00, 0x00, 0x2C, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0x02, 0x02, 0x44, 0x01, 0x00, 0x3B
-            };
+    private File getBackgroundFile() {
+        return new File(getContext().getExternalFilesDir(null), "hr_background.bin");
+    }
 
-            Bitmap backgroundBitmap = BitmapFactory.decodeByteArray(whiteGIF, 0, whiteGIF.length);
-            //Bitmap backgroundBitmap = BitmapFactory.decodeFile("/sdcard/DCIM/Camera/IMG_20191129_200726.jpg");
+    private void loadBackground() {
+        this.backGroundImage = null;
+        try {
+            FileInputStream fis = new FileInputStream(getBackgroundFile());
+            int count = fis.available();
+            if (count != 14400) {
+                throw new RuntimeException("wrong background file length");
+            }
+            byte[] file = new byte[14400];
+            fis.read(file);
+            fis.close();
+            this.backGroundImage = AssetImageFactory.createAssetImage(file, 0, 0, 0);
+        } catch (FileNotFoundException e) {
+            SharedPreferences preferences = getDeviceSpecificPreferences();
+            if (preferences.getBoolean("force_white_color_scheme", false)) {
+                Bitmap whiteBitmap = Bitmap.createBitmap(239, 239, Bitmap.Config.ARGB_8888);
+                new Canvas(whiteBitmap).drawColor(Color.WHITE);
 
+                try {
+                    this.backGroundImage = AssetImageFactory.createAssetImage(whiteBitmap, true, 0, 1, 0);
+                } catch (IOException e2) {
+                    logger.error("Backgroundimage error", e2);
+                }
+            }
+        } catch (IOException | RuntimeException e) {
+            GB.log("error opening background file", GB.ERROR, e);
+            GB.toast("error opening background file", Toast.LENGTH_LONG, GB.ERROR);
+        }
+    }
+
+    @Override
+    public void setBackgroundImage(byte[] pixels) {
+        if (pixels == null) {
+            getBackgroundFile().delete();
+            loadBackground(); // recreates the white background in force-white mode, else backgroundImage=null
+        } else {
+            this.backGroundImage = AssetImageFactory.createAssetImage(pixels, 0, 0, 0);
             try {
-                this.backGroundImage = AssetImageFactory.createAssetImage(backgroundBitmap, false, 0, 0, 0);
+                FileOutputStream fos = new FileOutputStream(getBackgroundFile(), false);
+                fos.write(pixels);
             } catch (IOException e) {
-                logger.error("Backgroundimage error", e);
+                GB.log("error saving background", GB.ERROR, e);
+                GB.toast("error persistent saving background", Toast.LENGTH_LONG, GB.ERROR);
             }
         }
+        renderWidgets();
     }
 
     private void loadWidgets() {
@@ -184,19 +236,22 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             positionMap.put("bottom", 180);
             positionMap.put("left", 270);
 
-            while(keyIterator.hasNext()){
+            while (keyIterator.hasNext()) {
                 String position = keyIterator.next();
                 String identifier = widgetConfig.getString(position);
                 Widget.WidgetType type = Widget.WidgetType.fromJsonIdentifier(identifier);
 
                 Widget widget = null;
-                if(type != null) {
+                if (type != null) {
                     widget = new Widget(type, positionMap.get(position), 63, fontColor);
-                }else{
+                } else {
                     identifier = identifier.substring(7);
-                    for(int i = 0; i < customWidgets.length(); i++){
+                    for (int i = 0; i < customWidgets.length(); i++) {
                         JSONObject customWidget = customWidgets.getJSONObject(i);
-                        if(customWidget.getString("name").equals(identifier)){
+                        if (customWidget.getString("name").equals(identifier)) {
+                            boolean drawCircle = false;
+                            if (customWidget.has("drawCircle"))
+                                drawCircle = customWidget.getBoolean("drawCircle");
                             CustomWidget newWidget = new CustomWidget(
                                     customWidget.getString("name"),
                                     positionMap.get(position),
@@ -226,7 +281,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                     }
                 }
 
-                if(widget == null) continue;
+                if (widget == null) continue;
                 this.widgets.add(widget);
             }
         } catch (JSONException e) {
@@ -236,11 +291,11 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         uploadWidgets();
     }
 
-    private void uploadWidgets(){
+    private void uploadWidgets() {
         negotiateSymmetricKey();
         ArrayList<Widget> systemWidgets = new ArrayList<>(widgets.size());
-        for(Widget widget : this.widgets){
-            if(!(widget instanceof CustomWidget)) systemWidgets.add(widget);
+        for (Widget widget : this.widgets) {
+            if (!(widget instanceof CustomWidget)) systemWidgets.add(widget);
         }
         queueWrite(new WidgetsPutRequest(systemWidgets.toArray(new Widget[0]), this));
     }
@@ -248,48 +303,68 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     private void renderWidgets() {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDeviceSupport().getDevice().getAddress()));
         boolean forceWhiteBackground = prefs.getBoolean("force_white_color_scheme", false);
+        boolean drawCircles = prefs.getBoolean("widget_draw_circles", false);
+
+        Bitmap circleBitmap = null;
+        if (drawCircles) {
+            circleBitmap = Bitmap.createBitmap(76, 76, Bitmap.Config.ARGB_8888);
+            Canvas circleCanvas = new Canvas(circleBitmap);
+            Paint circlePaint = new Paint();
+            circlePaint.setAntiAlias(true);
+            circlePaint.setColor(forceWhiteBackground ? Color.WHITE : Color.BLACK);
+            circlePaint.setStyle(Paint.Style.FILL);
+            circlePaint.setStrokeWidth(3);
+            circleCanvas.drawCircle(38, 38, 35, circlePaint);
+
+            circlePaint.setColor(forceWhiteBackground ? Color.BLACK : Color.WHITE);
+            circlePaint.setStyle(Paint.Style.STROKE);
+            circlePaint.setStrokeWidth(3);
+            circleCanvas.drawCircle(38, 38, 35, circlePaint);
+        }
+
         try {
             ArrayList<AssetImage> widgetImages = new ArrayList<>();
 
-            if(this.backGroundImage != null){
+            if (this.backGroundImage != null) {
                 widgetImages.add(this.backGroundImage);
             }
 
 
             for (int i = 0; i < this.widgets.size(); i++) {
                 Widget w = widgets.get(i);
-                if(!(w instanceof CustomWidget)) continue;
+                if (!(w instanceof CustomWidget)) {
+                    if (drawCircles) {
+                        widgetImages.add(AssetImageFactory.createAssetImage(
+                                circleBitmap,
+                                true,
+                                w.getAngle(),
+                                w.getDistance(),
+                                1
+                        ));
+                    }
+                    continue;
+                }
+                ;
                 CustomWidget widget = (CustomWidget) w;
 
                 Bitmap widgetBitmap = Bitmap.createBitmap(76, 76, Bitmap.Config.ARGB_8888);
 
                 Canvas widgetCanvas = new Canvas(widgetBitmap);
 
-                boolean backgroundDrawn = false;
-
-                Paint circlePaint = new Paint();
-                if(!backgroundDrawn){
-                    circlePaint.setColor(forceWhiteBackground ? Color.WHITE : Color.BLACK);
-                    circlePaint.setStyle(Paint.Style.FILL);
-                    circlePaint.setStrokeWidth(3);
-                    widgetCanvas.drawCircle(38, 38, 37, circlePaint);
-
-                    circlePaint.setColor(forceWhiteBackground ? Color.BLACK : Color.WHITE);
-                    circlePaint.setStyle(Paint.Style.STROKE);
-                    circlePaint.setStrokeWidth(3);
-                    widgetCanvas.drawCircle(38, 38, 37, circlePaint);
+                if (drawCircles) {
+                    widgetCanvas.drawBitmap(circleBitmap, 0, 0, null);
                 }
 
                 for (CustomWidgetElement element : widget.getElements()) {
                     if (element.getWidgetElementType() == CustomWidgetElement.WidgetElementType.TYPE_BACKGROUND) {
                         File imageFile = new File(element.getValue());
 
-                        if(!imageFile.exists() || !imageFile.isFile()){
+                        if (!imageFile.exists() || !imageFile.isFile()) {
                             logger.debug("Image file " + element.getValue() + " not found");
                             continue;
                         }
                         Bitmap imageBitmap = BitmapFactory.decodeFile(element.getValue());
-                        if(imageBitmap == null){
+                        if (imageBitmap == null) {
                             logger.debug("image file " + element.getValue() + " could not be decoded");
                             continue;
                         }
@@ -300,7 +375,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                                 0,
                                 0,
                                 null);
-                        backgroundDrawn = true;
                         break;
                     }
                 }
@@ -315,7 +389,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                         textPaint.setTextAlign(Paint.Align.CENTER);
 
                         widgetCanvas.drawText(element.getValue(), element.getX(), element.getY() - (textPaint.descent() + textPaint.ascent()) / 2f, textPaint);
-                    }else if(element.getWidgetElementType() == CustomWidgetElement.WidgetElementType.TYPE_IMAGE) {
+                    } else if (element.getWidgetElementType() == CustomWidgetElement.WidgetElementType.TYPE_IMAGE) {
                         Bitmap imageBitmap = BitmapFactory.decodeFile(element.getValue());
 
                         widgetCanvas.drawBitmap(imageBitmap, element.getX() - imageBitmap.getWidth() / 2f, element.getY() - imageBitmap.getHeight() / 2f, null);
@@ -330,15 +404,14 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 ));
             }
 
+
             AssetImage[] images = widgetImages.toArray(new AssetImage[0]);
 
-            // queueWrite(new FileDeleteRequest((short) 0x0700));
             queueWrite(new AssetFilePutRequest(
                     images,
                     (byte) 0x00,
                     this
             ));
-
             // queueWrite(new FileDeleteRequest((short) 0x0503));
             queueWrite(new ImagesSetRequest(
                     images,
@@ -353,8 +426,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     public void setWidgetContent(String widgetID, String content, boolean renderOnWatch) {
         boolean update = false;
         for (Widget widget : this.widgets) {
-            if(!(widget instanceof CustomWidget)) continue;
-            if(((CustomWidget) widget).updateElementValue(widgetID, content)) update = true;
+            if (!(widget instanceof CustomWidget)) continue;
+            if (((CustomWidget) widget).updateElementValue(widgetID, content)) update = true;
         }
 
         if (renderOnWatch && update) renderWidgets();
@@ -401,7 +474,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                     musicSpec.track,
                     this
             ));
-        }catch (BufferOverflowException e){
+        } catch (BufferOverflowException e) {
             GB.log("musicInfo: " + musicSpec, GB.ERROR, e);
         }
     }
@@ -424,6 +497,66 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     @Override
     public void onFetchActivityData() {
         syncSettings();
+
+        queueWrite(new VerifyPrivateKeyRequest(this.getSecretKey(), this));
+        queueWrite(new FileLookupRequest((byte) 0x01, this){
+            @Override
+            public void handleFileLookup(final short fileHandle) {
+                queueWrite(new FileEncryptedGetRequest(fileHandle, FossilHRWatchAdapter.this) {
+                    @Override
+                    public void handleFileData(byte[] fileData) {
+                        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                            ActivityFileParser parser = new ActivityFileParser();
+                            ArrayList<ActivityEntry> entries = parser.parseFile(fileData);
+                            HybridHRActivitySampleProvider provider = new HybridHRActivitySampleProvider(getDeviceSupport().getDevice(), dbHandler.getDaoSession());
+
+                            HybridHRActivitySample[] samples = new HybridHRActivitySample[entries.size()];
+
+                            Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
+                            Long deviceId = DBHelper.getDevice(getDeviceSupport(). getDevice(), dbHandler.getDaoSession()).getId();
+                            for(int i = 0; i < entries.size(); i++){
+                                samples[i] = entries.get(i).toDAOActivitySample(userId, deviceId);
+                            }
+
+                            provider.addGBActivitySamples(samples);
+
+                            writeFile(String.valueOf(System.currentTimeMillis()), fileData);
+                            queueWrite(new FileDeleteRequest(fileHandle));
+                            GB.toast("synced activity data", Toast.LENGTH_SHORT, GB.INFO);
+                        } catch (Exception ex) {
+                            GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                            GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
+                        }
+                        getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
+                    }
+                });
+            }
+
+            @Override
+            public void handleFileLookupError(FILE_LOOKUP_ERROR error) {
+                if(error == FILE_LOOKUP_ERROR.FILE_EMPTY){
+                    GB.toast("activity file empty yet", Toast.LENGTH_LONG,  GB.ERROR);
+                }else{
+                    throw new RuntimeException("strange lookup stuff");
+                }
+                getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
+            }
+        });
+    }
+
+    private void writeFile(String fileName, byte[] value){
+        File activityDir = new File(getContext().getExternalFilesDir(null), "activity_hr");
+        activityDir.mkdir();
+        File f = new File(activityDir, fileName);
+        try {
+            f.createNewFile();
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(value);
+            fos.close();
+            GB.toast("saved file data", Toast.LENGTH_SHORT, GB.INFO);
+        } catch (IOException e) {
+            GB.log("file error", GB.ERROR, e);
+        }
     }
 
     private void syncSettings() {
@@ -441,14 +574,14 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         String senderOrTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
 
         try {
-            for (NotificationHRConfiguration configuration : this.notificationConfigurations){
-                if(configuration.getPackageName().equals(notificationSpec.sourceAppId)){
+            for (NotificationHRConfiguration configuration : this.notificationConfigurations) {
+                if (configuration.getPackageName().equals(notificationSpec.sourceAppId)) {
                     queueWrite(new PlayTextNotificationRequest(notificationSpec.sourceAppId, senderOrTitle, notificationSpec.body, this));
                     return true;
                 }
             }
             queueWrite(new PlayTextNotificationRequest("generic", senderOrTitle, notificationSpec.body, this));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return true;
@@ -456,14 +589,14 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void onFindDevice(boolean start) {
-        if(start){
+        if (start) {
             new TransactionBuilder("vibrate find")
                     .write(
                             getDeviceSupport().getCharacteristic(UUID.fromString("3dda0005-957f-7d4a-34a6-74696673696d")),
                             new byte[]{(byte) 0x01, (byte) 0x04, (byte) 0x30, (byte) 0x75, (byte) 0x00, (byte) 0x00}
-                            )
+                    )
                     .queue(getDeviceSupport().getQueue());
-        }else{
+        } else {
             new TransactionBuilder("vibrate find")
                     .write(
                             getDeviceSupport().getCharacteristic(UUID.fromString("3dda0005-957f-7d4a-34a6-74696673696d")),
@@ -606,35 +739,48 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         }
     }
 
-
-    // this was used to enumerate the weather icons :)
-    /*
-    static int i = 0;
-
     @Override
     public void onTestNewFunction() {
-        long ts = System.currentTimeMillis();
-        ts /= 1000;
+        /*queueWrite(new ActivityFilesGetRequest(this){
+            @Override
+            public void handleFileData(byte[] fileData) {
+                super.handleFileData(fileData);
+                File activityDir = new File(getContext().getExternalFilesDir(null), "activity_hr");
+                activityDir.mkdir();
+                File f = new File(activityDir, String.valueOf(System.currentTimeMillis()));
+                try {
+                    f.createNewFile();
+                    FileOutputStream fos = new FileOutputStream(f);
+                    fos.write(fileData);
+                    fos.close();
+                    GB.toast("saved file data", Toast.LENGTH_SHORT, GB.INFO);
+                } catch (IOException e) {
+                    GB.log("activity file error", GB.ERROR, e);
+                }
+                queueWrite(new FileDeleteRequest((short) 0x0101));
+            }
+        });*/
+    }
+
+    @Override
+    public void onInstallApp(Uri uri) {
+        UriHelper uriHelper = null;
         try {
-            JSONObject responseObject = new JSONObject()
-                    .put("res", new JSONObject()
-                            .put("id", 0) // seems the id does not matter?
-                            .put("set", new JSONObject()
-                                    .put("weatherInfo", new JSONObject()
-                                            .put("alive", ts + 60 * 60)
-                                            .put("unit", "c")
-                                            .put("temp", i)
-                                            .put("cond_id", i++)
-                                    )
-                            ));
-
-            queueWrite(new JsonPutRequest(responseObject, this));
-
-        } catch (JSONException e) {
-            logger.error(" JSON exception: ", e);
+            uriHelper = UriHelper.get(uri, getContext());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Could not open firmare: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
+        }
+        if (uriHelper != null) {
+            try (InputStream in = new BufferedInputStream(uriHelper.openInputStream())) {
+                byte[] firmwareBytes = FileUtils.readAll(in, 1024 * 2024); // 2MB
+                queueWrite(new FirmwareFilePutRequest(firmwareBytes, this));
+            } catch (Exception e) {
+                GB.toast(getContext(), "Firmware cannot be installed: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
+            }
         }
     }
-*/
+
+
     public byte[] getSecretKey() {
         byte[] authKeyBytes = new byte[16];
 
@@ -704,6 +850,14 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 break;
             case DeviceSettingsPreferenceConst.PREF_VIBRATION_STRENGH_PERCENTAGE:
                 setVibrationStrength();
+                break;
+            case "force_white_color_scheme":
+                loadBackground();
+                // not break here
+            case "widget_draw_circles": {
+                renderWidgets();
+                break;
+            }
         }
     }
 
@@ -726,9 +880,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
         byte requestType = value[1];
 
-        if(requestType == (byte) 0x04){
+        if (requestType == (byte) 0x04) {
             handleCallRequest(value);
-        }else if (requestType == (byte) 0x05) {
+        } else if (requestType == (byte) 0x05) {
             handleMusicRequest(value);
         } else if (requestType == (byte) 0x01) {
             int eventId = value[2];

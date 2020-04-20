@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration;
 
+import android.widget.Toast;
+
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
@@ -53,5 +55,14 @@ public class ConfigurationGetRequest extends FileEncryptedLookupAndGetRequest {
         GB.toast("got config", 0, GB.INFO);
 
         device.sendDeviceUpdateIntent(getAdapter().getContext());
+    }
+
+    @Override
+    public void handleFileLookupError(FILE_LOOKUP_ERROR error) {
+        if(error == FILE_LOOKUP_ERROR.FILE_EMPTY){
+            GB.toast("config file empty", Toast.LENGTH_LONG,  GB.ERROR);
+        }else{
+            throw new RuntimeException("strange lookup stuff");
+        }
     }
 }

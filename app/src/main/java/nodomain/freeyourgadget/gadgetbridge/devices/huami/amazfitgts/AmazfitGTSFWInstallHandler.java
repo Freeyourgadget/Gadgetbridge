@@ -22,7 +22,6 @@ import android.net.Uri;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr.AmazfitGTRFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -40,7 +39,7 @@ class AmazfitGTSFWInstallHandler extends AbstractMiBandFWInstallHandler {
 
     @Override
     protected AbstractMiBandFWHelper createHelper(Uri uri, Context context) throws IOException {
-        return new AmazfitGTRFWHelper(uri, context);
+        return new AmazfitGTSFWHelper(uri, context);
     }
 
     @Override

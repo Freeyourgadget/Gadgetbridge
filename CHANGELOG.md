@@ -1,4 +1,24 @@
 ### Changelog
+
+#### Version 0.43.2
+* Fossil Hybrid HR: Allow choosing and cropping image to be set as watch background
+* Fossil Hybrid HR: Option to draw circles around widgets
+* Fossil Hybrid HR: Experimenal firmware update support
+* Fossil Hybrid HR: Fix vibration strength setting
+* Huami: Do not display firmware information and whitelist information when flashing watchfaces
+* Huami: Disable air quality indicator on Huami devices instead of showing 0
+* Bangle.js: Change encoded char set to match Espruino's 8 bit fonts
+* Steps/Sleep averages: Skip days with zero data
+
+#### Version 0.43.1
+* Initial support for Amazfit Bip S (incomplete, needs the official app once to obtain the pairing key)
+* Amazift Bip Lite: Allow relaxing firmware checks to allow flashing of the regular Bip firmware (for the brave)
+* Fossil Hybrid HR: Fix notification history on newer firmwares
+* Fossil Hybrid HR: Add option to disable widget circle
+* Bangle.js: Don't set time if the option is turned off in settings
+* Bangle.js: DST and time zone fixes
+* Add Arabic-style Eastern Arabic numerals to transliteration
+
 #### Version 0.43.0
 * Initial support for Fossil Hybrid HR (needs complicated key extraction, read wiki)
 * Fossil: Allow switching off the Q Icon and use the default Gadgetbridge icon

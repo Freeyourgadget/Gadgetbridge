@@ -1928,7 +1928,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             buf.put((byte) 4);
             buf.putInt(weatherSpec.timestamp);
             buf.put((byte) (tz_offset_hours * 4));
-            buf.putShort((short) 0);
+            buf.putShort((short) -1);
             if (supportsConditionString) {
                 buf.put(aqiString.getBytes());
                 buf.put((byte) 0);

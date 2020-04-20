@@ -836,4 +836,24 @@
     <string name="hr_widget_battery">Batteri</string>
     <string name="hr_widget_weather">Vær</string>
     <string name="hr_widget_nothing">Ingenting</string>
+    <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
+    <string name="hr_appname_wellness">Velvære</string>
+    <string name="hr_appname_workout">Treningsøkt</string>
+    <string name="pref_title_custom_deviceicon">Vis enhetsspesifikt merknadsikon</string>
+    <string name="hr_appname_stopwatch">Stoppeklokke</string>
+    <string name="pref_title_lower_button_function">Nedre knapp</string>
+    <string name="pref_title_middle_button_function">Midtknapp</string>
+    <string name="pref_title_upper_button_function">Øvre knapp</string>
+    <string name="find_lost_device_you_found_it">Fant den!</string>
+    <string name="pref_title_vibration_strength">Vibrasjonsstyrke</string>
+    <string name="hr_appname_commute">Pendle</string>
+    <string name="notification_channel_high_priority_name">Gadgetbridge-varsler har høy prioritet</string>
+    <string name="pref_summary_force_white_color_scheme">Nyttig hvis klokken din har mørke hender</string>
+    <string name="pref_title_force_white_color_scheme">Tving svart på hvitt fargevalg</string>
+    <string name="find_my_phone_notification">Finn min telefon</string>
+    <string name="pref_title_relax_firmware_checks">Aktiver dette hvis du vil blinke en fastvare som ikke er beregnet på enheten din (på egen risiko)</string>
+    <string name="pref_summary_relax_firmware_checks">Slapp av firmwarekontroller</string>
+    <string name="pref_summary_custom_deviceicon">Vis et enhetsspesifikt Android-varslingsikon i stedet for Gadgetbridge-ikonet når du er tilkoblet</string>
+    <string name="pref_qhybrid_title_widget_draw_circles">Tegn miniprogramssirkler</string>
+    <string name="pref_header_auto_fetch">Hent automatisk</string>
 </resources>

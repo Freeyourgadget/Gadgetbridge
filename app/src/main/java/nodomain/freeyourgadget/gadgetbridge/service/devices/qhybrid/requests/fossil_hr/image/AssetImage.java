@@ -17,6 +17,13 @@ public class AssetImage extends AssetFile {
         this.indexZ = indexZ;
     }
 
+    protected AssetImage(byte[] fileData, String fileName, int angle, int distance, int indexZ) {
+        super(fileName, fileData);
+        this.angle = angle;
+        this.distance = distance;
+        this.indexZ = indexZ;
+    }
+
     @NonNull
     @Override
     public String toString() {

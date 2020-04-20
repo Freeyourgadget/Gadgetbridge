@@ -12,16 +12,16 @@ public class AssetFilePutRequest extends FilePutRequest {
     public AssetFilePutRequest(AssetFile[] files, byte subHandle, FossilWatchAdapter adapter) throws IOException {
         super((short) (0x0700 | subHandle), prepareFileData(files), adapter);
     }
-    public AssetFilePutRequest(AssetFile file, byte subHandle, FossilWatchAdapter adapter) throws IOException {
+    public AssetFilePutRequest(AssetFile file, byte subHandle, FossilWatchAdapter adapter) {
         super((short) (0x0700 | subHandle), prepareFileData(file), adapter);
     }
 
     private static byte[] prepareFileData(AssetFile[] files) throws IOException {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
-        for(int i = 0; i < files.length; i++){
+        for (AssetFile file : files) {
             stream.write(
-                    prepareFileData(files[i])
+                    prepareFileData(file)
             );
         }
 
@@ -29,7 +29,7 @@ public class AssetFilePutRequest extends FilePutRequest {
     }
 
     private static byte[] prepareFileData(AssetFile file){
-        int size = file.getFileName().length() + file.getFileData().length + 1 /**null byte **/;
+        int size = file.getFileName().length() + file.getFileData().length + 1; // null byte
         ByteBuffer buffer = ByteBuffer.allocate(size + 2);
 
         buffer.order(ByteOrder.LITTLE_ENDIAN);

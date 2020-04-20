@@ -22,8 +22,8 @@
     <string name="title_activity_debug">Déboguer</string>
     <!--Strings related to AppManager-->
     <string name="title_activity_appmanager">Gestionnaire d\'application</string>
-    <string name="appmanager_cached_watchapps_watchfaces">Apps en cache</string>
-    <string name="appmanager_installed_watchapps">Apps installées</string>
+    <string name="appmanager_cached_watchapps_watchfaces">Applis en cache</string>
+    <string name="appmanager_installed_watchapps">Applis installées</string>
     <string name="appmanager_installed_watchfaces">Watchfaces installées</string>
     <string name="appmananger_app_delete">Supprimer</string>
     <string name="appmananger_app_delete_cache">Supprimer et effacer du cache</string>
@@ -50,7 +50,7 @@
     <string name="miband_firmware_unknown_warning">Ce micrologiciel n\'a pas été testé et peut ne pas être compatible avec Gadgetbridge. 
 \n 
 \nIl n\'est PAS conseillé de le flasher !</string>
-    <string name="miband_firmware_suggest_whitelist">Si vous désirez continuer et que tout fonctionne correctement par la suite, veuillez en informer les développeurs de Gadgetbridge pour demander l\'ajout du micrologiciel %s à leur liste.</string>
+    <string name="miband_firmware_suggest_whitelist">Si vous désirez continuer malgré tout, et que tout fonctionne correctement par la suite, veuillez en informer les développeurs de Gadgetbridge pour demander l\'ajout du micrologiciel %s à leur liste blanche.</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Paramètres</string>
     <string name="pref_header_general">Paramètres généraux</string>
@@ -129,9 +129,9 @@
     <string name="toast_enable_networklocationprovider">Veuillez activer la localisation réseau</string>
     <string name="toast_aqurired_networklocation">Emplacement obtenu</string>
     <string name="pref_title_pebble_forceprotocol">Forcer le protocole de notification</string>
-    <string name="pref_summary_pebble_forceprotocol">Cette option force l\'utilisation du protocole de notification le plus récent selon votre version du micrologiciel. A VOS PROPRES RISQUES!</string>
-    <string name="pref_title_pebble_forceuntested">Activer les fonctionnalités non-testées</string>
-    <string name="pref_summary_pebble_forceuntested">Activer les fonctionnalités non-testées. A VOS PROPRES RISQUES !</string>
+    <string name="pref_summary_pebble_forceprotocol">Cette option force l\'utilisation du protocole de notification le plus récent selon votre version du micrologiciel. À VOS PROPRES RISQUES ET PÉRILS !</string>
+    <string name="pref_title_pebble_forceuntested">Activer les fonctionnalités non testées</string>
+    <string name="pref_summary_pebble_forceuntested">Activer les fonctionnalités non testées. À VOS PROPRES RISQUES ET PÉRILS !</string>
     <string name="pref_title_pebble_forcele">Toujours préférer le BLE</string>
     <string name="pref_summary_pebble_forcele">Utiliser le support expérimental du LE pour toutes les Pebble au lieu du Bluetooth classique. Cela requiert le jumelage d\'une Pebble non LE, puis d\'une Pebble LE</string>
     <string name="pref_title_pebble_mtu_limit">Limite du GATT MTU de Pebble 2/LE</string>
@@ -218,7 +218,7 @@
     <string name="pref_screen_notification_profile_sms">Notification Texto</string>
     <string name="pref_header_vibration_settings">Paramètres des vibrations</string>
     <string name="pref_screen_notification_profile_generic">Notification générique</string>
-    <string name="pref_screen_notification_profile_email">Notification des mails</string>
+    <string name="pref_screen_notification_profile_email">Notification par courriel</string>
     <string name="pref_screen_notification_profile_incoming_call">Notification d\'appels entrants</string>
     <string name="pref_screen_notification_profile_generic_chat">Tchat</string>
     <string name="pref_screen_notification_profile_generic_navigation">Navigation</string>
@@ -265,7 +265,7 @@
     <string name="fwapp_install_device_not_ready">Le fichier ne peut pas être installé, l\'appareil n\'est pas prêt.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
     <string name="miband_fwinstaller_compatible_version">Version compatible</string>
-    <string name="miband_fwinstaller_untested_version">Version non-testée !</string>
+    <string name="miband_fwinstaller_untested_version">Version non testée !</string>
     <string name="fwappinstaller_connection_state">Connexion  à l\'appareil : %1$s</string>
     <string name="pbw_installhandler_pebble_firmware">Micrologiciel Pebble %1$s</string>
     <string name="pbwinstallhandler_correct_hw_revision">Version du matériel correcte</string>
@@ -327,7 +327,7 @@
     <string name="waiting_for_reconnect">En attente de reconnexion</string>
     <string name="activity_prefs_about_you">À propos de vous</string>
     <string name="activity_prefs_year_birth">Année de naissance</string>
-    <string name="activity_prefs_gender">Genre</string>
+    <string name="activity_prefs_gender">Sexe</string>
     <string name="activity_prefs_height_cm">Taille en cm</string>
     <string name="activity_prefs_weight_kg">Poids en kg</string>
     <string name="authenticating">Authentification</string>
@@ -346,7 +346,7 @@ Temps de sommeil préféré en heures</string>
     <string name="charts_legend_heartrate">Fréquence cardiaque</string>
     <string name="live_activity_heart_rate">Fréquence cardiaque</string>
     <string name="pref_title_pebble_health_store_raw">Stockez les enregistrements brut dans la base de données</string>
-    <string name="pref_summary_pebble_health_store_raw">Si coché, les données \"brutes\" sont stockées pour une interprétation ultérieure, augmentant la taille de la base de données.</string>
+    <string name="pref_summary_pebble_health_store_raw">Si coché, les données « brutes » sont stockées pour une interprétation ultérieure, augmentant la taille de la base de données.</string>
     <string name="action_db_management">Gestion de base de données</string>
     <string name="title_activity_db_management">Gestion de base de données</string>
     <string name="activity_db_management_import_export_explanation">Les opérations sur la base de données ont utilisé le chemin suivant sur votre appareil. 
@@ -407,17 +407,17 @@ Temps de sommeil préféré en heures</string>
     <string name="discovery_dont_pair">Ne pas appairer</string>
     <string name="fw_upgrade_notice_amazfitbip">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Bip. 
 \n 
-\nVeuillez installer le fichier .fw, puis le fichier .res, puis le fichier.gps. Votre montre redémarrera après installation du .fw. 
+\nVeuillez installer le fichier .fw, puis le fichier .res, puis le fichier.gps.. Votre montre redémarrera après installation du .fw. 
 \n 
-\nNote : vous ne devez pas installer .res et .gps si ceux-ci sont identiques à ceux installés précédemment. 
+\nNote : vous ne devez pas installer les fichiers .res et .gps si ceux-ci sont identiques à ceux installés précédemment. 
 \n 
-\nCONTINUEZ À VOS RISQUES !</string>
+\nCONTINUEZ À VOS RISQUES ET PÉRILS !</string>
     <string name="mi2_prefs_button_actions">Actions du bouton</string>
     <string name="mi2_prefs_button_actions_summary">Spécifier les actions par pression du bouton</string>
     <string name="mi2_prefs_button_press_count">Nombre de pressions du bouton</string>
     <string name="mi2_prefs_button_press_count_summary">Nombre d\'appuis sur le boutton pour envoyer l’Évènement 1. Appuyer de nouveau autant de fois créera l\'Évènement 2, etc.</string>
     <string name="mi2_prefs_button_press_broadcast">Message à envoyer</string>
-    <string name="mi2_prefs_button_press_broadcast_summary">Message de diffusion envoyé avec l\'évènement. Le paramètre `button_id` est automatiquement ajouté à chaque message.</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Message de diffusion envoyé avec l\'évènement. Le paramètre « button_id » est automatiquement ajouté à chaque message.</string>
     <string name="mi2_prefs_button_action">Activer action du bouton</string>
     <string name="mi2_prefs_button_action_summary">Activer action après nombre spécifié de pressions</string>
     <string name="mi2_prefs_button_action_vibrate">Activer la vibration du bracelet</string>
@@ -433,13 +433,13 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_summary_pebble_enable_bgjs">Si activé, autorise l\'affichage de la météo, niveau de batterie, etc.</string>
     <string name="activity_web_view">Activité Web View</string>
     <string name="controlcenter_connect">Connexion…</string>
-    <string name="fw_upgrade_notice_amazfitcor">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Cor.
-\n
-\nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après installation du fichier .fw.
-\n
-\nNote : Il n\'est pas nécessaire d\'installer le fichier .res si celui-ci est identique à celui installé précédemment.
-\n
-\nCONTINUEZ À VOS RISQUES !</string>
+    <string name="fw_upgrade_notice_amazfitcor">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Cor. 
+\n 
+\nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après installation du .fw. 
+\n 
+\nNote : vous ne devez pas installer .res si celui-ci est identique à celui installé précédemment. 
+\n 
+\nCONTINUEZ À VOS RISQUES ET PÉRILS !</string>
     <string name="pref_title_charts_swipe">Permettre le balayage gauche/droite dans les graphiques d\'activité</string>
     <string name="automatic">Automatique</string>
     <string name="simplified_chinese">Chinois simplifié</string>
@@ -512,15 +512,15 @@ Temps de sommeil préféré en heures</string>
     <string name="menuitem_alipay">Alipay</string>
     <string name="blacklist_all_for_notifications">Mettre toutes les notifications en liste noire</string>
     <string name="whitelist_all_for_notifications">Mettre toutes les notifications en liste blanche</string>
-    <string name="fw_upgrade_notice_miband3">Vous allez installer le micrologiciel %s dans votre Mi Band 3.
-\n
-\nAssurez-vous d\'installer d\'abord le fichier .fw, et ensuite le fichiers .res. Votre bracelet redémarrera après l\'installation du fichiers .fw.
-\n
-\nRemarque : Vous n\'avez pas besoin d\'installer le fichier .res si c\'est exactement le même que celui déjà installé.
-\n
-\nÀ VOS RISQUES ET PÉRILS !</string>
+    <string name="fw_upgrade_notice_miband3">Vous allez installer le micrologiciel %s dans votre Mi Band 3. 
+\n 
+\nAssurez-vous d\'installer d\'abord le fichier .fw, et ensuite le fichiers .res. Votre bracelet redémarrera après l\'installation du fichiers .fw. 
+\n 
+\nRemarque : Vous n\'avez pas besoin d\'installer le fichier .res si c\'est exactement le même que celui déjà installé. 
+\n 
+\nÀ VOS RISQUES ET PÉRILS ET PÉRILS !</string>
     <string name="pref_title_pebble_gatt_clientonly">client GATT uniquement</string>
-    <string name="pref_summary_pebble_gatt_clientonly">C\'est uniquement pour les Pebble 2 et expérimental, à essayer si vous avez des problèmes de connectivité</string>
+    <string name="pref_summary_pebble_gatt_clientonly">Pour Pebble 2 seulement et expérimental, essayez seulement si vous avez des problèmes de connexion</string>
     <string name="prefs_screen_orientation">Orientation de l\'écran</string>
     <string name="pref_auto_fetch">Récupérer automatiquement les données d\'activité</string>
     <string name="pref_auto_fetch_summary">Récupération au déverrouillage de l\'écran. Fonctionne uniquement si un mécanisme de verrouillage est configuré !</string>
@@ -538,7 +538,7 @@ Temps de sommeil préféré en heures</string>
     <string name="menuitem_notifications">Notifications</string>
     <string name="menuitem_music">Musique</string>
     <string name="menuitem_more">Suite</string>
-    <string name="controlcenter_change_led_color">Changer la couleur de la LED</string>
+    <string name="controlcenter_change_led_color">Changer la couleur de la DEL</string>
     <string name="controlcenter_change_fm_frequency">Changer la fréquence FM</string>
     <string name="controlcenter_calibrate_device">Calibrer l\'appareil</string>
     <string name="pref_title_notifications_timeout">Durée minimum entre deux notifications</string>
@@ -546,10 +546,10 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_summary_rtl">Cocher ceci si votre appareil n\'est pas compatible avec les langues \"droite-à-gauche\"</string>
     <string name="pref_rtl_max_line_length">Longueur max. d\'une ligne en mode Droite-à-Gauche</string>
     <string name="watch9_pairing_tap_hint">Lorsque votre bracelet vibre, secouez-le ou pressez son bouton.</string>
-    <string name="notif_battery_low">%1$s niveau de batterie bas</string>
-    <string name="notif_battery_low_extended">%1$s niveau de batterie base : %2$s</string>
-    <string name="lack_of_sleep">Manque de sommeil: %1$s</string>
-    <string name="overslept">Excès de sommeil: %1$s</string>
+    <string name="notif_battery_low">%1$s batterie faible</string>
+    <string name="notif_battery_low_extended">%1$s batterie faible : %2$s</string>
+    <string name="lack_of_sleep">Manque de sommeil : %1$s</string>
+    <string name="overslept">Excès de sommeil : %1$s</string>
     <string name="no_limit">Sans limite</string>
     <string name="seconds_5">5 secondes</string>
     <string name="seconds_10">10 secondes</string>
@@ -559,9 +559,9 @@ Temps de sommeil préféré en heures</string>
     <string name="minutes_5">5 minutes</string>
     <string name="minutes_10">10 minutes</string>
     <string name="minutes_30">30 minutes</string>
-    <string name="lack_of_step">Manque d\'activité: %1$d</string>
-    <string name="overstep">Trop d\'activité: %1$d</string>
-    <string name="live_activity_max_heart_rate">Mesure cardiaque actuelle / maximum: %1$d / %2$d</string>
+    <string name="lack_of_step">Manque d\'activité : %1$d</string>
+    <string name="overstep">Trop d\'activité : %1$d</string>
+    <string name="live_activity_max_heart_rate">Mesure cardiaque actuelle / maximum : %1$d / %2$d</string>
     <string name="you_slept">Vous avez dormi de %1$s à %2$s</string>
     <string name="you_did_not_sleep">Vous n\'avez pas dormi</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Glisser le doigt vers le haut pour débloquer l\'écran du bracelet</string>
@@ -579,9 +579,9 @@ Temps de sommeil préféré en heures</string>
     <string name="ok">Ok</string>
     <string name="mi3_night_mode_sunset">Au coucher du soleil</string>
     <string name="devicetype_watch9">Watch 9</string>
-    <string name="watch9_time_minutes">Minutes:</string>
-    <string name="watch9_time_hours">Heures:</string>
-    <string name="watch9_time_seconds">Secondes:</string>
+    <string name="watch9_time_minutes">Minutes :</string>
+    <string name="watch9_time_hours">Heures :</string>
+    <string name="watch9_time_seconds">Secondes :</string>
     <string name="watch9_calibration_hint">Régler l\'heure que votre appareil indique actuellement.</string>
     <string name="watch9_calibration_button">Calibrer</string>
     <string name="title_activity_watch9_pairing">Appairage de la Watch 9</string>
@@ -589,9 +589,9 @@ Temps de sommeil préféré en heures</string>
     <string name="preferences_rtl_settings">Support Droite-à-Gauche</string>
     <string name="share_log">Partager les logs</string>
     <string name="share_log_warning">Veuillez garder à l\'esprit que les fichiers logs de Gadgetbridge peuvent contenir des tas d\'informations personnelles, incluant entre autre des données relatives à la santé, des identifiants uniques (telles que des adresses MAC), des préférences musicales, etc. Pensez à modifier le fichier et retirer ces informations personnelles avant toute publication sur un rapport de bug public.</string>
-    <string name="warning">Attention!</string>
+    <string name="warning">Attention !</string>
     <string name="no_data">Pas de données</string>
-    <string name="preferences_led_color">Couleur de la LED</string>
+    <string name="preferences_led_color">Couleur de la DEL</string>
     <string name="preferences_fm_frequency">Fréquence FM</string>
     <string name="pref_invalid_frequency_title">Fréquence non-valide</string>
     <string name="pref_invalid_frequency_message">Veuillez introduire une fréquence entre 87.5 et 108.0</string>
@@ -601,7 +601,7 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_roidmi3">Roidmi 3</string>
     <string name="pref_title_contextual_arabic">Arabe contextuel</string>
     <string name="pref_summary_contextual_arabic">A cocher pour activer le support \"Arabe contextuel\"</string>
-    <string name="debugactivity_really_factoryreset_title">Confirmer la réinitialisation \?</string>
+    <string name="debugactivity_really_factoryreset_title">Vraiment retourner aux paramètres d\'usine \?</string>
     <string name="debugactivity_really_factoryreset">Une réinitialisation effacera toutes les données de l\'appareil connecté (si supporté). Les appareils Xiaomi/Huami modifient également l\'adresse MAC Bluetooth, de sorte qu\'ils apparaissent comme de nouveaux appareils dans Gadgetbridge.</string>
     <string name="mi3_prefs_band_screen_unlock">Déverrouillage de l\'écran du Band</string>
     <string name="activity_type_exercise">Activité physique</string>
@@ -619,7 +619,7 @@ Temps de sommeil préféré en heures</string>
     <string name="filter_mode">Mode Filtre</string>
     <string name="mode_configuration">Mode Configuration</string>
     <string name="save_configuration">Sauvegarder la configuration</string>
-    <string name="appwidget_not_connected">Non connecté, l’alarme n’est pas définie.</string>
+    <string name="appwidget_not_connected">Non connecté, l\'alarme n\'est pas définie.</string>
     <string name="prefs_disconnect_notification">Notification de déconnexion</string>
     <string name="zetime_title_settings">Paramètres ZeTime</string>
     <string name="zetime_title_heartrate">Paramètres Fréquence Cardiaque</string>
@@ -633,7 +633,7 @@ Temps de sommeil préféré en heures</string>
     <string name="zetime_analog_mode_hands">Aiguilles seulement</string>
     <string name="zetime_analog_mode_handsandsteps">Aiguilles et Pas</string>
     <string name="zetime_activity_tracking">Suivi des Activités</string>
-    <string name="zetime_activity_tracking_summary">"Activer le suivi des activités :  comptera vos pas, etc."</string>
+    <string name="zetime_activity_tracking_summary">Activer le suivi des activités : comptera vos pas, etc.</string>
     <string name="zetime_handmove_display_summary">Tourner le poignet pour activer ou désactiver l\'écran.</string>
     <string name="zetime_calories_type">Type de calories</string>
     <string name="zetime_calories_type_active">Seulement les calories brûlées activement</string>
@@ -667,23 +667,23 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_screen_notification_profile_anti_loss">Alerte Anti-Perte</string>
     <string name="interval_fifteen_minutes">Toutes les 15 min</string>
     <string name="interval_forty_five_minutes">Toutes les 45 min</string>
-    <string name="activity_prefs_calories_burnt">Objectif Quotidien : Calories Brulées</string>
-    <string name="activity_prefs_distance_meters">Objectif Quotidien : Distance en mètres</string>
-    <string name="activity_prefs_activetime_minutes">Objectif Quotidien : Temps d\'activité en minutes</string>
+    <string name="activity_prefs_calories_burnt">Objectif quotidien : calories brulées</string>
+    <string name="activity_prefs_distance_meters">Objectif quotidien : distance en mètres</string>
+    <string name="activity_prefs_activetime_minutes">Objectif quotidien : temps d\'activité en minutes</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
     <string name="pref_title_support_voip_calls">Activer les applications d\'appel VoIP</string>
     <string name="title_activity_device_specific_settings">Paramètres spécifiques de l\'appareil</string>
     <string name="pref_title_authkey">Clé Auteur</string>
     <string name="pref_summary_authkey">Changez la clé auteur à une clé générale sur tous vos appareils Android sur lesquels vous souhaitez vous connecter. La précédente clé par défaut était 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
-    <string name="fw_upgrade_notice_amazfitcor2">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Cor 2.
-\n
-\nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après installation du .fw.
-\n
-\nNote : il n\'est pas nécessaire d\'installer le fichier .res si celui-ci est identique à celui installé précédemment.
-\n
-\nCONTINUEZ À VOS RISQUES !
-\n
+    <string name="fw_upgrade_notice_amazfitcor2">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Cor 2. 
+\n 
+\nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après installation du .fw. 
+\n 
+\nNote : il n\'est pas nécessaire d\'installer le fichier .res si celui-ci est identique à celui installé précédemment. 
+\n 
+\nCONTINUEZ À VOS RISQUES ET PÉRILS ! 
+\n 
 \nNON TESTÉ, IL PEUT ÊTRE NÉCESSAIRE DE FLASHER UN MICROLOGICIEL BEATS_W SI LE NOM DE L\'APPAREIL EST « Amazfit Band 2 »</string>
     <string name="dutch">Néerlandais</string>
     <string name="turkish">Turc</string>
@@ -697,13 +697,13 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_rtl_max_line_length_summary">Allonge ou raccourcis les lignes dans les textes écrits de droite à gauche</string>
     <string name="zetime_handmove_display">Mouvement de la main</string>
     <string name="devicetype_miband4">Mi Band 4</string>
-    <string name="fw_upgrade_notice_miband4">Vous êtes sur le point d\'installer le firmware %s sur votre Mi Band 4.
-\n
-\nVeuillez vous assurez d\'installer le fichier .fw, et après que le fichier .res. Votre bracelet redémarrera après l\'installation du fichier .fw.
-\n
-\nRemarque : Vous n\'avez pas à installer .res s\'il est exactement le même que celui précédemment installé.
-\n
-\nÀ VOS RISQUES ET PÉRILS !</string>
+    <string name="fw_upgrade_notice_miband4">Vous êtes sur le point d\'installer le firmware %s sur votre Mi Band 4. 
+\n 
+\nVeuillez vous assurez d\'installer le fichier .fw, et après que le fichier .res. Votre bracelet redémarrera après l\'installation du fichier .fw. 
+\n 
+\nRemarque : Vous n\'avez pas à installer .res s\'il est exactement le même que celui précédemment installé. 
+\n 
+\nÀ VOS RISQUES ET PÉRILS ET PÉRILS !</string>
     <string name="prefs_hr_alarm_activity">Alarme de la fréquence cardiaque durant une activité sportive</string>
     <string name="prefs_hr_alarm_low">Limite basse</string>
     <string name="prefs_hr_alarm_high">Limite haute</string>
@@ -715,11 +715,11 @@ Temps de sommeil préféré en heures</string>
     <string name="weeksleepchart_sleep_a_month">Sommeil par mois</string>
     <string name="menuitem_nfc">NFC</string>
     <string name="pref_title_use_custom_font">Utiliser une police personnalisée</string>
-    <string name="activity_DB_test_export_message">Exportation de la base de données …</string>
+    <string name="activity_DB_test_export_message">Exportation de la base de données…</string>
     <string name="activity_db_management_exportimport_label">Exporter et Importer</string>
     <string name="widget_steps_label">Pas : %1$02d</string>
-    <string name="widget_listing_label">État et alarmes</string>
-    <string name="widget_set_alarm_after">Régler l’alarme après :</string>
+    <string name="widget_listing_label">Statuts et Alarmes</string>
+    <string name="widget_set_alarm_after">Définir l\'alarme après :</string>
     <string name="widget_5_minutes">5 minutes</string>
     <string name="widget_10_minutes">10 minutes</string>
     <string name="widget_20_minutes">20 minutes</string>
@@ -728,21 +728,21 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_display_add_device_fab_off">Visible uniquement si aucun appareil n\'est ajouté</string>
     <string name="prefs_find_phone_duration">Durée de la sonnerie en secondes</string>
     <string name="maximum_duration">Durée</string>
-    <string name="pref_charts_range_on">La portée des graphs est réglée sur un mois</string>
-    <string name="pref_charts_range_off">La portée des graphs est réglée sur une semaine</string>
+    <string name="pref_charts_range_on">Gamme des graphiques positionnée sur un mois</string>
+    <string name="pref_charts_range_off">Gamme des graphiques positionnée sur une semaine</string>
     <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
     <string name="pref_summary_expose_hr">Permettre aux autres applis d\'accéder aux données de fréquence cardiaque en temps réel lorsque Gadgetbridge est connecté</string>
     <string name="pref_title_expose_hr">Accès tiers fréq. cardiaque</string>
-    <string name="pref_summary_use_custom_font">À activer si votre appareil a une police spéciale embarquée pour prendre en charge les émoticônes</string>
+    <string name="pref_summary_use_custom_font">Activer ceci afin d’afficher les émojis si votre appareil a un micrologiciel de police personnalisée</string>
     <string name="activity_db_management_autoexport_explanation">L\'export automatique des données est réglé vers :</string>
-    <string name="activity_db_management_autoexport_label">Export auto</string>
-    <string name="activity_DB_ExportButton">Export de données</string>
-    <string name="activity_DB_import_button">Import de données</string>
-    <string name="activity_DB_test_export_button">Lancer l\'export maintenant</string>
-    <string name="activity_DB_delete_legacy_button">Supprimer les anciennes données</string>
+    <string name="activity_db_management_autoexport_label">Exportation automatique</string>
+    <string name="activity_DB_ExportButton">Exporter la base de données</string>
+    <string name="activity_DB_import_button">Importer la base de données</string>
+    <string name="activity_DB_test_export_button">Lancer immédiatement l\'exportation automatique</string>
+    <string name="activity_DB_delete_legacy_button">Supprimer l\'ancienne base de données</string>
     <string name="activity_DB_empty_button">Vider la base de données</string>
     <string name="activity_db_management_empty_DB">Vider la base de données</string>
-    <string name="activity_db_management_empty_db_warning">Attention ! Ce bouton détruit votre base de données et réinitialise.</string>
+    <string name="activity_db_management_empty_db_warning">Attention ! En cliquant sur ce bouton, vous supprimerez toutes vos données et recommencerez à zéro.</string>
     <string name="appwidget_sleep_alarm_widget_label">Réveil</string>
     <string name="widget_sleep_label">Sommeil : %1$s</string>
     <plurals name="widget_alarm_target_hours">
@@ -770,23 +770,23 @@ Temps de sommeil préféré en heures</string>
 \n
 \nÀ VOS RISQUES ET PÉRILS !</string>
     <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
-    <string name="fw_upgrade_notice_amazfitgtr">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit GTR.
-\n
-\nVeuillez installer le fichier .fw, puis le fichier .res et enfin le fichier .gps. Votre montre redémarrera après installation du fichier .fw.
-\n
-\nNote : vous n\'avez pas à installer les fichiers .res et .gps s\'ils sont exactement les mêmes que ceux installés précédemment.
-\n
-\nÀ VOS RISQUES ET PÉRILS !</string>
+    <string name="fw_upgrade_notice_amazfitgtr">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit GTR. 
+\n 
+\nVeuillez installer le fichier .fw, puis le fichier .res et enfin le fichier .gps. Votre montre redémarrera après installation du fichier .fw. 
+\n 
+\nNote : vous n\'avez pas à installer les fichiers .res et .gps s\'ils sont exactement les mêmes que ceux installés précédemment. 
+\n 
+\nÀ VOS RISQUES ET PÉRILS ET PÉRILS !</string>
     <string name="pref_title_chart_heartrate_color">Couleur du rythme cardiaque</string>
     <string name="pref_title_chart_sleep_rolling_24_hour">Plage de sommeil</string>
     <string name="devicetype_amazfit_gts">Amazfit GTS</string>
-    <string name="fw_upgrade_notice_amazfitgts">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit GTS.
-\n
-\nVeuillez installer le fichier .fw, puis le fichier .res et enfin le fichier .gps. Votre montre redémarrera après installation du fichier .fw.
-\n
-\nNote : vous n\'avez pas à installer les fichiers .res et .gps s\'ils sont exactement les mêmes que ceux installés précédemment.
-\n
-\nÀ VOS RISQUES ET PÉRILS !</string>
+    <string name="fw_upgrade_notice_amazfitgts">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit GTS. 
+\n 
+\nVeuillez installer le fichier .fw, puis le fichier .res et enfin le fichier .gps. Votre montre redémarrera après installation du fichier .fw. 
+\n 
+\nNote : vous n\'avez pas à installer les fichiers .res et .gps s\'ils sont exactement les mêmes que ceux installés précédemment. 
+\n 
+\nÀ VOS RISQUES ET PÉRILS ET PÉRILS !</string>
     <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
     <string name="preferences_qhybrid_settings">Paramètres hybrides Q</string>
     <string name="watch_not_connected">Montre non connectée</string>
@@ -829,4 +829,21 @@ Temps de sommeil préféré en heures</string>
     <string name="find_lost_device_you_found_it">Trouvé !</string>
     <string name="pref_title_force_white_color_scheme">Forcer le noir sur le blanc</string>
     <string name="pref_summary_force_white_color_scheme">Utile si votre montre a les mains noires</string>
+    <string name="pref_title_lower_button_function">Bouton inférieur</string>
+    <string name="pref_title_middle_button_function">Bouton du milieu</string>
+    <string name="pref_title_upper_button_function">Bouton supérieur</string>
+    <string name="hr_appname_commute">Trajet</string>
+    <string name="hr_appname_stopwatch">Chronomètre</string>
+    <string name="hr_appname_workout">Entraînement</string>
+    <string name="hr_appname_wellness">Bien-être</string>
+    <string name="notification_channel_high_priority_name">Priorité haute des notifications Gadgetbridge</string>
+    <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
+    <string name="find_my_phone_notification">Trouver mon téléphone</string>
+    <string name="pref_title_vibration_strength">Puissance du vibreur</string>
+    <string name="pref_title_relax_firmware_checks">Activez cette option si vous souhaitez flasher un microprogramme qui n\'est pas destiné à votre appareil (à vos propres risques)</string>
+    <string name="pref_summary_relax_firmware_checks">Assouplir les contrôles des microprogrammes</string>
+    <string name="pref_summary_custom_deviceicon">Afficher une icône de notification Android spécifique à l\'appareil à la place de l\'icône Gadgetbridge lors de la connexion</string>
+    <string name="pref_title_custom_deviceicon">Afficher l’icône de notification spécifique à l’appareil</string>
+    <string name="pref_qhybrid_title_widget_draw_circles">Widget traçant des cercles</string>
+    <string name="pref_header_auto_fetch">Récupération automatique</string>
 </resources>

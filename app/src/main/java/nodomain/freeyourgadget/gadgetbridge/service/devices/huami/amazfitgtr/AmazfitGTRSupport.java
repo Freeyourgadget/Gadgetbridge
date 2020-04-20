@@ -26,6 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr.AmazfitGTRF
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperationNew;
 
 public class AmazfitGTRSupport extends AmazfitBipSupport {
 
@@ -47,6 +48,11 @@ public class AmazfitGTRSupport extends AmazfitBipSupport {
     @Override
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
         return new AmazfitGTRFWHelper(uri, context);
+    }
+
+    @Override
+    public UpdateFirmwareOperationNew createUpdateFirmwareOperation(Uri uri) {
+        return new UpdateFirmwareOperationNew(uri, this);
     }
 
     @Override

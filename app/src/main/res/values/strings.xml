@@ -186,6 +186,8 @@
     <string name="pref_summary_allow_high_mtu">Increases transfer speed, but might not work on some Android devices.</string>
     <string name="pref_summary_sync_calendar">Enables calendar alerts, even when disconnected</string>
     <string name="pref_title_sync_caldendar">Sync calendar events</string>
+    <string name="pref_summary_relax_firmware_checks">Relax firmware checks</string>
+    <string name="pref_title_relax_firmware_checks">Enable this if you want to flash a firmware not intended for you device (at your own risk)</string>
     <string name="pref_title_vibration_strength">Vibration strength</string>
     <string name="pref_display_add_device_fab">Connect new device button</string>
     <string name="pref_display_add_device_fab_on">Always visible</string>
@@ -293,6 +295,7 @@
     <string name="pref_title_auto_export_interval">Export interval</string>
     <string name="pref_summary_auto_export_interval">Export every %d hour</string>
     <!-- Auto fetch activity preferences -->
+    <string name="pref_header_auto_fetch">Auto fetch</string>
     <string name="pref_auto_fetch">Auto fetch activity data</string>
     <string name="pref_auto_fetch_summary">Fetch happens upon screen unlock. Only works if a lock mechanism is set!</string>
     <string name="pref_auto_fetch_limit_fetches">Minimum time between fetches</string>
@@ -717,6 +720,7 @@
     <string name="devicetype_amazfit_cor">Amazfit Cor</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
+    <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
     <string name="devicetype_vibratissimo">Vibratissimo</string>
     <string name="devicetype_liveview">LiveView</string>
     <string name="devicetype_hplus">HPlus</string>
@@ -851,6 +855,7 @@
     <string name="prefs_button_long_press_action_selection_title">Long press button action</string>
 
     <string name="error_no_location_access">Location access must be granted and enabled for scanning to work properly</string>
+    <string name="pref_qhybrid_title_widget_draw_circles">Draw widget circles</string>
 
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>

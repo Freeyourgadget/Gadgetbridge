@@ -19,11 +19,14 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip;
 import java.util.HashMap;
 import java.util.Map;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class AmazfitBipLiteFirmwareInfo extends HuamiFirmwareInfo {
 
@@ -65,6 +68,15 @@ public class AmazfitBipLiteFirmwareInfo extends HuamiFirmwareInfo {
         if (ArrayUtils.startsWith(bytes, FW_HEADER)) {
             if (searchString32BitAligned(bytes, "Amazfit Bip Lite")) {
                 return HuamiFirmwareType.FIRMWARE;
+            }
+            GBDevice device = GBApplication.app().getDeviceManager().getSelectedDevice();
+            if (device != null) {
+                Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()));
+                if (prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_RELAX_FIRMWARE_CHECKS, false)) {
+                    if (searchString32BitAligned(bytes, "Amazfit Bip")) {
+                        return HuamiFirmwareType.FIRMWARE;
+                    }
+                }
             }
             return HuamiFirmwareType.INVALID;
         }
