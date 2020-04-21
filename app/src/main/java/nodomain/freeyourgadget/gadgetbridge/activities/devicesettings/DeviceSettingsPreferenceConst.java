@@ -33,4 +33,5 @@ public class DeviceSettingsPreferenceConst {
 
     public static final String PREF_HYBRID_HR_FORCE_WHITE_COLOR = "force_white_color_scheme";
     public static final String PREF_HYBRID_HR_DRAW_WIDGET_CIRCLES = "widget_draw_circles";
+    public static final String PREF_HYBRID_HR_SAVE_RAW_ACTIVITY_FILES = "save_raw_activity_files";
 }

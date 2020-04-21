@@ -31,6 +31,10 @@
         android:defaultValue="false"
         android:key="widget_draw_circles"
         android:title="@string/pref_qhybrid_title_widget_draw_circles" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="save_raw_activity_files"
+        android:title="@string/pref_qhybrid_save_raw_activity_files" />
 
     <SeekBarPreference
         android:defaultValue="2"

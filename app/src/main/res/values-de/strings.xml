@@ -862,4 +862,5 @@
     <string name="pref_title_relax_firmware_checks">Aktiviere das flashen von Firmware, die nicht für dieses Gerät bestimmt ist (auf eigenes Risiko)</string>
     <string name="pref_qhybrid_title_widget_draw_circles">Widget-Kreise zeichnen</string>
     <string name="pref_header_auto_fetch">Automatischer Abruf</string>
+    <string name="pref_qhybrid_save_raw_activity_files">Raw Activity Dateien speichern</string>
 </resources>

@@ -111,8 +111,12 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         super(deviceSupport);
     }
 
+    private boolean saveRawActivityFiles = false;
+
     @Override
     public void initialize() {
+        saveRawActivityFiles = getDeviceSpecificPreferences().getBoolean("save_raw_activity_files", false);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             queueWrite(new RequestMtuRequest(512));
         }
@@ -520,7 +524,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
                             provider.addGBActivitySamples(samples);
 
-                            writeFile(String.valueOf(System.currentTimeMillis()), fileData);
+                            if(saveRawActivityFiles) {
+                                writeFile(String.valueOf(System.currentTimeMillis()), fileData);
+                            }
                             queueWrite(new FileDeleteRequest(fileHandle));
                             GB.toast("synced activity data", Toast.LENGTH_SHORT, GB.INFO);
                         } catch (Exception ex) {
@@ -856,6 +862,10 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 // not break here
             case "widget_draw_circles": {
                 renderWidgets();
+                break;
+            }
+            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_SAVE_RAW_ACTIVITY_FILES: {
+                saveRawActivityFiles = getDeviceSpecificPreferences().getBoolean("save_raw_activity_files", false);
                 break;
             }
         }
