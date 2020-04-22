@@ -866,4 +866,8 @@
     <string name="pref_header_auto_fetch">Coletar automaticamente</string>
     <string name="pref_qhybrid_title_widget_draw_circles">Desenhar círculos de widget</string>
     <string name="pref_qhybrid_save_raw_activity_files">Salvar arquivos não tratados de atividade</string>
+    <string name="menuitem_workout">Treino</string>
+    <string name="menuitem_eventreminder">Lembrete de eventos</string>
+    <string name="menuitem_hr">Frequência cardíaca</string>
+    <string name="menuitem_pai">PAI</string>
 </resources>
