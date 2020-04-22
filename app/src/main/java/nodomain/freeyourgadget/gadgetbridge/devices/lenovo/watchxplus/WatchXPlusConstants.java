@@ -30,29 +30,31 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final UUID UUID_CHARACTERISTIC_UNKNOWN_3 = UUID.fromString("0000a803-0000-1000-8000-00805f9b34fb");
     public static final UUID UUID_CHARACTERISTIC_UNKNOWN_4 = UUID.fromString("0000a804-0000-1000-8000-00805f9b34fb");
 
-    public static final String PREF_ACTIVATE_DISPLAY = "activate_display_on_lift_wrist";
-    public static final String PREF_DISCONNECT_REMIND = "disconnect_notification";
+
+
     public static final String PREF_FIND_PHONE = "prefs_find_phone";
     public static final String PREF_FIND_PHONE_DURATION = "prefs_find_phone_duration";
-    public static final String PREF_ALTITUDE = "pref_watchxplus_altitude";
-    public static final String PREF_REPEAT = "watchxplus_repeat";
-    public static final String PREF_CONTINIOUS = "watchxplus_continious";
-    public static final String PREF_MISSED_CALL = "watchxplus_missed";
-    public static final String PREF_MISSED_CALL_REPEAT = "watchxplus_repeat_missedcall";
-    public static final String PREF_IS_BP_CALIBRATED = "watchxplus_is_bp_calibrated";
-    public static final String PREF_BUTTON_REJECT = "watchxplus_button_reject";
-    public static final String PREF_SHAKE_REJECT = "watchxplus_shake_reject";
-    public static final String PREF_BP_CAL_LOW = "pref_wxp_bp_calibration_low";
-    public static final String PREF_BP_CAL_HIGH = "pref_wxp_bp_calibration_high";
-    public static final String PREF_BP_CAL_SWITCH = "wxp_button_BP_calibration_list";
+
+    // new
+    public static final String PREF_CONTINIOUS_RING = "notification_enable_continious_ring";
+    public static final String PREF_REPEAT_RING = "notification_repeat_ring";
+    public static final String PREF_MISSED_CALL_ENABLE = "notification_enable_missed_call";
+    public static final String PREF_MISSED_CALL_REPEAT = "notification_repeat_missed_call";
+    public static final String PREF_BUTTON_REJECT = "notification_button_reject";
+    public static final String PREF_SHAKE_REJECT = "notification_shake_reject";
+    public static final String PREF_FORCE_TIME = "pref_device_spec_settings_force_time";
+    public static final String PREF_BP_CAL_LOW = "pref_sensors_bp_calibration_low";
+    public static final String PREF_BP_CAL_HIGH = "pref_sensors_bp_calibration_high";
+
     public static final String PREF_DO_NOT_DISTURB = "do_not_disturb_no_auto";
     public static final String PREF_DO_NOT_DISTURB_START = "do_not_disturb_no_auto_start";
     public static final String PREF_DO_NOT_DISTURB_END = "do_not_disturb_no_auto_end";
-    public static final String PREF_LONGSIT_SWITCH = "pref_watchxplus_longsit_switch";
-    public static final String PREF_LONGSIT_PERIOD = "pref_watchxplus_longsit_period";
-    public static final String PREF_WXP_LANGUAGE = "pref_wxp_language";
-    public static final String PREF_POWER_MODE = "pref_wxp_power";
-    public static final String PREF_FORCE_TIME = "pref_wxp_force_time";
+
+    public static final String PREF_LONGSIT_START = "pref_longsit_start";
+    public static final String PREF_LONGSIT_END = "pref_longsit_end";
+
+    // moved to gear icon (per device settings)
+    public static final String PREF_LANGUAGE = "language";
 
     // time format constants
     public static final byte ARG_SET_TIMEMODE_24H = 0x00;

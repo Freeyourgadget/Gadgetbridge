@@ -90,6 +90,9 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
+import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getContext;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_LANGUAGE;
+
 public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Prefs prefs  = GBApplication.getPrefs();
 
@@ -476,7 +479,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
             LOG.info(" Time diff is too big ");
             GB.toast("Manual time calibration needed!", Toast.LENGTH_LONG, GB.WARN);
             sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_DEFAULT, "Calibrate time");
-            boolean forceTime = prefs.getBoolean(WatchXPlusConstants.PREF_FORCE_TIME, false);
+            boolean forceTime = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(WatchXPlusConstants.PREF_FORCE_TIME, false);
             if (forceTime) {
                 LOG.info(" Force set time ");
                 enableCalibration(true);
@@ -626,14 +629,12 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         final int repeatDelay = 5000;       // repeat delay of 5 sec (watch show call notifications for about 5 sec.)
         final int repeatMissedDelay = 60000;       // repeat missed call delay of 60 sec
         // set settings for missed call
-        int repeatCount = WatchXPlusDeviceCoordinator.getRepeatOnCall();
-        int repeatCountMissed = WatchXPlusDeviceCoordinator.getMissedCallRepeat();
-        // check if repeatCount is in boundaries min=0, max=10
-        if (repeatCount < 0) repeatCount = 0;
-        if (repeatCount > 10) repeatCount = 10;   // limit repeats to 10
-        // check if repeatCountMissed is in boundaries min=0, max=10
-        if (repeatCountMissed < 0) repeatCountMissed = 0;
-        if (repeatCountMissed > 10) repeatCountMissed = 10;   // limit repeats to 10
+        //int repeatCount = WatchXPlusDeviceCoordinator.getRepeatOnCall();
+
+        final boolean continuousRing = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(WatchXPlusConstants.PREF_CONTINIOUS_RING, false);
+        int repeatCount = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getInt(WatchXPlusConstants.PREF_REPEAT_RING, 0);
+        final boolean enableMissedCall = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(WatchXPlusConstants.PREF_MISSED_CALL_ENABLE, false);
+        int repeatCountMissed = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getInt(WatchXPlusConstants.PREF_MISSED_CALL_REPEAT, 0);
 
         switch (callSpec.command) {
             case CallSpec.CALL_INCOMING:
@@ -652,7 +653,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                     handler.postDelayed(new Runnable() {
                         public void run() {
                             // Actions to do after repeatDelay seconds
-                            if (((isRinging) && (remainingRepeats > 0)) || ((isRinging) && (WatchXPlusDeviceCoordinator.getContiniousVibrationOnCall()))) {
+                            if (((isRinging) && (remainingRepeats > 0)) || ((isRinging) && (continuousRing))) {
                                 remainingRepeats = remainingRepeats - 1;
                                 sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, callSpec.name);
                                 // re-run handler
@@ -698,7 +699,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 if (isMissedCall) {
                     remainingMissedRepeats = repeatCountMissed;
                     // send missed call notification if enabled in settings
-                    if (WatchXPlusDeviceCoordinator.getMissedCallReminder()) {
+                    if (enableMissedCall) {
                         LOG.info(" Missed call reminder ");
                         sendNotification(WatchXPlusConstants.NOTIFICATION_CHANNEL_PHONE_CALL, "Missed call");
                         // repeat missed call notification
@@ -748,7 +749,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     private void handleButtonWhenRing() {
         GBDeviceEventCallControl callCmd = new GBDeviceEventCallControl();
         // get saved settings if true - reject call, otherwise ignore call
-        boolean buttonReject = WatchXPlusDeviceCoordinator.getButtonReject();
+        boolean buttonReject = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(WatchXPlusConstants.PREF_BUTTON_REJECT, false);
         if (buttonReject) {
             LOG.info(" call rejected ");
             isRinging = false;
@@ -945,6 +946,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     public void onSendConfiguration(String config) {
         TransactionBuilder builder;
         SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(this.getDevice().getAddress());
+        LOG.info(" onSendConfiguration: " + config);
         try {
             builder = performInitialized("sendConfig: " + config);
             switch (config) {
@@ -956,39 +958,37 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                     setFitnessGoal(builder);
                     break;
                 // settings from App Settings -> WatchXPlus settings
-                case WatchXPlusConstants.PREF_POWER_MODE:
+                case DeviceSettingsPreferenceConst.PREF_POWER_MODE:
                     setPowerMode();
                     break;
-                case WatchXPlusConstants.PREF_WXP_LANGUAGE:
-                    setLanguageAndTimeFormat(builder, sharedPreferences);
+                case WatchXPlusConstants.PREF_LANGUAGE:
+                    setLanguageAndTimeFormat(builder);
                     break;
-                case WatchXPlusConstants.PREF_LONGSIT_PERIOD:
-                case WatchXPlusConstants.PREF_LONGSIT_SWITCH:
-                    setLongSitHours(builder, sharedPreferences);
+
+                case DeviceSettingsPreferenceConst.PREF_LONGSIT_PERIOD:
+                case DeviceSettingsPreferenceConst.PREF_LONGSIT_SWITCH:
+                    setLongSitHours(builder);
                     break;
                 // calibrations
-                case WatchXPlusConstants.PREF_ALTITUDE:
+                case DeviceSettingsPreferenceConst.PREF_ALTITUDE_CALIBRATE:
                     setAltitude(builder);
                     break;
-                case WatchXPlusConstants.PREF_BP_CAL_SWITCH:
+                case DeviceSettingsPreferenceConst.PREF_BUTTON_BP_CALIBRATE:
                     sendBloodPressureCalibration();
                     break;
                 // settings from device card
-                case WatchXPlusConstants.PREF_ACTIVATE_DISPLAY:
-                    setHeadsUpScreen(builder, sharedPreferences);
+                case DeviceSettingsPreferenceConst.PREF_LIFTWRIST_NOSHED:
+                    setHeadsUpScreen(builder);
                     getShakeStatus(builder);
                     break;
-                case WatchXPlusConstants.PREF_DISCONNECT_REMIND:
-                    setDisconnectReminder(builder, sharedPreferences);
-                    getDisconnectReminderStatus(builder);
+                case DeviceSettingsPreferenceConst.PREF_DISCONNECTNOTIF_NOSHED:
+                    setDisconnectReminder(builder);
                     break;
                 case DeviceSettingsPreferenceConst.PREF_TIMEFORMAT:
-                    setLanguageAndTimeFormat(builder, sharedPreferences);
+                    setLanguageAndTimeFormat(builder);
                     break;
                 case WatchXPlusConstants.PREF_DO_NOT_DISTURB:
-                case WatchXPlusConstants.PREF_DO_NOT_DISTURB_START:
-                case WatchXPlusConstants.PREF_DO_NOT_DISTURB_END:
-                    setDNDHours(builder, sharedPreferences);
+                    setDNDHours(builder);
                     break;
             }
             builder.queue(getQueue());
@@ -999,7 +999,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onReadConfiguration(String config) {
-
+        LOG.info(" onReadConfiguration : " + config);
     }
 
     @Override
@@ -1019,7 +1019,6 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     private void setLongSitHours(TransactionBuilder builder, boolean enable, int hourStart, int minuteStart, int hourEnd, int minuteEnd, int period) {
         LOG.info(" Setting Long sit reminder... Enabled:"+enable+" Period:"+period);
         LOG.info(" Setting Long sit time... Hs:"+hourEnd+" Ms:"+minuteEnd+" He:"+hourStart+" Me:"+minuteStart);
-        LOG.info(" Setting Long sit DND time... Hs:"+hourStart+" Ms:"+minuteStart+" He:"+hourEnd+" Me:"+minuteEnd);
         // set Long Sit reminder time
         byte[] command = WatchXPlusConstants.CMD_INACTIVITY_REMINDER_SET;
 
@@ -1043,14 +1042,15 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
     /** get Long sit settings from app, and send it to watch
      * @param builder  - transaction builder
-     * @param sharedPreferences - shared preferences
      */
-    private void setLongSitHours(TransactionBuilder builder, SharedPreferences sharedPreferences) {
+    private void setLongSitHours(TransactionBuilder builder) {
         Calendar start = new GregorianCalendar();
         Calendar end = new GregorianCalendar();
-        boolean enable = WatchXPlusDeviceCoordinator.getLongSitHours(sharedPreferences, start, end);
+        boolean enable = WatchXPlusDeviceCoordinator.getLongSitHours(gbDevice.getAddress(), start, end);
         if (enable) {
-            int period = prefs.getInt(WatchXPlusConstants.PREF_LONGSIT_PERIOD, 60);
+            String periodString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_LONGSIT_PERIOD, "60");
+            int period = Integer.parseInt(periodString);
+
             this.setLongSitHours(builder, enable,
                     start.get(Calendar.HOUR_OF_DAY), start.get(Calendar.MINUTE),
                     end.get(Calendar.HOUR_OF_DAY), end.get(Calendar.MINUTE),
@@ -1114,12 +1114,11 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
     /** get DND settings from app, and send it to watch
      * @param builder - transaction builder
-     * @param sharedPreferences - shared preferences
      */
-    private void setDNDHours(TransactionBuilder builder, SharedPreferences sharedPreferences) {
+    private void setDNDHours(TransactionBuilder builder) {
         Calendar start = new GregorianCalendar();
         Calendar end = new GregorianCalendar();
-        boolean enable = WatchXPlusDeviceCoordinator.getDNDHours(sharedPreferences, start, end);
+        boolean enable = WatchXPlusDeviceCoordinator.getDNDHours(gbDevice.getAddress(), start, end);
         if (enable) {
             this.setDNDHours(builder, enable,
                     start.get(Calendar.HOUR_OF_DAY), start.get(Calendar.MINUTE),
@@ -1136,12 +1135,21 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
      * modes (0- normal, 1- energysaving, 2- only watch)
      */
     private void setPowerMode() {
-        int settingRead = prefs.getInt(WatchXPlusConstants.PREF_POWER_MODE, 0);
+        byte setWatchPowerMode = 0x00;
+        String powermodeStr = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_POWER_MODE, "0");
+        if (powermodeStr.equals("0")) {
+            setWatchPowerMode = 0x00;
+        } else if (powermodeStr.equals("1")) {
+            setWatchPowerMode = 0x01;
+        } else if (powermodeStr.equals("2")) {
+            setWatchPowerMode = 0x02;
+        }
+
         byte[] bArr = new byte[1];
-        bArr[0] = (byte) settingRead;
-        LOG.info(" setting power mode to: " + settingRead);
+        bArr[0] = (byte) setWatchPowerMode;
+        LOG.info(" setting power mode to: " + setWatchPowerMode);
         try {
-            TransactionBuilder builder = performInitialized("setPowerMode");
+            TransactionBuilder builder = performInitialized("setWatchPowerMode");
             builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
                     buildCommand(WatchXPlusConstants.CMD_POWER_MODE,
                             WatchXPlusConstants.TASK,
@@ -1212,18 +1220,18 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
      */
     private void sendBloodPressureCalibration() {
         try {
-            int beginCalibration = prefs.getInt(WatchXPlusConstants.PREF_BP_CAL_SWITCH, 0);
-            if (beginCalibration == 1) {
+            String beginCalibration = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_BUTTON_BP_CALIBRATE, "0");
+            if (beginCalibration.equals("1")) {
                 LOG.info(" Calibrating BP - cancel " + beginCalibration);
                 return;
             }
-            int mLowP = prefs.getInt(WatchXPlusConstants.PREF_BP_CAL_LOW, 80);
-            int mHighP = prefs.getInt(WatchXPlusConstants.PREF_BP_CAL_HIGH, 130);
+            String mLowPString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(WatchXPlusConstants.PREF_BP_CAL_LOW, "80");
+            int mLowP = Integer.parseInt(mLowPString);
+            String mHighPString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(WatchXPlusConstants.PREF_BP_CAL_HIGH, "130");
+            int mHighP = Integer.parseInt(mHighPString);
             LOG.warn(" Calibrating BP ... LowP=" + mLowP + " HighP="+mHighP);
             GB.toast("Calibrating BP...", Toast.LENGTH_LONG, GB.INFO);
-
-            TransactionBuilder builder = performInitialized("bpCalibrate");
-
+           TransactionBuilder builder = performInitialized("bpCalibrate");
             byte[] command = WatchXPlusConstants.CMD_BP_CALIBRATION;
             byte mStart = 0x01; // initiate calibration
 
@@ -1289,29 +1297,6 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
             LOG.warn(" Unable to request BP Measure ", e);
         }
     }
-
-
-
-    // not working!!!
-    private void testNewCommands() {
-        try {
-            TransactionBuilder builder = performInitialized("test");
-
-            int first = prefs.getInt("wxp_newcmd_first", 0);
-            int second = prefs.getInt("wxp_newcmd_second", 0);
-            byte[] command = new byte[]{(byte) first, (byte) second};
-
-            LOG.info(" testing new command " + Arrays.toString(command));
-            builder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
-                    buildCommand(command,
-                            WatchXPlusConstants.READ_VALUE));
-
-            builder.queue(getQueue());
-        } catch (IOException e) {
-            LOG.warn(" Unable to request new command ", e);
-        }
-    }
-
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
@@ -2020,13 +2005,12 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
 // read preferences
     private void syncPreferences(TransactionBuilder transaction) {
-        SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(this.getDevice().getAddress());
-        this.setHeadsUpScreen(transaction, sharedPreferences);              // lift wirst to screen on
-        this.setDNDHours(transaction, sharedPreferences);                 // DND
-        this.setDisconnectReminder(transaction, sharedPreferences);         // disconnect reminder
-        this.setLanguageAndTimeFormat(transaction, sharedPreferences);      // set time mode 12/24h
+        this.setHeadsUpScreen(transaction);              // lift wirst to screen on
+        this.setDNDHours(transaction);                 // DND
+        this.setDisconnectReminder(transaction);         // disconnect reminder
+        this.setLanguageAndTimeFormat(transaction);      // set time mode 12/24h
         this.setAltitude(transaction);                                      // set altitude calibration
-        this.setLongSitHours(transaction, sharedPreferences);               // set Long sit reminder
+        this.setLongSitHours(transaction);               // set Long sit reminder
         ActivityUser activityUser = new ActivityUser();
         this.setPersonalInformation(transaction, activityUser.getHeightCm(), activityUser.getWeightKg(),
                 activityUser.getAge(),activityUser.getGender());
@@ -2066,15 +2050,11 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
             evaluateGBDeviceEvent(findPhoneEvent);
         }
     }
-    // Set Lift Wrist to Light Screen based on saved preferences
-    private void setHeadsUpScreen(TransactionBuilder transactionBuilder, SharedPreferences sharedPreferences) {
-        this.setHeadsUpScreen(transactionBuilder,
-                WatchXPlusDeviceCoordinator.shouldEnableHeadsUpScreen(sharedPreferences));
-    }
 
     // Command to toggle Lift Wrist to Light Screen, and shake to ignore/reject call
-    private void setHeadsUpScreen(TransactionBuilder transactionBuilder, boolean enable) {
-        boolean shakeReject = WatchXPlusDeviceCoordinator.getShakeReject();
+    private void setHeadsUpScreen(TransactionBuilder transactionBuilder) {
+        boolean enable = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREF_LIFTWRIST_NOSHED, false);
+        boolean shakeReject = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(WatchXPlusConstants.PREF_SHAKE_REJECT, false);
         byte refuseCall = 0x00; // force shake wrist to ignore/reject call to OFF
                                 // returned characteristic is equal with button press while ringing
         if (shakeReject) refuseCall = 0x01;
@@ -2094,24 +2074,15 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                              liftScreen));
     }
 
-    private void setDisconnectReminder(TransactionBuilder transactionBuilder, SharedPreferences sharedPreferences) {
-        this.setDisconnectReminder(transactionBuilder,
-                WatchXPlusDeviceCoordinator.shouldEnableDisconnectReminder(sharedPreferences));
-    }
-
-    private void setDisconnectReminder(TransactionBuilder transactionBuilder, boolean enable) {
+    // command to set disconnect reminder
+    private void setDisconnectReminder(TransactionBuilder transactionBuilder) {
+        boolean enable = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREF_DISCONNECTNOTIF_NOSHED, false);
         transactionBuilder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
                 buildCommand(WatchXPlusConstants.CMD_DISCONNECT_REMIND,
                         WatchXPlusConstants.WRITE_VALUE,
                         new byte[]{(byte) (enable ? 0x01 : 0x00)}));
     }
 
-// Request status of Disconnect reminder
-    private void getDisconnectReminderStatus(TransactionBuilder transactionBuilder) {
-        transactionBuilder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
-                buildCommand(WatchXPlusConstants.CMD_DISCONNECT_REMIND,
-                        WatchXPlusConstants.READ_VALUE));
-    }
 // Request status of Lift Wrist to Light Screen, and Shake to Ignore/Reject Call
     private void getShakeStatus(TransactionBuilder transactionBuilder) {
         transactionBuilder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
@@ -2121,7 +2092,8 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
 // calibrate altitude
     private void setAltitude(TransactionBuilder transactionBuilder) {
-        int mAltitude = WatchXPlusDeviceCoordinator.getAltitude();
+        String altitudeString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_ALTITUDE_CALIBRATE, "200");
+        int mAltitude = Integer.parseInt(altitudeString);
         if (mAltitude < 0) {
             mAltitude = (Math.abs(mAltitude) ^ 65535) + 1;
         }
@@ -2139,20 +2111,30 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     // set time format
-    private void setLanguageAndTimeFormat(TransactionBuilder transactionBuilder, byte timeMode, byte language) {
+    private void setLanguageAndTimeFormat(TransactionBuilder transactionBuilder) {
+        byte setLanguage, setTimeMode;
+        String languageString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(WatchXPlusConstants.PREF_LANGUAGE, "1");
+        if (languageString == null || languageString.equals("1")) {
+             setLanguage = 0x01;
+        } else {
+            setLanguage = 0x00;
+        }
+
+        String timeformatString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, "1");
+        assert timeformatString != null;
+        if (timeformatString.equals(getContext().getString(R.string.p_timeformat_24h))) {
+            setTimeMode = WatchXPlusConstants.ARG_SET_TIMEMODE_24H;
+        } else {
+            setTimeMode = WatchXPlusConstants.ARG_SET_TIMEMODE_12H;
+        }
+
         byte[] bArr = new byte[2];
-        bArr[0] = language;           //byte[08] language
-        bArr[1] = timeMode;           //byte[09] time
+        bArr[0] = setLanguage;           //byte[08] language
+        bArr[1] = setTimeMode;           //byte[09] time
         transactionBuilder.write(getCharacteristic(WatchXPlusConstants.UUID_CHARACTERISTIC_WRITE),
                 buildCommand(WatchXPlusConstants.CMD_TIME_LANGUAGE,
                         WatchXPlusConstants.WRITE_VALUE,
                         bArr));
-    }
-
-    private void setLanguageAndTimeFormat(TransactionBuilder transactionBuilder, SharedPreferences sharedPreferences) {
-        this.setLanguageAndTimeFormat(transactionBuilder,
-                WatchXPlusDeviceCoordinator.getTimeMode(sharedPreferences),
-                WatchXPlusDeviceCoordinator.getLanguage());
     }
 
     @Override

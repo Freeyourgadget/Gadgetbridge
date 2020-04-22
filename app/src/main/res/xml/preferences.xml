@@ -580,12 +580,6 @@
             android:icon="@drawable/ic_device_zetime"
             android:key="pref_key_zetime"
             android:title="@string/zetime_title_settings"/>
-
-        <Preference
-            android:icon="@drawable/ic_device_watchxplus"
-            android:key="pref_key_watchxplus"
-            android:title="@string/preferences_watchxplus_settings"/>
-
     </PreferenceCategory>
 
     <PreferenceCategory

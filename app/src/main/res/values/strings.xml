@@ -199,43 +199,40 @@
     <string name="prefs_title_all_day_heart_rate">All day heart rate measurement</string>
     <string name="preferences_hplus_settings">HPlus/Makibes settings</string>
     <!-- WatchXPlus Preferences -->
-    <string name="title_activity_watchXplus_calibration">Watch X Plus calibration</string>
-    <string name="pref_wxp_title_unit_system">Units</string>
-    <string name="pref_wxp_title_timeformat">Time format</string>
-    <string name="pref_wxp_title_altitude">Altitude calibration</string>
-    <string name="pref_wxp_title_repeat_on_call">Repeat call notification</string>
-    <string name="pref_wxp_title_repeat_on_call_summary">Possible values min=0, max=10</string>
-    <string name="prefs_wxp_continious">Vibration during phone ring</string>
-    <string name="preferences_watchxplus_settings">Watch X Plus settings</string>
-    <string name="pref_header_wxp_call_notification">Notifications and Calls</string>
-    <string name="pref_wxp_title_reject_summary">Off - ignore, On - reject</string>
-    <string name="prefs_wxp_reject">Button ignore/reject call</string>
-    <string name="pref_wxp_title_shake_reject_summary">Duplicates watch button action</string>
-    <string name="prefs_wxp_shake_reject">Shake wrist ignore/reject call</string>
-    <string name="wxp_bp_calibration_prefs">Blood Pressure calibration</string>
-    <string name="pref_wxp_bp_calibration_low">Blood Pressure DIASTOLIC (low)</string>
-    <string name="pref_wxp_bp_calibration_high">Blood Pressure SYSTOLIC (high)</string>
-    <string name="prefs_wxp_button_bp_calibration">Calibration</string>
-    <string name="prefs_wxp_button_bp_calibration_sum">Press here to begin calibration</string>
-    <string name="pref_header_wxp_calibration">Sensors Calibration</string>
-    <string name="pref_header_wxp_settings">Device settings</string>
-    <string name="wxp_power_mode_title">Watch mode</string>
-    <string name="wxp_mode_normal">Normal</string>
-    <string name="wxp_mode_saving">Power saving</string>
-    <string name="wxp_mode_watch">Only watch</string>
-    <string name="pref_wxp_title_repeat_on_misscall_summary">Repeat missed call notification every minute for X times</string>
-    <string name="pref_wxp_title_repeat_on_misscall">Repeat missed call notification</string>
-    <string name="pref_wxp_enable_misscall">Notify for missed call</string>
-    <string name="pref_header_wxp_notification_callhandling">Call Handling</string>
-    <string name="pref_header_wxp_longsit">Inactivity reminder</string>
-    <string name="pref_wxp_longsit_period_summary">Remind if there is no activity for more than X minutes</string>
-    <string name="pref_wxp_longsit_switch_summary">Inactivity time interval is from DND setting</string>
-    <string name="prefs_wxp_longsit_switch">Enable inactivity reminder</string>
-    <string name="pref_wxp_title_longsit">Inactivity period (minutes)</string>
-    <string name="pref_wxp_title_force_time">Force synchronize time</string>
-    <string name="pref_wxp_title_force_time_sum">Force auto synchronize time on reconnect. Analog hands may show incorrect time!</string>
-    <string name="wxp_language_title">Language</string>
-
+    <string name="title_activity_LenovoWatch_calibration">Watch X Plus calibration</string>
+    <!-- Device Settings - Notifications and Calls - Used in devicesettings_watchxplus.xml -->
+    <string name="pref_header_notifications_and_calls">Notifications and Calls</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_call">Repeat call notification</string>
+    <string name="prefs_notifications_and_calls_continious_ring">Notification during phone ring</string>
+    <string name="pref_notifications_and_calls_enable_misscall">Notify for missed call</string>
+    <string name="pref_summary_notifications_and_calls_enable_misscall">Repeats on every minute</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_misscall">Repeat for X minutes</string>
+    <string name="pref_header_notifications_and_calls_callhandling">Call Handling</string>
+    <string name="prefs_notifications_and_calls_reject">Button ignore/reject call</string>
+    <string name="pref_summary_notifications_and_calls_title_reject">Off - ignore, On - reject</string>
+    <string name="prefs_notifications_and_calls_shake_reject">Shake wrist ignore/reject call</string>
+    <string name="pref_summary_notifications_and_calls_title_shake_reject">Duplicates watch button action</string>
+    <!-- Device Settings - Device Settings - Used in devicesettings_watchxplus.xml -->
+    <string name="pref_header_device_spec_settings">Device settings</string>
+    <string name="pref_title_device_spec_settings_force_time">Force synchronize time</string>
+    <string name="pref_summary_device_spec_settings_title_force_time">Force auto synchronize time on reconnect. Analog hands may show incorrect time!</string>
+    <!-- Device Settings - Calibration - Used in devicesettings_watchxplus.xml -->
+    <string name="pref_header_sensors_calibration">Sensors Calibration</string>
+    <string name="pref_title_sensors_altitude">Altitude calibration</string>
+    <string name="pref_sensors_bp_calibration">Blood Pressure calibration</string>
+    <string name="pref_sensors_bp_calibration_low">Blood Pressure DIASTOLIC (low)</string>
+    <string name="pref_sensors_bp_calibration_high">Blood Pressure SYSTOLIC (high)</string>
+    <string name="prefs_sensors_button_bp_calibration">Calibration</string>
+    <string name="prefs_sensors_button_bp_calibration_sum">Press here to begin calibration</string>
+    <!-- Device Settings - Long Sit Reminder -->
+    <string name="pref_summary_longsit">Remind if there are inactivity for X minutes</string>
+    <string name="prefs_longsit_switch">Inactivity reminder</string>
+    <string name="pref_title_longsit">Inactivity period (minutes)</string>
+    <!-- Device Settings - Power Mode -->
+    <string name="power_mode_title">Watch power mode</string>
+    <string name="power_mode_normal">Normal</string>
+    <string name="power_mode_saving">Power saving</string>
+    <string name="power_mode_watch">Only watch</string>
     <!-- Makibes HR3 Preferences -->
     <string name="preferences_makibes_hr3_settings">Makibes HR3 settings</string>
     <!-- ID115 Preferences -->

@@ -170,48 +170,15 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
-                R.xml.devicesettings_liftwrist_display,
-                R.xml.devicesettings_disconnectnotification,
+                R.xml.devicesettings_liftwrist_display_noshed,
+                R.xml.devicesettings_disconnectnotification_noshed,
+                R.xml.devicesettings_donotdisturb_no_auto,
+                R.xml.devicesettings_longsit,
                 R.xml.devicesettings_find_phone,
                 R.xml.devicesettings_timeformat,
-                R.xml.devicesettings_donotdisturb_no_auto
+                R.xml.devicesettings_power_mode,
+                R.xml.devicesettings_watchxplus
         };
-    }
-
-/*
-Prefs from device settings on main page
- */
-// return time format pref
-    public static byte getTimeMode(SharedPreferences sharedPrefs) {
-        String timeMode = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_24h));
-        assert timeMode != null;
-        if (timeMode.equals(getContext().getString(R.string.p_timeformat_24h))) {
-            return WatchXPlusConstants.ARG_SET_TIMEMODE_24H;
-        } else {
-            return WatchXPlusConstants.ARG_SET_TIMEMODE_12H;
-        }
-    }
-
-// return watch language pref
-    public static byte getLanguage() {
-        int settingRead = prefs.getInt(WatchXPlusConstants.PREF_WXP_LANGUAGE, 1);
-        return (byte) settingRead;
-    }
-
-// check if it is needed to toggle Lift Wrist to Sreen on
-    public static boolean shouldEnableHeadsUpScreen(SharedPreferences sharedPrefs) {
-        String liftMode = sharedPrefs.getString(WatchXPlusConstants.PREF_ACTIVATE_DISPLAY, getContext().getString(R.string.p_on));
-        // WatchXPlus doesn't support scheduled intervals. Treat it as "on".
-        assert liftMode != null;
-        return !liftMode.equals(getContext().getString(R.string.p_off));
-    }
-
-// check if it is needed to toggle Disconnect reminder
-    public static boolean shouldEnableDisconnectReminder(SharedPreferences sharedPrefs) {
-        String lostReminder = sharedPrefs.getString(WatchXPlusConstants.PREF_DISCONNECT_REMIND, getContext().getString(R.string.p_on));
-        // WatchXPlus doesn't support scheduled intervals. Treat it as "on".
-        assert lostReminder != null;
-        return !lostReminder.equals(getContext().getString(R.string.p_off));
     }
 
 // find phone settings
@@ -246,21 +213,24 @@ Prefs from device settings on main page
         }
     }
 
+
     /**
      * @param startOut out Only hour/minute are used.
      * @param endOut   out Only hour/minute are used.
      * @return True if DND hours are enabled.
      */
-    public static boolean getDNDHours(SharedPreferences sharedPrefs, Calendar startOut, Calendar endOut) {
-        String doNotDisturb = sharedPrefs.getString(WatchXPlusConstants.PREF_DO_NOT_DISTURB, getContext().getString(R.string.p_off));
+    public static boolean getDNDHours(String deviceAddress, Calendar startOut, Calendar endOut) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
+        String doNotDisturb = prefs.getString(WatchXPlusConstants.PREF_DO_NOT_DISTURB, getContext().getString(R.string.p_off));
 
         assert doNotDisturb != null;
         if (doNotDisturb.equals(getContext().getString(R.string.p_off))) {
             LOG.info(" DND is disabled ");
             return false;
         } else {
-            String start = sharedPrefs.getString(WatchXPlusConstants.PREF_DO_NOT_DISTURB_START, "00:00");
-            String end = sharedPrefs.getString(WatchXPlusConstants.PREF_DO_NOT_DISTURB_END, "00:00");
+
+            String start = prefs.getString(WatchXPlusConstants.PREF_DO_NOT_DISTURB_START, "01:00");
+            String end = prefs.getString(WatchXPlusConstants.PREF_DO_NOT_DISTURB_END, "06:00");
 
             DateFormat df = new SimpleDateFormat("HH:mm");
 
@@ -280,15 +250,16 @@ Prefs from device settings on main page
      * @param endOut   out Only hour/minute are used.
      * @return True if DND hours are enabled.
      */
-    public static boolean getLongSitHours(SharedPreferences sharedPrefs, Calendar startOut, Calendar endOut) {
-        boolean enabled = prefs.getBoolean(WatchXPlusConstants.PREF_LONGSIT_SWITCH, false);
+    public static boolean getLongSitHours(String deviceAddress, Calendar startOut, Calendar endOut) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
+        boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_LONGSIT_SWITCH, false);
 
         if (!enabled) {
-            LOG.info(" DND is disabled ");
+            LOG.info(" Long sit reminder is disabled ");
             return false;
         } else {
-            String start = sharedPrefs.getString(WatchXPlusConstants.PREF_DO_NOT_DISTURB_START, "00:00");
-            String end = sharedPrefs.getString(WatchXPlusConstants.PREF_DO_NOT_DISTURB_END, "00:00");
+            String end = prefs.getString(WatchXPlusConstants.PREF_LONGSIT_START, "06:00");
+            String start = prefs.getString(WatchXPlusConstants.PREF_LONGSIT_END, "23:00");
 
             DateFormat df = new SimpleDateFormat("HH:mm");
 
@@ -302,50 +273,6 @@ Prefs from device settings on main page
             }
         }
     }
-
-/*
-Values from device specific settings page
- */
-// read altitude from preferences
-    public static int getAltitude() {
-        return prefs.getInt(WatchXPlusConstants.PREF_ALTITUDE, 200);
-    }
-
-// read repeat call notification
-    public static int getRepeatOnCall() {
-        return prefs.getInt(WatchXPlusConstants.PREF_REPEAT, 1);
-    }
-
-//read continious call notification
-    public static boolean getContiniousVibrationOnCall() {
-        return prefs.getBoolean(WatchXPlusConstants.PREF_CONTINIOUS, false);
-    }
-
-//read missed call notification
-    public static boolean getMissedCallReminder() {
-        return prefs.getBoolean(WatchXPlusConstants.PREF_MISSED_CALL, false);
-    }
-
-//read missed call notification
-    public static int getMissedCallRepeat() {
-        return prefs.getInt(WatchXPlusConstants.PREF_MISSED_CALL_REPEAT, 0);
-    }
-
-
-//read button reject call settings
-    public static boolean getButtonReject() {
-        return prefs.getBoolean(WatchXPlusConstants.PREF_BUTTON_REJECT, false);
-    }
-
-//read shake wrist reject call settings
-    public static boolean getShakeReject() {
-        return prefs.getBoolean(WatchXPlusConstants.PREF_SHAKE_REJECT, false);
-    }
-
-/*
-Other saved preferences
- */
-
 
 
 }

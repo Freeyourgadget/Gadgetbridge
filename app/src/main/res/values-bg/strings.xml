@@ -283,43 +283,42 @@
     <string name="watch9_calibration_button">Сверяване</string>
     <string name="title_activity_watch9_pairing">Watch 9 свързване</string>
     <string name="title_activity_watch9_calibration">Watch 9 сверяване</string>
-
-    <string name="title_activity_watchXplus_calibration">Watch X Plus сверяване</string>
-    <string name="pref_wxp_title_unit_system">Единици</string>
-    <string name="pref_wxp_title_timeformat">Формат на часа</string>
-    <string name="pref_wxp_title_altitude">Калибриране на височината</string>
-    <string name="pref_wxp_title_repeat_on_call">Повтаряй известие за позвъняване</string>
-    <string name="pref_wxp_title_repeat_on_call_summary">Възможни стойности min=0, max=10</string>
-    <string name="prefs_wxp_continious">Известявай докато телефона звъни</string>
-    <string name="preferences_watchxplus_settings">Watch X Plus настройки</string>
-    <string name="pref_wxp_title_reject_summary">Изкл. - заглуши, Вкл. - откажи</string>
-    <string name="prefs_wxp_reject">Бутона заглушава/отказва повикване</string>
-    <string name="pref_wxp_title_shake_reject_summary">Повтаря действието на бутона</string>
-    <string name="prefs_wxp_shake_reject">Разклати за заглушаване/отказване на повикването</string>
-    <string name="wxp_bp_calibration_prefs">Калибриране на кръвно налягане</string>
-    <string name="pref_wxp_bp_calibration_low">Кръвно налягане DIASTOLIC (ниска)</string>
-    <string name="pref_wxp_bp_calibration_high">Кръвно налягане SYSTOLIC (висока)</string>
-    <string name="prefs_wxp_button_bp_calibration">Калибриране</string>
-    <string name="prefs_wxp_button_bp_calibration_sum">Натисни тук за калибриране</string>
-    <string name="pref_header_wxp_calibration">Калибриране на сензорите</string>
-    <string name="pref_header_wxp_settings">Настройки на устройството</string>
-    <string name="wxp_power_mode_title">Режим на часовника</string>
-    <string name="wxp_mode_normal">Нормален</string>
-    <string name="wxp_mode_saving">Икономичен</string>
-    <string name="wxp_mode_watch">Само часовник</string>
-    <string name="pref_wxp_title_repeat_on_misscall_summary">Повтаряй известие за пропуснато повикване всяка минута за X пъти</string>
-    <string name="pref_wxp_title_repeat_on_misscall">Повтаряй известието за пропуснато повикване</string>
-    <string name="pref_wxp_enable_misscall">Известявай за пропуснато повикване</string>
-    <string name="pref_header_wxp_notification_callhandling">Управление на обажданията</string>
-    <string name="pref_header_wxp_longsit">Напомняне за бездействие</string>
-    <string name="pref_wxp_longsit_period_summary">Напомняй ако няма активност за повече от X минути</string>
-    <string name="pref_wxp_longsit_switch_summary">Времевия интервал е от настройката за DND</string>
-    <string name="prefs_wxp_longsit_switch">Включи напомняне за активност</string>
-    <string name="pref_wxp_title_longsit">Период на неактивност (минути)</string>
-    <string name="wxp_language_title">Език</string>
-    <string name="pref_wxp_title_force_time">Принудително синхронизирай часа</string>
-    <string name="pref_wxp_title_force_time_sum">Принудително синхронизирай дата и час при свързване. Стрелките може да показват грешно време.</string>
-    <string name="pref_header_wxp_call_notification">Известия и Обаждания</string>
+    <string name="mi2_prefs_do_not_disturb_summary">Няма да се получават известия докато е активно</string>
+    <!-- WatchXPlus Preferences -->
+    <string name="title_activity_LenovoWatch_calibration">Watch X Plus сверяване</string>
+    <!-- Device Settings - Notifications and Calls - Used in devicesettings_watchxplus.xml -->
+    <string name="pref_header_notifications_and_calls">Известия и Обаждания</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_call">Повтаряй известие за позвъняване</string>
+    <string name="prefs_notifications_and_calls_continious_ring">Известявай докато телефона звъни</string>
+    <string name="pref_notifications_and_calls_enable_misscall">Известявай за пропуснато повикване</string>
+    <string name="pref_summary_notifications_and_calls_enable_misscall">Повтаря се на всяка минута</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_misscall">Повтаряй за Х минути</string>
+    <string name="pref_header_notifications_and_calls_callhandling">Управление на обажданията</string>
+    <string name="prefs_notifications_and_calls_reject">Бутона заглушава/отказва повикване</string>
+    <string name="pref_summary_notifications_and_calls_title_reject">Изкл. - заглуши, Вкл. - откажи</string>
+    <string name="prefs_notifications_and_calls_shake_reject">Разклати за заглушаване/отказване на повикването</string>
+    <string name="pref_summary_notifications_and_calls_title_shake_reject">Повтаря действието на бутона</string>
+    <!-- Device Settings - Device Settings - Used in devicesettings_watchxplus.xml -->
+    <string name="pref_header_device_spec_settings">Настройки на устройството</string>
+    <string name="pref_title_device_spec_settings_force_time">Принудително синхронизирай часа</string>
+    <string name="pref_summary_device_spec_settings_title_force_time">Принудително синхронизирай дата и час при свързване. Стрелките може да показват грешно време.</string>
+    <!-- Device Settings - Calibration - Used in devicesettings_watchxplus.xml -->
+    <string name="pref_header_sensors_calibration">Калибриране на сензорите</string>
+    <string name="pref_title_sensors_altitude">Калибриране на височината</string>
+    <string name="pref_sensors_bp_calibration">Калибриране на кръвно налягане</string>
+    <string name="pref_sensors_bp_calibration_low">Кръвно налягане DIASTOLIC (ниска)</string>
+    <string name="pref_sensors_bp_calibration_high">Кръвно налягане SYSTOLIC (висока)</string>
+    <string name="prefs_sensors_button_bp_calibration">Калибриране</string>
+    <string name="prefs_sensors_button_bp_calibration_sum">Натисни тук за калибриране</string>
+    <!-- Device Settings - Long Sit Reminder -->
+    <string name="pref_summary_longsit">Напомни ако няма активност за повече от X минути</string>
+    <string name="prefs_longsit_switch">Напомняне за бездействие</string>
+    <string name="pref_title_longsit">Период на неактивност (минути)</string>
+    <!-- Device Settings - Power Mode -->
+    <string name="power_mode_title">Режим на часовника</string>
+    <string name="power_mode_normal">Нормален</string>
+    <string name="power_mode_saving">Икономичен</string>
+    <string name="power_mode_watch">Само часовник</string>
     <string name="title_activity_sleepmonitor">Наблюдение/анализ на съня</string>
     <string name="pref_write_logfiles">Съхраняване на log файлове</string>
     <string name="initializing">Инициализиране</string>

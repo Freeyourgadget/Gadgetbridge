@@ -76,10 +76,6 @@
             android:label="@string/zetime_title_settings"
             android:parentActivityName=".activities.SettingsActivity" />
         <activity
-            android:name=".devices.lenovo.watchxplus.WatchXPlusPreferenceActivity"
-            android:label="@string/preferences_watchxplus_settings"
-            android:parentActivityName=".activities.SettingsActivity" />
-        <activity
             android:name=".activities.ActivitySummariesActivity"
             android:label="@string/activity_summaries"
             android:parentActivityName=".activities.ControlCenterv2" />
@@ -414,7 +410,7 @@
             android:label="@string/title_activity_watch9_pairing"  />
         <activity
             android:name=".devices.lenovo.LenovoWatchCalibrationActivity"
-            android:label="@string/title_activity_watchXplus_calibration"  />
+            android:label="@string/title_activity_LenovoWatch_calibration"  />
         <activity
             android:name=".activities.charts.ChartsActivity"
             android:label="@string/title_activity_charts"
