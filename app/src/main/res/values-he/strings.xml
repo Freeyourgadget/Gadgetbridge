@@ -855,4 +855,5 @@
     <string name="pref_summary_relax_firmware_checks">הפחתת בדיקות חומרה</string>
     <string name="pref_header_auto_fetch">קבלה אוטומטית</string>
     <string name="pref_qhybrid_title_widget_draw_circles">ציור עיגולי וידג׳טים</string>
+    <string name="pref_qhybrid_save_raw_activity_files">שמירת קובצי פעילות גולמיים</string>
 </resources>
