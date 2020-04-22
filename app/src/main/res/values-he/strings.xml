@@ -856,4 +856,8 @@
     <string name="pref_header_auto_fetch">קבלה אוטומטית</string>
     <string name="pref_qhybrid_title_widget_draw_circles">ציור עיגולי וידג׳טים</string>
     <string name="pref_qhybrid_save_raw_activity_files">שמירת קובצי פעילות גולמיים</string>
+    <string name="menuitem_workout">התעמלות</string>
+    <string name="menuitem_eventreminder">תזכורת אירועים</string>
+    <string name="menuitem_hr">דופק</string>
+    <string name="menuitem_pai">בינת פעילות</string>
 </resources>
