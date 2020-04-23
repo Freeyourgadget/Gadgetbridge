@@ -37,7 +37,7 @@ public class FilePutRequest extends FossilRequest {
 
     private ArrayList<byte[]> packets = new ArrayList<>();
 
-    private short handle;
+    private short handle, fileVersion;
 
     private FossilWatchAdapter adapter;
 
@@ -45,9 +45,10 @@ public class FilePutRequest extends FossilRequest {
 
     private int fullCRC;
 
-    public FilePutRequest(short handle, byte[] file, FossilWatchAdapter adapter) {
+    public FilePutRequest(short handle, byte[] file, short fileVersion, FossilWatchAdapter adapter) {
         this.handle = handle;
         this.adapter = adapter;
+        this.fileVersion = fileVersion;
 
         int fileLength = file.length + 16;
         ByteBuffer buffer = this.createBuffer();
@@ -61,6 +62,10 @@ public class FilePutRequest extends FossilRequest {
         this.file = file;
 
         state = UploadState.INITIALIZED;
+    }
+
+    public FilePutRequest(short handle, byte[] file, FossilWatchAdapter adapter) {
+        this(handle, file, (short) 2, adapter);
     }
 
     public short getHandle() {
@@ -83,7 +88,7 @@ public class FilePutRequest extends FossilRequest {
                     TransactionBuilder transactionBuilder = new TransactionBuilder("file upload");
                     BluetoothGattCharacteristic uploadCharacteristic = adapter.getDeviceSupport().getCharacteristic(UUID.fromString("3dda0004-957f-7d4a-34a6-74696673696d"));
 
-                    this.prepareFilePackets(this.file);
+                    this.prepareFilePackets(this.file, this.fileVersion);
 
                     for (byte[] packet : packets) {
                         transactionBuilder.write(uploadCharacteristic, packet);
@@ -188,15 +193,14 @@ public class FilePutRequest extends FossilRequest {
         return this.state == UploadState.UPLOADED;
     }
 
-    private void prepareFilePackets(byte[] file) {
+    private void prepareFilePackets(byte[] file, short fileVersion) {
         int maxPacketSize = adapter.getMTU() - 4;
 
         ByteBuffer buffer = ByteBuffer.allocate(file.length + 12 + 4);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
 
         buffer.putShort(handle);
-        buffer.put((byte) 2);
-        buffer.put((byte) 0);
+        buffer.putShort(fileVersion);
         buffer.putInt(0);
         buffer.putInt(file.length);
 
