@@ -859,4 +859,7 @@
     <string name="menuitem_eventreminder">Hendelsespåminnelse</string>
     <string name="menuitem_hr">Puls</string>
     <string name="pref_qhybrid_save_raw_activity_files">Lagre råfiler fra aktivitet</string>
+    <string name="prefs_sensors_button_bp_calibration_sum">Trykk her for å starte kalibrering</string>
+    <string name="prefs_sensors_button_bp_calibration">Kalibrering</string>
+    <string name="pref_header_device_spec_settings">Enhetsinnstillinger</string>
 </resources>
