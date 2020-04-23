@@ -19,9 +19,15 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts;
 import android.content.Context;
 import android.net.Uri;
 
-import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.util.Set;
+
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts.AmazfitGTSFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -29,6 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.Ama
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperationNew;
 
 public class AmazfitGTSSupport extends AmazfitBipSupport {
+    private static final Logger LOG = LoggerFactory.getLogger(AmazfitGTSSupport.class);
 
     @Override
     public byte getCryptFlags() {
@@ -58,8 +65,58 @@ public class AmazfitGTSSupport extends AmazfitBipSupport {
 
     @Override
     protected AmazfitGTSSupport setDisplayItems(TransactionBuilder builder) {
-        // not supported yet
+        if (gbDevice.getFirmwareVersion() == null) {
+            LOG.warn("Device not initialized yet, won't set menu items");
+            return this;
+        }
+
+        Set<String> pages = HuamiCoordinator.getDisplayItems(gbDevice.getAddress());
+        LOG.info("Setting display items to " + (pages == null ? "none" : pages));
+        byte[] command = new byte[]{
+                0x00, (byte) 0xC2, 0x00, 0x1E, // looks like chunked, but 0x00 :O
+                0x00, 0x00, (byte) 0xFF, 0x01, // Status
+                0x01, 0x00, (byte) 0xFF, 0x19, // PAI
+                0x02, 0x00, (byte) 0xFF, 0x02, // HR
+                0x03, 0x00, (byte) 0xFF, 0x03, // Workout
+                0x04, 0x00, (byte) 0xFF, 0x14, // Activities
+                0x05, 0x00, (byte) 0xFF, 0x04, // Weather
+                0x06, 0x00, (byte) 0xFF, 0x0B, // Music
+                0x07, 0x00, (byte) 0xFF, 0x06, // Notifications
+                0x08, 0x00, (byte) 0xFF, 0x09, // Alarm
+                0x09, 0x00, (byte) 0xFF, 0x15, // Event reminder
+                0x0A, 0x00, (byte) 0xFF, 0x07, // More
+                0x0B, 0x00, (byte) 0xFF, 0x13  // Settings
+        };
+
+        String[] keys = {"status", "pai", "hr", "workout", "activity", "weather", "music", "notifications", "alarm", "eventreminder", "more", "settings"};
+        byte[] ids = {1, 25, 2, 3, 20, 4, 11, 6, 9, 21, 7, 19};
+
+        if (pages != null) {
+            pages.add("settings");
+            // it seem that we first have to put all ENABLED items into the array
+            int pos = 4;
+            for (int i = 0; i < keys.length; i++) {
+                String key = keys[i];
+                byte id = ids[i];
+                if (pages.contains(key)) {
+                    command[pos + 1] = 0x00;
+                    command[pos + 3] = id;
+                    pos += 4;
+                }
+            }
+            // And then all DISABLED ones
+            for (int i = 0; i < keys.length; i++) {
+                String key = keys[i];
+                byte id = ids[i];
+                if (!pages.contains(key)) {
+                    command[pos + 1] = 0x01;
+                    command[pos + 3] = id;
+                    pos += 4;
+                }
+            }
+        }
+        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER), command);
+
         return this;
     }
-
 }

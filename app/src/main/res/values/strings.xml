@@ -726,6 +726,10 @@
     <string name="menuitem_music">Music</string>
     <string name="menuitem_more">More</string>
     <string name="menuitem_nfc">NFC</string>
+    <string name="menuitem_pai">PAI</string>
+    <string name="menuitem_hr">Heart Rate</string>
+    <string name="menuitem_eventreminder">Event Reminder</string>
+    <string name="menuitem_workout">Workout</string>
     <string name="watch9_time_minutes">Minutes:</string>
     <string name="watch9_time_hours">Hours:</string>
     <string name="watch9_time_seconds">Seconds:</string>
