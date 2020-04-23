@@ -856,4 +856,7 @@
     <string name="pref_summary_custom_deviceicon">Vis et enhetsspesifikt Android-varslingsikon i stedet for Gadgetbridge-ikonet når du er tilkoblet</string>
     <string name="pref_qhybrid_title_widget_draw_circles">Tegn miniprogramssirkler</string>
     <string name="pref_header_auto_fetch">Hent automatisk</string>
+    <string name="menuitem_eventreminder">Hendelsespåminnelse</string>
+    <string name="menuitem_hr">Puls</string>
+    <string name="pref_qhybrid_save_raw_activity_files">Lagre råfiler fra aktivitet</string>
 </resources>
