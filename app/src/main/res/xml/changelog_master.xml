@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.43.3" versioncode="172">
+        <change>Fossil Hybrid HR: Initial support for activity tracking (no sleep yet)</change>
+        <change>Fossil Hybrid HR: Support setting alarms on newer firmware</change>
+        <change>Amazfit GTR/GTS: Fix flashing watchfaces and maybe firmware/res update (still untested)</change>
+        <change>Amazfit GTS: Support enabling/disabling menu items on the watch</change>
+        <change>Implement transliteration for Korean</change>
+    </release>
     <release version="0.43.2" versioncode="171">
         <change>Fossil Hybrid HR: Allow choosing and cropping image to be set as watch background</change>
         <change>Fossil Hybrid HR: Option to draw circles around widgets</change>

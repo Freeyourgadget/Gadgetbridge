@@ -1,8 +1,10 @@
 ### Changelog
 
-#### NEXT
+#### Version 0.43.3
 * Fossil Hybrid HR: Initial support for activity tracking (no sleep yet)
+* Fossil Hybrid HR: Support setting alarms on newer firmware
 * Amazfit GTR/GTS: Fix flashing watchfaces and maybe firmware/res update (still untested)
+* Amazfit GTS: Support enabling/disabling menu items on the watch
 * Implement transliteration for Korean
 
 #### Version 0.43.2
