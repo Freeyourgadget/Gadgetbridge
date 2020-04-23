@@ -854,4 +854,8 @@
     <string name="pref_header_auto_fetch">自动获取</string>
     <string name="pref_qhybrid_title_widget_draw_circles">绘制小部件圆圈</string>
     <string name="pref_qhybrid_save_raw_activity_files">保存原始(RAW)活动文件</string>
+    <string name="menuitem_workout">锻炼</string>
+    <string name="menuitem_eventreminder">事件提醒</string>
+    <string name="menuitem_hr">心率</string>
+    <string name="menuitem_pai">PAI</string>
 </resources>
