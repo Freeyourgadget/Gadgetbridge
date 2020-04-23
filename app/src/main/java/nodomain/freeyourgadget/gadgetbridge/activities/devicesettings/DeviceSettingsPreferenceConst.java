@@ -34,4 +34,13 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_HYBRID_HR_FORCE_WHITE_COLOR = "force_white_color_scheme";
     public static final String PREF_HYBRID_HR_DRAW_WIDGET_CIRCLES = "widget_draw_circles";
     public static final String PREF_HYBRID_HR_SAVE_RAW_ACTIVITY_FILES = "save_raw_activity_files";
+
+    public static final String PREF_LIFTWRIST_NOSHED = "activate_display_on_lift_wrist_noshed";
+    public static final String PREF_DISCONNECTNOTIF_NOSHED = "disconnect_notification_noshed";
+    public static final String PREF_POWER_MODE = "power_mode";
+    public static final String PREF_BUTTON_BP_CALIBRATE = "prefs_sensors_button_bp_calibration";
+    public static final String PREF_ALTITUDE_CALIBRATE = "pref_sensors_altitude";
+    public static final String PREF_LONGSIT_PERIOD = "pref_longsit_period";
+    public static final String PREF_LONGSIT_SWITCH = "pref_longsit_switch";
+    public static final String PREF_DO_NOT_DISTURB_NOAUTO = "do_not_disturb_no_auto";
 }

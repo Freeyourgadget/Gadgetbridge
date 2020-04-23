@@ -283,8 +283,10 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         if (shouldIgnoreNotification(sbn)) {
-            LOG.info("Ignoring notification");
-            return;
+            if (!"com.sec.android.app.clockpackage".equals(sbn.getPackageName())) {     // workaround to allow phone alarm notification
+                LOG.info("Ignore notification: " + sbn.getPackageName());               // need to fix
+                return;
+            }
         }
 
         String source = sbn.getPackageName().toLowerCase();
@@ -794,7 +796,7 @@ public class NotificationListener extends NotificationListenerService {
         if (!prefs.getBoolean("notifications_generic_whenscreenon", false)) {
             PowerManager powermanager = (PowerManager) getSystemService(POWER_SERVICE);
             if (powermanager != null && powermanager.isScreenOn()) {
-//                LOG.info("Not forwarding notification, screen seems to be on and settings do not allow this");
+                LOG.info("Not forwarding notification, screen seems to be on and settings do not allow this");
                 return true;
             }
         }

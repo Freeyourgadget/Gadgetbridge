@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="pref_display_add_device_fab">Бутон за ново устройство</string>
+    <string name="pref_display_add_device_fab_on">Винаги видим</string>
+    <string name="pref_display_add_device_fab_off">Видим само ако няма свързано устройство</string>
+    <string name="language_and_region_prefs">Език и регион</string>
+    <string name="activity_prefs_about_you">За Вас</string>
+    <string name="activity_prefs_year_birth">Година на раждане</string>
+    <string name="activity_prefs_gender">Пол</string>
+    <string name="activity_prefs_height_cm">Височина в cm</string>
+    <string name="activity_prefs_weight_kg">Тегло в kg</string>
+    <string name="pref_header_charts">Настройки на Графиката</string>
+    <string name="pref_title_charts_average">Показвай средни стойности</string>
+    <string name="activity_prefs_charts">Настройки на графика</string>
+    <string name="activity_prefs_chart_max_heart_rate">Max сърдечен ритъм</string>
+    <string name="activity_prefs_chart_min_heart_rate">Min сърдечен ритъм</string>
+    <string name="pref_title_charts_range">Обхват на Графиката</string>
+    <string name="pref_charts_range_on">Обхвата е Месец</string>
+    <string name="pref_charts_range_off">Обхвата е Седмица</string>
     <string name="app_name">Gadgetbridge</string>
     <string name="title_activity_controlcenter">Gadgetbridge</string>
     <string name="action_settings">Настройки</string>
@@ -30,6 +47,12 @@
     <string name="appmanager_cached_watchapps_watchfaces">Приложения в кеша</string>
     <string name="appmanager_installed_watchapps">Инсталирани приложения</string>
     <string name="appmanager_installed_watchfaces">Инсталирани циферблати</string>
+    <string name="mi2_prefs_activate_display_on_lift">Включи екрана при вдигане</string>
+    <string name="prefs_disconnect_notification">Известие при прекъсване</string>
+    <string name="prefs_find_phone">Намери телефона</string>
+    <string name="prefs_enable_find_phone">Включи намиране на телефона</string>
+    <string name="prefs_find_phone_summary">Използвайте устройството, за да накарате телефона да звъни.</string>
+    <string name="prefs_find_phone_duration">Звънене - секунди</string>
     <string name="appmananger_app_delete">Изтриване</string>
     <string name="appmananger_app_delete_cache">Изтриване и премахване от кеша</string>
     <string name="appmananger_app_reinstall">Преинсталиране</string>
@@ -56,12 +79,12 @@
 \nНе е необходимо да се инсталират .res и .gps файловете ако те са същите като инсталираните по-рано.
 \n
 \nПРОДЪЛЖАВАТЕ НА СВОЯ ОТГОВОРНОСТ!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Ще се инсталира %s фърмуеърът на вашия Amazfit Cor. 
-\n 
-\nПърво трябва да инсталирате .fw файла, а след това .res файла. Гривната Ви ще се рестартира след инсталирането на .fw файла. 
-\n 
-\nВнимание: Не е необходимо да се инсталира .res файла, ако сте инсталирали същия преди. 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor">Ще се инсталира %s фърмуеърът на вашия Amazfit Cor.
+\n
+\nПърво трябва да инсталирате .fw файла, а след това .res файла. Гривната Ви ще се рестартира след инсталирането на .fw файла.
+\n
+\nВнимание: Не е необходимо да се инсталира .res файла, ако сте инсталирали същия преди.
+\n
 \nИНСТАЛИРАЙТЕ НА СВОЯ ОТГОВОРНОСТ!</string>
     <string name="fw_upgrade_notice_miband3">Ще се инсталира %s firmware на вашия Mi Band 3.
 \n
@@ -252,7 +275,50 @@
     <string name="candidate_item_device_image">Изображение на устройството</string>
     <string name="miband_prefs_alias">Име/Псевдоним</string>
     <string name="pref_header_vibration_count">Брой на вибрациите</string>
-    <string name="watch9_pairing_tap_hint">Когато часовникът завибрира, разклатете устройството или натиснете бутона.</string>
+    <string name="watch9_pairing_tap_hint">Когато часовникът завибрира, разклатете устройството или натиснете бутона</string>
+    <string name="watch9_time_minutes">Минути:</string>
+    <string name="watch9_time_hours">Часове:</string>
+    <string name="watch9_time_seconds">Секунди:</string>
+    <string name="watch9_calibration_hint">Задайте времето, което показва устройството Ви.</string>
+    <string name="watch9_calibration_button">Сверяване</string>
+    <string name="title_activity_watch9_pairing">Watch 9 свързване</string>
+    <string name="title_activity_watch9_calibration">Watch 9 сверяване</string>
+    <string name="mi2_prefs_do_not_disturb_summary">Няма да се получават известия докато е активно</string>
+    <!-- WatchXPlus Preferences -->
+    <string name="title_activity_LenovoWatch_calibration">Watch X Plus сверяване</string>
+    <!-- Device Settings - Notifications and Calls - Used in devicesettings_watchxplus.xml -->
+    <string name="pref_header_notifications_and_calls">Известия и Обаждания</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_call">Повтаряй известие за позвъняване</string>
+    <string name="prefs_notifications_and_calls_continious_ring">Известявай докато телефона звъни</string>
+    <string name="pref_notifications_and_calls_enable_misscall">Известявай за пропуснато повикване</string>
+    <string name="pref_summary_notifications_and_calls_enable_misscall">Повтаря се на всяка минута</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_misscall">Повтаряй за Х минути</string>
+    <string name="pref_header_notifications_and_calls_callhandling">Управление на обажданията</string>
+    <string name="prefs_notifications_and_calls_reject">Бутона заглушава/отказва повикване</string>
+    <string name="pref_summary_notifications_and_calls_title_reject">Изкл. - заглуши, Вкл. - откажи</string>
+    <string name="prefs_notifications_and_calls_shake_reject">Разклати за заглушаване/отказване на повикването</string>
+    <string name="pref_summary_notifications_and_calls_title_shake_reject">Повтаря действието на бутона</string>
+    <!-- Device Settings - Device Settings - Used in devicesettings_watchxplus.xml -->
+    <string name="pref_header_device_spec_settings">Настройки на устройството</string>
+    <string name="pref_title_device_spec_settings_force_time">Принудително синхронизирай часа</string>
+    <string name="pref_summary_device_spec_settings_title_force_time">Принудително синхронизирай дата и час при свързване. Стрелките може да показват грешно време.</string>
+    <!-- Device Settings - Calibration - Used in devicesettings_watchxplus.xml -->
+    <string name="pref_header_sensors_calibration">Калибриране на сензорите</string>
+    <string name="pref_title_sensors_altitude">Калибриране на височината</string>
+    <string name="pref_sensors_bp_calibration">Калибриране на кръвно налягане</string>
+    <string name="pref_sensors_bp_calibration_low">Кръвно налягане DIASTOLIC (ниска)</string>
+    <string name="pref_sensors_bp_calibration_high">Кръвно налягане SYSTOLIC (висока)</string>
+    <string name="prefs_sensors_button_bp_calibration">Калибриране</string>
+    <string name="prefs_sensors_button_bp_calibration_sum">Натисни тук за калибриране</string>
+    <!-- Device Settings - Long Sit Reminder -->
+    <string name="pref_summary_longsit">Напомни ако няма активност за повече от X минути</string>
+    <string name="prefs_longsit_switch">Напомняне за бездействие</string>
+    <string name="pref_title_longsit">Период на неактивност (минути)</string>
+    <!-- Device Settings - Power Mode -->
+    <string name="power_mode_title">Режим на часовника</string>
+    <string name="power_mode_normal">Нормален</string>
+    <string name="power_mode_saving">Икономичен</string>
+    <string name="power_mode_watch">Само часовник</string>
     <string name="title_activity_sleepmonitor">Наблюдение/анализ на съня</string>
     <string name="pref_write_logfiles">Съхраняване на log файлове</string>
     <string name="initializing">Инициализиране</string>
@@ -420,4 +486,113 @@
     <string name="title_activity_device_specific_settings">Специфични настройки за устройството</string>
     <string name="average">Средно: %1$s</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="Cancel">Отказ</string>
+    <string name="Delete">Изтрий</string>
+    <string name="abstract_chart_fragment_kind_deep_sleep">Дълбок сън</string>
+    <string name="abstract_chart_fragment_kind_light_sleep">Лек сън</string>
+    <string name="abstract_chart_fragment_kind_not_worn">Не е носен</string>
+    <string name="abstract_chart_fragment_kind_activity">Активност</string>
+    <string name="_pebble_watch_reply">Отговори</string>
+    <string name="action_db_management">Управление на базата</string>
+    <string name="activity_DB_empty_button">Изчисти БД</string>
+    <string name="activity_DB_import_button">Импорт БД</string>
+    <string name="activity_DB_delete_legacy_button">Изтрий стара БД</string>
+    <string name="activity_DB_ExportButton">Експорт на БД</string>
+    <string name="activity_DB_test_export_message">Експортиране на БД...</string>
+    <string name="activity_DB_test_export_button">Стартирай авто експортиране</string>
+    <string name="activity_db_management_autoexport_explanation">Локацията за експорт на БД е:</string>
+    <string name="activity_db_management_autoexport_label">АвтоЕкспорт</string>
+    <string name="activity_db_management_empty_DB">ИзпразниБД</string>
+    <string name="activity_db_management_empty_db_warning">Внимание! Ако натиснете този бутон БД ще се изтрие.</string>
+    <string name="activity_db_management_exportimport_label">Експорт и Импорт</string>
+    <string name="activity_prefs_sleep_duration">Време за сън в часове</string>
+    <string name="activity_summaries">Активности</string>
+    <string name="activity_type_activity">Активност</string>
+    <string name="activity_type_biking">Колоездене</string>
+    <string name="activity_type_deep_sleep">Дълбок сън</string>
+    <string name="activity_type_light_sleep">Лек сън</string>
+    <string name="activity_type_exercise">Упражнение</string>
+    <string name="activity_type_not_measured">Не е измерено</string>
+    <string name="activity_type_not_worn">Не е носено</string>
+    <string name="activity_type_running">Бягане</string>
+    <string name="activity_type_swimming">Плуване</string>
+    <string name="activity_type_unknown">Неизвестна активност</string>
+    <string name="activity_type_walking">Ходене</string>
+    <string name="appwidget_not_connected">Не е свързан, алармата не е настроена.</string>
+    <string name="appwidget_setting_alarm">Аларма за %1$02d:%2$02d</string>
+    <string name="automatic">Автоматично</string>
+    <string name="authenticating">Удостоверяване</string>
+    <string name="authentication_required">Изисква удостоверяване</string>
+    <string name="charts_legend_heartrate">Сърдечна честота</string>
+    <string name="choose_auto_export_location">Избери локация за експорт</string>
+    <string name="dateformat_time">Час</string>
+    <string name="dbmanagementactivity_overwrite">Замени</string>
+    <string name="device_fw">Firmware версия: %1$s</string>
+    <string name="device_hw">Hardware версия: %1$s</string>
+    <string name="device_not_connected">Не е свързан.</string>
+    <string name="devicetype_unknown">Неизвестно устройство</string>
+    <string name="discovery_attempting_to_pair">Опит за свързване с %1$s</string>
+    <string name="discovery_dont_pair">Не се свързвай</string>
+    <string name="discovery_enable_bluetooth">Включи bluetooth за намиране на устройства.</string>
+    <string name="discovery_pair_title">Свързване с %1$s?</string>
+    <string name="discovery_trying_to_connect_to">Опит за свързване с: %1$s</string>
+    <string name="discovery_yes_pair">Свържи</string>
+    <string name="filter_mode_none">Не филтрирай</string>
+    <string name="find_device_you_found_it">Намери ме!</string>
+    <string name="kind_font">Шрифт</string>
+    <string name="kind_invalid">Невалидни данни</string>
+    <string name="live_activity_heart_rate">Сърдечен ритъм</string>
+    <string name="maximum_duration">Продължителност</string>
+    <string name="menuitem_alarm">Аларма</string>
+    <string name="menuitem_activity">Активност</string>
+    <string name="menuitem_compass">Компас</string>
+    <string name="menuitem_music">Музика</string>
+    <string name="menuitem_settings">Настройки</string>
+    <string name="menuitem_notifications">Известия</string>
+    <string name="menuitem_weather">Прогноза за време</string>
+    <string name="menuitem_timer">Таймер</string>
+    <string name="mi2_dnd_off">Изкл.</string>
+    <string name="mi2_dnd_scheduled">Разписание</string>
+    <string name="mi2_prefs_do_not_disturb_end">Край</string>
+    <string name="mi2_prefs_do_not_disturb_start">Начало</string>
+    <string name="mi2_prefs_do_not_disturb">Не безпокой</string>
+    <string name="you_slept">Вие спахте от %1$s до %2$s</string>
+    <string name="widget_steps_label">Стъпки: %1$02d</string>
+    <string name="widget_sleep_label">Сън: %1$s</string>
+    <string name="widget_5_minutes">5 минути</string>
+    <string name="widget_20_minutes">20 минути</string>
+    <string name="widget_1_hour">1 час</string>
+    <string name="widget_10_minutes">10 минути</string>
+    <string name="weekstepschart_steps_a_month">Крачки за месец</string>
+    <string name="weeksleepchart_sleep_a_month">Сън за месец</string>
+    <string name="warning">Внимание!</string>
+    <string name="waiting_for_reconnect">Изчаква свързване</string>
+    <string name="user_feedback_all_alarms_disabled">Всички аларми са изключени</string>
+    <string name="unit_metric">Метрична</string>
+    <string name="unit_imperial">Инчова</string>
+    <string name="toast_notification_filter_words_empty_hint">Въведете поне една дума</string>
+    <string name="toast_notification_filter_saved_successfully">Филтъра за известия е запазен</string>
+    <string name="title_activity_vibration">Вибрация</string>
+    <string name="title_activity_notification_filter">Филтър за известия</string>
+    <string name="title_activity_db_management">Управление на БД</string>
+    <string name="select_all">Избери всички</string>
+    <string name="share">Сподели</string>
+    <string name="save_configuration">Запази настройките</string>
+    <string name="prefs_hr_alarm_high">Горна граница</string>
+    <string name="prefs_hr_alarm_low">Долна граница</string>
+    <string name="preferences_rtl_settings">От ляво на дясно</string>
+    <string name="pref_screen_notification_profile_alarm_clock">Аларми</string>
+    <string name="p_unit_metric">метрични</string>
+    <string name="p_unit_imperial">инчови</string>
+    <string name="p_steps">крачки</string>
+    <string name="p_scheduled">разписание</string>
+    <string name="p_pebble_privacy_mode_off">изкл.</string>
+    <string name="p_on">вкл.</string>
+    <string name="p_off">изкл.</string>
+    <string name="p_menuitem_weather">прогноза</string>
+    <string name="p_menuitem_settings">настройки</string>
+    <string name="p_menuitem_notifications">известия</string>
+    <string name="off">Изкл.</string>
+    <string name="on">Вкл.</string>
+    <string name="no_data">Няма данни</string>
 </resources>
