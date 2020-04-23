@@ -411,11 +411,13 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
             AssetImage[] images = widgetImages.toArray(new AssetImage[0]);
 
-            queueWrite(new AssetFilePutRequest(
-                    images,
-                    (byte) 0x00,
-                    this
-            ));
+            if(images.length > 0) {
+                queueWrite(new AssetFilePutRequest(
+                        images,
+                        (byte) 0x00,
+                        this
+                ));
+            }
             // queueWrite(new FileDeleteRequest((short) 0x0503));
             queueWrite(new ImagesSetRequest(
                     images,

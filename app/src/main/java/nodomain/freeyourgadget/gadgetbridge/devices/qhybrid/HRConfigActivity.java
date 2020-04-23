@@ -91,6 +91,7 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
                 Intent startIntent = new Intent(HRConfigActivity.this, WidgetSettingsActivity.class);
                 startIntent.putExtra("EXTRA_WIDGET", widget);
                 startIntent.putExtra("EXTRA_WIDGET_IDNEX", position);
+                startIntent.putExtra("EXTRA_WIDGET_INITIAL_NAME", ((CustomWidget) widget).getName());
 
                 startActivityForResult(startIntent, REQUEST_CODE_WIDGET_EDIT);
             }
@@ -187,8 +188,16 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
                 CustomWidget widget = (CustomWidget) data.getExtras().get("EXTRA_WIDGET");
                 int updateIndex = data.getIntExtra("EXTRA_WIDGET_IDNEX", -1);
 
+                String initialName = data.getStringExtra("EXTRA_WIDGET_INITIAL_NAME");
+                String newName = widget.getName();
+
+                String widgetJSON = sharedPreferences.getString("FOSSIL_HR_WIDGETS", "{}");
+                widgetJSON = widgetJSON.replace("custom_" + initialName, "custom_" + newName);
+                sharedPreferences.edit().putString("FOSSIL_HR_WIDGETS", widgetJSON).apply();
+
                 this.customWidgets.set(updateIndex, widget);
 
+                loadWidgetConfigs();
                 refreshWidgetList();
                 saveCustomWidgetList();
 
