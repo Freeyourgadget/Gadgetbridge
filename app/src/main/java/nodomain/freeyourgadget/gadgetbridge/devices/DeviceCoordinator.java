@@ -208,6 +208,12 @@ public interface DeviceCoordinator {
     boolean supportsAlarmSnoozing();
 
     /**
+     * Returns true if this device/coordinator supports alarm descriptions
+     * @return
+     */
+    boolean supportsAlarmDescription(GBDevice device);
+
+    /**
      * Returns true if the given device supports heart rate measurements.
      * @return
      */

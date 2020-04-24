@@ -153,6 +153,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean supportsAlarmDescription(GBDevice device) {
+        return false;
+    }
+
+    @Override
     public boolean supportsMusicInfo() {
         return false;
     }

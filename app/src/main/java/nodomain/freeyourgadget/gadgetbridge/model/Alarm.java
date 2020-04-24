@@ -52,4 +52,8 @@ public interface Alarm extends Serializable {
     int getHour();
 
     int getMinute();
+
+    String getTitle();
+
+    String getDescription();
 }
