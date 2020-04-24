@@ -95,6 +95,9 @@ public class WatchXPlusSampleProvider extends AbstractSampleProvider<WatchXPlusA
         }
         List<WatchXPlusActivitySample> samples = getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ALL);
         int numEntries = samples.size();
+        if (numEntries < 2) {
+            return getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ALL);
+        }
 
       //  LOG.info(" testing: ts_from:" + timestamp_from + " ts_to: " + timestamp_to);
 
@@ -154,8 +157,6 @@ public class WatchXPlusSampleProvider extends AbstractSampleProvider<WatchXPlusA
 
         for (int i = sleepStopIndex_1 + 1; i < numEntries; i++) {
             if (samples.get(i).getRawKind() == ActivityKind.TYPE_DEEP_SLEEP) {
-                // normalize RawIntensity
-                samples.get(i).setRawIntensity(1000);
                 // find sleep start index
                 if (sleepStartIndex_2 == 0) {
                     sleepStartIndex_2 = i;
@@ -243,15 +244,15 @@ public class WatchXPlusSampleProvider extends AbstractSampleProvider<WatchXPlusA
             if (i < sleepStartIndex_1) {
                 if (samples.get(i).getRawKind() == ActivityKind.TYPE_LIGHT_SLEEP) {
                     replaceActivity_1 = true;
-                    samples.get(i).setRawIntensity(500);
+                    samples.get(i).setRawIntensity(600);
                     resultList.add(samples.get(i));
                 } else {
                     if (replaceActivity_1) {
                         samples.get(i).setRawKind(2);
-                        samples.get(i).setRawIntensity(500);
+                        samples.get(i).setRawIntensity(600);
                         resultList.add(samples.get(i));
                     } else {
-                        samples.get(i).setRawIntensity(500);
+                        samples.get(i).setRawIntensity(600);
                         resultList.add(samples.get(i));
                     }
                 }
@@ -267,7 +268,7 @@ public class WatchXPlusSampleProvider extends AbstractSampleProvider<WatchXPlusA
                             samples.get(i).setHeartRate(samples.get(i + 1).getHeartRate());
                         }
                     }
-                    samples.get(i).setRawIntensity(500);
+                    samples.get(i).setRawIntensity(600);
                     resultList.add(samples.get(i));
                 } else {
                     samples.get(i).setRawIntensity(1000);
@@ -276,10 +277,11 @@ public class WatchXPlusSampleProvider extends AbstractSampleProvider<WatchXPlusA
             }
 
             if ((samples.get(i).getRawKind() == ActivityKind.TYPE_LIGHT_SLEEP) && (i > sleepStopIndex_1)) {
-                samples.get(i).setRawIntensity(500);
+                samples.get(i).setRawIntensity(600);
                 resultList.add(samples.get(i));
             }
       }
+
 
 // add remaining activity
         if (newSleepStopIndex_1 < next_block) {
@@ -337,24 +339,18 @@ public class WatchXPlusSampleProvider extends AbstractSampleProvider<WatchXPlusA
         }
         for (int i = newSleepStartIndex_2; i < newSleepStopIndex_2; i++) {
             ActivitySample sample = samples.get(i);
-/*
-            if ((samples.get(i).getRawKind() == ActivityKind.TYPE_LIGHT_SLEEP) && (i < sleepStartIndex_2)) {
-                samples.get(i).setRawIntensity(500);
-                resultList.add(samples.get(i));
-            }
- */
             if (i < sleepStartIndex_2) {
                 if (samples.get(i).getRawKind() == ActivityKind.TYPE_LIGHT_SLEEP) {
                     replaceActivity_2 = true;
-                    samples.get(i).setRawIntensity(500);
+                    samples.get(i).setRawIntensity(600);
                     resultList.add(samples.get(i));
                 } else {
                     if (replaceActivity_2) {
                         samples.get(i).setRawKind(2);
-                        samples.get(i).setRawIntensity(500);
+                        samples.get(i).setRawIntensity(600);
                         resultList.add(samples.get(i));
                     } else {
-                        samples.get(i).setRawIntensity(500);
+                        samples.get(i).setRawIntensity(600);
                         resultList.add(samples.get(i));
                     }
                 }
@@ -372,7 +368,7 @@ public class WatchXPlusSampleProvider extends AbstractSampleProvider<WatchXPlusA
                             samples.get(i).setHeartRate(samples.get(i + 1).getHeartRate());
                         }
                     }
-                    samples.get(i).setRawIntensity(500);
+                    samples.get(i).setRawIntensity(600);
                     resultList.add(samples.get(i));
                 } else {
                     samples.get(i).setRawIntensity(1000);
@@ -380,7 +376,7 @@ public class WatchXPlusSampleProvider extends AbstractSampleProvider<WatchXPlusA
                 }
             }
             if ((samples.get(i).getRawKind() == ActivityKind.TYPE_LIGHT_SLEEP) && (i > sleepStopIndex_2)) {
-                samples.get(i).setRawIntensity(500);
+                samples.get(i).setRawIntensity(600);
                 resultList.add(samples.get(i));
             }
         }
