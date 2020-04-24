@@ -863,4 +863,17 @@
     <string name="pref_qhybrid_title_widget_draw_circles">Widget-Kreise zeichnen</string>
     <string name="pref_header_auto_fetch">Automatischer Abruf</string>
     <string name="pref_qhybrid_save_raw_activity_files">Raw Activity Dateien speichern</string>
+    <string name="menuitem_workout">Training</string>
+    <string name="menuitem_hr">Herzfrequenz</string>
+    <string name="devicetype_watchxplus">Watch X Plus</string>
+    <string name="devicetype_watchx">Watch X</string>
+    <string name="prefs_sensors_button_bp_calibration">Kalibrierung</string>
+    <string name="pref_sensors_bp_calibration_high">Blutdruck SYSTOLISCH (hoch)</string>
+    <string name="pref_sensors_bp_calibration_low">Blutdruck DIASTOLISCH (niedrig)</string>
+    <string name="pref_sensors_bp_calibration">Blutdruckkalibrierung</string>
+    <string name="pref_title_sensors_altitude">Höhenkalibrierung</string>
+    <string name="pref_header_sensors_calibration">Sensorkalibrierung</string>
+    <string name="pref_title_device_spec_settings_force_time">Synchronisierungszeit erzwingen</string>
+    <string name="pref_header_device_spec_settings">Geräteeinstellungen</string>
+    <string name="pref_header_notifications_and_calls">Benachrichtigungen und Anrufe</string>
 </resources>

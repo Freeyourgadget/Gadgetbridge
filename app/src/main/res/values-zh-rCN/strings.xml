@@ -858,4 +858,18 @@
     <string name="menuitem_eventreminder">事件提醒</string>
     <string name="menuitem_hr">心率</string>
     <string name="menuitem_pai">PAI</string>
+    <string name="pref_title_device_spec_settings_force_time">强制时间同步</string>
+    <string name="pref_header_device_spec_settings">设备设置</string>
+    <string name="pref_summary_notifications_and_calls_title_shake_reject">重复手表按钮操作</string>
+    <string name="prefs_notifications_and_calls_shake_reject">晃动手腕以忽略/拒接来电</string>
+    <string name="pref_summary_notifications_and_calls_title_reject">关 - 忽略，开 - 拒接</string>
+    <string name="prefs_notifications_and_calls_reject">按钮忽略或拒接来电</string>
+    <string name="pref_header_notifications_and_calls_callhandling">来电处理</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_misscall">X 分钟重复一次</string>
+    <string name="pref_summary_notifications_and_calls_enable_misscall">每分钟重复</string>
+    <string name="pref_notifications_and_calls_enable_misscall">通知未接来电</string>
+    <string name="prefs_notifications_and_calls_continious_ring">响铃时通知</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_call">重复来电通知</string>
+    <string name="pref_header_notifications_and_calls">通知和来电</string>
+    <string name="title_activity_LenovoWatch_calibration">WatchXPlus 首选项</string>
 </resources>

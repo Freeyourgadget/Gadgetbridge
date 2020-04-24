@@ -4,21 +4,21 @@
         android:icon="@drawable/ic_activity_sleep"
         android:key="screen_longsit"
         android:persistent="false"
-        android:summary="@string/pref_summary_longsit"
-        android:title="@string/prefs_longsit_switch">
+        android:summary="@string/mi2_prefs_inactivity_warnings_summary"
+        android:title="@string/mi2_prefs_inactivity_warnings">
 
         <!-- workaround for missing toolbar -->
-        <PreferenceCategory android:title="@string/pref_summary_longsit" />
+        <PreferenceCategory android:title="@string/mi2_prefs_inactivity_warnings_summary" />
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="pref_longsit_switch"
-            android:title="@string/prefs_longsit_switch" />
+            android:title="@string/mi2_prefs_inactivity_warnings" />
         <EditTextPreference
             android:defaultValue="60"
             android:key="pref_longsit_period"
-            android:summary="@string/pref_summary_longsit"
-            android:title="@string/pref_title_longsit"/>
+            android:summary="@string/mi2_prefs_inactivity_warnings_summary"
+            android:title="@string/mi2_prefs_inactivity_warnings_threshold"/>
         <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
             android:defaultValue="06:00"
             android:key="pref_longsit_start"
