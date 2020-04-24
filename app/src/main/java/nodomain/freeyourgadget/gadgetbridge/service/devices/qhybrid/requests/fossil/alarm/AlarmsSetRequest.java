@@ -52,20 +52,28 @@ public class AlarmsSetRequest extends FilePutRequest {
             buffer = ByteBuffer.allocate(alarms.length * 3);
             for (Alarm alarm : alarms) buffer.put(alarm.getData());
         } else {
-            String label = "Brr Brr";
-            String message = "I am an alarm";
+            int sizeWhole = 17 * alarms.length;
+            for(Alarm alarm : alarms){
+                String label = alarm.getTitle();
+                label = label.substring(0, Math.min(label.length(), 15));
+                alarm.setTitle(label);
 
-            label = label.substring(0, Math.min(label.length(), 15));
-            message = message.substring(0, Math.min(message.length(), 50));
+                String message = alarm.getMessage();
+                message = message.substring(0, Math.min(message.length(), 50));
+                alarm.setMessage(message);
 
-            int SIZE_ALARM = 17 + label.length() + message.length();
-            int sizeAll = alarms.length * SIZE_ALARM;
-            buffer = ByteBuffer.allocate(sizeAll); // 4 for overall length
+                sizeWhole += label.length() + message.length();
+            }
+            buffer = ByteBuffer.allocate(sizeWhole); // 4 for overall length
             buffer.order(ByteOrder.LITTLE_ENDIAN);
 
             for (Alarm alarm : alarms) {
+                String label = alarm.getTitle();
+                String message = alarm.getMessage();
+                int alarmSize = 17 + label.length() + message.length();
+
                 buffer.put((byte) 0x00); // dunno why
-                buffer.putShort((short) (SIZE_ALARM - 3)); // alarm size, 0 above does not count
+                buffer.putShort((short) (alarmSize - 3)); // alarm size, 0 above and this does not count
                 buffer.put((byte) 0x00); // prolly entry id time data
                 buffer.putShort((short) 3); // prolly entry length
                 buffer.put(alarm.getData());

@@ -440,7 +440,8 @@ public class FossilWatchAdapter extends WatchAdapter {
                 activeAlarms.add(new nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.Alarm(
                         (byte) alarm.getMinute(),
                         (byte) alarm.getHour(),
-                        false
+                        alarm.getTitle(),
+                        alarm.getDescription()
                 ));
                 continue;
             }
@@ -449,7 +450,9 @@ public class FossilWatchAdapter extends WatchAdapter {
             activeAlarms.add(new nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.Alarm(
                     (byte) alarm.getMinute(),
                     (byte) alarm.getHour(),
-                    (byte) repitition
+                    (byte) repitition,
+                    alarm.getTitle(),
+                    alarm.getDescription()
             ));
         }
         queueWrite(new AlarmsSetRequest(activeAlarms.toArray(new nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.Alarm[0]), this){
