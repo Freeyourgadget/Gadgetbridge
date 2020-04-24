@@ -258,8 +258,8 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
             LOG.info(" Long sit reminder is disabled ");
             return false;
         } else {
-            String end = prefs.getString(WatchXPlusConstants.PREF_LONGSIT_START, "06:00");
-            String start = prefs.getString(WatchXPlusConstants.PREF_LONGSIT_END, "23:00");
+            String start = prefs.getString(WatchXPlusConstants.PREF_LONGSIT_START, "06:00");
+            String end = prefs.getString(WatchXPlusConstants.PREF_LONGSIT_END, "23:00");
 
             DateFormat df = new SimpleDateFormat("HH:mm");
 

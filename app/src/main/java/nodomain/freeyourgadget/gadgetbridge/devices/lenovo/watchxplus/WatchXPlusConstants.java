@@ -52,7 +52,7 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
 
     public static final String PREF_LONGSIT_START = "pref_longsit_start";
     public static final String PREF_LONGSIT_END = "pref_longsit_end";
-
+    public static final String PREF_SHOW_RAW_GRAPH = "show_raw_graph";
     // moved to gear icon (per device settings)
     public static final String PREF_LANGUAGE = "language";
 

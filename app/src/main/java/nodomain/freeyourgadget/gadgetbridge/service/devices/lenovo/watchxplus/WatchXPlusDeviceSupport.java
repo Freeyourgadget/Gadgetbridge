@@ -90,9 +90,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
-import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getContext;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_LANGUAGE;
-
 public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Prefs prefs  = GBApplication.getPrefs();
 
@@ -1018,15 +1015,17 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
      */
     private void setLongSitHours(TransactionBuilder builder, boolean enable, int hourStart, int minuteStart, int hourEnd, int minuteEnd, int period) {
         LOG.info(" Setting Long sit reminder... Enabled:"+enable+" Period:"+period);
-        LOG.info(" Setting Long sit time... Hs:"+hourEnd+" Ms:"+minuteEnd+" He:"+hourStart+" Me:"+minuteStart);
+        LOG.info(" Setting Long sit time... Hs:"+hourStart+" Ms:"+minuteStart+" He:"+hourEnd+" Me:"+minuteEnd);
         // set Long Sit reminder time
         byte[] command = WatchXPlusConstants.CMD_INACTIVITY_REMINDER_SET;
 
         byte[] bArr = new byte[10];
+        // do not remind
         bArr[0] = (byte) hourEnd;            // byte[08]
         bArr[1] = (byte) minuteEnd;          // byte[09]
         bArr[2] = (byte) hourStart;          // byte[10]
         bArr[3] = (byte) minuteStart;        // byte[11]
+        // remind
         bArr[4] = (byte) hourStart;          // byte[12]
         bArr[5] = (byte) minuteStart;        // byte[13]
         bArr[6] = (byte) hourEnd;            // byte[14]
@@ -1506,13 +1505,13 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_DAY_STEPS_INDICATOR, 5)) {
                 handleStepsInfo(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_DATA_COUNT, 5)) {
-                LOG.info(" Received data count ");
+                LOG.info(" Received data count: " + value);
                 handleDataCount(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_DATA_DETAILS, 5)) {
-                LOG.info(" Received data details ");
+                LOG.info(" Received data details: " + value);
                 handleDataDetails(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_DATA_CONTENT, 5)) {
-                LOG.info(" Received data content ");
+                LOG.info(" Received data content: " + value);
                 handleDataContentAck(value);
             } else if (ArrayUtils.equals(value, WatchXPlusConstants.RESP_BP_MEASURE_STARTED, 5)) {
                 handleBpMeasureResult(value);
@@ -1707,7 +1706,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                     }
 
                     int tsWithOffset = requestedDataTimestamp + (((((chunkNo * 16) / 2) + ((i - 4) / 2)) *5) * 60) - timezoneOffset;
-                    LOG.debug(" requested timestamp " + requestedDataTimestamp + " chunkNo " + chunkNo + " Got data: " + new Date((long) tsWithOffset * 1000) + ", value: " + val);
+                    LOG.debug(" SLEEP requested timestamp " + requestedDataTimestamp + " chunkNo " + chunkNo + " Got data: " + new Date((long) tsWithOffset * 1000) + ", rawIntensity: " + val);
                     WatchXPlusActivitySample sample = createSample(dbHandler, tsWithOffset);
                     sample.setTimestamp(tsWithOffset);
                     sample.setProvider(provider);
@@ -1729,7 +1728,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                         break;
                     }
                     int tsWithOffset = requestedDataTimestamp + (((((chunkNo * 16) + i) - 4) * 2) * 60) - timezoneOffset;
-//                    LOG.debug(" requested timestamp " + requestedDataTimestamp + " chunkNo " + chunkNo + " Got data: " + new Date((long) tsWithOffset * 1000) + ", value: " + val);
+                    LOG.debug(" HEART RATE requested timestamp " + requestedDataTimestamp + " chunkNo " + chunkNo + " Got data: " + new Date((long) tsWithOffset * 1000) + ", value: " + val);
                     WatchXPlusActivitySample sample = createSample(dbHandler, tsWithOffset);
                     sample.setTimestamp(tsWithOffset);
                     sample.setHeartRate(val);
@@ -1742,6 +1741,16 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 handleEndOfDataChunks(chunkNo, type);
             } else {
                 LOG.warn(" Got unsupported data package type: " + type);
+
+                for (int i = 4; i < value.length; i++) {
+                    int val = Conversion.fromByteArr16(value[i], value[i+1]);
+                    if (65535 == val) {
+                        break;
+                    }
+                    int tsWithOffset = requestedDataTimestamp + (((((chunkNo * 16) / 2) + ((i - 4) / 2)) *5) * 60) - timezoneOffset;
+                    LOG.debug(" UNSUPPORTED requested timestamp for type: " + type + " " + requestedDataTimestamp + " chunkNo " + chunkNo + " Got data: " + new Date((long) tsWithOffset * 1000) + ", rawIntensity: " + val);
+                }
+
             }
         } catch (Exception ex) {
             LOG.warn((ex.getMessage()));

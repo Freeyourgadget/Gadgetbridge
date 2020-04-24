@@ -216,6 +216,7 @@
     <string name="pref_header_device_spec_settings">Device settings</string>
     <string name="pref_title_device_spec_settings_force_time">Force synchronize time</string>
     <string name="pref_summary_device_spec_settings_title_force_time">Force auto synchronize time on reconnect. Analog hands may show incorrect time!</string>
+    <string name="pref_title_device_spec_settings_show_raw_graph">Show RAW data on activity graph</string>
     <!-- Device Settings - Calibration - Used in devicesettings_watchxplus.xml -->
     <string name="pref_header_sensors_calibration">Sensors Calibration</string>
     <string name="pref_title_sensors_altitude">Altitude calibration</string>
@@ -224,10 +225,6 @@
     <string name="pref_sensors_bp_calibration_high">Blood Pressure SYSTOLIC (high)</string>
     <string name="prefs_sensors_button_bp_calibration">Calibration</string>
     <string name="prefs_sensors_button_bp_calibration_sum">Press here to begin calibration</string>
-    <!-- Device Settings - Long Sit Reminder -->
-    <string name="pref_summary_longsit">Remind if there are inactivity for X minutes</string>
-    <string name="prefs_longsit_switch">Inactivity reminder</string>
-    <string name="pref_title_longsit">Inactivity period (minutes)</string>
     <!-- Device Settings - Power Mode -->
     <string name="power_mode_title">Watch power mode</string>
     <string name="power_mode_normal">Normal</string>
