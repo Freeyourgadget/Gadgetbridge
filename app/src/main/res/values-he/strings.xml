@@ -891,4 +891,5 @@
     <string name="pref_title_notifications_and_calls_repeat_on_call">חזרה על התראות על שיחות</string>
     <string name="prefs_notifications_and_calls_continious_ring">התראה במהלך צלצול טלפון</string>
     <string name="title_activity_LenovoWatch_calibration">כיול Watch X Plus</string>
+    <string name="pref_title_device_spec_settings_show_raw_graph">הצגת נתונים גולמיים בתרשים הפעילות</string>
 </resources>
