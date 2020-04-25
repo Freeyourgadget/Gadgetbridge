@@ -878,7 +878,7 @@
     <string name="pref_title_device_spec_settings_force_time">Forceer tijdsynchronisatie</string>
     <string name="pref_header_device_spec_settings">Apparaat instellingen</string>
     <string name="pref_summary_notifications_and_calls_title_shake_reject">Dupliceert horlogeknop actie</string>
-    <string name="prefs_notifications_and_calls_shake_reject">"Schud pols: negeer / weiger  oproep"</string>
+    <string name="prefs_notifications_and_calls_shake_reject">Schud pols: negeer / weiger oproep</string>
     <string name="pref_summary_notifications_and_calls_title_reject">Uit - negeren, Aan - weigeren</string>
     <string name="prefs_notifications_and_calls_reject">Knop oproep negeren / weigeren</string>
     <string name="pref_header_notifications_and_calls_callhandling">Gespreksafhandeling</string>
@@ -889,4 +889,5 @@
     <string name="pref_title_notifications_and_calls_repeat_on_call">Herhaal oproepmelding</string>
     <string name="pref_header_notifications_and_calls">Meldingen en oproepen</string>
     <string name="title_activity_LenovoWatch_calibration">Watch X Plus-kalibratie</string>
+    <string name="pref_title_device_spec_settings_show_raw_graph">Toon onbewerkte gegevens op activiteitengrafiek</string>
 </resources>
