@@ -884,5 +884,5 @@
     <string name="prefs_notifications_and_calls_continious_ring">Oznámení během vyzvánění telefonu</string>
     <string name="pref_title_notifications_and_calls_repeat_on_call">Opakování oznámení o volání</string>
     <string name="pref_header_notifications_and_calls">Oznámení a volání</string>
-    <string name="title_activity_LenovoWatch_calibration">Watch X Plus calibration</string>
+    <string name="title_activity_LenovoWatch_calibration">Kalibrace Watch X Plus</string>
 </resources>
