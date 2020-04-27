@@ -2381,7 +2381,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    private void writeToChunked(TransactionBuilder builder, int type, byte[] data) {
+    protected void writeToChunked(TransactionBuilder builder, int type, byte[] data) {
         final int MAX_CHUNKLENGTH = mMTU - 6;
         int remaining = data.length;
         byte count = 0;

@@ -73,7 +73,7 @@ public class AmazfitGTSSupport extends AmazfitBipSupport {
         Set<String> pages = HuamiCoordinator.getDisplayItems(gbDevice.getAddress());
         LOG.info("Setting display items to " + (pages == null ? "none" : pages));
         byte[] command = new byte[]{
-                0x00, (byte) 0xC2, 0x00, 0x1E, // looks like chunked, but 0x00 :O
+                0x1E,
                 0x00, 0x00, (byte) 0xFF, 0x01, // Status
                 0x01, 0x00, (byte) 0xFF, 0x19, // PAI
                 0x02, 0x00, (byte) 0xFF, 0x02, // HR
@@ -94,7 +94,7 @@ public class AmazfitGTSSupport extends AmazfitBipSupport {
         if (pages != null) {
             pages.add("settings");
             // it seem that we first have to put all ENABLED items into the array
-            int pos = 4;
+            int pos = 1;
             for (int i = 0; i < keys.length; i++) {
                 String key = keys[i];
                 byte id = ids[i];
@@ -115,7 +115,7 @@ public class AmazfitGTSSupport extends AmazfitBipSupport {
                 }
             }
         }
-        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER), command);
+        writeToChunked(builder, 2, command);
 
         return this;
     }
