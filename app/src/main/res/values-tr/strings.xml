@@ -69,7 +69,7 @@
     <string name="alarm_mon_short">Pzt</string>
     <string name="alarm_sat_short">Cts</string>
     <string name="alarm_smart_wakeup">Akıllı Uyandırma</string>
-    <string name="alarm_snooze">Uyuklama</string>
+    <string name="alarm_snooze">Beklesin</string>
     <string name="alarm_sun_short">Paz</string>
     <string name="alarm_thu_short">Per</string>
     <string name="alarm_tue_short">Sal</string>
@@ -126,7 +126,7 @@
     <string name="connected">Bağlandı</string>
     <string name="connecting">Bağlanıyor</string>
     <string name="control_center_cancel_to_stop_vibration">Titreşimi Durdurmak için iptal et.</string>
-    <string name="control_center_find_lost_device">Cihaz Kaybedildi</string>
+    <string name="control_center_find_lost_device">Kayıp Cihaz aranıyor</string>
     <string name="controlcenter_calibrate_device">Cihazı Kalibre Et</string>
     <string name="controlcenter_change_fm_frequency">FM Frekansını Değiştir</string>
     <string name="controlcenter_change_led_color">LED Rengini Değiştir</string>
@@ -239,7 +239,7 @@
     <string name="filter_submode_all">Kelimelerin Hepsi</string>
     <string name="filter_submode_at_least_one">Kelimelerin EnAz Birisi</string>
     <string name="find_device_you_found_it">Buldunuz!</string>
-    <string name="find_lost_device_you_found_it">Cihazı Bul!</string>
+    <string name="find_lost_device_you_found_it">Cihazı Buldum!</string>
     <string name="find_my_phone_notification">Telefonumu Bul</string>
     <string name="firmware_install_warning">"Riski size ait olan bir FIRMWARE yüklüyorsunuz.
 
@@ -892,7 +892,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="pref_sensors_bp_calibration_low">Diyastolik Kan Basıncı (Düşük Tansiyon)</string>
     <string name="pref_sensors_bp_calibration">Kan Basıncı Kalibrasyonu</string>
     <string name="pref_title_sensors_altitude">Yükseklik (irtifa) Kalibrasyonu</string>
-    <string name="pref_header_sensors_calibration">Sensör Kalibrasyonu</string>
+    <string name="pref_header_sensors_calibration">Sensörler Kalibrasyonu</string>
     <string name="pref_title_device_spec_settings_show_raw_graph">Aktivite grafiğinde RAW verilerini göster</string>
     <string name="pref_summary_device_spec_settings_title_force_time">Yeniden bağlandığında Otomatik Senkronizasyonu zorla. Elle müdahalede yanlış zaman gösterebilir!</string>
     <string name="pref_title_device_spec_settings_force_time">Senkronizasyon Zamanını Zorla</string>
