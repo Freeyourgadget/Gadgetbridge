@@ -102,7 +102,10 @@
     <string name="installing_binary_d_d">Встановлення бінарного файлу %1$d/%2$d</string>
     <string name="installation_failed_">Невдале встановлення</string>
     <string name="installation_successful">Встановлено</string>
-    <string name="firmware_install_warning">ВИ НАМАГАЄТЕСЬ ВСТАНОВИТИ МІКРОПРОГРАМУ, ПРОДОВЖУЙТЕ НА СВІЙ СТРАХ І РИЗИК.\n\n\nЦя мікропрограма для пристрою ревізії: %s</string>
+    <string name="firmware_install_warning">ВИ НАМАГАЄТЕСЬ ВСТАНОВИТИ МІКРОПРОГРАМУ, ДІЄТЕ НА ВЛАСНИЙ РИЗИК.
+\n
+\n
+\nЦя мікропрограма для пристрою ревізії: %s</string>
     <string name="app_install_info">Ви збираєтесь встановити додаток:\n\n\n%1$s версія %2$s від %3$s\n</string>
     <string name="n_a">Недоступно</string>
     <string name="initialized">Ініціалізовано</string>
@@ -273,7 +276,7 @@
 \n 
 \nПримітка. Вам не потрібно встановлювати .res, якщо він точно такий же, як і раніше встановлений. 
 \n 
-\nНЕТЕСТОВАНО, МОЖЕ ПОШКОДИТИ ВАШ ПРИСТРІЙ, ДІЙТЕ НА СВІЙ СТРАХ І РИЗИК!</string>
+\nДІЄТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="pref_title_charts_swipe">Увімкнути бокові рухи у діаграмах активності</string>
     <string name="pref_title_minimize_priority">Сховати сповіщення Gadgetbridge</string>
     <string name="pref_summary_minimize_priority_off">Значок в рядку стану та сповіщення на екрані блокування відображаються</string>
@@ -771,13 +774,13 @@
     <string name="prefs_find_phone_duration">Тривалість дзвінка в секундах</string>
     <string name="maximum_duration">Тривалість</string>
     <string name="discovery_need_to_enter_authkey">Цей пристрій потребує ключа автентифікації, нажміть та утримуйте для переходу в меню введення ключа. Прочитайте Wiki.</string>
-    <string name="fw_upgrade_notice_amazfitbip_lite">Ви збираєтесь встановити %s мікропрограму на ваш Amazfit Bip Lite.
-\n
-\nПереконайтесь, що ви встановлюєте .fw файл, а після нього .res файл. Ваш годинник перезавантажиться після встановлення .fw файлу.
-\n
-\nПримітка: вам не потрібно встановлювати .res файл, якщо він такий самий був встановлений раніше.
-\n
-\nВИ РОБИТЕ ЦЕ НА ВЛАСНИЙ РИЗИК!</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">Ви збираєтесь встановити %s мікропрограму на ваш Amazfit Bip Lite. 
+\n 
+\nПереконайтесь, що ви встановлюєте .fw файл, а після нього .res файл. Ваш годинник перезавантажиться після встановлення .fw файлу. 
+\n 
+\nПримітка: вам не потрібно встановлювати .res файл, якщо він такий самий був встановлений раніше. 
+\n 
+\nДІЄТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
     <string name="fw_upgrade_notice_amazfitgtr">Ви збираєтеся встановити мікропрограму %s на ваш Amazfit GTR. 
 \n 
@@ -824,4 +827,26 @@
     <string name="hr_widget_calories">Калорії</string>
     <string name="hr_widget_battery">Батарея</string>
     <string name="hr_widget_weather">Погода</string>
+    <string name="find_my_phone_notification">Знайти мій телефон</string>
+    <string name="power_mode_watch">Тільки годинник</string>
+    <string name="power_mode_saving">Збереження енергії</string>
+    <string name="power_mode_normal">Нормальний</string>
+    <string name="prefs_sensors_button_bp_calibration">Калібрування</string>
+    <string name="pref_summary_notifications_and_calls_title_reject">Вимкнути - ігнорування, увімкнути - відхилення</string>
+    <string name="prefs_notifications_and_calls_reject">Кнопка ігнорувати/відхилити дзвінок</string>
+    <string name="pref_header_notifications_and_calls_callhandling">Управляти дзвінками</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_misscall">Повторяти кожні X хвилин(и)</string>
+    <string name="pref_summary_notifications_and_calls_enable_misscall">Повторяти кожну хвилину</string>
+    <string name="pref_notifications_and_calls_enable_misscall">Сповіщення для пропущених дзвінків</string>
+    <string name="prefs_notifications_and_calls_continious_ring">Сповіщення працюють до дзвонить телефон</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_call">Повторити сповіщення про дзвінки</string>
+    <string name="pref_header_notifications_and_calls">Сповіщення і дзвінки</string>
+    <string name="title_activity_LenovoWatch_calibration">Watch X Plus калібрування</string>
+    <string name="pref_title_vibration_strength">Сила вібрації</string>
+    <string name="pref_title_relax_firmware_checks">Увімкніть це, якщо Ви хочете встановити мікропрограму яка не призначена для вашого пристрою (на власний ризик)</string>
+    <string name="pref_summary_relax_firmware_checks">Вимкнути перепровірку мікропрограми</string>
+    <string name="pref_title_sync_caldendar">Синхронізувати події календаря</string>
+    <string name="pref_summary_sync_calendar">Увімкнути сповіщення календаря, навіть коли пристрій від\'єднано.</string>
+    <string name="pref_summary_custom_deviceicon">Показувати специфічні піктограми сповіщень Android замість Gadgetbridge коли підключено</string>
+    <string name="pref_title_custom_deviceicon">Показувати специфічні піктограми сповіщень</string>
 </resources>
