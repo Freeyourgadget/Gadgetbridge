@@ -862,4 +862,22 @@
     <string name="prefs_sensors_button_bp_calibration_sum">Trykk her for å starte kalibrering</string>
     <string name="prefs_sensors_button_bp_calibration">Kalibrering</string>
     <string name="pref_header_device_spec_settings">Enhetsinnstillinger</string>
+    <string name="prefs_notifications_and_calls_reject">Knapp for å ignorere/avslå</string>
+    <string name="prefs_notifications_and_calls_shake_reject">Rist håndledd ignorer/avslå samtale</string>
+    <string name="pref_summary_notifications_and_calls_title_reject">Av - ignorer, På - avslå</string>
+    <string name="menuitem_pai">Personlig aktivitetssporing</string>
+    <string name="pref_title_sensors_altitude">Høydekalibrering</string>
+    <string name="title_activity_LenovoWatch_calibration">Watch X Plus-kalibrering</string>
+    <string name="pref_header_sensors_calibration">Sensorkalibrering</string>
+    <string name="power_mode_saving">Batterisparing</string>
+    <string name="power_mode_normal">Normalt</string>
+    <string name="power_mode_title">Klokkeeffektmodus</string>
+    <string name="devicetype_watchx">Watch X</string>
+    <string name="devicetype_watchxplus">Watch X Plus</string>
+    <string name="power_mode_watch">Kun klokke</string>
+    <string name="menuitem_workout">Treningsøkt</string>
+    <string name="pref_sensors_bp_calibration_high">Blodtrykk SYSTOLISK (høyt)</string>
+    <string name="pref_sensors_bp_calibration_low">Blodtrykk DIASTOLISK (lavt)</string>
+    <string name="pref_sensors_bp_calibration">Blodtrykkskalibrering</string>
+    <string name="pref_header_notifications_and_calls">Merknader og samtaler</string>
 </resources>
