@@ -219,7 +219,7 @@
     <string name="pref_summary_device_spec_settings_title_force_time">Force auto synchronize time on reconnect. Analog hands may show incorrect time!</string>
     <string name="pref_title_device_spec_settings_show_raw_graph">Show RAW data on activity graph</string>
     <!-- Device Settings - Calibration - Used in devicesettings_watchxplus.xml -->
-    <string name="pref_header_sensors_calibration">Sensors Calibration</string>
+    <string name="pref_header_sensors_calibration">Sensor Calibration</string>
     <string name="pref_title_sensors_altitude">Altitude calibration</string>
     <string name="pref_sensors_bp_calibration">Blood Pressure calibration</string>
     <string name="pref_sensors_bp_calibration_low">Blood Pressure DIASTOLIC (low)</string>
@@ -830,7 +830,6 @@
     <string name="qhybrid_offset_timezone">offset timezone by</string>
     <string name="qhybrid_changes_delay_prompt">change might take some seconds…</string>
     <string name="qhybrid_offset_time_by">offset time by</string>
-
     <string name="hr_widget_heart_rate">Heart rate</string>
     <string name="hr_widget_steps">Steps</string>
     <string name="hr_widget_date">Date</string>
@@ -839,26 +838,21 @@
     <string name="hr_widget_battery">Battery</string>
     <string name="hr_widget_weather">Weather</string>
     <string name="hr_widget_nothing">Nothing</string>
-
     <string name="hr_appname_wellness">Wellness</string>
     <string name="hr_appname_workout">Workout</string>
     <string name="hr_appname_stopwatch">Stopwatch</string>
     <string name="hr_appname_commute">Commute</string>
-
     <string name="pref_title_upper_button_function">Upper Button</string>
     <string name="pref_title_middle_button_function">Middle Button</string>
     <string name="pref_title_lower_button_function">Lower Button</string>
-
     <string name="prefs_button_single_press_action_selection_title">Event 1 action</string>
     <string name="prefs_button_double_press_action_selection_title">Event 2 action</string>
     <string name="prefs_button_triple_press_action_selection_title">Event 3 action</string>
     <string name="prefs_button_variable_actions">Detailed button press settings</string>
     <string name="prefs_button_long_press_action_selection_title">Long press button action</string>
-
     <string name="error_no_location_access">Location access must be granted and enabled for scanning to work properly</string>
     <string name="pref_qhybrid_title_widget_draw_circles">Draw widget circles</string>
     <string name="pref_qhybrid_save_raw_activity_files">Save raw activity files</string>
-
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>
         <item quantity="two">%d hours</item>
