@@ -873,7 +873,7 @@
     <string name="pref_sensors_bp_calibration_low">Bloeddruk DIASTOLISCH (laag)</string>
     <string name="pref_sensors_bp_calibration">Bloeddruk kalibratie</string>
     <string name="pref_title_sensors_altitude">Hoogte kalibratie</string>
-    <string name="pref_header_sensors_calibration">Sensoren Kalibratie</string>
+    <string name="pref_header_sensors_calibration">Sensor Kalibratie</string>
     <string name="pref_summary_device_spec_settings_title_force_time">Forceer automatische tijd synchronisatie bij opnieuw verbinden. Analoge wijzers kunnen een onjuiste tijd aangeven!</string>
     <string name="pref_title_device_spec_settings_force_time">Forceer tijdsynchronisatie</string>
     <string name="pref_header_device_spec_settings">Apparaat instellingen</string>
