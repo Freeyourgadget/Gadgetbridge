@@ -882,7 +882,7 @@
     <string name="pref_sensors_bp_calibration_low">Pressão arterial DIASTÓLICA (baixa)</string>
     <string name="pref_sensors_bp_calibration">Calibração da pressão arterial</string>
     <string name="pref_title_sensors_altitude">Calibração de altitude</string>
-    <string name="pref_header_sensors_calibration">Calibração de sensores</string>
+    <string name="pref_header_sensors_calibration">Calibração do sensor</string>
     <string name="pref_title_device_spec_settings_show_raw_graph">Mostrar dados RAW no gráfico de atividade</string>
     <string name="pref_summary_device_spec_settings_title_force_time">Força a sincronização automática do tempo na reconexão. Os ponteiros analógicos podem mostrar tempo incorreto!</string>
     <string name="pref_title_device_spec_settings_force_time">Forçar sincronizar o tempo</string>
