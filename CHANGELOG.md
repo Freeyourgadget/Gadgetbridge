@@ -1,5 +1,12 @@
 ### Changelog
 
+#### Version 0.44.0 (WIP)
+* Initial support for WatchX(Plus)
+* Add support for Amazfit GTR Lite (untested and incomplete)
+* Fossil Hybrid HR: Fix some issues with custon widgets
+* Fossil Hybrid HR: Allow setting alarm titles and descriptions
+* Amazfit GTS: Fix setting menu items with low MTU
+
 #### Version 0.43.3
 * Fossil Hybrid HR: Initial support for activity tracking (no sleep yet)
 * Fossil Hybrid HR: Support setting alarms on newer firmware
