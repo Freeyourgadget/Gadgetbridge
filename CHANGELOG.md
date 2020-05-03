@@ -6,6 +6,7 @@
 * Fossil Hybrid HR: Fix some issues with custon widgets
 * Fossil Hybrid HR: Allow setting alarm titles and descriptions
 * Amazfit GTS: Fix setting menu items with low MTU
+* Amazfit GTR: Allow setting menu itdem like GTS
 
 #### Version 0.43.3
 * Fossil Hybrid HR: Initial support for activity tracking (no sleep yet)

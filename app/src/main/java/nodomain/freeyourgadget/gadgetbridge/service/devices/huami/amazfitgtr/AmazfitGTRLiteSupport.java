@@ -23,41 +23,20 @@ import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr.AmazfitGTRLiteFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperationNew;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts.AmazfitGTSSupport;
 
-public class AmazfitGTRLiteSupport extends AmazfitBipSupport {
-
-    @Override
-    public byte getCryptFlags() {
-        return (byte) 0x80;
-    }
-    
-    @Override
-    protected byte getAuthFlags() {
-        return 0x00;
-    }
-
-    @Override
-    public void onNotification(NotificationSpec notificationSpec) {
-        super.sendNotificationNew(notificationSpec, true);
-    }
+public class AmazfitGTRLiteSupport extends AmazfitGTSSupport {
 
     @Override
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
         return new AmazfitGTRLiteFWHelper(uri, context);
     }
 
+    // override to skip requesting GPS version
     @Override
-    public UpdateFirmwareOperationNew createUpdateFirmwareOperation(Uri uri) {
-        return new UpdateFirmwareOperationNew(uri, this);
-    }
-
-    @Override
-    protected AmazfitGTRLiteSupport setDisplayItems(TransactionBuilder builder) {
-        // not supported yet
-        return this;
+    public void phase2Initialize(TransactionBuilder builder) {
+        super.phase2Initialize(builder);
+        setLanguage(builder);
     }
 }
