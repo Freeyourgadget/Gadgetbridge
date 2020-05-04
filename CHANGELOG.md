@@ -7,6 +7,8 @@
 * Fossil Hybrid HR: Allow setting alarm titles and descriptions
 * Amazfit GTS: Fix setting menu items with low MTU
 * Amazfit GTR: Allow setting menu itdem like GTS
+* ZeTime: Support setting the watch language
+* ZeTime: Support rejecting calls
 
 #### Version 0.43.3
 * Fossil Hybrid HR: Initial support for activity tracking (no sleep yet)
