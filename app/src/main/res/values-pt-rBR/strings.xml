@@ -899,4 +899,6 @@
     <string name="pref_title_notifications_and_calls_repeat_on_call">Repetir notificação de chamadas</string>
     <string name="pref_header_notifications_and_calls">Notificações e chamadas</string>
     <string name="title_activity_LenovoWatch_calibration">Calibração de Watch X Plus</string>
+    <string name="hungarian">Húngaro</string>
+    <string name="romanian">Romeno</string>
 </resources>
