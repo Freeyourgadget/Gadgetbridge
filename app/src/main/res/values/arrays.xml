@@ -551,6 +551,46 @@
         <item>ko_KO</item>
     </string-array>
 
+    <string-array name="pref_zetime_language">
+        <item name="auto">@string/automatic</item>
+        <item name="zh_CN">@string/simplified_chinese</item>
+        <item name="zh_TW">@string/traditional_chinese</item>
+        <item name="en_US">@string/english</item>
+        <item name="es_ES">@string/spanish</item>
+        <item name="de_DE">@string/german</item>
+        <item name="it_IT">@string/italian</item>
+        <item name="fr_FR">@string/french</item>
+        <item name="pt_PT">@string/portuguese</item>
+        <item name="nl_NL">@string/dutch</item>
+        <item name="hu_HU">@string/hungarian</item>
+        <item name="ro_RO">@string/romanian</item>
+        <item name="pl_PL">@string/polish</item>
+        <item name="ru_RU">@string/russian</item>
+        <item name="ja_JP">@string/japanese</item>
+        <item name="ko_KO">@string/korean</item>
+        <item name="th_TH">@string/thai</item>
+    </string-array>
+
+    <string-array name="pref_zetime_language_values">
+        <item>auto</item>
+        <item>zh_CN</item>
+        <item>zh_TW</item>
+        <item>en_US</item>
+        <item>es_ES</item>
+        <item>de_DE</item>
+        <item>it_IT</item>
+        <item>fr_FR</item>
+        <item>pt_PT</item>
+        <item>nl_NL</item>
+        <item>hu_HU</item>
+        <item>ro_RO</item>
+        <item>pl_PL</item>
+        <item>ru_RU</item>
+        <item>ja_JP</item>
+        <item>ko_KO</item>
+        <item>th_TH</item>
+    </string-array>
+
     <string-array name="prefs_heartrate_measurement_interval">
         <item name="0">@string/off</item>
         <item name="60">@string/interval_one_minute</item>

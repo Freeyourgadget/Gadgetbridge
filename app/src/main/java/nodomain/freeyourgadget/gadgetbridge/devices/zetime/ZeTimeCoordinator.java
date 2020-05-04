@@ -163,6 +163,7 @@ public class ZeTimeCoordinator extends AbstractDeviceCoordinator {
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
+                R.xml.devicesettings_zetime,
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_wearlocation,
         };

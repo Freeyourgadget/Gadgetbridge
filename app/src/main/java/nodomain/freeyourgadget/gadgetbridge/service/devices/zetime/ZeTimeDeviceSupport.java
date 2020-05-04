@@ -154,6 +154,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 case DeviceSettingsPreferenceConst.PREF_WEARLOCATION:
                     setWrist(builder);
                     break;
+                case DeviceSettingsPreferenceConst.PREF_LANGUAGE:
+                    setLanguage(builder);
+                    break;
                 case ZeTimeConstants.PREF_SCREENTIME:
                     setScreenTime(builder);
                     break;
@@ -2154,33 +2157,36 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void setLanguage(TransactionBuilder builder) {
-        Prefs prefs = GBApplication.getPrefs();
-        String language = prefs.getString("language", "default");
-        Locale locale;
+        String localeString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_LANGUAGE, "auto");
 
         byte[] languageMsg = {
                 ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_LANGUAGE_SETTINGS,
-                ZeTimeConstants.CMD_REQUEST,
+                ZeTimeConstants.CMD_SEND,
                 (byte) 0x1,
                 (byte) 0x0,
                 (byte) 0x0,
                 ZeTimeConstants.CMD_END
         };
 
-        if (language == null || language.equals("default")) {
-            locale = Locale.getDefault();
-            language = locale.getLanguage();
+        if (localeString == null || localeString.equals("auto")) {
+            String language = Locale.getDefault().getLanguage();
+            String country = Locale.getDefault().getCountry();
+
+            if (country == null) {
+                // sometimes country is null, no idea why, guess it.
+                country = language;
+            }
+            localeString = language + "_" + country.toUpperCase();
         }
 
-        switch (language) {
+        switch (localeString.substring(0, 2)) {
             case "zh":
-                languageMsg[5] = 1;
-                break;
-            case "tw":
-            case "hk":
-            case "mo":
-                languageMsg[5] = 2;
+                if (localeString.equals("zh_CN")) {
+                    languageMsg[5] = 1;
+                } else {
+                    languageMsg[5] = 2;
+                }
                 break;
             case "ko":
                 languageMsg[5] = 3;
@@ -2225,5 +2231,6 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             default:
                 languageMsg[5] = 0;
         }
+        sendMsgToWatch(builder, languageMsg);
     }
 }
