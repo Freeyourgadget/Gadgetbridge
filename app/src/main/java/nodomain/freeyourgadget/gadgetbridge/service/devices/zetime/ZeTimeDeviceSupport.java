@@ -43,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeConstants;
@@ -79,6 +80,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final GBDeviceEventMusicControl musicCmd = new GBDeviceEventMusicControl();
+    private final GBDeviceEventCallControl callCmd = new GBDeviceEventCallControl();
     private final int eightHourOffset = 28800;
     private byte[] lastMsg;
     private byte msgPart;
@@ -895,6 +897,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     case ZeTimeConstants.CMD_MUSIC_CONTROL:
                         handleMusicControl(data);
                         break;
+                    case ZeTimeConstants.CMD_CALL_CONTROL:
+                        handleCallControl(data);
+                        break;
                 }
                 return true;
             }
@@ -1373,6 +1378,17 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     GB.toast(getContext(), "Error reply the music state: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                 }
             }
+        }
+    }
+
+    private void handleCallControl(byte[] callControlMsg) {
+        if (callControlMsg.length == 7
+                && callControlMsg[2] == ZeTimeConstants.CMD_SEND
+                && callControlMsg[3] == 0x01
+                && callControlMsg[4] == 0x00
+                && callControlMsg[5] == 0x01) {
+            callCmd.event = GBDeviceEventCallControl.Event.REJECT;
+            evaluateGBDeviceEvent(callCmd);
         }
     }
 
