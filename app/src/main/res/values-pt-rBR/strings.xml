@@ -902,4 +902,8 @@
     <string name="hungarian">Húngaro</string>
     <string name="romanian">Romeno</string>
     <string name="pref_theme_system">Sistemas</string>
+    <string name="czesh">Tcheco</string>
+    <string name="swedish">Sueco</string>
+    <string name="hebrew">Hebreu</string>
+    <string name="greek">Grego</string>
 </resources>
