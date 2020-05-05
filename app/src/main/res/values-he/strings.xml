@@ -893,4 +893,6 @@
     <string name="title_activity_LenovoWatch_calibration">כיול Watch X Plus</string>
     <string name="pref_title_device_spec_settings_show_raw_graph">הצגת נתונים גולמיים בתרשים הפעילות</string>
     <string name="pref_theme_system">מערכת</string>
+    <string name="hungarian">הונגרית</string>
+    <string name="romanian">רומנית</string>
 </resources>
