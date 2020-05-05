@@ -92,13 +92,13 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private String songtitle = null;
     private byte musicState = -1;
     public byte[] music = null;
-    public byte volume = 50;
-    public byte[][] remindersOnWatch = new byte[3][10];
+    private byte volume = 50;
+    private byte[][] remindersOnWatch = new byte[3][10];
 
-    public BluetoothGattCharacteristic notifyCharacteristic = null;
-    public BluetoothGattCharacteristic writeCharacteristic = null;
-    public BluetoothGattCharacteristic ackCharacteristic = null;
-    public BluetoothGattCharacteristic replyCharacteristic = null;
+    private BluetoothGattCharacteristic notifyCharacteristic = null;
+    private BluetoothGattCharacteristic writeCharacteristic = null;
+    private BluetoothGattCharacteristic ackCharacteristic = null;
+    private BluetoothGattCharacteristic replyCharacteristic = null;
 
     public ZeTimeDeviceSupport() {
         super(LOG);
@@ -266,7 +266,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetHeartRateMeasurementInterval(int seconds) {
-        int heartRateMeasurementIntervall = 0; // 0 means off
+        int heartRateMeasurementIntervall; // 0 means off
         heartRateMeasurementIntervall = seconds / 60; // zetime accepts only minutes
 
         byte[] heartrate = {ZeTimeConstants.CMD_PREAMBLE,
@@ -394,7 +394,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         int subject_length = 0;
         int notification_length = 0;
         byte[] subject = null;
-        byte[] notification = null;
+        byte[] notification;
         Calendar time = GregorianCalendar.getInstance();
         // convert every single digit of the date to ascii characters
         // we do it like so: use the base chrachter of '0' and add the digit
@@ -460,14 +460,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 notification[notification_length - 1] = ZeTimeConstants.CMD_END;
                 callIncoming = false;
             }
-            if (notification != null) {
-                try {
-                    TransactionBuilder builder = performInitialized("setCallState");
-                    sendMsgToWatch(builder, notification);
-                    builder.queue(getQueue());
-                } catch (IOException e) {
-                    GB.toast(getContext(), "Error set call state: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-                }
+            try {
+                TransactionBuilder builder = performInitialized("setCallState");
+                sendMsgToWatch(builder, notification);
+                builder.queue(getQueue());
+            } catch (IOException e) {
+                GB.toast(getContext(), "Error set call state: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
             }
         }
 
@@ -556,15 +554,16 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         CalendarEvent[2] = ZeTimeConstants.CMD_SEND;
         CalendarEvent[3] = (byte) ((calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length + 10) & 0xff);
         CalendarEvent[4] = (byte) ((calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length + 10) >> 8);
-        CalendarEvent[5] = (byte) (calendarEventSpec.type + 0x1);
+        // 0 = delete all expect the new one?. 4 = delete all?, 2 = add event?, 1 = first?, 3=last?
+        CalendarEvent[5] = (byte) (calendarEventSpec.type + 0x1); // this seems to be a hack
         CalendarEvent[6] = (byte) (time.get(Calendar.YEAR) & 0xff);
         CalendarEvent[7] = (byte) (time.get(Calendar.YEAR) >> 8);
         CalendarEvent[8] = (byte) (time.get(Calendar.MONTH) + 1);
         CalendarEvent[9] = (byte) time.get(Calendar.DAY_OF_MONTH);
         CalendarEvent[10] = (byte) (time.get(Calendar.HOUR_OF_DAY) & 0xff);
-        CalendarEvent[11] = (byte) (time.get(Calendar.HOUR_OF_DAY) >> 8);
-        CalendarEvent[12] = (byte) (time.get(Calendar.MINUTE) & 0xff);
-        CalendarEvent[13] = (byte) (time.get(Calendar.MINUTE) >> 8);
+        CalendarEvent[11] = (byte) (time.get(Calendar.MINUTE) & 0xff);
+        CalendarEvent[12] = 0; // ?
+        CalendarEvent[13] = 0; // ?
         CalendarEvent[14] = (byte) calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length;
         System.arraycopy(calendarEventSpec.title.getBytes(StandardCharsets.UTF_8), 0, CalendarEvent, 15, calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length);
         CalendarEvent[CalendarEvent.length - 1] = ZeTimeConstants.CMD_END;
@@ -677,7 +676,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
         int notification_length = body_length;
         byte[] subject = null;
-        byte[] notification = null;
+        byte[] notification;
         Calendar time = GregorianCalendar.getInstance();
         // convert every single digit of the date to ascii characters
         // we do it like so: use the base chrachter of '0' and add the digit
@@ -1046,9 +1045,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void handleActivityFetching(byte[] msg) {
-        availableStepsData = (int) ((msg[5] & 0xff) | (msg[6] << 8) & 0xff00);
-        availableSleepData = (int) ((msg[7] & 0xff) | (msg[8] << 8) & 0xff00);
-        availableHeartRateData = (int) ((msg[9] & 0xff) | (msg[10] << 8) & 0xff00);
+        availableStepsData = (msg[5] & 0xff) | (msg[6] << 8) & 0xff00;
+        availableSleepData = (msg[7] & 0xff) | (msg[8] << 8) & 0xff00;
+        availableHeartRateData = (msg[9] & 0xff) | (msg[10] << 8) & 0xff00;
         if (availableStepsData > 0) {
             getStepData();
         } else if (availableHeartRateData > 0) {
@@ -1184,7 +1183,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
 
         progressSteps = (msg[5] & 0xff) | ((msg[6] << 8) & 0xff00);
-        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSteps * 100 / availableStepsData), getContext());
+        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, progressSteps * 100 / availableStepsData, getContext());
         if (progressSteps == availableStepsData) {
             Prefs prefs = GBApplication.getPrefs();
             progressSteps = 0;
@@ -1231,7 +1230,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
 
         progressSleep = (msg[5] & 0xff) | (msg[6] << 8) & 0xff00;
-        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSleep * 100 / availableSleepData), getContext());
+        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, progressSleep * 100 / availableSleepData, getContext());
         if (progressSleep == availableSleepData) {
             Prefs prefs = GBApplication.getPrefs();
             progressSleep = 0;
@@ -1267,7 +1266,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
 
         progressHeartRate = (msg[5] & 0xff) | ((msg[6] << 8) & 0xff00);
-        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressHeartRate * 100 / availableHeartRateData), getContext());
+        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, progressHeartRate * 100 / availableHeartRateData, getContext());
 
         if (((msg[4] << 8) & 0xff00 | (msg[3] & 0xff)) == 0xe) // if the message is longer than 0x7, than it has two measurements (payload = 0xe)
         {
@@ -1404,7 +1403,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private void replyMsgToWatch(TransactionBuilder builder, byte[] msg) {
         if (msg.length > maxMsgLength) {
             int msgpartlength = 0;
-            byte[] msgpart = null;
+            byte[] msgpart;
 
             do {
                 if ((msg.length - msgpartlength) < maxMsgLength) {
