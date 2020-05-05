@@ -11,6 +11,7 @@
 * ZeTime: Support rejecting calls
 * ZeTime: Try to fix weather conditions on newer firmwares
 * ZeTime: Fix could not synchronize calendar on connect
+* Allow set light/dark theme according to system settings (new default)
 
 #### Version 0.43.3
 * Fossil Hybrid HR: Initial support for activity tracking (no sleep yet)

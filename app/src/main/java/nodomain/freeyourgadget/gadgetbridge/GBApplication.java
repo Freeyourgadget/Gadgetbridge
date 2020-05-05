@@ -934,7 +934,7 @@ public class GBApplication extends Application {
     }
 
     public static boolean isDarkThemeEnabled() {
-        String selectedTheme = prefs.getString("pref_key_theme", context.getString(R.string.pref_theme_value_light));
+        String selectedTheme = prefs.getString("pref_key_theme", context.getString(R.string.pref_theme_value_system));
 
         UiModeManager umm = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
 
