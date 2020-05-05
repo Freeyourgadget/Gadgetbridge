@@ -71,9 +71,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-/**
- * Created by Kranz on 08.02.2018.
- */
 
 public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(ZeTimeDeviceSupport.class);
@@ -141,8 +138,6 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         initMusicVolume(builder);
         onReadReminders(builder);
 
-        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
-        LOG.info("Initialization Done");
         return builder;
     }
 
@@ -1038,6 +1033,16 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             versionCmd.hwVersion = new String(string);
         }
         evaluateGBDeviceEvent(versionCmd);
+
+        TransactionBuilder builder = new TransactionBuilder("setDeviceInitialized");
+        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
+        try {
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+            LOG.error("could not set device to initzialized: ", e);
+        }
+
+        LOG.info("Initialization Done");
     }
 
     private void handleActivityFetching(byte[] msg) {

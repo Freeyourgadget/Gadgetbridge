@@ -10,6 +10,7 @@
 * ZeTime: Support setting the watch language
 * ZeTime: Support rejecting calls
 * ZeTime: Try to fix weather conditions on newer firmwares
+* ZeTime: Fix could not synchronize calendar on connect
 
 #### Version 0.43.3
 * Fossil Hybrid HR: Initial support for activity tracking (no sleep yet)
