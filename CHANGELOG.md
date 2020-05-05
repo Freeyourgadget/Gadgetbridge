@@ -9,6 +9,7 @@
 * Amazfit GTR: Allow setting menu itdem like GTS
 * ZeTime: Support setting the watch language
 * ZeTime: Support rejecting calls
+* ZeTime: Try to fix weather conditions on newer firmwares
 
 #### Version 0.43.3
 * Fossil Hybrid HR: Initial support for activity tracking (no sleep yet)
