@@ -880,4 +880,5 @@
     <string name="pref_sensors_bp_calibration_low">Blodtrykk DIASTOLISK (lavt)</string>
     <string name="pref_sensors_bp_calibration">Blodtrykkskalibrering</string>
     <string name="pref_header_notifications_and_calls">Merknader og samtaler</string>
+    <string name="pref_theme_system">System</string>
 </resources>
