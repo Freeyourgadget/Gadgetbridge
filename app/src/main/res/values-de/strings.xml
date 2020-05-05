@@ -898,4 +898,9 @@
     <string name="title_activity_LenovoWatch_calibration">Watch X Plus-Kalibrierung</string>
     <string name="hungarian">Ungarisch</string>
     <string name="romanian">Rumänisch</string>
+    <string name="pref_theme_system">System</string>
+    <string name="czesh">Tschechisch</string>
+    <string name="swedish">Schwedisch</string>
+    <string name="hebrew">Hebräisch</string>
+    <string name="greek">Griechisch</string>
 </resources>
