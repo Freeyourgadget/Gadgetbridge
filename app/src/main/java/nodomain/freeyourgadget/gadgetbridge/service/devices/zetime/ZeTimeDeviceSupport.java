@@ -550,7 +550,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
         Calendar time = GregorianCalendar.getInstance();
         byte[] CalendarEvent = new byte[calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length + 16]; // 26 bytes for calendar and overhead
-        time.setTimeInMillis(calendarEventSpec.timestamp);
+        time.setTimeInMillis(calendarEventSpec.timestamp * 1000L);
         CalendarEvent[0] = ZeTimeConstants.CMD_PREAMBLE;
         CalendarEvent[1] = ZeTimeConstants.CMD_PUSH_CALENDAR_DAY;
         CalendarEvent[2] = ZeTimeConstants.CMD_SEND;
