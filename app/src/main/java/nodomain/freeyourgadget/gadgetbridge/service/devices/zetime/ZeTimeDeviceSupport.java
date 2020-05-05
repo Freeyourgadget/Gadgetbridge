@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -55,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
@@ -63,13 +65,17 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SYNC_CALENDAR;
 
 
 public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
@@ -137,7 +143,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         synchronizeTime(builder);
         initMusicVolume(builder);
         onReadReminders(builder);
-
+        sendUpcomingCalendarEvents(builder);
         return builder;
     }
 
@@ -546,33 +552,75 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-        Calendar time = GregorianCalendar.getInstance();
-        byte[] CalendarEvent = new byte[calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length + 16]; // 26 bytes for calendar and overhead
-        time.setTimeInMillis(calendarEventSpec.timestamp * 1000L);
-        CalendarEvent[0] = ZeTimeConstants.CMD_PREAMBLE;
-        CalendarEvent[1] = ZeTimeConstants.CMD_PUSH_CALENDAR_DAY;
-        CalendarEvent[2] = ZeTimeConstants.CMD_SEND;
-        CalendarEvent[3] = (byte) ((calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length + 10) & 0xff);
-        CalendarEvent[4] = (byte) ((calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length + 10) >> 8);
-        // 0 = delete all expect the new one?. 4 = delete all?, 2 = add event?, 1 = first?, 3=last?
-        CalendarEvent[5] = (byte) (calendarEventSpec.type + 0x1); // this seems to be a hack
-        CalendarEvent[6] = (byte) (time.get(Calendar.YEAR) & 0xff);
-        CalendarEvent[7] = (byte) (time.get(Calendar.YEAR) >> 8);
-        CalendarEvent[8] = (byte) (time.get(Calendar.MONTH) + 1);
-        CalendarEvent[9] = (byte) time.get(Calendar.DAY_OF_MONTH);
-        CalendarEvent[10] = (byte) (time.get(Calendar.HOUR_OF_DAY) & 0xff);
-        CalendarEvent[11] = (byte) (time.get(Calendar.MINUTE) & 0xff);
-        CalendarEvent[12] = 0; // ?
-        CalendarEvent[13] = 0; // ?
-        CalendarEvent[14] = (byte) calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length;
-        System.arraycopy(calendarEventSpec.title.getBytes(StandardCharsets.UTF_8), 0, CalendarEvent, 15, calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length);
-        CalendarEvent[CalendarEvent.length - 1] = ZeTimeConstants.CMD_END;
+        // This is not used currently since we cannot add and remove calendar event one by one pebble style.
+        byte[] calendarEvent = encodeCalendarEvent(calendarEventSpec.title, calendarEventSpec.timestamp, (byte) (calendarEventSpec.type + 1)); // HACK)
         try {
-            TransactionBuilder builder = performInitialized("sendCalendarEvenr");
-            sendMsgToWatch(builder, CalendarEvent);
+            TransactionBuilder builder = performInitialized("sendCalendarEvent");
+            sendMsgToWatch(builder, calendarEvent);
             builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error sending calendar event: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
+    }
+
+    private byte[] encodeCalendarEvent(String title, int timestamp, byte opcode) {
+        Calendar time = GregorianCalendar.getInstance();
+        byte[] calendarEvent = new byte[title.getBytes(StandardCharsets.UTF_8).length + 16]; // 26 bytes for calendar and overhead
+        time.setTimeInMillis(timestamp * 1000L);
+        calendarEvent[0] = ZeTimeConstants.CMD_PREAMBLE;
+        calendarEvent[1] = ZeTimeConstants.CMD_PUSH_CALENDAR_DAY;
+        calendarEvent[2] = ZeTimeConstants.CMD_SEND;
+        calendarEvent[3] = (byte) ((title.getBytes(StandardCharsets.UTF_8).length + 10) & 0xff);
+        calendarEvent[4] = (byte) ((title.getBytes(StandardCharsets.UTF_8).length + 10) >> 8);
+        // 0 = delete all expect the new one?. 4 = delete all?, 2 = add event?, 1 = first?, 3=last?
+        calendarEvent[5] = opcode;
+        calendarEvent[6] = (byte) (time.get(Calendar.YEAR) & 0xff);
+        calendarEvent[7] = (byte) (time.get(Calendar.YEAR) >> 8);
+        calendarEvent[8] = (byte) (time.get(Calendar.MONTH) + 1);
+        calendarEvent[9] = (byte) time.get(Calendar.DAY_OF_MONTH);
+        calendarEvent[10] = (byte) (time.get(Calendar.HOUR_OF_DAY) & 0xff);
+        calendarEvent[11] = (byte) (time.get(Calendar.MINUTE) & 0xff);
+        calendarEvent[12] = 0; // ?
+        calendarEvent[13] = 0; // ?
+        calendarEvent[14] = (byte) title.getBytes(StandardCharsets.UTF_8).length;
+        System.arraycopy(title.getBytes(StandardCharsets.UTF_8), 0, calendarEvent, 15, title.getBytes(StandardCharsets.UTF_8).length);
+        calendarEvent[calendarEvent.length - 1] = ZeTimeConstants.CMD_END;
+
+        return calendarEvent;
+    }
+
+    private void sendUpcomingCalendarEvents(TransactionBuilder builder) {
+        boolean syncCalendar = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(PREF_SYNC_CALENDAR, false);
+        if (!syncCalendar) {
+            return;
+        }
+
+        CalendarEvents upcomingEvents = new CalendarEvents();
+        List<CalendarEvents.CalendarEvent> calendarEvents = upcomingEvents.getCalendarEventList(getContext());
+
+        int eventCount = 0;
+        for (CalendarEvents.CalendarEvent calendarEvent : calendarEvents) {
+            if (calendarEvent.isAllDay()) {
+                continue;
+            }
+            String body = calendarEvent.getTitle();
+            if (body == null) {
+                body = "";
+            }
+            String description = calendarEvent.getDescription();
+            if (description != null) {
+                body += " : " + description;
+            }
+            byte opcode = 2;
+            if (eventCount == 0) opcode = 1;
+
+            byte[] message = encodeCalendarEvent(body, calendarEvent.getBeginSeconds(), opcode);
+            sendMsgToWatch(builder, message);
+            builder.add(new WaitAction(300)); // Urgh, seems it is a general problem when sending data too fast
+
+            if (eventCount++ == 16) { // limit this to 16 for now
+                break;
+            }
         }
     }
 
@@ -1982,7 +2030,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         };
         sendMsgToWatch(builder, reminders);
 
-        builder.queue(getQueue());
+        //builder.queue(getQueue());
 //        } catch (IOException e) {
 //            GB.toast(getContext(), "Error reading reminders: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
 //        }

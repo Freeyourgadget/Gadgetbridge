@@ -11,7 +11,8 @@
 * ZeTime: Support rejecting calls
 * ZeTime: Try to fix weather conditions on newer firmwares
 * ZeTime: Fix could not synchronize calendar on connect
-* ZeTime: Fix calendar event time and date (still barely usable, since only one event is sent, plus sunrise and sunset)
+* ZeTime: Fix calendar event time and date
+* ZeTime: Send up to 16 upcoming calendar events on connect if option is enabled
 * Allow set light/dark theme according to system settings (new default)
 
 #### Version 0.43.3
