@@ -895,4 +895,8 @@
     <string name="pref_theme_system">מערכת</string>
     <string name="hungarian">הונגרית</string>
     <string name="romanian">רומנית</string>
+    <string name="czesh">צ׳כית</string>
+    <string name="swedish">שבדית</string>
+    <string name="hebrew">עברית</string>
+    <string name="greek">יוונית</string>
 </resources>
