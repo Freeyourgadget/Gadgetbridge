@@ -565,10 +565,13 @@
         <item name="fr_FR">@string/french</item>
         <item name="pt_PT">@string/portuguese</item>
         <item name="nl_NL">@string/dutch</item>
-        <item name="hu_HU">@string/hungarian</item>
-        <item name="ro_RO">@string/romanian</item>
+        <item name="sv_SE">@string/swedish</item>
         <item name="pl_PL">@string/polish</item>
+        <item name="cs_CZ">@string/czesh</item>
+        <item name="el_GR">@string/greek</item>
         <item name="ru_RU">@string/russian</item>
+        <item name="he_IL">@string/hebrew</item>
+        <item name="ar_SA">@string/arabic</item>
         <item name="ja_JP">@string/japanese</item>
         <item name="ko_KO">@string/korean</item>
         <item name="th_TH">@string/thai</item>
@@ -585,10 +588,13 @@
         <item>fr_FR</item>
         <item>pt_PT</item>
         <item>nl_NL</item>
-        <item>hu_HU</item>
-        <item>ro_RO</item>
+        <item>sv_SE</item>
         <item>pl_PL</item>
+        <item>cs_CZ</item>
+        <item>el_GR</item>
         <item>ru_RU</item>
+        <item>he_IL</item>
+        <item>ar_SA</item>
         <item>ja_JP</item>
         <item>ko_KO</item>
         <item>th_TH</item>

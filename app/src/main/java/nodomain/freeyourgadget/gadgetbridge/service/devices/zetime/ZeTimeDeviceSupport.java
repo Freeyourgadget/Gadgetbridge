@@ -2226,11 +2226,20 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             case "nl":
                 languageMsg[5] = 13;
                 break;
-            case "ro":
-                languageMsg[5] = 32;
+            case "ar":
+                languageMsg[5] = 14;
                 break;
-            case "hu":
-                languageMsg[5] = 33;
+            case "el":
+                languageMsg[5] = 15;
+                break;
+            case "he":
+                languageMsg[5] = 16;
+                break;
+            case "sv":
+                languageMsg[5] = 17;
+                break;
+            case "cs":
+                languageMsg[5] = 18;
                 break;
             case "en":
             default:
