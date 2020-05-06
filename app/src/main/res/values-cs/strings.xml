@@ -868,7 +868,7 @@
     <string name="pref_sensors_bp_calibration_low">Krevní tlak DIASTOLIC (nízký)</string>
     <string name="pref_sensors_bp_calibration">Kalibrace krevního tlaku</string>
     <string name="pref_title_sensors_altitude">Kalibrace nadmořské výšky</string>
-    <string name="pref_header_sensors_calibration">Kalibrace senzorů</string>
+    <string name="pref_header_sensors_calibration">Kalibrace senzoru</string>
     <string name="pref_title_device_spec_settings_show_raw_graph">Zobrazit nezpracovaná data v grafu aktivity</string>
     <string name="pref_summary_device_spec_settings_title_force_time">Vynutit automatickou synchronizaci času při opětovném připojení. Analogové ručičky mohou ukazovat nesprávný čas!</string>
     <string name="pref_title_device_spec_settings_force_time">Vynutit synchronizaci času</string>
@@ -885,4 +885,11 @@
     <string name="pref_title_notifications_and_calls_repeat_on_call">Opakování oznámení o volání</string>
     <string name="pref_header_notifications_and_calls">Oznámení a volání</string>
     <string name="title_activity_LenovoWatch_calibration">Kalibrace Watch X Plus</string>
+    <string name="czesh">Česky</string>
+    <string name="swedish">Švédsky</string>
+    <string name="hebrew">Hebrejsky</string>
+    <string name="greek">Řecky</string>
+    <string name="hungarian">Maďarsky</string>
+    <string name="romanian">Rumunsky</string>
+    <string name="pref_theme_system">Systém</string>
 </resources>
