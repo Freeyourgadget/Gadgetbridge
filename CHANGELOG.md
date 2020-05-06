@@ -5,6 +5,7 @@
 * Add support for Amazfit GTR Lite (untested and incomplete)
 * Fossil Hybrid HR: Fix some issues with custon widgets
 * Fossil Hybrid HR: Allow setting alarm titles and descriptions
+* Fossil Hybrid HR: Fix step data parsing
 * Amazfit GTS: Fix setting menu items with low MTU
 * Amazfit GTR: Allow setting menu itdem like GTS
 * ZeTime: Support setting the watch language

@@ -115,7 +115,7 @@ public class ActivityFileParser {
                 currentSample.variability |= (higher >> 2) & 0b111111;
             }
         }else{
-            currentSample.stepCount = lower & 0b1111110;
+            currentSample.stepCount = lower & 0b11111110;
             currentSample.variability = (int) higher * (int) higher * 64;
             currentSample.maxVariability = 10000;
         }
