@@ -1,16 +1,16 @@
 ### Changelog
 
-#### Version 0.44.0 (WIP)
+#### Version 0.44.0
 * Initial support for WatchX(Plus)
 * Add support for Amazfit GTR Lite (untested and incomplete)
-* Fossil Hybrid HR: Fix some issues with custon widgets
+* Fossil Hybrid HR: Fix some issues with custom widgets
 * Fossil Hybrid HR: Allow setting alarm titles and descriptions
 * Fossil Hybrid HR: Fix step data parsing
 * Amazfit GTS: Fix setting menu items with low MTU
-* Amazfit GTR: Allow setting menu itdem like GTS
+* Amazfit GTR: Allow setting menu item like GTS
 * ZeTime: Support setting the watch language
 * ZeTime: Support rejecting calls
-* ZeTime: Try to fix weather conditions on newer firmwares
+* ZeTime: Try to fix weather conditions on newer firmware
 * ZeTime: Fix could not synchronize calendar on connect
 * ZeTime: Fix calendar event time and date
 * ZeTime: Send up to 16 upcoming calendar events on connect if option is enabled

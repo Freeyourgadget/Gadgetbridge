@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+</change>
+    <release version="0.44.0" versioncode="173">
+        <change>Initial support for WatchX(Plus)</change>
+        <change>Add support for Amazfit GTR Lite (untested and incomplete)</change>
+        <change>Fossil Hybrid HR: Fix some issues with custom widgets</change>
+        <change>Fossil Hybrid HR: Allow setting alarm titles and descriptions</change>
+        <change>Fossil Hybrid HR: Fix step data parsing</change>
+        <change>Amazfit GTS: Fix setting menu items with low MTU</change>
+        <change>Amazfit GTR: Allow setting menu item like GTS</change>
+        <change>ZeTime: Support setting the watch language</change>
+        <change>ZeTime: Support rejecting calls</change>
+        <change>ZeTime: Try to fix weather conditions on newer firmware</change>
+        <change>ZeTime: Fix could not synchronize calendar on connect</change>
+        <change>ZeTime: Fix calendar event time and date</change>
+        <change>ZeTime: Send up to 16 upcoming calendar events on connect if option is enabled</change>
+        <change>Allow set light/dark theme according to system settings (new default)</change>
+    </release>
     <release version="0.43.3" versioncode="172">
         <change>Fossil Hybrid HR: Initial support for activity tracking (no sleep yet)</change>
         <change>Fossil Hybrid HR: Support setting alarms on newer firmware</change>
