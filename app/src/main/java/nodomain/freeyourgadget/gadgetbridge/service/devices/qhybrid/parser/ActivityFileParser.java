@@ -109,13 +109,13 @@ public class ActivityFileParser {
             if((lower & 0b10000000) == 0b10000000){
                 int factor = (lower >> 4) & 0b111;
                 currentSample.variability = 512 + factor * 64 + (higher >> 2 & 0b111111);
-                currentSample.stepCount = lower & 0b1110;
             }else {
                 currentSample.variability = lower & 0b01110000;
                 currentSample.variability <<= 2;
                 currentSample.variability |= (higher >> 2) & 0b111111;
             }
         }else{
+            currentSample.stepCount = lower & 0b1111110;
             currentSample.variability = (int) higher * (int) higher * 64;
             currentSample.maxVariability = 10000;
         }
