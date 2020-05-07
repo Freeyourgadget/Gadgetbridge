@@ -888,4 +888,11 @@
     <string name="pref_header_sensors_calibration">传感器校正</string>
     <string name="pref_title_device_spec_settings_show_raw_graph">在活动图表中显示原始(RAW)数据</string>
     <string name="pref_summary_device_spec_settings_title_force_time">当重新连接时强制自动同步时间。指针表盘可能会显示错误的时间！</string>
+    <string name="czesh">捷克语</string>
+    <string name="swedish">瑞典语</string>
+    <string name="hebrew">希伯来语</string>
+    <string name="greek">希腊语</string>
+    <string name="hungarian">匈牙利语</string>
+    <string name="romanian">罗马尼亚语</string>
+    <string name="pref_theme_system">系统</string>
 </resources>
