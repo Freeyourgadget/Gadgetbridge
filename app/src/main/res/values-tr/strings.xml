@@ -908,4 +908,11 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="prefs_notifications_and_calls_continious_ring">Telefon Çalarken Bildirim</string>
     <string name="pref_title_notifications_and_calls_repeat_on_call">Çağrı Bildirimini Tekrarla</string>
     <string name="pref_header_notifications_and_calls">Bildirimler ve Çağrılar</string>
+    <string name="pref_theme_system">Sistem</string>
+    <string name="czesh">Czech</string>
+    <string name="swedish">Swedish</string>
+    <string name="hebrew">Hebrew</string>
+    <string name="greek">Greek</string>
+    <string name="hungarian">Hungarian</string>
+    <string name="romanian">Romanian</string>
 </resources>
