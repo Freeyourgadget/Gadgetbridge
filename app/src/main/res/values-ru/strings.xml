@@ -828,4 +828,5 @@
     <string name="find_my_phone_notification">Найти телефон</string>
     <string name="pref_title_custom_deviceicon">Показывать собственную иконку устройства</string>
     <string name="pref_summary_custom_deviceicon">При подключении показывать в уведомлении собственную иконку устройства вместо иконки Gadgetbridge</string>
+    <string name="pref_theme_system">Системная</string>
 </resources>
