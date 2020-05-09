@@ -778,7 +778,7 @@
     <string name="zetime_signaling_beep_once">Zabrzęcz raz</string>
     <string name="zetime_signaling_beep_twice">Zabrzęcz dwa razy</string>
     <string name="zetime_signaling_vibrate_beep_once">Wibracja i brzęczenie raz</string>
-    <string name="pref_title_support_voip_calls">Uwzględnij rozmowy przez internet (np. WhatsApp)</string>
+    <string name="pref_title_support_voip_calls">Uwzględnij rozmowy przez internet (VoIP)</string>
     <string name="pref_summary_authkey">Zmień klucz autoryzacji na wspólny dla wszystkich urządzeń z Androidem, z których chcesz się połączyć. Poprzedni domyślny klucz dla wszystkich urządzeń to 0123456789@ABCDE</string>
     <string name="prefs_hr_alarm_activity">Alarm tętna podczas aktywności sportowej</string>
     <string name="prefs_hr_alarm_low">Dolny limit</string>
