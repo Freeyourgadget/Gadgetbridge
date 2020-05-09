@@ -23,9 +23,9 @@
     <string name="appmananger_app_reinstall">Zainstaluj ponownie</string>
     <string name="appmanager_app_openinstore">Szukaj w Pebble appstore</string>
     <string name="appmanager_health_activate">Aktywuj</string>
-    <string name="appmanager_health_deactivate">Deaktywuj</string>
+    <string name="appmanager_health_deactivate">Dezaktywuj</string>
     <string name="appmanager_hrm_activate">Aktywuj HRM</string>
-    <string name="appmanager_hrm_deactivate">Deaktywuj HRM</string>
+    <string name="appmanager_hrm_deactivate">Dezaktywuj HRM</string>
     <string name="app_configure">Konfiguruj</string>
     <string name="app_move_to_top">Przenieś na górę</string>
     <!--Strings related to AppBlacklist-->
@@ -266,13 +266,13 @@
     <string name="title_activity_vibration">Wibracje</string>
     <!--Strings related to Pebble Pairing Activity-->
     <string name="action_donate">Wspomóż</string>
-    <string name="controlcenter_snackbar_need_longpress">Przytrzymaj, aby rozłączyć</string>
+    <string name="controlcenter_snackbar_need_longpress">Naciśnij i przytrzymaj, aby ją rozłączyć</string>
     <string name="controlcenter_snackbar_disconnecting">Rozłączanie</string>
     <string name="controlcenter_snackbar_connecting">Łączenie…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Wykonaj zrzut ekranu urządzenia</string>
     <string name="appmanager_weather_activate">Aktywuj systemową aplikację pogody</string>
     <string name="appmanager_weather_deactivate">Dezaktywuj systemową aplikację pogody</string>
-    <string name="appmanager_weather_install_provider">Zainstaluj aplikację \"Weather Notification\"</string>
+    <string name="appmanager_weather_install_provider">Zainstaluj aplikację Weather Notification</string>
     <string name="title_activity_calblacklist">Czarna lista kalendarzy</string>
     <string name="pref_title_general_autostartonboot">Uruchom automatycznie</string>
     <string name="pref_title_minimize_priority">Ukryj powiadomienia z Gadgetbridge</string>
@@ -382,7 +382,7 @@
     <string name="pref_summary_autoremove_notifications">Powiadomienia są automatycznie usuwane z Pebble po usunięciu z urządzenia Android</string>
     <string name="pref_pebble_privacy_mode_content">Przesuń tekst powiadomienia poza ekran</string>
     <string name="pref_summary_location_keep_uptodate">Spróbuj pobrać obecną lokalizację po uruchomieniu, awaryjnie użyj zapisanej lokalizacji</string>
-    <string name="controlcenter_change_led_color">Zmień kolor diody LED</string>
+    <string name="controlcenter_change_led_color">Zmień kolor LED</string>
     <string name="controlcenter_change_fm_frequency">Zmień częstotliwość FM</string>
     <string name="pref_title_rtl">Od prawej do lewej</string>
     <string name="pref_summary_rtl">Włącz tę opcję, jeśli Twoje urządzenie nie może wyświetlać języków z pisownią od prawej do lewej</string>
@@ -532,7 +532,7 @@
     <string name="pref_title_auto_export_interval">Częstość eksportowania</string>
     <string name="unit_imperial">imperialne</string>
     <string name="debugactivity_really_factoryreset_title">Czy na pewno chcesz zresetować do ustawień fabrycznych\?</string>
-    <string name="debugactivity_really_factoryreset">Po zresetowaniu wszelkie dane na urządzeniu zostaną usunięte (jeśli jest to wspierane). Urządzenia Xiaomi/Huami zmieniają także adres MAC Bluetooth, w ten sposób pojawiają się jako nowe urządzenia w Gadgetbridge.</string>
+    <string name="debugactivity_really_factoryreset">Po zresetowaniu fabrycznym wszelkie dane na urządzeniu zostaną usunięte (jeśli jest to wspierane). Urządzenia Xiaomi/Huami zmieniają także adres MAC Bluetooth, w ten sposób pojawiają się jako nowe urządzenia w Gadgetbridge.</string>
     <string name="overslept">Nadmiar snu: %1$s</string>
     <string name="overstep">Przekroczenie: %1$d</string>
     <string name="you_did_not_sleep">Nie spałeś(-aś)</string>
@@ -849,7 +849,8 @@
     <string name="pref_title_middle_button_function">Środkowy przycisk</string>
     <string name="pref_title_lower_button_function">Dolny przycisk</string>
     <string name="pref_title_vibration_strength">Siła wibracji</string>
-    <string name="devicetype_amazfit_bips"></string>
+    <string name="devicetype_amazfit_bips"/>
     <string name="pref_title_relax_firmware_checks">Włącz to, jeśli chcesz błyskać oprogramowaniem sprzętowym, które nie jest przeznaczone dla Twojego urządzenia (na własne ryzyko)</string>
     <string name="pref_summary_relax_firmware_checks">Zrelaksuj kontrolę oprogramowania sprzętowego</string>
+    <string name="pref_theme_system">System</string>
 </resources>
