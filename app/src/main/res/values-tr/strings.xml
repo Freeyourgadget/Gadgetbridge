@@ -141,7 +141,7 @@
     <string name="controlcenter_navigation_drawer_open">Gezinti Çizimini Aç</string>
     <string name="controlcenter_snackbar_connecting">Bağlanıyor…</string>
     <string name="controlcenter_snackbar_disconnecting">Bağlantı Kesiliyor</string>
-    <string name="controlcenter_snackbar_need_longpress">Bağlantıyı kesmek için başlığa uzunca basın</string>
+    <string name="controlcenter_snackbar_need_longpress">Bağlantıyı kesmek için Cihazın İsmine uzunca basın</string>
     <string name="controlcenter_snackbar_requested_screenshot">Cihazın Ekran Görüntüsü Alma</string>
     <string name="controlcenter_start_activity_tracks">Aktivite İzlemeleriniz</string>
     <string name="controlcenter_start_activitymonitor">Aktiviteniz (ALPHA)</string>
@@ -213,7 +213,7 @@
     <string name="devicetype_y5">Y5</string>
     <string name="discovery_attempting_to_pair">%1$s ile eşleşmeye çalışılıyor</string>
     <string name="discovery_bonding_failed_immediately">%1$s ile etkileşim aniden başarısız oldu.</string>
-    <string name="discovery_connected_devices_hint">Cihazınızı Görünür Yapın. Halen Eşleşmiş Cihazlar Muhtemelen Bulunmayabilir. Android 6 ve sonraki sürümlerinde konumu (ör. GPS) etkinleştirin. GadgetBridge için Privacy Guardı devre dışı bırakın, çünkü telefonunuz çökebilir ve yeniden başlatılabilir. Birkaç dakika sonra hiçbir cihaz bulunmazsa, mobil cihazınızı yeniden başlattıktan sonra tekrar deneyin.</string>
+    <string name="discovery_connected_devices_hint">Cihazınızı Bluetooth araması için Görünür Yapın. Halen Eşleşmiş Cihazlar Muhtemelen Bulunmayabilir. Bu durumda Bluetooth üzerindeki eşleşmeyi kaldırıp yeniden deneyin. Android 6 ve sonraki sürümlerinde konumu (ör. GPS) etkinleştirin. GadgetBridge için Privacy Guardı devre dışı bırakın, çünkü telefonunuz çökebilir ve yeniden başlatılabilir. Birkaç dakika sonra hiçbir cihaz bulunmazsa, mobil cihazınızı yeniden başlattıktan sonra tekrar deneyin.</string>
     <string name="discovery_dont_pair">"Eşlenmesin"</string>
     <string name="discovery_enable_bluetooth">Cihazları bulmak için Bluetoothu aktifleştirin.</string>
     <string name="discovery_need_to_enter_authkey">Bu cihaz için bir Gizli Kimlik Doğrulama Anahtarı gerekiyor, Girmek için uzunca basın. Bilgi için ilgili wiki maddesini okuyun.</string>
@@ -239,8 +239,8 @@
     <string name="filter_submode_all">Kelimelerin Hepsi</string>
     <string name="filter_submode_at_least_one">Kelimelerin EnAz Birisi</string>
     <string name="find_device_you_found_it">Buldunuz!</string>
-    <string name="find_lost_device_you_found_it">Cihazı Buldum!</string>
-    <string name="find_my_phone_notification">Telefonumu Bul</string>
+    <string name="find_lost_device_you_found_it">Telefonu Bul!</string>
+    <string name="find_my_phone_notification">Telefon Bulundu</string>
     <string name="firmware_install_warning">"Riski size ait olan bir FIRMWARE yüklüyorsunuz.
 
 
@@ -248,50 +248,50 @@
     <string name="french">French</string>
     <string name="fw_multi_upgrade_notice">Mevcut Mi Band cihazınıza %1$s ve %2$s için Firmware yüklemek üzeresiniz.</string>
     <string name="fw_upgrade_notice">%s yüklemek üzeresiniz.</string>
-    <string name="fw_upgrade_notice_amazfitbip">Amazfit Bip\'inize % S yazılımını yüklemek üzeresiniz.
-\n
-\nLütfen .fw dosyasını, ardından .res dosyasını ve son olarak .gps dosyasını yüklediğinizden emin olun. Saatiniz .fw dosyasını yükledikten sonra yeniden başlatılacak.
-\n
-\nNot: Bu dosyalar, daha önce yüklenenler ile aynıysa, .res ve .gps yüklemeniz gerekmez.
-\n
+    <string name="fw_upgrade_notice_amazfitbip">AmazFit Bip\'inize % S yazılımını yüklemek üzeresiniz. 
+\n 
+\nLütfen .fw dosyasını, ardından .res dosyasını ve son olarak .gps dosyasını yüklediğinizden emin olun. Saatiniz .fw dosyasını yükledikten sonra yeniden başlatılacak. 
+\n 
+\nNot: Bu dosyalar, daha önce yüklenenler ile aynıysa, .res ve .gps yüklemeniz gerekmez. 
+\n 
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
-    <string name="fw_upgrade_notice_amazfitbip_lite">"Amazfit Bip lİTE üzerine %s Firmware yüklemek üzeresiniz.
-
-Lütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak.
-
-Note: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
-
-YÜKLEME RİSKİ RİZE AİTTİR!"</string>
-    <string name="fw_upgrade_notice_amazfitcor">"Amazfit Core üzerine %s Firmware yüklemek üzeresiniz.
-
-Lütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak.
-
-Note: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
-
-YÜKLEME RİSKİ RİZE AİTTİR!"</string>
-    <string name="fw_upgrade_notice_amazfitcor2">Amazfit Core 2 üzerine %s Firmware yüklemek üzeresiniz. 
-\n 
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak. 
-\n 
-\nNot: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
-\n 
-\nYÜKLEME RİSKİ RİZE AİTTİR! 
-\n
-\n TAM OLARAK TEST EDİLMEMİŞTİR, CİHAZINIZIN İSMİ \"Amazfit Band 2\" İSE FLASLAMAK GEREKİR</string>
-    <string name="fw_upgrade_notice_amazfitgtr">Amazfit GTR üzerine %s Firmware yüklemek üzeresiniz.
+    <string name="fw_upgrade_notice_amazfitbip_lite">AmazFit Bip lİTE üzerine %s Firmware yüklemek üzeresiniz.
 \n
 \nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak.
 \n
 \nNote: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
 \n
 \nYÜKLEME RİSKİ RİZE AİTTİR!</string>
-    <string name="fw_upgrade_notice_amazfitgts">"Amazfit GTS üzerine %s Firmware yüklemek üzeresiniz.
-
-Lütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak.
-
-Note: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
-
-YÜKLEME RİSKİ RİZE AİTTİR!"</string>
+    <string name="fw_upgrade_notice_amazfitcor">AmazFit Core üzerine %s Firmware yüklemek üzeresiniz.
+\n
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak.
+\n
+\nNot: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
+\n
+\nYÜKLEME RİSKİ RİZE AİTTİR!</string>
+    <string name="fw_upgrade_notice_amazfitcor2">AmazFit Core 2 üzerine %s Firmware yüklemek üzeresiniz. 
+\n 
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak. 
+\n 
+\nNot: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
+\n 
+\nYÜKLEME RİSKİ RİZE AİTTİR! 
+\n 
+\n TAM OLARAK TEST EDİLMEMİŞTİR, CİHAZINIZIN İSMİ \"Amazfit Band 2\" İSE FLASLAMAK GEREKİR</string>
+    <string name="fw_upgrade_notice_amazfitgtr">AmazFit GTR üzerine %s Firmware yüklemek üzeresiniz. 
+\n 
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak. 
+\n 
+\nNote: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
+\n 
+\nYÜKLEME RİSKİ RİZE AİTTİR!</string>
+    <string name="fw_upgrade_notice_amazfitgts">AmazFit GTS üzerine %s Firmware yüklemek üzeresiniz.
+\n
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak.
+\n
+\nNote: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
+\n
+\nYÜKLEME RİSKİ RİZE AİTTİR!</string>
     <string name="fw_upgrade_notice_miband3">"Mi Band 3 üzerine %s Firmware yüklemek üzeresiniz.
 
 Lütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak.
