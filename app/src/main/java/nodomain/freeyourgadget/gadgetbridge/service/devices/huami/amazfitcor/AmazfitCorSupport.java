@@ -17,15 +17,20 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitcor;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor.AmazfitCorFWHelper;
@@ -39,9 +44,10 @@ public class AmazfitCorSupport extends AmazfitBipSupport {
 
     @Override
     protected AmazfitCorSupport setDisplayItems(TransactionBuilder builder) {
-
-        Set<String> pages = HuamiCoordinator.getDisplayItems(getDevice().getAddress());
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
+        Set<String> pages = prefs.getStringSet(HuamiConst.PREF_DISPLAY_ITEMS, new HashSet<>(Arrays.asList(getContext().getResources().getStringArray(R.array.pref_cor_display_items_default))));
         LOG.info("Setting display items to " + (pages == null ? "none" : pages));
+
         byte[] command = AmazfitCorService.COMMAND_CHANGE_SCREENS.clone();
 
         if (pages != null) {
@@ -72,8 +78,9 @@ public class AmazfitCorSupport extends AmazfitBipSupport {
             if (pages.contains("music")) {
                 command[2] |= 0x02;
             }
+
+            builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
         }
-        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
 
         return this;
     }

@@ -22,6 +22,7 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -37,9 +38,11 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -2134,7 +2137,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     protected HuamiSupport setDisplayItems(TransactionBuilder builder) {
-        Set<String> pages = HuamiCoordinator.getDisplayItems(gbDevice.getAddress());
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
+        Set<String> pages = prefs.getStringSet(HuamiConst.PREF_DISPLAY_ITEMS, new HashSet<>(Arrays.asList(getContext().getResources().getStringArray(R.array.pref_mi2_display_items_default))));
+
         LOG.info("Setting display items to " + (pages == null ? "none" : pages));
 
         byte[] data = HuamiService.COMMAND_CHANGE_SCREENS.clone();
@@ -2155,9 +2160,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             if (pages.contains(MiBandConst.PREF_MI2_DISPLAY_ITEM_BATTERY)) {
                 data[HuamiService.SCREEN_CHANGE_BYTE] |= HuamiService.DISPLAY_ITEM_BIT_BATTERY;
             }
+            builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), data);
         }
 
-        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), data);
         return this;
     }
 

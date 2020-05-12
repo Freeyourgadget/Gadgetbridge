@@ -18,15 +18,20 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipFWHelper;
@@ -74,7 +79,9 @@ public class AmazfitBipSupport extends HuamiSupport {
             return this;
         }
 
-        Set<String> pages = HuamiCoordinator.getDisplayItems(gbDevice.getAddress());
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
+        Set<String> pages = prefs.getStringSet(HuamiConst.PREF_DISPLAY_ITEMS, new HashSet<>(Arrays.asList(getContext().getResources().getStringArray(R.array.pref_bip_display_items_default))));
+
         LOG.info("Setting display items to " + (pages == null ? "none" : pages));
         byte[] command = AmazfitBipService.COMMAND_CHANGE_SCREENS.clone();
 
@@ -112,9 +119,9 @@ public class AmazfitBipSupport extends HuamiSupport {
             if (pages.contains("shortcut_alipay")) {
                 shortcut_alipay = true;
             }
+            builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
+            setShortcuts(builder, shortcut_weather, shortcut_alipay);
         }
-        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
-        setShortcuts(builder, shortcut_weather, shortcut_alipay);
 
         return this;
     }

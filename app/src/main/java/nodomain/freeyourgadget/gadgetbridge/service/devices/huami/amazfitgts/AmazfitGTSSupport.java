@@ -17,17 +17,21 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts.AmazfitGTSFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -70,7 +74,8 @@ public class AmazfitGTSSupport extends AmazfitBipSupport {
             return this;
         }
 
-        Set<String> pages = HuamiCoordinator.getDisplayItems(gbDevice.getAddress());
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
+        Set<String> pages = prefs.getStringSet(HuamiConst.PREF_DISPLAY_ITEMS, new HashSet<>(Arrays.asList(getContext().getResources().getStringArray(R.array.pref_gts_display_items_default))));
         LOG.info("Setting display items to " + (pages == null ? "none" : pages));
         byte[] command = new byte[]{
                 0x1E,
@@ -114,8 +119,8 @@ public class AmazfitGTSSupport extends AmazfitBipSupport {
                     pos += 4;
                 }
             }
+            writeToChunked(builder, 2, command);
         }
-        writeToChunked(builder, 2, command);
 
         return this;
     }

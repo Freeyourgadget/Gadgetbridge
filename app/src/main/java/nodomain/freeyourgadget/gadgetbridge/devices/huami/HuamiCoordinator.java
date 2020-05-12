@@ -35,7 +35,6 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Set;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -190,11 +189,6 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
 
     public static Date getDisconnectNotificationEnd(String deviceAddress) {
         return getTimePreference(HuamiConst.PREF_DISCONNECT_NOTIFICATION_END, "00:00", deviceAddress);
-    }
-
-    public static Set<String> getDisplayItems(String deviceAddress) {
-        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
-        return prefs.getStringSet(HuamiConst.PREF_DISPLAY_ITEMS, null);
     }
 
     public static boolean getUseCustomFont(String deviceAddress) {
