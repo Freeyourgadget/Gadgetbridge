@@ -853,7 +853,7 @@
     <string name="pref_title_middle_button_function">Środkowy przycisk</string>
     <string name="pref_title_lower_button_function">Dolny przycisk</string>
     <string name="pref_title_vibration_strength">Siła wibracji</string>
-    <string name="devicetype_amazfit_bips"/>
+    <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
     <string name="pref_title_relax_firmware_checks">Włącz to, jeśli chcesz sflashować oprogramowanie, które nie jest przeznaczone dla Twojego urządzenia (na własne ryzyko)</string>
     <string name="pref_summary_relax_firmware_checks">Rozluźnij sprawdzanie oprogramowania sprzętowego</string>
     <string name="pref_theme_system">System</string>
@@ -885,4 +885,20 @@
     <string name="prefs_notifications_and_calls_continious_ring">Powiadomienie podczas dzwonienia telefonu</string>
     <string name="pref_title_notifications_and_calls_repeat_on_call">Powtórz powiadomienie o połączeniu</string>
     <string name="pref_header_notifications_and_calls">Powiadomienia i połączenia</string>
+    <string name="pref_qhybrid_save_raw_activity_files">Zapisz nieprzetworzone pliki aktywności</string>
+    <string name="pref_qhybrid_title_widget_draw_circles">Narysuj koła widżetów</string>
+    <string name="hr_appname_commute">Commute</string>
+    <string name="hr_appname_wellness">Wellness</string>
+    <string name="menuitem_workout">Trening</string>
+    <string name="menuitem_eventreminder">Przypomnienie o wydarzeniu</string>
+    <string name="menuitem_hr">Tętno</string>
+    <string name="menuitem_pai">Personal Activity Intelligence</string>
+    <string name="devicetype_watchxplus">Watch X Plus</string>
+    <string name="devicetype_watchx">Watch X</string>
+    <string name="czesh">Czeski</string>
+    <string name="swedish">Szwedzki</string>
+    <string name="hebrew">Hebrajski</string>
+    <string name="greek">Grecki</string>
+    <string name="hungarian">Węgierski</string>
+    <string name="romanian">Rumuński</string>
 </resources>
