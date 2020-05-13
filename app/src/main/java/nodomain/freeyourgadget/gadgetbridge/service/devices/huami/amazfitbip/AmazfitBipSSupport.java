@@ -148,4 +148,56 @@ public class AmazfitBipSSupport extends AmazfitBipSupport {
 
         return this;
     }
+
+    @Override
+    protected AmazfitBipSSupport setShortcuts(TransactionBuilder builder) {
+        if (gbDevice.getFirmwareVersion() == null) {
+            LOG.warn("Device not initialized yet, won't set shortcuts");
+            return this;
+        }
+
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
+        Set<String> pages = prefs.getStringSet(HuamiConst.PREF_SHORTCUTS, new HashSet<>(Arrays.asList(getContext().getResources().getStringArray(R.array.pref_bips_shortcuts_default))));
+        LOG.info("Setting shortcuts to " + (pages == null ? "none" : pages));
+        byte[] command = new byte[]{
+                0x1E,
+                0x00, 0x00, (byte) 0xFD, 0x01, // Status
+                0x01, 0x00, (byte) 0xFD, 0x11, // Alipay
+                0x02, 0x00, (byte) 0xFD, 0x10, // NFC
+                0x03, 0x00, (byte) 0xFD, 0x19, // PAI
+                0x04, 0x00, (byte) 0xFD, 0x02, // HR
+                0x05, 0x00, (byte) 0xFD, 0x0B, // Music
+                0x06, 0x00, (byte) 0xFD, 0x04, // Weather
+        };
+
+        String[] keys = {"status", "alipay", "nfc", "pai", "hr", "music", "weather"};
+        byte[] ids = {1, 17, 16, 25, 2, 11, 4};
+
+        if (pages != null) {
+            // it seem that we first have to put all ENABLED items into the array
+            int pos = 1;
+            for (int i = 0; i < keys.length; i++) {
+                String key = keys[i];
+                byte id = ids[i];
+                if (pages.contains(key)) {
+                    command[pos + 1] = 0x00;
+                    command[pos + 3] = id;
+                    pos += 4;
+                }
+            }
+            // And then all DISABLED ones
+            for (int i = 0; i < keys.length; i++) {
+                String key = keys[i];
+                byte id = ids[i];
+                if (!pages.contains(key)) {
+                    command[pos + 1] = 0x01;
+                    command[pos + 3] = id;
+                    pos += 4;
+                }
+            }
+            writeToChunked(builder, 2, command);
+        }
+
+        return this;
+    }
 }

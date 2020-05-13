@@ -1801,6 +1801,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case HuamiConst.PREF_DISPLAY_ITEMS:
                     setDisplayItems(builder);
                     break;
+                case HuamiConst.PREF_SHORTCUTS:
+                    setShortcuts(builder);
+                    break;
                 case MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO:
                     setRotateWristToSwitchInfo(builder);
                     break;
@@ -2163,6 +2166,10 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), data);
         }
 
+        return this;
+    }
+
+    protected HuamiSupport setShortcuts(TransactionBuilder builder) {
         return this;
     }
 

@@ -536,6 +536,8 @@
     <string name="mi3_prefs_band_screen_unlock_summary">Swipe up to unlock the band\'s screen</string>
     <string name="mi3_prefs_night_mode">Night mode</string>
     <string name="mi3_prefs_night_mode_summary">Lower band screen brightness automatically at night</string>
+    <string name="bip_prefs_shortcuts">Shortcuts</string>
+    <string name="bip_prefs_shotcuts_summary">Choose the shortcuts on the band screen</string>
     <string name="pref_title_force_white_color_scheme">Force black on white color scheme</string>
     <string name="pref_summary_force_white_color_scheme">Useful if you your watch has dark hands</string>
     <string name="automatic">Automatic</string>
