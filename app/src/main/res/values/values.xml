@@ -37,6 +37,7 @@
     <item name="p_menuitem_pai" type="string">pai</item>
     <item name="p_menuitem_eventreminder" type="string">eventreminder</item>
     <item name="p_menuitem_workout" type="string">workout</item>
+    <item name="p_menuitem_unknown" type="string">unknown</item>
 
     <item name="p_off" type="string">off</item>
     <item name="p_on" type="string">on</item>
