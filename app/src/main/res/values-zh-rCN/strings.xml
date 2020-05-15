@@ -895,4 +895,7 @@
     <string name="hungarian">匈牙利语</string>
     <string name="romanian">罗马尼亚语</string>
     <string name="pref_theme_system">系统</string>
+    <string name="menuitem_unknown">未知</string>
+    <string name="bip_prefs_shotcuts_summary">选择手环上显示的快捷方式</string>
+    <string name="bip_prefs_shortcuts">快捷方式</string>
 </resources>
