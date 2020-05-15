@@ -899,4 +899,7 @@
     <string name="swedish">שבדית</string>
     <string name="hebrew">עברית</string>
     <string name="greek">יוונית</string>
+    <string name="menuitem_unknown">לא ידוע</string>
+    <string name="bip_prefs_shotcuts_summary">נא לבחור את קיצורי הדרך על מסך הצמיד</string>
+    <string name="bip_prefs_shortcuts">קיצורי דרך</string>
 </resources>
