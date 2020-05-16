@@ -69,12 +69,12 @@
     <string name="alarm_mon_short">Pzt</string>
     <string name="alarm_sat_short">Cts</string>
     <string name="alarm_smart_wakeup">Akıllı Uyandırma</string>
-    <string name="alarm_snooze">Beklesin</string>
+    <string name="alarm_snooze">Durdur</string>
     <string name="alarm_sun_short">Paz</string>
     <string name="alarm_thu_short">Per</string>
     <string name="alarm_tue_short">Sal</string>
     <string name="alarm_wed_short">Çar</string>
-    <string name="always">Daima</string>
+    <string name="always">Daima Bildir</string>
     <string name="android_pairing_hint">Cihazı eşleştirmek için Android Bluetooth Eşleştirme İletişimini kullan.</string>
     <string name="app_configure">Yapılandır</string>
     <string name="app_install_info">Aşağıdaki uygulamayı yüklemek üzeresiniz: Sürüm: 
@@ -430,7 +430,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="miband_fwinstaller_compatible_version">Uyumlu Sürüm</string>
     <string name="miband_fwinstaller_incompatible_version">Uyumsuz Firmware</string>
     <string name="miband_fwinstaller_untested_version">Test edilmemiş Sürüm!</string>
-    <string name="miband_pairing_tap_hint">Mi Bandınız titreşip yanıp söndüğünde, arka arkaya birkaç kez dokunun.</string>
+    <string name="miband_pairing_tap_hint">Bandınız titreşip yanıp söndüğünde, arka arkaya birkaç kez dokunun.</string>
     <string name="miband_pairing_using_dummy_userdata">Geçerli kullanıcı verisi alınmadı, şimdilik model kullanıcı verisi kullanıyor.</string>
     <string name="miband_prefs_alias">İsim/TakmaAd</string>
     <string name="miband_prefs_device_time_offset_hours">Vardiyalı Çalışanlar (Uyku Zamanı) için Saat Farklılığı</string>
@@ -444,7 +444,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="minutes_5">5 Dakika</string>
     <string name="mode_configuration">Mod Yapılandırması</string>
     <string name="n_a">YOK</string>
-    <string name="never">Asla</string>
+    <string name="never">Bildirim Yapılmasın</string>
     <string name="no_data">VeriYok</string>
     <string name="no_limit">Limitsiz</string>
     <string name="norwegian_bokmal">Norwegian Bokmål</string>
@@ -452,7 +452,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="notif_battery_low">%1$s Batarya Düşük</string>
     <string name="notif_battery_low_bigtext_last_charge_time">"Son Şarj: %s 
 "</string>
-    <string name="notif_battery_low_bigtext_number_of_charges">Sarj Sayısı: %s</string>
+    <string name="notif_battery_low_bigtext_number_of_charges">Sarj Oranı: %s</string>
     <string name="notif_battery_low_extended">%1$s Batarya Az: %2$s</string>
     <string name="notif_battery_low_percent">%1$s Batarya kaldı: %2$s%%</string>
     <string name="notif_battery_low_title">Cihaz Bataryası Az!</string>
@@ -590,7 +590,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="pref_summary_setup_bt_pairing">Bağlanma konusunda sorun yaşıyorsanız bunu devre dışı bırakın</string>
     <string name="pref_summary_sunrise_sunset">Konum üzerindeki GünDoğumu ve GünBatımı zamanlarını, Pebble Zaman Çizgisine gönder</string>
     <string name="pref_summary_sync_calendar">Bağlantı kesildiğinde bile Takvim Alarmlarını etkinleştirir</string>
-    <string name="pref_summary_transliteration">Cihazınızda, Dilinizin YazıTipi için desteği yoksa bunu etkinleştirin</string>
+    <string name="pref_summary_transliteration">Cihazınızda, Dilinizin YazıTipi için destek yoksa bunu etkinleştirin</string>
     <string name="pref_summary_use_custom_font">Cihazınız, Emoji desteği için özel bir YazıTipi yazılımına sahipse bunu etkinleştirin</string>
     <string name="pref_theme_dark">Karanlık</string>
     <string name="pref_theme_light">Aydınlık</string>
@@ -791,11 +791,11 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="vibration_profile_alarm_clock">Alarm Saati</string>
     <string name="vibration_profile_long">Uzun</string>
     <string name="vibration_profile_medium">Orta</string>
-    <string name="vibration_profile_ring">Zil</string>
+    <string name="vibration_profile_ring">ZilSesi</string>
     <string name="vibration_profile_short">Kısa</string>
     <string name="vibration_profile_staccato">KesikKesik</string>
     <string name="vibration_profile_waterdrop">SuDamlası</string>
-    <string name="vibration_try">Dene</string>
+    <string name="vibration_try">DenemeYap</string>
     <string name="vietnamese">Vietnamese</string>
     <string name="waiting_for_reconnect">Bağlanmak için bekliyor</string>
     <string name="warning">Dikkat!</string>
@@ -834,7 +834,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="zetime_activity_tracking">Aktivite İzleme</string>
     <string name="zetime_activity_tracking_summary">Aktivite İzlemenin Açılması, adımları sayacaktır.</string>
     <string name="zetime_analog_mode">Analog Modu</string>
-    <string name="zetime_analog_mode_hands">Sadece Eller</string>
+    <string name="zetime_analog_mode_hands">Sadece Ellerle</string>
     <string name="zetime_analog_mode_handsandsteps">Eller ve Adımlar</string>
     <string name="zetime_calories_type">Kalori Cinsi</string>
     <string name="zetime_calories_type_active">Sadece Aktif Harcanan Kalori</string>
@@ -848,7 +848,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="zetime_heart_rate_alarm_enable">Kalp Ritmi Alarmını Etkinleştir</string>
     <string name="zetime_prefs_inactivity_fr">Cuma</string>
     <string name="zetime_prefs_inactivity_mo">Pazartesi</string>
-    <string name="zetime_prefs_inactivity_repetitions">Tekrarlar</string>
+    <string name="zetime_prefs_inactivity_repetitions">Tekrarlama Sayısı</string>
     <string name="zetime_prefs_inactivity_sa">Cumartesi</string>
     <string name="zetime_prefs_inactivity_su">Pazar</string>
     <string name="zetime_prefs_inactivity_th">Perşembe</string>
@@ -899,7 +899,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="pref_header_device_spec_settings">Cihaz Ayarları</string>
     <string name="pref_summary_notifications_and_calls_title_shake_reject">İzleme Butonu Eylemini Çoğaltma</string>
     <string name="prefs_notifications_and_calls_shake_reject">Bileği Sallayarak Çağrıyı YokSayma/Reddetme</string>
-    <string name="prefs_notifications_and_calls_reject">Çağrıyı YokYayma/Reddetme Butonu</string>
+    <string name="prefs_notifications_and_calls_reject">Çağrıyı YokSayma/Reddetme Butonu</string>
     <string name="pref_summary_notifications_and_calls_title_reject">YokSayma Kapalı, Reddetme Açık</string>
     <string name="pref_header_notifications_and_calls_callhandling">Çağrı Yönetimi</string>
     <string name="pref_title_notifications_and_calls_repeat_on_misscall">X Dakikada Tekrarla</string>
@@ -915,4 +915,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="greek">Greek</string>
     <string name="hungarian">Hungarian</string>
     <string name="romanian">Romanian</string>
+    <string name="menuitem_unknown">Bilinmeyen</string>
+    <string name="bip_prefs_shotcuts_summary">Band Ekranı üzerindeki KısaYolları seçin</string>
+    <string name="bip_prefs_shortcuts">KısaYollar</string>
 </resources>
