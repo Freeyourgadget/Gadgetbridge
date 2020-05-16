@@ -906,4 +906,7 @@
     <string name="swedish">Sueco</string>
     <string name="hebrew">Hebreu</string>
     <string name="greek">Grego</string>
+    <string name="menuitem_unknown">Desconhecido</string>
+    <string name="bip_prefs_shotcuts_summary">Escolha os atalhos na tela da pulseira</string>
+    <string name="bip_prefs_shortcuts">Atalhos</string>
 </resources>
