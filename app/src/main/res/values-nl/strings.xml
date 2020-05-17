@@ -892,4 +892,12 @@
     <string name="pref_title_device_spec_settings_show_raw_graph">Toon onbewerkte gegevens op activiteitengrafiek</string>
     <string name="hungarian">Hongaars</string>
     <string name="romanian">Roemeens</string>
+    <string name="menuitem_unknown">Onbekend</string>
+    <string name="czesh">Tsjechisch</string>
+    <string name="swedish">Zweeds</string>
+    <string name="hebrew">Hebreeuws</string>
+    <string name="greek">Grieks</string>
+    <string name="bip_prefs_shotcuts_summary">Kies de snelkoppelingen op het scherm van de band</string>
+    <string name="bip_prefs_shortcuts">Snelkoppelingen</string>
+    <string name="pref_theme_system">Systeem</string>
 </resources>
