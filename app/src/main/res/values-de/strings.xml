@@ -903,4 +903,7 @@
     <string name="swedish">Schwedisch</string>
     <string name="hebrew">Hebräisch</string>
     <string name="greek">Griechisch</string>
+    <string name="bip_prefs_shotcuts_summary">Wähle die Verknüpfungen auf dem Band-Bildschirm</string>
+    <string name="menuitem_unknown">Unbekannt</string>
+    <string name="bip_prefs_shortcuts">Verknüpfungen</string>
 </resources>
