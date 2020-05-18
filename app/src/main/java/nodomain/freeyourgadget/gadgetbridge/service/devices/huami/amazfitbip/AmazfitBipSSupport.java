@@ -35,6 +35,8 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
@@ -199,5 +201,106 @@ public class AmazfitBipSSupport extends AmazfitBipSupport {
         }
 
         return this;
+    }
+
+    @Override
+    public void onSetMusicState(MusicStateSpec stateSpec) {
+        if (stateSpec != null && !stateSpec.equals(bufferMusicStateSpec)) {
+            bufferMusicStateSpec = stateSpec;
+            if (isMusicAppStarted) {
+                sendMusicStateToBipS(null, bufferMusicStateSpec);
+            }
+        }
+    }
+
+    @Override
+    public void onSetMusicInfo(MusicSpec musicSpec) {
+        if (musicSpec != null && !musicSpec.equals(bufferMusicSpec)) {
+            bufferMusicSpec = musicSpec;
+            if (bufferMusicStateSpec != null) {
+                bufferMusicStateSpec.state = 0;
+                bufferMusicStateSpec.position = 0;
+            }
+            if (isMusicAppStarted) {
+                sendMusicStateToBipS(bufferMusicSpec, bufferMusicStateSpec);
+            }
+        }
+    }
+
+    @Override
+    protected void sendMusicStateToDevice() {
+        sendMusicStateToBipS(bufferMusicSpec, bufferMusicStateSpec);
+    }
+
+    private void sendMusicStateToBipS(MusicSpec musicSpec, MusicStateSpec musicStateSpec) {
+        if (musicStateSpec == null) {
+            return;
+        }
+
+        byte flags = 0x00;
+        flags |= 0x01;
+        int length = 5;
+        if (musicSpec != null) {
+            if (musicSpec.artist != null && musicSpec.artist.getBytes().length > 0) {
+                length += musicSpec.artist.getBytes().length + 1;
+                flags |= 0x02;
+            }
+            if (musicSpec.album != null && musicSpec.album.getBytes().length > 0) {
+                length += musicSpec.album.getBytes().length + 1;
+                flags |= 0x04;
+            }
+            if (musicSpec.track != null && musicSpec.track.getBytes().length > 0) {
+                length += musicSpec.track.getBytes().length + 1;
+                flags |= 0x08;
+            }
+            if (musicSpec.duration != 0) {
+                length += 2;
+                flags |= 0x10;
+            }
+        }
+
+        try {
+            ByteBuffer buf = ByteBuffer.allocate(length);
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+            buf.put(flags);
+            byte state;
+            switch (musicStateSpec.state) {
+                case MusicStateSpec.STATE_PLAYING:
+                    state = 1;
+                    break;
+                default:
+                    state = 0;
+            }
+
+            buf.put(state);
+            buf.put((byte) 0);
+            buf.putShort((short)musicStateSpec.position);
+
+            if (musicSpec != null) {
+                if (musicSpec.artist != null && musicSpec.artist.getBytes().length > 0) {
+                    buf.put(musicSpec.artist.getBytes());
+                    buf.put((byte) 0);
+                }
+                if (musicSpec.album != null && musicSpec.album.getBytes().length > 0) {
+                    buf.put(musicSpec.album.getBytes());
+                    buf.put((byte) 0);
+                }
+                if (musicSpec.track != null && musicSpec.track.getBytes().length > 0) {
+                    buf.put(musicSpec.track.getBytes());
+                    buf.put((byte) 0);
+                }
+                if (musicSpec.duration != 0) {
+                    buf.putShort((short) musicSpec.duration);
+                }
+            }
+
+            TransactionBuilder builder = performInitialized("send playback info");
+            writeToChunked(builder, 3, buf.array());
+
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.error("Unable to send playback state");
+        }
+        //LOG.info("sendMusicStateToDevice: " + musicSpec + " " + musicStateSpec);
     }
 }

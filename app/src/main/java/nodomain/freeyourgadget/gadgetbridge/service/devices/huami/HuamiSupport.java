@@ -188,9 +188,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     private RealtimeSamplesSupport realtimeSamplesSupport;
     private boolean alarmClockRinging;
 
-    private boolean isMusicAppStarted = false;
-    private MusicSpec bufferMusicSpec = null;
-    private MusicStateSpec bufferMusicStateSpec = null;
+    protected boolean isMusicAppStarted = false;
+    protected MusicSpec bufferMusicSpec = null;
+    protected MusicStateSpec bufferMusicStateSpec = null;
     private boolean heartRateNotifyEnabled;
     private int mMTU = 23;
 
@@ -829,7 +829,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
 
-    private void sendMusicStateToDevice() {
+    protected void sendMusicStateToDevice() {
         if (characteristicChunked == null) {
             return;
         }
