@@ -805,7 +805,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             return;
         }
 
-        if (bufferMusicStateSpec != stateSpec) {
+        if (!stateSpec.equals(bufferMusicStateSpec)) {
             bufferMusicStateSpec = stateSpec;
             sendMusicStateToDevice();
         }
@@ -819,7 +819,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             return;
         }
 
-        if (bufferMusicSpec != musicSpec) {
+        if (!musicSpec.equals(bufferMusicSpec)) {
             bufferMusicSpec = musicSpec;
             if (isMusicAppStarted) {
                 sendMusicStateToDevice();
