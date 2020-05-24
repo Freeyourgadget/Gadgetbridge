@@ -163,4 +163,10 @@ public class Watch9DeviceCoordinator extends AbstractDeviceCoordinator {
     public boolean supportsFindDevice() {
         return false;
     }
+
+    @Nullable
+    @Override
+    public Class<? extends Activity> getCalibrationActivity() {
+        return Watch9CalibrationActivity.class;
+    }
 }

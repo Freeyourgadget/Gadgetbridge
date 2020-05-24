@@ -38,6 +38,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
@@ -45,10 +50,6 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.RecyclerView;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ActivitySummariesActivity;
@@ -58,7 +59,6 @@ import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
-import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.LenovoWatchCalibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
@@ -319,12 +319,11 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
 
         );
 
-        holder.calibrateDevice.setVisibility(device.isInitialized() && (device.getType() == DeviceType.WATCH9 || device.getType() == DeviceType.WATCHXPLUS) ? View.VISIBLE : View.GONE);
+        holder.calibrateDevice.setVisibility(device.isInitialized() && (coordinator.getCalibrationActivity() != null) ? View.VISIBLE : View.GONE);
         holder.calibrateDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent;
-                startIntent = new Intent(context, LenovoWatchCalibrationActivity.class);
+                Intent startIntent = new Intent(context, coordinator.getCalibrationActivity());
                 startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
                 context.startActivity(startIntent);
             }
@@ -353,9 +352,9 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                float frequency = Float.valueOf(input.getText().toString());
+                                float frequency = Float.parseFloat(input.getText().toString());
                                 // Trim to 1 decimal place, discard the rest
-                                frequency = Float.valueOf(String.format(Locale.getDefault(), "%.1f", frequency));
+                                frequency = Float.parseFloat(String.format(Locale.getDefault(), "%.1f", frequency));
                                 if (frequency < 87.5 || frequency > 108.0) {
                                     new AlertDialog.Builder(context)
                                             .setTitle(R.string.pref_invalid_frequency_title)

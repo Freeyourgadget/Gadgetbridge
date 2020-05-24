@@ -27,6 +27,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.LenovoWatchCalibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.LenovoWatchPairingActivity;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -274,5 +275,9 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
         }
     }
 
-
+    @Nullable
+    @Override
+    public Class<? extends Activity> getCalibrationActivity() {
+        return LenovoWatchCalibrationActivity.class;
+    }
 }
