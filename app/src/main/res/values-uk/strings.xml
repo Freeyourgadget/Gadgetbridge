@@ -14,21 +14,21 @@
     <string name="controlcenter_delete_device_dialogmessage">Це вилучить пристрій та всі пов\'язані з ним дані!</string>
     <string name="title_activity_debug">Зневадження</string>
     <!--Strings related to AppManager-->
-    <string name="title_activity_appmanager">Менеджер застосунків</string>
+    <string name="title_activity_appmanager">Менеджер додатків</string>
     <string name="appmanager_installed_watchapps">Встановлені додатки</string>
     <string name="appmananger_app_delete">Вилучити</string>
-    <string name="appmananger_app_delete_cache">Вилучити та очистити з кешу</string>
+    <string name="appmananger_app_delete_cache">Видалити та прибрати з кешу</string>
     <string name="appmananger_app_reinstall">Перевстановити</string>
     <string name="appmanager_app_openinstore">Пошук в Pebble appstore</string>
     <string name="appmanager_health_activate">Увімкнути</string>
     <string name="appmanager_health_deactivate">Вимкнути</string>
     <string name="appmanager_hrm_activate">Увімкнути HRM</string>
     <string name="appmanager_hrm_deactivate">Вимкнути HRM</string>
-    <string name="app_configure">Конфігурація</string>
+    <string name="app_configure">Налаштувати</string>
     <!--Strings related to AppBlacklist-->
-    <string name="title_activity_appblacklist">Перелік заблокованих сповіщень</string>
+    <string name="title_activity_appblacklist">Блокування сповіщень</string>
     <!--Strings related to FwAppInstaller-->
-    <string name="title_activity_fw_app_insaller">Встановлення мікропрограми</string>
+    <string name="title_activity_fw_app_insaller">Встановлення мікропрограм та додатків</string>
     <string name="fw_upgrade_notice">Ви збираєтесь встановити %s.</string>
     <string name="fw_multi_upgrade_notice">Ви збираєтесь встановити мікропрограму %1$s та %2$s на заміну поточній вашого Mi Band.</string>
     <string name="miband_firmware_known">Ця мікропрограма була перевірена на сумісність із Gadgetbridge.</string>
@@ -246,33 +246,33 @@
     <string name="controlcenter_navigation_drawer_close">Закрити навігаційну панель</string>
     <string name="controlcenter_snackbar_disconnecting">Від\'єднання</string>
     <string name="controlcenter_snackbar_need_longpress">Натисніть і утримуйте щоб від\'єднати</string>
-    <string name="controlcenter_snackbar_requested_screenshot">Знімок екрана пристрою</string>
-    <string name="appmanager_cached_watchapps_watchfaces">Додатки в пам\'яті</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Робимо знімок екрана пристрою</string>
+    <string name="appmanager_cached_watchapps_watchfaces">Кешовані додатки</string>
     <string name="appmanager_installed_watchfaces">Встановлені циферблати</string>
-    <string name="appmanager_weather_activate">Активувати системний додаток погоди</string>
+    <string name="appmanager_weather_activate">Увімкнути системний додаток погоди</string>
     <string name="appmanager_weather_deactivate">Вимкнути системний додаток погоди</string>
     <string name="appmanager_weather_install_provider">Встановити додаток повідомлення про погоду</string>
-    <string name="app_move_to_top">Рухати вище</string>
-    <string name="blacklist_all_for_notifications">Чорний список для усіх сповіщень</string>
-    <string name="whitelist_all_for_notifications">Білий список для всіх сповіщень</string>
+    <string name="app_move_to_top">Пересунути вгору</string>
+    <string name="blacklist_all_for_notifications">Ігнорувати сповіщення від всіх</string>
+    <string name="whitelist_all_for_notifications">Дозволити сповіщення від всіх</string>
     <string name="title_activity_calblacklist">Чорний список календарів</string>
     <string name="fw_upgrade_notice_amazfitbip">Ви збираєтеся встановити мікропрограму %s на ваш Amazfit Bip. 
 \n 
-\nЗберігайте послідовність файлів, спочатку .fw файл, потім .res за ним .gps. Ваш годинник перезавантажиться після встановлення .fw файлу. 
+\nЗберігайте послідовність файлів, спочатку .fw файл, потім .res, а за ним – .gps. Ваш годинник перезавантажиться після встановлення .fw файлу. 
 \n 
 \nПримітка. Вам не потрібно встановлювати .res та .gps, якщо ці файли точно такі ж, як раніше встановлені. 
 \n 
 \nДІЄТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="fw_upgrade_notice_amazfitcor">Ви збираєтеся встановити %s мікропрограму на ваш Amazfit Cor. 
 \n 
-\nЗберігайте послідовність файлів, спорчатку .fw файл, потім .res файл. Ваш годинник перезавантажиться після встановлення .fw файлу. 
+\nЗберігайте послідовність файлів, спочатку .fw файл, а потім – .res файл. Ваш годинник перезавантажиться після встановлення .fw файлу. 
 \n 
 \nПримітка. Вам не потрібно встановлювати .res файл, якщо він точно такий же, як і раніше встановлений. 
 \n 
 \nДІЄТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="fw_upgrade_notice_miband3">Ви маєте намір встановити %s мікропрограму на ваш Mi Band 3. 
 \n 
-\nБудь ласка, не забудьте встановити файл .fw і після цього файл .res. Ваш годинник буде перезавантаження після установки файлу .fw. 
+\nБудь ласка, не забудьте встановити файл .fw, а після нього – .res файл. Ваш годинник буде перезавантаження після установки файлу .fw. 
 \n 
 \nПримітка. Вам не потрібно встановлювати .res, якщо він точно такий же, як і раніше встановлений. 
 \n 
@@ -638,7 +638,7 @@
 \nЦя тека доступна для інших Android додатків і також на Вашому комп\'ютері.
 \nВи знайдете Вашу базу даних (або завантажте іншу базу даних, якою будете користуватися) тут:</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Немає доступу до теки експорту. Будь ласка зверніться до розробників.</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Дійсно перезаписати теперішню базу даних\? Всі теперішні дані Вашої активності (якщо вони є) будуть втрачені.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Дійсно перезаписати теперішню базу даних\? Всі теперішні дані Вашої активності (за їх наявності) будуть втрачені.</string>
     <string name="dbmanagementactivity_really_delete_entire_db">Дійсно видалити всі дані\? Всі дані Вашої активності та інформація про Ваш пристрій буде втрачено.</string>
     <string name="dbmanagementactivity_delete_old_activity_db">Видалити стару базу даних Вашої активності\?</string>
     <string name="dbmanagementactivity_delete_old_activitydb_confirmation">Дійсно видалити стару базу даних Вашої активності\? Дані які не були попередньо імпортовані, будуть втрачені.</string>
@@ -720,14 +720,14 @@
     <string name="devicetype_miscale2">Mi Scale 2</string>
     <string name="pref_summary_authkey">Змініть ключ авторизації на загальний ключ на всіх Ваших Android пристроя, з якими потрібно з\'єднатися. Попередній стандартний ключ для всіх пристроїв 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
-    <string name="fw_upgrade_notice_amazfitcor2">Ви збираєтесь встановити мікропрограму %s на ваш Amazfit Cor 2.
-\n
-\nЗберігайте послідовність файлів, спочатку .fw файл, потім .res за ним .gps. Ваш годинник перезавантажиться після встановлення .fw файлу.
-\n
+    <string name="fw_upgrade_notice_amazfitcor2">Ви збираєтесь встановити мікропрограму %s на ваш Amazfit Cor 2. 
+\n 
+\nЗберігайте послідовність файлів: спочатку .fw файл, потім – .res, за ним – .gps. Ваш годинник перезавантажиться після встановлення .fw файлу. 
+\n 
 \nПримітка: Вам не потрібно встановлювати .res файл якщо він такий же, як і раніше встановлений. 
 \n 
-\nДІЄТЕ НА ВЛАСНИЙ РИЗИК!
-\n
+\nДІЄТЕ НА ВЛАСНИЙ РИЗИК! 
+\n 
 \nПОВНІСТЮ НЕ ПРОТЕСТОВАНО, ІМОВІРНО ВАМ ПОТРІБНО ВСТАНОВИТИ BEATS_W МІКРОПРОГРАМУ ЯКЩО ВАШ ПРИСТРІЙ \"Amazfit Band 2\"</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="devicetype_miband4">Mi Smart Band 4</string>
@@ -743,15 +743,15 @@
     <string name="pref_charts_range_off">Діапазон діаграм за тиждень</string>
     <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
     <string name="menuitem_nfc">NFC</string>
-    <string name="activity_db_management_autoexport_explanation">Для атоматичного експорту бази даних було призначено теку:</string>
+    <string name="activity_db_management_autoexport_explanation">Для автоматичного експорту бази даних було призначено теку:</string>
     <string name="activity_db_management_autoexport_label">АвтоЕкспорт</string>
     <string name="activity_DB_test_export_button">Запустити АвтоЕкспорт зараз</string>
     <string name="activity_DB_test_export_message">Експорт бази даних…</string>
     <string name="activity_DB_delete_legacy_button">Видалити стару БД</string>
-    <string name="activity_DB_empty_button">Порожня БД</string>
-    <string name="activity_db_management_empty_DB">Порожня база даних</string>
+    <string name="activity_DB_empty_button">Спорожнити БД</string>
+    <string name="activity_db_management_empty_DB">Спорожнити базу даних</string>
     <string name="activity_db_management_exportimport_label">Експорт та імпорт</string>
-    <string name="activity_db_management_empty_db_warning">Увага! При натисканні цієї кнопки Ви видалите всі свої дані і почнете з нуля.</string>
+    <string name="activity_db_management_empty_db_warning">Увага! Натисканням цієї кнопки Ви видалите вашу базу даних і почнете з нуля.</string>
     <string name="appwidget_sleep_alarm_widget_label">Будильник</string>
     <string name="widget_steps_label">Кроки: %1$02d</string>
     <string name="widget_sleep_label">Сон: %1$s</string>
@@ -776,7 +776,7 @@
     <string name="discovery_need_to_enter_authkey">Цей пристрій потребує ключа автентифікації, нажміть та утримуйте для переходу в меню введення ключа. Прочитайте Wiki.</string>
     <string name="fw_upgrade_notice_amazfitbip_lite">Ви збираєтесь встановити %s мікропрограму на ваш Amazfit Bip Lite. 
 \n 
-\nПереконайтесь, що ви встановлюєте .fw файл, а після нього .res файл. Ваш годинник перезавантажиться після встановлення .fw файлу. 
+\nПереконайтесь, що ви встановлюєте .fw файл, а після нього – .res файл. Ваш годинник перезавантажиться після встановлення .fw файлу. 
 \n 
 \nПримітка: вам не потрібно встановлювати .res файл, якщо він такий самий був встановлений раніше. 
 \n 
@@ -784,7 +784,7 @@
     <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
     <string name="fw_upgrade_notice_amazfitgtr">Ви збираєтеся встановити мікропрограму %s на ваш Amazfit GTR. 
 \n 
-\nЗберігайте послідовність файлів, спочатку .fw файл, потім .res за ним .gps. Ваш годинник перезавантажиться після встановлення .fw файлу. 
+\nЗберігайте послідовність файлів: спочатку .fw файл, потім – .res, за ним – .gps. Ваш годинник перезавантажиться після встановлення .fw файлу. 
 \n 
 \nПримітка. Вам не потрібно встановлювати .res та .gps, якщо ці файли точно такі ж, як раніше встановлені. 
 \n 
@@ -792,7 +792,7 @@
     <string name="devicetype_amazfit_gts">Amazfit GTS</string>
     <string name="fw_upgrade_notice_amazfitgts">Ви збираєтеся встановити мікропрограму %s на ваш Amazfit GTS. 
 \n 
-\nЗберігайте послідовність файлів, спочатку .fw файл, потім .res за ним .gps. Ваш годинник перезавантажиться після встановлення .fw файлу. 
+\nЗберігайте послідовність файлів: спочатку .fw файл, потім – .res, за ним – .gps. Ваш годинник перезавантажиться після встановлення .fw файлу. 
 \n 
 \nПримітка. Вам не потрібно встановлювати .res та .gps, якщо ці файли точно такі ж, як раніше встановлені. 
 \n 
@@ -887,4 +887,13 @@
     <string name="hr_appname_wellness">Фітнес</string>
     <string name="hr_appname_workout">Тренування</string>
     <string name="prefs_notifications_and_calls_shake_reject">Потрусити для ігнорування/відхилення дзвінка</string>
+    <string name="menuitem_unknown">Невідомо</string>
+    <string name="czesh">Чеська</string>
+    <string name="swedish">Шведська</string>
+    <string name="hebrew">Іврит</string>
+    <string name="greek">Грецька</string>
+    <string name="hungarian">Угорська</string>
+    <string name="romanian">Румунська</string>
+    <string name="bip_prefs_shortcuts">Швидкий доступ</string>
+    <string name="pref_theme_system">Системна</string>
 </resources>
