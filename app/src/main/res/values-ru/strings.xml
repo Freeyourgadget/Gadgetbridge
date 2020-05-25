@@ -742,8 +742,8 @@
     <string name="activity_DB_test_export_button">Запустить Авто-экспорт сейчас</string>
     <string name="activity_DB_test_export_message">Экспортирование базы данных…</string>
     <string name="activity_DB_delete_legacy_button">Удалить старую базу данных</string>
-    <string name="activity_DB_empty_button">Пустая база данных</string>
-    <string name="activity_db_management_empty_DB">Пустая база данных</string>
+    <string name="activity_DB_empty_button">Очистить базу данных</string>
+    <string name="activity_db_management_empty_DB">Сброс базы данных</string>
     <string name="activity_db_management_exportimport_label">Экспорт и Импорт</string>
     <string name="activity_db_management_empty_db_warning">Внимание! Нажав эту кнопку, вы сотрете вашу базу данных и начнете с нуля.</string>
     <string name="appwidget_sleep_alarm_widget_label">Сигнализация сна</string>
