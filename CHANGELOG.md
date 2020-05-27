@@ -1,5 +1,13 @@
 ### Changelog
 
+#### Version 0.44.1
+* Amazfit Bip S: Support setting shortcuts
+* Amazfit Bip S: Fix setting display items
+* Amazfit Bip S: Fix incoming call notification
+* Huami: Fix menu items vanishing from the device when they were never configured through Gadgetbridge
+* Lenovo Watch9: Fix launch of wrong calibration activity
+* Reduce calls to onSetMusicInfo/onSetMusicState when playing music
+
 #### Version 0.44.0
 * Initial support for WatchX(Plus)
 * Add support for Amazfit GTR Lite (untested and incomplete)
