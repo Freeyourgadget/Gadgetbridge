@@ -280,7 +280,7 @@
     <string name="title_activity_calblacklist">Czarna lista kalendarzy</string>
     <string name="pref_title_general_autostartonboot">Uruchom automatycznie</string>
     <string name="pref_title_minimize_priority">Ukryj powiadomienia z Gadgetbridge</string>
-    <string name="pref_summary_minimize_priority_off">"Ikona na pasku stanu i powiadomienia pokazują się na zablokowanym ekranie "</string>
+    <string name="pref_summary_minimize_priority_off">Ikona na pasku stanu i powiadomienia pokazują się na zablokowanym ekranie</string>
     <string name="pref_summary_minimize_priority_on">Ikona na pasku stanu i powiadomienia jest ukryta na zablokowanym ekranie</string>
     <string name="pref_summary_notification_filter">Niechciane powiadomienia są wyłączone w tym trybie</string>
     <string name="pref_title_transliteration">Transliteracja</string>
@@ -428,7 +428,7 @@
     <string name="minutes_30">30 minut</string>
     <string name="lack_of_step">Pozostało kroków: %1$d</string>
     <string name="pref_title_low_latency_fw_update">Użyj trybu o niskiej latencji przy aktualizacji firmware</string>
-    <string name="live_activity_max_heart_rate">"Aktualny / Maks. puls:  %1$d / %2$d"</string>
+    <string name="live_activity_max_heart_rate">Aktualny / Maks. puls: %1$d / %2$d</string>
     <string name="you_slept">Sen trwał od %1$s do %2$s</string>
     <string name="miband_prefs_device_time_offset_hours">Offset snu w godzinach (do detekcji snu pracowników zmianowych)</string>
     <string name="mi2_prefs_button_action_summary">Włącz akcję po naciśnięciu przycisku określoną ilość razy</string>
@@ -901,4 +901,7 @@
     <string name="greek">Grecki</string>
     <string name="hungarian">Węgierski</string>
     <string name="romanian">Rumuński</string>
+    <string name="menuitem_unknown">Nieznany</string>
+    <string name="bip_prefs_shotcuts_summary">Wybierz skróty na ekranie zespołu</string>
+    <string name="bip_prefs_shortcuts">Skróty</string>
 </resources>
