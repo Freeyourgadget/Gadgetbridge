@@ -96,7 +96,7 @@
     <string name="pref_header_development">Ontwikkelaarsopties</string>
     <string name="pref_title_development_miaddr">Mi Band adres</string>
     <string name="pref_title_pebble_settings">Pebble instellingen</string>
-    <string name="pref_header_activitytrackers">"Activiteit trackers "</string>
+    <string name="pref_header_activitytrackers">Activiteit trackers</string>
     <string name="pref_title_pebble_activitytracker">Voorkeurs-activiteit tracker</string>
     <string name="pref_title_pebble_sync_health">Synchroniseer Pebble Health</string>
     <string name="pref_title_pebble_sync_misfit">Sync Misfit</string>
@@ -168,7 +168,7 @@
     <string name="pref_title_unit_system">Eenheden</string>
     <string name="pref_title_timeformat">Tijdsformaat</string>
     <string name="pref_title_screentime">Tijd dat scherm aan is</string>
-    <string name="prefs_title_all_day_heart_rate">"De hele dag  hartslag meten"</string>
+    <string name="prefs_title_all_day_heart_rate">De hele dag hartslag meten</string>
     <string name="preferences_hplus_settings">HPlus/Makibes instellingen</string>
     <string name="not_connected">Niet verbonden</string>
     <string name="connecting">Aan het verbinden</string>
