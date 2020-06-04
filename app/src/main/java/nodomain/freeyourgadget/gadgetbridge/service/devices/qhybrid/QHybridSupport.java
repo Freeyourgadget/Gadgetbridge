@@ -451,6 +451,8 @@ public class QHybridSupport extends QHybridBaseSupport {
     public void onDeleteNotification(int id) {
         super.onDeleteNotification(id);
 
+        this.watchAdapter.onDeleteNotification(id);
+
         showNotificationsByAllActive(true);
     }
 

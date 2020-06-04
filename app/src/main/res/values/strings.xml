@@ -861,6 +861,7 @@
     <string name="error_no_location_access">Location access must be granted and enabled for scanning to work properly</string>
     <string name="pref_qhybrid_title_widget_draw_circles">Draw widget circles</string>
     <string name="pref_qhybrid_save_raw_activity_files">Save raw activity files</string>
+    <string name="hr_widget_last_notification">Last notification</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>
         <item quantity="two">%d hours</item>

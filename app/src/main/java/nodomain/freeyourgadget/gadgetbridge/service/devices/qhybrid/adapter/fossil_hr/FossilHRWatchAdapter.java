@@ -3,11 +3,13 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fos
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.widget.Toast;
@@ -43,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HRConfigActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HybridHRActivitySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationHRConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.entities.HybridHRActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
@@ -66,6 +69,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration.ConfigurationGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration.ConfigurationPutRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFile;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.FileEncryptedGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.FirmwareFilePutRequest;
@@ -112,6 +116,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     private boolean saveRawActivityFiles = false;
+
+    HashMap<String, Bitmap> appIconCache = new HashMap<>();
+    String lastPostedApp = null;
 
     @Override
     public void initialize() {
@@ -299,7 +306,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         negotiateSymmetricKey();
         ArrayList<Widget> systemWidgets = new ArrayList<>(widgets.size());
         for (Widget widget : this.widgets) {
-            if (!(widget instanceof CustomWidget)) systemWidgets.add(widget);
+            if (!(widget instanceof CustomWidget) && !widget.getWidgetType().isCustom())
+                systemWidgets.add(widget);
         }
         queueWrite(new WidgetsPutRequest(systemWidgets.toArray(new Widget[0]), this));
     }
@@ -337,7 +345,41 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             for (int i = 0; i < this.widgets.size(); i++) {
                 Widget w = widgets.get(i);
                 if (!(w instanceof CustomWidget)) {
-                    if (drawCircles) {
+                    if (w.getWidgetType() == Widget.WidgetType.LAST_NOTIFICATION) {
+                        Bitmap widgetBitmap = Bitmap.createBitmap(76, 76, Bitmap.Config.ARGB_8888);
+                        Canvas widgetCanvas = new Canvas(widgetBitmap);
+                        if (drawCircles) {
+                            widgetCanvas.drawBitmap(circleBitmap, 0, 0, null);
+                        }
+
+                        Paint p = new Paint();
+                        p.setStyle(Paint.Style.FILL);
+                        p.setTextSize(10);
+                        p.setColor(Color.WHITE);
+
+                        if (this.lastPostedApp != null) {
+
+                            Bitmap icon = appIconCache.get(this.lastPostedApp);
+
+                            if (icon != null) {
+
+                                widgetCanvas.drawBitmap(
+                                        icon,
+                                        (float) (38 - (icon.getWidth() / 2.0)),
+                                        (float) (38 - (icon.getHeight() / 2.0)),
+                                        null
+                                );
+                            }
+                        }
+
+                        widgetImages.add(AssetImageFactory.createAssetImage(
+                                widgetBitmap,
+                                true,
+                                w.getAngle(),
+                                w.getDistance(),
+                                1
+                        ));
+                    } else if (drawCircles) {
                         widgetImages.add(AssetImageFactory.createAssetImage(
                                 circleBitmap,
                                 true,
@@ -348,7 +390,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                     }
                     continue;
                 }
-                ;
+
                 CustomWidget widget = (CustomWidget) w;
 
                 Bitmap widgetBitmap = Bitmap.createBitmap(76, 76, Bitmap.Config.ARGB_8888);
@@ -411,9 +453,19 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
             AssetImage[] images = widgetImages.toArray(new AssetImage[0]);
 
-            if(images.length > 0) {
+            ArrayList<AssetImage> pushFiles = new ArrayList<>(4);
+            imgloop:
+            for (AssetImage image : images) {
+                for (AssetImage pushedImage : pushFiles) {
+                    // no need to send same file multiple times, filtering by name since name is hash
+                    if (image.getFileName().equals(pushedImage.getFileName())) continue imgloop;
+                }
+                pushFiles.add(image);
+            }
+
+            if (pushFiles.size() > 0) {
                 queueWrite(new AssetFilePutRequest(
-                        images,
+                        pushFiles.toArray(new AssetImage[0]),
                         (byte) 0x00,
                         this
                 ));
@@ -505,7 +557,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         syncSettings();
 
         queueWrite(new VerifyPrivateKeyRequest(this.getSecretKey(), this));
-        queueWrite(new FileLookupRequest((byte) 0x01, this){
+        queueWrite(new FileLookupRequest((byte) 0x01, this) {
             @Override
             public void handleFileLookup(final short fileHandle) {
                 queueWrite(new FileEncryptedGetRequest(fileHandle, FossilHRWatchAdapter.this) {
@@ -519,14 +571,14 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                             HybridHRActivitySample[] samples = new HybridHRActivitySample[entries.size()];
 
                             Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
-                            Long deviceId = DBHelper.getDevice(getDeviceSupport(). getDevice(), dbHandler.getDaoSession()).getId();
-                            for(int i = 0; i < entries.size(); i++){
+                            Long deviceId = DBHelper.getDevice(getDeviceSupport().getDevice(), dbHandler.getDaoSession()).getId();
+                            for (int i = 0; i < entries.size(); i++) {
                                 samples[i] = entries.get(i).toDAOActivitySample(userId, deviceId);
                             }
 
                             provider.addGBActivitySamples(samples);
 
-                            if(saveRawActivityFiles) {
+                            if (saveRawActivityFiles) {
                                 writeFile(String.valueOf(System.currentTimeMillis()), fileData);
                             }
                             queueWrite(new FileDeleteRequest(fileHandle));
@@ -542,9 +594,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
             @Override
             public void handleFileLookupError(FILE_LOOKUP_ERROR error) {
-                if(error == FILE_LOOKUP_ERROR.FILE_EMPTY){
-                    GB.toast("activity file empty yet", Toast.LENGTH_LONG,  GB.ERROR);
-                }else{
+                if (error == FILE_LOOKUP_ERROR.FILE_EMPTY) {
+                    GB.toast("activity file empty yet", Toast.LENGTH_LONG, GB.ERROR);
+                } else {
                     throw new RuntimeException("strange lookup stuff");
                 }
                 getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
@@ -552,7 +604,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         });
     }
 
-    private void writeFile(String fileName, byte[] value){
+    private void writeFile(String fileName, byte[] value) {
         File activityDir = new File(getContext().getExternalFilesDir(null), "activity_hr");
         activityDir.mkdir();
         File f = new File(activityDir, fileName);
@@ -579,12 +631,14 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     public boolean playRawNotification(NotificationSpec notificationSpec) {
+        String sourceAppId = notificationSpec.sourceAppId;
+
         String senderOrTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
 
         try {
             for (NotificationHRConfiguration configuration : this.notificationConfigurations) {
-                if (configuration.getPackageName().equals(notificationSpec.sourceAppId)) {
-                    queueWrite(new PlayTextNotificationRequest(notificationSpec.sourceAppId, senderOrTitle, notificationSpec.body, this));
+                if (configuration.getPackageName().equals(sourceAppId)) {
+                    queueWrite(new PlayTextNotificationRequest(sourceAppId, senderOrTitle, notificationSpec.body, this));
                     return true;
                 }
             }
@@ -592,7 +646,41 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        if (sourceAppId != null) {
+            if (!sourceAppId.equals(this.lastPostedApp)) {
+                if (appIconCache.get(sourceAppId) == null) {
+                    try {
+                        PackageManager pm = getContext().getPackageManager();
+                        Drawable icon = pm.getApplicationIcon(sourceAppId);
+
+                        Bitmap iconBitmap = Bitmap.createBitmap(40, 40, Bitmap.Config.ARGB_8888);
+                        icon.setBounds(0, 0, 40, 40);
+                        icon.draw(new Canvas(iconBitmap));
+
+                        appIconCache.put(sourceAppId, iconBitmap);
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+                this.lastPostedApp = sourceAppId;
+                renderWidgets();
+            }
+        }
         return true;
+    }
+
+    @Override
+    public void onDeleteNotification(int id) {
+        super.onDeleteNotification(id);
+
+        // only delete app icon when no notification of said app is present
+        for (String app : NotificationListener.notificationStack) {
+            if (app.equals(this.lastPostedApp)) return;
+        }
+
+        this.lastPostedApp = null;
+        renderWidgets();
     }
 
     @Override

@@ -135,4 +135,7 @@ public abstract class WatchAdapter {
 
     public void setBackgroundImage(byte[] pixels) {
     }
+
+    public void onDeleteNotification(int id) {
+    }
 }

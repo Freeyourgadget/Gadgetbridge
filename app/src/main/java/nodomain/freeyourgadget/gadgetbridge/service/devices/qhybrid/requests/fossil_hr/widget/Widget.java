@@ -21,6 +21,10 @@ public class Widget implements Serializable {
         this.fontColor = fontColor;
     }
 
+    public WidgetType getWidgetType() {
+        return widgetType;
+    }
+
     public int getAngle() {
         return angle;
     }
@@ -47,8 +51,11 @@ public class Widget implements Serializable {
         JSONObject object = new JSONObject();
 
         try {
+            String type;
+            if(widgetType == null) type = "Custom widget";
+            else type = widgetType.getIdentifier();
             object
-                    .put("name", widgetType.getIdentifier())
+                    .put("name", type)
                     .put("pos",
                             new JSONObject()
                                     .put("angle", angle)
@@ -75,14 +82,23 @@ public class Widget implements Serializable {
         CALORIES("caloriesSSE", R.string.hr_widget_calories),
         BATTERY("batterySSE", R.string.hr_widget_battery),
         WEATHER("weatherSSE", R.string.hr_widget_weather),
+        LAST_NOTIFICATION("last_notification", R.string.hr_widget_last_notification, true),
         NOTHING(null, R.string.hr_widget_nothing);
 
         private String identifier;
         private int stringResource;
+        private boolean custom;
 
         WidgetType(String identifier, int stringResource) {
             this.identifier = identifier;
             this.stringResource = stringResource;
+            this.custom = false;
+        }
+
+        WidgetType(String identifier, int stringResource, boolean custom) {
+            this.identifier = identifier;
+            this.stringResource = stringResource;
+            this.custom = custom;
         }
 
         public static WidgetType fromJsonIdentifier(String jsonIdentifier){
@@ -98,6 +114,10 @@ public class Widget implements Serializable {
 
         public String getIdentifier() {
             return this.identifier;
+        }
+
+        public boolean isCustom() {
+            return custom;
         }
     }
 }
