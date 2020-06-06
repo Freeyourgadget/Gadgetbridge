@@ -467,7 +467,7 @@ public class NotificationListener extends NotificationListenerService {
     private void handleCallNotification(StatusBarNotification sbn) {
         String app = sbn.getPackageName();
         LOG.debug("got call from: " + app);
-        if(app.equals("com.android.dialer")) {
+        if (app.equals("com.android.dialer") || app.equals("com.android.incallui")) {
             LOG.debug("Ignoring non-voip call");
             return;
         }
