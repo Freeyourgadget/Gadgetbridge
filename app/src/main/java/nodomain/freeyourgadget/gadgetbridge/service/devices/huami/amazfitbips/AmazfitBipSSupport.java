@@ -41,6 +41,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperationNew;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 
 public class AmazfitBipSSupport extends AmazfitBipSupport {
@@ -93,6 +94,11 @@ public class AmazfitBipSSupport extends AmazfitBipSupport {
     @Override
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
         return new AmazfitBipSFWHelper(uri, context);
+    }
+
+    @Override
+    public UpdateFirmwareOperationNew createUpdateFirmwareOperation(Uri uri) {
+        return new UpdateFirmwareOperationNew(uri, this);
     }
 
     @Override
