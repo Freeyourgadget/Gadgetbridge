@@ -58,7 +58,8 @@ public class AmazfitBipSCoordinator extends HuamiCoordinator {
 
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
-        return null;
+        AmazfitBipSFWInstallHandler handler = new AmazfitBipSFWInstallHandler(uri, context);
+        return handler.isValid() ? handler : null;
     }
 
     @Override

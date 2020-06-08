@@ -34,6 +34,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbips.AmazfitBipSFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
@@ -90,7 +91,7 @@ public class AmazfitBipSSupport extends AmazfitBipSupport {
 
     @Override
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
-        return null;
+        return new AmazfitBipSFWHelper(uri, context);
     }
 
     @Override
