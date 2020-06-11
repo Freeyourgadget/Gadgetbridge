@@ -1,5 +1,11 @@
 ### Changelog
 
+#### Next
+* Amazfit Bip S: Support music control
+* Amazfit Bip S: Support flashing watchfaces
+* Fossil Hybrid HR: Add last notification widget
+* Try to fix vanishing incoming call information when VoIP call support is enabled
+
 #### Version 0.44.1
 * Amazfit Bip S: Support setting shortcuts
 * Amazfit Bip S: Fix setting display items
