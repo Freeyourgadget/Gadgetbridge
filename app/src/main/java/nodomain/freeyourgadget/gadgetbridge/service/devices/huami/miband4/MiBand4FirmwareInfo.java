@@ -27,11 +27,11 @@ import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
 public class MiBand4FirmwareInfo extends HuamiFirmwareInfo {
 
-    private static final byte[] FW_HEADER = new byte[]{
+    public static final byte[] FW_HEADER = new byte[]{
             0x31, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, (byte) 0x9c, (byte) 0xe3, 0x7d, 0x5c, 0x00, 0x04
     };
 
-    private static final int FW_HEADER_OFFSET = 16;
+    public static final int FW_HEADER_OFFSET = 16;
 
     private static Map<Integer, String> crcToVersion = new HashMap<>();
 

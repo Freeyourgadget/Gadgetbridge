@@ -23,6 +23,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband4.MiBand4FirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
 public class AmazfitBipSFirmwareInfo extends HuamiFirmwareInfo {
@@ -35,6 +36,17 @@ public class AmazfitBipSFirmwareInfo extends HuamiFirmwareInfo {
 
     @Override
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
+        //FW "header" looks like Mi Band 4
+        if (ArrayUtils.equals(bytes, MiBand4FirmwareInfo.FW_HEADER, MiBand4FirmwareInfo.FW_HEADER_OFFSET)) {
+            if (searchString32BitAligned(bytes, "Amazfit Bip S")) {
+                return HuamiFirmwareType.FIRMWARE;
+            }
+            return HuamiFirmwareType.INVALID;
+        }
+        if (ArrayUtils.equals(bytes, NEWRES_HEADER, COMPRESSED_RES_HEADER_OFFSET)) {
+            return HuamiFirmwareType.RES_COMPRESSED;
+        }
+
         if (ArrayUtils.startsWith(bytes, WATCHFACE_HEADER)) {
             return HuamiFirmwareType.WATCHFACE;
         }
@@ -45,7 +57,7 @@ public class AmazfitBipSFirmwareInfo extends HuamiFirmwareInfo {
             return HuamiFirmwareType.GPS_CEP;
         }
         if (ArrayUtils.startsWith(bytes, NEWFT_HEADER)) {
-            if (bytes[10] == 0x01) {
+            if (bytes[10] == 0x01 || bytes[10] == 0x06) {
                 return HuamiFirmwareType.FONT;
             } else if (bytes[10] == 0x02 || bytes[10] == 0x0A) {
                 return HuamiFirmwareType.FONT_LATIN;
