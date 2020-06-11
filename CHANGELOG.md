@@ -1,8 +1,9 @@
 ### Changelog
 
 #### Next
+* Amazfit Bip: Support flashing newer GPS ALM
 * Amazfit Bip S: Support music control
-* Amazfit Bip S: Support flashing watchfaces
+* Amazfit Bip S: Support flashing watchfaces and GPS CEP
 * Fossil Hybrid HR: Add last notification widget
 * Try to fix vanishing incoming call information when VoIP call support is enabled
 

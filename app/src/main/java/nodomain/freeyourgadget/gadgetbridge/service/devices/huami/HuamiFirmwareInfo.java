@@ -48,6 +48,14 @@ public abstract class HuamiFirmwareInfo {
             0x4e, 0x45, 0x5a, 0x4b
     };
 
+    public static final byte[] GPS_ALMANAC_HEADER = new byte[]{ // probably wrong
+            (byte) 0xa0, (byte) 0x80, 0x08, 0x00, (byte) 0x8b
+    };
+
+    public static final byte[] GPS_CEP_HEADER = new byte[]{ // probably wrong
+            0x2a, 0x12, (byte) 0xa0, 0x02
+    };
+
     protected static final int FONT_TYPE_OFFSET = 0x9;
     protected static final int COMPRESSED_RES_HEADER_OFFSET = 0x9;
     protected static final int COMPRESSED_RES_HEADER_OFFSET_NEW = 0xd;

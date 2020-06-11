@@ -59,14 +59,6 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
             0x00, (byte) 0x98, 0x00, 0x20, (byte) 0xA5, 0x04, 0x00, 0x20, (byte) 0xAD, 0x04, 0x00, 0x20, (byte) 0xC5, 0x04, 0x00, 0x20
     };
 
-    private static final byte[] GPS_ALMANAC_HEADER = new byte[]{ // probably wrong
-            (byte) 0xa0, (byte) 0x80, 0x08, 0x00, (byte) 0x8b, 0x07
-    };
-
-    private static final byte[] GPS_CEP_HEADER = new byte[]{ // probably wrong
-            0x2a, 0x12, (byte) 0xa0, 0x02
-    };
-
     private static Map<Integer, String> crcToVersion = new HashMap<>();
     static {
         // firmware
