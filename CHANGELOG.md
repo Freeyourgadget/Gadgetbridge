@@ -3,7 +3,8 @@
 #### Next
 * Amazfit Bip: Support flashing newer GPS ALM
 * Amazfit Bip S: Support music control
-* Amazfit Bip S: Support flashing watchfaces and GPS CEP
+* Amazfit Bip S: Support flashing watchfaces, fonts and GPS CEP
+* Amazfit Bip S: Allow setting high MTU (much faster firmware installation, default off since it does not work for some)
 * Fossil Hybrid HR: Add last notification widget
 * Try to fix vanishing incoming call information when VoIP call support is enabled
 
