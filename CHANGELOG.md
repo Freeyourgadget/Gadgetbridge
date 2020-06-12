@@ -1,9 +1,9 @@
 ### Changelog
 
 #### Next
-* Amazfit Bip: Support flashing newer GPS ALM
+* Haumi: Support flashing newer GPS firmware and GPS ALM
 * Amazfit Bip S: Support music control
-* Amazfit Bip S: Support flashing firmware, res, watchfaces, fonts and GPS CEP
+* Amazfit Bip S: Support flashing firmware, res, gps firmware, watchfaces, fonts and GPS CEP
 * Amazfit Bip S: Allow setting high MTU (much faster firmware installation, default off since it does not work for some)
 * Amazfit Bip S: remove disconnect notification and button action settings (they do not work)
 * Fossil Hybrid HR: Add last notification widget

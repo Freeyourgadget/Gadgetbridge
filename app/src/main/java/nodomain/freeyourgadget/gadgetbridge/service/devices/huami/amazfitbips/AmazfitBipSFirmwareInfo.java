@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
@@ -28,11 +27,25 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareT
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband4.MiBand4FirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class AmazfitBipSFirmwareInfo extends HuamiFirmwareInfo {
 
     private static Map<Integer, String> crcToVersion = new HashMap<>();
+
+    static {
+        // fw tonlesap
+        crcToVersion.put(5017, "2.1.1.08");
+
+        // resources
+        crcToVersion.put(61617, "2.1.1.08");
+
+        // font
+        crcToVersion.put(62927, "3");
+
+        // gps
+        crcToVersion.put(62532, "18344,eb2f43f,126");
+        crcToVersion.put(31510, "19226,f3a8ad3,135");
+    }
 
     public AmazfitBipSFirmwareInfo(byte[] bytes) {
         super(bytes);
@@ -81,6 +94,11 @@ public class AmazfitBipSFirmwareInfo extends HuamiFirmwareInfo {
                 return HuamiFirmwareType.FONT;
             } else if (bytes[10] == 0x02 || bytes[10] == 0x0A) {
                 return HuamiFirmwareType.FONT_LATIN;
+            }
+        }
+        for (byte[] gpsHeader : GPS_HEADERS) {
+            if (ArrayUtils.startsWith(bytes, gpsHeader)) {
+                return HuamiFirmwareType.GPS;
             }
         }
         return HuamiFirmwareType.INVALID;
