@@ -910,4 +910,5 @@
     <string name="bip_prefs_shotcuts_summary">Escolha os atalhos na tela da pulseira</string>
     <string name="bip_prefs_shortcuts">Atalhos</string>
     <string name="hr_widget_last_notification">Última notificação</string>
+    <string name="controlcenter_set_alias">Definir alias</string>
 </resources>
