@@ -429,6 +429,7 @@ public class DBHelper {
         if (!isDeviceUpToDate(device, gbDevice)) {
             device.setIdentifier(gbDevice.getAddress());
             device.setName(gbDevice.getName());
+            device.setAlias(gbDevice.getAlias());
             DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
             device.setManufacturer(coordinator.getManufacturer());
             device.setType(gbDevice.getType().getKey());
@@ -447,6 +448,9 @@ public class DBHelper {
             return false;
         }
         if (!Objects.equals(device.getName(), gbDevice.getName())) {
+            return false;
+        }
+        if (!Objects.equals(device.getAlias(), gbDevice.getAlias())) {
             return false;
         }
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);

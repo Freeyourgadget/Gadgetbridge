@@ -57,8 +57,13 @@ import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
 import nodomain.freeyourgadget.gadgetbridge.activities.VibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsActivity;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.DeviceDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
@@ -468,6 +473,47 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             }
         });
 
+        //set alias, hidden under details
+        holder.setAlias.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                final EditText input = new EditText(context);
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                input.setText(device.getAlias());
+                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+
+                new AlertDialog.Builder(context)
+                        .setView(input)
+                        .setCancelable(true)
+                        .setTitle(context.getString(R.string.controlcenter_set_alias))
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                                    DaoSession session = dbHandler.getDaoSession();
+                                    Device dbDevice = DBHelper.getDevice(device, session);
+                                    String alias = input.getText().toString();
+                                    dbDevice.setAlias(alias);
+                                    dbDevice.update();
+                                    device.setAlias(alias);
+                                } catch (Exception ex) {
+                                    GB.toast(context, "Error setting alias: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+                                } finally {
+                                    Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
+                                    LocalBroadcastManager.getInstance(context).sendBroadcast(refreshIntent);
+                                }
+                            }
+                        })
+                        .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .show();
+            }
+        });
     }
 
     @Override
@@ -504,6 +550,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         ListView deviceInfoList;
         ImageView findDevice;
         ImageView removeDevice;
+        ImageView setAlias;
         LinearLayout fmFrequencyBox;
         TextView fmFrequencyLabel;
         ImageView ledColor;
@@ -537,6 +584,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             deviceInfoList = view.findViewById(R.id.device_item_infos);
             findDevice = view.findViewById(R.id.device_action_find);
             removeDevice = view.findViewById(R.id.device_action_remove);
+            setAlias = view.findViewById(R.id.device_action_set_alias);
             fmFrequencyBox = view.findViewById(R.id.device_fm_frequency_box);
             fmFrequencyLabel = view.findViewById(R.id.fm_frequency);
             ledColor = view.findViewById(R.id.device_led_color);

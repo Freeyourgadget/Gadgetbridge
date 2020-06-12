@@ -169,6 +169,10 @@ public class GBDevice implements Parcelable {
         mName = name;
     }
 
+    public void setAlias(String alias) {
+        mAlias = alias;
+    }
+
     public String getAddress() {
         return mAddress;
     }
