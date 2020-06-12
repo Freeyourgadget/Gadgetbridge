@@ -43,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(26, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(27, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -171,6 +171,7 @@ public class GBDaoGenerator {
         device.addStringProperty("identifier").notNull().unique().javaDocGetterAndSetter("The fixed identifier, i.e. MAC address of the device.");
         device.addIntProperty("type").notNull().javaDocGetterAndSetter("The DeviceType key, i.e. the GBDevice's type.");
         device.addStringProperty("model").javaDocGetterAndSetter("An optional model, further specifying the kind of device-");
+        device.addStringProperty("alias");
         Property deviceId = deviceAttributes.addLongProperty("deviceId").notNull().getProperty();
         // sorted by the from-date, newest first
         Property deviceAttributesSortProperty = getPropertyByName(deviceAttributes, VALID_FROM_UTC);

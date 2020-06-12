@@ -154,14 +154,14 @@ public class DeviceHelper {
         Prefs prefs = GBApplication.getPrefs();
         String miAddr = prefs.getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
         if (miAddr.length() > 0) {
-            GBDevice miDevice = new GBDevice(miAddr, "MI", DeviceType.MIBAND);
+            GBDevice miDevice = new GBDevice(miAddr, "MI", null,  DeviceType.MIBAND);
             availableDevices.add(miDevice);
         }
 
         String pebbleEmuAddr = prefs.getString("pebble_emu_addr", "");
         String pebbleEmuPort = prefs.getString("pebble_emu_port", "");
         if (pebbleEmuAddr.length() >= 7 && pebbleEmuPort.length() > 0) {
-            GBDevice pebbleEmuDevice = new GBDevice(pebbleEmuAddr + ":" + pebbleEmuPort, "Pebble qemu", DeviceType.PEBBLE);
+            GBDevice pebbleEmuDevice = new GBDevice(pebbleEmuAddr + ":" + pebbleEmuPort, "Pebble qemu", "", DeviceType.PEBBLE);
             availableDevices.add(pebbleEmuDevice);
         }
         return availableDevices;
@@ -280,7 +280,7 @@ public class DeviceHelper {
      */
     public GBDevice toGBDevice(Device dbDevice) {
         DeviceType deviceType = DeviceType.fromKey(dbDevice.getType());
-        GBDevice gbDevice = new GBDevice(dbDevice.getIdentifier(), dbDevice.getName(), deviceType);
+        GBDevice gbDevice = new GBDevice(dbDevice.getIdentifier(), dbDevice.getName(), dbDevice.getAlias(), deviceType);
         List<DeviceAttributes> deviceAttributesList = dbDevice.getDeviceAttributesList();
         if (deviceAttributesList.size() > 0) {
             gbDevice.setModel(dbDevice.getModel());

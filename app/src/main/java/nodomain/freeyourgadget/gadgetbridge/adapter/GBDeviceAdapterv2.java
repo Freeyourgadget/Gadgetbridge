@@ -564,7 +564,10 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
     }
 
     private String getUniqueDeviceName(GBDevice device) {
-        String deviceName = device.getName();
+        String deviceName = device.getAlias();
+        if (deviceName == null || deviceName.equals("")) {
+            deviceName = device.getName();
+        }
         if (!isUniqueDeviceName(device, deviceName)) {
             if (device.getModel() != null) {
                 deviceName = deviceName + " " + device.getModel();

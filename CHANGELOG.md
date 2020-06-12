@@ -1,7 +1,7 @@
 ### Changelog
 
 #### Next
-* Haumi: Support flashing newer GPS firmware and GPS ALM
+* Huami: Support flashing newer GPS firmware and GPS ALM
 * Amazfit Bip S: Support music control
 * Amazfit Bip S: Support flashing firmware, res, gps firmware, watchfaces, fonts and GPS CEP
 * Amazfit Bip S: Allow setting high MTU (much faster firmware installation, default off since it does not work for some)

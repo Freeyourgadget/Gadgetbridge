@@ -68,7 +68,7 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
 
     @Override
     public GBDevice createDevice(GBDeviceCandidate candidate) {
-        return new GBDevice(candidate.getDevice().getAddress(), candidate.getName(), getDeviceType());
+        return new GBDevice(candidate.getDevice().getAddress(), candidate.getName(), null, getDeviceType());
     }
 
     @Override
