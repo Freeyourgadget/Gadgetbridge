@@ -105,7 +105,16 @@ public abstract class HuamiFirmwareInfo {
                     version = "RES " + bytes[5];
                     break;
                 case RES_COMPRESSED:
-                    version = "RES " + bytes[14];
+                    byte versionByte;
+                    // there are two possible locations of the version for compressed res, probe the format in a dirty way :P
+                    if (bytes[COMPRESSED_RES_HEADER_OFFSET + 2] == 0x52 &&
+                            bytes[COMPRESSED_RES_HEADER_OFFSET + 3] == 0x45 &&
+                            bytes[COMPRESSED_RES_HEADER_OFFSET + 4] == 0x53) {
+                        versionByte = bytes[14];
+                    } else {
+                        versionByte = bytes[18];
+                    }
+                    version = "RES " + (versionByte & 0xff);
                     break;
                 case FONT:
                     version = "FONT " + bytes[4];
@@ -167,9 +176,7 @@ public abstract class HuamiFirmwareInfo {
     }
 
     /**
-     * Returns the size of the firmware in number of bytes.
-     *
-     * @return
+     * @return the size of the firmware in number of bytes.
      */
     public int getSize() {
         return bytes.length;
