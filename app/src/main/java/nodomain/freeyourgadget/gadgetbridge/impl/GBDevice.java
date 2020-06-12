@@ -22,6 +22,10 @@ import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,9 +34,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
@@ -153,12 +154,20 @@ public class GBDevice implements Parcelable {
         }
     }
 
+
     public String getName() {
         return mName;
     }
 
     public String getAlias() {
         return mAlias;
+    }
+
+    public String getAliasOrName() {
+        if (mAlias != null && !mAlias.equals("")) {
+            return mAlias;
+        }
+        return mName;
     }
 
     public void setName(String name) {

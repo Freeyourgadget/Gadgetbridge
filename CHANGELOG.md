@@ -8,6 +8,7 @@
 * Amazfit Bip S: remove disconnect notification and button action settings (they do not work)
 * Fossil Hybrid HR: Add last notification widget
 * Try to fix vanishing incoming call information when VoIP call support is enabled
+* Allow setting device aliases (useful if you manage multiple ones of the same type)
 
 #### Version 0.44.1
 * Amazfit Bip S: Support setting shortcuts

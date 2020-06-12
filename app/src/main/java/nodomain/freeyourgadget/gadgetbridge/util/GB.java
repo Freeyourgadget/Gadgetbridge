@@ -91,7 +91,7 @@ public class GB {
     }
 
     public static Notification createNotification(GBDevice device, Context context) {
-        String deviceName = device.getName();
+        String deviceName = device.getAliasOrName();
         String text = device.getStateString();
         if (device.getBatteryLevel() != GBDevice.BATTERY_UNKNOWN) {
             text += ": " + context.getString(R.string.battery) + " " + device.getBatteryLevel() + "%";
