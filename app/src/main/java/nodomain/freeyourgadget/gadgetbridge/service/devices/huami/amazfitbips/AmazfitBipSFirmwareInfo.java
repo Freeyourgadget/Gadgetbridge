@@ -19,12 +19,16 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbips;
 import java.util.HashMap;
 import java.util.Map;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband4.MiBand4FirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class AmazfitBipSFirmwareInfo extends HuamiFirmwareInfo {
 
@@ -36,13 +40,29 @@ public class AmazfitBipSFirmwareInfo extends HuamiFirmwareInfo {
 
     @Override
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
-        //FW "header" looks like Mi Band 4
-        if (ArrayUtils.equals(bytes, MiBand4FirmwareInfo.FW_HEADER, MiBand4FirmwareInfo.FW_HEADER_OFFSET)) {
-            if (searchString32BitAligned(bytes, "Amazfit Bip S")) {
-                return HuamiFirmwareType.FIRMWARE;
+
+        GBDevice device = GBApplication.app().getDeviceManager().getSelectedDevice();
+
+        if (device != null) {
+            if (device.getFirmwareVersion().startsWith("2.")) {
+                //For devices on firmware 2.x it is a tonleasp device and needs a header which looks like Mi Band 4
+                if (ArrayUtils.equals(bytes, MiBand4FirmwareInfo.FW_HEADER, MiBand4FirmwareInfo.FW_HEADER_OFFSET)) {
+                    if (searchString32BitAligned(bytes, "Amazfit Bip S")) {
+                        return HuamiFirmwareType.FIRMWARE;
+                    }
+                    return HuamiFirmwareType.INVALID;
+                }
+            } else if (device.getFirmwareVersion().startsWith("4.")) {
+                //For devices on firmware 2.x it is a dth device and needs a header which looks like Bip
+                if (ArrayUtils.startsWith(bytes, AmazfitBipFirmwareInfo.FW_HEADER)) {
+                    if (searchString32BitAligned(bytes, "Amazfit Bip S")) {
+                        return HuamiFirmwareType.FIRMWARE;
+                    }
+                    return HuamiFirmwareType.INVALID;
+                }
             }
-            return HuamiFirmwareType.INVALID;
         }
+
         if (ArrayUtils.equals(bytes, NEWRES_HEADER, COMPRESSED_RES_HEADER_OFFSET)) {
             return HuamiFirmwareType.RES_COMPRESSED;
         }

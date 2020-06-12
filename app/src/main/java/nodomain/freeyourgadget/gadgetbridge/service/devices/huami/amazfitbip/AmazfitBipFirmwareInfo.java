@@ -55,7 +55,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
     };
 
     // this is the same as Cor
-    private static final byte[] FW_HEADER = new byte[]{
+    public static final byte[] FW_HEADER = new byte[]{
             0x00, (byte) 0x98, 0x00, 0x20, (byte) 0xA5, 0x04, 0x00, 0x20, (byte) 0xAD, 0x04, 0x00, 0x20, (byte) 0xC5, 0x04, 0x00, 0x20
     };
 
