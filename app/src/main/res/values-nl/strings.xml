@@ -901,4 +901,5 @@
     <string name="bip_prefs_shortcuts">Snelkoppelingen</string>
     <string name="pref_theme_system">Systeem</string>
     <string name="hr_widget_last_notification">Laatste melding</string>
+    <string name="controlcenter_set_alias">Stel alias in</string>
 </resources>
