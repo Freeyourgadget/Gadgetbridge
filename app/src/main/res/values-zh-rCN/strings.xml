@@ -899,4 +899,5 @@
     <string name="bip_prefs_shotcuts_summary">选择手环上显示的快捷方式</string>
     <string name="bip_prefs_shortcuts">快捷方式</string>
     <string name="hr_widget_last_notification">最近通知</string>
+    <string name="controlcenter_set_alias">设置别称</string>
 </resources>
