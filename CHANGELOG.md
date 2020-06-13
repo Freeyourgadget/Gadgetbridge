@@ -1,6 +1,6 @@
 ### Changelog
 
-#### Next
+#### 0.44.2
 * Huami: Support flashing newer GPS firmware and GPS ALM
 * Amazfit Bip S: Support music control
 * Amazfit Bip S: Support flashing firmware, res, gps firmware, watchfaces, fonts and GPS CEP

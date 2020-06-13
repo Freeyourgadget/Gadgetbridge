@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.44.2" versioncode="175">
+        <change>Huami: Support flashing newer GPS firmware and GPS ALM</change>
+        <change>Amazfit Bip S: Support music control</change>
+        <change>Amazfit Bip S: Support flashing firmware, res, gps firmware, watchfaces, fonts and GPS CEP</change>
+        <change>Amazfit Bip S: Allow setting high MTU (much faster firmware installation, default off since it does not work for some)</change>
+        <change>Amazfit Bip S: remove disconnect notification and button action settings (they do not work)</change>
+        <change>Mi Band 4 (possibly others): Fix detected RES version being always 69 for non-whitelisted res files</change>
+        <change>Fossil Hybrid HR: Add last notification widget</change>
+        <change>Try to fix vanishing incoming call information when VoIP call support is enabled</change>
+        <change>Allow setting device aliases (useful if you manage multiple ones of the same type)</change>
+    </release>
     <release version="0.44.1" versioncode="174">
         <change>Amazfit Bip S: Support setting shortcuts</change>
         <change>Amazfit Bip S: Fix setting display items</change>
