@@ -903,4 +903,5 @@
     <string name="bip_prefs_shotcuts_summary">נא לבחור את קיצורי הדרך על מסך הצמיד</string>
     <string name="bip_prefs_shortcuts">קיצורי דרך</string>
     <string name="hr_widget_last_notification">התראה אחרונה</string>
+    <string name="controlcenter_set_alias">הגדרת כינוי</string>
 </resources>
