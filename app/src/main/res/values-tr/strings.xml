@@ -918,4 +918,6 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="menuitem_unknown">Bilinmeyen</string>
     <string name="bip_prefs_shotcuts_summary">Band Ekranı üzerindeki KısaYolları seçin</string>
     <string name="bip_prefs_shortcuts">KısaYollar</string>
+    <string name="hr_widget_last_notification">Son bildirim</string>
+    <string name="controlcenter_set_alias">Takma Ad Ayarla</string>
 </resources>
