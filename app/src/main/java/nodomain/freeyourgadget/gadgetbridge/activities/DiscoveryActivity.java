@@ -482,7 +482,12 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             LOG.warn("newLeScanCallback == null!");
             return;
         }
-        bluetoothLeScanner.stopScan(newLeScanCallback);
+        try {
+            bluetoothLeScanner.stopScan(newLeScanCallback);
+        } catch (NullPointerException e) {
+            LOG.warn("Internal NullPointerException when stopping the scan!");
+            return;
+        }
     }
 
     private void bluetoothStateChanged(int newState) {
