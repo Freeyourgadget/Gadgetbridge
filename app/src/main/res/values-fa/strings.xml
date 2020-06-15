@@ -14,7 +14,7 @@
     <string name="controlcenter_connect">اتصال…</string>
     <string name="controlcenter_disconnect">قطع</string>
     <string name="controlcenter_delete_device">پاک کردن دستگاه</string>
-    <string name="controlcenter_delete_device_name">پاک کردن %1$‌ها</string>
+    <string name="controlcenter_delete_device_name">پاک کردن %1$s‌ها</string>
     <string name="controlcenter_delete_device_dialogmessage">این اقدام دستگاه و تمام اطلاعات مربوط را پاک خواهد کرد!</string>
     <string name="controlcenter_navigation_drawer_open">باز کردن نوار منو</string>
     <string name="controlcenter_navigation_drawer_close">بستن نوار منو</string>
