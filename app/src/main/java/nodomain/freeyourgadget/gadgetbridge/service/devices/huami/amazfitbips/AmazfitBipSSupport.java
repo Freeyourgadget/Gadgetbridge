@@ -55,7 +55,7 @@ public class AmazfitBipSSupport extends AmazfitBipSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
-        super.sendNotificationNew(notificationSpec, true);
+        super.sendNotificationNew(notificationSpec, true, 512);
     }
 
     @Override

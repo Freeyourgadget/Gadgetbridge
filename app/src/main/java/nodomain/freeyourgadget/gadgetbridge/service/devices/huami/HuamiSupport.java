@@ -609,6 +609,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
      This works on all Huami devices except Mi Band 2
      */
     protected void sendNotificationNew(NotificationSpec notificationSpec, boolean hasExtraHeader) {
+        sendNotificationNew(notificationSpec, hasExtraHeader, 230);
+    }
+    protected void sendNotificationNew(NotificationSpec notificationSpec, boolean hasExtraHeader, int maxLength) {
         if (notificationSpec.type == NotificationType.GENERIC_ALARM_CLOCK) {
             onAlarmClock(notificationSpec);
             return;
@@ -621,7 +624,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             message += StringUtils.truncate(notificationSpec.subject, 128) + "\n\n";
         }
         if (notificationSpec.body != null) {
-            message += StringUtils.truncate(notificationSpec.body, 128);
+            message += StringUtils.truncate(notificationSpec.body, 512);
         }
 
         try {
@@ -639,7 +642,6 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 alertCategory = AlertCategory.Email;
             }
 
-            int maxLength = 230;
             if (characteristicChunked != null) {
                 int prefixlength = 2;
 
