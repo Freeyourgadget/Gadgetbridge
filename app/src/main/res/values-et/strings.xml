@@ -487,4 +487,12 @@
 \n 
 \nJÄTKATE OMAL VASTUTUSEL!</string>
     <string name="pref_theme_system">Süsteem</string>
+    <string name="pref_rtl_max_line_length_summary">Pikendab või lühendab read paremalt vasakule teksti osadeks</string>
+    <string name="fw_upgrade_notice_miband4">Olete installimas %s püsivara enda Mi Band 4\'ile. 
+\n 
+\nVeenduge, et installida .fw faili ja pärast seda .res faili. Teie bänd taaskäivitub pärast .fw faili installimist. 
+\n
+\nMärkus: sa ei pea installima .res, kui see on täpselt sama, mis varem installeeritud. 
+\n
+\nJÄTKAKE OMAL VASTUTUSEL!</string>
 </resources>
