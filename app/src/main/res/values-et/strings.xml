@@ -502,4 +502,7 @@
     <string name="pref_title_expose_hr">Kolmandate osapoolte juurdepääs reaalajas HR-ile</string>
     <string name="pref_summary_expose_hr">Võimaldab teistel rakendustel juurdepääsu HR-andmetele reaalajas, kui Gadgetbridge on ühendatud</string>
     <string name="pref_summary_use_custom_font">Lülitage see sisse, kui seadmel on emoji font paigaldatud</string>
+    <string name="pref_summary_authkey">Muutke autentimisnupp tavaliseks võtmeks kõigis oma Androidi seadmetes, millest soovite ühenduse luua. Kõigi seadmete eelmine vaikevõti on 0123456789@ABCDE</string>
+    <string name="pref_summary_allow_high_mtu">Suurendab edastuskiirust, kuid mõnes Androidi seadmes see ei pruugi töötada.</string>
+    <string name="pref_title_allow_high_mtu">Luba kõrge MTU</string>
 </resources>
