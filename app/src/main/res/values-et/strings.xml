@@ -507,4 +507,5 @@
     <string name="pref_title_allow_high_mtu">Luba kõrge MTU</string>
     <string name="pref_summary_disable_new_ble_scanning">Lülitage see valik sisse, kui teie seadet ei leita skanneerimise ajal</string>
     <string name="pref_disable_new_ble_scanning">Ära luba uut tüüpi BLE skanneerimist</string>
+    <string name="pairing_already_bonded">Juba ühendatud % 1 $ s (% 2 $ s), ühendades ...</string>
 </resources>
