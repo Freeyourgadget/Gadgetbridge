@@ -70,7 +70,7 @@
     <string name="pref_default">Vaikeväärtus</string>
     <string name="pref_header_datetime">Kuupäev ja kellaaeg</string>
     <string name="pref_title_datetime_syctimeonconnect">Sünkrooni aega</string>
-    <string name="pref_summary_datetime_syctimeonconnect">"Sünkrooni aeg seadmega ühendumise ajal või kui Androidis aeg või ajatsoon muutub "</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Sünkrooni seadme aeg ühendumise ajal või siis kui Androidis aeg või ajatsoon muutub</string>
     <string name="miband_firmware_suggest_whitelist">Kui te siiski soovite jätkata ja seade jätkab tööd ka hiljem palun andke Gadgetbridge\'i arendajatele teada, et nad lisaksid %s versiooni toetatud püsivarade nimekirja.</string>
     <string name="pref_title_charts_swipe">Luba viiped vasakule/paremale graafikute vaates</string>
     <string name="pref_title_theme">Teema</string>
@@ -507,5 +507,5 @@
     <string name="pref_title_allow_high_mtu">Luba kõrge MTU</string>
     <string name="pref_summary_disable_new_ble_scanning">Lülitage see valik sisse, kui teie seadet ei leita skanneerimise ajal</string>
     <string name="pref_disable_new_ble_scanning">Ära luba uut tüüpi BLE skanneerimist</string>
-    <string name="pairing_already_bonded">Juba ühendatud % 1 $ s (% 2 $ s), ühendades ...</string>
+    <string name="pairing_already_bonded">Juba paaritatud %1$s (%2$s), ühendan…</string>
 </resources>
