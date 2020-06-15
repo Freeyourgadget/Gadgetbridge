@@ -469,7 +469,7 @@
 \n 
 \nMärkus: .res ja .gps faili ei pea paigaldama, kui tegu on samade failidega, mis olid eelmisel uuendusel. 
 \n 
-\nJÄTKAKE OMAL VASTUTUSEL!</string>
+\nJÄTKATE OMAL VASTUTUSEL!</string>
     <string name="fw_upgrade_notice_amazfitcor2">Olete paigaldamas %s püsivara enda Amazfit Cor 2-le. 
 \n 
 \nPalun veenduge, et enne paigaldate .fw faili ja pärast seda .res faili. Teie kell taaskäivitub pärast .fw faili paigaldust. 
@@ -499,6 +499,7 @@
     <string name="pref_summary_pebble_enable_applogs">Logi kellarakenduste väljundit (vajab taasühendamist)</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Märgi sõnumid kolmandate osapoolte rakendustele alati koheselt kättesaaduks</string>
     <string name="pref_title_pebble_always_ack_pebblekit">Märgi PebbleKit sõnumid enneaegselt kättesaaduks</string>
-    <string name="pref_title_expose_hr">Kolmanda osapoole juurdepääs reaalajas HR-ile</string>
+    <string name="pref_title_expose_hr">Kolmandate osapoolte juurdepääs reaalajas HR-ile</string>
     <string name="pref_summary_expose_hr">Võimaldab teistel rakendustel juurdepääsu HR-andmetele reaalajas, kui Gadgetbridge on ühendatud</string>
+    <string name="pref_summary_use_custom_font">Lülitage see sisse, kui seadmel on emoji font paigaldatud</string>
 </resources>
