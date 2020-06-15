@@ -168,7 +168,7 @@
     <string name="controlcenter_change_led_color">Muuda LED värvi</string>
     <string name="controlcenter_change_fm_frequency">Muuda FM sagedus</string>
     <string name="debugactivity_really_factoryreset_title">Kas taastada algseaded\?</string>
-    <string name="debugactivity_really_factoryreset">Alseadete taastamine kustutab kõik andmed ühendatud seadmetest (kui see on toetatud). Xiaomi/Huami seadmed muudavad ka Bluetooth MAC aadressi ja Gadgetbrige tuvastab need uute seadmetena.</string>
+    <string name="debugactivity_really_factoryreset">Algseadete taastamine kustutab kõik andmed ühendatud seadmetest endist (kui võimalik). Xiaomi/Huami seadmed muudavad ka Bluetooth MAC aadressi ja Gadgetbridge tuvastab need edaspidi uute seadmetena.</string>
     <string name="pref_title_support_voip_calls">Luba VoIP rakenduse kõned</string>
     <string name="pref_title_rtl">Paremalt vasakule</string>
     <string name="pref_summary_rtl">Luba see, kui seade ei saa kuvada paremalt vasakule keeli</string>
@@ -455,4 +455,5 @@
     <string name="pref_chart_heartrate_color_orange">Oraanž</string>
     <string name="pref_title_chart_heartrate_color">Pulsi värv</string>
     <string name="pref_chart_sleep_rolling_24_on">Viimased 24 tundi</string>
+    <string name="controlcenter_set_alias">Sea kuvatav nimi</string>
 </resources>
