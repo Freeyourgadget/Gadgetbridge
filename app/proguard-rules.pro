@@ -32,3 +32,6 @@
 -keep class **$Properties
 
 -keep class **$Properties { *; }
+
+# Keep dependency android-emojify (io.wax911.emojify) uses
+-keep class org.hamcrest.** { *; }
