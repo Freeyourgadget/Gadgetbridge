@@ -673,6 +673,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
                 byte[] rawmessage = message.getBytes();
                 int length = Math.min(rawmessage.length, maxLength - prefixlength);
+                if (length < rawmessage.length) {
+                    length = StringUtils.utf8ByteLength(message, length);
+                }
 
                 byte[] command = new byte[length + prefixlength + suffixlength];
                 int pos = 0;

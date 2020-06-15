@@ -17,6 +17,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.StandardCharsets;
+
 import androidx.annotation.NonNull;
 
 public class StringUtils {
@@ -35,6 +39,16 @@ public class StringUtils {
         }
 
         return s.substring(0, length);
+    }
+
+    public static int utf8ByteLength(String string, int length) {
+        if (string == null) {
+            return 0;
+        }
+        ByteBuffer outBuf = ByteBuffer.allocate(length);
+        CharBuffer inBuf = CharBuffer.wrap(string.toCharArray());
+        StandardCharsets.UTF_8.newEncoder().encode(inBuf, outBuf, true);
+        return outBuf.position();
     }
 
     public static String pad(String s, int length){
