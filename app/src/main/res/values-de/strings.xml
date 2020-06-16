@@ -907,4 +907,5 @@
     <string name="menuitem_unknown">Unbekannt</string>
     <string name="bip_prefs_shortcuts">Verknüpfungen</string>
     <string name="hr_widget_last_notification">Letzte Benachrichtigung</string>
+    <string name="controlcenter_set_alias">Alias setzen</string>
 </resources>
