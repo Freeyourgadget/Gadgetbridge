@@ -845,4 +845,12 @@
     <string name="pref_summary_custom_deviceicon">Mostrar un icono de notificación de Android específico del dispositivo en lugar del icono de Gadgetbridge cuando esté conectado</string>
     <string name="pref_title_custom_deviceicon">Mostrar icono de notificación específica del dispositivo</string>
     <string name="pref_theme_system">Sistema</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_misscall">Repetir cada X minutos</string>
+    <string name="pref_summary_notifications_and_calls_enable_misscall">Repetir a cada minuto</string>
+    <string name="pref_notifications_and_calls_enable_misscall">Notificar llamada perdida</string>
+    <string name="prefs_notifications_and_calls_continious_ring">Notificaciones durante llamada entrante</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_call">Repetir Notificacion de Llamada</string>
+    <string name="pref_header_notifications_and_calls">Llamadas y Notificaciones</string>
+    <string name="title_activity_LenovoWatch_calibration">Calibracion Watch X Plus</string>
+    <string name="controlcenter_set_alias">Establecer Alias</string>
 </resources>
