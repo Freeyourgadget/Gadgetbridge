@@ -281,7 +281,8 @@ public class NotificationListener extends NotificationListenerService {
         Prefs prefs = GBApplication.getPrefs();
         if (GBApplication.isRunningLollipopOrLater()) {
             if (NotificationCompat.CATEGORY_CALL.equals(sbn.getNotification().category)
-                    && prefs.getBoolean("notification_support_voip_calls", false)) {
+                    && prefs.getBoolean("notification_support_voip_calls", false)
+                    && sbn.isOngoing()) {
                 handleCallNotification(sbn);
                 return;
             }
