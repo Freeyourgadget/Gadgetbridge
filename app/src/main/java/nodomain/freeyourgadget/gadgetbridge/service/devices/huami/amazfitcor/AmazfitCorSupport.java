@@ -35,6 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor.AmazfitCorFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor.AmazfitCorService;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
 
@@ -83,6 +84,14 @@ public class AmazfitCorSupport extends AmazfitBipSupport {
         }
 
         return this;
+    }
+
+    @Override
+    public void onSetMusicState(MusicStateSpec stateSpec) {
+        if (stateSpec != null && !stateSpec.equals(bufferMusicStateSpec)) {
+            sendMusicStateToDevice(null, stateSpec);
+            bufferMusicStateSpec = stateSpec;
+        }
     }
 
     @Override

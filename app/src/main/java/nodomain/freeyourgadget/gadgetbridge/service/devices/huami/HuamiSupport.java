@@ -842,7 +842,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         sendMusicStateToDevice(bufferMusicSpec, bufferMusicStateSpec);
     }
 
-    private void sendMusicStateToDevice(MusicSpec musicSpec, MusicStateSpec musicStateSpec) {
+    protected void sendMusicStateToDevice(MusicSpec musicSpec, MusicStateSpec musicStateSpec) {
         if (characteristicChunked == null) {
             return;
         }
