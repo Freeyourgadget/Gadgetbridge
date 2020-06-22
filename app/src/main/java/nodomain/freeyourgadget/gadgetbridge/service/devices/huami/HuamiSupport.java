@@ -812,9 +812,10 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
         if (stateSpec != null && !stateSpec.equals(bufferMusicStateSpec)) {
             bufferMusicStateSpec = stateSpec;
-            sendMusicStateToDevice();
+            if (isMusicAppStarted) {
+                sendMusicStateToDevice(null, bufferMusicStateSpec);
+            }
         }
-
     }
 
     @Override
@@ -826,53 +827,58 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
         if (musicSpec != null && !musicSpec.equals(bufferMusicSpec)) {
             bufferMusicSpec = musicSpec;
+            if (bufferMusicStateSpec != null) {
+                bufferMusicStateSpec.state = 0;
+                bufferMusicStateSpec.position = 0;
+            }
             if (isMusicAppStarted) {
-                sendMusicStateToDevice();
+                sendMusicStateToDevice(bufferMusicSpec, bufferMusicStateSpec);
             }
         }
-
     }
 
 
-    protected void sendMusicStateToDevice() {
+    private void sendMusicStateToDevice() {
+        sendMusicStateToDevice(bufferMusicSpec, bufferMusicStateSpec);
+    }
+
+    private void sendMusicStateToDevice(MusicSpec musicSpec, MusicStateSpec musicStateSpec) {
         if (characteristicChunked == null) {
             return;
         }
-        if (bufferMusicSpec == null || bufferMusicStateSpec == null) {
-            try {
-                TransactionBuilder builder = performInitialized("send dummy playback info to enable music controls");
-                writeToChunked(builder, 3, new byte[]{1, 0, 1, 0, 0, 0, 1, 0});
-                builder.queue(getQueue());
-            } catch (IOException e) {
-                LOG.error("Unable to send dummy music controls");
-            }
+
+        if (musicStateSpec == null) {
             return;
         }
 
         byte flags = 0x00;
         flags |= 0x01;
-        int length = 8;
-        if (bufferMusicSpec.track != null && bufferMusicSpec.track.getBytes().length > 0) {
-            length += bufferMusicSpec.track.getBytes().length + 1;
-            flags |= 0x02;
-        }
-        if (bufferMusicSpec.album != null && bufferMusicSpec.album.getBytes().length > 0) {
-            length += bufferMusicSpec.album.getBytes().length + 1;
-            flags |= 0x04;
-        }
-        if (bufferMusicSpec.artist != null && bufferMusicSpec.artist.getBytes().length > 0) {
-            length += bufferMusicSpec.artist.getBytes().length + 1;
-            flags |= 0x08;
+        int length = 5;
+        if (musicSpec != null) {
+            if (musicSpec.artist != null && musicSpec.artist.getBytes().length > 0) {
+                length += musicSpec.artist.getBytes().length + 1;
+                flags |= 0x02;
+            }
+            if (musicSpec.album != null && musicSpec.album.getBytes().length > 0) {
+                length += musicSpec.album.getBytes().length + 1;
+                flags |= 0x04;
+            }
+            if (musicSpec.track != null && musicSpec.track.getBytes().length > 0) {
+                length += musicSpec.track.getBytes().length + 1;
+                flags |= 0x08;
+            }
+            if (musicSpec.duration != 0) {
+                length += 2;
+                flags |= 0x10;
+            }
         }
 
-
-//        LOG.info("Music flags are: " + (flags & 0xff));
         try {
             ByteBuffer buf = ByteBuffer.allocate(length);
             buf.order(ByteOrder.LITTLE_ENDIAN);
             buf.put(flags);
             byte state;
-            switch (bufferMusicStateSpec.state) {
+            switch (musicStateSpec.state) {
                 case MusicStateSpec.STATE_PLAYING:
                     state = 1;
                     break;
@@ -881,24 +887,26 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             }
 
             buf.put(state);
-            buf.put(new byte[]{0x1, 0x0, 0x0, 0x0}); //unknown
-            buf.put(new byte[]{0x1,0x0}); //show track
-//            buf.put(new byte[]{0x1,0x1}); //show album
+            buf.put((byte) 0);
+            buf.putShort((short) musicStateSpec.position);
 
-
-            if (bufferMusicSpec.track != null && bufferMusicSpec.track.getBytes().length > 0) {
-                buf.put(bufferMusicSpec.track.getBytes());
-                buf.put((byte) 0);
+            if (musicSpec != null) {
+                if (musicSpec.artist != null && musicSpec.artist.getBytes().length > 0) {
+                    buf.put(musicSpec.artist.getBytes());
+                    buf.put((byte) 0);
+                }
+                if (musicSpec.album != null && musicSpec.album.getBytes().length > 0) {
+                    buf.put(musicSpec.album.getBytes());
+                    buf.put((byte) 0);
+                }
+                if (musicSpec.track != null && musicSpec.track.getBytes().length > 0) {
+                    buf.put(musicSpec.track.getBytes());
+                    buf.put((byte) 0);
+                }
+                if (musicSpec.duration != 0) {
+                    buf.putShort((short) musicSpec.duration);
+                }
             }
-            if (bufferMusicSpec.album != null && bufferMusicSpec.album.getBytes().length > 0) {
-                buf.put(bufferMusicSpec.album.getBytes());
-                buf.put((byte) 0);
-            }
-            if (bufferMusicSpec.artist != null && bufferMusicSpec.artist.getBytes().length > 0) {
-                buf.put(bufferMusicSpec.artist.getBytes());
-                buf.put((byte) 0);
-            }
-
 
             TransactionBuilder builder = performInitialized("send playback info");
             writeToChunked(builder, 3, buf.array());
@@ -907,9 +915,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         } catch (IOException e) {
             LOG.error("Unable to send playback state");
         }
-
-//        LOG.info("Sent music: " + bufferMusicSpec.toString() + " " + bufferMusicStateSpec.toString());
-
+        LOG.info("sendMusicStateToDevice: " + musicSpec + " " + musicStateSpec);
     }
 
     @Override
