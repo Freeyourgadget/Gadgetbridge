@@ -407,9 +407,9 @@ Temps de sommeil préféré en heures</string>
     <string name="discovery_dont_pair">Ne pas appairer</string>
     <string name="fw_upgrade_notice_amazfitbip">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Bip. 
 \n 
-\nVeuillez installer le fichier .fw, puis le fichier .res, puis le fichier.gps.. Votre montre redémarrera après installation du .fw. 
+\nVeuillez installer le fichier .fw, puis le fichier .res, et enfin le fichier .gps. Votre montre redémarrera après l\'installation du .fw. 
 \n 
-\nNote : vous ne devez pas installer les fichiers .res et .gps si ceux-ci sont identiques à ceux installés précédemment. 
+\nNote : vous n\'avez pas à installer les fichiers .res et .gps si ceux-ci sont identiques à ceux installés précédemment. 
 \n 
 \nCONTINUEZ À VOS RISQUES ET PÉRILS !</string>
     <string name="mi2_prefs_button_actions">Actions du bouton</string>
@@ -432,12 +432,12 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_title_pebble_enable_bgjs">Activer tâche de fond JS</string>
     <string name="pref_summary_pebble_enable_bgjs">Si activé, autorise l\'affichage de la météo, niveau de batterie, etc.</string>
     <string name="activity_web_view">Activité Web View</string>
-    <string name="controlcenter_connect">Connexion…</string>
+    <string name="controlcenter_connect">Connecter…</string>
     <string name="fw_upgrade_notice_amazfitcor">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Cor. 
 \n 
-\nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après installation du .fw. 
+\nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après l\'installation du .fw. 
 \n 
-\nNote : vous ne devez pas installer .res si celui-ci est identique à celui installé précédemment. 
+\nNote : vous n\'avez pas à installer le .res si celui-ci est identique à celui installé précédemment. 
 \n 
 \nCONTINUEZ À VOS RISQUES ET PÉRILS !</string>
     <string name="pref_title_charts_swipe">Permettre le balayage gauche/droite dans les graphiques d\'activité</string>
@@ -512,13 +512,13 @@ Temps de sommeil préféré en heures</string>
     <string name="menuitem_alipay">Alipay</string>
     <string name="blacklist_all_for_notifications">Mettre toutes les notifications en liste noire</string>
     <string name="whitelist_all_for_notifications">Mettre toutes les notifications en liste blanche</string>
-    <string name="fw_upgrade_notice_miband3">Vous allez installer le micrologiciel %s dans votre Mi Band 3. 
+    <string name="fw_upgrade_notice_miband3">Vous allez installer le micrologiciel %s dans votre Mi Band 3.
+\n
+\nVeuillez installer le fichier .fw, puis le fichier .res.. Votre bracelet redémarrera après l\'installation du fichier .fw.
 \n 
-\nAssurez-vous d\'installer d\'abord le fichier .fw, et ensuite le fichiers .res. Votre bracelet redémarrera après l\'installation du fichiers .fw. 
+\nNote : vous n\'avez pas à installer le fichier .res si celui-ci est exactement le même que celui installé précédemment.
 \n 
-\nRemarque : Vous n\'avez pas besoin d\'installer le fichier .res si c\'est exactement le même que celui déjà installé. 
-\n 
-\nÀ VOS RISQUES ET PÉRILS ET PÉRILS !</string>
+\nCONTINUEZ À VOS RISQUES ET PÉRILS !</string>
     <string name="pref_title_pebble_gatt_clientonly">client GATT uniquement</string>
     <string name="pref_summary_pebble_gatt_clientonly">Pour Pebble 2 seulement et expérimental, essayez seulement si vous avez des problèmes de connexion</string>
     <string name="prefs_screen_orientation">Orientation de l\'écran</string>
@@ -538,7 +538,7 @@ Temps de sommeil préféré en heures</string>
     <string name="menuitem_notifications">Notifications</string>
     <string name="menuitem_music">Musique</string>
     <string name="menuitem_more">Suite</string>
-    <string name="controlcenter_change_led_color">Changer la couleur de la DEL</string>
+    <string name="controlcenter_change_led_color">Changer la couleur de la LED</string>
     <string name="controlcenter_change_fm_frequency">Changer la fréquence FM</string>
     <string name="controlcenter_calibrate_device">Calibrer l\'appareil</string>
     <string name="pref_title_notifications_timeout">Durée minimum entre deux notifications</string>
@@ -601,8 +601,8 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_roidmi3">Roidmi 3</string>
     <string name="pref_title_contextual_arabic">Arabe contextuel</string>
     <string name="pref_summary_contextual_arabic">Activer ceci pour prendre en charge l\'arabe contextuel</string>
-    <string name="debugactivity_really_factoryreset_title">Vraiment retourner aux paramètres d\'usine \?</string>
-    <string name="debugactivity_really_factoryreset">Une réinitialisation effacera toutes les données de l\'appareil connecté (si supporté). Les appareils Xiaomi/Huami modifient également l\'adresse MAC Bluetooth, de sorte qu\'ils apparaissent comme de nouveaux appareils dans Gadgetbridge.</string>
+    <string name="debugactivity_really_factoryreset_title">Êtes-vous sûr de vouloir retourner aux paramètres d\'usine \?</string>
+    <string name="debugactivity_really_factoryreset">Une réinitialisation effacera toutes les données de l\'appareil connecté (si supporté). Les appareils Xiaomi/Huami modifient également l\'adresse MAC Bluetooth, ainsi ils apparaîtront comme nouveau dans Gadgetbridge.</string>
     <string name="mi3_prefs_band_screen_unlock">Déverrouillage de l\'écran du Band</string>
     <string name="activity_type_exercise">Activité physique</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
@@ -697,13 +697,13 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_rtl_max_line_length_summary">Allonge ou raccourcis les lignes dans les textes écrits de droite à gauche</string>
     <string name="zetime_handmove_display">Mouvement de la main</string>
     <string name="devicetype_miband4">Mi Band 4</string>
-    <string name="fw_upgrade_notice_miband4">Vous êtes sur le point d\'installer le firmware %s sur votre Mi Band 4. 
+    <string name="fw_upgrade_notice_miband4">Vous êtes sur le point d\'installer le firmware %s sur votre Mi Band 4.
+\n
+\nVeuillez installer le fichier .fw, puis le fichier .res. Votre bracelet redémarrera après l\'installation du fichier .fw.
 \n 
-\nVeuillez vous assurez d\'installer le fichier .fw, et après que le fichier .res. Votre bracelet redémarrera après l\'installation du fichier .fw. 
+\nRemarque : Vous n\'avez pas à installer le .res s\'il est exactement le même que celui installé précédemment.
 \n 
-\nRemarque : Vous n\'avez pas à installer .res s\'il est exactement le même que celui précédemment installé. 
-\n 
-\nÀ VOS RISQUES ET PÉRILS ET PÉRILS !</string>
+\nCONTINUEZ À VOS RISQUES ET PÉRILS !</string>
     <string name="prefs_hr_alarm_activity">Alarme de la fréquence cardiaque durant une activité sportive</string>
     <string name="prefs_hr_alarm_low">Limite basse</string>
     <string name="prefs_hr_alarm_high">Limite haute</string>
@@ -762,21 +762,21 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_chart_heartrate_color_orange">Orange</string>
     <string name="pref_chart_sleep_rolling_24_on">Dernières 24 heures</string>
     <string name="pref_chart_sleep_rolling_24_off">De midi à midi</string>
-    <string name="fw_upgrade_notice_amazfitbip_lite">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Bip Lite.
-\n
-\nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après installation du fichier .fw.
-\n
-\nNote : vous n\'avez pas à installer le fichier .res si c\'est exactement le même que celui installé précédemment.
-\n
+    <string name="fw_upgrade_notice_amazfitbip_lite">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Bip Lite. 
+\n 
+\nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après l\'installation du .fw. 
+\n 
+\nNote : vous n\'avez pas à installer le fichier .res si c\'est exactement le même que celui installé précédemment. 
+\n 
 \nÀ VOS RISQUES ET PÉRILS !</string>
     <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
     <string name="fw_upgrade_notice_amazfitgtr">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit GTR. 
 \n 
 \nVeuillez installer le fichier .fw, puis le fichier .res et enfin le fichier .gps. Votre montre redémarrera après installation du fichier .fw. 
 \n 
-\nNote : vous n\'avez pas à installer les fichiers .res et .gps s\'ils sont exactement les mêmes que ceux installés précédemment. 
+\nNote : vous n\'avez pas à installer les fichiers .res et .gps si ceux-ci sont exactement les mêmes que ceux installés précédemment. 
 \n 
-\nÀ VOS RISQUES ET PÉRILS ET PÉRILS !</string>
+\nCONTINUEZ À VOS RISQUES ET PÉRILS ET PÉRILS !</string>
     <string name="pref_title_chart_heartrate_color">Couleur du rythme cardiaque</string>
     <string name="pref_title_chart_sleep_rolling_24_hour">Plage de sommeil</string>
     <string name="devicetype_amazfit_gts">Amazfit GTS</string>
@@ -786,7 +786,7 @@ Temps de sommeil préféré en heures</string>
 \n 
 \nNote : vous n\'avez pas à installer les fichiers .res et .gps s\'ils sont exactement les mêmes que ceux installés précédemment. 
 \n 
-\nÀ VOS RISQUES ET PÉRILS ET PÉRILS !</string>
+\nCONTINUEZ À VOS RISQUES ET PÉRILS !</string>
     <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
     <string name="preferences_qhybrid_settings">Paramètres hybrides Q</string>
     <string name="watch_not_connected">Montre non connectée</string>
@@ -870,7 +870,7 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_title_sensors_altitude">Calibrage de l\'altitude</string>
     <string name="pref_header_sensors_calibration">Calibrage du capteur</string>
     <string name="pref_title_device_spec_settings_force_time">Forcer l\'heure de synchronisation</string>
-    <string name="pref_header_device_spec_settings">Paramètres du périphérique</string>
+    <string name="pref_header_device_spec_settings">Paramètres de l\'appareil</string>
     <string name="prefs_notifications_and_calls_shake_reject">Secouer le poignet pour ignorer/rejeter un appel</string>
     <string name="pref_summary_notifications_and_calls_title_reject">Désactivé – ignorer, Activé – rejeter</string>
     <string name="prefs_notifications_and_calls_reject">Bouton ignorer/rejeter l\'appel</string>
@@ -881,4 +881,15 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_title_notifications_and_calls_repeat_on_call">Répéter la notification d\'appel</string>
     <string name="pref_header_notifications_and_calls">Notifications et appels</string>
     <string name="pref_theme_system">Système</string>
+    <string name="pref_summary_device_spec_settings_title_force_time">Forcer la synchronisation dès la reconnexion. Les montres analogiques peuvent montrer une heure incorrecte !</string>
+    <string name="pref_summary_notifications_and_calls_title_shake_reject">Action du bouton en doublons</string>
+    <string name="hr_widget_last_notification">Dernière notification</string>
+    <string name="pref_qhybrid_save_raw_activity_files">Enregistrer les données RAW (brutes) des activités</string>
+    <string name="menuitem_unknown">Inconnu</string>
+    <string name="bip_prefs_shotcuts_summary">Choisir les éléments apparaissant dans le menu</string>
+    <string name="bip_prefs_shortcuts">Éléments du menu</string>
+    <string name="power_mode_watch">Seulement l\'heure</string>
+    <string name="power_mode_title">Mode d\'alimentation de la montre</string>
+    <string name="pref_title_device_spec_settings_show_raw_graph">Montrer les données RAW (brutes) sur le graphique d\'activité</string>
+    <string name="controlcenter_set_alias">Définir un alias</string>
 </resources>
