@@ -45,6 +45,7 @@ public enum DeviceType {
     AMAZFITGTS(19, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_amazfit_gts),
     AMAZFITBIPS(20, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_amazfit_bips),
     AMAZFITGTR_LITE(21, R.drawable.ic_device_zetime, R.drawable.ic_device_zetime_disabled, R.string.devicetype_amazfit_gtr),
+    AMAZFITTREX(22, R.drawable.ic_device_zetime, R.drawable.ic_device_zetime_disabled, R.string.devicetype_amazfit_trex),
     LIVEVIEW(30, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_liveview),
     HPLUS(40, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_hplus),
     MAKIBESF68(41, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_makibes_f68),
