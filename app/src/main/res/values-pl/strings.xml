@@ -904,4 +904,6 @@
     <string name="menuitem_unknown">Nieznany</string>
     <string name="bip_prefs_shotcuts_summary">Wybierz skróty na ekranie zespołu</string>
     <string name="bip_prefs_shortcuts">Skróty</string>
+    <string name="hr_widget_last_notification">Ostatnie powiadomienie</string>
+    <string name="controlcenter_set_alias">Ustaw Alias</string>
 </resources>
