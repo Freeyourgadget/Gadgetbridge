@@ -911,4 +911,6 @@
     <string name="bip_prefs_shortcuts">Atalhos</string>
     <string name="hr_widget_last_notification">Última notificação</string>
     <string name="controlcenter_set_alias">Definir alias</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Você está prestes a instalar o firmware %s</string>
+    <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
 </resources>
