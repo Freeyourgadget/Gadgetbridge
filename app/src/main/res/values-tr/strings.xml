@@ -248,50 +248,50 @@
     <string name="french">French</string>
     <string name="fw_multi_upgrade_notice">Mevcut Mi Band cihazınıza %1$s ve %2$s için Firmware yüklemek üzeresiniz.</string>
     <string name="fw_upgrade_notice">%s yüklemek üzeresiniz.</string>
-    <string name="fw_upgrade_notice_amazfitbip">AmazFit Bip\'inize % S yazılımını yüklemek üzeresiniz. 
+    <string name="fw_upgrade_notice_amazfitbip">AmazFit Bip aygıtınıza %s ürün yazılımını yüklemek üzeresiniz. 
 \n 
 \nLütfen .fw dosyasını, ardından .res dosyasını ve son olarak .gps dosyasını yüklediğinizden emin olun. Saatiniz .fw dosyasını yükledikten sonra yeniden başlatılacak. 
 \n 
 \nNot: Bu dosyalar, daha önce yüklenenler ile aynıysa, .res ve .gps yüklemeniz gerekmez. 
 \n 
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
-    <string name="fw_upgrade_notice_amazfitbip_lite">AmazFit Bip lİTE üzerine %s Firmware yüklemek üzeresiniz.
-\n
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak.
-\n
-\nNote: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
-\n
-\nYÜKLEME RİSKİ RİZE AİTTİR!</string>
-    <string name="fw_upgrade_notice_amazfitcor">AmazFit Core üzerine %s Firmware yüklemek üzeresiniz.
-\n
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak.
-\n
-\nNot: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
-\n
-\nYÜKLEME RİSKİ RİZE AİTTİR!</string>
-    <string name="fw_upgrade_notice_amazfitcor2">AmazFit Core 2 üzerine %s Firmware yüklemek üzeresiniz. 
+    <string name="fw_upgrade_notice_amazfitbip_lite">AmazFit Bip Lite aygıtınıza %s ürün yazılımını yüklemek üzeresiniz. 
 \n 
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak. 
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra saatiniz yeniden başlatılacak. 
+\n 
+\nNote: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
+\n 
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
+    <string name="fw_upgrade_notice_amazfitcor">AmazFit Core aygıtınıza %s ürün yazılımını yüklemek üzeresiniz. 
+\n 
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra saatiniz yeniden başlatılacak. 
 \n 
 \nNot: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
 \n 
-\nYÜKLEME RİSKİ RİZE AİTTİR! 
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
+    <string name="fw_upgrade_notice_amazfitcor2">AmazFit Core 2 aygıtınıza %s ürün yazılımını yüklemek üzeresiniz. 
 \n 
-\n TAM OLARAK TEST EDİLMEMİŞTİR, CİHAZINIZIN İSMİ \"Amazfit Band 2\" İSE FLASLAMAK GEREKİR</string>
-    <string name="fw_upgrade_notice_amazfitgtr">AmazFit GTR üzerine %s Firmware yüklemek üzeresiniz. 
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra saatiniz yeniden başlatılacak. 
 \n 
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak. 
+\nNot: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
+\n 
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!
+\n 
+\n TAM OLARAK TEST EDİLMEMİŞTİR, AYGITINIZIN İSMİ \"Amazfit Band 2\" İSE BEATS_W ÜRÜN YAZILIMINI YÜKLEMENİZ GEREKEBİLİR</string>
+    <string name="fw_upgrade_notice_amazfitgtr">AmazFit GTR aygıtınıza %s ürün yazılımını yüklemek üzeresiniz. 
+\n 
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra saatiniz yeniden başlatılacak. 
 \n 
 \nNote: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
 \n 
-\nYÜKLEME RİSKİ RİZE AİTTİR!</string>
-    <string name="fw_upgrade_notice_amazfitgts">AmazFit GTS üzerine %s Firmware yüklemek üzeresiniz.
-\n
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak.
-\n
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
+    <string name="fw_upgrade_notice_amazfitgts">AmazFit GTS aygıtınıza %s ürün yazılımını yüklemek üzeresiniz. 
+\n 
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra saatiniz yeniden başlatılacak. 
+\n 
 \nNote: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
-\n
-\nYÜKLEME RİSKİ RİZE AİTTİR!</string>
+\n 
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="fw_upgrade_notice_miband3">"Mi Band 3 üzerine %s Firmware yüklemek üzeresiniz.
 
 Lütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra Saatiniz yeniden başlatılacak.
@@ -920,4 +920,6 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="bip_prefs_shortcuts">KısaYollar</string>
     <string name="hr_widget_last_notification">Son bildirim</string>
     <string name="controlcenter_set_alias">Takma Ad Ayarla</string>
+    <string name="fw_upgrade_notice_amazfit_trex">%s ürün yazılımını yüklemek üzeresiniz</string>
+    <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
 </resources>
