@@ -900,4 +900,6 @@
     <string name="bip_prefs_shortcuts">快捷方式</string>
     <string name="hr_widget_last_notification">最近通知</string>
     <string name="controlcenter_set_alias">设置别称</string>
+    <string name="fw_upgrade_notice_amazfit_trex">您即将安装 %s 固件</string>
+    <string name="devicetype_amazfit_trex">华米 T-Rex</string>
 </resources>
