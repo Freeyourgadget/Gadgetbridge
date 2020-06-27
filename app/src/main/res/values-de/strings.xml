@@ -908,4 +908,6 @@
     <string name="bip_prefs_shortcuts">Verknüpfungen</string>
     <string name="hr_widget_last_notification">Letzte Benachrichtigung</string>
     <string name="controlcenter_set_alias">Alias setzen</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Du installierst jetzt die Firmware %s</string>
+    <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
 </resources>
