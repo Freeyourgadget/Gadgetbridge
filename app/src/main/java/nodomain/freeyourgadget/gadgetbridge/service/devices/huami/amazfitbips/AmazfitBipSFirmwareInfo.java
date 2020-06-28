@@ -76,7 +76,8 @@ public class AmazfitBipSFirmwareInfo extends HuamiFirmwareInfo {
             }
         }
 
-        if (ArrayUtils.equals(bytes, NEWRES_HEADER, COMPRESSED_RES_HEADER_OFFSET)) {
+        if (ArrayUtils.equals(bytes, NEWRES_HEADER, COMPRESSED_RES_HEADER_OFFSET) ||
+                ArrayUtils.equals(bytes, NEWRES_HEADER, COMPRESSED_RES_HEADER_OFFSET_NEW)) {
             return HuamiFirmwareType.RES_COMPRESSED;
         }
 
