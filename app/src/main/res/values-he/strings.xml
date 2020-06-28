@@ -904,4 +904,6 @@
     <string name="bip_prefs_shortcuts">קיצורי דרך</string>
     <string name="hr_widget_last_notification">התראה אחרונה</string>
     <string name="controlcenter_set_alias">הגדרת כינוי</string>
+    <string name="fw_upgrade_notice_amazfit_trex">פעולה זו תתקין את הקושחה %s</string>
+    <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
 </resources>
