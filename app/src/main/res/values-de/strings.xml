@@ -908,6 +908,12 @@
     <string name="bip_prefs_shortcuts">Verknüpfungen</string>
     <string name="hr_widget_last_notification">Letzte Benachrichtigung</string>
     <string name="controlcenter_set_alias">Alias setzen</string>
-    <string name="fw_upgrade_notice_amazfit_trex">Du installierst jetzt die Firmware %s</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Du bist dabei, die Firmware %s auf deine Amazfit T-Rex zu installieren.
+\n
+\nBitte stelle sicher, dass du die .fw Datei, dann die .res Datei und schließlich die .gps Datei installierst. Deine Uhr wird nach der Installation der .fw Datei neu gestartet.
+\n
+\nHinweis: Du musst die .res und .gps nicht installieren, wenn diese Dateien genau die gleichen sind wie die zuvor installierten. 
+\n
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
 </resources>
