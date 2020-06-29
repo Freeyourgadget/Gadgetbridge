@@ -35,9 +35,11 @@ public class AmazfitBipSFirmwareInfo extends HuamiFirmwareInfo {
     static {
         // fw tonlesap
         crcToVersion.put(5017, "2.1.1.08");
+        crcToVersion.put(4638, "2.1.1.16");
 
         // resources
         crcToVersion.put(61617, "2.1.1.08");
+        crcToVersion.put(5887, "2.1.1.16");
 
         // font
         crcToVersion.put(62927, "3");
