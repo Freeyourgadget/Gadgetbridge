@@ -902,4 +902,12 @@
     <string name="pref_theme_system">Systeem</string>
     <string name="hr_widget_last_notification">Laatste melding</string>
     <string name="controlcenter_set_alias">Stel alias in</string>
+    <string name="fw_upgrade_notice_amazfit_trex">U staat op het punt om de firmware %s te installeren op uw Amazfit T-Rex. 
+\n 
+\nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand en als laatste het .gps-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand. 
+\n 
+\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd. 
+\n 
+\nGA VERDER OP EIGEN RISICO!</string>
+    <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
 </resources>
