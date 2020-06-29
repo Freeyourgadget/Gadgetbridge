@@ -1,5 +1,6 @@
 ### Changelog
-#### 0.45.0 (WIP)
+
+#### 0.45.0
 * Initial support for Amazfit T-Rex
 * Amazfit Bip S: Support installation of latest .res
 * Amazfit Bip S: Support longer notification messages

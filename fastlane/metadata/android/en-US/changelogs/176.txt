@@ -1,0 +1,8 @@
+* Initial support for Amazfit T-Rex
+* Amazfit Bip S: Support installation of latest .res
+* Amazfit Bip S: Support longer notification messages
+* Huami: Limit weather forecast to 7 days to fix problems with weather notificaon 0.3.11
+* Huami: Improve music playback information
+* Huami: Ensure cutting strings on UTF-8 border
+* Stop incoming call notification when VoIP calls are missed
+* Fix a crash when with Farsi translation

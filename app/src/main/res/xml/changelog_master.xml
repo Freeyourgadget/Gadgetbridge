@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.45.0" versioncode="176">
+        <change>Initial support for Amazfit T-Rex</change>
+        <change>Amazfit Bip S: Support installation of latest .res</change>
+        <change>Amazfit Bip S: Support longer notification messages</change>
+        <change>Huami: Limit weather forecast to 7 days to fix problems with weather notificaon 0.3.11</change>
+        <change>Huami: Improve music playback information</change>
+        <change>Huami: Ensure cutting strings on UTF-8 border</change>
+        <change>Stop incoming call notification when VoIP calls are missed</change>
+        <change>Fix a crash when with Farsi translation</change>
+    </release>
     <release version="0.44.2" versioncode="175">
         <change>Huami: Support flashing newer GPS firmware and GPS ALM</change>
         <change>Amazfit Bip S: Support music control</change>
