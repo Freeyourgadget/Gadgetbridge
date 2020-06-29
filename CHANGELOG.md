@@ -1,4 +1,12 @@
 ### Changelog
+#### 0.45.0 (WIP)
+* Initial support for Amazfit T-Rex
+* Amazfit Bip S: Support installation of latest .res
+* Amazfit Bip S: Support longer notification messages
+* Huami: Improve music playback information
+* Huami: Ensure cutting strings on UTF-8 border
+* Stop incoming call notification when VoIP calls are missed
+* Fix a crash when with Farsi translation
 
 #### 0.44.2
 * Huami: Support flashing newer GPS firmware and GPS ALM
