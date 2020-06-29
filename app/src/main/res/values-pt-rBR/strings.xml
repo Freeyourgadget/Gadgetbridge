@@ -911,6 +911,12 @@
     <string name="bip_prefs_shortcuts">Atalhos</string>
     <string name="hr_widget_last_notification">Última notificação</string>
     <string name="controlcenter_set_alias">Definir alias</string>
-    <string name="fw_upgrade_notice_amazfit_trex">Você está prestes a instalar o firmware %s</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Você está prestes a instalar o firmware %s no seu Amazit T-Rex. 
+\n 
+\nCertifique-se de instalar o arquivo .fw, depois o arquivo .res e finalmente o arquivo .gps. Seu relógio será reiniciado após a instalação do arquivo .fw. 
+\n 
+\nNota: você não precisa instalar .res e .gps se esse arquivo for exatamente o mesmo que os instalados anteriormente. 
+\n 
+\nPROSSIGA POR SUA CONTA E RISCO!</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
 </resources>
