@@ -75,7 +75,7 @@ public class ParcelableWeather2 implements Parcelable {
             JSONArray list = new JSONArray();
             JSONObject city = new JSONObject();
             while (--conditions > 0) {
-                timeOffset += 86400000; //manually determined
+                timeOffset += 86400; //manually determined
                 JSONObject item = new JSONObject();
                 JSONObject condition = new JSONObject();
                 JSONObject main = new JSONObject();
