@@ -1965,7 +1965,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
         try {
             TransactionBuilder builder = performInitialized("Sending weather forecast");
-
+            if (weatherSpec.forecasts.size() > 3) { //TDOD: find out the limits for each device
+                weatherSpec.forecasts.subList(3, weatherSpec.forecasts.size()).clear();
+            }
             final byte NR_DAYS = (byte) (1 + weatherSpec.forecasts.size());
             int bytesPerDay = 4;
 
