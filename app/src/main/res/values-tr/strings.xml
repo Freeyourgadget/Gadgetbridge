@@ -920,6 +920,12 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="bip_prefs_shortcuts">KısaYollar</string>
     <string name="hr_widget_last_notification">Son bildirim</string>
     <string name="controlcenter_set_alias">Takma Ad Ayarla</string>
-    <string name="fw_upgrade_notice_amazfit_trex">%s ürün yazılımını yüklemek üzeresiniz</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Amazfit T-Rex aygıtınıza %s ürün yazılımını yüklemek üzeresiniz. 
+\n 
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra saatiniz yeniden başlatılacak. 
+\n 
+\nNote: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
+\n 
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
 </resources>
