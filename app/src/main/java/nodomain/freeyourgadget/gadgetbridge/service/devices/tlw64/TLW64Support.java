@@ -38,6 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.tlw64.TLW64Constants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -72,6 +73,7 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
 
         setTime(builder);
         setDisplaySettings(builder);
+        sendSettings(builder);
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
 
@@ -297,5 +299,52 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
         }
         transaction.write(ctrlCharacteristic, displayBytes);
         return;
+    }
+
+    private void sendSettings(TransactionBuilder builder) {
+        // TODO Create custom settings page for changing hardcoded values
+
+        // set user data
+        ActivityUser activityUser = new ActivityUser();
+        byte[] userBytes = new byte[]{
+                TLW64Constants.CMD_USER_DATA,
+                0,  // unknown
+                0,  // step length [cm]
+                0,  // unknown
+                (byte) activityUser.getWeightKg(),
+                5,  // screen on time / display timeout
+                0,  // unknown
+                0,  // unknown
+                (byte) (activityUser.getStepsGoal() / 256),
+                (byte) (activityUser.getStepsGoal() % 256),
+                1,  // raise hand to turn on screen, ON = 1, OFF = 0
+                (byte) 0xff, // unknown
+                0,  // unknown
+                (byte) activityUser.getAge(),
+                0,  // gender
+                0,  // lost function, ON = 1, OFF = 0 TODO: find out what this does
+                2   // unknown
+        };
+
+        if (activityUser.getGender() == ActivityUser.GENDER_FEMALE)
+        {
+            userBytes[14] = 2; // female
+            // default and factor from https://livehealthy.chron.com/determine-stride-pedometer-height-weight-4518.html
+            if (activityUser.getHeightCm() != 0)
+                userBytes[2] = (byte) Math.ceil(activityUser.getHeightCm() * 0.413);
+            else
+                userBytes[2] = 70; // default
+        }
+
+        else
+        {
+            userBytes[14] = 1; // male
+            if (activityUser.getHeightCm() != 0)
+                userBytes[2] = (byte) Math.ceil(activityUser.getHeightCm() * 0.415);
+            else
+                userBytes[2] = 78; // default
+        }
+
+        builder.write(ctrlCharacteristic, userBytes);
     }
 }
