@@ -38,6 +38,8 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.tlw64.TLW64Constants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
@@ -61,6 +63,8 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(TLW64Support.class);
 
+    private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
+    private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     public BluetoothGattCharacteristic ctrlCharacteristic = null;
     public BluetoothGattCharacteristic notifyCharacteristic = null;
 
@@ -84,6 +88,9 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
         setTime(builder);
         setDisplaySettings(builder);
         sendSettings(builder);
+
+        builder.write(ctrlCharacteristic, new byte[]{TLW64Constants.CMD_BATTERY});
+        builder.write(ctrlCharacteristic, new byte[]{TLW64Constants.CMD_FIRMWARE_VERSION});
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
 
@@ -111,6 +118,17 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
         switch (data[0]) {
             case TLW64Constants.CMD_DISPLAY_SETTINGS:
                 LOG.info("Display settings updated");
+                return true;
+            case TLW64Constants.CMD_FIRMWARE_VERSION:
+                // TODO: firmware version reported "RM07JV000404" but original app: "RM07JV000404_15897"
+                versionCmd.fwVersion = new String(Arrays.copyOfRange(data, 1, data.length));
+                handleGBDeviceEvent(versionCmd);
+                LOG.info("Firmware version is: " + versionCmd.fwVersion);
+                return true;
+            case TLW64Constants.CMD_BATTERY:
+                batteryCmd.level = data[1];
+                handleGBDeviceEvent(batteryCmd);
+                LOG.info("Battery level is: " + data[1]);
                 return true;
             case TLW64Constants.CMD_DATETIME:
                 LOG.info("Time is set to: " + (data[1] * 256 + ((int) data[2] & 0xff)) + "-" + data[3] + "-" + data[4] + " " + data[5] + ":" + data[6] + ":" + data[7]);
