@@ -900,6 +900,12 @@
     <string name="bip_prefs_shortcuts">快捷方式</string>
     <string name="hr_widget_last_notification">最近通知</string>
     <string name="controlcenter_set_alias">设置别称</string>
-    <string name="fw_upgrade_notice_amazfit_trex">您即将安装 %s 固件</string>
+    <string name="fw_upgrade_notice_amazfit_trex">您即将再您的华米 T-Rex 上安装 %s 固件。
+\n
+\n请确保先安装 .fw 文件，再安装 .res 文件，最后安装 .gps 文件。您的手表将会再安装了 .fw 文件后重启。
+\n
+\n备注：如果 .res 和 .gps 版本与之前的版本相同，您就无需安装这两个文件。
+\n
+\n风险自担！</string>
     <string name="devicetype_amazfit_trex">华米 T-Rex</string>
 </resources>
