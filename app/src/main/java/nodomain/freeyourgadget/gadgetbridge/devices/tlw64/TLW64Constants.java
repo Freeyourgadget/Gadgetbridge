@@ -47,4 +47,13 @@ public final class TLW64Constants {
     public static final byte ICON_WECHAT = (byte) 0x02;
     public static final byte ICON_MAIL = (byte) 0x04;
 
+    // Alarm arguments
+    public static final byte ARG_SET_ALARM_REMINDER_REPEAT_SUNDAY    =  (byte) 0x01;
+    public static final byte ARG_SET_ALARM_REMINDER_REPEAT_MONDAY    =  (byte) 0x02;
+    public static final byte ARG_SET_ALARM_REMINDER_REPEAT_TUESDAY   =  (byte) 0x04;
+    public static final byte ARG_SET_ALARM_REMINDER_REPEAT_WEDNESDAY =  (byte) 0x08;
+    public static final byte ARG_SET_ALARM_REMINDER_REPEAT_THURSDAY  =  (byte) 0x10;
+    public static final byte ARG_SET_ALARM_REMINDER_REPEAT_FRIDAY    =  (byte) 0x20;
+    public static final byte ARG_SET_ALARM_REMINDER_REPEAT_SATURDAY  =  (byte) 0x40;
+
 }

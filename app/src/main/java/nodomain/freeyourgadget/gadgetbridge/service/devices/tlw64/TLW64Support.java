@@ -59,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.IntentListener;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
+import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static org.apache.commons.lang3.math.NumberUtils.min;
@@ -214,7 +215,68 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
+        try {
+            TransactionBuilder builder = performInitialized("Set alarm");
+            boolean anyAlarmEnabled = false;
+            for (Alarm alarm : alarms) {
+                anyAlarmEnabled |= alarm.getEnabled();
+                Calendar calendar = AlarmUtils.toCalendar(alarm);
 
+                int maxAlarms = 3;
+                if (alarm.getPosition() >= maxAlarms) {
+                    if (alarm.getEnabled()) {
+                        GB.toast(getContext(), "Only 3 alarms are supported.", Toast.LENGTH_LONG, GB.WARN);
+                    }
+                    return;
+                }
+
+                byte repetition = 0x00;
+
+                switch (alarm.getRepetition()) {
+                    // TODO: case Alarm.ALARM_ONCE is not supported! Need to notify user somehow...
+                    case Alarm.ALARM_MON:
+                        repetition |= TLW64Constants.ARG_SET_ALARM_REMINDER_REPEAT_MONDAY;
+                    case Alarm.ALARM_TUE:
+                        repetition |= TLW64Constants.ARG_SET_ALARM_REMINDER_REPEAT_TUESDAY;
+                    case Alarm.ALARM_WED:
+                        repetition |= TLW64Constants.ARG_SET_ALARM_REMINDER_REPEAT_WEDNESDAY;
+                    case Alarm.ALARM_THU:
+                        repetition |= TLW64Constants.ARG_SET_ALARM_REMINDER_REPEAT_THURSDAY;
+                    case Alarm.ALARM_FRI:
+                        repetition |= TLW64Constants.ARG_SET_ALARM_REMINDER_REPEAT_FRIDAY;
+                    case Alarm.ALARM_SAT:
+                        repetition |= TLW64Constants.ARG_SET_ALARM_REMINDER_REPEAT_SATURDAY;
+                    case Alarm.ALARM_SUN:
+                        repetition |= TLW64Constants.ARG_SET_ALARM_REMINDER_REPEAT_SUNDAY;
+                        break;
+
+                    default:
+                        LOG.warn("invalid alarm repetition " + alarm.getRepetition());
+                        break;
+                }
+
+                byte[] alarmMessage = new byte[]{
+                        TLW64Constants.CMD_ALARM,
+                        (byte) repetition,
+                        (byte) calendar.get(Calendar.HOUR_OF_DAY),
+                        (byte) calendar.get(Calendar.MINUTE),
+                        (byte) (alarm.getEnabled() ? 2 : 0),    // vibration duration
+                        (byte) (alarm.getEnabled() ? 10 : 0),   // vibration count
+                        (byte) (alarm.getEnabled() ? 2 : 0),    // unknown
+                        (byte) 0,
+                        (byte) (alarm.getPosition() + 1)
+                };
+                builder.write(ctrlCharacteristic, alarmMessage);
+            }
+            builder.queue(getQueue());
+            if (anyAlarmEnabled) {
+                GB.toast(getContext(), getContext().getString(R.string.user_feedback_miband_set_alarms_ok), Toast.LENGTH_SHORT, GB.INFO);
+            } else {
+                GB.toast(getContext(), getContext().getString(R.string.user_feedback_all_alarms_disabled), Toast.LENGTH_SHORT, GB.INFO);
+            }
+        } catch (IOException ex) {
+            GB.toast(getContext(), getContext().getString(R.string.user_feedback_miband_set_alarms_failed), Toast.LENGTH_LONG, GB.ERROR, ex);
+        }
     }
 
     @Override

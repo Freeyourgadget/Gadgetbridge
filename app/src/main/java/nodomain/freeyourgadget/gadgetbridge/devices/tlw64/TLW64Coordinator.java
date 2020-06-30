@@ -91,7 +91,7 @@ public class TLW64Coordinator extends AbstractDeviceCoordinator {
 
     @Override
     public int getAlarmSlotCount() {
-        return 0;
+        return 3;
     }
 
     @Override
