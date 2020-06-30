@@ -21,7 +21,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.tlw64;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.content.Intent;
 import android.net.Uri;
 import android.text.format.DateFormat;
 import android.widget.Toast;
@@ -59,12 +58,9 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.IntentListener;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -75,7 +71,6 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(TLW64Support.class);
 
-    private final BatteryInfoProfile<TLW64Support> batteryInfoProfile;
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     public BluetoothGattCharacteristic ctrlCharacteristic = null;
@@ -84,29 +79,9 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
     private byte crc = 0;
     private int firstTimestamp = 0;
 
-    private final IntentListener mListener = new IntentListener() {
-        @Override
-        public void notify(Intent intent) {
-            String s = intent.getAction();
-            if (s.equals(BatteryInfoProfile.ACTION_BATTERY_INFO)) {
-                handleBatteryInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfo) intent.getParcelableExtra(BatteryInfoProfile.EXTRA_BATTERY_INFO));
-            }
-        }
-    };
-
     public TLW64Support() {
         super(LOG);
-        addSupportedService(GattService.UUID_SERVICE_BATTERY_SERVICE);
         addSupportedService(TLW64Constants.UUID_SERVICE_NO1);
-
-        batteryInfoProfile = new BatteryInfoProfile<>(this);
-        batteryInfoProfile.addListener(mListener);
-        addSupportedProfile(batteryInfoProfile);
-    }
-
-    private void handleBatteryInfo(nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfo info) {
-        batteryCmd.level = (short) info.getPercentCharged();
-        handleGBDeviceEvent(batteryCmd);
     }
 
     @Override
@@ -125,7 +100,7 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
         setDisplaySettings(builder);
         sendSettings(builder);
 
-        batteryInfoProfile.requestBatteryInfo(builder);
+        builder.write(ctrlCharacteristic, new byte[]{TLW64Constants.CMD_BATTERY});
         builder.write(ctrlCharacteristic, new byte[]{TLW64Constants.CMD_FIRMWARE_VERSION});
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
@@ -163,7 +138,8 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
                 return true;
             case TLW64Constants.CMD_BATTERY:
                 batteryCmd.level = data[1];
-                LOG.info("Battery level is: " + data[1] + "%   This is DEPRECATED. We now use the generic battery service 0x180F");
+                handleGBDeviceEvent(batteryCmd);
+                LOG.info("Battery level is: " + data[1]);
                 return true;
             case TLW64Constants.CMD_DATETIME:
                 LOG.info("Time is set to: " + (data[1] * 256 + ((int) data[2] & 0xff)) + "-" + data[3] + "-" + data[4] + " " + data[5] + ":" + data[6] + ":" + data[7]);
