@@ -23,6 +23,7 @@ public final class TLW64Constants {
 
     public static final UUID UUID_SERVICE_NO1            = UUID.fromString("000055ff-0000-1000-8000-00805f9b34fb");
     public static final UUID UUID_CHARACTERISTIC_CONTROL = UUID.fromString("000033f1-0000-1000-8000-00805f9b34fb");
+    public static final UUID UUID_CHARACTERISTIC_NOTIFY  = UUID.fromString("000033f2-0000-1000-8000-00805f9b34fb");
 
     // Command bytes
     public static final byte CMD_DISPLAY_SETTINGS = (byte) 0xa0;

@@ -19,6 +19,7 @@
 
 package nodomain.freeyourgadget.gadgetbridge.service.devices.tlw64;
 
+import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.net.Uri;
 import android.text.format.DateFormat;
@@ -29,6 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.UUID;
@@ -60,6 +62,7 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(TLW64Support.class);
 
     public BluetoothGattCharacteristic ctrlCharacteristic = null;
+    public BluetoothGattCharacteristic notifyCharacteristic = null;
 
     public TLW64Support() {
         super(LOG);
@@ -73,6 +76,10 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
 
         ctrlCharacteristic = getCharacteristic(TLW64Constants.UUID_CHARACTERISTIC_CONTROL);
+        notifyCharacteristic = getCharacteristic(TLW64Constants.UUID_CHARACTERISTIC_NOTIFY);
+
+        builder.setGattCallback(this);
+        builder.notify(notifyCharacteristic, true);
 
         setTime(builder);
         setDisplaySettings(builder);
@@ -88,6 +95,45 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
     @Override
     public boolean useAutoConnect() {
         return false;
+    }
+
+    @Override
+    public boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+        if (super.onCharacteristicChanged(gatt, characteristic)) {
+            return true;
+        }
+
+        UUID characteristicUUID = characteristic.getUuid();
+        byte[] data = characteristic.getValue();
+        if (data.length == 0)
+            return true;
+
+        switch (data[0]) {
+            case TLW64Constants.CMD_DISPLAY_SETTINGS:
+                LOG.info("Display settings updated");
+                return true;
+            case TLW64Constants.CMD_DATETIME:
+                LOG.info("Time is set to: " + (data[1] * 256 + ((int) data[2] & 0xff)) + "-" + data[3] + "-" + data[4] + " " + data[5] + ":" + data[6] + ":" + data[7]);
+                return true;
+            case TLW64Constants.CMD_USER_DATA:
+                LOG.info("User data updated");
+                return true;
+            case TLW64Constants.CMD_ALARM:
+                LOG.info("Alarm updated");
+                return true;
+            case TLW64Constants.CMD_FACTORY_RESET:
+                LOG.info("Factory reset requested");
+                return true;
+            case TLW64Constants.CMD_NOTIFICATION:
+                LOG.info("Notification is displayed");
+                return true;
+            case TLW64Constants.CMD_ICON:
+                LOG.info("Icon is displayed");
+                return true;
+            default:
+                LOG.warn("Unhandled characteristic change: " + characteristicUUID + " code: " + Arrays.toString(data));
+                return true;
+        }
     }
 
     @Override
