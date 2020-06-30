@@ -28,25 +28,25 @@ public final class TLW64Constants {
     // Command bytes
     public static final byte CMD_DISPLAY_SETTINGS = (byte) 0xa0;
     public static final byte CMD_FIRMWARE_VERSION = (byte) 0xa1;
-    public static final byte CMD_BATTERY = (byte) 0xa2;
-    public static final byte CMD_DATETIME = (byte) 0xa3;
-    public static final byte CMD_USER_DATA = (byte) 0xa9;
-    public static final byte CMD_ALARM = (byte) 0xab;
-    public static final byte CMD_FACTORY_RESET = (byte) 0xad;
-    public static final byte CMD_NOTIFICATION = (byte) 0xc1;
-    public static final byte CMD_ICON = (byte) 0xc3;
-    public static final byte CMD_DEVICE_SETTINGS = (byte) 0xd3;
+    public static final byte CMD_BATTERY          = (byte) 0xa2;
+    public static final byte CMD_DATETIME         = (byte) 0xa3;
+    public static final byte CMD_USER_DATA        = (byte) 0xa9;
+    public static final byte CMD_ALARM            = (byte) 0xab;
+    public static final byte CMD_FACTORY_RESET    = (byte) 0xad;
+    public static final byte CMD_NOTIFICATION     = (byte) 0xc1;
+    public static final byte CMD_ICON             = (byte) 0xc3;
+    public static final byte CMD_DEVICE_SETTINGS  = (byte) 0xd3;
 
     // Notifications
     public static final byte NOTIFICATION_HEADER = (byte) 0x01;
-    public static final byte NOTIFICATION_CALL = (byte) 0x02;   // displays "call" on screen
-    public static final byte NOTIFICATION_SMS = (byte) 0x03;    // displays "mms" on screen
-    public static final byte NOTIFICATION_STOP = (byte) 0x04;   // to stop showing incoming call
+    public static final byte NOTIFICATION_CALL   = (byte) 0x02;    // displays "call" on screen
+    public static final byte NOTIFICATION_SMS    = (byte) 0x03;    // displays "mms" on screen
+    public static final byte NOTIFICATION_STOP   = (byte) 0x04;    // to stop showing incoming call
 
     // Icons
-    public static final byte ICON_QQ = (byte) 0x01;
+    public static final byte ICON_QQ     = (byte) 0x01;
     public static final byte ICON_WECHAT = (byte) 0x02;
-    public static final byte ICON_MAIL = (byte) 0x04;
+    public static final byte ICON_MAIL   = (byte) 0x04;
 
     // Alarm arguments
     public static final byte ARG_SET_ALARM_REMINDER_REPEAT_SUNDAY    =  (byte) 0x01;

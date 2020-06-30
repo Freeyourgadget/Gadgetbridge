@@ -266,7 +266,7 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
                         (byte) (alarm.getEnabled() ? 2 : 0),    // vibration duration
                         (byte) (alarm.getEnabled() ? 10 : 0),   // vibration count
                         (byte) (alarm.getEnabled() ? 2 : 0),    // unknown
-                        (byte) 0,
+                        (byte) 0x00,
                         (byte) (alarm.getPosition() + 1)
                 };
                 builder.write(ctrlCharacteristic, alarmMessage);
@@ -350,7 +350,7 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onReset(int flags) {
-        if (flags == GBDeviceProtocol.RESET_FLAGS_FACTORY_RESET){
+        if (flags == GBDeviceProtocol.RESET_FLAGS_FACTORY_RESET) {
             try {
                 TransactionBuilder builder = performInitialized("factoryReset");
                 byte[] msg = new byte[]{
@@ -436,13 +436,13 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("vibrate");
             byte[] msg = new byte[]{
                     TLW64Constants.CMD_ALARM,
-                    0,
-                    0,
-                    0,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
                     (byte) duration,
                     (byte) count,
-                    7,                  // unknown, sniffed by original app
-                    1
+                    (byte) 0x07,       // unknown, sniffed by original app
+                    (byte) 0x01
             };
             builder.write(ctrlCharacteristic, msg);
             builder.queue(getQueue());
@@ -469,8 +469,8 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
     private void setDisplaySettings(TransactionBuilder transaction) {
         byte[] displayBytes = new byte[]{
                 TLW64Constants.CMD_DISPLAY_SETTINGS,
-                0x00,   // 1 - display distance in kilometers, 2 - in miles
-                0x00    // 1 - display 24-hour clock, 2 - for 12-hour with AM/PM
+                (byte) 0x00,   // 1 - display distance in kilometers, 2 - in miles
+                (byte) 0x00    // 1 - display 24-hour clock, 2 - for 12-hour with AM/PM
         };
         String units = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, getContext().getString(R.string.p_unit_metric));
         if (units.equals(getContext().getString(R.string.p_unit_metric))) {
@@ -494,36 +494,32 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
         ActivityUser activityUser = new ActivityUser();
         byte[] userBytes = new byte[]{
                 TLW64Constants.CMD_USER_DATA,
-                0,  // unknown
-                0,  // step length [cm]
-                0,  // unknown
+                (byte) 0x00,  // unknown
+                (byte) 0x00,  // step length [cm]
+                (byte) 0x00,  // unknown
                 (byte) activityUser.getWeightKg(),
-                5,  // screen on time / display timeout
-                0,  // unknown
-                0,  // unknown
+                (byte) 0x05,  // screen on time / display timeout
+                (byte) 0x00,  // unknown
+                (byte) 0x00,  // unknown
                 (byte) (activityUser.getStepsGoal() / 256),
                 (byte) (activityUser.getStepsGoal() % 256),
-                1,  // raise hand to turn on screen, ON = 1, OFF = 0
-                (byte) 0xff, // unknown
-                0,  // unknown
+                (byte) 0x01,  // raise hand to turn on screen, ON = 1, OFF = 0
+                (byte) 0xff,  // unknown
+                (byte) 0x00,  // unknown
                 (byte) activityUser.getAge(),
-                0,  // gender
-                0,  // lost function, ON = 1, OFF = 0 TODO: find out what this does
-                2   // unknown
+                (byte) 0x00,  // gender
+                (byte) 0x00,  // lost function, ON = 1, OFF = 0 TODO: find out what this does
+                (byte) 0x02   // unknown
         };
 
-        if (activityUser.getGender() == ActivityUser.GENDER_FEMALE)
-        {
+        if (activityUser.getGender() == ActivityUser.GENDER_FEMALE) {
             userBytes[14] = 2; // female
             // default and factor from https://livehealthy.chron.com/determine-stride-pedometer-height-weight-4518.html
             if (activityUser.getHeightCm() != 0)
                 userBytes[2] = (byte) Math.ceil(activityUser.getHeightCm() * 0.413);
             else
                 userBytes[2] = 70; // default
-        }
-
-        else
-        {
+        } else {
             userBytes[14] = 1; // male
             if (activityUser.getHeightCm() != 0)
                 userBytes[2] = (byte) Math.ceil(activityUser.getHeightCm() * 0.415);
