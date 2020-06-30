@@ -136,6 +136,6 @@ public class TLW64Coordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsFindDevice() {
-        return false;
+        return true;
     }
 }

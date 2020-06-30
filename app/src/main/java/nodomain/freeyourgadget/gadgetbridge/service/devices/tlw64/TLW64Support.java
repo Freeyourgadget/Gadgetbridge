@@ -25,6 +25,7 @@ import android.net.Uri;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -170,7 +171,9 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFindDevice(boolean start) {
-
+        if (start) {
+            setVibration(1, 3);
+        }
     }
 
     @Override
@@ -221,5 +224,25 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
 
+    }
+
+    private void setVibration(int duration, int count) {
+        try {
+            TransactionBuilder builder = performInitialized("vibrate");
+            byte[] msg = new byte[]{
+                    TLW64Constants.CMD_ALARM,
+                    0,
+                    0,
+                    0,
+                    (byte) duration,
+                    (byte) count,
+                    7,                  // unknown, sniffed by original app
+                    1
+            };
+            builder.write(ctrlCharacteristic, msg);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.warn("Unable to set vibration", e);
+        }
     }
 }
