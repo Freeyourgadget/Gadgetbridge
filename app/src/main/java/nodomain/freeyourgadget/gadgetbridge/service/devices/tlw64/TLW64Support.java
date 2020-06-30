@@ -21,6 +21,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.tlw64;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.net.Uri;
+import android.text.format.DateFormat;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -32,6 +33,9 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.tlw64.TLW64Constants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
@@ -67,6 +71,7 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
         ctrlCharacteristic = getCharacteristic(TLW64Constants.UUID_CHARACTERISTIC_CONTROL);
 
         setTime(builder);
+        setDisplaySettings(builder);
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
 
@@ -271,5 +276,26 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
                 (byte) c.get(Calendar.SECOND)
         };
         transaction.write(ctrlCharacteristic, datetimeBytes);
+    }
+
+    private void setDisplaySettings(TransactionBuilder transaction) {
+        byte[] displayBytes = new byte[]{
+                TLW64Constants.CMD_DISPLAY_SETTINGS,
+                0x00,   // 1 - display distance in kilometers, 2 - in miles
+                0x00    // 1 - display 24-hour clock, 2 - for 12-hour with AM/PM
+        };
+        String units = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, getContext().getString(R.string.p_unit_metric));
+        if (units.equals(getContext().getString(R.string.p_unit_metric))) {
+            displayBytes[1] = 1;
+        } else {
+            displayBytes[1] = 2;
+        }
+        if (DateFormat.is24HourFormat(getContext())) {
+            displayBytes[2] = 1;
+        } else {
+            displayBytes[2] = 2;
+        }
+        transaction.write(ctrlCharacteristic, displayBytes);
+        return;
     }
 }
