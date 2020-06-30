@@ -21,12 +21,15 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.tlw64;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.net.Uri;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.tlw64.TLW64Constants;
@@ -42,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class TLW64Support extends AbstractBTLEDeviceSupport {
 
@@ -61,6 +65,8 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
 
         ctrlCharacteristic = getCharacteristic(TLW64Constants.UUID_CHARACTERISTIC_CONTROL);
+
+        setTime(builder);
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
 
@@ -86,7 +92,13 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetTime() {
-
+        try {
+            TransactionBuilder builder = performInitialized("setTime");
+            setTime(builder);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error setting time: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
     }
 
     @Override
@@ -244,5 +256,20 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
         } catch (IOException e) {
             LOG.warn("Unable to set vibration", e);
         }
+    }
+
+    private void setTime(TransactionBuilder transaction) {
+        Calendar c = GregorianCalendar.getInstance();
+        byte[] datetimeBytes = new byte[]{
+                TLW64Constants.CMD_DATETIME,
+                (byte) (c.get(Calendar.YEAR) / 256),
+                (byte) (c.get(Calendar.YEAR) % 256),
+                (byte) (c.get(Calendar.MONTH) + 1),
+                (byte) c.get(Calendar.DAY_OF_MONTH),
+                (byte) c.get(Calendar.HOUR_OF_DAY),
+                (byte) c.get(Calendar.MINUTE),
+                (byte) c.get(Calendar.SECOND)
+        };
+        transaction.write(ctrlCharacteristic, datetimeBytes);
     }
 }

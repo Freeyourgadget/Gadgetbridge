@@ -25,6 +25,7 @@ public final class TLW64Constants {
     public static final UUID UUID_CHARACTERISTIC_CONTROL = UUID.fromString("000033f1-0000-1000-8000-00805f9b34fb");
 
     // Command bytes
+    public static final byte CMD_DATETIME = (byte) 0xa3;
     public static final byte CMD_ALARM = (byte) 0xab;
 
 }
