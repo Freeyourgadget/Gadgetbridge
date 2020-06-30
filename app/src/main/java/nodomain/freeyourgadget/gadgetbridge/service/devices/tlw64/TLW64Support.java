@@ -52,6 +52,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
+import static org.apache.commons.lang3.math.NumberUtils.min;
+
 public class TLW64Support extends AbstractBTLEDeviceSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(TLW64Support.class);
@@ -89,7 +91,20 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
-
+        switch (notificationSpec.type) {
+            case GENERIC_SMS:
+                showNotification(TLW64Constants.NOTIFICATION_SMS, notificationSpec.sender);
+                setVibration(1, 1);
+                break;
+            case WECHAT:
+                showIcon(TLW64Constants.ICON_WECHAT);
+                setVibration(1, 1);
+                break;
+            default:
+                showIcon(TLW64Constants.ICON_MAIL);
+                setVibration(1, 1);
+                break;
+        }
     }
 
     @Override
@@ -115,7 +130,13 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetCallState(CallSpec callSpec) {
-
+        if (callSpec.command == CallSpec.CALL_INCOMING) {
+            showNotification(TLW64Constants.NOTIFICATION_CALL, callSpec.name);
+            setVibration(3, 5);
+        } else {
+            stopNotification();
+            setVibration(0, 0);
+        }
     }
 
     @Override
@@ -346,5 +367,61 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
         }
 
         builder.write(ctrlCharacteristic, userBytes);
+    }
+
+    private void showIcon(int iconId) {
+        try {
+            TransactionBuilder builder = performInitialized("showIcon");
+            byte[] msg = new byte[]{
+                    TLW64Constants.CMD_ICON,
+                    (byte) iconId
+            };
+            builder.write(ctrlCharacteristic, msg);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error showing icon: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
+    }
+
+    private void showNotification(int type, String text) {
+        try {
+            TransactionBuilder builder = performInitialized("showNotification");
+            int length;
+            byte[] bytes;
+            byte[] msg;
+
+            // send text
+            bytes = text.getBytes("EUC-JP");
+            length = min(bytes.length, 18);
+            msg = new byte[length + 2];
+            msg[0] = TLW64Constants.CMD_NOTIFICATION;
+            msg[1] = TLW64Constants.NOTIFICATION_HEADER;
+            System.arraycopy(bytes, 0, msg, 2, length);
+            builder.write(ctrlCharacteristic, msg);
+
+            // send notification type
+            msg = new byte[2];
+            msg[0] = TLW64Constants.CMD_NOTIFICATION;
+            msg[1] = (byte) type;
+            builder.write(ctrlCharacteristic, msg);
+
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error showing notificaton: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
+    }
+
+    private void stopNotification() {
+        try {
+            TransactionBuilder builder = performInitialized("clearNotification");
+            byte[] msg = new byte[]{
+                    TLW64Constants.CMD_NOTIFICATION,
+                    TLW64Constants.NOTIFICATION_STOP
+            };
+            builder.write(ctrlCharacteristic, msg);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.warn("Unable to stop notification", e);
+        }
     }
 }
