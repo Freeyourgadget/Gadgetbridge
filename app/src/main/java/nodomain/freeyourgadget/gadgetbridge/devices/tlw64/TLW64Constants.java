@@ -35,6 +35,7 @@ public final class TLW64Constants {
     public static final byte CMD_FACTORY_RESET = (byte) 0xad;
     public static final byte CMD_NOTIFICATION = (byte) 0xc1;
     public static final byte CMD_ICON = (byte) 0xc3;
+    public static final byte CMD_DEVICE_SETTINGS = (byte) 0xd3;
 
     // Notifications
     public static final byte NOTIFICATION_HEADER = (byte) 0x01;

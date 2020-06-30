@@ -173,6 +173,9 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
             case TLW64Constants.CMD_ICON:
                 LOG.info("Icon is displayed");
                 return true;
+            case TLW64Constants.CMD_DEVICE_SETTINGS:
+                LOG.info("Device settings updated");
+                return true;
             default:
                 LOG.warn("Unhandled characteristic change: " + characteristicUUID + " code: " + Arrays.toString(data));
                 return true;
@@ -529,6 +532,17 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
         }
 
         builder.write(ctrlCharacteristic, userBytes);
+
+        // device settings
+        builder.write(ctrlCharacteristic, new byte[]{
+                TLW64Constants.CMD_DEVICE_SETTINGS,
+                (byte) 0x00,   // 1 - turns on inactivity alarm
+                (byte) 0x3c,   // unknown, sniffed by original app
+                (byte) 0x02,   // unknown, sniffed by original app
+                (byte) 0x03,   // unknown, sniffed by original app
+                (byte) 0x01,   // unknown, sniffed by original app
+                (byte) 0x00    // unknown, sniffed by original app
+        });
     }
 
     private void showIcon(int iconId) {
