@@ -50,6 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static org.apache.commons.lang3.math.NumberUtils.min;
@@ -196,7 +197,18 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onReset(int flags) {
-
+        if (flags == GBDeviceProtocol.RESET_FLAGS_FACTORY_RESET){
+            try {
+                TransactionBuilder builder = performInitialized("factoryReset");
+                byte[] msg = new byte[]{
+                        TLW64Constants.CMD_FACTORY_RESET,
+                };
+                builder.write(ctrlCharacteristic, msg);
+                builder.queue(getQueue());
+            } catch (IOException e) {
+                GB.toast(getContext(), "Error during factory reset: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+            }
+        }
     }
 
     @Override

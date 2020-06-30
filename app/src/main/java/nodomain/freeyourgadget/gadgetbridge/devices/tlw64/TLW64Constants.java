@@ -29,6 +29,7 @@ public final class TLW64Constants {
     public static final byte CMD_DATETIME = (byte) 0xa3;
     public static final byte CMD_USER_DATA = (byte) 0xa9;
     public static final byte CMD_ALARM = (byte) 0xab;
+    public static final byte CMD_FACTORY_RESET = (byte) 0xad;
     public static final byte CMD_NOTIFICATION = (byte) 0xc1;
     public static final byte CMD_ICON = (byte) 0xc3;
 
