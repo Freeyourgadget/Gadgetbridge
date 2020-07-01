@@ -286,7 +286,7 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
     public void onSetCallState(CallSpec callSpec) {
         if (callSpec.command == CallSpec.CALL_INCOMING) {
             showNotification(TLW64Constants.NOTIFICATION_CALL, callSpec.name);
-            setVibration(3, 5);
+            setVibration(1, 30);
         } else {
             stopNotification();
             setVibration(0, 0);
