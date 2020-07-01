@@ -34,15 +34,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.tlw64.TLW64Constants;
+import nodomain.freeyourgadget.gadgetbridge.devices.tlw64.TLW64SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.TLW64ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -55,6 +61,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.IntentListener;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfoProfile;
@@ -73,6 +80,9 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     public BluetoothGattCharacteristic ctrlCharacteristic = null;
     public BluetoothGattCharacteristic notifyCharacteristic = null;
+    private List<TLW64ActivitySample> samples = new ArrayList<>();
+    private byte crc = 0;
+    private int firstTimestamp = 0;
 
     private final IntentListener mListener = new IntentListener() {
         @Override
@@ -166,6 +176,10 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
                 return true;
             case TLW64Constants.CMD_FACTORY_RESET:
                 LOG.info("Factory reset requested");
+                return true;
+            case TLW64Constants.CMD_FETCH_STEPS:
+            case TLW64Constants.CMD_FETCH_SLEEP:
+                handleActivityData(data);
                 return true;
             case TLW64Constants.CMD_NOTIFICATION:
                 LOG.info("Notification is displayed");
@@ -345,7 +359,7 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFetchRecordedData(int dataTypes) {
-
+        sendFetchCommand(TLW64Constants.CMD_FETCH_STEPS);
     }
 
     @Override
@@ -594,6 +608,101 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
             builder.queue(getQueue());
         } catch (IOException e) {
             LOG.warn("Unable to stop notification", e);
+        }
+    }
+
+    private void sendFetchCommand(byte type) {
+        samples.clear();
+        crc = 0;
+        firstTimestamp = 0;
+        try {
+            TransactionBuilder builder = performInitialized("fetchActivityData");
+            builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
+            byte[] msg = new byte[]{
+                    type,
+                    (byte) 0xfa
+            };
+            builder.write(ctrlCharacteristic, msg);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
+    }
+
+    private void handleActivityData(byte[] data) {
+        if (data[1] == (byte) 0xfd) {
+            LOG.info("CRC received: " + (data[2] & 0xff) + ", calculated: " + (crc & 0xff));
+            if (data[2] != crc) {
+                GB.toast(getContext(), "Incorrect CRC. Try fetching data again.", Toast.LENGTH_LONG, GB.ERROR);
+                GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
+                if (getDevice().isBusy()) {
+                    getDevice().unsetBusyTask();
+                    getDevice().sendDeviceUpdateIntent(getContext());
+                }
+            } else if (samples.size() > 0) {
+                try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                    Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
+                    Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
+                    TLW64SampleProvider provider = new TLW64SampleProvider(getDevice(), dbHandler.getDaoSession());
+                    for (int i = 0; i < samples.size(); i++) {
+                        samples.get(i).setDeviceId(deviceId);
+                        samples.get(i).setUserId(userId);
+                        if (data[0] == TLW64Constants.CMD_FETCH_STEPS) {
+                            samples.get(i).setRawKind(ActivityKind.TYPE_ACTIVITY);
+                            samples.get(i).setRawIntensity(samples.get(i).getSteps());
+                        } else if (data[0] == TLW64Constants.CMD_FETCH_SLEEP) {
+                            if (samples.get(i).getRawIntensity() < 7) {
+                                samples.get(i).setRawKind(ActivityKind.TYPE_DEEP_SLEEP);
+                            } else
+                                samples.get(i).setRawKind(ActivityKind.TYPE_LIGHT_SLEEP);
+                        }
+                        provider.addGBActivitySample(samples.get(i));
+                    }
+                    LOG.info("Activity data saved");
+                    if (data[0] == TLW64Constants.CMD_FETCH_STEPS) {
+                        sendFetchCommand(TLW64Constants.CMD_FETCH_SLEEP);
+                    } else {
+                        GB.updateTransferNotification(null, "", false, 100, getContext());
+                        if (getDevice().isBusy()) {
+                            getDevice().unsetBusyTask();
+                            GB.signalActivityDataFinish();
+                        }
+                    }
+                } catch (Exception ex) {
+                    GB.toast(getContext(), "Error saving activity data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                    GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
+                }
+            }
+        } else {
+            TLW64ActivitySample sample = new TLW64ActivitySample();
+
+            Calendar timestamp = GregorianCalendar.getInstance();
+            timestamp.set(Calendar.YEAR, data[1] * 256 + (data[2] & 0xff));
+            timestamp.set(Calendar.MONTH, (data[3] - 1) & 0xff);
+            timestamp.set(Calendar.DAY_OF_MONTH, data[4] & 0xff);
+            timestamp.set(Calendar.HOUR_OF_DAY, data[5] & 0xff);
+            timestamp.set(Calendar.SECOND, 0);
+
+            int startProgress = 0;
+            if (data[0] == TLW64Constants.CMD_FETCH_STEPS) {
+                timestamp.set(Calendar.MINUTE, 0);
+                sample.setSteps(data[6] * 256 + (data[7] & 0xff));
+                crc ^= (data[6] ^ data[7]);
+            } else if (data[0] == TLW64Constants.CMD_FETCH_SLEEP) {
+                timestamp.set(Calendar.MINUTE, data[6] & 0xff);
+                sample.setRawIntensity(data[7] * 256 + (data[8] & 0xff));
+                crc ^= (data[7] ^ data[8]);
+                startProgress = 33;
+            }
+
+            sample.setTimestamp((int) (timestamp.getTimeInMillis() / 1000L));
+            samples.add(sample);
+
+            if (firstTimestamp == 0)
+                firstTimestamp = sample.getTimestamp();
+            int progress = startProgress + 33 * (sample.getTimestamp() - firstTimestamp) /
+                    ((int) (Calendar.getInstance().getTimeInMillis() / 1000L) - firstTimestamp);
+            GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, progress, getContext());
         }
     }
 }
