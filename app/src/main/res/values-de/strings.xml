@@ -662,7 +662,7 @@
     <string name="zetime_signaling_none">Lautlos</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
     <string name="zetime_title_heart_rate_alarm_summary">Löst eine Warnung aus, wenn deine Herzfrequenz die Grenzwerte überschreitet.</string>
-    <string name="zetime_analog_mode">Analog-Modus</string>
+    <string name="zetime_analog_mode">Analoger Modus</string>
     <string name="zetime_analog_mode_hands">Nur Zeiger</string>
     <string name="zetime_analog_mode_handsandsteps">Zeiger und Schrittanzahl</string>
     <string name="zetime_activity_tracking">Aktivitätsverfolgung</string>
