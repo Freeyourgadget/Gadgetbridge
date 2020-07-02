@@ -459,7 +459,7 @@
     <string name="interval_five_minutes">alle 5 Minuten</string>
     <string name="interval_ten_minutes">alle 10 Minuten</string>
     <string name="interval_thirty_minutes">alle 30 Minuten</string>
-    <string name="interval_one_hour">einmal pro Stunde</string>
+    <string name="interval_one_hour">Stündlich</string>
     <string name="automatic">Automatisch</string>
     <string name="activity_web_view">Webansicht-Aktivität</string>
     <string name="pref_title_weather">Wetter</string>
