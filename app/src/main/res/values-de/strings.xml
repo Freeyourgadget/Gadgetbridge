@@ -33,9 +33,9 @@
     <string name="appmanager_health_deactivate">Deaktivieren</string>
     <string name="appmanager_hrm_activate">HRM aktivieren</string>
     <string name="appmanager_hrm_deactivate">HRM deaktivieren</string>
-    <string name="appmanager_weather_activate">System Wetter-App aktivieren</string>
-    <string name="appmanager_weather_deactivate">System Wetter-App deaktivieren</string>
-    <string name="appmanager_weather_install_provider">Wetterbenachrichtigungs-App installieren</string>
+    <string name="appmanager_weather_activate">Aktiviere die Wetter App des Systems</string>
+    <string name="appmanager_weather_deactivate">Deaktiviere die Wetter App des Systems</string>
+    <string name="appmanager_weather_install_provider">Wetterbenachrichtigungs App installieren</string>
     <string name="app_configure">Konfigurieren</string>
     <string name="app_move_to_top">Nach oben</string>
     <!--Strings related to AppBlacklist-->
@@ -54,14 +54,14 @@
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Einstellungen</string>
     <string name="pref_header_general">Allgemeine Einstellungen</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Mit Gadgetbridge-Gerät verbinden, wenn Bluetooth eingeschaltet wird</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Verbinde, wenn Bluetooth eingeschaltet ist</string>
     <string name="pref_title_general_autostartonboot">Automatisch starten</string>
     <string name="pref_title_general_autoreconnect">Verbindung automatisch wiederherstellen</string>
     <string name="pref_title_audio_player">Bevorzugter Audioplayer</string>
     <string name="pref_default">Standard</string>
     <string name="pref_header_datetime">Datum und Uhrzeit</string>
     <string name="pref_title_datetime_syctimeonconnect">Uhrzeit synchronisieren</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Synchronisiere die Zeit mit dem Gadgetbridge-Gerät, wenn du dich verbindest und wenn sich die Zeit oder die Zeitzone auf dem Android-Gerät ändert</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Beim Verbinden und bei Änderung der Zeitzone auf dem Android Gerät, die Zeit auf das Gadgetbridge Gerät synchronisieren</string>
     <string name="pref_title_theme">Farbschema</string>
     <string name="pref_theme_light">Hell</string>
     <string name="pref_theme_dark">Dunkel</string>
@@ -79,13 +79,13 @@
     <string name="pref_title_whenscreenon">…auch wenn der Bildschirm an ist</string>
     <string name="pref_title_notification_filter">Bitte nicht stören</string>
     <string name="pref_summary_notification_filter">Unerwünschte Benachrichtigungen werden in diesem Modus unterdrückt</string>
-    <string name="pref_title_transliteration">Umwandlung</string>
+    <string name="pref_title_transliteration">Sonderzeichen umschreiben</string>
     <string name="pref_summary_transliteration">Aktiviere dies, falls dein Gerät keine Unterstützung für die Schriftart deiner Sprache hat</string>
     <string name="always">Immer</string>
     <string name="when_screen_off">Wenn der Bildschirm aus ist</string>
     <string name="never">Niemals</string>
     <string name="pref_header_privacy">Privatsphäre</string>
-    <string name="pref_title_call_privacy_mode">Datenschutz beim Anrufen</string>
+    <string name="pref_title_call_privacy_mode">Anzeige bei Anrufen</string>
     <string name="pref_call_privacy_mode_off">Name und Telefonnummer anzeigen</string>
     <string name="pref_call_privacy_mode_name">Name ausblenden, aber Nummer anzeigen</string>
     <string name="pref_call_privacy_mode_number">Nummer ausblenden, aber Name anzeigen</string>
@@ -131,23 +131,23 @@
     <string name="pref_title_pebble_forceprotocol">Benachrichtigungsprotokoll erzwingen</string>
     <string name="pref_summary_pebble_forceprotocol">Diese Option erzwingt das neuste Benachrichtigungsprotokoll abhängig von der Firmwareversion. NUR EINSCHALTEN, WENN DU WEISST, WAS DU TUST!</string>
     <string name="pref_title_pebble_forceuntested">Ungetestete Features aktivieren</string>
-    <string name="pref_summary_pebble_forceuntested">Aktiviere ungetestete Funktionen. SEI DIR SICHER WAS DU DA TUST!</string>
+    <string name="pref_summary_pebble_forceuntested">Aktiviere ungetestete Features. NUR EINSCHALTEN, WENN DU WEISST, WAS DU TUST!</string>
     <string name="pref_title_pebble_forcele">BLE immer bevorzugen</string>
     <string name="pref_summary_pebble_forcele">Nutze die experimentelle LE-Unterstützung für alle Pebbles anstelle von BT-Classic. Dies erfordert zuerst eine Kopplung mit Nicht-LE und dann Pebble LE</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU Limit</string>
     <string name="pref_summary_pebble_mtu_limit">Wenn deine Pebble 2/Pebble LE nicht so wie erwartet funktioniert, versuche die MTU zu begrenzen (erlaubte Werte 20 bis 512)</string>
     <string name="pref_title_pebble_enable_applogs">Watch-App-Protokollierung aktivieren</string>
     <string name="pref_summary_pebble_enable_applogs">Schreibt Logs von Watch Apps in Gadgetbridge-Logs (erfordert erneute Verbindung)</string>
-    <string name="pref_title_pebble_always_ack_pebblekit">nicht ausgereiftes PebbleKit ACKen</string>
+    <string name="pref_title_pebble_always_ack_pebblekit">PebbleKit Nachrichten direkt bestätigen</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Nachrichten, die an externe Drittanbieter-Apps geschickt werden, werden immer und sofort bestätigt</string>
     <string name="pref_title_pebble_reconnect_attempts">Erneute Verbindungsversuche</string>
     <string name="pref_title_unit_system">Einheiten</string>
     <string name="pref_title_timeformat">Zeitformat</string>
-    <string name="pref_title_screentime">Bildschirm-An-Dauer</string>
+    <string name="pref_title_screentime">Zeit der aktiven Bildschirmanzeige</string>
     <string name="prefs_title_all_day_heart_rate">Ganztägige Herzfrequenzmessung</string>
     <string name="preferences_hplus_settings">HPlus/Makibes-Einstellungen</string>
     <string name="not_connected">Nicht verbunden</string>
-    <string name="connecting">Verbindung wird hergestellt</string>
+    <string name="connecting">Verbinde</string>
     <string name="connected">Verbunden</string>
     <string name="unknown_state">Unbekannter Zustand</string>
     <string name="_unknown_">(unbekannt)</string>
@@ -203,7 +203,7 @@
     <string name="appinstaller_install">Installieren</string>
     <string name="discovery_connected_devices_hint">Mache dein Gerät auffindbar. Derzeit verbundene Geräte werden wahrscheinlich nicht erkannt. Aktiviere die Standortsbestimmung (zum Beispiel GPS) in Android 6+. Deaktiviere Privacy Guard für Gadgetbridge, da er zu Abstürzen und Neustarts deines Telefons führen kann. Wenn nach einigen Minuten kein Gerät erkannt wird, versuche es nach dem Neustart deines mobilen Gerätes erneut.</string>
     <string name="discovery_note">Hinweis:</string>
-    <string name="candidate_item_device_image">Geräte Image</string>
+    <string name="candidate_item_device_image">Gerätesymbol</string>
     <string name="miband_prefs_alias">Name/Alias</string>
     <string name="pref_header_vibration_count">Vibrationszähler</string>
     <string name="title_activity_sleepmonitor">Schlafüberwachung</string>
@@ -418,16 +418,16 @@
     <string name="discovery_yes_pair">Koppeln</string>
     <string name="discovery_dont_pair">Nicht koppeln</string>
     <string name="stats_title">Geschwindigkeitszonen</string>
-    <string name="fw_upgrade_notice_amazfitbip">Du bist dabei, die Firmware %s auf deine Amazfit Bip zu installieren.
-\n
-\nBitte stelle sicher, dass du die .fw Datei, dann die .res Datei und schließlich die .gps Datei installierst. Deine Uhr wird nach der Installation der .fw Datei neu gestartet.
-\n
-\nHinweis: Du musst die .res und .gps nicht installieren, wenn diese Dateien genau die gleichen sind wie die zuvor installierten.
-\n
+    <string name="fw_upgrade_notice_amazfitbip">Die Firmware %s soll auf der Amazfit Bip installiert werden. 
+\n 
+\nBitte stelle sicher zuerst die .fw Datei zu installieren, dann die .res Datei, und zum Schluss die .gps Datei. Deine Uhr wird sich nach der Installation der .fw Datei neu starten. 
+\n 
+\nHinweis: Du musst die .res and .gps Dateien nicht installieren, falls diese genau die gleichen Dateien wie die sind, die Du schon mit einer vorigen .fw Datei zusammen installiert hattest. 
+\n 
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_actions">Tastenaktionen</string>
     <string name="mi2_prefs_button_actions_summary">Tastendruckaktionen bestimmen</string>
-    <string name="mi2_prefs_button_press_count_summary">Anzahl der Tastendrücke, um Event 1 auszulösen. Wenn die gleiche Anzahl an Tastendrücken wiederholt wird, wird Event 2 erstellt (und so weiter).</string>
+    <string name="mi2_prefs_button_press_count_summary">Anzahl der Tastendrücke, um Aktion 1 auszulösen. Wiederholen der gleichen Anzahl an Tastendrücken führt Aktion 2 aus, und so weiter.</string>
     <string name="mi2_prefs_button_press_broadcast">Zu sendende Nachricht</string>
     <string name="mi2_prefs_button_action">Tastenaktion aktivieren</string>
     <string name="mi2_prefs_button_action_summary">Aktion bei einer bestimmten Anzahl an Tastendrücken aktivieren</string>
@@ -453,8 +453,8 @@
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_press_count">Anzahl der Tastendrücke</string>
     <string name="pref_title_charts_swipe">Streichen nach links/rechts im Diagrammbetrieb aktivieren</string>
-    <string name="pref_summary_pebble_enable_bgjs">Wenn aktiviert, ermöglicht es Zifferblättern, Wetter, Akkuinfo usw. anzuzeigen.</string>
-    <string name="prefs_title_heartrate_measurement_interval">Ganztägige Herzfrequenzmessung</string>
+    <string name="pref_summary_pebble_enable_bgjs">Befähigt Zifferblätter Informationen zu Wetter, Akku usw. anzuzeigen</string>
+    <string name="prefs_title_heartrate_measurement_interval">Ganztägige Messung der Herzfrequenz</string>
     <string name="interval_one_minute">einmal pro Minute</string>
     <string name="interval_five_minutes">alle 5 Minuten</string>
     <string name="interval_ten_minutes">alle 10 Minuten</string>
@@ -481,13 +481,13 @@
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
     <string name="pref_title_weather_location">Wetterstandort (CM/LOS)</string>
-    <string name="pref_header_auto_export">Automatischer Export</string>
-    <string name="pref_title_auto_export_enabled">Automatischer Export aktiviert</string>
+    <string name="pref_header_auto_export">Automatisch exportieren</string>
+    <string name="pref_title_auto_export_enabled">Automatisch exportieren aktiviert</string>
     <string name="pref_title_auto_export_location">Speicherort für den Export</string>
-    <string name="pref_title_auto_export_interval">Exportintervall</string>
+    <string name="pref_title_auto_export_interval">Intervall des Exports</string>
     <string name="pref_summary_auto_export_interval">Alle %d Stunden exportieren</string>
     <string name="notif_export_failed_title">Datenbankexport fehlgeschlagen! Bitte überprüfe deine Einstellungen.</string>
-    <string name="mi2_prefs_button_press_broadcast_summary">Broadcast-Nachricht, die mit dem Ereignis gesendet wurde. Der Parameter „button_id“ wird automatisch zu jeder Nachricht hinzugefügt.</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Broadcast Nachricht, die mit der Aktion gesendet wird. Der Parameter „button_id“ wird automatisch zu jeder Nachricht hinzugefügt.</string>
     <string name="mi2_prefs_button_press_count_match_delay_summary">Verzögerung nach einer Tastenaktion (Zahl in button_id) oder 0 für sofort</string>
     <string name="spanish">Spanisch</string>
     <string name="on">Ein</string>
@@ -564,10 +564,10 @@
     <string name="japanese">Japanisch</string>
     <string name="controlcenter_change_led_color">LED-Farbe ändern</string>
     <string name="controlcenter_change_fm_frequency">Radio-Frequenz ändern</string>
-    <string name="pref_title_notifications_timeout">Zeitabstand zwischen den Benachrichtigungen</string>
-    <string name="pref_title_rtl">Rechts-nach-Links</string>
-    <string name="pref_summary_rtl">Aktivieren, wenn dein Gerät keine Sprachen von rechts-nach-links anzeigen kann</string>
-    <string name="pref_title_pebble_gatt_clientonly">Nur GATT-Client</string>
+    <string name="pref_title_notifications_timeout">Mindestzeit zwischen Benachrichtigungen</string>
+    <string name="pref_title_rtl">Linksläufiger Text (Rechts nach links)</string>
+    <string name="pref_summary_rtl">Aktivieren, wenn dein Gerät keine linksläufigen Texte anzeigen kann</string>
+    <string name="pref_title_pebble_gatt_clientonly">Nur für GATT</string>
     <string name="prefs_screen_orientation">Bildschirmausrichtung</string>
     <string name="pref_auto_fetch_limit_fetches">Minimale Zeit zwischen Abfragen</string>
     <string name="pref_auto_fetch_limit_fetches_summary">Ruft alle %d Minuten ab</string>
@@ -581,7 +581,7 @@
     <string name="minutes_5">5 Minuten</string>
     <string name="minutes_10">10 Minuten</string>
     <string name="minutes_30">30 Minuten</string>
-    <string name="lack_of_step">Schritte unter Tagesziel: %1$d</string>
+    <string name="lack_of_step">Zu wenig Schritte: %1$d</string>
     <string name="overstep">Schritte über Tagesziel: %1$d</string>
     <string name="live_activity_max_heart_rate">Aktuelle / Maximale Herzfrequenz: %1$d / %2$d</string>
     <string name="mi3_prefs_band_screen_unlock">Band-Bildschirm entsperren</string>
@@ -593,7 +593,7 @@
     <string name="activity_prefs_chart_min_heart_rate">Minimale Herzfrequenz</string>
     <string name="ok">Ok</string>
     <string name="mi3_night_mode_sunset">Bei Sonnenuntergang</string>
-    <string name="pref_rtl_max_line_length">Rechts-nach-Links maximale Zeilenlänge</string>
+    <string name="pref_rtl_max_line_length">Maximale Zeilenlänge linksläufiger Text</string>
     <string name="overslept">Schlafüberschuss: %1$s</string>
     <string name="menuitem_notifications">Benachrichtigungen</string>
     <string name="menuitem_music">Musik</string>
@@ -607,9 +607,9 @@
     <string name="language_and_region_prefs">Sprach- und Regionseinstellungen</string>
     <string name="debugactivity_really_factoryreset_title">Wirklich auf Werkseinstellungen zurücksetzen\?</string>
     <string name="debugactivity_really_factoryreset">Beim Zurücksetzen auf die Werkseinstellungen werden alle Daten vom angeschlossenen Gerät gelöscht (falls unterstützt). Xiaomi/Huami-Geräte wechseln dabei auch die Bluetooth-MAC-Adresse, so dass sie als neue Geräte bei Gadgetbridge erscheinen.</string>
-    <string name="pref_rtl_max_line_length_summary">Verlängert oder verkürzt die Zeilen, in die der Rechts-nach-Links Text getrennt wird</string>
-    <string name="notif_battery_low_extended">%1$s Akku schwach: %2$s</string>
-    <string name="lack_of_sleep">Schlafmangel: %1$s</string>
+    <string name="pref_rtl_max_line_length_summary">Verlängert oder verkürzt die Zeilen, in die linksläufiger Text geteilt wird</string>
+    <string name="notif_battery_low_extended">%1$s Akku fast leer: %2$s</string>
+    <string name="lack_of_sleep">Zu wenig geschlafen: %1$s</string>
     <string name="activity_type_exercise">Übung</string>
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
     <string name="devicetype_id115">ID115</string>
@@ -619,9 +619,9 @@
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="pref_title_contextual_arabic">Kontextabhängiges Arabisch</string>
     <string name="pref_summary_contextual_arabic">Aktivieren, um kontextabhängiges Arabisch zu unterstützen</string>
-    <string name="preferences_rtl_settings">Rechts nach Links Unterstützung</string>
+    <string name="preferences_rtl_settings">Unterstützung für linksläufigen Text (RTL)</string>
     <string name="share_log">Protokoll teilen</string>
-    <string name="share_log_warning">Bitte beachte, dass Gadgetbridge Dateien protokolliert, die viele persönliche Informationen enthalten können, einschließlich, aber nicht beschränkt auf Gesundheitsdaten, eindeutige Identifikatoren (wie die MAC-Adresse eines Geräts), Musikpräferenzen usw. Erwäge, die Datei zu bearbeiten und diese Informationen zu entfernen, bevor du die Datei in einem Bugreport sendest.</string>
+    <string name="share_log_warning">Bitte beachte, in den Protokoll Dateien von Gadgetbridge können personenbezogene Informationen enthalten sein. Dies können Gesundheitsdaten, eindeutige Identifikatoren (wie die MAC-Adresse eines Geräts), Musikpräferenzen und mehr sein. Erwäge die Datei zu bearbeiten und diese Informationen zu entfernen, bevor du die Datei in einem Fehlerbericht öffentlich zur Verfügung stellst.</string>
     <string name="title_activity_notification_filter">Benachrichtigungsfilter</string>
     <string name="toast_app_must_not_be_blacklisted">App muss nicht auf der Blacklist stehen, um konfiguriert zu werden</string>
     <string name="edittext_notification_filter_words_hint">Gewünschte Wörter eingeben, neue Zeile für jedes Wort</string>
@@ -749,7 +749,7 @@
     <string name="widget_1_hour">1 Stunde</string>
     <string name="pref_display_add_device_fab">Neues Gerät anschließen</string>
     <string name="pref_display_add_device_fab_on">Immer sichtbar</string>
-    <string name="pref_display_add_device_fab_off">Nur sichtbar, wenn kein Gerät hinzugefügt wird</string>
+    <string name="pref_display_add_device_fab_off">Nur sichtbar, wenn noch kein Gerät hinzugefügt wurde</string>
     <string name="activity_db_management_autoexport_explanation">Speicherort für automatischen Datenbank-Export auf:</string>
     <string name="activity_db_management_autoexport_label">Automatischer Export</string>
     <string name="activity_DB_test_export_button">Automatischen Export jetzt starten</string>
@@ -828,9 +828,9 @@
     <string name="error_no_location_access">Der Standortzugriff muss gewährt werden und aktiviert sein, damit das Scannen ordnungsgemäß funktioniert</string>
     <string name="devicetype_itag">iTag</string>
     <string name="pref_summary_allow_high_mtu">Erhöht die Übertragungsgeschwindigkeit, funktioniert aber möglicherweise nicht auf einigen Android-Geräten.</string>
-    <string name="prefs_button_single_press_action_selection_title">Aktion bei einem einzigen Tastendruck</string>
-    <string name="prefs_button_double_press_action_selection_title">Aktion bei 2 Tastendrücken</string>
-    <string name="prefs_button_triple_press_action_selection_title">Aktion bei 3 Tastendrücken</string>
+    <string name="prefs_button_single_press_action_selection_title">Ausführen bei Aktion 1</string>
+    <string name="prefs_button_double_press_action_selection_title">Ausführen bei Aktion 2</string>
+    <string name="prefs_button_triple_press_action_selection_title">Ausführen bei Aktion 3</string>
     <string name="pref_title_allow_high_mtu">Größere MTU erlauben</string>
     <string name="pref_summary_sync_calendar">Aktiviert Kalendererinnerungen, auch wenn die Verbindung getrennt ist</string>
     <string name="pref_title_sync_caldendar">Kalenderereignisse synchronisieren</string>
