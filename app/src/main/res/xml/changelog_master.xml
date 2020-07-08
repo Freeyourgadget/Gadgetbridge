@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.45.1" versioncode="177">
+        <change>Amazfit GTR/GTS: Fix connection issue with latest firmwares (probably other Huami devices also affected)</change>
+        <change>Add experimental support for TinyWeatherForecastGermany</change>
+    </release>
     <release version="0.45.0" versioncode="176">
         <change>Initial support for Amazfit T-Rex</change>
         <change>Amazfit Bip S: Support installation of latest .res</change>

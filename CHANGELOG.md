@@ -1,5 +1,9 @@
 ### Changelog
 
+#### 0.45.1
+* Amazfit GTR/GTS: Fix connection issue with latest firmwares (probably other Huami devices also affected)
+* Add experimental support for TinyWeatherForecastGermany
+
 #### 0.45.0
 * Initial support for Amazfit T-Rex
 * Amazfit Bip S: Support installation of latest .res

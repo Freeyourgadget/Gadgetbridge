@@ -1,0 +1,2 @@
+* Amazfit GTR/GTS: Fix connection issue with latest firmwares (probably other Huami devices also affected)
+* Add experimental support for TinyWeatherForecastGermany
