@@ -892,4 +892,17 @@
     <string name="hungarian">Maďarsky</string>
     <string name="romanian">Rumunsky</string>
     <string name="pref_theme_system">Systém</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Chystáte se nainstalovat firmvér %s na vašem Amazfit T-Rex. 
+\n 
+\nProsím nezapomeňte nainstalovat soubor .fw, potom soubor .res a nakonec soubor .gps. Vaše hodinky se po instalaci souboru .fw restartují. 
+\n 
+\nPoznámka: Nemusíte instalovat .res a .gps, pokud jsou tyto soubory přesně stejné jako ty, které byly nainstalovány dříve. 
+\n 
+\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="hr_widget_last_notification">Poslední oznámení</string>
+    <string name="menuitem_unknown">Neznámé</string>
+    <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
+    <string name="bip_prefs_shotcuts_summary">Vyberte si klávesové zkratky na obrazovce hodinek</string>
+    <string name="bip_prefs_shortcuts">Zkratky</string>
+    <string name="controlcenter_set_alias">Nastavit Alias</string>
 </resources>
