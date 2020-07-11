@@ -1,0 +1,94 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.AboutActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/about1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gadgetbridge"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/accent" />
+
+            <TextView
+                android:id="@+id/about2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_description" />
+
+            <TextView
+                android:id="@+id/about3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Links"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/accent" />
+
+            <TextView
+                android:id="@+id/about4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/homepage_url" />
+
+            <TextView
+                android:id="@+id/about5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/codeberg_url" />
+
+            <TextView
+                android:id="@+id/about6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/fdroid_url" />
+
+            <TextView
+                android:id="@+id/about7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_contributors"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/accent" />
+
+            <TextView
+                android:id="@+id/about8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_core_team_title"
+                android:textColor="@color/accent" />
+
+            <TextView
+                android:id="@+id/about9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_core_team_members" />
+
+            <TextView
+                android:id="@+id/about10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_additional_device_support"
+                android:textColor="@color/accent" />
+
+            <TextView
+                android:id="@+id/about11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_additional_contributors" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

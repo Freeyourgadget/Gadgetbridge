@@ -36,5 +36,10 @@
             android:id="@+id/external_changelog"
             android:title="@string/changelog_full_title"
             android:icon="@drawable/ic_history_black" />
+        <item
+            android:id="@+id/about"
+            android:title="@string/about_title"
+            android:icon="@drawable/gadgetbridge_img" />
+
     </group>
 </menu>

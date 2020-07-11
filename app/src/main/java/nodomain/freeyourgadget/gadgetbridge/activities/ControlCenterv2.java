@@ -297,6 +297,10 @@ public class ControlCenterv2 extends AppCompatActivity
                     GB.toast(getBaseContext(), "Error showing Changelog", Toast.LENGTH_LONG, GB.ERROR);
                 }
                 return true;
+            case R.id.about:
+                Intent aboutIntent = new Intent(this, AboutActivity.class);
+                startActivity(aboutIntent);
+                return true;
         }
 
         return true;
