@@ -928,4 +928,11 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
 \n 
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
+    <string name="about_additional_contributions">Listelenmeyen herkese kod, destek, fikirler, motivasyon, hata raporları, para... ile katkıda bulundukları için çok teşekkürler ✊</string>
+    <string name="about_additional_device_support">Ek aygıt desteği</string>
+    <string name="about_contributors">Katkıda bulunanlar</string>
+    <string name="about_core_team_title">Çekirdek Ekip (ilk kod katkıda bulunma sırasına göre)</string>
+    <string name="about_description">Aygıt sağlayıcılarınızın kapalı kaynaklı Android uygulamalarının yerine özgür ve bulut gerektirmeyen bir alternatif.</string>
+    <string name="about_activity_title">Gadgetbridge Hakkında</string>
+    <string name="about_title">Hakkında</string>
 </resources>
