@@ -908,4 +908,11 @@
 \n
 \n风险自担！</string>
     <string name="devicetype_amazfit_trex">华米 T-Rex</string>
+    <string name="about_additional_contributions">感谢所有未列出的贡献者，他们贡献了代码、支持、想法、动力、错误报告和金钱 ✊</string>
+    <string name="about_additional_device_support">额外设备支持</string>
+    <string name="about_contributors">贡献者</string>
+    <string name="about_core_team_title">核心成员 （以第一次提交代码排序）</string>
+    <string name="about_description">一个免费的、无云的替代品，可以替代你您的手环厂商的闭源Android应用。</string>
+    <string name="about_activity_title">关于 Gadgetbridge</string>
+    <string name="about_title">关于</string>
 </resources>
