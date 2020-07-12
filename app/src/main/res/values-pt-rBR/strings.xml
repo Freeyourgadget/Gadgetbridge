@@ -919,4 +919,11 @@
 \n 
 \nPROSSIGA POR SUA CONTA E RISCO!</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
+    <string name="about_additional_contributions">Muito obrigado a todos os contribuidores não listados aqui por contribuição com código, suporte, ideias, motivação, relatórios de erros, dinheiro... ✊</string>
+    <string name="about_additional_device_support">Suporte a dispositivos adicionais</string>
+    <string name="about_contributors">Contribuidores</string>
+    <string name="about_core_team_title">Equipe Core (na ordem da primeira contribuição de código)</string>
+    <string name="about_description">Um substituto livre e sem nuvem para os aplicativos Android de código fechado dos seus fornecedores de gadgets.</string>
+    <string name="about_activity_title">Sobre o Gadgetbridge</string>
+    <string name="about_title">Sobre</string>
 </resources>
