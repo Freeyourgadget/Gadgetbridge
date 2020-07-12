@@ -19,15 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.TextView;
-
-import androidx.appcompat.widget.SearchView;
-import androidx.core.app.NavUtils;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,11 +37,11 @@ public class AboutActivity extends AbstractGBActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-        TextView link1 = (TextView) findViewById(R.id.about4);
+        TextView link1 = (TextView) findViewById(R.id.links1);
         link1.setMovementMethod(LinkMovementMethod.getInstance());
-        TextView link2 = (TextView) findViewById(R.id.about5);
+        TextView link2 = (TextView) findViewById(R.id.links2);
         link2.setMovementMethod(LinkMovementMethod.getInstance());
-        TextView link3 = (TextView) findViewById(R.id.about6);
+        TextView link3 = (TextView) findViewById(R.id.links3);
         link3.setMovementMethod(LinkMovementMethod.getInstance());
 
     }
