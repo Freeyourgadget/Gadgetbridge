@@ -87,11 +87,16 @@
             </PreferenceScreen>
         </PreferenceScreen>
 
-        <PreferenceScreen android:title="@string/pref_title_weather">
+        <PreferenceScreen
+            android:title="@string/pref_title_weather"
+            android:summary="@string/pref_title_weather_summary">
+
             <EditTextPreference
+                android:inputType="text"
                 android:key="weather_city"
                 android:title="@string/pref_title_weather_location" />
         </PreferenceScreen>
+
         <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
