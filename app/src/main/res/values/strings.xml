@@ -124,7 +124,7 @@
     <string name="pref_call_privacy_mode_complete">Hide name and number</string>
     <string name="pref_title_weather">Weather</string>
     <string name="pref_title_weather_location">Weather location (for LineageOS weather provider)</string>
-    <string name="pref_title_weather_summary">Used for the LineageOS weather provider, other Android versions need to use an app like Weather notification. Find more information in the Gadgetbridge wiki.</string>
+    <string name="pref_title_weather_summary">Used for the LineageOS weather provider, other Android versions need to use an app like \"Weather notification\". Find more information in the Gadgetbridge wiki.</string>
     <string name="pref_blacklist">Blacklist Apps</string>
     <string name="pref_blacklist_calendars">Blacklist Calendars</string>
     <string name="pref_header_cannned_messages">Canned messages</string>
