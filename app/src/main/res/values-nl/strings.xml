@@ -910,4 +910,11 @@
 \n 
 \nGA VERDER OP EIGEN RISICO!</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
+    <string name="about_additional_contributions">Veel dank aan alle niet-vermelde bijdragers voor het bijdragen van code, ondersteuning, ideeën, motivatie, bugrapporten, geld ... ✊</string>
+    <string name="about_additional_device_support">Extra apparaatondersteuning</string>
+    <string name="about_contributors">Bijdragers</string>
+    <string name="about_core_team_title">Kernteam (in volgorde van eerste codebijdrage)</string>
+    <string name="about_description">Een gratis en cloudloze vervanging voor de closed source Android-applicaties van uw gadgetverkoper.</string>
+    <string name="about_activity_title">Over Gadgetbridge</string>
+    <string name="about_title">Over</string>
 </resources>
