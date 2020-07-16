@@ -385,7 +385,7 @@
     <string name="pref_call_privacy_mode_number">Ocultar número, mas exibir nome</string>
     <string name="pref_blacklist_calendars">Calendários na lista negra</string>
     <string name="pref_title_weather">Clima</string>
-    <string name="pref_title_weather_location">Localização climática (CM/LOS)</string>
+    <string name="pref_title_weather_location">Localização climática (para provedor de clina do LineageOS)</string>
     <string name="pref_title_enable_calendar_sync">Sincronizar calendário</string>
     <string name="pref_title_pebble_enable_bgjs">Habilitar JS em segundo plano</string>
     <string name="pref_summary_pebble_enable_bgjs">Quando habilitado, permite que os watchfaces mostrem o clima, informações da bateria, etc.</string>
@@ -926,4 +926,5 @@
     <string name="about_description">Um substituto livre e sem nuvem para os aplicativos Android de código fechado dos seus fornecedores de gadgets.</string>
     <string name="about_activity_title">Sobre o Gadgetbridge</string>
     <string name="about_title">Sobre</string>
+    <string name="pref_title_weather_summary">Usado para o provedor do clima do LineageOS, outras versões do Android precisam usar um aplicativo como o \"Notificação de clima\". Encontrará mais informações no wiki do Gadgetbridge.</string>
 </resources>
