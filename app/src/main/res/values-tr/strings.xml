@@ -659,7 +659,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="pref_title_pebble_sync_health">Pebble Health Senkronizasyonu</string>
     <string name="pref_title_pebble_sync_misfit">Misfit Senkronizasyonu</string>
     <string name="pref_title_pebble_sync_morpheuz">Morpheuz Sentronizasyonu</string>
-    <string name="pref_title_relax_firmware_checks">Cihazınız için tasarlanmamış bir Firmware yüklemek istiyorsanız bunu etkinleştirin (Sorumluluk Sizindir)</string>
+    <string name="pref_title_relax_firmware_checks">Cihazınız için tasarlanmamış bir ürün yazılımı yüklemek istiyorsanız bunu etkinleştirin (sorumluluk size aittir)</string>
     <string name="pref_title_rtl">Sağdan Sola</string>
     <string name="pref_title_screentime">Zaman Gösterimi Ekranı</string>
     <string name="pref_title_setup_bt_pairing">Bluetooth Paylaşımını Etkinleştir</string>
@@ -674,7 +674,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="pref_title_use_custom_font">Özel Font Kullan</string>
     <string name="pref_title_vibration_strength">Titreşim Gücü</string>
     <string name="pref_title_weather">HavaDurumu</string>
-    <string name="pref_title_weather_location">HavaDurumu Konumu (CM/LOS)</string>
+    <string name="pref_title_weather_location">Hava durumu konumu (LineageOS hava durumu sağlayıcısı için)</string>
     <string name="pref_title_whenscreenon">Ekran Açıkken de Genel Bildirim</string>
     <string name="pref_write_logfiles">Günlük Dosyalarını Yaz</string>
     <string name="preferences_category_device_specific_settings">Cihaz Özel Ayarları</string>
@@ -928,11 +928,12 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
 \n 
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
-    <string name="about_additional_contributions">Listelenmeyen herkese kod, destek, fikirler, motivasyon, hata raporları, para... ile katkıda bulundukları için çok teşekkürler ✊</string>
+    <string name="about_additional_contributions">Listelenmeyen herkese kod, destek, fikirler, motivasyon, hata raporları, para… ile katkıda bulundukları için çok teşekkürler ✊</string>
     <string name="about_additional_device_support">Ek aygıt desteği</string>
     <string name="about_contributors">Katkıda bulunanlar</string>
     <string name="about_core_team_title">Çekirdek Ekip (ilk kod katkıda bulunma sırasına göre)</string>
     <string name="about_description">Aygıt sağlayıcılarınızın kapalı kaynaklı Android uygulamalarının yerine özgür ve bulut gerektirmeyen bir alternatif.</string>
     <string name="about_activity_title">Gadgetbridge Hakkında</string>
     <string name="about_title">Hakkında</string>
+    <string name="pref_title_weather_summary">LineageOS hava durumu sağlayıcısı için kullanılır, diğer Android sürümleri \"Weather notification\" gibi bir uygulama kullanmalıdır. Gadgetbridge wiki sayfasında daha fazla bilgi bulabilirsiniz.</string>
 </resources>
