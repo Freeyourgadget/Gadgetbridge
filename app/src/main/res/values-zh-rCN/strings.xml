@@ -100,7 +100,7 @@
     <string name="pref_call_privacy_mode_name">隐藏姓名但显示号码</string>
     <string name="pref_call_privacy_mode_number">隐藏号码但显示姓名</string>
     <string name="pref_call_privacy_mode_complete">隐藏姓名和号码</string>
-    <string name="pref_title_weather_location">天气位置(CM/LOS)</string>
+    <string name="pref_title_weather_location">天气位置 (由LineageOS天气服务提供)</string>
     <string name="pref_blacklist">黑名单应用</string>
     <string name="pref_blacklist_calendars">黑名单列表</string>
     <string name="pref_header_cannned_messages">保存的消息</string>
@@ -908,11 +908,12 @@
 \n
 \n风险自担！</string>
     <string name="devicetype_amazfit_trex">华米 T-Rex</string>
-    <string name="about_additional_contributions">感谢所有未列出的贡献者，他们贡献了代码、支持、想法、动力、错误报告和金钱 ✊</string>
+    <string name="about_additional_contributions">感谢所有未列出的贡献者，他们贡献了代码、支持、想法、动力、错误报告和金钱… ✊</string>
     <string name="about_additional_device_support">额外设备支持</string>
     <string name="about_contributors">贡献者</string>
     <string name="about_core_team_title">核心成员 （以第一次提交代码排序）</string>
     <string name="about_description">一个免费的、无云的替代品，可以替代你您的手环厂商的闭源Android应用。</string>
     <string name="about_activity_title">关于 Gadgetbridge</string>
     <string name="about_title">关于</string>
+    <string name="pref_title_weather_summary">由LineageOS天气服务提供，其他版本的Android系统需要使用诸如“Weather notification”。更多信息请访问 Gadgetbridge 的Wiki。</string>
 </resources>
