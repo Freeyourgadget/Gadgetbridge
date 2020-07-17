@@ -191,7 +191,7 @@
     <string name="pref_summary_sync_calendar">Enables calendar alerts, even when disconnected</string>
     <string name="pref_title_sync_caldendar">Sync calendar events</string>
     <string name="pref_summary_relax_firmware_checks">Relax firmware checks</string>
-    <string name="pref_title_relax_firmware_checks">Enable this if you want to flash a firmware not intended for you device (at your own risk)</string>
+    <string name="pref_title_relax_firmware_checks">Enable this if you want to flash a firmware not intended for your device (at your own risk)</string>
     <string name="pref_title_vibration_strength">Vibration strength</string>
     <string name="pref_display_add_device_fab">Connect new device button</string>
     <string name="pref_display_add_device_fab_on">Always visible</string>
@@ -570,7 +570,6 @@
     <string name="hebrew">Hebrew</string>
     <string name="swedish">Swedish</string>
     <string name="czesh">Czech</string>
-
     <string name="FetchActivityOperation_about_to_transfer_since">About to transfer data since %1$s</string>
     <string name="waiting_for_reconnect">Waiting for reconnect</string>
     <string name="activity_prefs_about_you">About you</string>
@@ -870,7 +869,6 @@
     <string name="homepage_url" translatable="false">Homepage: <a href="https://gadgetbridge.org/">https://gadgetbridge.org/</a></string>
     <string name="codeberg_url" translatable="false">Code: <a href="https://codeberg.org/Freeyourgadget/Gadgetbridge">https://codeberg.org/Freeyourgadget/Gadgetbridge</a></string>
     <string name="fdroid_url" translatable="false">F-Droid: <a href="https://f-droid.org/packages/nodomain.freeyourgadget.gadgetbridge/">https://f-droid.org/packages/nodomain.freeyourgadget.gadgetbridge/</a></string>
-
     <string name="about_title">About</string>
     <string name="about_activity_title">About Gadgetbridge</string>
     <string name="about_description">A free and cloudless replacement for your gadget vendors\' closed source Android applications.</string>
@@ -879,8 +877,7 @@
     <string name="about_core_team_members" translatable="false">Andreas Shimokawa\nCarsten Pfeiffer\nDaniele Gobbetti</string>
     <string name="about_additional_device_support">Additional device support</string>
     <string name="about_additional_contributors" translatable="false">João Paulo Barraca (HPlus)\nVitaly Svyastyn (NO.1 F1)\nSami Alaoui (Teclast H30)\n“ladbsoft” (XWatch)\nSebastian Kranz (ZeTime)\nVadim Kaushan (ID115)\n“maxirnilian” (Lenovo Watch 9)\n“ksiwczynski”, “mkusnierz”, “mamutcho” (Lenovo Watch X Plus)\nAndreas Böhler (Casio GB-6900B)\nJean-François Greffier (Mi Scale 2)\nJohannes Schmitt (BFH-16)\nLukas Schwichtenberg (Makibes HR3)\nDaniel Dakhno (Fossil Q Hybrid, Fossil Hybrid HR)\nGordon Williams (Bangle.js)\nPavel Elagin (JYou Y5)\nTaavi Eomäe (iTag)</string>
-    <string name="about_additional_contributions">Many thanks to all unlisted contributors for contributing code, support, ideas, motivation, bug reports, money... ✊</string>
-
+    <string name="about_additional_contributions">Many thanks to all unlisted contributors for contributing code, support, ideas, motivation, bug reports, money… ✊</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>
         <item quantity="two">%d hours</item>
