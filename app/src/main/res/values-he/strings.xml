@@ -451,7 +451,7 @@
     <string name="interval_ten_minutes">כל 10 דקות</string>
     <string name="interval_thirty_minutes">כל חצי שעה</string>
     <string name="interval_one_hour">פעם בשעה</string>
-    <string name="pref_title_weather_location">מיקום מזג אוויר (CM/LOS)</string>
+    <string name="pref_title_weather_location">מיקום מזג אוויר (לספק מזג האוויר של LineageOS)</string>
     <string name="kind_firmware">קושחה</string>
     <string name="kind_invalid">נתונים שגויים</string>
     <string name="kind_font">גופן</string>
@@ -919,4 +919,5 @@
     <string name="about_description">חלופה חופשית ונטולת ענן ליישומוני ה־Android עם הקוד הסגור של ספק הגאדג׳טים שלך.</string>
     <string name="about_activity_title">על אודות Gadgetbridge</string>
     <string name="about_title">על אודות</string>
+    <string name="pref_title_weather_summary">משמש לספק מזג האוויר של LineageOS, גרסאות אחרות של Android צריכות להשתמש ביישומונים כמו „התראות מזג אוויר”. אפשר למצוא מידע נוסף בוויקי של Gadgetbridge.</string>
 </resources>
