@@ -886,6 +886,9 @@
     <string name="about_additional_contributions">Many thanks to all unlisted contributors for contributing code, support, ideas, motivation, bug reports, money… ✊</string>
     <string name="permission_granting_mandatory">All these permissions are required and instability might occur if not granted</string>
     <string name="error_version_check_extreme_caution">CAUTION: Error when checking version information! You should not continue! Saw version name \"%s\"</string>
+    <string name="require_location_provider">Location must be enabled</string>
+    <string name="companiondevice_pairing">CompanionDevice Pairing</string>
+    <string name="companiondevice_pairing_details">Enables the new CompanionDevice API support (above Android 8 only!) which theoretically increases reliability, requires re-pairing to have an effect</string>
     <string name="error_background_service">Failed to start background service</string>
     <string name="error_background_service_reason_truncated">Starting the background service failed because…</string>
     <string name="device_is_currently_bonded">ALREADY BONDED</string>
@@ -898,6 +901,7 @@
     <string name="error_retrieving_devices_database">Error retrieving devices from database</string>
     <string name="ignore_bonded_devices">Ignore bonded devices</string>
     <string name="ignore_bonded_devices_description">Enabling this option will ignore devices that have been bonded/paired already when scanning</string>
+
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>
         <item quantity="two">%d hours</item>

@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="nodomain.freeyourgadget.gadgetbridge">
+
     <!--
         Comment in for testing Pebble Emulator
         <uses-permission android:name="android.permission.INTERNET" />
     -->
+    <!-- Used for Bluetooth access -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- Since Android 10 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
@@ -16,18 +25,28 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
+    <uses-permission
+        android:name="android.permission.MEDIA_CONTENT_CONTROL"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- Used for background service -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.VIBRATE" /> <!-- Used for reverse find device -->
+    <uses-permission android:name="android.permission.REQUEST_COMPANION_RUN_IN_BACKGROUND" />
+
+    <!-- Used for reverse find device -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Used for weather provider access -->
     <uses-permission android:name="cyanogenmod.permission.ACCESS_WEATHER_MANAGER" />
     <uses-permission android:name="cyanogenmod.permission.READ_WEATHER" />
     <uses-permission android:name="lineageos.permission.ACCESS_WEATHER_MANAGER" />
     <uses-permission android:name="lineageos.permission.READ_WEATHER" />
     <uses-permission android:name="org.omnirom.omnijaws.READ_WEATHER" />
+
 
     <uses-feature
         android:name="android.hardware.bluetooth"
@@ -38,6 +57,9 @@
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
+    <uses-feature
+        android:name="android.software.companion_device_setup"
+        android:required="false" />
 
     <application
         android:name=".GBApplication"
@@ -47,7 +69,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/GadgetbridgeTheme">
-        <activity android:name=".devices.qhybrid.WidgetSettingsActivity"></activity>
+        <activity android:name=".devices.qhybrid.WidgetSettingsActivity" />
         <activity
             android:name=".activities.ControlCenterv2"
             android:label="@string/title_activity_controlcenter"
@@ -293,6 +315,7 @@
 
                 <data android:mimeType="application/octet-stream" />
             </intent-filter>
+
             <!-- to receive firmwares from the download content provider if recognized as zip -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -302,6 +325,7 @@
                 <data android:mimeType="application/zip" />
                 <data android:mimeType="application/x-zip-compressed" />
             </intent-filter>
+
             <!-- to receive files from the "share" intent -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -346,13 +370,21 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
+
         <receiver
             android:name=".externalevents.BluetoothStateChangeReceiver"
-            android:exported="false">
+            android:exported="false"
+            android:permission="android.permission.BLUETOOTH,android.permission.BLUETOOTH_ADMIN">
             <intent-filter>
                 <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
+                <action android:name="android.bluetooth.adapter.action.CONNECTION_STATE_CHANGED" />
+
+                <action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
+                <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED" />
+                <action android:name="android.bluetooth.device.action.ACL_DISCONNECT_REQUESTED" />
             </intent-filter>
         </receiver>
+
         <receiver
             android:name=".service.receivers.GBMusicControlReceiver"
             android:exported="false">
@@ -370,7 +402,7 @@
         <receiver
             android:name=".database.PeriodicExporter"
             android:enabled="true"
-            android:exported="false"></receiver>
+            android:exported="false" />
         <!--
             forcing the DebugActivity to portrait mode avoids crashes with the progress
             dialog when changing orientation
@@ -415,10 +447,10 @@
             android:label="@string/title_activity_watch9_calibration" />
         <activity
             android:name=".devices.lenovo.LenovoWatchPairingActivity"
-            android:label="@string/title_activity_watch9_pairing"  />
+            android:label="@string/title_activity_watch9_pairing" />
         <activity
             android:name=".devices.lenovo.LenovoWatchCalibrationActivity"
-            android:label="@string/title_activity_LenovoWatch_calibration"  />
+            android:label="@string/title_activity_LenovoWatch_calibration" />
         <activity
             android:name=".activities.charts.ChartsActivity"
             android:label="@string/title_activity_charts"
@@ -448,10 +480,13 @@
             android:name=".activities.FindPhoneActivity"
             android:label="Find Phone" />
 
+        <!--
         <provider
             android:name=".contentprovider.PebbleContentProvider"
             android:authorities="com.getpebble.android.provider"
             android:exported="true" />
+            -->
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.screenshot_provider"
@@ -512,6 +547,7 @@
                 <data android:scheme="gadgetbridge" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".devices.qhybrid.ConfigActivity"
             android:exported="true" />
@@ -525,5 +561,4 @@
             android:name=".devices.qhybrid.ImageEditActivity"
             android:exported="true" />
     </application>
-
 </manifest>

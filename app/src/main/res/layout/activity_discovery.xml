@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,25 +15,58 @@
         android:weightSum="1">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/discovery_start_scanning"
             android:id="@+id/discovery_start"
-            android:layout_gravity="center_horizontal" />
-
-        <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/discovery_progressbar"
-            android:indeterminate="true"
-            android:indeterminateOnly="true"
-            android:visibility="gone"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:text="@string/discovery_start_scanning" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bluetooth scan:" />
+
+            <ProgressBar
+                android:id="@+id/discovery_progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:indeterminate="true"
+                android:indeterminateOnly="true"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bluetooth LE scan:" />
+
+            <ProgressBar
+                android:id="@+id/discovery_ble_progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:indeterminate="true"
+                android:indeterminateOnly="true"
+                android:visibility="gone" />
+        </LinearLayout>
+
 
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:id="@+id/discovery_deviceCandidatesView"
+            android:id="@+id/discovery_device_candidates_list"
             android:layout_gravity="bottom|top"
             android:layout_weight="0.83" />
 
@@ -54,9 +87,7 @@
             android:text="@string/discovery_connected_devices_hint"
             android:id="@+id/discovery_hint"
             android:textColor="@color/secondarytext"
-            android:gravity="bottom"
             android:textIsSelectable="true" />
 
     </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>
