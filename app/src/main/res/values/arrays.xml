@@ -437,7 +437,7 @@
         <item>@string/menuitem_alarm</item>
         <item>@string/menuitem_timer</item>
         <item>@string/menuitem_compass</item>
-        <item>@string/menuitem_unknown</item>
+        <item>@string/menuitem_worldclock</item>
         <item>@string/menuitem_music</item>
         <item>@string/menuitem_settings</item>
     </string-array>
@@ -453,7 +453,7 @@
         <item>@string/p_menuitem_alarm</item>
         <item>@string/p_menuitem_timer</item>
         <item>@string/p_menuitem_compass</item>
-        <item>@string/p_menuitem_unknown</item>
+        <item>@string/p_menuitem_worldclock</item>
         <item>@string/p_menuitem_music</item>
         <item>@string/p_menuitem_settings</item>
     </string-array>
@@ -469,7 +469,7 @@
         <item>@string/p_menuitem_alarm</item>
         <item>@string/p_menuitem_timer</item>
         <item>@string/p_menuitem_compass</item>
-        <item>@string/p_menuitem_unknown</item>
+        <item>@string/p_menuitem_worldclock</item>
         <item>@string/p_menuitem_music</item>
         <item>@string/p_menuitem_settings</item>
     </string-array>

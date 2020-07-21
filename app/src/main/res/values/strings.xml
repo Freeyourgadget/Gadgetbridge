@@ -779,6 +779,7 @@
     <string name="menuitem_eventreminder">Event Reminder</string>
     <string name="menuitem_workout">Workout</string>
     <string name="menuitem_unknown">Unknown</string>
+    <string name="menuitem_worldclock">World Clock</string>
     <string name="watch9_time_minutes">Minutes:</string>
     <string name="watch9_time_hours">Hours:</string>
     <string name="watch9_time_seconds">Seconds:</string>

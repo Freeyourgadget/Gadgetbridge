@@ -123,12 +123,12 @@ public class AmazfitBipSSupport extends AmazfitBipSupport {
                 0x07, 0x00, (byte) 0xFF, 0x09, // Alarm
                 0x08, 0x00, (byte) 0xFF, 0x1B, // Timer
                 0x09, 0x00, (byte) 0xFF, 0x16, // Compass
-                0x0A, 0x00, (byte) 0xFF, 0x1A, // Unknown
+                0x0A, 0x00, (byte) 0xFF, 0x1A, // World clock
                 0x0B, 0x00, (byte) 0xFF, 0x0B, // Music
                 0x0C, 0x00, (byte) 0xFF, 0x13  // Settings
         };
 
-        String[] keys = {"status", "hr", "pai", "workout", "alipay", "nfc", "weather", "alarm", "timer", "compass", "unknown", "music", "settings"};
+        String[] keys = {"status", "hr", "pai", "workout", "alipay", "nfc", "weather", "alarm", "timer", "compass", "worldclock", "music", "settings"};
         byte[] ids = {1, 2, 25, 3, 17, 16, 4, 9, 27, 22, 26, 11, 19};
 
         if (pages != null) {
