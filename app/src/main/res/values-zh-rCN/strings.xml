@@ -916,4 +916,5 @@
     <string name="about_activity_title">关于 Gadgetbridge</string>
     <string name="about_title">关于</string>
     <string name="pref_title_weather_summary">由LineageOS天气服务提供，其他版本的Android系统需要使用诸如“Weather notification”。更多信息请访问 Gadgetbridge 的Wiki。</string>
+    <string name="menuitem_worldclock">世界时钟</string>
 </resources>
