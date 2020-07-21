@@ -936,4 +936,5 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="about_activity_title">Gadgetbridge Hakkında</string>
     <string name="about_title">Hakkında</string>
     <string name="pref_title_weather_summary">LineageOS hava durumu sağlayıcısı için kullanılır, diğer Android sürümleri \"Weather notification\" gibi bir uygulama kullanmalıdır. Gadgetbridge wiki sayfasında daha fazla bilgi bulabilirsiniz.</string>
+    <string name="menuitem_worldclock">Dünya Saati</string>
 </resources>
