@@ -35,7 +35,7 @@
     <string name="appmanager_hrm_deactivate">HRM deaktivieren</string>
     <string name="appmanager_weather_activate">Aktiviere die Wetter App des Systems</string>
     <string name="appmanager_weather_deactivate">Deaktiviere die Wetter App des Systems</string>
-    <string name="appmanager_weather_install_provider">Wetterbenachrichtigungs App installieren</string>
+    <string name="appmanager_weather_install_provider">App \"Weather Notification\" installieren</string>
     <string name="app_configure">Konfigurieren</string>
     <string name="app_move_to_top">Nach oben</string>
     <!--Strings related to AppBlacklist-->
@@ -384,7 +384,7 @@
     <!--Strings related to Pebble Pairing Activity-->
     <string name="title_activity_pebble_pairing">Pebble koppeln</string>
     <string name="pebble_pairing_hint">Auf deinem Android-Gerät erscheint ein Koppeln-Dialog. Wenn nicht, schaue in die Benachrichtigungsübersicht und akzeptiere die Kopplungsanforderung. Akzeptiere es auch danach auf deiner Pebble.</string>
-    <string name="weather_notification_label">Stelle sicher, dass dieser Skin in der Wetterbenachrichtigungs-App aktiviert ist, damit du Wetterdaten auf deiner Pebble erhältst. 
+    <string name="weather_notification_label">Stelle sicher, dass dieser Skin in der App \"Weather Notification\" aktiviert ist, damit du Wetterdaten auf deiner Pebble erhältst. 
 \n 
 \nHier ist keine Konfiguration nötig. 
 \n 
@@ -924,4 +924,5 @@
     <string name="about_activity_title">Über Gadgetbridge</string>
     <string name="about_title">Über</string>
     <string name="pref_title_weather_summary">Wird für den LineageOS Wetterdienst genutzt, andere Android Versionen müssen eine App wie \"Weather notification\" nutzen. Mehr Informationen gibt es im Gadgetbride wiki.</string>
+    <string name="menuitem_worldclock">Weltzeit</string>
 </resources>
