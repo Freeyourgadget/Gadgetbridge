@@ -193,6 +193,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     protected MusicStateSpec bufferMusicStateSpec = null;
     private boolean heartRateNotifyEnabled;
     private int mMTU = 23;
+    protected int mActivitySampleSize = 4;
 
     public HuamiSupport() {
         this(LOG);
@@ -1665,7 +1666,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         // TODO: react on 0x10, 0x02, 0x01 on notification (success)
     }
 
-    private void handleDeviceInfo(nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo info) {
+    protected void handleDeviceInfo(nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo info) {
 //        if (getDeviceInfo().supportsHeartrate()) {
 //            getDevice().addDeviceInfo(new GenericItem(
 //                    getContext().getString(R.string.DEVINFO_HR_VER),
@@ -2525,5 +2526,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     public int getMTU() {
         return mMTU;
+    }
+
+    public int getActivitySampleSize() {
+        return mActivitySampleSize;
     }
 }

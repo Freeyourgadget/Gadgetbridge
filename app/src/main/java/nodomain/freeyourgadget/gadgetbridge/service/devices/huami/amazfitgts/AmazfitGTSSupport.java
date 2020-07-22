@@ -37,6 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperationNew;
+import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public class AmazfitGTSSupport extends AmazfitBipSupport {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitGTSSupport.class);
@@ -123,5 +124,16 @@ public class AmazfitGTSSupport extends AmazfitBipSupport {
         }
 
         return this;
+    }
+
+    @Override
+    protected void handleDeviceInfo(nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo info) {
+        super.handleDeviceInfo(info);
+        if (gbDevice.getFirmwareVersion() != null) {
+            Version version = new Version(gbDevice.getFirmwareVersion());
+            if (version.compareTo(new Version("0.0.9.00")) > 0) {
+                mActivitySampleSize = 8;
+            }
+        }
     }
 }
