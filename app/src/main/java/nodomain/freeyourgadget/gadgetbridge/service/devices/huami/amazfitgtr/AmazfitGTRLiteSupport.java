@@ -25,6 +25,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr.AmazfitGTRLiteFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts.AmazfitGTSSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public class AmazfitGTRLiteSupport extends AmazfitGTSSupport {
 
@@ -38,5 +39,16 @@ public class AmazfitGTRLiteSupport extends AmazfitGTSSupport {
     public void phase2Initialize(TransactionBuilder builder) {
         super.phase2Initialize(builder);
         setLanguage(builder);
+    }
+
+    @Override
+    protected void handleDeviceInfo(nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo info) {
+        super.handleDeviceInfo(info);
+        if (gbDevice.getFirmwareVersion() != null) {
+            Version version = new Version(gbDevice.getFirmwareVersion());
+            if (version.compareTo(new Version("1.0.0.33")) >= 0) {
+                mActivitySampleSize = 8;
+            }
+        }
     }
 }

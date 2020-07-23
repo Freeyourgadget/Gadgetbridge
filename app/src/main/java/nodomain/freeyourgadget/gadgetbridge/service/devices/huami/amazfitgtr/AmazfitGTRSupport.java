@@ -24,6 +24,7 @@ import java.io.IOException;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr.AmazfitGTRFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts.AmazfitGTSSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public class AmazfitGTRSupport extends AmazfitGTSSupport {
 
@@ -32,4 +33,15 @@ public class AmazfitGTRSupport extends AmazfitGTSSupport {
         return new AmazfitGTRFWHelper(uri, context);
     }
 
+    @Override
+    protected void handleDeviceInfo(nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo info) {
+        super.handleDeviceInfo(info);
+        if (gbDevice.getFirmwareVersion() != null) {
+            Version version = new Version(gbDevice.getFirmwareVersion());
+            if (version.compareTo(new Version("1.3.5.79")) >= 0 || // For GTR 47mm
+                    (version.compareTo(new Version("1.0.0.00")) < 0 && version.compareTo(new Version("0.1.1.15")) >= 0)) { // for GTR 32mm with a different version scheme
+                mActivitySampleSize = 8;
+            }
+        }
+    }
 }
