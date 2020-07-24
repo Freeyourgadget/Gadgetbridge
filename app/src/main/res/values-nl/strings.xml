@@ -918,4 +918,5 @@
     <string name="about_activity_title">Over Gadgetbridge</string>
     <string name="about_title">Over</string>
     <string name="pref_title_weather_summary">Gebruikt voor de LineageOS weer provider, andere Android versies moeten een app zoals \"Weather notification\" gebruiiken. Meer informatie is te vinden in de Gadgetbridge wiki.</string>
+    <string name="menuitem_worldclock">Wereld Klok</string>
 </resources>
