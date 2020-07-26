@@ -438,7 +438,7 @@
 \nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="pref_title_charts_swipe">Zapnout možnost potažení mezi grafy aktivit</string>
     <string name="pref_title_weather">Počasí</string>
-    <string name="pref_title_weather_location">Poloha pro počasí (CM/LOS)</string>
+    <string name="pref_title_weather_location">Poloha pro počasí (LineageOS poskytovatel)</string>
     <string name="pref_title_pebble_enable_bgjs">Zapnout JS na pozadí</string>
     <string name="pref_summary_pebble_enable_bgjs">Pokud je zapnuto, umožňuje hodinám zobrazovat počasí, údaje o baterii atd.</string>
     <string name="pref_header_auto_export">Automatický export</string>
@@ -905,4 +905,13 @@
     <string name="bip_prefs_shotcuts_summary">Vyberte si klávesové zkratky na obrazovce hodinek</string>
     <string name="bip_prefs_shortcuts">Zkratky</string>
     <string name="controlcenter_set_alias">Nastavit Alias</string>
+    <string name="about_additional_contributions">Děkujeme všem nevypsaným přispěvatelům za kód, podporu, nápady, motivaci, hlášení o chybách, peníze… ✊</string>
+    <string name="about_additional_device_support">Podpora dalších zařízení</string>
+    <string name="about_contributors">Přispěvatelé</string>
+    <string name="about_core_team_title">Centrální tým (v pořadí příspěvku prvního kódu)</string>
+    <string name="about_description">Svobodná a lokální náhrada za uzavřenou aplikaci vašich hodinek/náramku.</string>
+    <string name="about_activity_title">O aplikaci Gadgetbridge</string>
+    <string name="about_title">O aplikaci</string>
+    <string name="menuitem_worldclock">Světový Čas</string>
+    <string name="pref_title_weather_summary">Použito s poskytovatelem počasí LineageOS. Ostatní verze Androidu vyžadují \"Weather Notification\" app. Více informací naleznete na Gadgetbridge wiki.</string>
 </resources>
