@@ -880,6 +880,9 @@
     <string name="about_additional_contributions">Many thanks to all unlisted contributors for contributing code, support, ideas, motivation, bug reports, money… ✊</string>
     <string name="permission_granting_mandatory">All these permissions are required and instability might occur if not granted</string>
     <string name="error_version_check_extreme_caution">CAUTION: Error when checking version information! You should not continue! Saw version name \"%s\"</string>
+    <string name="error_background_service">Failed to start background service</string>
+    <string name="error_background_service_reason_truncated">Starting the background service failed because…</string>
+    <string name="error_background_service_reason">Starting the background service failed because of an exception. Error: </string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>
         <item quantity="two">%d hours</item>
