@@ -239,7 +239,7 @@
     <string name="pref_header_vibration_settings">Ρυθμίσεις δόνησης</string>
     <string name="pref_screen_notification_profile_generic">Γενικές ειδοποιήσεις</string>
     <string name="pref_screen_notification_profile_email">Ειδοποιήσεις email</string>
-    <string name="pref_title_weather_location">Τοποθεσία καιρού (για τις ROM Cyanogenmod ή LineageOS)</string>
+    <string name="pref_title_weather_location">Τοποθεσία καιρού (για την υπηρεσία καιρού του LineageOS)</string>
     <string name="pref_screen_notification_profile_incoming_call">Ειδοποιήσεις εισερχομένων κλήσεων</string>
     <string name="pref_screen_notification_profile_generic_chat">Συζήτηση</string>
     <string name="pref_screen_notification_profile_generic_navigation">Πλοήγηση</string>
@@ -766,7 +766,7 @@
     <string name="pref_display_add_device_fab_on">Πάντοτε ορατό</string>
     <string name="pref_display_add_device_fab">Κουμπί σύνδεσης νέας συσκευής</string>
     <string name="pref_title_vibration_strength">Ένταση δόνησης</string>
-    <string name="pref_title_relax_firmware_checks">Εργοποιήστε αυτό εάν επιθυμείτε να εγκαταστήσετε ένα υλικολογισμικό το οποίο δεν προορίζεται για την συσκευή σας (ενεργήστε με δική σας ευθύνη)</string>
+    <string name="pref_title_relax_firmware_checks">Ενεργοποιήστε αυτό εάν επιθυμείτε να εγκαταστήσετε ένα υλικολογισμικό το οποίο δεν προορίζεται για την συσκευή σας (ενεργήστε με δική σας ευθύνη)</string>
     <string name="pref_summary_relax_firmware_checks">Χαλαροί έλεγχοι υλικολογισμικού</string>
     <string name="pref_title_sync_caldendar">Συγχρονισμός συμβάντων ημερολογίου</string>
     <string name="pref_summary_sync_calendar">Ενεργοποιεί τις ειδοποιήσεις ημερολογίου ακόμα και όταν η συσκευή δεν είναι συνδεδεμένη.</string>
@@ -900,4 +900,21 @@
     <string name="pref_summary_device_spec_settings_title_force_time">Επιβολή αυτόματου συγχρονισμού ώρας κατά την επανασύνδεση. Αναλογικοί δείκτες μπορεί να δείξουν εσφαλμένη ώρα!</string>
     <string name="prefs_notifications_and_calls_reject">Κουμπί αγνόησης / απόρριψης κλήσης</string>
     <string name="controlcenter_set_alias">Ορίστε ταυτότητα</string>
+    <string name="about_additional_contributions">Πολλές ευχαριστίες σε όλους τους μη αναφερθέντες συνεισφέροντες για τη συμβολή στον κώδικα, την υποστήριξη, τις ιδέες, το κίνητρο, τις αναφορές σφαλμάτων, τα χρήματα... ✊</string>
+    <string name="about_additional_device_support">Πρόσθετη υποστήριξη συσκευών</string>
+    <string name="about_contributors">Συντελεστές</string>
+    <string name="about_core_team_title">Βασική ομάδα (κατά σειρά μεγαλύτερης συνεισφοράς κώδικα)</string>
+    <string name="about_description">Μια δωρεάν, ελεύθερου κώδικα και χωρίς πρόσβαση στο διαδίκτυο εφαρμογή Android για να αντικαταστήσει τις υπάρχουσες εφαρμογές κλειστού κώδικα των κατασκευαστών του smartwatch σας.</string>
+    <string name="about_activity_title">Σχετικά με το Gadgetbridge</string>
+    <string name="about_title">Σχετικά</string>
+    <string name="menuitem_worldclock">Παγκόσμιο Ρολόι</string>
+    <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
+    <string name="pref_title_weather_summary">Χρησιμοποιείται για την υπηρεσία παροχής καιρού του LineageOS, άλλες εκδόσεις Android πρέπει να χρησιμοποιούν μια εφαρμογή όπως \"Weather notification\". Βρείτε περισσότερες πληροφορίες στο wiki του Gadgetbridge.</string>
+    <string name="fw_upgrade_notice_amazfit_trex">—Πρόκειται να εγκαταστήσετε το υλικολογισμικό %s στο Amazfit T-Rex σας. 
+\n 
+\nΠαρακαλώ βεβαιωθείτε ότι έχετε εγκαταστήσει πρώτα το αρχείο .fw στη συνέχεια το αρχείο .res και τέλος το .gps αρχείο. Η συσκευή πρόκειται να επανακινήσει μετά την εγκατάσταση του αρχείου .fw. 
+\n 
+\nΣημείωση: Τα αρχεία .res και .gps δεν χρειάζεται να εγκατασταθεί ξανά εαν αν είναι ακριβώς το ίδιο με αυτό που έχει εγκατασταθεί προηγουμένως. 
+\n 
+\nΕΝΕΡΓΉΣΕΤΕ ΜΕ ΔΙΚΉ ΣΑΣ ΕΥΘΎΝΗ!</string>
 </resources>
