@@ -80,7 +80,7 @@
     <string name="pref_title_notification_filter">Bitte nicht stören</string>
     <string name="pref_summary_notification_filter">Unerwünschte Benachrichtigungen werden in diesem Modus unterdrückt</string>
     <string name="pref_title_transliteration">Sonderzeichen umschreiben</string>
-    <string name="pref_summary_transliteration">Aktiviere dies, falls dein Gerät keine Unterstützung für die Schriftart deiner Sprache hat</string>
+    <string name="pref_summary_transliteration">Zum Umschreiben von Sonderzeichen aktivieren, falls dein Gerät keine Unterstützung für bestimmte Zeichen hat (z.B. ü-&gt;ue)</string>
     <string name="always">Immer</string>
     <string name="when_screen_off">Wenn der Bildschirm aus ist</string>
     <string name="never">Niemals</string>
@@ -201,7 +201,7 @@
     <string name="miband_pairing_using_dummy_userdata">Keine gültigen Benutzerdaten angegeben, es werden jetzt Dummy-Benutzerdaten verwendet.</string>
     <string name="miband_pairing_tap_hint">Wenn dein Mi Band vibriert und blinkt, tippe es ein paar Mal hintereinander an.</string>
     <string name="appinstaller_install">Installieren</string>
-    <string name="discovery_connected_devices_hint">Mache dein Gerät auffindbar. Derzeit verbundene Geräte werden wahrscheinlich nicht erkannt. Aktiviere die Standortsbestimmung (zum Beispiel GPS) in Android 6+. Deaktiviere Privacy Guard für Gadgetbridge, da er zu Abstürzen und Neustarts deines Telefons führen kann. Wenn nach einigen Minuten kein Gerät erkannt wird, versuche es nach dem Neustart deines mobilen Gerätes erneut.</string>
+    <string name="discovery_connected_devices_hint">Mache dein Gerät auffindbar. Derzeit verbundene Geräte werden wahrscheinlich nicht erkannt. Aktiviere die Standortbestimmung (zum Beispiel GPS) in Android 6+. Deaktiviere Privacy Guard für Gadgetbridge, da er zu Abstürzen und Neustarts deines Telefons führen kann. Wenn nach einigen Minuten kein Gerät erkannt wird, versuche es nach dem Neustart deines mobilen Gerätes erneut.</string>
     <string name="discovery_note">Hinweis:</string>
     <string name="candidate_item_device_image">Gerätesymbol</string>
     <string name="miband_prefs_alias">Name/Alias</string>
@@ -723,7 +723,7 @@
     <string name="prefs_hr_alarm_activity">Herzfrequenzalarm bei sportlicher Aktivität</string>
     <string name="prefs_hr_alarm_low">Untere Grenze</string>
     <string name="prefs_hr_alarm_high">Obere Grenze</string>
-    <string name="average">Durchschnitt: %1$s</string>
+    <string name="average">Mittelwert: %1$s</string>
     <string name="pref_header_charts">Diagrammeinstellungen</string>
     <string name="pref_title_charts_average">Durchschnittswerte im Diagramm anzeigen</string>
     <string name="pref_title_charts_range">Diagrammbereich</string>
