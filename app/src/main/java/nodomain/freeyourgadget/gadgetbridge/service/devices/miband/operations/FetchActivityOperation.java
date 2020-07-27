@@ -153,6 +153,14 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
 
     public FetchActivityOperation(MiBandSupport support) {
         super(support);
+        if (support == null) {
+            LOG.error("MiBandSupport was null");
+            return;
+        }
+        if (support.getDeviceInfo() == null) {
+            LOG.error("MiBandSupport getDeviceInfo returned null");
+            return;
+        }
         hasExtendedActivityData = support.getDeviceInfo().supportsHeartrate();
         hasPacketCounter = support.getDeviceInfo().getProfileVersion() >= 0x02000700;
         //temporary buffer, size is a multiple of 60 because we want to store complete minutes (1 minute = 3 or 4 bytes)
