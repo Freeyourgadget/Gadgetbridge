@@ -186,8 +186,9 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
 
     // FIXME: Replace hardcoded values by configuration
     private void configureWatch(TransactionBuilder builder) {
-        if (mBtGatt == null)
+        if (mBtGatt == null) {
             return;
+        }
 
         byte value[] = new byte[]{GattCharacteristic.MILD_ALERT};
 
@@ -680,10 +681,15 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFindDevice(boolean start) {
-        if(!isConnected())
+        if (!isConnected()) {
             return;
+        }
 
-        if(start) {
+        if (mBtGatt == null) {
+            return;
+        }
+
+        if (start) {
             try {
                 TransactionBuilder builder = performInitialized("findDevice");
                 byte value[] = new byte[]{GattCharacteristic.HIGH_ALERT};
