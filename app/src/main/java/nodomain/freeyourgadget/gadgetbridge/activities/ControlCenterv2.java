@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -81,7 +82,7 @@ public class ControlCenterv2 extends AppCompatActivity
 
     private boolean isLanguageInvalid = false;
 
-    public static final int MENU_REFRESH_CODE=1;
+    public static final int MENU_REFRESH_CODE = 1;
 
     private static PhoneStateListener fakeStateListener;
 
@@ -205,7 +206,7 @@ public class ControlCenterv2 extends AppCompatActivity
         if (cl.isFirstRun()) {
             try {
                 cl.getLogDialog().show();
-            } catch (Exception ignored){
+            } catch (Exception ignored) {
                 GB.toast(getBaseContext(), "Error showing Changelog", Toast.LENGTH_LONG, GB.ERROR);
 
             }
@@ -338,6 +339,7 @@ public class ControlCenterv2 extends AppCompatActivity
     @TargetApi(Build.VERSION_CODES.M)
     private void checkAndRequestPermissions() {
         List<String> wantedPermissions = new ArrayList<>();
+        GB.toast(this, getString(R.string.permission_granting_mandatory), Toast.LENGTH_LONG, GB.ERROR);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) == PackageManager.PERMISSION_DENIED)
             wantedPermissions.add(Manifest.permission.BLUETOOTH);
@@ -368,11 +370,20 @@ public class ControlCenterv2 extends AppCompatActivity
         try {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.MEDIA_CONTENT_CONTROL) == PackageManager.PERMISSION_DENIED)
                 wantedPermissions.add(Manifest.permission.MEDIA_CONTENT_CONTROL);
-        } catch (Exception ignored){
+        } catch (Exception ignored) {
         }
 
         if (!wantedPermissions.isEmpty())
             ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[0]), 0);
+
+        /* In order to be able to set ringer mode to silent in PhoneCallReceiver
+           the permission to access notifications is needed above Android M
+           ACCESS_NOTIFICATION_POLICY is also needed in the manifest */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!((NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE)).isNotificationPolicyAccessGranted()) {
+                startActivity(new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
+            }
+        }
 
         // HACK: On Lineage we have to do this so that the permission dialog pops up
         if (fakeStateListener == null) {
