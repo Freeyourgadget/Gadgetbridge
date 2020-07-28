@@ -925,4 +925,6 @@
     <string name="about_title">Über</string>
     <string name="pref_title_weather_summary">Wird für den LineageOS Wetterdienst genutzt, andere Android Versionen müssen eine App wie \"Weather notification\" nutzen. Mehr Informationen gibt es im Gadgetbride wiki.</string>
     <string name="menuitem_worldclock">Weltzeit</string>
+    <string name="error_version_check_extreme_caution">ACHTUNG: Fehler beim Prüfen der Information zur Version! Du solltest nicht fortfahren! Versionsname \"%s\" gefunden</string>
+    <string name="permission_granting_mandatory">Alle Berechtigungen sind notwendig und es kann zu Problemen führen, wenn sie nicht genehmigt werden</string>
 </resources>
