@@ -450,8 +450,8 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="norwegian_bokmal">Norwegian Bokmål</string>
     <string name="not_connected">Bağlı Değil</string>
     <string name="notif_battery_low">%1$s Batarya Düşük</string>
-    <string name="notif_battery_low_bigtext_last_charge_time">"Son Şarj: %s 
-"</string>
+    <string name="notif_battery_low_bigtext_last_charge_time">Son şarj: %s
+\n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Sarj Oranı: %s</string>
     <string name="notif_battery_low_extended">%1$s Batarya Az: %2$s</string>
     <string name="notif_battery_low_percent">%1$s Batarya kaldı: %2$s%%</string>
@@ -937,4 +937,6 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="about_title">Hakkında</string>
     <string name="pref_title_weather_summary">LineageOS hava durumu sağlayıcısı için kullanılır, diğer Android sürümleri \"Weather notification\" gibi bir uygulama kullanmalıdır. Gadgetbridge wiki sayfasında daha fazla bilgi bulabilirsiniz.</string>
     <string name="menuitem_worldclock">Dünya Saati</string>
+    <string name="error_version_check_extreme_caution">DİKKAT: Sürüm bilgileri denetlenirken hata oluştu! Devam etmemelisiniz! Görülen sürüm adı \"%s\"</string>
+    <string name="permission_granting_mandatory">Tüm bu izinler gereklidir ve izin verilmezse kararsızlık oluşabilir</string>
 </resources>
