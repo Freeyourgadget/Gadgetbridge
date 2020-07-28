@@ -353,8 +353,6 @@ public class ControlCenterv2 extends AppCompatActivity
             wantedPermissions.add(Manifest.permission.READ_CONTACTS);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_DENIED)
             wantedPermissions.add(Manifest.permission.CALL_PHONE);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ANSWER_PHONE_CALLS) == PackageManager.PERMISSION_DENIED)
-            wantedPermissions.add(Manifest.permission.ANSWER_PHONE_CALLS);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_DENIED)
             wantedPermissions.add(Manifest.permission.READ_CALL_LOG);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED)
@@ -371,10 +369,16 @@ public class ControlCenterv2 extends AppCompatActivity
             wantedPermissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED)
             wantedPermissions.add(Manifest.permission.READ_CALENDAR);
+
         try {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.MEDIA_CONTENT_CONTROL) == PackageManager.PERMISSION_DENIED)
                 wantedPermissions.add(Manifest.permission.MEDIA_CONTENT_CONTROL);
         } catch (Exception ignored) {
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ANSWER_PHONE_CALLS) == PackageManager.PERMISSION_DENIED)
+                wantedPermissions.add(Manifest.permission.ANSWER_PHONE_CALLS);
         }
 
         if (!wantedPermissions.isEmpty()) {
