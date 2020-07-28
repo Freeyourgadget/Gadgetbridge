@@ -873,6 +873,9 @@ public class GBApplication extends Application {
                             case MIBAND4:
                                 newWearside = prefs.getString("mi_wearside", "left");
                                 break;
+                            case MIBAND5:
+                                newWearside = prefs.getString("mi_wearside", "left");
+                                break;
                             case HPLUS:
                                 newWearside = prefs.getString("hplus_wrist", "left");
                                 newTimeformat = prefs.getString("hplus_timeformat", "24h");

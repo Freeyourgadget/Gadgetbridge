@@ -49,6 +49,7 @@ public class HuamiConst {
     public static final String MI_BAND3_NAME = "Mi Band 3";
     public static final String MI_BAND3_NAME_2 = "Xiaomi Band 3";
     public static final String MI_BAND4_NAME = "Mi Smart Band 4";
+    public static final String MI_BAND5_NAME = "Mi Smart Band 5";
 
     public static final String PREF_ACTIVATE_DISPLAY_ON_LIFT = "activate_display_on_lift_wrist";
     public static final String PREF_DISPLAY_ON_LIFT_START = "display_on_lift_start";

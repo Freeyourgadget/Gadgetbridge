@@ -30,11 +30,14 @@
     <item name="p_menuitem_settings" type="string">settings</item>
     <item name="p_menuitem_alipay" type="string">alipay</item>
     <item name="p_menuitem_notifications" type="string">notifications</item>
+    <item name="p_menuitem_breathing" type="string">breathing</item>
     <item name="p_menuitem_music" type="string">music</item>
     <item name="p_menuitem_more" type="string">more</item>
     <item name="p_menuitem_nfc" type="string">nfc</item>
     <item name="p_menuitem_hr" type="string">hr</item>
     <item name="p_menuitem_pai" type="string">pai</item>
+    <item name="p_menuitem_stress" type="string">stress</item>
+    <item name="p_menuitem_cycles" type="string">cycles</item>
     <item name="p_menuitem_eventreminder" type="string">eventreminder</item>
     <item name="p_menuitem_workout" type="string">workout</item>
     <item name="p_menuitem_worldclock" type="string">worldclock</item>
