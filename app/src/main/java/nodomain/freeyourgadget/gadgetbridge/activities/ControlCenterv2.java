@@ -51,6 +51,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -339,7 +340,6 @@ public class ControlCenterv2 extends AppCompatActivity
     @TargetApi(Build.VERSION_CODES.M)
     private void checkAndRequestPermissions() {
         List<String> wantedPermissions = new ArrayList<>();
-        GB.toast(this, getString(R.string.permission_granting_mandatory), Toast.LENGTH_LONG, GB.ERROR);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) == PackageManager.PERMISSION_DENIED)
             wantedPermissions.add(Manifest.permission.BLUETOOTH);
@@ -373,14 +373,38 @@ public class ControlCenterv2 extends AppCompatActivity
         } catch (Exception ignored) {
         }
 
-        if (!wantedPermissions.isEmpty())
-            ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[0]), 0);
+        if (!wantedPermissions.isEmpty()) {
+            Prefs prefs = GBApplication.getPrefs();
+            // If this is not the first run, we can rely on
+            // shouldShowRequestPermissionRationale(String permission)
+            // and ignore permissions that shouldn't or can't be requested again
+            if (prefs.getBoolean("permissions_asked", false)) {
+                // Don't request permissions that we shouldn't show a prompt for
+                // e.g. permissions that are "Never" granted by the user or never granted by the system
+                Set<String> shouldNotAsk = new HashSet<>();
+                for (String wantedPermission : wantedPermissions) {
+                    if (!shouldShowRequestPermissionRationale(wantedPermission)) {
+                        shouldNotAsk.add(wantedPermission);
+                    }
+                }
+                wantedPermissions.removeAll(shouldNotAsk);
+            } else {
+                // Permissions have not been asked yet, but now will be
+                prefs.getPreferences().edit().putBoolean("permissions_asked", true).apply();
+            }
+
+            if (!wantedPermissions.isEmpty()) {
+                GB.toast(this, getString(R.string.permission_granting_mandatory), Toast.LENGTH_LONG, GB.ERROR);
+                ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[0]), 0);
+            }
+        }
 
         /* In order to be able to set ringer mode to silent in PhoneCallReceiver
            the permission to access notifications is needed above Android M
            ACCESS_NOTIFICATION_POLICY is also needed in the manifest */
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!((NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE)).isNotificationPolicyAccessGranted()) {
+                GB.toast(this, getString(R.string.permission_granting_mandatory), Toast.LENGTH_LONG, GB.ERROR);
                 startActivity(new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
             }
         }
