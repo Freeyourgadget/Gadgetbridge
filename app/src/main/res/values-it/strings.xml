@@ -162,7 +162,10 @@
     <string name="installing_binary_d_d">Installazione del binario %1$d/%2$d</string>
     <string name="installation_failed_">Installazione fallita</string>
     <string name="installation_successful">Installazione conclusa con successo</string>
-    <string name="firmware_install_warning">STAI INSTALLANDO UN FIRMWARE, PROCEDI A TUO RISCHIO.\n\n Questo firmware è per la versione HW: %s</string>
+    <string name="firmware_install_warning">STAI CERCANDO DI INSTALLARE UN FIRMWARE, PROCEDI A TUO RISCHIO E PERICOLO.
+\n
+\n
+\nQuesto firmware è per la versione HW: %s</string>
     <string name="app_install_info">Si sta per installare la app:\n\n\n%1$s Versione %2$s di %3$s\n</string>
     <string name="n_a">N/A</string>
     <string name="initialized">inizializzato</string>
@@ -411,7 +414,7 @@
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
     <string name="pref_title_charts_swipe">Abilita swipe Sinistra/Destra nel grafico delle attività</string>
     <string name="pref_title_weather">Meteo</string>
-    <string name="pref_title_weather_location">Posizione meteo (CM/LOS)</string>
+    <string name="pref_title_weather_location">Posizione meteo (per il provider meteo di LineageOS)</string>
     <string name="pref_blacklist_calendars">Blacklist Calendari</string>
     <string name="pref_header_pebble_timeline">Timeline Pebble</string>
     <string name="pref_summary_enable_calendar_sync">Invia gli eventi del calendario alla timeline</string>
@@ -496,7 +499,7 @@
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
     <string name="pref_title_pebble_gatt_clientonly">Modalità GATT client</string>
     <string name="pref_summary_pebble_gatt_clientonly">Sperimentale, compatibile solo con Pebble 2, attivare solo in caso di problemi di connettività</string>
-    <string name="pref_auto_fetch">"Recupero automatico dati  delle attività"</string>
+    <string name="pref_auto_fetch">Recupero automatico dati delle attività</string>
     <string name="pref_auto_fetch_summary">Sincronizza i dati quando lo schermo viene sbloccato. Funziona solo se è attivata una modalità di blocco!</string>
     <string name="controlcenter_start_activity_tracks">Traccia delle tua attività</string>
     <string name="activity_type_not_measured">Non misurato</string>
@@ -748,7 +751,7 @@
     <string name="prefs_find_phone_summary">Usa la tua band per riprodurre la suoneria del tuo telefono.</string>
     <string name="prefs_find_phone_duration">Durata dello squillo in secondi</string>
     <string name="maximum_duration">Durata</string>
-    <string name="discovery_need_to_enter_authkey">Questo dispositivo ha bisogno di una chiave di autenticazione segreta, premere a lungo sul dispositivo per inserirla. Leggi il wiki.</string>
+    <string name="discovery_need_to_enter_authkey">Questo dispositivo ha bisogno di una chiave di autenticazione segreta, premi a lungo sul dispositivo per inserirla. Leggi la wiki.</string>
     <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
     <string name="pref_chart_heartrate_color_red">Rosso</string>
     <string name="pref_chart_heartrate_color_orange">Arancione</string>
@@ -781,7 +784,7 @@
     <string name="appwidget_sleep_alarm_widget_label">Sveglia</string>
     <string name="widget_listing_label">Stato e Sveglie</string>
     <string name="pref_display_add_device_fab">Pulsante per connettere un nuovo dispositivo</string>
-    <string name="fw_upgrade_notice_amazfitbip_lite">Stai per installare il firmware %s sull\'Amazfit Bip Lite.
+    <string name="fw_upgrade_notice_amazfitbip_lite">Stai per installare il firmware %s sul tuo Amazfit Bip Lite.
 \n
 \nAssicurati di installare prima il file .fw e dopo il file .res. L\'orologio si riavvierà al termine del caricamento del file .fw.
 \n
@@ -829,7 +832,7 @@
     <string name="pref_title_lower_button_function">Pulsante inferiore</string>
     <string name="pref_title_middle_button_function">Pulsante centrale</string>
     <string name="pref_title_upper_button_function">Pulsante superiore</string>
-    <string name="hr_appname_commute">Commute</string>
+    <string name="hr_appname_commute">Commuta</string>
     <string name="hr_appname_stopwatch">Cronometro</string>
     <string name="hr_appname_workout">Allenamento</string>
     <string name="hr_appname_wellness">Benessere</string>
@@ -838,7 +841,7 @@
     <string name="notification_channel_high_priority_name">Notifiche di Gadgetbridge ad alta priorità</string>
     <string name="find_my_phone_notification">Trova il mio telefono</string>
     <string name="pref_title_vibration_strength">Resistenza alle vibrazioni</string>
-    <string name="pref_title_relax_firmware_checks">Attivare questo se si vuole far lampeggiare un firmware non destinato al proprio dispositivo (a proprio rischio e pericolo)</string>
+    <string name="pref_title_relax_firmware_checks">Attiva questo se vuoi flashare un firmware non destinato al tuo dispositivo (a proprio rischio e pericolo)</string>
     <string name="pref_summary_custom_deviceicon">Mostra l\'icona di notifica di un dispositivo specifico per Android invece l\'icona di Gadgetbridge quando è connesso</string>
     <string name="pref_title_custom_deviceicon">Mostra l\'icona di notifica specifica del dispositivo</string>
     <string name="menuitem_workout">Allenamento</string>
@@ -862,4 +865,55 @@
     <string name="pref_notifications_and_calls_enable_misscall">Notifica per chiamata senza risposta</string>
     <string name="pref_header_notifications_and_calls">Notifiche e chiamate</string>
     <string name="pref_theme_system">Sistema</string>
+    <string name="pref_summary_relax_firmware_checks">Allenta i controlli del firmware</string>
+    <string name="error_background_service_reason">L\'avvio del servizio in background non è riuscito a causa di un\'eccezione. Errore:</string>
+    <string name="error_background_service_reason_truncated">L\'avvio del servizio in background non è riuscito perché…</string>
+    <string name="error_background_service">Impossibile avviare il servizio in background</string>
+    <string name="error_version_check_extreme_caution">ATTENZIONE: Errore durante la verifica delle informazioni sulla versione! Non dovresti continuare! Visto il nome della versione \"%s\"</string>
+    <string name="permission_granting_mandatory">Sono richieste tutte queste autorizzazioni e l\'app potrebbe essere instabile se non concesse</string>
+    <string name="about_additional_contributions">Mille grazie a tutti i collaboratori non elencati per aver contribuito con codice, supporto, idee, motivazione, segnalazioni di bug, donazioni ... ✊</string>
+    <string name="about_additional_device_support">Supporto a dispositivi aggiuntivi</string>
+    <string name="about_contributors">Contributori</string>
+    <string name="about_core_team_title">Team principale (ordinati in base al primo contributo di codice)</string>
+    <string name="about_description">Un\'alternativa gratuita e senza cloud per le applicazioni Android a sorgente chiusa del tuo gadget.</string>
+    <string name="about_activity_title">Su Gadgetbridge</string>
+    <string name="about_title">Informazioni</string>
+    <string name="hr_widget_last_notification">Ultima notifica</string>
+    <string name="pref_qhybrid_save_raw_activity_files">Salva i dati raw (grezzi) delle attività</string>
+    <string name="pref_qhybrid_title_widget_draw_circles">Disegna i cerchi del widget</string>
+    <string name="menuitem_worldclock">Orologio mondiale</string>
+    <string name="menuitem_unknown">Sconosciuto</string>
+    <string name="menuitem_eventreminder">Promemoria evento</string>
+    <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
+    <string name="bip_prefs_shotcuts_summary">Scegli le scorciatoie che appiano sullo schermo della band</string>
+    <string name="bip_prefs_shortcuts">Scorciatoie</string>
+    <string name="pref_header_auto_fetch">Recupero automatico</string>
+    <string name="power_mode_watch">Solo orologio</string>
+    <string name="power_mode_saving">Risparmio energetico</string>
+    <string name="power_mode_title">Modalità di alimentazione dell\'orologio</string>
+    <string name="prefs_sensors_button_bp_calibration_sum">Premi qui per iniziare la calibrazione</string>
+    <string name="prefs_sensors_button_bp_calibration">Calibrazione</string>
+    <string name="pref_sensors_bp_calibration">Calibrazione della pressione arteriosa</string>
+    <string name="pref_title_sensors_altitude">Calibrazione dell\'altitudine</string>
+    <string name="pref_header_sensors_calibration">Calibrazione del sensore</string>
+    <string name="pref_title_device_spec_settings_show_raw_graph">Mostra i dati RAW (grezzi) sul grafico delle attività</string>
+    <string name="pref_summary_device_spec_settings_title_force_time">Forzare l\'auto-sincronizzazione dell\'ora alla riconnessione. Le lancette analogiche potrebbero mostrare un orario errato!</string>
+    <string name="pref_title_device_spec_settings_force_time">Forzare la sincronizzazione dell\'ora</string>
+    <string name="pref_summary_notifications_and_calls_title_shake_reject">Duplica l\'azione del pulsante dell\'orologio</string>
+    <string name="prefs_notifications_and_calls_shake_reject">Scuotere il polso per ignorare / rifiutare la chiamata</string>
+    <string name="pref_summary_notifications_and_calls_title_reject">Off - ignora, On - rifiuta</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_misscall">Ripetere per X minuti</string>
+    <string name="pref_summary_notifications_and_calls_enable_misscall">Ripete ogni minuto</string>
+    <string name="prefs_notifications_and_calls_continious_ring">Notifica durante la suoneria del cellulare</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_call">Ripeti la notifica di chiamata</string>
+    <string name="title_activity_LenovoWatch_calibration">Calibrazione del Watch X Plus</string>
+    <string name="pref_title_weather_summary">Usato per il provider meteo di LineageOS, altre versioni di Android necessitano di usare un\'app come \"Weather Notifications\". Trova più informazioni nella wiki di Gadgetbridge.</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Stai per installare il firmware %s sul tuo Amazfit T-Rex.
+\n
+\nAssicurati di installare prima il file .fw e dopo il file .res. L\'orologio si riavvierà al termine del caricamento del file .fw.
+\n
+\nNota: non devi installare il file .res se è uguale a quello installato in precedenza.
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="controlcenter_set_alias">Imposta Soprannome</string>
 </resources>
