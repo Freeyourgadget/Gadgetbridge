@@ -720,7 +720,7 @@
     <string name="weeksleepchart_sleep_a_month">Spánek za měsíc</string>
     <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
     <string name="menuitem_nfc">NFC</string>
-    <string name="pref_summary_expose_hr">"Umožní ostatním aplikacím přistupovat  k datům čidla srdečního tepu dokud Gadgetbridge běží"</string>
+    <string name="pref_summary_expose_hr">Umožní ostatním aplikacím přistupovat k datům čidla srdečního tepu dokud Gadgetbridge běží</string>
     <string name="pref_title_expose_hr">Přístup cizích aplikací k čidlu tepu</string>
     <string name="pref_title_use_custom_font">Využít vlastní font</string>
     <string name="pref_summary_use_custom_font">Vaše zařízení má vlastní font s podporou emoji</string>
@@ -902,7 +902,7 @@
     <string name="hr_widget_last_notification">Poslední oznámení</string>
     <string name="menuitem_unknown">Neznámé</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
-    <string name="bip_prefs_shotcuts_summary">Vyberte si klávesové zkratky na obrazovce hodinek</string>
+    <string name="bip_prefs_shotcuts_summary">Vyberte odkazy na displeji</string>
     <string name="bip_prefs_shortcuts">Zkratky</string>
     <string name="controlcenter_set_alias">Nastavit Alias</string>
     <string name="about_additional_contributions">Děkujeme všem nevypsaným přispěvatelům za kód, podporu, nápady, motivaci, hlášení o chybách, peníze… ✊</string>
@@ -914,4 +914,6 @@
     <string name="about_title">O aplikaci</string>
     <string name="menuitem_worldclock">Světový Čas</string>
     <string name="pref_title_weather_summary">Použito s poskytovatelem počasí LineageOS. Ostatní verze Androidu vyžadují \"Weather Notification\" app. Více informací naleznete na Gadgetbridge wiki.</string>
+    <string name="error_version_check_extreme_caution">POZOR: Chyba při kontrole verze! Neměli byste pokračovat! Verze má název \"%s\"</string>
+    <string name="permission_granting_mandatory">Všechna tato oprávnění jsou vyžadována a může nastat nestabilita, pokud nebudou udělena</string>
 </resources>
