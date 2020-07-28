@@ -928,4 +928,6 @@
     <string name="about_title">Sobre</string>
     <string name="pref_title_weather_summary">Usado para o provedor do clima do LineageOS, outras versões do Android precisam usar um aplicativo como o \"Notificação de clima\". Encontrará mais informações no wiki do Gadgetbridge.</string>
     <string name="menuitem_worldclock">Relógio mundial</string>
+    <string name="error_version_check_extreme_caution">CUIDADO: Erro ao verificar informação da versão! Você não deve continuar! Encontrei o nome de versão \"%s\"</string>
+    <string name="permission_granting_mandatory">Todas estas permissões são necessárias e instabilidade pode ocorrer se não concedidas</string>
 </resources>
