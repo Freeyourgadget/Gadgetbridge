@@ -1,5 +1,13 @@
 ### Changelog
 
+#### 0.46.0 (WIP)
+* Initial Support for Mi Band 5
+* Amazfit GTR/GTS: Fix broken activity data on newer firmwares
+* Add about screen
+* New icon for Amazfit Bip
+* Avoid duplicated entries in preferred media player selection
+* Avoid a lot of crashes and improve error handling in various places
+
 #### 0.45.1
 * Amazfit GTR/GTS: Fix connection issue with latest firmwares (probably other Huami devices also affected)
 * Add experimental support for TinyWeatherForecastGermany
