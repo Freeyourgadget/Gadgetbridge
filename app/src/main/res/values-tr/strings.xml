@@ -380,7 +380,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="menuitem_shortcut_weather">HavaDurumu (KısaYol)</string>
     <string name="menuitem_status">Durum</string>
     <string name="menuitem_timer">Zamanlama</string>
-    <string name="menuitem_weather">HavaDurumu</string>
+    <string name="menuitem_weather">Hava Durumu</string>
     <string name="message_cannot_pair_no_mac">MAC Adresi geçilemedi, Eşlenilemez.</string>
     <string name="mi2_dnd_automatic">Otomatik (Uyku Algılama)</string>
     <string name="mi2_dnd_off">Kapalı</string>
@@ -673,7 +673,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="pref_title_upper_button_function">Yukarı Butonu</string>
     <string name="pref_title_use_custom_font">Özel Font Kullan</string>
     <string name="pref_title_vibration_strength">Titreşim Gücü</string>
-    <string name="pref_title_weather">HavaDurumu</string>
+    <string name="pref_title_weather">Hava Durumu</string>
     <string name="pref_title_weather_location">Hava durumu konumu (LineageOS hava durumu sağlayıcısı için)</string>
     <string name="pref_title_whenscreenon">Ekran Açıkken de Genel Bildirim</string>
     <string name="pref_write_logfiles">Günlük Dosyalarını Yaz</string>
@@ -939,4 +939,18 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="menuitem_worldclock">Dünya Saati</string>
     <string name="error_version_check_extreme_caution">DİKKAT: Sürüm bilgileri denetlenirken hata oluştu! Devam etmemelisiniz! Görülen sürüm adı \"%s\"</string>
     <string name="permission_granting_mandatory">Tüm bu izinler gereklidir ve izin verilmezse kararsızlık oluşabilir</string>
+    <string name="error_background_service_reason_truncated">Arka plan hizmeti başlatılamadı, çünkü</string>
+    <string name="error_background_service_reason">Bir istisna nedeniyle arka plan hizmetini başlatma başarısız oldu. Hata:</string>
+    <string name="error_background_service">Arka plan hizmeti başlatılamadı</string>
+    <string name="menuitem_stress">Stres</string>
+    <string name="menuitem_cycles">Döngüler</string>
+    <string name="menuitem_breathing">Nefes Alma</string>
+    <string name="devicetype_miband5">Mi Band 5</string>
+    <string name="fw_upgrade_notice_miband5">Mi Band 5 aygıtınıza %s ürün yazılımını yüklemek üzeresiniz.
+\n
+\nLütfen önce .fw dosyasını, sonra .res dosyasını yükleyin. .fw dosyasını yükledikten sonra saatiniz yeniden başlatılacak.
+\n
+\nNot: Önceden yüklenmiş olanla tamamen aynıysa .res dosyasını yüklemeniz gerekmez.
+\n
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
 </resources>
