@@ -19,7 +19,6 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -210,10 +209,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
     private void doCreatePair(GBDeviceCandidate deviceCandidate) {
         toast(DiscoveryActivity.this, getString(R.string.discovery_attempting_to_pair, deviceCandidate.getName()), Toast.LENGTH_SHORT, GB.INFO);
-        if (enableCompanionDevicePairing) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                companionDevicePair(deviceCandidate);
-            }
+        if (enableCompanionDevicePairing && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            companionDevicePair(deviceCandidate);
         } else {
             deviceBond(deviceCandidate);
         }
@@ -314,7 +311,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         }
 
         newBLEScanCallback = new ScanCallback() {
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onScanResult(int callbackType, ScanResult result) {
                 super.onScanResult(callbackType, result);
@@ -339,6 +336,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
         return newBLEScanCallback;
     }
+
     private Button startButton;
     private Scanning isScanning = Scanning.SCANNING_OFF;
     private GBDeviceCandidate bondingDevice;
@@ -355,7 +353,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             LOG.info("New BLE scanning disabled via settings, using old method");
         }
 
-        enableCompanionDevicePairing = prefs.getBoolean("enable_companiondevice_pairing", false);
+        enableCompanionDevicePairing = prefs.getBoolean("enable_companiondevice_pairing", true);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             enableCompanionDevicePairing = false; // No support below 26
         }
@@ -525,10 +523,10 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             if (what == Scanning.SCANNING_BT || what == Scanning.SCANNING_BT_NEXT_BLE) {
                 startBTDiscovery(what);
             } else if (what == Scanning.SCANNING_BLE && GB.supportsBluetoothLE()) {
-                if (oldBleScanning) {
-                    startBTLEDiscovery();
+                if (oldBleScanning || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    startOldBTLEDiscovery();
                 } else {
-                    startNEWBTLEDiscovery();
+                    startBTLEDiscovery();
                 }
             } else {
                 discoveryFinished();
@@ -547,7 +545,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             if (wasScanning == Scanning.SCANNING_BT || wasScanning == Scanning.SCANNING_BT_NEXT_BLE) {
                 stopBTDiscovery();
             } else if (wasScanning == Scanning.SCANNING_BLE) {
-                if (oldBleScanning) {
+                if (oldBleScanning || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                     stopOldBLEDiscovery();
                 } else {
                     stopBLEDiscovery();
@@ -563,7 +561,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         return isScanning != Scanning.SCANNING_OFF;
     }
 
-    private void startBTLEDiscovery() {
+    private void startOldBTLEDiscovery() {
         LOG.info("Starting old BLE discovery");
         isScanning = Scanning.SCANNING_BLE;
 
@@ -584,13 +582,11 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         }
     }
 
-    // New BTLE Discovery use startScan (List<ScanFilter> filters,
-    //                                  ScanSettings settings,
-    //                                  ScanCallback callback)
-    // It's added on API21
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void startNEWBTLEDiscovery() {
-        // Only use new API when user uses Lollipop+ device
+    /* New BTLE Discovery uses startScan (List<ScanFilter> filters,
+                                         ScanSettings settings,
+                                         ScanCallback callback) */
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private void startBTLEDiscovery() {
         LOG.info("Starting BLE discovery");
         isScanning = Scanning.SCANNING_BLE;
 
@@ -604,7 +600,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         bluetoothLEProgress.setVisibility(View.VISIBLE);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private void stopBLEDiscovery() {
         if (adapter == null) {
             return;
@@ -661,7 +657,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
     private void discoveryFinished() {
         if (isScanning != Scanning.SCANNING_OFF) {
-            LOG.warn("Scan was not properly: " + String.valueOf(isScanning));
+            LOG.warn("Scan was not properly stopped: " + isScanning);
         }
         startButton.setText(getString(R.string.discovery_start_scanning));
     }
@@ -714,7 +710,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         return false;
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private ScanSettings getScanSettings() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return new ScanSettings.Builder()
@@ -774,7 +770,10 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(deviceCandidate.getMacAddress());
 
             String authKey = sharedPrefs.getString("authkey", null);
-            if (authKey == null || authKey.isEmpty() || authKey.getBytes().length < 34 || !authKey.substring(0, 2).equals("0x")) {
+            if (authKey == null ||
+                    authKey.isEmpty() ||
+                    authKey.getBytes().length < 34 ||
+                    !authKey.startsWith("0x")) {
                 toast(DiscoveryActivity.this, getString(R.string.discovery_need_to_enter_authkey), Toast.LENGTH_LONG, GB.WARN);
                 return;
             }
