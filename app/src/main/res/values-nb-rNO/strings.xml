@@ -888,7 +888,13 @@
     <string name="hungarian">Ungarsk</string>
     <string name="romanian">Rumensk</string>
     <string name="menuitem_unknown">Ukjent</string>
-    <string name="fw_upgrade_notice_amazfit_trex">Du er i ferd med å installere %s-fastvaren</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Du er i ferd med å installere %s-fastvaren på din Amazfit T-Rex.
+\n
+\nForsikre deg om at du installerer .fw-fila, så .res-fila, og til sist gps-fila. Armbåndsuret ditt vil starte på nytt etter at .fw-fila er installert.
+\n
+\nMerk: Du må ikke installere .res og .gps hvis disse er akkurat de samme som dem som allerede er installert.
+\n
+\nFORTSETT PÅ EGEN RISIKO!</string>
     <string name="hr_widget_last_notification">Siste merknad</string>
     <string name="error_background_service">Klarte ikke å starte bakgrunnstjeneste</string>
     <string name="about_additional_device_support">Ytterligere enhetsstøtte</string>
