@@ -918,4 +918,19 @@
     <string name="pref_title_weather_summary">由LineageOS天气服务提供，其他版本的Android系统需要使用诸如“Weather notification”。更多信息请访问 Gadgetbridge 的Wiki。</string>
     <string name="menuitem_worldclock">世界时钟</string>
     <string name="permission_granting_mandatory">所有权限都是必须的，若未授予这些权限，可能会导致不稳定</string>
+    <string name="error_background_service_reason">由于意外错误，启动后台服务失败：</string>
+    <string name="error_background_service_reason_truncated">无法启动后台服务是由于</string>
+    <string name="error_background_service">启动后台服务失败</string>
+    <string name="error_version_check_extreme_caution">注意：检查版本信息时发生错误！您不应该继续下去，已知版本名“%s”</string>
+    <string name="menuitem_stress">压力</string>
+    <string name="menuitem_cycles">周期</string>
+    <string name="menuitem_breathing">呼吸</string>
+    <string name="devicetype_miband5">小米手环5</string>
+    <string name="fw_upgrade_notice_miband5">您即将在您的 小米手环5 上安装 %s 固件。
+\n
+\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会再安装了 .fw 文件后自动重启。
+\n
+\n注意：若 .res 文件没有更新，则无需安装。
+\n
+\n风险自担！</string>
 </resources>
