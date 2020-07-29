@@ -61,7 +61,7 @@
     <string name="pref_default">Default</string>
     <string name="pref_header_datetime">Data e ora</string>
     <string name="pref_title_datetime_syctimeonconnect">Sincronizza l\'ora</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Sincronizza l\'orario del dispositivo al collegamento con Gadgetbridge e quando viene cambiato l\'orario o il fuso orario nel dispositivo Android</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Sincronizza l\'orario del dispositivo al collegamento con Gadgetbridge e quando viene cambiata l\'ora o il fuso orario sul dispositivo Android</string>
     <string name="pref_title_theme">Tema</string>
     <string name="pref_theme_light">Chiaro</string>
     <string name="pref_theme_dark">Scuro</string>
@@ -605,7 +605,7 @@
     <string name="overslept">Sonno extra: %1$s</string>
     <string name="lack_of_step">Passi mancanti: %1$d</string>
     <string name="overstep">Passi eccedenti: %1$d</string>
-    <string name="debugactivity_really_factoryreset_title">Vuoi ripristinare alle impostazioni di fabbrica\?</string>
+    <string name="debugactivity_really_factoryreset_title">Vuoi veramente ripristinare le impostazioni di fabbrica\?</string>
     <string name="debugactivity_really_factoryreset">Effettuare il ripristino delle impostazioni di fabbrica cancellerà tutti i dati presenti sul dispositivo connesso (se supportato). I dispositivi Xiaomi/Huami cambiano anche MAC Address Bluetooth, e in modo risultano dispositivi nuovi per Gadgetbrige.</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="title_activity_notification_filter">Filtro Notifiche</string>
@@ -867,7 +867,7 @@
     <string name="pref_theme_system">Sistema</string>
     <string name="pref_summary_relax_firmware_checks">Allenta i controlli del firmware</string>
     <string name="error_background_service_reason">L\'avvio del servizio in background non è riuscito a causa di un\'eccezione. Errore:</string>
-    <string name="error_background_service_reason_truncated">L\'avvio del servizio in background non è riuscito perché…</string>
+    <string name="error_background_service_reason_truncated">Non è stato possibile avviare il servizio in background perché</string>
     <string name="error_background_service">Impossibile avviare il servizio in background</string>
     <string name="error_version_check_extreme_caution">ATTENZIONE: Errore durante la verifica delle informazioni sulla versione! Non dovresti continuare! Visto il nome della versione \"%s\"</string>
     <string name="permission_granting_mandatory">Sono richieste tutte queste autorizzazioni e l\'app potrebbe essere instabile se non concesse</string>
@@ -916,4 +916,15 @@
 \n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
     <string name="controlcenter_set_alias">Imposta Soprannome</string>
+    <string name="menuitem_stress">Stress</string>
+    <string name="menuitem_cycles">Cicli mestruali</string>
+    <string name="menuitem_breathing">Respirazione</string>
+    <string name="devicetype_miband5">Mi Band 5</string>
+    <string name="fw_upgrade_notice_miband5">Si sta per installare il firmware %s sul Mi Band 5.
+\n
+\nSi prega di installare prima il file .fw e successivamente il file .res. La Mi Band 5 si riavvierà dopo l\'installazione del file .fw.
+\n
+\nNOTA: Non è necessario installare il file .res se risulta essere uguale a quello precedentemente installato.
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
 </resources>
