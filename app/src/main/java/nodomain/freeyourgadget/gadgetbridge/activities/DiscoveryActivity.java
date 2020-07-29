@@ -293,6 +293,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
     private void handleDeviceBonded() {
         if (bondingDevice == null) {
+            LOG.error("deviceCandidate was null! Can't handle bonded device!");
             return;
         }
 
