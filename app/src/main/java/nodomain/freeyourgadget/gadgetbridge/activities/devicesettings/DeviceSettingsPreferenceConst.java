@@ -43,5 +43,6 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_ALTITUDE_CALIBRATE = "pref_sensors_altitude";
     public static final String PREF_LONGSIT_PERIOD = "pref_longsit_period";
     public static final String PREF_LONGSIT_SWITCH = "pref_longsit_switch";
+    public static final String PREF_LONGSIT_SWITCH_NOSHED = "screen_longsit_noshed";
     public static final String PREF_DO_NOT_DISTURB_NOAUTO = "do_not_disturb_no_auto";
 }

@@ -39,6 +39,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
@@ -468,11 +469,24 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
         } else {
             displayBytes[1] = 2;
         }
-        if (DateFormat.is24HourFormat(getContext())) {
-            displayBytes[2] = 1;
-        } else {
-            displayBytes[2] = 2;
+
+        String timeformat = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, "auto");
+        switch (timeformat) {
+            case "24h":
+                displayBytes[2] = 1;
+                break;
+            case "am/pm":
+                displayBytes[2] = 2;
+                break;
+            case "auto":
+            default:
+                if (DateFormat.is24HourFormat(getContext())) {
+                    displayBytes[2] = 1;
+                } else {
+                    displayBytes[2] = 2;
+                }
         }
+
         transaction.write(ctrlCharacteristic, displayBytes);
         return;
     }
@@ -493,7 +507,7 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
                 (byte) 0x00,  // unknown
                 (byte) (activityUser.getStepsGoal() / 256),
                 (byte) (activityUser.getStepsGoal() % 256),
-                (byte) 0x01,  // raise hand to turn on screen, ON = 1, OFF = 0
+                (byte) 0x00,  // raise hand to turn on screen, ON = 1, OFF = 0
                 (byte) 0xff,  // unknown
                 (byte) 0x00,  // unknown
                 (byte) activityUser.getAge(),
@@ -501,6 +515,10 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
                 (byte) 0x00,  // lost function, ON = 1, OFF = 0 TODO: find out what this does
                 (byte) 0x02   // unknown
         };
+
+        if (GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREF_LIFTWRIST_NOSHED, false)) {
+            userBytes[10] = (byte) 0x01;
+        }
 
         if (activityUser.getGender() == ActivityUser.GENDER_FEMALE) {
             userBytes[14] = 2; // female
@@ -520,7 +538,7 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
         builder.write(ctrlCharacteristic, userBytes);
 
         // device settings
-        builder.write(ctrlCharacteristic, new byte[]{
+        byte[] deviceBytes = new byte[]{
                 TLW64Constants.CMD_DEVICE_SETTINGS,
                 (byte) 0x00,   // 1 - turns on inactivity alarm
                 (byte) 0x3c,   // unknown, sniffed by original app
@@ -528,7 +546,13 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
                 (byte) 0x03,   // unknown, sniffed by original app
                 (byte) 0x01,   // unknown, sniffed by original app
                 (byte) 0x00    // unknown, sniffed by original app
-        });
+        };
+
+        if (GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREF_LONGSIT_SWITCH_NOSHED, false)) {
+            deviceBytes[1] = (byte) 0x01;
+        }
+
+        builder.write(ctrlCharacteristic, deviceBytes);
     }
 
     private void showIcon(int iconId) {

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:icon="@drawable/ic_activity_sleep"
+        android:defaultValue="false"
+        android:key="screen_longsit_noshed"
+        android:title="@string/mi2_prefs_inactivity_warnings"
+        android:summary="@string/mi2_prefs_inactivity_warnings_summary"/>
+</androidx.preference.PreferenceScreen>
