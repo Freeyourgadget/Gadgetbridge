@@ -928,4 +928,9 @@
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="controlcenter_set_alias">Установить псевдоним</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_call">Повторять уведомления о звонке</string>
+    <string name="pref_header_notifications_and_calls">Уведомления и звонки</string>
+    <string name="pref_title_vibration_strength">Интенсивность вибрации</string>
+    <string name="pref_title_relax_firmware_checks">Включите, если хотите установить прошивку, не предназначенную для вашего устройства (на ваш страх и риск)</string>
+    <string name="pref_summary_relax_firmware_checks">Ослабить проверки прошивки</string>
 </resources>
