@@ -486,7 +486,7 @@
 \nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать. 
 \n 
 \nНЕ ПРОВЕРЯЛОСЬ, ЕСТЬ ВЕРОЯТНОСТЬ СЛОМАТЬ ВАШЕ УСТРОЙСТВО. ВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
-    <string name="pref_title_weather_location">Местоположение для погоды (CM/LOS)</string>
+    <string name="pref_title_weather_location">Местоположение погоды (для провайдера погоды LineageOS)</string>
     <string name="pref_title_pebble_gatt_clientonly">Подключаться только в режиме GATT-клиента</string>
     <string name="pref_summary_pebble_gatt_clientonly">Экспериментальные настройки только для Pebble 2. Попробуйте, если связь не очень</string>
     <string name="pref_header_auto_export">Автоматический экспорт данных</string>
@@ -829,4 +829,103 @@
     <string name="pref_title_custom_deviceicon">Показывать собственную иконку устройства</string>
     <string name="pref_summary_custom_deviceicon">При подключении показывать в уведомлении собственную иконку устройства вместо иконки Gadgetbridge</string>
     <string name="pref_theme_system">Системная</string>
+    <string name="error_background_service_reason">Не удается запустить фоновую службу из-за</string>
+    <string name="error_background_service_reason_truncated">Не удается запустить фоновую службу из-за</string>
+    <string name="error_background_service">Не удалось запустить фоновую службу</string>
+    <string name="error_version_check_extreme_caution">ВНИМАНИЕ: Ошибка при проверке информации о версии! Не продолжайте! Обнаруженное имя версии \"%s\"</string>
+    <string name="permission_granting_mandatory">Все эти разрешения необходимы, и если они не будут выданы, приложение может работать нестабильно</string>
+    <string name="about_additional_contributions">Большое спасибо всем участникам, не включенным в список, за предоставленный код, поддержку, идеи, мотивацию, сообщения об ошибках, деньги... ✊</string>
+    <string name="about_additional_device_support">Дополнительная поддержка устройств</string>
+    <string name="about_contributors">Соавторы</string>
+    <string name="about_core_team_title">Основная команда (в порядке поступления первого кода)</string>
+    <string name="about_description">Свободная альтернатива закрытым приложениям от производителей гаджетов. Без \"облаков\" и синхронизаций с внешними серверами.</string>
+    <string name="about_activity_title">О Gadgetbridge</string>
+    <string name="about_title">О программе</string>
+    <string name="hr_widget_last_notification">Последнее уведомление</string>
+    <string name="pref_qhybrid_save_raw_activity_files">Сохранять необработанные файлы активности</string>
+    <string name="pref_qhybrid_title_widget_draw_circles">Рисовать круги виджетов</string>
+    <string name="pref_title_lower_button_function">Нижняя кнопка</string>
+    <string name="pref_title_middle_button_function">Средняя кнопка</string>
+    <string name="pref_title_upper_button_function">Верхняя кнопка</string>
+    <string name="hr_appname_commute">Поездки</string>
+    <string name="hr_appname_stopwatch">Секундомер</string>
+    <string name="hr_appname_workout">Тренировка</string>
+    <string name="hr_appname_wellness">Благополучие</string>
+    <string name="hr_widget_nothing">Ничего</string>
+    <string name="hr_widget_weather">Погода</string>
+    <string name="hr_widget_battery">Батарея</string>
+    <string name="hr_widget_calories">Калории</string>
+    <string name="hr_widget_active_minutes">Минуты активности</string>
+    <string name="hr_widget_date">Дата</string>
+    <string name="hr_widget_steps">Шаги</string>
+    <string name="hr_widget_heart_rate">Пульс</string>
+    <string name="menuitem_worldclock">Мировое Время</string>
+    <string name="menuitem_unknown">Неизвестно</string>
+    <string name="menuitem_workout">Тренировка</string>
+    <string name="menuitem_eventreminder">Напоминание о событии</string>
+    <string name="menuitem_hr">Пульс</string>
+    <string name="menuitem_pai">PAI</string>
+    <string name="menuitem_stress">Стресс</string>
+    <string name="menuitem_cycles">Циклы</string>
+    <string name="menuitem_breathing">Дыхание</string>
+    <string name="notification_channel_high_priority_name">Уведомления Gadgetbridge высокий приоритет</string>
+    <string name="devicetype_watchxplus">Watch X Plus</string>
+    <string name="devicetype_watchx">Watch X</string>
+    <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
+    <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
+    <string name="devicetype_miband5">Mi Band 5</string>
+    <string name="find_lost_device_you_found_it">Нашел!</string>
+    <string name="czesh">Чешский</string>
+    <string name="swedish">Шведский</string>
+    <string name="hebrew">Иврит</string>
+    <string name="greek">Греческий</string>
+    <string name="hungarian">Венгерский</string>
+    <string name="romanian">Румынский</string>
+    <string name="pref_summary_force_white_color_scheme">Полезно, если у ваших часов темные стрелки</string>
+    <string name="pref_title_force_white_color_scheme">Форсировать цветовую схему \"чёрным по белому\"</string>
+    <string name="bip_prefs_shotcuts_summary">Выбрать ярлыки на экране браслета</string>
+    <string name="bip_prefs_shortcuts">Ярлыки</string>
+    <string name="pref_header_auto_fetch">Получать автоматически</string>
+    <string name="power_mode_watch">Только часы</string>
+    <string name="power_mode_saving">Энергосбережение</string>
+    <string name="power_mode_normal">Нормальный</string>
+    <string name="power_mode_title">Режим питания часов</string>
+    <string name="prefs_sensors_button_bp_calibration_sum">Нажмите, чтобы начать калибровку</string>
+    <string name="prefs_sensors_button_bp_calibration">Калибровка</string>
+    <string name="pref_sensors_bp_calibration_high">Систолическое (верхнее) артериальное давление</string>
+    <string name="pref_sensors_bp_calibration_low">Диастолическое (нижнее) артериальное давление</string>
+    <string name="pref_sensors_bp_calibration">Калибровка артериального давления</string>
+    <string name="pref_title_sensors_altitude">Калибровка высоты</string>
+    <string name="pref_header_sensors_calibration">Калибровка датчиков</string>
+    <string name="pref_title_device_spec_settings_show_raw_graph">Показать RAW-данные на графике активности</string>
+    <string name="pref_summary_device_spec_settings_title_force_time">Принудительная автоматическая синхронизация времени при повторном подключении. Аналоговые стрелки могут показывать неправильное время!</string>
+    <string name="pref_title_device_spec_settings_force_time">Принудительно синхронизировать время</string>
+    <string name="pref_header_device_spec_settings">Параметры устройства</string>
+    <string name="pref_summary_notifications_and_calls_title_shake_reject">Дублирует действие кнопки часов</string>
+    <string name="prefs_notifications_and_calls_shake_reject">Встряхнуть запястье чтобы игнорировать или отклонить вызов</string>
+    <string name="pref_summary_notifications_and_calls_title_reject">Выключить - игнорировать, Вкл - отклонять</string>
+    <string name="prefs_notifications_and_calls_reject">Кнопка игнорирования/сброса входящего вызова</string>
+    <string name="pref_header_notifications_and_calls_callhandling">Удержание вызова</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_misscall">"Повторять для n\'ого количества минут 
+\n "</string>
+    <string name="pref_summary_notifications_and_calls_enable_misscall">"Повторять каждую минуту "</string>
+    <string name="pref_notifications_and_calls_enable_misscall">"Уведомлять о пропущенных вызовах "</string>
+    <string name="prefs_notifications_and_calls_continious_ring">Уведомления во время входящего вызова</string>
+    <string name="title_activity_LenovoWatch_calibration">"Калибровка Watch X Plus "</string>
+    <string name="pref_title_weather_summary">Используется для провайдера погоды LineageOS, другие версии Android должны использовать приложение типа \"Уведомление о погоде\". Дополнительную информацию можно найти в вики-проекте Gadgetbridge.</string>
+    <string name="fw_upgrade_notice_miband5">Вы собираетесь установить прошивку %s на свой Mi Band 5.
+\n
+\nПожалуйста, установите сначала .fw файл, и только потом .res файл. Устройство перезагрузится после установки .fw файла.
+\n
+\nПримечание: Не нужно устанавливать .res, если он ничем не отличается от установленного ранее.
+\n
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Вы собираетесь установить прошивку %s на свой Amazfit T-Rex.
+\n
+\nПожалуйста, установите сначала .fw файл, потом .res файл, и только потом .gps файл. Устройство перезагрузится после установки .fw файла.
+\n
+\nПримечание: Не нужно устанавливать .res и .gps, если они ничем не отличаются от установленных ранее.
+\n
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="controlcenter_set_alias">Установить псевдоним</string>
 </resources>
