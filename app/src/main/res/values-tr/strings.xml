@@ -953,4 +953,5 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
 \nNot: Önceden yüklenmiş olanla tamamen aynıysa .res dosyasını yüklemeniz gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
+    <string name="devicetype_tlw64">TLW64</string>
 </resources>
