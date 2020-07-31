@@ -930,7 +930,7 @@
     <string name="menuitem_worldclock">Relógio mundial</string>
     <string name="error_version_check_extreme_caution">CUIDADO: Erro ao verificar informação da versão! Você não deve continuar! Encontrei o nome de versão \"%s\"</string>
     <string name="permission_granting_mandatory">Todas estas permissões são necessárias e instabilidade pode ocorrer se não concedidas</string>
-    <string name="error_background_service_reason_truncated">A inicialização do serviço de plano de fundo falhou porque…</string>
+    <string name="error_background_service_reason_truncated">Não foi possível inicializar o serviço de plano de fundo porque</string>
     <string name="fw_upgrade_notice_miband5">Você está prestes a instalar o firmware %s na sua Mi Band 5.
 \n
 \nCertifique-se de instalar o arquivo .fw e, após, o arquivo .res. Sua pulseira vai reiniciar após instalar o arquivo .fw.
@@ -938,10 +938,11 @@
 \nNota: Você não tem que instalar .res se ele for exatamente o mesmo arquivo que o instalado anteriormente.
 \n
 \nPROSSIGA POR SUA CONTA E RISCO!</string>
-    <string name="error_background_service_reason">A inicialização do serviço de plano de fundo falhou por causa de uma exceção. Erro:</string>
+    <string name="error_background_service_reason">Não foi possível inicializar o serviço de plano de fundo porque</string>
     <string name="error_background_service">Falha ao iniciar o serviço de plano de fundo</string>
     <string name="menuitem_stress">Estresse</string>
     <string name="menuitem_cycles">Ciclos</string>
     <string name="menuitem_breathing">Respiração</string>
     <string name="devicetype_miband5">Mi Band 5</string>
+    <string name="devicetype_tlw64">TLW64</string>
 </resources>
