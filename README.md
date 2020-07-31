@@ -52,11 +52,13 @@ vendor's servers.
 * Mi Band 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2)
 * Mi Band 3 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-3)
 * Mi Band 4 (WARNING: NEEDS MI FIT WITH ACCOUNT AND ROOT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-4)
+* Mi Band 5 (WARNING: NEEDS MI FIT WITH ACCOUNT AND ROOT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-5)
 * Mi Scale 2 (Currently only displays a toast after stepping on the scale)
 * NO.1 F1
 * Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
 * Pebble 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
 * Teclast H10, H30
+* TLW64
 * XWatch (Affordable Chinese Casio-like smartwatches)
 * Vibratissimo (Experimental)
 * ZeTime [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/MyKronoz-ZeTime)
@@ -90,6 +92,7 @@ Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/ma
 * Gordon Williams (Bangle.js)
 * Pavel Elagin (JYou Y5)
 * Taavi Eomäe (iTag)
+* Erik Bloß (TLW64)
 
 ## Contribute
 
