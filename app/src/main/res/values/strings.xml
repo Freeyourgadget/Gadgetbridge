@@ -901,6 +901,7 @@
     <string name="error_retrieving_devices_database">Error retrieving devices from database</string>
     <string name="ignore_bonded_devices">Ignore bonded devices</string>
     <string name="ignore_bonded_devices_description">Enabling this option will ignore devices that have been bonded/paired already when scanning</string>
+    <string name="error_location_enabled_mandatory">Location must be turned on to scan for devices</string>
 
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>

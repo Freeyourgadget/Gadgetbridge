@@ -72,24 +72,19 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 public class ControlCenterv2 extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GBActivity {
 
+    public static final int MENU_REFRESH_CODE = 1;
+    private static PhoneStateListener fakeStateListener;
+
     //needed for KK compatibility
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
     private DeviceManager deviceManager;
-
     private GBDeviceAdapterv2 mGBDeviceAdapter;
     private RecyclerView deviceListView;
     private FloatingActionButton fab;
-
     private boolean isLanguageInvalid = false;
-    private boolean pesterWithPermissions = true;
-
-    public static final int MENU_REFRESH_CODE = 1;
-
-    private static PhoneStateListener fakeStateListener;
-
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -107,6 +102,7 @@ public class ControlCenterv2 extends AppCompatActivity
             }
         }
     };
+    private boolean pesterWithPermissions = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -373,6 +369,10 @@ public class ControlCenterv2 extends AppCompatActivity
             wantedPermissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED)
             wantedPermissions.add(Manifest.permission.READ_CALENDAR);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED)
+            wantedPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED)
+            wantedPermissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
 
         try {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.MEDIA_CONTENT_CONTROL) == PackageManager.PERMISSION_DENIED)
@@ -385,6 +385,12 @@ public class ControlCenterv2 extends AppCompatActivity
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.ANSWER_PHONE_CALLS) == PackageManager.PERMISSION_DENIED) {
                     wantedPermissions.add(Manifest.permission.ANSWER_PHONE_CALLS);
                 }
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_DENIED) {
+                wantedPermissions.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
             }
         }
 
@@ -411,10 +417,11 @@ public class ControlCenterv2 extends AppCompatActivity
             if (!wantedPermissions.isEmpty()) {
                 GB.toast(this, getString(R.string.permission_granting_mandatory), Toast.LENGTH_LONG, GB.ERROR);
                 ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[0]), 0);
+                GB.toast(this, getString(R.string.permission_granting_mandatory), Toast.LENGTH_LONG, GB.ERROR);
             }
         }
 
-        /* In order to be able to set ringer mode to silent in PhoneCallReceiver
+        /* In order to be able to set ringer mode to silent in GB's PhoneCallReceiver
            the permission to access notifications is needed above Android M
            ACCESS_NOTIFICATION_POLICY is also needed in the manifest */
         if (pesterWithPermissions) {

@@ -59,7 +59,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,19 +87,34 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     private static final Logger LOG = LoggerFactory.getLogger(DiscoveryActivity.class);
     private static final long SCAN_DURATION = 30000; // 30s
     private static final int REQUEST_CODE = 1;
-    private ScanCallback newBLEScanCallback = null;
-
-    /** Use old BLE scanning **/
-    private boolean oldBleScanning = false;
-    /** If already bonded devices are to be ignored when scanning */
-    private boolean ignoreBonded = true;
-    /** If new CompanionDevice-type pairing is enabled on newer Androids **/
-    private boolean enableCompanionDevicePairing = false;
-
     private final Handler handler = new Handler();
+    private final ArrayList<GBDeviceCandidate> deviceCandidates = new ArrayList<>();
+    private ScanCallback newBLEScanCallback = null;
+    /**
+     * Use old BLE scanning
+     **/
+    private boolean oldBleScanning = false;
+    /**
+     * If already bonded devices are to be ignored when scanning
+     */
+    private boolean ignoreBonded = true;
+    /**
+     * If new CompanionDevice-type pairing is enabled on newer Androids
+     **/
+    private boolean enableCompanionDevicePairing = false;
     private ProgressBar bluetoothProgress;
     private ProgressBar bluetoothLEProgress;
-
+    private DeviceCandidateAdapter deviceCandidateAdapter;
+    private final BluetoothAdapter.LeScanCallback leScanCallback = new BluetoothAdapter.LeScanCallback() {
+        @Override
+        public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
+            //logMessageContent(scanRecord);
+            handleDeviceFound(device, (short) rssi);
+        }
+    };
+    private BluetoothAdapter adapter;
+    private Button startButton;
+    private Scanning isScanning = Scanning.SCANNING_OFF;
     private final Runnable stopRunnable = new Runnable() {
         @Override
         public void run() {
@@ -113,7 +127,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             }
         }
     };
-    private DeviceCandidateAdapter deviceCandidateAdapter;
+    private GBDeviceCandidate bondingDevice;
     private final BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -216,14 +230,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         }
     }
 
-    private final BluetoothAdapter.LeScanCallback leScanCallback = new BluetoothAdapter.LeScanCallback() {
-        @Override
-        public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
-            //logMessageContent(scanRecord);
-            handleDeviceFound(device, (short) rssi);
-        }
-    };
-
     private void deviceBond(GBDeviceCandidate deviceCandidate) {
         if (deviceCandidate.getDevice().createBond()) {
             // Async, wait for bonding event to finish this activity
@@ -302,9 +308,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         connectAndFinish(device);
     }
 
-    private BluetoothAdapter adapter;
-    private final ArrayList<GBDeviceCandidate> deviceCandidates = new ArrayList<>();
-
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private ScanCallback getScanCallback() {
         if (newBLEScanCallback != null) {
@@ -337,10 +340,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
         return newBLEScanCallback;
     }
-
-    private Button startButton;
-    private Scanning isScanning = Scanning.SCANNING_OFF;
-    private GBDeviceCandidate bondingDevice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -394,35 +393,13 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
         registerReceiver(bluetoothReceiver, bluetoothIntents);
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            toast(DiscoveryActivity.this, getString(R.string.error_no_location_access), Toast.LENGTH_SHORT, GB.ERROR);
-            LOG.error("No permission to access coarse location!");
-            checkAndRequestLocationPermission();
-
-            // We can't be sure location was granted, cancel scan start and wait for user action
-            return;
-        }
-
-        LocationManager locationManager = (LocationManager) DiscoveryActivity.this.getSystemService(Context.LOCATION_SERVICE);
-        try {
-            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                // Do nothing
-                LOG.debug("Some location provider is enabled, assuming location is enabled");
-            } else {
-                toast(DiscoveryActivity.this, getString(R.string.require_location_provider), Toast.LENGTH_LONG, GB.ERROR);
-                DiscoveryActivity.this.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                // We can't be sure location was enabled, cancel scan start and wait for new user action
-                return;
-            }
-        } catch (Exception ex) {
-            LOG.error("Exception when checking location status: ", ex);
-        }
+        checkAndRequestLocationPermission();
 
         startDiscovery(Scanning.SCANNING_BT_NEXT_BLE);
     }
 
     public void onStartButtonClick(View button) {
-        LOG.debug("Start Button clicked");
+        LOG.debug("Start button clicked");
         if (isScanning()) {
             stopDiscovery();
         } else {
@@ -751,7 +728,37 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
     private void checkAndRequestLocationPermission() {
         if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            LOG.error("No permission to access coarse location!");
+            toast(DiscoveryActivity.this, getString(R.string.error_no_location_access), Toast.LENGTH_SHORT, GB.ERROR);
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+        }
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            LOG.error("No permission to access fine location!");
+            toast(DiscoveryActivity.this, getString(R.string.error_no_location_access), Toast.LENGTH_SHORT, GB.ERROR);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                LOG.error("No permission to access background location!");
+                toast(DiscoveryActivity.this, getString(R.string.error_no_location_access), Toast.LENGTH_SHORT, GB.ERROR);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 0);
+            }
+        }
+
+        LocationManager locationManager = (LocationManager) DiscoveryActivity.this.getSystemService(Context.LOCATION_SERVICE);
+        try {
+            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                // Do nothing
+                LOG.debug("Some location provider is enabled, assuming location is enabled");
+            } else {
+                toast(DiscoveryActivity.this, getString(R.string.require_location_provider), Toast.LENGTH_LONG, GB.ERROR);
+                DiscoveryActivity.this.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                // We can't be sure location was enabled, cancel scan start and wait for new user action
+                toast(DiscoveryActivity.this, getString(R.string.error_location_enabled_mandatory), Toast.LENGTH_SHORT, GB.ERROR);
+                return;
+            }
+        } catch (Exception ex) {
+            LOG.error("Exception when checking location status: ", ex);
         }
     }
 
