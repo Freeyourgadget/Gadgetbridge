@@ -933,4 +933,5 @@
 \n注意：若 .res 文件没有更新，则无需安装。
 \n
 \n风险自担！</string>
+    <string name="devicetype_tlw64">TLW64</string>
 </resources>
