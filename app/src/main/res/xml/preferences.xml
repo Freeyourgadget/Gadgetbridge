@@ -634,6 +634,12 @@
             android:title="@string/pref_write_logfiles" />
         <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
+            android:defaultValue="true"
+            android:key="ignore_bonded_devices"
+            android:summary="@string/ignore_bonded_devices_description"
+            android:title="@string/ignore_bonded_devices" />
+        <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
             android:key="disable_new_ble_scanning"
             android:summary="@string/pref_summary_disable_new_ble_scanning"

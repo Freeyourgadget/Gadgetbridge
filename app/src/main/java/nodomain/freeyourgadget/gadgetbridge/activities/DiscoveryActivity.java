@@ -258,6 +258,9 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     private Scanning isScanning = Scanning.SCANNING_OFF;
     private GBDeviceCandidate bondingDevice;
 
+    private boolean ignoreBonded = true;
+
+
     private enum Scanning {
         SCANNING_BT,
         SCANNING_BTLE,
@@ -268,6 +271,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ignoreBonded = GBApplication.getPrefs().getBoolean("ignore_bonded_devices", true);
 
         disableNewBLEScanning = GBApplication.getPrefs().getBoolean("disable_new_ble_scanning", false);
         if (disableNewBLEScanning) {
@@ -377,8 +382,9 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
                 }
             }
         }
-        if (device.getBondState() == BluetoothDevice.BOND_BONDED) {
-            return true; // ignore already bonded devices
+
+        if (device.getBondState() == BluetoothDevice.BOND_BONDED && ignoreBonded) {
+            return true; // Ignore already bonded devices
         }
 
         GBDeviceCandidate candidate = new GBDeviceCandidate(device, rssi, uuids);
