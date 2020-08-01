@@ -84,6 +84,7 @@ public class ControlCenterv2 extends AppCompatActivity
     private FloatingActionButton fab;
 
     private boolean isLanguageInvalid = false;
+    private boolean pesterWithPermissions = true;
 
     public static final int MENU_REFRESH_CODE = 1;
 
@@ -196,11 +197,14 @@ public class ControlCenterv2 extends AppCompatActivity
          * Ask for permission to intercept notifications on first run.
          */
         Prefs prefs = GBApplication.getPrefs();
+        pesterWithPermissions = prefs.getBoolean("permission_pestering", true);
 
         Set<String> set = NotificationManagerCompat.getEnabledListenerPackages(this);
-        if (!set.contains(this.getPackageName())) { // If notification listener access hasn't been granted
-            Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-            startActivity(enableIntent);
+        if (pesterWithPermissions) {
+            if (!set.contains(this.getPackageName())) { // If notification listener access hasn't been granted
+                Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+                startActivity(enableIntent);
+            }
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -377,8 +381,11 @@ public class ControlCenterv2 extends AppCompatActivity
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ANSWER_PHONE_CALLS) == PackageManager.PERMISSION_DENIED)
-                wantedPermissions.add(Manifest.permission.ANSWER_PHONE_CALLS);
+            if (pesterWithPermissions) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ANSWER_PHONE_CALLS) == PackageManager.PERMISSION_DENIED) {
+                    wantedPermissions.add(Manifest.permission.ANSWER_PHONE_CALLS);
+                }
+            }
         }
 
         if (!wantedPermissions.isEmpty()) {
@@ -410,10 +417,12 @@ public class ControlCenterv2 extends AppCompatActivity
         /* In order to be able to set ringer mode to silent in PhoneCallReceiver
            the permission to access notifications is needed above Android M
            ACCESS_NOTIFICATION_POLICY is also needed in the manifest */
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!((NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE)).isNotificationPolicyAccessGranted()) {
-                GB.toast(this, getString(R.string.permission_granting_mandatory), Toast.LENGTH_LONG, GB.ERROR);
-                startActivity(new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
+        if (pesterWithPermissions) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (!((NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE)).isNotificationPolicyAccessGranted()) {
+                    GB.toast(this, getString(R.string.permission_granting_mandatory), Toast.LENGTH_LONG, GB.ERROR);
+                    startActivity(new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
+                }
             }
         }
 
