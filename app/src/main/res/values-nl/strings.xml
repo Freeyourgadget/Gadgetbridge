@@ -920,7 +920,7 @@
     <string name="pref_title_weather_summary">Gebruikt voor de LineageOS weer provider, andere Android versies moeten een app zoals \"Weather notification\" gebruiiken. Meer informatie is te vinden in de Gadgetbridge wiki.</string>
     <string name="menuitem_worldclock">Wereld Klok</string>
     <string name="error_background_service_reason_truncated">Kon de achtergronddienst niet starten omdat</string>
-    <string name="error_background_service_reason">Het starten van de achtergrondservice is mislukt vanwege een probleem. Fout:</string>
+    <string name="error_background_service_reason">Kan de achtergrondservice niet starten omdat</string>
     <string name="error_background_service">Kan de achtergrondservice niet starten</string>
     <string name="error_version_check_extreme_caution">LET OP: Fout bij het controleren van versie-informatie! Je moet niet doorgaan! Zag versie naam \"% s\"</string>
     <string name="permission_granting_mandatory">Al deze toestemmingen zijn vereist en er kan instabiliteit ontstaan als ze niet worden verleend</string>
@@ -935,4 +935,5 @@
 \nOpmerking: U hoeft .res niet te installeren als het precies hetzelfde is als het eerder geïnstalleerde .res.
 \n
 \nGA VERDER OP EIGEN RISICO!</string>
+    <string name="devicetype_tlw64">TLW64</string>
 </resources>
