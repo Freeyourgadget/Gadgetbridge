@@ -16,7 +16,7 @@
     <string name="controlcenter_navigation_drawer_close">Sulje navigointivetolaatikko</string>
     <string name="controlcenter_snackbar_need_longpress">Paina korttia pitkään katkaistaksesi yhteyden</string>
     <string name="controlcenter_snackbar_disconnecting">Yhteyttä katkaistaan</string>
-    <string name="controlcenter_snackbar_connecting">Yhdistetään</string>
+    <string name="controlcenter_snackbar_connecting">Yhdistetään…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Otataan ruutukaappausta laitteesta</string>
     <string name="title_activity_appmanager">Sovellusten hallinta</string>
     <string name="appmanager_cached_watchapps_watchfaces">Välimuistissa olevat sovellukset</string>
