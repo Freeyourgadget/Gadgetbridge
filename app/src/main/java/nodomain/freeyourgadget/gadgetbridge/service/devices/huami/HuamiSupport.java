@@ -1279,6 +1279,10 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 if (!prefs.getBoolean(PREF_ALLOW_HIGH_MTU, false)) {
                     break;
                 }
+                if (mtu < 23) {
+                    LOG.error("Device announced unreasonable low MTU of " + mtu + ", ignoring");
+                    break;
+                }
                 mMTU = mtu;
                 /*
                  * not really sure if this would make sense, is this event already a proof of a successful MTU
