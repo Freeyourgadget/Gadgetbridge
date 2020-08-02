@@ -132,15 +132,17 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (Objects.requireNonNull(intent.getAction())) {
-                case BluetoothAdapter.ACTION_DISCOVERY_STARTED:
+                case BluetoothAdapter.ACTION_DISCOVERY_STARTED: {
+                    LOG.debug("ACTION_DISCOVERY_STARTED");
                     if (isScanning != Scanning.SCANNING_BLE) {
                         if (isScanning != Scanning.SCANNING_BT_NEXT_BLE) {
                             setIsScanning(Scanning.SCANNING_BT);
                         }
-                        startButton.setText(getString(R.string.discovery_stop_scanning));
                     }
                     break;
-                case BluetoothAdapter.ACTION_DISCOVERY_FINISHED:
+                }
+                case BluetoothAdapter.ACTION_DISCOVERY_FINISHED: {
+                    LOG.debug("ACTION_DISCOVERY_FINISHED");
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -149,23 +151,26 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
                                 checkAndRequestLocationPermission();
                                 stopDiscovery();
                                 startDiscovery(Scanning.SCANNING_BLE);
-                            } else {
-                                discoveryFinished();
                             }
                         }
                     });
                     break;
-                case BluetoothAdapter.ACTION_STATE_CHANGED:
+                }
+                case BluetoothAdapter.ACTION_STATE_CHANGED: {
+                    LOG.debug("ACTION_STATE_CHANGED ");
                     int newState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.STATE_OFF);
                     bluetoothStateChanged(newState);
                     break;
+                }
                 case BluetoothDevice.ACTION_FOUND: {
+                    LOG.debug("ACTION_FOUND");
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     short rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, GBDevice.RSSI_UNKNOWN);
                     handleDeviceFound(device, rssi);
                     break;
                 }
                 case BluetoothDevice.ACTION_UUID: {
+                    LOG.debug("ACTION_UUID");
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     short rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, GBDevice.RSSI_UNKNOWN);
                     Parcelable[] uuids = intent.getParcelableArrayExtra(BluetoothDevice.EXTRA_UUID);
@@ -174,6 +179,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
                     break;
                 }
                 case BluetoothDevice.ACTION_BOND_STATE_CHANGED: {
+                    LOG.debug("ACTION_BOND_STATE_CHANGED");
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     if (device != null && bondingDevice != null && device.getAddress().equals(bondingDevice.getMacAddress())) {
                         int bondState = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, BluetoothDevice.BOND_NONE);
