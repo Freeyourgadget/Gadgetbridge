@@ -5,20 +5,20 @@
     <string name="action_settings">Impostazioni</string>
     <string name="action_debug">Debug</string>
     <string name="action_quit">Esci</string>
-    <string name="action_donate">Donazioni</string>
+    <string name="action_donate">Dona</string>
     <string name="controlcenter_fetch_activity_data">Sincronizza</string>
     <string name="controlcenter_find_device">Trova dispositivo smarrito</string>
-    <string name="controlcenter_take_screenshot">Fai una schermata</string>
+    <string name="controlcenter_take_screenshot">Cattura una schermata</string>
     <string name="controlcenter_disconnect">Disconnetti</string>
     <string name="controlcenter_delete_device">Rimuovi dispositivo</string>
     <string name="controlcenter_delete_device_name">Rimuovi %1$s</string>
     <string name="controlcenter_delete_device_dialogmessage">Il dispositivo verrà rimosso e tutti i dati ad esso associati verranno cancellati!</string>
     <string name="controlcenter_navigation_drawer_open">Apri menù di navigazione</string>
     <string name="controlcenter_navigation_drawer_close">Chiudi menù di navigazione</string>
-    <string name="controlcenter_snackbar_need_longpress">Pressione prolungata sulla scheda per scollegare</string>
+    <string name="controlcenter_snackbar_need_longpress">Premi a lungo sulla scheda per scollegare</string>
     <string name="controlcenter_snackbar_disconnecting">Disconnessione</string>
-    <string name="controlcenter_snackbar_connecting">Connessione …</string>
-    <string name="controlcenter_snackbar_requested_screenshot">Screenshot del dispositivo</string>
+    <string name="controlcenter_snackbar_connecting">Connessione…</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Acquisizione di una schermata del dispositivo</string>
     <string name="title_activity_debug">Debug</string>
     <!--Strings related to AppManager-->
     <string name="title_activity_appmanager">Gestione app</string>
@@ -33,9 +33,9 @@
     <string name="appmanager_health_deactivate">Disattiva</string>
     <string name="appmanager_hrm_activate">Attiva il monitor del battito cardiaco</string>
     <string name="appmanager_hrm_deactivate">Disattiva il monitor del battito cardiaco</string>
-    <string name="appmanager_weather_activate">Attiva l\'Applicazione Meteo</string>
-    <string name="appmanager_weather_deactivate">Disattiva l\'Applicazione Meteo</string>
-    <string name="appmanager_weather_install_provider">Installa l\'applicazione per le notifiche meteo</string>
+    <string name="appmanager_weather_activate">Attiva l\'applicazione meteo di sistema</string>
+    <string name="appmanager_weather_deactivate">Disattiva l\'applicazione meteo di sistema</string>
+    <string name="appmanager_weather_install_provider">Installa l\'applicazione Weather Notification</string>
     <string name="app_configure">Configura</string>
     <string name="app_move_to_top">Sposta in cima</string>
     <!--Strings related to AppBlacklist-->
@@ -54,11 +54,11 @@
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Impostazioni</string>
     <string name="pref_header_general">Impostazioni</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Collegati al dispositivo Gadgetbridge quando il bluetooth viene acceso</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Collegati al dispositivo Gadgetbridge quando il Bluetooth viene acceso</string>
     <string name="pref_title_general_autostartonboot">Avvio automatico</string>
     <string name="pref_title_general_autoreconnect">Riconnessione automatica</string>
-    <string name="pref_title_audio_player">Applicazione musicale preferita</string>
-    <string name="pref_default">Default</string>
+    <string name="pref_title_audio_player">Riproduttore musicale preferito</string>
+    <string name="pref_default">Predefinito</string>
     <string name="pref_header_datetime">Data e ora</string>
     <string name="pref_title_datetime_syctimeonconnect">Sincronizza l\'ora</string>
     <string name="pref_summary_datetime_syctimeonconnect">Sincronizza l\'orario del dispositivo al collegamento con Gadgetbridge e quando viene cambiata l\'ora o il fuso orario sul dispositivo Android</string>
@@ -75,37 +75,37 @@
     <string name="pref_title_notifications_sms">SMS</string>
     <string name="pref_title_notifications_pebblemsg">Messaggi Pebble</string>
     <string name="pref_summary_notifications_pebblemsg">Supporto per applicazioni che inviano le notifiche a Pebble usando PebbleKit.</string>
-    <string name="pref_title_notifications_generic">Supporto Notifiche Generiche</string>
-    <string name="pref_title_whenscreenon">…anche se lo schermo è acceso</string>
+    <string name="pref_title_notifications_generic">Supporto notifiche generiche</string>
+    <string name="pref_title_whenscreenon">…anche quando lo schermo è acceso</string>
     <string name="pref_title_notification_filter">Non disturbare</string>
-    <string name="pref_summary_notification_filter">Notifiche indesiderate sono bloccate in questa modalità</string>
+    <string name="pref_summary_notification_filter">Le notifiche indesiderate sono bloccate in questa modalità</string>
     <string name="pref_title_transliteration">Traslitterazione</string>
     <string name="pref_summary_transliteration">Abilita questa opzione se il tuo dispositivo non supporta tutti i caratteri della tua lingua</string>
     <string name="always">Sempre</string>
-    <string name="when_screen_off">se lo schermo è spento</string>
+    <string name="when_screen_off">Quando lo schermo è spento</string>
     <string name="never">Mai</string>
     <string name="pref_header_privacy">Privacy</string>
     <string name="pref_title_call_privacy_mode">Impostazioni privacy chiamate</string>
-    <string name="pref_call_privacy_mode_off">Mostra nome e numero chiamante</string>
-    <string name="pref_call_privacy_mode_name">Nascondi il nome ma mostra il numero del chiamante</string>
+    <string name="pref_call_privacy_mode_off">Mostra nome e numero</string>
+    <string name="pref_call_privacy_mode_name">Nascondi il nome ma mostra il numero</string>
     <string name="pref_call_privacy_mode_number">Nascondi il numero ma mostra il nome</string>
-    <string name="pref_call_privacy_mode_complete">Nascondi nome e numero del chiamante</string>
-    <string name="pref_blacklist">Blocca applicazioni</string>
+    <string name="pref_call_privacy_mode_complete">Nascondi nome e numero</string>
+    <string name="pref_blacklist">Blocco applicazioni</string>
     <string name="pref_header_cannned_messages">Messaggi preimpostati</string>
     <string name="pref_title_canned_replies">Risposte</string>
     <string name="pref_title_canned_reply_suffix">Suffisso applicato alle risposte automatiche</string>
     <string name="pref_title_canned_messages_dismisscall">Rifiuto chiamata</string>
     <string name="pref_title_canned_messages_set">Invia al Pebble</string>
-    <string name="pref_header_development">Opzioni di sviluppo</string>
+    <string name="pref_header_development">Opzioni sviluppatore</string>
     <string name="pref_title_development_miaddr">Indirizzo Mi Band</string>
     <string name="pref_title_pebble_settings">Impostazioni Pebble</string>
     <string name="pref_header_activitytrackers">Tracciatore di attività</string>
-    <string name="pref_title_pebble_activitytracker">Tracciatore delle attività preferito</string>
+    <string name="pref_title_pebble_activitytracker">Tracciatore di attività preferito</string>
     <string name="pref_title_pebble_sync_health">Sincronizza Pebble Health</string>
     <string name="pref_title_pebble_sync_misfit">Sincronizza Misfit</string>
     <string name="pref_title_pebble_sync_morpheuz">Sincronizza Morpheuz</string>
     <string name="pref_title_enable_outgoing_call">Mostra le chiamate in uscita</string>
-    <string name="pref_summary_enable_outgoing_call">Disabilitando questa funzionalità impedirá la vibrazione del Pebble 2 quando si effettua una chiamata</string>
+    <string name="pref_summary_enable_outgoing_call">Disabilitare questo impedirà la vibrazione del Pebble 2/LE durante le chiamate in uscita</string>
     <string name="pref_title_enable_pebblekit">Consenti accesso ad altre applicazioni</string>
     <string name="pref_summary_enable_pebblekit">Attiva il supporto sperimentale ad applicazioni Android con PebbleKit</string>
     <string name="pref_title_sunrise_sunset">Alba e tramonto</string>
@@ -397,15 +397,15 @@
     <string name="discovery_trying_to_connect_to">Tentativo di connessione con: %1$s</string>
     <string name="discovery_enable_bluetooth">Abilitare Bluetooth per l\'individuazione dei dispositivi.</string>
     <string name="discovery_dont_pair">Non connettersi</string>
-    <string name="controlcenter_connect">Connetti …</string>
-    <string name="fw_upgrade_notice_amazfitbip">Si sta per installare il firmware %s sul tuo Amazfit Bip.
+    <string name="controlcenter_connect">Connetti…</string>
+    <string name="fw_upgrade_notice_amazfitbip">Stai per installare il firmware %s sul tuo Amazfit Bip.
 \n
-\nSi prega di installare prima il file .fw, poi il file .res e in fine il file .gps. Il tuo smartwatch si riavvierà appena dopo aver installato il file .fw.
+\nAssicurati di installare prima il file .fw e dopo il file .res. L\'orologio si riavvierà al termine del caricamento del file .fw.
 \n
-\nNota: Non è necessario installare i file .res e .gps se questi sono gli stessi della versione precedentemente installata.
+\nNota: non devi installare il file .res se è uguale a quello installato in precedenza.
 \n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Si sta per installare il firmware %s sul Amazfit Cor.
+    <string name="fw_upgrade_notice_amazfitcor">Stai per installare il firmware %s sul Amazfit Cor.
 \n
 \nSi prega di installare prima il file .fw e successivamente il file .res. La tua band si riavvierà dopo l\'installazione del file .fw.
 \n
@@ -415,7 +415,7 @@
     <string name="pref_title_charts_swipe">Abilita swipe Sinistra/Destra nel grafico delle attività</string>
     <string name="pref_title_weather">Meteo</string>
     <string name="pref_title_weather_location">Posizione meteo (per il provider meteo di LineageOS)</string>
-    <string name="pref_blacklist_calendars">Blacklist Calendari</string>
+    <string name="pref_blacklist_calendars">Calendari ignorati</string>
     <string name="pref_header_pebble_timeline">Timeline Pebble</string>
     <string name="pref_summary_enable_calendar_sync">Invia gli eventi del calendario alla timeline</string>
     <string name="pref_title_pebble_enable_bgjs">Abilita background JS</string>
@@ -490,7 +490,7 @@
     <string name="on">Acceso</string>
     <string name="blacklist_all_for_notifications">Blocca tutte le notifiche</string>
     <string name="whitelist_all_for_notifications">Consenti le notifiche da tutte le applicazioni</string>
-    <string name="fw_upgrade_notice_miband3">Si sta per installare il firmware %s sul Mi Band 3.
+    <string name="fw_upgrade_notice_miband3">Stai per installare il firmware %s sul Mi Band 3.
 \n
 \nSi prega di installare prima il file .fw e successivamente il file .res. La Miband3 si riavvierà dopo l\'installazione del file .fw.
 \n
@@ -531,7 +531,7 @@
     <string name="menuitem_alipay">Alipay</string>
     <string name="controlcenter_change_led_color">Cambia colore LED</string>
     <string name="controlcenter_change_fm_frequency">Cambia frequenza FM</string>
-    <string name="controlcenter_calibrate_device">Calibra Dispositivo</string>
+    <string name="controlcenter_calibrate_device">Calibra dispositivo</string>
     <string name="pref_title_notifications_timeout">Tempo minimo tra le notifiche</string>
     <string name="pref_title_rtl">Da destra a sinistra</string>
     <string name="pref_summary_rtl">Abilita questo se il tuo dispositivo non mostra le lingue lette da destra a sinistra</string>
@@ -699,7 +699,7 @@
     <string name="portuguese">Portoghese</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="devicetype_miband4">Mi Band 4</string>
-    <string name="fw_upgrade_notice_miband4">Si sta per installare il firmware %s sul Mi Band 4.
+    <string name="fw_upgrade_notice_miband4">Stai per installare il firmware %s sul Mi Band 4.
 \n
 \nSi prega di installare prima il file .fw e successivamente il file .res. La Mi Band 4 si riavvierà dopo l\'installazione del file .fw.
 \n
@@ -867,7 +867,7 @@
     <string name="pref_theme_system">Sistema</string>
     <string name="pref_summary_relax_firmware_checks">Allenta i controlli del firmware</string>
     <string name="error_background_service_reason">L\'avvio del servizio in background non è riuscito a causa di un\'eccezione. Errore:</string>
-    <string name="error_background_service_reason_truncated">Non è stato possibile avviare il servizio in background perché</string>
+    <string name="error_background_service_reason_truncated">L\'avvio del servizio in background non è riuscito perché…</string>
     <string name="error_background_service">Impossibile avviare il servizio in background</string>
     <string name="error_version_check_extreme_caution">ATTENZIONE: Errore durante la verifica delle informazioni sulla versione! Non dovresti continuare! Visto il nome della versione \"%s\"</string>
     <string name="permission_granting_mandatory">Sono richieste tutte queste autorizzazioni e l\'app potrebbe essere instabile se non concesse</string>
@@ -915,16 +915,30 @@
 \nNota: non devi installare il file .res se è uguale a quello installato in precedenza.
 \n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
-    <string name="controlcenter_set_alias">Imposta Soprannome</string>
+    <string name="controlcenter_set_alias">Imposta Alias</string>
     <string name="menuitem_stress">Stress</string>
     <string name="menuitem_cycles">Cicli mestruali</string>
     <string name="menuitem_breathing">Respirazione</string>
     <string name="devicetype_miband5">Mi Band 5</string>
-    <string name="fw_upgrade_notice_miband5">Si sta per installare il firmware %s sul Mi Band 5.
+    <string name="fw_upgrade_notice_miband5">Stai per installare il firmware %s sul Mi Band 5.
 \n
 \nSi prega di installare prima il file .fw e successivamente il file .res. La Mi Band 5 si riavvierà dopo l\'installazione del file .fw.
 \n
 \nNOTA: Non è necessario installare il file .res se risulta essere uguale a quello precedentemente installato.
 \n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="companiondevice_pairing_details">Abilita il nuovo supporto dell\'API CompanionDevice (solo Android 8 o superiore!) che teoricamente aumenta l\'affidabilità, richiede una nuova associazione per avere effetto</string>
+    <string name="error_exporting_device_preferences">Errore durante l\'esportazione delle preferenze specifiche del dispositivo</string>
+    <string name="error_location_enabled_mandatory">La posizione deve essere attivata per cercare i dispositivi</string>
+    <string name="ignore_bonded_devices_description">L\'abilitazione di questa opzione ignorerà i dispositivi che sono stati già associati / accoppiati durante la scansione</string>
+    <string name="ignore_bonded_devices">Ignora i dispositivi associati</string>
+    <string name="error_retrieving_devices_database">Errore durante il recupero dei dispositivi dal database</string>
+    <string name="error_setting_alias">Errore durante l\'impostazione dell\'alias:</string>
+    <string name="pref_check_permission_status_summary">Controlla e chiedi le autorizzazioni mancanti anche quando potrebbero non essere immediatamente necessarie. Disabilita questo solo se i tuoi dispositivi in realtà non supportano nessuna di queste funzionalità. Non concedere un\'autorizzazione potrebbe causare problemi!</string>
+    <string name="pref_check_permission_status">Verifica dello stato delle autorizzazioni</string>
+    <string name="device_requires_key">CHIAVE RICHIESTA</string>
+    <string name="device_is_currently_bonded">GIÀ ASSOCIATO</string>
+    <string name="companiondevice_pairing">Associazione del CompanionDevice</string>
+    <string name="require_location_provider">La posizione deve essere abilitata</string>
+    <string name="devicetype_tlw64">TLW64</string>
 </resources>
