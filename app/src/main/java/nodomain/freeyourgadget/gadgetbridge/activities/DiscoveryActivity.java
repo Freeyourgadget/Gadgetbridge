@@ -135,7 +135,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
                 case BluetoothAdapter.ACTION_DISCOVERY_STARTED:
                     if (isScanning != Scanning.SCANNING_BLE) {
                         if (isScanning != Scanning.SCANNING_BT_NEXT_BLE) {
-                            isScanning = Scanning.SCANNING_BT;
+                            setIsScanning(Scanning.SCANNING_BT);
                         }
                         startButton.setText(getString(R.string.discovery_stop_scanning));
                     }
@@ -532,6 +532,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
             discoveryFinished();
             handler.removeMessages(0, stopRunnable);
+        } else {
+            discoveryFinished();
         }
     }
 
@@ -541,7 +543,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
     private void startOldBTLEDiscovery() {
         LOG.info("Starting old BLE discovery");
-        isScanning = Scanning.SCANNING_BLE;
+        setIsScanning(Scanning.SCANNING_BLE);
 
         handler.removeMessages(0, stopRunnable);
         handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
@@ -553,11 +555,11 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     private void stopOldBLEDiscovery() {
         if (adapter != null) {
             adapter.stopLeScan(leScanCallback);
-
-            isScanning = Scanning.SCANNING_OFF;
-            bluetoothLEProgress.setVisibility(View.GONE);
+            setIsScanning(Scanning.SCANNING_OFF);
             LOG.info("Stopped old BLE discovery");
         }
+
+        bluetoothLEProgress.setVisibility(View.GONE);
     }
 
     /* New BTLE Discovery uses startScan (List<ScanFilter> filters,
@@ -566,7 +568,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private void startBTLEDiscovery() {
         LOG.info("Starting BLE discovery");
-        isScanning = Scanning.SCANNING_BLE;
+        setIsScanning(Scanning.SCANNING_BLE);
 
         handler.removeMessages(0, stopRunnable);
         handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
@@ -600,8 +602,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             return;
         }
 
-        isScanning = Scanning.SCANNING_OFF;
         bluetoothLEProgress.setVisibility(View.GONE);
+        setIsScanning(Scanning.SCANNING_OFF);
         LOG.debug("Stopped BLE discovery");
     }
 
@@ -612,7 +614,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
      */
     private void startBTDiscovery(Scanning what) {
         LOG.info("Starting BT discovery");
-        isScanning = what;
+        setIsScanning(what);
 
         handler.removeMessages(0, stopRunnable);
         handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
@@ -628,7 +630,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             adapter.cancelDiscovery();
 
             bluetoothProgress.setVisibility(View.GONE);
-            isScanning = Scanning.SCANNING_OFF;
+            setIsScanning(Scanning.SCANNING_OFF);
             LOG.info("Stopped BT discovery");
         }
     }
@@ -637,12 +639,21 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         if (isScanning != Scanning.SCANNING_OFF) {
             LOG.warn("Scan was not properly stopped: " + isScanning);
         }
-        startButton.setText(getString(R.string.discovery_start_scanning));
+
+        setIsScanning(Scanning.SCANNING_OFF);
     }
 
+    private void setIsScanning(Scanning to) {
+        this.isScanning = to;
+
+        if (isScanning == Scanning.SCANNING_OFF) {
+            startButton.setText(getString(R.string.discovery_start_scanning));
+        } else {
+            startButton.setText(getString(R.string.discovery_stop_scanning));
+        }
+    }
 
     private void bluetoothStateChanged(int newState) {
-        discoveryFinished();
         if (newState == BluetoothAdapter.STATE_ON) {
             this.adapter = BluetoothAdapter.getDefaultAdapter();
             startButton.setEnabled(true);
@@ -650,6 +661,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             this.adapter = null;
             startButton.setEnabled(false);
         }
+
+        discoveryFinished();
     }
 
     private boolean checkBluetoothAvailable() {

@@ -373,7 +373,7 @@
 
         <receiver
             android:name=".externalevents.BluetoothStateChangeReceiver"
-            android:exported="false"
+            android:exported="true"
             android:permission="android.permission.BLUETOOTH,android.permission.BLUETOOTH_ADMIN">
             <intent-filter>
                 <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
