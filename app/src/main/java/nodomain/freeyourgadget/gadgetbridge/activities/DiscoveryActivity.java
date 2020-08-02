@@ -614,15 +614,18 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
      */
     private void startBTDiscovery(Scanning what) {
         LOG.info("Starting BT discovery");
-        setIsScanning(what);
 
         handler.removeMessages(0, stopRunnable);
         handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
         if (adapter.startDiscovery()) {
+            LOG.debug("Discovery starting successful");
+            bluetoothProgress.setVisibility(View.VISIBLE);
+            setIsScanning(what);
+        } else {
             LOG.error("Discovery starting failed");
+            bluetoothProgress.setVisibility(View.GONE);
+            setIsScanning(Scanning.SCANNING_OFF);
         }
-
-        bluetoothProgress.setVisibility(View.VISIBLE);
     }
 
     private void stopBTDiscovery() {
