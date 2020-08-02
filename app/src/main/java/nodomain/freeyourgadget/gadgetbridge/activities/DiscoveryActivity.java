@@ -623,7 +623,12 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
      */
     private void startBTDiscovery(Scanning what) {
         LOG.info("Starting BT discovery");
-
+        try {
+            // LineageOS quirk, can't start scan properly,
+            // if scan has been started by something else
+            stopBTDiscovery();
+        } catch (Exception ignored) {
+        }
         handler.removeMessages(0, stopRunnable);
         handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
         if (adapter.startDiscovery()) {
