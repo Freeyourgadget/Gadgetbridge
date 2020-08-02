@@ -548,12 +548,11 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
         if(adapter.startLeScan(leScanCallback)) {
             LOG.info("Old Bluetooth LE scan started successfully");
-            setIsScanning(Scanning.SCANNING_BLE);
             bluetoothLEProgress.setVisibility(View.VISIBLE);
+            setIsScanning(Scanning.SCANNING_BLE);
         } else {
             LOG.info("Old Bluetooth LE scan starting failed");
             setIsScanning(Scanning.SCANNING_OFF);
-            bluetoothLEProgress.setVisibility(View.GONE);
         }
     }
 
@@ -564,7 +563,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         }
 
         setIsScanning(Scanning.SCANNING_OFF);
-        bluetoothLEProgress.setVisibility(View.GONE);
     }
 
     /* New BTLE Discovery uses startScan (List<ScanFilter> filters,
@@ -582,8 +580,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         adapter.getBluetoothLeScanner().startScan(null, getScanSettings(), getScanCallback());
 
         LOG.debug("Bluetooth LE discovery started successfully");
-        setIsScanning(Scanning.SCANNING_BLE);
         bluetoothLEProgress.setVisibility(View.VISIBLE);
+        setIsScanning(Scanning.SCANNING_BLE);
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -608,9 +606,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             return;
         }
 
-        bluetoothLEProgress.setVisibility(View.GONE);
-        setIsScanning(Scanning.SCANNING_OFF);
         LOG.debug("Stopped BLE discovery");
+        setIsScanning(Scanning.SCANNING_OFF);
     }
 
     /**
@@ -629,7 +626,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             setIsScanning(what);
         } else {
             LOG.error("Discovery starting failed");
-            bluetoothProgress.setVisibility(View.GONE);
             setIsScanning(Scanning.SCANNING_OFF);
         }
     }
@@ -637,11 +633,9 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     private void stopBTDiscovery() {
         if (adapter != null) {
             adapter.cancelDiscovery();
-
-            bluetoothProgress.setVisibility(View.GONE);
-            setIsScanning(Scanning.SCANNING_OFF);
             LOG.info("Stopped BT discovery");
         }
+        setIsScanning(Scanning.SCANNING_OFF);
     }
 
     private void discoveryFinished() {
@@ -657,6 +651,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
         if (isScanning == Scanning.SCANNING_OFF) {
             startButton.setText(getString(R.string.discovery_start_scanning));
+            bluetoothProgress.setVisibility(View.GONE);
+            bluetoothLEProgress.setVisibility(View.GONE);
         } else {
             startButton.setText(getString(R.string.discovery_stop_scanning));
         }
@@ -673,7 +669,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             bluetoothLEProgress.setVisibility(View.GONE);
         }
 
-        setIsScanning(Scanning.SCANNING_OFF);
         discoveryFinished();
     }
 
