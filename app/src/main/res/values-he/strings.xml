@@ -923,4 +923,18 @@
     <string name="menuitem_worldclock">שעון עולמי</string>
     <string name="permission_granting_mandatory">כל ההרשאות האלו נדרשות ואם לא תוענקנה היציבות תתערער</string>
     <string name="error_version_check_extreme_caution">אזהרה: בדיקת פרטי הגרסה נתקלה בשגיאה! עדיף שלא להמשיך! הגרסה שנצפתה היא „%s”</string>
+    <string name="error_background_service_reason">התחלת שירות הרקע נכשלה עקב חריגה. שגיאה:</string>
+    <string name="error_background_service_reason_truncated">לא ניתן להתחיל את שירות הרקע עקב</string>
+    <string name="error_background_service">התחלת שירות הרקע נכשלה</string>
+    <string name="fw_upgrade_notice_miband5">פעולה זו תתקין את הקושחה %s במקום הנוכחית שעל ה־Mi Band 5 שלך.
+\n
+\nנא לוודא את התקנת קובץ ה־‎.fw, ולאחר מכן את קובץ ה־‎.res. הצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־‎.fw
+\n
+\nלתשומת לבך: אין צורך להתקין את קובץ ה־‎.res אם הוא זהה לקובץ שהתקנת בעבר.
+\n
+\nהמשך מעבר לנקודה זו הוא על אחריותך!</string>
+    <string name="menuitem_stress">לחץ</string>
+    <string name="menuitem_cycles">מחזורים</string>
+    <string name="menuitem_breathing">נשימה</string>
+    <string name="devicetype_miband5">Mi Band 5</string>
 </resources>

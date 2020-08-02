@@ -45,7 +45,7 @@
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">FW/App-Installer</string>
     <string name="fw_upgrade_notice">Du bist dabei, die %s zu installieren.</string>
-    <string name="fw_multi_upgrade_notice">Du bist dabei, die %1$s und %2$s Firmware zu installieren, anstatt die, die sich derzeit auf deinem Mi Band befinden.</string>
+    <string name="fw_multi_upgrade_notice">Du bist dabei anstelle der aktuell auf dem Mi Band vorhandenen Firmware, die Firmware %1$s und %2$s zu installieren.</string>
     <string name="miband_firmware_known">Diese Firmware wurde getestet und ist bekanntlich mit Gadgetbridge kompatibel.</string>
     <string name="miband_firmware_unknown_warning">Diese Firmware ist nicht getestet und ist möglicherweise nicht mit Gadgetbridge kompatibel.
 \n
@@ -139,7 +139,7 @@
     <string name="pref_title_pebble_enable_applogs">Watch-App-Protokollierung aktivieren</string>
     <string name="pref_summary_pebble_enable_applogs">Schreibt Logs von Watch Apps in Gadgetbridge-Logs (erfordert erneute Verbindung)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">PebbleKit Nachrichten direkt bestätigen</string>
-    <string name="pref_summary_pebble_always_ack_pebblekit">Nachrichten, die an externe Drittanbieter-Apps geschickt werden, werden immer und sofort bestätigt</string>
+    <string name="pref_summary_pebble_always_ack_pebblekit">Nachrichten, die an externe Drittanbieter-Apps geschickt werden, immer und sofort bestätigen</string>
     <string name="pref_title_pebble_reconnect_attempts">Erneute Verbindungsversuche</string>
     <string name="pref_title_unit_system">Einheiten</string>
     <string name="pref_title_timeformat">Zeitformat</string>
@@ -292,7 +292,7 @@
     <string name="liveactivity_live_activity">Jetzige Aktivität (live)</string>
     <string name="weeksteps_today_steps_description">Schritte heute, Ziel: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Keine ACK-Aktivitätsdatenübertragung durchführen</string>
-    <string name="pref_summary_dont_ack_transfers">Wenn die Aktivitätsdaten nicht an das Band gesendet werden, werden sie nicht gelöscht. Nützlich, wenn Gadgetbridge zusammen mit anderen Apps verwendet wird.</string>
+    <string name="pref_summary_dont_ack_transfers">Das Band löscht die Aktivitätsdaten nicht, wenn keine Bestätigung an das Band gesendet wird. Nützlich, wenn Gadgetbridge zusammen mit anderen Apps verwendet wird.</string>
     <string name="pref_summary_keep_data_on_device">Aktivitätsdaten verbleiben auf dem Mi Band, auch nach der Synchronisierung. Nützlich, wenn Gadgetbridge zusammen mit anderen Apps verwendet wird.</string>
     <string name="pref_title_low_latency_fw_update">Verwende den Low-Latency-Modus für Firmwareaktualisierung</string>
     <string name="pref_summary_low_latency_fw_update">Dies kann bei Geräten helfen, bei denen Firmwareupdates fehlschlagen.</string>
@@ -927,4 +927,18 @@
     <string name="menuitem_worldclock">Weltzeit</string>
     <string name="error_version_check_extreme_caution">ACHTUNG: Fehler beim Prüfen der Information zur Version! Du solltest nicht fortfahren! Versionsname \"%s\" gefunden</string>
     <string name="permission_granting_mandatory">Alle Berechtigungen sind notwendig und es kann zu Problemen führen, wenn sie nicht genehmigt werden</string>
+    <string name="menuitem_stress">Stress</string>
+    <string name="menuitem_cycles">Zyklus</string>
+    <string name="error_background_service_reason">Start des Hintergrunddienstes fehlgeschlagen wegen einem Fehler. Fehlermeldung:</string>
+    <string name="error_background_service_reason_truncated">Hintergrunddienst konnte nicht gestartet werden, wegen</string>
+    <string name="error_background_service">Start des Hintergrunddienstes fehlgeschlagen</string>
+    <string name="menuitem_breathing">Atmung</string>
+    <string name="devicetype_miband5">Mi Band 5</string>
+    <string name="fw_upgrade_notice_miband5">Du bist dabei, die Firmware %s auf dein Mi Band 5 zu installieren.
+\n
+\nBitte stelle sicher, dass du zuerst die .fw Datei und dann die .res Datei installierst. Dein Band wird nach der Installation der .fw Datei neu starten.
+\n
+\nHinweis: Die .res Datei muss nicht installiert werden, wenn es die gleiche Datei ist, die schon zuvor installiert wurde.
+\n
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
 </resources>

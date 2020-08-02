@@ -919,4 +919,21 @@
     <string name="about_title">Over</string>
     <string name="pref_title_weather_summary">Gebruikt voor de LineageOS weer provider, andere Android versies moeten een app zoals \"Weather notification\" gebruiiken. Meer informatie is te vinden in de Gadgetbridge wiki.</string>
     <string name="menuitem_worldclock">Wereld Klok</string>
+    <string name="error_background_service_reason_truncated">Kon de achtergronddienst niet starten omdat</string>
+    <string name="error_background_service_reason">Kan de achtergrondservice niet starten omdat</string>
+    <string name="error_background_service">Kan de achtergrondservice niet starten</string>
+    <string name="error_version_check_extreme_caution">LET OP: Fout bij het controleren van versie-informatie! Je moet niet doorgaan! Zag versie naam \"% s\"</string>
+    <string name="permission_granting_mandatory">Al deze toestemmingen zijn vereist en er kan instabiliteit ontstaan als ze niet worden verleend</string>
+    <string name="menuitem_stress">Spanning</string>
+    <string name="menuitem_cycles">Cycli</string>
+    <string name="menuitem_breathing">Ademhaling</string>
+    <string name="devicetype_miband5">Mi Band 5</string>
+    <string name="fw_upgrade_notice_miband5">U staat op het punt om de %s-firmware op je Mi Band 5 te installeren.
+\n
+\nZorg ervoor dat u het .fw bestand installeert, en daarna het .res bestand. Uw band wordt opnieuw opgestart na het installeren van het .fw-bestand.
+\n
+\nOpmerking: U hoeft .res niet te installeren als het precies hetzelfde is als het eerder geïnstalleerde .res.
+\n
+\nGA VERDER OP EIGEN RISICO!</string>
+    <string name="devicetype_tlw64">TLW64</string>
 </resources>
