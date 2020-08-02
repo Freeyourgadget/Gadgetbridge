@@ -893,6 +893,9 @@
     <string name="error_background_service_reason">Starting the background service failed because of an exception. Error: </string>
     <string name="pref_check_permission_status">Check permission status</string>
     <string name="pref_check_permission_status_summary">Check and ask for missing permissions even when they might not be instantly needed. Enable this only if your devices actually doesn\'t support any of these features. Not granting a permission might cause issues!</string>
+    <string name="error_exporting_device_preferences">Error exporting device specific preferences</string>
+    <string name="error_setting_alias">Error setting alias: </string>
+    <string name="error_retrieving_devices_database">Error retrieving devices from database</string>
     <string name="ignore_bonded_devices">Ignore bonded devices</string>
     <string name="ignore_bonded_devices_description">Enabling this option will ignore devices that have been bonded/paired already when scanning</string>
     <plurals name="widget_alarm_target_hours">

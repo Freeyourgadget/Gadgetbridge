@@ -27,12 +27,13 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import de.greenrobot.dao.query.Query;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -254,7 +255,7 @@ public class PebblePairingActivity extends AbstractGBActivity {
             gbDevice = deviceHelper.toGBDevice(devices.get(0));
             gbDevice.setVolatileAddress(btDevice.getAddress());
         } catch (Exception e) {
-            GB.toast("Error retrieving devices from database", Toast.LENGTH_SHORT, GB.ERROR);
+            GB.toast(getString(R.string.error_retrieving_devices_database), Toast.LENGTH_SHORT, GB.ERROR, e);
             returnToPairingActivity();
             return null;
         }

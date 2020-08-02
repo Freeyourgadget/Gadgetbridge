@@ -47,6 +47,9 @@ import com.google.android.material.snackbar.Snackbar;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -63,7 +66,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
-import nodomain.freeyourgadget.gadgetbridge.entities.DeviceDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
@@ -75,6 +77,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
  * Adapter for displaying GBDevice instances.
  */
 public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.ViewHolder> {
+    private static final Logger LOG = LoggerFactory.getLogger(GBDeviceAdapterv2.class);
 
     private final Context context;
     private List<GBDevice> deviceList;
@@ -498,7 +501,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                     dbDevice.update();
                                     device.setAlias(alias);
                                 } catch (Exception ex) {
-                                    GB.toast(context, "Error setting alias: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+                                    GB.toast(context, context.getString(R.string.error_setting_alias) + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
                                 } finally {
                                     Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
                                     LocalBroadcastManager.getInstance(context).sendBroadcast(refreshIntent);
