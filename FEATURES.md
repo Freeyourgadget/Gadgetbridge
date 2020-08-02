@@ -1,7 +1,7 @@
 ## Feature Matrix
 
 |                                   | Pebble OG | Pebble Time/2 | Mi Band | Mi Band 2 | Mi Band 3 | Mi Band 4/5 | Amazfit Bip | Amazfit Cor |
-|-----------------------------------| ----------|---------------|---------|-----------|-----------|-------------|-------------|
+|-----------------------------------| ----------|---------------|---------|-----------|-----------|-------------|-------------|-------------|
 |Calls Notification                 | YES       | YES           | YES     | YES       | YES       | YES         | YES         | YES         |
 |Reject Calls                       | YES       | YES           | NO      | NO        | YES       | YES         | YES         | YES         |
 |Accept Calls                       | NO(2)     | NO(2)         | NO      | NO        | NO        | NO          | NO          | NO          |
