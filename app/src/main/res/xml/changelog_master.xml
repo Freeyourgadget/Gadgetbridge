@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.46.0" versioncode="178">
+        <change>Initial support for Mi Band 5</change>
+        <change>Initial support for TLW64</change>
+        <change>Amazfit GTR/GTS: Fix broken activity data on newer firmwares</change>
+        <change>Big refactoring of the device discovery activity (See PR #1927 description for details)</change>
+        <change>Add about screen</change>
+        <change>New icon for Amazfit Bip</change>
+        <change>Avoid duplicated entries in preferred media player selection</change>
+        <change>Avoid a lot of crashes and improve error handling in various places</change>
+    </release>
     <release version="0.45.1" versioncode="177">
         <change>Amazfit GTR/GTS: Fix connection issue with latest firmwares (probably other Huami devices also affected)</change>
         <change>Add experimental support for TinyWeatherForecastGermany</change>

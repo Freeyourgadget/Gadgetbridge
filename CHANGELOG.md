@@ -1,8 +1,10 @@
 ### Changelog
 
-#### 0.46.0 (WIP)
-* Initial Support for Mi Band 5
+#### 0.46.0
+* Initial support for Mi Band 5
+* Initial support for TLW64
 * Amazfit GTR/GTS: Fix broken activity data on newer firmwares
+* Big refactoring of the device discovery activity (See PR #1927 description for details)
 * Add about screen
 * New icon for Amazfit Bip
 * Avoid duplicated entries in preferred media player selection
