@@ -946,4 +946,9 @@
     <string name="device_requires_key">נדרש מפתח</string>
     <string name="device_is_currently_bonded">כבר מאוגד</string>
     <string name="devicetype_tlw64">TLW64</string>
+    <string name="error_location_enabled_mandatory">יש להפעיל מיקום כדי לסרוק לאיתור מכשירים</string>
+    <string name="companiondevice_pairing_details">מפעיל את התמיכה ב־API החדש מסוג CompanionDevice (תקף ל־Android 8 ומעלה!) שתאורטית מגביר את האמינות, דורש צימוד מחדש כדי להיכנס לתוקף</string>
+    <string name="companiondevice_pairing">צימוד CompanionDevice</string>
+    <string name="require_location_provider">יש להפעיל מיקום</string>
+    <string name="pref_check_permission_status_summary">לבדוק ולבקש הרשאות חסרות אפילו אם אינן נדרשות באותו הרגע. יש להפעיל את זה רק אם המכשירים שלך אכן לא תומכים בתכונות האלו. חסך בהענקת הרשאות עלול להוביל לתקלות!</string>
 </resources>
