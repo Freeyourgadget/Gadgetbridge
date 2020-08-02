@@ -543,22 +543,27 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
     private void startOldBTLEDiscovery() {
         LOG.info("Starting old BLE discovery");
-        setIsScanning(Scanning.SCANNING_BLE);
 
         handler.removeMessages(0, stopRunnable);
         handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
-        adapter.startLeScan(leScanCallback);
-
-        bluetoothLEProgress.setVisibility(View.VISIBLE);
+        if(adapter.startLeScan(leScanCallback)) {
+            LOG.info("Old Bluetooth LE scan started successfully");
+            setIsScanning(Scanning.SCANNING_BLE);
+            bluetoothLEProgress.setVisibility(View.VISIBLE);
+        } else {
+            LOG.info("Old Bluetooth LE scan starting failed");
+            setIsScanning(Scanning.SCANNING_OFF);
+            bluetoothLEProgress.setVisibility(View.GONE);
+        }
     }
 
     private void stopOldBLEDiscovery() {
         if (adapter != null) {
             adapter.stopLeScan(leScanCallback);
-            setIsScanning(Scanning.SCANNING_OFF);
             LOG.info("Stopped old BLE discovery");
         }
 
+        setIsScanning(Scanning.SCANNING_OFF);
         bluetoothLEProgress.setVisibility(View.GONE);
     }
 
@@ -568,7 +573,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private void startBTLEDiscovery() {
         LOG.info("Starting BLE discovery");
-        setIsScanning(Scanning.SCANNING_BLE);
 
         handler.removeMessages(0, stopRunnable);
         handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
@@ -577,6 +581,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         // not really required.
         adapter.getBluetoothLeScanner().startScan(null, getScanSettings(), getScanCallback());
 
+        LOG.debug("Bluetooth LE discovery started successfully");
+        setIsScanning(Scanning.SCANNING_BLE);
         bluetoothLEProgress.setVisibility(View.VISIBLE);
     }
 
@@ -618,7 +624,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         handler.removeMessages(0, stopRunnable);
         handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
         if (adapter.startDiscovery()) {
-            LOG.debug("Discovery starting successful");
+            LOG.debug("Discovery started successfully");
             bluetoothProgress.setVisibility(View.VISIBLE);
             setIsScanning(what);
         } else {
@@ -663,8 +669,11 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         } else {
             this.adapter = null;
             startButton.setEnabled(false);
+            bluetoothProgress.setVisibility(View.GONE);
+            bluetoothLEProgress.setVisibility(View.GONE);
         }
 
+        setIsScanning(Scanning.SCANNING_OFF);
         discoveryFinished();
     }
 
