@@ -930,7 +930,7 @@
     <string name="menuitem_stress">Stress</string>
     <string name="menuitem_cycles">Zyklus</string>
     <string name="error_background_service_reason">Start des Hintergrunddienstes fehlgeschlagen wegen einem Fehler. Fehlermeldung:</string>
-    <string name="error_background_service_reason_truncated">Hintergrunddienst konnte nicht gestartet werden, wegen</string>
+    <string name="error_background_service_reason_truncated">Hintergrunddienst konnte nicht gestartet werden, wegen…</string>
     <string name="error_background_service">Start des Hintergrunddienstes fehlgeschlagen</string>
     <string name="menuitem_breathing">Atmung</string>
     <string name="devicetype_miband5">Mi Band 5</string>
@@ -941,4 +941,18 @@
 \nHinweis: Die .res Datei muss nicht installiert werden, wenn es die gleiche Datei ist, die schon zuvor installiert wurde.
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="companiondevice_pairing_details">Aktiviert die CompanionDevice API Unterstützung (nur Android 8 und neuer!) der theoretisch die Verlässlichkeit erhöht, benötigt für eine Auswirkung ein neues Paaren der Geräte</string>
+    <string name="error_location_enabled_mandatory">Standort muss für den Gerätescan aktiviert sein</string>
+    <string name="ignore_bonded_devices_description">Bei aktiver Option werden Geräte ignoriert, die beim Scan schon verbunden/gepaart sind</string>
+    <string name="ignore_bonded_devices">Ignoriere verbundene Geräte</string>
+    <string name="error_retrieving_devices_database">Fehler beim laden der Geräte aus der Datenbank</string>
+    <string name="error_setting_alias">Fehler beim setzen des Alias:</string>
+    <string name="error_exporting_device_preferences">Fehler beim Export der gerätespezifischen Einstellungen</string>
+    <string name="pref_check_permission_status_summary">Prüfen und nachfragen von fehlenden Berechtigungen, auch wenn sie nicht direkt benötigt werden. Nur deaktivieren, wenn dieses Gerät eine der Features nicht unterstützen soll. Eine Berechtigung nicht zu erteilen kann zu Problemen führen!</string>
+    <string name="pref_check_permission_status">Berechtigungsstatus prüfen</string>
+    <string name="device_requires_key">SCHLÜSSEL NOTWENDIG</string>
+    <string name="device_is_currently_bonded">BEREITS VERBUNDEN</string>
+    <string name="companiondevice_pairing">CompanionDevice Gerätepaarung</string>
+    <string name="require_location_provider">Standort muss aktiviert sein</string>
+    <string name="devicetype_tlw64">TLW64</string>
 </resources>
