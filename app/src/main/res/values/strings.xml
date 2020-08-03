@@ -756,6 +756,7 @@
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="devicetype_tlw64">TLW64</string>
+    <string name="devicetype_pinetime_jf">PineTime (JF Firmware)</string>
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>
     <string name="notification_channel_high_priority_name">Gadgetbridge notifications high priority</string>
