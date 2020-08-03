@@ -212,7 +212,7 @@
     <string name="devicetype_xwatch">XWatch</string>
     <string name="devicetype_y5">Y5</string>
     <string name="discovery_attempting_to_pair">%1$s ile eşleşmeye çalışılıyor</string>
-    <string name="discovery_bonding_failed_immediately">%1$s ile etkileşim aniden başarısız oldu.</string>
+    <string name="discovery_bonding_failed_immediately">%1$s ile etkileşim anında başarısız oldu.</string>
     <string name="discovery_connected_devices_hint">Cihazınızı Bluetooth araması için Görünür Yapın. Halen Eşleşmiş Cihazlar Muhtemelen Bulunmayabilir. Bu durumda Bluetooth üzerindeki eşleşmeyi kaldırıp yeniden deneyin. Android 6 ve sonraki sürümlerinde konumu (ör. GPS) etkinleştirin. GadgetBridge için Privacy Guardı devre dışı bırakın, çünkü telefonunuz çökebilir ve yeniden başlatılabilir. Birkaç dakika sonra hiçbir cihaz bulunmazsa, mobil cihazınızı yeniden başlattıktan sonra tekrar deneyin.</string>
     <string name="discovery_dont_pair">"Eşlenmesin"</string>
     <string name="discovery_enable_bluetooth">Cihazları bulmak için Bluetoothu aktifleştirin.</string>
@@ -248,49 +248,49 @@
     <string name="french">French</string>
     <string name="fw_multi_upgrade_notice">Mevcut Mi Band cihazınıza %1$s ve %2$s için Firmware yüklemek üzeresiniz.</string>
     <string name="fw_upgrade_notice">%s yüklemek üzeresiniz.</string>
-    <string name="fw_upgrade_notice_amazfitbip">AmazFit Bip aygıtınıza %s ürün yazılımını yüklemek üzeresiniz. 
-\n 
-\nLütfen .fw dosyasını, ardından .res dosyasını ve son olarak .gps dosyasını yüklediğinizden emin olun. Saatiniz .fw dosyasını yükledikten sonra yeniden başlatılacak. 
-\n 
-\nNot: Bu dosyalar, daha önce yüklenenler ile aynıysa, .res ve .gps yüklemeniz gerekmez. 
-\n 
+    <string name="fw_upgrade_notice_amazfitbip">AmazFit Bip cihazınıza %s ürün yazılımını yüklemek üzeresiniz.
+\n
+\nLütfen .fw dosyasını, ardından .res dosyasını ve son olarak .gps dosyasını yüklediğinizden emin olun. Saatiniz .fw dosyasını yükledikten sonra yeniden başlatılacak.
+\n
+\nNot: Bu dosyalar, daha önce yüklenenler ile aynıysa, .res ve .gps yüklemeniz gerekmez.
+\n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
-    <string name="fw_upgrade_notice_amazfitbip_lite">AmazFit Bip Lite aygıtınıza %s ürün yazılımını yüklemek üzeresiniz. 
-\n 
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra saatiniz yeniden başlatılacak. 
-\n 
-\nNote: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
-\n 
+    <string name="fw_upgrade_notice_amazfitbip_lite">AmazFit Bip Lite cihazınıza %s ürün yazılımını yüklemek üzeresiniz.
+\n
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra saatiniz yeniden başlatılacak.
+\n
+\nNote: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez.
+\n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
-    <string name="fw_upgrade_notice_amazfitcor">AmazFit Core aygıtınıza %s ürün yazılımını yüklemek üzeresiniz. 
-\n 
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra saatiniz yeniden başlatılacak. 
-\n 
-\nNot: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor">AmazFit Core cihazınıza %s ürün yazılımını yüklemek üzeresiniz.
+\n
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra saatiniz yeniden başlatılacak.
+\n
+\nNot: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez.
+\n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
-    <string name="fw_upgrade_notice_amazfitcor2">AmazFit Core 2 aygıtınıza %s ürün yazılımını yüklemek üzeresiniz. 
-\n 
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra saatiniz yeniden başlatılacak. 
-\n 
-\nNot: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor2">AmazFit Core 2 cihazınıza %s ürün yazılımını yüklemek üzeresiniz.
+\n
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra saatiniz yeniden başlatılacak.
+\n
+\nNot: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez.
+\n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!
-\n 
-\n TAM OLARAK TEST EDİLMEMİŞTİR, AYGITINIZIN İSMİ \"Amazfit Band 2\" İSE BEATS_W ÜRÜN YAZILIMINI YÜKLEMENİZ GEREKEBİLİR</string>
-    <string name="fw_upgrade_notice_amazfitgtr">AmazFit GTR aygıtınıza %s ürün yazılımını yüklemek üzeresiniz. 
-\n 
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra saatiniz yeniden başlatılacak. 
-\n 
-\nNote: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
-\n 
+\n
+\n TAM OLARAK TEST EDİLMEMİŞTİR, CİHAZINIZIN İSMİ \"Amazfit Band 2\" İSE BEATS_W ÜRÜN YAZILIMINI YÜKLEMENİZ GEREKEBİLİR</string>
+    <string name="fw_upgrade_notice_amazfitgtr">AmazFit GTR cihazınıza %s ürün yazılımını yüklemek üzeresiniz.
+\n
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra saatiniz yeniden başlatılacak.
+\n
+\nNote: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez.
+\n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
-    <string name="fw_upgrade_notice_amazfitgts">AmazFit GTS aygıtınıza %s ürün yazılımını yüklemek üzeresiniz. 
-\n 
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra saatiniz yeniden başlatılacak. 
-\n 
-\nNote: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
-\n 
+    <string name="fw_upgrade_notice_amazfitgts">AmazFit GTS cihazınıza %s ürün yazılımını yüklemek üzeresiniz.
+\n
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra saatiniz yeniden başlatılacak.
+\n
+\nNote: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez.
+\n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="fw_upgrade_notice_miband3">"Mi Band 3 üzerine %s Firmware yüklemek üzeresiniz.
 
@@ -466,7 +466,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="overslept">Uyku Süresi: %1$s</string>
     <string name="overstep">Uyku Aşımı: %1$d</string>
     <string name="pairing">%s ile Eşleşiyor…</string>
-    <string name="pairing_already_bonded">%1$s (%2$s) ile etkinleşti, bağlanıyor…</string>
+    <string name="pairing_already_bonded">%1$s (%2$s) ile zaten etkileşimde, bağlanıyor…</string>
     <string name="pairing_creating_bond_with">%1$s (%2$s) ile etkileşim başlıyor</string>
     <string name="pairing_in_progress">Etkileşim sürüyor: %1$s (%2$s)</string>
     <string name="pairing_unable_to_pair_with">%1$s (%2$s) ile Eşleşme geçersiz</string>
@@ -920,16 +920,16 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="bip_prefs_shortcuts">KısaYollar</string>
     <string name="hr_widget_last_notification">Son bildirim</string>
     <string name="controlcenter_set_alias">Takma Ad Ayarla</string>
-    <string name="fw_upgrade_notice_amazfit_trex">Amazfit T-Rex aygıtınıza %s ürün yazılımını yüklemek üzeresiniz. 
-\n 
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra saatiniz yeniden başlatılacak. 
-\n 
-\nNote: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez. 
-\n 
+    <string name="fw_upgrade_notice_amazfit_trex">Amazfit T-Rex cihazınıza %s ürün yazılımını yüklemek üzeresiniz.
+\n
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını yükleyin. .fw dosyasını yükledikten sonra saatiniz yeniden başlatılacak.
+\n
+\nNote: Bu dosyalar önceden yüklenmiş olanlarla tamamen aynıysa .res ve .gps dosyalarını yüklemeniz gerekmez.
+\n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
     <string name="about_additional_contributions">Listelenmeyen herkese kod, destek, fikirler, motivasyon, hata raporları, para… ile katkıda bulundukları için çok teşekkürler ✊</string>
-    <string name="about_additional_device_support">Ek aygıt desteği</string>
+    <string name="about_additional_device_support">Ek cihaz desteği</string>
     <string name="about_contributors">Katkıda bulunanlar</string>
     <string name="about_core_team_title">Çekirdek Ekip (ilk kod katkıda bulunma sırasına göre)</string>
     <string name="about_description">Aygıt sağlayıcılarınızın kapalı kaynaklı Android uygulamalarının yerine özgür ve bulut gerektirmeyen bir alternatif.</string>
@@ -939,14 +939,14 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="menuitem_worldclock">Dünya Saati</string>
     <string name="error_version_check_extreme_caution">DİKKAT: Sürüm bilgileri denetlenirken hata oluştu! Devam etmemelisiniz! Görülen sürüm adı \"%s\"</string>
     <string name="permission_granting_mandatory">Tüm bu izinler gereklidir ve izin verilmezse kararsızlık oluşabilir</string>
-    <string name="error_background_service_reason_truncated">Arka plan hizmeti başlatılamadı, çünkü</string>
-    <string name="error_background_service_reason">Arka plan hizmeti başlatılamadı, çünkü</string>
+    <string name="error_background_service_reason_truncated">Arka plan hizmetini başlatma başarısız oldu, çünkü…</string>
+    <string name="error_background_service_reason">Bir istisna nedeniyle arka plan hizmetini başlatma başarısız oldu. Hata:</string>
     <string name="error_background_service">Arka plan hizmeti başlatılamadı</string>
     <string name="menuitem_stress">Stres</string>
     <string name="menuitem_cycles">Döngüler</string>
     <string name="menuitem_breathing">Nefes Alma</string>
     <string name="devicetype_miband5">Mi Band 5</string>
-    <string name="fw_upgrade_notice_miband5">Mi Band 5 aygıtınıza %s ürün yazılımını yüklemek üzeresiniz.
+    <string name="fw_upgrade_notice_miband5">Mi Band 5 cihazınıza %s ürün yazılımını yüklemek üzeresiniz.
 \n
 \nLütfen önce .fw dosyasını, sonra .res dosyasını yükleyin. .fw dosyasını yükledikten sonra saatiniz yeniden başlatılacak.
 \n
@@ -954,4 +954,17 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="devicetype_tlw64">TLW64</string>
+    <string name="companiondevice_pairing_details">Hizmetin arka planda yeniden başlatılması gerekiyorsa güvenilirliği artıracak yeni CompanionDevice API desteğini etkinleştirir (sadece Android 8 veya üzerinde bir etkisi vardır), etkili olması için Gadgetbridge kullanarak yeniden eşleştirme gerektirir</string>
+    <string name="ignore_bonded_devices_description">Bu seçeneğin etkinleştirilmesi, tarama sırasında önceden etkileşimde/eşleştirilmiş olan cihazları yok sayar</string>
+    <string name="ignore_bonded_devices">Etkileşimde olan cihazları yok say</string>
+    <string name="device_is_currently_bonded">ZATEN ETKİLEŞİMDE</string>
+    <string name="device_requires_key">ANAHTAR GEREKLİ</string>
+    <string name="error_location_enabled_mandatory">Cihazları taramak için konumun açık olması gerekmektedir</string>
+    <string name="error_retrieving_devices_database">Veri tabanından cihazlar alınırken hata oluştu</string>
+    <string name="error_setting_alias">Takma ad ayarlanırken hata oluştu:</string>
+    <string name="error_exporting_device_preferences">Cihaza özgü tercihler dışa aktarılırken hata oluştu</string>
+    <string name="pref_check_permission_status_summary">Anında gerekmediklerinde bile eksik izinleri denetleyin ve isteyin. Bunu sadece cihazlarınız bu özelliklerin hiçbirini desteklemiyorsa devre dışı bırakın. İzin verilmemesi sorunlara neden olabilir!</string>
+    <string name="pref_check_permission_status">İzin durumuna göz at</string>
+    <string name="companiondevice_pairing">CompanionDevice Eşleştirme</string>
+    <string name="require_location_provider">Konum etkinleştirilmelidir</string>
 </resources>
