@@ -941,7 +941,7 @@
 \nHinweis: Die .res Datei muss nicht installiert werden, wenn es die gleiche Datei ist, die schon zuvor installiert wurde.
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
-    <string name="companiondevice_pairing_details">Aktiviert die CompanionDevice API Unterstützung (nur Android 8 und neuer!) der theoretisch die Verlässlichkeit erhöht, benötigt für eine Auswirkung ein neues Paaren der Geräte</string>
+    <string name="companiondevice_pairing_details">Aktiviert die CompanionDevice API Unterstützung (funktioniert nur bei Android 8 und neuer). Erhöht die Zuverlässigkeit der Verbindung, wenn der Dienst im Hintergrund neu gestartet werden muss. Benötigt ein neues Paaren der Geräte mit Gadgetbridge um zu funktionieren</string>
     <string name="error_location_enabled_mandatory">Standort muss für den Gerätescan aktiviert sein</string>
     <string name="ignore_bonded_devices_description">Bei aktiver Option werden Geräte ignoriert, die beim Scan schon verbunden/gepaart sind</string>
     <string name="ignore_bonded_devices">Ignoriere verbundene Geräte</string>
