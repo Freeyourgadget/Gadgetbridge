@@ -343,7 +343,7 @@
     <string name="sleepchart_your_sleep">Uni</string>
     <string name="weeksleepchart_sleep_a_week">Uni nädalas</string>
     <string name="weekstepschart_steps_a_week">Samme nädalas</string>
-    <string name="activity_sleepchart_activity_and_sleep">Aktiivsus</string>
+    <string name="activity_sleepchart_activity_and_sleep">Tegevus</string>
     <string name="updating_firmware">Püsivara uuendamine…</string>
     <string name="fwapp_install_device_not_ready">Faile ei saa paigaldada, seade pole valmis.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
@@ -812,4 +812,42 @@
 \nMärkus: .res faili ei pea paigaldama, kui tegu on juba paigaldatud versiooniga.
 \n
 \nJÄTKATE OMAL VASTUTUSEL!</string>
+    <string name="share">Jaga</string>
+    <string name="select_all">Vali kõik</string>
+    <string name="activity_type_exercise">Trenn</string>
+    <string name="activity_type_treadmill">Jooksulint</string>
+    <string name="activity_type_biking">Jalgrattasõit</string>
+    <string name="activity_summaries">Tegevused</string>
+    <string name="activity_db_management_merge_old_title">Vana versiooni andmebaasi kustutamine</string>
+    <string name="title_activity_db_management">Andmebaasihaldus</string>
+    <string name="action_db_management">Andmebaasihaldus</string>
+    <string name="activity_prefs_activetime_minutes">Päevane eesmärk: aktiivsusminuteid</string>
+    <string name="activity_prefs_distance_meters">Päevane eesmärk: vahemaa meetrites</string>
+    <string name="activity_prefs_calories_burnt">Päevane eesmärk: põletatud kaloreid</string>
+    <string name="device_fw">Püsivaraversioon: %1$s</string>
+    <string name="device_hw">Riistvaraversioon: %1$s</string>
+    <string name="activity_prefs_sleep_duration">Eelistatud magamise kestvus</string>
+    <string name="pref_chart_sleep_rolling_24_off">Lõunast lõunani</string>
+    <string name="weeksleepchart_sleep_a_month">Und kuus</string>
+    <string name="dbmanagementactivity_error_exporting_shared">Viga sätteid eksportides: %1$s</string>
+    <string name="dbmanagementactivity_error_exporting_db">Viga andmebaasi eksportides: %1$s</string>
+    <string name="dbmanagementactivity_exported_to">Eksporditud: %1$s</string>
+    <string name="dbmanagementactivvity_cannot_access_export_path">Ligipääs ekspordi sihtkohta puudub. Kontakteeru arendajatega.</string>
+    <string name="dbmanagementactivity_import_data_title">Impordin andmed\?</string>
+    <string name="dbmanagementactivity_import_successful">Imporditud.</string>
+    <string name="dbmanagementactivity_error_importing_shared">Viga seadmete sätteid importides: %1$s</string>
+    <string name="dbmanagementactivity_error_importing_db">Viga andmebaasi importides: %1$s</string>
+    <string name="mi2_prefs_button_press_count_max_delay">Maksimaalne ajavahe vajutustel</string>
+    <string name="prefs_disconnect_notification">Ühenduse katkemise teavitused</string>
+    <string name="prefs_find_phone_summary">Kasuta Band\'i, et mängida teie telefoni helinat.</string>
+    <string name="prefs_enable_find_phone">Lülita sisse \\\'Otsi telefoni\\\'</string>
+    <string name="prefs_find_phone">Otsi telefoni</string>
+    <string name="miband_prefs_device_time_offset_hours">Seadme kellaaja nihe (nt. vahetustega töö jaoks)</string>
+    <string name="miband_prefs_hr_sleep_detection">Kasuta südame löögisageduse andurit, et muuta unetuvastust paremaks</string>
+    <string name="miband_prefs_reserve_alarm_calendar">Mitu äratust on reserveeritud tulevikus toimuvate sündmuste jaoks</string>
+    <string name="fwinstaller_firmware_not_compatible_to_device">See püsivara ei ole sobilik sellele seadmele</string>
+    <string name="you_slept">Te magasite %1$s kuni %2$s</string>
+    <string name="live_activity_max_heart_rate">Praegune / Maksimaalne südame löögisagedus: %1$d / %2$d</string>
+    <string name="pref_summary_keep_data_on_device">Hoiab aktiivsusandmed Mi Band\'il isegi pärast sünkroonimist. Kasulik, kui kasutate GB koos teiste sarnaste rakendustega.</string>
+    <string name="pref_summary_dont_ack_transfers">Kui Band\'ile kinnitust ei saada siis aktiivsusandmeid ei kustutata. Kasulik, kui kasutate GBd koos teiste sarnaste rakendustega.</string>
 </resources>
