@@ -563,7 +563,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="pref_summary_custom_deviceicon">Bağlandığında GadgetBridge simgesi yerine cihaza özel bir Android bildirim simgesi göster</string>
     <string name="pref_summary_datetime_syctimeonconnect">Android cihazda Saat ve Saat Dilimi değiştiğinde, GadgetBridge bağlanırken Zamanı senkronize et</string>
     <string name="pref_summary_disable_new_ble_scanning">Tarama sırasında cihazınız bulunmaz ise bu seçeneği işaretleyin</string>
-    <string name="pref_summary_dont_ack_transfers">Aktivite verileri, Band bağlı olmadığında silinmez. Eğer veriler bir başka uygulamada kullanılıyorsa yararlıdır.</string>
+    <string name="pref_summary_dont_ack_transfers">Banda onay gönderilmezse, aktivite verileri temizlenmez. GB diğer uygulamalarla birlikte kullanılıyorsa kullanışlıdır.</string>
     <string name="pref_summary_enable_calendar_sync">Takvim etkinliklerini Zaman Çizgisine gönder</string>
     <string name="pref_summary_enable_outgoing_call">Bunun Pasifleştirilmesi, Pebble 2/LE cihazındaki giden aramalarda titremeyi durduracaktır</string>
     <string name="pref_summary_enable_pebblekit">PebbleKit kullanırken Android uygulamaları için deneysel desteği etkinleştirin</string>
