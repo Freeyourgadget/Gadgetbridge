@@ -268,7 +268,7 @@
     <string name="liveactivity_live_activity">Atividade ao vivo</string>
     <string name="weeksteps_today_steps_description">Passos hoje, meta: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Não reconhecer transferência de dados da atividade</string>
-    <string name="pref_summary_dont_ack_transfers">Se os dados da atividade não forem reconhecidos para a pulseira, eles não serão apagados. Útil se GB for usado em conjunto com outros aplicativos.</string>
+    <string name="pref_summary_dont_ack_transfers">Se não reconhecido para a pulseira, dados de atividade não serão apagados. Útil se GB for usado em conjunto com outros aplicativos.</string>
     <string name="pref_summary_keep_data_on_device">Vai manter os dados de atividade no Mi Band mesmo após a sincronização. Útil se GB for usado em conjunto com outros aplicativos.</string>
     <string name="pref_title_low_latency_fw_update">Usar o modo de baixa latência para instalação de firmware</string>
     <string name="pref_summary_low_latency_fw_update">Isso pode ajudar em dispositivos no caso de eventual falha na instalação de firmware.</string>
@@ -951,11 +951,12 @@
     <string name="error_retrieving_devices_database">Erro ao obter dispositivos do banco de dados</string>
     <string name="error_setting_alias">Erro ao definir um alias:</string>
     <string name="error_exporting_device_preferences">Erro ao exportar as preferências específicas do dispositivo</string>
-    <string name="pref_check_permission_status_summary">Verifique e peça permissões ausentes mesmo quando elas podem não ser necessárias no exato momento. Habilite isso somente se seus dispositivos realmente não suportarem nenhum desses recursos. Não conceder uma permissão pode causar problemas!</string>
+    <string name="pref_check_permission_status_summary">Verifique e peça permissões ausentes mesmo quando elas podem não ser necessárias no exato momento. Desabilite isso somente se seus dispositivos realmente não suportarem nenhum desses recursos. Não conceder uma permissão pode causar problemas!</string>
     <string name="pref_check_permission_status">Verificar status de permissão</string>
     <string name="device_requires_key">CHAVE NECESSÁRIA</string>
     <string name="device_is_currently_bonded">JÁ ASSOCIADO</string>
-    <string name="companiondevice_pairing_details">Habilita o novo suporte à API CompanionDevice (Android 8 ou mais novo apenas!) que teoricamente aumenta a confiabilidade, requer re-emparelhamento para ter um efeito</string>
+    <string name="companiondevice_pairing_details">Habilita o novo suporte à API CompanionDevice (tem efeito apenas em Android 8 ou mais novo) que vai aumentar a confiabilidade se o serviço precisar ser reiniciado em segundo plano, requer novo emparelhamento usando o Gadgetbridge para ter um efeito</string>
     <string name="companiondevice_pairing">Pareamento de CompanionDevice</string>
     <string name="require_location_provider">Localização deve estar habilitada</string>
+    <string name="devicetype_pinetime_jf">PineTime (JF Firmware)</string>
 </resources>
