@@ -419,6 +419,11 @@
             android:parentActivityName=".activities.ControlCenterv2"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.ActivitySummaryDetail"
+            android:label="Activity Summary Detail"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name=".activities.DbManagementActivity"

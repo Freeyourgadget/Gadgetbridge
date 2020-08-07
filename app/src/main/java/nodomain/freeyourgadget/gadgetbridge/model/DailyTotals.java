@@ -104,7 +104,7 @@ public class DailyTotals {
     }
 
 
-    private long getTotalsStepsForActivityAmounts(ActivityAmounts activityAmounts) {
+    public long getTotalsStepsForActivityAmounts(ActivityAmounts activityAmounts) {
         long totalSteps = 0;
 
         for (ActivityAmount amount : activityAmounts.getAmounts()) {
@@ -131,7 +131,7 @@ public class DailyTotals {
     }
 
 
-    protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+    public List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         return getAllSamples(db, device, tsFrom, tsTo);
     }
 

@@ -58,9 +58,13 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 
 public class ActivitySummariesActivity extends AbstractListActivity<BaseActivitySummary> {
-
+    private static final Logger LOG = LoggerFactory.getLogger(ActivitySummariesActivity.class);
     private GBDevice mGBDevice;
     private SwipeRefreshLayout swipeLayout;
 
@@ -129,13 +133,12 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                 Object item = parent.getItemAtPosition(position);
                 if (item != null) {
                     ActivitySummary summary = (ActivitySummary) item;
-
-                    String gpxTrack = summary.getGpxTrack();
-                    if (gpxTrack != null) {
-                        showTrack(gpxTrack);
-                    } else {
-                        GB.toast("This activity does not contain GPX tracks.", Toast.LENGTH_LONG, GB.INFO);
+                    try {
+                        showDetail(summary);
+                    } catch (Exception e) {
+                        GB.toast(getApplicationContext(), "Unable to display Activity Detail, maybe the activity is not available yet: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
                     }
+
                 }
             }
         });
@@ -261,6 +264,13 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
             getItemAdapter().remove(item);
         }
         refresh();
+    }
+
+    private void    showDetail(ActivitySummary summary){
+        Intent ActivitySummaryDetailIntent = new Intent(this, ActivitySummaryDetail.class);
+        ActivitySummaryDetailIntent.putExtra("summary", summary);
+        ActivitySummaryDetailIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
+        startActivity(ActivitySummaryDetailIntent);
     }
 
     private void showTrack(String gpxTrack) {

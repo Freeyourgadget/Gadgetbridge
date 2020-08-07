@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -60,21 +61,38 @@ public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySu
 
     @Override
     protected String getName(BaseActivitySummary item) {
+
+
+
+
         String name = item.getName();
         if (name != null && name.length() > 0) {
             return name;
         }
 
         Date startTime = item.getStartTime();
+        Long duration = (item.getEndTime().getTime() - item.getStartTime().getTime());
+        String durationhms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(duration),
+                TimeUnit.MILLISECONDS.toMinutes(duration) % TimeUnit.HOURS.toMinutes(1),
+                TimeUnit.MILLISECONDS.toSeconds(duration) % TimeUnit.MINUTES.toSeconds(1));
+
         if (startTime != null) {
-            return DateTimeUtils.formatDateTime(startTime);
+            return DateTimeUtils.formatDateTime(startTime) + " (" + durationhms + ")";
         }
+
+
+
         return "Unknown activity";
     }
 
     @Override
     protected String getDetails(BaseActivitySummary item) {
-        return ActivityKind.asString(item.getActivityKind(), getContext());
+        String gpxTrack = item.getGpxTrack();
+        String hasGps = "";
+        if (gpxTrack != null) {
+            hasGps=" 🛰️";
+        }
+        return ActivityKind.asString(item.getActivityKind(), getContext())+ hasGps;
     }
 
     @Override
