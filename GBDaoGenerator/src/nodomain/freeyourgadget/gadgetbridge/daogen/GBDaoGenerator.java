@@ -43,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(28, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(29, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -83,7 +83,7 @@ public class GBDaoGenerator {
 
         addNotificationFilterEntry(schema, notificationFilter);
 
-        addBipActivitySummary(schema, user, device);
+        addActivitySummary(schema, user, device);
 
         new DaoGenerator().generateAll(schema, "app/src/main/java");
     }
@@ -484,7 +484,7 @@ public class GBDaoGenerator {
         return notificatonFilter;
     }
 
-    private static void addBipActivitySummary(Schema schema, Entity user, Entity device) {
+    private static void addActivitySummary(Schema schema, Entity user, Entity device) {
         Entity summary = addEntity(schema, "BaseActivitySummary");
         summary.implementsInterface(ACTIVITY_SUMMARY);
         summary.addIdProperty();
@@ -507,6 +507,7 @@ public class GBDaoGenerator {
         summary.addToOne(device, deviceId);
         Property userId = summary.addLongProperty("userId").notNull().codeBeforeGetter(OVERRIDE).getProperty();
         summary.addToOne(user, userId);
+        summary.addStringProperty("summaryData");
     }
 
     private static Property findProperty(Entity entity, String propertyName) {

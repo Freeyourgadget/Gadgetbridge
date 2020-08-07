@@ -21,6 +21,8 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -164,6 +166,8 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
 
     private BaseActivitySummary parseSummary(ByteArrayOutputStream stream) {
         BaseActivitySummary summary = new BaseActivitySummary();
+        JSONObject summaryData = new JSONObject();
+
         ByteBuffer buffer = ByteBuffer.wrap(stream.toByteArray()).order(ByteOrder.LITTLE_ENDIAN);
 //        summary.setVersion(BLETypeConversions.toUnsigned(buffer.getShort()));
         short version = buffer.getShort(); // version
@@ -260,6 +264,15 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         }
 
         short averageHR = buffer.getShort();
+
+        // this is just here for demonstration purboses for now
+        if (averageHR > 0) {
+            try {
+                summaryData.put("averageHR", averageHR);
+            } catch (JSONException ignore) {
+            }
+        }
+
         short averageKMPaceSeconds = buffer.getShort();
         short averageStride = buffer.getShort();
 
@@ -310,6 +323,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
 //        summary.setAveragePace(BLETypeConversions.toUnsigned(averagePace);
 //        summary.setAverageStride(BLETypeConversions.toUnsigned(averageStride);
 
+        summary.setSummaryData(summaryData.toString());
         return summary;
     }
 
