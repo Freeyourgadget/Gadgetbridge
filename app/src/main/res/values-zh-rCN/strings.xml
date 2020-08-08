@@ -947,4 +947,5 @@
     <string name="device_is_currently_bonded">已经绑定过了</string>
     <string name="companiondevice_pairing">CompanionDevice 配对</string>
     <string name="require_location_provider">必须启动定位</string>
+    <string name="devicetype_pinetime_jf">PineTime （JF 固件）</string>
 </resources>
