@@ -25,10 +25,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -56,9 +60,13 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         setContentView(R.layout.activity_summary_details);
 
         Intent intent = getIntent();
-        ActivitySummary summary = (ActivitySummary) intent.getSerializableExtra("summary");
+
+        //if (true) return;
+
         GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
         mGBDevice = device;
+
+        ActivitySummary summary = (ActivitySummary) intent.getSerializableExtra("summary");
 
         final String gpxTrack = summary.getGpxTrack();
         Button show_track_btn = (Button) findViewById(R.id.showTrack);
@@ -78,7 +86,10 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 }
             });
         }
+
+        LOG.debug("petr summary: " + summary + ","+ summary.getSummaryData());
         String activitykind = ActivityKind.asString(summary.getActivityKind(), getApplicationContext());
+
 
         String starttime = DateTimeUtils.formatDateTime(summary.getStartTime());
         String endtime = DateTimeUtils.formatDateTime(summary.getEndTime());
@@ -101,8 +112,46 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         end_time.setText(endtime);
         TextView activity_duration = (TextView) findViewById(R.id.duration);
         activity_duration.setText(durationhms);
-        TextView activity_steps = (TextView) findViewById(R.id.steps);
-        activity_steps.setText(String.valueOf(steps));
+
+
+        JSONObject summaryData = null;
+            String sumData = summary.getSummaryData();
+            if (sumData != null) {
+                try {
+                    summaryData = new JSONObject(sumData);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        String summaryDatastr = "";
+
+        if (summaryData== null) return;
+
+        Iterator<String> keys = summaryData.keys();
+        LOG.debug("petr summary JSON:" + summaryData + keys);
+
+        while(keys.hasNext()) {
+            String key = keys.next();
+            LOG.debug("petr key:" + key);
+
+            try {
+
+                LOG.debug("petr" + key + ": " + summaryData.get(key) + "\n");
+                DecimalFormat df = new DecimalFormat("#.##");
+                JSONObject innerData = (JSONObject) summaryData.get(key);
+                Object value = innerData.get("value");
+                String unit = innerData.getString("unit");
+                summaryDatastr +=  String.format("%s: %s %s\n", key, df.format(value), unit);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        TextView details = (TextView) findViewById(R.id.details);
+
+        details.setText(summaryDatastr);
+
+
     }
 
 

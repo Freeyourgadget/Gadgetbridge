@@ -57,7 +57,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
     private static final Logger LOG = LoggerFactory.getLogger(FetchSportsSummaryOperation.class);
 
     private ByteArrayOutputStream buffer = new ByteArrayOutputStream(140);
-
+    private JSONObject summaryData = new JSONObject();
     public FetchSportsSummaryOperation(HuamiSupport support) {
         super(support);
         setName("fetching sport summaries");
@@ -166,7 +166,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
 
     private BaseActivitySummary parseSummary(ByteArrayOutputStream stream) {
         BaseActivitySummary summary = new BaseActivitySummary();
-        JSONObject summaryData = new JSONObject();
+
 
         ByteBuffer buffer = ByteBuffer.wrap(stream.toByteArray()).order(ByteOrder.LITTLE_ENDIAN);
 //        summary.setVersion(BLETypeConversions.toUnsigned(buffer.getShort()));
@@ -246,6 +246,14 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
                     "\nlaps=" + laps +
                     ""
             );
+            addSummaryData("averageStrokeDistance", averageStrokeDistance, "m");
+            addSummaryData("averageStrokesPerSecond", averageStrokesPerSecond, "stroke/s");
+            addSummaryData("averageLapPace", averageLapPace, "s");
+            addSummaryData("strokes", strokes, "");
+            addSummaryData("swolfIndex", swolfIndex, "");
+            addSummaryData("swimStyle", swimStyle,  "");
+            addSummaryData("laps", laps,  "");
+
         } else {
             // 28 bytes
             buffer.getInt(); // unknown
@@ -264,14 +272,6 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         }
 
         short averageHR = buffer.getShort();
-
-        // this is just here for demonstration purboses for now
-        if (averageHR > 0) {
-            try {
-                summaryData.put("averageHR", averageHR);
-            } catch (JSONException ignore) {
-            }
-        }
 
         short averageKMPaceSeconds = buffer.getShort();
         short averageStride = buffer.getShort();
@@ -323,8 +323,59 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
 //        summary.setAveragePace(BLETypeConversions.toUnsigned(averagePace);
 //        summary.setAverageStride(BLETypeConversions.toUnsigned(averageStride);
 
+        addSummaryData("distanceMeters", distanceMeters, "m");
+        addSummaryData("ascentMeters", ascentMeters,"m");
+        addSummaryData("descentMeters", descentMeters,"m");
+        addSummaryData("maxAltitude", maxAltitude,"m");
+        addSummaryData("minAltitude", minAltitude,"m");
+        addSummaryData("steps", steps,"");
+        addSummaryData("activeSeconds", activeSeconds, "s");
+        addSummaryData("caloriesBurnt", caloriesBurnt, "kcal");
+        addSummaryData("maxSpeed", maxSpeed, "m/s");
+        addSummaryData("minPace", minPace, "");
+        addSummaryData("maxPace", maxPace, "");
+        addSummaryData("totalStride", totalStride, "");
+        addSummaryData("averageHR", averageHR, "bpm");
+        addSummaryData("averageKMPaceSeconds", averageKMPaceSeconds, "");
+        addSummaryData("averageStride", averageStride, "cm");
+
         summary.setSummaryData(summaryData.toString());
         return summary;
+    }
+
+    private void addSummaryData(String key, float value, String unit)  {
+        if (value> 0) {
+            try {
+                JSONObject innerData= new JSONObject();
+                innerData.put("value", value);
+                innerData.put("unit", unit);
+                summaryData.put(key,  innerData);
+            } catch (JSONException ignore) {
+            }
+        }
+    }
+    private void addSummaryData(String key, short value, String unit) {
+       if (value> 0) {
+            try {
+                JSONObject innerData= new JSONObject();
+                innerData.put("value", value);
+                innerData.put("unit", unit);
+                summaryData.put(key,  innerData);
+            } catch (JSONException ignore) {
+            }
+        }
+    }
+
+    private void addSummaryData(String key, int value, String unit) {
+        if (value> 0) {
+            try {
+                JSONObject innerData= new JSONObject();
+                innerData.put("value", value);
+                innerData.put("unit", unit);
+                summaryData.put(key,  innerData);
+            } catch (JSONException ignore) {
+            }
+        }
     }
 
     @Override
