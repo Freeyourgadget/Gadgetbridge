@@ -967,4 +967,5 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="pref_check_permission_status">İzin durumuna göz at</string>
     <string name="companiondevice_pairing">CompanionDevice Eşleştirme</string>
     <string name="require_location_provider">Konum etkinleştirilmelidir</string>
+    <string name="devicetype_pinetime_jf">PineTime (JF Ürün Yazılımı)</string>
 </resources>
