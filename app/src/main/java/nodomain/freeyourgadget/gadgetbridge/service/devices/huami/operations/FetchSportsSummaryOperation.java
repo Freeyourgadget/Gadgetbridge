@@ -340,7 +340,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         addSummaryData("totalStride", totalStride, "meters", "Activity");
         addSummaryData("averageHR", averageHR, "bpm", "Activity");
         addSummaryData("averageKMPaceSeconds", averageKMPaceSeconds, "seconds_km", "Speed");
-        addSummaryData("averageStride", averageStride, "cm", "Speed");
+        addSummaryData("averageStride", averageStride, "cm", "Activity");
 
         summary.setSummaryData(summaryData.toString());
         return summary;
