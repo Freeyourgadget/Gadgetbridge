@@ -918,7 +918,7 @@
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
     <string name="about_additional_contributions">Wir danken allen nicht gelisteten Mitwirkenden dafür uns zu unterstützen mit Code, Unterstützung, Ideen, Motivation, Fehlermeldungen, Geld… ✊</string>
     <string name="about_additional_device_support">Unterstützung zusätzlicher Geräte</string>
-    <string name="about_contributors">Mitwirkende</string>
+    <string name="about_contributors">Beitragende</string>
     <string name="about_core_team_title">Kernteam (Reihenfolge der ersten Mitwirkung am Code)</string>
     <string name="about_description">Ein freier und nicht cloud basierter Ersatz für proprietäre Android Anwendungen der Hersteller von Gadgets.</string>
     <string name="about_activity_title">Über Gadgetbridge</string>
@@ -955,4 +955,5 @@
     <string name="companiondevice_pairing">CompanionDevice Gerätepaarung</string>
     <string name="require_location_provider">Standort muss aktiviert sein</string>
     <string name="devicetype_tlw64">TLW64</string>
+    <string name="devicetype_pinetime_jf">PimeTime (JF Firmware)</string>
 </resources>
