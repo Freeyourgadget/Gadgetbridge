@@ -421,7 +421,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.ActivitySummaryDetail"
-            android:label="Activity Summary Detail"
+            android:label="@string/activity_summary_detail"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 

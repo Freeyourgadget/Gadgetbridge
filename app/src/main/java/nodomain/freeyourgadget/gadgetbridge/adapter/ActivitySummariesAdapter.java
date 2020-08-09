@@ -72,12 +72,9 @@ public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySu
 
         Date startTime = item.getStartTime();
         Long duration = (item.getEndTime().getTime() - item.getStartTime().getTime());
-        String durationhms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(duration),
-                TimeUnit.MILLISECONDS.toMinutes(duration) % TimeUnit.HOURS.toMinutes(1),
-                TimeUnit.MILLISECONDS.toSeconds(duration) % TimeUnit.MINUTES.toSeconds(1));
 
         if (startTime != null) {
-            return DateTimeUtils.formatDateTime(startTime) + " (" + durationhms + ")";
+            return DateTimeUtils.formatDateTime(startTime) + " (" + DateTimeUtils.formatDurationHoursMinutes(duration, TimeUnit.MILLISECONDS) + ")";
         }
 
 

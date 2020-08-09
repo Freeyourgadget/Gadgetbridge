@@ -699,7 +699,8 @@
     <string name="activity_type_walking">Walking</string>
     <string name="activity_type_swimming">Swimming</string>
     <string name="activity_type_unknown">Unknown activity</string>
-    <string name="activity_summaries">Activities</string>
+    <string name="activity_summaries">Sport Activities</string>
+    <string name="activity_summary_detail">Sport Activity Detail</string>
     <string name="activity_type_biking">Biking</string>
     <string name="activity_type_treadmill">Treadmill</string>
     <string name="activity_type_exercise">Exercise</string>
@@ -903,6 +904,69 @@
     <string name="ignore_bonded_devices">Ignore bonded devices</string>
     <string name="ignore_bonded_devices_description">Enabling this option will ignore devices that have been bonded/paired already when scanning</string>
     <string name="error_location_enabled_mandatory">Location must be turned on to scan for devices</string>
+    <!-- activity summary labels-->
+    <string name="distanceMeters">Distance</string>
+    <string name="ascentMeters">Uphill</string>
+    <string name="descentMeters">Downhill</string>
+    <string name="maxAltitude">Maximum</string>
+    <string name="minAltitude">Minimum</string>
+    <string name="steps">Steps</string>
+    <string name="activeSeconds">Active</string>
+    <string name="caloriesBurnt">Calories</string>
+    <string name="maxSpeed">Maximum</string>
+    <string name="minPace">Slowest Pace</string>
+    <string name="maxPace">Fastest Pace</string>
+    <string name="totalStride">Total stride</string>
+    <string name="averageHR">Heartrate</string>
+    <string name="averageKMPaceSeconds">Pace</string>
+    <string name="averageStride">Average Stride</string>
+    <string name="averageStrokeDistance">Average Stroke Distance</string>
+    <string name="averageStrokesPerSecond">Average Strokes</string>
+    <string name="averageLapPace">Average Lap Pace</string>
+    <string name="strokes">Strokes</string>
+    <string name="swolfIndex">swolfIndex</string>
+    <string name="swimStyle">swimStyle</string>
+    <string name="laps">Laps</string>
+    <string name="ascentSeconds">Ascenting</string>
+    <string name="descentSeconds">Descenting</string>
+    <string name="flatSeconds">Flat</string>
+
+    <!-- activity summary units-->
+    <string name="meters">m</string>
+    <string name="cm">cm</string>
+    <string name="steps_unit">steps</string>
+    <string name="meters_second">m/s</string>
+    <string name="km_h">km/h</string>
+    <string name="strokes_second">str/s</string>
+    <string name="strokes_unit">str</string>
+    <string name="seconds">sec</string>
+    <string name="swolf_index">swolf index</string>
+    <string name="swim_style">swim style</string>
+    <string name="laps_unit">laps</string>
+    <string name="calories_unit">Kcal</string>
+    <string name="seconds_km">sec/km</string>
+    <string name="minutes_km">min/km</string>
+    <string name="bpm">bpm</string>
+
+
+    <!-- activity summary groups-->
+    <string name="Strokes">Strokes</string>
+    <string name="Swimming">Swimming</string>
+    <string name="Distance">Distance</string>
+    <string name="Elevation">Elevation</string>
+    <string name="Speed">Speed</string>
+    <string name="Activity">Activity</string>
+    <string name="Steps">Steps</string>
+
+
+    <!-- Sports Activity Detail -->
+    <string name="activity_detail_start_label">Start:</string>
+    <string name="activity_detail_end_label">End:</string>
+    <string name="activity_detail_duration_label">Duration:</string>
+    <string name="activity_detail_show_gps_label">Show GPS Track</string>
+
+
+
 
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>

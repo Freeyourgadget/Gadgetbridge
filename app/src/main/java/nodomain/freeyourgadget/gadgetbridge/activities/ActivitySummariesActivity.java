@@ -134,7 +134,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                 if (item != null) {
                     ActivitySummary summary = (ActivitySummary) item;
                     try {
-                        showDetail(summary);
+                        showActivityDetail(summary);
                     } catch (Exception e) {
                         GB.toast(getApplicationContext(), "Unable to display Activity Detail, maybe the activity is not available yet: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
                     }
@@ -266,9 +266,14 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         refresh();
     }
 
-    private void    showDetail(ActivitySummary summary){
+    private void showActivityDetail(ActivitySummary summary){
         Intent ActivitySummaryDetailIntent = new Intent(this, ActivitySummaryDetail.class);
-        ActivitySummaryDetailIntent.putExtra("summary", summary);
+        ActivitySummaryDetailIntent.putExtra("name", summary.getName());
+        ActivitySummaryDetailIntent.putExtra("ActivityKind", summary.getActivityKind());
+        ActivitySummaryDetailIntent.putExtra("StartTime", summary.getStartTime());
+        ActivitySummaryDetailIntent.putExtra("EndTime", summary.getEndTime());
+        ActivitySummaryDetailIntent.putExtra("GpxTrack", summary.getGpxTrack());
+        ActivitySummaryDetailIntent.putExtra("SummaryData", summary.getSummaryData());
         ActivitySummaryDetailIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
         startActivity(ActivitySummaryDetailIntent);
     }

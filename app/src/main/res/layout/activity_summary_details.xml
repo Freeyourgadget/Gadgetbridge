@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="start"
-                android:text="Start:" />
+                android:text="@string/activity_detail_start_label" />
 
             <TextView
                 android:id="@+id/starttime"
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="start"
-                android:text="End:" />
+                android:text="@string/activity_detail_end_label" />
 
             <TextView
                 android:id="@+id/endtime"
@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="start"
-                android:text="Duration:" />
+                android:text="@string/activity_detail_duration_label" />
 
             <TextView
                 android:id="@+id/duration"
@@ -123,7 +123,7 @@
             android:id="@+id/showTrack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Show GPS Track" />
+            android:text="@string/activity_detail_show_gps_label" />
 
     </LinearLayout>
 

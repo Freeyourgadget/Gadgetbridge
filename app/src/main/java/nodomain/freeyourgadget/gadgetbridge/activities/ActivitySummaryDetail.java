@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -32,6 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
@@ -42,8 +44,6 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmounts;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummary;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityTrack;
 import nodomain.freeyourgadget.gadgetbridge.model.DailyTotals;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
@@ -57,14 +57,10 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary_details);
-
         Intent intent = getIntent();
-
         mGBDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
 
-        ActivitySummary summary = (ActivitySummary) intent.getSerializableExtra("summary");
-
-        final String gpxTrack = summary.getGpxTrack();
+        final String gpxTrack = intent.getStringExtra("GpxTrack");
         Button show_track_btn = (Button) findViewById(R.id.showTrack);
         show_track_btn.setVisibility(View.GONE);
 
@@ -81,66 +77,135 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             });
         }
 
-        LOG.debug("petr summary: " + summary + "," + summary.getSummaryData());
-        String activitykind = ActivityKind.asString(summary.getActivityKind(), getApplicationContext());
-
-        String starttime = DateTimeUtils.formatDateTime(summary.getStartTime());
-        String endtime = DateTimeUtils.formatDateTime(summary.getEndTime());
-        long startTs = summary.getStartTime().getTime() / 1000;
-        long endTs = summary.getEndTime().getTime() / 1000;
-        long durationms = (summary.getEndTime().getTime() - summary.getStartTime().getTime());
-        String durationhms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(durationms),
-                TimeUnit.MILLISECONDS.toMinutes(durationms) % TimeUnit.HOURS.toMinutes(1),
-                TimeUnit.MILLISECONDS.toSeconds(durationms) % TimeUnit.MINUTES.toSeconds(1));
-
-        int steps = getSteps((int) startTs, (int) endTs);
+        String activitykindname = ActivityKind.asString(intent.getIntExtra("ActivityKind",0), getApplicationContext());
+        Date starttime = (Date) intent.getSerializableExtra("StartTime");
+        Date endtime = (Date) intent.getSerializableExtra("EndTime");
+        String starttimeS = DateTimeUtils.formatDateTime(starttime);
+        String endtimeS = DateTimeUtils.formatDateTime(endtime);
+        long startTs = starttime.getTime() / 1000;
+        long endTs = endtime.getTime() / 1000;
+        String durationhms = DateTimeUtils.formatDurationHoursMinutes((endtime.getTime() - starttime.getTime()), TimeUnit.MILLISECONDS);
+        //int steps = getSteps((int) startTs, (int) endTs);
+        //unused now, as we use the more extensive summaryData
 
         ImageView activity_icon = (ImageView) findViewById(R.id.item_image);
-        activity_icon.setImageResource(ActivityKind.getIconId(summary.getActivityKind()));
+        activity_icon.setImageResource(ActivityKind.getIconId(intent.getIntExtra("ActivityKind",0)));
         TextView activity_kind = (TextView) findViewById(R.id.activitykind);
-        activity_kind.setText(activitykind);
+        activity_kind.setText(activitykindname);
         TextView start_time = (TextView) findViewById(R.id.starttime);
-        start_time.setText(starttime);
+        start_time.setText(starttimeS);
         TextView end_time = (TextView) findViewById(R.id.endtime);
-        end_time.setText(endtime);
+        end_time.setText(endtimeS);
         TextView activity_duration = (TextView) findViewById(R.id.duration);
         activity_duration.setText(durationhms);
 
         JSONObject summaryData = null;
-        String sumData = summary.getSummaryData();
+        String sumData = intent.getStringExtra("SummaryData");
         if (sumData != null) {
             try {
                 summaryData = new JSONObject(sumData);
             } catch (JSONException e) {
-                e.printStackTrace();
+                LOG.error("SportsActivity", e);
             }
         }
-        StringBuilder summaryDatastr = new StringBuilder();
 
         if (summaryData == null) return;
 
-        Iterator<String> keys = summaryData.keys();
-        LOG.debug("petr summary JSON:" + summaryData + keys);
+        JSONObject listOfSummaries = makeSummaryList(summaryData);
+        TextView details = (TextView) findViewById(R.id.details);
+        details.setText(makeSummaryContent(listOfSummaries));
+    }
+
+    private String makeSummaryContent (JSONObject data){
+        //convert dictionary to pretty print string, use localized names
+        StringBuilder content = new StringBuilder();
+        Iterator<String> keys = data.keys();
+        DecimalFormat df = new DecimalFormat("#.##");
 
         while (keys.hasNext()) {
             String key = keys.next();
-            LOG.debug("petr key:" + key);
+            try {
+                LOG.error("SportsActivity:" + key + ": " + data.get(key) + "\n");
+                JSONArray innerList = (JSONArray) data.get(key);
+                content.append(String.format("\n%s\n", getStringResourceByName(key).toUpperCase()));
+
+                for (int i = 0; i < innerList.length(); i++) {
+                    JSONObject innerData = innerList.getJSONObject(i);
+                    double value =  innerData.getDouble("value");
+                    String unit =  innerData.getString("unit");
+                    String name = innerData.getString("name");
+
+                    //special casing here:
+                    switch(unit){
+                        case "meters_second":
+                            value = value *3.6;
+                            unit = "km_h";
+                            break;
+                        case "seconds_m":
+                            value =  3.6/value;
+                            unit = "minutes_km";
+                            break;
+                        case "seconds_km":
+                            value =   value /60;
+                            unit = "minutes_km";
+                            break;
+                    }
+
+                    content.append(String.format("%s: %s %s\n", getStringResourceByName(name), df.format(value), getStringResourceByName(unit)));
+                }
+            } catch (JSONException e) {
+                LOG.error("SportsActivity", e);
+            }
+        }
+
+        return content.toString();
+    }
+
+
+    private JSONObject makeSummaryList(JSONObject summaryData){
+        //make dictionary with data for each group
+        JSONObject list = new JSONObject();
+        Iterator<String> keys = summaryData.keys();
+        LOG.error("SportsActivity JSON:" + summaryData + keys);
+
+        while (keys.hasNext()) {
+            String key = keys.next();
 
             try {
-                LOG.debug("petr" + key + ": " + summaryData.get(key) + "\n");
-                DecimalFormat df = new DecimalFormat("#.##");
+                LOG.error("SportsActivity:" + key + ": " + summaryData.get(key) + "\n");
                 JSONObject innerData = (JSONObject) summaryData.get(key);
                 Object value = innerData.get("value");
                 String unit = innerData.getString("unit");
-                summaryDatastr.append(String.format("%s: %s %s\n", key, df.format(value), unit));
+                String group = innerData.getString("group");
+
+                if (!list.has(group)) {
+                    list.put(group,new JSONArray());
+                }
+
+                JSONArray tmpl = (JSONArray) list.get(group);
+                JSONObject innernew = new JSONObject();
+                innernew.put("name", key);
+                innernew.put("value", value);
+                innernew.put("unit", unit);
+                tmpl.put(innernew);
+                list.put(group, tmpl);
             } catch (JSONException e) {
-                e.printStackTrace();
+                LOG.error("SportsActivity", e);
             }
         }
-        TextView details = (TextView) findViewById(R.id.details);
-        details.setText(summaryDatastr.toString());
+        return list;
     }
 
+    private String getStringResourceByName(String aString) {
+        String packageName = getPackageName();
+        int resId = getResources().getIdentifier(aString, "string", packageName);
+        if (resId==0){
+            LOG.warn("SportsActivity " + "Missing string in strings:" + aString);
+            return aString;
+        }else{
+            return getString(resId);
+        }
+    }
 
     private int getSteps(int tsStart, int tsEnd) {
         try (DBHandler handler = GBApplication.acquireDB()) {
