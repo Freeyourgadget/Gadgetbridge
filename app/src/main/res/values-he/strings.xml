@@ -263,7 +263,7 @@
     <string name="liveactivity_live_activity">פעילות חיה</string>
     <string name="weeksteps_today_steps_description">צעדים היום, יעד: %1$s</string>
     <string name="pref_title_dont_ack_transfer">לא לשלוח אישור על העברת נתוני פעילות</string>
-    <string name="pref_summary_dont_ack_transfers">אם נתוני הפעילות לא יקבלו אישור על ההעברה הם לא יימחקו. שימושי אם נעשה שימוש ביישומונים שונים למעט Gadgetbridge.</string>
+    <string name="pref_summary_dont_ack_transfers">אם הנתונים לא יאושרו בצמיד, נתוני הפעילות לא יימחקו. שימושי אם נעשה שימוש ביישומונים שונים למעט Gadgetbridge.</string>
     <string name="pref_summary_keep_data_on_device">תכונה זו תגרום לשמירת נתוני הפעילות על ה־Mi Band גם לאחר הסנכרון. שימושי אם נעשה שימוש ביישומונים שונים למעט Gadgetbridge.</string>
     <string name="pref_title_low_latency_fw_update">שימוש במצב חיבור מהיר לעדכוני קושחה</string>
     <string name="pref_summary_low_latency_fw_update">הפעלת אפשרות זו עשויה לסייע במקרים שבהם עדכון הקושחה נכשל.</string>
@@ -951,4 +951,5 @@
     <string name="companiondevice_pairing">צימוד CompanionDevice</string>
     <string name="require_location_provider">יש להפעיל מיקום</string>
     <string name="pref_check_permission_status_summary">לבדוק ולבקש הרשאות חסרות אפילו אם אינן נדרשות באותו הרגע. יש להשבית את זה רק אם המכשירים שלך אכן לא תומכים בתכונות האלו. חסך בהענקת הרשאות עלול להוביל לתקלות!</string>
+    <string name="devicetype_pinetime_jf">PineTime (קושחה מסוג JF)</string>
 </resources>
