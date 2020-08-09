@@ -121,7 +121,6 @@ public class GBDaoGenerator {
 
     private static Entity addUserInfo(Schema schema, Entity userAttributes) {
         Entity user = addEntity(schema, "User");
-        user.implementsSerializable();
         user.addIdProperty();
         user.addStringProperty("name").notNull();
         user.addDateProperty("birthday").notNull();
@@ -148,7 +147,6 @@ public class GBDaoGenerator {
         // additional properties of a user, which may change during the lifetime of a user
         // this allows changing attributes while preserving user identity
         Entity userAttributes = addEntity(schema, "UserAttributes");
-        userAttributes.implementsSerializable();
         userAttributes.addIdProperty();
         userAttributes.addIntProperty("heightCM").notNull();
         userAttributes.addIntProperty("weightKG").notNull();
@@ -168,7 +166,6 @@ public class GBDaoGenerator {
 
     private static Entity addDevice(Schema schema, Entity deviceAttributes) {
         Entity device = addEntity(schema, "Device");
-        device.implementsSerializable();
         device.addIdProperty();
         device.addStringProperty("name").notNull();
         device.addStringProperty("manufacturer").notNull();
@@ -186,7 +183,6 @@ public class GBDaoGenerator {
 
     private static Entity addDeviceAttributes(Schema schema) {
         Entity deviceAttributes = addEntity(schema, "DeviceAttributes");
-        deviceAttributes.implementsSerializable();
         deviceAttributes.addIdProperty();
         deviceAttributes.addStringProperty("firmwareVersion1").notNull();
         deviceAttributes.addStringProperty("firmwareVersion2");
