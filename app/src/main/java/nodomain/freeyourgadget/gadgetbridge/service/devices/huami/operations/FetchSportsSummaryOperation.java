@@ -339,10 +339,10 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         addSummaryData("distanceMeters", distanceMeters, "meters");
         addSummaryData("ascentMeters", ascentMeters, "meters");
         addSummaryData("descentMeters", descentMeters, "meters");
-        if (maxAltitude != -100000) {
+        if (maxAltitude != 100000) {
             addSummaryData("maxAltitude", maxAltitude, "meters");
         }
-        if (minAltitude != 100000) {
+        if (minAltitude != -100000) {
             addSummaryData("minAltitude", minAltitude, "meters");
         }
         addSummaryData("steps", steps, "steps_unit");
