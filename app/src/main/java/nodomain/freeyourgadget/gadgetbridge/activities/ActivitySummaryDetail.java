@@ -18,6 +18,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -113,7 +114,6 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
 
     private void makeSummaryContent (JSONObject data){
         //build view, use localized names
-        StringBuilder content = new StringBuilder();
         Iterator<String> keys = data.keys();
         DecimalFormat df = new DecimalFormat("#.##");
 
@@ -152,15 +152,27 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                             value =   value /60;
                             unit = "minutes_km";
                             break;
+
                     }
 
                     TableRow field_row = new TableRow(ActivitySummaryDetail.this);
+                    if (i % 2 == 0) field_row.setBackgroundColor(Color.rgb(237,237,237));
+
                     TextView name_field = new TextView(ActivitySummaryDetail.this);
                     TextView value_field = new TextView(ActivitySummaryDetail.this);
                     name_field.setGravity(Gravity.START);
                     value_field.setGravity(Gravity.END);
-                    value_field.setText(String.format("%s %s", df.format(value), getStringResourceByName(unit)));
+
+                    if (unit.equals("seconds")) { //rather then plain seconds, show formatted duration
+                        value_field.setText(DateTimeUtils.formatDurationHoursMinutes((long) value, TimeUnit.SECONDS));
+                    }else {
+                        value_field.setText(String.format("%s %s", df.format(value), getStringResourceByName(unit)));
+                    }
+
                     name_field.setText(getStringResourceByName(name));
+                    TableRow.LayoutParams params = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f);
+                    value_field.setLayoutParams(params);
+
                     field_row.addView(name_field);
                     field_row.addView(value_field);
                     fieldLayout.addView(field_row);
@@ -189,13 +201,15 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     }
 
     private String getGroup(String searchItem) {
+        String defaultGroup = "Activity";
+        if (groupData == null) return defaultGroup;
         Iterator<String> keys = groupData.keys();
         while (keys.hasNext()) {
             String key = keys.next();
             try {
                 JSONArray itemList = (JSONArray) groupData.get(key);
                 for (int i = 0; i < itemList.length(); i++) {
-                    if (itemList.getString(i).contains(searchItem)) {
+                    if (itemList.getString(i).equals(searchItem)) {
                         return key;
                     }
                 }
@@ -203,7 +217,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 LOG.error("SportsActivity", e);
             }
         }
-    return "Activity";
+    return defaultGroup;
 }
 
     private JSONObject makeSummaryList(JSONObject summaryData){
