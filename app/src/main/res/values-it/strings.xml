@@ -285,7 +285,7 @@
     <string name="liveactivity_live_activity">Attività in tempo reale</string>
     <string name="weeksteps_today_steps_description">Passi di oggi, traguardo: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Non confermare il trasferimento dati</string>
-    <string name="pref_summary_dont_ack_transfers">Se il trasferimento non viene confermato, i dati rimangono memorizzati sulla Mi Band. Utile se GB è usato insieme ad altre app.</string>
+    <string name="pref_summary_dont_ack_transfers">Se ACK non viene inviato alla band, i dati relativi alle attività non vengono cancellati. Utile se GB viene usato insieme ad altre applicazioni.</string>
     <string name="pref_summary_keep_data_on_device">Conserva i dati delle attività sulla Mi Band anche dopo averli sincronizzati. Utile se GB è usato insieme ad altre app.</string>
     <string name="pref_title_low_latency_fw_update">Utilizza la modalità a bassa latenza per gli aggiornamenti del firmware</string>
     <string name="pref_summary_low_latency_fw_update">Può essere utile quando l\'aggiornamento del firmware fallisce.</string>
@@ -511,7 +511,7 @@
     <string name="activity_type_walking">Camminata</string>
     <string name="activity_type_swimming">Nuoto</string>
     <string name="activity_type_unknown">Attività sconosciuta</string>
-    <string name="activity_summaries">Attività</string>
+    <string name="activity_summaries">Attività Sportive</string>
     <string name="activity_type_biking">Bicicletta</string>
     <string name="activity_type_treadmill">Tapis roulant</string>
     <string name="select_all">Seleziona tutto</string>
@@ -927,7 +927,7 @@
 \nNOTA: Non è necessario installare il file .res se risulta essere uguale a quello precedentemente installato.
 \n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
-    <string name="companiondevice_pairing_details">Abilita il nuovo supporto dell\'API CompanionDevice (solo Android 8 o superiore!) che teoricamente aumenta l\'affidabilità, richiede una nuova associazione per avere effetto</string>
+    <string name="companiondevice_pairing_details">Abilita il supporto alla nuova API CompanionDevice (ha effetto solo su dispositivi Android 8 o superiore) che aumenta l\'affidabilità se il servizio necessita di essere riavviato in background, richiede una ri-associazione utilizzando Gadgetbridge per avere un effetto</string>
     <string name="error_exporting_device_preferences">Errore durante l\'esportazione delle preferenze specifiche del dispositivo</string>
     <string name="error_location_enabled_mandatory">La posizione deve essere attivata per cercare i dispositivi</string>
     <string name="ignore_bonded_devices_description">L\'abilitazione di questa opzione ignorerà i dispositivi che sono stati già associati / accoppiati durante la scansione</string>
@@ -941,4 +941,45 @@
     <string name="companiondevice_pairing">Associazione del CompanionDevice</string>
     <string name="require_location_provider">La posizione deve essere abilitata</string>
     <string name="devicetype_tlw64">TLW64</string>
+    <string name="activity_detail_show_gps_label">Mostra Percorso GPS</string>
+    <string name="activity_detail_duration_label">Durata:</string>
+    <string name="activity_detail_end_label">Fine:</string>
+    <string name="activity_detail_start_label">Inizio:</string>
+    <string name="Steps">Passi</string>
+    <string name="Activity">Attività</string>
+    <string name="Speed">Velocità</string>
+    <string name="Distance">Distanza</string>
+    <string name="Swimming">Nuoto</string>
+    <string name="bpm">bpm</string>
+    <string name="minutes_km">min/km</string>
+    <string name="seconds_km">sec/km</string>
+    <string name="calories_unit">Kcal</string>
+    <string name="laps_unit">giri</string>
+    <string name="swim_style">stile di nuoto</string>
+    <string name="seconds">s</string>
+    <string name="km_h">km/h</string>
+    <string name="meters_second">m/s</string>
+    <string name="steps_unit">passi</string>
+    <string name="cm">cm</string>
+    <string name="meters">m</string>
+    <string name="flatSeconds">Piano</string>
+    <string name="laps">Giri</string>
+    <string name="swimStyle">Stile di nuoto</string>
+    <string name="averageStride">Camminata media</string>
+    <string name="averageKMPaceSeconds">Ritmo</string>
+    <string name="averageHR">Battito cardiaco</string>
+    <string name="totalStride">Camminata totale</string>
+    <string name="maxPace">Ritmo più veloce</string>
+    <string name="minPace">Ritmo più lento</string>
+    <string name="maxSpeed">Massima</string>
+    <string name="caloriesBurnt">Calorie</string>
+    <string name="activeSeconds">Attivo</string>
+    <string name="steps">Passi</string>
+    <string name="minAltitude">Minimo</string>
+    <string name="maxAltitude">Massimo</string>
+    <string name="descentMeters">Discesa</string>
+    <string name="ascentMeters">Salita</string>
+    <string name="distanceMeters">Distanza</string>
+    <string name="devicetype_pinetime_jf">PineTime (JF Firmware)</string>
+    <string name="activity_summary_detail">Dettagli dell\'Attività Sportiva</string>
 </resources>
