@@ -524,7 +524,7 @@
     <string name="activity_type_walking">Caminhada</string>
     <string name="activity_type_swimming">Natação</string>
     <string name="activity_type_unknown">Atividade desconhecida</string>
-    <string name="activity_summaries">Atividades</string>
+    <string name="activity_summaries">Atividades de esporte</string>
     <string name="activity_type_biking">Ciclismo</string>
     <string name="activity_type_treadmill">Esteira</string>
     <string name="select_all">Selecionar todos</string>
@@ -959,4 +959,21 @@
     <string name="companiondevice_pairing">Pareamento de CompanionDevice</string>
     <string name="require_location_provider">Localização deve estar habilitada</string>
     <string name="devicetype_pinetime_jf">PineTime (JF Firmware)</string>
+    <string name="averageStrokeDistance"></string>
+    <string name="averageStride">Média da caminhada</string>
+    <string name="averageKMPaceSeconds">Ritmo</string>
+    <string name="averageHR">Frequência cardíaca</string>
+    <string name="totalStride">Total da caminhada</string>
+    <string name="maxPace">Ritmo mais rápido</string>
+    <string name="minPace">Ritmo mais lento</string>
+    <string name="maxSpeed">Máxima</string>
+    <string name="caloriesBurnt">Calorias</string>
+    <string name="activeSeconds">Ativos</string>
+    <string name="steps">Passos</string>
+    <string name="minAltitude">Mínima</string>
+    <string name="maxAltitude">Máxima</string>
+    <string name="descentMeters">Descida</string>
+    <string name="ascentMeters">Subida</string>
+    <string name="distanceMeters">Distância</string>
+    <string name="activity_summary_detail">Detalhes de atividade de esporte</string>
 </resources>
