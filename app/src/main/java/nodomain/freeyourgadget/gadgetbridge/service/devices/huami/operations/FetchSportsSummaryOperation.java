@@ -26,12 +26,16 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
@@ -47,6 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSportsActivityType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
@@ -167,9 +172,21 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
     private BaseActivitySummary parseSummary(ByteArrayOutputStream stream) {
         BaseActivitySummary summary = new BaseActivitySummary();
 
+        boolean dumptofile = false;
+        if (dumptofile) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-hhmmss", Locale.US);
+            String filename = "rawsummary_" + dateFormat.format(new Date()) + ".bin";
+            try {
+                File dir = FileUtils.getExternalFilesDir();
+                File outputFile = new File(dir, filename);
+                FileUtils.copyStreamToFile(new ByteArrayInputStream(stream.toByteArray()), outputFile);
+            } catch (IOException e) {
+                LOG.warn("could not create file");
+            }
+        }
 
         ByteBuffer buffer = ByteBuffer.wrap(stream.toByteArray()).order(ByteOrder.LITTLE_ENDIAN);
-//        summary.setVersion(BLETypeConversions.toUnsigned(buffer.getShort()));
+
         short version = buffer.getShort(); // version
         LOG.debug("Got sport summary version " + version + " total bytes=" + buffer.capacity());
         int activityKind = ActivityKind.TYPE_UNKNOWN;
@@ -222,6 +239,9 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         float averageStride;
         short averageHR;
         short averageKMPaceSeconds;
+        int ascentSeconds = 0;
+        int descentSeconds = 0;
+        int flatSeconds = 0;
 
         // Just assuming, Bip has 259 which seems like 256+x
         // Bip S now has 518 so assuming 512+x, might be wrong
@@ -251,6 +271,19 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
             averageKMPaceSeconds = buffer.getShort();
             averageStride = buffer.getShort();
             buffer.getShort(); // unknown
+
+            if (activityKind == ActivityKind.TYPE_CYCLING || activityKind == ActivityKind.TYPE_RUNNING) {
+                // this had nonsense data with treadmill on bip s, need to test it with running
+                // for cycling it seems to work... hmm...
+                // 28 bytes
+                buffer.getInt(); // unknown
+                buffer.getInt(); // unknown
+                ascentSeconds = buffer.getInt() / 1000; //ms?
+                buffer.getInt(); // unknown;
+                descentSeconds = buffer.getInt() / 1000; //ms?
+                buffer.getInt(); // unknown;
+                flatSeconds = buffer.getInt() / 1000; // ms?
+            }
         } else {
             distanceMeters = buffer.getFloat();
             ascentMeters = buffer.getFloat();
@@ -295,11 +328,11 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
                 // 28 bytes
                 buffer.getInt(); // unknown
                 buffer.getInt(); // unknown
-                int ascentSeconds = buffer.getInt() / 1000; //ms?
+                ascentSeconds = buffer.getInt() / 1000; //ms?
                 buffer.getInt(); // unknown;
-                int descentSeconds = buffer.getInt() / 1000; //ms?
+                descentSeconds = buffer.getInt() / 1000; //ms?
                 buffer.getInt(); // unknown;
-                int flatSeconds = buffer.getInt() / 1000; // ms?
+                flatSeconds = buffer.getInt() / 1000; // ms?
 
                 addSummaryData("ascentSeconds", ascentSeconds, "seconds");
                 addSummaryData("descentSeconds", descentSeconds, "seconds");
@@ -335,6 +368,10 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
 //        summary.setAverageHR(BLETypeConversions.toUnsigned(averageHR);
 //        summary.setAveragePace(BLETypeConversions.toUnsigned(averagePace);
 //        summary.setAverageStride(BLETypeConversions.toUnsigned(averageStride);
+
+        addSummaryData("ascentSeconds", ascentSeconds, "seconds");
+        addSummaryData("descentSeconds", descentSeconds, "seconds");
+        addSummaryData("flatSeconds", flatSeconds, "seconds");
 
         addSummaryData("distanceMeters", distanceMeters, "meters");
         addSummaryData("ascentMeters", ascentMeters, "meters");
