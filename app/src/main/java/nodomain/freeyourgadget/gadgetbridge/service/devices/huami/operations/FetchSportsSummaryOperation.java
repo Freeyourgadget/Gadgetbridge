@@ -283,13 +283,13 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
                 buffer.getInt(); // unknown
                 buffer.getShort(); // unknown
 
-                addSummaryData("averageStrokeDistance", averageStrokeDistance, "meter", "Strokes");
-                addSummaryData("averageStrokesPerSecond", averageStrokesPerSecond, "strokes_second", "Strokes");
-                addSummaryData("averageLapPace", averageLapPace, "second", "Laps");
-                addSummaryData("strokes", strokes, "strokes", "Strokes");
-                addSummaryData("swolfIndex", swolfIndex, "swolf_index", "Swimming");
-                addSummaryData("swimStyle", swimStyle, "swim_style", "Swimming");
-                addSummaryData("laps", laps, "laps", "Laps");
+                addSummaryData("averageStrokeDistance", averageStrokeDistance, "meters");
+                addSummaryData("averageStrokesPerSecond", averageStrokesPerSecond, "strokes_second");
+                addSummaryData("averageLapPace", averageLapPace, "second");
+                addSummaryData("strokes", strokes, "strokes");
+                addSummaryData("swolfIndex", swolfIndex, "swolf_index");
+                addSummaryData("swimStyle", swimStyle, "swim_style");
+                addSummaryData("laps", laps, "laps");
 
             } else {
                 // 28 bytes
@@ -301,9 +301,9 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
                 buffer.getInt(); // unknown;
                 int flatSeconds = buffer.getInt() / 1000; // ms?
 
-                addSummaryData("ascentSeconds", ascentSeconds, "seconds", "Elevation");
-                addSummaryData("descentSeconds", descentSeconds, "seconds", "Elevation");
-                addSummaryData("flatSeconds", flatSeconds, "seconds", "Elevation");
+                addSummaryData("ascentSeconds", ascentSeconds, "seconds");
+                addSummaryData("descentSeconds", descentSeconds, "seconds");
+                addSummaryData("flatSeconds", flatSeconds, "seconds");
             }
 
             averageHR = buffer.getShort();
@@ -336,37 +336,36 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
 //        summary.setAveragePace(BLETypeConversions.toUnsigned(averagePace);
 //        summary.setAverageStride(BLETypeConversions.toUnsigned(averageStride);
 
-        addSummaryData("distanceMeters", distanceMeters, "meters", "Activity");
-        addSummaryData("ascentMeters", ascentMeters, "meters", "Elevation");
-        addSummaryData("descentMeters", descentMeters, "meters", "Elevation");
+        addSummaryData("distanceMeters", distanceMeters, "meters");
+        addSummaryData("ascentMeters", ascentMeters, "meters");
+        addSummaryData("descentMeters", descentMeters, "meters");
         if (maxAltitude != -100000) {
-            addSummaryData("maxAltitude", maxAltitude, "meters", "Elevation");
+            addSummaryData("maxAltitude", maxAltitude, "meters");
         }
         if (minAltitude != 100000) {
-            addSummaryData("minAltitude", minAltitude, "meters", "Elevation");
+            addSummaryData("minAltitude", minAltitude, "meters");
         }
-        addSummaryData("steps", steps, "steps_unit", "Activity");
-        addSummaryData("activeSeconds", activeSeconds, "seconds", "Activity");
-        addSummaryData("caloriesBurnt", caloriesBurnt, "calories_unit", "Activity");
-        addSummaryData("maxSpeed", maxSpeed, "meters_second", "Speed");
-        addSummaryData("minPace", minPace, "seconds_m", "Speed");
-        addSummaryData("maxPace", maxPace, "seconds_m", "Speed");
-        addSummaryData("totalStride", totalStride, "meters", "Activity");
-        addSummaryData("averageHR", averageHR, "bpm", "Activity");
-        addSummaryData("averageKMPaceSeconds", averageKMPaceSeconds, "seconds_km", "Speed");
-        addSummaryData("averageStride", averageStride, "cm", "Activity");
+        addSummaryData("steps", steps, "steps_unit");
+        addSummaryData("activeSeconds", activeSeconds, "seconds");
+        addSummaryData("caloriesBurnt", caloriesBurnt, "calories_unit");
+        addSummaryData("maxSpeed", maxSpeed, "meters_second");
+        addSummaryData("minPace", minPace, "seconds_m");
+        addSummaryData("maxPace", maxPace, "seconds_m");
+        addSummaryData("totalStride", totalStride, "meters");
+        addSummaryData("averageHR", averageHR, "bpm");
+        addSummaryData("averageKMPaceSeconds", averageKMPaceSeconds, "seconds_km");
+        addSummaryData("averageStride", averageStride, "cm");
 
         summary.setSummaryData(summaryData.toString());
         return summary;
     }
 
-    private void addSummaryData(String key, float value, String unit, String group)  {
+    private void addSummaryData(String key, float value, String unit)  {
         if (value> 0) {
             try {
                 JSONObject innerData= new JSONObject();
                 innerData.put("value", value);
                 innerData.put("unit", unit);
-                innerData.put("group", group);
                 summaryData.put(key,  innerData);
             } catch (JSONException ignore) {
             }

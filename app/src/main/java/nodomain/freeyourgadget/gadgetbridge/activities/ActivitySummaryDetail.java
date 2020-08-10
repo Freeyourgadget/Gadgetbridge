@@ -18,10 +18,14 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,14 +41,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.charts.ActivityAnalysis;
-import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmounts;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
-import nodomain.freeyourgadget.gadgetbridge.model.DailyTotals;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -52,6 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class ActivitySummaryDetail extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySummaryDetail.class);
     private GBDevice mGBDevice;
+    private JSONObject groupData = setGroups();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,11 +82,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         Date endtime = (Date) intent.getSerializableExtra("EndTime");
         String starttimeS = DateTimeUtils.formatDateTime(starttime);
         String endtimeS = DateTimeUtils.formatDateTime(endtime);
-        long startTs = starttime.getTime() / 1000;
-        long endTs = endtime.getTime() / 1000;
         String durationhms = DateTimeUtils.formatDurationHoursMinutes((endtime.getTime() - starttime.getTime()), TimeUnit.MILLISECONDS);
-        //int steps = getSteps((int) startTs, (int) endTs);
-        //unused now, as we use the more extensive summaryData
 
         ImageView activity_icon = (ImageView) findViewById(R.id.item_image);
         activity_icon.setImageResource(ActivityKind.getIconId(intent.getIntExtra("ActivityKind",0)));
@@ -112,12 +108,11 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         if (summaryData == null) return;
 
         JSONObject listOfSummaries = makeSummaryList(summaryData);
-        TextView details = (TextView) findViewById(R.id.details);
-        details.setText(makeSummaryContent(listOfSummaries));
+        makeSummaryContent(listOfSummaries);
     }
 
-    private String makeSummaryContent (JSONObject data){
-        //convert dictionary to pretty print string, use localized names
+    private void makeSummaryContent (JSONObject data){
+        //build view, use localized names
         StringBuilder content = new StringBuilder();
         Iterator<String> keys = data.keys();
         DecimalFormat df = new DecimalFormat("#.##");
@@ -127,7 +122,15 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             try {
                 LOG.error("SportsActivity:" + key + ": " + data.get(key) + "\n");
                 JSONArray innerList = (JSONArray) data.get(key);
-                content.append(String.format("\n%s\n", getStringResourceByName(key).toUpperCase()));
+
+                TableLayout fieldLayout = findViewById(R.id.summaryDetails);
+                TableRow label_row = new TableRow(ActivitySummaryDetail.this);
+                TextView label_field = new TextView(ActivitySummaryDetail.this);
+                label_field.setTextSize(16);
+                label_field.setTypeface(null, Typeface.BOLD);
+                label_field.setText(String.format("%s", getStringResourceByName(key)));
+                label_row.addView(label_field);
+                fieldLayout.addView(label_row);
 
                 for (int i = 0; i < innerList.length(); i++) {
                     JSONObject innerData = innerList.getJSONObject(i);
@@ -151,16 +154,57 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                             break;
                     }
 
-                    content.append(String.format("%s: %s %s\n", getStringResourceByName(name), df.format(value), getStringResourceByName(unit)));
+                    TableRow field_row = new TableRow(ActivitySummaryDetail.this);
+                    TextView name_field = new TextView(ActivitySummaryDetail.this);
+                    TextView value_field = new TextView(ActivitySummaryDetail.this);
+                    name_field.setGravity(Gravity.START);
+                    value_field.setGravity(Gravity.END);
+                    value_field.setText(String.format("%s %s", df.format(value), getStringResourceByName(unit)));
+                    name_field.setText(getStringResourceByName(name));
+                    field_row.addView(name_field);
+                    field_row.addView(value_field);
+                    fieldLayout.addView(field_row);
                 }
             } catch (JSONException e) {
                 LOG.error("SportsActivity", e);
             }
         }
-
-        return content.toString();
     }
 
+    private JSONObject setGroups(){
+        String groupDefinitions = "{'Strokes':['averageStrokeDistance','averageStrokesPerSecond','strokes'], " +
+                "'Swimming':['swolfIndex','swimStyle'], " +
+                "'Elevation':['ascentMeters','descentMeters','maxAltitude','minAltitude','ascentSeconds','descentSeconds','flatSeconds'], " +
+                "'Speed':['maxSpeed','minPace','maxPace','averageKMPaceSeconds'], " +
+                "'Activity':['distanceMeters','steps','activeSeconds','caloriesBurnt','totalStride'," +
+                "'averageHR','averageStride'], " +
+                "'Laps':['averageLapPace','laps']}";
+        JSONObject data = null;
+        try {
+            data = new JSONObject(groupDefinitions);
+        } catch (JSONException e) {
+            LOG.error("SportsActivity", e);
+        }
+        return data;
+    }
+
+    private String getGroup(String searchItem) {
+        Iterator<String> keys = groupData.keys();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            try {
+                JSONArray itemList = (JSONArray) groupData.get(key);
+                for (int i = 0; i < itemList.length(); i++) {
+                    if (itemList.getString(i).contains(searchItem)) {
+                        return key;
+                    }
+                }
+            } catch (JSONException e) {
+                LOG.error("SportsActivity", e);
+            }
+        }
+    return "Activity";
+}
 
     private JSONObject makeSummaryList(JSONObject summaryData){
         //make dictionary with data for each group
@@ -176,7 +220,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 JSONObject innerData = (JSONObject) summaryData.get(key);
                 Object value = innerData.get("value");
                 String unit = innerData.getString("unit");
-                String group = innerData.getString("group");
+                String group = getGroup(key);
 
                 if (!list.has(group)) {
                     list.put(group,new JSONArray());
@@ -207,16 +251,4 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         }
     }
 
-    private int getSteps(int tsStart, int tsEnd) {
-        try (DBHandler handler = GBApplication.acquireDB()) {
-            DailyTotals dt = new DailyTotals();
-            ActivityAnalysis analysis = new ActivityAnalysis();
-            ActivityAmounts amountsSteps;
-            amountsSteps = analysis.calculateActivityAmounts(dt.getSamples(handler, mGBDevice, tsStart, tsEnd));
-            return (int) dt.getTotalsStepsForActivityAmounts(amountsSteps);
-        } catch (Exception e) {
-            GB.toast("Error loading activity steps.", Toast.LENGTH_SHORT, GB.ERROR, e);
-        }
-        return 0;
-    }
 }
