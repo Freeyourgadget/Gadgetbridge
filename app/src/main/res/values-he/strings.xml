@@ -263,7 +263,7 @@
     <string name="liveactivity_live_activity">פעילות חיה</string>
     <string name="weeksteps_today_steps_description">צעדים היום, יעד: %1$s</string>
     <string name="pref_title_dont_ack_transfer">לא לשלוח אישור על העברת נתוני פעילות</string>
-    <string name="pref_summary_dont_ack_transfers">אם נתוני הפעילות לא יקבלו אישור על ההעברה הם לא יימחקו. שימושי אם נעשה שימוש ביישומונים שונים למעט Gadgetbridge.</string>
+    <string name="pref_summary_dont_ack_transfers">אם הנתונים לא יאושרו בצמיד, נתוני הפעילות לא יימחקו. שימושי אם נעשה שימוש ביישומונים שונים למעט Gadgetbridge.</string>
     <string name="pref_summary_keep_data_on_device">תכונה זו תגרום לשמירת נתוני הפעילות על ה־Mi Band גם לאחר הסנכרון. שימושי אם נעשה שימוש ביישומונים שונים למעט Gadgetbridge.</string>
     <string name="pref_title_low_latency_fw_update">שימוש במצב חיבור מהיר לעדכוני קושחה</string>
     <string name="pref_summary_low_latency_fw_update">הפעלת אפשרות זו עשויה לסייע במקרים שבהם עדכון הקושחה נכשל.</string>
@@ -924,7 +924,7 @@
     <string name="permission_granting_mandatory">כל ההרשאות האלו נדרשות ואם לא תוענקנה היציבות תתערער</string>
     <string name="error_version_check_extreme_caution">אזהרה: בדיקת פרטי הגרסה נתקלה בשגיאה! עדיף שלא להמשיך! הגרסה שנצפתה היא „%s”</string>
     <string name="error_background_service_reason">התחלת שירות הרקע נכשלה עקב חריגה. שגיאה:</string>
-    <string name="error_background_service_reason_truncated">לא ניתן להתחיל את שירות הרקע עקב</string>
+    <string name="error_background_service_reason_truncated">התחלת שירות הרקע נכשל עקב…</string>
     <string name="error_background_service">התחלת שירות הרקע נכשלה</string>
     <string name="fw_upgrade_notice_miband5">פעולה זו תתקין את הקושחה %s במקום הנוכחית שעל ה־Mi Band 5 שלך.
 \n
@@ -937,4 +937,19 @@
     <string name="menuitem_cycles">מחזורים</string>
     <string name="menuitem_breathing">נשימה</string>
     <string name="devicetype_miband5">Mi Band 5</string>
+    <string name="ignore_bonded_devices_description">הפעלת אפשרות זו תתעלם ממכשירים שכבר אוגדו/צומדו טרם הסריקה</string>
+    <string name="ignore_bonded_devices">התעלמות ממכשירים שאוגדו</string>
+    <string name="error_retrieving_devices_database">שגיאה בקבלת מכשירים ממסד הנתונים</string>
+    <string name="error_setting_alias">שגיאה בהגדרת כינוי:</string>
+    <string name="error_exporting_device_preferences">שגיאה בייצוא העדפות ייחודיות למכשיר</string>
+    <string name="pref_check_permission_status">בדיקת מצב ההרשאות</string>
+    <string name="device_requires_key">נדרש מפתח</string>
+    <string name="device_is_currently_bonded">כבר מאוגד</string>
+    <string name="devicetype_tlw64">TLW64</string>
+    <string name="error_location_enabled_mandatory">יש להפעיל מיקום כדי לסרוק לאיתור מכשירים</string>
+    <string name="companiondevice_pairing_details">מפעיל את התמיכה ב־API החדש מסוג CompanionDevice (תקף על Android 8 ומעלה) שמגביר את האמינות אם יש להפעיל את השירות מחדש ברקע, דורש צימוד מחדש באמצעות Gadgetbridge כדי שייכנס לתוקף</string>
+    <string name="companiondevice_pairing">צימוד CompanionDevice</string>
+    <string name="require_location_provider">יש להפעיל מיקום</string>
+    <string name="pref_check_permission_status_summary">לבדוק ולבקש הרשאות חסרות אפילו אם אינן נדרשות באותו הרגע. יש להשבית את זה רק אם המכשירים שלך אכן לא תומכים בתכונות האלו. חסך בהענקת הרשאות עלול להוביל לתקלות!</string>
+    <string name="devicetype_pinetime_jf">PineTime (קושחה מסוג JF)</string>
 </resources>

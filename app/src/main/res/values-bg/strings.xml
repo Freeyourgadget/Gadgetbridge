@@ -495,7 +495,7 @@
     <string name="activity_DB_import_button">Импорт БД</string>
     <string name="activity_DB_delete_legacy_button">Изтрий стара БД</string>
     <string name="activity_DB_ExportButton">Експорт на БД</string>
-    <string name="activity_DB_test_export_message">Експортиране на БД...</string>
+    <string name="activity_DB_test_export_message">Експортиране на БД…</string>
     <string name="activity_DB_test_export_button">Стартирай авто експортиране</string>
     <string name="activity_db_management_autoexport_explanation">Локацията за експорт на БД е:</string>
     <string name="activity_db_management_autoexport_label">АвтоЕкспорт</string>

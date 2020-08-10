@@ -291,8 +291,8 @@
     <string name="battery">Akku</string>
     <string name="liveactivity_live_activity">Jetzige Aktivität (live)</string>
     <string name="weeksteps_today_steps_description">Schritte heute, Ziel: %1$s</string>
-    <string name="pref_title_dont_ack_transfer">Keine ACK-Aktivitätsdatenübertragung durchführen</string>
-    <string name="pref_summary_dont_ack_transfers">Das Band löscht die Aktivitätsdaten nicht, wenn keine Bestätigung an das Band gesendet wird. Nützlich, wenn Gadgetbridge zusammen mit anderen Apps verwendet wird.</string>
+    <string name="pref_title_dont_ack_transfer">Übertragung der Aktivitätsdaten nicht bestätigen (ACK)</string>
+    <string name="pref_summary_dont_ack_transfers">Ohne ACK (Bestätigung), löscht das Band die Aktivitätsdaten nicht. Nützlich, wenn GB zusammen mit anderen Apps verwendet wird.</string>
     <string name="pref_summary_keep_data_on_device">Aktivitätsdaten verbleiben auf dem Mi Band, auch nach der Synchronisierung. Nützlich, wenn Gadgetbridge zusammen mit anderen Apps verwendet wird.</string>
     <string name="pref_title_low_latency_fw_update">Verwende den Low-Latency-Modus für Firmwareaktualisierung</string>
     <string name="pref_summary_low_latency_fw_update">Dies kann bei Geräten helfen, bei denen Firmwareupdates fehlschlagen.</string>
@@ -918,7 +918,7 @@
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
     <string name="about_additional_contributions">Wir danken allen nicht gelisteten Mitwirkenden dafür uns zu unterstützen mit Code, Unterstützung, Ideen, Motivation, Fehlermeldungen, Geld… ✊</string>
     <string name="about_additional_device_support">Unterstützung zusätzlicher Geräte</string>
-    <string name="about_contributors">Mitwirkende</string>
+    <string name="about_contributors">Beitragende</string>
     <string name="about_core_team_title">Kernteam (Reihenfolge der ersten Mitwirkung am Code)</string>
     <string name="about_description">Ein freier und nicht cloud basierter Ersatz für proprietäre Android Anwendungen der Hersteller von Gadgets.</string>
     <string name="about_activity_title">Über Gadgetbridge</string>
@@ -930,7 +930,7 @@
     <string name="menuitem_stress">Stress</string>
     <string name="menuitem_cycles">Zyklus</string>
     <string name="error_background_service_reason">Start des Hintergrunddienstes fehlgeschlagen wegen einem Fehler. Fehlermeldung:</string>
-    <string name="error_background_service_reason_truncated">Hintergrunddienst konnte nicht gestartet werden, wegen</string>
+    <string name="error_background_service_reason_truncated">Hintergrunddienst konnte nicht gestartet werden, wegen…</string>
     <string name="error_background_service">Start des Hintergrunddienstes fehlgeschlagen</string>
     <string name="menuitem_breathing">Atmung</string>
     <string name="devicetype_miband5">Mi Band 5</string>
@@ -941,4 +941,19 @@
 \nHinweis: Die .res Datei muss nicht installiert werden, wenn es die gleiche Datei ist, die schon zuvor installiert wurde.
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="companiondevice_pairing_details">Aktiviert die CompanionDevice API Unterstützung (funktioniert nur bei Android 8 und neuer). Erhöht die Zuverlässigkeit der Verbindung, wenn der Dienst im Hintergrund neu gestartet werden muss. Benötigt ein neues Paaren der Geräte mit Gadgetbridge um zu funktionieren</string>
+    <string name="error_location_enabled_mandatory">Standort muss für den Gerätescan aktiviert sein</string>
+    <string name="ignore_bonded_devices_description">Bei aktiver Option werden Geräte ignoriert, die beim Scan schon verbunden/gepaart sind</string>
+    <string name="ignore_bonded_devices">Ignoriere verbundene Geräte</string>
+    <string name="error_retrieving_devices_database">Fehler beim laden der Geräte aus der Datenbank</string>
+    <string name="error_setting_alias">Fehler beim setzen des Alias:</string>
+    <string name="error_exporting_device_preferences">Fehler beim Export der gerätespezifischen Einstellungen</string>
+    <string name="pref_check_permission_status_summary">Prüfen und nachfragen von fehlenden Berechtigungen, auch wenn sie nicht direkt benötigt werden. Nur deaktivieren, wenn dieses Gerät eine der Features nicht unterstützen soll. Eine Berechtigung nicht zu erteilen kann zu Problemen führen!</string>
+    <string name="pref_check_permission_status">Berechtigungsstatus prüfen</string>
+    <string name="device_requires_key">SCHLÜSSEL NOTWENDIG</string>
+    <string name="device_is_currently_bonded">BEREITS VERBUNDEN</string>
+    <string name="companiondevice_pairing">CompanionDevice Gerätepaarung</string>
+    <string name="require_location_provider">Standort muss aktiviert sein</string>
+    <string name="devicetype_tlw64">TLW64</string>
+    <string name="devicetype_pinetime_jf">PimeTime (JF Firmware)</string>
 </resources>

@@ -919,7 +919,7 @@
     <string name="menuitem_worldclock">世界时钟</string>
     <string name="permission_granting_mandatory">所有权限都是必须的，若未授予这些权限，可能会导致不稳定</string>
     <string name="error_background_service_reason">由于意外错误，启动后台服务失败：</string>
-    <string name="error_background_service_reason_truncated">无法启动后台服务是由于</string>
+    <string name="error_background_service_reason_truncated">无法启动后台服务是由于…</string>
     <string name="error_background_service">启动后台服务失败</string>
     <string name="error_version_check_extreme_caution">注意：检查版本信息时发生错误！您不应该继续下去，已知版本名“%s”</string>
     <string name="menuitem_stress">压力</string>
@@ -934,4 +934,18 @@
 \n
 \n风险自担！</string>
     <string name="devicetype_tlw64">TLW64</string>
+    <string name="companiondevice_pairing_details">启用新的 CompanionDevice API 支持（仅限 Android 8 或以上！），这将会在理论上提升可靠性，若需要，后台服务器将会自动重启，且需要重新配对才能生效</string>
+    <string name="error_location_enabled_mandatory">必须打开定位才能扫描设备</string>
+    <string name="ignore_bonded_devices_description">启用此选项将会在扫描时忽略已绑定或已配对的设备</string>
+    <string name="ignore_bonded_devices">忽略已绑定的设备</string>
+    <string name="error_retrieving_devices_database">从数据库中获取设备出错</string>
+    <string name="error_setting_alias">错误设置别名：</string>
+    <string name="error_exporting_device_preferences">导出设备特定首选项时遇到错误</string>
+    <string name="pref_check_permission_status_summary">检查并要求尚未获得的权限即使并非立刻需要。若您的设备的确不支持此类功能，也可禁用。不进行授权可能会导致问题！</string>
+    <string name="pref_check_permission_status">检查权限状态</string>
+    <string name="device_requires_key">需要密钥</string>
+    <string name="device_is_currently_bonded">已经绑定过了</string>
+    <string name="companiondevice_pairing">CompanionDevice 配对</string>
+    <string name="require_location_provider">必须启动定位</string>
+    <string name="devicetype_pinetime_jf">PineTime （JF 固件）</string>
 </resources>
