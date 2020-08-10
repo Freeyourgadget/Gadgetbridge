@@ -53,6 +53,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySummaryDetail.class);
     private GBDevice mGBDevice;
     private JSONObject groupData = setGroups();
+    private boolean show_raw_data = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,6 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 }
             });
         }
-
         String activitykindname = ActivityKind.asString(intent.getIntExtra("ActivityKind",0), getApplicationContext());
         Date starttime = (Date) intent.getSerializableExtra("StartTime");
         Date endtime = (Date) intent.getSerializableExtra("EndTime");
@@ -110,6 +110,19 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
 
         JSONObject listOfSummaries = makeSummaryList(summaryData);
         makeSummaryContent(listOfSummaries);
+
+        final JSONObject finalSummaryData = summaryData;
+        activity_icon.setOnLongClickListener(new View.OnLongClickListener() {
+            public boolean onLongClick(View v) {
+                show_raw_data=!show_raw_data;
+                TableLayout fieldLayout = findViewById(R.id.summaryDetails);
+                fieldLayout.removeAllViews();
+                JSONObject listOfSummaries = makeSummaryList(finalSummaryData);
+                makeSummaryContent(listOfSummaries);
+                return false;
+            }
+        });
+
     }
 
     private void makeSummaryContent (JSONObject data){
@@ -138,23 +151,24 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                     String unit =  innerData.getString("unit");
                     String name = innerData.getString("name");
 
-                    //special casing here:
-                    switch(unit){
-                        case "meters_second":
-                            value = value *3.6;
-                            unit = "km_h";
-                            break;
-                        case "seconds_m":
-                            value =  3.6/value;
-                            unit = "minutes_km";
-                            break;
-                        case "seconds_km":
-                            value =   value /60;
-                            unit = "minutes_km";
-                            break;
+                    if (!show_raw_data) {
+                        //special casing here:
+                        switch (unit) {
+                            case "meters_second":
+                                value = value * 3.6;
+                                unit = "km_h";
+                                break;
+                            case "seconds_m":
+                                value = 3.6 / value;
+                                unit = "minutes_km";
+                                break;
+                            case "seconds_km":
+                                value = value / 60;
+                                unit = "minutes_km";
+                                break;
 
+                        }
                     }
-
                     TableRow field_row = new TableRow(ActivitySummaryDetail.this);
                     if (i % 2 == 0) field_row.setBackgroundColor(Color.rgb(237,237,237));
 
@@ -163,7 +177,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                     name_field.setGravity(Gravity.START);
                     value_field.setGravity(Gravity.END);
 
-                    if (unit.equals("seconds")) { //rather then plain seconds, show formatted duration
+                    if (unit.equals("seconds") && !show_raw_data) { //rather then plain seconds, show formatted duration
                         value_field.setText(DateTimeUtils.formatDurationHoursMinutes((long) value, TimeUnit.SECONDS));
                     }else {
                         value_field.setText(String.format("%s %s", df.format(value), getStringResourceByName(unit)));
