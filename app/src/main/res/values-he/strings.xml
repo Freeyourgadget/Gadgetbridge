@@ -496,7 +496,7 @@
     <string name="activity_type_walking">הליכה</string>
     <string name="activity_type_swimming">שחייה</string>
     <string name="activity_type_unknown">פעילות לא ידועה</string>
-    <string name="activity_summaries">פעילויות</string>
+    <string name="activity_summaries">פעילויות ספורטיביות</string>
     <string name="activity_type_biking">רכיבת אופניים</string>
     <string name="activity_type_treadmill">הליכון</string>
     <string name="select_all">בחירת הכול</string>
@@ -952,4 +952,6 @@
     <string name="require_location_provider">יש להפעיל מיקום</string>
     <string name="pref_check_permission_status_summary">לבדוק ולבקש הרשאות חסרות אפילו אם אינן נדרשות באותו הרגע. יש להשבית את זה רק אם המכשירים שלך אכן לא תומכים בתכונות האלו. חסך בהענקת הרשאות עלול להוביל לתקלות!</string>
     <string name="devicetype_pinetime_jf">PineTime (קושחה מסוג JF)</string>
+    <string name="distanceMeters">מרחק</string>
+    <string name="activity_summary_detail">פרטי הפעילות הספורטיבית</string>
 </resources>
