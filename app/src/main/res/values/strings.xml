@@ -904,7 +904,6 @@
     <string name="ignore_bonded_devices">Ignore bonded devices</string>
     <string name="ignore_bonded_devices_description">Enabling this option will ignore devices that have been bonded/paired already when scanning</string>
     <string name="error_location_enabled_mandatory">Location must be turned on to scan for devices</string>
-
     <!-- activity summary labels-->
     <string name="distanceMeters">Distance</string>
     <string name="ascentMeters">Uphill</string>
@@ -928,10 +927,9 @@
     <string name="swolfIndex">swolfIndex</string>
     <string name="swimStyle">swimStyle</string>
     <string name="laps">Laps</string>
-    <string name="ascentSeconds">Ascenting</string>
-    <string name="descentSeconds">Descenting</string>
+    <string name="ascentSeconds">Ascending</string>
+    <string name="descentSeconds">Descending</string>
     <string name="flatSeconds">Flat</string>
-
     <!-- activity summary units-->
     <string name="meters">m</string>
     <string name="cm">cm</string>
@@ -944,12 +942,10 @@
     <string name="swolf_index">swolf index</string>
     <string name="swim_style">swim style</string>
     <string name="laps_unit">laps</string>
-    <string name="calories_unit">Kcal</string>
+    <string name="calories_unit">kcal</string>
     <string name="seconds_km">sec/km</string>
     <string name="minutes_km">min/km</string>
     <string name="bpm">bpm</string>
-
-
     <!-- activity summary groups-->
     <string name="Strokes">Strokes</string>
     <string name="Swimming">Swimming</string>
@@ -958,14 +954,11 @@
     <string name="Speed">Speed</string>
     <string name="Activity">Activity</string>
     <string name="Steps">Steps</string>
-
-
     <!-- Sports Activity Detail -->
     <string name="activity_detail_start_label">Start:</string>
     <string name="activity_detail_end_label">End:</string>
     <string name="activity_detail_duration_label">Duration:</string>
     <string name="activity_detail_show_gps_label">Show GPS Track</string>
-
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>
         <item quantity="two">%d hours</item>
