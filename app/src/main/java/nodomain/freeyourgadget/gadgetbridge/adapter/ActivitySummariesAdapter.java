@@ -37,10 +37,12 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySummary> {
     private final GBDevice device;
+    private int activityKindFilter;
 
-    public ActivitySummariesAdapter(Context context, GBDevice device) {
+    public ActivitySummariesAdapter(Context context, GBDevice device, int activityKindFilter) {
         super(context);
         this.device = device;
+        this.activityKindFilter = activityKindFilter;
         loadItems();
     }
 
@@ -51,12 +53,26 @@ public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySu
             Device dbDevice = DBHelper.findDevice(device, handler.getDaoSession());
 
             QueryBuilder<BaseActivitySummary> qb = summaryDao.queryBuilder();
-            qb.where(BaseActivitySummaryDao.Properties.DeviceId.eq(dbDevice.getId())).orderDesc(BaseActivitySummaryDao.Properties.StartTime);
+            if (activityKindFilter !=0){
+                qb.where(
+                        BaseActivitySummaryDao.Properties.DeviceId.eq(dbDevice.getId()),
+                        BaseActivitySummaryDao.Properties.ActivityKind.eq(activityKindFilter))
+                        .orderDesc(BaseActivitySummaryDao.Properties.StartTime);
+            }else{
+                qb.where(
+                        BaseActivitySummaryDao.Properties.DeviceId.eq(
+                                dbDevice.getId())).orderDesc(BaseActivitySummaryDao.Properties.StartTime);
+            }
+
             List<BaseActivitySummary> allSummaries = qb.build().list();
             setItems(allSummaries, true);
         } catch (Exception e) {
             GB.toast("Error loading activity summaries.", Toast.LENGTH_SHORT, GB.ERROR, e);
         }
+    }
+
+    public void setActivityKindFilter(int filter){
+        this.activityKindFilter=filter;
     }
 
     @Override

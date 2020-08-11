@@ -35,6 +35,10 @@ public abstract class AbstractListActivity<T> extends AbstractGBActivity {
         this.itemAdapter.loadItems();
     }
 
+    public void setActivityKindFilter(int activityKind){
+        this.itemAdapter.setActivityKindFilter(activityKind);
+    }
+
     public AbstractItemAdapter<T> getItemAdapter() {
         return itemAdapter;
     }

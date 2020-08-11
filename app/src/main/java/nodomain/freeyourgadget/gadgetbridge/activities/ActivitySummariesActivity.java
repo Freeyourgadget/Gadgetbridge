@@ -32,8 +32,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
@@ -46,6 +48,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.ActivitySummariesAdapter;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
@@ -67,6 +71,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySummariesActivity.class);
     private GBDevice mGBDevice;
     private SwipeRefreshLayout swipeLayout;
+    LinkedHashMap<String , Integer> activityKindMap = new LinkedHashMap<>(1);
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -125,7 +130,8 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
         super.onCreate(savedInstanceState);
-        setItemAdapter(new ActivitySummariesAdapter(this, mGBDevice));
+        int activityFilter=0;
+        setItemAdapter(new ActivitySummariesAdapter(this, mGBDevice,activityFilter));
 
         getItemListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -233,6 +239,51 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                 fetchTrackData();
             }
         });
+
+        activityKindMap = fillKindMap();
+        addItemsOnSpinner();
+        addListenerOnSpinnerItemSelection();
+
+
+    }
+
+    private LinkedHashMap fillKindMap(){
+        LinkedHashMap<String , Integer> newMap = new LinkedHashMap<>(1); //reset
+        newMap.put("All Activities", 0);
+        for (BaseActivitySummary item : getItemAdapter().getItems()) {
+            String activityName = ActivityKind.asString(item.getActivityKind(), this);
+            if (!newMap.containsKey(item.getActivityKind())) {
+                newMap.put(activityName, item.getActivityKind());
+            }
+        }
+        return newMap;
+    }
+
+    public void addListenerOnSpinnerItemSelection() {
+        Spinner spinner = (Spinner) findViewById(R.id.select_kind);
+        spinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+    }
+
+    public class CustomOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View view, int pos,long id) {
+            setActivityKindFilter(activityKindMap.get(parent.getItemAtPosition(pos)));
+            refresh();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+            // TODO Auto-generated method stub
+        }
+
+    }
+
+    public void addItemsOnSpinner() {
+        Spinner spinner = (Spinner) findViewById(R.id.select_kind);
+        ArrayList<String> spinnerArray = new ArrayList<>(activityKindMap.keySet());
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_dropdown_item, spinnerArray);
+        spinner.setAdapter(dataAdapter);
     }
 
     public void resetFetchTimestampToChosenDate() {
@@ -278,14 +329,6 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         startActivity(ActivitySummaryDetailIntent);
     }
 
-    private void showTrack(String gpxTrack) {
-        try {
-            AndroidUtils.viewFile(gpxTrack, Intent.ACTION_VIEW, this);
-        } catch (IOException e) {
-            GB.toast(this, "Unable to display GPX track: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
-        }
-    }
-
     private void fetchTrackData() {
         if (mGBDevice.isInitialized() && !mGBDevice.isBusy()) {
             GBApplication.deviceService().onFetchRecordedData(RecordedDataTypes.TYPE_GPS_TRACKS);
@@ -315,4 +358,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         }
 
     }
+
+
+
 }
