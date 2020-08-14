@@ -72,6 +72,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
     private GBDevice mGBDevice;
     private SwipeRefreshLayout swipeLayout;
     LinkedHashMap<String , Integer> activityKindMap = new LinkedHashMap<>(1);
+    int activityFilter=0;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -130,7 +131,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
         super.onCreate(savedInstanceState);
-        int activityFilter=0;
+
         setItemAdapter(new ActivitySummariesAdapter(this, mGBDevice,activityFilter));
 
         getItemListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -140,7 +141,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                 if (item != null) {
                     ActivitySummary summary = (ActivitySummary) item;
                     try {
-                        showActivityDetail(summary);
+                        showActivityDetail(position);
                     } catch (Exception e) {
                         GB.toast(getApplicationContext(), "Unable to display Activity Detail, maybe the activity is not available yet: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
                     }
@@ -267,7 +268,8 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
     public class CustomOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
 
         public void onItemSelected(AdapterView<?> parent, View view, int pos,long id) {
-            setActivityKindFilter(activityKindMap.get(parent.getItemAtPosition(pos)));
+            activityFilter=activityKindMap.get(parent.getItemAtPosition(pos));
+            setActivityKindFilter(activityFilter);
             refresh();
         }
 
@@ -317,16 +319,13 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         refresh();
     }
 
-    private void showActivityDetail(ActivitySummary summary){
+    private void showActivityDetail(int position){
         Intent ActivitySummaryDetailIntent = new Intent(this, ActivitySummaryDetail.class);
-        ActivitySummaryDetailIntent.putExtra("name", summary.getName());
-        ActivitySummaryDetailIntent.putExtra("ActivityKind", summary.getActivityKind());
-        ActivitySummaryDetailIntent.putExtra("StartTime", summary.getStartTime());
-        ActivitySummaryDetailIntent.putExtra("EndTime", summary.getEndTime());
-        ActivitySummaryDetailIntent.putExtra("GpxTrack", summary.getGpxTrack());
-        ActivitySummaryDetailIntent.putExtra("SummaryData", summary.getSummaryData());
+        ActivitySummaryDetailIntent.putExtra("position", position);
+        ActivitySummaryDetailIntent.putExtra("filter", activityFilter);
         ActivitySummaryDetailIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
         startActivity(ActivitySummaryDetailIntent);
+
     }
 
     private void fetchTrackData() {

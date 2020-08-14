@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:id="@+id/activity_summary_detail_relative_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="?android:attr/activatedBackgroundIndicator"
+    android:clickable="true"
+    android:focusable="auto"
     android:padding="8dp">
 
     <ImageView
@@ -13,8 +16,8 @@
         android:contentDescription="activity image" />
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/item_image"
         android:orientation="vertical"
@@ -32,9 +35,9 @@
             android:textSize="18sp" />
 
         <TableLayout
-            android:id="@+id/summaryDetails"
+            android:id="@+id/summaryHeader"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="wrap_content">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -79,7 +82,7 @@
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/duration_label"
@@ -98,6 +101,11 @@
             </TableRow>
 
         </TableLayout>
+
+        <TableLayout
+            android:id="@+id/summaryDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
 
         <Button
