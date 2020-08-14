@@ -288,8 +288,8 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
             distanceMeters = buffer.getFloat();
             ascentMeters = buffer.getFloat();
             descentMeters = buffer.getFloat();
-            maxAltitude = buffer.getFloat();
             minAltitude = buffer.getFloat();
+            maxAltitude = buffer.getFloat();
             maxLatitude = buffer.getInt(); // format?
             minLatitude = buffer.getInt(); // format?
             maxLongitude = buffer.getInt(); // format?
