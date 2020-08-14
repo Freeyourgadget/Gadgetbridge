@@ -944,6 +944,7 @@
     <string name="laps_unit">laps</string>
     <string name="calories_unit">kcal</string>
     <string name="seconds_km">sec/km</string>
+    <string name="seconds_m">sec/m</string>
     <string name="minutes_km">min/km</string>
     <string name="bpm">bpm</string>
     <!-- activity summary groups-->
