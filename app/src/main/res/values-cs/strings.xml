@@ -916,4 +916,84 @@
     <string name="pref_title_weather_summary">Použito s poskytovatelem počasí LineageOS. Ostatní verze Androidu vyžadují \"Weather Notification\" app. Více informací naleznete na Gadgetbridge wiki.</string>
     <string name="error_version_check_extreme_caution">POZOR: Chyba při kontrole verze! Neměli byste pokračovat! Verze má název \"%s\"</string>
     <string name="permission_granting_mandatory">Všechna tato oprávnění jsou vyžadována a může nastat nestabilita, pokud nebudou udělena</string>
+    <string name="activity_detail_show_gps_label">Zobrazit trasu GPS</string>
+    <string name="activity_detail_duration_label">Délka:</string>
+    <string name="activity_detail_end_label">Konec:</string>
+    <string name="activity_detail_start_label">Začátek:</string>
+    <string name="Steps">Kroky</string>
+    <string name="Activity">Aktivita</string>
+    <string name="Speed">Rychlost</string>
+    <string name="Elevation">Elevace</string>
+    <string name="Distance">Vzdálenost</string>
+    <string name="Swimming">Plavání</string>
+    <string name="Strokes">Záběry</string>
+    <string name="bpm">tepů/min</string>
+    <string name="minutes_km">min/km</string>
+    <string name="seconds_km">sec/km</string>
+    <string name="calories_unit">kcal</string>
+    <string name="laps_unit">bazénů</string>
+    <string name="swim_style">plavecký styl</string>
+    <string name="swolf_index">swolf index</string>
+    <string name="seconds">sec</string>
+    <string name="strokes_unit">záb</string>
+    <string name="strokes_second">záb/s</string>
+    <string name="km_h">km/h</string>
+    <string name="meters_second">m/s</string>
+    <string name="steps_unit">kroků</string>
+    <string name="cm">cm</string>
+    <string name="meters">m</string>
+    <string name="flatSeconds">V rovině</string>
+    <string name="ascentSeconds">Stoupající</string>
+    <string name="laps">Bazénů</string>
+    <string name="swimStyle">Plavecký styl</string>
+    <string name="swolfIndex">Hodnocení swolf</string>
+    <string name="strokes">Záběry</string>
+    <string name="averageLapPace">Průměrné Tempo Bazénu</string>
+    <string name="averageStrokesPerSecond">Průměrné Záběry</string>
+    <string name="averageStrokeDistance">Průměrná Délka Záběru</string>
+    <string name="averageStride">Průměrný Krok</string>
+    <string name="averageKMPaceSeconds">Tempo</string>
+    <string name="averageHR">Tepová frekvence</string>
+    <string name="totalStride">Celkově ujito</string>
+    <string name="maxPace">Nejrychlejší Tempo</string>
+    <string name="minPace">Nejpomalejší Tempo</string>
+    <string name="maxSpeed">Maximální</string>
+    <string name="caloriesBurnt">Kalorie</string>
+    <string name="activeSeconds">Aktivní</string>
+    <string name="steps">Kroky</string>
+    <string name="minAltitude">Nejníže</string>
+    <string name="maxAltitude">Nejvýše</string>
+    <string name="descentMeters">Z kopce</string>
+    <string name="ascentMeters">Do kopce</string>
+    <string name="distanceMeters">Vzdálenost</string>
+    <string name="error_location_enabled_mandatory">Chcete-li vyhledat zařízení, Poloha musí být zapnutá</string>
+    <string name="ignore_bonded_devices_description">Povolením této možnosti se budou ignorovat zařízení, která byla při skenování již spojena/spárována</string>
+    <string name="ignore_bonded_devices">Ignorovat připojená zařízení</string>
+    <string name="error_retrieving_devices_database">Při načítání zařízení z databáze došlo k chybě</string>
+    <string name="error_setting_alias">Chyba při nastavování aliasu:</string>
+    <string name="error_exporting_device_preferences">Při exportu předvoleb specifických pro zařízení došlo k chybě</string>
+    <string name="pref_check_permission_status_summary">Provádí kontrolu chybějících oprávnění i když tato nemusí být momentálně vyžadována. Zakažte, pokud vaše zařízení nepodporuje některé z těchto funkcí. Neudělení oprávnění může způsobovat problémy!</string>
+    <string name="pref_check_permission_status">Ověřovat stav oprávnění</string>
+    <string name="error_background_service_reason">Spuštění služby na pozadí selhalo díky chybě:</string>
+    <string name="device_requires_key">VYŽADOVÁN KLÍČ</string>
+    <string name="device_is_currently_bonded">JIŽ NAPÁROVÁNO</string>
+    <string name="error_background_service_reason_truncated">Službu na pozadí se nepodařilo spustit kvůli…</string>
+    <string name="error_background_service">Nepodařilo se spustit službu na pozadí</string>
+    <string name="companiondevice_pairing_details">Povoluje nové rozhraní Doprovodného Zařízení (CompanionDevice API, toto existuje pouze v Android 8 a novějším), které zlepšuje spolehlivost připojení. Pro využití tohoto rozhraní je nutné znovu-napárování za použití Gadgetbridge</string>
+    <string name="companiondevice_pairing">Párování systémem Doprovodného Zařízení</string>
+    <string name="require_location_provider">Poloha musí být povolena</string>
+    <string name="menuitem_stress">Stres</string>
+    <string name="menuitem_cycles">Cykly</string>
+    <string name="menuitem_breathing">Dýchání</string>
+    <string name="devicetype_pinetime_jf">PineTime (JF Firmware)</string>
+    <string name="devicetype_tlw64">TLW64</string>
+    <string name="devicetype_miband5">Mi Band 5</string>
+    <string name="activity_summary_detail">Detaily Sportovní Aktivity</string>
+    <string name="fw_upgrade_notice_miband5">Chystáte se nainstalovat firmvér %s do vašeho Mi Band 5.
+\n
+\nProsím, ujistěte se, že jste nainstalovali soubor .fw a potom soubor .res. Váš pásek se po instalaci souboru .fw restartuje.
+\n
+\nPoznámka: Nemusíte instalovat soubor .res, pokud je stejný jako nainstalován dříve.
+\n
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
 </resources>
