@@ -422,6 +422,7 @@
         <activity
             android:name=".activities.ActivitySummaryDetail"
             android:label="@string/activity_summary_detail"
+            android:parentActivityName=".activities.ActivitySummariesActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 

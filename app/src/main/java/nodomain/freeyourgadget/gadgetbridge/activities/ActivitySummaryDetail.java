@@ -23,6 +23,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -353,6 +354,17 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         }else{
             return getString(resId);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // back button
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
