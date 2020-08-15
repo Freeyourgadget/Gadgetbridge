@@ -1020,4 +1020,5 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="distanceMeters">Mesafe</string>
     <string name="activity_summary_detail">Spor Etkinliği Ayrıntısı</string>
     <string name="calories_unit">kcal</string>
+    <string name="seconds_m">sn/m</string>
 </resources>
