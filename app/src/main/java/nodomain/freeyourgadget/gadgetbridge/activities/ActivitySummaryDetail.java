@@ -75,14 +75,23 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         final ActivitySummaryItems items = new ActivitySummaryItems(this, mGBDevice, filter);
         final RelativeLayout layout = findViewById(R.id.activity_summary_detail_relative_layout);
 
-        final Animation animFadein;
-        final Animation animFadeout;
-        animFadein = AnimationUtils.loadAnimation(
+        final Animation animFadeRight;
+        final Animation animFadeLeft;
+        final Animation animBounceLeft;
+        final Animation animBounceRight;
+
+        animFadeRight = AnimationUtils.loadAnimation(
                 this,
                 R.anim.flyright);
-        animFadeout = AnimationUtils.loadAnimation(
+        animFadeLeft = AnimationUtils.loadAnimation(
                 this,
                 R.anim.flyleft);
+        animBounceLeft = AnimationUtils.loadAnimation(
+                this,
+                R.anim.bounceleft);
+        animBounceRight = AnimationUtils.loadAnimation(
+                this,
+                R.anim.bounceright);
 
         layout.setOnTouchListener(new SwipeEvents(this) {
             @Override
@@ -91,10 +100,10 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 if (currentItem != null) {
                     makeSummaryHeader(currentItem);
                     makeSummaryContent(currentItem);
-                    layout.startAnimation(animFadein);
+                    layout.startAnimation(animFadeRight);
 
                 }else{
-                    GB.toast("No more items", Toast.LENGTH_SHORT,0);
+                    layout.startAnimation(animBounceRight);
                 }
             }
             @Override
@@ -103,9 +112,9 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 if (currentItem != null) {
                     makeSummaryHeader(currentItem);
                     makeSummaryContent(currentItem);
-                    layout.startAnimation(animFadeout);
+                    layout.startAnimation(animFadeLeft);
                 }else{
-                    GB.toast("No more items", Toast.LENGTH_SHORT,0);
+                    layout.startAnimation(animBounceLeft);
                 }
             }
         });
