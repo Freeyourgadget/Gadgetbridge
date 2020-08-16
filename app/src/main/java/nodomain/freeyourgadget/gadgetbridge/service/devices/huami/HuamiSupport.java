@@ -144,6 +144,12 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SYNC_CALENDAR;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WEARLOCATION;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_WOKE_UP_BROADCAST;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_WOKE_UP_SELECTION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_PROFILE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_COUNT;
@@ -151,7 +157,8 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VI
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefIntValue;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefStringValue;
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL;
-
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_SELECTION_BROADCAST;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_SELECTION_OFF;
 
 public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
@@ -1168,8 +1175,27 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         currentButtonPressTime = System.currentTimeMillis();
     }
 
+    private void handleDeviceAction(String deviceAction, String message) {
+        if (deviceAction.equals(PREF_DEVICE_ACTION_SELECTION_OFF)) {
+            return;
+        }
+        if (deviceAction.equals(PREF_DEVICE_ACTION_SELECTION_BROADCAST)) {
+            sendSystemBroadcast(message);
+        }else {
+            handleMediaButton(deviceAction);
+        }
+    }
+
+    private void sendSystemBroadcast(String message){
+        if (message !=null) {
+            Intent in = new Intent();
+            in.setAction(message);
+            LOG.info("Sending broadcast " + message);
+            this.getContext().getApplicationContext().sendBroadcast(in);
+        }
+    }
     private void handleMediaButton(String MediaAction) {
-        if (MediaAction.equals("UNKNOWN")) {
+        if (MediaAction.equals(PREF_DEVICE_ACTION_SELECTION_OFF)) {
             return;
         }
         GBDeviceEventMusicControl deviceEventMusicControl = new GBDeviceEventMusicControl();
@@ -1204,6 +1230,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 break;
             case HuamiDeviceEvent.START_NONWEAR:
                 LOG.info("non-wear start detected");
+                processDeviceEvent(HuamiDeviceEvent.START_NONWEAR);
                 break;
             case HuamiDeviceEvent.ALARM_TOGGLED:
                 LOG.info("An alarm was toggled");
@@ -1213,9 +1240,11 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 break;
             case HuamiDeviceEvent.FELL_ASLEEP:
                 LOG.info("Fell asleep");
+                processDeviceEvent(HuamiDeviceEvent.FELL_ASLEEP);
                 break;
             case HuamiDeviceEvent.WOKE_UP:
                 LOG.info("Woke up");
+                processDeviceEvent(HuamiDeviceEvent.WOKE_UP);
                 break;
             case HuamiDeviceEvent.STEPSGOAL_REACHED:
                 LOG.info("Steps goal reached");
@@ -1317,6 +1346,37 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         } catch (Exception ex) {
             LOG.error("Error sending current weather", ex);
         }
+    }
+
+    private void processDeviceEvent(int event){
+        LOG.debug("Handling device event: " + event);
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        String deviceActionBroadcastMessage=null;
+
+        switch (event) {
+            case HuamiDeviceEvent.WOKE_UP:
+                String wakeupAction = prefs.getString(PREF_DEVICE_ACTION_WOKE_UP_SELECTION,PREF_DEVICE_ACTION_SELECTION_OFF);
+                if (wakeupAction.equals(PREF_DEVICE_ACTION_SELECTION_OFF)) return;
+                deviceActionBroadcastMessage= prefs.getString(PREF_DEVICE_ACTION_WOKE_UP_BROADCAST,
+                        this.getContext().getString(R.string.prefs_events_forwarding_wokeup_broadcast_default_value));
+                handleDeviceAction(wakeupAction, deviceActionBroadcastMessage);
+                break;
+            case HuamiDeviceEvent.FELL_ASLEEP:
+                String fellsleepAction = prefs.getString(PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION,PREF_DEVICE_ACTION_SELECTION_OFF);
+                if (fellsleepAction.equals(PREF_DEVICE_ACTION_SELECTION_OFF)) return;
+                deviceActionBroadcastMessage= prefs.getString(PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST,
+                        this.getContext().getString(R.string.prefs_events_forwarding_fellsleep_broadcast_default_value));
+                handleDeviceAction(fellsleepAction, deviceActionBroadcastMessage);
+                break;
+            case HuamiDeviceEvent.START_NONWEAR:
+                String nonwearAction = prefs.getString(PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION,PREF_DEVICE_ACTION_SELECTION_OFF);
+                if (nonwearAction.equals(PREF_DEVICE_ACTION_SELECTION_OFF)) return;
+                deviceActionBroadcastMessage= prefs.getString(PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST,
+                        this.getContext().getString(R.string.prefs_events_forwarding_startnonwear_broadcast_default_value));
+                handleDeviceAction(nonwearAction, deviceActionBroadcastMessage);
+                break;
+        }
+
     }
 
     private void handleLongButtonEvent(){

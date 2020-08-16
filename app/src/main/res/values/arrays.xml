@@ -877,6 +877,7 @@
         <item>@string/pref_media_volumedown</item>
         <item>@string/pref_media_forward</item>
         <item>@string/pref_media_rewind</item>
+        <item>@string/pref_device_action_broadcast</item>
     </string-array>
 
     <string name="pref_button_action_disabled">Disabled</string>
@@ -889,6 +890,8 @@
     <string name="pref_media_volumedown">Volume Down</string>
     <string name="pref_media_forward">Skip forward</string>
     <string name="pref_media_rewind">Skip back</string>
+    <string name="pref_device_action_broadcast">Send Broadcast</string>
+
 
     <string-array name="button_action_values">
         <item>@string/pref_button_action_disabled_value</item>
@@ -901,6 +904,8 @@
         <item>@string/pref_media_volumedown_value</item>
         <item>@string/pref_media_forward_value</item>
         <item>@string/pref_media_rewind_value</item>
+        <item>@string/pref_device_action_broadcast_value</item>
+
 
     </string-array>
 
@@ -914,7 +919,23 @@
     <string name="pref_media_volumedown_value" translatable="false">VOLUMEDOWN</string>
     <string name="pref_media_forward_value" translatable="false">FORWARD</string>
     <string name="pref_media_rewind_value" translatable="false">REWIND</string>
+    <string name="pref_device_action_broadcast_value" translatable="false">BROADCAST</string>
 
+    <string-array name="device_action_options">
+        <item>@string/pref_button_action_disabled</item>
+        <item>@string/pref_media_play</item>
+        <item>@string/pref_media_pause</item>
+        <item>@string/pref_media_playpause</item>
+        <item>@string/pref_device_action_broadcast</item>
+    </string-array>
+
+    <string-array name="device_action_values">
+        <item>@string/pref_button_action_disabled_value</item>
+        <item>@string/pref_media_play_value</item>
+        <item>@string/pref_media_pause_value</item>
+        <item>@string/pref_media_playpause_value</item>
+        <item>@string/pref_device_action_broadcast_value</item>
+    </string-array>
 
     <string-array name="pref_hybridhr_buttonfunctions">
         <item name="notificationsPanelApp">@string/menuitem_notifications</item>
