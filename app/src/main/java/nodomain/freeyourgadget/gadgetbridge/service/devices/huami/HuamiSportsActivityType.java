@@ -24,7 +24,13 @@ public enum HuamiSportsActivityType {
     Walking(3),
     Cycling(4),
     Exercise(5),
-    Swimming(6);
+    Swimming(6),
+    OpenWaterSwimming(7),
+    IndoorCycling(8),
+    EllipticalTrainer(9),
+    JumpRope(21),
+    Yoga(60);
+
     private final int code;
 
     HuamiSportsActivityType(final int code) {
@@ -45,6 +51,16 @@ public enum HuamiSportsActivityType {
                 return ActivityKind.TYPE_EXERCISE;
             case Swimming:
                 return ActivityKind.TYPE_SWIMMING;
+            case OpenWaterSwimming:
+                return ActivityKind.TYPE_SWIMMING_OPENWATER;
+            case IndoorCycling:
+                return ActivityKind.TYPE_INDOOR_CYCLING;
+            case EllipticalTrainer:
+                return ActivityKind.TYPE_ELLIPTICAL_TRAINER;
+            case JumpRope:
+                return ActivityKind.TYPE_JUMP_ROPING;
+            case Yoga:
+                return ActivityKind.TYPE_YOGA;
         }
         throw new RuntimeException("Not mapped activity kind for: " + this);
     }
@@ -72,6 +88,16 @@ public enum HuamiSportsActivityType {
                 return Exercise;
             case ActivityKind.TYPE_SWIMMING:
                 return Swimming;
+            case ActivityKind.TYPE_SWIMMING_OPENWATER:
+                return OpenWaterSwimming;
+            case ActivityKind.TYPE_INDOOR_CYCLING:
+                return IndoorCycling;
+            case ActivityKind.TYPE_ELLIPTICAL_TRAINER:
+                return EllipticalTrainer;
+            case ActivityKind.TYPE_JUMP_ROPING:
+                return JumpRope;
+            case ActivityKind.TYPE_YOGA:
+                return Yoga;
         }
         throw new RuntimeException("No matching activity activityKind: " + activityKind);
     }

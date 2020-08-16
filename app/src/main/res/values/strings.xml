@@ -698,6 +698,11 @@
     <string name="activity_type_running">Running</string>
     <string name="activity_type_walking">Walking</string>
     <string name="activity_type_swimming">Swimming</string>
+    <string name="activity_type_swimming_openwater">Swimming (Open water)</string>
+    <string name="activity_type_indoor_cycling">Indoor Cycling</string>
+    <string name="activity_type_elliptical_trainer">Elliptical Trainer</string>
+    <string name="activity_type_jump_roping">Jump Roping </string>
+    <string name="activity_type_yoga">Yoga</string>
     <string name="activity_type_unknown">Unknown activity</string>
     <string name="activity_summaries">Sport Activities</string>
     <string name="activity_summary_detail">Sport Activity Detail</string>
