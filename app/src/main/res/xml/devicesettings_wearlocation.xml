@@ -3,6 +3,7 @@
 
     <ListPreference
         android:defaultValue="left"
+        android:icon="@drawable/ic_switch_left"
         android:entries="@array/wearside"
         android:entryValues="@array/wearside_values"
         android:key="wearlocation"

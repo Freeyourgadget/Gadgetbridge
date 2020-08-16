@@ -2,6 +2,7 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceScreen
         android:key="screen_events_forwarding"
+        android:icon="@drawable/ic_extension"
         android:persistent="false"
         android:summary="@string/prefs_events_forwarding_summary"
         android:title="@string/prefs_events_forwarding_title">
