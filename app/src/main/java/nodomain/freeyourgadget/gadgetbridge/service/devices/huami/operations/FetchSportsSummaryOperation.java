@@ -98,6 +98,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
                 User user = DBHelper.getUser(session);
                 summary.setDevice(device);
                 summary.setUser(user);
+                summary.setRawSummaryData(buffer.toByteArray());
                 session.getBaseActivitySummaryDao().insertOrReplace(summary);
             } catch (Exception ex) {
                 GB.toast(getContext(), "Error saving activity summary", Toast.LENGTH_LONG, GB.ERROR, ex);

@@ -43,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(29, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(30, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -508,6 +508,7 @@ public class GBDaoGenerator {
         Property userId = summary.addLongProperty("userId").notNull().codeBeforeGetter(OVERRIDE).getProperty();
         summary.addToOne(user, userId);
         summary.addStringProperty("summaryData");
+        summary.addByteArrayProperty("rawSummaryData");
     }
 
     private static Property findProperty(Entity entity, String propertyName) {
