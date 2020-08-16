@@ -1000,4 +1000,5 @@
     <string name="ascentMeters">登高</string>
     <string name="distanceMeters">距离</string>
     <string name="activity_summary_detail">运动活动详情</string>
+    <string name="seconds_m">秒/米</string>
 </resources>
