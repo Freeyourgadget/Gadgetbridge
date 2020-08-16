@@ -18,10 +18,12 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,6 +65,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     private JSONObject groupData = setGroups();
     private boolean show_raw_data = false;
     BaseActivitySummary currentItem = null;
+    private int alternateColor;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -75,6 +78,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         final int position = intent.getIntExtra("position",0);
         final ActivitySummaryItems items = new ActivitySummaryItems(this, mGBDevice, filter);
         final RelativeLayout layout = findViewById(R.id.activity_summary_detail_relative_layout);
+        alternateColor = getAlternateColor(this);
 
         final Animation animFadeRight;
         final Animation animFadeLeft;
@@ -247,7 +251,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                         }
                     }
                     TableRow field_row = new TableRow(ActivitySummaryDetail.this);
-                    if (i % 2 == 0) field_row.setBackgroundColor(Color.rgb(237,237,237));
+                    if (i % 2 == 0) field_row.setBackgroundColor(alternateColor);
 
                     TextView name_field = new TextView(ActivitySummaryDetail.this);
                     TextView value_field = new TextView(ActivitySummaryDetail.this);
@@ -343,6 +347,12 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             }
         }
         return list;
+    }
+    public static int getAlternateColor(Context context) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(R.attr.alternate_row_background, typedValue, true);
+        return typedValue.data;
     }
 
     private String getStringResourceByName(String aString) {
