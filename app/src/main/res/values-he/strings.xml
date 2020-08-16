@@ -1004,4 +1004,11 @@
     <string name="descentMeters">במורד</string>
     <string name="ascentMeters">במעלה</string>
     <string name="seconds_m">שנ׳/מ׳</string>
+    <string name="prefs_events_forwarding_action_title">הרצת פעולה</string>
+    <string name="prefs_events_forwarding_broadcast_title">הפצת הודעה</string>
+    <string name="prefs_events_forwarding_startnonwear">כשלא נענד</string>
+    <string name="prefs_events_forwarding_wokeup">עם השכמה</string>
+    <string name="prefs_events_forwarding_fellsleep">עם הירדמות</string>
+    <string name="prefs_events_forwarding_title">פעולות מכשיר</string>
+    <string name="prefs_events_forwarding_summary">להשתמש באירועי המכשיר כדי לגרור פעולות ושידורי Android</string>
 </resources>
