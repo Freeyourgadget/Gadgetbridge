@@ -954,4 +954,5 @@
     <string name="activity_detail_end_label">Slutt:</string>
     <string name="activity_detail_start_label">Start:</string>
     <string name="Steps">Steg</string>
+    <string name="activity_type_yoga">Yoga</string>
 </resources>
