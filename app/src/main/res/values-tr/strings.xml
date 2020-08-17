@@ -1029,4 +1029,8 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="activity_type_yoga">Yoga</string>
     <string name="activity_type_jump_roping">İp Atlama</string>
     <string name="activity_type_swimming_openwater">Yüzme (Açık su)</string>
+    <string name="activity_type_elliptical_trainer">Eliptik Spor Aleti</string>
+    <string name="activity_type_indoor_cycling">Kondisyon Bisikleti</string>
+    <string name="prefs_events_forwarding_action_title">Eylemi çalıştır</string>
+    <string name="prefs_events_forwarding_broadcast_title">Mesajı yayınla</string>
 </resources>
