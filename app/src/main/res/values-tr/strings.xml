@@ -1021,4 +1021,12 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="activity_summary_detail">Spor Etkinliği Ayrıntısı</string>
     <string name="calories_unit">kcal</string>
     <string name="seconds_m">sn/m</string>
+    <string name="prefs_events_forwarding_startnonwear">Giyilmediğinde</string>
+    <string name="prefs_events_forwarding_wokeup">Uyandığında</string>
+    <string name="prefs_events_forwarding_fellsleep">Uykuya Dalarken</string>
+    <string name="prefs_events_forwarding_title">Cihaz eylemleri</string>
+    <string name="prefs_events_forwarding_summary">Eylemleri ve Android yayınlarını tetiklemek için cihaz olaylarını kullan</string>
+    <string name="activity_type_yoga">Yoga</string>
+    <string name="activity_type_jump_roping">İp Atlama</string>
+    <string name="activity_type_swimming_openwater">Yüzme (Açık su)</string>
 </resources>
