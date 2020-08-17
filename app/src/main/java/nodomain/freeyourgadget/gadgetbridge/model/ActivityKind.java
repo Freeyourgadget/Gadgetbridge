@@ -170,7 +170,7 @@ public class ActivityKind {
             case TYPE_JUMP_ROPING:
                 return R.drawable.ic_activity_exercise; // TODO: Find a better one
             case TYPE_YOGA:
-                return R.drawable.ic_activity_exercise; // TODO: Find a better one
+                return R.drawable.ic_activity_yoga;
             case TYPE_NOT_WORN: // fall through
             case TYPE_ACTIVITY: // fall through
             case TYPE_UNKNOWN: // fall through
