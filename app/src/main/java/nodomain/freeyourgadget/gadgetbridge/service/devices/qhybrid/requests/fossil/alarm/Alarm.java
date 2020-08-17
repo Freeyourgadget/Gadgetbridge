@@ -29,24 +29,25 @@ public class Alarm {
     private byte days = 0;
     private byte minute, hour;
     private boolean repeat;
+    private String title, message;
 
-    public Alarm(byte minute, byte hour){
+    public Alarm(byte minute, byte hour, String title, String message){
         this.minute = minute;
         this.hour = hour;
         this.repeat = false;
+
+        this.title = title;
+        this.message = message;
     }
 
-    public Alarm(byte minute, byte hour, boolean repeat){
-        this.minute = minute;
-        this.hour = hour;
-        this.repeat = repeat;
-    }
-
-    public Alarm(byte minute, byte hour, byte days){
+    public Alarm(byte minute, byte hour, byte days, String title, String message){
         this.minute = minute;
         this.hour = hour;
         this.repeat = true;
         this.days = days;
+
+        this.title = title;
+        this.message = message;
     }
 
     public void setDayEnabled(int day, boolean enabled){
@@ -78,9 +79,25 @@ public class Alarm {
         boolean repeat = (bytes[1] & 0x80) == 0x80;
 
         if(repeat) {
-            return new Alarm(minutes, bytes[2], days);
+            return new Alarm(minutes, bytes[2], days, "some title", "i dunno this should't happen");
         }
-        return new Alarm(minutes, bytes[2]);
+        return new Alarm(minutes, bytes[2], "some title", "i dunno this should't happen");
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @NonNull

@@ -438,7 +438,7 @@
 \nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="pref_title_charts_swipe">Zapnout možnost potažení mezi grafy aktivit</string>
     <string name="pref_title_weather">Počasí</string>
-    <string name="pref_title_weather_location">Poloha pro počasí (CM/LOS)</string>
+    <string name="pref_title_weather_location">Poloha pro počasí (LineageOS poskytovatel)</string>
     <string name="pref_title_pebble_enable_bgjs">Zapnout JS na pozadí</string>
     <string name="pref_summary_pebble_enable_bgjs">Pokud je zapnuto, umožňuje hodinám zobrazovat počasí, údaje o baterii atd.</string>
     <string name="pref_header_auto_export">Automatický export</string>
@@ -720,7 +720,7 @@
     <string name="weeksleepchart_sleep_a_month">Spánek za měsíc</string>
     <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
     <string name="menuitem_nfc">NFC</string>
-    <string name="pref_summary_expose_hr">"Umožní ostatním aplikacím přistupovat  k datům čidla srdečního tepu dokud Gadgetbridge běží"</string>
+    <string name="pref_summary_expose_hr">Umožní ostatním aplikacím přistupovat k datům čidla srdečního tepu dokud Gadgetbridge běží</string>
     <string name="pref_title_expose_hr">Přístup cizích aplikací k čidlu tepu</string>
     <string name="pref_title_use_custom_font">Využít vlastní font</string>
     <string name="pref_summary_use_custom_font">Vaše zařízení má vlastní font s podporou emoji</string>
@@ -816,7 +816,7 @@
     <string name="prefs_button_triple_press_action_selection_title">Akce události 3</string>
     <string name="prefs_button_variable_actions">Detailní nastavení stisku tlačítka</string>
     <string name="prefs_button_long_press_action_selection_title">Akce pro dlouhý stisk</string>
-    <string name="alarm_snooze">Později...</string>
+    <string name="alarm_snooze">Odložit</string>
     <string name="error_no_location_access">Přístup k poloze musí být díky systému Android přístupů povolen a zapnut, aby bylo možno správně naskenovat zařízení</string>
     <string name="devicetype_itag">iTag</string>
     <string name="pref_title_allow_high_mtu">Povolit vyšší MTU</string>
@@ -834,4 +834,86 @@
     <string name="find_lost_device_you_found_it">Nalezeno!</string>
     <string name="pref_title_force_white_color_scheme">Vynutit barevné schéma Černá na bílé</string>
     <string name="pref_summary_force_white_color_scheme">Užitečné, pokud máte hodinky s tmavými ručičkami</string>
+    <string name="find_my_phone_notification">Najít telefon</string>
+    <string name="notification_channel_high_priority_name">Gadgetbridge oznámení s vysokou prioritou</string>
+    <string name="pref_title_custom_deviceicon">Zobrazit v oznámení ikonu připojeného zařízení</string>
+    <string name="pref_summary_custom_deviceicon">Zobrazit ikonu konkrétního připojeného zařízení v oznámení Androidu namísto ikony Gadgetbridge</string>
+    <string name="hr_appname_wellness">Wellness</string>
+    <string name="hr_appname_workout">Cvičení</string>
+    <string name="hr_appname_stopwatch">Stopky</string>
+    <string name="hr_appname_commute">Dojíždění</string>
+    <string name="pref_title_upper_button_function">Horní Tlačítko</string>
+    <string name="pref_title_middle_button_function">Prostřední Tlačítko</string>
+    <string name="pref_title_lower_button_function">Dolní Tlačítko</string>
+    <string name="pref_title_vibration_strength">Síla vibrací</string>
+    <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
+    <string name="pref_title_relax_firmware_checks">Aktivujte tuto možnost, pokud chcete flashovat firmware, který není určen pro vaše zařízení (na vlastní nebezpečí)</string>
+    <string name="pref_summary_relax_firmware_checks">Uvolněte kontroly firmwaru</string>
+    <string name="pref_qhybrid_title_widget_draw_circles">Nakreslete kruhy widgetu</string>
+    <string name="pref_header_auto_fetch">Stahovat automaticky</string>
+    <string name="menuitem_pai">PAI</string>
+    <string name="pref_qhybrid_save_raw_activity_files">Uložit soubory nezpracovaných dat aktivit</string>
+    <string name="menuitem_workout">Cvičení</string>
+    <string name="menuitem_eventreminder">Připomenutí události</string>
+    <string name="menuitem_hr">Tepová frekvence</string>
+    <string name="devicetype_watchxplus">Watch X Plus</string>
+    <string name="devicetype_watchx">Watch X</string>
+    <string name="power_mode_watch">Pouze hodinky</string>
+    <string name="power_mode_saving">Úspora energie</string>
+    <string name="power_mode_normal">Normální</string>
+    <string name="power_mode_title">Režim napájení hodinek</string>
+    <string name="prefs_sensors_button_bp_calibration_sum">Stisknutím zde zahájíte kalibraci</string>
+    <string name="prefs_sensors_button_bp_calibration">Kalibrace</string>
+    <string name="pref_sensors_bp_calibration_high">Krevní tlak SYSTOLIC (vysoký)</string>
+    <string name="pref_sensors_bp_calibration_low">Krevní tlak DIASTOLIC (nízký)</string>
+    <string name="pref_sensors_bp_calibration">Kalibrace krevního tlaku</string>
+    <string name="pref_title_sensors_altitude">Kalibrace nadmořské výšky</string>
+    <string name="pref_header_sensors_calibration">Kalibrace senzoru</string>
+    <string name="pref_title_device_spec_settings_show_raw_graph">Zobrazit nezpracovaná data v grafu aktivity</string>
+    <string name="pref_summary_device_spec_settings_title_force_time">Vynutit automatickou synchronizaci času při opětovném připojení. Analogové ručičky mohou ukazovat nesprávný čas!</string>
+    <string name="pref_title_device_spec_settings_force_time">Vynutit synchronizaci času</string>
+    <string name="pref_header_device_spec_settings">Nastavení zařízení</string>
+    <string name="pref_summary_notifications_and_calls_title_shake_reject">Duplikuje akce tlačítka hodinek</string>
+    <string name="prefs_notifications_and_calls_shake_reject">Potřást zápěstí pro ignorování/odmítnutí hovoru</string>
+    <string name="pref_summary_notifications_and_calls_title_reject">Vypnuto - ignorovat, Zapnuto - odmítnout</string>
+    <string name="prefs_notifications_and_calls_reject">Tlačítko ignorovat / odmítnout hovor</string>
+    <string name="pref_header_notifications_and_calls_callhandling">Zpracování hovorů</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_misscall">Opakuje se po dobu X minut</string>
+    <string name="pref_summary_notifications_and_calls_enable_misscall">Opakuje se každou minutu</string>
+    <string name="pref_notifications_and_calls_enable_misscall">Upozornit na zmeškaný hovor</string>
+    <string name="prefs_notifications_and_calls_continious_ring">Oznámení během vyzvánění telefonu</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_call">Opakování oznámení o volání</string>
+    <string name="pref_header_notifications_and_calls">Oznámení a volání</string>
+    <string name="title_activity_LenovoWatch_calibration">Kalibrace Watch X Plus</string>
+    <string name="czesh">Česky</string>
+    <string name="swedish">Švédsky</string>
+    <string name="hebrew">Hebrejsky</string>
+    <string name="greek">Řecky</string>
+    <string name="hungarian">Maďarsky</string>
+    <string name="romanian">Rumunsky</string>
+    <string name="pref_theme_system">Systém</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Chystáte se nainstalovat firmvér %s na vašem Amazfit T-Rex. 
+\n 
+\nProsím nezapomeňte nainstalovat soubor .fw, potom soubor .res a nakonec soubor .gps. Vaše hodinky se po instalaci souboru .fw restartují. 
+\n 
+\nPoznámka: Nemusíte instalovat .res a .gps, pokud jsou tyto soubory přesně stejné jako ty, které byly nainstalovány dříve. 
+\n 
+\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="hr_widget_last_notification">Poslední oznámení</string>
+    <string name="menuitem_unknown">Neznámé</string>
+    <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
+    <string name="bip_prefs_shotcuts_summary">Vyberte odkazy na displeji</string>
+    <string name="bip_prefs_shortcuts">Zkratky</string>
+    <string name="controlcenter_set_alias">Nastavit Alias</string>
+    <string name="about_additional_contributions">Děkujeme všem nevypsaným přispěvatelům za kód, podporu, nápady, motivaci, hlášení o chybách, peníze… ✊</string>
+    <string name="about_additional_device_support">Podpora dalších zařízení</string>
+    <string name="about_contributors">Přispěvatelé</string>
+    <string name="about_core_team_title">Centrální tým (v pořadí příspěvku prvního kódu)</string>
+    <string name="about_description">Svobodná a lokální náhrada za uzavřenou aplikaci vašich hodinek/náramku.</string>
+    <string name="about_activity_title">O aplikaci Gadgetbridge</string>
+    <string name="about_title">O aplikaci</string>
+    <string name="menuitem_worldclock">Světový Čas</string>
+    <string name="pref_title_weather_summary">Použito s poskytovatelem počasí LineageOS. Ostatní verze Androidu vyžadují \"Weather Notification\" app. Více informací naleznete na Gadgetbridge wiki.</string>
+    <string name="error_version_check_extreme_caution">POZOR: Chyba při kontrole verze! Neměli byste pokračovat! Verze má název \"%s\"</string>
+    <string name="permission_granting_mandatory">Všechna tato oprávnění jsou vyžadována a může nastat nestabilita, pokud nebudou udělena</string>
 </resources>

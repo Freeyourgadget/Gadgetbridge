@@ -5,9 +5,9 @@ about: Create a report to help us improve
 ---
 
 #### Before reporting a bug, please confirm the following:
-- [ ] I have read the [wiki](https://github.com/Freeyourgadget/Gadgetbridge/wiki), and I didn't find a solution to my problem / an answer to my question.
-- [ ] I have searched the [issues](https://github.com/Freeyourgadget/Gadgetbridge/issues), and I didn't find a solution to my problem / an answer to my question.
-- [ ] If you upload an image or other content, please make sure you have read and understood the [github policies and terms of services](https://help.github.com/articles/github-terms-of-service/#1-responsibility-for-user-generated-content)
+- [ ] I have read the [wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki), and I didn't find a solution to my problem / an answer to my question.
+- [ ] I have searched the [issues](https://codeberg.org/Freeyourgadget/Gadgetbridge/issues), and I didn't find a solution to my problem / an answer to my question.
+- [ ] If you upload an image or other content, please make sure you have read and understood the [Codeberg Terms of Use](https://codeberg.org/codeberg/org/src/branch/master/TermsOfUse.md)
 
 ### I got Gadgetbridge from:
 * [ ] F-Droid
@@ -16,7 +16,7 @@ about: Create a report to help us improve
 If you got it from Google Play, please note [that version](https://github.com/TaaviE/Gadgetbridge) is unofficial and not supported here; it's also often quite outdated. Please switch to one of the above versions if you can.
 
 #### Your issue is:
-*If possible, please attach [logs](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Log-Files)! that might help identifying the problem.*
+*If possible, please attach [logs](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Log-Files)! that might help identifying the problem.*
 
 #### Your wearable device is:
 

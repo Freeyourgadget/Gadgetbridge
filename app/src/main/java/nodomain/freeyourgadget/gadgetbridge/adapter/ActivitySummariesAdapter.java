@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -36,10 +37,12 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySummary> {
     private final GBDevice device;
+    private int activityKindFilter;
 
-    public ActivitySummariesAdapter(Context context, GBDevice device) {
+    public ActivitySummariesAdapter(Context context, GBDevice device, int activityKindFilter) {
         super(context);
         this.device = device;
+        this.activityKindFilter = activityKindFilter;
         loadItems();
     }
 
@@ -50,7 +53,17 @@ public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySu
             Device dbDevice = DBHelper.findDevice(device, handler.getDaoSession());
 
             QueryBuilder<BaseActivitySummary> qb = summaryDao.queryBuilder();
-            qb.where(BaseActivitySummaryDao.Properties.DeviceId.eq(dbDevice.getId())).orderDesc(BaseActivitySummaryDao.Properties.StartTime);
+            if (activityKindFilter !=0){
+                qb.where(
+                        BaseActivitySummaryDao.Properties.DeviceId.eq(dbDevice.getId()),
+                        BaseActivitySummaryDao.Properties.ActivityKind.eq(activityKindFilter))
+                        .orderDesc(BaseActivitySummaryDao.Properties.StartTime);
+            }else{
+                qb.where(
+                        BaseActivitySummaryDao.Properties.DeviceId.eq(
+                                dbDevice.getId())).orderDesc(BaseActivitySummaryDao.Properties.StartTime);
+            }
+
             List<BaseActivitySummary> allSummaries = qb.build().list();
             setItems(allSummaries, true);
         } catch (Exception e) {
@@ -58,23 +71,41 @@ public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySu
         }
     }
 
+    public void setActivityKindFilter(int filter){
+        this.activityKindFilter=filter;
+    }
+
     @Override
     protected String getName(BaseActivitySummary item) {
+
+
+
+
         String name = item.getName();
         if (name != null && name.length() > 0) {
             return name;
         }
 
         Date startTime = item.getStartTime();
+        Long duration = (item.getEndTime().getTime() - item.getStartTime().getTime());
+
         if (startTime != null) {
-            return DateTimeUtils.formatDateTime(startTime);
+            return DateTimeUtils.formatDateTime(startTime) + " (" + DateTimeUtils.formatDurationHoursMinutes(duration, TimeUnit.MILLISECONDS) + ")";
         }
+
+
+
         return "Unknown activity";
     }
 
     @Override
     protected String getDetails(BaseActivitySummary item) {
-        return ActivityKind.asString(item.getActivityKind(), getContext());
+        String gpxTrack = item.getGpxTrack();
+        String hasGps = "";
+        if (gpxTrack != null) {
+            hasGps=" 🛰️";
+        }
+        return ActivityKind.asString(item.getActivityKind(), getContext())+ hasGps;
     }
 
     @Override

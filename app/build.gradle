@@ -16,17 +16,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.3'
 
     defaultConfig {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 29
 
         // Note: always bump BOTH versionCode and versionName!
-        versionName "0.43.0"
-        versionCode 169
+        versionName "0.46.0"
+        versionCode 178
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -68,7 +68,7 @@ dependencies {
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "androidx.appcompat:appcompat:1.1.0"
-    implementation "androidx.preference:preference:1.1.0"
+    implementation "androidx.preference:preference:1.1.1"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"

@@ -101,7 +101,7 @@ public class CalendarReceiver extends BroadcastReceiver {
             DaoSession session = dbHandler.getDaoSession();
             syncCalendar(eventList, session);
         } catch (Exception e1) {
-            GB.toast("Database Error while syncing Calendar", Toast.LENGTH_SHORT, GB.ERROR);
+            GB.toast("Database Error while syncing Calendar", Toast.LENGTH_SHORT, GB.ERROR, e1);
         }
     }
 

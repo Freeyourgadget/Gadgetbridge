@@ -87,11 +87,16 @@
             </PreferenceScreen>
         </PreferenceScreen>
 
-        <PreferenceScreen android:title="@string/pref_title_weather">
+        <PreferenceScreen
+            android:title="@string/pref_title_weather"
+            android:summary="@string/pref_title_weather_summary">
+
             <EditTextPreference
+                android:inputType="text"
                 android:key="weather_city"
                 android:title="@string/pref_title_weather_location" />
         </PreferenceScreen>
+
         <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
@@ -603,7 +608,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Auto fetch">
+        android:title="@string/pref_header_auto_fetch">
         <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
@@ -628,11 +633,29 @@
             android:key="log_to_file"
             android:title="@string/pref_write_logfiles" />
         <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="permission_pestering"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_check_permission_status_summary"
+            android:title="@string/pref_check_permission_status" />
+        <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
+            android:defaultValue="true"
+            android:key="ignore_bonded_devices"
+            android:summary="@string/ignore_bonded_devices_description"
+            android:title="@string/ignore_bonded_devices" />
+        <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
             android:key="disable_new_ble_scanning"
             android:summary="@string/pref_summary_disable_new_ble_scanning"
             android:title="@string/pref_disable_new_ble_scanning" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="enable_companiondevice_pairing"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/companiondevice_pairing_details"
+            android:title="@string/companiondevice_pairing" />
 
     </PreferenceCategory>
 </PreferenceScreen>

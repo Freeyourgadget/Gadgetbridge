@@ -10,19 +10,28 @@
     <string name="controlcenter_take_screenshot">Ambil gambar layar</string>
     <string name="controlcenter_change_led_color">Ubah warna LED</string>
     <string name="controlcenter_change_fm_frequency">Ubah frekuensi FM</string>
-    <string name="controlcenter_connect">Sambungkan</string>
+    <string name="controlcenter_connect">Sambungkan…</string>
     <string name="controlcenter_disconnect">Putuskan</string>
     <string name="controlcenter_delete_device">Hapus perangkat</string>
     <string name="controlcenter_delete_device_name">Hapus %1$s</string>
-    <string name="controlcenter_delete_device_dialogmessage">"Tindakan ini akan menghapus semua perangkat dan data "</string>
+    <string name="controlcenter_delete_device_dialogmessage">Tindakan ini akan menghapus semua perangkat dan data!</string>
     <string name="controlcenter_navigation_drawer_open">Buka laci navigasi</string>
     <string name="controlcenter_navigation_drawer_close">Tutup laci navigasi</string>
     <string name="controlcenter_snackbar_need_longpress">Tekan lama kartu untuk memutuskan</string>
     <string name="controlcenter_snackbar_disconnecting">Sedang memutuskan</string>
-    <string name="controlcenter_snackbar_connecting">Sedang menyambungkan</string>
+    <string name="controlcenter_snackbar_connecting">Menyambungkan…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Sedang mengambil gambar layar</string>
     <string name="controlcenter_calibrate_device">Kalibrasi perangkat</string>
     <string name="title_activity_debug">Perbaikan</string>
     <string name="debugactivity_really_factoryreset_title">Kembalikan ke pengaturan pabrik\?</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="appmananger_app_reinstall">Pasang ulang</string>
+    <string name="appmananger_app_delete_cache">Hapus dan singkirkan dari cache</string>
+    <string name="appmananger_app_delete">Hapus</string>
+    <string name="appmanager_installed_watchfaces">Watchfaces terpasang</string>
+    <string name="appmanager_installed_watchapps">Aplikasi terpasang</string>
+    <string name="appmanager_cached_watchapps_watchfaces">Aplikasi dalam cache</string>
+    <string name="title_activity_appmanager">Manajer App</string>
+    <string name="debugactivity_really_factoryreset">Melakukan factory reset akan menghapus seluruh data dari perangkat terkoneksi (jika didukung). Perangkat Xiaomi/Huami juga mengganti MAC address Bluetooth, sehingga akan muncul sebagai aplikasi baru di GadgetBridge.</string>
+    <string name="action_debug">Debug</string>
 </resources>

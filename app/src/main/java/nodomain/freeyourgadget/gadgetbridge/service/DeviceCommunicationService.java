@@ -63,6 +63,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.PebbleReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PhoneCallReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.SMSReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.TinyWeatherForecastGermanyReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -197,6 +198,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private CalendarReceiver mCalendarReceiver = null;
     private CMWeatherReceiver mCMWeatherReceiver = null;
     private LineageOsWeatherReceiver mLineageOsWeatherReceiver = null;
+    private TinyWeatherForecastGermanyReceiver mTinyWeatherForecastGermanyReceiver = null;
     private OmniJawsObserver mOmniJawsObserver = null;
 
     private final String[] mMusicActions = {
@@ -735,25 +737,35 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 filter.addAction(AlarmClockReceiver.GOOGLE_CLOCK_ALARM_DONE_ACTION);
                 registerReceiver(mAlarmClockReceiver, filter);
             }
-            if (mCMWeatherReceiver == null && coordinator != null && coordinator.supportsWeather()) {
-                mCMWeatherReceiver = new CMWeatherReceiver();
-                registerReceiver(mCMWeatherReceiver, new IntentFilter("GB_UPDATE_WEATHER"));
-            }
-            if (GBApplication.isRunningOreoOrLater()) {
-                if (mLineageOsWeatherReceiver == null && coordinator != null && coordinator.supportsWeather()) {
 
-                    mLineageOsWeatherReceiver = new LineageOsWeatherReceiver();
-                    registerReceiver(mLineageOsWeatherReceiver, new IntentFilter("GB_UPDATE_WEATHER"));
+            // Weather receivers
+            if ( coordinator != null && coordinator.supportsWeather()) {
+                if (GBApplication.isRunningOreoOrLater()) {
+                    if (mLineageOsWeatherReceiver == null) {
+                        mLineageOsWeatherReceiver = new LineageOsWeatherReceiver();
+                        registerReceiver(mLineageOsWeatherReceiver, new IntentFilter("GB_UPDATE_WEATHER"));
+                    }
+                }
+                else {
+                    if (mCMWeatherReceiver == null) {
+                        mCMWeatherReceiver = new CMWeatherReceiver();
+                        registerReceiver(mCMWeatherReceiver, new IntentFilter("GB_UPDATE_WEATHER"));
+                    }
+                }
+                if (mTinyWeatherForecastGermanyReceiver == null) {
+                    mTinyWeatherForecastGermanyReceiver = new TinyWeatherForecastGermanyReceiver();
+                    registerReceiver(mTinyWeatherForecastGermanyReceiver, new IntentFilter("de.kaffeemitkoffein.broadcast.WEATHERDATA"));
+                }
+                if (mOmniJawsObserver == null) {
+                    try {
+                        mOmniJawsObserver = new OmniJawsObserver(new Handler());
+                        getContentResolver().registerContentObserver(OmniJawsObserver.WEATHER_URI, true, mOmniJawsObserver);
+                    } catch (PackageManager.NameNotFoundException e) {
+                        //Nothing wrong, it just means we're not running on omnirom.
+                    }
                 }
             }
-            if (mOmniJawsObserver == null && coordinator != null && coordinator.supportsWeather()) {
-                try {
-                    mOmniJawsObserver = new OmniJawsObserver(new Handler());
-                    getContentResolver().registerContentObserver(OmniJawsObserver.WEATHER_URI, true, mOmniJawsObserver);
-                } catch (PackageManager.NameNotFoundException e) {
-                    //Nothing wrong, it just means we're not running on omnirom.
-                }
-            }
+
             if (GBApplication.getPrefs().getBoolean("auto_fetch_enabled", false) &&
                     coordinator != null && coordinator.supportsActivityDataFetching() && mGBAutoFetchReceiver == null) {
                 mGBAutoFetchReceiver = new GBAutoFetchReceiver();
@@ -807,6 +819,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             }
             if (mOmniJawsObserver != null) {
                 getContentResolver().unregisterContentObserver(mOmniJawsObserver);
+                mOmniJawsObserver = null;
+            }
+            if (mTinyWeatherForecastGermanyReceiver != null) {
+                unregisterReceiver(mTinyWeatherForecastGermanyReceiver);
+                mTinyWeatherForecastGermanyReceiver = null;
             }
             if (mGBAutoFetchReceiver != null) {
                 unregisterReceiver(mGBAutoFetchReceiver);

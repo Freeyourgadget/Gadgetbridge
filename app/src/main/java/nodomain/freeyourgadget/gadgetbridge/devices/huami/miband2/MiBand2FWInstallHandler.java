@@ -67,8 +67,19 @@ public class MiBand2FWInstallHandler extends AbstractMiBandFWInstallHandler {
             Version v53 = MiBandConst.MI2_FW_VERSION_INTERMEDIATE_UPGRADE_53;
             if (deviceVersion.compareTo(v53) < 0) {
                 String vInstall = getHelper().format(getHelper().getFirmwareVersion());
-                if (vInstall == null || new Version(vInstall).compareTo(v53) > 0) {
-                    String newInfoText = getContext().getString(R.string.mi2_fw_installhandler_fw53_hint, v53.get()) + "\n\n" + installActivity.getInfoText();
+                try {
+                    if (vInstall == null || new Version(vInstall).compareTo(v53) > 0) {
+                        String newInfoText = getContext().getString(R.string.mi2_fw_installhandler_fw53_hint, v53.get()) +
+                                "\n\n" +
+                                installActivity.getInfoText();
+                        installActivity.setInfoText(newInfoText);
+                    }
+                } catch (IllegalArgumentException e) {
+                    String newInfoText = getContext().getString(R.string.mi2_fw_installhandler_fw53_hint, v53.get()) +
+                            "\n\n" +
+                            installActivity.getInfoText() +
+                            "\n\n" +
+                            getContext().getString(R.string.error_version_check_extreme_caution, vInstall);
                     installActivity.setInfoText(newInfoText);
                 }
             }

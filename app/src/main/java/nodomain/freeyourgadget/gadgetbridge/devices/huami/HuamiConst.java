@@ -49,6 +49,7 @@ public class HuamiConst {
     public static final String MI_BAND3_NAME = "Mi Band 3";
     public static final String MI_BAND3_NAME_2 = "Xiaomi Band 3";
     public static final String MI_BAND4_NAME = "Mi Smart Band 4";
+    public static final String MI_BAND5_NAME = "Mi Smart Band 5";
 
     public static final String PREF_ACTIVATE_DISPLAY_ON_LIFT = "activate_display_on_lift_wrist";
     public static final String PREF_DISPLAY_ON_LIFT_START = "display_on_lift_start";
@@ -59,7 +60,7 @@ public class HuamiConst {
     public static final String PREF_DISCONNECT_NOTIFICATION_END = "disconnect_notification_end";
 
     public static final String PREF_DISPLAY_ITEMS = "display_items";
-    public static final String PREF_LANGUAGE = "language";
+    public static final String PREF_SHORTCUTS = "shortcuts";
     public static final String PREF_EXPOSE_HR_THIRDPARTY = "expose_hr_thirdparty";
     public static final String PREF_USE_CUSTOM_FONT = "use_custom_font";
 
@@ -69,6 +70,16 @@ public class HuamiConst {
     public static final String PREF_BUTTON_ACTION_PRESS_MAX_INTERVAL = "button_action_press_max_interval";
     public static final String PREF_BUTTON_ACTION_BROADCAST_DELAY = "button_action_broadcast_delay";
     public static final String PREF_BUTTON_ACTION_BROADCAST = "button_action_broadcast";
+
+    public static final String PREF_DEVICE_ACTION_SELECTION_OFF = "UNKNOWN";
+    public static final String PREF_DEVICE_ACTION_SELECTION_BROADCAST = "BROADCAST";
+    public static final String PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION = "events_forwarding_fellsleep_action_selection";
+    public static final String PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST = "prefs_events_forwarding_fellsleep_broadcast";
+    public static final String PREF_DEVICE_ACTION_WOKE_UP_SELECTION = "events_forwarding_wokeup_action_selection";
+    public static final String PREF_DEVICE_ACTION_WOKE_UP_BROADCAST = "prefs_events_forwarding_wokeup_broadcast";
+    public static final String PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION = "events_forwarding_startnonwear_action_selection";
+    public static final String PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST = "prefs_events_forwarding_startnonwear_broadcast";
+
 
     public static int toActivityKind(int rawType) {
         switch (rawType) {

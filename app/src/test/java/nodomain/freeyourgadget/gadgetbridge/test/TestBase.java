@@ -85,7 +85,7 @@ public abstract class TestBase {
     }
 
     protected GBDevice createDummyGDevice(String macAddress) {
-        GBDevice dummyGBDevice = new GBDevice(macAddress, "Testie", DeviceType.TEST);
+        GBDevice dummyGBDevice = new GBDevice(macAddress, "Testie", "Tesie Alias", DeviceType.TEST);
         dummyGBDevice.setFirmwareVersion("1.2.3");
         dummyGBDevice.setModel("4.0");
         return dummyGBDevice;

@@ -1,5 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.46.0" versioncode="178">
+        <change>Initial support for Mi Band 5</change>
+        <change>Initial support for TLW64</change>
+        <change>Amazfit GTR/GTS: Fix broken activity data on newer firmwares</change>
+        <change>Big refactoring of the device discovery activity (See PR #1927 description for details)</change>
+        <change>Add about screen</change>
+        <change>New icon for Amazfit Bip</change>
+        <change>Avoid duplicated entries in preferred media player selection</change>
+        <change>Avoid a lot of crashes and improve error handling in various places</change>
+    </release>
+    <release version="0.45.1" versioncode="177">
+        <change>Amazfit GTR/GTS: Fix connection issue with latest firmwares (probably other Huami devices also affected)</change>
+        <change>Add experimental support for TinyWeatherForecastGermany</change>
+    </release>
+    <release version="0.45.0" versioncode="176">
+        <change>Initial support for Amazfit T-Rex</change>
+        <change>Amazfit Bip S: Support installation of latest .res</change>
+        <change>Amazfit Bip S: Support longer notification messages</change>
+        <change>Huami: Limit weather forecast to 7 days to fix problems with weather notificaon 0.3.11</change>
+        <change>Huami: Improve music playback information</change>
+        <change>Huami: Ensure cutting strings on UTF-8 border</change>
+        <change>Stop incoming call notification when VoIP calls are missed</change>
+        <change>Fix a crash when with Farsi translation</change>
+    </release>
+    <release version="0.44.2" versioncode="175">
+        <change>Huami: Support flashing newer GPS firmware and GPS ALM</change>
+        <change>Amazfit Bip S: Support music control</change>
+        <change>Amazfit Bip S: Support flashing firmware, res, gps firmware, watchfaces, fonts and GPS CEP</change>
+        <change>Amazfit Bip S: Allow setting high MTU (much faster firmware installation, default off since it does not work for some)</change>
+        <change>Amazfit Bip S: remove disconnect notification and button action settings (they do not work)</change>
+        <change>Mi Band 4 (possibly others): Fix detected RES version being always 69 for non-whitelisted res files</change>
+        <change>Fossil Hybrid HR: Add last notification widget</change>
+        <change>Try to fix vanishing incoming call information when VoIP call support is enabled</change>
+        <change>Allow setting device aliases (useful if you manage multiple ones of the same type)</change>
+    </release>
+    <release version="0.44.1" versioncode="174">
+        <change>Amazfit Bip S: Support setting shortcuts</change>
+        <change>Amazfit Bip S: Fix setting display items</change>
+        <change>Amazfit Bip S: Fix incoming call notification</change>
+        <change>Huami: Fix menu items vanishing from the device when they were never configured through Gadgetbridge</change>
+        <change>Lenovo Watch9: Fix launch of wrong calibration activity</change>
+        <change>Reduce calls to onSetMusicInfo/onSetMusicState when playing music</change>
+    </release>
+    <release version="0.44.0" versioncode="173">
+        <change>Initial support for WatchX(Plus)</change>
+        <change>Add support for Amazfit GTR Lite (untested and incomplete)</change>
+        <change>Fossil Hybrid HR: Fix some issues with custom widgets</change>
+        <change>Fossil Hybrid HR: Allow setting alarm titles and descriptions</change>
+        <change>Fossil Hybrid HR: Fix step data parsing</change>
+        <change>Amazfit GTS: Fix setting menu items with low MTU</change>
+        <change>Amazfit GTR: Allow setting menu item like GTS</change>
+        <change>ZeTime: Support setting the watch language</change>
+        <change>ZeTime: Support rejecting calls</change>
+        <change>ZeTime: Try to fix weather conditions on newer firmware</change>
+        <change>ZeTime: Fix could not synchronize calendar on connect</change>
+        <change>ZeTime: Fix calendar event time and date</change>
+        <change>ZeTime: Send up to 16 upcoming calendar events on connect if option is enabled</change>
+        <change>Allow set light/dark theme according to system settings (new default)</change>
+    </release>
+    <release version="0.43.3" versioncode="172">
+        <change>Fossil Hybrid HR: Initial support for activity tracking (no sleep yet)</change>
+        <change>Fossil Hybrid HR: Support setting alarms on newer firmware</change>
+        <change>Amazfit GTR/GTS: Fix flashing watchfaces and maybe firmware/res update (still untested)</change>
+        <change>Amazfit GTS: Support enabling/disabling menu items on the watch</change>
+        <change>Implement transliteration for Korean</change>
+    </release>
+    <release version="0.43.2" versioncode="171">
+        <change>Fossil Hybrid HR: Allow choosing and cropping image to be set as watch background</change>
+        <change>Fossil Hybrid HR: Option to draw circles around widgets</change>
+        <change>Fossil Hybrid HR: Experimenal firmware update support</change>
+        <change>Fossil Hybrid HR: Fix vibration strength setting</change>
+        <change>Huami: Do not display firmware information and whitelist information when flashing watchfaces</change>
+        <change>Huami: Disable air quality indicator on Huami devices instead of showing 0</change>
+        <change>Bangle.js: Change encoded char set to match Espruino's 8 bit fonts</change>
+        <change>Steps/Sleep averages: Skip days with zero data</change>
+    </release>
+    <release version="0.43.1" versioncode="170">
+        <change>Initial support for Amazfit Bip S (incomplete, needs the official app once to obtain the pairing key)</change>
+        <change>Amazift Bip Lite: Allow relaxing firmware checks to allow flashing of the regular Bip firmware (for the brave)</change>
+        <change>Fossil Hybrid HR: Fix notification history on newer firmwares</change>
+        <change>Fossil Hybrid HR: Add option to disable widget circle</change>
+        <change>Bangle.js: Don't set time if the option is turned off in settings</change>
+        <change>Bangle.js: DST and time zone fixes</change>
+        <change>Add Arabic-style Eastern Arabic numerals to transliteration</change>
+    </release>
     <release version="0.43.0" versioncode="169">
         <change>Initial support for Fossil Hybrid HR (needs complicated key extraction, read wiki)</change>
         <change>Fossil: Allow switching off the Q Icon and use the default Gadgetbridge icon</change>

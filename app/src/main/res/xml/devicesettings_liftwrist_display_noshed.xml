@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:icon="@drawable/ic_arrow_upward"
+        android:defaultValue="false"
+        android:key="activate_display_on_lift_wrist_noshed"
+        android:title="@string/mi2_prefs_activate_display_on_lift" />
+</androidx.preference.PreferenceScreen>

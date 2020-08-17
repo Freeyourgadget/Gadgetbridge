@@ -2,6 +2,7 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceScreen
         android:key="screen_button_actions"
+        android:icon="@drawable/ic_smart_button"
         android:persistent="false"
         android:summary="@string/mi2_prefs_button_actions_summary"
         android:title="@string/mi2_prefs_button_actions">

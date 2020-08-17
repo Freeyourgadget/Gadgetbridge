@@ -51,7 +51,7 @@ public class DeviceCommunicationServiceTestCase extends TestBase {
         super.setUp();
         mockSupport = null;
         realSupport = new TestDeviceSupport();
-        realSupport.setContext(new GBDevice(TEST_DEVICE_ADDRESS, "Test Device", DeviceType.TEST), null, getContext());
+        realSupport.setContext(new GBDevice(TEST_DEVICE_ADDRESS, "Test Device", "Test Device Alias", DeviceType.TEST), null, getContext());
         mockSupport = Mockito.spy(realSupport);
         DeviceCommunicationService.setDeviceSupportFactory(new TestDeviceSupportFactory(getContext()));
 

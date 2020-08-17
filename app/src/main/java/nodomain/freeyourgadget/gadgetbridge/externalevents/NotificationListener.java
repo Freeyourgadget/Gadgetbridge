@@ -33,6 +33,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaMetadata;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.service.notification.NotificationListenerService;
@@ -117,6 +118,10 @@ public class NotificationListener extends NotificationListenerService {
 
     private long activeCallPostTime;
     private int mLastCallCommand = CallSpec.CALL_UNDEFINED;
+
+    private Handler mHandler = new Handler();
+    private Runnable mSetMusicInfoRunnable = null;
+    private Runnable mSetMusicStateRunnable = null;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
@@ -276,15 +281,18 @@ public class NotificationListener extends NotificationListenerService {
         Prefs prefs = GBApplication.getPrefs();
         if (GBApplication.isRunningLollipopOrLater()) {
             if (NotificationCompat.CATEGORY_CALL.equals(sbn.getNotification().category)
-                    && prefs.getBoolean("notification_support_voip_calls", false)) {
+                    && prefs.getBoolean("notification_support_voip_calls", false)
+                    && sbn.isOngoing()) {
                 handleCallNotification(sbn);
                 return;
             }
         }
 
         if (shouldIgnoreNotification(sbn)) {
-            LOG.info("Ignoring notification");
-            return;
+            if (!"com.sec.android.app.clockpackage".equals(sbn.getPackageName())) {     // workaround to allow phone alarm notification
+                LOG.info("Ignore notification: " + sbn.getPackageName());               // need to fix
+                return;
+            }
         }
 
         String source = sbn.getPackageName().toLowerCase();
@@ -460,7 +468,7 @@ public class NotificationListener extends NotificationListenerService {
     private void handleCallNotification(StatusBarNotification sbn) {
         String app = sbn.getPackageName();
         LOG.debug("got call from: " + app);
-        if(app.equals("com.android.dialer")) {
+        if (app.equals("com.android.dialer") || app.equals("com.android.incallui")) {
             LOG.debug("Ignoring non-voip call");
             return;
         }
@@ -616,8 +624,8 @@ public class NotificationListener extends NotificationListenerService {
      * @return true if notification was handled, false otherwise
      */
     public boolean handleMediaSessionNotification(MediaSessionCompat.Token mediaSession) {
-        MusicSpec musicSpec = new MusicSpec();
-        MusicStateSpec stateSpec = new MusicStateSpec();
+        final MusicSpec musicSpec = new MusicSpec();
+        final MusicStateSpec stateSpec = new MusicStateSpec();
 
         MediaControllerCompat c;
         try {
@@ -660,8 +668,27 @@ public class NotificationListener extends NotificationListenerService {
                 musicSpec.trackNr = (int) d.getLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER);
 
             // finally, tell the device about it
-            GBApplication.deviceService().onSetMusicInfo(musicSpec);
-            GBApplication.deviceService().onSetMusicState(stateSpec);
+            if (mSetMusicInfoRunnable != null) {
+                mHandler.removeCallbacks(mSetMusicInfoRunnable);
+            }
+            mSetMusicInfoRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    GBApplication.deviceService().onSetMusicInfo(musicSpec);
+                }
+            };
+            mHandler.postDelayed(mSetMusicInfoRunnable, 100);
+
+            if (mSetMusicStateRunnable != null) {
+                mHandler.removeCallbacks(mSetMusicStateRunnable);
+            }
+            mSetMusicStateRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    GBApplication.deviceService().onSetMusicState(stateSpec);
+                }
+            };
+            mHandler.postDelayed(mSetMusicStateRunnable, 100);
 
             return true;
         } catch (NullPointerException | RemoteException e) {
@@ -794,7 +821,7 @@ public class NotificationListener extends NotificationListenerService {
         if (!prefs.getBoolean("notifications_generic_whenscreenon", false)) {
             PowerManager powermanager = (PowerManager) getSystemService(POWER_SERVICE);
             if (powermanager != null && powermanager.isScreenOn()) {
-//                LOG.info("Not forwarding notification, screen seems to be on and settings do not allow this");
+                LOG.info("Not forwarding notification, screen seems to be on and settings do not allow this");
                 return true;
             }
         }

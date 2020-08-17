@@ -204,7 +204,7 @@
     <string name="vibration_profile_medium">Médio</string>
     <string name="vibration_profile_long">Longo</string>
     <string name="vibration_profile_waterdrop">Pingo d\'água</string>
-    <string name="vibration_profile_ring">Anel</string>
+    <string name="vibration_profile_ring">Toque</string>
     <string name="vibration_profile_alarm_clock">Alarme</string>
     <string name="miband_prefs_vibration">Vibração</string>
     <string name="vibration_try">Experimente</string>
@@ -268,7 +268,7 @@
     <string name="liveactivity_live_activity">Atividade ao vivo</string>
     <string name="weeksteps_today_steps_description">Passos hoje, meta: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Não reconhecer transferência de dados da atividade</string>
-    <string name="pref_summary_dont_ack_transfers">Se os dados da atividade não forem reconhecidos para a pulseira, eles não serão apagados. Útil se GB for usado em conjunto com outros aplicativos.</string>
+    <string name="pref_summary_dont_ack_transfers">Se não reconhecido para a pulseira, dados de atividade não serão apagados. Útil se GB for usado em conjunto com outros aplicativos.</string>
     <string name="pref_summary_keep_data_on_device">Vai manter os dados de atividade no Mi Band mesmo após a sincronização. Útil se GB for usado em conjunto com outros aplicativos.</string>
     <string name="pref_title_low_latency_fw_update">Usar o modo de baixa latência para instalação de firmware</string>
     <string name="pref_summary_low_latency_fw_update">Isso pode ajudar em dispositivos no caso de eventual falha na instalação de firmware.</string>
@@ -385,7 +385,7 @@
     <string name="pref_call_privacy_mode_number">Ocultar número, mas exibir nome</string>
     <string name="pref_blacklist_calendars">Calendários na lista negra</string>
     <string name="pref_title_weather">Clima</string>
-    <string name="pref_title_weather_location">Localização climática (CM/LOS)</string>
+    <string name="pref_title_weather_location">Localização climática (para provedor de clina do LineageOS)</string>
     <string name="pref_title_enable_calendar_sync">Sincronizar calendário</string>
     <string name="pref_title_pebble_enable_bgjs">Habilitar JS em segundo plano</string>
     <string name="pref_summary_pebble_enable_bgjs">Quando habilitado, permite que os watchfaces mostrem o clima, informações da bateria, etc.</string>
@@ -427,12 +427,12 @@
     <string name="controlcenter_calibrate_device">Calibrar Dispositivo</string>
     <string name="blacklist_all_for_notifications">Bloquear todas as notificações</string>
     <string name="whitelist_all_for_notifications">Desbloquear todas as notificações</string>
-    <string name="fw_upgrade_notice_miband3">Você está prestes a instalar o firmware %s na sua Mi Band 3.
-\n
-\nCertifique-se de instalar o arquivo .fw, e depois o arquivo .res. Sua pulseira será reiniciada após instalar o arquivo .fw.
-\n
-\nNota:Vvocê não precisa instalar .res se esse arquivo é exatamente o mesmo instalado anteriormente.
-\n
+    <string name="fw_upgrade_notice_miband3">Você está prestes a instalar o firmware %s na sua Mi Band 3. 
+\n 
+\nCertifique-se de instalar o arquivo .fw, e depois o arquivo .res. Sua pulseira será reiniciada após instalar o arquivo .fw. 
+\n 
+\nNota: Você não precisa instalar .res se esse arquivo é exatamente o mesmo instalado anteriormente. 
+\n 
 \nPROSSIGA POR SUA CONTA E RISCO!</string>
     <string name="pref_title_notifications_timeout">Tempo mínimo entre notificações</string>
     <string name="pref_title_rtl">Direita para a esquerda</string>
@@ -524,7 +524,7 @@
     <string name="activity_type_walking">Caminhada</string>
     <string name="activity_type_swimming">Natação</string>
     <string name="activity_type_unknown">Atividade desconhecida</string>
-    <string name="activity_summaries">Atividades</string>
+    <string name="activity_summaries">Atividades de esporte</string>
     <string name="activity_type_biking">Ciclismo</string>
     <string name="activity_type_treadmill">Esteira</string>
     <string name="select_all">Selecionar todos</string>
@@ -859,4 +859,121 @@
     <string name="pref_title_upper_button_function">Botão superior</string>
     <string name="pref_title_middle_button_function">Botão do meio</string>
     <string name="pref_title_lower_button_function">Botão inferior</string>
+    <string name="pref_title_vibration_strength">Intensidade da vibração</string>
+    <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
+    <string name="pref_title_relax_firmware_checks">Habilite isso se você deseja instalar um firmware não destinado para seu dispositivo (a seu próprio risco)</string>
+    <string name="pref_summary_relax_firmware_checks">Verificações de firmware relaxadas</string>
+    <string name="pref_header_auto_fetch">Coletar automaticamente</string>
+    <string name="pref_qhybrid_title_widget_draw_circles">Desenhar círculos de widget</string>
+    <string name="pref_qhybrid_save_raw_activity_files">Salvar arquivos não tratados de atividade</string>
+    <string name="menuitem_workout">Treino</string>
+    <string name="menuitem_eventreminder">Lembrete de eventos</string>
+    <string name="menuitem_hr">Frequência cardíaca</string>
+    <string name="menuitem_pai">PAI</string>
+    <string name="devicetype_watchxplus">Watch X Plus</string>
+    <string name="power_mode_watch">Somente o relógio</string>
+    <string name="devicetype_watchx">Watch X</string>
+    <string name="power_mode_saving">Economia de energia</string>
+    <string name="power_mode_normal">Normal</string>
+    <string name="power_mode_title">Modo de energia do relógio</string>
+    <string name="prefs_sensors_button_bp_calibration_sum">Pressione aqui para iniciar a calibração</string>
+    <string name="prefs_sensors_button_bp_calibration">Calibração</string>
+    <string name="pref_sensors_bp_calibration_high">Pressão arterial SISTÓLICA (alta)</string>
+    <string name="pref_sensors_bp_calibration_low">Pressão arterial DIASTÓLICA (baixa)</string>
+    <string name="pref_sensors_bp_calibration">Calibração da pressão arterial</string>
+    <string name="pref_title_sensors_altitude">Calibração de altitude</string>
+    <string name="pref_header_sensors_calibration">Calibração do sensor</string>
+    <string name="pref_title_device_spec_settings_show_raw_graph">Mostrar dados RAW no gráfico de atividade</string>
+    <string name="pref_summary_device_spec_settings_title_force_time">Força a sincronização automática do tempo na reconexão. Os ponteiros analógicos podem mostrar tempo incorreto!</string>
+    <string name="pref_title_device_spec_settings_force_time">Forçar sincronizar o tempo</string>
+    <string name="pref_header_device_spec_settings">Configurações do dispositivo</string>
+    <string name="pref_summary_notifications_and_calls_title_shake_reject">Duplica a ação do botão do relógio</string>
+    <string name="prefs_notifications_and_calls_shake_reject">Sacudir pulso ignorar/rejeitar chamada</string>
+    <string name="pref_summary_notifications_and_calls_title_reject">Desligado - ignorar, Ligado - rejeitar</string>
+    <string name="prefs_notifications_and_calls_reject">Botão ignorar/rejeitar chamada</string>
+    <string name="pref_header_notifications_and_calls_callhandling">Tratamento de chamadas</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_misscall">Repetir por X minutos</string>
+    <string name="pref_summary_notifications_and_calls_enable_misscall">Repete a cada minuto</string>
+    <string name="pref_notifications_and_calls_enable_misscall">Notificar chamada perdida</string>
+    <string name="prefs_notifications_and_calls_continious_ring">Notificação durante o toque do telefone</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_call">Repetir notificação de chamadas</string>
+    <string name="pref_header_notifications_and_calls">Notificações e chamadas</string>
+    <string name="title_activity_LenovoWatch_calibration">Calibração de Watch X Plus</string>
+    <string name="hungarian">Húngaro</string>
+    <string name="romanian">Romeno</string>
+    <string name="pref_theme_system">Sistemas</string>
+    <string name="czesh">Tcheco</string>
+    <string name="swedish">Sueco</string>
+    <string name="hebrew">Hebreu</string>
+    <string name="greek">Grego</string>
+    <string name="menuitem_unknown">Desconhecido</string>
+    <string name="bip_prefs_shotcuts_summary">Escolha os atalhos na tela da pulseira</string>
+    <string name="bip_prefs_shortcuts">Atalhos</string>
+    <string name="hr_widget_last_notification">Última notificação</string>
+    <string name="controlcenter_set_alias">Definir alias</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Você está prestes a instalar o firmware %s no seu Amazit T-Rex. 
+\n 
+\nCertifique-se de instalar o arquivo .fw, depois o arquivo .res e finalmente o arquivo .gps. Seu relógio será reiniciado após a instalação do arquivo .fw. 
+\n 
+\nNota: você não precisa instalar .res e .gps se esse arquivo for exatamente o mesmo que os instalados anteriormente. 
+\n 
+\nPROSSIGA POR SUA CONTA E RISCO!</string>
+    <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
+    <string name="about_additional_contributions">Muito obrigado a todos os contribuidores não listados aqui por contribuição com código, suporte, ideias, motivação, relatórios de erros, dinheiro… ✊</string>
+    <string name="about_additional_device_support">Suporte a dispositivos adicionais</string>
+    <string name="about_contributors">Contribuidores</string>
+    <string name="about_core_team_title">Equipe Core (na ordem da primeira contribuição de código)</string>
+    <string name="about_description">Um substituto livre e sem nuvem para os aplicativos Android de código fechado dos seus fornecedores de gadgets.</string>
+    <string name="about_activity_title">Sobre o Gadgetbridge</string>
+    <string name="about_title">Sobre</string>
+    <string name="pref_title_weather_summary">Usado para o provedor do clima do LineageOS, outras versões do Android precisam usar um aplicativo como o \"Notificação de clima\". Encontrará mais informações no wiki do Gadgetbridge.</string>
+    <string name="menuitem_worldclock">Relógio mundial</string>
+    <string name="error_version_check_extreme_caution">CUIDADO: Erro ao verificar informação da versão! Você não deve continuar! Encontrei o nome de versão \"%s\"</string>
+    <string name="permission_granting_mandatory">Todas estas permissões são necessárias e instabilidade pode ocorrer se não concedidas</string>
+    <string name="error_background_service_reason_truncated">A inicialização do serviço de plano de fundo porque…</string>
+    <string name="fw_upgrade_notice_miband5">Você está prestes a instalar o firmware %s na sua Mi Band 5.
+\n
+\nCertifique-se de instalar o arquivo .fw e, após, o arquivo .res. Sua pulseira vai reiniciar após instalar o arquivo .fw.
+\n
+\nNota: Você não tem que instalar .res se ele for exatamente o mesmo arquivo que o instalado anteriormente.
+\n
+\nPROSSIGA POR SUA CONTA E RISCO!</string>
+    <string name="error_background_service_reason">A inicialização do serviço de plano de fundo falhou por causa de uma exceção. Erro:</string>
+    <string name="error_background_service">Falha ao iniciar o serviço de plano de fundo</string>
+    <string name="menuitem_stress">Estresse</string>
+    <string name="menuitem_cycles">Ciclos</string>
+    <string name="menuitem_breathing">Respiração</string>
+    <string name="devicetype_miband5">Mi Band 5</string>
+    <string name="devicetype_tlw64">TLW64</string>
+    <string name="error_location_enabled_mandatory">A localização deve ser ligada para procurar dispositivos</string>
+    <string name="ignore_bonded_devices_description">Habilitar esta opção ignorará dispositivos que já foram associados/emparelhados durante a varredura</string>
+    <string name="ignore_bonded_devices">Ignorar dispositivos associados</string>
+    <string name="error_retrieving_devices_database">Erro ao obter dispositivos do banco de dados</string>
+    <string name="error_setting_alias">Erro ao definir um alias:</string>
+    <string name="error_exporting_device_preferences">Erro ao exportar as preferências específicas do dispositivo</string>
+    <string name="pref_check_permission_status_summary">Verifique e peça permissões ausentes mesmo quando elas podem não ser necessárias no exato momento. Desabilite isso somente se seus dispositivos realmente não suportarem nenhum desses recursos. Não conceder uma permissão pode causar problemas!</string>
+    <string name="pref_check_permission_status">Verificar status de permissão</string>
+    <string name="device_requires_key">CHAVE NECESSÁRIA</string>
+    <string name="device_is_currently_bonded">JÁ ASSOCIADO</string>
+    <string name="companiondevice_pairing_details">Habilita o novo suporte à API CompanionDevice (tem efeito apenas em Android 8 ou mais novo) que vai aumentar a confiabilidade se o serviço precisar ser reiniciado em segundo plano, requer novo emparelhamento usando o Gadgetbridge para ter um efeito</string>
+    <string name="companiondevice_pairing">Pareamento de CompanionDevice</string>
+    <string name="require_location_provider">Localização deve estar habilitada</string>
+    <string name="devicetype_pinetime_jf">PineTime (JF Firmware)</string>
+    <string name="averageStrokeDistance"></string>
+    <string name="averageStride">Média da caminhada</string>
+    <string name="averageKMPaceSeconds">Ritmo</string>
+    <string name="averageHR">Frequência cardíaca</string>
+    <string name="totalStride">Total da caminhada</string>
+    <string name="maxPace">Ritmo mais rápido</string>
+    <string name="minPace">Ritmo mais lento</string>
+    <string name="maxSpeed">Máxima</string>
+    <string name="caloriesBurnt">Calorias</string>
+    <string name="activeSeconds">Ativos</string>
+    <string name="steps">Passos</string>
+    <string name="minAltitude">Mínima</string>
+    <string name="maxAltitude">Máxima</string>
+    <string name="descentMeters">Descida</string>
+    <string name="ascentMeters">Subida</string>
+    <string name="distanceMeters">Distância</string>
+    <string name="activity_summary_detail">Detalhes de atividade de esporte</string>
 </resources>

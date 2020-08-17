@@ -27,9 +27,18 @@
         android:key="force_white_color_scheme"
         android:summary="@string/pref_summary_force_white_color_scheme"
         android:title="@string/pref_title_force_white_color_scheme" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="widget_draw_circles"
+        android:title="@string/pref_qhybrid_title_widget_draw_circles" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="save_raw_activity_files"
+        android:title="@string/pref_qhybrid_save_raw_activity_files" />
+
     <SeekBarPreference
         android:defaultValue="2"
-        android:key="@string/pref_title_vibration_strength"
+        android:key="vibration_strength"
         android:max="3"
         android:title="@string/pref_title_vibration_strength"
         app:showSeekBarValue="true" />

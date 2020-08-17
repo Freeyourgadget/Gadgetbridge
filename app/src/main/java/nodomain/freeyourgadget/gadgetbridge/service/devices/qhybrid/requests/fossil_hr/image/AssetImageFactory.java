@@ -16,7 +16,13 @@ public class AssetImageFactory {
         return new AssetImage(fileData, angle, distance, indexZ);
     }
 
+    // method created for creating empty files, which turned out not to work anyway
+    private static AssetImage createAssetImage(byte[] fileData, String fileName, int angle, int distance, int indexZ){
+        return new AssetImage(fileData, fileName, angle, distance, indexZ);
+    }
+
     public static AssetImage createAssetImage(Bitmap fileData, boolean RLEencode, int angle, int distance, int indexZ) throws IOException {
+        if(RLEencode == (distance == 0)) throw new RuntimeException("when RLEencoding distance must be 0, image must be at center of screen");
         if(RLEencode){
             int height = fileData.getHeight();
             int width = fileData.getWidth();

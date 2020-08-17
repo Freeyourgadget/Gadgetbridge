@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -43,6 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeConstants;
@@ -54,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
@@ -62,23 +65,25 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-/**
- * Created by Kranz on 08.02.2018.
- */
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SYNC_CALENDAR;
+
 
 public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(ZeTimeDeviceSupport.class);
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final GBDeviceEventMusicControl musicCmd = new GBDeviceEventMusicControl();
+    private final GBDeviceEventCallControl callCmd = new GBDeviceEventCallControl();
     private final int eightHourOffset = 28800;
     private byte[] lastMsg;
     private byte msgPart;
@@ -93,13 +98,13 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     private String songtitle = null;
     private byte musicState = -1;
     public byte[] music = null;
-    public byte volume = 50;
-    public byte[][] remindersOnWatch = new byte[3][10];
+    private byte volume = 50;
+    private byte[][] remindersOnWatch = new byte[3][10];
 
-    public BluetoothGattCharacteristic notifyCharacteristic = null;
-    public BluetoothGattCharacteristic writeCharacteristic = null;
-    public BluetoothGattCharacteristic ackCharacteristic = null;
-    public BluetoothGattCharacteristic replyCharacteristic = null;
+    private BluetoothGattCharacteristic notifyCharacteristic = null;
+    private BluetoothGattCharacteristic writeCharacteristic = null;
+    private BluetoothGattCharacteristic ackCharacteristic = null;
+    private BluetoothGattCharacteristic replyCharacteristic = null;
 
     public ZeTimeDeviceSupport() {
         super(LOG);
@@ -138,9 +143,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         synchronizeTime(builder);
         initMusicVolume(builder);
         onReadReminders(builder);
-
-        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
-        LOG.info("Initialization Done");
+        sendUpcomingCalendarEvents(builder);
         return builder;
     }
 
@@ -151,6 +154,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             switch (config) {
                 case DeviceSettingsPreferenceConst.PREF_WEARLOCATION:
                     setWrist(builder);
+                    break;
+                case DeviceSettingsPreferenceConst.PREF_LANGUAGE:
+                    setLanguage(builder);
                     break;
                 case ZeTimeConstants.PREF_SCREENTIME:
                     setScreenTime(builder);
@@ -266,7 +272,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetHeartRateMeasurementInterval(int seconds) {
-        int heartRateMeasurementIntervall = 0; // 0 means off
+        int heartRateMeasurementIntervall; // 0 means off
         heartRateMeasurementIntervall = seconds / 60; // zetime accepts only minutes
 
         byte[] heartrate = {ZeTimeConstants.CMD_PREAMBLE,
@@ -394,7 +400,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         int subject_length = 0;
         int notification_length = 0;
         byte[] subject = null;
-        byte[] notification = null;
+        byte[] notification;
         Calendar time = GregorianCalendar.getInstance();
         // convert every single digit of the date to ascii characters
         // we do it like so: use the base chrachter of '0' and add the digit
@@ -460,14 +466,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 notification[notification_length - 1] = ZeTimeConstants.CMD_END;
                 callIncoming = false;
             }
-            if (notification != null) {
-                try {
-                    TransactionBuilder builder = performInitialized("setCallState");
-                    sendMsgToWatch(builder, notification);
-                    builder.queue(getQueue());
-                } catch (IOException e) {
-                    GB.toast(getContext(), "Error set call state: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-                }
+            try {
+                TransactionBuilder builder = performInitialized("setCallState");
+                sendMsgToWatch(builder, notification);
+                builder.queue(getQueue());
+            } catch (IOException e) {
+                GB.toast(getContext(), "Error set call state: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
             }
         }
 
@@ -548,32 +552,75 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-        Calendar time = GregorianCalendar.getInstance();
-        byte[] CalendarEvent = new byte[calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length + 16]; // 26 bytes for calendar and overhead
-        time.setTimeInMillis(calendarEventSpec.timestamp);
-        CalendarEvent[0] = ZeTimeConstants.CMD_PREAMBLE;
-        CalendarEvent[1] = ZeTimeConstants.CMD_PUSH_CALENDAR_DAY;
-        CalendarEvent[2] = ZeTimeConstants.CMD_SEND;
-        CalendarEvent[3] = (byte) ((calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length + 10) & 0xff);
-        CalendarEvent[4] = (byte) ((calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length + 10) >> 8);
-        CalendarEvent[5] = (byte) (calendarEventSpec.type + 0x1);
-        CalendarEvent[6] = (byte) (time.get(Calendar.YEAR) & 0xff);
-        CalendarEvent[7] = (byte) (time.get(Calendar.YEAR) >> 8);
-        CalendarEvent[8] = (byte) (time.get(Calendar.MONTH) + 1);
-        CalendarEvent[9] = (byte) time.get(Calendar.DAY_OF_MONTH);
-        CalendarEvent[10] = (byte) (time.get(Calendar.HOUR_OF_DAY) & 0xff);
-        CalendarEvent[11] = (byte) (time.get(Calendar.HOUR_OF_DAY) >> 8);
-        CalendarEvent[12] = (byte) (time.get(Calendar.MINUTE) & 0xff);
-        CalendarEvent[13] = (byte) (time.get(Calendar.MINUTE) >> 8);
-        CalendarEvent[14] = (byte) calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length;
-        System.arraycopy(calendarEventSpec.title.getBytes(StandardCharsets.UTF_8), 0, CalendarEvent, 15, calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length);
-        CalendarEvent[CalendarEvent.length - 1] = ZeTimeConstants.CMD_END;
+        // This is not used currently since we cannot add and remove calendar event one by one pebble style.
+        byte[] calendarEvent = encodeCalendarEvent(calendarEventSpec.title, calendarEventSpec.timestamp, (byte) (calendarEventSpec.type + 1)); // HACK)
         try {
-            TransactionBuilder builder = performInitialized("sendCalendarEvenr");
-            sendMsgToWatch(builder, CalendarEvent);
+            TransactionBuilder builder = performInitialized("sendCalendarEvent");
+            sendMsgToWatch(builder, calendarEvent);
             builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error sending calendar event: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
+    }
+
+    private byte[] encodeCalendarEvent(String title, int timestamp, byte opcode) {
+        Calendar time = GregorianCalendar.getInstance();
+        byte[] calendarEvent = new byte[title.getBytes(StandardCharsets.UTF_8).length + 16]; // 26 bytes for calendar and overhead
+        time.setTimeInMillis(timestamp * 1000L);
+        calendarEvent[0] = ZeTimeConstants.CMD_PREAMBLE;
+        calendarEvent[1] = ZeTimeConstants.CMD_PUSH_CALENDAR_DAY;
+        calendarEvent[2] = ZeTimeConstants.CMD_SEND;
+        calendarEvent[3] = (byte) ((title.getBytes(StandardCharsets.UTF_8).length + 10) & 0xff);
+        calendarEvent[4] = (byte) ((title.getBytes(StandardCharsets.UTF_8).length + 10) >> 8);
+        // 0 = delete all expect the new one?. 4 = delete all?, 2 = add event?, 1 = first?, 3=last?
+        calendarEvent[5] = opcode;
+        calendarEvent[6] = (byte) (time.get(Calendar.YEAR) & 0xff);
+        calendarEvent[7] = (byte) (time.get(Calendar.YEAR) >> 8);
+        calendarEvent[8] = (byte) (time.get(Calendar.MONTH) + 1);
+        calendarEvent[9] = (byte) time.get(Calendar.DAY_OF_MONTH);
+        calendarEvent[10] = (byte) (time.get(Calendar.HOUR_OF_DAY) & 0xff);
+        calendarEvent[11] = (byte) (time.get(Calendar.MINUTE) & 0xff);
+        calendarEvent[12] = 0; // ?
+        calendarEvent[13] = 0; // ?
+        calendarEvent[14] = (byte) title.getBytes(StandardCharsets.UTF_8).length;
+        System.arraycopy(title.getBytes(StandardCharsets.UTF_8), 0, calendarEvent, 15, title.getBytes(StandardCharsets.UTF_8).length);
+        calendarEvent[calendarEvent.length - 1] = ZeTimeConstants.CMD_END;
+
+        return calendarEvent;
+    }
+
+    private void sendUpcomingCalendarEvents(TransactionBuilder builder) {
+        boolean syncCalendar = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(PREF_SYNC_CALENDAR, false);
+        if (!syncCalendar) {
+            return;
+        }
+
+        CalendarEvents upcomingEvents = new CalendarEvents();
+        List<CalendarEvents.CalendarEvent> calendarEvents = upcomingEvents.getCalendarEventList(getContext());
+
+        int eventCount = 0;
+        for (CalendarEvents.CalendarEvent calendarEvent : calendarEvents) {
+            if (calendarEvent.isAllDay()) {
+                continue;
+            }
+            String body = calendarEvent.getTitle();
+            if (body == null) {
+                body = "";
+            }
+            String description = calendarEvent.getDescription();
+            if (description != null) {
+                body += " : " + description;
+            }
+            byte opcode = 2;
+            if (eventCount == 0) opcode = 1;
+
+            byte[] message = encodeCalendarEvent(body, calendarEvent.getBeginSeconds(), opcode);
+            sendMsgToWatch(builder, message);
+            builder.add(new WaitAction(300)); // Urgh, seems it is a general problem when sending data too fast
+
+            if (eventCount++ == 16) { // limit this to 16 for now
+                break;
+            }
         }
     }
 
@@ -615,6 +662,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
+        String release = versionCmd.fwVersion.substring(8, 12);
         String buildnumber = versionCmd.fwVersion.substring(versionCmd.fwVersion.length() - 4);
         byte[] weather = new byte[weatherSpec.location.getBytes(StandardCharsets.UTF_8).length + 26]; // 26 bytes for weatherdata and overhead
         weather[0] = ZeTimeConstants.CMD_PREAMBLE;
@@ -627,8 +675,8 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         weather[7] = (byte) (weatherSpec.todayMinTemp - 273);
         weather[8] = (byte) (weatherSpec.todayMaxTemp - 273);
 
-        if (buildnumber.compareTo("B4.1") >= 0) // if using firmware 1.7 Build 41 and above use newer icons
-        {
+        // if using firmware 1.7 Build 41 and above use newer icons
+        if (release.compareTo("R1.7") > 0 || (release.compareTo("R1.7") == 0 && buildnumber.compareTo("B4.1") >= 0)) {
             weather[9] = Weather.mapToZeTimeCondition(weatherSpec.currentConditionCode);
         } else {
             weather[9] = Weather.mapToZeTimeConditionOld(weatherSpec.currentConditionCode);
@@ -676,7 +724,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
         int notification_length = body_length;
         byte[] subject = null;
-        byte[] notification = null;
+        byte[] notification;
         Calendar time = GregorianCalendar.getInstance();
         // convert every single digit of the date to ascii characters
         // we do it like so: use the base chrachter of '0' and add the digit
@@ -895,6 +943,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     case ZeTimeConstants.CMD_MUSIC_CONTROL:
                         handleMusicControl(data);
                         break;
+                    case ZeTimeConstants.CMD_CALL_CONTROL:
+                        handleCallControl(data);
+                        break;
                 }
                 return true;
             }
@@ -1029,12 +1080,22 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             versionCmd.hwVersion = new String(string);
         }
         evaluateGBDeviceEvent(versionCmd);
+
+        TransactionBuilder builder = new TransactionBuilder("setDeviceInitialized");
+        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
+        try {
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+            LOG.error("could not set device to initzialized: ", e);
+        }
+
+        LOG.info("Initialization Done");
     }
 
     private void handleActivityFetching(byte[] msg) {
-        availableStepsData = (int) ((msg[5] & 0xff) | (msg[6] << 8) & 0xff00);
-        availableSleepData = (int) ((msg[7] & 0xff) | (msg[8] << 8) & 0xff00);
-        availableHeartRateData = (int) ((msg[9] & 0xff) | (msg[10] << 8) & 0xff00);
+        availableStepsData = (msg[5] & 0xff) | (msg[6] << 8) & 0xff00;
+        availableSleepData = (msg[7] & 0xff) | (msg[8] << 8) & 0xff00;
+        availableHeartRateData = (msg[9] & 0xff) | (msg[10] << 8) & 0xff00;
         if (availableStepsData > 0) {
             getStepData();
         } else if (availableHeartRateData > 0) {
@@ -1170,7 +1231,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
 
         progressSteps = (msg[5] & 0xff) | ((msg[6] << 8) & 0xff00);
-        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSteps * 100 / availableStepsData), getContext());
+        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, progressSteps * 100 / availableStepsData, getContext());
         if (progressSteps == availableStepsData) {
             Prefs prefs = GBApplication.getPrefs();
             progressSteps = 0;
@@ -1217,7 +1278,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
 
         progressSleep = (msg[5] & 0xff) | (msg[6] << 8) & 0xff00;
-        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressSleep * 100 / availableSleepData), getContext());
+        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, progressSleep * 100 / availableSleepData, getContext());
         if (progressSleep == availableSleepData) {
             Prefs prefs = GBApplication.getPrefs();
             progressSleep = 0;
@@ -1253,7 +1314,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
 
         progressHeartRate = (msg[5] & 0xff) | ((msg[6] << 8) & 0xff00);
-        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (progressHeartRate * 100 / availableHeartRateData), getContext());
+        GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, progressHeartRate * 100 / availableHeartRateData, getContext());
 
         if (((msg[4] << 8) & 0xff00 | (msg[3] & 0xff)) == 0xe) // if the message is longer than 0x7, than it has two measurements (payload = 0xe)
         {
@@ -1376,10 +1437,21 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    private void handleCallControl(byte[] callControlMsg) {
+        if (callControlMsg.length == 7
+                && callControlMsg[2] == ZeTimeConstants.CMD_SEND
+                && callControlMsg[3] == 0x01
+                && callControlMsg[4] == 0x00
+                && callControlMsg[5] == 0x01) {
+            callCmd.event = GBDeviceEventCallControl.Event.REJECT;
+            evaluateGBDeviceEvent(callCmd);
+        }
+    }
+
     private void replyMsgToWatch(TransactionBuilder builder, byte[] msg) {
         if (msg.length > maxMsgLength) {
             int msgpartlength = 0;
-            byte[] msgpart = null;
+            byte[] msgpart;
 
             do {
                 if ((msg.length - msgpartlength) < maxMsgLength) {
@@ -1958,7 +2030,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         };
         sendMsgToWatch(builder, reminders);
 
-        builder.queue(getQueue());
+        //builder.queue(getQueue());
 //        } catch (IOException e) {
 //            GB.toast(getContext(), "Error reading reminders: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
 //        }
@@ -2138,33 +2210,36 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void setLanguage(TransactionBuilder builder) {
-        Prefs prefs = GBApplication.getPrefs();
-        String language = prefs.getString("language", "default");
-        Locale locale;
+        String localeString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_LANGUAGE, "auto");
 
         byte[] languageMsg = {
                 ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_LANGUAGE_SETTINGS,
-                ZeTimeConstants.CMD_REQUEST,
+                ZeTimeConstants.CMD_SEND,
                 (byte) 0x1,
                 (byte) 0x0,
                 (byte) 0x0,
                 ZeTimeConstants.CMD_END
         };
 
-        if (language == null || language.equals("default")) {
-            locale = Locale.getDefault();
-            language = locale.getLanguage();
+        if (localeString == null || localeString.equals("auto")) {
+            String language = Locale.getDefault().getLanguage();
+            String country = Locale.getDefault().getCountry();
+
+            if (country == null) {
+                // sometimes country is null, no idea why, guess it.
+                country = language;
+            }
+            localeString = language + "_" + country.toUpperCase();
         }
 
-        switch (language) {
+        switch (localeString.substring(0, 2)) {
             case "zh":
-                languageMsg[5] = 1;
-                break;
-            case "tw":
-            case "hk":
-            case "mo":
-                languageMsg[5] = 2;
+                if (localeString.equals("zh_CN")) {
+                    languageMsg[5] = 1;
+                } else {
+                    languageMsg[5] = 2;
+                }
                 break;
             case "ko":
                 languageMsg[5] = 3;
@@ -2199,15 +2274,25 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             case "nl":
                 languageMsg[5] = 13;
                 break;
-            case "ro":
-                languageMsg[5] = 32;
+            case "ar":
+                languageMsg[5] = 14;
                 break;
-            case "hu":
-                languageMsg[5] = 33;
+            case "el":
+                languageMsg[5] = 15;
+                break;
+            case "he":
+                languageMsg[5] = 16;
+                break;
+            case "sv":
+                languageMsg[5] = 17;
+                break;
+            case "cs":
+                languageMsg[5] = 18;
                 break;
             case "en":
             default:
                 languageMsg[5] = 0;
         }
+        sendMsgToWatch(builder, languageMsg);
     }
 }

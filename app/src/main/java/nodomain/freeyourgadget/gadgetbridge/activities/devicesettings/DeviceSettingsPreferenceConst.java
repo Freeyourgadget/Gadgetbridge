@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.devicesettings;
 
 public class DeviceSettingsPreferenceConst {
+    public static final String PREF_LANGUAGE = "language";
     public static final String PREF_DATEFORMAT = "dateformat";
     public static final String PREF_TIMEFORMAT = "timeformat";
     public static final String PREF_WEARLOCATION = "wearlocation";
@@ -30,4 +31,18 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_BUTTON_3_FUNCTION = "button_3_function";
     public static final String PREF_VIBRATION_STRENGH_PERCENTAGE = "vibration_strength";
     public static final String PREF_RELAX_FIRMWARE_CHECKS = "relax_firmware_checks";
+
+    public static final String PREF_HYBRID_HR_FORCE_WHITE_COLOR = "force_white_color_scheme";
+    public static final String PREF_HYBRID_HR_DRAW_WIDGET_CIRCLES = "widget_draw_circles";
+    public static final String PREF_HYBRID_HR_SAVE_RAW_ACTIVITY_FILES = "save_raw_activity_files";
+
+    public static final String PREF_LIFTWRIST_NOSHED = "activate_display_on_lift_wrist_noshed";
+    public static final String PREF_DISCONNECTNOTIF_NOSHED = "disconnect_notification_noshed";
+    public static final String PREF_POWER_MODE = "power_mode";
+    public static final String PREF_BUTTON_BP_CALIBRATE = "prefs_sensors_button_bp_calibration";
+    public static final String PREF_ALTITUDE_CALIBRATE = "pref_sensors_altitude";
+    public static final String PREF_LONGSIT_PERIOD = "pref_longsit_period";
+    public static final String PREF_LONGSIT_SWITCH = "pref_longsit_switch";
+    public static final String PREF_LONGSIT_SWITCH_NOSHED = "screen_longsit_noshed";
+    public static final String PREF_DO_NOT_DISTURB_NOAUTO = "do_not_disturb_no_auto";
 }

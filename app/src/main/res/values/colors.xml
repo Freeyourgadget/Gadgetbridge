@@ -32,4 +32,7 @@
     <color name="chart_not_worn_light" type="color">#545254</color>
     <color name="chart_not_worn_dark" type="color">#d8d9d8</color>
 
+    <color name="alternate_row_background_light">#ffd0d0d0</color>
+    <color name="alternate_row_background_dark">#545254</color>
+
 </resources>

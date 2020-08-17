@@ -52,11 +52,13 @@ import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 public class FetchActivityOperation extends AbstractFetchOperation {
     private static final Logger LOG = LoggerFactory.getLogger(FetchActivityOperation.class);
 
-    private List<MiBandActivitySample> samples = new ArrayList<>(60*24); // 1day per default
+    private final int sampleSize;
+    private List<MiBandActivitySample> samples = new ArrayList<>(60 * 24); // 1day per default
 
     public FetchActivityOperation(HuamiSupport support) {
         super(support);
         setName("fetching activity data");
+        sampleSize = getSupport().getActivitySampleSize();
     }
 
     @Override
@@ -160,8 +162,8 @@ public class FetchActivityOperation extends AbstractFetchOperation {
             return;
         }
 
-        if ((value.length % 4) == 1) {
-            if ((byte) (lastPacketCounter + 1) == value[0] ) {
+        if ((value.length % sampleSize) == 1) {
+            if ((byte) (lastPacketCounter + 1) == value[0]) {
                 lastPacketCounter++;
                 bufferActivityData(value);
             } else {
@@ -182,11 +184,11 @@ public class FetchActivityOperation extends AbstractFetchOperation {
     protected void bufferActivityData(byte[] value) {
         int len = value.length;
 
-        if (len % 4 != 1) {
+        if (len % sampleSize != 1) {
             throw new AssertionError("Unexpected activity array size: " + len);
         }
 
-        for (int i = 1; i < len; i+=4) {
+        for (int i = 1; i < len; i += sampleSize) {
             MiBandActivitySample sample = createSample(value[i], value[i + 1], value[i + 2], value[i + 3]); // lgtm [java/index-out-of-bounds]
             samples.add(sample);
         }

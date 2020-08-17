@@ -21,15 +21,21 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
@@ -45,6 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSportsActivityType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
@@ -55,7 +62,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
     private static final Logger LOG = LoggerFactory.getLogger(FetchSportsSummaryOperation.class);
 
     private ByteArrayOutputStream buffer = new ByteArrayOutputStream(140);
-
+    private JSONObject summaryData = new JSONObject();
     public FetchSportsSummaryOperation(HuamiSupport support) {
         super(support);
         setName("fetching sport summaries");
@@ -91,6 +98,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
                 User user = DBHelper.getUser(session);
                 summary.setDevice(device);
                 summary.setUser(user);
+                summary.setRawSummaryData(buffer.toByteArray());
                 session.getBaseActivitySummaryDao().insertOrReplace(summary);
             } catch (Exception ex) {
                 GB.toast(getContext(), "Error saving activity summary", Toast.LENGTH_LONG, GB.ERROR, ex);
@@ -164,10 +172,24 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
 
     private BaseActivitySummary parseSummary(ByteArrayOutputStream stream) {
         BaseActivitySummary summary = new BaseActivitySummary();
+
+        boolean dumptofile = false;
+        if (dumptofile) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-hhmmss", Locale.US);
+            String filename = "rawsummary_" + dateFormat.format(new Date()) + ".bin";
+            try {
+                File dir = FileUtils.getExternalFilesDir();
+                File outputFile = new File(dir, filename);
+                FileUtils.copyStreamToFile(new ByteArrayInputStream(stream.toByteArray()), outputFile);
+            } catch (IOException e) {
+                LOG.warn("could not create file");
+            }
+        }
+
         ByteBuffer buffer = ByteBuffer.wrap(stream.toByteArray()).order(ByteOrder.LITTLE_ENDIAN);
-//        summary.setVersion(BLETypeConversions.toUnsigned(buffer.getShort()));
+
         short version = buffer.getShort(); // version
-        LOG.debug("Got sport summary version " + version + "total bytes=" + buffer.capacity());
+        LOG.debug("Got sport summary version " + version + " total bytes=" + buffer.capacity());
         int activityKind = ActivityKind.TYPE_UNKNOWN;
         try {
             int rawKind = BLETypeConversions.toUnsigned(buffer.getShort());
@@ -199,92 +221,130 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         summary.setBaseLatitude(baseLatitude);
         summary.setBaseAltitude(baseAltitude);
 
-        // unused data (for now)
-        float distanceMeters = buffer.getFloat();
-        float ascentMeters = buffer.getFloat();
-        float descentMeters = buffer.getFloat();
-        float maxAltitude = buffer.getFloat();
-        float minAltitude = buffer.getFloat();
-        int maxLatitude = buffer.getInt(); // format?
-        int minLatitude = buffer.getInt(); // format?
-        int maxLongitude = buffer.getInt(); // format?
-        int minLongitude = buffer.getInt(); // format?
-        int steps = buffer.getInt();
-        int activeSeconds = buffer.getInt();
-        float caloriesBurnt = buffer.getFloat();
-        float maxSpeed = buffer.getFloat();
-        float minPace = buffer.getFloat(); // format?
-        float maxPace = buffer.getFloat(); // format?
-        float totalStride = buffer.getFloat();
+        int steps;
+        int activeSeconds;
+        int maxLatitude;
+        int minLatitude;
+        int maxLongitude;
+        int minLongitude;
+        float caloriesBurnt;
+        float distanceMeters;
+        float ascentMeters = 0;
+        float descentMeters = 0;
+        float maxAltitude = 0;
+        float minAltitude = 0;
+        float maxSpeed = 0;
+        float minPace;
+        float maxPace;
+        float totalStride = 0;
+        float averageStride;
+        short averageHR;
+        short averageKMPaceSeconds;
+        int ascentSeconds = 0;
+        int descentSeconds = 0;
+        int flatSeconds = 0;
 
-        buffer.getInt(); // unknown
+        // Just assuming, Bip has 259 which seems like 256+x
+        // Bip S now has 518 so assuming 512+x, might be wrong
 
-        if (activityKind == ActivityKind.TYPE_SWIMMING) {
-            // 28 bytes
-            float averageStrokeDistance = buffer.getFloat();
-            float averageStrokesPerSecond = buffer.getFloat();
-            float averageLapPace = buffer.getFloat();
-            short strokes = buffer.getShort();
-            short swolfIndex = buffer.getShort();
-            byte swimStyle = buffer.get();
-            byte laps = buffer.get();
-            buffer.getInt(); // unknown
-            buffer.getInt(); // unknown
+        if (version >= 512) {
+            steps = buffer.getInt();
+            activeSeconds = buffer.getInt();
+            //unknown
+            buffer.getLong();
+            buffer.getLong();
+            caloriesBurnt = buffer.getFloat();
+            distanceMeters = buffer.getFloat();
+            //unknown
+            buffer.getLong();
+            buffer.getLong();
+            buffer.getLong();
+            buffer.getLong();
+            maxPace = buffer.getFloat();
+            minPace = buffer.getFloat();
+            //unknown
+            buffer.getLong();
+            buffer.getLong();
+            buffer.getLong();
+            buffer.getLong();
+            buffer.getInt();
+            averageHR = buffer.getShort();
+            averageKMPaceSeconds = buffer.getShort();
+            averageStride = buffer.getShort();
             buffer.getShort(); // unknown
 
-            LOG.debug("unused swim data:" +
-                    "\naverageStrokeDistance=" + averageStrokeDistance +
-                    "\naverageStrokesPerSecond=" + averageStrokesPerSecond +
-                    "\naverageLapPace" + averageLapPace +
-                    "\nstrokes=" + strokes +
-                    "\nswolfIndex=" + swolfIndex +
-                    "\nswimStyle=" + swimStyle + // 1 = breast, 2 = freestyle
-                    "\nlaps=" + laps +
-                    ""
-            );
+            if (activityKind == ActivityKind.TYPE_CYCLING || activityKind == ActivityKind.TYPE_RUNNING) {
+                // this had nonsense data with treadmill on bip s, need to test it with running
+                // for cycling it seems to work... hmm...
+                // 28 bytes
+                buffer.getInt(); // unknown
+                buffer.getInt(); // unknown
+                ascentSeconds = buffer.getInt() / 1000; //ms?
+                buffer.getInt(); // unknown;
+                descentSeconds = buffer.getInt() / 1000; //ms?
+                buffer.getInt(); // unknown;
+                flatSeconds = buffer.getInt() / 1000; // ms?
+            }
         } else {
-            // 28 bytes
+            distanceMeters = buffer.getFloat();
+            ascentMeters = buffer.getFloat();
+            descentMeters = buffer.getFloat();
+            minAltitude = buffer.getFloat();
+            maxAltitude = buffer.getFloat();
+            maxLatitude = buffer.getInt(); // format?
+            minLatitude = buffer.getInt(); // format?
+            maxLongitude = buffer.getInt(); // format?
+            minLongitude = buffer.getInt(); // format?
+            steps = buffer.getInt();
+            activeSeconds = buffer.getInt();
+            caloriesBurnt = buffer.getFloat();
+            maxSpeed = buffer.getFloat();
+            minPace = buffer.getFloat();
+            maxPace = buffer.getFloat();
+            totalStride = buffer.getFloat();
+
             buffer.getInt(); // unknown
-            buffer.getInt(); // unknown
-            int ascentSeconds = buffer.getInt() / 1000; //ms?
-            buffer.getInt(); // unknown;
-            int descentSeconds = buffer.getInt() / 1000; //ms?
-            buffer.getInt(); // unknown;
-            int flatSeconds = buffer.getInt() / 1000; // ms?
-            LOG.debug("unused non-swim data:" +
-                    "\nascentSeconds=" + ascentSeconds +
-                    "\ndescentSeconds=" + descentSeconds +
-                    "\nflatSeconds=" + flatSeconds +
-                    ""
-            );
+            if (activityKind == ActivityKind.TYPE_SWIMMING) {
+                // 28 bytes
+                float averageStrokeDistance = buffer.getFloat();
+                float averageStrokesPerSecond = buffer.getFloat();
+                float averageLapPace = buffer.getFloat();
+                short strokes = buffer.getShort();
+                short swolfIndex = buffer.getShort();
+                byte swimStyle = buffer.get();
+                byte laps = buffer.get();
+                buffer.getInt(); // unknown
+                buffer.getInt(); // unknown
+                buffer.getShort(); // unknown
+
+                addSummaryData("averageStrokeDistance", averageStrokeDistance, "meters");
+                addSummaryData("averageStrokesPerSecond", averageStrokesPerSecond, "strokes_second");
+                addSummaryData("averageLapPace", averageLapPace, "second");
+                addSummaryData("strokes", strokes, "strokes");
+                addSummaryData("swolfIndex", swolfIndex, "swolf_index");
+                addSummaryData("swimStyle", swimStyle, "swim_style");
+                addSummaryData("laps", laps, "laps");
+
+            } else {
+                // 28 bytes
+                buffer.getInt(); // unknown
+                buffer.getInt(); // unknown
+                ascentSeconds = buffer.getInt() / 1000; //ms?
+                buffer.getInt(); // unknown;
+                descentSeconds = buffer.getInt() / 1000; //ms?
+                buffer.getInt(); // unknown;
+                flatSeconds = buffer.getInt() / 1000; // ms?
+
+                addSummaryData("ascentSeconds", ascentSeconds, "seconds");
+                addSummaryData("descentSeconds", descentSeconds, "seconds");
+                addSummaryData("flatSeconds", flatSeconds, "seconds");
+            }
+
+            averageHR = buffer.getShort();
+
+            averageKMPaceSeconds = buffer.getShort();
+            averageStride = buffer.getShort();
         }
-
-        short averageHR = buffer.getShort();
-        short averageKMPaceSeconds = buffer.getShort();
-        short averageStride = buffer.getShort();
-
-        LOG.debug("unused common:" +
-                "\ndistanceMeters=" + distanceMeters +
-                "\nascentMeters=" + ascentMeters +
-                "\ndescentMeters=" + descentMeters +
-                "\nmaxAltitude=" + maxAltitude +
-                "\nminAltitude=" + minAltitude +
-                //"\nmaxLatitude=" + maxLatitude + // not useful
-                //"\nminLatitude=" + minLatitude + // not useful
-                //"\nmaxLongitude=" + maxLongitude + // not useful
-                //"\nminLongitude=" + minLongitude + // not useful
-                "\nsteps=" + steps +
-                "\nactiveSeconds=" + activeSeconds +
-                "\ncaloriesBurnt=" + caloriesBurnt +
-                "\nmaxSpeed=" + maxSpeed +
-                "\nminPace=" + minPace +
-                "\nmaxPace=" + maxPace +
-                "\ntotalStride=" + totalStride +
-                "\naverageHR=" + averageHR +
-                "\naverageKMPaceSeconds=" + averageKMPaceSeconds +
-                "\naverageStride=" + averageStride +
-                ""
-        );
 
 //        summary.setBaseCoordinate(new GPSCoordinate(baseLatitude, baseLongitude, baseAltitude));
 //        summary.setDistanceMeters(distanceMeters);
@@ -310,8 +370,46 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
 //        summary.setAveragePace(BLETypeConversions.toUnsigned(averagePace);
 //        summary.setAverageStride(BLETypeConversions.toUnsigned(averageStride);
 
+        addSummaryData("ascentSeconds", ascentSeconds, "seconds");
+        addSummaryData("descentSeconds", descentSeconds, "seconds");
+        addSummaryData("flatSeconds", flatSeconds, "seconds");
+
+        addSummaryData("distanceMeters", distanceMeters, "meters");
+        addSummaryData("ascentMeters", ascentMeters, "meters");
+        addSummaryData("descentMeters", descentMeters, "meters");
+        if (maxAltitude != -100000) {
+            addSummaryData("maxAltitude", maxAltitude, "meters");
+        }
+        if (minAltitude != 100000) {
+            addSummaryData("minAltitude", minAltitude, "meters");
+        }
+        addSummaryData("steps", steps, "steps_unit");
+        addSummaryData("activeSeconds", activeSeconds, "seconds");
+        addSummaryData("caloriesBurnt", caloriesBurnt, "calories_unit");
+        addSummaryData("maxSpeed", maxSpeed, "meters_second");
+        addSummaryData("minPace", minPace, "seconds_m");
+        addSummaryData("maxPace", maxPace, "seconds_m");
+        addSummaryData("totalStride", totalStride, "meters");
+        addSummaryData("averageHR", averageHR, "bpm");
+        addSummaryData("averageKMPaceSeconds", averageKMPaceSeconds, "seconds_km");
+        addSummaryData("averageStride", averageStride, "cm");
+
+        summary.setSummaryData(summaryData.toString());
         return summary;
     }
+
+    private void addSummaryData(String key, float value, String unit)  {
+        if (value> 0) {
+            try {
+                JSONObject innerData= new JSONObject();
+                innerData.put("value", value);
+                innerData.put("unit", unit);
+                summaryData.put(key,  innerData);
+            } catch (JSONException ignore) {
+            }
+        }
+    }
+
 
     @Override
     protected String getLastSyncTimeKey() {

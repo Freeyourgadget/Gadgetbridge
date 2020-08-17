@@ -27,13 +27,15 @@ vendor's servers.
 
 [List of changes](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/master/CHANGELOG.md)
 
-## Supported Devices (Some of them WIP and some of them without maintainer)
+## Supported Devices (WARNING: Some of them WIP and some of them without maintainer)
 * Amazfit Bip [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
 * Amazfit Bip Lite (WARNING: NEEDS MI FIT WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-Lite)
+* Amazfit Bip S (WARNING: NEEDS MI FIT WITH ACCOUNT ONCE)
 * Amazfit Cor [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor)
 * Amazfit Cor 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor-2)
 * Amazfit GTR (WARNING: NEEDS MI FIT WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR)
 * Amazfit GTS (WARNING: NEEDS MI FIT WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS)
+* Amazfit T-Rex (WARNING: NEEDS MI FIT WITH ACCOUNT ONCE)
 * BFH-16
 * Casio GB-6900B
 * Fossil Hybrid HR (WARNING: NEEDS FOSSIL APP WITH ACCOUNT ONCE AND COMPLICATED PROCEDURE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Fossil-Hybrid-HR)
@@ -43,17 +45,20 @@ vendor's servers.
 * ID115
 * JYou Y5
 * Lenovo Watch 9
+* Lenovo Watch X (Plus) [Wiki](https://codeberg.org/mamutcho/Gadgetbridge/wiki)
 * Liveview
 * Makibes HR3
 * Mi Band, Mi Band 1A, Mi Band 1S [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band)
 * Mi Band 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2)
 * Mi Band 3 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-3)
-* Mi Band 4 (NOT RECOMMENDED, NEEDS MI FIT WITH ACCOUNT AND ROOT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-4)
+* Mi Band 4 (WARNING: NEEDS MI FIT WITH ACCOUNT AND ROOT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-4)
+* Mi Band 5 (WARNING: NEEDS MI FIT WITH ACCOUNT AND ROOT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-5)
 * Mi Scale 2 (Currently only displays a toast after stepping on the scale)
 * NO.1 F1
 * Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
 * Pebble 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
 * Teclast H10, H30
+* TLW64
 * XWatch (Affordable Chinese Casio-like smartwatches)
 * Vibratissimo (Experimental)
 * ZeTime [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/MyKronoz-ZeTime)
@@ -78,6 +83,7 @@ Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/ma
 * Sebastian Kranz (ZeTime)
 * Vadim Kaushan (ID115)
 * "maxirnilian" (Lenovo Watch 9)
+* "ksiwczynski", "mkusnierz", "mamutcho" (Lenovo Watch X Plus)
 * Andreas Böhler (Casio GB-6900B)
 * Jean-François Greffier (Mi Scale 2)
 * Johannes Schmitt (BFH-16)
@@ -86,6 +92,7 @@ Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/ma
 * Gordon Williams (Bangle.js)
 * Pavel Elagin (JYou Y5)
 * Taavi Eomäe (iTag)
+* Erik Bloß (TLW64)
 
 ## Contribute
 

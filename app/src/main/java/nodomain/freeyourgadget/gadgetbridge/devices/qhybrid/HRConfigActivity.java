@@ -1,10 +1,14 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -53,6 +58,9 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
     SparseArray<String> widgetButtonsMapping = new SparseArray<>(4);
 
     static public final String CONFIG_KEY_Q_ACTIONS = "Q_ACTIONS";
+    private static final int REQUEST_CODE_WIDGET_EDIT = 0;
+    private static final int REQUEST_CODE_IMAGE_PICK = 1;
+    private static final int REQUEST_CODE_IMAGE_EDIT = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +91,9 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
                 Intent startIntent = new Intent(HRConfigActivity.this, WidgetSettingsActivity.class);
                 startIntent.putExtra("EXTRA_WIDGET", widget);
                 startIntent.putExtra("EXTRA_WIDGET_IDNEX", position);
+                startIntent.putExtra("EXTRA_WIDGET_INITIAL_NAME", ((CustomWidget) widget).getName());
 
-                startActivityForResult(startIntent, 0);
+                startActivityForResult(startIntent, REQUEST_CODE_WIDGET_EDIT);
             }
         });
         loadCustomWidgetList();
@@ -94,7 +103,36 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
             public void onClick(View v) {
                 Intent startIntent = new Intent(HRConfigActivity.this, WidgetSettingsActivity.class);
 
-                startActivityForResult(startIntent, 0);
+                startActivityForResult(startIntent, REQUEST_CODE_WIDGET_EDIT);
+            }
+        });
+
+        findViewById(R.id.qhybrid_set_background).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(HRConfigActivity.this)
+                        .setTitle("whoop whoop")
+                        .setMessage("background has to be pushed every time a custom widget changes, causing traffic and battery drain. Consider that when using custom widgets.")
+                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent pickIntent = new Intent(Intent.ACTION_PICK);
+                                pickIntent.setType("image/*");
+
+                                startActivityForResult(pickIntent, REQUEST_CODE_IMAGE_PICK);
+                            }
+                        })
+                        .setNegativeButton("nah", null)
+                        .show();
+            }
+        });
+
+        findViewById(R.id.qhybrid_unset_background).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(QHybridSupport.QHYBRID_COMMAND_SET_BACKGROUND_IMAGE);
+                intent.putIntegerArrayListExtra("EXTRA_PIXELS", null);
+                LocalBroadcastManager.getInstance(HRConfigActivity.this).sendBroadcast(intent);
             }
         });
 
@@ -138,34 +176,58 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(data == null) return;
-        if (resultCode == WidgetSettingsActivity.RESULT_CODE_WIDGET_CREATED) {
-            CustomWidget widget = (CustomWidget) data.getExtras().get("EXTRA_WIDGET");
-            this.customWidgets.add(widget);
-            refreshWidgetList();
-            saveCustomWidgetList();
+        if(requestCode == REQUEST_CODE_WIDGET_EDIT) {
+            if (resultCode == WidgetSettingsActivity.RESULT_CODE_WIDGET_CREATED) {
+                CustomWidget widget = (CustomWidget) data.getExtras().get("EXTRA_WIDGET");
+                this.customWidgets.add(widget);
+                refreshWidgetList();
+                saveCustomWidgetList();
 
-            LocalBroadcastManager.getInstance(HRConfigActivity.this).sendBroadcast(new Intent(QHYBRID_COMMAND_UPDATE_WIDGETS));
-        } else if (resultCode == WidgetSettingsActivity.RESULT_CODE_WIDGET_UPDATED) {
-            CustomWidget widget = (CustomWidget) data.getExtras().get("EXTRA_WIDGET");
-            int updateIndex = data.getIntExtra("EXTRA_WIDGET_IDNEX", -1);
+                LocalBroadcastManager.getInstance(HRConfigActivity.this).sendBroadcast(new Intent(QHYBRID_COMMAND_UPDATE_WIDGETS));
+            } else if (resultCode == WidgetSettingsActivity.RESULT_CODE_WIDGET_UPDATED) {
+                CustomWidget widget = (CustomWidget) data.getExtras().get("EXTRA_WIDGET");
+                int updateIndex = data.getIntExtra("EXTRA_WIDGET_IDNEX", -1);
 
-            this.customWidgets.set(updateIndex, widget);
+                String initialName = data.getStringExtra("EXTRA_WIDGET_INITIAL_NAME");
+                String newName = widget.getName();
 
-            refreshWidgetList();
-            saveCustomWidgetList();
+                String widgetJSON = sharedPreferences.getString("FOSSIL_HR_WIDGETS", "{}");
+                widgetJSON = widgetJSON.replace("custom_" + initialName, "custom_" + newName);
+                sharedPreferences.edit().putString("FOSSIL_HR_WIDGETS", widgetJSON).apply();
 
-            LocalBroadcastManager.getInstance(HRConfigActivity.this).sendBroadcast(new Intent(QHYBRID_COMMAND_UPDATE_WIDGETS));
-        } else if (resultCode == WidgetSettingsActivity.RESULT_CODE_WIDGET_DELETED){
-            int updateIndex = data.getIntExtra("EXTRA_WIDGET_IDNEX", -1);
+                this.customWidgets.set(updateIndex, widget);
 
-            this.customWidgets.remove(updateIndex);
+                loadWidgetConfigs();
+                refreshWidgetList();
+                saveCustomWidgetList();
 
-            refreshWidgetList();
-            saveCustomWidgetList();
+                LocalBroadcastManager.getInstance(HRConfigActivity.this).sendBroadcast(new Intent(QHYBRID_COMMAND_UPDATE_WIDGETS));
+            } else if (resultCode == WidgetSettingsActivity.RESULT_CODE_WIDGET_DELETED) {
+                int updateIndex = data.getIntExtra("EXTRA_WIDGET_IDNEX", -1);
 
-            LocalBroadcastManager.getInstance(HRConfigActivity.this).sendBroadcast(new Intent(QHYBRID_COMMAND_UPDATE_WIDGETS));
+                this.customWidgets.remove(updateIndex);
+
+                refreshWidgetList();
+                saveCustomWidgetList();
+
+                LocalBroadcastManager.getInstance(HRConfigActivity.this).sendBroadcast(new Intent(QHYBRID_COMMAND_UPDATE_WIDGETS));
+            }
+        }else if(requestCode == REQUEST_CODE_IMAGE_PICK){
+            if (resultCode == RESULT_OK)
+            {
+                Uri imageUri = data.getData();
+                Intent activityIntent = new Intent();
+                activityIntent.setClass(this, ImageEditActivity.class);
+                activityIntent.setData(imageUri);
+
+                startActivityForResult(activityIntent, REQUEST_CODE_IMAGE_EDIT);
+            }
+        }else if(requestCode == REQUEST_CODE_IMAGE_EDIT){
+            if(resultCode == ImageEditActivity.RESULT_CODE_EDIT_SUCCESS){
+                data.setAction(QHybridSupport.QHYBRID_COMMAND_SET_BACKGROUND_IMAGE);
+                LocalBroadcastManager.getInstance(this).sendBroadcast(data);
+            }
         }
-
     }
 
     private void saveCustomWidgetList() {
@@ -474,6 +536,7 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
             super(HRConfigActivity.this, 0, objects);
         }
 
+        @SuppressLint("ResourceType")
         @NonNull
         @Override
         public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {

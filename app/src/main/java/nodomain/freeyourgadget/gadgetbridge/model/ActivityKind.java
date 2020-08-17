@@ -19,27 +19,33 @@ package nodomain.freeyourgadget.gadgetbridge.model;
 
 import android.content.Context;
 
+import androidx.annotation.DrawableRes;
+
 import java.util.Arrays;
 
-import androidx.annotation.DrawableRes;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 
 public class ActivityKind {
     public static final int TYPE_NOT_MEASURED = -1;
-    public static final int TYPE_UNKNOWN = 0;
-    public static final int TYPE_ACTIVITY = 1;
-    public static final int TYPE_LIGHT_SLEEP = 2;
-    public static final int TYPE_DEEP_SLEEP = 4;
-    public static final int TYPE_NOT_WORN = 8;
-    public static final int TYPE_RUNNING = 16;
-    public static final int TYPE_WALKING = 32;
-    public static final int TYPE_SWIMMING = 64;
-    public static final int TYPE_CYCLING = 128;
-    public static final int TYPE_TREADMILL = 256;
-    public static final int TYPE_EXERCISE = 512;
+    public static final int TYPE_UNKNOWN = 0x00000000;
+    public static final int TYPE_ACTIVITY = 0x00000001;
+    public static final int TYPE_LIGHT_SLEEP = 0x00000002;
+    public static final int TYPE_DEEP_SLEEP = 0x00000004;
+    public static final int TYPE_NOT_WORN = 0x00000008;
+    public static final int TYPE_RUNNING = 0x00000010;
+    public static final int TYPE_WALKING = 0x00000020;
+    public static final int TYPE_SWIMMING = 0x00000040;
+    public static final int TYPE_CYCLING = 0x00000080;
+    public static final int TYPE_TREADMILL = 0x00000100;
+    public static final int TYPE_EXERCISE = 0x00000200;
+    public static final int TYPE_SWIMMING_OPENWATER = 0x00000400;
+    public static final int TYPE_INDOOR_CYCLING = 0x00000800;
+    public static final int TYPE_ELLIPTICAL_TRAINER = 0x00001000;
+    public static final int TYPE_JUMP_ROPING = 0x00002000;
+    public static final int TYPE_YOGA = 0x00004000;
 
-    private static final int TYPES_COUNT = 12;
+    private static final int TYPES_COUNT = 17;
 
     public static final int TYPE_SLEEP = TYPE_LIGHT_SLEEP | TYPE_DEEP_SLEEP;
     public static final int TYPE_ALL = TYPE_ACTIVITY | TYPE_SLEEP | TYPE_NOT_WORN;
@@ -77,6 +83,21 @@ public class ActivityKind {
         if ((types & ActivityKind.TYPE_EXERCISE) != 0) {
             result[i++] = provider.toRawActivityKind(TYPE_EXERCISE);
         }
+        if ((types & ActivityKind.TYPE_SWIMMING_OPENWATER) != 0) {
+            result[i++] = provider.toRawActivityKind(TYPE_SWIMMING_OPENWATER);
+        }
+        if ((types & ActivityKind.TYPE_INDOOR_CYCLING) != 0) {
+            result[i++] = provider.toRawActivityKind(TYPE_INDOOR_CYCLING);
+        }
+        if ((types & ActivityKind.TYPE_ELLIPTICAL_TRAINER) != 0) {
+            result[i++] = provider.toRawActivityKind(TYPE_ELLIPTICAL_TRAINER);
+        }
+        if ((types & ActivityKind.TYPE_JUMP_ROPING) != 0) {
+            result[i++] = provider.toRawActivityKind(TYPE_JUMP_ROPING);
+        }
+        if ((types & ActivityKind.TYPE_YOGA) != 0) {
+            result[i++] = provider.toRawActivityKind(TYPE_YOGA);
+        }
         return Arrays.copyOf(result, i);
     }
 
@@ -104,6 +125,16 @@ public class ActivityKind {
                 return context.getString(R.string.activity_type_treadmill);
             case TYPE_EXERCISE:
                 return context.getString(R.string.activity_type_exercise);
+            case TYPE_SWIMMING_OPENWATER:
+                return context.getString(R.string.activity_type_swimming_openwater);
+            case TYPE_INDOOR_CYCLING:
+                return context.getString(R.string.activity_type_indoor_cycling);
+            case TYPE_ELLIPTICAL_TRAINER:
+                return context.getString(R.string.activity_type_elliptical_trainer);
+            case TYPE_JUMP_ROPING:
+                return context.getString(R.string.activity_type_jump_roping);
+            case TYPE_YOGA:
+                return context.getString(R.string.activity_type_yoga);
             case TYPE_UNKNOWN:
             default:
                 return context.getString(R.string.activity_type_unknown);
@@ -127,10 +158,19 @@ public class ActivityKind {
                 return R.drawable.ic_activity_biking;
             case TYPE_TREADMILL:
                 return R.drawable.ic_activity_walking;
-            case TYPE_EXERCISE: // fall through
+            case TYPE_EXERCISE:
                 return R.drawable.ic_activity_exercise;
-            case TYPE_SWIMMING: // fall through
+            case TYPE_SWIMMING:
+            case TYPE_SWIMMING_OPENWATER:
                 return R.drawable.ic_activity_swimming;
+            case TYPE_INDOOR_CYCLING:
+                return R.drawable.ic_activity_biking; // TODO: Find a better one
+            case TYPE_ELLIPTICAL_TRAINER:
+                return R.drawable.ic_activity_walking; // TODO: Find a better one
+            case TYPE_JUMP_ROPING:
+                return R.drawable.ic_activity_exercise; // TODO: Find a better one
+            case TYPE_YOGA:
+                return R.drawable.ic_activity_exercise; // TODO: Find a better one
             case TYPE_NOT_WORN: // fall through
             case TYPE_ACTIVITY: // fall through
             case TYPE_UNKNOWN: // fall through

@@ -20,17 +20,20 @@ package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 import android.content.Context;
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 
-import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 
@@ -73,10 +76,12 @@ public abstract class AbstractMiBandFWHelper {
     public abstract int getFirmware2Version();
 
     public static String formatFirmwareVersion(int version) {
-        if (version == -1)
+        if (version == -1) {
             return GBApplication.getContext().getString(R.string._unknown_);
+        }
 
-        return String.format("%d.%d.%d.%d",
+        return String.format(Locale.UK,
+                "%d.%d.%d.%d",
                 version >> 24 & 255,
                 version >> 16 & 255,
                 version >> 8 & 255,
@@ -122,4 +127,6 @@ public abstract class AbstractMiBandFWHelper {
     protected abstract void determineFirmwareInfo(byte[] wholeFirmwareBytes);
 
     public abstract void checkValid() throws IllegalArgumentException;
+
+    public abstract HuamiFirmwareType getFirmwareType();
 }

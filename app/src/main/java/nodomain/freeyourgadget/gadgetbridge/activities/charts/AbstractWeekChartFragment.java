@@ -59,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
     protected static final Logger LOG = LoggerFactory.getLogger(AbstractWeekChartFragment.class);
     protected final int TOTAL_DAYS = getRangeDays();
+    protected int TOTAL_DAYS_FOR_AVERAGE = 0;
 
     private Locale mLocale;
     private int mTargetValue = 0;
@@ -124,10 +125,17 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         ArrayList<String> labels = new ArrayList<String>();
 
         long balance = 0;
+        long daily_balance=0;
+        TOTAL_DAYS_FOR_AVERAGE=0;
+
         for (int counter = 0; counter < TOTAL_DAYS; counter++) {
             ActivityAmounts amounts = getActivityAmountsForDay(db, day, device);
+            daily_balance=calculateBalance(amounts);
+            if (daily_balance>0){
+                TOTAL_DAYS_FOR_AVERAGE++;
+            }
 
-            balance += calculateBalance(amounts);
+            balance += daily_balance;
             entries.add(new BarEntry(counter, getTotalsForActivityAmounts(amounts)));
             labels.add(getWeeksChartsLabel(day));
             day.add(Calendar.DATE, 1);
@@ -146,8 +154,8 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         barChart.getAxisLeft().addLimitLine(target);
 
         float average = 0;
-        if (TOTAL_DAYS > 0) {
-            average = Math.abs(balance / TOTAL_DAYS);
+        if (TOTAL_DAYS_FOR_AVERAGE > 0) {
+            average = Math.abs(balance / TOTAL_DAYS_FOR_AVERAGE);
         }
         LimitLine average_line = new LimitLine(average);
         average_line.setLabel(getString(R.string.average, getAverage(average)));

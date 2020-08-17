@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <MultiSelectListPreference
+        android:icon="@drawable/ic_widgets"
+        android:defaultValue="@array/pref_bips_display_items_default"
+        android:dialogTitle="@string/mi2_prefs_display_items"
+        android:entries="@array/pref_bips_display_items"
+        android:entryValues="@array/pref_bips_display_items_values"
+        android:key="display_items"
+        android:summary="@string/mi2_prefs_display_items_summary"
+        android:title="@string/mi2_prefs_display_items" />
+    <MultiSelectListPreference
+        android:defaultValue="@array/pref_bips_shortcuts_default"
+        android:dialogTitle="@string/bip_prefs_shortcuts"
+        android:entries="@array/pref_bips_shortcuts"
+        android:entryValues="@array/pref_bips_shortcuts_values"
+        android:key="shortcuts"
+        android:summary="@string/bip_prefs_shotcuts_summary"
+        android:title="@string/bip_prefs_shortcuts" />
+    <ListPreference
+        android:icon="@drawable/ic_language"
+        android:defaultValue="auto"
+        android:entries="@array/pref_amazfitbip_language"
+        android:entryValues="@array/pref_amazfitbip_language_values"
+        android:key="language"
+        android:summary="%s"
+        android:title="@string/pref_title_language" />
+</androidx.preference.PreferenceScreen>

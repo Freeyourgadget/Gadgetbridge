@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -39,6 +40,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -50,9 +52,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Set;
 
 import de.cketti.library.changelog.ChangeLog;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -68,23 +72,19 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 public class ControlCenterv2 extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GBActivity {
 
+    public static final int MENU_REFRESH_CODE = 1;
+    private static PhoneStateListener fakeStateListener;
+
     //needed for KK compatibility
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
     private DeviceManager deviceManager;
-
     private GBDeviceAdapterv2 mGBDeviceAdapter;
     private RecyclerView deviceListView;
     private FloatingActionButton fab;
-
     private boolean isLanguageInvalid = false;
-
-    public static final int MENU_REFRESH_CODE=1;
-
-    private static PhoneStateListener fakeStateListener;
-
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -102,6 +102,7 @@ public class ControlCenterv2 extends AppCompatActivity
             }
         }
     };
+    private boolean pesterWithPermissions = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,11 +193,16 @@ public class ControlCenterv2 extends AppCompatActivity
          * Ask for permission to intercept notifications on first run.
          */
         Prefs prefs = GBApplication.getPrefs();
-        if (prefs.getBoolean("firstrun", true)) {
-            prefs.getPreferences().edit().putBoolean("firstrun", false).apply();
-            Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-            startActivity(enableIntent);
+        pesterWithPermissions = prefs.getBoolean("permission_pestering", true);
+
+        Set<String> set = NotificationManagerCompat.getEnabledListenerPackages(this);
+        if (pesterWithPermissions) {
+            if (!set.contains(this.getPackageName())) { // If notification listener access hasn't been granted
+                Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+                startActivity(enableIntent);
+            }
         }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkAndRequestPermissions();
         }
@@ -205,7 +211,7 @@ public class ControlCenterv2 extends AppCompatActivity
         if (cl.isFirstRun()) {
             try {
                 cl.getLogDialog().show();
-            } catch (Exception ignored){
+            } catch (Exception ignored) {
                 GB.toast(getBaseContext(), "Error showing Changelog", Toast.LENGTH_LONG, GB.ERROR);
 
             }
@@ -297,6 +303,10 @@ public class ControlCenterv2 extends AppCompatActivity
                     GB.toast(getBaseContext(), "Error showing Changelog", Toast.LENGTH_LONG, GB.ERROR);
                 }
                 return true;
+            case R.id.about:
+                Intent aboutIntent = new Intent(this, AboutActivity.class);
+                startActivity(aboutIntent);
+                return true;
         }
 
         return true;
@@ -343,8 +353,6 @@ public class ControlCenterv2 extends AppCompatActivity
             wantedPermissions.add(Manifest.permission.READ_CONTACTS);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_DENIED)
             wantedPermissions.add(Manifest.permission.CALL_PHONE);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ANSWER_PHONE_CALLS) == PackageManager.PERMISSION_DENIED)
-            wantedPermissions.add(Manifest.permission.ANSWER_PHONE_CALLS);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_DENIED)
             wantedPermissions.add(Manifest.permission.READ_CALL_LOG);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED)
@@ -361,14 +369,69 @@ public class ControlCenterv2 extends AppCompatActivity
             wantedPermissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED)
             wantedPermissions.add(Manifest.permission.READ_CALENDAR);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED)
+            wantedPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED)
+            wantedPermissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+
         try {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.MEDIA_CONTENT_CONTROL) == PackageManager.PERMISSION_DENIED)
                 wantedPermissions.add(Manifest.permission.MEDIA_CONTENT_CONTROL);
-        } catch (Exception ignored){
+        } catch (Exception ignored) {
         }
 
-        if (!wantedPermissions.isEmpty())
-            ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[0]), 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (pesterWithPermissions) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ANSWER_PHONE_CALLS) == PackageManager.PERMISSION_DENIED) {
+                    wantedPermissions.add(Manifest.permission.ANSWER_PHONE_CALLS);
+                }
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_DENIED) {
+                wantedPermissions.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+            }
+        }
+
+        if (!wantedPermissions.isEmpty()) {
+            Prefs prefs = GBApplication.getPrefs();
+            // If this is not the first run, we can rely on
+            // shouldShowRequestPermissionRationale(String permission)
+            // and ignore permissions that shouldn't or can't be requested again
+            if (prefs.getBoolean("permissions_asked", false)) {
+                // Don't request permissions that we shouldn't show a prompt for
+                // e.g. permissions that are "Never" granted by the user or never granted by the system
+                Set<String> shouldNotAsk = new HashSet<>();
+                for (String wantedPermission : wantedPermissions) {
+                    if (!shouldShowRequestPermissionRationale(wantedPermission)) {
+                        shouldNotAsk.add(wantedPermission);
+                    }
+                }
+                wantedPermissions.removeAll(shouldNotAsk);
+            } else {
+                // Permissions have not been asked yet, but now will be
+                prefs.getPreferences().edit().putBoolean("permissions_asked", true).apply();
+            }
+
+            if (!wantedPermissions.isEmpty()) {
+                GB.toast(this, getString(R.string.permission_granting_mandatory), Toast.LENGTH_LONG, GB.ERROR);
+                ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[0]), 0);
+                GB.toast(this, getString(R.string.permission_granting_mandatory), Toast.LENGTH_LONG, GB.ERROR);
+            }
+        }
+
+        /* In order to be able to set ringer mode to silent in GB's PhoneCallReceiver
+           the permission to access notifications is needed above Android M
+           ACCESS_NOTIFICATION_POLICY is also needed in the manifest */
+        if (pesterWithPermissions) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (!((NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE)).isNotificationPolicyAccessGranted()) {
+                    GB.toast(this, getString(R.string.permission_granting_mandatory), Toast.LENGTH_LONG, GB.ERROR);
+                    startActivity(new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
+                }
+            }
+        }
 
         // HACK: On Lineage we have to do this so that the permission dialog pops up
         if (fakeStateListener == null) {

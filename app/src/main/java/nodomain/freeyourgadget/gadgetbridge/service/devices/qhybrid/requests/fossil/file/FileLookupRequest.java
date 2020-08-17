@@ -20,17 +20,14 @@ import android.bluetooth.BluetoothGattCharacteristic;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.ArrayList;
 import java.util.UUID;
 import java.util.zip.CRC32;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.ResultCode;
 
-public class FileLookupRequest extends FossilRequest {
+public abstract class FileLookupRequest extends FossilRequest {
     private short handle = -1;
     private byte fileType;
 
@@ -91,6 +88,11 @@ public class FileLookupRequest extends FossilRequest {
                     // throw new RuntimeException("handle: " + handle + "   expected: " + this.handle);
                 }
                 log("file size: " + size);
+                if(size == 0){
+                    this.handleFileLookupError(FILE_LOOKUP_ERROR.FILE_EMPTY);
+                    finished = true;
+                    return;
+                }
                 fileBuffer = ByteBuffer.allocate(size);
             }else if((first & 0x0F) == 8){
                 this.finished = true;
@@ -122,7 +124,9 @@ public class FileLookupRequest extends FossilRequest {
         }
     }
 
-    public void handleFileLookup(short fileHandle){}
+    public abstract void handleFileLookup(short fileHandle);
+
+    public abstract void handleFileLookupError(FILE_LOOKUP_ERROR error);
 
     @Override
     public UUID getRequestUUID() {
@@ -137,5 +141,9 @@ public class FileLookupRequest extends FossilRequest {
     @Override
     public int getPayloadLength() {
         return 3;
+    }
+
+    public enum FILE_LOOKUP_ERROR{
+        FILE_EMPTY;
     }
 }

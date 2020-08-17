@@ -128,6 +128,9 @@ public interface DeviceCoordinator {
     @Nullable
     Class<? extends Activity> getPairingActivity();
 
+    @Nullable
+    Class<? extends Activity> getCalibrationActivity();
+
     /**
      * Returns true if activity data fetching is supported by the device
      * (with this coordinator).
@@ -206,6 +209,12 @@ public interface DeviceCoordinator {
      * @return
      */
     boolean supportsAlarmSnoozing();
+
+    /**
+     * Returns true if this device/coordinator supports alarm descriptions
+     * @return
+     */
+    boolean supportsAlarmDescription(GBDevice device);
 
     /**
      * Returns true if the given device supports heart rate measurements.

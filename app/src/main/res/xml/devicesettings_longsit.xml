@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_activity_sleep"
+        android:key="screen_longsit"
+        android:persistent="false"
+        android:summary="@string/mi2_prefs_inactivity_warnings_summary"
+        android:title="@string/mi2_prefs_inactivity_warnings">
+
+        <!-- workaround for missing toolbar -->
+        <PreferenceCategory android:title="@string/mi2_prefs_inactivity_warnings_summary" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_longsit_switch"
+            android:title="@string/mi2_prefs_inactivity_warnings" />
+        <EditTextPreference
+            android:defaultValue="60"
+            android:key="pref_longsit_period"
+            android:summary="@string/mi2_prefs_inactivity_warnings_summary"
+            android:title="@string/mi2_prefs_inactivity_warnings_threshold"/>
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="06:00"
+            android:key="pref_longsit_start"
+            android:title="@string/mi2_prefs_do_not_disturb_start" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="23:00"
+            android:key="pref_longsit_end"
+            android:title="@string/mi2_prefs_do_not_disturb_end" />
+
+    </PreferenceScreen>
+
+
+</androidx.preference.PreferenceScreen>

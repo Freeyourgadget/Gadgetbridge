@@ -58,7 +58,8 @@ public class AmazfitBipSCoordinator extends HuamiCoordinator {
 
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
-        return null;
+        AmazfitBipSFWInstallHandler handler = new AmazfitBipSFWInstallHandler(uri, context);
+        return handler.isValid() ? handler : null;
     }
 
     @Override
@@ -77,17 +78,21 @@ public class AmazfitBipSCoordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supportsMusicInfo() {
+        return true;
+    }
+
+    @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
-                R.xml.devicesettings_amazfitbip,
+                R.xml.devicesettings_amazfitbips,
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_wearlocation,
                 R.xml.devicesettings_custom_emoji_font,
                 R.xml.devicesettings_liftwrist_display,
-                R.xml.devicesettings_disconnectnotification,
                 R.xml.devicesettings_sync_calendar,
                 R.xml.devicesettings_expose_hr_thirdparty,
-                R.xml.devicesettings_buttonactions_with_longpress,
+                R.xml.devicesettings_high_mtu,
                 R.xml.devicesettings_pairingkey
         };
     }

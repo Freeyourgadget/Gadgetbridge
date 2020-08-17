@@ -22,6 +22,7 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -37,9 +38,11 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -136,10 +139,17 @@ import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DATEFORMAT;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_LANGUAGE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_RESERVER_ALARMS_CALENDAR;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SYNC_CALENDAR;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WEARLOCATION;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_WOKE_UP_BROADCAST;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_WOKE_UP_SELECTION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_PROFILE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_COUNT;
@@ -147,7 +157,8 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VI
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefIntValue;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefStringValue;
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL;
-
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_SELECTION_BROADCAST;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_SELECTION_OFF;
 
 public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
@@ -184,11 +195,12 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     private RealtimeSamplesSupport realtimeSamplesSupport;
     private boolean alarmClockRinging;
 
-    private boolean isMusicAppStarted = false;
-    private MusicSpec bufferMusicSpec = null;
-    private MusicStateSpec bufferMusicStateSpec = null;
+    protected boolean isMusicAppStarted = false;
+    protected MusicSpec bufferMusicSpec = null;
+    protected MusicStateSpec bufferMusicStateSpec = null;
     private boolean heartRateNotifyEnabled;
     private int mMTU = 23;
+    protected int mActivitySampleSize = 4;
 
     public HuamiSupport() {
         this(LOG);
@@ -605,6 +617,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
      This works on all Huami devices except Mi Band 2
      */
     protected void sendNotificationNew(NotificationSpec notificationSpec, boolean hasExtraHeader) {
+        sendNotificationNew(notificationSpec, hasExtraHeader, 230);
+    }
+    protected void sendNotificationNew(NotificationSpec notificationSpec, boolean hasExtraHeader, int maxLength) {
         if (notificationSpec.type == NotificationType.GENERIC_ALARM_CLOCK) {
             onAlarmClock(notificationSpec);
             return;
@@ -617,7 +632,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             message += StringUtils.truncate(notificationSpec.subject, 128) + "\n\n";
         }
         if (notificationSpec.body != null) {
-            message += StringUtils.truncate(notificationSpec.body, 128);
+            message += StringUtils.truncate(notificationSpec.body, 512);
         }
 
         try {
@@ -635,7 +650,6 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 alertCategory = AlertCategory.Email;
             }
 
-            int maxLength = 230;
             if (characteristicChunked != null) {
                 int prefixlength = 2;
 
@@ -667,6 +681,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
                 byte[] rawmessage = message.getBytes();
                 int length = Math.min(rawmessage.length, maxLength - prefixlength);
+                if (length < rawmessage.length) {
+                    length = StringUtils.utf8ByteLength(message, length);
+                }
 
                 byte[] command = new byte[length + prefixlength + suffixlength];
                 int pos = 0;
@@ -801,11 +818,12 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             return;
         }
 
-        if (bufferMusicStateSpec != stateSpec) {
+        if (stateSpec != null && !stateSpec.equals(bufferMusicStateSpec)) {
             bufferMusicStateSpec = stateSpec;
-            sendMusicStateToDevice();
+            if (isMusicAppStarted) {
+                sendMusicStateToDevice(null, bufferMusicStateSpec);
+            }
         }
-
     }
 
     @Override
@@ -815,55 +833,60 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             return;
         }
 
-        if (bufferMusicSpec != musicSpec) {
+        if (musicSpec != null && !musicSpec.equals(bufferMusicSpec)) {
             bufferMusicSpec = musicSpec;
+            if (bufferMusicStateSpec != null) {
+                bufferMusicStateSpec.state = 0;
+                bufferMusicStateSpec.position = 0;
+            }
             if (isMusicAppStarted) {
-                sendMusicStateToDevice();
+                sendMusicStateToDevice(bufferMusicSpec, bufferMusicStateSpec);
             }
         }
-
     }
 
 
     private void sendMusicStateToDevice() {
+        sendMusicStateToDevice(bufferMusicSpec, bufferMusicStateSpec);
+    }
+
+    protected void sendMusicStateToDevice(MusicSpec musicSpec, MusicStateSpec musicStateSpec) {
         if (characteristicChunked == null) {
             return;
         }
-        if (bufferMusicSpec == null || bufferMusicStateSpec == null) {
-            try {
-                TransactionBuilder builder = performInitialized("send dummy playback info to enable music controls");
-                writeToChunked(builder, 3, new byte[]{1, 0, 1, 0, 0, 0, 1, 0});
-                builder.queue(getQueue());
-            } catch (IOException e) {
-                LOG.error("Unable to send dummy music controls");
-            }
+
+        if (musicStateSpec == null) {
             return;
         }
 
         byte flags = 0x00;
         flags |= 0x01;
-        int length = 8;
-        if (bufferMusicSpec.track != null && bufferMusicSpec.track.getBytes().length > 0) {
-            length += bufferMusicSpec.track.getBytes().length + 1;
-            flags |= 0x02;
-        }
-        if (bufferMusicSpec.album != null && bufferMusicSpec.album.getBytes().length > 0) {
-            length += bufferMusicSpec.album.getBytes().length + 1;
-            flags |= 0x04;
-        }
-        if (bufferMusicSpec.artist != null && bufferMusicSpec.artist.getBytes().length > 0) {
-            length += bufferMusicSpec.artist.getBytes().length + 1;
-            flags |= 0x08;
+        int length = 5;
+        if (musicSpec != null) {
+            if (musicSpec.artist != null && musicSpec.artist.getBytes().length > 0) {
+                length += musicSpec.artist.getBytes().length + 1;
+                flags |= 0x02;
+            }
+            if (musicSpec.album != null && musicSpec.album.getBytes().length > 0) {
+                length += musicSpec.album.getBytes().length + 1;
+                flags |= 0x04;
+            }
+            if (musicSpec.track != null && musicSpec.track.getBytes().length > 0) {
+                length += musicSpec.track.getBytes().length + 1;
+                flags |= 0x08;
+            }
+            if (musicSpec.duration != 0) {
+                length += 2;
+                flags |= 0x10;
+            }
         }
 
-
-//        LOG.info("Music flags are: " + (flags & 0xff));
         try {
             ByteBuffer buf = ByteBuffer.allocate(length);
             buf.order(ByteOrder.LITTLE_ENDIAN);
             buf.put(flags);
             byte state;
-            switch (bufferMusicStateSpec.state) {
+            switch (musicStateSpec.state) {
                 case MusicStateSpec.STATE_PLAYING:
                     state = 1;
                     break;
@@ -872,24 +895,26 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             }
 
             buf.put(state);
-            buf.put(new byte[]{0x1, 0x0, 0x0, 0x0}); //unknown
-            buf.put(new byte[]{0x1,0x0}); //show track
-//            buf.put(new byte[]{0x1,0x1}); //show album
+            buf.put((byte) 0);
+            buf.putShort((short) musicStateSpec.position);
 
-
-            if (bufferMusicSpec.track != null && bufferMusicSpec.track.getBytes().length > 0) {
-                buf.put(bufferMusicSpec.track.getBytes());
-                buf.put((byte) 0);
+            if (musicSpec != null) {
+                if (musicSpec.artist != null && musicSpec.artist.getBytes().length > 0) {
+                    buf.put(musicSpec.artist.getBytes());
+                    buf.put((byte) 0);
+                }
+                if (musicSpec.album != null && musicSpec.album.getBytes().length > 0) {
+                    buf.put(musicSpec.album.getBytes());
+                    buf.put((byte) 0);
+                }
+                if (musicSpec.track != null && musicSpec.track.getBytes().length > 0) {
+                    buf.put(musicSpec.track.getBytes());
+                    buf.put((byte) 0);
+                }
+                if (musicSpec.duration != 0) {
+                    buf.putShort((short) musicSpec.duration);
+                }
             }
-            if (bufferMusicSpec.album != null && bufferMusicSpec.album.getBytes().length > 0) {
-                buf.put(bufferMusicSpec.album.getBytes());
-                buf.put((byte) 0);
-            }
-            if (bufferMusicSpec.artist != null && bufferMusicSpec.artist.getBytes().length > 0) {
-                buf.put(bufferMusicSpec.artist.getBytes());
-                buf.put((byte) 0);
-            }
-
 
             TransactionBuilder builder = performInitialized("send playback info");
             writeToChunked(builder, 3, buf.array());
@@ -898,9 +923,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         } catch (IOException e) {
             LOG.error("Unable to send playback state");
         }
-
-//        LOG.info("Sent music: " + bufferMusicSpec.toString() + " " + bufferMusicStateSpec.toString());
-
+        LOG.info("sendMusicStateToDevice: " + musicSpec + " " + musicStateSpec);
     }
 
     @Override
@@ -1152,8 +1175,27 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         currentButtonPressTime = System.currentTimeMillis();
     }
 
+    private void handleDeviceAction(String deviceAction, String message) {
+        if (deviceAction.equals(PREF_DEVICE_ACTION_SELECTION_OFF)) {
+            return;
+        }
+        if (deviceAction.equals(PREF_DEVICE_ACTION_SELECTION_BROADCAST)) {
+            sendSystemBroadcast(message);
+        }else {
+            handleMediaButton(deviceAction);
+        }
+    }
+
+    private void sendSystemBroadcast(String message){
+        if (message !=null) {
+            Intent in = new Intent();
+            in.setAction(message);
+            LOG.info("Sending broadcast " + message);
+            this.getContext().getApplicationContext().sendBroadcast(in);
+        }
+    }
     private void handleMediaButton(String MediaAction) {
-        if (MediaAction.equals("UNKNOWN")) {
+        if (MediaAction.equals(PREF_DEVICE_ACTION_SELECTION_OFF)) {
             return;
         }
         GBDeviceEventMusicControl deviceEventMusicControl = new GBDeviceEventMusicControl();
@@ -1188,6 +1230,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 break;
             case HuamiDeviceEvent.START_NONWEAR:
                 LOG.info("non-wear start detected");
+                processDeviceEvent(HuamiDeviceEvent.START_NONWEAR);
                 break;
             case HuamiDeviceEvent.ALARM_TOGGLED:
                 LOG.info("An alarm was toggled");
@@ -1197,9 +1240,11 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 break;
             case HuamiDeviceEvent.FELL_ASLEEP:
                 LOG.info("Fell asleep");
+                processDeviceEvent(HuamiDeviceEvent.FELL_ASLEEP);
                 break;
             case HuamiDeviceEvent.WOKE_UP:
                 LOG.info("Woke up");
+                processDeviceEvent(HuamiDeviceEvent.WOKE_UP);
                 break;
             case HuamiDeviceEvent.STEPSGOAL_REACHED:
                 LOG.info("Steps goal reached");
@@ -1263,6 +1308,10 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 if (!prefs.getBoolean(PREF_ALLOW_HIGH_MTU, false)) {
                     break;
                 }
+                if (mtu < 23) {
+                    LOG.error("Device announced unreasonable low MTU of " + mtu + ", ignoring");
+                    break;
+                }
                 mMTU = mtu;
                 /*
                  * not really sure if this would make sense, is this event already a proof of a successful MTU
@@ -1297,6 +1346,37 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         } catch (Exception ex) {
             LOG.error("Error sending current weather", ex);
         }
+    }
+
+    private void processDeviceEvent(int event){
+        LOG.debug("Handling device event: " + event);
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        String deviceActionBroadcastMessage=null;
+
+        switch (event) {
+            case HuamiDeviceEvent.WOKE_UP:
+                String wakeupAction = prefs.getString(PREF_DEVICE_ACTION_WOKE_UP_SELECTION,PREF_DEVICE_ACTION_SELECTION_OFF);
+                if (wakeupAction.equals(PREF_DEVICE_ACTION_SELECTION_OFF)) return;
+                deviceActionBroadcastMessage= prefs.getString(PREF_DEVICE_ACTION_WOKE_UP_BROADCAST,
+                        this.getContext().getString(R.string.prefs_events_forwarding_wokeup_broadcast_default_value));
+                handleDeviceAction(wakeupAction, deviceActionBroadcastMessage);
+                break;
+            case HuamiDeviceEvent.FELL_ASLEEP:
+                String fellsleepAction = prefs.getString(PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION,PREF_DEVICE_ACTION_SELECTION_OFF);
+                if (fellsleepAction.equals(PREF_DEVICE_ACTION_SELECTION_OFF)) return;
+                deviceActionBroadcastMessage= prefs.getString(PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST,
+                        this.getContext().getString(R.string.prefs_events_forwarding_fellsleep_broadcast_default_value));
+                handleDeviceAction(fellsleepAction, deviceActionBroadcastMessage);
+                break;
+            case HuamiDeviceEvent.START_NONWEAR:
+                String nonwearAction = prefs.getString(PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION,PREF_DEVICE_ACTION_SELECTION_OFF);
+                if (nonwearAction.equals(PREF_DEVICE_ACTION_SELECTION_OFF)) return;
+                deviceActionBroadcastMessage= prefs.getString(PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST,
+                        this.getContext().getString(R.string.prefs_events_forwarding_startnonwear_broadcast_default_value));
+                handleDeviceAction(nonwearAction, deviceActionBroadcastMessage);
+                break;
+        }
+
     }
 
     private void handleLongButtonEvent(){
@@ -1650,7 +1730,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         // TODO: react on 0x10, 0x02, 0x01 on notification (success)
     }
 
-    private void handleDeviceInfo(nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo info) {
+    protected void handleDeviceInfo(nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo info) {
 //        if (getDeviceInfo().supportsHeartrate()) {
 //            getDevice().addDeviceInfo(new GenericItem(
 //                    getContext().getString(R.string.DEVINFO_HR_VER),
@@ -1797,6 +1877,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case HuamiConst.PREF_DISPLAY_ITEMS:
                     setDisplayItems(builder);
                     break;
+                case HuamiConst.PREF_SHORTCUTS:
+                    setShortcuts(builder);
+                    break;
                 case MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO:
                     setRotateWristToSwitchInfo(builder);
                     break;
@@ -1829,7 +1912,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case PREF_DATEFORMAT:
                     setDateFormat(builder);
                     break;
-                case HuamiConst.PREF_LANGUAGE:
+                case PREF_LANGUAGE:
                     setLanguage(builder);
                     break;
                 case HuamiConst.PREF_EXPOSE_HR_THIRDPARTY:
@@ -1928,7 +2011,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             buf.put((byte) 4);
             buf.putInt(weatherSpec.timestamp);
             buf.put((byte) (tz_offset_hours * 4));
-            buf.putShort((short) 0);
+            buf.putShort((short) -1);
             if (supportsConditionString) {
                 buf.put(aqiString.getBytes());
                 buf.put((byte) 0);
@@ -1947,7 +2030,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
         try {
             TransactionBuilder builder = performInitialized("Sending weather forecast");
-
+            if (weatherSpec.forecasts.size() > 6) { //TDOD: find out the limits for each device
+                weatherSpec.forecasts.subList(6, weatherSpec.forecasts.size()).clear();
+            }
             final byte NR_DAYS = (byte) (1 + weatherSpec.forecasts.size());
             int bytesPerDay = 4;
 
@@ -2133,7 +2218,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     protected HuamiSupport setDisplayItems(TransactionBuilder builder) {
-        Set<String> pages = HuamiCoordinator.getDisplayItems(gbDevice.getAddress());
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
+        Set<String> pages = prefs.getStringSet(HuamiConst.PREF_DISPLAY_ITEMS, new HashSet<>(Arrays.asList(getContext().getResources().getStringArray(R.array.pref_mi2_display_items_default))));
+
         LOG.info("Setting display items to " + (pages == null ? "none" : pages));
 
         byte[] data = HuamiService.COMMAND_CHANGE_SCREENS.clone();
@@ -2154,9 +2241,13 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             if (pages.contains(MiBandConst.PREF_MI2_DISPLAY_ITEM_BATTERY)) {
                 data[HuamiService.SCREEN_CHANGE_BYTE] |= HuamiService.DISPLAY_ITEM_BIT_BATTERY;
             }
+            builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), data);
         }
 
-        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), data);
+        return this;
+    }
+
+    protected HuamiSupport setShortcuts(TransactionBuilder builder) {
         return this;
     }
 
@@ -2381,7 +2472,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    private void writeToChunked(TransactionBuilder builder, int type, byte[] data) {
+    protected void writeToChunked(TransactionBuilder builder, int type, byte[] data) {
         final int MAX_CHUNKLENGTH = mMTU - 6;
         int remaining = data.length;
         byte count = 0;
@@ -2499,5 +2590,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     public int getMTU() {
         return mMTU;
+    }
+
+    public int getActivitySampleSize() {
+        return mActivitySampleSize;
     }
 }

@@ -48,7 +48,7 @@ public class BluetoothStateChangeReceiver extends BroadcastReceiver {
                     return;
                 }
 
-                LOG.info("Bluetooth turned on => connecting...");
+                LOG.info("Bluetooth turned on (ACTION_STATE_CHANGED) => connecting...");
                 GBApplication.deviceService().connect();
             } else if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
                 LOG.info("Bluetooth turned off => disconnecting...");

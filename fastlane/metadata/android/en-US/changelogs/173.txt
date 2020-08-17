@@ -1,0 +1,14 @@
+* Initial support for WatchX(Plus)
+* Add support for Amazfit GTR Lite (untested and incomplete)
+* Fossil Hybrid HR: Fix some issues with custom widgets
+* Fossil Hybrid HR: Allow setting alarm titles and descriptions
+* Fossil Hybrid HR: Fix step data parsing
+* Amazfit GTS: Fix setting menu items with low MTU
+* Amazfit GTR: Allow setting menu item like GTS
+* ZeTime: Support setting the watch language
+* ZeTime: Support rejecting calls
+* ZeTime: Try to fix weather conditions on newer firmware
+* ZeTime: Fix could not synchronize calendar on connect
+* ZeTime: Fix calendar event time and date
+* ZeTime: Send up to 16 upcoming calendar events on connect if option is enabled
+* Allow set light/dark theme according to system settings (new default)

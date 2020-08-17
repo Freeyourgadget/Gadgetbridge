@@ -17,18 +17,23 @@
 */
 package nodomain.freeyourgadget.gadgetbridge.devices.itag;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
+
+import java.util.Collection;
+import java.util.Collections;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
-import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -43,6 +48,27 @@ public class ITagCoordinator extends AbstractDeviceCoordinator {
             return DeviceType.ITAG;
         }
         return DeviceType.UNKNOWN;
+    }
+
+    @Override
+    public int getBondingStyle() {
+        // Some iTag devices do not support bonding but some do
+        return BONDING_STYLE_ASK;
+    }
+
+    @NonNull
+    @Override
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public Collection<? extends ScanFilter> createBLEScanFilters() {
+        ScanFilter filter = new ScanFilter.Builder()
+                .setDeviceName("iTag")
+                .setDeviceName("iTAG")
+                .setDeviceName("ITAG")
+                .setDeviceName("ITag")
+                .setDeviceName("Itag")
+                .setDeviceName("itag")
+                .build();
+        return Collections.singletonList(filter);
     }
 
     @Override

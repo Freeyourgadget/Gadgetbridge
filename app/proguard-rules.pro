@@ -32,3 +32,12 @@
 -keep class **$Properties
 
 -keep class **$Properties { *; }
+
+-keep class **.gadgetbridge.database.schema.* { *; }
+
+# Keep dependency android-emojify (io.wax911.emojify) uses
+-keep class org.hamcrest.** { *; }
+
+# Keep logback classes
+-keep class ch.qos.** { *; }
+-keep class org.slf4j.** { *; }

@@ -22,14 +22,17 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 public class UriHelper {
     @NonNull
@@ -40,6 +43,8 @@ public class UriHelper {
     private long fileSize;
     @Nullable
     private File file;
+
+    private static final Logger LOG = LoggerFactory.getLogger(UriHelper.class);
 
     private UriHelper(@NonNull Uri uri, @NonNull Context context) {
         this.uri = uri;
@@ -118,55 +123,76 @@ public class UriHelper {
     }
 
     private void resolveMetadata() throws IOException {
+        if (uri == null) {
+            throw new IOException("URI was null, can't query metadata");
+        }
+
         String uriScheme = uri.getScheme();
-        if (ContentResolver.SCHEME_CONTENT.equals(uriScheme)) {
-            Cursor cursor = context.getContentResolver().query(
-                    uri,
-                    new String[] {
-                            MediaStore.MediaColumns.DISPLAY_NAME,
-                            MediaStore.MediaColumns.SIZE
-            }, null, null, null);
-            if (cursor == null) {
-                throw new IOException("Unable to query metadata for: " + uri);
-            }
-            try {
-                if (cursor.moveToFirst()) {
-                    int name_index = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME);
-                    if (name_index == -1) {
-                        throw new IOException("Unable to retrieve name for: " + uri);
-                    }
-                    int size_index = cursor.getColumnIndex(MediaStore.MediaColumns.SIZE);
-                    if (size_index == -1) {
-                        throw new IOException("Unable to retrieve size for: " + uri);
-                    }
-                    try {
-                        fileName = cursor.getString(name_index);
-                        if (fileName == null) {
+
+        if (uriScheme == null) {
+            throw new IOException("URI scheme was null, can't query metadata");
+        }
+
+        switch (uriScheme) {
+            case ContentResolver.SCHEME_CONTENT:
+                Cursor cursor;
+                try {
+                    ContentResolver resolver = context.getContentResolver();
+                    cursor = resolver.query(
+                            uri,
+                            new String[]{
+                                    MediaStore.MediaColumns.DISPLAY_NAME,
+                                    MediaStore.MediaColumns.SIZE
+                            }, null, null, null);
+                } catch (IllegalStateException e) {
+                    LOG.error(e.toString());
+                    throw new IOException("IllegalStateException when trying to query metadata for: " + uri);
+                }
+
+                if (cursor == null) {
+                    throw new IOException("Unable to query metadata for: " + uri);
+                }
+
+                try {
+                    if (cursor.moveToFirst()) {
+                        int name_index = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME);
+                        if (name_index == -1) {
                             throw new IOException("Unable to retrieve name for: " + uri);
                         }
-                        fileSize = cursor.getLong(size_index);
-                        if (fileSize < 0) {
+                        int size_index = cursor.getColumnIndex(MediaStore.MediaColumns.SIZE);
+                        if (size_index == -1) {
                             throw new IOException("Unable to retrieve size for: " + uri);
                         }
-                    } catch (Exception ex) {
-                        throw new IOException("Unable to retrieve metadata for: " + uri + ": " + ex.getMessage());
+                        try {
+                            fileName = cursor.getString(name_index);
+                            if (fileName == null) {
+                                throw new IOException("Unable to retrieve name for: " + uri);
+                            }
+                            fileSize = cursor.getLong(size_index);
+                            if (fileSize < 0) {
+                                throw new IOException("Unable to retrieve size for: " + uri);
+                            }
+                        } catch (Exception ex) {
+                            throw new IOException("Unable to retrieve metadata for: " + uri + ": " + ex.getMessage());
+                        }
                     }
+                } finally {
+                    cursor.close();
                 }
-            } finally {
-                cursor.close();
-            }
-        } else if (ContentResolver.SCHEME_FILE.equals(uriScheme)) {
-            file = new File(uri.getPath());
-            if (!file.exists()) {
-                throw new FileNotFoundException("Does not exist: " + file);
-            }
-            fileName = file.getName();
-            fileSize = file.length();
-        } else if (ContentResolver.SCHEME_ANDROID_RESOURCE.equals(uriScheme)) {
-            // we could actually read it, but I don't see how we can determine the file size
-            throw new IOException("Unsupported scheme for uri: " + uri);
-        } else {
-            throw new IOException("Unsupported scheme for uri: " + uri);
+                break;
+            case ContentResolver.SCHEME_FILE:
+                file = new File(uri.getPath());
+                if (!file.exists()) {
+                    throw new FileNotFoundException("Does not exist: " + file);
+                }
+                fileName = file.getName();
+                fileSize = file.length();
+                break;
+            case ContentResolver.SCHEME_ANDROID_RESOURCE:
+                // we could actually read it, but I don't see how we can determine the file size
+                throw new IOException("Unsupported scheme for uri: " + uri);
+            default:
+                throw new IOException("Unsupported scheme for uri: " + uri);
         }
     }
 }

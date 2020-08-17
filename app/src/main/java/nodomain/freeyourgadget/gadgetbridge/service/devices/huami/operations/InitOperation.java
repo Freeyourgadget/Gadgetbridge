@@ -83,7 +83,7 @@ public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
         if (cryptFlags == 0x00) {
             return new byte[]{HuamiService.AUTH_REQUEST_RANDOM_AUTH_NUMBER, authFlags};
         } else {
-            return new byte[]{(byte) (cryptFlags | HuamiService.AUTH_REQUEST_RANDOM_AUTH_NUMBER), authFlags, 0x02};
+            return new byte[]{(byte) (cryptFlags | HuamiService.AUTH_REQUEST_RANDOM_AUTH_NUMBER), authFlags, 0x02, 0x01, 0x00};
         }
     }
 

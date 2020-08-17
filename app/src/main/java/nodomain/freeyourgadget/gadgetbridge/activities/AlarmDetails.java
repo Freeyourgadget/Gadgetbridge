@@ -22,6 +22,7 @@ import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckedTextView;
+import android.widget.EditText;
 import android.widget.TimePicker;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -46,6 +47,8 @@ public class AlarmDetails extends AbstractGBActivity {
     private CheckedTextView cbFriday;
     private CheckedTextView cbSaturday;
     private CheckedTextView cbSunday;
+    private EditText title;
+    private EditText description;
     private GBDevice device;
 
     @Override
@@ -55,6 +58,9 @@ public class AlarmDetails extends AbstractGBActivity {
 
         alarm = (Alarm) getIntent().getSerializableExtra(nodomain.freeyourgadget.gadgetbridge.model.Alarm.EXTRA_ALARM);
         device = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
+
+        title = findViewById(R.id.alarm_title);
+        description = findViewById(R.id.alarm_description);
 
         timePicker = findViewById(R.id.alarm_time_picker);
         cbSmartWakeup = findViewById(R.id.alarm_cb_smart_wakeup);
@@ -126,6 +132,12 @@ public class AlarmDetails extends AbstractGBActivity {
         int snoozeVisibility = supportsSnoozing() ? View.VISIBLE : View.GONE;
         cbSnooze.setVisibility(snoozeVisibility);
 
+        int descriptionVisibility = supportsDescription() ? View.VISIBLE : View.GONE;
+        title.setVisibility(descriptionVisibility);
+        title.setText(alarm.getTitle());
+        description.setVisibility(descriptionVisibility);
+        description.setText(alarm.getDescription());
+
         cbMonday.setChecked(alarm.getRepetition(Alarm.ALARM_MON));
         cbTuesday.setChecked(alarm.getRepetition(Alarm.ALARM_TUE));
         cbWednesday.setChecked(alarm.getRepetition(Alarm.ALARM_WED));
@@ -140,6 +152,14 @@ public class AlarmDetails extends AbstractGBActivity {
         if (device != null) {
             DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
             return coordinator.supportsSmartWakeup(device);
+        }
+        return false;
+    }
+
+    private boolean supportsDescription() {
+        if (device != null) {
+            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+            return coordinator.supportsAlarmDescription(device);
         }
         return false;
     }
@@ -170,6 +190,8 @@ public class AlarmDetails extends AbstractGBActivity {
         alarm.setRepetition(repetitionMask);
         alarm.setHour(timePicker.getCurrentHour());
         alarm.setMinute(timePicker.getCurrentMinute());
+        alarm.setTitle(title.getText().toString());
+        alarm.setDescription(description.getText().toString());
         DBHelper.store(alarm);
     }
 

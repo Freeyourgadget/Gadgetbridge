@@ -32,8 +32,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
@@ -46,6 +48,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,15 +57,22 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.ActivitySummariesAdapter;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 
 public class ActivitySummariesActivity extends AbstractListActivity<BaseActivitySummary> {
-
+    private static final Logger LOG = LoggerFactory.getLogger(ActivitySummariesActivity.class);
     private GBDevice mGBDevice;
     private SwipeRefreshLayout swipeLayout;
+    LinkedHashMap<String , Integer> activityKindMap = new LinkedHashMap<>(1);
+    int activityFilter=0;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -121,7 +131,8 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
         super.onCreate(savedInstanceState);
-        setItemAdapter(new ActivitySummariesAdapter(this, mGBDevice));
+
+        setItemAdapter(new ActivitySummariesAdapter(this, mGBDevice,activityFilter));
 
         getItemListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -129,13 +140,12 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                 Object item = parent.getItemAtPosition(position);
                 if (item != null) {
                     ActivitySummary summary = (ActivitySummary) item;
-
-                    String gpxTrack = summary.getGpxTrack();
-                    if (gpxTrack != null) {
-                        showTrack(gpxTrack);
-                    } else {
-                        GB.toast("This activity does not contain GPX tracks.", Toast.LENGTH_LONG, GB.INFO);
+                    try {
+                        showActivityDetail(position);
+                    } catch (Exception e) {
+                        GB.toast(getApplicationContext(), "Unable to display Activity Detail, maybe the activity is not available yet: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
                     }
+
                 }
             }
         });
@@ -230,6 +240,52 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                 fetchTrackData();
             }
         });
+
+        activityKindMap = fillKindMap();
+        addItemsOnSpinner();
+        addListenerOnSpinnerItemSelection();
+
+
+    }
+
+    private LinkedHashMap fillKindMap(){
+        LinkedHashMap<String , Integer> newMap = new LinkedHashMap<>(1); //reset
+        newMap.put("All Activities", 0);
+        for (BaseActivitySummary item : getItemAdapter().getItems()) {
+            String activityName = ActivityKind.asString(item.getActivityKind(), this);
+            if (!newMap.containsKey(item.getActivityKind())) {
+                newMap.put(activityName, item.getActivityKind());
+            }
+        }
+        return newMap;
+    }
+
+    public void addListenerOnSpinnerItemSelection() {
+        Spinner spinner = (Spinner) findViewById(R.id.select_kind);
+        spinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+    }
+
+    public class CustomOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View view, int pos,long id) {
+            activityFilter=activityKindMap.get(parent.getItemAtPosition(pos));
+            setActivityKindFilter(activityFilter);
+            refresh();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+            // TODO Auto-generated method stub
+        }
+
+    }
+
+    public void addItemsOnSpinner() {
+        Spinner spinner = (Spinner) findViewById(R.id.select_kind);
+        ArrayList<String> spinnerArray = new ArrayList<>(activityKindMap.keySet());
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_dropdown_item, spinnerArray);
+        spinner.setAdapter(dataAdapter);
     }
 
     public void resetFetchTimestampToChosenDate() {
@@ -263,12 +319,13 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         refresh();
     }
 
-    private void showTrack(String gpxTrack) {
-        try {
-            AndroidUtils.viewFile(gpxTrack, Intent.ACTION_VIEW, this);
-        } catch (IOException e) {
-            GB.toast(this, "Unable to display GPX track: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
-        }
+    private void showActivityDetail(int position){
+        Intent ActivitySummaryDetailIntent = new Intent(this, ActivitySummaryDetail.class);
+        ActivitySummaryDetailIntent.putExtra("position", position);
+        ActivitySummaryDetailIntent.putExtra("filter", activityFilter);
+        ActivitySummaryDetailIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
+        startActivity(ActivitySummaryDetailIntent);
+
     }
 
     private void fetchTrackData() {
@@ -300,4 +357,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         }
 
     }
+
+
+
 }

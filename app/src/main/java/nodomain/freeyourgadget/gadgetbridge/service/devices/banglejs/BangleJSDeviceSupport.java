@@ -32,9 +32,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.TimeZone;
+import java.util.SimpleTimeZone;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
@@ -55,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(BangleJSDeviceSupport.class);
@@ -81,7 +83,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         builder.notify(rxCharacteristic, true);
 
         uartTx(builder, " \u0003"); // clear active line
-        setTime(builder);
+
+        Prefs prefs = GBApplication.getPrefs();
+        if (prefs.getBoolean("datetime_synconconnect", true))
+          setTime(builder);
         //sendSettings(builder);
 
         // get version
@@ -234,7 +239,15 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
 
     void setTime(TransactionBuilder builder) {
-        uartTx(builder, "\u0010setTime("+(System.currentTimeMillis()/1000)+");E.setTimeZone("+(TimeZone.getDefault().getRawOffset()/3600000)+");\n");
+      long ts = System.currentTimeMillis();
+      float tz = SimpleTimeZone.getDefault().getOffset(ts) / (1000 * 60 * 60.0f);
+      // set time
+      String cmd = "\u0010setTime("+(ts/1000)+");";
+      // set timezone
+      cmd += "E.setTimeZone("+tz+");";
+      // write timezone to settings
+      cmd += "(s=>{s&&(s.timezone="+tz+")&&require('Storage').write('setting.json',s);})(require('Storage').readJSON('setting.json',1))";
+      uartTx(builder, cmd+"\n");
     }
 
     @Override
