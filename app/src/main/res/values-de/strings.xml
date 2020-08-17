@@ -987,4 +987,11 @@
     <string name="ascentMeters">Bergauf</string>
     <string name="distanceMeters">Strecke</string>
     <string name="activity_summary_detail">Detail der Sportaktivität</string>
+    <string name="maxSpeed">Maximum</string>
+    <string name="prefs_events_forwarding_action_title">Aktion ausführen</string>
+    <string name="prefs_events_forwarding_startnonwear">Beim nicht tragend</string>
+    <string name="prefs_events_forwarding_wokeup">Beim Aufwachen</string>
+    <string name="prefs_events_forwarding_fellsleep">Beim Einschlafen</string>
+    <string name="activity_type_yoga">Yoga</string>
+    <string name="activity_type_swimming_openwater">Schwimmen (Freiwasser)</string>
 </resources>
