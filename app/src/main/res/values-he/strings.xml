@@ -1011,4 +1011,9 @@
     <string name="prefs_events_forwarding_fellsleep">עם הירדמות</string>
     <string name="prefs_events_forwarding_title">פעולות מכשיר</string>
     <string name="prefs_events_forwarding_summary">להשתמש באירועי המכשיר כדי לגרור פעולות ושידורי Android</string>
+    <string name="activity_type_yoga">יוגה</string>
+    <string name="activity_type_jump_roping">קפיצה בחבל</string>
+    <string name="activity_type_elliptical_trainer">אליפטיקל</string>
+    <string name="activity_type_indoor_cycling">רכיבה בתוך מבנה</string>
+    <string name="activity_type_swimming_openwater">שחייה במים פתוחים</string>
 </resources>
