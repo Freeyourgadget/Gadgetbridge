@@ -56,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.DataType;
 import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.watchxplus.WatchXPlusConstants;
@@ -64,7 +65,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.watchxplus.WatchXPlus
 import nodomain.freeyourgadget.gadgetbridge.entities.WatchXPlusActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.WatchXPlusHealthActivityOverlay;
 import nodomain.freeyourgadget.gadgetbridge.entities.WatchXPlusHealthActivityOverlayDao;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -87,12 +87,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.lenovo.operations.In
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
-    private static final Prefs prefs  = GBApplication.getPrefs();
-
     private boolean needsAuth;
     private int sequenceNumber = 0;
     private boolean isCalibrationActive = false;
@@ -1182,11 +1179,15 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
      */
     private void setUnitsSettings() {
         int units = 0;
-        if (getContext().getString(R.string.p_unit_metric).equals(units)) {
-            LOG.info(" Changed units: metric ");
-        } else {
+        String unitsPref = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, GBApplication.getContext().getString(R.string.p_unit_metric));
+
+        if (unitsPref.equals(GBApplication.getContext().getString(R.string.p_unit_imperial))) {
+            units = 1;
             LOG.info(" Changed units: imperial ");
+        } else {
+            LOG.info(" Changed units: metric ");
         }
+
         byte[] bArr = new byte[3];
         bArr[0] = (byte) units; // metric - 0/imperial - 1
         bArr[1] = (byte) 0x00;  //time unit 12/24h (there are separate command for this)
