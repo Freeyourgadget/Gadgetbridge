@@ -425,6 +425,11 @@
             android:parentActivityName=".activities.ActivitySummariesActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.ActivitySummariesFilter"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
 
         <activity
             android:name=".activities.DbManagementActivity"

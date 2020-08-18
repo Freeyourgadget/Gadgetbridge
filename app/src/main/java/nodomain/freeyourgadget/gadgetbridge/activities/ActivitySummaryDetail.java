@@ -37,6 +37,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,6 +69,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     private boolean show_raw_data = false;
     BaseActivitySummary currentItem = null;
     private int alternateColor;
+    //private Object BottomSheetBehavior;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -77,7 +80,10 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         GBDevice gbDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
         final int filter = intent.getIntExtra("filter", 0);
         final int position = intent.getIntExtra("position", 0);
-        final ActivitySummaryItems items = new ActivitySummaryItems(this, gbDevice, filter);
+        final long dateFromFilter = intent.getLongExtra("dateFromFilter", 0);
+        final long dateToFilter = intent.getLongExtra("dateToFilter", 0);
+
+        final ActivitySummaryItems items = new ActivitySummaryItems(this, gbDevice, filter, dateFromFilter, dateToFilter);
         final RelativeLayout layout = findViewById(R.id.activity_summary_detail_relative_layout);
         alternateColor = getAlternateColor(this);
 

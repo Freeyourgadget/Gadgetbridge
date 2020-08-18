@@ -976,6 +976,12 @@
     <string name="prefs_events_forwarding_startnonwear_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.StartNonWear</string>
     <string name="prefs_events_forwarding_broadcast_title">Broadcast message</string>
     <string name="prefs_events_forwarding_action_title">Run action</string>
+    <string name="pref_header_filter">Sports Activities Filter</string>
+    <string name="activity_filter_date_from">From:</string>
+    <string name="activity_filter_date_to">To:</string>
+    <string name="activity_filter_reset_filter">Reset Filter</string>
+    <string name="activity_filter_filter_title">Filter</string>
+    <string name="activity_filter_apply_filter">Apply Filter</string>
 
 
     <plurals name="widget_alarm_target_hours">

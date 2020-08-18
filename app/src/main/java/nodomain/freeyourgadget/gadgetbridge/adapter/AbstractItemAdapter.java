@@ -63,6 +63,14 @@ public abstract class AbstractItemAdapter<T> extends ArrayAdapter<T> {
         this.setActivityKindFilter(activityKind);
     }
 
+    public void setDateFromFilter(long date){
+        this.setDateFromFilter(date);
+    }
+
+    public void setDateToFilter(long date){
+        this.setDateToFilter(date);
+    }
+
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         T item = getItem(position);

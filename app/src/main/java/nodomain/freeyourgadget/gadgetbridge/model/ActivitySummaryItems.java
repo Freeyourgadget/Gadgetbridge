@@ -14,11 +14,17 @@ public class ActivitySummaryItems {
     List<BaseActivitySummary> allItems;
     ActivitySummariesAdapter itemsAdapter;
     private int current_position = 0;
+    long dateFromFilter=0;
+    long dateToFilter=0;
 
-    public ActivitySummaryItems(Context context, GBDevice device, int activityKindFilter) {
+
+    public ActivitySummaryItems(Context context, GBDevice device, int activityKindFilter, long dateFromFilter, long dateToFilter) {
         this.device = device;
         this.activityKindFilter = activityKindFilter;
-        this.itemsAdapter = new ActivitySummariesAdapter(context, device, activityKindFilter);
+        this.dateFromFilter=dateFromFilter;
+        this.dateToFilter=dateToFilter;
+        this.itemsAdapter = new ActivitySummariesAdapter(context, device, activityKindFilter, dateFromFilter, dateToFilter);
+
     }
 
     public BaseActivitySummary getItem(int position){

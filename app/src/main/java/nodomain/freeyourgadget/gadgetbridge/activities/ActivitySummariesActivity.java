@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -45,22 +46,22 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.adapter.ActivitySummariesAdapter;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
-import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,8 +72,10 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySummariesActivity.class);
     private GBDevice mGBDevice;
     private SwipeRefreshLayout swipeLayout;
-    LinkedHashMap<String , Integer> activityKindMap = new LinkedHashMap<>(1);
+    HashMap<String , Integer> activityKindMap = new HashMap<>(1);
     int activityFilter=0;
+    long dateFromFilter=0;
+    long dateToFilter=0;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -113,10 +116,33 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                 resetFetchTimestampToChosenDate();
                 processed = true;
                 break;
+            case R.id.activity_action_filter:
+                Intent filterIntent = new Intent(this, ActivitySummariesFilter.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("activityKindMap",activityKindMap);
+                bundle.putInt("activityFilter",activityFilter);
+                bundle.putLong("dateFromFilter",dateFromFilter);
+                bundle.putLong("dateToFilter",dateToFilter);
+                filterIntent.putExtras(bundle);
+                startActivityForResult(filterIntent,1);
+                return true;
         }
         return processed;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        super.onActivityResult(requestCode, resultCode, resultData);
+        if (requestCode == 1 && resultData!=null) {
+            activityFilter= resultData.getIntExtra("activityFilter",0);
+            dateFromFilter = resultData.getLongExtra("dateFromFilter",0);
+            dateToFilter = resultData.getLongExtra("dateToFilter",0);
+            setActivityKindFilter((int) activityFilter);
+            setDateFromFilter((long) dateFromFilter);
+            setDateToFilter((long) dateToFilter);
+            refresh();
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Bundle extras = getIntent().getExtras();
@@ -132,7 +158,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
 
         super.onCreate(savedInstanceState);
 
-        setItemAdapter(new ActivitySummariesAdapter(this, mGBDevice,activityFilter));
+        setItemAdapter(new ActivitySummariesAdapter(this, mGBDevice,activityFilter,dateFromFilter,dateToFilter));
 
         getItemListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -242,8 +268,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         });
 
         activityKindMap = fillKindMap();
-        addItemsOnSpinner();
-        addListenerOnSpinnerItemSelection();
+
 
 
     }
@@ -258,34 +283,6 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
             }
         }
         return newMap;
-    }
-
-    public void addListenerOnSpinnerItemSelection() {
-        Spinner spinner = (Spinner) findViewById(R.id.select_kind);
-        spinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
-    }
-
-    public class CustomOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
-
-        public void onItemSelected(AdapterView<?> parent, View view, int pos,long id) {
-            activityFilter=activityKindMap.get(parent.getItemAtPosition(pos));
-            setActivityKindFilter(activityFilter);
-            refresh();
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> arg0) {
-            // TODO Auto-generated method stub
-        }
-
-    }
-
-    public void addItemsOnSpinner() {
-        Spinner spinner = (Spinner) findViewById(R.id.select_kind);
-        ArrayList<String> spinnerArray = new ArrayList<>(activityKindMap.keySet());
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_dropdown_item, spinnerArray);
-        spinner.setAdapter(dataAdapter);
     }
 
     public void resetFetchTimestampToChosenDate() {
@@ -323,6 +320,9 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         Intent ActivitySummaryDetailIntent = new Intent(this, ActivitySummaryDetail.class);
         ActivitySummaryDetailIntent.putExtra("position", position);
         ActivitySummaryDetailIntent.putExtra("filter", activityFilter);
+        ActivitySummaryDetailIntent.putExtra("dateFromFilter",dateFromFilter);
+        ActivitySummaryDetailIntent.putExtra("dateToFilter",dateToFilter);
+
         ActivitySummaryDetailIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
         startActivity(ActivitySummaryDetailIntent);
 

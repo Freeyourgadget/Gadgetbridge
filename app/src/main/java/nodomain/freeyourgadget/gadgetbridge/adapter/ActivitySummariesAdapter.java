@@ -38,11 +38,15 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySummary> {
     private final GBDevice device;
     private int activityKindFilter;
+    long dateFromFilter=0;
+    long dateToFilter=0;
 
-    public ActivitySummariesAdapter(Context context, GBDevice device, int activityKindFilter) {
+    public ActivitySummariesAdapter(Context context, GBDevice device, int activityKindFilter, long dateFromFilter, long dateToFilter) {
         super(context);
         this.device = device;
         this.activityKindFilter = activityKindFilter;
+        this.dateFromFilter=dateFromFilter;
+        this.dateToFilter=dateToFilter;
         loadItems();
     }
 
@@ -53,15 +57,22 @@ public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySu
             Device dbDevice = DBHelper.findDevice(device, handler.getDaoSession());
 
             QueryBuilder<BaseActivitySummary> qb = summaryDao.queryBuilder();
-            if (activityKindFilter !=0){
+            qb.where(
+                    BaseActivitySummaryDao.Properties.DeviceId.eq(
+                            dbDevice.getId())).orderDesc(BaseActivitySummaryDao.Properties.StartTime);
+
+            if (activityKindFilter !=0) {
                 qb.where(
-                        BaseActivitySummaryDao.Properties.DeviceId.eq(dbDevice.getId()),
-                        BaseActivitySummaryDao.Properties.ActivityKind.eq(activityKindFilter))
-                        .orderDesc(BaseActivitySummaryDao.Properties.StartTime);
-            }else{
+                        BaseActivitySummaryDao.Properties.ActivityKind.eq(activityKindFilter));
+            }
+
+            if (dateFromFilter !=0) {
                 qb.where(
-                        BaseActivitySummaryDao.Properties.DeviceId.eq(
-                                dbDevice.getId())).orderDesc(BaseActivitySummaryDao.Properties.StartTime);
+                        BaseActivitySummaryDao.Properties.StartTime.gt(new Date(dateFromFilter)));
+            }
+            if (dateToFilter !=0) {
+                qb.where(
+                        BaseActivitySummaryDao.Properties.EndTime.lt(new Date(dateToFilter)));
             }
 
             List<BaseActivitySummary> allSummaries = qb.build().list();
@@ -74,6 +85,13 @@ public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySu
     public void setActivityKindFilter(int filter){
         this.activityKindFilter=filter;
     }
+    public void setDateFromFilter(long date){
+        this.dateFromFilter=date;
+    }
+    public void setDateToFilter(long date){
+        this.dateToFilter=date;
+    }
+
 
     @Override
     protected String getName(BaseActivitySummary item) {
