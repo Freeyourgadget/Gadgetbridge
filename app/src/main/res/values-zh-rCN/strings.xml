@@ -1001,4 +1001,16 @@
     <string name="distanceMeters">距离</string>
     <string name="activity_summary_detail">运动活动详情</string>
     <string name="seconds_m">秒/米</string>
+    <string name="prefs_events_forwarding_action_title">运行动作</string>
+    <string name="prefs_events_forwarding_broadcast_title">广播信息</string>
+    <string name="prefs_events_forwarding_startnonwear">未穿戴时</string>
+    <string name="prefs_events_forwarding_wokeup">醒来时</string>
+    <string name="prefs_events_forwarding_fellsleep">睡觉时</string>
+    <string name="prefs_events_forwarding_title">设备操作</string>
+    <string name="prefs_events_forwarding_summary">使用设备事件来触发操作和Android广播</string>
+    <string name="activity_type_yoga">瑜伽</string>
+    <string name="activity_type_jump_roping">跳绳</string>
+    <string name="activity_type_elliptical_trainer">椭圆机</string>
+    <string name="activity_type_indoor_cycling">室内环游</string>
+    <string name="activity_type_swimming_openwater">游泳（开放水域）</string>
 </resources>
