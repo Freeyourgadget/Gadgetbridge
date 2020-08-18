@@ -50,10 +50,12 @@ import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryItems;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -61,7 +63,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.SwipeEvents;
 
 public class ActivitySummaryDetail extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySummaryDetail.class);
-    private GBDevice mGBDevice;
     private JSONObject groupData = setGroups();
     private boolean show_raw_data = false;
     BaseActivitySummary currentItem = null;
@@ -73,10 +74,10 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary_details);
         Intent intent = getIntent();
-        mGBDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
-        final int filter = intent.getIntExtra("filter",0);
-        final int position = intent.getIntExtra("position",0);
-        final ActivitySummaryItems items = new ActivitySummaryItems(this, mGBDevice, filter);
+        GBDevice gbDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+        final int filter = intent.getIntExtra("filter", 0);
+        final int position = intent.getIntExtra("position", 0);
+        final ActivitySummaryItems items = new ActivitySummaryItems(this, gbDevice, filter);
         final RelativeLayout layout = findViewById(R.id.activity_summary_detail_relative_layout);
         alternateColor = getAlternateColor(this);
 
@@ -131,7 +132,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         }
 
         //allows long-press.switch of data being in raw form or recalculated
-        ImageView activity_icon = (ImageView) findViewById(R.id.item_image);
+        ImageView activity_icon = findViewById(R.id.item_image);
         activity_icon.setOnLongClickListener(new View.OnLongClickListener() {
             public boolean onLongClick(View v) {
                 show_raw_data=!show_raw_data;
@@ -149,7 +150,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     private void makeSummaryHeader(BaseActivitySummary item){
         //make view of data from main part of item
         final String gpxTrack = item.getGpxTrack();
-        Button show_track_btn = (Button) findViewById(R.id.showTrack);
+        Button show_track_btn = findViewById(R.id.showTrack);
         show_track_btn.setVisibility(View.GONE);
 
         if (gpxTrack != null) {
@@ -165,34 +166,40 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             });
         }
         String activitykindname = ActivityKind.asString(item.getActivityKind(), getApplicationContext());
-        Date starttime = (Date) item.getStartTime();
-        Date endtime = (Date) item.getEndTime();
+        Date starttime = item.getStartTime();
+        Date endtime = item.getEndTime();
         String starttimeS = DateTimeUtils.formatDateTime(starttime);
         String endtimeS = DateTimeUtils.formatDateTime(endtime);
         String durationhms = DateTimeUtils.formatDurationHoursMinutes((endtime.getTime() - starttime.getTime()), TimeUnit.MILLISECONDS);
 
-        ImageView activity_icon = (ImageView) findViewById(R.id.item_image);
+        ImageView activity_icon = findViewById(R.id.item_image);
         activity_icon.setImageResource(ActivityKind.getIconId(item.getActivityKind()));
 
-        TextView activity_kind = (TextView) findViewById(R.id.activitykind);
+        TextView activity_kind = findViewById(R.id.activitykind);
         activity_kind.setText(activitykindname);
-        TextView start_time = (TextView) findViewById(R.id.starttime);
+        TextView start_time = findViewById(R.id.starttime);
         start_time.setText(starttimeS);
-        TextView end_time = (TextView) findViewById(R.id.endtime);
+        TextView end_time = findViewById(R.id.endtime);
         end_time.setText(endtimeS);
-        TextView activity_duration = (TextView) findViewById(R.id.duration);
+        TextView activity_duration = findViewById(R.id.duration);
         activity_duration.setText(durationhms);
 
     }
 
-    private void makeSummaryContent (BaseActivitySummary item){
+    private void makeSummaryContent(BaseActivitySummary item) {
         //make view of data from summaryData of item
 
         TableLayout fieldLayout = findViewById(R.id.summaryDetails);
         fieldLayout.removeAllViews(); //remove old widgets
 
         JSONObject summarySubdata = null;
-        JSONObject data = null;
+        JSONObject data;
+
+        // Parse on the fly if we have binary data available
+        if (item.getRawSummaryData() != null) {
+            ActivitySummaryParser parser = new HuamiActivitySummaryParser(); // FIXME: if something else than huami supports that make sure to have the right parser
+            item = parser.parseBinaryData(item);
+        }
 
         String sumData = item.getSummaryData();
 
@@ -206,8 +213,6 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
 
         if (summarySubdata == null) return;
         data = makeSummaryList(summarySubdata); //make new list, grouped by groups
-
-        if (data == null) return;
 
         Iterator<String> keys = data.keys();
         DecimalFormat df = new DecimalFormat("#.##");
