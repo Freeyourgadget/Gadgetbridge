@@ -352,10 +352,11 @@ public class NotificationListener extends NotificationListenerService {
 
         dissectNotificationTo(notification, notificationSpec, preferBigText);
 
-        if (!checkNotificationContentForWhiteAndBlackList(sbn.getPackageName().toLowerCase(), notificationSpec.body)) {
-            return;
+        if (notificationSpec.body != null) {
+            if (!checkNotificationContentForWhiteAndBlackList(sbn.getPackageName().toLowerCase(), notificationSpec.body)) {
+                return;
+            }
         }
-
 
         // ignore Gadgetbridge's very own notifications, except for those from the debug screen
         if (getApplicationContext().getPackageName().equals(source)) {
