@@ -106,6 +106,15 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
         int descentSeconds = 0;
         int flatSeconds = 0;
 
+        // Swimming
+        float averageStrokeDistance = 0;
+        float averageStrokesPerSecond = 0;
+        float averageLapPace = 0;
+        short strokes = 0;
+        short swolfIndex = 0; // this is called SWOLF score on bip s, SWOLF index on mi band 4
+        byte swimStyle = 0;
+        byte laps = 0;
+
         // Just assuming, Bip has 259 which seems like 256+x
         // Bip S now has 518 so assuming 512+x, might be wrong
 
@@ -146,6 +155,35 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
                 descentSeconds = buffer.getInt() / 1000; //ms?
                 buffer.getInt(); // unknown;
                 flatSeconds = buffer.getInt() / 1000; // ms?
+            } else if (activityKind == ActivityKind.TYPE_SWIMMING || activityKind == ActivityKind.TYPE_SWIMMING_OPENWATER) {
+                // offset 0x8c
+                /*
+                    data on the bip s display (example)
+                    main style backstroke
+                    SWOLF score 92
+                    total laps 1
+                    avg. pace 2,09/100
+                    strokes 36
+                    avg stroke rate 26 spm
+                    single stroke distance 1,79m
+                    max stroke rate 39
+                 */
+
+                averageStrokeDistance = buffer.getFloat();
+                buffer.getInt(); // unknown
+                buffer.getInt(); // unknown
+                buffer.getInt(); // unknown
+                buffer.getInt(); // unknown
+                buffer.getInt(); // unknown
+                averageStrokesPerSecond = buffer.getFloat();
+                averageLapPace = buffer.getFloat();
+                buffer.getInt(); // unknown
+                strokes = buffer.getShort();
+                swolfIndex = buffer.getShort();
+                swimStyle = buffer.get();
+                laps = buffer.get();
+                buffer.getInt(); // unknown
+                buffer.getInt(); // unknown
             }
         } else {
             distanceMeters = buffer.getFloat();
@@ -168,25 +206,16 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
             buffer.getInt(); // unknown
             if (activityKind == ActivityKind.TYPE_SWIMMING) {
                 // 28 bytes
-                float averageStrokeDistance = buffer.getFloat();
-                float averageStrokesPerSecond = buffer.getFloat();
-                float averageLapPace = buffer.getFloat();
-                short strokes = buffer.getShort();
-                short swolfIndex = buffer.getShort();
-                byte swimStyle = buffer.get();
-                byte laps = buffer.get();
+                averageStrokeDistance = buffer.getFloat();
+                averageStrokesPerSecond = buffer.getFloat();
+                averageLapPace = buffer.getFloat();
+                strokes = buffer.getShort();
+                swolfIndex = buffer.getShort();
+                swimStyle = buffer.get();
+                laps = buffer.get();
                 buffer.getInt(); // unknown
                 buffer.getInt(); // unknown
                 buffer.getShort(); // unknown
-
-                addSummaryData("averageStrokeDistance", averageStrokeDistance, "meters");
-                addSummaryData("averageStrokesPerSecond", averageStrokesPerSecond, "strokes_second");
-                addSummaryData("averageLapPace", averageLapPace, "second");
-                addSummaryData("strokes", strokes, "strokes");
-                addSummaryData("swolfIndex", swolfIndex, "swolf_index");
-                addSummaryData("swimStyle", swimStyle, "swim_style");
-                addSummaryData("laps", laps, "laps");
-
             } else {
                 // 28 bytes
                 buffer.getInt(); // unknown
@@ -256,6 +285,16 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
         addSummaryData("averageKMPaceSeconds", averageKMPaceSeconds, "seconds_km");
         addSummaryData("averageStride", averageStride, "cm");
 
+        if (activityKind == ActivityKind.TYPE_SWIMMING || activityKind == ActivityKind.TYPE_SWIMMING_OPENWATER) {
+            addSummaryData("averageStrokeDistance", averageStrokeDistance, "meters");
+            addSummaryData("averageStrokesPerSecond", averageStrokesPerSecond, "strokes_second");
+            addSummaryData("averageLapPace", averageLapPace, "second");
+            addSummaryData("strokes", strokes, "strokes");
+            addSummaryData("swolfIndex", swolfIndex, "swolf_index");
+            addSummaryData("swimStyle", swimStyle, "swim_style");
+            addSummaryData("laps", laps, "laps");
+        }
+
         summary.setSummaryData(summaryData.toString());
         return summary;
     }
@@ -272,5 +311,4 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
             }
         }
     }
-
 }
