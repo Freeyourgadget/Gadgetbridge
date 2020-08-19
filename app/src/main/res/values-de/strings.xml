@@ -1001,4 +1001,9 @@
     <string name="activity_type_elliptical_trainer">Crosstrainer</string>
     <string name="activity_type_indoor_cycling">Indoor Cycling</string>
     <string name="strokes_second">str/s</string>
+    <string name="swimStyle">Schwimmstil</string>
+    <string name="seconds">sek</string>
+    <string name="minutes_km">min/km</string>
+    <string name="seconds_m">sek/m</string>
+    <string name="ascentSeconds">Aufsteigend</string>
 </resources>
