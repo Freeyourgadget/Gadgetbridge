@@ -1033,4 +1033,10 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="activity_type_indoor_cycling">Kondisyon Bisikleti</string>
     <string name="prefs_events_forwarding_action_title">Eylemi çalıştır</string>
     <string name="prefs_events_forwarding_broadcast_title">Mesajı yayınla</string>
+    <string name="activity_filter_apply_filter">Filtreyi Uygula</string>
+    <string name="activity_filter_date_to">Bitiş:</string>
+    <string name="activity_filter_date_from">Başlangıç:</string>
+    <string name="pref_header_filter">Spor Aktiviteleri Filtresi</string>
+    <string name="activity_filter_filter_title">Filtre</string>
+    <string name="activity_filter_reset_filter">Filtreyi Sıfırla</string>
 </resources>
