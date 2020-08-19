@@ -994,4 +994,10 @@
     <string name="prefs_events_forwarding_fellsleep">Beim Einschlafen</string>
     <string name="activity_type_yoga">Yoga</string>
     <string name="activity_type_swimming_openwater">Schwimmen (Freiwasser)</string>
+    <string name="strokes">Schläge</string>
+    <string name="Strokes">Schläge</string>
+    <string name="calories_unit">kcal</string>
+    <string name="activity_type_jump_roping">Seilspringen</string>
+    <string name="activity_type_elliptical_trainer">Crosstrainer</string>
+    <string name="activity_type_indoor_cycling">Indoor Cycling</string>
 </resources>
