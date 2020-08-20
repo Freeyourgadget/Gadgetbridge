@@ -1000,4 +1000,5 @@
     <string name="activity_type_jump_roping">Seilspringen</string>
     <string name="activity_type_elliptical_trainer">Crosstrainer</string>
     <string name="activity_type_indoor_cycling">Indoor Cycling</string>
+    <string name="strokes_second">str/s</string>
 </resources>
