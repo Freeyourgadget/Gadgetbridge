@@ -36,6 +36,7 @@ public class TinyWeatherForecastGermanyReceiver extends BroadcastReceiver {
                 WeatherSpec weatherSpec = bundle.getParcelable("WeatherSpec");
                 if (weatherSpec != null) {
                     Weather.getInstance().setWeatherSpec(weatherSpec);
+                    weatherSpec.timestamp = (int) (System.currentTimeMillis() / 1000);
                     GBApplication.deviceService().onSendWeather(weatherSpec);
                 }
             }
