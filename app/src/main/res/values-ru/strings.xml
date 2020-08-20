@@ -1007,4 +1007,14 @@
     <string name="activity_type_elliptical_trainer">Эллиптический тренажер</string>
     <string name="activity_type_indoor_cycling">Велоспорт в помещении</string>
     <string name="activity_type_swimming_openwater">Плавание (Открытая вода)</string>
+    <string name="prefs_events_forwarding_broadcast_title">Трансляционное сообщение</string>
+    <string name="Elevation">Возвышенность</string>
+    <string name="flatSeconds">Плоские</string>
+    <string name="swolfIndex">swolfIndex</string>
+    <string name="activity_filter_apply_filter">Применить фильтр</string>
+    <string name="activity_filter_filter_title">Фильтр</string>
+    <string name="activity_filter_reset_filter">Сбросить фильтр</string>
+    <string name="activity_filter_date_to">До:</string>
+    <string name="activity_filter_date_from">С:</string>
+    <string name="pref_header_filter">Фильтр спортивных активностей</string>
 </resources>
