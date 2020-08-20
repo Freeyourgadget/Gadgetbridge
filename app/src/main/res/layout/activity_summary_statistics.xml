@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_summary_statistics_relative_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/activatedBackgroundIndicator"
+    android:clickable="false"
+    android:focusable="auto"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/activity_stats_timeFrom_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:fontFamily="sans-serif-black"
+                android:maxLines="1"
+                android:scrollHorizontally="false"
+                android:text="@string/activity_filter_date_from"
+                android:textAlignment="textStart"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/activity_stats_timeFrom_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:fontFamily="sans-serif-black"
+                android:maxLines="1"
+                android:scrollHorizontally="false"
+                android:textAlignment="textEnd"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/activity_stats_timeTo_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:fontFamily="sans-serif-black"
+                android:maxLines="1"
+                android:scrollHorizontally="false"
+                android:text="@string/activity_filter_date_to"
+                android:textAlignment="textStart"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/activity_stats_timeTo_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:fontFamily="sans-serif-black"
+                android:maxLines="1"
+                android:scrollHorizontally="false"
+                android:textAlignment="textEnd"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/activity_stats_duration_sum_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:fontFamily="sans-serif-black"
+                android:maxLines="1"
+                android:scrollHorizontally="false"
+                android:text="@string/activity_detail_duration_label"
+                android:textAlignment="textStart"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/activity_stats_duration_sum_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:fontFamily="sans-serif-black"
+                android:maxLines="1"
+                android:scrollHorizontally="false"
+                android:textAlignment="textEnd"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/activity_stats_distance_sum_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:fontFamily="sans-serif-black"
+                android:maxLines="1"
+                android:scrollHorizontally="false"
+                android:text="@string/Distance"
+                android:textAlignment="textStart"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/activity_stats_distance_sum_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:fontFamily="sans-serif-black"
+                android:maxLines="1"
+                android:scrollHorizontally="false"
+                android:textAlignment="textEnd"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/activity_stats_activeSeconds_sum_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:fontFamily="sans-serif-black"
+                android:maxLines="1"
+                android:scrollHorizontally="false"
+                android:text="@string/activeSeconds"
+                android:textAlignment="textStart"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/activity_stats_activeSeconds_sum_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:fontFamily="sans-serif-black"
+                android:maxLines="1"
+                android:scrollHorizontally="false"
+                android:textAlignment="textEnd"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/activity_stats_calories_burnt_sum_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:fontFamily="sans-serif-black"
+                android:maxLines="1"
+                android:scrollHorizontally="false"
+                android:text="@string/caloriesBurnt"
+                android:textAlignment="textStart"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/activity_stats_calories_burnt_sum_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:fontFamily="sans-serif-black"
+                android:maxLines="1"
+                android:scrollHorizontally="false"
+                android:textAlignment="textEnd"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+    </LinearLayout>
+</RelativeLayout>

@@ -21,6 +21,9 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.Date;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiActivitySummaryParser;
+import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
+
 /**
  * Summarized information about a temporal activity.
  *

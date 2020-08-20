@@ -37,8 +37,6 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,12 +50,11 @@ import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryItems;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryJsonSummary;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -65,7 +62,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.SwipeEvents;
 
 public class ActivitySummaryDetail extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySummaryDetail.class);
-    private JSONObject groupData = setGroups();
+
+
     private boolean show_raw_data = false;
     BaseActivitySummary currentItem = null;
     private int alternateColor;
@@ -197,28 +195,10 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
 
         TableLayout fieldLayout = findViewById(R.id.summaryDetails);
         fieldLayout.removeAllViews(); //remove old widgets
-
-        JSONObject summarySubdata = null;
-        JSONObject data;
-
-        // Parse on the fly if we have binary data available
-        if (item.getRawSummaryData() != null) {
-            ActivitySummaryParser parser = new HuamiActivitySummaryParser(); // FIXME: if something else than huami supports that make sure to have the right parser
-            item = parser.parseBinaryData(item);
-        }
-
-        String sumData = item.getSummaryData();
-
-        if (sumData != null) {
-            try {
-                summarySubdata = new JSONObject(sumData);
-            } catch (JSONException e) {
-                LOG.error("SportsActivity", e);
-            }
-        }
-
-        if (summarySubdata == null) return;
-        data = makeSummaryList(summarySubdata); //make new list, grouped by groups
+        ActivitySummaryJsonSummary activitySummaryJsonSummary = new ActivitySummaryJsonSummary(item);
+        //JSONObject summarySubdata = activitySummaryJsonSummary.getSummaryData();
+        JSONObject data = activitySummaryJsonSummary.getSummaryGroupedList(); //get list, grouped by groups
+        if (data == null) return;
 
         Iterator<String> keys = data.keys();
         DecimalFormat df = new DecimalFormat("#.##");
@@ -294,76 +274,9 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         }
     }
 
-    private JSONObject setGroups(){
-        String groupDefinitions = "{'Strokes':['averageStrokeDistance','averageStrokesPerSecond','strokes'], " +
-                "'Swimming':['swolfIndex','swimStyle'], " +
-                "'Elevation':['ascentMeters','descentMeters','maxAltitude','minAltitude','ascentSeconds','descentSeconds','flatSeconds'], " +
-                "'Speed':['maxSpeed','minPace','maxPace','averageKMPaceSeconds'], " +
-                "'Activity':['distanceMeters','steps','activeSeconds','caloriesBurnt','totalStride'," +
-                "'averageHR','averageStride'], " +
-                "'Laps':['averageLapPace','laps']}";
-        JSONObject data = null;
-        try {
-            data = new JSONObject(groupDefinitions);
-        } catch (JSONException e) {
-            LOG.error("SportsActivity", e);
-        }
-        return data;
-    }
 
-    private String getGroup(String searchItem) {
-        String defaultGroup = "Activity";
-        if (groupData == null) return defaultGroup;
-        Iterator<String> keys = groupData.keys();
-        while (keys.hasNext()) {
-            String key = keys.next();
-            try {
-                JSONArray itemList = (JSONArray) groupData.get(key);
-                for (int i = 0; i < itemList.length(); i++) {
-                    if (itemList.getString(i).equals(searchItem)) {
-                        return key;
-                    }
-                }
-            } catch (JSONException e) {
-                LOG.error("SportsActivity", e);
-            }
-        }
-    return defaultGroup;
-}
 
-    private JSONObject makeSummaryList(JSONObject summaryData){
-        //make dictionary with data for each group
-        JSONObject list = new JSONObject();
-        Iterator<String> keys = summaryData.keys();
-        LOG.error("SportsActivity JSON:" + summaryData + keys);
 
-        while (keys.hasNext()) {
-            String key = keys.next();
-
-            try {
-                LOG.error("SportsActivity:" + key + ": " + summaryData.get(key) + "\n");
-                JSONObject innerData = (JSONObject) summaryData.get(key);
-                Object value = innerData.get("value");
-                String unit = innerData.getString("unit");
-                String group = getGroup(key);
-
-                if (!list.has(group)) {
-                    list.put(group,new JSONArray());
-                }
-
-                JSONArray tmpl = (JSONArray) list.get(group);
-                JSONObject innernew = new JSONObject();
-                innernew.put("name", key);
-                innernew.put("value", value);
-                innernew.put("unit", unit);
-                tmpl.put(innernew);
-                list.put(group, tmpl);
-            } catch (JSONException e) {
-                LOG.error("SportsActivity", e);
-            }
-        }
-        return list;
-    }
     public static int getAlternateColor(Context context) {
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();

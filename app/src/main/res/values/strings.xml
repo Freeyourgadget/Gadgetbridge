@@ -952,6 +952,7 @@
     <string name="seconds_m">sec/m</string>
     <string name="minutes_km">min/km</string>
     <string name="bpm">bpm</string>
+    <string name="km">km</string>
     <!-- activity summary groups-->
     <string name="Strokes">Strokes</string>
     <string name="Swimming">Swimming</string>
@@ -961,9 +962,9 @@
     <string name="Activity">Activity</string>
     <string name="Steps">Steps</string>
     <!-- Sports Activity Detail -->
-    <string name="activity_detail_start_label">Start:</string>
-    <string name="activity_detail_end_label">End:</string>
-    <string name="activity_detail_duration_label">Duration:</string>
+    <string name="activity_detail_start_label">Start</string>
+    <string name="activity_detail_end_label">End</string>
+    <string name="activity_detail_duration_label">Duration</string>
     <string name="activity_detail_show_gps_label">Show GPS Track</string>
     <!-- Device Actions Preferences -->
     <string name="prefs_events_forwarding_summary">Use device events to trigger actions and Android broadcasts</string>
@@ -977,11 +978,12 @@
     <string name="prefs_events_forwarding_broadcast_title">Broadcast message</string>
     <string name="prefs_events_forwarding_action_title">Run action</string>
     <string name="pref_header_filter">Sports Activities Filter</string>
-    <string name="activity_filter_date_from">From:</string>
-    <string name="activity_filter_date_to">To:</string>
+    <string name="activity_filter_date_from">From</string>
+    <string name="activity_filter_date_to">To</string>
     <string name="activity_filter_reset_filter">Reset Filter</string>
     <string name="activity_filter_filter_title">Filter</string>
     <string name="activity_filter_apply_filter">Apply Filter</string>
+    <string name="activity_summaries_statistics">Statistics</string>
 
 
     <plurals name="widget_alarm_target_hours">

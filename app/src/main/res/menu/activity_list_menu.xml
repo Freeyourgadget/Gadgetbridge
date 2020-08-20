@@ -13,5 +13,11 @@
         android:title="@string/pref_header_filter"
         app:iconTint="@color/primarytext_dark"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/activity_action_calculate_summary_stats"
+        android:icon="@drawable/ic_outline_filter_9_plus"
+        android:title="@string/pref_header_filter"
+        app:iconTint="@color/primarytext_dark"
+        app:showAsAction="ifRoom" />
 
 </menu>
