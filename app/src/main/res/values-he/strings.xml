@@ -1016,4 +1016,10 @@
     <string name="activity_type_elliptical_trainer">אליפטיקל</string>
     <string name="activity_type_indoor_cycling">רכיבה בתוך מבנה</string>
     <string name="activity_type_swimming_openwater">שחייה במים פתוחים</string>
+    <string name="activity_filter_apply_filter">החלת מסנן</string>
+    <string name="activity_filter_filter_title">מסנן</string>
+    <string name="activity_filter_reset_filter">איפוס המסנן</string>
+    <string name="activity_filter_date_to">סיום:</string>
+    <string name="activity_filter_date_from">התחלה:</string>
+    <string name="pref_header_filter">מסנן פעילויות ספורטיביות</string>
 </resources>
