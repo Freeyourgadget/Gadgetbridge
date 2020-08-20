@@ -291,7 +291,22 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
             addSummaryData("averageLapPace", averageLapPace, "second");
             addSummaryData("strokes", strokes, "strokes");
             addSummaryData("swolfIndex", swolfIndex, "swolf_index");
-            addSummaryData("swimStyle", swimStyle, "swim_style");
+            String swimStyleName = "unknown"; // TODO: translate here or keep as string identifier here?
+            switch (swimStyle) {
+                case 1:
+                    swimStyleName = "breaststroke";
+                    break;
+                case 2:
+                    swimStyleName = "freestyle";
+                    break;
+                case 3:
+                    swimStyleName = "backstroke";
+                    break;
+                case 4:
+                    swimStyleName = "medley";
+                    break;
+            }
+            addSummaryData("swimStyle", swimStyleName);
             addSummaryData("laps", laps, "laps");
         }
 
@@ -306,6 +321,18 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
                 JSONObject innerData = new JSONObject();
                 innerData.put("value", value);
                 innerData.put("unit", unit);
+                summaryData.put(key, innerData);
+            } catch (JSONException ignore) {
+            }
+        }
+    }
+
+    private void addSummaryData(String key, String value) {
+        if (key != null && !key.equals("") && value != null && !value.equals("")) {
+            try {
+                JSONObject innerData = new JSONObject();
+                innerData.put("value", value);
+                innerData.put("unit", "string");
                 summaryData.put(key, innerData);
             } catch (JSONException ignore) {
             }

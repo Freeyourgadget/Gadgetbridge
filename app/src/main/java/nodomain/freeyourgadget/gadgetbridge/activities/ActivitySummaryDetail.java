@@ -238,42 +238,47 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 fieldLayout.addView(label_row);
 
                 for (int i = 0; i < innerList.length(); i++) {
-                    JSONObject innerData = innerList.getJSONObject(i);
-                    double value =  innerData.getDouble("value");
-                    String unit =  innerData.getString("unit");
-                    String name = innerData.getString("name");
-
-                    if (!show_raw_data) {
-                        //special casing here:
-                        switch (unit) {
-                            case "meters_second":
-                                value = value * 3.6;
-                                unit = "km_h";
-                                break;
-                            case "seconds_m":
-                                value = 3.6 / value;
-                                unit = "minutes_km";
-                                break;
-                            case "seconds_km":
-                                value = value / 60;
-                                unit = "minutes_km";
-                                break;
-
-                        }
-                    }
-                    TableRow field_row = new TableRow(ActivitySummaryDetail.this);
-                    if (i % 2 == 0) field_row.setBackgroundColor(alternateColor);
-
                     TextView name_field = new TextView(ActivitySummaryDetail.this);
                     TextView value_field = new TextView(ActivitySummaryDetail.this);
                     name_field.setGravity(Gravity.START);
                     value_field.setGravity(Gravity.END);
 
-                    if (unit.equals("seconds") && !show_raw_data) { //rather then plain seconds, show formatted duration
-                        value_field.setText(DateTimeUtils.formatDurationHoursMinutes((long) value, TimeUnit.SECONDS));
-                    }else {
-                        value_field.setText(String.format("%s %s", df.format(value), getStringResourceByName(unit)));
+                    JSONObject innerData = innerList.getJSONObject(i);
+                    String unit = innerData.getString("unit");
+                    String name = innerData.getString("name");
+                    if (!unit.equals("string")) {
+                        double value = innerData.getDouble("value");
+
+                        if (!show_raw_data) {
+                            //special casing here:
+                            switch (unit) {
+                                case "meters_second":
+                                    value = value * 3.6;
+                                    unit = "km_h";
+                                    break;
+                                case "seconds_m":
+                                    value = 3.6 / value;
+                                    unit = "minutes_km";
+                                    break;
+                                case "seconds_km":
+                                    value = value / 60;
+                                    unit = "minutes_km";
+                                    break;
+
+                            }
+                        }
+
+                        if (unit.equals("seconds") && !show_raw_data) { //rather then plain seconds, show formatted duration
+                            value_field.setText(DateTimeUtils.formatDurationHoursMinutes((long) value, TimeUnit.SECONDS));
+                        } else {
+                            value_field.setText(String.format("%s %s", df.format(value), getStringResourceByName(unit)));
+                        }
+                    } else {
+                        value_field.setText(innerData.getString("value"));
                     }
+
+                    TableRow field_row = new TableRow(ActivitySummaryDetail.this);
+                    if (i % 2 == 0) field_row.setBackgroundColor(alternateColor);
 
                     name_field.setText(getStringResourceByName(name));
                     TableRow.LayoutParams params = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f);
