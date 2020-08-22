@@ -1041,4 +1041,8 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="activity_filter_reset_filter">Filtreyi Sıfırla</string>
     <string name="activity_summaries_statistics">İstatistikler</string>
     <string name="km">km</string>
+    <string name="medley">Karışık</string>
+    <string name="backstroke">Sırtüstü</string>
+    <string name="freestyle">Serbest stil</string>
+    <string name="breaststroke">Kurbağalama</string>
 </resources>
