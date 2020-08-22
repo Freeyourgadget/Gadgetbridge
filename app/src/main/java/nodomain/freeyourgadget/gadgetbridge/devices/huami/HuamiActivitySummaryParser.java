@@ -101,6 +101,7 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
         float totalStride = 0;
         float averageStride;
         short averageHR;
+        short maxHR = 0;
         short averageKMPaceSeconds;
         int ascentSeconds = 0;
         int descentSeconds = 0;
@@ -144,7 +145,7 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
             averageHR = buffer.getShort();
             averageKMPaceSeconds = buffer.getShort();
             averageStride = buffer.getShort();
-            buffer.getShort(); // unknown
+            maxHR = buffer.getShort();
 
             if (activityKind == ActivityKind.TYPE_CYCLING || activityKind == ActivityKind.TYPE_RUNNING) {
                 // this had nonsense data with treadmill on bip s, need to test it with running
@@ -284,6 +285,7 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
         addSummaryData("maxPace", maxPace, "seconds_m");
         addSummaryData("totalStride", totalStride, "meters");
         addSummaryData("averageHR", averageHR, "bpm");
+        addSummaryData("maxHR", maxHR, "bpm");
         addSummaryData("averageKMPaceSeconds", averageKMPaceSeconds, "seconds_km");
         addSummaryData("averageStride", averageStride, "cm");
 
