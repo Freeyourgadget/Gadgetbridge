@@ -983,9 +983,9 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="averageStrokesPerSecond">Ortalama Kulaç</string>
     <string name="averageStrokeDistance">Ortalama Kulaç Uzunluğu</string>
     <string name="Activity">Etkinlik</string>
-    <string name="activity_detail_end_label">Bitiş:</string>
-    <string name="activity_detail_start_label">Başlangıç:</string>
-    <string name="activity_detail_duration_label">Süre:</string>
+    <string name="activity_detail_end_label">Bitiş</string>
+    <string name="activity_detail_start_label">Başlangıç</string>
+    <string name="activity_detail_duration_label">Süre</string>
     <string name="Steps">Adım</string>
     <string name="Speed">Hız</string>
     <string name="Distance">Mesafe</string>
@@ -1034,9 +1034,11 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="prefs_events_forwarding_action_title">Eylemi çalıştır</string>
     <string name="prefs_events_forwarding_broadcast_title">Mesajı yayınla</string>
     <string name="activity_filter_apply_filter">Filtreyi Uygula</string>
-    <string name="activity_filter_date_to">Bitiş:</string>
-    <string name="activity_filter_date_from">Başlangıç:</string>
+    <string name="activity_filter_date_to">Bitiş</string>
+    <string name="activity_filter_date_from">Başlangıç</string>
     <string name="pref_header_filter">Spor Aktiviteleri Filtresi</string>
     <string name="activity_filter_filter_title">Filtre</string>
     <string name="activity_filter_reset_filter">Filtreyi Sıfırla</string>
+    <string name="activity_summaries_statistics">İstatistikler</string>
+    <string name="km">km</string>
 </resources>
