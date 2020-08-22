@@ -126,9 +126,11 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
             buffer.getLong();
             caloriesBurnt = buffer.getFloat();
             distanceMeters = buffer.getFloat();
+            ascentMeters = buffer.getFloat();
+            descentMeters = buffer.getFloat();
+            maxAltitude = buffer.getFloat();
+            minAltitude = buffer.getFloat();
             //unknown
-            buffer.getLong();
-            buffer.getLong();
             buffer.getLong();
             buffer.getLong();
             maxPace = buffer.getFloat();
