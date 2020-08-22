@@ -917,9 +917,9 @@
     <string name="error_version_check_extreme_caution">POZOR: Chyba při kontrole verze! Neměli byste pokračovat! Verze má název \"%s\"</string>
     <string name="permission_granting_mandatory">Všechna tato oprávnění jsou vyžadována a může nastat nestabilita, pokud nebudou udělena</string>
     <string name="activity_detail_show_gps_label">Zobrazit trasu GPS</string>
-    <string name="activity_detail_duration_label">Délka:</string>
-    <string name="activity_detail_end_label">Konec:</string>
-    <string name="activity_detail_start_label">Začátek:</string>
+    <string name="activity_detail_duration_label">Doba trvání</string>
+    <string name="activity_detail_end_label">Konec</string>
+    <string name="activity_detail_start_label">Začátek</string>
     <string name="Steps">Kroky</string>
     <string name="Activity">Aktivita</string>
     <string name="Speed">Rychlost</string>
@@ -996,4 +996,30 @@
 \nPoznámka: Nemusíte instalovat soubor .res, pokud je stejný jako nainstalován dříve.
 \n
 \nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="medley">Polohový závod</string>
+    <string name="backstroke">Znak</string>
+    <string name="freestyle">Volný styl</string>
+    <string name="breaststroke">Prsa</string>
+    <string name="activity_summaries_statistics">Statistiky</string>
+    <string name="activity_filter_apply_filter">Použít Filtr</string>
+    <string name="activity_filter_filter_title">Filtr</string>
+    <string name="activity_filter_reset_filter">Zresetovat Filtr</string>
+    <string name="activity_filter_date_to">Do</string>
+    <string name="activity_filter_date_from">Od</string>
+    <string name="pref_header_statistics">Statistiky Sportovních Aktivit</string>
+    <string name="pref_header_filter">Filtr Sportovních Aktivit</string>
+    <string name="prefs_events_forwarding_action_title">Spustit akci</string>
+    <string name="prefs_events_forwarding_broadcast_title">Vysílací broadcast zpráva</string>
+    <string name="prefs_events_forwarding_startnonwear">Při nenošení</string>
+    <string name="prefs_events_forwarding_wokeup">Při probuzení</string>
+    <string name="prefs_events_forwarding_fellsleep">Při usnutí</string>
+    <string name="prefs_events_forwarding_title">Akce zařízení</string>
+    <string name="prefs_events_forwarding_summary">Pomocí událostí náramkového zařízení spusťte akce a Android broadcast vysílání</string>
+    <string name="km">km</string>
+    <string name="seconds_m">sec/m</string>
+    <string name="activity_type_yoga">Jóga</string>
+    <string name="activity_type_jump_roping">Švihadlo</string>
+    <string name="activity_type_elliptical_trainer">Eliptický trenažér</string>
+    <string name="activity_type_indoor_cycling">Sálová Cyklistika</string>
+    <string name="activity_type_swimming_openwater">Plavání (otevřená voda)</string>
 </resources>
