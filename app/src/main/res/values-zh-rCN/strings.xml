@@ -952,9 +952,9 @@
     <string name="ascentSeconds">上升</string>
     <string name="descentSeconds">下降</string>
     <string name="activity_detail_show_gps_label">显示 GPS 跟踪</string>
-    <string name="activity_detail_duration_label">时长：</string>
-    <string name="activity_detail_end_label">结束：</string>
-    <string name="activity_detail_start_label">开始：</string>
+    <string name="activity_detail_duration_label">时长</string>
+    <string name="activity_detail_end_label">结束</string>
+    <string name="activity_detail_start_label">开始</string>
     <string name="Steps">步数</string>
     <string name="Activity">活动</string>
     <string name="Speed">速度</string>
@@ -1016,7 +1016,9 @@
     <string name="activity_filter_apply_filter">应用过滤器</string>
     <string name="activity_filter_filter_title">过滤器</string>
     <string name="activity_filter_reset_filter">重置过滤器</string>
-    <string name="activity_filter_date_to">止：</string>
-    <string name="activity_filter_date_from">自：</string>
+    <string name="activity_filter_date_to">止</string>
+    <string name="activity_filter_date_from">自</string>
     <string name="pref_header_filter">运动活动过滤器</string>
+    <string name="activity_summaries_statistics">统计</string>
+    <string name="km">千米</string>
 </resources>
