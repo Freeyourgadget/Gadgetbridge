@@ -134,8 +134,8 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
             //unknown
             buffer.getLong();
             buffer.getLong();
-            maxPace = buffer.getFloat();
             minPace = buffer.getFloat();
+            maxPace = buffer.getFloat();
             //unknown
             buffer.getLong();
             buffer.getLong();
@@ -202,8 +202,8 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
             activeSeconds = buffer.getInt();
             caloriesBurnt = buffer.getFloat();
             maxSpeed = buffer.getFloat();
-            minPace = buffer.getFloat();
             maxPace = buffer.getFloat();
+            minPace = buffer.getFloat();
             totalStride = buffer.getFloat();
 
             buffer.getInt(); // unknown
