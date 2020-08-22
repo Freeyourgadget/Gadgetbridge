@@ -10,7 +10,7 @@
     <item
         android:id="@+id/activity_action_filter"
         android:icon="@drawable/ic_filter"
-        android:title="@string/pref_header_filter"
+        android:title="@string/pref_header_statistics"
         app:iconTint="@color/primarytext_dark"
         app:showAsAction="ifRoom" />
     <item

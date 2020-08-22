@@ -31,7 +31,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -82,7 +82,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         final long dateToFilter = intent.getLongExtra("dateToFilter", 0);
 
         final ActivitySummaryItems items = new ActivitySummaryItems(this, gbDevice, filter, dateFromFilter, dateToFilter);
-        final RelativeLayout layout = findViewById(R.id.activity_summary_detail_relative_layout);
+        final LinearLayout layout = findViewById(R.id.activity_summary_detail_relative_layout);
         alternateColor = getAlternateColor(this);
 
         final Animation animFadeRight;
@@ -102,6 +102,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         animBounceRight = AnimationUtils.loadAnimation(
                 this,
                 R.anim.bounceright);
+
 
         layout.setOnTouchListener(new SwipeEvents(this) {
             @Override
@@ -128,6 +129,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 }
             }
         });
+
 
         currentItem = items.getItem(position);
         if (currentItem != null) {
