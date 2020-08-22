@@ -1021,4 +1021,8 @@
     <string name="pref_header_filter">运动活动过滤器</string>
     <string name="activity_summaries_statistics">统计</string>
     <string name="km">千米</string>
+    <string name="medley">混合泳</string>
+    <string name="backstroke">仰泳</string>
+    <string name="freestyle">自由泳</string>
+    <string name="breaststroke">蛙泳</string>
 </resources>
