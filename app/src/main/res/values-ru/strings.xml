@@ -947,9 +947,9 @@
     <string name="prefs_events_forwarding_title">Действия с устройством</string>
     <string name="prefs_events_forwarding_summary">Используйте события устройства для запуска действий и трансляций Android</string>
     <string name="activity_detail_show_gps_label">Показать GPS-трек</string>
-    <string name="activity_detail_duration_label">Длительность:</string>
-    <string name="activity_detail_end_label">Конец:</string>
-    <string name="activity_detail_start_label">Начало:</string>
+    <string name="activity_detail_duration_label">Длительность</string>
+    <string name="activity_detail_end_label">Конец</string>
+    <string name="activity_detail_start_label">Начало</string>
     <string name="Steps">Шаги</string>
     <string name="Activity">Активность</string>
     <string name="Speed">Скорость</string>
@@ -1014,7 +1014,13 @@
     <string name="activity_filter_apply_filter">Применить фильтр</string>
     <string name="activity_filter_filter_title">Фильтр</string>
     <string name="activity_filter_reset_filter">Сбросить фильтр</string>
-    <string name="activity_filter_date_to">До:</string>
-    <string name="activity_filter_date_from">С:</string>
+    <string name="activity_filter_date_to">До</string>
+    <string name="activity_filter_date_from">С</string>
     <string name="pref_header_filter">Фильтр спортивных активностей</string>
+    <string name="medley">Комплексное</string>
+    <string name="backstroke">На спине</string>
+    <string name="freestyle">Фристайл</string>
+    <string name="breaststroke">Брасс</string>
+    <string name="activity_summaries_statistics">Статистика</string>
+    <string name="km">км</string>
 </resources>
