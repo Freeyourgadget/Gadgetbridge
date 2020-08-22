@@ -984,6 +984,11 @@
     <string name="activity_filter_filter_title">Filter</string>
     <string name="activity_filter_apply_filter">Apply Filter</string>
     <string name="activity_summaries_statistics">Statistics</string>
+    <!-- swim styles -->
+    <string name="breaststroke">Breaststroke</string>
+    <string name="freestyle">Freestyle</string>
+    <string name="backstroke">Backstroke</string>
+    <string name="medley">Medley</string>
 
 
     <plurals name="widget_alarm_target_hours">

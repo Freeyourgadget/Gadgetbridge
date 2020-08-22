@@ -254,7 +254,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                             value_field.setText(String.format("%s %s", df.format(value), getStringResourceByName(unit)));
                         }
                     } else {
-                        value_field.setText(innerData.getString("value"));
+                        value_field.setText(getStringResourceByName(innerData.getString("value"))); //we could optimize here a bit and only do this for particular activities (swim at the moment...)
                     }
 
                     TableRow field_row = new TableRow(ActivitySummaryDetail.this);
@@ -288,7 +288,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         String packageName = getPackageName();
         int resId = getResources().getIdentifier(aString, "string", packageName);
         if (resId==0){
-            LOG.warn("SportsActivity " + "Missing string in strings:" + aString);
+            //LOG.warn("SportsActivity " + "Missing string in strings:" + aString);
             return aString;
         }else{
             return getString(resId);
