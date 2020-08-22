@@ -24,12 +24,14 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -46,10 +48,11 @@ import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 
-public class ActivitySummariesFilter extends Activity implements View.OnClickListener {
+public class ActivitySummariesFilter extends AbstractGBActivity implements View.OnClickListener {
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySummariesActivity.class);
     private static final String DATE_FILTER_FROM = "dateFromFilter";
     private static final String DATE_FILTER_TO = "dateToFilter";
@@ -57,6 +60,7 @@ public class ActivitySummariesFilter extends Activity implements View.OnClickLis
     long dateFromFilter = 0;
     long dateToFilter = 0;
     HashMap<String, Integer> activityKindMap = new HashMap<>(1);
+    int BACKGROUND_COLOR;
 
     public static int getAlternateColor(Context context) {
         TypedValue typedValue = new TypedValue();
@@ -79,6 +83,7 @@ public class ActivitySummariesFilter extends Activity implements View.OnClickLis
         if (appContext instanceof GBApplication) {
             setContentView(R.layout.sport_activity_filter);
         }
+        BACKGROUND_COLOR = GBApplication.getBackgroundColor(appContext);;
 
         //get spinner ready - assign data, set selected item...
         final Spinner filterKindSpinner = findViewById(R.id.select_kind);
@@ -182,8 +187,8 @@ public class ActivitySummariesFilter extends Activity implements View.OnClickLis
             filterDateFromDataView.setBackgroundColor(Color.RED);
             filterDateToDataView.setBackgroundColor(Color.RED);
         } else {
-            filterDateFromDataView.setBackgroundColor(Color.WHITE);
-            filterDateToDataView.setBackgroundColor(Color.WHITE);
+            filterDateFromDataView.setBackgroundColor(BACKGROUND_COLOR);
+            filterDateToDataView.setBackgroundColor(BACKGROUND_COLOR);
         }
 
         if (dateToFilter != 0 || dateFromFilter != 0 || activityFilter != 0) {
@@ -230,6 +235,17 @@ public class ActivitySummariesFilter extends Activity implements View.OnClickLis
             // TODO Auto-generated method stub
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // back button
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

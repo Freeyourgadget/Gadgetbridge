@@ -427,9 +427,9 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.ActivitySummariesFilter"
-            android:excludeFromRecents="true"
-            android:launchMode="singleInstance"
-            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
+            android:label="@string/activity_filter_filter_title"
+            android:parentActivityName=".activities.ActivitySummariesActivity"
+            android:excludeFromRecents="true"/>
 
         <activity
             android:name=".activities.DbManagementActivity"

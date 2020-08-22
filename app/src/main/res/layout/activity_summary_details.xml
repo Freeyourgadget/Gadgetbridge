@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/activity_summary_detail_relative_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="?android:attr/activatedBackgroundIndicator"
-        android:clickable="false"
-        android:focusable="auto"
-        android:orientation="vertical"
-        android:padding="8dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_summary_detail_relative_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:clickable="false"
+    android:focusable="auto"
+    android:orientation="vertical"
+    android:padding="8dp">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/sports_activity_summary_background"
         android:orientation="horizontal">
 
         <ImageView
@@ -143,4 +143,4 @@
 
     </LinearLayout>
 
-    </LinearLayout>
+</LinearLayout>

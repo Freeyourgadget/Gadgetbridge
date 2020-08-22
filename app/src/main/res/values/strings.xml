@@ -928,7 +928,6 @@
     <string name="averageStrokeDistance">Average Stroke Distance</string>
     <string name="averageStrokesPerSecond">Average Strokes</string>
     <string name="averageLapPace">Average Lap Pace</string>
-    <string name="strokes">Strokes</string>
     <string name="swolfIndex">swolfIndex</string>
     <string name="swimStyle">swimStyle</string>
     <string name="laps">Laps</string>

@@ -129,6 +129,17 @@ public class AndroidUtils {
         return colorToHex(color);
     }
 
+    public static int getBackgroundColor(Context context) {
+        int color;
+        if (GBApplication.isDarkThemeEnabled()) {
+            color = context.getResources().getColor(R.color.cardview_dark_background);
+        } else {
+            color = context.getResources().getColor(R.color.cardview_light_background);
+        }
+        return color;
+    }
+
+
     private static String colorToHex(int color) {
         return "#"
                 + Integer.toHexString(Color.red(color))

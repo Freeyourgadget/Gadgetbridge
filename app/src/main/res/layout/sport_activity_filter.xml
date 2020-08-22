@@ -1,5 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sport_activity_filter_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -21,7 +22,6 @@
 
         <Spinner
             android:id="@+id/select_kind"
-            style="@style/Widget.AppCompat.Spinner.Underlined"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left"
@@ -31,7 +31,6 @@
 
         <LinearLayout
             android:id="@+id/filterfrom"
-            style="@style/Widget.AppCompat.Spinner.Underlined"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="bottom"
@@ -64,7 +63,6 @@
 
         <LinearLayout
             android:id="@+id/filterto"
-            style="@style/Widget.AppCompat.Spinner.Underlined"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="bottom"
@@ -97,19 +95,21 @@
 
         <Button
             android:id="@+id/reset_filter_button"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.Button.Colored"
             android:text="@string/activity_filter_reset_filter" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1" />
+
         <Button
             android:id="@+id/apply_filter_button"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.Button.Colored"
             android:text="@string/activity_filter_apply_filter" />
 
 

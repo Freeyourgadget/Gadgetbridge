@@ -239,7 +239,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                                     unit = "km_h";
                                     break;
                                 case "seconds_m":
-                                    value = 3.6 / value;
+                                    value = value * (1000/60);
                                     unit = "minutes_km";
                                     break;
                                 case "seconds_km":

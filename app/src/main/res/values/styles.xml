@@ -16,8 +16,8 @@
         <item name="chart_light_sleep">@color/chart_light_sleep_light</item>
         <item name="chart_activity">@color/chart_activity_light</item>
         <item name="chart_not_worn">@color/chart_not_worn_light</item>
-
         <item name="alternate_row_background">@color/alternate_row_background_light</item>
+        <item name="sports_activity_summary_background">@color/chart_heartrate_fill</item>
     </style>
 
     <style name="GadgetbridgeTheme.NoActionBar">
@@ -43,6 +43,8 @@
         <item name="chart_activity">@color/chart_activity_dark</item>
         <item name="chart_not_worn">@color/chart_not_worn_dark</item>
         <item name="alternate_row_background">@color/alternate_row_background_dark</item>
+        <item name="sports_activity_summary_background">@color/alternate_row_background_dark</item>
+
     </style>
 
     <style name="ButtonDark" parent="Widget.AppCompat.Button.Colored">
