@@ -16,13 +16,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,8 +31,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -48,7 +49,6 @@ import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 
@@ -59,6 +59,7 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
     int activityFilter = 0;
     long dateFromFilter = 0;
     long dateToFilter = 0;
+    String nameContainsFilter;
     HashMap<String, Integer> activityKindMap = new HashMap<>(1);
     int BACKGROUND_COLOR;
 
@@ -78,12 +79,14 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
         activityFilter = bundle.getInt("activityFilter", 0);
         dateFromFilter = bundle.getLong("dateFromFilter", 0);
         dateToFilter = bundle.getLong("dateToFilter", 0);
+        nameContainsFilter = bundle.getString("nameContainsFilter");
 
         Context appContext = this.getApplicationContext();
         if (appContext instanceof GBApplication) {
             setContentView(R.layout.sport_activity_filter);
         }
-        BACKGROUND_COLOR = GBApplication.getBackgroundColor(appContext);;
+        BACKGROUND_COLOR = GBApplication.getBackgroundColor(appContext);
+        ;
 
         //get spinner ready - assign data, set selected item...
         final Spinner filterKindSpinner = findViewById(R.id.select_kind);
@@ -98,11 +101,30 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
         final TextView filterfromlabel = findViewById(R.id.textViewFromData);
         final LinearLayout filterto = findViewById(R.id.filterto);
         final TextView filtertolabel = findViewById(R.id.textViewToData);
-
+        final EditText nameContainsFilterdata = findViewById(R.id.textViewNameData);
+        nameContainsFilterdata.setBackgroundDrawable(null);
 
         final Button reset_filter_button = findViewById(R.id.reset_filter_button);
         final Button apply_filter_button = findViewById(R.id.apply_filter_button);
         apply_filter_button.setBackgroundColor(this.getResources().getColor(R.color.accent));
+
+
+        nameContainsFilterdata.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+
+            }
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                nameContainsFilter = s.toString();
+                update_filter_fields();
+            }
+        });
 
 
         reset_filter_button.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +133,7 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
                 activityFilter = 0;
                 dateFromFilter = 0;
                 dateToFilter = 0;
+                nameContainsFilter = "";
                 filterKindSpinner.setSelection(0);
                 update_filter_fields();
             }
@@ -119,10 +142,16 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
         apply_filter_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String text = nameContainsFilterdata.getText().toString();
+                if (text != null && text.length() > 0) {
+                    nameContainsFilter = text;
+                }
+
                 Intent intent = new Intent();
                 intent.putExtra("activityFilter", activityFilter);
                 intent.putExtra("dateFromFilter", dateFromFilter);
                 intent.putExtra("dateToFilter", dateToFilter);
+                intent.putExtra("nameContainsFilter", nameContainsFilter);
                 setResult(1, intent);
                 finish();
             }
@@ -167,6 +196,7 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
         TextView filterDateFromDataView = findViewById(R.id.textViewFromData);
         TextView filterDateToDataView = findViewById(R.id.textViewToData);
         Button reset_filter_button = findViewById(R.id.reset_filter_button);
+        final EditText nameContainsFilterdata = findViewById(R.id.textViewNameData);
 
         if (dateFromFilter > 0) {
             filterDateFromDataView.setText(DateTimeUtils.formatDate(new Date(dateFromFilter)));
@@ -187,8 +217,10 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
             filterDateFromDataView.setBackgroundColor(BACKGROUND_COLOR);
             filterDateToDataView.setBackgroundColor(BACKGROUND_COLOR);
         }
-
-        if (dateToFilter != 0 || dateFromFilter != 0 || activityFilter != 0) {
+        if (nameContainsFilter != null && !nameContainsFilter.equals(nameContainsFilterdata.getText().toString())) {
+            nameContainsFilterdata.setText(nameContainsFilter);
+        }
+        if (dateToFilter != 0 || dateFromFilter != 0 || activityFilter != 0 || nameContainsFilterdata.length() > 0) {
             reset_filter_button.setBackgroundColor(this.getResources().getColor(R.color.accent));
 
         } else {
@@ -220,6 +252,17 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
         }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // back button
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public class CustomOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
 
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -232,17 +275,6 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
             // TODO Auto-generated method stub
         }
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // back button
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
 }

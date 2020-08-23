@@ -71,6 +71,10 @@ public abstract class AbstractItemAdapter<T> extends ArrayAdapter<T> {
         this.setDateToFilter(date);
     }
 
+    public void setNameContainsFilter(String name){
+        this.setNameContainsFilter(name);
+    }
+
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         T item = getItem(position);

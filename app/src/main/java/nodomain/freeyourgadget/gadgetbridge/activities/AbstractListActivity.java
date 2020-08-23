@@ -47,6 +47,10 @@ public abstract class AbstractListActivity<T> extends AbstractGBActivity {
         this.itemAdapter.setDateToFilter(date);
     }
 
+    public void setNameContainsFilter(String name){
+        this.itemAdapter.setNameContainsFilter(name);
+    }
+
     public AbstractItemAdapter<T> getItemAdapter() {
         return itemAdapter;
     }

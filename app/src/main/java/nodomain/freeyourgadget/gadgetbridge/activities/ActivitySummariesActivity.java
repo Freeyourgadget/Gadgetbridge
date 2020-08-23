@@ -84,7 +84,11 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
     int activityFilter=0;
     long dateFromFilter=0;
     long dateToFilter=0;
+    String nameContainsFilter;
     boolean offscreen = true;
+    static final int ACTIVITY_FILTER=1;
+    static final int ACTIVITY_DETAIL=11;
+
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -141,8 +145,9 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                 bundle.putInt("activityFilter",activityFilter);
                 bundle.putLong("dateFromFilter",dateFromFilter);
                 bundle.putLong("dateToFilter",dateToFilter);
+                bundle.putString("nameContainsFilter",nameContainsFilter);
                 filterIntent.putExtras(bundle);
-                startActivityForResult(filterIntent,1);
+                startActivityForResult(filterIntent,ACTIVITY_FILTER);
                 return true;
             case R.id.activity_action_calculate_summary_stats:
                 processSummaryStatistics();
@@ -224,15 +229,21 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         super.onActivityResult(requestCode, resultCode, resultData);
-        if (requestCode == 1 && resultData!=null) {
-            activityFilter= resultData.getIntExtra("activityFilter",0);
-            dateFromFilter = resultData.getLongExtra("dateFromFilter",0);
-            dateToFilter = resultData.getLongExtra("dateToFilter",0);
-            setActivityKindFilter((int) activityFilter);
-            setDateFromFilter((long) dateFromFilter);
-            setDateToFilter((long) dateToFilter);
+        if (requestCode == ACTIVITY_FILTER && resultData != null) {
+            activityFilter = resultData.getIntExtra("activityFilter", 0);
+            dateFromFilter = resultData.getLongExtra("dateFromFilter", 0);
+            dateToFilter = resultData.getLongExtra("dateToFilter", 0);
+            nameContainsFilter = resultData.getStringExtra("nameContainsFilter");
+            setActivityKindFilter(activityFilter);
+            setDateFromFilter(dateFromFilter);
+            setDateToFilter(dateToFilter);
+            setNameContainsFilter(nameContainsFilter);
             refresh();
         }
+        if (requestCode == ACTIVITY_DETAIL) {
+            refresh();
+        }
+
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -249,7 +260,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
 
         super.onCreate(savedInstanceState);
 
-        setItemAdapter(new ActivitySummariesAdapter(this, mGBDevice,activityFilter,dateFromFilter,dateToFilter));
+        setItemAdapter(new ActivitySummariesAdapter(this, mGBDevice,activityFilter,dateFromFilter,dateToFilter,nameContainsFilter));
 
         getItemListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -416,11 +427,13 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         ActivitySummaryDetailIntent.putExtra("filter", activityFilter);
         ActivitySummaryDetailIntent.putExtra("dateFromFilter",dateFromFilter);
         ActivitySummaryDetailIntent.putExtra("dateToFilter",dateToFilter);
+        ActivitySummaryDetailIntent.putExtra("nameContainsFilter",nameContainsFilter);
 
         ActivitySummaryDetailIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
-        startActivity(ActivitySummaryDetailIntent);
-
+        startActivityForResult(ActivitySummaryDetailIntent,ACTIVITY_DETAIL);
     }
+
+
 
     private void fetchTrackData() {
         if (mGBDevice.isInitialized() && !mGBDevice.isBusy()) {

@@ -40,13 +40,15 @@ public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySu
     private int activityKindFilter;
     long dateFromFilter=0;
     long dateToFilter=0;
+    String nameContainsFilter;
 
-    public ActivitySummariesAdapter(Context context, GBDevice device, int activityKindFilter, long dateFromFilter, long dateToFilter) {
+    public ActivitySummariesAdapter(Context context, GBDevice device, int activityKindFilter, long dateFromFilter, long dateToFilter, String nameContainsFilter) {
         super(context);
         this.device = device;
         this.activityKindFilter = activityKindFilter;
         this.dateFromFilter=dateFromFilter;
         this.dateToFilter=dateToFilter;
+        this.nameContainsFilter=nameContainsFilter;
         loadItems();
     }
 
@@ -74,6 +76,10 @@ public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySu
                 qb.where(
                         BaseActivitySummaryDao.Properties.EndTime.lt(new Date(dateToFilter)));
             }
+            if (nameContainsFilter !=null && nameContainsFilter.length() > 0) {
+                qb.where(
+                        BaseActivitySummaryDao.Properties.Name.like("%" + nameContainsFilter + "%"));
+            }
 
             List<BaseActivitySummary> allSummaries = qb.build().list();
             setItems(allSummaries, true);
@@ -91,18 +97,26 @@ public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySu
     public void setDateToFilter(long date){
         this.dateToFilter=date;
     }
+    public void setNameContainsFilter(String name){
+        this.nameContainsFilter=name;
+    }
 
 
     @Override
     protected String getName(BaseActivitySummary item) {
-
-
-
-
         String name = item.getName();
-        if (name != null && name.length() > 0) {
-            return name;
+        if (name == null) name="";
+        String gpxTrack = item.getGpxTrack();
+        String hasGps = " ";
+        if (gpxTrack != null) {
+            hasGps=" 🛰️ ";
         }
+        return ActivityKind.asString(item.getActivityKind(), getContext())+ hasGps + name;
+    }
+
+    @Override
+    protected String getDetails(BaseActivitySummary item) {
+
 
         Date startTime = item.getStartTime();
         Long duration = (item.getEndTime().getTime() - item.getStartTime().getTime());
@@ -111,19 +125,7 @@ public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySu
             return DateTimeUtils.formatDateTime(startTime) + " (" + DateTimeUtils.formatDurationHoursMinutes(duration, TimeUnit.MILLISECONDS) + ")";
         }
 
-
-
         return "Unknown activity";
-    }
-
-    @Override
-    protected String getDetails(BaseActivitySummary item) {
-        String gpxTrack = item.getGpxTrack();
-        String hasGps = "";
-        if (gpxTrack != null) {
-            hasGps=" 🛰️";
-        }
-        return ActivityKind.asString(item.getActivityKind(), getContext())+ hasGps;
     }
 
     @Override

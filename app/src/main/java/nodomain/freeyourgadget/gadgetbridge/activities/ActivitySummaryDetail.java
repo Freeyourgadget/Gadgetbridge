@@ -18,11 +18,14 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -30,6 +33,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -49,6 +53,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -62,7 +67,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.SwipeEvents;
 
 public class ActivitySummaryDetail extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySummaryDetail.class);
-
+    private GBDevice gbDevice;
 
     private boolean show_raw_data = false;
     BaseActivitySummary currentItem = null;
@@ -73,15 +78,20 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_summary_details);
+        final Context appContext = this.getApplicationContext();
+        if (appContext instanceof GBApplication) {
+            setContentView(R.layout.activity_summary_details);
+        }
+
         Intent intent = getIntent();
-        GBDevice gbDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+        gbDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
         final int filter = intent.getIntExtra("filter", 0);
         final int position = intent.getIntExtra("position", 0);
         final long dateFromFilter = intent.getLongExtra("dateFromFilter", 0);
         final long dateToFilter = intent.getLongExtra("dateToFilter", 0);
+        final String nameContainsFilter = intent.getStringExtra("nameContainsFilter");
 
-        final ActivitySummaryItems items = new ActivitySummaryItems(this, gbDevice, filter, dateFromFilter, dateToFilter);
+        final ActivitySummaryItems items = new ActivitySummaryItems(this, gbDevice, filter, dateFromFilter, dateToFilter, nameContainsFilter);
         final LinearLayout layout = findViewById(R.id.activity_summary_detail_relative_layout);
         alternateColor = getAlternateColor(this);
 
@@ -113,10 +123,11 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                     makeSummaryContent(currentItem);
                     layout.startAnimation(animFadeRight);
 
-                }else{
+                } else {
                     layout.startAnimation(animBounceRight);
                 }
             }
+
             @Override
             public void onSwipeLeft() {
                 currentItem = items.getPrevItem();
@@ -124,7 +135,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                     makeSummaryHeader(currentItem);
                     makeSummaryContent(currentItem);
                     layout.startAnimation(animFadeLeft);
-                }else{
+                } else {
                     layout.startAnimation(animBounceLeft);
                 }
             }
@@ -141,7 +152,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         ImageView activity_icon = findViewById(R.id.item_image);
         activity_icon.setOnLongClickListener(new View.OnLongClickListener() {
             public boolean onLongClick(View v) {
-                show_raw_data=!show_raw_data;
+                show_raw_data = !show_raw_data;
                 if (currentItem != null) {
                     makeSummaryHeader(currentItem);
                     makeSummaryContent(currentItem);
@@ -150,10 +161,45 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             }
         });
 
+        ImageView activity_summary_detail_edit_name_image = findViewById(R.id.activity_summary_detail_edit_name);
+        activity_summary_detail_edit_name_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText input = new EditText(ActivitySummaryDetail.this);
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                String name = currentItem.getName();
+                input.setText((name != null) ? name : "");
+
+                new AlertDialog.Builder(ActivitySummaryDetail.this) // TODO: very raw at this point, make better drawable layout, already started here: R.style.GadgetbridgeTheme_DialogTheme)
+                        .setView(input)
+                        .setCancelable(true)
+                        .setTitle(ActivitySummaryDetail.this.getString(R.string.activity_summary_edit_name_title))
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                String name = input.getText().toString();
+                                currentItem.setName(name);
+                                currentItem.update();
+                                makeSummaryHeader(currentItem);
+                                makeSummaryContent(currentItem);
+
+                            }
+                        })
+                        .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .show();
+            }
+        });
+
 
     }
 
-    private void makeSummaryHeader(BaseActivitySummary item){
+    private void makeSummaryHeader(BaseActivitySummary item) {
         //make view of data from main part of item
         final String gpxTrack = item.getGpxTrack();
         Button show_track_btn = findViewById(R.id.showTrack);
@@ -172,6 +218,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             });
         }
         String activitykindname = ActivityKind.asString(item.getActivityKind(), getApplicationContext());
+        String activityname = item.getName();
         Date starttime = item.getStartTime();
         Date endtime = item.getEndTime();
         String starttimeS = DateTimeUtils.formatDateTime(starttime);
@@ -183,6 +230,10 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
 
         TextView activity_kind = findViewById(R.id.activitykind);
         activity_kind.setText(activitykindname);
+
+        TextView activity_name = findViewById(R.id.activityname);
+        activity_name.setText(activityname);
+
         TextView start_time = findViewById(R.id.starttime);
         start_time.setText(starttimeS);
         TextView end_time = findViewById(R.id.endtime);
@@ -239,7 +290,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                                     unit = "km_h";
                                     break;
                                 case "seconds_m":
-                                    value = value * (1000/60);
+                                    value = value * (1000 / 60);
                                     unit = "minutes_km";
                                     break;
                                 case "seconds_km":
@@ -277,8 +328,6 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     }
 
 
-
-
     public static int getAlternateColor(Context context) {
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();
@@ -289,10 +338,10 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     private String getStringResourceByName(String aString) {
         String packageName = getPackageName();
         int resId = getResources().getIdentifier(aString, "string", packageName);
-        if (resId==0){
+        if (resId == 0) {
             //LOG.warn("SportsActivity " + "Missing string in strings:" + aString);
             return aString;
-        }else{
+        } else {
             return getString(resId);
         }
     }
@@ -307,5 +356,6 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 }
