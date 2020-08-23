@@ -955,8 +955,8 @@
     <string name="distanceMeters">מרחק</string>
     <string name="activity_summary_detail">פרטי הפעילות הספורטיבית</string>
     <string name="activity_detail_show_gps_label">הצגת מסלול GPS</string>
-    <string name="activity_detail_end_label">סיום:</string>
-    <string name="activity_detail_start_label">התחלה:</string>
+    <string name="activity_detail_end_label">סיום</string>
+    <string name="activity_detail_start_label">התחלה</string>
     <string name="Steps">צעדים</string>
     <string name="Activity">פעילות</string>
     <string name="Speed">מהירות</string>
@@ -988,7 +988,7 @@
     <string name="swimStyle">סגנון שחייה</string>
     <string name="swolfIndex">ציון swolf</string>
     <string name="averageLapPace">קצב ממוצע להקפה</string>
-    <string name="activity_detail_duration_label">משך:</string>
+    <string name="activity_detail_duration_label">משך</string>
     <string name="averageStride">פסיעה ממוצעת</string>
     <string name="averageKMPaceSeconds">קצב</string>
     <string name="averageHR">דופק</string>
@@ -1019,7 +1019,14 @@
     <string name="activity_filter_apply_filter">החלת מסנן</string>
     <string name="activity_filter_filter_title">מסנן</string>
     <string name="activity_filter_reset_filter">איפוס המסנן</string>
-    <string name="activity_filter_date_to">סיום:</string>
-    <string name="activity_filter_date_from">התחלה:</string>
+    <string name="activity_filter_date_to">סיום</string>
+    <string name="activity_filter_date_from">התחלה</string>
     <string name="pref_header_filter">מסנן פעילויות ספורטיביות</string>
+    <string name="medley">מעורב</string>
+    <string name="backstroke">גב</string>
+    <string name="freestyle">חופשי</string>
+    <string name="breaststroke">חזה</string>
+    <string name="activity_summaries_statistics">סטטיסטיקה</string>
+    <string name="pref_header_statistics">סטטיסטיקת פעילות ספורטיבית</string>
+    <string name="km">ק״מ</string>
 </resources>
