@@ -281,8 +281,16 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
         addSummaryData("activeSeconds", activeSeconds, "seconds");
         addSummaryData("caloriesBurnt", caloriesBurnt, "calories_unit");
         addSummaryData("maxSpeed", maxSpeed, "meters_second");
-        addSummaryData("minPace", minPace, "seconds_m");
-        addSummaryData("maxPace", maxPace, "seconds_m");
+
+        if (!(activityKind == ActivityKind.TYPE_ELLIPTICAL_TRAINER ||
+                activityKind == ActivityKind.TYPE_JUMP_ROPING ||
+                activityKind == ActivityKind.TYPE_EXERCISE ||
+                activityKind == ActivityKind.TYPE_YOGA ||
+                activityKind == ActivityKind.TYPE_INDOOR_CYCLING)) {
+            addSummaryData("minPace", minPace, "seconds_m");
+            addSummaryData("maxPace", maxPace, "seconds_m");
+        }
+
         addSummaryData("totalStride", totalStride, "meters");
         addSummaryData("averageHR", averageHR, "bpm");
         addSummaryData("maxHR", maxHR, "bpm");
