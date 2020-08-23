@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.pinetime;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Intent;
 import android.net.Uri;
 
 import org.slf4j.Logger;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -42,26 +44,44 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.IntentListener;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.OverflowStrategy;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 
 public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(PineTimeJFSupport.class);
+    private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
+    private final DeviceInfoProfile<PineTimeJFSupport> deviceInfoProfile;
 
     public PineTimeJFSupport() {
         super(LOG);
         addSupportedService(GattService.UUID_SERVICE_ALERT_NOTIFICATION);
-        AlertNotificationProfile alertNotificationProfile = new AlertNotificationProfile<>(this);
+        addSupportedService(GattService.UUID_SERVICE_DEVICE_INFORMATION);
+        deviceInfoProfile = new DeviceInfoProfile<>(this);
+        IntentListener mListener = new IntentListener() {
+            @Override
+            public void notify(Intent intent) {
+                String action = intent.getAction();
+                if (DeviceInfoProfile.ACTION_DEVICE_INFO.equals(action)) {
+                    handleDeviceInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo) intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO));
+                }
+            }
+        };
+        deviceInfoProfile.addListener(mListener);
+        AlertNotificationProfile<PineTimeJFSupport> alertNotificationProfile = new AlertNotificationProfile<>(this);
         addSupportedProfile(alertNotificationProfile);
+        addSupportedProfile(deviceInfoProfile);
     }
 
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
+        requestDeviceInfo(builder);
         setInitialized(builder);
         return builder;
     }
@@ -71,6 +91,17 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
     }
 
+    private void requestDeviceInfo(TransactionBuilder builder) {
+        LOG.debug("Requesting Device Info!");
+        deviceInfoProfile.requestDeviceInfo(builder);
+    }
+
+    private void handleDeviceInfo(nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo info) {
+        LOG.warn("Device info: " + info);
+        versionCmd.hwVersion = info.getHardwareRevision();
+        versionCmd.fwVersion = info.getFirmwareRevision();
+        handleGBDeviceEvent(versionCmd);
+    }
 
     @Override
     public boolean useAutoConnect() {
@@ -80,7 +111,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
         TransactionBuilder builder = new TransactionBuilder("notification");
-        NewAlert alert = new NewAlert(AlertCategory.CustomHuami, 1, notificationSpec.body);
+        NewAlert alert = new NewAlert(AlertCategory.CustomHuami, 1, notificationSpec.body + " "); // HACK: no idea why the last byte is swallowed
         AlertNotificationProfile<?> profile = new AlertNotificationProfile<>(this);
         profile.newAlert(builder, alert, OverflowStrategy.TRUNCATE);
         builder.queue(getQueue());
