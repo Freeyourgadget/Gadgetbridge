@@ -377,15 +377,15 @@
 \nUwaga: Nie musisz instalować pliku .res, jeśli jest taki sam jak poprzednio zainstalowany. 
 \n 
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
-    <string name="fw_multi_upgrade_notice">Zamierzasz zainstalować oprogramowanie %1$s oraz %2$s, na miejsce obecnie zainstalowanego na Mi Band.</string>
-    <string name="pref_title_charts_swipe">Włącz gest przesuwania w lewo/prawo na wykresach aktywności</string>
+    <string name="fw_multi_upgrade_notice">Zamierzasz zainstalować oprogramowanie %1$s oraz %2$s, na miejsce obecnie zainstalowanego na opasce Mi Band.</string>
+    <string name="pref_title_charts_swipe">Włącz przesuwanie w lewo i w prawo na kartach czynności</string>
     <string name="pref_title_notifications_timeout">Minimalny czas pomiędzy powiadomieniami</string>
     <string name="pref_title_call_privacy_mode">Tryb prywatności połączeń telefonicznych</string>
-    <string name="pref_title_weather_location">Lokalizacja pogody (CM/LOS)</string>
+    <string name="pref_title_weather_location">Lokalizacja pogody (dla dostawcy pogody LineageOS)</string>
     <string name="pref_summary_enable_outgoing_call">Wyłączenie tej opcji spowoduje również, że Pebble 2/LE przestanie wibrować przy połączeniach wychodzących</string>
     <string name="pref_summary_autoremove_notifications">Powiadomienia są automatycznie usuwane z Pebble po usunięciu z urządzenia Android</string>
     <string name="pref_pebble_privacy_mode_content">Przesuń tekst powiadomienia poza ekran</string>
-    <string name="pref_summary_location_keep_uptodate">Spróbuj pobrać obecną lokalizację po uruchomieniu, awaryjnie użyj zapisanej lokalizacji</string>
+    <string name="pref_summary_location_keep_uptodate">Spróbuj uzyskać lokalizację w czasie uruchomienia, używa przechowywanych lokalizacji jako pomocy</string>
     <string name="controlcenter_change_led_color">Zmień kolor LED</string>
     <string name="controlcenter_change_fm_frequency">Zmień częstotliwość FM</string>
     <string name="pref_title_rtl">Od prawej do lewej</string>
@@ -504,7 +504,7 @@
     <string name="activity_type_not_worn">Urządzenie nie noszone</string>
     <string name="activity_type_walking">Chodzenie</string>
     <string name="activity_type_unknown">Nieznana aktywność</string>
-    <string name="activity_summaries">Aktywności</string>
+    <string name="activity_summaries">Aktywności sportowe</string>
     <string name="activity_type_biking">Jazda na rowerze</string>
     <string name="select_all">Zaznacz wszystko</string>
     <string name="share">Udostępnij</string>
@@ -611,7 +611,7 @@
     <string name="zetime_title_heartrate">Ustawienia pomiaru tętna</string>
     <string name="zetime_title_screentime">Czas podświetlenia ekranu w sekundach</string>
     <string name="zetime_title_heart_rate_alarm">Alarm o poziomie tętna</string>
-    <string name="zetime_title_heart_rate_alarm_summary">Zegarek poinformuje Cię, gdy poziom tętna wykroczy poza limit.</string>
+    <string name="zetime_title_heart_rate_alarm_summary">Zegarek cię poinformuje, kiedy twój puls przekroczy limit.</string>
     <string name="zetime_heart_rate_alarm_enable">Włącz alarm o nieprawidłowym poziomie tętna</string>
     <string name="activity_prefs_alarm_max_heart_rate">Maksymalny poziom tętna</string>
     <string name="activity_prefs_alarm_min_heart_rate">Minimalny poziom tętna</string>
@@ -909,4 +909,81 @@
     <string name="about_contributors">Współtwórcy</string>
     <string name="about_activity_title">O Gadgetbridge</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
+    <string name="backstroke">Styl grzbietowy</string>
+    <string name="freestyle">Styl dowolny</string>
+    <string name="breaststroke">Styl klasyczny</string>
+    <string name="activity_filter_reset_filter">Resetuj filtr</string>
+    <string name="pref_header_statistics">Statystyki aktywności sportowej</string>
+    <string name="prefs_events_forwarding_wokeup">Po przebudzeniu się</string>
+    <string name="activity_detail_duration_label">Czas trwania</string>
+    <string name="Activity">Aktywność</string>
+    <string name="Speed">Prędkość</string>
+    <string name="bpm">bpm</string>
+    <string name="ascentSeconds">Rosnąco</string>
+    <string name="averageLapPace">Średnie tempo okrążenia</string>
+    <string name="averageKMPaceSeconds">Tempo</string>
+    <string name="averageHR">Tętno</string>
+    <string name="maxPace">Najszybsze tempo</string>
+    <string name="minPace">Najwolniejsze tempo</string>
+    <string name="maxSpeed">Maksimum</string>
+    <string name="minAltitude">Minimum</string>
+    <string name="maxAltitude">Maksimum</string>
+    <string name="descentMeters">Spadek</string>
+    <string name="ascentMeters">Pod górę</string>
+    <string name="distanceMeters">Dystans</string>
+    <string name="device_requires_key">WYMAGANY KLUCZ</string>
+    <string name="require_location_provider">Lokalizacja musi być włączona</string>
+    <string name="permission_granting_mandatory">Wszystkie te uprawnienia są wymagane, a ich brak może spowodować niestabilność</string>
+    <string name="about_additional_device_support">Dodatkowe wsparcie dla urządzeń</string>
+    <string name="menuitem_cycles">Cykle</string>
+    <string name="menuitem_breathing">Oddychanie</string>
+    <string name="devicetype_pinetime_jf">PineTime (Firmware JF)</string>
+    <string name="activity_summary_detail">Szczegóły aktywności sportowej</string>
+    <string name="activity_type_jump_roping">Skakanka</string>
+    <string name="pref_title_weather_summary">Używane przez dostawcę pogody LineageOS, inne wersje systemu Android powinny używać aplikacji \"Weather notification\". Więcej informacji znajdziesz w wiki Gadgetbridge.</string>
+    <string name="fw_upgrade_notice_miband5">Zamierzasz zainstalować firmware %s na Mi Band 5.
+\n
+\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie .res. Twoja opaska zresetuje się po instalacji pliku .fw.
+\n
+\nUwaga: Nie musisz instalować pliku .res, jeśli jest taki sam jak poprzednio zainstalowany.
+\n
+\nROBISZ TO NA WŁASNE RYZYKO!</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Zamierzasz zainstalować firmware %s na Amazfit T-Rex.
+\n
+\nPamiętaj, aby instalować pliki w kolejności: .fw, potem .res, a na końcu .gps. Twój zegarek zresetuje się po instalacji pliku .fw.
+\n
+\nUwaga: Nie instaluj plików .res i .gps, jeśli są takie same jak poprzednio zainstalowane.
+\n
+\nROBISZ TO NA WŁASNE RYZYKO!</string>
+    <string name="activity_type_swimming_openwater">Pływanie (na wodach otwartych)</string>
+    <string name="activity_type_indoor_cycling">Kolarstwo halowe</string>
+    <string name="menuitem_worldclock">Czas na świecie</string>
+    <string name="menuitem_stress">Stres</string>
+    <string name="about_title">O</string>
+    <string name="meters">m</string>
+    <string name="swim_style">styl pływania</string>
+    <string name="laps_unit">okrążenia</string>
+    <string name="activity_detail_end_label">Koniec</string>
+    <string name="activity_summaries_statistics">Statystyki</string>
+    <string name="activity_filter_apply_filter">Zastosuj filtr</string>
+    <string name="activity_filter_filter_title">Filtr</string>
+    <string name="activity_filter_date_from">Od</string>
+    <string name="activity_filter_date_to">Do</string>
+    <string name="activity_detail_show_gps_label">Pokaż ślad GPS</string>
+    <string name="Steps">Kroki</string>
+    <string name="Distance">Dystans</string>
+    <string name="Swimming">Pływanie</string>
+    <string name="km">km</string>
+    <string name="minutes_km">min/km</string>
+    <string name="calories_unit">kcal</string>
+    <string name="km_h">km/h</string>
+    <string name="meters_second">m/s</string>
+    <string name="cm">cm</string>
+    <string name="steps_unit">kroki</string>
+    <string name="laps">Okrążenia</string>
+    <string name="caloriesBurnt">Kalorie</string>
+    <string name="steps">Kroki</string>
+    <string name="devicetype_tlw64">TLW64</string>
+    <string name="activity_type_yoga">Joga</string>
+    <string name="devicetype_miband5">Mi Band 5</string>
 </resources>
