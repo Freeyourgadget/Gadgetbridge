@@ -396,7 +396,7 @@
     <string name="pref_title_pebble_gatt_clientonly">Tylko klient GATT</string>
     <string name="pref_summary_pebble_gatt_clientonly">Ta eksperymentalna opcja przeznaczona jest wyłącznie dla Pebble 2. Wypróbuj ją jeżeli masz problemy z połączeniem</string>
     <string name="pref_summary_pebble_enable_applogs">Spowoduje, że logi z aplikacji zegarka będą zapisywane przez Gadgetbridge (wymaga ponownego połączenia)</string>
-    <string name="pref_title_pebble_always_ack_pebblekit">Natychmiastowe potwierdzenia PebbleKit</string>
+    <string name="pref_title_pebble_always_ack_pebblekit">Przedwczesne ACK PebbleKit</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Spowoduje, że wiadomości wysyłane do zewnętrznych aplikacji będą zawsze natychmiast potwierdzane</string>
     <string name="pref_title_screentime">Czas włączenia ekranu</string>
     <string name="prefs_screen_orientation">Orientacja ekranu</string>
