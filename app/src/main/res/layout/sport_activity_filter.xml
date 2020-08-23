@@ -4,13 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
-    tools:viewBindingIgnore="true">
-
+    android:padding="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
@@ -24,8 +22,8 @@
             android:id="@+id/select_kind"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
-            android:paddingLeft="0dp"
+            android:background="@drawable/abc_spinner_textfield_background_material"
+            android:gravity="left|center_vertical"
             android:spinnerMode="dropdown"
             android:textAlignment="gravity" />
 
@@ -33,7 +31,7 @@
             android:id="@+id/filterfrom"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="bottom"
+            android:background="@drawable/abc_spinner_textfield_background_material"
             android:orientation="horizontal"
             android:paddingStart="10dp"
             android:paddingEnd="4dp"
@@ -61,11 +59,12 @@
                 android:textSize="18sp" />
         </LinearLayout>
 
+
         <LinearLayout
             android:id="@+id/filterto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="bottom"
+            android:background="@drawable/abc_spinner_textfield_background_material"
             android:orientation="horizontal"
             android:paddingStart="10dp"
             android:paddingEnd="4dp"
@@ -91,11 +90,12 @@
                 android:paddingEnd="30dp"
                 android:textAlignment="textStart"
                 android:textSize="18sp" />
+
         </LinearLayout>
+
 
         <Button
             android:id="@+id/reset_filter_button"
-            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/activity_filter_reset_filter" />
@@ -107,7 +107,6 @@
 
         <Button
             android:id="@+id/apply_filter_button"
-            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/activity_filter_apply_filter" />

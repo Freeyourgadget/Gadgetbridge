@@ -52,7 +52,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 
-public class ActivitySummariesFilter extends AbstractGBActivity implements View.OnClickListener {
+public class ActivitySummariesFilter extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySummariesActivity.class);
     private static final String DATE_FILTER_FROM = "dateFromFilter";
     private static final String DATE_FILTER_TO = "dateToFilter";
@@ -157,9 +157,6 @@ public class ActivitySummariesFilter extends AbstractGBActivity implements View.
         return null;
     }
 
-    @Override
-    public void onClick(View view) {
-    }
 
     public void addListenerOnSpinnerItemSelection() {
         Spinner spinner = findViewById(R.id.select_kind);
