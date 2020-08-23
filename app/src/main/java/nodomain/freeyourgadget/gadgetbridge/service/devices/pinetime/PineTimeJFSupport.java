@@ -60,6 +60,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
     public PineTimeJFSupport() {
         super(LOG);
         addSupportedService(GattService.UUID_SERVICE_ALERT_NOTIFICATION);
+        addSupportedService(GattService.UUID_SERVICE_CURRENT_TIME);
         addSupportedService(GattService.UUID_SERVICE_DEVICE_INFORMATION);
         deviceInfoProfile = new DeviceInfoProfile<>(this);
         IntentListener mListener = new IntentListener() {
@@ -82,6 +83,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
         requestDeviceInfo(builder);
+        onSetTime();
         setInitialized(builder);
         return builder;
     }
