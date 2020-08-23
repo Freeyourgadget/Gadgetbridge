@@ -1025,4 +1025,5 @@
     <string name="backstroke">仰泳</string>
     <string name="freestyle">自由泳</string>
     <string name="breaststroke">蛙泳</string>
+    <string name="pref_header_statistics">体育活动统计</string>
 </resources>
