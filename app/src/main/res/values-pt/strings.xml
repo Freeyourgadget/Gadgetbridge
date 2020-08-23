@@ -156,7 +156,7 @@
     <string name="cannot_connect_bt_address_invalid_">Não foi possível ligar. Endereço Bluetooth inválido?</string>
     <string name="gadgetbridge_running">Gadgetbridge a executar</string>
     <string name="installing_binary_d_d">A instalar o binário %1$d/%2$d</string>
-    <string name="installation_failed_">falha na instalação!</string>
+    <string name="installation_failed_">A instalação falhou</string>
     <string name="installation_successful">instalação bem sucedida</string>
     <string name="firmware_install_warning">ESTÁ A TENTAR INSTALAR UM FIRMWARE, CONTINUE À SUA RESPONSABILIDADE.\n\n\n Este firmware é para a Versão de HW: %s</string>
     <string name="app_install_info">Está prestes a instalar a aplicação seguinte::\n\n\n%1$s Versão %2$s por %3$s\n</string>
@@ -230,8 +230,8 @@
     <string name="alarm_fri_short">Sex</string>
     <string name="alarm_sat_short">Sab</string>
     <string name="alarm_smart_wakeup">despertar inteligente</string>
-    <string name="user_feedback_miband_set_alarms_failed">Existiu um erro ao definir o alarme, tente novamente!</string>
-    <string name="user_feedback_miband_set_alarms_ok">Alarme enviado para o dispositivo!</string>
+    <string name="user_feedback_miband_set_alarms_failed">Houve um erro ao definir os alarmes, por favor, tente novamente.</string>
+    <string name="user_feedback_miband_set_alarms_ok">Alarmes enviados ao dispositivo.</string>
     <string name="chart_no_data_synchronize">Sem data. Sincronizar com o dispositivo?</string>
     <string name="user_feedback_miband_activity_data_transfer">Prestes a transferir %1$s de dados desde %2$s</string>
     <string name="miband_prefs_fitness_goal">Objetivo de passos por dia</string>
@@ -329,7 +329,7 @@
     <string name="device_hw">HW: %1$s</string>
     <string name="device_fw">Versão FW: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Erro ao criar o diretório para os ficheiros de registo: %1$s</string>
-    <string name="DEVINFO_HR_VER">Versão HW:</string>
+    <string name="DEVINFO_HR_VER">"FC: "</string>
     <string name="updatefirmwareoperation_update_in_progress">Atualização de Firmware em curso</string>
     <string name="updatefirmwareoperation_firmware_not_sent">Firmware não enviado</string>
     <string name="charts_legend_heartrate">Ritmo Cardíaco</string>
@@ -403,7 +403,7 @@
 \nNota: Não necessita de instalar .res se os ficheiro for o mesmo da última instalação.
 \n
 \nCONTINUE A SEU PRÓPRIO RISCO!</string>
-    <string name="pref_title_charts_swipe">"Ativar deslizar para esquerda/direita nos  gráficos de atividade"</string>
+    <string name="pref_title_charts_swipe">Ativar deslizar para esquerda/direita nos gráficos de atividade</string>
     <string name="pref_title_weather">Meteorologia</string>
     <string name="pref_title_weather_location">Localização para meteorologia (CM/LOS)</string>
     <string name="pref_blacklist_calendars">Bloquear Calendários</string>
@@ -905,4 +905,78 @@
     <string name="discovery_trying_to_connect_to">Tentar conectar-se a: %1$s</string>
     <string name="discovery_bonding_failed_immediately">Vínculo com %1$s falhou imediatamente.</string>
     <string name="pref_header_pebble_timeline">Linha do tempo do Pebble</string>
+    <string name="activity_summaries_statistics">Estatisticas</string>
+    <string name="km">km</string>
+    <string name="activity_filter_apply_filter">Aplicar filtro</string>
+    <string name="activity_filter_filter_title">Filtro</string>
+    <string name="activity_filter_reset_filter">Reiniciar filtro</string>
+    <string name="seconds_m">seg/m</string>
+    <string name="activity_detail_duration_label">Duração</string>
+    <string name="activity_detail_end_label">Fim</string>
+    <string name="activity_detail_start_label">Inicio</string>
+    <string name="Steps">Passos</string>
+    <string name="Activity">Actitivade</string>
+    <string name="Speed">Velocidade</string>
+    <string name="Distance">Distância</string>
+    <string name="Swimming">Natação</string>
+    <string name="bpm">bpm</string>
+    <string name="minutes_km">min/km</string>
+    <string name="seconds_km">seg/km</string>
+    <string name="calories_unit">kcal</string>
+    <string name="laps_unit">voltas</string>
+    <string name="seconds">seg</string>
+    <string name="strokes_unit">str</string>
+    <string name="strokes_second">str/s</string>
+    <string name="km_h">km/h</string>
+    <string name="meters_second">m/s</string>
+    <string name="steps_unit">passos</string>
+    <string name="cm">cm</string>
+    <string name="meters">m</string>
+    <string name="averageStride">Média da caminhada</string>
+    <string name="averageKMPaceSeconds">Ritmo</string>
+    <string name="averageHR">Frequência cardíaca</string>
+    <string name="totalStride">Total da caminhada</string>
+    <string name="maxPace">Ritmo mais rápido</string>
+    <string name="minPace">Ritmo mais lento</string>
+    <string name="maxSpeed">Máxima</string>
+    <string name="caloriesBurnt">Calorias</string>
+    <string name="activeSeconds">Ativo</string>
+    <string name="steps">Passos</string>
+    <string name="minAltitude">Mínima</string>
+    <string name="maxAltitude">Máxima</string>
+    <string name="descentMeters">Descida</string>
+    <string name="ascentMeters">Subida</string>
+    <string name="distanceMeters">Distância</string>
+    <string name="activity_summary_detail">Detalhes de atividade de desporto</string>
+    <string name="devicetype_pinetime_jf">PineTime (JF Firmware)</string>
+    <string name="error_location_enabled_mandatory">A localização deve ser ligada para procurar aparelhos</string>
+    <string name="companiondevice_pairing_details">Ativa o novo suporte à API CompanionDevice (tem efeito apenas em Android 8 ou mais novo) que vai aumentar a confiabilidade se o serviço precisar ser reiniciado em segundo plano, requer novo emparelhamento usando o Gadgetbridge para ter um efeito</string>
+    <string name="companiondevice_pairing">Pareamento de CompanionDevice</string>
+    <string name="require_location_provider">Localização deve estar ativada</string>
+    <string name="ignore_bonded_devices_description">Ativar esta opção ignorará aparelhos que já foram associados/emparelhados durante a varredura</string>
+    <string name="ignore_bonded_devices">Ignorar aparelhos associados</string>
+    <string name="error_retrieving_devices_database">Erro ao obter aparelhos do banco de dados</string>
+    <string name="error_setting_alias">Erro ao definir um alias:</string>
+    <string name="error_exporting_device_preferences">Erro ao exportar as preferências específicas do aparelho</string>
+    <string name="pref_check_permission_status_summary">Verifique e peça permissões ausentes mesmo quando elas podem não ser necessárias no exato momento. Desative isso somente se seus aparelhos realmente não suportarem nenhum desses recursos. Não conceder uma permissão pode causar problemas!</string>
+    <string name="pref_check_permission_status">Verificar estado de permissão</string>
+    <string name="device_requires_key">CHAVE NECESSÁRIA</string>
+    <string name="device_is_currently_bonded">JÁ ASSOCIADO</string>
+    <string name="devicetype_tlw64">TLW64</string>
+    <string name="menuitem_stress">Estresse</string>
+    <string name="menuitem_cycles">Ciclos</string>
+    <string name="menuitem_breathing">Respiração</string>
+    <string name="devicetype_miband5">Mi Band 5</string>
+    <string name="fw_upgrade_notice_miband5">Está prestes a instalar o firmware %s na sua Mi Band 5.
+\n
+\nCertifique-se de instalar o ficheiro .fw e, após, o ficheiro .res. Sua pulseira vai reiniciar após instalar o ficheiro .fw.
+\n
+\nNota: não tem que instalar .res se ele for exatamente o mesmo arquivo que o instalado anteriormente.
+\n
+\nPROSSIGA POR SUA CONTA E RISCO!</string>
+    <string name="error_background_service_reason">A inicialização do serviço de plano de fundo falhou por causa de uma exceção. Erro:</string>
+    <string name="error_background_service_reason_truncated">A inicialização do serviço de plano de fundo porque…</string>
+    <string name="error_background_service">Falha ao iniciar o serviço de plano de fundo</string>
+    <string name="error_version_check_extreme_caution">CUIDADO: erro ao verificar informação da versão! Não deve continuar! Encontrei o nome de versão \"%s\"</string>
+    <string name="permission_granting_mandatory">Todas estas permissões são necessárias e instabilidade pode ocorrer se não concedidas</string>
 </resources>
