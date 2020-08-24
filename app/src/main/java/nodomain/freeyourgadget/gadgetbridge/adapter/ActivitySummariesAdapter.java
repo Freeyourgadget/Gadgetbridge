@@ -17,14 +17,17 @@
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
@@ -116,16 +119,32 @@ public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySu
 
     @Override
     protected String getDetails(BaseActivitySummary item) {
-
-
         Date startTime = item.getStartTime();
-        Long duration = (item.getEndTime().getTime() - item.getStartTime().getTime());
 
         if (startTime != null) {
-            return DateTimeUtils.formatDateTime(startTime) + " (" + DateTimeUtils.formatDurationHoursMinutes(duration, TimeUnit.MILLISECONDS) + ")";
-        }
+            String activityDay;
+            String activityTime;
+            String activityDayTime;
+            Long duration = item.getEndTime().getTime() - item.getStartTime().getTime();
 
-        return "Unknown activity";
+            if (DateUtils.isToday(startTime.getTime())) {
+                activityDay = getContext().getString(R.string.activity_summary_today);
+            } else if (DateTimeUtils.isYesterday(startTime)) {
+                activityDay = getContext().getString(R.string.activity_summary_yesterday);
+            } else {
+                activityDay = DateTimeUtils.formatDate(startTime);
+            }
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(startTime);
+            int hours = calendar.get(Calendar.HOUR_OF_DAY);
+            int minutes = calendar.get(Calendar.MINUTE);
+
+            activityTime = DateTimeUtils.formatTime(hours, minutes);
+            activityDayTime = String.format("%s, %s", activityDay, activityTime);
+
+            return activityDayTime + " (" + DateTimeUtils.formatDurationHoursMinutes(duration, TimeUnit.MILLISECONDS) + ")";
+        }
+        return "Unknown time";
     }
 
     @Override

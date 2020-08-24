@@ -153,4 +153,7 @@ public class DateTimeUtils {
     public static String minutesToHHMM(int minutes) {
         return String.format(Locale.US, "%d:%02d", minutes / 60, minutes % 60); // no I do not want to use durationformatter :P
     }
+    public static boolean isYesterday(Date d) {
+        return DateUtils.isToday(d.getTime() + DateUtils.DAY_IN_MILLIS);
+    }
 }
