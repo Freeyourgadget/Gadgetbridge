@@ -1026,4 +1026,6 @@
     <string name="freestyle">自由泳</string>
     <string name="breaststroke">蛙泳</string>
     <string name="pref_header_statistics">体育活动统计</string>
+    <string name="activity_filter_name_contains">名称</string>
+    <string name="activity_summary_edit_name_title">编辑名称</string>
 </resources>
