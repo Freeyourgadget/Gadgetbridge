@@ -30,10 +30,12 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -169,9 +171,15 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
                 String name = currentItem.getName();
                 input.setText((name != null) ? name : "");
+                FrameLayout container = new FrameLayout(ActivitySummaryDetail.this);
+                FrameLayout.LayoutParams params = new  FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.leftMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
+                params.rightMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
+                input.setLayoutParams(params);
+                container.addView(input);
 
-                new AlertDialog.Builder(ActivitySummaryDetail.this) // TODO: very raw at this point, make better drawable layout, already started here: R.style.GadgetbridgeTheme_DialogTheme)
-                        .setView(input)
+                new AlertDialog.Builder(ActivitySummaryDetail.this)
+                        .setView(container)
                         .setCancelable(true)
                         .setTitle(ActivitySummaryDetail.this.getString(R.string.activity_summary_edit_name_title))
                         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {

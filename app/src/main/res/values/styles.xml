@@ -65,21 +65,4 @@
         <item tools:targetApi="21" name="android:navigationBarColor">@color/primarydark_dark</item>
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
-
-    <!-- initial start of work on a Dialog Alert popup, TODO: continue -->
-    <style name="GadgetbridgeTheme.DialogTheme">
-        <!-- Fill the screen -->
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-
-        <!-- No backgrounds, titles or window float
-        <item name="android:windowBackground">@null</item>
-        -->
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
-
-        <!-- Just to prove it's working
-        <item name="android:background">#ff0000</item>
-        -->
-    </style>
 </resources>

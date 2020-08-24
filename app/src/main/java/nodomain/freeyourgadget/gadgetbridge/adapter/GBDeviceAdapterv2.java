@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -56,6 +57,7 @@ import java.util.Locale;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ActivitySummariesActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.ActivitySummaryDetail;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
 import nodomain.freeyourgadget.gadgetbridge.activities.VibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
@@ -484,10 +486,16 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                 final EditText input = new EditText(context);
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
                 input.setText(device.getAlias());
+                FrameLayout container = new FrameLayout(context);
+                FrameLayout.LayoutParams params = new  FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.leftMargin = context.getResources().getDimensionPixelSize(R.dimen.dialog_margin);
+                params.rightMargin = context.getResources().getDimensionPixelSize(R.dimen.dialog_margin);
+                input.setLayoutParams(params);
+                container.addView(input);
                 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
 
                 new AlertDialog.Builder(context)
-                        .setView(input)
+                        .setView(container)
                         .setCancelable(true)
                         .setTitle(context.getString(R.string.controlcenter_set_alias))
                         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
