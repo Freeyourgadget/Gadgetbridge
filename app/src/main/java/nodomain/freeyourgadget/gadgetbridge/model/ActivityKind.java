@@ -157,18 +157,18 @@ public class ActivityKind {
             case TYPE_CYCLING:
                 return R.drawable.ic_activity_biking;
             case TYPE_TREADMILL:
-                return R.drawable.ic_activity_walking;
+                return R.drawable.ic_activity_threadmill;
             case TYPE_EXERCISE:
                 return R.drawable.ic_activity_exercise;
             case TYPE_SWIMMING:
             case TYPE_SWIMMING_OPENWATER:
                 return R.drawable.ic_activity_swimming;
             case TYPE_INDOOR_CYCLING:
-                return R.drawable.ic_activity_biking; // TODO: Find a better one
+                return R.drawable.ic_activity_bike_trainer;
             case TYPE_ELLIPTICAL_TRAINER:
-                return R.drawable.ic_activity_walking; // TODO: Find a better one
+                return R.drawable.ic_activity_eliptical;
             case TYPE_JUMP_ROPING:
-                return R.drawable.ic_activity_exercise; // TODO: Find a better one
+                return R.drawable.ic_activity_rope_jump;
             case TYPE_YOGA:
                 return R.drawable.ic_activity_yoga;
             case TYPE_NOT_WORN: // fall through

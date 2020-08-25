@@ -71,7 +71,7 @@
                     android:layout_gravity="right"
                     android:layout_weight="0.1"
                     android:scaleType="fitEnd"
-                    app:srcCompat="@android:drawable/ic_menu_edit" />
+                    app:srcCompat="@drawable/ic_edit" />
             </LinearLayout>
 
             <TableLayout

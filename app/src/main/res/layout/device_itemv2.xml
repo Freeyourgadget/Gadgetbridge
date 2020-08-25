@@ -52,7 +52,7 @@
                     android:contentDescription="@string/controlcenter_set_alias"
                     android:focusable="true"
                     android:tint="?attr/textColorTertiary"
-                    card_view:srcCompat="@drawable/ic_font_download" />
+                    card_view:srcCompat="@drawable/ic_edit" />
 
                 <ImageView
                     android:id="@+id/device_action_remove"
