@@ -34,3 +34,4 @@ fw.dirs
 **/.project
 **/.settings
 **/.classpath
+app/release/output-metadata.json
