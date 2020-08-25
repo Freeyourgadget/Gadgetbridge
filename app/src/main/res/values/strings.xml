@@ -706,7 +706,7 @@
     <string name="activity_type_unknown">Unknown activity</string>
     <string name="activity_summaries">Sport Activities</string>
     <string name="activity_summary_detail">Sport Activity Detail</string>
-    <string name="activity_summary_edit_name_title">Edit name</string>
+    <string name="activity_summary_edit_name_title">Edit label</string>
     <string name="activity_summary_today">Today</string>
     <string name="activity_summary_yesterday">Yesterday</string>
     <string name="activity_type_biking">Biking</string>
@@ -985,7 +985,7 @@
     <string name="activity_filter_date_to">To</string>
     <string name="activity_filter_reset_filter">Reset Filter</string>
     <string name="activity_filter_filter_title">Filter</string>
-    <string name="activity_filter_name_contains">Name</string>
+    <string name="activity_filter_name_contains">Label</string>
     <string name="activity_filter_apply_filter">Apply Filter</string>
     <string name="activity_summaries_statistics">Statistics</string>
 
