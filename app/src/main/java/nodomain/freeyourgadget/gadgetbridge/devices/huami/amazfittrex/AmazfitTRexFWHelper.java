@@ -20,8 +20,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrex;
 import android.content.Context;
 import android.net.Uri;
 
-import androidx.annotation.NonNull;
-
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
@@ -37,7 +35,7 @@ public class AmazfitTRexFWHelper extends HuamiFWHelper {
     protected void determineFirmwareInfo(byte[] wholeFirmwareBytes) {
         firmwareInfo = new AmazfitTRexFirmwareInfo(wholeFirmwareBytes);
         if (!firmwareInfo.isHeaderValid()) {
-            throw new IllegalArgumentException("Not a an Amazifit T-Rex firmware");
+            throw new IllegalArgumentException("Not a an Amazfit T-Rex firmware");
         }
     }
 }

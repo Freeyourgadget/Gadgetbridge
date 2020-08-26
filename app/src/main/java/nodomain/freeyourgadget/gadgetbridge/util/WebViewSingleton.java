@@ -36,6 +36,8 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import androidx.annotation.NonNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +48,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
-import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.GBChromeClient;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.GBWebClient;
@@ -55,7 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.JSInt
 public class WebViewSingleton {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebViewSingleton.class);
-    private static WebViewSingleton instance = new WebViewSingleton();
+    private static final WebViewSingleton instance = new WebViewSingleton();
 
     private WebView webView = null;
     private MutableContextWrapper contextWrapper;
@@ -70,6 +71,21 @@ public class WebViewSingleton {
 
     private WebViewSingleton() {
     }
+
+    //Internet helper outgoing connection
+    private final ServiceConnection internetHelperConnection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            LOG.info("internet helper service bound");
+            internetHelperBound = true;
+            internetHelper = new Messenger(service);
+        }
+
+        public void onServiceDisconnected(ComponentName className) {
+            LOG.info("internet helper service unbound");
+            internetHelper = null;
+            internetHelperBound = false;
+        }
+    };
 
     public static synchronized void ensureCreated(Activity context) {
         if (instance.webView == null) {
@@ -90,21 +106,6 @@ public class WebViewSingleton {
             webSettings.setDatabaseEnabled(true);
         }
     }
-
-    //Internet helper outgoing connection
-    private ServiceConnection internetHelperConnection = new ServiceConnection() {
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            LOG.info("internet helper service bound");
-            internetHelperBound = true;
-            internetHelper = new Messenger(service);
-        }
-
-        public void onServiceDisconnected(ComponentName className) {
-            LOG.info("internet helper service unbound");
-            internetHelper = null;
-            internetHelperBound = false;
-        }
-    };
 
     public static WebViewSingleton getInstance() {
         return instance;

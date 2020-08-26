@@ -20,8 +20,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr;
 import android.content.Context;
 import android.net.Uri;
 
-import androidx.annotation.NonNull;
-
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
@@ -37,7 +35,7 @@ public class AmazfitGTRFWHelper extends HuamiFWHelper {
     protected void determineFirmwareInfo(byte[] wholeFirmwareBytes) {
         firmwareInfo = new AmazfitGTRFirmwareInfo(wholeFirmwareBytes);
         if (!firmwareInfo.isHeaderValid()) {
-            throw new IllegalArgumentException("Not a an Amazifit GTR firmware");
+            throw new IllegalArgumentException("Not a an Amazfit GTR firmware");
         }
     }
 }

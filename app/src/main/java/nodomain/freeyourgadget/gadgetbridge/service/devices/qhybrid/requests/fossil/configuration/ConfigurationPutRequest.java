@@ -64,7 +64,6 @@ public class ConfigurationPutRequest extends FilePutRequest {
                 GB.log("error", GB.ERROR, e);
                 continue;
             }
-
             item.parseData(payload);
 
             configItems.add(item);

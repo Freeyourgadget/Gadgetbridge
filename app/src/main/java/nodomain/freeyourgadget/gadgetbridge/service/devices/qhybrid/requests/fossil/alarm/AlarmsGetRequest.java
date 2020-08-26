@@ -22,7 +22,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileLookupAndGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -61,6 +60,7 @@ public class AlarmsGetRequest extends FileLookupAndGetRequest {
         for(int i = 0; i < alarms.length; i++){
             alarms2[i] = Alarm.fromBytes(alarms[i].getData());
         }
+        // TODO: This does nothing currently!
     }
 
     @Override

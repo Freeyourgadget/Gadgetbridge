@@ -19,13 +19,11 @@ package nodomain.freeyourgadget.gadgetbridge.devices.jyou;
 
 import java.util.UUID;
 
-import static nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport.BASE_UUID;
-
 public final class BFH16Constants {
 
     //Known Services
     public static final UUID BFH16_GENERIC_ACCESS_SERVICE = UUID.fromString("00001800-0000-1000-8000-00805f9b34fb");
-    public static final UUID BFH16_GENERIC_ARTTRIBUTE_SERVICE = UUID.fromString("00001801-0000-1000-8000-00805f9b34fb");
+    public static final UUID BFH16_GENERIC_ATTRIBUTE_SERVICE = UUID.fromString("00001801-0000-1000-8000-00805f9b34fb");
 
     public static final UUID BFH16_IDENTIFICATION_SERVICE1 = UUID.fromString("0000fef5-0000-1000-8000-00805f9b34fb");
     public static final UUID BFH16_IDENTIFICATION_SERVICE2 = UUID.fromString("0000fee7-0000-1000-8000-00805f9b34fb");

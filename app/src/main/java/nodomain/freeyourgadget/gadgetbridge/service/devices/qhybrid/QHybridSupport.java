@@ -251,8 +251,10 @@ public class QHybridSupport extends QHybridBaseSupport {
         globalCommandReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if(watchAdapter == null) return;
-                //noinspection SwitchStatementWithTooFewBranches
+                if (watchAdapter == null) {
+                    return;
+                }
+
                 switch (intent.getAction()) {
                     case QHYBRID_ACTION_SET_ACTIVITY_HAND: {
                         try {

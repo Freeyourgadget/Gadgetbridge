@@ -73,21 +73,21 @@ public class AlarmsSetRequest extends FilePutRequest {
                 String message = alarm.getMessage();
                 int alarmSize = 17 + label.length() + message.length();
 
-                buffer.put((byte) 0x00); // dunno why
-                buffer.putShort((short) (alarmSize - 3)); // alarm size, 0 above and this does not count
-                buffer.put((byte) 0x00); // prolly entry id time data
-                buffer.putShort((short) 3); // prolly entry length
+                buffer.put((byte) 0x00); // No information why
+                buffer.putShort((short) (alarmSize - 3)); // Alarm size, 0 above and this does not count
+                buffer.put((byte) 0x00); // Probably entry id time data
+                buffer.putShort((short) 3); // Probably entry length
                 buffer.put(alarm.getData());
 
-                buffer.put((byte) 0x01); // another entry id label
-                buffer.putShort((short) (label.length() + 1));  // entry length
+                buffer.put((byte) 0x01); // Another entry id label
+                buffer.putShort((short) (label.length() + 1));  // Entry length
                 buffer.put(label.getBytes());
-                buffer.put((byte) 0x00); // null terminator
+                buffer.put((byte) 0x00); // Null terminator
 
-                buffer.put((byte) 0x02); // entry id subtext
-                buffer.putShort((short) (message.length() + 1)); // entry length
+                buffer.put((byte) 0x02); // Entry ID subtext
+                buffer.putShort((short) (message.length() + 1)); // Entry length
                 buffer.put(message.getBytes());
-                buffer.put((byte) 0x00); // null terminator
+                buffer.put((byte) 0x00); // Null terminator
             }
         }
 

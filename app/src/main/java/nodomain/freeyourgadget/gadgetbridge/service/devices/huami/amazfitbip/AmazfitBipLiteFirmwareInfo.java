@@ -60,7 +60,7 @@ public class AmazfitBipLiteFirmwareInfo extends HuamiFirmwareInfo {
     @Override
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
         if (ArrayUtils.startsWith(bytes, NEWRES_HEADER)) {
-            if ((bytes.length <= 100000) || (bytes.length > 700000)) { // dont know how to distinguish from Cor/Mi Band 3 .res
+            if ((bytes.length <= 100000) || (bytes.length > 700000)) { // don't know how to distinguish from Cor/Mi Band 3 .res
                 return HuamiFirmwareType.INVALID;
             }
             return HuamiFirmwareType.RES;

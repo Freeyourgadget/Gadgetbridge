@@ -35,7 +35,7 @@ public class AmazfitGTRLiteFWHelper extends HuamiFWHelper {
     protected void determineFirmwareInfo(byte[] wholeFirmwareBytes) {
         firmwareInfo = new AmazfitGTRLiteFirmwareInfo(wholeFirmwareBytes);
         if (!firmwareInfo.isHeaderValid()) {
-            throw new IllegalArgumentException("Not a an Amazifit GTR Lite Firmware");
+            throw new IllegalArgumentException("Not a an Amazfit GTR Lite Firmware");
         }
     }
 }

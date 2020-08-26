@@ -485,7 +485,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    // set only digytal time
+    // set only digital time
     private void setTime(Calendar calendar) {
         try {
             TransactionBuilder builder = performInitialized("setTime");
@@ -634,7 +634,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
             case CallSpec.CALL_INCOMING:
                 isRinging = true;
                 remainingRepeats = repeatCount;
-                LOG.info(" Incomming call ");
+                LOG.info(" Incoming call ");
                 if (("Phone".equals(callSpec.name)) || (callSpec.name.contains("ropusn")) || (callSpec.name.contains("issed"))) {
                     // do nothing for notifications without caller name, e.g. system call event
                 } else {
@@ -1168,14 +1168,14 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                     buildCommand(WatchXPlusConstants.CMD_SET_UNITS,
                             WatchXPlusConstants.READ_VALUE));
             builder.queue(getQueue());
-        }   catch (IOException e) {
+        } catch (IOException e) {
             LOG.warn(" Unable to get units ", e);
         }
-     return this;
+        return this;
     }
 
-    /** set watch units
-     *
+    /**
+     * Set watch units
      */
     private void setUnitsSettings() {
         int units = 0;
@@ -1190,7 +1190,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
 
         byte[] bArr = new byte[3];
         bArr[0] = (byte) units; // metric - 0/imperial - 1
-        bArr[1] = (byte) 0x00;  //time unit 12/24h (there are separate command for this)
+        bArr[1] = (byte) 0x00;  // time unit 12/24h (there is a separate command for this)
         bArr[2] = (byte) 0x00;  // temperature unit (do nothing)
         try {
             TransactionBuilder builder = performInitialized("setUnits");

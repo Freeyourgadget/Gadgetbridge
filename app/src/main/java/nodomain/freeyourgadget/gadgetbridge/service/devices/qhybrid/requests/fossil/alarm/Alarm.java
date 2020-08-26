@@ -32,7 +32,7 @@ public class Alarm {
     private final boolean repeat;
     private String title, message;
 
-    public Alarm(byte minute, byte hour, String title, String message){
+    public Alarm(byte minute, byte hour, String title, String message) {
         this.minute = minute;
         this.hour = hour;
         this.repeat = false;

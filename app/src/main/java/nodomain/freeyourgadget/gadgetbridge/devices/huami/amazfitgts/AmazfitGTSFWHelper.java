@@ -35,7 +35,7 @@ public class AmazfitGTSFWHelper extends HuamiFWHelper {
     protected void determineFirmwareInfo(byte[] wholeFirmwareBytes) {
         firmwareInfo = new AmazfitGTSFirmwareInfo(wholeFirmwareBytes);
         if (!firmwareInfo.isHeaderValid()) {
-            throw new IllegalArgumentException("Not a an Amazifit GTS firmware");
+            throw new IllegalArgumentException("Not a an Amazfit GTS firmware");
         }
     }
 }

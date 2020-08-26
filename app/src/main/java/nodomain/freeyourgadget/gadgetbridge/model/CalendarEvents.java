@@ -43,7 +43,7 @@ public class CalendarEvents {
     //further: primaryColor, secondaryColor, backgroundColor, headings, paragraphs, lastUpdated
     // taken from: https://developer.getpebble.com/guides/timeline/pin-structure/
 
-    // needed for miband:
+    // needed for MiBand:
     // time
 
     private static final String[] EVENT_INSTANCE_PROJECTION = new String[]{

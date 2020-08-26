@@ -20,7 +20,7 @@ import java.io.Serializable;
 
 public interface Alarm extends Serializable {
     /**
-     * The {@link android.os.Bundle} name for transferring pacreled alarms.
+     * The {@link android.os.Bundle} name for transferring parceled alarms.
      */
     String EXTRA_ALARM = "alarm";
 

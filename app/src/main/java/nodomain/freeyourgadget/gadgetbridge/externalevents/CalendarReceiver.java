@@ -139,7 +139,7 @@ public class CalendarReceiver extends BroadcastReceiver {
         for (CalendarSyncState CalendarSyncState : CalendarSyncStateList) {
             if (!eventState.containsKey(CalendarSyncState.getCalendarEntryId())) {
                 eventState.put(CalendarSyncState.getCalendarEntryId(), new EventSyncState(null, EventState.NEEDS_DELETE));
-                LOG.info("insert null event for orphanded calendar id=" + CalendarSyncState.getCalendarEntryId() + " for device=" + mGBDevice.getName());
+                LOG.info("insert null event for orphaned calendar id=" + CalendarSyncState.getCalendarEntryId() + " for device=" + mGBDevice.getName());
             }
         }
 

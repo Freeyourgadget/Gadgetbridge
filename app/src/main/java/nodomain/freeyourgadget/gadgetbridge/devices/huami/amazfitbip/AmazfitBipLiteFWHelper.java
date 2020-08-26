@@ -38,7 +38,7 @@ public class AmazfitBipLiteFWHelper extends HuamiFWHelper {
     protected void determineFirmwareInfo(byte[] wholeFirmwareBytes) {
         firmwareInfo = new AmazfitBipLiteFirmwareInfo(wholeFirmwareBytes);
         if (!firmwareInfo.isHeaderValid()) {
-            throw new IllegalArgumentException("Not a an Amazifit Bip Lite firmware");
+            throw new IllegalArgumentException("Not a an Amazfit Bip Lite firmware");
         }
     }
 }

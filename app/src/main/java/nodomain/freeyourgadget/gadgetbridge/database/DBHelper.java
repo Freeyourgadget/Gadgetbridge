@@ -22,6 +22,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,17 +39,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import de.greenrobot.dao.Property;
 import de.greenrobot.dao.query.Query;
 import de.greenrobot.dao.query.QueryBuilder;
 import de.greenrobot.dao.query.WhereCondition;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.entities.ActivityDescription;
 import nodomain.freeyourgadget.gadgetbridge.entities.ActivityDescriptionDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.Alarm;
@@ -71,7 +70,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
 /**
- * Provides utiliy access to some common entities, so you won't need to use
+ * Provides utility access to some common entities, so you won't need to use
  * their DAO classes.
  * <p/>
  * Maybe this code should actually be in the DAO classes themselves, but then

@@ -29,13 +29,14 @@ import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.view.MenuItem;
 
+import androidx.core.app.NavUtils;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Locale;
 
-import androidx.core.app.NavUtils;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 
