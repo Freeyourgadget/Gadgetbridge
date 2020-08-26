@@ -98,6 +98,7 @@ public class MiBand5Coordinator extends HuamiCoordinator {
                 R.xml.devicesettings_swipeunlock,
                 R.xml.devicesettings_sync_calendar,
                 R.xml.devicesettings_expose_hr_thirdparty,
+                R.xml.devicesettings_device_actions,
                 R.xml.devicesettings_pairingkey,
                 R.xml.devicesettings_high_mtu
         };
