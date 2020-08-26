@@ -60,8 +60,8 @@
     <string name="activity_type_not_worn">Cihaz Kullanılmamış</string>
     <string name="activity_type_running">Koşu</string>
     <string name="activity_type_swimming">Yüzme</string>
-    <string name="activity_type_treadmill">AyakBisikleti</string>
-    <string name="activity_type_unknown">Bilinmeyen Aktivite</string>
+    <string name="activity_type_treadmill">Koşu bandı</string>
+    <string name="activity_type_unknown">Bilinmeyen etkinlik</string>
     <string name="activity_type_walking">Yürüme</string>
     <string name="activity_web_view">Aktivite Web Görünümü</string>
     <string name="add_widget">AnaSayfa Göstergesi (Widget) Ekle</string>
@@ -113,7 +113,7 @@
     <string name="blacklist_all_for_notifications">Bildirimler için Hepsini KaraListeye Al</string>
     <string name="bluetooth_is_disabled_">Bluetooth Kapalı.</string>
     <string name="bluetooth_is_not_supported_">Bluetooth Desteklenmiyor.</string>
-    <string name="busy_task_fetch_activity_data">Aktivite Verileri Getiriliyor</string>
+    <string name="busy_task_fetch_activity_data">Etkinlik verileri getiriliyor</string>
     <string name="calories">Kalori</string>
     <string name="candidate_item_device_image">Cihaz Görüntüsü</string>
     <string name="cannot_connect">Bağlanamıyor: %1$s</string>
@@ -479,10 +479,10 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="pebble_pairing_hint">Android cihazınızda bir eşleşme iletişim kutusu açılır. Değilse, bildirim kutusuna bakın ve eşleştirme isteğini kabul edin. Daha sonra Pebble üzerinde onaylayın.</string>
     <string name="polish">Polish</string>
     <string name="portuguese">Portuguese</string>
-    <string name="pref_auto_fetch">Aktivite verilerini otomatik getir</string>
-    <string name="pref_auto_fetch_limit_fetches">Getirimler arasında minimum süre</string>
-    <string name="pref_auto_fetch_limit_fetches_summary">Her %d dakikada bir Getirim</string>
-    <string name="pref_auto_fetch_summary">Getirim, ekran kilidi açıldığında gerçekleşir. Yalnızca bir kilit mekanizması ayarlanmışsa çalışır!</string>
+    <string name="pref_auto_fetch">Etkinlik verilerini otomatik getir</string>
+    <string name="pref_auto_fetch_limit_fetches">Getirmeler arasındaki asgari süre</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Her %d dakikada bir getirir</string>
+    <string name="pref_auto_fetch_summary">Getirme, ekran kilidi açıldığında gerçekleşir. Sadece bir kilit mekanizması ayarlanmışsa çalışır!</string>
     <string name="pref_blacklist">KaraListe Uygulamaları</string>
     <string name="pref_blacklist_calendars">KaraListe Takvimleri</string>
     <string name="pref_button_action_disabled">Engellenmiş</string>
@@ -504,7 +504,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="pref_display_add_device_fab_on">Daima Göster</string>
     <string name="pref_header_activitytrackers">Aktivite İzleyiciler</string>
     <string name="pref_header_auto_export">Otomatik DışaAktar</string>
-    <string name="pref_header_auto_fetch">Otomatik VeriGetir</string>
+    <string name="pref_header_auto_fetch">Otomatik getir</string>
     <string name="pref_header_cannned_messages">Hazır Mesajlar</string>
     <string name="pref_header_charts">Gösterge Ayarları</string>
     <string name="pref_header_datetime">Tarih ve Zaman</string>
@@ -584,7 +584,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="pref_summary_pebble_forceuntested">Test edilmemiş özellikleri etkinleştir. NE YAPTIĞINIZI BİLİN!</string>
     <string name="pref_summary_pebble_gatt_clientonly">Bu sadece Pebble 2 ve Deneysel içindir, bağlantı sorunlarınız varsa bunu deneyin</string>
     <string name="pref_summary_pebble_health_store_raw">Verileri \"olduğu gibi\" saklar, daha sonra yorumlanabilmesi için veritabanı kullanımını artırır.</string>
-    <string name="pref_summary_pebble_mtu_limit">Eğer Pebble 2/Pebble LE beklendiği gibi çalışmazsa, MTU (Maksimum İletim Birimi) sınırlaması için bu ayarı deneyin (geçerli aralık 20–512)</string>
+    <string name="pref_summary_pebble_mtu_limit">Eğer Pebble 2/Pebble LE beklendiği gibi çalışmazsa, MTU sınırlaması için bu ayarı deneyin (geçerli aralık 20–512)</string>
     <string name="pref_summary_relax_firmware_checks">Firmware kontrollerini gevşet</string>
     <string name="pref_summary_rtl">Cihazınız sağdan sola dilleri gösteremiyorsa bunu etkinleştirin</string>
     <string name="pref_summary_setup_bt_pairing">Bağlanma konusunda sorun yaşıyorsanız bunu devre dışı bırakın</string>
@@ -596,7 +596,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="pref_theme_light">Aydınlık</string>
     <string name="pref_theme_value_dark">karanlık</string>
     <string name="pref_theme_value_light">aydınlık</string>
-    <string name="pref_title_allow_high_mtu">Yüksek MTU (Maksimum İletişim) izni verir</string>
+    <string name="pref_title_allow_high_mtu">Yüksek MTU\'ya izin ver</string>
     <string name="pref_title_audio_player">Tercih Edilen Ses Oynatıcı</string>
     <string name="pref_title_authkey">Kimlik Doğrulama Anahtarı</string>
     <string name="pref_title_auto_export_enabled">Otomatik DışaAktarma Açık</string>
@@ -642,7 +642,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="pref_title_notifications_pebblemsg">Pebble Mesajları</string>
     <string name="pref_title_notifications_repetitions">Tekrarlar</string>
     <string name="pref_title_notifications_sms">SMS</string>
-    <string name="pref_title_notifications_timeout">Bildirimler Arasında Minimum Zaman</string>
+    <string name="pref_title_notifications_timeout">Bildirimler arasındaki asgari süre</string>
     <string name="pref_title_pebble_activitytracker">Tercih Edilen Aktivite İzleyici</string>
     <string name="pref_title_pebble_always_ack_pebblekit">Erken ACK PebbleKit</string>
     <string name="pref_title_pebble_enable_applogs">İzleme uygulaması kaydetmeyi etkinleştir</string>
@@ -714,7 +714,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="qhybrid_time_shift">Zaman Değişimi</string>
     <string name="qhybrid_use_activity_hand_as_notification_counter">Aktivite elini bildirim sayacı olarak kullan</string>
     <string name="qhybrid_vibration_strength">Titreşim Gücü:</string>
-    <string name="reset_index">Getirim Tarihini Sıfırla</string>
+    <string name="reset_index">Getirme tarihini sıfırla</string>
     <string name="right">Sağ</string>
     <string name="russian">Russian</string>
     <string name="save_configuration">Yapılandırmayı Kaydet</string>
@@ -1036,7 +1036,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="activity_filter_apply_filter">Filtreyi Uygula</string>
     <string name="activity_filter_date_to">Bitiş</string>
     <string name="activity_filter_date_from">Başlangıç</string>
-    <string name="pref_header_filter">Spor Aktiviteleri Filtresi</string>
+    <string name="pref_header_filter">Spor Etkinlikleri Filtresi</string>
     <string name="activity_filter_filter_title">Filtre</string>
     <string name="activity_filter_reset_filter">Filtreyi Sıfırla</string>
     <string name="activity_summaries_statistics">İstatistikler</string>
@@ -1045,4 +1045,7 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="backstroke">Sırtüstü</string>
     <string name="freestyle">Serbest stil</string>
     <string name="breaststroke">Kurbağalama</string>
+    <string name="activity_summary_edit_name_title">İsmi düzenle</string>
+    <string name="pref_header_statistics">Spor Etkinlikleri İstatistikleri</string>
+    <string name="activity_filter_name_contains">Ad</string>
 </resources>
