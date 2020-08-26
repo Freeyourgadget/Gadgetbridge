@@ -106,12 +106,12 @@ public class DownloadFileRequest extends FileRequest {
     }
 
     private String bytesToString(byte[] bytes){
-        String s = "";
+        StringBuilder s = new StringBuilder();
         String chars = "0123456789ABCDEF";
-        for(byte b : bytes){
-            s += chars.charAt((b >> 4) & 0xF);
-            s += chars.charAt((b >> 0) & 0xF);
+        for (byte b : bytes) {
+            s.append(chars.charAt((b >> 4) & 0xF));
+            s.append(chars.charAt((b >> 0) & 0xF));
         }
-        return s;
+        return s.toString();
     }
 }

@@ -38,12 +38,13 @@ public class AlarmsSetRequest extends FilePutRequest {
         Version newFormatVersion = new Version("1.0.2.17");
         Pattern versionPattern = Pattern.compile("([0-9]+)\\.([0-9]+)\\.([0-9]+)\\.([0-9]+)");
         Matcher matcher = versionPattern.matcher(firmware);
-        matcher.find();
-        String thisVersion = matcher.group(0);
 
-        int result = newFormatVersion.compareTo(new Version(thisVersion));
-
-        return result != 1;
+        if (matcher.find()) {
+            String thisVersion = matcher.group(0);
+            return newFormatVersion.compareTo(new Version(thisVersion)) != 1;
+        } else {
+            return false;
+        }
     }
 
     static public byte[] createFileFromAlarms(Alarm[] alarms, boolean newFormat) {

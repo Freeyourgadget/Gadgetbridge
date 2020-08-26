@@ -33,9 +33,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEQueue;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 
 /**
- * Base class for all BLE profiles, with things that all impplementations are
+ * Base class for all BLE profiles, with things that all implementations are
  * expected to use.
- *
+ * <p>
  * Instances are used in the context of a concrete AbstractBTLEDeviceSupport instance,
  * i.e. a concrete device.
  *

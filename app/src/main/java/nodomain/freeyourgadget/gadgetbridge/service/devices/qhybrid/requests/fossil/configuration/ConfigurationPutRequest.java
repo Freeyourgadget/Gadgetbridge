@@ -16,21 +16,17 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration;
 
-import android.graphics.Bitmap;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileCloseAndPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ConfigurationPutRequest extends FilePutRequest {
-    private static HashMap<Short, Class<? extends ConfigItem>> itemsById = new HashMap<>();
+    private static final HashMap<Short, Class<? extends ConfigItem>> itemsById = new HashMap<>();
 
     static {
         itemsById.put((short)0x02, CurrentStepCountConfigItem.class);
@@ -52,15 +48,16 @@ public class ConfigurationPutRequest extends FilePutRequest {
             byte length = buffer.get();
             byte[] payload = new byte[length];
 
-            for(int i = 0; i < length; i++){
+            for (int i = 0; i < length; i++) {
                 payload[i] = buffer.get();
             }
 
             Class<? extends ConfigItem> configClass = itemsById.get(id);
-            if(configClass == null){
+            if (configClass == null) {
                 continue;
             }
-            ConfigItem item = null;
+
+            ConfigItem item;
             try {
                 item = configClass.newInstance();
             } catch (IllegalAccessException | InstantiationException e) {
@@ -112,7 +109,7 @@ public class ConfigurationPutRequest extends FilePutRequest {
 
     static public class GenericConfigItem<T> extends ConfigItem {
         private T value;
-        private short configId;
+        private final short configId;
 
         public GenericConfigItem(short configId, T value) {
             this.value = value;

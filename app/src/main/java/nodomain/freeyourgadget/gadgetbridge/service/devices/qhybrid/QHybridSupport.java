@@ -116,7 +116,7 @@ public class QHybridSupport extends QHybridBaseSupport {
     private final BroadcastReceiver commandReceiver;
     private final BroadcastReceiver globalCommandReceiver;
 
-    private PackageConfigHelper helper;
+    private final PackageConfigHelper helper;
 
     public volatile boolean searchDevice = false;
 

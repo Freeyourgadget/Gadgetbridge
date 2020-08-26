@@ -104,7 +104,7 @@ public class Alarm {
     @NonNull
     @Override
     public String toString() {
-        String description = this.hour + ":" + this.minute + "  ";
+        StringBuilder description = new StringBuilder(this.hour + ":" + this.minute + "  ");
         if(repeat){
             String[] dayNames = new String[]{"sunday", "monday", "tuesday", "thursday", "wednesday", "friday", "saturday"};
             for(int i = WEEKDAY_SUNDAY; i <= WEEKDAY_SATURDAY; i++){
