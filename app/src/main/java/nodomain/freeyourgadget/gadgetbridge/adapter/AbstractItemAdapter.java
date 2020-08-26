@@ -18,6 +18,8 @@
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +27,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.DrawableRes;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 /**
@@ -43,6 +46,7 @@ public abstract class AbstractItemAdapter<T> extends ArrayAdapter<T> {
     private final List<T> items;
     private boolean horizontalAlignment;
     private int size = SIZE_MEDIUM;
+    private int backgroundColor=0;
 
     public AbstractItemAdapter(Context context) {
         this (context, new ArrayList<T>());
@@ -103,6 +107,7 @@ public abstract class AbstractItemAdapter<T> extends ArrayAdapter<T> {
         nameView.setText(getName(item));
         detailsView.setText(getDetails(item));
         iconView.setImageResource(getIcon(item));
+        iconView.setBackgroundColor(backgroundColor);
 
         return view;
     }
@@ -118,10 +123,12 @@ public abstract class AbstractItemAdapter<T> extends ArrayAdapter<T> {
         this.size = size;
     }
 
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
     public int getSize() {
         return size;
     }
-
     public List<T> getItems() {
         return items;
     }
@@ -136,4 +143,5 @@ public abstract class AbstractItemAdapter<T> extends ArrayAdapter<T> {
             notifyDataSetChanged();
         }
     }
+
 }

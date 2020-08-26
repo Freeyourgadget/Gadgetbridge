@@ -242,6 +242,12 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         TextView activity_name = findViewById(R.id.activityname);
         activity_name.setText(activityname);
 
+        if (activityname == null || (activityname != null && activityname.length() < 1)) {
+            activity_name.setVisibility(View.GONE);
+        } else {
+            activity_name.setVisibility(View.VISIBLE);
+        }
+
         TextView start_time = findViewById(R.id.starttime);
         start_time.setText(starttimeS);
         TextView end_time = findViewById(R.id.endtime);

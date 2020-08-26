@@ -23,9 +23,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
+import android.util.TypedValue;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -259,8 +261,10 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
         super.onCreate(savedInstanceState);
-
-        setItemAdapter(new ActivitySummariesAdapter(this, mGBDevice,activityFilter,dateFromFilter,dateToFilter,nameContainsFilter));
+        ActivitySummariesAdapter activitySummariesAdapter = new ActivitySummariesAdapter(this, mGBDevice,activityFilter,dateFromFilter,dateToFilter,nameContainsFilter);
+        int backgroundColor = getBackgroundColor(ActivitySummariesActivity.this);
+        activitySummariesAdapter.setBackgroundColor(backgroundColor);
+        setItemAdapter(activitySummariesAdapter);
 
         getItemListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -465,6 +469,11 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
 
     }
 
-
+    public static int getBackgroundColor(Context context) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(R.attr.sports_activity_summary_background, typedValue, true);
+        return typedValue.data;
+    }
 
 }

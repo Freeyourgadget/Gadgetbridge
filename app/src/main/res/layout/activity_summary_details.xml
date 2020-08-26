@@ -48,21 +48,13 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-black"
                     android:maxLines="1"
-                    android:paddingEnd="10dp"
                     android:scrollHorizontally="false"
                     android:textSize="18sp" />
-                <TextView
-                    android:id="@+id/activityname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-black"
-                    android:maxLines="1"
-                    android:scrollHorizontally="false"
-                    android:textSize="18sp" />
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="0.1" />
 
                 <ImageView
                     android:id="@+id/activity_summary_detail_edit_name"
@@ -73,6 +65,15 @@
                     android:scaleType="fitEnd"
                     app:srcCompat="@drawable/ic_edit" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/activityname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:scrollHorizontally="false"
+                android:singleLine="true"
+                android:textSize="18sp" />
 
             <TableLayout
                 android:id="@+id/summaryHeader"
