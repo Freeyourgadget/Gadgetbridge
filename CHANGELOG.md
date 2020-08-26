@@ -18,7 +18,7 @@
 * Initial support for Amazfit T-Rex
 * Amazfit Bip S: Support installation of latest .res
 * Amazfit Bip S: Support longer notification messages
-* Huami: Limit weather forecast to 7 days to fix problems with weather notificaon 0.3.11
+* Huami: Limit weather forecast to 7 days to fix problems with "Weather Notification" 0.3.11
 * Huami: Improve music playback information
 * Huami: Ensure cutting strings on UTF-8 border
 * Stop incoming call notification when VoIP calls are missed
@@ -69,7 +69,7 @@
 #### Version 0.43.2
 * Fossil Hybrid HR: Allow choosing and cropping image to be set as watch background
 * Fossil Hybrid HR: Option to draw circles around widgets
-* Fossil Hybrid HR: Experimenal firmware update support
+* Fossil Hybrid HR: Experimental firmware update support
 * Fossil Hybrid HR: Fix vibration strength setting
 * Huami: Do not display firmware information and whitelist information when flashing watchfaces
 * Huami: Disable air quality indicator on Huami devices instead of showing 0
@@ -78,7 +78,7 @@
 
 #### Version 0.43.1
 * Initial support for Amazfit Bip S (incomplete, needs the official app once to obtain the pairing key)
-* Amazift Bip Lite: Allow relaxing firmware checks to allow flashing of the regular Bip firmware (for the brave)
+* Amazfit Bip Lite: Allow relaxing firmware checks to allow flashing of the regular Bip firmware (for the brave)
 * Fossil Hybrid HR: Fix notification history on newer firmwares
 * Fossil Hybrid HR: Add option to disable widget circle
 * Bangle.js: Don't set time if the option is turned off in settings
@@ -90,8 +90,8 @@
 * Fossil: Allow switching off the Q Icon and use the default Gadgetbridge icon
 * Fix VoIP call handling during DND
 * Fix find-my-phone for Android 10
-* Huami: Fix crash when calendar event desctription or title was null
-* Huami: Igore all-day events when syncing calendar events
+* Huami: Fix crash when calendar event description or title was null
+* Huami: Ignore all-day events when syncing calendar events
 
 #### Version 0.42.1
 * Fix accepting/rejecting calls on Android 9
@@ -346,7 +346,7 @@
 * Amazfit Bip/Cor: Try to fix device being sometimes stuck in connecting state
 * Mi Band 2: Put some device specific settings into its own settings category
 * Mi Band 3: Support disabling of on-device menu items
-* Mi Band 3: Support locking the Mi Band sceen (swipe up to unlock)
+* Mi Band 3: Support locking the Mi Band screen (swipe up to unlock)
 * Mi Band 2/3: New icon
 * NO1 F1: Set time during initialization
 
@@ -367,7 +367,7 @@
 * Mi Band 3: Send AQI to enable display of current temperature
 
 #### Version 0.27.1
-* Pebble: Change appstore search to point to RomanPort's pebble appstore
+* Pebble: Change app store search to point to RomanPort's Pebble app store
 * Mi Band 3: Allow flashing fonts (untested)
 * Amazfit Bip: Allow flashing latest firmwares
 * Amazfit Cor: Allow flashing Bip fonts (untested)
@@ -384,7 +384,7 @@
 * Always stop BT/BTLE discovery when exiting the discovery activity
 * Amazfit Bip/Cor: Fix scheduled setting for "display on lift wrist" preference
 * Amazfit Bip/Cor: add recent firmwares to whitelist
-* Pebble: Fix a rare crash in webview
+* Pebble: Fix a rare crash in WebView
 
 #### Version 0.26.5
 * Fix autoreconnect at boot on recent Android versions
@@ -397,7 +397,7 @@
 * Fix a bug with Toasts appearing every time a notification arrives when bluetooth is disabled
 * Pebble 2: Add optional GATT client only mode that might help with connection stability
 * Amazfit Cor: Fix detection of newer firmwares
-* Mi Band 2: Fix text notifcations not appearing with short vibration patterns
+* Mi Band 2: Fix text notifications not appearing with short vibration patterns
 
 #### Version 0.26.3
 * Amazfit Bip: Add proper mime type to shared gpx files
@@ -590,14 +590,14 @@
 * Add workaround for blacklist not properly persisting
 * Handle resetting language to default properly
 * Pebble: Pass booleans from Javascript Appmessage correctly
-* Pebble: Make local configuration pages work on most recent webview implementation
+* Pebble: Make local configuration pages work on most recent WebView implementation
 * Pebble: Allow to blacklist calendars
 * Add Greek and German transliteration support
 * Various visual improvements to charts
 
 #### Version 0.19.4
 * Replace or relicense CC-NC licensed icons to satisfy F-Droid
-* Mi Band 2: Make infos to display on the Band configurable
+* Mi Band 2: Make info to display on the Band configurable
 * Mi Band 2: Support wrist rotation to switch info setting
 * Mi Band 2: Support goal notification setting
 * Mi Band 2: Support do not disturb setting
@@ -633,7 +633,7 @@
 * Other small bugfixes
 
 #### Version 0.18.5
-* Applied some material design guidelines to Charts and (pebble) app management
+* Applied some material design guidelines to Charts and Pebble app management
 * Changed colours: deep sleep is now dark blue, light sleep is now light blue
 * Support for exporting and importing of preferences in addition to the database
 * Visual improvements of the pie charts
@@ -688,7 +688,7 @@
 * Send a notification to the connected if the Android Alarm Clock rings (com.android.deskclock)
 * Fixes for Cyrillic transliteration
 * Pebble: Implement notification privacy modes
-* Pebble: Support weather for Obisdian watchface
+* Pebble: Support weather for Obsidian watchface
 * Pebble: add a dev option to always and immediately ACK PebbleKit messages to the watch
 * HPlus: Support alarms
 * HPlus: Fix time and date sync and time format (12/24)
@@ -719,7 +719,7 @@
 * Pebble: Add weather support for various watchfaces
 * Pebble: Add option to disable call display
 * Pebble: Add option to automatically delete notifications that got dismissed on the phone
-* Pebble: Bugfix for some PebbleKit enabled 3rd party apps (TCW and maybe other)
+* Pebble: Bug fix for some PebbleKit enabled 3rd party apps (TCW and maybe other)
 * Pebble 2/LE: Improve reliability and transfer speed
 * HPlus: Improved discovery and pairing
 * HPlus: Improved notifications (display + vibration)
@@ -797,7 +797,7 @@
 
 #### Version 0.13.7
 * Pebble: Fix configuration of certain pebble apps (eg. QR Generator, Squared 4.0)
-* Pebble: Add context menu option in app manager to search a watchapp in the pebble app store
+* Pebble: Add context menu option in app manager to search a watchapp in the Pebble app store
 * Mi Band: allow to delete Mi Band address from development settings
 * Mi Band 2: Initial support for heart rate readings (Debug activity only)
 * Mi Band 2: Support disabled alarms
@@ -958,7 +958,7 @@
 
 #### Version 0.9.2
 * Mi Band: Fix update of second (HR) firmware on Mi1S (#234)
-* Fix ordering issue of device infos being displayed
+* Fix ordering issue of device info being displayed
 
 #### Version 0.9.1
 * Mi Band: fix sporadic connection problems (stuck on "Initializing" #249)
@@ -1056,7 +1056,7 @@
 #### Version 0.6.7
 * Pebble: Allow installation of 3.x apps on OG Pebble (FW will be released soon)
 * Fix crashes on startup when logging is enabled or when entering the app manager on some phones
-+ Fix Pebble being detected as MI when unpaired and autoconnect is enabled
++ Fix Pebble being detected as MI when unpaired and auto-connect is enabled
 * Fix Crash when not having K9 Mail permissions (happens when installing K9 after Gadgetbridge) (#175)
 
 #### Version 0.6.6
@@ -1094,7 +1094,7 @@
 * Pebble: Detect all known Pebble Versions including new "chalk" platform (Pebble Time Round)
 * Option to ignore phone calls (useful for Pebble Dialer)
 * Mi Band: Added progress bar for activity data transfer and fixes for firmware transfer progress bar
-* Bugfix for app blacklist (some checkboxes where wrongly drawn as checked)
+* Bug fix for app blacklist (some checkboxes where wrongly drawn as checked)
 
 #### Version 0.6.0
 * Pebble: WIP implementation of PebbleKit Intents to make some 3rd party Android apps work with the Pebble (eg. Ventoo)
@@ -1170,7 +1170,7 @@
 
 #### Version 0.4.3
 * Mi Band: Support for setting alarms
-* Mi Band: Bugfix for activity data synchronization
+* Mi Band: Bug fix for activity data synchronization
 
 #### Version 0.4.2
 * Material style for Lollipop
@@ -1208,7 +1208,7 @@
 #### Version 0.3.4
 * Pebble: Huge speedup for app/firmware installation.
 * Pebble: Use a separate notification with progress bar for installation procedure
-* Pebble: Bugfix for being stuck while waiting for a slot, when none is available
+* Pebble: Bug fix for being stuck while waiting for a slot, when none is available
 * Mi Band: Display connection status in notification (previously Pebble only)
 
 #### Version 0.3.3
