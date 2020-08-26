@@ -584,9 +584,9 @@ public class ConfigActivity extends AbstractGBActivity {
             } catch (PackageManager.NameNotFoundException e) {
                 GB.log("error", GB.ERROR, e);
             }
-            final int width = 100;
+            final int square_side = 100;
             ((TextView) view.findViewById(R.id.packageName)).setText(settings.getAppName());
-            Bitmap bitmap = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888);
+            Bitmap bitmap = Bitmap.createBitmap(square_side, square_side, Bitmap.Config.ARGB_8888);
             Canvas c = new Canvas(bitmap);
 
             Paint black = new Paint();
@@ -594,15 +594,15 @@ public class ConfigActivity extends AbstractGBActivity {
             black.setStyle(Paint.Style.STROKE);
             black.setStrokeWidth(5);
 
-            c.drawCircle(width / 2, width / 2, width / 2 - 3, black);
+            c.drawCircle(square_side / 2, square_side / 2, square_side / 2 - 3, black);
 
-            int center = width / 2;
+            int center = square_side / 2;
             if (settings.getHour() != -1) {
                 c.drawLine(
                         center,
                         center,
-                        (float) (center + Math.sin(Math.toRadians(settings.getHour())) * (width / 4)),
-                        (float) (center - Math.cos(Math.toRadians(settings.getHour())) * (width / 4)),
+                        (float) (center + Math.sin(Math.toRadians(settings.getHour())) * (square_side / 4)),
+                        (float) (center - Math.cos(Math.toRadians(settings.getHour())) * (square_side / 4)),
                         black
                 );
             }
@@ -610,8 +610,8 @@ public class ConfigActivity extends AbstractGBActivity {
                 c.drawLine(
                         center,
                         center,
-                        (float) (center + Math.sin(Math.toRadians(settings.getMin())) * (width / 3)),
-                        (float) (center - Math.cos(Math.toRadians(settings.getMin())) * (width / 3)),
+                        (float) (center + Math.sin(Math.toRadians(settings.getMin())) * (square_side / 3)),
+                        (float) (center - Math.cos(Math.toRadians(settings.getMin())) * (square_side / 3)),
                         black
                 );
             }
