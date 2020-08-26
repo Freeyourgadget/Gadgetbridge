@@ -217,8 +217,7 @@ public class AndroidUtils {
             String[] projection = {
                     MediaStore.Images.Media.DATA
             };
-            Cursor cursor = null;
-            cursor = context.getContentResolver()
+            Cursor cursor = context.getContentResolver()
                     .query(uri, projection, selection, selectionArgs, null);
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             if (cursor.moveToFirst()) {

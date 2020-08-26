@@ -81,7 +81,7 @@ public class AlarmUtils {
      * @param sun whether the alarm shall repeat every Sunday
      * @return the created repetition mask
      */
-    public static int createRepetitionMassk(boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun) {
+    public static int createRepetitionMask(boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun) {
         int repetitionMask = (mon ? Alarm.ALARM_MON : 0) |
                 (tue ? Alarm.ALARM_TUE : 0) |
                 (wed ? Alarm.ALARM_WED : 0) |

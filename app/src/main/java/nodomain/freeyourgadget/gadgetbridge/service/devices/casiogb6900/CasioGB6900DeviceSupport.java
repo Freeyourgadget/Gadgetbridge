@@ -60,7 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(CasioGB6900DeviceSupport.class);
 
-    private ArrayList<BluetoothGattCharacteristic> mCasioCharacteristics = new ArrayList<BluetoothGattCharacteristic>();
+    private final ArrayList<BluetoothGattCharacteristic> mCasioCharacteristics = new ArrayList<BluetoothGattCharacteristic>();
     private CasioHandlerThread mHandlerThread = null;
     private MusicSpec mBufferMusicSpec = null;
     private MusicStateSpec mBufferMusicStateSpec = null;
@@ -190,7 +190,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
             return;
         }
 
-        byte value[] = new byte[]{GattCharacteristic.MILD_ALERT};
+        byte[] value = new byte[]{GattCharacteristic.MILD_ALERT};
 
         BluetoothGattService llService = mBtGatt.getService(CasioGB6900Constants.LINK_LOSS_SERVICE);
         BluetoothGattCharacteristic charact = llService.getCharacteristic(CasioGB6900Constants.ALERT_LEVEL_CHARACTERISTIC_UUID);
@@ -287,12 +287,11 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
 
     private boolean handleInitResponse(byte data) {
         boolean handled = false;
-        switch(data)
-        {
+        switch (data) {
             case (byte) 1:
                 LOG.info("Initialization done, setting state to INITIALIZED");
-                if(mHandlerThread != null) {
-                    if(mHandlerThread.isAlive()) {
+                if (mHandlerThread != null) {
+                    if (mHandlerThread.isAlive()) {
                         mHandlerThread.quit();
                         mHandlerThread.interrupt();
                     }
@@ -393,11 +392,11 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
             return true;
 
         if(characteristicUUID.equals(CasioGB6900Constants.TX_POWER_LEVEL_CHARACTERISTIC_UUID)) {
-            String str = "onCharacteristicRead: Received power level: ";
+            StringBuilder str = new StringBuilder("onCharacteristicRead: Received power level: ");
             for(int i=0; i<data.length; i++) {
-                str += String.format("0x%1x ", data[i]);
+                str.append(String.format("0x%1x ", data[i]));
             }
-            LOG.info(str);
+            LOG.info(str.toString());
         }
         else {
             return super.onCharacteristicRead(gatt, characteristic, status);
@@ -465,10 +464,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
             byte[] msg = new byte[2 + len];
             msg[0] = icon;
             msg[1] = 1;
-            for(int i=0; i<len; i++)
-            {
-                msg[i + 2] = titleBytes[i];
-            }
+            System.arraycopy(titleBytes, 0, msg, 2, len);
 
             builder.write(getCharacteristic(CasioGB6900Constants.ALERT_CHARACTERISTIC_UUID), msg);
             LOG.info("Showing notification, title: " + title + " message (not sent): " + message);
@@ -605,10 +601,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
             arr[0] = 0;
             arr[1] = 10;
             arr[2] = 1;
-            for(int i=0; i<len; i++)
-            {
-                arr[i+3] = bInfo[i];
-            }
+            System.arraycopy(bInfo, 0, arr, 3, len);
             builder.write(getCharacteristic(CasioGB6900Constants.MORE_ALERT_FOR_LONG_UUID), arr);
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -692,7 +685,7 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
         if (start) {
             try {
                 TransactionBuilder builder = performInitialized("findDevice");
-                byte value[] = new byte[]{GattCharacteristic.HIGH_ALERT};
+                byte[] value = new byte[]{GattCharacteristic.HIGH_ALERT};
 
                 BluetoothGattService service = mBtGatt.getService(CasioGB6900Constants.IMMEDIATE_ALERT_SERVICE_UUID);
                 BluetoothGattCharacteristic charact = service.getCharacteristic(CasioGB6900Constants.ALERT_LEVEL_CHARACTERISTIC_UUID);

@@ -82,6 +82,7 @@ public class WebViewSingleton {
             instance.webView.setWebViewClient(new GBWebClient());
             instance.webView.setWebChromeClient(new GBChromeClient());
             WebSettings webSettings = instance.webView.getSettings();
+            //noinspection SetJavaScriptEnabled
             webSettings.setJavaScriptEnabled(true);
             //needed to access the DOM
             webSettings.setDomStorageEnabled(true);

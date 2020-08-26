@@ -383,9 +383,7 @@ public final class BtLEQueue {
         if (!transaction.isEmpty()) {
             List<AbstractTransaction> tail = new ArrayList<>(mTransactions.size() + 2);
             //mTransactions.drainTo(tail);
-            for( AbstractTransaction t : mTransactions) {
-                tail.add(t);
-            }
+            tail.addAll(mTransactions);
             mTransactions.clear();
             mTransactions.add(transaction);
             mTransactions.addAll(tail);

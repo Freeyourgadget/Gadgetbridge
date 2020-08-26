@@ -88,7 +88,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
     // The delay must be at least as long as it takes the watch to respond.
     // Reordering the requests could maybe reduce the delay, but this works fine too.
-    private CountDownTimer mFetchCountDown = new CountDownTimer(2000, 2000) {
+    private final CountDownTimer mFetchCountDown = new CountDownTimer(2000, 2000) {
         @Override
         public void onTick(long millisUntilFinished) {
 
@@ -101,7 +101,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         }
     };
 
-    private Handler mFindPhoneHandler = new Handler();
+    private final Handler mFindPhoneHandler = new Handler();
 
     private BluetoothGattCharacteristic mControlCharacteristic = null;
     private BluetoothGattCharacteristic mReportCharacteristic = null;
@@ -776,8 +776,8 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
             byte[] value = characteristic.getValue();
             byte[] arguments = new byte[value.length - 6];
 
-            for (int i = 0; i < arguments.length; ++i) {
-                arguments[i] = value[i + 6];
+            if (arguments.length >= 0) {
+                System.arraycopy(value, 6, arguments, 0, arguments.length);
             }
 
             byte[] report = new byte[]{value[4], value[5]};
@@ -837,9 +837,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
         result[MakibesHR3Constants.DATA_ARGUMENT_COUNT_INDEX] = (byte) (data.length + 3);
 
-        for (int i = 0; i < command.length; ++i) {
-            result[MakibesHR3Constants.DATA_COMMAND_INDEX + i] = command[i];
-        }
+        System.arraycopy(command, 0, result, 4, command.length);
 
         System.arraycopy(data, 0, result, 6, data.length);
 

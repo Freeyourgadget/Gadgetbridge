@@ -111,14 +111,16 @@ public class GenericItem implements ItemWithDetails {
 
     @Override
     public int compareTo(ItemWithDetails another) {
-        if (getName() == another.getName()) {
+        if (getName().equals(another.getName())) {
             return 0;
         }
+
         if (getName() == null) {
             return +1;
         } else if (another.getName() == null) {
             return -1;
         }
+
         return Collator.getInstance().compare(getName(), another.getName());
     }
 }

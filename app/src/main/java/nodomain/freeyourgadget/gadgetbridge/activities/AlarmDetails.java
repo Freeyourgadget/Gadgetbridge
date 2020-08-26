@@ -186,7 +186,7 @@ public class AlarmDetails extends AbstractGBActivity {
     private void updateAlarm() {
         alarm.setSmartWakeup(supportsSmartWakeup() && cbSmartWakeup.isChecked());
         alarm.setSnooze(supportsSnoozing() && cbSnooze.isChecked());
-        int repetitionMask = AlarmUtils.createRepetitionMassk(cbMonday.isChecked(), cbTuesday.isChecked(), cbWednesday.isChecked(), cbThursday.isChecked(), cbFriday.isChecked(), cbSaturday.isChecked(), cbSunday.isChecked());
+        int repetitionMask = AlarmUtils.createRepetitionMask(cbMonday.isChecked(), cbTuesday.isChecked(), cbWednesday.isChecked(), cbThursday.isChecked(), cbFriday.isChecked(), cbSaturday.isChecked(), cbSunday.isChecked());
         alarm.setRepetition(repetitionMask);
         alarm.setHour(timePicker.getCurrentHour());
         alarm.setMinute(timePicker.getCurrentMinute());

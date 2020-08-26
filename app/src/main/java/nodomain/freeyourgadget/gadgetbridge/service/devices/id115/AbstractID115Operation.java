@@ -30,8 +30,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.Op
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public abstract class AbstractID115Operation extends AbstractBTLEOperation<ID115Support> {
-    protected BluetoothGattCharacteristic controlCharacteristic = null;
-    protected BluetoothGattCharacteristic notifyCharacteristic = null;
+    protected BluetoothGattCharacteristic controlCharacteristic;
+    protected BluetoothGattCharacteristic notifyCharacteristic;
 
     protected AbstractID115Operation(ID115Support support) {
         super(support);

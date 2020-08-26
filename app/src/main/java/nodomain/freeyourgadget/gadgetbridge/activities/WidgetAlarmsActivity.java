@@ -60,7 +60,7 @@ public class WidgetAlarmsActivity extends Activity implements View.OnClickListen
                 textView = findViewById(R.id.alarm5);
                 if (userSleepDuration > 0) {
                     Resources res = getResources();
-                    textView.setText(String.format(res.getQuantityString(R.plurals.widget_alarm_target_hours, userSleepDuration, userSleepDuration)));
+                    textView.setText(res.getQuantityString(R.plurals.widget_alarm_target_hours, userSleepDuration, userSleepDuration));
                 } else {
                     textView.setVisibility(View.GONE);
                 }

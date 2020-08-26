@@ -188,6 +188,7 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
         myWebView.setWebViewClient(new GBWebClient());
         myWebView.setWebChromeClient(new GBChromeClient());
         WebSettings webSettings = myWebView.getSettings();
+        //noinspection SetJavaScriptEnabled
         webSettings.setJavaScriptEnabled(true);
         //needed to access the DOM
         webSettings.setDomStorageEnabled(true);

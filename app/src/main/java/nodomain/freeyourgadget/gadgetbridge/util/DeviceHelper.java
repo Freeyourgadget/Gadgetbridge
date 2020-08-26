@@ -144,20 +144,17 @@ public class DeviceHelper {
     public Set<GBDevice> getAvailableDevices(Context context) {
         BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        Set<GBDevice> availableDevices = new LinkedHashSet<GBDevice>();
-
         if (btAdapter == null) {
             GB.toast(context, context.getString(R.string.bluetooth_is_not_supported_), Toast.LENGTH_SHORT, GB.WARN);
         } else if (!btAdapter.isEnabled()) {
             GB.toast(context, context.getString(R.string.bluetooth_is_disabled_), Toast.LENGTH_SHORT, GB.WARN);
         }
-        List<GBDevice> dbDevices = getDatabaseDevices();
-        availableDevices.addAll(dbDevices);
 
+        Set<GBDevice> availableDevices = new LinkedHashSet<>(getDatabaseDevices());
         Prefs prefs = GBApplication.getPrefs();
-        String miAddr = prefs.getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
-        if (miAddr.length() > 0) {
-            GBDevice miDevice = new GBDevice(miAddr, "MI", null,  DeviceType.MIBAND);
+        String miAddress = prefs.getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
+        if (miAddress.length() > 0) {
+            GBDevice miDevice = new GBDevice(miAddress, "MI", null, DeviceType.MIBAND);
             availableDevices.add(miDevice);
         }
 

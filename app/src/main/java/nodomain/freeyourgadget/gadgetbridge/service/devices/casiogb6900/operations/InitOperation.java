@@ -104,9 +104,9 @@ public class InitOperation extends AbstractBTLEOperation<CasioGB6900DeviceSuppor
 
         if(characteristicUUID.equals(CasioGB6900Constants.CASIO_SETTING_FOR_BLE_CHARACTERISTIC_UUID)) {
             mBleSettings = data;
-            String str = "Read Casio Setting for BLE: ";
-            for(int i=0; i<data.length; i++) {
-                str += String.format("0x%1x ", data[i]);
+            StringBuilder str = new StringBuilder("Read Casio Setting for BLE: ");
+            for (byte datum : data) {
+                str.append(String.format("0x%1x ", datum));
             }
             /* Definition of parameters - for future reference */
 

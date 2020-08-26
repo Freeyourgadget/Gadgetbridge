@@ -55,10 +55,12 @@ public class StringUtils {
         return pad(s, length, ' ');
     }
 
-    public static String pad(String s, int length, char padChar){
-        while(s.length() < length) {
-            s += padChar;
+    public static String pad(String s, int length, char padChar) {
+        StringBuilder sBuilder = new StringBuilder(s);
+        while (sBuilder.length() < length) {
+            sBuilder.append(padChar);
         }
+        s = sBuilder.toString();
         return s;
     }
 

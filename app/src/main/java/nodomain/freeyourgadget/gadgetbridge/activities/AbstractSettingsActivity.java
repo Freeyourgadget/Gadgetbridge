@@ -189,7 +189,7 @@ public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivi
      */
     private static void bindPreferenceSummaryToValue(Preference preference) {
         // Set the listener to watch for value changes.
-        SimpleSetSummaryOnChangeListener listener = null;
+        SimpleSetSummaryOnChangeListener listener;
         Preference.OnPreferenceChangeListener existingListener = preference.getOnPreferenceChangeListener();
         if (existingListener != null) {
             listener = new ExtraSetSummaryOnChangeListener(existingListener);

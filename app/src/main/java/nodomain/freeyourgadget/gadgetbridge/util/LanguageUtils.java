@@ -28,10 +28,11 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class LanguageUtils {
 
-    //transliteration map with english equivalent for unsupported chars
-    private static Map<Character, String> transliterateMap = new HashMap<Character, String>(){
+    // Transliteration map with english equivalent for unsupported chars
+    @SuppressWarnings("OverwrittenKey")
+    private static final Map<Character, String> transliterateMap = new HashMap<Character, String>() {
         {
-            //extended ASCII characters
+            // Extended ASCII characters
             put('œ', "oe"); put('ª', "a"); put('º', "o"); put('«',"\""); put('»',"\"");
             
             // Scandinavian characters
@@ -39,25 +40,25 @@ public class LanguageUtils {
             put('Ø',"Oe"); put('ø',"oe");
             put('Å',"Aa"); put('å',"aa");
             
-            //german characters
+            // German characters
             put('ä',"ae"); put('ö',"oe"); put('ü',"ue");
             put('Ä',"Ae"); put('Ö',"Oe"); put('Ü',"Üe");
             put('ß',"ss"); put('ẞ',"SS");
 
-            //russian chars
+            // Russian chars
             put('а', "a"); put('б', "b"); put('в', "v");  put('г', "g"); put('д', "d"); put('е', "e"); put('ё', "jo"); put('ж', "zh");
             put('з', "z"); put('и', "i"); put('й', "jj"); put('к', "k"); put('л', "l"); put('м', "m"); put('н', "n");  put('о', "o");
             put('п', "p"); put('р', "r"); put('с', "s");  put('т', "t"); put('у', "u"); put('ф', "f"); put('х', "kh"); put('ц', "c");
             put('ч', "ch");put('ш', "sh");put('щ', "shh");put('ъ', "\"");put('ы', "y"); put('ь', "'"); put('э', "eh"); put('ю', "ju");
             put('я', "ja");
-            
-            //hebrew chars
+
+            // Hebrew chars
             put('א', "a"); put('ב', "b"); put('ג', "g");  put('ד', "d"); put('ה', "h"); put('ו', "u"); put('ז', "z"); put('ח', "kh");
             put('ט', "t"); put('י', "y"); put('כ', "c"); put('ל', "l"); put('מ', "m"); put('נ', "n"); put('ס', "s");  put('ע', "'");
             put('פ', "p"); put('צ', "ts"); put('ק', "k");  put('ר', "r"); put('ש', "sh"); put('ת', "th"); put('ף', "f"); put('ץ', "ts");
             put('ך', "ch");put('ם', "m");put('ן', "n");
 
-            // greek chars
+            // Greek chars
             put('α',"a");put('ά',"a");put('β',"v");put('γ',"g");put('δ',"d");put('ε',"e");put('έ',"e");put('ζ',"z");put('η',"i");
             put('ή',"i");put('θ',"th");put('ι',"i");put('ί',"i");put('ϊ',"i");put('ΐ',"i");put('κ',"k");put('λ',"l");put('μ',"m");
             put('ν',"n");put('ξ',"ks");put('ο',"o");put('ό',"o");put('π',"p");put('ρ',"r");put('σ',"s");put('ς',"s");put('τ',"t");
@@ -67,7 +68,7 @@ public class LanguageUtils {
             put('Ξ',"KS");put('Ο',"O");put('Ό',"O");put('Π',"P");put('Ρ',"R");put('Σ',"S");put('Τ',"T");put('Υ',"Y");put('Ύ',"Y");
             put('Ϋ',"Y");put('Φ',"F");put('Χ',"CH");put('Ψ',"PS");put('Ω',"O");put('Ώ',"O");
 
-            //ukrainian characters
+            // Ukrainian characters
             put('ґ', "gh"); put('є', "je"); put('і', "i"); put('ї', "ji"); put('Ґ', "GH"); put('Є', "JE"); put('І', "I"); put('Ї', "JI");
 
             // Arabic
@@ -92,8 +93,15 @@ public class LanguageUtils {
             //Lithuanian
             put('ą', "a"); put('č', "c"); put('ę', "e"); put('ė', "e"); put('į', "i"); put('š', "s"); put('ų', "u"); put('ū', "u"); put('ž', "z");
 
+
+            // Estonian
+            put('ä', "a"); put('Ä', "A");
+            put('ö', "o"); put('õ', "o");
+            put('Ö', "O"); put('Õ', "O");
+            put('ü', "u"); put('Ü', "U");
+
             //TODO: these must be configurable. If someone wants to transliterate cyrillic it does not mean his device has no German umlauts
-            //all or nothing is really bad here
+            // all or nothing is really bad here
         }
     };
 
