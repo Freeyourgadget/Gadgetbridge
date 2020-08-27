@@ -1,5 +1,15 @@
 ### Changelog
 
+#### next
+* Initial support for Pinetime-JF
+* Many icons have been re-drawn as vectors, also several new device and activities icons added
+* Many improvements to the Bluetooth discovery and scanning
+* Huami: decode some more sports summary values on Bip S (probably other new devices also)
+* Fix crash when opening GPX file
+* Add gadget events forwarding for HUAMI devices
+* Add Sports Activity Detail screen from decoded sports summary values
+* Add Sports Activity Summary filtering and statistics
+
 #### 0.46.0
 * Initial support for Mi Band 5
 * Initial support for TLW64
