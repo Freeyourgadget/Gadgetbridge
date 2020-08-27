@@ -770,7 +770,7 @@
     <string name="notification_channel_name">Gadgetbridge notifications</string>
     <string name="notification_channel_high_priority_name">Gadgetbridge notifications high priority</string>
     <string name="devicetype_amazfit_gts">Amazfit GTS</string>
-    <string name="devicetype_sg2">SG2</string>
+    <string name="devicetype_sg2">Lemfo SG2</string>
     <!-- Menus on the smart device -->
     <string name="menuitem_shortcut_alipay">Alipay (Shortcut)</string>
     <string name="menuitem_shortcut_weather">Weather (Shortcut)</string>

@@ -17,7 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.hplus;
 
 /*
-* @author Alejandro Ladera Chamorro &lt;11555126+tiparega@users.noreply.github.com&gt;
+* @author Frederic LESUR contact@memiks.fr;
 */
 
 
@@ -26,7 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 /**
- * Pseudo Coordinator for the SG2, a sub type of the HPLUS devices
+ * Pseudo Coordinator for the  Lemfo SG2, a sub type of the HPLUS devices
  */
 public class SG2Coordinator extends HPlusCoordinator {
 
@@ -51,4 +51,8 @@ public class SG2Coordinator extends HPlusCoordinator {
         return "Lemfo";
     }
 
+    @Override
+    public boolean supportsWeather() {
+        return true;
+    }
 }

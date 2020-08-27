@@ -52,6 +52,7 @@ public enum DeviceType {
     MAKIBESF68(41, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_makibes_f68),
     EXRIZUK8(42, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_exrizu_k8),
     Q8(43, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_q8),
+    SG2(44, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_sg2),
     NO1F1(50, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_no1_f1),
     TECLASTH30(60, R.drawable.ic_device_h30_h10, R.drawable.ic_device_h30_h10_disabled, R.string.devicetype_teclast_h30),
     Y5(61, R.drawable.ic_device_h30_h10, R.drawable.ic_device_roidmi_disabled, R.string.devicetype_y5),
@@ -74,7 +75,6 @@ public enum DeviceType {
     MIJIA_LYWSD02(200, R.drawable.ic_device_pebble, R.drawable.ic_device_pebble_disabled, R.string.devicetype_mijia_lywsd02),
     ITAG(250, R.drawable.ic_device_itag, R.drawable.ic_device_itag_disabled, R.string.devicetype_itag),
     VIBRATISSIMO(300, R.drawable.ic_device_lovetoy, R.drawable.ic_device_lovetoy_disabled, R.string.devicetype_vibratissimo),
-    SG2(310, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled, R.string.devicetype_sg2),
     TEST(1000, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_test);
     private final int key;
     @DrawableRes
