@@ -4,7 +4,6 @@
     android:thicknessRatio="2"
     android:useLevel="false">
     <solid android:color="@android:color/transparent" />
-
     <stroke
         android:width="2dp"
         android:color="@color/secondarytext" />
