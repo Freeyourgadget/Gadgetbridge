@@ -37,7 +37,6 @@ import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
-import nodomain.freeyourgadget.gadgetbridge.devices.watch9.Watch9PairingActivity;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributesDao;
@@ -109,9 +108,10 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
 
     /**
      * Hook for subclasses to perform device-specific deletion logic, e.g. db cleanup.
+     *
      * @param gbDevice the GBDevice
-     * @param device the corresponding database Device
-     * @param session the session to use
+     * @param device   the corresponding database Device
+     * @param session  the session to use
      * @throws GBException
      */
     protected abstract void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException;
@@ -128,15 +128,15 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
             return false;
         }
         if (bluetoothClass.getMajorDeviceClass() == BluetoothClass.Device.Major.WEARABLE
-            || bluetoothClass.getMajorDeviceClass() == BluetoothClass.Device.Major.UNCATEGORIZED) {
+                || bluetoothClass.getMajorDeviceClass() == BluetoothClass.Device.Major.UNCATEGORIZED) {
             int deviceClasses =
                     BluetoothClass.Device.HEALTH_BLOOD_PRESSURE
-                    | BluetoothClass.Device.HEALTH_DATA_DISPLAY
-                    | BluetoothClass.Device.HEALTH_PULSE_RATE
-                    | BluetoothClass.Device.HEALTH_WEIGHING
-                    | BluetoothClass.Device.HEALTH_UNCATEGORIZED
-                    | BluetoothClass.Device.HEALTH_PULSE_OXIMETER
-                    | BluetoothClass.Device.HEALTH_GLUCOSE;
+                            | BluetoothClass.Device.HEALTH_DATA_DISPLAY
+                            | BluetoothClass.Device.HEALTH_PULSE_RATE
+                            | BluetoothClass.Device.HEALTH_WEIGHING
+                            | BluetoothClass.Device.HEALTH_UNCATEGORIZED
+                            | BluetoothClass.Device.HEALTH_PULSE_OXIMETER
+                            | BluetoothClass.Device.HEALTH_GLUCOSE;
 
             return (bluetoothClass.getDeviceClass() & deviceClasses) != 0;
         }
@@ -185,7 +185,9 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
-    public boolean supportsUnicodeEmojis() { return false; }
+    public boolean supportsUnicodeEmojis() {
+        return false;
+    }
 
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {

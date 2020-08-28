@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018-2019 Daniele Gobbetti, maxirnilian
+/*  Copyright (C) 2018-2020 Daniele Gobbetti, maxirnilian, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.lenovo;
 
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -24,12 +25,12 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import androidx.annotation.NonNull;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2;
@@ -38,33 +39,18 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.BondingInterface;
+import nodomain.freeyourgadget.gadgetbridge.util.BondingUtil;
 
-public class LenovoWatchPairingActivity extends AbstractGBActivity {
+import static nodomain.freeyourgadget.gadgetbridge.util.BondingUtil.STATE_DEVICE_CANDIDATE;
+
+public class LenovoWatchPairingActivity extends AbstractGBActivity implements BondingInterface {
     private static final Logger LOG = LoggerFactory.getLogger(LenovoWatchPairingActivity.class);
-
-    private static final String STATE_DEVICE_CANDIDATE = "stateDeviceCandidate";
 
     private TextView message;
     private GBDeviceCandidate deviceCandidate;
 
-    private final BroadcastReceiver mPairingReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (GBDevice.ACTION_DEVICE_CHANGED.equals(intent.getAction())) {
-                GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
-                LOG.debug("pairing activity: device changed: " + device);
-                if (deviceCandidate.getMacAddress().equals(device.getAddress())) {
-                    if (device.isInitialized()) {
-                        pairingFinished();
-                    } else if (device.isConnecting() || device.isInitializing()) {
-                        LOG.info("still connecting/initializing device...");
-                    }
-                }
-            }
-        }
-    };
+    private final BroadcastReceiver pairingReceiver = BondingUtil.getPairingReceiver(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +69,8 @@ public class LenovoWatchPairingActivity extends AbstractGBActivity {
             finish();
             return;
         }
-        startPairing();
+
+        startPairing(deviceCandidate);
     }
 
     @Override
@@ -99,32 +86,71 @@ public class LenovoWatchPairingActivity extends AbstractGBActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        BondingUtil.handleActivityResult(this, requestCode, resultCode, data);
+    }
+
+    private void startPairing(GBDeviceCandidate deviceCandidate) {
+        message.setText(getString(R.string.pairing, deviceCandidate));
+
+        removeBroadcastReceivers();
+
+        BondingUtil.connectThenComplete(this, deviceCandidate);
+    }
+
+    @Override
+    public void onBondingComplete(boolean success) {
+        startActivity(new Intent(this, ControlCenterv2.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        finish();
+    }
+
+    @Override
+    public BluetoothDevice getCurrentTarget() {
+        return this.deviceCandidate.getDevice();
+    }
+
+    @Override
+    protected void onResume() {
+        removeBroadcastReceivers();
+        super.onResume();
+    }
+
+    @Override
+    protected void onStart() {
+        removeBroadcastReceivers();
+        super.onStart();
+    }
+
+    @Override
     protected void onDestroy() {
-        AndroidUtils.safeUnregisterBroadcastReceiver(LocalBroadcastManager.getInstance(this), mPairingReceiver);
+        unregisterBroadcastReceivers();
         super.onDestroy();
     }
 
-    private void startPairing() {
-        message.setText(getString(R.string.pairing, deviceCandidate));
-
-        IntentFilter filter = new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED);
-        LocalBroadcastManager.getInstance(this).registerReceiver(mPairingReceiver, filter);
-
-        GBApplication.deviceService().disconnect();
-        GBDevice device = DeviceHelper.getInstance().toSupportedDevice(deviceCandidate);
-        if (device != null) {
-            GBApplication.deviceService().connect(device, true);
-        } else {
-            GB.toast(this, "Unable to connect, can't recognize the device type: " + deviceCandidate, Toast.LENGTH_LONG, GB.ERROR);
-        }
+    @Override
+    protected void onStop() {
+        unregisterBroadcastReceivers();
+        super.onStop();
     }
 
-    private void pairingFinished() {
-        AndroidUtils.safeUnregisterBroadcastReceiver(LocalBroadcastManager.getInstance(this), mPairingReceiver);
+    @Override
+    protected void onPause() {
+        // WARN: Do not remove listeners on pause
+        // Bonding process can pause the activity and you might miss broadcasts
+        super.onPause();
+    }
 
-        Intent intent = new Intent(this, ControlCenterv2.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+    public void unregisterBroadcastReceivers() {
+        AndroidUtils.safeUnregisterBroadcastReceiver(LocalBroadcastManager.getInstance(this), pairingReceiver);
+    }
 
-        finish();
+    public void removeBroadcastReceivers() {
+        LocalBroadcastManager.getInstance(this).registerReceiver(pairingReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 }

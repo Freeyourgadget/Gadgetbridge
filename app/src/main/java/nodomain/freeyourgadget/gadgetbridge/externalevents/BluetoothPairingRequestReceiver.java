@@ -30,13 +30,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
-/**
- * Created by jpbarraca on 13/04/2017.
- */
-
 public class BluetoothPairingRequestReceiver extends BroadcastReceiver {
-
-
     private static final Logger LOG = LoggerFactory.getLogger(BluetoothConnectReceiver.class);
 
     final DeviceCommunicationService service;
@@ -56,8 +50,9 @@ public class BluetoothPairingRequestReceiver extends BroadcastReceiver {
 
         GBDevice gbDevice = service.getGBDevice();
         BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-        if (gbDevice == null || device == null)
+        if (gbDevice == null || device == null) {
             return;
+        }
 
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
         try {
@@ -67,7 +62,6 @@ public class BluetoothPairingRequestReceiver extends BroadcastReceiver {
             }
         } catch (Exception e) {
             LOG.warn("Could not abort pairing request process");
-
         }
     }
 }

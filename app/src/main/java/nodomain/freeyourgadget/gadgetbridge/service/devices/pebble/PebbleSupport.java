@@ -73,7 +73,7 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     public void onInstallApp(Uri uri) {
         PebbleProtocol pebbleProtocol = (PebbleProtocol) getDeviceProtocol();
         PebbleIoThread pebbleIoThread = getDeviceIOThread();
-        // catch fake urls first
+        // Catch fake URLs first
         if (uri.equals(Uri.parse("fake://health"))) {
             getDeviceIOThread().write(pebbleProtocol.encodeActivateHealth(true));
             String units = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, getContext().getString(R.string.p_unit_metric));

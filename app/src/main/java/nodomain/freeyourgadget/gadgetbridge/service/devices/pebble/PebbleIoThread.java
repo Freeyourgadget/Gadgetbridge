@@ -202,6 +202,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                     final UUID UuidSDP = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
                     mBtSocket = btDevice.createRfcommSocketToServiceRecord(UuidSDP);
 
+                    // TODO: Why is this comment here?
                     //mBtSocket = btDevice.createRfcommSocketToServiceRecord(uuids[0].getUuid());
                     mBtSocket.connect();
                     mInStream = mBtSocket.getInputStream();

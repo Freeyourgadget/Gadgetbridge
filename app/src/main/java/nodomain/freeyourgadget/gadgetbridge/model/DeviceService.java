@@ -19,6 +19,7 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 import androidx.annotation.Nullable;
+
 import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
@@ -139,7 +140,7 @@ public interface DeviceService extends EventHandler {
 
     void connect(@Nullable GBDevice device);
 
-    void connect(@Nullable GBDevice device, boolean performPair);
+    void connect(@Nullable GBDevice device, boolean firstTime);
 
     void disconnect();
 

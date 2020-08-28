@@ -59,8 +59,8 @@ class PebbleGATTClient extends BluetoothGattCallback {
     private final PebbleLESupport mPebbleLESupport;
 
     private boolean oldPebble = false;
-    private boolean doPairing = true;
-    private boolean removeBond = false;
+    private final boolean doPairing = true;
+    private final boolean removeBond = false;
     private BluetoothGatt mBluetoothGatt;
 
     private CountDownLatch mWaitWriteCompleteLatch;
@@ -83,7 +83,7 @@ class PebbleGATTClient extends BluetoothGattCallback {
         } else if (characteristic.getUuid().equals(PPOGATT_CHARACTERISTIC_READ)) {
             mPebbleLESupport.handlePPoGATTPacket(characteristic.getValue().clone());
         } else {
-            LOG.info("onCharacteristicChanged()" + characteristic.getUuid().toString() + " " + GB.hexdump(characteristic.getValue(), 0, -1));
+            LOG.info("onCharacteristicChanged() " + characteristic.getUuid().toString() + " " + GB.hexdump(characteristic.getValue(), 0, -1));
         }
     }
 
@@ -94,7 +94,7 @@ class PebbleGATTClient extends BluetoothGattCallback {
 
         LOG.info("onCharacteristicRead() status = " + status);
         if (status == BluetoothGatt.GATT_SUCCESS) {
-            LOG.info("onCharacteristicRead()" + characteristic.getUuid().toString() + " " + GB.hexdump(characteristic.getValue(), 0, -1));
+            LOG.info("onCharacteristicRead() " + characteristic.getUuid().toString() + " " + GB.hexdump(characteristic.getValue(), 0, -1));
 
             if (oldPebble) {
                 subscribeToConnectivity(gatt);
