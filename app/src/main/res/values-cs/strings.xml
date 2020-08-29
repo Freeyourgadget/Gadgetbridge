@@ -1022,6 +1022,9 @@
     <string name="activity_type_elliptical_trainer">Eliptický trenažér</string>
     <string name="activity_type_indoor_cycling">Sálová Cyklistika</string>
     <string name="activity_type_swimming_openwater">Plavání (otevřená voda)</string>
-    <string name="activity_filter_name_contains">Název</string>
-    <string name="activity_summary_edit_name_title">Editovat název</string>
+    <string name="activity_filter_name_contains">Štítek</string>
+    <string name="activity_summary_edit_name_title">Editovat štítek</string>
+    <string name="activity_summaries_all_activities">Všechny aktivity</string>
+    <string name="activity_summary_yesterday">Včera</string>
+    <string name="activity_summary_today">Dnes</string>
 </resources>
