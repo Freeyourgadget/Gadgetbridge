@@ -850,4 +850,9 @@
     <string name="live_activity_max_heart_rate">Praegune / Maksimaalne südame löögisagedus: %1$d / %2$d</string>
     <string name="pref_summary_keep_data_on_device">Hoiab aktiivsusandmed Mi Band\'il isegi pärast sünkroonimist. Kasulik, kui kasutate GB koos teiste sarnaste rakendustega.</string>
     <string name="pref_summary_dont_ack_transfers">Kui Band\'ile kinnitust ei saada siis aktiivsusandmeid ei kustutata. Kasulik, kui kasutate GBd koos teiste sarnaste rakendustega.</string>
+    <string name="steps">Samme</string>
+    <string name="caloriesBurnt">Kaloreid</string>
+    <string name="activity_filter_name_contains">Nimi</string>
+    <string name="activity_filter_filter_title">Filter</string>
+    <string name="activity_summaries_statistics">Statistika</string>
 </resources>
