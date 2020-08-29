@@ -2,6 +2,7 @@
 
 #### 0.47.0 (NEXT)
 * Initial experimental support for Pinetime-JF (not yet usable)
+* HPlus; Recognize Lemfo SG2
 * Huami: Support events forwarding via intents or direct triggering of certain actions (eg. stop music when fall asleep)
 * Huami: Add Sports Activity Detail screen from decoded sports summary values
 * Huami: Recogize and decode lot more activity (workout) types
