@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -63,13 +64,6 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
     HashMap<String, Integer> activityKindMap = new HashMap<>(1);
     int BACKGROUND_COLOR;
 
-    public static int getAlternateColor(Context context) {
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = context.getTheme();
-        theme.resolveAttribute(R.attr.alternate_row_background, typedValue, true);
-        return typedValue.data;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,11 +80,14 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
             setContentView(R.layout.sport_activity_filter);
         }
         BACKGROUND_COLOR = GBApplication.getBackgroundColor(appContext);
-        ;
 
         //get spinner ready - assign data, set selected item...
         final Spinner filterKindSpinner = findViewById(R.id.select_kind);
         ArrayList<String> spinnerArray = new ArrayList<>(activityKindMap.keySet());
+        //ensure that all items is always first in the list
+        spinnerArray.remove(getString(R.string.activity_summaries_all_activities));
+        spinnerArray.add(0, getString(R.string.activity_summaries_all_activities));
+
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_dropdown_item, spinnerArray);
         filterKindSpinner.setAdapter(dataAdapter);
@@ -98,15 +95,12 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
         addListenerOnSpinnerItemSelection();
 
         final LinearLayout filterfrom = findViewById(R.id.filterfrom);
-        final TextView filterfromlabel = findViewById(R.id.textViewFromData);
         final LinearLayout filterto = findViewById(R.id.filterto);
-        final TextView filtertolabel = findViewById(R.id.textViewToData);
         final EditText nameContainsFilterdata = findViewById(R.id.textViewNameData);
         nameContainsFilterdata.setBackgroundDrawable(null);
 
         final Button reset_filter_button = findViewById(R.id.reset_filter_button);
         final Button apply_filter_button = findViewById(R.id.apply_filter_button);
-        apply_filter_button.setBackgroundColor(this.getResources().getColor(R.color.accent));
 
 
         nameContainsFilterdata.addTextChangedListener(new TextWatcher() {
@@ -221,10 +215,10 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
             nameContainsFilterdata.setText(nameContainsFilter);
         }
         if (dateToFilter != 0 || dateFromFilter != 0 || activityFilter != 0 || nameContainsFilterdata.length() > 0) {
-            reset_filter_button.setBackgroundColor(this.getResources().getColor(R.color.accent));
+            reset_filter_button.getBackground().clearColorFilter();
 
         } else {
-            reset_filter_button.setBackgroundColor(this.getResources().getColor(R.color.secondarytext));
+            reset_filter_button.getBackground().setColorFilter(new LightingColorFilter(0x0, 0x00888888));
         }
     }
 

@@ -384,10 +384,10 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
 
     private LinkedHashMap fillKindMap(){
         LinkedHashMap<String , Integer> newMap = new LinkedHashMap<>(1); //reset
-        newMap.put("All Activities", 0);
+        newMap.put(getString(R.string.activity_summaries_all_activities), 0);
         for (BaseActivitySummary item : getItemAdapter().getItems()) {
             String activityName = ActivityKind.asString(item.getActivityKind(), this);
-            if (!newMap.containsKey(item.getActivityKind())) {
+            if (!newMap.containsKey(activityName)) {
                 newMap.put(activityName, item.getActivityKind());
             }
         }

@@ -988,6 +988,7 @@
     <string name="activity_filter_name_contains">Label</string>
     <string name="activity_filter_apply_filter">Apply Filter</string>
     <string name="activity_summaries_statistics">Statistics</string>
+    <string name="activity_summaries_all_activities">All Activities</string>
 
     <!-- swim styles -->
     <string name="breaststroke">Breaststroke</string>
