@@ -188,12 +188,15 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     */
     private void cancelNotification() {
         try {
+            if (getQueue() == null) {
+                LOG.warn("Unable to cancel notification, queue is null");
+                return;
+            }
             getQueue().clear();
             TransactionBuilder builder = performInitialized("cancelNotification");
-            byte[] bArr;
             int mPosition = 1024;   // all positions
             int mMessageId = 0xFF;  // all messages
-            bArr = new byte[6];
+            byte[] bArr = new byte[6];
             bArr[0] = (byte) ((int) (mPosition >> 24));
             bArr[1] = (byte) ((int) (mPosition >> 16));
             bArr[2] = (byte) ((int) (mPosition >> 8));
