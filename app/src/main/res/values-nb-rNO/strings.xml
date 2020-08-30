@@ -955,4 +955,49 @@
     <string name="activity_detail_start_label">Start:</string>
     <string name="Steps">Steg</string>
     <string name="activity_type_yoga">Yoga</string>
+    <string name="bip_prefs_shotcuts_summary">Velg snarveiene på armbåndsur-skjermen</string>
+    <string name="fw_upgrade_notice_miband5">Du er i ferd med å installere %s-fastvaren på ditt Mi Band 5.
+\n
+\nForsikre deg om at du installerer .fw-fila, så .res-fila. Armbåndsuret ditt vil starte på nytt etter at .fw-fila er installert.
+\n
+\nMerk: Du trenger ikke å installere .res-filen hvis den er akkurat den samme som den som allerede er installert.
+\n
+\nFORTSETT PÅ EGEN RISIKO!</string>
+    <string name="Elevation">Høyde</string>
+    <string name="prefs_events_forwarding_broadcast_title">Kringkast melding</string>
+    <string name="activity_type_swimming_openwater">Svømming (i åpent vann)</string>
+    <string name="hebrew">Hebraisk</string>
+    <string name="pref_header_notifications_and_calls_callhandling">Anropshåndtering</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_misscall">Gjenta i X minutter</string>
+    <string name="activity_type_elliptical_trainer">Ellipsemaskin</string>
+    <string name="pref_header_statistics">Sportsaktivitetsstatistikk</string>
+    <string name="pref_header_filter">Sportsaktivitetsfilter</string>
+    <string name="prefs_events_forwarding_title">Enhetshandlinger</string>
+    <string name="km">km</string>
+    <string name="seconds_m">sek/m</string>
+    <string name="device_requires_key">NØKKEL KREVES</string>
+    <string name="permission_granting_mandatory">Alle disse tilgangene er påkrevd og ustabilitet kan oppstå hvis de ikke innvilges</string>
+    <string name="about_additional_contributions">Mange takk til alle ulistede bidragsytere for kode, støtte, idéer, motivasjon, feilrapporter, penger… ✊</string>
+    <string name="about_core_team_title">Kjernelag (sortert etter første kodebidrag)</string>
+    <string name="devicetype_pinetime_jf">PineTime (JF-fastvare)</string>
+    <string name="activity_summary_detail">Sportaktivitetsdetalj</string>
+    <string name="activity_type_jump_roping">Hoppetau</string>
+    <string name="activity_type_indoor_cycling">Innendørssykling</string>
+    <string name="devicetype_tlw64">TLW64</string>
+    <string name="activity_summary_yesterday">I går</string>
+    <string name="activity_summary_today">I dag</string>
+    <string name="activity_summary_edit_name_title">Rediger etikett</string>
+    <string name="activity_filter_reset_filter">Tilbakestill filter</string>
+    <string name="activity_filter_date_to">Til</string>
+    <string name="activity_filter_date_from">Fra</string>
+    <string name="activity_filter_name_contains">Etikett</string>
+    <string name="activity_filter_filter_title">Filter</string>
+    <string name="breaststroke">Bryst</string>
+    <string name="backstroke">Rygg</string>
+    <string name="freestyle">Krål</string>
+    <string name="medley">Medley</string>
+    <string name="activity_summaries_all_activities">Alle aktiviteter</string>
+    <string name="activity_filter_apply_filter">Legg til filter</string>
+    <string name="activity_summaries_statistics">Statistikk</string>
+    <string name="pref_check_permission_status">Sjekk tilgangsstatus</string>
 </resources>
