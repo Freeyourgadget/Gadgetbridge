@@ -1029,6 +1029,9 @@
     <string name="activity_summaries_statistics">סטטיסטיקה</string>
     <string name="pref_header_statistics">סטטיסטיקת פעילות ספורטיבית</string>
     <string name="km">ק״מ</string>
-    <string name="activity_filter_name_contains">שם</string>
-    <string name="activity_summary_edit_name_title">עריכת השם</string>
+    <string name="activity_filter_name_contains">תווית</string>
+    <string name="activity_summary_edit_name_title">עריכת התווית</string>
+    <string name="activity_summaries_all_activities">כל הפעילויות</string>
+    <string name="activity_summary_yesterday">אתמול</string>
+    <string name="activity_summary_today">היום</string>
 </resources>
