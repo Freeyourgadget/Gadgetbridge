@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.47.0" versioncode="179"></change>
+        <change>Initial experimental support for Pinetime-JF (not yet usable)</change>
+        <change>HPlus: Recognize Lemfo SG2</change>
+        <change>Huami: Support events forwarding via intents or direct triggering of certain actions (eg. stop music when fall asleep)</change>
+        <change>Huami: Add Sports Activity Detail screen from decoded sports summary values</change>
+        <change>Huami: Recogize and decode lot more activity (workout) types</change>
+        <change>Add Sports Activity Summary filtering and statistics</change>
+        <change>Many icons have been re-drawn as vectors, also several new device and sports activity icons added</change>
+        <change>Many improvements to the Bluetooth discovery and scanning</change>
+        <change>Fix crash when opening GPX files</change>
+    </release>
     <release version="0.46.0" versioncode="178">
         <change>Initial support for Mi Band 5</change>
         <change>Initial support for TLW64</change>
