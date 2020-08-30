@@ -1024,6 +1024,9 @@
     <string name="activity_summaries_statistics">Статистика</string>
     <string name="km">км</string>
     <string name="pref_header_statistics">Статистика спортивных активностей</string>
-    <string name="activity_filter_name_contains">Имя</string>
-    <string name="activity_summary_edit_name_title">Редактировать имя</string>
+    <string name="activity_filter_name_contains">Метка</string>
+    <string name="activity_summary_edit_name_title">Править метку</string>
+    <string name="activity_summaries_all_activities">Все активности</string>
+    <string name="activity_summary_yesterday">Вчера</string>
+    <string name="activity_summary_today">Сегодня</string>
 </resources>
