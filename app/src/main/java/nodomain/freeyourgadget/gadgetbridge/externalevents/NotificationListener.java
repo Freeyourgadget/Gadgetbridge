@@ -691,7 +691,7 @@ public class NotificationListener extends NotificationListenerService {
             mHandler.postDelayed(mSetMusicStateRunnable, 100);
 
             return true;
-        } catch (NullPointerException | RemoteException e) {
+        } catch (NullPointerException | RemoteException | SecurityException e) {
             return false;
         }
     }
