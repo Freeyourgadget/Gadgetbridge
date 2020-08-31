@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="0.47.0" versioncode="179"></change>
+    <release version="0.47.0" versioncode="179">
         <change>Initial experimental support for Pinetime-JF (not yet usable)</change>
         <change>HPlus: Recognize Lemfo SG2</change>
         <change>Huami: Support events forwarding via intents or direct triggering of certain actions (eg. stop music when fall asleep)</change>
