@@ -1026,6 +1026,10 @@
     <string name="freestyle">自由泳</string>
     <string name="breaststroke">蛙泳</string>
     <string name="pref_header_statistics">体育活动统计</string>
-    <string name="activity_filter_name_contains">名称</string>
-    <string name="activity_summary_edit_name_title">编辑名称</string>
+    <string name="activity_filter_name_contains">标签</string>
+    <string name="activity_summary_edit_name_title">编辑标签</string>
+    <string name="activity_summaries_all_activities">所有活动</string>
+    <string name="devicetype_sg2">Lemfo SG2</string>
+    <string name="activity_summary_yesterday">昨天</string>
+    <string name="activity_summary_today">今天</string>
 </resources>
