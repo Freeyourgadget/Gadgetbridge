@@ -1027,4 +1027,5 @@
     <string name="activity_summaries_all_activities">Všechny aktivity</string>
     <string name="activity_summary_yesterday">Včera</string>
     <string name="activity_summary_today">Dnes</string>
+    <string name="devicetype_sg2">Lemfo SG2</string>
 </resources>
