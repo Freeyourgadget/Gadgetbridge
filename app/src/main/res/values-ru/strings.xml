@@ -1029,4 +1029,5 @@
     <string name="activity_summaries_all_activities">Все активности</string>
     <string name="activity_summary_yesterday">Вчера</string>
     <string name="activity_summary_today">Сегодня</string>
+    <string name="devicetype_sg2">Lemfo SG2</string>
 </resources>
