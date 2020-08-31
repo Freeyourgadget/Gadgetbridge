@@ -986,4 +986,7 @@
     <string name="devicetype_tlw64">TLW64</string>
     <string name="activity_type_yoga">Joga</string>
     <string name="devicetype_miband5">Mi Band 5</string>
+    <string name="devicetype_sg2">Lemfo SG2</string>
+    <string name="activity_summary_yesterday">Wczoraj</string>
+    <string name="activity_summary_today">Dzisiaj</string>
 </resources>
