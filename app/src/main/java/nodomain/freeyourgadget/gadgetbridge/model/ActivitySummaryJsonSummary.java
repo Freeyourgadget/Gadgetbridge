@@ -25,6 +25,37 @@ public class ActivitySummaryJsonSummary {
     private JSONObject setSummaryData(BaseActivitySummary item){
         String summary = getCorrectSummary(item);
         JSONObject jsonSummary = getJSONSummary(summary);
+        if (jsonSummary != null) {
+            //add additionally computed values here
+
+            if (item.getBaseAltitude() != null) {
+                JSONObject baseAltitudeValues;
+                try {
+                    baseAltitudeValues = new JSONObject();
+                    baseAltitudeValues.put("value", item.getBaseAltitude());
+                    baseAltitudeValues.put("unit", "meters");
+                    jsonSummary.put("baseAltitude", baseAltitudeValues);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (jsonSummary.has("distanceMeters") && jsonSummary.has("activeSeconds")) {
+                JSONObject averageSpeed;
+                try {
+                    JSONObject distanceMeters = (JSONObject) jsonSummary.get("distanceMeters");
+                    JSONObject activeSeconds = (JSONObject) jsonSummary.get("activeSeconds");
+                    double distance = distanceMeters.getDouble("value");
+                    double duration = activeSeconds.getDouble("value");
+                    averageSpeed = new JSONObject();
+                    averageSpeed.put("value", distance / duration);
+                    averageSpeed.put("unit", "meters_second");
+                    jsonSummary.put("averageSpeed", averageSpeed);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         return jsonSummary;
     }
 
@@ -114,8 +145,8 @@ public class ActivitySummaryJsonSummary {
     private JSONObject createActivitySummaryGroups(){
         String groupDefinitions = "{'Strokes':['averageStrokeDistance','averageStrokesPerSecond','strokes'], " +
                 "'Swimming':['swolfIndex','swimStyle'], " +
-                "'Elevation':['ascentMeters','descentMeters','maxAltitude','minAltitude','ascentSeconds','descentSeconds','flatSeconds'], " +
-                "'Speed':['maxSpeed','minPace','maxPace','averageKMPaceSeconds'], " +
+                "'Elevation':['ascentMeters','descentMeters','maxAltitude','minAltitude','ascentSeconds','descentSeconds','flatSeconds', 'baseAltitude'], " +
+                "'Speed':['maxSpeed','minPace','maxPace','averageKMPaceSeconds', 'averageSpeed', 'averageSpeed2'], " +
                 "'Activity':['distanceMeters','steps','activeSeconds','caloriesBurnt','totalStride'," +
                 "'averageHR','averageStride'], " +
                 "'Laps':['averageLapPace','laps']}";

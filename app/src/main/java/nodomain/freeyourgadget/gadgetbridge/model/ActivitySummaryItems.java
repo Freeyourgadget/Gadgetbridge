@@ -9,21 +9,12 @@ import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class ActivitySummaryItems {
-    private final GBDevice device;
-    private int activityKindFilter;
-    List<BaseActivitySummary> allItems;
     ActivitySummariesAdapter itemsAdapter;
     private int current_position = 0;
-    long dateFromFilter=0;
-    long dateToFilter=0;
 
+    public ActivitySummaryItems(Context context, GBDevice device, int activityKindFilter, long dateFromFilter, long dateToFilter, String nameContainsFilter, long deviceFilter, List itemsFilter) {
 
-    public ActivitySummaryItems(Context context, GBDevice device, int activityKindFilter, long dateFromFilter, long dateToFilter, String nameContainsFilter) {
-        this.device = device;
-        this.activityKindFilter = activityKindFilter;
-        this.dateFromFilter=dateFromFilter;
-        this.dateToFilter=dateToFilter;
-        this.itemsAdapter = new ActivitySummariesAdapter(context, device, activityKindFilter, dateFromFilter, dateToFilter, nameContainsFilter);
+        this.itemsAdapter = new ActivitySummariesAdapter(context, device, activityKindFilter, dateFromFilter, dateToFilter, nameContainsFilter, deviceFilter, itemsFilter);
     }
 
     public BaseActivitySummary getItem(int position){
@@ -33,10 +24,6 @@ public class ActivitySummaryItems {
 
     public int getPosition(BaseActivitySummary item){
         return itemsAdapter.getPosition(item);
-    }
-
-    public List<BaseActivitySummary> getAllItems(){
-        return itemsAdapter.getItems();
     }
 
     public BaseActivitySummary getNextItem(){
@@ -54,9 +41,4 @@ public class ActivitySummaryItems {
         }
         return null;
     }
-
-    public int getCurrent_position(){
-        return current_position;
-    }
-
 }

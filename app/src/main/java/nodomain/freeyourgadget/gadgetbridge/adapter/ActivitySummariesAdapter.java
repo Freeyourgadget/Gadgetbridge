@@ -38,20 +38,26 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
+import static nodomain.freeyourgadget.gadgetbridge.activities.ActivitySummariesFilter.ALL_DEVICES;
+
 public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySummary> {
     private final GBDevice device;
     private int activityKindFilter;
     long dateFromFilter=0;
     long dateToFilter=0;
+    long deviceFilter;
     String nameContainsFilter;
+    List<Long>itemsFilter;
 
-    public ActivitySummariesAdapter(Context context, GBDevice device, int activityKindFilter, long dateFromFilter, long dateToFilter, String nameContainsFilter) {
+    public ActivitySummariesAdapter(Context context, GBDevice device, int activityKindFilter, long dateFromFilter, long dateToFilter, String nameContainsFilter, long deviceFilter, List itemsFilter) {
         super(context);
         this.device = device;
         this.activityKindFilter = activityKindFilter;
-        this.dateFromFilter=dateFromFilter;
-        this.dateToFilter=dateToFilter;
-        this.nameContainsFilter=nameContainsFilter;
+        this.dateFromFilter = dateFromFilter;
+        this.dateToFilter = dateToFilter;
+        this.nameContainsFilter = nameContainsFilter;
+        this.deviceFilter = deviceFilter;
+        this.itemsFilter = itemsFilter;
         loadItems();
     }
 
@@ -62,9 +68,18 @@ public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySu
             Device dbDevice = DBHelper.findDevice(device, handler.getDaoSession());
 
             QueryBuilder<BaseActivitySummary> qb = summaryDao.queryBuilder();
-            qb.where(
-                    BaseActivitySummaryDao.Properties.DeviceId.eq(
-                            dbDevice.getId())).orderDesc(BaseActivitySummaryDao.Properties.StartTime);
+
+            if (deviceFilter == ALL_DEVICES) {
+                qb.orderDesc(BaseActivitySummaryDao.Properties.StartTime);
+            } else if (deviceFilter != 0) {
+                qb.where(
+                        BaseActivitySummaryDao.Properties.DeviceId.eq(
+                                deviceFilter)).orderDesc(BaseActivitySummaryDao.Properties.StartTime);
+            } else {
+                qb.where(
+                        BaseActivitySummaryDao.Properties.DeviceId.eq(
+                                dbDevice.getId())).orderDesc(BaseActivitySummaryDao.Properties.StartTime);
+            }
 
             if (activityKindFilter !=0) {
                 qb.where(
@@ -83,7 +98,10 @@ public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySu
                 qb.where(
                         BaseActivitySummaryDao.Properties.Name.like("%" + nameContainsFilter + "%"));
             }
-
+            if (itemsFilter !=null) {
+                qb.where(
+                        BaseActivitySummaryDao.Properties.Id.in(itemsFilter));
+            }
             List<BaseActivitySummary> allSummaries = qb.build().list();
             setItems(allSummaries, true);
         } catch (Exception e) {
@@ -103,7 +121,8 @@ public class ActivitySummariesAdapter extends AbstractItemAdapter<BaseActivitySu
     public void setNameContainsFilter(String name){
         this.nameContainsFilter=name;
     }
-
+    public void setItemsFilter(List items) { this.itemsFilter = items; }
+    public void setDeviceFilter(long device) { this.deviceFilter = device; }
 
     @Override
     protected String getName(BaseActivitySummary item) {

@@ -1,176 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_summary_detail_relative_layout"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:clickable="false"
-    android:focusable="auto"
-    android:orientation="vertical"
-    android:padding="8dp">
-
+    android:id="@+id/activity_summary_detail_scroll_layout"
+    android:layout_width="fill_parent" android:layout_height="fill_parent"
+    android:scrollbars="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/activity_summary_detail_relative_layout"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/sports_activity_summary_background"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:padding="8dp">
 
-        <ImageView
-            android:id="@+id/item_image"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentStart="false"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="activity image" />
 
         <LinearLayout
-            android:id="@+id/top_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="false"
-            android:clickable="false"
-            android:foregroundGravity="top"
-            android:gravity="top"
-            android:orientation="vertical"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp">
+            android:background="?attr/sports_activity_summary_background"
+            android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/item_image"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/icon_placeholder" />
 
             <LinearLayout
+                android:id="@+id/top_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:foregroundGravity="top"
+                android:gravity="top"
+                android:orientation="vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/activitykind"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:maxLines="1"
+                        android:scrollHorizontally="false"
+                        android:textSize="18sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="0.1" />
+
+                    <ImageView
+                        android:id="@+id/activity_summary_detail_edit_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:layout_weight="0.1"
+                        android:contentDescription="@string/icon_placeholder"
+                        android:scaleType="fitEnd"
+                        app:srcCompat="@drawable/ic_create" />
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/activitykind"
+                    android:id="@+id/activityname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-black"
-                    android:maxLines="1"
                     android:scrollHorizontally="false"
+                    android:singleLine="true"
                     android:textSize="18sp" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="0.1" />
+                <TableLayout
+                    android:id="@+id/summaryHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/activity_summary_detail_edit_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="right"
-                    android:layout_weight="0.1"
-                    android:scaleType="fitEnd"
-                    app:srcCompat="@drawable/ic_create" />
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/starttime_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="start"
+                            android:text="@string/activity_detail_start_label" />
+
+                        <TextView
+                            android:id="@+id/starttime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/endtime_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="start"
+                            android:text="@string/activity_detail_end_label" />
+
+                        <TextView
+                            android:id="@+id/endtime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/duration_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="start"
+                            android:text="@string/activity_detail_duration_label" />
+
+                        <TextView
+                            android:id="@+id/duration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end" />
+                    </TableRow>
+
+                </TableLayout>
+
+
             </LinearLayout>
+        </LinearLayout>
 
-            <TextView
-                android:id="@+id/activityname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
-                android:scrollHorizontally="false"
-                android:singleLine="true"
-                android:textSize="18sp" />
+
+        <LinearLayout
+            android:id="@+id/bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
 
             <TableLayout
-                android:id="@+id/summaryHeader"
+                android:id="@+id/summaryDetails"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" />
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/starttime_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="start"
-                        android:text="@string/activity_detail_start_label" />
-
-                    <TextView
-                        android:id="@+id/starttime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end" />
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/endtime_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="start"
-                        android:text="@string/activity_detail_end_label" />
-
-                    <TextView
-                        android:id="@+id/endtime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/duration_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="start"
-                        android:text="@string/activity_detail_duration_label" />
-
-                    <TextView
-                        android:id="@+id/duration"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end" />
-                </TableRow>
-
-            </TableLayout>
-
+            <Button
+                android:id="@+id/showTrack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_detail_show_gps_label" />
 
         </LinearLayout>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/bottom_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="false"
-        android:orientation="vertical">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray" />
-
-        <TableLayout
-            android:id="@+id/summaryDetails"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/showTrack"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/activity_detail_show_gps_label" />
 
     </LinearLayout>
-
-</LinearLayout>
+    </ScrollView>

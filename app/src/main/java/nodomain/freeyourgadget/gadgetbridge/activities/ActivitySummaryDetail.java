@@ -37,7 +37,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -53,6 +53,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -66,6 +67,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.SwipeEvents;
+
+//import nodomain.freeyourgadget.gadgetbridge.util.OnSwipeTouchListener;
 
 public class ActivitySummaryDetail extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySummaryDetail.class);
@@ -86,15 +89,20 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         }
 
         Intent intent = getIntent();
-        gbDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
-        final int filter = intent.getIntExtra("filter", 0);
-        final int position = intent.getIntExtra("position", 0);
-        final long dateFromFilter = intent.getLongExtra("dateFromFilter", 0);
-        final long dateToFilter = intent.getLongExtra("dateToFilter", 0);
-        final String nameContainsFilter = intent.getStringExtra("nameContainsFilter");
 
-        final ActivitySummaryItems items = new ActivitySummaryItems(this, gbDevice, filter, dateFromFilter, dateToFilter, nameContainsFilter);
-        final LinearLayout layout = findViewById(R.id.activity_summary_detail_relative_layout);
+        Bundle bundle = intent.getExtras();
+        gbDevice = bundle.getParcelable(GBDevice.EXTRA_DEVICE);
+        final int position = bundle.getInt("position", 0);
+        final int activityFilter = bundle.getInt("activityFilter", 0);
+        final long dateFromFilter = bundle.getLong("dateFromFilter", 0);
+        final long dateToFilter = bundle.getLong("dateToFilter", 0);
+        final long deviceFilter = bundle.getLong("deviceFilter", 0);
+        final String nameContainsFilter = bundle.getString("nameContainsFilter");
+        final List itemsFilter = (List<Long>) bundle.getSerializable("itemsFilter");
+
+        final ActivitySummaryItems items = new ActivitySummaryItems(this, gbDevice, activityFilter, dateFromFilter, dateToFilter, nameContainsFilter, deviceFilter, itemsFilter);
+        final ScrollView layout = findViewById(R.id.activity_summary_detail_scroll_layout);
+        //final LinearLayout layout = findViewById(R.id.activity_summary_detail_relative_layout);
         alternateColor = getAlternateColor(this);
 
         final Animation animFadeRight;
@@ -114,7 +122,6 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         animBounceRight = AnimationUtils.loadAnimation(
                 this,
                 R.anim.bounceright);
-
 
         layout.setOnTouchListener(new SwipeEvents(this) {
             @Override
@@ -144,7 +151,6 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 }
             }
         });
-
 
         currentItem = items.getItem(position);
         if (currentItem != null) {
@@ -193,7 +199,6 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                                 currentItem.update();
                                 makeSummaryHeader(currentItem);
                                 makeSummaryContent(currentItem);
-
                             }
                         })
                         .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
@@ -205,8 +210,6 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                         .show();
             }
         });
-
-
     }
 
     private void makeSummaryHeader(BaseActivitySummary item) {
@@ -265,7 +268,6 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         TableLayout fieldLayout = findViewById(R.id.summaryDetails);
         fieldLayout.removeAllViews(); //remove old widgets
         ActivitySummaryJsonSummary activitySummaryJsonSummary = new ActivitySummaryJsonSummary(item);
-        //JSONObject summarySubdata = activitySummaryJsonSummary.getSummaryData();
         JSONObject data = activitySummaryJsonSummary.getSummaryGroupedList(); //get list, grouped by groups
         if (data == null) return;
 
@@ -275,12 +277,12 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         while (keys.hasNext()) {
             String key = keys.next();
             try {
-                LOG.error("SportsActivity:" + key + ": " + data.get(key) + "\n");
                 JSONArray innerList = (JSONArray) data.get(key);
 
                 TableRow label_row = new TableRow(ActivitySummaryDetail.this);
                 TextView label_field = new TextView(ActivitySummaryDetail.this);
                 label_field.setTextSize(16);
+                label_field.setPadding(0,10,0,0);
                 label_field.setTypeface(null, Typeface.BOLD);
                 label_field.setText(String.format("%s", getStringResourceByName(key)));
                 label_row.addView(label_field);
@@ -306,12 +308,18 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                                     unit = "km_h";
                                     break;
                                 case "seconds_m":
-                                    value = value * (1000 / 60);
+                                    value = value * (1000 / 60D);
                                     unit = "minutes_km";
                                     break;
                                 case "seconds_km":
                                     value = value / 60;
                                     unit = "minutes_km";
+                                    break;
+                                case "meters":
+                                    if (value > 2000) {
+                                        value = value / 1000;
+                                        unit = "km";
+                                    }
                                     break;
 
                             }

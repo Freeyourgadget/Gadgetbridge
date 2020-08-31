@@ -938,6 +938,8 @@
     <string name="ascentSeconds">Ascending</string>
     <string name="descentSeconds">Descending</string>
     <string name="flatSeconds">Flat</string>
+    <string name="baseAltitude">Base Elevation</string>
+    <string name="averageSpeed">Average Speed</string>
     <!-- activity summary units-->
     <string name="meters">m</string>
     <string name="cm">cm</string>
@@ -988,8 +990,21 @@
     <string name="activity_filter_filter_title">Filter</string>
     <string name="activity_filter_name_contains">Label</string>
     <string name="activity_filter_apply_filter">Apply Filter</string>
+    <string name="addto_filter">Add to filter</string>
+    <string name="activity_filter_individual_items">Individually selected items</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="activity_summaries_statistics">Statistics</string>
     <string name="activity_summaries_all_activities">All Activities</string>
+    <string name="sports_activity_quick_filter_this_week">This week</string>
+    <string name="sports_activity_quick_filter_last_week">Previous week</string>
+    <string name="sports_activity_quick_filter_this_month">This month</string>
+    <string name="sports_activity_quick_filter_last_month">Previous month</string>
+    <string name="sports_activity_quick_filter_7days">7 days</string>
+    <string name="sports_activity_quick_filter_30days">30 days</string>
+    <string name="sports_activity_quick_filter_select">Time period</string>
+    <string name="activity_summaries_all_devices">All devices</string>
+
 
     <!-- swim styles -->
     <string name="breaststroke">Breaststroke</string>

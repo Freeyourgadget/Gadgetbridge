@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/activity_action_addto_filter"
+        android:icon="@drawable/ic_filter_alt_plus"
+        android:title="@string/addto_filter"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/activity_action_select_all"
@@ -19,6 +24,5 @@
         android:id="@+id/activity_action_delete"
         android:icon="@drawable/ic_delete_forever"
         android:title="@string/Delete"
-        app:showAsAction="always"/>
-
+        app:showAsAction="never"/>
 </menu>

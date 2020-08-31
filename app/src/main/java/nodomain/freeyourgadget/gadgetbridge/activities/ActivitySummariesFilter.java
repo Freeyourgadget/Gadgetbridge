@@ -19,13 +19,11 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -40,29 +38,45 @@ import android.widget.TextView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 
 public class ActivitySummariesFilter extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySummariesActivity.class);
     private static final String DATE_FILTER_FROM = "dateFromFilter";
     private static final String DATE_FILTER_TO = "dateToFilter";
+    public static long ALL_DEVICES = 999;
     int activityFilter = 0;
     long dateFromFilter = 0;
     long dateToFilter = 0;
     String nameContainsFilter;
     HashMap<String, Integer> activityKindMap = new HashMap<>(1);
+    List<Long> itemsFilter;
+    long deviceFilter;
+    long initial_deviceFilter;
     int BACKGROUND_COLOR;
+    LinkedHashMap<String, Long> allDevices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +84,11 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
         Bundle bundle = this.getIntent().getExtras();
 
         activityKindMap = (HashMap<String, Integer>) bundle.getSerializable("activityKindMap");
+        itemsFilter = (List<Long>) bundle.getSerializable("itemsFilter");
         activityFilter = bundle.getInt("activityFilter", 0);
         dateFromFilter = bundle.getLong("dateFromFilter", 0);
         dateToFilter = bundle.getLong("dateToFilter", 0);
+        initial_deviceFilter = deviceFilter = bundle.getLong("deviceFilter", 0);
         nameContainsFilter = bundle.getString("nameContainsFilter");
 
         Context appContext = this.getApplicationContext();
@@ -81,27 +97,49 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
         }
         BACKGROUND_COLOR = GBApplication.getBackgroundColor(appContext);
 
-        //get spinner ready - assign data, set selected item...
-        final Spinner filterKindSpinner = findViewById(R.id.select_kind);
-        ArrayList<String> spinnerArray = new ArrayList<>(activityKindMap.keySet());
-        //ensure that all items is always first in the list
-        spinnerArray.remove(getString(R.string.activity_summaries_all_activities));
-        spinnerArray.add(0, getString(R.string.activity_summaries_all_activities));
+        allDevices = getAllDevices(appContext);
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_dropdown_item, spinnerArray);
-        filterKindSpinner.setAdapter(dataAdapter);
-        filterKindSpinner.setSelection(dataAdapter.getPosition(getKeyByValue(activityFilter)));
-        addListenerOnSpinnerItemSelection();
+        //device filter spinner
+        final Spinner deviceFilterSpinner = findViewById(R.id.select_device);
+        ArrayList<String> filterDevicesArray = new ArrayList<String>(allDevices.keySet());
+        final ArrayAdapter<String> filterDevicesAdapter = new ArrayAdapter<String>(this,
+                R.layout.simple_spinner_item_themed, filterDevicesArray);
+        deviceFilterSpinner.setAdapter(filterDevicesAdapter);
+        deviceFilterSpinner.setSelection(filterDevicesAdapter.getPosition(getDeviceById(deviceFilter)));
+        addListenerOnSpinnerDeviceSelection();
+
+        //Kind filter spinner - assign data, set selected item...
+        final Spinner filterKindSpinner = findViewById(R.id.select_kind);
+        ArrayList<String> kindArray = new ArrayList<>(activityKindMap.keySet());
+        //ensure that all items is always first in the list
+        kindArray.remove(getString(R.string.activity_summaries_all_activities));
+        kindArray.add(0, getString(R.string.activity_summaries_all_activities));
+
+        ArrayAdapter<String> filterKindAdapter = new ArrayAdapter<String>(this,
+                R.layout.simple_spinner_item_themed, kindArray);
+        filterKindSpinner.setAdapter(filterKindAdapter);
+        filterKindSpinner.setSelection(filterKindAdapter.getPosition(getKindByValue(activityFilter)));
+        addListenerOnSpinnerKindSelection();
+
+        //quick date filter selection
+        final Spinner quick_filter_period_select = findViewById(R.id.quick_filter_period_select);
+        ArrayList<String> quickDateArray = new ArrayList<>(activityKindMap.keySet());
+
+        ArrayList activity_filter_quick_filter_period_items = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.activity_filter_quick_filter_period_items)));
+        ArrayAdapter<String> filterDateAdapter = new ArrayAdapter<String>(this,
+                R.layout.simple_spinner_item_themed, activity_filter_quick_filter_period_items);
+        quick_filter_period_select.setAdapter(filterDateAdapter);
+        addListenerOnQuickFilterSelection();
+
+        //set current values coming from parent
+        update_filter_fields();
 
         final LinearLayout filterfrom = findViewById(R.id.filterfrom);
         final LinearLayout filterto = findViewById(R.id.filterto);
         final EditText nameContainsFilterdata = findViewById(R.id.textViewNameData);
-        nameContainsFilterdata.setBackgroundDrawable(null);
 
         final Button reset_filter_button = findViewById(R.id.reset_filter_button);
         final Button apply_filter_button = findViewById(R.id.apply_filter_button);
-
 
         nameContainsFilterdata.addTextChangedListener(new TextWatcher() {
 
@@ -129,6 +167,10 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
                 dateToFilter = 0;
                 nameContainsFilter = "";
                 filterKindSpinner.setSelection(0);
+                itemsFilter = null;
+                deviceFilter = initial_deviceFilter;
+                deviceFilterSpinner.setSelection(filterDevicesAdapter.getPosition(getDeviceById(deviceFilter)));
+                quick_filter_period_select.setSelection(0);
                 update_filter_fields();
             }
         });
@@ -140,24 +182,27 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
                 if (text != null && text.length() > 0) {
                     nameContainsFilter = text;
                 }
-
                 Intent intent = new Intent();
-                intent.putExtra("activityFilter", activityFilter);
-                intent.putExtra("dateFromFilter", dateFromFilter);
-                intent.putExtra("dateToFilter", dateToFilter);
-                intent.putExtra("nameContainsFilter", nameContainsFilter);
+                Bundle bundle = new Bundle();
+                bundle.putInt("activityFilter", activityFilter);
+                bundle.putSerializable("itemsFilter", (Serializable) itemsFilter);
+                bundle.putLong("dateFromFilter", dateFromFilter);
+                bundle.putLong("dateToFilter", dateToFilter);
+                bundle.putLong("deviceFilter", deviceFilter);
+                bundle.putString("nameContainsFilter", nameContainsFilter);
+                intent.putExtras(bundle);
                 setResult(1, intent);
                 finish();
             }
         });
 
-        //set current values coming from parent
-        update_filter_fields();
 
         filterfrom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getDate(DATE_FILTER_FROM, dateFromFilter);
+                quick_filter_period_select.setSelection(0);
+
 
             }
         });
@@ -166,30 +211,44 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
             @Override
             public void onClick(View v) {
                 getDate(DATE_FILTER_TO, dateToFilter);
+                quick_filter_period_select.setSelection(0);
             }
         });
 
     }
 
-    public String getKeyByValue(Integer value) {
-        for (Map.Entry<String, Integer> entry : activityKindMap.entrySet()) {
-            if (Objects.equals(value, entry.getValue())) {
-                return entry.getKey();
-            }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // back button
+                finish();
+                return true;
         }
-        return null;
+        return super.onOptionsItemSelected(item);
     }
 
+    private void addListenerOnSpinnerDeviceSelection() {
+        Spinner spinner = findViewById(R.id.select_device);
+        spinner.setOnItemSelectedListener(new CustomOnDeviceSelectedListener());
+    }
 
-    public void addListenerOnSpinnerItemSelection() {
+    public void addListenerOnSpinnerKindSelection() {
         Spinner spinner = findViewById(R.id.select_kind);
-        spinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+        spinner.setOnItemSelectedListener(new CustomOnKindSelectedListener());
+    }
+
+    public void addListenerOnQuickFilterSelection() {
+        Spinner spinner = findViewById(R.id.quick_filter_period_select);
+        spinner.setOnItemSelectedListener(new CustomQuickFilterSelectionListener());
     }
 
     public void update_filter_fields() {
         TextView filterDateFromDataView = findViewById(R.id.textViewFromData);
         TextView filterDateToDataView = findViewById(R.id.textViewToData);
         Button reset_filter_button = findViewById(R.id.reset_filter_button);
+        TextView textViewItemsData = findViewById(R.id.textViewItemsData);
+
         final EditText nameContainsFilterdata = findViewById(R.id.textViewNameData);
 
         if (dateFromFilter > 0) {
@@ -211,10 +270,17 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
             filterDateFromDataView.setBackgroundColor(BACKGROUND_COLOR);
             filterDateToDataView.setBackgroundColor(BACKGROUND_COLOR);
         }
+
+        if (itemsFilter != null) {
+            textViewItemsData.setText(String.format("%s", itemsFilter.size()));
+        } else {
+            textViewItemsData.setText("0");
+        }
+
         if (nameContainsFilter != null && !nameContainsFilter.equals(nameContainsFilterdata.getText().toString())) {
             nameContainsFilterdata.setText(nameContainsFilter);
         }
-        if (dateToFilter != 0 || dateFromFilter != 0 || activityFilter != 0 || nameContainsFilterdata.length() > 0) {
+        if (dateToFilter != 0 || dateFromFilter != 0 || activityFilter != 0 || nameContainsFilterdata.length() > 0 || itemsFilter != null || deviceFilter != initial_deviceFilter) {
             reset_filter_button.getBackground().clearColorFilter();
 
         } else {
@@ -234,7 +300,7 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar date = Calendar.getInstance();
 
-                if (filter == DATE_FILTER_FROM) {
+                if (filter.equals(DATE_FILTER_FROM)) {
                     date.set(year, monthOfYear, dayOfMonth, 0, 0);
                     dateFromFilter = date.getTimeInMillis();
                 } else {
@@ -246,22 +312,135 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
         }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // back button
-                finish();
-                return true;
+    private void setTimePeriodFilter(String selection) {
+        Calendar date = Calendar.getInstance();
+        date.set(Calendar.HOUR_OF_DAY, 0);
+        date.set(Calendar.MINUTE, 0);
+        date.set(Calendar.SECOND, 0);
+        long firstdate;
+        long lastdate;
+
+        switch (selection) {
+            case "thisweek":
+                date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek());
+                firstdate = date.getTimeInMillis();
+                lastdate = Calendar.getInstance().getTimeInMillis();
+                break;
+            case "thismonth":
+                date.set(Calendar.DAY_OF_MONTH, 1);
+                firstdate = date.getTimeInMillis();
+                lastdate = Calendar.getInstance().getTimeInMillis();
+                break;
+            case "lastweek":
+                int i = date.get(Calendar.DAY_OF_WEEK) - date.getFirstDayOfWeek();
+                date.add(Calendar.DATE, -i - 7);
+                firstdate = date.getTimeInMillis();
+                date.add(Calendar.DATE, 6);
+                lastdate = date.getTimeInMillis();
+                break;
+            case "lastmonth":
+                date.set(Calendar.DATE, 1);
+                date.add(Calendar.DAY_OF_MONTH, -1);
+                lastdate = date.getTimeInMillis();
+                date.set(Calendar.DATE, 1);
+                firstdate = date.getTimeInMillis();
+                break;
+            case "7days":
+                date.add(Calendar.DATE, -7);
+                firstdate = date.getTimeInMillis();
+                lastdate = Calendar.getInstance().getTimeInMillis();
+                break;
+            case "30days":
+                date.add(Calendar.DATE, -30);
+                firstdate = date.getTimeInMillis();
+                lastdate = Calendar.getInstance().getTimeInMillis();
+                break;
+            default:
+                return;
         }
-        return super.onOptionsItemSelected(item);
+        dateFromFilter = firstdate;
+        dateToFilter = lastdate;
+        update_filter_fields();
     }
 
-    public class CustomOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
+    private LinkedHashMap getAllDevices(Context appContext) {
+        DaoSession daoSession;
+        GBApplication gbApp = (GBApplication) appContext;
+        LinkedHashMap<String, Long> newMap = new LinkedHashMap<>(1);
+        List<? extends GBDevice> devices = gbApp.getDeviceManager().getDevices();
+        newMap.put(getString(R.string.activity_summaries_all_devices), ALL_DEVICES);
+
+        try (DBHandler handler = GBApplication.acquireDB()) {
+            daoSession = handler.getDaoSession();
+            for (GBDevice device : devices) {
+                DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+                Device dbDevice = DBHelper.findDevice(device, daoSession);
+                if (dbDevice != null && coordinator != null
+                        && coordinator.supportsActivityTracks()
+                        && !newMap.containsKey(device.getAliasOrName())) {
+                    newMap.put(device.getAliasOrName(), dbDevice.getId());
+                }
+            }
+
+        } catch (Exception e) {
+            LOG.debug("Error getting list of all devices: " + e);
+        }
+        return newMap;
+    }
+
+    public String getKindByValue(Integer value) {
+        for (Map.Entry<String, Integer> entry : activityKindMap.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    public String getDeviceById(long id) {
+        for (Map.Entry<String, Long> device : allDevices.entrySet()) {
+            if (Objects.equals(id, device.getValue())) {
+                return device.getKey();
+            }
+        }
+        return null;
+    }
+
+    public class CustomOnKindSelectedListener implements AdapterView.OnItemSelectedListener {
 
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
             activityFilter = activityKindMap.get(parent.getItemAtPosition(pos));
             update_filter_fields();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+            // TODO Auto-generated method stub
+        }
+
+    }
+
+    public class CustomOnDeviceSelectedListener implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+            deviceFilter = allDevices.get(parent.getItemAtPosition(pos));
+            update_filter_fields();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+            // TODO Auto-generated method stub
+        }
+
+    }
+
+    public class CustomQuickFilterSelectionListener implements AdapterView.OnItemSelectedListener {
+        ArrayList activity_filter_quick_filter_period_values = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.activity_filter_quick_filter_period_values)));
+        String selection;
+
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+            selection = activity_filter_quick_filter_period_values.get(pos).toString();
+            setTimePeriodFilter(selection);
         }
 
         @Override

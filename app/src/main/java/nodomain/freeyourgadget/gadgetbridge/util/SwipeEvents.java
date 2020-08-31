@@ -30,7 +30,12 @@ public class SwipeEvents implements View.OnTouchListener {
 
         @Override
         public boolean onDown(MotionEvent e) {
-            return true;
+            return false;
+        }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            return false;
         }
 
         @Override

@@ -19,6 +19,8 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import java.util.List;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.AbstractItemAdapter;
 
@@ -49,6 +51,14 @@ public abstract class AbstractListActivity<T> extends AbstractGBActivity {
 
     public void setNameContainsFilter(String name){
         this.itemAdapter.setNameContainsFilter(name);
+    }
+
+    public void setItemsFilter(List items) {
+        this.itemAdapter.setItemsFilter(items);
+    }
+
+    public void setDeviceFilter(long device) {
+        this.itemAdapter.setDeviceFilter(device);
     }
 
     public AbstractItemAdapter<T> getItemAdapter() {

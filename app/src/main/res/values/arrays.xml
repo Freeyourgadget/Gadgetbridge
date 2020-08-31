@@ -958,4 +958,22 @@
         <item>workoutApp</item>
     </string-array>
 
+    <string-array name="activity_filter_quick_filter_period_items">
+        <item>@string/sports_activity_quick_filter_select</item>
+        <item>@string/sports_activity_quick_filter_this_week</item>
+        <item>@string/sports_activity_quick_filter_this_month</item>
+        <item>@string/sports_activity_quick_filter_last_week</item>
+        <item>@string/sports_activity_quick_filter_last_month</item>
+        <item>@string/sports_activity_quick_filter_7days</item>
+        <item>@string/sports_activity_quick_filter_30days</item>
+    </string-array>
+    <string-array name="activity_filter_quick_filter_period_values">
+        <item>noselection</item>
+        <item>thisweek</item>
+        <item>thismonth</item>
+        <item>lastweek</item>
+        <item>lastmonth</item>
+        <item>7days</item>
+        <item>30days</item>
+    </string-array>
 </resources>

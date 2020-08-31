@@ -54,6 +54,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -67,7 +68,10 @@ import java.util.concurrent.TimeUnit;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.ActivitySummariesAdapter;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummary;
@@ -86,6 +90,8 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
     int activityFilter=0;
     long dateFromFilter=0;
     long dateToFilter=0;
+    long deviceFilter;
+    List<Long>itemsFilter;
     String nameContainsFilter;
     boolean offscreen = true;
     static final int ACTIVITY_FILTER=1;
@@ -141,15 +147,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                 break;
             case R.id.activity_action_filter:
                 if (!offscreen) processSummaryStatistics(); //hide drawer with stats if shown
-                Intent filterIntent = new Intent(this, ActivitySummariesFilter.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("activityKindMap",activityKindMap);
-                bundle.putInt("activityFilter",activityFilter);
-                bundle.putLong("dateFromFilter",dateFromFilter);
-                bundle.putLong("dateToFilter",dateToFilter);
-                bundle.putString("nameContainsFilter",nameContainsFilter);
-                filterIntent.putExtras(bundle);
-                startActivityForResult(filterIntent,ACTIVITY_FILTER);
+                runFilterActivity();
                 return true;
             case R.id.activity_action_calculate_summary_stats:
                 processSummaryStatistics();
@@ -232,14 +230,20 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         super.onActivityResult(requestCode, resultCode, resultData);
         if (requestCode == ACTIVITY_FILTER && resultData != null) {
-            activityFilter = resultData.getIntExtra("activityFilter", 0);
-            dateFromFilter = resultData.getLongExtra("dateFromFilter", 0);
-            dateToFilter = resultData.getLongExtra("dateToFilter", 0);
-            nameContainsFilter = resultData.getStringExtra("nameContainsFilter");
+            Bundle bundle = resultData.getExtras();
+            activityFilter = bundle.getInt("activityFilter", 0);
+            dateFromFilter = bundle.getLong("dateFromFilter", 0);
+            dateToFilter = bundle.getLong("dateToFilter", 0);
+            deviceFilter = bundle.getLong("deviceFilter", 0);
+            nameContainsFilter = bundle.getString("nameContainsFilter");
+            itemsFilter = (List<Long>) bundle.getSerializable("itemsFilter");
+            setActivityKindFilter(activityFilter);
             setActivityKindFilter(activityFilter);
             setDateFromFilter(dateFromFilter);
             setDateToFilter(dateToFilter);
             setNameContainsFilter(nameContainsFilter);
+            setItemsFilter(itemsFilter);
+            setDeviceFilter(deviceFilter);
             refresh();
         }
         if (requestCode == ACTIVITY_DETAIL) {
@@ -255,13 +259,13 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         } else {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
-
+        deviceFilter=getDeviceId(mGBDevice);
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(GBDevice.ACTION_DEVICE_CHANGED);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
         super.onCreate(savedInstanceState);
-        ActivitySummariesAdapter activitySummariesAdapter = new ActivitySummariesAdapter(this, mGBDevice,activityFilter,dateFromFilter,dateToFilter,nameContainsFilter);
+        ActivitySummariesAdapter activitySummariesAdapter = new ActivitySummariesAdapter(this, mGBDevice, activityFilter, dateFromFilter, dateToFilter, nameContainsFilter, deviceFilter, itemsFilter);
         int backgroundColor = getBackgroundColor(ActivitySummariesActivity.this);
         activitySummariesAdapter.setBackgroundColor(backgroundColor);
         setItemAdapter(activitySummariesAdapter);
@@ -347,6 +351,24 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                             getItemListView().setItemChecked(i, true);
                         }
                         return true; //don't finish actionmode in this case!
+                    case R.id.activity_action_addto_filter:
+                        List<Long> toFilter = new ArrayList<>();
+                        for (int i = 0; i < checked.size(); i++) {
+                            if (checked.valueAt(i)) {
+                                BaseActivitySummary item = getItemAdapter().getItem(checked.keyAt(i));
+                                if (item != null) {
+                                    ActivitySummary summary = item;
+                                    Long id = summary.getId();
+                                    toFilter.add(id);
+                                }
+                            }
+                        }
+                        itemsFilter = toFilter;
+                        setItemsFilter(itemsFilter);
+                        refresh();
+
+                        processed = true;
+                        break;
                     default:
                         break;
                 }
@@ -425,20 +447,6 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         refresh();
     }
 
-    private void showActivityDetail(int position){
-        Intent ActivitySummaryDetailIntent = new Intent(this, ActivitySummaryDetail.class);
-        ActivitySummaryDetailIntent.putExtra("position", position);
-        ActivitySummaryDetailIntent.putExtra("filter", activityFilter);
-        ActivitySummaryDetailIntent.putExtra("dateFromFilter",dateFromFilter);
-        ActivitySummaryDetailIntent.putExtra("dateToFilter",dateToFilter);
-        ActivitySummaryDetailIntent.putExtra("nameContainsFilter",nameContainsFilter);
-
-        ActivitySummaryDetailIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
-        startActivityForResult(ActivitySummaryDetailIntent,ACTIVITY_DETAIL);
-    }
-
-
-
     private void fetchTrackData() {
         if (mGBDevice.isInitialized() && !mGBDevice.isBusy()) {
             GBApplication.deviceService().onFetchRecordedData(RecordedDataTypes.TYPE_GPS_TRACKS);
@@ -476,4 +484,44 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         return typedValue.data;
     }
 
+    private void showActivityDetail(int position) {
+        Intent ActivitySummaryDetailIntent = new Intent(this, ActivitySummaryDetail.class);
+        Bundle bundle = new Bundle();
+
+        bundle.putInt("position", position);
+        bundle.putSerializable("activityKindMap", activityKindMap);
+        bundle.putSerializable("itemsFilter", (Serializable) itemsFilter);
+        bundle.putInt("activityFilter", activityFilter);
+        bundle.putLong("dateFromFilter", dateFromFilter);
+        bundle.putLong("dateToFilter", dateToFilter);
+        bundle.putLong("deviceFilter", deviceFilter);
+        bundle.putString("nameContainsFilter", nameContainsFilter);
+        ActivitySummaryDetailIntent.putExtras(bundle);
+
+        ActivitySummaryDetailIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
+        startActivityForResult(ActivitySummaryDetailIntent, ACTIVITY_DETAIL);
+    }
+
+    private void runFilterActivity() {
+        Intent filterIntent = new Intent(this, ActivitySummariesFilter.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("activityKindMap", activityKindMap);
+        bundle.putSerializable("itemsFilter", (Serializable) itemsFilter);
+        bundle.putInt("activityFilter", activityFilter);
+        bundle.putLong("dateFromFilter", dateFromFilter);
+        bundle.putLong("dateToFilter", dateToFilter);
+        bundle.putLong("deviceFilter", deviceFilter);
+        bundle.putString("nameContainsFilter", nameContainsFilter);
+        filterIntent.putExtras(bundle);
+        startActivityForResult(filterIntent, ACTIVITY_FILTER);
+    }
+
+    private long getDeviceId(GBDevice device) {
+        try (DBHandler handler = GBApplication.acquireDB()) {
+            Device dbDevice = DBHelper.findDevice(device, handler.getDaoSession());
+            return dbDevice.getId();
+        } catch (Exception e) {
+        }
+        return 0;
+    }
 }

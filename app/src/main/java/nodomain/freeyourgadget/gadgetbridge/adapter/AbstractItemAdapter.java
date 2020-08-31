@@ -18,8 +18,6 @@
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +75,14 @@ public abstract class AbstractItemAdapter<T> extends ArrayAdapter<T> {
 
     public void setNameContainsFilter(String name){
         this.setNameContainsFilter(name);
+    }
+
+    public void setItemsFilter(List items) {
+        this.setItemsFilter(items);
+    }
+
+    public void setDeviceFilter(long device) {
+        this.setDeviceFilter(device);
     }
 
     @Override
@@ -143,5 +149,4 @@ public abstract class AbstractItemAdapter<T> extends ArrayAdapter<T> {
             notifyDataSetChanged();
         }
     }
-
 }
