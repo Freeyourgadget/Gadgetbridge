@@ -9,20 +9,21 @@
             android:icon="@drawable/ic_settings" />
         <item android:id="@+id/action_debug"
             android:title="@string/action_debug"
-            android:icon="@drawable/ic_debug" />
+            android:icon="@drawable/ic_devices_other" />
         <item android:id="@+id/action_db_management"
             android:title="@string/action_db_management"
-            android:icon="@drawable/ic_database_management" />
+            android:icon="@drawable/ic_pageview" />
         <item android:id="@+id/action_blacklist"
             android:title="@string/title_activity_appblacklist"
-            android:icon="@drawable/ic_block_black" />
+            android:icon="@drawable/ic_block" />
         <item android:id="@+id/device_action_discover"
             android:title="@string/action_discover"
+            android:iconTint="#7E7E7E"
             android:icon="@drawable/ic_add" />
 
         <item android:id="@+id/action_quit"
             android:title="@string/action_quit"
-            android:icon="@drawable/ic_quit" />
+            android:icon="@drawable/ic_power_settings_new" />
     </group>
 
     <group
@@ -35,10 +36,10 @@
         <item
             android:id="@+id/external_changelog"
             android:title="@string/changelog_full_title"
-            android:icon="@drawable/ic_history_black" />
+            android:icon="@drawable/ic_history" />
         <item
             android:id="@+id/about"
-            android:icon="@drawable/ic_info_black"
+            android:icon="@drawable/ic_info"
             android:title="@string/about_title" />
 
     </group>

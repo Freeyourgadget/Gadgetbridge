@@ -52,7 +52,7 @@
                     android:contentDescription="@string/controlcenter_set_alias"
                     android:focusable="true"
                     android:tint="?attr/textColorTertiary"
-                    card_view:srcCompat="@drawable/ic_edit" />
+                    card_view:srcCompat="@drawable/ic_create" />
 
                 <ImageView
                     android:id="@+id/device_action_remove"
@@ -66,7 +66,7 @@
                     android:contentDescription="@string/controlcenter_delete_device"
                     android:focusable="true"
                     android:tint="?attr/textColorTertiary"
-                    card_view:srcCompat="@drawable/ic_remove_device" />
+                    card_view:srcCompat="@drawable/ic_delete" />
             </RelativeLayout>
 
             <ImageView
@@ -239,7 +239,7 @@
                     android:contentDescription="@string/controlcenter_fetch_activity_data"
                     android:scaleType="fitXY"
                     android:tint="@color/secondarytext"
-                    card_view:srcCompat="@drawable/ic_action_fetch_activity_data"
+                    card_view:srcCompat="@drawable/ic_refresh"
                     android:focusable="true" />
 
                 <ProgressBar
@@ -298,7 +298,7 @@
                 android:padding="4dp"
                 android:scaleType="fitXY"
                 android:tint="@color/secondarytext"
-                card_view:srcCompat="@drawable/ic_device_set_alarms"
+                card_view:srcCompat="@drawable/ic_access_alarms"
                 android:focusable="true" />
 
             <ImageView

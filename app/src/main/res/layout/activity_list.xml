@@ -39,7 +39,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_gravity="bottom|end"
-        app:srcCompat="@drawable/ic_action_fetch_activity_data"
+        app:srcCompat="@drawable/ic_refresh"
         android:tint="@android:color/white"
         android:layout_margin="16dp" />
 

@@ -2,7 +2,7 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceScreen
-        android:icon="@drawable/ic_find_lost_phone"
+        android:icon="@drawable/ic_vibration"
         android:key="pref_category_notifications_and_calls"
         android:title="@string/pref_header_notifications_and_calls">
             <PreferenceCategory

@@ -63,7 +63,7 @@
                     android:layout_gravity="right"
                     android:layout_weight="0.1"
                     android:scaleType="fitEnd"
-                    app:srcCompat="@drawable/ic_edit" />
+                    app:srcCompat="@drawable/ic_create" />
             </LinearLayout>
 
             <TextView

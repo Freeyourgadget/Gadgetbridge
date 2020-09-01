@@ -26,7 +26,7 @@
 
         <PreferenceCategory
             android:title="@string/prefs_events_forwarding_wokeup"
-            android:icon="@drawable/ic_sunny">
+            android:icon="@drawable/ic_wb_sunny">
 
             <ListPreference
                 android:entries="@array/device_action_options"

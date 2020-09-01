@@ -4,12 +4,12 @@
 
     <item
         android:id="@+id/activity_action_manage_timestamp"
-        android:icon="@drawable/ic_reset"
+        android:icon="@drawable/ic_history"
         android:title="@string/reset_index"
         app:showAsAction="never" />
     <item
         android:id="@+id/activity_action_filter"
-        android:icon="@drawable/ic_filter"
+        android:icon="@drawable/ic_filter_alt"
         android:title="@string/pref_header_filter"
         app:iconTint="@color/primarytext_dark"
         app:showAsAction="ifRoom" />

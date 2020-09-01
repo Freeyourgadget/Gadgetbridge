@@ -58,6 +58,6 @@
         android:layout_centerVertical="true"
         android:contentDescription="drag handle"
         android:tint="@color/secondarytext"
-        app:srcCompat="@drawable/ic_drag_handle_black_24dp" />
+        app:srcCompat="@drawable/ic_drag_handle" />
 
 </RelativeLayout>
