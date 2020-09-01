@@ -6,6 +6,7 @@
         <change>Huami: Support events forwarding via intents or direct triggering of certain actions (eg. stop music when fall asleep)</change>
         <change>Huami: Add Sports Activity Detail screen from decoded sports summary values</change>
         <change>Huami: Recogize and decode lot more activity (workout) types</change>
+        <change>Amazfit Cor/Cor2: Allow workout syncing</change>
         <change>Add Sports Activity Summary filtering and statistics</change>
         <change>Many icons have been re-drawn as vectors, also several new device and sports activity icons added</change>
         <change>Many improvements to the Bluetooth discovery and scanning</change>

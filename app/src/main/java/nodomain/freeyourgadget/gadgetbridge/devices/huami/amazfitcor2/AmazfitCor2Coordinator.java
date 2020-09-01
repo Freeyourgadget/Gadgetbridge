@@ -68,6 +68,11 @@ public class AmazfitCor2Coordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supportsActivityTracks() {
+        return true;
+    }
+
+    @Override
     public boolean supportsWeather() {
         return true;
     }
