@@ -1052,4 +1052,10 @@
 \nПримітка: вам не потрібно встановлювати .res файл, якщо він такий самий був встановлений раніше.
 \n
 \nДІЄТЕ НА ВЛАСНИЙ РИЗИК!</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 налаштування</string>
+    <string name="sonyswr12_settings_low_vibration">Cлабка вібрація</string>
+    <string name="sonyswr12_settings_stamina">Режим енергозбереження ввімкнено</string>
+    <string name="sonyswr12_settings_alarm_interval">Інтелектуальний інтервал тривоги в хвилинах</string>
+    <string name="sonyswr12_settings_alarm_warning">Щоб змінити налаштування, спочатку слід підключитися до пристрою!</string>
 </resources>

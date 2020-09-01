@@ -36,4 +36,9 @@
     <string name="app_configure">Määritä</string>
     <string name="app_move_to_top">Siirrä ylös</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 asetukset</string>
+    <string name="sonyswr12_settings_low_vibration">Matala tärinä käytössä</string>
+    <string name="sonyswr12_settings_stamina">Virransäästötila on päällä</string>
+    <string name="sonyswr12_settings_alarm_interval">Älykäs hälytysväli minuutteina</string>
+    <string name="sonyswr12_settings_alarm_warning">Muuta asetuksia muodostamalla ensin yhteys laitteeseen!</string>
 </resources>

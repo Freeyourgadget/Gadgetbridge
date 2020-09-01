@@ -30,4 +30,7 @@
     <string name="appmanager_health_activate">გააქტიურება</string>
     <string name="appmanager_health_deactivate">გამორტვა</string>
     <string name="app_configure">კონფიგურაცია</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 პარამეტრები</string>
+    <string name="sonyswr12_settings_alarm_interval">სიგნალის ჭკვიანი ინტერვალი წუთებში</string>
+    <string name="sonyswr12_settings_alarm_warning">პარამეტრების შესაცვლელად ჯერ უნდა დაუკავშირდეთ მოწყობილობას!</string>
 </resources>

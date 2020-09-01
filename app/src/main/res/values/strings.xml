@@ -785,6 +785,7 @@
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="devicetype_tlw64">TLW64</string>
     <string name="devicetype_pinetime_jf">PineTime (JF Firmware)</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>
     <string name="notification_channel_high_priority_name">Gadgetbridge notifications high priority</string>
@@ -934,6 +935,11 @@
     <string name="ignore_bonded_devices">Ignore bonded devices</string>
     <string name="ignore_bonded_devices_description">Enabling this option will ignore devices that have been bonded/paired already when scanning</string>
     <string name="error_location_enabled_mandatory">Location must be turned on to scan for devices</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 Settings</string>
+    <string name="sonyswr12_settings_low_vibration">Low vibration enabled</string>
+    <string name="sonyswr12_settings_stamina">Power saving mode on</string>
+    <string name="sonyswr12_settings_alarm_interval">Smart alarm interval in minutes</string>
+    <string name="sonyswr12_settings_alarm_warning">To change settings you should first connect to device!</string>
     <!-- activity summary labels-->
     <string name="distanceMeters">Distance</string>
     <string name="ascentMeters">Uphill</string>

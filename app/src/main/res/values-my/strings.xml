@@ -37,4 +37,6 @@
     <string name="save_configuration">အခ်က္အလက္မ်ားကိုသိမ္းဆည္းမည္</string>
     <string name="appwidget_not_connected">မခ်ိတ္ဆက္ထားျခင္းမရွိပါ , သတိေပးခ်က္မထားရေသးပါ</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="sonyswr12_settings_alarm_interval">မိနစ်အတွင်းစမတ်နှိုးဆော်သံကြားကာလ</string>
+    <string name="sonyswr12_settings_alarm_warning">ချိန်ညှိချက်များကိုပြောင်းလဲရန်သင်ပထမ ဦး ဆုံးကိရိယာနှင့်ချိတ်ဆက်သင့်သည်!</string>
 </resources>

@@ -77,6 +77,7 @@ public class GBDaoGenerator {
         addLefunActivitySample(schema, user, device);
         addLefunBiometricSample(schema,user,device);
         addLefunSleepSample(schema, user, device);
+        addSonySWR12Sample(schema, user, device);
 
         addHybridHRActivitySample(schema, user, device);
         addCalendarSyncState(schema, device);
@@ -401,6 +402,17 @@ public class GBDaoGenerator {
         Entity activitySample = addEntity(schema, "TLW64ActivitySample");
         activitySample.implementsSerializable();
         addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        return activitySample;
+    }
+
+    private static Entity addSonySWR12Sample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "SonySWR12Sample");
+        activitySample.implementsSerializable();
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        addHeartRateProperties(activitySample);
         activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);

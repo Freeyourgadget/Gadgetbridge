@@ -1069,4 +1069,10 @@
     <string name="lefun_prefs_hydration_reminder_interval_title">水合提醒间隔（分钟）</string>
     <string name="lefun_prefs_hydration_reminder_summary">当需要提醒喝水时，手环会震动</string>
     <string name="lefun_prefs_hydration_reminder_title">水合提醒</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 设置</string>
+    <string name="sonyswr12_settings_low_vibration">低振动启用</string>
+    <string name="sonyswr12_settings_stamina">省电模式已开启</string>
+    <string name="sonyswr12_settings_alarm_interval">智能警报间隔（以分钟为单位）</string>
+    <string name="sonyswr12_settings_alarm_warning">要更改设置，您应该首先连接设备！</string>
 </resources>

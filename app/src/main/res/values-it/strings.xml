@@ -1041,4 +1041,10 @@
     <string name="activity_type_swimming_openwater">Nuoto (all\'aperto)</string>
     <string name="no">No</string>
     <string name="km">km</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="sonyswr12_settings_title">Impostazioni Sony SWR12</string>
+    <string name="sonyswr12_settings_low_vibration">Bassa vibrazione abilitata</string>
+    <string name="sonyswr12_settings_stamina">La modalità di risparmio energetico è attiva</string>
+    <string name="sonyswr12_settings_alarm_interval">Intervallo di allarme intelligente in pochi minuti</string>
+    <string name="sonyswr12_settings_alarm_warning">Per modificare le impostazioni devi prima connetterti al dispositivo!</string>
 </resources>

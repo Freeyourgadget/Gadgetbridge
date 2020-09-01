@@ -1058,4 +1058,10 @@
     <string name="lefun_prefs_hydration_reminder_interval_title">הפרש תזכורת שתייה (בדקות)</string>
     <string name="lefun_prefs_hydration_reminder_summary">הצמיד ירטוט כדי להזכיר לך לשתות מים</string>
     <string name="lefun_prefs_hydration_reminder_title">תזכורת שתייה</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 הגדרות</string>
+    <string name="sonyswr12_settings_low_vibration">רטט נמוך מופעל</string>
+    <string name="sonyswr12_settings_stamina">מצב חיסכון בחשמל פועל</string>
+    <string name="sonyswr12_settings_alarm_interval">מרווח אזעקה חכם בדקות</string>
+    <string name="sonyswr12_settings_alarm_warning">כדי לשנות הגדרות כדאי להתחבר תחילה למכשיר!</string>
 </resources>

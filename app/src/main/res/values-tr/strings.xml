@@ -296,7 +296,7 @@
 \n
 \nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını kurun. .fw dosyasını kurduktan sonra bilekliğiniz yeniden başlatılacak.
 \n
-\nNote: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res ve .gps dosyalarını kurmanız gerekmez. 
+\nNote: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res ve .gps dosyalarını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="fw_upgrade_notice_miband4">Mi Band 4 aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
@@ -950,7 +950,7 @@
 \n
 \nLütfen önce .fw dosyasını, sonra .res dosyasın kurun. .fw dosyasını kurduktan sonra bilekliğiniz yeniden başlatılacak.
 \n
-\nNote: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez. 
+\nNote: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="devicetype_tlw64">TLW64</string>
@@ -1088,4 +1088,9 @@
     <string name="lefun_prefs_hydration_reminder_interval_title">Sıvı alma hatırlatma aralığı (dakika olarak)</string>
     <string name="lefun_prefs_hydration_reminder_summary">Bileklik su içmenizi hatırlatmak için titreyecek</string>
     <string name="lefun_prefs_hydration_reminder_title">Sıvı alma hatırlatıcı</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 Ayarları</string>
+    <string name="sonyswr12_settings_low_vibration">Düşük titreşim etkin</string>
+    <string name="sonyswr12_settings_alarm_interval">Dakikalar içinde akıllı alarm aralığı</string>
+    <string name="sonyswr12_settings_alarm_warning">Ayarları değiştirmek için önce cihaza bağlanmalısınız!</string>
 </resources>

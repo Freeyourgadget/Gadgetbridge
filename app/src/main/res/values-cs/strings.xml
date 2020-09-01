@@ -1047,4 +1047,10 @@
     <string name="activity_type_cricket">Kriket</string>
     <string name="activity_type_rowing_machine">Veslovací trenažér</string>
     <string name="activity_type_soccer">Fotbal</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 nastavení</string>
+    <string name="sonyswr12_settings_low_vibration">Nízké vibrace povoleny</string>
+    <string name="sonyswr12_settings_stamina">Režim úspory energie je zapnutý</string>
+    <string name="sonyswr12_settings_alarm_interval">Interval inteligentního alarmu v minutách</string>
+    <string name="sonyswr12_settings_alarm_warning">Chcete-li změnit nastavení, měli byste se nejprve připojit k zařízení!</string>
 </resources>

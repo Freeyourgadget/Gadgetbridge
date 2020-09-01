@@ -1016,4 +1016,10 @@
     <string name="lefun_prefs_hydration_reminder_interval_title">Drikkepåminnelseintervall (i minutter)</string>
     <string name="lefun_prefs_interface_language_title">Grensesnittspråk</string>
     <string name="pref_title_weather_summary">Brukt av LineageOS-værtilbyderen, andre Android-versjoner må bruke et program som «Ditt lokale vær». Mer info er å finne på Gadgetbridge-wiki-en.</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 innstillinger</string>
+    <string name="sonyswr12_settings_low_vibration">Lav vibrasjon aktivert</string>
+    <string name="sonyswr12_settings_stamina">Strømsparingsmodus er på</string>
+    <string name="sonyswr12_settings_alarm_interval">Smart alarmintervall på få minutter</string>
+    <string name="sonyswr12_settings_alarm_warning">For å endre innstillinger, bør du først koble til enheten!</string>
 </resources>

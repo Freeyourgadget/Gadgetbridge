@@ -1059,4 +1059,10 @@
     <string name="activity_filter_to_placeholder">Heute</string>
     <string name="activity_filter_from_placeholder">Vergangenheit</string>
     <string name="chart_no_active_data">Keine Aktivitäten gefunden.</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 Einstellungen</string>
+    <string name="sonyswr12_settings_low_vibration">Geringe Vibration aktiviert</string>
+    <string name="sonyswr12_settings_stamina">Der Energiesparmodus ist aktiviert</string>
+    <string name="sonyswr12_settings_alarm_interval">Intelligentes Alarmintervall in Minuten</string>
+    <string name="sonyswr12_settings_alarm_warning">Um Einstellungen zu ändern, sollten Sie zuerst eine Verbindung zum Gerät herstellen!</string>
 </resources>

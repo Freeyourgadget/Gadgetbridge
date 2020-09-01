@@ -190,4 +190,8 @@
     <string name="dateformat_time">Giờ</string>
     <string name="dateformat_date_time">Giờ và ngày</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="sonyswr12_settings_title">Cài đặt Sony SWR12</string>
+    <string name="sonyswr12_settings_stamina">Chế độ tiết kiệm pin đang bật</string>
+    <string name="sonyswr12_settings_alarm_interval">Khoảng thời gian báo thức thông minh trong vài phút</string>
+    <string name="sonyswr12_settings_alarm_warning">Để thay đổi cài đặt, trước tiên bạn nên kết nối với thiết bị!</string>
 </resources>

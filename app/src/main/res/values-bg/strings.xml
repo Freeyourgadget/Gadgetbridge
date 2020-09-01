@@ -595,4 +595,9 @@
     <string name="off">Изкл.</string>
     <string name="on">Вкл.</string>
     <string name="no_data">Няма данни</string>
+    <string name="sonyswr12_settings_title">Настройки Sony SWR12</string>
+    <string name="sonyswr12_settings_low_vibration">Активирана ниска вибрация</string>
+    <string name="sonyswr12_settings_stamina">Режимът за пестене на енергия е включен</string>
+    <string name="sonyswr12_settings_alarm_interval">Интелигентен алармен интервал в минути</string>
+    <string name="sonyswr12_settings_alarm_warning">За да промените настройките, първо трябва да се свържете с устройството!</string>
 </resources>

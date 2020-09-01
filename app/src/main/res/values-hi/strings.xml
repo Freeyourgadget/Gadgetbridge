@@ -152,4 +152,6 @@
     <string name="pref_title_keep_data_on_device">अपनी गतिविधि को युक्ति में रखें</string>
     <string name="user_feedback_all_alarms_disabled">सभी अलार्म बंद है</string>
     <string name="device_not_connected">कनेक्ट नहीं.</string>
+    <string name="sonyswr12_settings_alarm_interval">मिनटों में स्मार्ट अलार्म अंतराल</string>
+    <string name="sonyswr12_settings_alarm_warning">सेटिंग्स बदलने के लिए आपको पहले डिवाइस से कनेक्ट करना चाहिए!</string>
 </resources>

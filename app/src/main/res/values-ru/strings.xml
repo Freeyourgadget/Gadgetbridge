@@ -1064,4 +1064,10 @@
     <string name="devicetype_lefun">Lefun</string>
     <string name="lefun_prefs_interface_language_title">Язык интерфейса</string>
     <string name="lefun_prefs_antilost_title">Защита от потери</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="sonyswr12_settings_title">Настройки Sony SWR12</string>
+    <string name="sonyswr12_settings_low_vibration">Слабая вибрация</string>
+    <string name="sonyswr12_settings_stamina">Режима энергосбережения включен</string>
+    <string name="sonyswr12_settings_alarm_interval">Интервал умного будильника в минутах</string>
+    <string name="sonyswr12_settings_alarm_warning">Для изменения настроек необходимо сначала подключиться к устройству!</string>
 </resources>

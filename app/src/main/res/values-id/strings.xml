@@ -34,4 +34,7 @@
     <string name="title_activity_appmanager">Manajer App</string>
     <string name="debugactivity_really_factoryreset">Melakukan factory reset akan menghapus seluruh data dari perangkat terkoneksi (jika didukung). Perangkat Xiaomi/Huami juga mengganti MAC address Bluetooth, sehingga akan muncul sebagai aplikasi baru di GadgetBridge.</string>
     <string name="action_debug">Debug</string>
+    <string name="sonyswr12_settings_title">Pengaturan Sony SWR12</string>
+    <string name="sonyswr12_settings_alarm_interval">Interval alarm pintar dalam beberapa menit</string>
+    <string name="sonyswr12_settings_alarm_warning">Untuk mengubah pengaturan, Anda harus menghubungkan ke perangkat terlebih dahulu!</string>
 </resources>

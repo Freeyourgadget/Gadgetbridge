@@ -1057,4 +1057,10 @@ Temps de sommeil préféré en heures</string>
     <string name="lefun_prefs_hydration_reminder_interval_title">Intervalle de rappel d\'hydratation (en minutes)</string>
     <string name="lefun_prefs_hydration_reminder_summary">Le bracelet vibrera pour vous rappeler de boire de l\'eau</string>
     <string name="lefun_prefs_hydration_reminder_title">Rappel d\'hydratation</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="sonyswr12_settings_title">Paramètres Sony SWR12</string>
+    <string name="sonyswr12_settings_low_vibration">Faible vibration activée</string>
+    <string name="sonyswr12_settings_stamina">Le mode d\'économie d\'énergie est activé</string>
+    <string name="sonyswr12_settings_alarm_interval">Intervalle d\'alarme intelligente en minutes</string>
+    <string name="sonyswr12_settings_alarm_warning">Pour modifier les paramètres, vous devez d\'abord vous connecter à l\'appareil!</string>
 </resources>

@@ -495,4 +495,9 @@
     <string name="pref_title_notifications_timeout">Értesítések közötti legrövidebb idő</string>
     <string name="pref_theme_system">Rendszer</string>
     <string name="title_activity_calblacklist">Feketelistás Naptárak</string>
+    <string name="sonyswr12_settings_title">Beállítások Sony SWR12</string>
+    <string name="sonyswr12_settings_low_vibration">Alacsony rezgés engedélyezve</string>
+    <string name="sonyswr12_settings_stamina">Az energiatakarékos mód be van kapcsolva</string>
+    <string name="sonyswr12_settings_alarm_interval">Intelligens riasztási intervallum percekben</string>
+    <string name="sonyswr12_settings_alarm_warning">A beállítások módosításához először csatlakoznia kell az eszközhöz!</string>
 </resources>

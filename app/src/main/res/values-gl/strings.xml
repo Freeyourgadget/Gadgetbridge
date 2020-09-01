@@ -515,4 +515,9 @@
     <string name="menuitem_settings">Axustes</string>
     <string name="menuitem_alipay">Alipay</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="sonyswr12_settings_title">Axustes Sony SWR12</string>
+    <string name="sonyswr12_settings_low_vibration">Vibración baixa habilitada</string>
+    <string name="sonyswr12_settings_alarm_interval">Intervalo de alarma intelixente en minutos</string>
+    <string name="sonyswr12_settings_alarm_warning">Para cambiar a configuración, primeiro debes conectarte ao dispositivo.</string>
 </resources>

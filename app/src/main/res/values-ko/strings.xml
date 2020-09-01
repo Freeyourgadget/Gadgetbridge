@@ -609,4 +609,5 @@
     <string name="pref_invalid_frequency_title">올바르지 않은 주파수</string>
     <string name="pref_invalid_frequency_message">87.5와 108.0 사이의 주파수를 입력하세요</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
 </resources>

@@ -61,4 +61,7 @@
     <string name="controlcenter_fetch_activity_data">Sinkroniziraj</string>
     <string name="action_donate">Doniraj</string>
     <string name="action_settings">Postavke</string>
+    <string name="sonyswr12_settings_stamina">Uključen je način uštede energije</string>
+    <string name="sonyswr12_settings_alarm_interval">Pametni interval alarma u minutama</string>
+    <string name="sonyswr12_settings_alarm_warning">Da biste promijenili postavke, prvo se povežite s uređajem!</string>
 </resources>

@@ -1046,4 +1046,10 @@
     <string name="averageLapPace">Ritmo médio de voltas</string>
     <string name="averageStrokesPerSecond">Média de braçadas</string>
     <string name="averageStrokeDistance">Distância média das braçadas</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="sonyswr12_settings_title">Configurações de Sony SWR12</string>
+    <string name="sonyswr12_settings_low_vibration">Baixa vibração habilitada</string>
+    <string name="sonyswr12_settings_stamina">O modo de economia de energia está ativado</string>
+    <string name="sonyswr12_settings_alarm_interval">Intervalo de alarme inteligente em minutos</string>
+    <string name="sonyswr12_settings_alarm_warning">Para alterar as configurações, você deve primeiro se conectar ao dispositivo!</string>
 </resources>

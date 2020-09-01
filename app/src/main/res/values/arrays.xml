@@ -986,4 +986,13 @@
         <item>0</item>
         <item>1</item>
     </string-array>
+    <string-array name="sonyswr12_smart_alarm_intervals">
+        <item>0</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+        <item>60</item>
+    </string-array>
 </resources>

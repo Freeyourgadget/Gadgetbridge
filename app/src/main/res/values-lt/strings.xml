@@ -308,4 +308,10 @@
     <string name="alarm_snooze">Snūstelti</string>
     <string name="pref_title_allow_high_mtu">Leisti didelį MTU</string>
     <string name="pref_summary_allow_high_mtu">Padidinti perkėlimo greitį, bet gali ir neveikti kai kuriuose android įrenginiuose..</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 nustatymai</string>
+    <string name="sonyswr12_settings_low_vibration">Įjungta maža vibracija</string>
+    <string name="sonyswr12_settings_stamina">Įjungtas energijos taupymo režimas</string>
+    <string name="sonyswr12_settings_alarm_interval">Išmaniojo žadintuvo intervalas minutėmis</string>
+    <string name="sonyswr12_settings_alarm_warning">Norėdami pakeisti nustatymus, pirmiausia turite prisijungti prie įrenginio!</string>
 </resources>

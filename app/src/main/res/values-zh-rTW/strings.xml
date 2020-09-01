@@ -585,4 +585,6 @@
     <string name="activity_type_swimming">游泳</string>
     <string name="this_is_a_test_notification_from_gadgetbridge">這是一個來自 Gadgetbridge 的測試通知</string>
     <string name="test_notification">測試通知</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 設定</string>
 </resources>
