@@ -1045,7 +1045,11 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="backstroke">Sırtüstü</string>
     <string name="freestyle">Serbest stil</string>
     <string name="breaststroke">Kurbağalama</string>
-    <string name="activity_summary_edit_name_title">İsmi düzenle</string>
+    <string name="activity_summary_edit_name_title">Etiketi düzenle</string>
     <string name="pref_header_statistics">Spor Etkinlikleri İstatistikleri</string>
-    <string name="activity_filter_name_contains">Ad</string>
+    <string name="activity_filter_name_contains">Etiket</string>
+    <string name="activity_summaries_all_activities">Tüm Etkinlikler</string>
+    <string name="devicetype_sg2">Lemfo SG2</string>
+    <string name="activity_summary_yesterday">Dün</string>
+    <string name="activity_summary_today">Bugün</string>
 </resources>
