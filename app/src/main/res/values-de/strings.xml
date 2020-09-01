@@ -957,9 +957,9 @@
     <string name="devicetype_tlw64">TLW64</string>
     <string name="devicetype_pinetime_jf">PimeTime (JF Firmware)</string>
     <string name="activity_detail_show_gps_label">GPS-Track anzeigen</string>
-    <string name="activity_detail_duration_label">Dauer:</string>
-    <string name="activity_detail_end_label">Ende:</string>
-    <string name="activity_detail_start_label">Start:</string>
+    <string name="activity_detail_duration_label">Dauer</string>
+    <string name="activity_detail_end_label">Ende</string>
+    <string name="activity_detail_start_label">Start</string>
     <string name="Steps">Schritte</string>
     <string name="Activity">Aktivität</string>
     <string name="Speed">Geschwindigkeit</string>
@@ -1006,4 +1006,15 @@
     <string name="minutes_km">min/km</string>
     <string name="seconds_m">sek/m</string>
     <string name="ascentSeconds">Aufsteigend</string>
+    <string name="backstroke">Rückenschwimmen</string>
+    <string name="freestyle">Freistil</string>
+    <string name="breaststroke">Brustschwimmen</string>
+    <string name="activity_summaries_all_activities">Alle Aktivitäten</string>
+    <string name="activity_summaries_statistics">Statistiken</string>
+    <string name="activity_filter_date_to">Bis</string>
+    <string name="activity_filter_date_from">Von</string>
+    <string name="km">km</string>
+    <string name="devicetype_sg2">Lemfo SG2</string>
+    <string name="activity_summary_yesterday">Gestern</string>
+    <string name="activity_summary_today">Heute</string>
 </resources>
