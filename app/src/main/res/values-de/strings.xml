@@ -1017,4 +1017,24 @@
     <string name="devicetype_sg2">Lemfo SG2</string>
     <string name="activity_summary_yesterday">Gestern</string>
     <string name="activity_summary_today">Heute</string>
+    <string name="medley">Gemisch</string>
+    <string name="activity_filter_apply_filter">Filter anwenden</string>
+    <string name="activity_filter_name_contains">Beschriftung</string>
+    <string name="activity_filter_filter_title">Filter</string>
+    <string name="activity_filter_reset_filter">Filter zurücksetzen</string>
+    <string name="pref_header_statistics">Statistiken der Sportaktivitäten</string>
+    <string name="pref_header_filter">Filter für Sportaktivitäten</string>
+    <string name="prefs_events_forwarding_broadcast_title">Broadcast Nachricht</string>
+    <string name="prefs_events_forwarding_title">Geräteaktionen</string>
+    <string name="prefs_events_forwarding_summary">Nutze Geräteereignisse um Aktionen und Android broadcasts auszulösen</string>
+    <string name="Elevation">Höhe</string>
+    <string name="bpm">bpm</string>
+    <string name="seconds_km">sek/km</string>
+    <string name="strokes_unit">str</string>
+    <string name="flatSeconds">Flach</string>
+    <string name="averageStrokesPerSecond">Durchschnittliche Schläge</string>
+    <string name="averageStrokeDistance">Durchschnittliche Schlag Distanz</string>
+    <string name="averageStride">Durchschnittsfortschritt</string>
+    <string name="totalStride">Gesamtfortschritt</string>
+    <string name="activity_summary_edit_name_title">Beschriftung bearbeiten</string>
 </resources>
