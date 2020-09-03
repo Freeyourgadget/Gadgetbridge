@@ -179,7 +179,9 @@ public class HuamiActivityDetailsParser {
 
         baseLongitude += longitudeDelta;
         baseLatitude += latitudeDelta;
-        baseAltitude += altitudeDelta;
+        if (baseAltitude != -20000) {
+            baseAltitude += altitudeDelta;
+        }
 
         GPSCoordinate coordinate = new GPSCoordinate(
                 convertHuamiValueToDecimalDegrees(baseLongitude),

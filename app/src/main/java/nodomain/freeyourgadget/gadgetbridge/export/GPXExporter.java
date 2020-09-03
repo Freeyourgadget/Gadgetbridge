@@ -130,7 +130,9 @@ public class GPXExporter implements ActivityTrackExporter {
         // lon and lat attributes do not have an explicit namespace
         ser.attribute(null, "lon", formatLocation(location.getLongitude()));
         ser.attribute(null, "lat", formatLocation(location.getLatitude()));
-        ser.startTag(NS_GPX_URI, "ele").text(formatLocation(location.getAltitude())).endTag(NS_GPX_URI, "ele");
+        if (location.getAltitude() != -20000) {
+            ser.startTag(NS_GPX_URI, "ele").text(formatLocation(location.getAltitude())).endTag(NS_GPX_URI, "ele");
+        }
         ser.startTag(NS_GPX_URI, "time").text(DateTimeUtils.formatIso8601UTC(point.getTime())).endTag(NS_GPX_URI, "time");
         String description = point.getDescription();
         if (description != null) {
