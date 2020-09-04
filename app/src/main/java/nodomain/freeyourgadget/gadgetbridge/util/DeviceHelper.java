@@ -47,6 +47,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.UnknownDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gb6900.CasioGB6900DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100.CasioGBX100DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.domyos.DomyosT540Cooridnator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.EXRIZUK8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.MakibesF68Coordinator;
@@ -298,6 +299,7 @@ public class DeviceHelper {
         result.add(new SonySWR12DeviceCoordinator());
         result.add(new WaspOSCoordinator());
         result.add(new UM25Coordinator());
+        result.add(new DomyosT540Cooridnator());
 
         return result;
     }

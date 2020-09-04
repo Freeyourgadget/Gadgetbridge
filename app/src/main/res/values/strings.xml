@@ -863,6 +863,7 @@
     <string name="devicetype_pinetime_jf">PineTime (JF Firmware)</string>
     <string name="devicetype_sonyswr12" translatable="false">Sony SWR12</string>
     <string name="devicetype_waspos">Wasp-os</string>
+    <string name="devicetype_domyos_t540"></string>
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>
     <string name="notification_channel_high_priority_name">Gadgetbridge notifications high priority</string>
@@ -1143,6 +1144,7 @@
     <string name="devicetype_nut_mini">Nut mini</string>
     <string name="qhybrid_calibration_align_hint">align hands to 12:00</string>
     <string translatable="false" name="lorem_ipsum">Lorem Ipsum</string>
+
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>
         <item quantity="two">%d hours</item>
