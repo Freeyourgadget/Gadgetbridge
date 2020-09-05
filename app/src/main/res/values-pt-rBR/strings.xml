@@ -1038,4 +1038,21 @@
     <string name="activity_type_elliptical_trainer">Treinador rlíptico</string>
     <string name="activity_type_indoor_cycling">Ciclismo indoor</string>
     <string name="activity_type_swimming_openwater">Natação (Águas abertas)</string>
+    <string name="activity_summaries_all_devices">Todos dispositivos</string>
+    <string name="sports_activity_quick_filter_select">Período de tempo</string>
+    <string name="sports_activity_quick_filter_30days">30 dias</string>
+    <string name="sports_activity_quick_filter_7days">7 dias</string>
+    <string name="sports_activity_quick_filter_last_month">Mês anterior</string>
+    <string name="sports_activity_quick_filter_this_month">Este mês</string>
+    <string name="sports_activity_quick_filter_last_week">Semana passada</string>
+    <string name="sports_activity_quick_filter_this_week">Esta semana</string>
+    <string name="no">Não</string>
+    <string name="yes">Sim</string>
+    <string name="activity_filter_individual_items">Itens selecionados individualmente</string>
+    <string name="addto_filter">Adicionar ao filtro</string>
+    <string name="swim_style">estilo de natação</string>
+    <string name="averageSpeed">Velocidade média</string>
+    <string name="baseAltitude">Elevação base</string>
+    <string name="swimStyle">nataçãoEstilo</string>
+    <string name="swolfIndex">swolfÍndice</string>
 </resources>
