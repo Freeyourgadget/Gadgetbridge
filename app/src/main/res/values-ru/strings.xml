@@ -1030,4 +1030,18 @@
     <string name="activity_summary_yesterday">Вчера</string>
     <string name="activity_summary_today">Сегодня</string>
     <string name="devicetype_sg2">Lemfo SG2</string>
+    <string name="activity_summaries_all_devices">Все устройства</string>
+    <string name="sports_activity_quick_filter_select">Период времени</string>
+    <string name="sports_activity_quick_filter_30days">30 дней</string>
+    <string name="sports_activity_quick_filter_7days">7 дней</string>
+    <string name="sports_activity_quick_filter_last_month">Прошлый месяц</string>
+    <string name="sports_activity_quick_filter_this_month">Этот месяц</string>
+    <string name="sports_activity_quick_filter_last_week">Предыдущая неделя</string>
+    <string name="sports_activity_quick_filter_this_week">Эта неделя</string>
+    <string name="no">Нет</string>
+    <string name="yes">Да</string>
+    <string name="activity_filter_individual_items">Индивидуально выбранные элементы</string>
+    <string name="addto_filter">Добавить в фильтр</string>
+    <string name="averageSpeed">Средняя скорость</string>
+    <string name="baseAltitude">Базовая высота</string>
 </resources>
