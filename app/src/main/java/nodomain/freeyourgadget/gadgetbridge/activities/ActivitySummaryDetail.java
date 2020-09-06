@@ -67,7 +67,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.SwipeEvents;
-
 //import nodomain.freeyourgadget.gadgetbridge.util.OnSwipeTouchListener;
 
 public class ActivitySummaryDetail extends AbstractGBActivity {
@@ -123,6 +122,13 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 this,
                 R.anim.bounceright);
 
+        final ActivitySummariesChartFragment activitySummariesChartFragment = new ActivitySummariesChartFragment();
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentHolder, activitySummariesChartFragment)
+                .commit();
+
         layout.setOnTouchListener(new SwipeEvents(this) {
             @Override
             public void onSwipeRight() {
@@ -131,6 +137,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                     currentItem = newItem;
                     makeSummaryHeader(newItem);
                     makeSummaryContent(newItem);
+                    activitySummariesChartFragment.setDateAndGetData(gbDevice, currentItem.getStartTime().getTime()/1000, currentItem.getEndTime().getTime()/1000);
                     layout.startAnimation(animFadeRight);
 
                 } else {
@@ -145,6 +152,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                     currentItem = newItem;
                     makeSummaryHeader(newItem);
                     makeSummaryContent(newItem);
+                    activitySummariesChartFragment.setDateAndGetData(gbDevice, currentItem.getStartTime().getTime()/1000, currentItem.getEndTime().getTime()/1000);
                     layout.startAnimation(animFadeLeft);
                 } else {
                     layout.startAnimation(animBounceLeft);
@@ -156,7 +164,9 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         if (currentItem != null) {
             makeSummaryHeader(currentItem);
             makeSummaryContent(currentItem);
+            activitySummariesChartFragment.setDateAndGetData(gbDevice, currentItem.getStartTime().getTime()/1000, currentItem.getEndTime().getTime()/1000);
         }
+
 
         //allows long-press.switch of data being in raw form or recalculated
         ImageView activity_icon = findViewById(R.id.item_image);

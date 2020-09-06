@@ -420,7 +420,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
      */
     protected abstract void renderCharts();
 
-    protected DefaultChartsData<LineData> refresh(GBDevice gbDevice, List<? extends ActivitySample> samples) {
+    public DefaultChartsData<LineData> refresh(GBDevice gbDevice, List<? extends ActivitySample> samples) {
 //        Calendar cal = GregorianCalendar.getInstance();
 //        cal.clear();
         TimestampTranslation tsTranslation = new TimestampTranslation();
@@ -844,7 +844,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
      * It does this so that the large timestamp values can be used
      * floating point values, where the mantissa is just 24 bits.
      */
-    protected static class TimestampTranslation {
+    public static class TimestampTranslation {
         private int tsOffset = -1;
 
         public int shorten(int timestamp) {

@@ -165,6 +165,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <FrameLayout
+                android:id="@+id/fragmentHolder"
+                android:layout_width="match_parent"
+                android:layout_height="300dp">
+
+            </FrameLayout>
+
             <Button
                 android:id="@+id/showTrack"
                 android:layout_width="match_parent"
