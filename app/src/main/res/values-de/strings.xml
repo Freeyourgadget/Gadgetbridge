@@ -1037,4 +1037,20 @@
     <string name="averageStride">Durchschnittsfortschritt</string>
     <string name="totalStride">Gesamtfortschritt</string>
     <string name="activity_summary_edit_name_title">Beschriftung bearbeiten</string>
+    <string name="swolf_index">Swolf-Index</string>
+    <string name="baseAltitude">Basishöhe</string>
+    <string name="swolfIndex">Swolf-Index</string>
+    <string name="activity_filter_individual_items">Individuell ausgewählte Elemente</string>
+    <string name="addto_filter">Zu Filter hinzufügen</string>
+    <string name="activity_summaries_all_devices">Alle Geräte</string>
+    <string name="sports_activity_quick_filter_select">Zeitraum</string>
+    <string name="sports_activity_quick_filter_30days">30 Tage</string>
+    <string name="sports_activity_quick_filter_7days">7 Tage</string>
+    <string name="sports_activity_quick_filter_last_week">Vorherige Woche</string>
+    <string name="sports_activity_quick_filter_last_month">Vorheriger Monat</string>
+    <string name="sports_activity_quick_filter_this_month">Dieser Monat</string>
+    <string name="sports_activity_quick_filter_this_week">Diese Woche</string>
+    <string name="no">Nein</string>
+    <string name="yes">Ja</string>
+    <string name="averageSpeed">Durchschnittliche Geschwindigkeit</string>
 </resources>
