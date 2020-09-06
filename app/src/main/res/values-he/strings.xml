@@ -1035,4 +1035,17 @@
     <string name="activity_summary_yesterday">אתמול</string>
     <string name="activity_summary_today">היום</string>
     <string name="devicetype_sg2">Lemfo SG2</string>
+    <string name="activity_summaries_all_devices">כל המכשירים</string>
+    <string name="sports_activity_quick_filter_select">תקופה</string>
+    <string name="sports_activity_quick_filter_30days">30 ימים</string>
+    <string name="sports_activity_quick_filter_7days">7 ימים</string>
+    <string name="sports_activity_quick_filter_last_month">חודש שעבר</string>
+    <string name="sports_activity_quick_filter_this_month">החודש</string>
+    <string name="sports_activity_quick_filter_last_week">שבוע שעבר</string>
+    <string name="sports_activity_quick_filter_this_week">השבוע</string>
+    <string name="no">לא</string>
+    <string name="yes">כן</string>
+    <string name="activity_filter_individual_items">פריטים שנבחרו פרטנית</string>
+    <string name="addto_filter">הוספה למסנן</string>
+    <string name="averageSpeed">מהירות ממוצעת</string>
 </resources>
