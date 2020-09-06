@@ -105,8 +105,7 @@ Translations can be contributed via https://hosted.weblate.org/projects/freeyour
 ## Community
 
 If you would like to get in touch with other Gadgetbridge users and developers outside of Codeberg, you can do so via:
-* Matrix: #gadgetbridge:matrix.org - The most active channel
-* IRC: #gadgetbridge on Freenode
+* Matrix: #gadgetbridge:matrix.org
 
 ## Do you have further questions or feedback?
 
