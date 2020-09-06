@@ -1032,4 +1032,18 @@
     <string name="devicetype_sg2">Lemfo SG2</string>
     <string name="activity_summary_yesterday">昨天</string>
     <string name="activity_summary_today">今天</string>
+    <string name="activity_summaries_all_devices">所有设备</string>
+    <string name="sports_activity_quick_filter_select">时期</string>
+    <string name="sports_activity_quick_filter_7days">7天</string>
+    <string name="sports_activity_quick_filter_30days">30天</string>
+    <string name="sports_activity_quick_filter_last_month">上月</string>
+    <string name="sports_activity_quick_filter_this_month">本月</string>
+    <string name="sports_activity_quick_filter_last_week">上周</string>
+    <string name="sports_activity_quick_filter_this_week">本周</string>
+    <string name="no">否</string>
+    <string name="yes">是</string>
+    <string name="activity_filter_individual_items">分别选中项</string>
+    <string name="addto_filter">添加到过滤器</string>
+    <string name="averageSpeed">平均速度</string>
+    <string name="baseAltitude">海拔基线</string>
 </resources>
