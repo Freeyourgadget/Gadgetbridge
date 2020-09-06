@@ -163,7 +163,7 @@
     <string name="cannot_connect_bt_address_invalid_">接続できません。 BTアドレスが無効?</string>
     <string name="gadgetbridge_running">ガジェットブリッジは実行中</string>
     <string name="installing_binary_d_d">バイナリーのインストール中 %1$d/%2$d</string>
-    <string name="installation_failed_">インストールに失敗しました!</string>
+    <string name="installation_failed_">インストールに失敗しました</string>
     <string name="installation_successful">インストールに成功しました</string>
     <string name="firmware_install_warning">ファームウェアをインストールしようとしています。ご自身の責任で行って下さい。\n\n\n このファームウェアは次のHWリビジョン用: %s</string>
     <string name="app_install_info">次のアプリをインストールしようとしています:\n\n\n%1$s バージョン %2$s 作成 %3$s\n</string>
@@ -205,7 +205,7 @@
     <string name="busy_task_fetch_activity_data">アクティビティデータを取得中</string>
     <string name="sleep_activity_date_range">%1$sから%2$sまで</string>
     <string name="prefs_wearside">左または右に身に着けますか?</string>
-    <string name="pref_screen_vibration_profile">バイブレーション プロファイル</string>
+    <string name="pref_screen_vibration_profile">バイブレーションプロファイル</string>
     <string name="vibration_profile_staccato">スタッカート</string>
     <string name="vibration_profile_short">短い</string>
     <string name="vibration_profile_medium">標準</string>
@@ -217,7 +217,7 @@
     <string name="vibration_try">試す</string>
     <string name="pref_screen_notification_profile_sms">SMS通知</string>
     <string name="pref_header_vibration_settings">バイブレーションの設定</string>
-    <string name="pref_screen_notification_profile_generic">全般通知</string>
+    <string name="pref_screen_notification_profile_generic">一般的な通知</string>
     <string name="pref_screen_notification_profile_email">メール通知</string>
     <string name="pref_screen_notification_profile_incoming_call">着信通知</string>
     <string name="pref_screen_notification_profile_generic_chat">チャット</string>
@@ -228,7 +228,7 @@
     <string name="stats_y_axis_label">毎分の歩数</string>
     <string name="control_center_find_lost_device">なくしたデバイスを探す</string>
     <string name="control_center_cancel_to_stop_vibration">キャンセルで振動を停止します。</string>
-    <string name="title_activity_charts">あなたのアクティビティ</string>
+    <string name="title_activity_charts">あなたのアクティビティと睡眠</string>
     <string name="title_activity_set_alarm">アラームを設定</string>
     <string name="controlcenter_start_configure_alarms">アラームを設定</string>
     <string name="title_activity_alarm_details">アラームの詳細</string>
@@ -240,8 +240,8 @@
     <string name="alarm_fri_short">金</string>
     <string name="alarm_sat_short">土</string>
     <string name="alarm_smart_wakeup">スマート ウェイクアップ</string>
-    <string name="user_feedback_miband_set_alarms_failed">アラームの設定時にエラーが発生しました。もう一度試してください!</string>
-    <string name="user_feedback_miband_set_alarms_ok">アラームをデバイスに送信しました!</string>
+    <string name="user_feedback_miband_set_alarms_failed">アラームの設定中にエラーが発生しました。もう一度試してください</string>
+    <string name="user_feedback_miband_set_alarms_ok">アラームがデバイスに送信しました</string>
     <string name="chart_no_data_synchronize">データはありません。デバイスを同期しますか?</string>
     <string name="user_feedback_miband_activity_data_transfer">%1$s のデータを %2$s から転送します</string>
     <string name="miband_prefs_fitness_goal">毎日の目標ステップ</string>
@@ -256,11 +256,11 @@
     <string name="notif_battery_low_percent">%1$s バッテリー残: %2$s%%</string>
     <string name="notif_battery_low_bigtext_last_charge_time">最後の充電: %s \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">充電回数: %s</string>
-    <string name="sleepchart_your_sleep">あなたの睡眠</string>
+    <string name="sleepchart_your_sleep">睡眠</string>
     <string name="weeksleepchart_sleep_a_week">週の睡眠</string>
     <string name="weeksleepchart_today_sleep_description">今日の睡眠、目標: %1$s</string>
-    <string name="weekstepschart_steps_a_week">週あたり歩数</string>
-    <string name="activity_sleepchart_activity_and_sleep">あなたのアクティビティと睡眠</string>
+    <string name="weekstepschart_steps_a_week">週の歩数</string>
+    <string name="activity_sleepchart_activity_and_sleep">アクティビティ</string>
     <string name="updating_firmware">ファームウェアの更新中…</string>
     <string name="fwapp_install_device_not_ready">ファイルをインストールできません。デバイスの準備ができていません。</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
@@ -297,7 +297,7 @@
     <string name="abstract_chart_fragment_kind_activity">アクティビティ</string>
     <string name="abstract_chart_fragment_kind_light_sleep">浅い睡眠</string>
     <string name="abstract_chart_fragment_kind_deep_sleep">深い睡眠</string>
-    <string name="abstract_chart_fragment_kind_not_worn">非装着</string>
+    <string name="abstract_chart_fragment_kind_not_worn">未着用</string>
     <string name="device_not_connected">接続されていません。</string>
     <string name="user_feedback_all_alarms_disabled">すべてのアラームを無効にしました</string>
     <string name="pref_title_keep_data_on_device">アクティビティデータをデバイスに保持</string>
@@ -410,7 +410,7 @@
 \n
 \nご自身の責任で行ってください!</string>
     <string name="mi2_prefs_button_actions">ボタンの動作</string>
-    <string name="mi2_prefs_button_actions_summary">Mi Band 2 ボタンを押した動作を指定します</string>
+    <string name="mi2_prefs_button_actions_summary">ボタンを押した動作を指定します</string>
     <string name="mi2_prefs_button_press_count">ボタン押したカウント</string>
     <string name="mi2_prefs_button_press_count_summary">ブロードキャスト メッセージをトリガーするボタンを押した数</string>
     <string name="mi2_prefs_button_press_broadcast">送信するブロードキャスト メッセージ</string>
@@ -516,7 +516,7 @@
     <string name="controlcenter_change_fm_frequency">FMの周波数を変更</string>
     <string name="controlcenter_calibrate_device">デバイスを校正</string>
     <string name="debugactivity_really_factoryreset_title">工場出荷値にリセットしますか\?</string>
-    <string name="debugactivity_really_factoryreset">工場出荷値にリセットすると、(サポートされている場合) 接続されているデバイスからすべてのデータを削除します。Xiaomi/Huamiデバイスでは、BluetoothのMACアドレスも変更するので、GadgetBligeに新しいデバイスとして表示されます。</string>
+    <string name="debugactivity_really_factoryreset">工場出荷値にリセットすると、(サポートされている場合) 接続されているデバイスからすべてのデータを削除します。Xiaomi/Huamiデバイスでは、BluetoothのMACアドレスも変更するので、Gadgetbridgeに新しいデバイスとして表示されます。</string>
     <string name="blacklist_all_for_notifications">すべて通知のブラックリストにする</string>
     <string name="whitelist_all_for_notifications">すべて通知のホワイトリストにする</string>
     <string name="fw_upgrade_notice_miband3">Mi Band 3 に %s ファームウェアをインストールします。
@@ -641,4 +641,40 @@
     <string name="pref_display_add_device_fab">新しいデバイスを接続するボタン</string>
     <string name="pref_display_add_device_fab_on">常に表示</string>
     <string name="pref_display_add_device_fab_off">デバイスが追加されていない場合にのみ表示</string>
+    <string name="pref_header_charts">チャートの設定</string>
+    <string name="pref_title_charts_average">グラーフに平均を表示する</string>
+    <string name="czesh">チェコ語</string>
+    <string name="swedish">スウェーデン語</string>
+    <string name="hebrew">ヘブライ語</string>
+    <string name="greek">ギリシャ語</string>
+    <string name="hungarian">ハンガリー語</string>
+    <string name="romanian">ルーマニア語</string>
+    <string name="portuguese">ポルトガル語</string>
+    <string name="vietnamese">ベトナム語</string>
+    <string name="thai">タイ語</string>
+    <string name="arabic">アラビア語</string>
+    <string name="ukrainian">ウクライナ語</string>
+    <string name="turkish">トルコ語</string>
+    <string name="dutch">オランダ語</string>
+    <string name="pref_summary_force_white_color_scheme">時計が暗い針を持っている場合に便利</string>
+    <string name="bip_prefs_shotcuts_summary">バンド画面のショートカットを選択する</string>
+    <string name="bip_prefs_shortcuts">ショートカット</string>
+    <string name="prefs_enable_find_phone">「携帯電話を探す」をオンにする</string>
+    <string name="prefs_find_phone">携帯電話を探す</string>
+    <string name="average">平均: %1$s</string>
+    <string name="alarm_snooze">スヌーズ</string>
+    <string name="interval_forty_five_minutes">45分ごと</string>
+    <string name="interval_fifteen_minutes">15分ごと</string>
+    <string name="pref_screen_notification_profile_calendar">カレンダーの通知</string>
+    <string name="pref_screen_notification_profile_missed_call">不在着信通知</string>
+    <string name="find_my_phone_notification">携帯電話を探す</string>
+    <string name="zetime_signaling_none">サイレント</string>
+    <string name="zetime_date_format_3">MM/DD/YY</string>
+    <string name="zetime_date_format_2">DD/MM/YY</string>
+    <string name="zetime_date_format_1">YY/MM/DD</string>
+    <string name="zetime_handmove_display">手の動き</string>
+    <string name="zetime_title_settings">ZeTime 設定</string>
+    <string name="preferences_makibes_hr3_settings">Makibes HR3 設定</string>
+    <string name="pref_title_sync_caldendar">カレンダーの予定を同期する</string>
+    <string name="pref_theme_system">システム</string>
 </resources>
