@@ -1048,4 +1048,10 @@
     <string name="activity_filter_individual_items">פריטים שנבחרו פרטנית</string>
     <string name="addto_filter">הוספה למסנן</string>
     <string name="averageSpeed">מהירות ממוצעת</string>
+    <string name="activity_type_badminton">בדמינטון</string>
+    <string name="activity_type_pingpong">פינג פונג</string>
+    <string name="activity_type_basketball">כדורסל</string>
+    <string name="activity_type_cricket">קריקט</string>
+    <string name="activity_type_rowing_machine">מכונת חתירה</string>
+    <string name="activity_type_soccer">כדורגל</string>
 </resources>
