@@ -44,8 +44,14 @@ public class ActivityKind {
     public static final int TYPE_ELLIPTICAL_TRAINER = 0x00001000;
     public static final int TYPE_JUMP_ROPING = 0x00002000;
     public static final int TYPE_YOGA = 0x00004000;
+    public static final int TYPE_SOCCER = 0x00008000;
+    public static final int TYPE_ROWING_MACHINE = 0x00010000;
+    public static final int TYPE_CRICKET = 0x00020000;
+    public static final int TYPE_BASKETBALL = 0x00040000;
+    public static final int TYPE_PINGPONG = 0x00080000;
+    public static final int TYPE_BADMINTON = 0x00100000;
 
-    private static final int TYPES_COUNT = 17;
+    private static final int TYPES_COUNT = 23;
 
     public static final int TYPE_SLEEP = TYPE_LIGHT_SLEEP | TYPE_DEEP_SLEEP;
     public static final int TYPE_ALL = TYPE_ACTIVITY | TYPE_SLEEP | TYPE_NOT_WORN;
@@ -135,6 +141,18 @@ public class ActivityKind {
                 return context.getString(R.string.activity_type_jump_roping);
             case TYPE_YOGA:
                 return context.getString(R.string.activity_type_yoga);
+            case TYPE_SOCCER:
+                return context.getString(R.string.activity_type_soccer);
+            case TYPE_ROWING_MACHINE:
+                return context.getString(R.string.activity_type_rowing_machine);
+            case TYPE_CRICKET:
+                return context.getString(R.string.activity_type_cricket);
+            case TYPE_BASKETBALL:
+                return context.getString(R.string.activity_type_basketball);
+            case TYPE_PINGPONG:
+                return context.getString(R.string.activity_type_pingpong);
+            case TYPE_BADMINTON:
+                return context.getString(R.string.activity_type_badminton);
             case TYPE_UNKNOWN:
             default:
                 return context.getString(R.string.activity_type_unknown);
@@ -171,6 +189,15 @@ public class ActivityKind {
                 return R.drawable.ic_activity_rope_jump;
             case TYPE_YOGA:
                 return R.drawable.ic_activity_yoga;
+
+            // TODO: find icons
+            case TYPE_SOCCER:
+            case TYPE_ROWING_MACHINE:
+            case TYPE_CRICKET:
+            case TYPE_BASKETBALL:
+            case TYPE_PINGPONG:
+            case TYPE_BADMINTON:
+
             case TYPE_NOT_WORN: // fall through
             case TYPE_ACTIVITY: // fall through
             case TYPE_UNKNOWN: // fall through

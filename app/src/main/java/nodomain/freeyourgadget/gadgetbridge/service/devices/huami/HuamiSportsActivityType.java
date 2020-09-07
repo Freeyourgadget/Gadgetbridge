@@ -19,7 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public enum HuamiSportsActivityType {
-    Outdoor(1),
+    OutdoorRunning(1),
     Treadmill(2),
     Walking(3),
     Cycling(4),
@@ -28,8 +28,15 @@ public enum HuamiSportsActivityType {
     OpenWaterSwimming(7),
     IndoorCycling(8),
     EllipticalTrainer(9),
-    JumpRope(21),
-    Yoga(60);
+    Soccer(0x12),
+    JumpRope(0x15),
+    RowingMachine(0x17),
+    Yoga(0x3c),
+    Cricket(0x4e),
+    Basketball(0x55),
+    PingPong(0x59),
+    Badminton(0x5c);
+
 
     private final int code;
 
@@ -39,7 +46,7 @@ public enum HuamiSportsActivityType {
 
     public int toActivityKind() {
         switch (this) {
-            case Outdoor:
+            case OutdoorRunning:
                 return ActivityKind.TYPE_RUNNING;
             case Treadmill:
                 return ActivityKind.TYPE_TREADMILL;
@@ -57,10 +64,22 @@ public enum HuamiSportsActivityType {
                 return ActivityKind.TYPE_INDOOR_CYCLING;
             case EllipticalTrainer:
                 return ActivityKind.TYPE_ELLIPTICAL_TRAINER;
+            case Soccer:
+                return ActivityKind.TYPE_SOCCER;
             case JumpRope:
                 return ActivityKind.TYPE_JUMP_ROPING;
+            case RowingMachine:
+                return ActivityKind.TYPE_ROWING_MACHINE;
             case Yoga:
                 return ActivityKind.TYPE_YOGA;
+            case Cricket:
+                return ActivityKind.TYPE_CRICKET;
+            case Basketball:
+                return ActivityKind.TYPE_BASKETBALL;
+            case PingPong:
+                return ActivityKind.TYPE_PINGPONG;
+            case Badminton:
+                return ActivityKind.TYPE_BADMINTON;
         }
         throw new RuntimeException("Not mapped activity kind for: " + this);
     }
@@ -77,7 +96,7 @@ public enum HuamiSportsActivityType {
     public static HuamiSportsActivityType fromActivityKind(int activityKind) {
         switch (activityKind) {
             case ActivityKind.TYPE_RUNNING:
-                return Outdoor;
+                return OutdoorRunning;
             case ActivityKind.TYPE_TREADMILL:
                 return Treadmill;
             case ActivityKind.TYPE_CYCLING:
@@ -94,10 +113,23 @@ public enum HuamiSportsActivityType {
                 return IndoorCycling;
             case ActivityKind.TYPE_ELLIPTICAL_TRAINER:
                 return EllipticalTrainer;
+            case ActivityKind.TYPE_SOCCER:
+                return Soccer;
             case ActivityKind.TYPE_JUMP_ROPING:
                 return JumpRope;
+            case ActivityKind.TYPE_ROWING_MACHINE:
+                return RowingMachine;
             case ActivityKind.TYPE_YOGA:
                 return Yoga;
+            case ActivityKind.TYPE_CRICKET:
+                return Cricket;
+            case ActivityKind.TYPE_BASKETBALL:
+                return Basketball;
+            case ActivityKind.TYPE_PINGPONG:
+                return PingPong;
+            case ActivityKind.TYPE_BADMINTON:
+                return Badminton;
+
         }
         throw new RuntimeException("No matching activity activityKind: " + activityKind);
     }

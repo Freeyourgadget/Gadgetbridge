@@ -703,6 +703,12 @@
     <string name="activity_type_elliptical_trainer">Elliptical Trainer</string>
     <string name="activity_type_jump_roping">Jumping Rope</string>
     <string name="activity_type_yoga">Yoga</string>
+    <string name="activity_type_soccer">Soccer</string>
+    <string name="activity_type_rowing_machine">Rowing Machine</string>
+    <string name="activity_type_cricket">Cricket</string>
+    <string name="activity_type_basketball">Basketball</string>
+    <string name="activity_type_pingpong">Ping Pong</string>
+    <string name="activity_type_badminton">Badminton</string>
     <string name="activity_type_unknown">Unknown activity</string>
     <string name="activity_summaries">Sport Activities</string>
     <string name="activity_summary_detail">Sport Activity Detail</string>
