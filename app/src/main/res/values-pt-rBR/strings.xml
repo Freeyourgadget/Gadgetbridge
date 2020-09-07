@@ -1055,4 +1055,10 @@
     <string name="baseAltitude">Elevação base</string>
     <string name="swimStyle">nataçãoEstilo</string>
     <string name="swolfIndex">swolfÍndice</string>
+    <string name="activity_type_badminton">Badminton</string>
+    <string name="activity_type_pingpong">Ping pong</string>
+    <string name="activity_type_basketball">Basquete</string>
+    <string name="activity_type_cricket">Críquete</string>
+    <string name="activity_type_rowing_machine">Máquina de remo</string>
+    <string name="activity_type_soccer">Futebol</string>
 </resources>
