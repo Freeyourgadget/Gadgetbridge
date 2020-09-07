@@ -89,8 +89,8 @@ public class AmazfitBipSFirmwareInfo extends HuamiFirmwareInfo {
         if (ArrayUtils.startsWith(bytes, WATCHFACE_HEADER)) {
             return HuamiFirmwareType.WATCHFACE;
         }
-        if (ArrayUtils.startsWith(bytes, GPS_CEP_HEADER)) {
-            return HuamiFirmwareType.GPS_CEP;
+        if (ArrayUtils.startsWith(bytes, GPS_ALMANAC_HEADER)) {
+            return HuamiFirmwareType.GPS_ALMANAC;
         }
         if (ArrayUtils.startsWith(bytes, GPS_CEP_HEADER)) {
             return HuamiFirmwareType.GPS_CEP;
