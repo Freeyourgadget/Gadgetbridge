@@ -1044,4 +1044,10 @@
     <string name="addto_filter">Добавить в фильтр</string>
     <string name="averageSpeed">Средняя скорость</string>
     <string name="baseAltitude">Базовая высота</string>
+    <string name="activity_type_badminton">Бадминтон</string>
+    <string name="activity_type_pingpong">Пинг-понг</string>
+    <string name="activity_type_basketball">Баскетбол</string>
+    <string name="activity_type_cricket">Крикет</string>
+    <string name="activity_type_rowing_machine">Гребной тренажер</string>
+    <string name="activity_type_soccer">Футбол</string>
 </resources>
