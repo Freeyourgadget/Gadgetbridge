@@ -28,7 +28,7 @@ public class ActivitySummaryJsonSummary {
         if (jsonSummary != null) {
             //add additionally computed values here
 
-            if (item.getBaseAltitude() != null) {
+            if (item.getBaseAltitude() != null && item.getBaseAltitude() != -20000) {
                 JSONObject baseAltitudeValues;
                 try {
                     baseAltitudeValues = new JSONObject();

@@ -1010,6 +1010,9 @@
     <string name="sports_activity_quick_filter_30days">30 days</string>
     <string name="sports_activity_quick_filter_select">Time period</string>
     <string name="activity_summaries_all_devices">All devices</string>
+    <string name="activity_filter_from_placeholder">distant past</string>
+    <string name="activity_filter_to_placeholder">today</string>
+
 
 
     <!-- swim styles -->

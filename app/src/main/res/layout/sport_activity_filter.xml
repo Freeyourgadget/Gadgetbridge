@@ -79,6 +79,7 @@
 
             <TextView
                 android:id="@+id/textViewFromData"
+                android:hint="@string/activity_filter_from_placeholder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
@@ -111,6 +112,7 @@
 
             <TextView
                 android:id="@+id/textViewToData"
+                android:hint="@string/activity_filter_to_placeholder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
