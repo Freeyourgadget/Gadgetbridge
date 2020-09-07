@@ -160,7 +160,7 @@
     <string name="tap_connected_device_for_activity">アクティビティの接続されたデバイスをタップ</string>
     <string name="tap_connected_device_for_vibration">バイブレーションの接続されたデバイスをタップ</string>
     <string name="tap_a_device_to_connect">接続するデバイスをタップ</string>
-    <string name="cannot_connect_bt_address_invalid_">接続できません。 BTアドレスが無効?</string>
+    <string name="cannot_connect_bt_address_invalid_">接続できません。 Bluetoothアドレスが無効ですか\?</string>
     <string name="gadgetbridge_running">ガジェットブリッジは実行中</string>
     <string name="installing_binary_d_d">バイナリーのインストール中 %1$d/%2$d</string>
     <string name="installation_failed_">インストールに失敗しました</string>
@@ -677,4 +677,19 @@
     <string name="preferences_makibes_hr3_settings">Makibes HR3 設定</string>
     <string name="pref_title_sync_caldendar">カレンダーの予定を同期する</string>
     <string name="pref_theme_system">システム</string>
+    <string name="zetime_prefs_inactivity_su">日曜日</string>
+    <string name="zetime_prefs_inactivity_sa">土曜日</string>
+    <string name="zetime_prefs_inactivity_fr">金曜日</string>
+    <string name="zetime_prefs_inactivity_th">木曜日</string>
+    <string name="zetime_prefs_inactivity_we">水曜日</string>
+    <string name="zetime_prefs_inactivity_tu">火曜日</string>
+    <string name="zetime_prefs_inactivity_mo">月曜日</string>
+    <string name="zetime_analog_mode">アナログモード</string>
+    <string name="activity_prefs_alarm_min_heart_rate">最小心拍数</string>
+    <string name="activity_prefs_alarm_max_heart_rate">最大心拍数</string>
+    <string name="zetime_heart_rate_alarm_enable">心拍数アラームを有効にする</string>
+    <string name="zetime_title_heart_rate_alarm">心拍数アラーム</string>
+    <string name="zetime_title_heartrate">心拍数の設定</string>
+    <string name="pref_header_device_spec_settings">デバイスの設定</string>
+    <string name="pref_header_notifications_and_calls">通知と通話</string>
 </resources>
