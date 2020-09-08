@@ -1046,4 +1046,10 @@
     <string name="addto_filter">添加到过滤器</string>
     <string name="averageSpeed">平均速度</string>
     <string name="baseAltitude">海拔基线</string>
+    <string name="activity_type_badminton">羽毛球</string>
+    <string name="activity_type_pingpong">乒乓</string>
+    <string name="activity_type_basketball">篮球</string>
+    <string name="activity_type_cricket">板球</string>
+    <string name="activity_type_rowing_machine">划船机</string>
+    <string name="activity_type_soccer">足球</string>
 </resources>
