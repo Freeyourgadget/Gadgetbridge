@@ -662,8 +662,6 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
-        String release = versionCmd.fwVersion.substring(8, 12);
-        String buildnumber = versionCmd.fwVersion.substring(versionCmd.fwVersion.length() - 4);
         byte[] weather = new byte[weatherSpec.location.getBytes(StandardCharsets.UTF_8).length + 26]; // 26 bytes for weatherdata and overhead
         weather[0] = ZeTimeConstants.CMD_PREAMBLE;
         weather[1] = ZeTimeConstants.CMD_PUSH_WEATHER_DATA;
@@ -675,8 +673,18 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         weather[7] = (byte) (weatherSpec.todayMinTemp - 273);
         weather[8] = (byte) (weatherSpec.todayMaxTemp - 273);
 
-        // if using firmware 1.7 Build 41 and above use newer icons
-        if (release.compareTo("R1.7") > 0 || (release.compareTo("R1.7") == 0 && buildnumber.compareTo("B4.1") >= 0)) {
+        boolean newWeather = false;
+        if (versionCmd.fwVersion.length() >= 24) {
+            String release = versionCmd.fwVersion.substring(8, 12);
+            String buildnumber = versionCmd.fwVersion.substring(versionCmd.fwVersion.length() - 4);
+            // if using firmware 1.7 Build 41 and above use newer icons
+            if (release.compareTo("R1.7") > 0 || (release.compareTo("R1.7") == 0 && buildnumber.compareTo("B4.1") >= 0)) {
+                newWeather = true;
+            }
+        } else {
+            LOG.warn("We do not have a sane fw version string available, firmware too old/new?");
+        }
+        if (newWeather) {
             weather[9] = Weather.mapToZeTimeCondition(weatherSpec.currentConditionCode);
         } else {
             weather[9] = Weather.mapToZeTimeConditionOld(weatherSpec.currentConditionCode);
@@ -686,7 +694,11 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             weather[11 + (forecast * 5)] = (byte) 0xff;
             weather[12 + (forecast * 5)] = (byte) (weatherSpec.forecasts.get(forecast).minTemp - 273);
             weather[13 + (forecast * 5)] = (byte) (weatherSpec.forecasts.get(forecast).maxTemp - 273);
-            weather[14 + (forecast * 5)] = Weather.mapToZeTimeCondition(weatherSpec.forecasts.get(forecast).conditionCode);
+            if (newWeather) {
+                weather[14 + (forecast * 5)] = Weather.mapToZeTimeCondition(weatherSpec.forecasts.get(forecast).conditionCode);
+            } else {
+                weather[14 + (forecast * 5)] = Weather.mapToZeTimeConditionOld(weatherSpec.forecasts.get(forecast).conditionCode);
+            }
         }
         System.arraycopy(weatherSpec.location.getBytes(StandardCharsets.UTF_8), 0, weather, 25, weatherSpec.location.getBytes(StandardCharsets.UTF_8).length);
         weather[weather.length - 1] = ZeTimeConstants.CMD_END;
