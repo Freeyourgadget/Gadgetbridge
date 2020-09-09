@@ -919,7 +919,7 @@
 \n 
 \nPROSSIGA POR SUA CONTA E RISCO!</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
-    <string name="about_additional_contributions">Muito obrigado a todos os contribuidores não listados aqui por contribuição com código, suporte, ideias, motivação, relatórios de erros, dinheiro… ✊</string>
+    <string name="about_additional_contributions">Muito obrigado a todos os contribuidores não listados aqui por contribuição com código, transdução, suporte, ideias, motivação, relatórios de erros, dinheiro… ✊</string>
     <string name="about_additional_device_support">Suporte a dispositivos adicionais</string>
     <string name="about_contributors">Contribuidores</string>
     <string name="about_core_team_title">Equipe Core (na ordem da primeira contribuição de código)</string>
@@ -1063,4 +1063,5 @@
     <string name="activity_type_soccer">Futebol</string>
     <string name="activity_filter_to_placeholder">hoje</string>
     <string name="activity_filter_from_placeholder">passado distante</string>
+    <string name="about_links">Links</string>
 </resources>
