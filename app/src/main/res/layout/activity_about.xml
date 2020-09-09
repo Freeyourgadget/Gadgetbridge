@@ -1,14 +1,12 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/about_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gadgetbridge_img"
     android:paddingLeft="@dimen/about_margin"
+    android:paddingRight="@dimen/about_margin"
     tools:context="nodomain.freeyourgadget.gadgetbridge.activities.AboutActivity">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,7 +17,7 @@
                 android:id="@+id/about_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Gadgetbridge"
+                android:text="@string/app_name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/accent" />
 
@@ -27,7 +25,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingLeft="@dimen/about_margin">
+                android:paddingLeft="@dimen/about_margin"
+                android:paddingRight="@dimen/about_margin">
 
                 <TextView
                     android:id="@+id/about_desc"
@@ -40,7 +39,7 @@
                 android:id="@+id/links_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Links"
+                android:text="@string/about_links"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/accent" />
 
@@ -48,7 +47,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingLeft="@dimen/about_margin">
+                android:paddingLeft="@dimen/about_margin"
+                android:paddingRight="@dimen/about_margin">
 
                 <TextView
                     android:id="@+id/links1"
@@ -81,7 +81,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingLeft="@dimen/about_margin">
+                android:paddingLeft="@dimen/about_margin"
+                android:paddingRight="@dimen/about_margin">
 
                 <TextView
                     android:id="@+id/contrib_core_title"
@@ -94,7 +95,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:paddingLeft="@dimen/about_margin">
+                    android:paddingLeft="@dimen/about_margin"
+                    android:paddingRight="@dimen/about_margin">
 
                     <TextView
                         android:id="@+id/contrib_core_members"
@@ -109,7 +111,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingLeft="@dimen/about_margin">
+                android:paddingStart="@dimen/about_margin"
+                android:paddingEnd="@dimen/about_margin">
 
                 <TextView
                     android:id="@+id/contrib_add_title"
@@ -122,7 +125,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:paddingLeft="@dimen/about_margin">
+                    android:paddingLeft="@dimen/about_margin"
+                    android:paddingRight="@dimen/about_margin">
 
                     <TextView
                         android:id="@+id/contrib_add_members"
@@ -142,6 +146,5 @@
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
 
-</RelativeLayout>
+</ScrollView>
