@@ -1061,4 +1061,6 @@
     <string name="activity_type_cricket">Críquete</string>
     <string name="activity_type_rowing_machine">Máquina de remo</string>
     <string name="activity_type_soccer">Futebol</string>
+    <string name="activity_filter_to_placeholder">hoje</string>
+    <string name="activity_filter_from_placeholder">passado distante</string>
 </resources>
