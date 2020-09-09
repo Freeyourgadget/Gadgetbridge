@@ -703,7 +703,7 @@
     <string name="maxPace">最速のペース</string>
     <string name="maxSpeed">最大</string>
     <string name="caloriesBurnt">カロリー</string>
-    <string name="activeSeconds"></string>
+    <string name="activeSeconds"/>
     <string name="steps">歩数</string>
     <string name="minAltitude">最小</string>
     <string name="maxAltitude">最大</string>
@@ -756,4 +756,5 @@
     <string name="pref_chart_heartrate_color_red">赤</string>
     <string name="indonesian">インドネシア語</string>
     <string name="prefs_disconnect_notification">切断通知</string>
+    <string name="Distance">距離</string>
 </resources>
