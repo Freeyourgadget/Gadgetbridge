@@ -1000,4 +1000,25 @@
     <string name="activity_filter_apply_filter">Legg til filter</string>
     <string name="activity_summaries_statistics">Statistikk</string>
     <string name="pref_check_permission_status">Sjekk tilgangsstatus</string>
+    <string name="error_background_service_reason_truncated">Kunne ikke starte bakgrunnstjeneste fordi …</string>
+    <string name="activity_type_badminton">Badminton</string>
+    <string name="activity_type_pingpong">Bordtennis</string>
+    <string name="activity_type_basketball">Basketball</string>
+    <string name="activity_type_cricket">Cricket</string>
+    <string name="activity_type_rowing_machine">Ro-maskin</string>
+    <string name="activity_type_soccer">Fotball</string>
+    <string name="sports_activity_quick_filter_last_week">Forrige uke</string>
+    <string name="sports_activity_quick_filter_this_week">Denne uken</string>
+    <string name="prefs_events_forwarding_summary">Bruk enhetshendelser for å utløse handlinger og Android-kunngjøringer</string>
+    <string name="bpm">spm</string>
+    <string name="averageSpeed">Gjennomsnittshastighet</string>
+    <string name="sports_activity_quick_filter_30days">30 dager</string>
+    <string name="sports_activity_quick_filter_7days">7 dager</string>
+    <string name="sports_activity_quick_filter_last_month">Forrige måned</string>
+    <string name="sports_activity_quick_filter_this_month">Denne måneden</string>
+    <string name="activity_filter_from_placeholder">uoversiktlig fortid</string>
+    <string name="sports_activity_quick_filter_select">Tidsperiode</string>
+    <string name="activity_summaries_all_devices">Alle enheter</string>
+    <string name="activity_filter_to_placeholder">i dag</string>
+    <string name="about_links">Lenker</string>
 </resources>
