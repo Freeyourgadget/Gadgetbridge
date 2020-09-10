@@ -908,7 +908,7 @@
 \n
 \n风险自担！</string>
     <string name="devicetype_amazfit_trex">华米 T-Rex</string>
-    <string name="about_additional_contributions">感谢所有未列出的贡献者，他们贡献了代码、支持、想法、动力、错误报告和金钱… ✊</string>
+    <string name="about_additional_contributions">感谢所有未列出的贡献者，他们贡献了代码、翻译、支持、想法、动力、错误报告和金钱… ✊</string>
     <string name="about_additional_device_support">额外设备支持</string>
     <string name="about_contributors">贡献者</string>
     <string name="about_core_team_title">核心成员 （以第一次提交代码排序）</string>
@@ -1052,4 +1052,7 @@
     <string name="activity_type_cricket">板球</string>
     <string name="activity_type_rowing_machine">划船机</string>
     <string name="activity_type_soccer">足球</string>
+    <string name="activity_filter_to_placeholder">今天</string>
+    <string name="activity_filter_from_placeholder">遥远的过去</string>
+    <string name="about_links">连接</string>
 </resources>
