@@ -834,7 +834,7 @@
     <string name="error_background_service">Не удалось запустить фоновую службу</string>
     <string name="error_version_check_extreme_caution">ВНИМАНИЕ: Ошибка при проверке информации о версии! Не продолжайте! Обнаруженное имя версии \"%s\"</string>
     <string name="permission_granting_mandatory">Все эти разрешения необходимы, и если они не будут выданы, приложение может работать нестабильно</string>
-    <string name="about_additional_contributions">Большое спасибо всем участникам, не включенным в список, за предоставленный код, поддержку, идеи, мотивацию, сообщения об ошибках, деньги... ✊</string>
+    <string name="about_additional_contributions">Большое спасибо всем участникам, не внесённым в список, за предоставленный код, переводы, поддержку, идеи, мотивацию, отчеты об ошибках, деньги… ✊</string>
     <string name="about_additional_device_support">Дополнительная поддержка устройств</string>
     <string name="about_contributors">Соавторы</string>
     <string name="about_core_team_title">Основная команда (в порядке поступления первого кода)</string>
@@ -1050,4 +1050,7 @@
     <string name="activity_type_cricket">Крикет</string>
     <string name="activity_type_rowing_machine">Гребной тренажер</string>
     <string name="activity_type_soccer">Футбол</string>
+    <string name="activity_filter_from_placeholder">далёкое прошлое</string>
+    <string name="activity_filter_to_placeholder">сегодня</string>
+    <string name="about_links">Ссылки</string>
 </resources>
