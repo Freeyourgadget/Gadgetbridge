@@ -1060,4 +1060,6 @@
     <string name="activity_type_cricket">Kricket</string>
     <string name="activity_type_rowing_machine">Rudergerät</string>
     <string name="activity_type_soccer">Fußball</string>
+    <string name="activity_filter_to_placeholder">Heute</string>
+    <string name="activity_filter_from_placeholder">Vergangenheit</string>
 </resources>
