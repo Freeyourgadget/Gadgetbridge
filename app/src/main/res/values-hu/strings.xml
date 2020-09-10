@@ -38,12 +38,12 @@
     <string name="app_configure">Beállítás</string>
     <string name="app_move_to_top">A tetejére mozgatás</string>
     <!--Strings related to AppBlacklist-->
-    <string name="title_activity_appblacklist">Értesítés tiltólista</string>
+    <string name="title_activity_appblacklist">Értesítések tiltólistája</string>
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">FW/Alkalmazás telepítő</string>
     <string name="fw_upgrade_notice">A %s firmware-változatot tervezed telepíteni.</string>
     <string name="fw_multi_upgrade_notice">A(z) %1$s és %2$s firmware-változatokat tervezed telepíteni a Mi Band-edre a mostani helyett.</string>
-    <string name="miband_firmware_known">Ez a firmware tesztelt és ismerten kompatibilis a Gadgetbridge-dzsel.</string>
+    <string name="miband_firmware_known">Ez a firmware tesztelt és kompatibilis a Gadgetbridge-el.</string>
     <string name="miband_firmware_unknown_warning">Ez a firmware nincs tesztelve, lehetséges, hogy nem kompatibilis a Gadgetbridge alkalmazással.
 \n
 \nNEM javasoljuk, ezen firmware telepítését!</string>
@@ -225,7 +225,7 @@
     <string name="control_center_find_lost_device">Elveszett eszköz keresése</string>
     <string name="control_center_cancel_to_stop_vibration">A vibrálás leállításához: Mégse.</string>
     <string name="title_activity_charts">Aktivitásod</string>
-    <string name="title_activity_set_alarm">Ébresztések beállítása</string>
+    <string name="title_activity_set_alarm">Ébresztők beállítása</string>
     <string name="controlcenter_start_configure_alarms">Ébresztők beállítása</string>
     <string name="title_activity_alarm_details">Ébresztés részletek</string>
     <string name="alarm_sun_short">Vas</string>
@@ -326,8 +326,8 @@
     <string name="activity_prefs_gender">Nem</string>
     <string name="activity_prefs_height_cm">Magasság cm-ben</string>
     <string name="activity_prefs_weight_kg">Testsúly kg-ban</string>
-    <string name="authenticating">hitelesítés</string>
-    <string name="authentication_required">hitelesítés szükséges</string>
+    <string name="authenticating">Hitelesítés</string>
+    <string name="authentication_required">Hitelesítés szükséges</string>
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Widget hozzáadása</string>
     <string name="activity_prefs_sleep_duration">Preferált alvási idő órában</string>
@@ -398,10 +398,10 @@
     <string name="discovery_pair_question">Válaszd ki a Párosítást az eszköz párosításához. Ha ez nem sikerül, próbáld meg újra párosítás nélkül.</string>
     <string name="discovery_yes_pair">Párosítás</string>
     <string name="discovery_dont_pair">Nem párosított</string>
-    <string name="action_donate">Támogatás</string>
+    <string name="action_donate">Adományozás</string>
     <string name="controlcenter_connect">Csatlakoztatás…</string>
     <string name="pref_title_weather">Időjárás</string>
-    <string name="pref_auto_fetch">Aktivitás adatok automata letöltése</string>
+    <string name="pref_auto_fetch">Aktivitás adatainak automatikus letöltése</string>
     <string name="horizontal">Vízszintes</string>
     <string name="vertical">Függőleges</string>
     <string name="controlcenter_change_led_color">LED szín változtatása</string>
@@ -451,4 +451,48 @@
     <string name="notif_battery_low_extended">%1$ akkumulátora merül: %2$s</string>
     <string name="debugactivity_really_factoryreset">A gyári beállítások visszaállítása minden adatot töröl a kapcsolódott eszközről (ha támogatott). A Xiaomi/Huami eszközökön emellett megváltozik a Bluetooth MAC cím is, így új eszközként jelennek meg a Gadgetbridge számára.</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="prefs_title_heartrate_measurement_interval">Egész napos szívritmus mérés</string>
+    <string name="prefs_screen_orientation">Képernyő iránya</string>
+    <string name="pref_summary_sync_calendar">Naptár értesítések bekapcsolása mikor nincs kapcsolat a telefonnal</string>
+    <string name="fw_upgrade_notice_amazfitcor">Ön a %s firmware-t telepíti az Amazfit Cor-ra.
+\n
+\nGyőződjön meg, hogy a .fw, és végül a .res fájl is telepítésre kerül! Az óra a .fw file telepítése után újraindul.
+\n
+\nMegjegyzés: Nem feltétlenül kell telepíteni a .res fájlt, ha pontosan azonos verziót már korábban telepített belőlük.
+\n
+\nCSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="interval_forty_five_minutes">45 percenként</string>
+    <string name="interval_fifteen_minutes">15 percenként</string>
+    <string name="find_my_phone_notification">Találd meg a telefonom</string>
+    <string name="prefs_hr_alarm_high">Felső határ</string>
+    <string name="prefs_hr_alarm_low">Alsó határ</string>
+    <string name="zetime_signaling_beep_twice">Kétszer csipog</string>
+    <string name="zetime_signaling_beep_once">Egyszer csipog</string>
+    <string name="zetime_signaling_vibrate_twice">Kétszer rezeg</string>
+    <string name="zetime_signaling_vibrate_once">Egyszer rezeg</string>
+    <string name="zetime_date_format_3">HH/NN/ÉÉ</string>
+    <string name="zetime_date_format_2">NN/HH/ÉÉ</string>
+    <string name="zetime_date_format_1">ÉÉ/HH/NN</string>
+    <string name="zetime_calories_type_all">Aktívan és inaktív elégetett kalóriák</string>
+    <string name="zetime_calories_type_active">Csak aktívan elégetett kalóriák</string>
+    <string name="zetime_calories_type">Kalória típusa</string>
+    <string name="zetime_handmove_display">Kéz mozgás</string>
+    <string name="power_mode_watch">Csak óra</string>
+    <string name="power_mode_saving">Energia takarékos</string>
+    <string name="power_mode_normal">Általános</string>
+    <string name="pref_header_notifications_and_calls">Értesítések és Hívások</string>
+    <string name="pref_display_add_device_fab_off">Csak akkor látható ha nincs hozzáadott eszköz</string>
+    <string name="pref_display_add_device_fab_on">Mindig látható</string>
+    <string name="pref_display_add_device_fab">Új eszköz kapcsolódás gomb</string>
+    <string name="pref_title_vibration_strength">Rezgés ereje</string>
+    <string name="pref_title_sync_caldendar">Naptár események szinkronizálása</string>
+    <string name="pref_summary_allow_high_mtu">Növeli az adatátvitel sebességét, de egyes Android készülékeken nem támogatott.</string>
+    <string name="pref_title_allow_high_mtu">Magas MTU engedélyezése</string>
+    <string name="pref_title_use_custom_font">Egyéni betűtípus használata</string>
+    <string name="pref_summary_expose_hr">Engedélyezi, hogy más alkalmazások valós időben hozzáférjenek a HR adatokhoz amíg a Gadgetbridge kapcsolódva van</string>
+    <string name="pref_title_pebble_gatt_clientonly">Csak GATT kliens</string>
+    <string name="pref_title_custom_deviceicon">Eszköz specifikus értesítés ikon megjelenítése</string>
+    <string name="pref_title_notifications_timeout">Értesítések közötti legrövidebb idő</string>
+    <string name="pref_theme_system">Rendszer</string>
+    <string name="title_activity_calblacklist">Feketelistás Naptárak</string>
 </resources>
