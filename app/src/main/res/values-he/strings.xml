@@ -912,7 +912,7 @@
 \n 
 \nהמשך התהליך הוא על אחריותך!</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
-    <string name="about_additional_contributions">תודתנו נתונה לכל התורמים שתרמו קוד, תמיכה, רעיונות, מוטיבציה, דיווחי תקלות, כסף… ✊</string>
+    <string name="about_additional_contributions">תודתנו נתונה לכל התורמים שתרמו קוד, תרגומים, תמיכה, רעיונות, מוטיבציה, דיווחי תקלות, כסף… ✊</string>
     <string name="about_additional_device_support">תמיכה במכשירים נוספים</string>
     <string name="about_contributors">תורמים</string>
     <string name="about_core_team_title">צוות הליבה (מסודרים לפי מועד תרומת הקוד הראשונה)</string>
@@ -1054,4 +1054,7 @@
     <string name="activity_type_cricket">קריקט</string>
     <string name="activity_type_rowing_machine">מכונת חתירה</string>
     <string name="activity_type_soccer">כדורגל</string>
+    <string name="activity_filter_to_placeholder">היום</string>
+    <string name="activity_filter_from_placeholder">מרחק שעבר</string>
+    <string name="about_links">קישורים</string>
 </resources>
