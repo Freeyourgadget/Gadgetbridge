@@ -916,7 +916,7 @@
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
-    <string name="about_additional_contributions">Wir danken allen nicht gelisteten Mitwirkenden dafür uns zu unterstützen mit Code, Unterstützung, Ideen, Motivation, Fehlermeldungen, Geld… ✊</string>
+    <string name="about_additional_contributions">Wir danken allen nicht gelisteten Mitwirkenden dafür uns zu unterstützen mit Code, Übersetzung, Unterstützung, Ideen, Motivation, Fehlermeldungen, Geld… ✊</string>
     <string name="about_additional_device_support">Unterstützung zusätzlicher Geräte</string>
     <string name="about_contributors">Beitragende</string>
     <string name="about_core_team_title">Kernteam (Reihenfolge der ersten Mitwirkung am Code)</string>
@@ -1053,4 +1053,11 @@
     <string name="no">Nein</string>
     <string name="yes">Ja</string>
     <string name="averageSpeed">Durchschnittliche Geschwindigkeit</string>
+    <string name="about_links">Links</string>
+    <string name="activity_type_badminton">Badminton</string>
+    <string name="activity_type_pingpong">Tischtennis</string>
+    <string name="activity_type_basketball">Basketball</string>
+    <string name="activity_type_cricket">Kricket</string>
+    <string name="activity_type_rowing_machine">Rudergerät</string>
+    <string name="activity_type_soccer">Fußball</string>
 </resources>
