@@ -1,5 +1,14 @@
 ### Changelog
 
+#### 0.47.1 (WIP)
+* Huami: Add new activity types found in recent Bip S firmware
+* Huami: Many improvements to the activity summary view, including a global view for all devices, filtering per activity type and much more
+* Huami: Prevent generating broken elevation data when they are not sent by the device.
+* Amazfit Bip S: Allow flashing more font files and GPS almanac (only cep worked before)
+* Pinetime-JF: Recognize device if it annouces itself as InfiniTime
+* ZeTime: Fix weather forecast icons on older firmwares, try to send weather even if no firmware version was detected
+* Fix warnings and colors for AboutScreen
+
 #### 0.47.0
 * Initial experimental support for Pinetime-JF (not yet usable)
 * HPlus: Recognize Lemfo SG2
