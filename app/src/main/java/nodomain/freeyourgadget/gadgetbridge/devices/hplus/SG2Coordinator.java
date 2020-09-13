@@ -17,11 +17,13 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.hplus;
 
 /*
-* @author Frederic LESUR contact@memiks.fr;
-*/
+ * @author Frederic LESUR contact@memiks.fr;
+ */
 
 
 import androidx.annotation.NonNull;
+
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
@@ -34,7 +36,10 @@ public class SG2Coordinator extends HPlusCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
-        if(name != null && name.startsWith("SG2")){
+        if (name != null && name.startsWith("SG2")) {
+            HPlusCoordinator.setNotificationLinesNumber(candidate.getDevice().getAddress(), 9);
+            HPlusCoordinator.setUnicodeSupport(candidate.getDevice().getAddress(), true);
+            HPlusCoordinator.setDisplayIncomingMessageIcon(candidate.getDevice().getAddress(), false);
             return DeviceType.SG2;
         }
 
@@ -54,5 +59,15 @@ public class SG2Coordinator extends HPlusCoordinator {
     @Override
     public boolean supportsWeather() {
         return true;
+    }
+
+    @Override
+    public boolean supportsSmartWakeup(GBDevice device) {
+        return true;
+    }
+
+    @Override
+    public int getBondingStyle() {
+        return BONDING_STYLE_ASK;
     }
 }

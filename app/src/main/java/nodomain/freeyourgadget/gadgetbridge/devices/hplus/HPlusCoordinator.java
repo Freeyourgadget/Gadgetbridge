@@ -18,8 +18,8 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.hplus;
 
 /*
-* @author João Paulo Barraca &lt;jpbarraca@gmail.com&gt;
-*/
+ * @author João Paulo Barraca &lt;jpbarraca@gmail.com&gt;
+ */
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -38,6 +38,7 @@ import java.util.Collections;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
@@ -62,7 +63,7 @@ import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getContext;
 
 public class HPlusCoordinator extends AbstractDeviceCoordinator {
     protected static final Logger LOG = LoggerFactory.getLogger(HPlusCoordinator.class);
-    protected static Prefs prefs  = GBApplication.getPrefs();
+    protected static Prefs prefs = GBApplication.getPrefs();
 
     @NonNull
     @Override
@@ -85,7 +86,7 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public int getBondingStyle(){
+    public int getBondingStyle() {
         return BONDING_STYLE_NONE;
     }
 
@@ -191,9 +192,9 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
             locale = new Locale(language);
         }
 
-        if (locale.getLanguage().equals(new Locale("cn").getLanguage())){
+        if (locale.getLanguage().equals(new Locale("cn").getLanguage())) {
             return HPlusConstants.ARG_LANGUAGE_CN;
-        }else{
+        } else {
             return HPlusConstants.ARG_LANGUAGE_EN;
         }
     }
@@ -205,7 +206,7 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
 
         if ("24h".equals(tmode)) {
             return HPlusConstants.ARG_TIMEMODE_24H;
-        }else{
+        } else {
             return HPlusConstants.ARG_TIMEMODE_12H;
         }
     }
@@ -213,9 +214,9 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     public static byte getUnit(String address) {
         String units = prefs.getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, getContext().getString(R.string.p_unit_metric));
 
-        if(units.equals(getContext().getString(R.string.p_unit_metric))){
+        if (units.equals(getContext().getString(R.string.p_unit_metric))) {
             return HPlusConstants.ARG_UNIT_METRIC;
-        }else{
+        } else {
             return HPlusConstants.ARG_UNIT_IMPERIAL;
         }
     }
@@ -260,9 +261,9 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     public static byte getAllDayHR(String address) {
         boolean value = (prefs.getBoolean(HPlusConstants.PREF_HPLUS_ALLDAYHR, true));
 
-        if(value){
+        if (value) {
             return HPlusConstants.ARG_HEARTRATE_ALLDAY_ON;
-        }else{
+        } else {
             return HPlusConstants.ARG_HEARTRATE_ALLDAY_OFF;
         }
     }
@@ -293,14 +294,34 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         return prefs.getInt(HPlusConstants.PREF_HPLUS_SIT_END_TIME, 0);
     }
 
-    public static void setUnicodeSupport(String address, boolean state){
+    public static void setDisplayIncomingMessageIcon(String address, boolean state) {
+        SharedPreferences.Editor editor = prefs.getPreferences().edit();
+        editor.putBoolean(HPlusConstants.PREF_HPLUS_DISPLAY_NOTIFICATION_ICON + "_" + address, state);
+        editor.apply();
+    }
+
+    public static boolean getDisplayIncomingMessageIcon(String address) {
+        return (prefs.getBoolean(HPlusConstants.PREF_HPLUS_DISPLAY_NOTIFICATION_ICON + "_" + address, false));
+    }
+
+    public static void setUnicodeSupport(String address, boolean state) {
         SharedPreferences.Editor editor = prefs.getPreferences().edit();
         editor.putBoolean(HPlusConstants.PREF_HPLUS_UNICODE + "_" + address, state);
         editor.apply();
     }
 
-    public static boolean getUnicodeSupport(String address){
+    public static boolean getUnicodeSupport(String address) {
         return (prefs.getBoolean(HPlusConstants.PREF_HPLUS_UNICODE + "_" + address, false));
+    }
+
+    public static void setNotificationLinesNumber(String address, int lineNumber) {
+        SharedPreferences.Editor editor = prefs.getPreferences().edit();
+        editor.putInt(HPlusConstants.PREF_HPLUS_NOTIFICATION_LINES + "_" + address, lineNumber);
+        editor.apply();
+    }
+
+    public static int getNotificationLinesNumber(String address) {
+        return (prefs.getInt(HPlusConstants.PREF_HPLUS_NOTIFICATION_LINES + "_" + address, 5));
     }
 
     @Override
@@ -312,3 +333,4 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
 }
+    
