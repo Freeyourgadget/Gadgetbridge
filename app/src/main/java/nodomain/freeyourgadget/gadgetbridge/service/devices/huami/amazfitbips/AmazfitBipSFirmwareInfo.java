@@ -38,14 +38,17 @@ public class AmazfitBipSFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(4638, "2.1.1.16");
         crcToVersion.put(63673, "2.1.1.26");
         crcToVersion.put(22035, "2.1.1.36");
+        crcToVersion.put(21575, "2.1.1.46");
 
         // resources
         crcToVersion.put(61617, "2.1.1.08");
         crcToVersion.put(5887, "2.1.1.16");
         crcToVersion.put(15177, "2.1.1.26-36");
+        crcToVersion.put(18775, "2.1.1.46");
 
         // font
-        crcToVersion.put(62927, "3");
+        crcToVersion.put(62927, "3 (KO/JP)");
+        crcToVersion.put(30818, "3");
 
         // gps
         crcToVersion.put(62532, "18344,eb2f43f,126");
