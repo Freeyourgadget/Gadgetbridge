@@ -46,13 +46,12 @@ public class DailyTotals {
         long all_steps = 0;
         long all_sleep = 0;
 
-
         if (context instanceof GBApplication) {
             GBApplication gbApp = (GBApplication) context;
             List<? extends GBDevice> devices = gbApp.getDeviceManager().getDevices();
             for (GBDevice device : devices) {
                 DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
-                if (!coordinator.supportsActivityDataFetching()) {
+                if (!coordinator.supportsActivityDataFetching() && !coordinator.supportsActivityTracking()) {
                     continue;
                 }
                 long[] all_daily = getDailyTotalsForDevice(device, day);
@@ -60,8 +59,8 @@ public class DailyTotals {
                 all_sleep += all_daily[1] + all_daily[2];
             }
         }
-        LOG.debug("gbwidget daily totals, all steps:" + all_steps);
-        LOG.debug("gbwidget  daily totals, all sleep:" + all_sleep);
+        //LOG.debug("gbwidget daily totals, all steps:" + all_steps);
+        //LOG.debug("gbwidget  daily totals, all sleep:" + all_sleep);
         return new long[]{all_steps, all_sleep};
     }
 

@@ -190,13 +190,18 @@ public class ActivityKind {
             case TYPE_YOGA:
                 return R.drawable.ic_activity_yoga;
 
-            // TODO: find icons
             case TYPE_SOCCER:
+                return R.drawable.ic_activity_soccer;
             case TYPE_ROWING_MACHINE:
+                return R.drawable.ic_activity_rowing;
             case TYPE_CRICKET:
+                return R.drawable.ic_activity_cricket;
             case TYPE_BASKETBALL:
+                return R.drawable.ic_activity_basketball;
             case TYPE_PINGPONG:
+                return R.drawable.ic_activity_pingpong;
             case TYPE_BADMINTON:
+                return R.drawable.ic_activity_badmington;
 
             case TYPE_NOT_WORN: // fall through
             case TYPE_ACTIVITY: // fall through
