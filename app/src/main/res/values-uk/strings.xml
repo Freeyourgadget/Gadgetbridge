@@ -37,8 +37,8 @@
 \nНе рекомендується встановлювати її!</string>
     <string name="miband_firmware_suggest_whitelist">Якщо ж Ви вирішили продовжити та все працює, будь ласка, повідомте про це розробникам, аби відмітити версію %s мікропрограми сумісною з вашим пристроєм.</string>
     <!--Strings related to Settings-->
-    <string name="title_activity_settings">Параметри</string>
-    <string name="pref_header_general">Загальні параметри</string>
+    <string name="title_activity_settings">Налаштування</string>
+    <string name="pref_header_general">Загальні налаштування</string>
     <string name="pref_title_general_autoconnectonbluetooth">З\'єднуватися з Gadgetbridge при увімкненні Bluetooth</string>
     <string name="pref_title_general_autostartonboot">Запускатися автоматично</string>
     <string name="pref_title_general_autoreconnect">Автоматичне перез\'єднання</string>
@@ -68,7 +68,7 @@
     <string name="pref_title_canned_reply_suffix">Загальний суфікс</string>
     <string name="pref_header_development">Параметри для розробників</string>
     <string name="pref_title_development_miaddr">Адреса Mi-Band</string>
-    <string name="pref_title_pebble_settings">Параметри Pebble</string>
+    <string name="pref_title_pebble_settings">Налаштування Pebble</string>
     <string name="pref_header_activitytrackers">Трекер активності</string>
     <string name="pref_title_pebble_activitytracker">Бажаний трекер активності</string>
     <string name="pref_title_pebble_sync_health">Синхронізувати Pebble Health</string>
@@ -119,8 +119,8 @@
     <string name="android_pairing_hint">Використовуйте меню Bluetooth для створення пари з пристроєм.</string>
     <string name="title_activity_mi_band_pairing">Створення пари з Вашим Mi Band</string>
     <string name="message_cannot_pair_no_mac">Немає MAC-адресу, не вдалося створити пару.</string>
-    <string name="preferences_category_device_specific_settings">Параметри специфічні для пристрою</string>
-    <string name="preferences_miband_settings">Параметри Mi-Band / Amazfit</string>
+    <string name="preferences_category_device_specific_settings">Специфічні налаштування пристрою</string>
+    <string name="preferences_miband_settings">Налаштування Mi-Band / Amazfit</string>
     <string name="male">Чоловіча</string>
     <string name="female">Жіноча</string>
     <string name="other">Інше</string>
@@ -148,7 +148,7 @@
     <string name="vibration_profile_alarm_clock">Будильник</string>
     <string name="miband_prefs_vibration">Вібрація</string>
     <string name="pref_screen_notification_profile_sms">SMS-сповіщення</string>
-    <string name="pref_header_vibration_settings">Параметри вібрації</string>
+    <string name="pref_header_vibration_settings">Налаштування вібрації</string>
     <string name="pref_screen_notification_profile_generic">Загальні сповіщення</string>
     <string name="pref_screen_notification_profile_incoming_call">Сповіщення вхідного дзвінка</string>
     <string name="pref_screen_notification_profile_generic_chat">Чат</string>
@@ -157,7 +157,7 @@
     <string name="control_center_find_lost_device">Знайти загублений пристрій</string>
     <string name="control_center_cancel_to_stop_vibration">Скасуйте, аби зупинити вібрацію.</string>
     <string name="title_activity_charts">Активність і сон</string>
-    <string name="title_activity_set_alarm">Завести Будильник</string>
+    <string name="title_activity_set_alarm">Налаштувати будильник</string>
     <string name="controlcenter_start_configure_alarms">Завести будильник</string>
     <string name="title_activity_alarm_details">Деталі будильнику</string>
     <string name="alarm_sun_short">Нд</string>
@@ -168,7 +168,7 @@
     <string name="alarm_fri_short">Пт</string>
     <string name="alarm_sat_short">Сб</string>
     <string name="alarm_smart_wakeup">Розумне пробудження</string>
-    <string name="user_feedback_miband_set_alarms_failed">Виникла помилка під час налаштування будильнику, спробуйте ще раз.</string>
+    <string name="user_feedback_miband_set_alarms_failed">Виникла помилка під час налаштування будильника, спробуйте ще раз.</string>
     <string name="user_feedback_miband_set_alarms_ok">Будильник відправлено на пристрій.</string>
     <string name="chart_no_data_synchronize">Дані відсутні. Синхронізувати пристрій?</string>
     <string name="user_feedback_miband_activity_data_transfer">Буде передано %1$s даних, починаючи з %2$s</string>
@@ -291,18 +291,18 @@
     <string name="pref_call_privacy_mode_number">Приховати номер, але показати ім\'я</string>
     <string name="pref_call_privacy_mode_complete">Приховати ім\'я та номер</string>
     <string name="pref_title_weather">Погода</string>
-    <string name="pref_title_weather_location">Розташування погоди (CM / LOS)</string>
+    <string name="pref_title_weather_location">Розташування погоди (LineageOS)</string>
     <string name="pref_blacklist_calendars">Календарі чорного списку</string>
     <string name="pref_header_cannned_messages">Збережені повідомлення</string>
     <string name="pref_title_canned_messages_dismisscall">Пропущені виклики</string>
-    <string name="pref_title_canned_messages_set">Оновлення на Pebble</string>
+    <string name="pref_title_canned_messages_set">Оновлення для Pebble</string>
     <string name="pref_title_enable_outgoing_call">Підтримка вихідних дзвінків</string>
     <string name="pref_summary_enable_outgoing_call">"При вимкненні цого параметру  Pebble 2/LE не вібруватиме підчас вихідних дзвінків"</string>
     <string name="pref_header_pebble_timeline">Шкала часу Pebble</string>
     <string name="pref_title_enable_calendar_sync">Синхронізувати календар</string>
     <string name="pref_summary_enable_calendar_sync">Надіслати події календаря до часової шкали</string>
-    <string name="pref_auto_fetch_summary">Вибірка відбувається при розблокування екрану. Працює тільки якщо встановлений механізм блокування!</string>
-    <string name="notif_export_failed_title">Експорт бази даних не вдався! Будь ласка, перевірте ваші настройки.</string>
+    <string name="pref_auto_fetch_summary">Вибірка відбувається при розблокування екрану. Працює тільки якщо налаштоване блокування!</string>
+    <string name="notif_export_failed_title">Експорт бази даних не вдався! Будь ласка, перевірте налаштування.</string>
     <string name="miband2_prefs_dateformat">Формат дати</string>
     <string name="DEVINFO_HR_VER">"HR: "</string>
     <string name="menuitem_alipay">Alipay</string>
@@ -568,7 +568,7 @@
     <string name="zetime_prefs_inactivity_fr">П\'ятниця</string>
     <string name="zetime_prefs_inactivity_sa">Субота</string>
     <string name="zetime_prefs_inactivity_su">Неділя</string>
-    <string name="zetime_title_alarm_signaling">Вкажіть спосіб повідомлення про будильник</string>
+    <string name="zetime_title_alarm_signaling">Налаштуйте сигнал будильник</string>
     <string name="zetime_signaling_none">Тихо</string>
     <string name="zetime_signaling_vibrate">Постійна вібрація</string>
     <string name="zetime_signaling_beep">Постійний звук</string>
@@ -583,7 +583,7 @@
     <string name="interval_fifteen_minutes">кожні 15 хв</string>
     <string name="interval_forty_five_minutes">кожні 45 хв</string>
     <string name="pref_title_support_voip_calls">Увімкніть VoIP дзвінки</string>
-    <string name="title_activity_device_specific_settings">Налаштування конкретних пристроїв</string>
+    <string name="title_activity_device_specific_settings">Специфічні налаштування пристрою</string>
     <string name="pref_title_authkey">Ключ авторизації</string>
     <string name="dutch">Дацька</string>
     <string name="turkish">Турецька</string>
@@ -689,7 +689,7 @@
     <string name="reset_index">Скинути дату отримання</string>
     <string name="menuitem_shortcut_alipay">Alipay (Швидкий доступ)</string>
     <string name="menuitem_shortcut_weather">Погода (Швидкий доступ)</string>
-    <string name="watch9_calibration_hint">Встановити поточний час Вашого пристрою.</string>
+    <string name="watch9_calibration_hint">Налаштувати поточний час Вашого пристрою.</string>
     <string name="title_activity_watch9_pairing">Watch 9 створення з\'єднання</string>
     <string name="title_activity_watch9_calibration">Watch 9 калібрування</string>
     <string name="mi3_prefs_band_screen_unlock">Екран браслета розблокований</string>
@@ -700,7 +700,7 @@
     <string name="pref_summary_contextual_arabic">Включити підтримку контекстної арабської мови</string>
     <string name="preferences_rtl_settings">Підтримка справа наліво</string>
     <string name="overstep">Перебільшено: %1$d</string>
-    <string name="appwidget_setting_alarm">Встановити будильник на %1$02d:%2$02d</string>
+    <string name="appwidget_setting_alarm">Будильник налаштований на %1$02d:%2$02d</string>
     <string name="toast_app_must_not_be_blacklisted">Додаток не повинен бути в чорному списку, щоб змінити його налаштування</string>
     <string name="edittext_notification_filter_words_hint">Введіть необхідні слова, новий рядок для кожного слова</string>
     <string name="toast_notification_filter_saved_successfully">Фільтр сповіщень збережений</string>
@@ -710,7 +710,7 @@
     <string name="filter_submode_at_least_one">Принаймні одне зі слів</string>
     <string name="filter_submode_all">Усі слова</string>
     <string name="mode_configuration">Конфігурація режиму</string>
-    <string name="appwidget_not_connected">Від\'єднано, будильник не встановлено.</string>
+    <string name="appwidget_not_connected">Від\'єднано, будильник не налаштовано.</string>
     <string name="zetime_signaling_vibrate_once">Вібрування один раз</string>
     <string name="zetime_signaling_vibrate_twice">Вібрування двічі</string>
     <string name="zetime_signaling_vibrate_beep_once">Вібрування і звук один раз</string>
@@ -756,7 +756,7 @@
     <string name="widget_steps_label">Кроки: %1$02d</string>
     <string name="widget_sleep_label">Сон: %1$s</string>
     <string name="widget_listing_label">Статус і Будильники</string>
-    <string name="widget_set_alarm_after">Встановити будильник після:</string>
+    <string name="widget_set_alarm_after">Налаштувати будильник після:</string>
     <string name="widget_5_minutes">5 хвилин</string>
     <string name="widget_10_minutes">10 хвилин</string>
     <string name="widget_20_minutes">20 хвилин</string>
@@ -798,7 +798,7 @@
 \n 
 \nДІЄТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
-    <string name="preferences_qhybrid_settings">Q Hybrid налаштування</string>
+    <string name="preferences_qhybrid_settings">Налаштування Q Hybrid</string>
     <string name="watch_not_connected">Годинник від\'єднано</string>
     <string name="qhybrid_vibration_strength">сила вібрації:</string>
     <string name="qhybrid_goal_in_steps">Ціль в кроках</string>
@@ -896,4 +896,5 @@
     <string name="romanian">Румунська</string>
     <string name="bip_prefs_shortcuts">Швидкий доступ</string>
     <string name="pref_theme_system">Системна</string>
+    <string name="controlcenter_set_alias">Налаштувати псевдонім</string>
 </resources>
