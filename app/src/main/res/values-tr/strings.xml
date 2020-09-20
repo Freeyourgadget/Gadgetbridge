@@ -1052,4 +1052,27 @@ YÜKLEME RİSKİ RİZE AİTTİR!"</string>
     <string name="devicetype_sg2">Lemfo SG2</string>
     <string name="activity_summary_yesterday">Dün</string>
     <string name="activity_summary_today">Bugün</string>
+    <string name="activity_filter_to_placeholder">bugün</string>
+    <string name="activity_filter_from_placeholder">uzak geçmiş</string>
+    <string name="activity_summaries_all_devices">Tüm cihazlar</string>
+    <string name="sports_activity_quick_filter_select">Zaman dilimi</string>
+    <string name="sports_activity_quick_filter_30days">30 gün</string>
+    <string name="sports_activity_quick_filter_7days">7 gün</string>
+    <string name="sports_activity_quick_filter_last_month">Önceki ay</string>
+    <string name="sports_activity_quick_filter_this_month">Bu ay</string>
+    <string name="sports_activity_quick_filter_last_week">Önceki hafta</string>
+    <string name="sports_activity_quick_filter_this_week">Bu hafta</string>
+    <string name="no">Hayır</string>
+    <string name="yes">Evet</string>
+    <string name="activity_filter_individual_items">Tek tek seçilen ögeler</string>
+    <string name="addto_filter">Filtreye ekle</string>
+    <string name="averageSpeed">Ortalama Hız</string>
+    <string name="baseAltitude">Temel Yükseklik</string>
+    <string name="about_links">Bağlantılar</string>
+    <string name="activity_type_badminton">Badminton</string>
+    <string name="activity_type_pingpong">Masa Tenisi</string>
+    <string name="activity_type_basketball">Basketbol</string>
+    <string name="activity_type_cricket">Kriket</string>
+    <string name="activity_type_rowing_machine">Kürek Makinesi</string>
+    <string name="activity_type_soccer">Futbol</string>
 </resources>
