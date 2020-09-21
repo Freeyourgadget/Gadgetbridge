@@ -989,4 +989,21 @@
     <string name="devicetype_sg2">Lemfo SG2</string>
     <string name="activity_summary_yesterday">Wczoraj</string>
     <string name="activity_summary_today">Dzisiaj</string>
+    <string name="medley">Zmieszany</string>
+    <string name="activity_filter_to_placeholder">dzisiaj</string>
+    <string name="sports_activity_quick_filter_30days">30 dni</string>
+    <string name="sports_activity_quick_filter_7days">7 dni</string>
+    <string name="no">Nie</string>
+    <string name="yes">Tak</string>
+    <string name="activity_detail_start_label">Start</string>
+    <string name="seconds_m">sek/m</string>
+    <string name="seconds_km">sek/km</string>
+    <string name="seconds">sek</string>
+    <string name="averageSpeed">Średnia prędkość</string>
+    <string name="activeSeconds">Aktywny</string>
+    <string name="pref_check_permission_status">Sprawdzić pozwolenia</string>
+    <string name="device_is_currently_bonded">JUŻ POWIĄZANE</string>
+    <string name="activity_type_badminton">Badminton</string>
+    <string name="activity_type_basketball">Koszykówka</string>
+    <string name="activity_type_soccer">Piłka nożna</string>
 </resources>
