@@ -129,6 +129,11 @@ public class PineTimeJFCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsMusicInfo() {
+        return true;
+    }
+
+    @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) {
         // nothing to delete, yet
     }

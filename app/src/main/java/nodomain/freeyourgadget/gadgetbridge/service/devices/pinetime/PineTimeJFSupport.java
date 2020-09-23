@@ -28,7 +28,9 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -57,11 +59,19 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final DeviceInfoProfile<PineTimeJFSupport> deviceInfoProfile;
 
+    private static final UUID UUID_SERVICE_MUSICCONTROL = UUID.fromString("c7e50001-00fc-48fe-8e23-433b3a1942d0");
+    private static final UUID UUID_CHARACTERISTICS_MUSIC_EVENT = UUID.fromString("c7e50002-00fc-48fe-8e23-433b3a1942d0");
+    private static final UUID UUID_CHARACTERISTICS_MUSIC_STATUS = UUID.fromString("c7e50003-00fc-48fe-8e23-433b3a1942d0");
+    private static final UUID UUID_CHARACTERISTICS_MUSIC_TRACK = UUID.fromString("c7e50004-00fc-48fe-8e23-433b3a1942d0");
+    private static final UUID UUID_CHARACTERISTICS_MUSIC_ARTIST = UUID.fromString("c7e50005-00fc-48fe-8e23-433b3a1942d0");
+    private static final UUID UUID_CHARACTERISTICS_MUSIC_ALBUM = UUID.fromString("c7e50006-00fc-48fe-8e23-433b3a1942d0");
+
     public PineTimeJFSupport() {
         super(LOG);
         addSupportedService(GattService.UUID_SERVICE_ALERT_NOTIFICATION);
         addSupportedService(GattService.UUID_SERVICE_CURRENT_TIME);
         addSupportedService(GattService.UUID_SERVICE_DEVICE_INFORMATION);
+        addSupportedService(UUID_SERVICE_MUSICCONTROL);
         deviceInfoProfile = new DeviceInfoProfile<>(this);
         IntentListener mListener = new IntentListener() {
             @Override
@@ -84,6 +94,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
         requestDeviceInfo(builder);
         onSetTime();
+        builder.notify(getCharacteristic(UUID_CHARACTERISTICS_MUSIC_EVENT), true);
         setInitialized(builder);
         return builder;
     }
@@ -152,15 +163,6 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
 
     }
 
-    @Override
-    public void onSetMusicState(MusicStateSpec stateSpec) {
-
-    }
-
-    @Override
-    public void onSetMusicInfo(MusicSpec musicSpec) {
-
-    }
 
     @Override
     public void onEnableRealtimeSteps(boolean enable) {
@@ -251,6 +253,44 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
 
     }
 
+    @Override
+    public void onSetMusicInfo(MusicSpec musicSpec) {
+        try {
+            TransactionBuilder builder = performInitialized("send playback info");
+
+            if (musicSpec.album != null) {
+                builder.write(getCharacteristic(UUID_CHARACTERISTICS_MUSIC_TRACK), musicSpec.track.getBytes());
+            }
+            if (musicSpec.artist != null) {
+                builder.write(getCharacteristic(UUID_CHARACTERISTICS_MUSIC_ARTIST), musicSpec.artist.getBytes());
+            }
+            if (musicSpec.album != null) {
+                builder.write(getCharacteristic(UUID_CHARACTERISTICS_MUSIC_ALBUM), musicSpec.album.getBytes());
+            }
+
+            builder.queue(getQueue());
+        } catch (Exception e) {
+            LOG.error("error sending music info", e);
+        }
+    }
+
+    @Override
+    public void onSetMusicState(MusicStateSpec stateSpec) {
+        try {
+            TransactionBuilder builder = performInitialized("send playback state");
+
+            byte[] state = new byte[]{0};
+            if (stateSpec.state == MusicStateSpec.STATE_PLAYING) {
+                state[0] = 1;
+            }
+            builder.write(getCharacteristic(UUID_CHARACTERISTICS_MUSIC_STATUS), state);
+            builder.queue(getQueue());
+
+        } catch (Exception e) {
+            LOG.error("error sending music state", e);
+        }
+
+    }
 
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt,
@@ -260,6 +300,35 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
         }
 
         UUID characteristicUUID = characteristic.getUuid();
+        if (characteristicUUID.equals(UUID_CHARACTERISTICS_MUSIC_EVENT)) {
+            byte[] value = characteristic.getValue();
+            GBDeviceEventMusicControl deviceEventMusicControl = new GBDeviceEventMusicControl();
+
+            switch (value[0]) {
+                case 0:
+                    deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.PLAY;
+                    break;
+                case 1:
+                    deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.PAUSE;
+                    break;
+                case 3:
+                    deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.NEXT;
+                    break;
+                case 4:
+                    deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.PREVIOUS;
+                    break;
+                case 5:
+                    deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.VOLUMEUP;
+                    break;
+                case 6:
+                    deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.VOLUMEDOWN;
+                    break;
+                default:
+                    return false;
+            }
+            evaluateGBDeviceEvent(deviceEventMusicControl);
+            return true;
+        }
         LOG.info("Unhandled characteristic changed: " + characteristicUUID);
         return false;
     }
