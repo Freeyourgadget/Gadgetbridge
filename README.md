@@ -57,6 +57,7 @@ vendor's servers.
 * NO.1 F1
 * Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
 * Pebble 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
+* PimeTime (InfiniTime Firmware)
 * Teclast H10, H30
 * TLW64
 * XWatch (Affordable Chinese Casio-like smartwatches)
