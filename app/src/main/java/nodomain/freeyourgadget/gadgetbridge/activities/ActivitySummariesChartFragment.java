@@ -59,22 +59,39 @@ public class ActivitySummariesChartFragment extends AbstractChartFragment {
         this.startTime = (int) startTime;
         this.endTime = (int) endTime;
         this.gbDevice = gbDevice;
-        populate_charts_data();
+        try {
+            populate_charts_data();
+        } catch (Exception e) {
+            LOG.debug("Unable to fill charts data right now:", e);
+        }
     }
 
     private void populate_charts_data() {
-        try (DBHandler handler = GBApplication.acquireDB()) {
-            int LEGEND_TEXT_COLOR = GBApplication.getTextColor(getContext());
-            List<? extends ActivitySample> samples = getSamples(handler, gbDevice, this.startTime, this.endTime);
-            DefaultChartsData dcd = refresh(this.gbDevice, samples);
+        int LEGEND_TEXT_COLOR = 0;
 
-            mChart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
-            mChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
-            mChart.getXAxis().setValueFormatter(dcd.getXValueFormatter());
-            mChart.setData((LineData) dcd.getData());
-            mChart.invalidate();
+        try (DBHandler handler = GBApplication.acquireDB()) {
+            try {
+                LEGEND_TEXT_COLOR = GBApplication.getTextColor(getContext());
+            } catch (Exception e) {
+                LOG.debug("Unable to get color right now:", e);
+            }
+
+            List<? extends ActivitySample> samples = getSamples(handler, gbDevice, startTime, endTime);
+            DefaultChartsData dcd=null;
+            try {
+                dcd = refresh(gbDevice, samples);
+            }catch(Exception e){
+                LOG.debug("Unable to get charts data right now:", e);
+            }
+            if (dcd != null) {
+                mChart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
+                mChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
+                mChart.getXAxis().setValueFormatter(dcd.getXValueFormatter());
+                mChart.setData((LineData) dcd.getData());
+                mChart.invalidate();
+            }
         } catch (Exception e) {
-            LOG.error("unable to get charts data", e);
+            LOG.error("Unable to get charts data:", e);
         }
 
     }
@@ -85,14 +102,16 @@ public class ActivitySummariesChartFragment extends AbstractChartFragment {
         init();
         View rootView = inflater.inflate(R.layout.fragment_charts, container, false);
         mChart = rootView.findViewById(R.id.activitysleepchart);
-        setupChart();
-        populate_charts_data();
+        if (this.gbDevice != null) {
+            setupChart();
+            populate_charts_data();
+        }
         return rootView;
     }
 
     @Override
     public String getTitle() {
-        return getString(R.string.activity_sleepchart_activity_and_sleep);
+        return "";
     }
 
     private void setupChart() {
