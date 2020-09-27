@@ -53,6 +53,7 @@ public class AmazfitBipSFirmwareInfo extends HuamiFirmwareInfo {
         // gps
         crcToVersion.put(62532, "18344,eb2f43f,126");
         crcToVersion.put(31510, "19226,f3a8ad3,135");
+        crcToVersion.put(41742, "19439,3aa3392,135");
     }
 
     public AmazfitBipSFirmwareInfo(byte[] bytes) {
