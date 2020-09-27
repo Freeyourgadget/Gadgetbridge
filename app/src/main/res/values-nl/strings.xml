@@ -949,4 +949,16 @@
     <string name="companiondevice_pairing_details">Schakelt de nieuwe CompanionDevice API-ondersteuning in (heeft alleen een effect op Android 8 of hoger), wat de betrouwbaarheid verhoogt als de service op de achtergrond opnieuw moet worden opgestart, vereist opnieuw koppelen met Gadgetbridge om effect te hebben</string>
     <string name="companiondevice_pairing">CompanionApparaat koppelen</string>
     <string name="require_location_provider">Locatie moet ingeschakeld zijn</string>
+    <string name="minAltitude">Minimaal</string>
+    <string name="maxAltitude">Maximaal</string>
+    <string name="activity_summary_yesterday">Gisteren</string>
+    <string name="activity_summary_today">Vandaag</string>
+    <string name="activity_summary_edit_name_title">Label bewerken</string>
+    <string name="activity_type_pingpong">Vingerpong</string>
+    <string name="activity_type_basketball">Basketbal</string>
+    <string name="activity_type_soccer">Voetbal</string>
+    <string name="activity_type_yoga"></string>
+    <string name="activity_type_elliptical_trainer">Elliptische Trainer</string>
+    <string name="activity_type_indoor_cycling">Binnenshuis fietsen</string>
+    <string name="activity_type_swimming_openwater">Zwemmen (Open water)</string>
 </resources>
