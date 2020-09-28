@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
+import java.lang.reflect.Field;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -325,8 +326,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         try {
             JSONObject o = new JSONObject();
             o.put("t", "call");
-            String[] cmdString = {"", "undefined", "accept", "incoming", "outgoing", "reject", "start", "end"};
-            o.put("cmd", cmdString[callSpec.command]);
+            String cmdName = "";
+            try {
+                Field fields[] = callSpec.getClass().getDeclaredFields();
+                for (Field field : fields)
+                    if (field.getName().startsWith("CALL_") && field.getInt(callSpec) == callSpec.command)
+                        cmdName = field.getName().substring(5).toLowerCase();
+            } catch (IllegalAccessException e) {}
+            o.put("cmd", cmdName);
             o.put("name", callSpec.name);
             o.put("number", callSpec.number);
             uartTxJSON("onSetCallState", o);
