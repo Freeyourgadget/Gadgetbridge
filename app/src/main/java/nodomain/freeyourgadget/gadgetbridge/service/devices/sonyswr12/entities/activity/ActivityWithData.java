@@ -1,7 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.sonyswr12.entities.activity;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.sonyswr12.util.UIntBitWriter;
-
 public class ActivityWithData extends ActivityBase {
     public final int data;
 
@@ -11,12 +9,5 @@ public class ActivityWithData extends ActivityBase {
             throw new IllegalArgumentException("data out of range: " + data);
         }
         this.data = data;
-    }
-
-    @Override
-    public long toLong() {
-        UIntBitWriter writerWithTypeAndOffset = this.getWriterWithTypeAndOffset();
-        writerWithTypeAndOffset.append(16, this.data);
-        return writerWithTypeAndOffset.getValue();
     }
 }

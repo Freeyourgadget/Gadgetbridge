@@ -7,7 +7,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.sonyswr12.SonySWR12U
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sonyswr12.util.IntFormat;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sonyswr12.util.UIntBitReader;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sonyswr12.util.ByteArrayReader;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.sonyswr12.util.ByteArrayWriter;
 
 public class EventWithActivity extends EventBase {
     public final long timeStampSec;
@@ -30,8 +29,8 @@ public class EventWithActivity extends EventBase {
             ActivityBase activityPayload;
             switch (activityType) {
                 case SLEEP: {
-                    SleepLevel sleepLevel = SleepLevel.fromInt(uIntBitReader.read(2));
                     int duration = uIntBitReader.read(14);
+                    SleepLevel sleepLevel = SleepLevel.fromInt(uIntBitReader.read(2));
                     activityPayload = new ActivitySleep(offsetMin, duration, sleepLevel, timeStampSec);
                     break;
                 }
@@ -49,14 +48,5 @@ public class EventWithActivity extends EventBase {
             activities.add(activityPayload);
         }
         return new EventWithActivity(timeStampSec, activities);
-    }
-
-    public byte[] toByteArray() {
-        ByteArrayWriter byteArrayWriter = this.getValueWriter();
-        byteArrayWriter.appendUint32(this.timeStampSec);
-        for (ActivityBase activity : activityList){
-            byteArrayWriter.appendUint32(activity.toLong());
-        }
-        return byteArrayWriter.getByteArray();
     }
 }

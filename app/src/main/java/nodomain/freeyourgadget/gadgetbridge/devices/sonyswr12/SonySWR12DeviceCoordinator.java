@@ -28,9 +28,11 @@ public class SonySWR12DeviceCoordinator extends AbstractDeviceCoordinator {
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
-        if (!name.isEmpty() && name.toLowerCase().contains("swr12"))
-            return getDeviceType();
+        try {
+            String name = candidate.getDevice().getName();
+            if (name != null && !name.isEmpty() && name.toLowerCase().contains("swr12"))
+                return getDeviceType();
+        } catch (Exception exc){}
         return DeviceType.UNKNOWN;
     }
 
