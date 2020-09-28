@@ -75,6 +75,7 @@ dependencies {
     implementation "androidx.gridlayout:gridlayout:1.0.0"
     implementation "com.google.android.material:material:1.1.0"
     implementation "androidx.palette:palette:1.0.0"
+    implementation "no.nordicsemi.android:dfu:1.11.0"
     implementation("com.github.tony19:logback-android-classic:1.1.1-6") {
         exclude group: "com.google.android", module: "android"
     }

@@ -35,7 +35,11 @@
 
 -keep class **$Properties { *; }
 
+# Keep database migration classes accessed trough reflection
 -keep class **.gadgetbridge.database.schema.* { *; }
+
+# Keep Nordic DFU library
+-keep class no.nordicsemi.android.dfu.** { *; }
 
 # Keep dependency android-emojify (io.wax911.emojify) uses
 -keep class org.hamcrest.** { *; }
