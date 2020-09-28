@@ -51,7 +51,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
 
     protected final Uri uri;
     final BluetoothGattCharacteristic fwCControlChar;
-    private final BluetoothGattCharacteristic fwCDataChar;
+    final BluetoothGattCharacteristic fwCDataChar;
     protected final Prefs prefs = GBApplication.getPrefs();
     protected HuamiFirmwareInfo firmwareInfo;
 
@@ -81,7 +81,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
         //the firmware will be sent by the notification listener if the band confirms that the metadata are ok.
     }
 
-    private HuamiFirmwareInfo createFwInfo(Uri uri, Context context) throws IOException {
+    HuamiFirmwareInfo createFwInfo(Uri uri, Context context) throws IOException {
         HuamiFWHelper fwHelper = getSupport().createFWHelper(uri, context);
         return fwHelper.getFirmwareInfo();
     }
@@ -100,7 +100,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
         return super.onCharacteristicWrite(gatt, characteristic, status);
     }
 
-    private void operationFailed() {
+    void operationFailed() {
         GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_write_failed), false, 0, getContext());
     }
 
@@ -127,7 +127,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
      *
      * @param value
      */
-    private void handleNotificationNotif(byte[] value) {
+    protected void handleNotificationNotif(byte[] value) {
         if (value.length != 3 && value.length != 11) {
             LOG.error("Notifications should be 3 or 11 bytes long.");
             getSupport().logMessageContent(value);
@@ -184,7 +184,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
         }
     }
 
-    private void displayMessage(Context context, String message, int duration, int severity) {
+    void displayMessage(Context context, String message, int duration, int severity) {
         getSupport().handleGBDeviceEvent(new GBDeviceEventDisplayMessage(message, duration, severity));
     }
 

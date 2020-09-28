@@ -36,13 +36,14 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbips.AmazfitBipSFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation2020;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperationNew;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public class AmazfitBipSSupport extends AmazfitBipSupport {
 
@@ -97,7 +98,13 @@ public class AmazfitBipSSupport extends AmazfitBipSupport {
     }
 
     @Override
-    public UpdateFirmwareOperationNew createUpdateFirmwareOperation(Uri uri) {
+    public UpdateFirmwareOperation createUpdateFirmwareOperation(Uri uri) {
+        Version version = new Version(gbDevice.getFirmwareVersion());
+        // 4.0.0.00 is here to not confuse with DTH variant
+        if (version.compareTo(new Version("2.1.1.50")) >= 0 && version.compareTo(new Version("4.0.0.00")) < 0) {
+            return new UpdateFirmwareOperation2020(uri, this);
+        }
+
         return new UpdateFirmwareOperationNew(uri, this);
     }
 
