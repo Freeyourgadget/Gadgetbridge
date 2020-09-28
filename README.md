@@ -41,7 +41,7 @@ vendor's servers.
 * Fossil Hybrid HR (WARNING: NEEDS FOSSIL APP WITH ACCOUNT ONCE AND COMPLICATED PROCEDURE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Fossil-Hybrid-HR)
 * Fossil Q Hybrid
 * HPlus Devices (e.g. ZeBand) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
-* iTag
+* iTag [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/iTag)
 * ID115
 * JYou Y5
 * Lefun
