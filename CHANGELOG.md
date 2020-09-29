@@ -1,5 +1,13 @@
 ### Changelog
 
+#### 0.47.2 (WIP)
+* Huami: Support new firmware update protocol (fixes firmware flashing with firmware 2.1.1.50/4.1.5.55 on Amazfit Bip S)
+* Huami: Allow flashing latest GPS firmware
+* InfiniTime: Add support for music control
+* Pebble: Fix steps on home screen widget
+* Add charts to sport activity summary view
+* Add missing icons for new sport activity types
+
 #### 0.47.1
 * Huami: Add new activity types found in recent Bip S firmware
 * Huami: Many improvements to the activity summary view, including a global view for all devices, filtering per activity type and much more
