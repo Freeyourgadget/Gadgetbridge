@@ -42,7 +42,7 @@
     <!--Strings related to AppBlacklist-->
     <string name="title_activity_appblacklist">Bloqueio de notificações</string>
     <!--Strings related to FwAppInstaller-->
-    <string name="title_activity_fw_app_insaller">Instalador de FW/Aplicação</string>
+    <string name="title_activity_fw_app_insaller">Instalador de FW/app</string>
     <string name="fw_upgrade_notice">Está prestes a instalar o %s.</string>
     <string name="fw_multi_upgrade_notice">Estás prestes a instalar os firmwares %1$s e %2$s em vez dos que estão atualmente na sua Mi Band.</string>
     <string name="miband_firmware_known">O firmware foi testado e é compatível com o Gadgetbridge.</string>
@@ -129,7 +129,7 @@
     <string name="pref_summary_pebble_forcele">Utilizar suporte para Pebble LE em todos os Pebbles em vez do clássico BT. Necessita que se emparelhe um \"Pebble LE\" depois de dispositivos não LE se terem ligado uma vez</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU limite</string>
     <string name="pref_summary_pebble_mtu_limit">Se o seu Pebble2/Pebble LE não funciona como esperado, ative esta opção para limitar o tamanho das transferências (intervalo válido é 20–512)</string>
-    <string name="pref_title_pebble_enable_applogs">Activar Registo da Aplicação do Dispositivo</string>
+    <string name="pref_title_pebble_enable_applogs">Ativar registo da app do aparelho</string>
     <string name="pref_summary_pebble_enable_applogs">Causa que os registos das aplicações do relógio sejam guardados pelo Gadgetbridge (necessita de religação)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">Antecipar confirmações do PebbleKit</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Irá fazer com que as mensagens enviadas para aplicações de terceiros sejam sempre imediatamente confirmadas</string>
@@ -363,7 +363,13 @@
     <!--Strings related to Pebble Pairing Activity-->
     <string name="title_activity_pebble_pairing">A emparelhar Pebble</string>
     <string name="pebble_pairing_hint">É esperado que veja uma notificação de emparelhamento no seu dispositivo Android. Se isso não acontecer, aceda às notificações e aceite o pedido de emparelhamento. Depois aceite igualmente o pedido de emparelhamento no seu Pebble</string>
-    <string name="weather_notification_label">Garanta que este tema se encontra ativado na Aplicação de Meteorologia para obter informação meteorológica atualizada no seu Pebble.\n\nNão é necessária qualquer configuração aqui.\n\nPode ativar a aplicação nativa de meteorologia do seu Pebble através da gestão de aplicações.\n\nTemas de relógio irão apresentar a informação meteorológica automaticamente.</string>
+    <string name="weather_notification_label">Garanta que este tema se encontra ativado na App de Meteorologia para obter informação meteorológica atualizada no seu Pebble.
+\n
+\nNão é necessária qualquer configuração aqui.
+\n
+\nPode ativar a app nativa de meteorologia do seu Pebble através da gestão de apps.
+\n
+\nTemas de relógio irão apresentar a informação meteorológica automaticamente.</string>
     <string name="pref_title_setup_bt_pairing">Ativar o emparelhamento Bluetooth</string>
     <string name="pref_summary_setup_bt_pairing">Desative isto caso tenha problemas na ligação</string>
     <string name="unit_metric">Métrico</string>
@@ -535,7 +541,7 @@
     <string name="activity_DB_test_export_message">Exportar a base de dados…</string>
     <string name="activity_db_management_autoexport_explanation">O local de exportação automática da base de dados foi definido para:</string>
     <string name="menuitem_worldclock">Relógio Mundial</string>
-    <string name="pref_title_weather_summary">Usado para o provedor do clima do LineageOS, outras versões do Android precisam usar uma aplicação como o \"Notificação de clima\". Encontrará mais informações no wiki do Gadgetbridge.</string>
+    <string name="pref_title_weather_summary">Usado para o provedor do clima do LineageOS, outras versões do Android precisam usar uma app como o \"Notificação de clima\". Encontrará mais informações no wiki do Gadgetbridge.</string>
     <string name="about_additional_contributions">Muito obrigado a todos os contribuidores não listados aqui por contribuição com código, suporte, ideias, motivação, relatórios de erros, dinheiro… ✊</string>
     <string name="about_additional_device_support">Suporte a aparelhos adicionais</string>
     <string name="about_contributors">Contribuidores</string>
@@ -694,7 +700,7 @@
     <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="preferences_makibes_hr3_settings">Configurações de Makibes HR3</string>
-    <string name="activity_error_no_app_for_gpx">Para visualizar o rastreamento de atividade, instale uma aplicação que consegue manipular ficheiros GPX.</string>
+    <string name="activity_error_no_app_for_gpx">Para visualizar o rastreamento de atividade, instale uma app que consegue manipular ficheiros GPX.</string>
     <string name="pref_display_add_device_fab_off">Visível apenas se nenhum aparelho estiver adicionado</string>
     <string name="pref_display_add_device_fab_on">Sempre visível</string>
     <string name="pref_display_add_device_fab">Conectar novo botão de aparelho</string>
@@ -827,7 +833,7 @@
     <string name="filter_mode_none">Não filtrar</string>
     <string name="toast_notification_filter_saved_successfully">Filtro de notificação gravado</string>
     <string name="edittext_notification_filter_words_hint">Insira as palavras desejadas, nova linha para cada uma</string>
-    <string name="toast_app_must_not_be_blacklisted">Para ser configurada, a aplicação não pode estar na lista negra</string>
+    <string name="toast_app_must_not_be_blacklisted">Para ser configurada, a app não pode estar na lista negra</string>
     <string name="title_activity_notification_filter">Filtro de notificação</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="live_activity_max_heart_rate">Frequência cardíaca atual / máx: %1$d / %2$d</string>
