@@ -101,7 +101,8 @@ public class AmazfitBipSSupport extends AmazfitBipSupport {
     public UpdateFirmwareOperation createUpdateFirmwareOperation(Uri uri) {
         Version version = new Version(gbDevice.getFirmwareVersion());
         // 4.0.0.00 is here to not confuse with DTH variant
-        if (version.compareTo(new Version("2.1.1.50")) >= 0 && version.compareTo(new Version("4.0.0.00")) < 0) {
+        if ((version.compareTo(new Version("2.1.1.50")) >= 0 && version.compareTo(new Version("4.0.0.00")) < 0) ||
+                (version.compareTo(new Version("4.1.5.55")) >= 0)) {
             return new UpdateFirmwareOperation2020(uri, this);
         }
 
