@@ -68,6 +68,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.itag.ITagCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.jyou.BFH16DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.jyou.TeclastH30.TeclastH30Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.jyou.y5.Y5Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.watchxplus.WatchXPlusDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.liveview.LiveviewCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Coordinator;
@@ -256,6 +257,7 @@ public class DeviceHelper {
         result.add(new TLW64Coordinator());
         result.add(new PineTimeJFCoordinator());
         result.add(new SG2Coordinator());
+        result.add(new LefunDeviceCoordinator());
 
         return result;
     }
