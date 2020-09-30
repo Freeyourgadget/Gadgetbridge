@@ -65,7 +65,7 @@ public class AmazfitBipSSupport extends AmazfitBipSupport {
     }
 
     @Override
-    public boolean supportsSunriseSunset() {
+    public boolean supportsSunriseSunsetWindHumidity() {
         Version version = new Version(gbDevice.getFirmwareVersion());
         return (!isDTH(version) && (version.compareTo(new Version("2.1.1.50")) >= 0) || (version.compareTo(new Version("4.1.5.55")) >= 0));
     }
