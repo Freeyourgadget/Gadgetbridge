@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.47.2" versioncode="181">
+        <change>Amazfit Bip S: Send sunrise and sunset on latest firmware if enabled</change>
+        <change>Huami: Support new firmware update protocol (fixes firmware flashing with firmware 2.1.1.50/4.1.5.55 on Amazfit Bip S)</change>
+        <change>Huami: Allow flashing latest GPS firmware</change>
+        <change>InfiniTime: Add support for music control</change>
+        <change>Pebble: Fix steps on home screen widget</change>
+        <change>Bangle.js: Fix issue where call state reporting was corrupted</change>
+        <change>Add charts to sport activity summary view</change>
+        <change>Add missing icons for new sport activity type</change>
     <release version="0.47.1" versioncode="180">
         <change>Huami: Add new activity types found in recent Bip S firmware</change>
         <change>Huami: Many improvements to the activity summary view, including a global view for all devices, filtering per activity type and much more</change>
