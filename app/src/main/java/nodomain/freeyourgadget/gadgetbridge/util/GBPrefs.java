@@ -17,7 +17,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.text.format.DateFormat;
+
+import androidx.core.app.ActivityCompat;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -26,6 +37,8 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 
 public class GBPrefs {
+    private static final Logger LOG = LoggerFactory.getLogger(GBPrefs.class);
+
     public static final String PACKAGE_BLACKLIST = "package_blacklist";
     public static final String PACKAGE_PEBBLEMSG_BLACKLIST = "package_pebblemsg_blacklist";
     public static final String CALENDAR_BLACKLIST = "calendar_blacklist";
@@ -98,5 +111,29 @@ public class GBPrefs {
         }
 
         return timeFormat;
+    }
+
+    public float[] getLongLat(Context context) {
+        Prefs prefs = GBApplication.getPrefs();
+
+        float latitude = prefs.getFloat("location_latitude", 0);
+        float longitude = prefs.getFloat("location_longitude", 0);
+        LOG.info("got longitude/latitude from preferences: " + latitude + "/" + longitude);
+
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                prefs.getBoolean("use_updated_location_if_available", false)) {
+            LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            Criteria criteria = new Criteria();
+            String provider = locationManager.getBestProvider(criteria, false);
+            if (provider != null) {
+                Location lastKnownLocation = locationManager.getLastKnownLocation(provider);
+                if (lastKnownLocation != null) {
+                    latitude = (float) lastKnownLocation.getLatitude();
+                    longitude = (float) lastKnownLocation.getLongitude();
+                    LOG.info("got longitude/latitude from last known location: " + latitude + "/" + longitude);
+                }
+            }
+        }
+        return new float[]{longitude, latitude};
     }
 }

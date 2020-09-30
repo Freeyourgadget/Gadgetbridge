@@ -30,6 +30,9 @@ import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import net.e175.klaus.solarpositioning.DeltaT;
+import net.e175.klaus.solarpositioning.SPA;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -249,10 +252,15 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         return 0x00;
     }
 
+    public boolean supportsSunriseSunset() {
+        return false;
+    }
+
     /**
      * Returns the given date/time (calendar) as a byte sequence, suitable for sending to the
      * Mi Band 2 (or derivative). The band appears to not handle DST offsets, so we simply add this
      * to the timezone.
+     *
      * @param calendar
      * @param precision
      * @return
@@ -2125,6 +2133,37 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             builder.queue(getQueue());
         } catch (Exception ex) {
             LOG.error("Error sending current forecast location", ex);
+        }
+
+        if (supportsSunriseSunset() && GBApplication.getPrefs().getBoolean("send_sunrise_sunset", false)) {
+            float[] longlat = GBApplication.getGBPrefs().getLongLat(getContext());
+            float longitude = longlat[0];
+            float latitude = longlat[1];
+            if (longitude != 0 && latitude != 0) {
+                final GregorianCalendar dateTimeToday = new GregorianCalendar();
+
+                GregorianCalendar[] sunriseTransitSet = SPA.calculateSunriseTransitSet(dateTimeToday, latitude, longitude, DeltaT.estimate(dateTimeToday));
+
+                try {
+                    TransactionBuilder builder;
+                    builder = performInitialized("Sending sunrise/sunset");
+
+                    ByteBuffer buf = ByteBuffer.allocate(10);
+                    buf.order(ByteOrder.LITTLE_ENDIAN);
+                    buf.put((byte) 16);
+                    buf.putInt(weatherSpec.timestamp);
+                    buf.put((byte) (tz_offset_hours * 4));
+                    buf.put((byte) sunriseTransitSet[0].get(GregorianCalendar.HOUR_OF_DAY));
+                    buf.put((byte) sunriseTransitSet[0].get(GregorianCalendar.MINUTE));
+                    buf.put((byte) sunriseTransitSet[2].get(GregorianCalendar.HOUR_OF_DAY));
+                    buf.put((byte) sunriseTransitSet[2].get(GregorianCalendar.MINUTE));
+
+                    writeToChunked(builder, 1, buf.array());
+                    builder.queue(getQueue());
+                } catch (Exception ex) {
+                    LOG.error("Error sending sunset/sunrise", ex);
+                }
+            }
         }
     }
 

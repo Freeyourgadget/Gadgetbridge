@@ -65,6 +65,12 @@ public class AmazfitBipSSupport extends AmazfitBipSupport {
     }
 
     @Override
+    public boolean supportsSunriseSunset() {
+        Version version = new Version(gbDevice.getFirmwareVersion());
+        return (!isDTH(version) && (version.compareTo(new Version("2.1.1.50")) >= 0) || (version.compareTo(new Version("4.1.5.55")) >= 0));
+    }
+
+    @Override
     public void onSetCallState(CallSpec callSpec) {
         if (callSpec.command == CallSpec.CALL_INCOMING) {
             byte[] message = NotificationUtils.getPreferredTextFor(callSpec).getBytes();
@@ -100,9 +106,7 @@ public class AmazfitBipSSupport extends AmazfitBipSupport {
     @Override
     public UpdateFirmwareOperation createUpdateFirmwareOperation(Uri uri) {
         Version version = new Version(gbDevice.getFirmwareVersion());
-        // 4.0.0.00 is here to not confuse with DTH variant
-        if ((version.compareTo(new Version("2.1.1.50")) >= 0 && version.compareTo(new Version("4.0.0.00")) < 0) ||
-                (version.compareTo(new Version("4.1.5.55")) >= 0)) {
+        if ((!isDTH(version) && (version.compareTo(new Version("2.1.1.50")) >= 0) || (version.compareTo(new Version("4.1.5.55")) >= 0))) {
             return new UpdateFirmwareOperation2020(uri, this);
         }
 
@@ -219,4 +223,7 @@ public class AmazfitBipSSupport extends AmazfitBipSupport {
         return this;
     }
 
+    private boolean isDTH(Version version) {
+        return version.compareTo(new Version("4.0.0.00")) >= 0;
+    }
 }
