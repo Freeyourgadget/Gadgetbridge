@@ -9,6 +9,7 @@
         <change>Bangle.js: Fix issue where call state reporting was corrupted</change>
         <change>Add charts to sport activity summary view</change>
         <change>Add missing icons for new sport activity type</change>
+    </release>
     <release version="0.47.1" versioncode="180">
         <change>Huami: Add new activity types found in recent Bip S firmware</change>
         <change>Huami: Many improvements to the activity summary view, including a global view for all devices, filtering per activity type and much more</change>
