@@ -73,7 +73,7 @@ public class NutConstants {
 
     /**
      * Proprietary command endpoint.
-     * TODO: Anything else in this service on "Focus"?
+     * TODO: Anything else in this service on other devices?
      */
     public static final UUID SERVICE_PROPRIETARY_NUT = UUID.fromString("0000ff00-0000-1000-8000-00805f9b34fb");
     /**
@@ -111,23 +111,4 @@ public class NutConstants {
      * Very little mention online, specific to Nut devices?
      */
     public static final UUID UNKNOWN_3 = UUID.fromString("00001530-0000-1000-8000-00805f9b34fb");
-
-    /**
-     * Concatenates two byte arrays
-     * In reverse
-     * Pads with zeros when too short
-     * Truncates when too long
-     */
-    public static byte[] assemblePacket(byte[] arr1, byte[] arr2) {
-        byte[] result = new byte[16];
-        for (int i = 0; i < Math.min(arr2.length, 8); i++) {
-            // Reverse the array - 0-indexed - start shorter arrays from "0", truncate longer ones - current index
-            // = source array, start from offset on bigger arrays
-            result[8 - 1 - (8 - Math.min(arr2.length, 8)) - i] = arr2[i + Math.max((arr2.length - 8), 0)];
-        }
-        for (int i = 0; i < Math.min(arr1.length, 8); i++) {
-            result[16 - 1 - (8 - Math.min(arr1.length, 8)) - i] = arr1[i + Math.max((arr1.length - 8), 0)];
-        }
-        return result;
-    }
 }
