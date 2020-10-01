@@ -43,6 +43,7 @@ vendor's servers.
 * HPlus Devices (e.g. ZeBand) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
 * iTag [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/iTag)
 * ID115
+* Nut Mini 3, Nut 2 and possibly others [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Nut)
 * JYou Y5
 * Lefun
 * Lenovo Watch 9
