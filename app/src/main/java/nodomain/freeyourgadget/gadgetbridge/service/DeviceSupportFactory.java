@@ -58,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport
 import nodomain.freeyourgadget.gadgetbridge.service.devices.mijia_lywsd02.MijiaLywsd02Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miscale2.MiScale2DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.no1f1.No1F1Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.nut.NutSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pinetime.PineTimeJFSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
@@ -249,6 +250,9 @@ public class DeviceSupportFactory {
                         break;
                     case ITAG:
                         deviceSupport = new ServiceDeviceSupport(new ITagSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
+                    case NUTMINI:
+                        deviceSupport = new ServiceDeviceSupport(new NutSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
                     case BANGLEJS:
                         deviceSupport = new ServiceDeviceSupport(new BangleJSDeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
