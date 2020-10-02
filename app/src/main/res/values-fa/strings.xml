@@ -128,4 +128,8 @@
     <string name="sonyswr12_settings_low_vibration_summary">لرزش کم روی باند را فعال کنید</string>
     <string name="sonyswr12_settings_stamina_summary">حالت صرفه جویی در مصرف انرژی اندازه گیری دوره ای ضربان قلب را خاموش می کند و در نتیجه زمان کار افزایش می یابد</string>
     <string name="sonyswr12_settings_alarm_interval_summary">فاصله هشدار هوشمند فاصله قبل از زنگ هشدار نصب شده است. در این فاصله دستگاه در تلاش است تا کمترین مرحله خواب را برای کاربر بیدار تشخیص دهد</string>
+    <string name="sonyswr12_settings_title">تنظیمات Sony SWR12</string>
+    <string name="sonyswr12_settings_low_vibration">لرزش کم فعال است</string>
+    <string name="sonyswr12_settings_stamina">حالت صرفه جویی در مصرف برق روشن است</string>
+    <string name="sonyswr12_settings_alarm_interval">فاصله زنگ هوشمند در چند دقیقه</string>
 </resources>

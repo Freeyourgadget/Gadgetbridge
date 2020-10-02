@@ -956,7 +956,6 @@
     <string name="activity_type_elliptical_trainer">Elliptische Trainer</string>
     <string name="activity_type_indoor_cycling">Binnenshuis fietsen</string>
     <string name="activity_type_swimming_openwater">Zwemmen (Open water)</string>
-    <string name="devicetype_sonyswr12">Sony SWR12</string>
     <string name="sonyswr12_settings_title">Sony SWR12 instellingen</string>
     <string name="sonyswr12_settings_low_vibration">Laag trillingsniveau ingeschakeld</string>
     <string name="sonyswr12_settings_stamina">Energiebesparende modus is ingeschakeld</string>

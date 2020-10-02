@@ -39,4 +39,6 @@
     <string name="sonyswr12_settings_low_vibration_summary">Aktifkan getaran intensitas rendah pada pita</string>
     <string name="sonyswr12_settings_stamina_summary">Mode hemat daya menonaktifkan pengukuran detak jantung otomatis berkala sehingga meningkatkan waktu kerja</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Interval alarm pintar adalah interval sebelum alarm dipasang. Dalam interval ini perangkat mencoba mendeteksi fase tidur paling ringan untuk membangunkan pengguna</string>
+    <string name="sonyswr12_settings_low_vibration">Getaran rendah diaktifkan</string>
+    <string name="sonyswr12_settings_stamina">Mode hemat daya aktif</string>
 </resources>

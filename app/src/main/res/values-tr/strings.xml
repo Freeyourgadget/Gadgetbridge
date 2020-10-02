@@ -1095,4 +1095,5 @@
     <string name="sonyswr12_settings_low_vibration_summary">Bileklik üzerinde düşük titreşim yoğunluğu sağlayın</string>
     <string name="sonyswr12_settings_stamina_summary">Güç tasarrufu modu, kalp atış hızının periyodik otomatik ölçümünü kapatır ve böylece çalışma süresini uzatır</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Akıllı alarm aralığı, kurulu alarmdan önceki aralıktır. Bu aralıkta cihaz, kullanıcıyı uyandırmak için uykunun en hafif aşamasını tespit etmeye çalışıyor</string>
+    <string name="sonyswr12_settings_stamina">Güç tasarrufu modu açık</string>
 </resources>

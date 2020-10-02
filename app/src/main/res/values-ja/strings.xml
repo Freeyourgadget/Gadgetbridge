@@ -755,7 +755,6 @@
     <string name="indonesian">インドネシア語</string>
     <string name="prefs_disconnect_notification">切断通知</string>
     <string name="Distance">距離</string>
-    <string name="devicetype_sonyswr12">Sony SWR12</string>
     <string name="sonyswr12_settings_title">Sony SWR12 設定</string>
     <string name="sonyswr12_settings_low_vibration">低振動対応</string>
     <string name="sonyswr12_settings_stamina">省電力モードがオンになっている</string>

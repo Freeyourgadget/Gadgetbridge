@@ -66,4 +66,6 @@
     <string name="sonyswr12_settings_low_vibration_summary">Omogućite niski intenzitet vibracija na pojasu</string>
     <string name="sonyswr12_settings_stamina_summary">Način uštede energije isključuje povremeno automatsko mjerenje brzine otkucaja srca čime se povećava radno vrijeme</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Interval pametnog alarma je interval prije instaliranog alarma. U ovom intervalu uređaj pokušava otkriti najlakšu fazu spavanja za budnog korisnika</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 postavke</string>
+    <string name="sonyswr12_settings_low_vibration">Omogućena slaba vibracija</string>
 </resources>

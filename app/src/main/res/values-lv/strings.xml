@@ -15,4 +15,8 @@
     <string name="sonyswr12_settings_low_vibration_summary">Iespējot zemu vibrācijas intensitāti joslā</string>
     <string name="sonyswr12_settings_stamina_summary">Enerģijas taupīšanas režīms izslēdz periodisku automātisku sirdsdarbības mērīšanu, tādējādi palielinot darba laiku</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Viedā trauksmes intervāls ir intervāls pirms instalētās trauksmes. Šajā intervālā ierīce mēģina noteikt vieglāko miega fāzi, lai pamodinātu lietotāju</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 iestatījumi</string>
+    <string name="sonyswr12_settings_low_vibration">Iespējota zema vibrācija</string>
+    <string name="sonyswr12_settings_stamina">Ieslēgts enerģijas taupīšanas režīms</string>
+    <string name="sonyswr12_settings_alarm_interval">Viedā trauksmes intervāls minūtēs</string>
 </resources>

@@ -581,14 +581,10 @@
             </PreferenceCategory>
 
         </PreferenceScreen>
-        <Preference
+         <Preference
             android:icon="@drawable/ic_device_zetime"
             android:key="pref_key_zetime"
-            android:title="@string/zetime_title_settings" />
-        <Preference
-            android:icon="@drawable/ic_device_default"
-            android:key="pref_key_sonyswr12"
-            android:title="@string/sonyswr12_settings_title" />
+            android:title="@string/zetime_title_settings"/>
     </PreferenceCategory>
 
     <PreferenceCategory

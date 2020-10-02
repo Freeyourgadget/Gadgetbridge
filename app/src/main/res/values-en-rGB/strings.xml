@@ -896,7 +896,6 @@
     <string name="bip_prefs_shotcuts_summary">Choose the shortcuts on the band screen</string>
     <string name="bip_prefs_shortcuts">Shortcuts</string>
     <string name="controlcenter_set_alias">Set Alias</string>
-    <string name="devicetype_sonyswr12">Sony SWR12</string>
     <string name="sonyswr12_settings_title">Sony SWR12 settings</string>
     <string name="sonyswr12_settings_low_vibration">Low vibration enabled</string>
     <string name="sonyswr12_settings_stamina">Power saving mode on</string>

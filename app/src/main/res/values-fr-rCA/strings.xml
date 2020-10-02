@@ -885,7 +885,6 @@
     <string name="pref_header_notifications_and_calls">Notifications et appels</string>
     <string name="title_activity_LenovoWatch_calibration">Calibrage de Watch X Plus</string>
     <string name="pref_theme_system">Système</string>
-    <string name="devicetype_sonyswr12">Sony SWR12</string>
     <string name="sonyswr12_settings_title">Paramètres Sony SWR12</string>
     <string name="sonyswr12_settings_low_vibration">Faible vibration activée</string>
     <string name="sonyswr12_settings_stamina">Le mode d\'économie d\'énergie est activé</string>

@@ -135,4 +135,5 @@
     <string name="sonyswr12_settings_low_vibration_summary">Activați intensitatea redusă a vibrațiilor pe bandă</string>
     <string name="sonyswr12_settings_stamina_summary">Modul de economisire a energiei dezactivează măsurarea automată periodică a ritmului cardiac, crescând astfel timpul de lucru</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Intervalul de alarmă inteligentă este intervalul înainte de alarma instalată. În acest interval, dispozitivul încearcă să detecteze cea mai ușoară fază de somn pentru a trezi utilizatorul</string>
+    <string name="sonyswr12_settings_low_vibration">Vibrație scăzută activată</string>
 </resources>

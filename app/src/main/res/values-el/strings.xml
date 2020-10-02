@@ -988,7 +988,6 @@
     <string name="activity_type_elliptical_trainer">Ελλειπτικό μηχάνημα</string>
     <string name="activity_type_indoor_cycling">Ποδηλασία εσωτερικού χώρου</string>
     <string name="activity_type_swimming_openwater">Κολύμβηση (ανοιχτό νερό)</string>
-    <string name="devicetype_sonyswr12">Sony SWR12</string>
     <string name="sonyswr12_settings_title">Ρυθμίσεις Sony SWR12</string>
     <string name="sonyswr12_settings_low_vibration">Ενεργοποιήθηκε χαμηλή δόνηση</string>
     <string name="sonyswr12_settings_stamina">Η λειτουργία εξοικονόμησης ενέργειας είναι ενεργοποιημένη</string>

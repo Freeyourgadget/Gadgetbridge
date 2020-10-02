@@ -585,6 +585,11 @@
     <string name="activity_type_swimming">游泳</string>
     <string name="this_is_a_test_notification_from_gadgetbridge">這是一個來自 Gadgetbridge 的測試通知</string>
     <string name="test_notification">測試通知</string>
-    <string name="devicetype_sonyswr12">Sony SWR12</string>
-    <string name="sonyswr12_settings_title">Sony SWR12 設定</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 设置</string>
+    <string name="sonyswr12_settings_low_vibration">低振动启用</string>
+    <string name="sonyswr12_settings_low_vibration_summary">降低频带上的振动强度</string>
+    <string name="sonyswr12_settings_stamina">省电模式已开启</string>
+    <string name="sonyswr12_settings_stamina_summary">省电模式会关闭定期自动测量心率，从而增加工作时间</string>
+    <string name="sonyswr12_settings_alarm_interval">智能警报间隔（以分钟为单位）</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">智能警报间隔是安装警报之前的间隔。 在此间隔内，设备尝试检测最轻的睡眠阶段以唤醒用户</string>
 </resources>

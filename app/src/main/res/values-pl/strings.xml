@@ -1029,7 +1029,6 @@
     <string name="activity_type_cricket">Krykiet</string>
     <string name="activity_type_rowing_machine">Wiosłująca maszyna</string>
     <string name="activity_type_elliptical_trainer">Trener eliptyczny</string>
-    <string name="devicetype_sonyswr12">Sony SWR12</string>
     <string name="sonyswr12_settings_title">Ustawienia Sony SWR12</string>
     <string name="sonyswr12_settings_low_vibration">Włączono niski poziom wibracji</string>
     <string name="sonyswr12_settings_stamina">Tryb oszczędzania energii jest włączony</string>

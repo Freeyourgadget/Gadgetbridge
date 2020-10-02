@@ -1056,7 +1056,6 @@
     <string name="activity_filter_to_placeholder">hoje</string>
     <string name="activity_filter_from_placeholder">passado distante</string>
     <string name="about_links">Links</string>
-    <string name="devicetype_sonyswr12">Sony SWR12</string>
     <string name="sonyswr12_settings_title">Configurações de Sony SWR12</string>
     <string name="sonyswr12_settings_low_vibration">Baixa vibração habilitada</string>
     <string name="sonyswr12_settings_stamina">O modo de economia de energia está ativado</string>

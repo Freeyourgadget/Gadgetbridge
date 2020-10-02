@@ -156,4 +156,7 @@
     <string name="sonyswr12_settings_low_vibration_summary">बैंड पर कंपन की कम तीव्रता को सक्षम करें</string>
     <string name="sonyswr12_settings_stamina_summary">पावर सेविंग मोड हृदय गति की आवधिक ऑटो माप को बंद कर देता है जिससे काम का समय बढ़ जाता है</string>
     <string name="sonyswr12_settings_alarm_interval_summary">स्थापित अलार्म से पहले स्मार्ट अलार्म अंतराल है। इस अंतराल डिवाइस में उपयोगकर्ता को जगाने के लिए नींद के सबसे हल्के चरण का पता लगाने की कोशिश की जा रही है</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 समायोजन</string>
+    <string name="sonyswr12_settings_low_vibration">कम कंपन सक्षम</string>
+    <string name="sonyswr12_settings_stamina">पर बिजली की बचत मोड</string>
 </resources>

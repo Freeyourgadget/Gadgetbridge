@@ -609,5 +609,11 @@
     <string name="pref_invalid_frequency_title">올바르지 않은 주파수</string>
     <string name="pref_invalid_frequency_message">87.5와 108.0 사이의 주파수를 입력하세요</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
-    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 설정</string>
+    <string name="sonyswr12_settings_low_vibration">저진동 가능</string>
+    <string name="sonyswr12_settings_low_vibration_summary">손목 밴드에서 낮은 강도의 진동 활성화</string>
+    <string name="sonyswr12_settings_stamina">절전 모드 켜기</string>
+    <string name="sonyswr12_settings_stamina_summary">절전 모드는주기적인 심박수 자동 측정을 해제하여 작업 시간을 늘립니다.</string>
+    <string name="sonyswr12_settings_alarm_interval">분 단위의 스마트 알람 간격</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">스마트 알람 간격은 설치된 알람 이전의 간격입니다. 이 간격에서 장치는 사용자를 깨우기 위해 가장 가벼운 수면 단계를 감지하려고합니다.</string>
 </resources>

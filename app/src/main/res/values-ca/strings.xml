@@ -874,11 +874,11 @@
     <string name="pref_title_notifications_and_calls_repeat_on_call">Repeteix la notificació de trucada</string>
     <string name="pref_header_notifications_and_calls">Notificacions i trucades</string>
     <string name="title_activity_LenovoWatch_calibration">Calibració del Watch X Plus</string>
-    <string name="devicetype_sonyswr12">Sony SWR12</string>
     <string name="sonyswr12_settings_title">Configuració de Sony SWR12</string>
     <string name="sonyswr12_settings_low_vibration">Vibració baixa activada</string>
     <string name="sonyswr12_settings_alarm_interval">Interval d\'alarma intel·ligent en minuts</string>
     <string name="sonyswr12_settings_low_vibration_summary">Activa la baixa intensitat de vibració a la banda</string>
     <string name="sonyswr12_settings_stamina_summary">El mode d’estalvi d’energia desactiva la mesura automàtica periòdica de la freqüència cardíaca i, per tant, augmenta el temps de treball</string>
     <string name="sonyswr12_settings_alarm_interval_summary">L\'interval d\'alarma intel·ligent és l\'interval abans de l\'alarma instal·lada. En aquest interval, el dispositiu intenta detectar la fase més lleugera del son per despertar l\'usuari</string>
+    <string name="sonyswr12_settings_stamina">Mode d\'estalvi d\'energia activat</string>
 </resources>
