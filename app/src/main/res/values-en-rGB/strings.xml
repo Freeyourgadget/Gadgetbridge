@@ -901,5 +901,7 @@
     <string name="sonyswr12_settings_low_vibration">Low vibration enabled</string>
     <string name="sonyswr12_settings_stamina">Power saving mode on</string>
     <string name="sonyswr12_settings_alarm_interval">Smart alarm interval in minutes</string>
-    <string name="sonyswr12_settings_alarm_warning">To change settings you should first connect to device!</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Enable low intensity of vibration on wristband</string>
+    <string name="sonyswr12_settings_stamina_summary">Power saving mode turns off periodic auto measuring of heart rate thus increases working time</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Smart alarm interval is interval before of installed alarm. In this interval device is trying to detect lightest phase of sleep to awake user</string>
 </resources>

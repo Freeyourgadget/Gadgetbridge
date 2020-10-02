@@ -1074,5 +1074,7 @@
     <string name="sonyswr12_settings_low_vibration">低振动启用</string>
     <string name="sonyswr12_settings_stamina">省电模式已开启</string>
     <string name="sonyswr12_settings_alarm_interval">智能警报间隔（以分钟为单位）</string>
-    <string name="sonyswr12_settings_alarm_warning">要更改设置，您应该首先连接设备！</string>
+    <string name="sonyswr12_settings_low_vibration_summary">降低频带上的振动强度</string>
+    <string name="sonyswr12_settings_stamina_summary">省电模式会关闭定期自动测量心率，从而增加工作时间</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">智能警报间隔是安装警报之前的间隔。 在此间隔内，设备尝试检测最轻的睡眠阶段以唤醒用户</string>
 </resources>

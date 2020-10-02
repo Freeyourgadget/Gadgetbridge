@@ -40,5 +40,7 @@
     <string name="sonyswr12_settings_low_vibration">Matala tärinä käytössä</string>
     <string name="sonyswr12_settings_stamina">Virransäästötila on päällä</string>
     <string name="sonyswr12_settings_alarm_interval">Älykäs hälytysväli minuutteina</string>
-    <string name="sonyswr12_settings_alarm_warning">Muuta asetuksia muodostamalla ensin yhteys laitteeseen!</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Ota käyttöön matala tärinän voimakkuus kaistalla</string>
+    <string name="sonyswr12_settings_stamina_summary">Virransäästötila poistaa säännöllisen automaattisen sykemittauksen käytöstä, mikä pidentää työaikaa</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Älykäs hälytysväli on aikaväli ennen asennettua hälytystä. Tässä välissä laite yrittää tunnistaa käyttäjän herättämisen unen kevyimmän vaiheen</string>
 </resources>

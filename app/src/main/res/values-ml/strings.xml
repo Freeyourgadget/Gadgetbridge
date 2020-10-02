@@ -80,4 +80,7 @@
     <string name="action_settings">ക്രമീകരണങ്ങൾ</string>
     <string name="title_activity_controlcenter">ഗാഡ്ജക്‌റ്റ് ബ്രിഡ്ജ്</string>
     <string name="app_name">ഗാഡ്ജക്‌റ്റ് ബ്രിഡ്ജ്</string>
+    <string name="sonyswr12_settings_low_vibration_summary">ബാൻഡിൽ വൈബ്രേഷന്റെ കുറഞ്ഞ തീവ്രത പ്രവർത്തനക്ഷമമാക്കുക</string>
+    <string name="sonyswr12_settings_stamina_summary">പവർ സേവിംഗ് മോഡ് ഹൃദയമിടിപ്പിന്റെ ആനുകാലിക യാന്ത്രിക അളവ് ഓഫുചെയ്യുന്നത് പ്രവർത്തന സമയം വർദ്ധിപ്പിക്കുന്നു</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">ഇൻസ്റ്റാൾ ചെയ്ത അലാറത്തിന് മുമ്പുള്ള ഇടവേളയാണ് സ്മാർട്ട് അലാറം ഇടവേള. ഈ ഇടവേള ഉപകരണം ഉപയോക്താവിനെ ഉണർത്താൻ ഉറക്കത്തിന്റെ ഭാരം കുറഞ്ഞ ഘട്ടം കണ്ടെത്താൻ ശ്രമിക്കുന്നു</string>
 </resources>

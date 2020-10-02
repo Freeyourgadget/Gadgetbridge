@@ -961,5 +961,7 @@
     <string name="sonyswr12_settings_low_vibration">Laag trillingsniveau ingeschakeld</string>
     <string name="sonyswr12_settings_stamina">Energiebesparende modus is ingeschakeld</string>
     <string name="sonyswr12_settings_alarm_interval">Slimme alarminterval in minuten</string>
-    <string name="sonyswr12_settings_alarm_warning">Om instellingen te wijzigen, moet u eerst verbinding maken met het apparaat!</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Schakel lage trillingsintensiteit op de band in</string>
+    <string name="sonyswr12_settings_stamina_summary">De energiebesparende modus schakelt de periodieke automatische hartslagmeting uit, waardoor de werktijd toeneemt</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Slimme alarminterval is het interval vóór het geïnstalleerde alarm. In dit interval probeert het apparaat de lichtste slaapfase te detecteren om de gebruiker wakker te maken</string>
 </resources>

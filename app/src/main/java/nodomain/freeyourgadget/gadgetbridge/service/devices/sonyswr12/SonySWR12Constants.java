@@ -11,10 +11,6 @@ public class SonySWR12Constants {
     public static final UUID UUID_CHARACTERISTIC_TIME = UUID.fromString(String.format(BASE_UUID_AHS, "020B"));
     public static final UUID UUID_CHARACTERISTIC_CONTROL_POINT = UUID.fromString(String.format(BASE_UUID_AHS, "0208"));
 
-    public static final String VIBRATION_PREFERENCE = "vibration_preference";
-    public static final String STAMINA_PREFERENCE = "stamina_preference";
-    public static final String SMART_ALARM_INTERVAL_PREFERENCE = "smart_alarm_interval_preference";
-
     public static final int TYPE_ACTIVITY = 0;
     public static final int TYPE_LIGHT = 1;
     public static final int TYPE_DEEP = 2;

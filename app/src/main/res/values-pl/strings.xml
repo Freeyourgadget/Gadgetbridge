@@ -1034,5 +1034,7 @@
     <string name="sonyswr12_settings_low_vibration">Włączono niski poziom wibracji</string>
     <string name="sonyswr12_settings_stamina">Tryb oszczędzania energii jest włączony</string>
     <string name="sonyswr12_settings_alarm_interval">Inteligentny interwał alarmu w minutach</string>
-    <string name="sonyswr12_settings_alarm_warning">Aby zmienić ustawienia, należy najpierw połączyć się z urządzeniem!</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Włącz niską intensywność wibracji na paśmie</string>
+    <string name="sonyswr12_settings_stamina_summary">Tryb oszczędzania energii wyłącza okresowe automatyczne pomiary tętna, co wydłuża czas pracy</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Interwał inteligentnego alarmu to interwał przed zainstalowanym alarmem. W tym interwale urządzenie próbuje wykryć najlżejszą fazę snu, aby obudzić użytkownika</string>
 </resources>

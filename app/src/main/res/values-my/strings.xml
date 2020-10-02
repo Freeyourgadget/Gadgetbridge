@@ -38,5 +38,7 @@
     <string name="appwidget_not_connected">မခ်ိတ္ဆက္ထားျခင္းမရွိပါ , သတိေပးခ်က္မထားရေသးပါ</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
     <string name="sonyswr12_settings_alarm_interval">မိနစ်အတွင်းစမတ်နှိုးဆော်သံကြားကာလ</string>
-    <string name="sonyswr12_settings_alarm_warning">ချိန်ညှိချက်များကိုပြောင်းလဲရန်သင်ပထမ ဦး ဆုံးကိရိယာနှင့်ချိတ်ဆက်သင့်သည်!</string>
+    <string name="sonyswr12_settings_low_vibration_summary">တီးဝိုင်းပေါ်တုန်ခါမှု၏နိမ့်ကျသောပြင်းအားကိုခွင့်ပြုပါ</string>
+    <string name="sonyswr12_settings_stamina_summary">ပါဝါချွေတာသည့်အနေဖြင့်နှလုံးခုန်နှုန်းကိုအလိုအလျောက်တိုင်းတာခြင်းကိုပိတ်ထားသဖြင့်အလုပ်ချိန်တိုးလာသည်</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">စမတ်နှိုးစက်ကြားကာလသည်တပ်ဆင်ထားသည့်နှိုးစက်မတိုင်မီကြားကာလဖြစ်သည်။ ဤကြားကာလတွင်အသုံးပြုသူသည်အိပ်ပျော်ရန်အလျင်မြန်ဆုံးအဆင့်ကိုအသုံးပြုရန်အသုံးပြုသည်</string>
 </resources>

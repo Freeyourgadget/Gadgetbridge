@@ -12,4 +12,7 @@
     <string name="live_activity_current_steps_per_minute">Pašreizējie soļi / min</string>
     <string name="live_activity_steps_history">Soļu vēsture</string>
     <string name="prefs_find_phone">Atrast tālruni</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Iespējot zemu vibrācijas intensitāti joslā</string>
+    <string name="sonyswr12_settings_stamina_summary">Enerģijas taupīšanas režīms izslēdz periodisku automātisku sirdsdarbības mērīšanu, tādējādi palielinot darba laiku</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Viedā trauksmes intervāls ir intervāls pirms instalētās trauksmes. Šajā intervālā ierīce mēģina noteikt vieglāko miega fāzi, lai pamodinātu lietotāju</string>
 </resources>

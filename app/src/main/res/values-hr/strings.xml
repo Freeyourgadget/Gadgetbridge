@@ -63,5 +63,7 @@
     <string name="action_settings">Postavke</string>
     <string name="sonyswr12_settings_stamina">Uključen je način uštede energije</string>
     <string name="sonyswr12_settings_alarm_interval">Pametni interval alarma u minutama</string>
-    <string name="sonyswr12_settings_alarm_warning">Da biste promijenili postavke, prvo se povežite s uređajem!</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Omogućite niski intenzitet vibracija na pojasu</string>
+    <string name="sonyswr12_settings_stamina_summary">Način uštede energije isključuje povremeno automatsko mjerenje brzine otkucaja srca čime se povećava radno vrijeme</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Interval pametnog alarma je interval prije instaliranog alarma. U ovom intervalu uređaj pokušava otkriti najlakšu fazu spavanja za budnog korisnika</string>
 </resources>

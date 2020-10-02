@@ -860,5 +860,7 @@
     <string name="sonyswr12_settings_low_vibration">Madal vibratsioon on lubatud</string>
     <string name="sonyswr12_settings_stamina">Energiasäästurežiim on sisse lülitatud</string>
     <string name="sonyswr12_settings_alarm_interval">Nutika häire intervall minutites</string>
-    <string name="sonyswr12_settings_alarm_warning">Seadete muutmiseks peaksite kõigepealt seadmega ühenduse looma!</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Luba madala vibratsiooni intensiivsus ribal</string>
+    <string name="sonyswr12_settings_stamina_summary">Energiasäästurežiim lülitab südame löögisageduse perioodilise automaatse mõõtmise välja, pikendades seega tööaega</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Nutika häire intervall on intervall enne installitud alarmi. Selles intervallis üritab seade kasutaja ärkamiseks tuvastada une kergemat faasi</string>
 </resources>

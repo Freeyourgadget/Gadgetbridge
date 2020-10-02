@@ -499,5 +499,7 @@
     <string name="sonyswr12_settings_low_vibration">Alacsony rezgés engedélyezve</string>
     <string name="sonyswr12_settings_stamina">Az energiatakarékos mód be van kapcsolva</string>
     <string name="sonyswr12_settings_alarm_interval">Intelligens riasztási intervallum percekben</string>
-    <string name="sonyswr12_settings_alarm_warning">A beállítások módosításához először csatlakoznia kell az eszközhöz!</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Engedélyezze a vibráció alacsony intenzitását a sávon</string>
+    <string name="sonyswr12_settings_stamina_summary">Az energiatakarékos üzemmód kikapcsolja a pulzus időszakos automatikus mérését, így megnő a munkaidő</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Az intelligens riasztási intervallum a telepített riasztás előtti intervallum. Ebben az intervallumban az eszköz megpróbálja észlelni az alvás legkönnyebb fázisát a felhasználó felébresztésére</string>
 </resources>

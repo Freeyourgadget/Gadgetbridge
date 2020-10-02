@@ -153,5 +153,7 @@
     <string name="user_feedback_all_alarms_disabled">सभी अलार्म बंद है</string>
     <string name="device_not_connected">कनेक्ट नहीं.</string>
     <string name="sonyswr12_settings_alarm_interval">मिनटों में स्मार्ट अलार्म अंतराल</string>
-    <string name="sonyswr12_settings_alarm_warning">सेटिंग्स बदलने के लिए आपको पहले डिवाइस से कनेक्ट करना चाहिए!</string>
+    <string name="sonyswr12_settings_low_vibration_summary">बैंड पर कंपन की कम तीव्रता को सक्षम करें</string>
+    <string name="sonyswr12_settings_stamina_summary">पावर सेविंग मोड हृदय गति की आवधिक ऑटो माप को बंद कर देता है जिससे काम का समय बढ़ जाता है</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">स्थापित अलार्म से पहले स्मार्ट अलार्म अंतराल है। इस अंतराल डिवाइस में उपयोगकर्ता को जगाने के लिए नींद के सबसे हल्के चरण का पता लगाने की कोशिश की जा रही है</string>
 </resources>

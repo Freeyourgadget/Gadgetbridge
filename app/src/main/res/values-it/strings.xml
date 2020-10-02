@@ -1046,5 +1046,7 @@
     <string name="sonyswr12_settings_low_vibration">Bassa vibrazione abilitata</string>
     <string name="sonyswr12_settings_stamina">La modalità di risparmio energetico è attiva</string>
     <string name="sonyswr12_settings_alarm_interval">Intervallo di allarme intelligente in pochi minuti</string>
-    <string name="sonyswr12_settings_alarm_warning">Per modificare le impostazioni devi prima connetterti al dispositivo!</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Abilita una bassa intensità di vibrazione sulla banda</string>
+    <string name="sonyswr12_settings_stamina_summary">La modalità di risparmio energetico disattiva la misurazione automatica periodica della frequenza cardiaca, quindi aumenta il tempo di lavoro</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">L\'intervallo di allarme intelligente è l\'intervallo prima dell\'allarme installato. In questo intervallo il dispositivo sta cercando di rilevare la fase più leggera del sonno per svegliare l\'utente</string>
 </resources>

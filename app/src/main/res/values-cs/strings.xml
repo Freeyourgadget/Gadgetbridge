@@ -1052,5 +1052,7 @@
     <string name="sonyswr12_settings_low_vibration">Nízké vibrace povoleny</string>
     <string name="sonyswr12_settings_stamina">Režim úspory energie je zapnutý</string>
     <string name="sonyswr12_settings_alarm_interval">Interval inteligentního alarmu v minutách</string>
-    <string name="sonyswr12_settings_alarm_warning">Chcete-li změnit nastavení, měli byste se nejprve připojit k zařízení!</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Povolit nízkou intenzitu vibrací na pásmu</string>
+    <string name="sonyswr12_settings_stamina_summary">Režim úspory energie vypíná periodické automatické měření srdeční frekvence a tím prodlužuje pracovní dobu</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Interval inteligentního alarmu je interval před nainstalovaným alarmem. V tomto intervalu se zařízení pokouší detekovat nejlehčí fázi spánku, aby probudil uživatele</string>
 </resources>

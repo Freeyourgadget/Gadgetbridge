@@ -856,5 +856,7 @@
     <string name="sonyswr12_settings_low_vibration">Baja vibración habilitada</string>
     <string name="sonyswr12_settings_stamina">El modo de ahorro de energía está activado</string>
     <string name="sonyswr12_settings_alarm_interval">Intervalo de alarma inteligente en minutos</string>
-    <string name="sonyswr12_settings_alarm_warning">Para cambiar la configuración, primero debe conectarse al dispositivo.</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Activar baja intensidad de vibración en la pulsera</string>
+    <string name="sonyswr12_settings_stamina_summary">El modo de ahorro de energía desactiva la medición automática periódica de la frecuencia cardíaca, lo que aumenta el tiempo de trabajo</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">El intervalo de alarma inteligente es el intervalo anterior a la alarma instalada. En este intervalo, el dispositivo está tratando de detectar la fase más ligera del sueño para despertar al usuario.</string>
 </resources>

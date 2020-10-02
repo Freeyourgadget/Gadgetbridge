@@ -760,5 +760,7 @@
     <string name="sonyswr12_settings_low_vibration">低振動対応</string>
     <string name="sonyswr12_settings_stamina">省電力モードがオンになっている</string>
     <string name="sonyswr12_settings_alarm_interval">分単位のスマートアラーム間隔</string>
-    <string name="sonyswr12_settings_alarm_warning">設定を変更するには、最初にデバイスに接続する必要があります！</string>
+    <string name="sonyswr12_settings_low_vibration_summary">バンドで低強度の振動を有効にする</string>
+    <string name="sonyswr12_settings_stamina_summary">省電力モードでは、心拍数の定期的な自動測定がオフになり、作業時間が長くなります</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">スマートアラーム間隔は、インストールされたアラームの前の間隔です。 この間隔では、デバイスはユーザーを目覚めさせるために睡眠の最も軽い段階を検出しようとしています</string>
 </resources>

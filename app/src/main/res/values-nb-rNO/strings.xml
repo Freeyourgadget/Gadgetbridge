@@ -1021,5 +1021,7 @@
     <string name="sonyswr12_settings_low_vibration">Lav vibrasjon aktivert</string>
     <string name="sonyswr12_settings_stamina">Strømsparingsmodus er på</string>
     <string name="sonyswr12_settings_alarm_interval">Smart alarmintervall på få minutter</string>
-    <string name="sonyswr12_settings_alarm_warning">For å endre innstillinger, bør du først koble til enheten!</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Aktiver lav vibrasjonsintensitet på båndet</string>
+    <string name="sonyswr12_settings_stamina_summary">Strømsparingsmodus slår av periodisk automatisk måling av hjertefrekvensen og øker dermed arbeidstiden</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Smart alarmintervall er intervall før installert alarm. I dette intervallet prøver enheten å oppdage den letteste søvnfasen for å våkne brukeren</string>
 </resources>

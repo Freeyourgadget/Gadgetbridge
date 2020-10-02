@@ -993,5 +993,7 @@
     <string name="sonyswr12_settings_low_vibration">Ενεργοποιήθηκε χαμηλή δόνηση</string>
     <string name="sonyswr12_settings_stamina">Η λειτουργία εξοικονόμησης ενέργειας είναι ενεργοποιημένη</string>
     <string name="sonyswr12_settings_alarm_interval">Έξυπνο διάστημα συναγερμού σε λίγα λεπτά</string>
-    <string name="sonyswr12_settings_alarm_warning">Για να αλλάξετε τις ρυθμίσεις πρέπει πρώτα να συνδεθείτε στη συσκευή!</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Ενεργοποιήστε τη χαμηλή ένταση των κραδασμών στη ζώνη</string>
+    <string name="sonyswr12_settings_stamina_summary">Η λειτουργία εξοικονόμησης ενέργειας απενεργοποιεί την περιοδική αυτόματη μέτρηση του καρδιακού ρυθμού αυξάνοντας έτσι το χρόνο εργασίας</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Το διάστημα έξυπνου συναγερμού είναι διάστημα πριν από το εγκατεστημένο συναγερμό Σε αυτό το διάστημα η συσκευή προσπαθεί να ανιχνεύσει την ελαφρύτερη φάση ύπνου για να ξυπνήσει ο χρήστης</string>
 </resources>

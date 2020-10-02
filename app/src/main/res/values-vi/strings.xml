@@ -193,5 +193,7 @@
     <string name="sonyswr12_settings_title">Cài đặt Sony SWR12</string>
     <string name="sonyswr12_settings_stamina">Chế độ tiết kiệm pin đang bật</string>
     <string name="sonyswr12_settings_alarm_interval">Khoảng thời gian báo thức thông minh trong vài phút</string>
-    <string name="sonyswr12_settings_alarm_warning">Để thay đổi cài đặt, trước tiên bạn nên kết nối với thiết bị!</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Bật cường độ rung thấp trên thiết bị đeo tay</string>
+    <string name="sonyswr12_settings_stamina_summary">Chế độ tiết kiệm năng lượng tắt tính năng đo nhịp tim tự động định kỳ do đó tăng thời gian làm việc</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Khoảng thời gian báo động thông minh là khoảng thời gian trước khi báo động được cài đặt. Trong khoảng thời gian này, thiết bị đang cố gắng phát hiện giai đoạn ngủ nhẹ nhất để người dùng tỉnh táo</string>
 </resources>

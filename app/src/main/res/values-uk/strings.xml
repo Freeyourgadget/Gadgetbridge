@@ -1057,5 +1057,7 @@
     <string name="sonyswr12_settings_low_vibration">Cлабка вібрація</string>
     <string name="sonyswr12_settings_stamina">Режим енергозбереження ввімкнено</string>
     <string name="sonyswr12_settings_alarm_interval">Інтелектуальний інтервал тривоги в хвилинах</string>
-    <string name="sonyswr12_settings_alarm_warning">Щоб змінити налаштування, спочатку слід підключитися до пристрою!</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Увімкніть низьку інтенсивність вібрації на браслеті</string>
+    <string name="sonyswr12_settings_stamina_summary">Режим енергозбереження вимикає періодичне автоматичне вимірювання частоти серцевих скорочень, таким чином збільшуючи час роботи</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Інтервал інтелектуальної тривоги - це інтервал до встановленої сигналізації. У цей інтервал пристрій намагається виявити найлегшу фазу сну для пробудження користувача</string>
 </resources>

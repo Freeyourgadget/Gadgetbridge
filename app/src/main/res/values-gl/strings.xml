@@ -519,5 +519,7 @@
     <string name="sonyswr12_settings_title">Axustes Sony SWR12</string>
     <string name="sonyswr12_settings_low_vibration">Vibración baixa habilitada</string>
     <string name="sonyswr12_settings_alarm_interval">Intervalo de alarma intelixente en minutos</string>
-    <string name="sonyswr12_settings_alarm_warning">Para cambiar a configuración, primeiro debes conectarte ao dispositivo.</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Activa a baixa intensidade de vibración na banda</string>
+    <string name="sonyswr12_settings_stamina_summary">O modo de aforro de enerxía desactiva a medición automática periódica da frecuencia cardíaca, polo que aumenta o tempo de traballo</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">O intervalo de alarma intelixente é o intervalo antes da alarma instalada. Neste intervalo o dispositivo está intentando detectar a fase máis lixeira do sono para espertar ao usuario</string>
 </resources>

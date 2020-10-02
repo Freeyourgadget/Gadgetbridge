@@ -1063,5 +1063,7 @@
     <string name="sonyswr12_settings_low_vibration">רטט נמוך מופעל</string>
     <string name="sonyswr12_settings_stamina">מצב חיסכון בחשמל פועל</string>
     <string name="sonyswr12_settings_alarm_interval">מרווח אזעקה חכם בדקות</string>
-    <string name="sonyswr12_settings_alarm_warning">כדי לשנות הגדרות כדאי להתחבר תחילה למכשיר!</string>
+    <string name="sonyswr12_settings_low_vibration_summary">אפשר עוצמת רטט נמוכה בלהקה</string>
+    <string name="sonyswr12_settings_stamina_summary">מצב חיסכון בחשמל מכבה מדידה אוטומטית תקופתית של דופק ובכך מגדיל את זמן העבודה</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">מרווח אזעקה חכם הוא מרווח לפני ההתראה המותקנת. במרווח זה מכשיר מנסה לאתר את שלב השינה הקל ביותר למשתמש ער</string>
 </resources>

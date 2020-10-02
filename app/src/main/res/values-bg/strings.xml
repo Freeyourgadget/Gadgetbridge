@@ -599,5 +599,7 @@
     <string name="sonyswr12_settings_low_vibration">Активирана ниска вибрация</string>
     <string name="sonyswr12_settings_stamina">Режимът за пестене на енергия е включен</string>
     <string name="sonyswr12_settings_alarm_interval">Интелигентен алармен интервал в минути</string>
-    <string name="sonyswr12_settings_alarm_warning">За да промените настройките, първо трябва да се свържете с устройството!</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Активирайте ниската интензивност на вибрациите на маншета</string>
+    <string name="sonyswr12_settings_stamina_summary">Режимът за пестене на енергия изключва периодичното автоматично измерване на сърдечната честота, като по този начин увеличава работното време</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Интелигентният алармен интервал е интервал преди инсталираната аларма. В този интервал устройството се опитва да открие най-леката фаза на сън за събуждане на потребителя</string>
 </resources>
