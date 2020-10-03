@@ -1044,6 +1044,7 @@
     <string name="freestyle">Freestyle</string>
     <string name="backstroke">Backstroke</string>
     <string name="medley">Medley</string>
+    <string name="devicetype_nut_mini">Nut Mini</string>
 
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>
