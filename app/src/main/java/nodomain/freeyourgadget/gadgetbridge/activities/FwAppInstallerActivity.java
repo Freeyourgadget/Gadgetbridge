@@ -31,14 +31,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.app.NavUtils;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.core.app.NavUtils;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.ItemWithDetailsAdapter;
@@ -64,16 +65,16 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
     private InstallHandler installHandler;
     private boolean mayConnect;
 
-    private ProgressBar mProgressBar;
+    private ProgressBar progressBar;
     private ListView itemListView;
-    private final List<ItemWithDetails> mItems = new ArrayList<>();
-    private ItemWithDetailsAdapter mItemAdapter;
+    private final List<ItemWithDetails> items = new ArrayList<>();
+    private ItemWithDetailsAdapter itemAdapter;
 
     private ListView detailsListView;
-    private ItemWithDetailsAdapter mDetailsItemAdapter;
-    private ArrayList<ItemWithDetails> mDetails = new ArrayList<>();
+    private ItemWithDetailsAdapter detailsAdapter;
+    private ArrayList<ItemWithDetails> details = new ArrayList<>();
 
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -103,11 +104,11 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
 
     private void refreshBusyState(GBDevice dev) {
         if (dev.isConnecting() || dev.isBusy()) {
-            mProgressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         } else {
-            boolean wasBusy = mProgressBar.getVisibility() != View.GONE;
+            boolean wasBusy = progressBar.getVisibility() != View.GONE;
             if (wasBusy) {
-                mProgressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
                 // done!
             }
         }
@@ -134,28 +135,29 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
             device = dev;
         }
         if (savedInstanceState != null) {
-            mDetails = savedInstanceState.getParcelableArrayList(ITEM_DETAILS);
-            if (mDetails == null) {
-                mDetails = new ArrayList<>();
+            details = savedInstanceState.getParcelableArrayList(ITEM_DETAILS);
+            if (details == null) {
+                details = new ArrayList<>();
             }
         }
 
         mayConnect = true;
-        itemListView = (ListView) findViewById(R.id.itemListView);
-        mItemAdapter = new ItemWithDetailsAdapter(this, mItems);
-        itemListView.setAdapter(mItemAdapter);
-        fwAppInstallTextView = (TextView) findViewById(R.id.infoTextView);
-        installButton = (Button) findViewById(R.id.installButton);
-        mProgressBar = (ProgressBar) findViewById(R.id.installProgressBar);
-        detailsListView = (ListView) findViewById(R.id.detailsListView);
-        mDetailsItemAdapter = new ItemWithDetailsAdapter(this, mDetails);
-        mDetailsItemAdapter.setSize(ItemWithDetailsAdapter.SIZE_SMALL);
-        detailsListView.setAdapter(mDetailsItemAdapter);
+        itemListView = findViewById(R.id.itemListView);
+        itemAdapter = new ItemWithDetailsAdapter(this, items);
+        itemListView.setAdapter(itemAdapter);
+        fwAppInstallTextView = findViewById(R.id.infoTextView);
+        installButton = findViewById(R.id.installButton);
+        progressBar = findViewById(R.id.installProgressBar);
+        detailsListView = findViewById(R.id.detailsListView);
+        detailsAdapter = new ItemWithDetailsAdapter(this, details);
+        detailsAdapter.setSize(ItemWithDetailsAdapter.SIZE_SMALL);
+        detailsListView.setAdapter(detailsAdapter);
+
         setInstallEnabled(false);
         IntentFilter filter = new IntentFilter();
         filter.addAction(GBDevice.ACTION_DEVICE_CHANGED);
         filter.addAction(GB.ACTION_DISPLAY_MESSAGE);
-        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter);
 
         installButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,7 +169,7 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
         });
 
         uri = getIntent().getData();
-        if (uri == null) { //for "share" intent
+        if (uri == null) { // For "share" intent
             uri = getIntent().getParcelableExtra(Intent.EXTRA_STREAM);
         }
         installHandler = findInstallHandlerFor(uri);
@@ -188,7 +190,7 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(ITEM_DETAILS, mDetails);
+        outState.putParcelableArrayList(ITEM_DETAILS, details);
     }
 
     private InstallHandler findInstallHandlerFor(Uri uri) {
@@ -236,7 +238,7 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
 
     @Override
     protected void onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
         super.onDestroy();
     }
 
@@ -259,19 +261,19 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
 
     @Override
     public void clearInstallItems() {
-        mItems.clear();
-        mItemAdapter.notifyDataSetChanged();
+        items.clear();
+        itemAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void setInstallItem(ItemWithDetails item) {
-        mItems.clear();
-        mItems.add(item);
-        mItemAdapter.notifyDataSetChanged();
+        items.clear();
+        items.add(item);
+        itemAdapter.notifyDataSetChanged();
     }
 
     private void addMessage(String message, int severity) {
-        mDetails.add(new GenericItem(message));
-        mDetailsItemAdapter.notifyDataSetChanged();
+        details.add(new GenericItem(message));
+        detailsAdapter.notifyDataSetChanged();
     }
 }
