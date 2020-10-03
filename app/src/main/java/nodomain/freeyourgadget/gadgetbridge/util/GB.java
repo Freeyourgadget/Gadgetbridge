@@ -80,6 +80,14 @@ public class GB {
     public static final String DISPLAY_MESSAGE_DURATION = "duration";
     public static final String DISPLAY_MESSAGE_SEVERITY = "severity";
 
+    /** Commands related to the progress (bar) on the screen */
+    public static final String ACTION_SET_PROGRESS_BAR = "GB_Set_Progress_Bar";
+    public static final String PROGRESS_BAR_INDETERMINATE = "indeterminate";
+    public static final String PROGRESS_BAR_MAX = "max";
+    public static final String PROGRESS_BAR_PROGRESS = "progress";
+    public static final String ACTION_SET_PROGRESS_TEXT = "GB_Set_Progress_Text";
+    public static final String ACTION_SET_INFO_TEXT = "GB_Set_Info_Text";
+
     private static PendingIntent getContentIntent(Context context) {
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK

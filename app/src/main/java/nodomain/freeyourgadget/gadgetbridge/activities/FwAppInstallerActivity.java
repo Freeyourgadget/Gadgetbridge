@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Lem Dulfo
+    Gobbetti, Lem Dulfo, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -66,6 +66,7 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
     private boolean mayConnect;
 
     private ProgressBar progressBar;
+    private TextView progressText;
     private ListView itemListView;
     private final List<ItemWithDetails> items = new ArrayList<>();
     private ItemWithDetailsAdapter itemAdapter;
@@ -94,6 +95,23 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
                         validateInstallation();
                     }
                 }
+            } else if (GB.ACTION_SET_PROGRESS_BAR.equals(action)) {
+                if (intent.hasExtra(GB.PROGRESS_BAR_INDETERMINATE)) {
+                    setProgressIndeterminate(intent.getBooleanExtra(GB.PROGRESS_BAR_INDETERMINATE, false));
+                }
+
+                if (intent.hasExtra(GB.PROGRESS_BAR_PROGRESS)) {
+                    setProgressIndeterminate(false);
+                    setProgressBar(intent.getIntExtra(GB.PROGRESS_BAR_PROGRESS, 0));
+                }
+            } else if (GB.ACTION_SET_PROGRESS_TEXT.equals(action)) {
+                if (intent.hasExtra(GB.DISPLAY_MESSAGE_MESSAGE)) {
+                    setProgressText(intent.getStringExtra(GB.DISPLAY_MESSAGE_MESSAGE));
+                }
+            } else if (GB.ACTION_SET_INFO_TEXT.equals(action)) {
+                if (intent.hasExtra(GB.DISPLAY_MESSAGE_MESSAGE)) {
+                    setInfoText(intent.getStringExtra(GB.DISPLAY_MESSAGE_MESSAGE));
+                }
             } else if (GB.ACTION_DISPLAY_MESSAGE.equals(action)) {
                 String message = intent.getStringExtra(GB.DISPLAY_MESSAGE_MESSAGE);
                 int severity = intent.getIntExtra(GB.DISPLAY_MESSAGE_SEVERITY, GB.INFO);
@@ -112,6 +130,20 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
                 // done!
             }
         }
+    }
+
+    public void setProgressIndeterminate(boolean indeterminate) {
+        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setIndeterminate(indeterminate);
+    }
+
+    public void setProgressBar(int progress) {
+        progressBar.setProgress(progress);
+    }
+
+    public void setProgressText(String text) {
+        progressText.setVisibility(View.VISIBLE);
+        progressText.setText(text);
     }
 
     private void connect() {
@@ -148,6 +180,7 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
         fwAppInstallTextView = findViewById(R.id.infoTextView);
         installButton = findViewById(R.id.installButton);
         progressBar = findViewById(R.id.installProgressBar);
+        progressText = findViewById(R.id.installProgressText);
         detailsListView = findViewById(R.id.detailsListView);
         detailsAdapter = new ItemWithDetailsAdapter(this, details);
         detailsAdapter.setSize(ItemWithDetailsAdapter.SIZE_SMALL);
@@ -157,6 +190,9 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
         IntentFilter filter = new IntentFilter();
         filter.addAction(GBDevice.ACTION_DEVICE_CHANGED);
         filter.addAction(GB.ACTION_DISPLAY_MESSAGE);
+        filter.addAction(GB.ACTION_SET_PROGRESS_BAR);
+        filter.addAction(GB.ACTION_SET_PROGRESS_TEXT);
+        filter.addAction(GB.ACTION_SET_INFO_TEXT);
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter);
 
         installButton.setOnClickListener(new View.OnClickListener() {

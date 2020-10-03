@@ -20,6 +20,9 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
 import android.net.Uri;
+import android.widget.Toast;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,11 +30,19 @@ import org.slf4j.LoggerFactory;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.UUID;
 
+import no.nordicsemi.android.dfu.DfuLogListener;
+import no.nordicsemi.android.dfu.DfuProgressListener;
+import no.nordicsemi.android.dfu.DfuProgressListenerAdapter;
+import no.nordicsemi.android.dfu.DfuServiceController;
+import no.nordicsemi.android.dfu.DfuServiceInitiator;
+import no.nordicsemi.android.dfu.DfuServiceListenerHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
-import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeJFConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeDFUService;
+import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -52,13 +63,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotificat
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.OverflowStrategy;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
-
+public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuLogListener {
     private static final Logger LOG = LoggerFactory.getLogger(PineTimeJFSupport.class);
-    private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
-    private final DeviceInfoProfile<PineTimeJFSupport> deviceInfoProfile;
 
     /**
      * These are used to keep track when long strings haven't changed,
@@ -69,6 +79,126 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
     String lastAlbum;
     String lastTrack;
     String lastArtist;
+
+    private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
+
+    private final DeviceInfoProfile<PineTimeJFSupport> deviceInfoProfile;
+
+    PineTimeInstallHandler handler;
+    DfuServiceController controller;
+
+    private final DfuProgressListener progressListener = new DfuProgressListenerAdapter() {
+        private final LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
+
+        /**
+         * Sets the progress bar to indeterminate or not, also makes it visible
+         *
+         * @param indeterminate if indeterminate
+         */
+        public void setIndeterminate(boolean indeterminate) {
+            manager.sendBroadcast(new Intent(GB.ACTION_SET_PROGRESS_BAR).putExtra(GB.PROGRESS_BAR_INDETERMINATE, indeterminate));
+        }
+
+        /**
+         * Sets the status text and logs it
+         */
+        public void setProgress(int progress) {
+            manager.sendBroadcast(new Intent(GB.ACTION_SET_PROGRESS_BAR).putExtra(GB.PROGRESS_BAR_PROGRESS, progress));
+        }
+
+        /**
+         * Sets the text that describes progress
+         *
+         * @param progressText text to display
+         */
+        public void setProgressText(String progressText) {
+            manager.sendBroadcast(new Intent(GB.ACTION_SET_PROGRESS_TEXT).putExtra(GB.DISPLAY_MESSAGE_MESSAGE, progressText));
+        }
+
+        @Override
+        public void onDeviceConnecting(final String mac) {
+            this.setIndeterminate(true);
+            this.setProgressText("Device is connecting");
+        }
+
+        @Override
+        public void onDeviceConnected(final String mac) {
+            this.setIndeterminate(true);
+            this.setProgressText("Device is connected");
+        }
+
+        @Override
+        public void onEnablingDfuMode(final String mac) {
+            this.setIndeterminate(true);
+            this.setProgressText("Upload is starting");
+        }
+
+        @Override
+        public void onDfuProcessStarting(final String mac) {
+            this.setIndeterminate(true);
+            this.setProgressText("Upload is starting");
+        }
+
+        @Override
+        public void onDfuProcessStarted(final String mac) {
+            this.setIndeterminate(true);
+            this.setProgressText("Upload has started");
+        }
+
+        @Override
+        public void onDeviceDisconnecting(final String mac) {
+            this.setProgressText("Device is disconnecting!");
+        }
+
+        @Override
+        public void onDeviceDisconnected(final String mac) {
+            this.setIndeterminate(true);
+            this.setProgressText("Device has disconnected!");
+        }
+
+        @Override
+        public void onDfuCompleted(final String mac) {
+            this.setProgressText("Upload has completed");
+            this.setIndeterminate(false);
+            this.setProgress(100);
+
+            handler = null;
+            controller = null;
+            DfuServiceListenerHelper.unregisterProgressListener(getContext(), progressListener);
+
+            // TODO: Request reconnection
+        }
+
+        @Override
+        public void onFirmwareValidating(final String mac) {
+            this.setIndeterminate(true);
+            this.setProgressText("Upload is being validated");
+        }
+
+        @Override
+        public void onDfuAborted(final String mac) {
+            this.setProgressText("Upload has been aborted!");
+        }
+
+        @Override
+        public void onError(final String mac, int error, int errorType, final String message) {
+            this.setProgressText("Upload has failed");
+        }
+
+        @Override
+        public void onProgressChanged(final String mac,
+                                      int percent,
+                                      float speed,
+                                      float averageSpeed,
+                                      int segment,
+                                      int totalSegments) {
+            this.setProgress(percent);
+            this.setIndeterminate(false);
+            this.setProgressText(String.format(Locale.ENGLISH,
+                    "Upload is in progress\n%1s%% at %.2fkbps (average %.2fkbps)\nPart %1d of %1d",
+                    percent, speed, averageSpeed, segment, totalSegments));
+        }
+    };
 
     public PineTimeJFSupport() {
         super(LOG);
@@ -93,6 +223,32 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
+        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
+        requestDeviceInfo(builder);
+        onSetTime();
+        builder.notify(getCharacteristic(UUID_CHARACTERISTICS_MUSIC_EVENT), true);
+        setInitialized(builder);
+        return builder;
+    }
+
+    private void setInitialized(TransactionBuilder builder) {
+        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
+    }
+
+    private void requestDeviceInfo(TransactionBuilder builder) {
+        LOG.debug("Requesting Device Info!");
+        deviceInfoProfile.requestDeviceInfo(builder);
+    }
+
+    private void handleDeviceInfo(DeviceInfo info) {
+        LOG.warn("Device info: " + info);
+        versionCmd.hwVersion = info.getHardwareRevision();
+        versionCmd.fwVersion = info.getFirmwareRevision();
+        handleGBDeviceEvent(versionCmd);
+    }
+
+    @Override
     public boolean useAutoConnect() {
         return false;
     }
@@ -113,7 +269,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetTime() {
-        // since this is a standard we should generalize this in Gadgetbridge (properly)
+        // Since this is a standard we should generalize this in Gadgetbridge (properly)
         GregorianCalendar now = BLETypeConversions.createCalendar();
         byte[] bytes = BLETypeConversions.calendarToRawBytes(now);
         byte[] tail = new byte[]{0, BLETypeConversions.mapTimeZone(now.getTimeZone(), BLETypeConversions.TZ_FLAG_INCLUDE_DST_IN_TZ)};
@@ -146,7 +302,35 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onInstallApp(Uri uri) {
+        try {
+            handler = new PineTimeInstallHandler(uri, getContext());
 
+            // TODO: Check validity more closely
+            if (true) {
+                DfuServiceInitiator starter = new DfuServiceInitiator(getDevice().getAddress())
+                        .setDeviceName(getDevice().getName())
+                        .setKeepBond(true)
+                        .setForeground(false)
+                        .setUnsafeExperimentalButtonlessServiceInSecureDfuEnabled(false)
+                        .setMtu(517)
+                        .setZip(uri);
+
+                controller = starter.start(getContext(), PineTimeDFUService.class);
+                DfuServiceListenerHelper.registerProgressListener(getContext(), progressListener);
+                DfuServiceListenerHelper.registerLogListener(getContext(), this);
+
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(GB.ACTION_SET_PROGRESS_BAR)
+                        .putExtra(GB.PROGRESS_BAR_INDETERMINATE, true)
+                );
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(GB.ACTION_SET_PROGRESS_TEXT)
+                        .putExtra(GB.DISPLAY_MESSAGE_MESSAGE, "Starting DFU")
+                );
+            } else {
+                // TODO: Handle invalid firmware files
+            }
+        } catch (Exception ex) {
+            GB.toast(getContext(), "Firmware cannot be installed: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+        }
     }
 
     @Override
@@ -196,11 +380,14 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFindDevice(boolean start) {
-        onSetConstantVibration(start ? 0xff : 0x00);
+        TransactionBuilder builder = new TransactionBuilder("Enable alert");
+        builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL), new byte[]{(byte) (start ? 0x01 : 0x00)});
+        builder.queue(getQueue());
     }
 
     @Override
     public void onSetConstantVibration(int intensity) {
+
     }
 
     @Override
@@ -268,7 +455,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
 
             builder.queue(getQueue());
         } catch (Exception e) {
-            LOG.error("error sending music info", e);
+            LOG.error("Error sending music info", e);
         }
     }
 
@@ -304,7 +491,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
             builder.queue(getQueue());
 
         } catch (Exception e) {
-            LOG.error("error sending music state", e);
+            LOG.error("Error sending music state", e);
         }
 
     }
@@ -416,5 +603,13 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
         versionCmd.hwVersion = info.getHardwareRevision();
         versionCmd.fwVersion = info.getFirmwareRevision();
         handleGBDeviceEvent(versionCmd);
+    }
+
+    /**
+     * Nordic DFU needs this function to log DFU-related messages
+     */
+    @Override
+    public void onLogEvent(final String deviceAddress, final int level, final String message) {
+        LOG.debug(message);
     }
 }

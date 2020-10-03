@@ -3,8 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:animateLayoutChanges="true"
@@ -40,11 +39,12 @@
             android:layout_alignParentTop="false"
             android:layout_below="@+id/infoTextView"
             android:layout_centerHorizontal="true"
-            android:contentDescription="Status Icon" />
+            android:contentDescription="Status icon" />
 
         <ProgressBar
+            style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
             android:id="@+id/installProgressBar"
-            android:layout_width="40dp"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@+id/fwappStatusIcon"
             android:layout_centerHorizontal="true"
@@ -67,12 +67,20 @@
             android:enabled="false"
             android:text="@string/appinstaller_install" />
 
+        <TextView
+            android:id="@+id/installProgressText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/installProgressBar"
+            android:layout_gravity="start"
+            android:visibility="gone" />
+
         <ListView
             android:id="@+id/detailsListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="false"
-            android:layout_below="@+id/installButton" />
+            android:layout_below="@+id/installProgressText" />
 
         <android.widget.Space
             android:layout_width="wrap_content"

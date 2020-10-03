@@ -20,11 +20,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.text.Collator;
+import java.util.Objects;
 
 public class GenericItem implements ItemWithDetails {
     private String name;
     private String details;
     private int icon;
+    private boolean warning = false;
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator<GenericItem>() {
         @Override
@@ -56,9 +58,9 @@ public class GenericItem implements ItemWithDetails {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(getName());
-        dest.writeString(getDetails());
-        dest.writeInt(getIcon());
+        dest.writeString(name);
+        dest.writeString(details);
+        dest.writeInt(icon);
     }
 
     public void setName(String name) {
@@ -66,11 +68,22 @@ public class GenericItem implements ItemWithDetails {
     }
 
     public void setDetails(String details) {
+        if (details.equals("(Unknown version)")) {
+            this.warning = true;
+        }
         this.details = details;
     }
 
     public void setIcon(int icon) {
         this.icon = icon;
+    }
+
+    public boolean getWarning() {
+        return this.warning;
+    }
+
+    public void setWarning(boolean enable) {
+        this.warning = enable;
     }
 
     @Override
@@ -95,32 +108,36 @@ public class GenericItem implements ItemWithDetails {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        if (this == o) {
+            return true;
+        }
 
         GenericItem that = (GenericItem) o;
 
-        return !(getName() != null ? !getName().equals(that.getName()) : that.getName() != null);
-
+        return Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return getName() != null ? getName().hashCode() : 0;
+        return name != null ? name.hashCode() : 0;
     }
 
     @Override
     public int compareTo(ItemWithDetails another) {
-        if (getName().equals(another.getName())) {
+        if (name.equals(another.getName())) {
             return 0;
         }
 
-        if (getName() == null) {
+        if (name == null) {
             return +1;
         } else if (another.getName() == null) {
             return -1;
         }
 
-        return Collator.getInstance().compare(getName(), another.getName());
+        return Collator.getInstance().compare(name, another.getName());
     }
 }
