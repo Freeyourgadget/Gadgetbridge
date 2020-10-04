@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.pinetime;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
@@ -39,6 +40,7 @@ import no.nordicsemi.android.dfu.DfuProgressListenerAdapter;
 import no.nordicsemi.android.dfu.DfuServiceController;
 import no.nordicsemi.android.dfu.DfuServiceInitiator;
 import no.nordicsemi.android.dfu.DfuServiceListenerHelper;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeDFUService;
@@ -89,6 +91,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
 
     private final DfuProgressListener progressListener = new DfuProgressListenerAdapter() {
         private final LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
+        private final Context context = getContext();
 
         /**
          * Sets the progress bar to indeterminate or not, also makes it visible
@@ -118,53 +121,53 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         @Override
         public void onDeviceConnecting(final String mac) {
             this.setIndeterminate(true);
-            this.setProgressText("Device is connecting");
+            this.setProgressText(context.getString(R.string.devicestatus_connecting));
         }
 
         @Override
         public void onDeviceConnected(final String mac) {
             this.setIndeterminate(true);
-            this.setProgressText("Device is connected");
+            this.setProgressText(context.getString(R.string.devicestatus_connected));
         }
 
         @Override
         public void onEnablingDfuMode(final String mac) {
             this.setIndeterminate(true);
-            this.setProgressText("Upload is starting");
+            this.setProgressText(context.getString(R.string.devicestatus_upload_starting));
         }
 
         @Override
         public void onDfuProcessStarting(final String mac) {
             this.setIndeterminate(true);
-            this.setProgressText("Upload is starting");
+            this.setProgressText(context.getString(R.string.devicestatus_upload_starting));
         }
 
         @Override
         public void onDfuProcessStarted(final String mac) {
             this.setIndeterminate(true);
-            this.setProgressText("Upload has started");
+            this.setProgressText(context.getString(R.string.devicestatus_upload_started));
         }
 
         @Override
         public void onDeviceDisconnecting(final String mac) {
-            this.setProgressText("Device is disconnecting!");
+            this.setProgressText(context.getString(R.string.devicestatus_disconnecting));
         }
 
         @Override
         public void onDeviceDisconnected(final String mac) {
             this.setIndeterminate(true);
-            this.setProgressText("Device has disconnected!");
+            this.setProgressText(context.getString(R.string.devicestatus_disconnected));
         }
 
         @Override
         public void onDfuCompleted(final String mac) {
-            this.setProgressText("Upload has completed");
+            this.setProgressText(context.getString(R.string.devicestatus_upload_completed));
             this.setIndeterminate(false);
             this.setProgress(100);
 
             handler = null;
             controller = null;
-            DfuServiceListenerHelper.unregisterProgressListener(getContext(), progressListener);
+            DfuServiceListenerHelper.unregisterProgressListener(context, progressListener);
 
             // TODO: Request reconnection
         }
@@ -172,17 +175,17 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         @Override
         public void onFirmwareValidating(final String mac) {
             this.setIndeterminate(true);
-            this.setProgressText("Upload is being validated");
+            this.setProgressText(context.getString(R.string.devicestatus_upload_validating));
         }
 
         @Override
         public void onDfuAborted(final String mac) {
-            this.setProgressText("Upload has been aborted!");
+            this.setProgressText(context.getString(R.string.devicestatus_upload_aborted));
         }
 
         @Override
         public void onError(final String mac, int error, int errorType, final String message) {
-            this.setProgressText("Upload has failed");
+            this.setProgressText(context.getString(R.string.devicestatus_upload_failed));
         }
 
         @Override
@@ -195,7 +198,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
             this.setProgress(percent);
             this.setIndeterminate(false);
             this.setProgressText(String.format(Locale.ENGLISH,
-                    "Upload is in progress\n%1s%% at %.2fkbps (average %.2fkbps)\nPart %1d of %1d",
+                    context.getString(R.string.firmware_update_progress),
                     percent, speed, averageSpeed, segment, totalSegments));
         }
     };
@@ -323,13 +326,13 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                         .putExtra(GB.PROGRESS_BAR_INDETERMINATE, true)
                 );
                 LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(GB.ACTION_SET_PROGRESS_TEXT)
-                        .putExtra(GB.DISPLAY_MESSAGE_MESSAGE, "Starting DFU")
+                        .putExtra(GB.DISPLAY_MESSAGE_MESSAGE, getContext().getString(R.string.devicestatus_upload_starting))
                 );
             } else {
                 // TODO: Handle invalid firmware files
             }
         } catch (Exception ex) {
-            GB.toast(getContext(), "Firmware cannot be installed: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+            GB.toast(getContext(), getContext().getString(R.string.updatefirmwareoperation_write_failed) + ":" + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
         }
     }
 
