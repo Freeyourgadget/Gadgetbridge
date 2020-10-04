@@ -419,8 +419,6 @@
     <string name="mi2_prefs_button_action_vibrate_summary">Zapnout vibrace náramku při stisknutí tlačítka</string>
     <string name="mi2_prefs_button_press_count_max_delay">Maximální zpoždění mezi stisky</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Maximální zpoždění mezi stisknutím tlačítka v milisekundách</string>
-    <string name="mi2_prefs_button_press_count_match_delay">Zpoždění po provedení akce tlačítka</string>
-    <string name="mi2_prefs_button_press_count_match_delay_summary">Zpoždění po provedení akce tlačítka (číslo je v button_id) nebo 0 pro okamžitě</string>
     <string name="fw_upgrade_notice_amazfitbip">Chystáte se nainstalovat firmvér %s na vašem Amazfit Bip.
 \n
 \nProsím nezapomeňte nainstalovat soubor .fw, potom soubor .res a nakonec soubor .gps. Vaše hodinky se po instalaci souboru .fw restartují.
@@ -446,7 +444,6 @@
     <string name="pref_title_auto_export_location">Složka pro uložení</string>
     <string name="pref_title_auto_export_interval">Časový interval</string>
     <string name="pref_summary_auto_export_interval">Exportovat každou %d hodinu</string>
-    <string name="preferences_amazfitbip_settings">Nastavení Amazfit Bip</string>
     <string name="prefs_title_heartrate_measurement_interval">Celodenní měření tepu</string>
     <string name="interval_one_minute">Jednou za minutu</string>
     <string name="interval_five_minutes">Každých 5 minut</string>
@@ -947,7 +944,6 @@
     <string name="laps">Bazénů</string>
     <string name="swimStyle">Plavecký styl</string>
     <string name="swolfIndex">Hodnocení swolf</string>
-    <string name="strokes">Záběry</string>
     <string name="averageLapPace">Průměrné Tempo Bazénu</string>
     <string name="averageStrokesPerSecond">Průměrné Záběry</string>
     <string name="averageStrokeDistance">Průměrná Délka Záběru</string>

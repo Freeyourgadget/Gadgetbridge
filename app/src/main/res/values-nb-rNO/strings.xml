@@ -452,8 +452,6 @@
     <string name="mi2_prefs_button_action_vibrate_summary">Skru på knappetrykk ved knappetrykk</string>
     <string name="mi2_prefs_button_press_count_max_delay">Maksimal forsinkelse mellom trykk</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Maksimal forsinkelse mellom knappetrykk i millisekunder</string>
-    <string name="mi2_prefs_button_press_count_match_delay">Forsinkelse etter knappetrykkshandling</string>
-    <string name="mi2_prefs_button_press_count_match_delay_summary">Forsinkelse etter at én knappetrykkshandling samsvarer (nummeret er i button_id intent extra) eller 0 for umiddelbar</string>
     <string name="mi2_prefs_activate_display_on_lift">Aktiver skjerm ved løfting</string>
     <string name="activity_db_management_import_export_explanation">Databaseoperasjoner bruker følgende sti på din enhet.
 \nDenne stien er tilgjengelig for andre Android-programmer og din datamaskin.
@@ -811,11 +809,6 @@
     <string name="pref_disable_new_ble_scanning">Skru av ny BLE-skanning</string>
     <string name="pref_summary_disable_new_ble_scanning">Velg dette hvis enheten du ikke finner enheten din under oppdagelse</string>
     <string name="devicetype_y5">Y5</string>
-    <string name="huami_prefs_button_single_press_action_selection_title">Handling for hendelse 1</string>
-    <string name="huami_prefs_button_double_press_action_selection_title">Handling for hendelse 2</string>
-    <string name="huami_prefs_button_triple_press_action_selection_title">Handling for hendelse 3</string>
-    <string name="huami_prefs_button_variable_actions">Detaljerte knappetrykkingsinnstillinger</string>
-    <string name="huami_prefs_button_long_press_action_selection_title">Handling for langt knappetrykk</string>
     <string name="prefs_button_single_press_action_selection_title">Handling for hendelse 1</string>
     <string name="prefs_button_double_press_action_selection_title">Handling for hendelse 2</string>
     <string name="prefs_button_triple_press_action_selection_title">Handling for hendelse 3</string>
@@ -931,7 +924,6 @@
     <string name="meters">m</string>
     <string name="flatSeconds">Flatt</string>
     <string name="laps">Runder</string>
-    <string name="strokes">Tak</string>
     <string name="averageLapPace">Gjennomsnittlig rundetid</string>
     <string name="averageStrokesPerSecond">Gjennonsnittstak</string>
     <string name="averageStrokeDistance">Gjennomsnittlig taklengde</string>

@@ -320,7 +320,6 @@
     <string name="mi2_prefs_button_action_vibrate_summary">Activar vibración da banda en acción desencadenada por botón</string>
     <string name="mi2_prefs_button_press_count_max_delay">Retardo máximo entre pulsacións</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Retardo máximo en milisegundos entre pulsacións de botón</string>
-    <string name="mi2_prefs_button_press_count_match_delay">Retardo despois da acción do botón</string>
     <string name="mi2_prefs_goal_notification">Notificación de obxectivo</string>
     <string name="mi2_prefs_goal_notification_summary">A pulseira vai vibrar cando se acade o obxectivo diario de pasos</string>
     <string name="mi2_prefs_display_items">Elementos a amosar</string>
@@ -424,7 +423,6 @@
     <string name="pref_summary_pebble_always_ack_pebblekit">Isto fará que as mensaxes enviadas para apps de terceiros sexan recoñecidas sempre e inmediatamente</string>
     <string name="miband_prefs_device_time_offset_hours">Compensación da hora do dispositivo en horas (para detectar o sono de traballadores a turnos)</string>
     <string name="mi2_prefs_button_press_broadcast_summary">Enviar mensaxe despois dun número definido de pulsacións</string>
-    <string name="mi2_prefs_button_press_count_match_delay_summary">Retardo despois dunha acción do botón (o número está en button_id intent extra) ou ben 0 para efecto inmediato</string>
     <string name="pref_summary_pebble_health_store_raw">Se marcado, os datos son almacenados no seu formato orixinal ficando disponíbeis para posterior interpretación. Nota: A base de datos será máis grande!</string>
     <string name="pebble_pairing_hint">Verá unha notificación de emparellamento no seu dispositivo Android. Se non, acceda ás notificacións e acepte a solicitude de emparellamento. posteriormente a solicitude de emparellamento no seu Pebble.</string>
     <string name="weather_notification_label">Asegúrate de que este tema esté activado na aplicación de notificación do clima para obter a información no teu Pebble.

@@ -481,8 +481,6 @@
     <string name="_pebble_watch_open_on_phone">Abrir no Android</string>
     <string name="_pebble_watch_mute">Sem som</string>
     <string name="_pebble_watch_reply">Responder</string>
-    <string name="mi2_prefs_button_press_count_match_delay">Atrasar após ação do botão</string>
-    <string name="mi2_prefs_button_press_count_match_delay_summary">Atraso após uma ação do botão ser considerada válida (número está em button_id intent extra) ou 0 para imediatamente</string>
     <string name="activity_web_view">Web View Atividades</string>
     <string name="automatic">Automático</string>
     <string name="simplified_chinese">Chinês simplificado</string>
@@ -802,7 +800,6 @@
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
     <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
     <string name="preferences_qhybrid_settings">Configurações de Q Hybrid</string>
-    <string name="tasker_notification">Reproduzir notificação do Q Hybrid</string>
     <string name="watch_not_connected">Relógio não conectado</string>
     <string name="qhybrid_vibration_strength">força da vibração:</string>
     <string name="qhybrid_goal_in_steps">Meta em passos</string>
@@ -820,11 +817,6 @@
     <string name="pref_summary_disable_new_ble_scanning">Marque essa opção se seu dispositivo não pode ser encontrado durante descobertas</string>
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="devicetype_y5">Y5</string>
-    <string name="huami_prefs_button_single_press_action_selection_title">Ação do evento 1</string>
-    <string name="huami_prefs_button_double_press_action_selection_title">Ação do evento 2</string>
-    <string name="huami_prefs_button_triple_press_action_selection_title">Ação do evento 3</string>
-    <string name="huami_prefs_button_variable_actions">Configurações detalhadas de pressionamento do botão</string>
-    <string name="huami_prefs_button_long_press_action_selection_title">Ação de pressionamento longo de botão</string>
     <string name="prefs_button_single_press_action_selection_title">Ação do Evento 1</string>
     <string name="prefs_button_double_press_action_selection_title">Ação do Evento 2</string>
     <string name="prefs_button_triple_press_action_selection_title">Ação do Evento 3</string>

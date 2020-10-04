@@ -343,7 +343,6 @@
     <string name="mi2_prefs_button_action_vibrate_summary">Activa la vibració de la pulsera en prémer el botó d\'acció</string>
     <string name="mi2_prefs_button_press_count_max_delay">Retard màxim entre pulsacions</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Retard màxim entre pulsacions del botó en mil·lisegons</string>
-    <string name="mi2_prefs_button_press_count_match_delay">Retard després de l\'acció de botó</string>
     <string name="mi2_prefs_goal_notification">Notificació d\'objectiu</string>
     <string name="mi2_prefs_goal_notification_summary">La polsera vibrarà quan l\'objectiu diari de passes siga assolit</string>
     <string name="mi2_prefs_display_items">Elements a mostrar</string>
@@ -438,7 +437,6 @@
     <string name="pref_summary_dont_ack_transfers">Si l\'arribada de les dades d\'activitats no és notificada a la polsera, aquestes dades no s\'eliminaran. Aquesta opció pot ser útil si feu servir el Gadgebridge també amb altres aplicacions.</string>
     <string name="pref_summary_keep_data_on_device">Les dades d\'activitats de la Mi Band es guardaran fins i tot després de sincronitzar. Aquesta opció pot ser útil si feu servir el Gadgebridge també amb altres aplicacions.</string>
     <string name="mi2_prefs_button_press_broadcast_summary">Difón el missatge enviat amb l\'esdeveniment. El paràmetre `button_id` és afegit automàticament a cada missatge.</string>
-    <string name="mi2_prefs_button_press_count_match_delay_summary">Retard després d\'una acció de botó (el nombre és a l\'intent extra de button_id) o 0 per procedir immediatament</string>
     <string name="pref_title_pebble_health_store_raw">Desa dades sense processar a la base de dades</string>
     <string name="pref_summary_pebble_health_store_raw">Desa les dades \"tal qual\", tot augmentant l\'ús de la base de dades per tal de permetre possibles interpretacions més tard.</string>
     <string name="action_db_management">Gestió de la base de dades</string>
@@ -858,8 +856,6 @@
     <string name="power_mode_watch">Només rellotge</string>
     <string name="power_mode_saving">Estalvi d\'energia</string>
     <string name="power_mode_normal">Normal</string>
-    <string name="pref_title_longsit">Període d\'inactivitat (minuts)</string>
-    <string name="prefs_longsit_switch">Recordatori d\'inactivitat</string>
     <string name="prefs_sensors_button_bp_calibration_sum">Prem aquí per començar la calibració</string>
     <string name="prefs_sensors_button_bp_calibration">Calibració</string>
     <string name="pref_sensors_bp_calibration">Calibració de la pressió sanguínia</string>

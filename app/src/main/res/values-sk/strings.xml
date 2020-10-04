@@ -355,8 +355,6 @@
     <string name="mi2_prefs_button_action_vibrate_summary">Zapnúť vibrácie náramku pri stlačení tlačidla</string>
     <string name="mi2_prefs_button_press_count_max_delay">Maximálne oneskorenie medzi stlačeniami</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Maximálne oneskorenie medzi stlačením tlačidla v milisekundách</string>
-    <string name="mi2_prefs_button_press_count_match_delay">Oneskorenie po vykonaní akcie tlačidla</string>
-    <string name="mi2_prefs_button_press_count_match_delay_summary">Oneskorenie po vykonaní akcie tlačidla (číslo je v button_id) alebo 0 pre okamžite</string>
     <string name="mi2_prefs_goal_notification">Upozornenie na cieľ</string>
     <string name="mi2_prefs_goal_notification_summary">Náramok zavibruje pri dosiahnutí cieľa denného počtu krokov</string>
     <string name="mi2_prefs_display_items">Zobrazenie položiek</string>

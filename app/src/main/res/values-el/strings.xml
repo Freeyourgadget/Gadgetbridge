@@ -349,8 +349,6 @@
     <string name="mi2_prefs_button_action_vibrate_summary">Ενεργοποίηση δόνησης όταν πατιέται το κουμπί</string>
     <string name="mi2_prefs_button_press_count_max_delay">Μέγιστος χρόνος μεταξύ των χτυπημάτων του κουμπιού</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Μέγιστος χρόνος μεταξύ των χτυπημάτων του κουμπιού (σε χιλιοστά του δευτερολέπτου)</string>
-    <string name="mi2_prefs_button_press_count_match_delay">Χρόνος αναμονής μετά το πάτημα του κουμπιού</string>
-    <string name="mi2_prefs_button_press_count_match_delay_summary">Καθυστέρηση μετά από μια ενέργεια αντιστοίχισης του κουμπιού (ο αριθμός καθορίζεται στο button_id) ή βάλτε 0 για να μην υπάρχει καθυστέρηση</string>
     <string name="mi2_prefs_goal_notification">Ειδοποίηση επίτευξης στόχου</string>
     <string name="mi2_prefs_goal_notification_summary">Το Mi Band θα κάνει δόνηση όταν ο ημερήσιος στόχος για τα βήματα επιτευχθεί</string>
     <string name="mi2_prefs_display_items">Πληροφορίες που θα εμφανίζονται</string>

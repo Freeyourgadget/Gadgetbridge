@@ -423,12 +423,10 @@
     <string name="mi2_prefs_button_action_vibrate_summary">הפעלת רטט בצמיד עם פעולת כפתור</string>
     <string name="mi2_prefs_button_press_count_max_delay">הפרש מרבי בין לחיצות</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">הפרש מרבי בין לחיצות על הכפתור במילישניות</string>
-    <string name="mi2_prefs_button_press_count_match_delay">הפרש לאחר לחיצת כפתור</string>
     <string name="_pebble_watch_open_on_phone">פתיחה בהתקן Android</string>
     <string name="_pebble_watch_mute">השתקה</string>
     <string name="_pebble_watch_reply">תגובה</string>
     <string name="pref_title_pebble_enable_bgjs">הפעלת JS ברקע</string>
-    <string name="mi2_prefs_button_press_count_match_delay_summary">המתנה לאחר התאמת פעולת כפתור אחת (המספר נמצא בתוספת של intent בשם button_id) או 0 לתגובה מיידית</string>
     <string name="activity_web_view">פעילות תצוגת דפדפן</string>
     <string name="controlcenter_connect">התחבר …</string>
     <string name="pref_summary_pebble_enable_bgjs">כשאפשרות זו פעילה, יתאפשר למסיכות השעון להציג מזג אוויר, סוללה וכו׳.</string>
@@ -440,7 +438,6 @@
 \n
 \nהמשך מעבר לנקודה זו הוא על אחריותך!</string>
     <string name="pref_title_charts_swipe">הפעלת הסטה לימין/שמאל בפעילות התרשימים</string>
-    <string name="preferences_amazfitbip_settings">הגדרות Amazfit Bip</string>
     <string name="automatic">אוטומטי</string>
     <string name="simplified_chinese">סינית מפושטת</string>
     <string name="traditional_chinese">סינית מסורתית</string>
@@ -802,7 +799,6 @@
     <string name="qhybrid_buttons_overwrite_success">הכפתורים נדרסו</string>
     <string name="qhybrid_buttons_overwrite_error">דריסת הכפתורים נכשלה</string>
     <string name="qhybrid_changes_delay_prompt">השינויים יתבצעו בהקדם…</string>
-    <string name="tasker_notification">הקפצת התראה ב־Q Hybrid</string>
     <string name="qhybrid_use_activity_hand_as_notification_counter">להשתמש ביד הפעילות כמונה התראות</string>
     <string name="qhybrid_offset_timezone">מרחק מאזור זמן</string>
     <string name="qhybrid_offset_time_by">מרחק מהשעה</string>
@@ -810,11 +806,6 @@
     <string name="pref_summary_disable_new_ble_scanning">יש לסמן את האפשרות הזאת אם המכשיר שלך לא נמצא במהלך האיתור</string>
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="devicetype_y5">Y5</string>
-    <string name="huami_prefs_button_single_press_action_selection_title">פעולה של אירוע 1</string>
-    <string name="huami_prefs_button_double_press_action_selection_title">פעולה של אירוע 2</string>
-    <string name="huami_prefs_button_triple_press_action_selection_title">פעולה של אירוע 3</string>
-    <string name="huami_prefs_button_variable_actions">הגדרות נרחבות ללחיצת כפתור</string>
-    <string name="huami_prefs_button_long_press_action_selection_title">פעולת לחיצה ארוכה על הכפתור</string>
     <string name="prefs_button_single_press_action_selection_title">פעולה עם אירוע 1</string>
     <string name="prefs_button_double_press_action_selection_title">פעולה עם אירוע 2</string>
     <string name="prefs_button_triple_press_action_selection_title">פעולה עם אירוע 3</string>
@@ -867,9 +858,6 @@
     <string name="power_mode_watch">שעון בלבד</string>
     <string name="power_mode_saving">חיסכון בחשמל</string>
     <string name="power_mode_normal">רגיל</string>
-    <string name="pref_title_longsit">משך חוסר פעילות (דקות)</string>
-    <string name="prefs_longsit_switch">תזכורת חוסר פעילות</string>
-    <string name="pref_summary_longsit">להזכיר לי במקרה של חוסר פעילות למשך X דקות</string>
     <string name="prefs_sensors_button_bp_calibration_sum">יש ללחוץ כאן כדי להתחיל כיול</string>
     <string name="prefs_sensors_button_bp_calibration">כיול</string>
     <string name="pref_sensors_bp_calibration_high">לחץ דם סיסטולי (גבוה)</string>
@@ -977,7 +965,6 @@
     <string name="km_h">קמ״ש</string>
     <string name="meters_second">מ׳/שנ׳</string>
     <string name="steps_unit">צעדים</string>
-    <string name="strokes">תנועות חתירה</string>
     <string name="averageStrokesPerSecond">תנועות חתירה בממוצע</string>
     <string name="averageStrokeDistance">מרחק תנועת חתירה ממוצע</string>
     <string name="cm">ס״מ</string>

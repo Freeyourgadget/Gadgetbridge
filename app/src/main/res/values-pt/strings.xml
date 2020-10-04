@@ -446,7 +446,6 @@
     <string name="notif_export_failed_title">Exportação da base de dados falhou. Por favor, verifique as configurações.</string>
     <string name="mi2_prefs_button_actions">Ações do botão</string>
     <string name="mi2_prefs_button_actions_summary">Especificar ações ao carregar no botão</string>
-    <string name="mi2_prefs_button_press_count_match_delay">Atraso após ação do botão</string>
     <string name="mi3_prefs_band_screen_unlock">Desbloqueio do ecrã da pulseira</string>
     <string name="automatic">Automático</string>
     <string name="simplified_chinese">Chinês Simplificado</string>

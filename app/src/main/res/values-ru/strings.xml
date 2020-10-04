@@ -438,8 +438,6 @@
     <string name="mi2_prefs_button_action_vibrate_summary">Включить вибро-отклик браслета в ответ на исполнение действия при нажатии</string>
     <string name="mi2_prefs_button_press_count_max_delay">Максимальная задержка между нажатиями</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Максимальная задержка между нажатиями в миллисекундах</string>
-    <string name="mi2_prefs_button_press_count_match_delay">Задержка после действия при нажатии</string>
-    <string name="mi2_prefs_button_press_count_match_delay_summary">Задержка при выполнении заданного количества нажатий для однократного действия (число указано в button_id). Это число равно нулю для действий без задержки</string>
     <string name="mi2_prefs_goal_notification">Уведомления о достижении цели</string>
     <string name="mi2_prefs_goal_notification_summary">Браслет завибрирует, когда будет выполнена дневная норма шагов</string>
     <string name="mi2_prefs_display_items">Что показывать на экране</string>
@@ -939,7 +937,6 @@
     <string name="Strokes">Взмахи</string>
     <string name="strokes_unit">взм</string>
     <string name="strokes_second">взм/с</string>
-    <string name="strokes">Взмахи</string>
     <string name="averageStrokesPerSecond">Среднее количество взмахов</string>
     <string name="prefs_events_forwarding_action_title">Выполнить действие</string>
     <string name="prefs_events_forwarding_wokeup">При пробуждении</string>

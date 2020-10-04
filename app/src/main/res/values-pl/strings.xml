@@ -330,7 +330,6 @@
     <string name="mi2_prefs_button_action_vibrate">Uruchom wibracje opaski</string>
     <string name="mi2_prefs_button_press_count_max_delay">Maksymalny opóźnienie pomiędzy wciśnięciami</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Maksymalny opóźnienie pomiędzy wciśnięciami w milisekundach</string>
-    <string name="mi2_prefs_button_press_count_match_delay">Opóźnienie po wciśnięciu przycisku akcji</string>
     <string name="mi2_prefs_goal_notification_summary">Opaska zawibruje po osiągnięciu dziennego celu kroków</string>
     <string name="mi2_prefs_do_not_disturb">Nie przeszkadzać</string>
     <string name="pref_summary_notifications_pebblemsg">Obsługa aplikacji wysyłających powiadomienia do Pebble za pośrednictwem PebbleKit.</string>
@@ -542,7 +541,6 @@
     <string name="you_did_not_sleep">Nie spałeś(-aś)</string>
     <string name="mi2_prefs_button_press_broadcast">Wiadomość do rozgłoszenia</string>
     <string name="mi2_prefs_button_press_broadcast_summary">Wiadomość broadcast nadawana wraz z zdarzeniem. Do każdej wiadomości jest automatycznie dodawany parametr `button_id`.</string>
-    <string name="mi2_prefs_button_press_count_match_delay_summary">Opóźnienie po wciśnięciu przycisku (liczba jest w button_id) lub 0 dla bez opóźnienia</string>
     <string name="mi2_prefs_do_not_disturb_summary">Opaska nie będzie otrzymywać powiadomień gdy jest aktywne</string>
     <string name="mi2_prefs_do_not_disturb_start">Początek</string>
     <string name="mi2_prefs_do_not_disturb_end">Koniec</string>
