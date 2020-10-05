@@ -68,7 +68,7 @@ public abstract class AbstractSendNotificationRequest extends Request {
             int maxPayloadLength = NotificationCommand.MAX_PAYLOAD_LENGTH;
             if (reserveSpaceForExtended) maxPayloadLength -= 1;
             maxPayloadLength = Math.min(maxPayloadLength, buffer.limit() - buffer.position());
-            if (maxPayloadLength == 0) break;
+            if (maxPayloadLength == 0 && i != 0) break;
 
             byte[] payload = new byte[maxPayloadLength];
             buffer.get(payload);

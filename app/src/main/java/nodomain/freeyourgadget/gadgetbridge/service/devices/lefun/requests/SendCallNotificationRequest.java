@@ -41,11 +41,11 @@ public class SendCallNotificationRequest extends AbstractSendNotificationRequest
     @Override
     protected String getMessage() {
         String message = "";
-        if (callNotification.number != null) {
+        if (callNotification.number != null &&!callNotification.number.isEmpty()) {
             message = callNotification.number;
         }
 
-        if (callNotification.name != null) {
+        if (callNotification.name != null && !callNotification.name.isEmpty()) {
             if (message.length() > 0) {
                 message += " - ";
             }

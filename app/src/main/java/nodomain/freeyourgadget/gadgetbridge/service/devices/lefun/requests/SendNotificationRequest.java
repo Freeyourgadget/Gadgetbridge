@@ -90,19 +90,19 @@ public class SendNotificationRequest extends AbstractSendNotificationRequest {
         // Based on nodomain.freeyourgadget.gadgetbridge.service.devices.id115.SendNotificationOperation
         String message = "";
 
-        if (notification.phoneNumber != null) {
+        if (notification.phoneNumber != null && !notification.phoneNumber.isEmpty()) {
             message += notification.phoneNumber + ": ";
         }
 
-        if (notification.sender != null) {
+        if (notification.sender != null && !notification.sender.isEmpty()) {
             message += notification.sender + " - ";
-        } else if (notification.title != null) {
+        } else if (notification.title != null && !notification.title.isEmpty()) {
             message += notification.title + " - ";
-        } else if (notification.subject != null) {
+        } else if (notification.subject != null && !notification.sender.isEmpty()) {
             message += notification.subject + " - ";
         }
 
-        if (notification.body != null) {
+        if (notification.body != null && !notification.body.isEmpty()) {
             message += notification.body;
         }
 
