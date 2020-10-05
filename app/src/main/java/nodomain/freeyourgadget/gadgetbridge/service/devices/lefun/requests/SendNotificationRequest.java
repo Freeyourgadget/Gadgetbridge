@@ -98,7 +98,7 @@ public class SendNotificationRequest extends AbstractSendNotificationRequest {
             message += notification.sender + " - ";
         } else if (notification.title != null && !notification.title.isEmpty()) {
             message += notification.title + " - ";
-        } else if (notification.subject != null && !notification.sender.isEmpty()) {
+        } else if (notification.subject != null && !notification.subject.isEmpty()) {
             message += notification.subject + " - ";
         }
 
