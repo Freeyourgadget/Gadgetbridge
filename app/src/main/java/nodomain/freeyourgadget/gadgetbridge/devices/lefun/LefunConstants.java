@@ -22,6 +22,9 @@ import java.util.UUID;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport.BASE_UUID;
 
+/**
+ * Constants used with Lefun device support
+ */
 public class LefunConstants {
     // BLE UUIDs
     public static final UUID UUID_SERVICE_LEFUN = UUID.fromString(String.format(BASE_UUID, "18D0"));
@@ -31,16 +34,12 @@ public class LefunConstants {
     // Coordinator constants
     public static final String ADVERTISEMENT_NAME = "Lefun";
     public static final String MANUFACTURER_NAME = "Teng Jin Da";
-    public static int NUM_ALARM_SLOTS = 5;
-
     // Commands
-    public static final byte CMD_REQUEST_ID = (byte)0xab;
+    public static final byte CMD_REQUEST_ID = (byte) 0xab;
     public static final byte CMD_RESPONSE_ID = 0x5a;
-
     public static final int CMD_MAX_LENGTH = 20;
     // 3 header bytes plus checksum
     public static final int CMD_HEADER_LENGTH = 4;
-
     public static final byte CMD_FIRMWARE_INFO = 0x00;
     public static final byte CMD_BONDING_REQUEST = 0x01;
     public static final byte CMD_SETTINGS = 0x02;
@@ -67,25 +66,23 @@ public class LefunConstants {
     public static final byte CMD_LANGUAGE = 0x21;
     public static final byte CMD_UNKNOWN_22 = 0x22;
     public static final byte CMD_UNKNOWN_25 = 0x25;
-    public static final byte CMD_UNKNOWN_80 = (byte)0x80;
-
+    public static final byte CMD_UNKNOWN_80 = (byte) 0x80;
     public static final int PPG_TYPE_INVALID = -1;
     public static final int PPG_TYPE_HEART_RATE = 0;
     public static final int PPG_TYPE_BLOOD_PRESSURE = 1;
     public static final int PPG_TYPE_BLOOD_OXYGEN = 2;
     public static final int PPG_TYPE_COUNT = 3;
-
     // DB activity kinds
     public static final int DB_ACTIVITY_KIND_UNKNOWN = 0;
     public static final int DB_ACTIVITY_KIND_ACTIVITY = 1;
     public static final int DB_ACTIVITY_KIND_HEART_RATE = 2;
     public static final int DB_ACTIVITY_KIND_LIGHT_SLEEP = 3;
     public static final int DB_ACTIVITY_KIND_DEEP_SLEEP = 4;
-
     // Pseudo-intensity
     public static final int INTENSITY_MIN = 0;
     public static final int INTENSITY_DEEP_SLEEP = 1;
     public static final int INTENSITY_LIGHT_SLEEP = 2;
     public static final int INTENSITY_AWAKE = 3;
     public static final int INTENSITY_MAX = 4;
+    public static int NUM_ALARM_SLOTS = 5;
 }

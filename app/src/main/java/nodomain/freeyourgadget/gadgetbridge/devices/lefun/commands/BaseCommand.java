@@ -23,32 +23,28 @@ import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunConstants;
 
+/**
+ * Base class for Lefun Bluetooth commands and responses
+ */
 public abstract class BaseCommand {
     // Common constants
+    /**
+     * Common get operation type
+     */
     public static final byte OP_GET = 0;
+    /**
+     * Common set operation type
+     */
     public static final byte OP_SET = 1;
 
-    abstract protected void deserializeParams(byte id, ByteBuffer params);
-    abstract protected byte serializeParams(ByteBuffer params);
-
-    public void deserialize(byte[] response) {
-        if (response.length < LefunConstants.CMD_HEADER_LENGTH || response.length < response[1])
-            throw new IllegalArgumentException("Response is too short");
-        if (calculateChecksum(response, 0, response[1] - 1) != response[response[1] - 1])
-            throw new IllegalArgumentException("Incorrect message checksum");
-        ByteBuffer buffer = ByteBuffer.wrap(response, LefunConstants.CMD_HEADER_LENGTH - 1,
-                response[1] - LefunConstants.CMD_HEADER_LENGTH);
-        buffer.order(ByteOrder.BIG_ENDIAN);
-        deserializeParams(response[2], buffer);
-    }
-
-    public byte[] serialize() {
-        ByteBuffer buffer = ByteBuffer.allocate(LefunConstants.CMD_MAX_LENGTH - LefunConstants.CMD_HEADER_LENGTH);
-        buffer.order(ByteOrder.BIG_ENDIAN);
-        byte id = serializeParams(buffer);
-        return makeCommand(id, buffer);
-    }
-
+    /**
+     * Calculates command checksum
+     *
+     * @param data   the data to generate checksum from
+     * @param offset the offset in data to start calculating from
+     * @param length the number of bytes to include in calculation
+     * @return the computed checksum
+     */
     public static byte calculateChecksum(byte[] data, int offset, int length) {
         int checksum = 0;
         for (int i = offset; i < offset + length; ++i) {
@@ -62,7 +58,51 @@ public abstract class BaseCommand {
                 b >>= 1;
             }
         }
-        return (byte)checksum;
+        return (byte) checksum;
+    }
+
+    /**
+     * When implemented in a subclass, parses the response from a device
+     *
+     * @param id     the command ID
+     * @param params the params buffer
+     */
+    abstract protected void deserializeParams(byte id, ByteBuffer params);
+
+    /**
+     * When implemented in a subclass, provides the arguments to send in the command
+     *
+     * @param params the params buffer to write to
+     * @return the command ID
+     */
+    abstract protected byte serializeParams(ByteBuffer params);
+
+    /**
+     * Deserialize a response from the device
+     *
+     * @param response the response data to deserialize
+     */
+    public void deserialize(byte[] response) {
+        if (response.length < LefunConstants.CMD_HEADER_LENGTH || response.length < response[1])
+            throw new IllegalArgumentException("Response is too short");
+        if (calculateChecksum(response, 0, response[1] - 1) != response[response[1] - 1])
+            throw new IllegalArgumentException("Incorrect message checksum");
+        ByteBuffer buffer = ByteBuffer.wrap(response, LefunConstants.CMD_HEADER_LENGTH - 1,
+                response[1] - LefunConstants.CMD_HEADER_LENGTH);
+        buffer.order(ByteOrder.BIG_ENDIAN);
+        deserializeParams(response[2], buffer);
+    }
+
+    /**
+     * Serializes a command to send to the device
+     *
+     * @return the data to send to the device
+     */
+    public byte[] serialize() {
+        ByteBuffer buffer = ByteBuffer.allocate(LefunConstants.CMD_MAX_LENGTH - LefunConstants.CMD_HEADER_LENGTH);
+        buffer.order(ByteOrder.BIG_ENDIAN);
+        byte id = serializeParams(buffer);
+        return makeCommand(id, buffer);
     }
 
     /**
@@ -87,25 +127,57 @@ public abstract class BaseCommand {
         return request;
     }
 
+    /**
+     * Throws a standard parameters length exception
+     */
     protected void throwUnexpectedLength() {
         throw new IllegalArgumentException("Unexpected parameters length");
     }
 
+    /**
+     * Checks for valid command ID and throws if wrong ID provided
+     *
+     * @param id         command ID from device
+     * @param expectedId expected command ID
+     */
     protected void validateId(byte id, byte expectedId) {
         if (id != expectedId)
             throw new IllegalArgumentException("Wrong command ID");
     }
 
+    /**
+     * Checks for valid command ID and command length
+     *
+     * @param id             command ID from device
+     * @param params         params buffer from device
+     * @param expectedId     expected command ID
+     * @param expectedLength expected params length
+     */
     protected void validateIdAndLength(byte id, ByteBuffer params, byte expectedId, int expectedLength) {
         validateId(id, expectedId);
         if (params.limit() - params.position() != expectedLength)
             throwUnexpectedLength();
     }
 
+    /**
+     * Gets whether a bit is set
+     *
+     * @param value the value to check against
+     * @param mask  the bitmask
+     * @return whether the bits indicated by the bitmask are set
+     */
     protected boolean getBit(int value, int mask) {
         return (value & mask) != 0;
     }
 
+    /**
+     * Sets a bit in a value
+     *
+     * @param value the value to modify
+     * @param mask  the bitmask
+     * @param set   whether to set or clear the bits
+     * @return the modified value
+     */
     protected int setBit(int value, int mask, boolean set) {
         if (set) {
             return value | mask;
@@ -114,26 +186,43 @@ public abstract class BaseCommand {
         }
     }
 
+    /**
+     * Sets a bit in a value
+     *
+     * @param value the value to modify
+     * @param mask  the bitmask
+     * @param set   whether to set or clear the bits
+     * @return the modified value
+     */
     protected short setBit(short value, int mask, boolean set) {
         if (set) {
-            return (short)(value | mask);
+            return (short) (value | mask);
         } else {
-            return (short)(value & ~mask);
+            return (short) (value & ~mask);
         }
     }
 
+    /**
+     * Sets a bit in a value
+     *
+     * @param value the value to modify
+     * @param mask  the bitmask
+     * @param set   whether to set or clear the bits
+     * @return the modified value
+     */
     protected byte setBit(byte value, int mask, boolean set) {
         if (set) {
-            return (byte)(value | mask);
+            return (byte) (value | mask);
         } else {
-            return (byte)(value & ~mask);
+            return (byte) (value & ~mask);
         }
     }
 
     /**
      * Find index of first bit that is set
-     * @param value
-     * @return
+     *
+     * @param value the value to look at
+     * @return the index of the lowest set bit, starting at 0 for least significant bit; -1 if no bits set
      */
     protected int getLowestSetBitIndex(int value) {
         if (value == 0) return -1;

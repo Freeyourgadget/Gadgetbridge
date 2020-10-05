@@ -31,7 +31,14 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.LefunDeviceSup
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.OperationStatus;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
+/**
+ * Represents a request that receives several responses
+ */
 public abstract class MultiFetchRequest extends Request {
+    /**
+     * Instantiates a new MultiFetchRequest
+     * @param support the device support
+     */
     protected MultiFetchRequest(LefunDeviceSupport support) {
         super(support, null);
         removeAfterHandling = false;
@@ -97,5 +104,9 @@ public abstract class MultiFetchRequest extends Request {
         return true;
     }
 
+    /**
+     * Gets the display operation name
+     * @return the operation name
+     */
     protected abstract String getOperationName();
 }

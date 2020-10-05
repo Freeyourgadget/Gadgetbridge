@@ -41,6 +41,9 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunConstants.
 import static nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunConstants.MANUFACTURER_NAME;
 import static nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunConstants.NUM_ALARM_SLOTS;
 
+/**
+ * Device coordinator for Lefun band
+ */
 public class LefunDeviceCoordinator extends AbstractDeviceCoordinator {
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {

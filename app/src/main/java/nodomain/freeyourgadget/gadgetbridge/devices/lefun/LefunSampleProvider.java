@@ -24,14 +24,15 @@ import androidx.annotation.Nullable;
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.LefunActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.LefunActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
+/**
+ * Sample provider for Lefun devices
+ */
 public class LefunSampleProvider extends AbstractSampleProvider<LefunActivitySample> {
     public LefunSampleProvider(GBDevice device, DaoSession session) {
         super(device, session);
@@ -91,7 +92,7 @@ public class LefunSampleProvider extends AbstractSampleProvider<LefunActivitySam
 
     @Override
     public float normalizeIntensity(int rawIntensity) {
-        return rawIntensity / (float)LefunConstants.INTENSITY_MAX;
+        return rawIntensity / (float) LefunConstants.INTENSITY_MAX;
     }
 
     @Override

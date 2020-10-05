@@ -18,6 +18,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.lefun;
 
+/**
+ * Feature support utilities for Lefun devices
+ */
 public class LefunFeatureSupport {
     public static final int SUPPORT_HEART_RATE = 1 << 2;
     public static final int SUPPORT_BLOOD_PRESSURE = 1 << 3;
@@ -31,10 +34,27 @@ public class LefunFeatureSupport {
     public static final int RESERVE_WALLPAPER = 1 << 6;
     public static final int RESERVE_REMOTE_CAMERA = 1 << 7;
 
+    /**
+     * Checks whether a feature is supported
+     *
+     * @param deviceSupport  the feature flags from the device
+     * @param featureSupport the feature you want to check
+     * @return whether feature is supported
+     */
     public static boolean checkSupported(short deviceSupport, int featureSupport) {
         return (deviceSupport & featureSupport) == featureSupport;
     }
 
+    /**
+     * Checks whether a feature is not reserved
+     * <p>
+     * Reserve flags indicate a feature is not available if set. This function takes care of the
+     * inverting for you, so if you get true, the feature is available.
+     *
+     * @param deviceReserve  the reserve flags from the device
+     * @param featureReserve the reserve flag you want to check
+     * @return whether feature is supported
+     */
     public static boolean checkNotReserved(short deviceReserve, int featureReserve) {
         return !((deviceReserve & featureReserve) == featureReserve);
     }
