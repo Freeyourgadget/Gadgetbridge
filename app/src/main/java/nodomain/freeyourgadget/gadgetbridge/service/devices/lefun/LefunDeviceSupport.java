@@ -117,7 +117,7 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
             SetTimeRequest request = new SetTimeRequest(this, builder);
             request.perform();
             inProgressRequests.add(request);
-            builder.queue(getQueue());
+            performConnected(builder.getTransaction());
         } catch (IOException e) {
             GB.toast(getContext(), "Failed to set time", Toast.LENGTH_SHORT,
                     GB.ERROR, e);
@@ -212,7 +212,7 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
                 FindDeviceRequest request = new FindDeviceRequest(this, builder);
                 request.perform();
                 inProgressRequests.add(request);
-                builder.queue(getQueue());
+                performConnected(builder.getTransaction());
             } catch (IOException e) {
                 GB.toast(getContext(), "Failed to initiate find device", Toast.LENGTH_SHORT,
                         GB.ERROR, e);
