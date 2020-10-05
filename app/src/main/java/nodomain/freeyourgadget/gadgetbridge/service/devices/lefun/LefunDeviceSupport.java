@@ -70,6 +70,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetFi
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetPpgDataRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetSleepDataRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.Request;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SetAlarmRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SetTimeRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.StartPpgRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -148,7 +149,25 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
-
+        int i = 0;
+        for (Alarm alarm : alarms) {
+            try {
+                TransactionBuilder builder = performInitialized(SetAlarmRequest.class.getSimpleName());
+                SetAlarmRequest request = new SetAlarmRequest(this, builder);
+                request.setIndex(i);
+                request.setEnabled(alarm.getEnabled());
+                request.setDayOfWeek(alarm.getRepetition());
+                request.setHour(alarm.getHour());
+                request.setMinute(alarm.getMinute());
+                request.perform();
+                inProgressRequests.add(request);
+                performConnected(builder.getTransaction());
+            } catch (IOException e) {
+                GB.toast(getContext(), "Failed to set alarm", Toast.LENGTH_SHORT,
+                        GB.ERROR, e);
+            }
+            ++i;
+        }
     }
 
     @Override
