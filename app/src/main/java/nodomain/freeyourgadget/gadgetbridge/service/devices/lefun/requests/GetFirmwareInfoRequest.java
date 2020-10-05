@@ -18,6 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetFirmwareInfoCommand;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -41,13 +42,18 @@ public class GetFirmwareInfoRequest extends Request {
         GetFirmwareInfoCommand cmd = new GetFirmwareInfoCommand();
         cmd.deserialize(data);
 
-        GBDevice device = getSupport().getDevice();
-        // Last character is a \x1f? Not printable either way.
-        device.setModel(cmd.getTypeCode().substring(0, 3));
         int hardwareVersion = cmd.getHardwareVersion() & 0xffff;
         int softwareVersion = cmd.getSoftwareVersion() & 0xffff;
-        device.setFirmwareVersion(String.format("%d.%d", softwareVersion >> 8, softwareVersion & 0xff));
+
+        GBDeviceEventVersionInfo versionInfo = new GBDeviceEventVersionInfo();
+        versionInfo.fwVersion = String.format("%d.%d", softwareVersion >> 8, softwareVersion & 0xff);
+        // Last character is a \x1f? Not printable either way.
+        versionInfo.hwVersion = cmd.getTypeCode().substring(0, 3);
+        getSupport().evaluateGBDeviceEvent(versionInfo);
+
+        GBDevice device = getSupport().getDevice();
         device.setFirmwareVersion2(String.format("%d.%d", hardwareVersion >> 8, hardwareVersion & 0xff));
+
         getSupport().completeInitialization();
 
         operationStatus = OperationStatus.FINISHED;
