@@ -40,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.FindPhoneCommand;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetActivityDataCommand;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetPpgDataCommand;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetSleepDataCommand;
@@ -385,6 +386,8 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
         switch (commandId) {
             case LefunConstants.CMD_PPG_RESULT:
                 return handleAsynchronousPpgResult(data);
+            case LefunConstants.CMD_FIND_PHONE:
+                return handleAntiLoss(data);
         }
         return false;
     }
@@ -397,6 +400,19 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
             return true;
         } catch (IllegalArgumentException e) {
             LOG.error("Failed to handle response", e);
+            return false;
+        }
+    }
+
+    private boolean handleAntiLoss(byte[] data) {
+        try {
+            FindPhoneCommand cmd = new FindPhoneCommand();
+            cmd.deserialize(data);
+            // TODO: actually pop something that makes sound
+            GB.toast("Your device is trying to find your phone", Toast.LENGTH_LONG, GB.INFO);
+            return true;
+        } catch (IllegalArgumentException e) {
+            LOG.error("Failed to handle anti-loss", e);
             return false;
         }
     }
