@@ -19,6 +19,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests;
 
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,11 +30,12 @@ import nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunConstants;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.LefunDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 // Ripped from nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request
 public abstract class Request extends AbstractBTLEOperation<LefunDeviceSupport> {
-    private Logger logger = (Logger) LoggerFactory.getLogger(getName());
     protected TransactionBuilder builder;
+    private Logger logger = (Logger) LoggerFactory.getLogger(getName());
 
     protected Request(LefunDeviceSupport support, TransactionBuilder builder) {
         super(support);
@@ -50,6 +52,7 @@ public abstract class Request extends AbstractBTLEOperation<LefunDeviceSupport> 
     public abstract byte[] createRequest();
 
     public void handleResponse(byte[] data) {
+
     }
 
     public String getName() {
@@ -69,6 +72,6 @@ public abstract class Request extends AbstractBTLEOperation<LefunDeviceSupport> 
     }
 
     protected void reportFailure(String message) {
-        // TODO: Toast here or something
+        GB.toast(getContext(), message, Toast.LENGTH_SHORT, GB.ERROR);
     }
 }

@@ -46,6 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.FindDeviceRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetBatteryLevelRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetFirmwareInfoRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.Request;
@@ -73,7 +74,7 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
         // Enable notification
         builder.notify(getCharacteristic(LefunConstants.UUID_CHARACTERISTIC_LEFUN_NOTIFY), true);
 
-        // Init device (just get version and battery)
+        // Init device (get version info, battery level, and set time)
         try {
             GetFirmwareInfoRequest firmwareReq = new GetFirmwareInfoRequest(this, builder);
             firmwareReq.perform();
@@ -111,7 +112,16 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetTime() {
-
+        try {
+            TransactionBuilder builder = createTransactionBuilder(SetTimeRequest.class.getSimpleName());
+            SetTimeRequest request = new SetTimeRequest(this, builder);
+            request.perform();
+            inProgressRequests.add(request);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Failed to set time", Toast.LENGTH_SHORT,
+                    GB.ERROR, e);
+        }
     }
 
     @Override
@@ -196,7 +206,18 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFindDevice(boolean start) {
-
+        if (start) {
+            try {
+                TransactionBuilder builder = createTransactionBuilder(FindDeviceRequest.class.getSimpleName());
+                FindDeviceRequest request = new FindDeviceRequest(this, builder);
+                request.perform();
+                inProgressRequests.add(request);
+                builder.queue(getQueue());
+            } catch (IOException e) {
+                GB.toast(getContext(), "Failed to initiate find device", Toast.LENGTH_SHORT,
+                        GB.ERROR, e);
+            }
+        }
     }
 
     @Override
