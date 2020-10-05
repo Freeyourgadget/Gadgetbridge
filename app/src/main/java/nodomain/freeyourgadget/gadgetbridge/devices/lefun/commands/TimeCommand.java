@@ -109,12 +109,12 @@ public class TimeCommand extends BaseCommand {
     protected void deserializeParams(byte id, ByteBuffer params) {
         validateId(id, LefunConstants.CMD_TIME);
 
-        if (params.limit() < 1)
+        if (params.limit() - params.position() < 1)
             throwUnexpectedLength();
 
         op = params.get();
         if (op == OP_GET) {
-            if (params.limit() != 7)
+            if (params.limit() - params.position() != 7)
                 throwUnexpectedLength();
 
             year = params.get();
@@ -124,7 +124,7 @@ public class TimeCommand extends BaseCommand {
             minute = params.get();
             second = params.get();
         } else if (op == OP_SET) {
-            if (params.limit() != 2)
+            if (params.limit() - params.position() != 2)
                 throwUnexpectedLength();
 
             setSuccess = params.get() == 1;

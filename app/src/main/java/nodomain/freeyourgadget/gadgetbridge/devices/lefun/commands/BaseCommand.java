@@ -49,20 +49,20 @@ public abstract class BaseCommand {
         return makeCommand(id, buffer);
     }
 
-    static protected byte calculateChecksum(byte[] data, int offset, int length) {
-        byte checksum = 0;
+    public static byte calculateChecksum(byte[] data, int offset, int length) {
+        int checksum = 0;
         for (int i = offset; i < offset + length; ++i) {
             byte b = data[i];
             for (int j = 0; j < 8; ++j) {
                 if (((b ^ checksum) & 1) == 0) {
                     checksum >>= 1;
                 } else {
-                    checksum = (byte) ((checksum ^ 0x18) >> 1 | 0x80);
+                    checksum = (checksum ^ 0x18) >> 1 | 0x80;
                 }
                 b >>= 1;
             }
         }
-        return checksum;
+        return (byte)checksum;
     }
 
     /**
@@ -98,7 +98,7 @@ public abstract class BaseCommand {
 
     protected void validateIdAndLength(byte id, ByteBuffer params, byte expectedId, int expectedLength) {
         validateId(id, expectedId);
-        if (params.limit() != expectedLength)
+        if (params.limit() - params.position() != expectedLength)
             throwUnexpectedLength();
     }
 

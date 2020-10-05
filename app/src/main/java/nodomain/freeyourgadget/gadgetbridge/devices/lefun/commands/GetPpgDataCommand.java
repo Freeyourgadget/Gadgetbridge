@@ -66,7 +66,7 @@ public class GetPpgDataCommand extends BaseCommand {
     protected void deserializeParams(byte id, ByteBuffer params) {
         validateId(id, LefunConstants.CMD_PPG_DATA);
 
-        if (params.limit() < 9)
+        if (params.limit() - params.position() < 9)
             throwUnexpectedLength();
 
         ppgType = params.get();
@@ -93,19 +93,19 @@ public class GetPpgDataCommand extends BaseCommand {
                 throw new IllegalArgumentException("Unknown PPG type");
         }
 
-        if (params.limit() < dataLength + 9)
+        if (params.limit() - params.position() < dataLength + 9)
             throwUnexpectedLength();
 
         ppgData = new byte[dataLength];
         params.get(ppgData);
 
         // Extended count/index
-        if (params.limit() == dataLength + 11)
+        if (params.limit() - params.position() == dataLength + 11)
         {
             totalRecords |= params.get() << 8;
             currentRecord |= params.get() << 8;
         }
-        else if (params.limit() > dataLength + 11) {
+        else if (params.limit() - params.position() > dataLength + 11) {
             throwUnexpectedLength();
         }
     }

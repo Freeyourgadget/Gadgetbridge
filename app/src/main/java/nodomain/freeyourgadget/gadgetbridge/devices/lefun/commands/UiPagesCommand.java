@@ -61,17 +61,17 @@ public class UiPagesCommand extends BaseCommand {
     protected void deserializeParams(byte id, ByteBuffer params) {
         validateId(id, LefunConstants.CMD_UI_PAGES);
 
-        if (params.limit() < 1)
+        if (params.limit() - params.position() < 1)
             throwUnexpectedLength();
 
         op = params.get();
         if (op == OP_GET) {
-            if (params.limit() != 3)
+            if (params.limit() - params.position() != 3)
                 throwUnexpectedLength();
 
             pages = params.getShort();
         } else if (op == OP_SET) {
-            if (params.limit() != 2)
+            if (params.limit() - params.position() != 2)
                 throwUnexpectedLength();
 
             setSuccess = params.get() == 1;

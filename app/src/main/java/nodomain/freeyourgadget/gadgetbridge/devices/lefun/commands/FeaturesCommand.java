@@ -65,17 +65,17 @@ public class FeaturesCommand extends BaseCommand {
     protected void deserializeParams(byte id, ByteBuffer params) {
         validateId(id, LefunConstants.CMD_FEATURES);
 
-        if (params.limit() < 1)
+        if (params.limit() - params.position() < 1)
             throwUnexpectedLength();
 
         op = params.get();
         if (op == OP_GET) {
-            if (params.limit() != 3)
+            if (params.limit() - params.position() != 3)
                 throwUnexpectedLength();
 
             features = params.getShort();
         } else if (op == OP_SET) {
-            if (params.limit() != 2)
+            if (params.limit() - params.position() != 2)
                 throwUnexpectedLength();
 
             setSuccess = params.get() == 1;
