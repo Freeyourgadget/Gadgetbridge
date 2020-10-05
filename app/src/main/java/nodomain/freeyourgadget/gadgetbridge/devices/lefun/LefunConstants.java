@@ -73,4 +73,24 @@ public class LefunConstants {
     public static final int PPG_TYPE_HEART_RATE = 0;
     public static final int PPG_TYPE_BLOOD_PRESSURE = 1;
     public static final int PPG_TYPE_BLOOD_OXYGEN = 2;
+    public static final int PPG_TYPE_COUNT = 3;
+
+    // Extended DB types
+    public static final int DB_SAMPLE_TYPE_PPG = 1;
+    public static final int DB_SAMPLE_TYPE_SLEEP_DAY = 2;
+    public static final int DB_SAMPLE_TYPE_SLEEP_PERIODS = 3;
+
+    // DB activity kinds
+    public static final int DB_ACTIVITY_KIND_UNKNOWN = 0;
+    public static final int DB_ACTIVITY_KIND_ACTIVITY = 1;
+    public static final int DB_ACTIVITY_KIND_HEART_RATE = 2;
+    public static final int DB_ACTIVITY_KIND_LIGHT_SLEEP = 3;
+    public static final int DB_ACTIVITY_KIND_DEEP_SLEEP = 4;
+
+    // Pseudo-intensity
+    public static final int INTENSITY_MIN = 0;
+    public static final int INTENSITY_DEEP_SLEEP = 1;
+    public static final int INTENSITY_LIGHT_SLEEP = 2;
+    public static final int INTENSITY_AWAKE = 3;
+    public static final int INTENSITY_MAX = 4;
 }

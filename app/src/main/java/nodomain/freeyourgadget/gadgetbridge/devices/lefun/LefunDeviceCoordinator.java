@@ -92,7 +92,7 @@ public class LefunDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        return null;
+        return new LefunSampleProvider(device, session);
     }
 
     @Override

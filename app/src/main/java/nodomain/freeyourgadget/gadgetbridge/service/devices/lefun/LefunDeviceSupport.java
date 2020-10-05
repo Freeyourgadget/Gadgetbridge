@@ -28,11 +28,27 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Queue;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
+import de.greenrobot.dao.query.Query;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetActivityDataCommand;
+import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetPpgDataCommand;
+import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetSleepDataCommand;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.LefunActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.LefunActivitySampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.LefunBiometricSample;
+import nodomain.freeyourgadget.gadgetbridge.entities.LefunBiometricSampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.LefunSleepSample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -41,14 +57,18 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.FindDeviceRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetActivityDataRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetBatteryLevelRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetFirmwareInfoRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetPpgDataRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetSleepDataRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SetTimeRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -57,6 +77,7 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(LefunDeviceSupport.class);
 
     private final List<Request> inProgressRequests = Collections.synchronizedList(new ArrayList<Request>());
+    private final Queue<Request> queuedRequests = new ConcurrentLinkedQueue<>();
 
     public LefunDeviceSupport() {
         super(LOG);
@@ -113,7 +134,7 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetTime() {
         try {
-            TransactionBuilder builder = createTransactionBuilder(SetTimeRequest.class.getSimpleName());
+            TransactionBuilder builder = performInitialized(SetTimeRequest.class.getSimpleName());
             SetTimeRequest request = new SetTimeRequest(this, builder);
             request.perform();
             inProgressRequests.add(request);
@@ -186,7 +207,27 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFetchRecordedData(int dataTypes) {
+        if ((dataTypes & RecordedDataTypes.TYPE_ACTIVITY) != 0) {
+            for (int i = 0; i < 7; ++i) {
+                GetActivityDataRequest req = new GetActivityDataRequest(this);
+                req.setDaysAgo(i);
+                queuedRequests.add(req);
+            }
 
+            for (int i = 0; i < LefunConstants.PPG_TYPE_COUNT; ++i) {
+                GetPpgDataRequest req = new GetPpgDataRequest(this);
+                req.setPpgType(i);
+                queuedRequests.add(req);
+            }
+
+            for (int i = 0; i < 7; ++i) {
+                GetSleepDataRequest req = new GetSleepDataRequest(this);
+                req.setDaysAgo(i);
+                queuedRequests.add(req);
+            }
+
+            runNextQueuedRequest();
+        }
     }
 
     @Override
@@ -208,7 +249,7 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
     public void onFindDevice(boolean start) {
         if (start) {
             try {
-                TransactionBuilder builder = createTransactionBuilder(FindDeviceRequest.class.getSimpleName());
+                TransactionBuilder builder = performInitialized(FindDeviceRequest.class.getSimpleName());
                 FindDeviceRequest request = new FindDeviceRequest(this, builder);
                 request.perform();
                 inProgressRequests.add(request);
@@ -296,10 +337,12 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
                 if (handleAsynchronousResponse(data))
                     return true;
 
+                logMessageContent(data);
                 LOG.error(String.format("No handler for response 0x%02x", commandId));
                 return false;
             }
 
+            logMessageContent(data);
             LOG.error("Invalid response received");
             return false;
         }
@@ -315,5 +358,155 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
     public void completeInitialization() {
         gbDevice.setState(GBDevice.State.INITIALIZED);
         gbDevice.sendDeviceUpdateIntent(getContext());
+    }
+
+    private int dateToTimestamp(byte year, byte month, byte day, byte hour, byte minute, byte second) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(
+                ((int) year & 0xff) + 2000,
+                ((int) month & 0xff) - 1,
+                (int) day,
+                (int) hour,
+                (int) minute,
+                (int) second
+        );
+        return (int) (calendar.getTimeInMillis() / 1000);
+    }
+
+    private LefunActivitySample getActivitySample(DaoSession session, int timestamp) {
+        LefunActivitySampleDao dao = session.getLefunActivitySampleDao();
+        Long userId = DBHelper.getUser(session).getId();
+        Long deviceId = DBHelper.getDevice(getDevice(), session).getId();
+        Query<LefunActivitySample> q = dao.queryBuilder()
+                .where(LefunActivitySampleDao.Properties.Timestamp.eq(timestamp))
+                .where(LefunActivitySampleDao.Properties.DeviceId.eq(deviceId))
+                .where(LefunActivitySampleDao.Properties.UserId.eq(userId))
+                .build();
+        return q.unique();
+    }
+
+    public void handleActivityData(GetActivityDataCommand command) {
+        try (DBHandler handler = GBApplication.acquireDB()) {
+            DaoSession session = handler.getDaoSession();
+            int timestamp = dateToTimestamp(command.getYear(), command.getMonth(), command.getDay(),
+                    command.getHour(), command.getMinute(), (byte) 0);
+            // For the most part I'm ignoring the sample provider, because it doesn't really help
+            // when I need to combine sample data instead of replacing
+            LefunActivitySample sample = getActivitySample(session, timestamp);
+            if (sample == null) {
+                sample = new LefunActivitySample(timestamp,
+                        DBHelper.getDevice(getDevice(), session).getId());
+                sample.setUserId(DBHelper.getUser(session).getId());
+                sample.setRawKind(LefunConstants.DB_ACTIVITY_KIND_ACTIVITY);
+            }
+
+            sample.setSteps(command.getSteps());
+            sample.setDistance(command.getDistance());
+            sample.setCalories(command.getCalories());
+            sample.setRawIntensity(LefunConstants.INTENSITY_AWAKE);
+
+            session.getLefunActivitySampleDao().insertOrReplace(sample);
+        } catch (Exception e) {
+            LOG.error("Error handling activity data", e);
+        }
+    }
+
+    public void handlePpgData(GetPpgDataCommand command) {
+        byte[] ppgData = command.getPpgData();
+        int ppgData0 = ppgData[0] & 0xff;
+        int ppgData1 = ppgData.length > 1 ? ppgData[1] & 0xff : 0;
+
+        try (DBHandler handler = GBApplication.acquireDB()) {
+            DaoSession session = handler.getDaoSession();
+            int timestamp = dateToTimestamp(command.getYear(), command.getMonth(), command.getDay(),
+                    command.getHour(), command.getMinute(), command.getSecond());
+
+            if (command.getPpgType() == LefunConstants.PPG_TYPE_HEART_RATE) {
+                LefunActivitySample sample = getActivitySample(session, timestamp);
+                if (sample == null) {
+                    sample = new LefunActivitySample(timestamp,
+                            DBHelper.getDevice(getDevice(), session).getId());
+                    sample.setUserId(DBHelper.getUser(session).getId());
+                    sample.setRawKind(LefunConstants.DB_ACTIVITY_KIND_HEART_RATE);
+                }
+
+                sample.setHeartRate(ppgData0);
+
+                session.getLefunActivitySampleDao().insertOrReplace(sample);
+            }
+
+            LefunBiometricSample bioSample = new LefunBiometricSample(timestamp,
+                    DBHelper.getDevice(getDevice(), session).getId());
+            bioSample.setUserId(DBHelper.getUser(session).getId());
+            bioSample.setType(command.getPpgType());
+            bioSample.setValue1(ppgData0);
+            bioSample.setValue2(ppgData1);
+            session.getLefunBiometricSampleDao().insertOrReplace(bioSample);
+        } catch (Exception e) {
+            LOG.error("Error handling PPG data", e);
+        }
+    }
+
+    public void handleSleepData(GetSleepDataCommand command) {
+        try (DBHandler handler = GBApplication.acquireDB()) {
+            DaoSession session = handler.getDaoSession();
+            int timestamp = dateToTimestamp(command.getYear(), command.getMonth(), command.getDay(),
+                    command.getHour(), command.getMinute(), (byte) 0);
+
+            LefunActivitySample sample = getActivitySample(session, timestamp);
+            if (sample == null) {
+                sample = new LefunActivitySample(timestamp,
+                        DBHelper.getDevice(getDevice(), session).getId());
+                sample.setUserId(DBHelper.getUser(session).getId());
+            }
+
+            int rawKind;
+            int intensity;
+            switch (command.getSleepType()) {
+                case GetSleepDataCommand.SLEEP_TYPE_AWAKE:
+                    rawKind = LefunConstants.DB_ACTIVITY_KIND_ACTIVITY;
+                    intensity = LefunConstants.INTENSITY_AWAKE;
+                    break;
+                case GetSleepDataCommand.SLEEP_TYPE_LIGHT_SLEEP:
+                    rawKind = LefunConstants.DB_ACTIVITY_KIND_LIGHT_SLEEP;
+                    intensity = LefunConstants.INTENSITY_LIGHT_SLEEP;
+                    break;
+                case GetSleepDataCommand.SLEEP_TYPE_DEEP_SLEEP:
+                    rawKind = LefunConstants.DB_ACTIVITY_KIND_DEEP_SLEEP;
+                    intensity = LefunConstants.INTENSITY_DEEP_SLEEP;
+                    break;
+                default:
+                    rawKind = LefunConstants.DB_ACTIVITY_KIND_UNKNOWN;
+                    intensity = LefunConstants.INTENSITY_AWAKE;
+                    break;
+            }
+
+            sample.setRawKind(rawKind);
+            sample.setRawIntensity(intensity);
+
+            session.getLefunActivitySampleDao().insertOrReplace(sample);
+
+            LefunSleepSample sleepSample = new LefunSleepSample(timestamp,
+                    DBHelper.getDevice(getDevice(), session).getId());
+            sleepSample.setUserId(DBHelper.getUser(session).getId());
+            sleepSample.setType(command.getSleepType());
+            session.getLefunSleepSampleDao().insertOrReplace(sleepSample);
+        } catch (Exception e) {
+            LOG.error("Error handling sleep data", e);
+        }
+    }
+
+    public void runNextQueuedRequest() {
+        Request request = queuedRequests.poll();
+        if (request != null) {
+            try {
+                request.perform();
+                if (!request.isSelfQueue())
+                    performConnected(request.getTransactionBuilder().getTransaction());
+            } catch (IOException e) {
+                GB.toast(getContext(), "Failed to run next queued request", Toast.LENGTH_SHORT,
+                        GB.ERROR, e);
+            }
+        }
     }
 }

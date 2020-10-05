@@ -43,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(30, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(31, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -74,6 +74,9 @@ public class GBDaoGenerator {
         addWatchXPlusHealthActivitySample(schema, user, device);
         addWatchXPlusHealthActivityKindOverlay(schema, user, device);
         addTLW64ActivitySample(schema, user, device);
+        addLefunActivitySample(schema, user, device);
+        addLefunBiometricSample(schema,user,device);
+        addLefunSleepSample(schema, user, device);
 
         addHybridHRActivitySample(schema, user, device);
         addCalendarSyncState(schema, device);
@@ -402,6 +405,48 @@ public class GBDaoGenerator {
         activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         return activitySample;
+    }
+
+    private static Entity addLefunActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "LefunActivitySample");
+        activitySample.implementsSerializable();
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty("distance").notNull();
+        activitySample.addIntProperty("calories").notNull();
+        addHeartRateProperties(activitySample);
+        return activitySample;
+    }
+
+    private static Entity addLefunBiometricSample(Schema schema, Entity user, Entity device) {
+        Entity biometricSample = addEntity(schema, "LefunBiometricSample");
+        biometricSample.implementsSerializable();
+
+        biometricSample.addIntProperty("timestamp").notNull().primaryKey();
+        Property deviceId = biometricSample.addLongProperty("deviceId").primaryKey().notNull().getProperty();
+        biometricSample.addToOne(device, deviceId);
+        Property userId = biometricSample.addLongProperty("userId").notNull().getProperty();
+        biometricSample.addToOne(user, userId);
+
+        biometricSample.addIntProperty("type").notNull();
+        biometricSample.addIntProperty("value1").notNull();
+        biometricSample.addIntProperty("value2");
+        return biometricSample;
+    }
+
+    private static Entity addLefunSleepSample(Schema schema, Entity user, Entity device) {
+        Entity sleepSample = addEntity(schema, "LefunSleepSample");
+        sleepSample.implementsSerializable();
+
+        sleepSample.addIntProperty("timestamp").notNull().primaryKey();
+        Property deviceId = sleepSample.addLongProperty("deviceId").primaryKey().notNull().getProperty();
+        sleepSample.addToOne(device, deviceId);
+        Property userId = sleepSample.addLongProperty("userId").notNull().getProperty();
+        sleepSample.addToOne(user, userId);
+
+        sleepSample.addIntProperty("type").notNull();
+        return sleepSample;
     }
 
     private static void addCommonActivitySampleProperties(String superClass, Entity activitySample, Entity user, Entity device) {
