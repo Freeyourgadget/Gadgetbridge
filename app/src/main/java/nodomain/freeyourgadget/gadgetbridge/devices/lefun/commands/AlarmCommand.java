@@ -131,13 +131,14 @@ public class AlarmCommand extends BaseCommand {
     protected void deserializeParams(byte id, ByteBuffer params) {
         validateId(id, LefunConstants.CMD_ALARM);
 
-        if (params.limit() - params.position() < 2)
+        int paramsLength = params.limit() - params.position();
+        if (paramsLength < 2)
             throwUnexpectedLength();
 
         op = params.get();
         index = params.get();
         if (op == OP_GET) {
-            if (params.limit() - params.position() != 8)
+            if (paramsLength != 8)
                 throwUnexpectedLength();
 
             enabled = params.get() == 1;
@@ -147,7 +148,7 @@ public class AlarmCommand extends BaseCommand {
             hour = params.get();
             minute = params.get();
         } else if (op == OP_SET) {
-            if (params.limit() - params.position() != 3)
+            if (paramsLength != 3)
                 throwUnexpectedLength();
 
             setSuccess = params.get() == 1;

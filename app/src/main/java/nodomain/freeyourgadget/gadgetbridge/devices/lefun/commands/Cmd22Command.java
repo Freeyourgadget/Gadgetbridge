@@ -54,17 +54,18 @@ public class Cmd22Command extends BaseCommand {
     protected void deserializeParams(byte id, ByteBuffer params) {
         validateId(id, LefunConstants.CMD_UNKNOWN_22);
 
-        if (params.limit() - params.position() < 1)
+        int paramsLength = params.limit() - params.position();
+        if (paramsLength < 1)
             throwUnexpectedLength();
 
         op = params.get();
         if (op == OP_GET) {
-            if (params.limit() - params.position() != 3)
+            if (paramsLength != 3)
                 throwUnexpectedLength();
 
             unknown = params.getShort();
         } else if (op == OP_SET) {
-            if (params.limit() - params.position() != 2)
+            if (paramsLength != 2)
                 throwUnexpectedLength();
 
             setSuccess = params.get() == 1;

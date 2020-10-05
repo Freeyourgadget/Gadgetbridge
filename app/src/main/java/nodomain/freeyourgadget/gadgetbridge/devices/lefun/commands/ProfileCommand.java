@@ -94,12 +94,13 @@ public class ProfileCommand extends BaseCommand {
     protected void deserializeParams(byte id, ByteBuffer params) {
         validateId(id, LefunConstants.CMD_PROFILE);
 
-        if (params.limit() - params.position() < 1)
+        int paramsLength = params.limit() - params.position();
+        if (paramsLength < 1)
             throwUnexpectedLength();
 
         op = params.get();
         if (op == OP_GET) {
-            if (params.limit() - params.position() != 5)
+            if (paramsLength != 5)
                 throwUnexpectedLength();
 
             gender = params.get();
@@ -107,7 +108,7 @@ public class ProfileCommand extends BaseCommand {
             weight = params.get();
             age = params.get();
         } else if (op == OP_SET) {
-            if (params.limit() - params.position() != 2)
+            if (paramsLength != 2)
                 throwUnexpectedLength();
 
             setSuccess = params.get() == 1;
