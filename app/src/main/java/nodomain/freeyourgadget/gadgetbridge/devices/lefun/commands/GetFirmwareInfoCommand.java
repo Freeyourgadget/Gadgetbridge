@@ -1,6 +1,3 @@
-package nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands;
-
-import java.nio.ByteBuffer;
 /*  Copyright (C) 2016-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti
     Copyright (C) 2020 Yukai Li
@@ -19,6 +16,9 @@ import java.nio.ByteBuffer;
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+package nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands;
+
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunConstants;
@@ -59,7 +59,7 @@ public class GetFirmwareInfoCommand extends BaseCommand {
     protected void deserializeParams(byte id, ByteBuffer params) {
         validateIdAndLength(id, params, LefunConstants.CMD_FIRMWARE_INFO, 16);
 
-        supportCode = (short)(params.get() | (params.get() << 8));
+        supportCode = (short) (params.get() | (params.get() << 8));
         devTypeReserveCode = params.getShort();
         byte[] typeCodeBytes = new byte[4];
         params.get(typeCodeBytes);

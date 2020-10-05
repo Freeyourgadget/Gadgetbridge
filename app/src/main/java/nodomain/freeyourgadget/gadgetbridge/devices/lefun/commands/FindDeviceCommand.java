@@ -1,7 +1,3 @@
-package nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands;
-
-import java.nio.ByteBuffer;
-
 /*  Copyright (C) 2016-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti
     Copyright (C) 2020 Yukai Li
@@ -20,6 +16,10 @@ import java.nio.ByteBuffer;
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+package nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands;
+
+import java.nio.ByteBuffer;
+
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunConstants;
 
 public class FindDeviceCommand extends BaseCommand {
