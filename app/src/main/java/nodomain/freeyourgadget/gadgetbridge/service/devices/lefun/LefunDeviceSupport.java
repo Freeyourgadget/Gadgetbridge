@@ -20,8 +20,11 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.lefun;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +47,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.FindPhoneComm
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetActivityDataCommand;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetPpgDataCommand;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetSleepDataCommand;
+import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetStepsDataCommand;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.PpgResultCommand;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.LefunActivitySample;
@@ -55,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -71,7 +76,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetFi
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetPpgDataRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetSleepDataRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.Request;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.AbstractSendNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SendCallNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SendNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SetAlarmRequest;
@@ -84,6 +88,9 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private final List<Request> inProgressRequests = Collections.synchronizedList(new ArrayList<Request>());
     private final Queue<Request> queuedRequests = new ConcurrentLinkedQueue<>();
+
+    private int lastStepsCount = -1;
+    private int lastStepsTimestamp;
 
     public LefunDeviceSupport() {
         super(LOG);
@@ -413,8 +420,43 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
                 return handleAsynchronousPpgResult(data);
             case LefunConstants.CMD_FIND_PHONE:
                 return handleAntiLoss(data);
+            case LefunConstants.CMD_STEPS_DATA:
+                return handleAsynchronousActivity(data);
         }
         return false;
+    }
+
+    private boolean handleAsynchronousActivity(byte[] data) {
+        try {
+            GetStepsDataCommand cmd = new GetStepsDataCommand();
+            cmd.deserialize(data);
+            broadcastSample(cmd);
+            return true;
+        } catch (IllegalArgumentException e) {
+            LOG.error("Failed to handle live activity update", e);
+            return false;
+        }
+    }
+
+    // Adapted from nodomain.freeyourgadget.gadgetbridge.service.devices.makibeshr3.MakibesHR3DeviceSupport.broadcastSample
+    private void broadcastSample(GetStepsDataCommand command) {
+        Calendar now = Calendar.getInstance();
+        int timestamp = (int) (now.getTimeInMillis() / 1000);
+        // Workaround for a world where sub-second time resolution is not a thing
+        if (lastStepsTimestamp == timestamp) return;
+        lastStepsTimestamp = timestamp;
+        LefunActivitySample sample = new LefunActivitySample();
+        sample.setTimestamp(timestamp);
+        if (lastStepsCount == -1 || command.getSteps() < lastStepsCount) {
+            lastStepsCount = command.getSteps();
+        }
+        int diff = command.getSteps() - lastStepsCount;
+        sample.setSteps(diff);
+        lastStepsCount = command.getSteps();
+        Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample)
+                .putExtra(DeviceService.EXTRA_TIMESTAMP, sample.getTimestamp());
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
     }
 
     private boolean handleAsynchronousPpgResult(byte[] data) {
@@ -424,7 +466,7 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
             handlePpgData(cmd);
             return true;
         } catch (IllegalArgumentException e) {
-            LOG.error("Failed to handle response", e);
+            LOG.error("Failed to PPG result", e);
             return false;
         }
     }
