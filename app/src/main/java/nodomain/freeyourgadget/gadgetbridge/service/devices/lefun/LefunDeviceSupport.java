@@ -43,11 +43,11 @@ import nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetActivityDataCommand;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetPpgDataCommand;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetSleepDataCommand;
+import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.PpgResultCommand;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.LefunActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.LefunActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.LefunBiometricSample;
-import nodomain.freeyourgadget.gadgetbridge.entities.LefunBiometricSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.LefunSleepSample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
@@ -71,6 +71,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetPp
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetSleepDataRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SetTimeRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.StartPpgRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
@@ -237,7 +238,17 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onHeartRateTest() {
-
+        try {
+            TransactionBuilder builder = performInitialized(StartPpgRequest.class.getSimpleName());
+            StartPpgRequest request = new StartPpgRequest(this, builder);
+            request.setPpgType(LefunConstants.PPG_TYPE_HEART_RATE);
+            request.perform();
+            inProgressRequests.add(request);
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Failed to start heart rate test", Toast.LENGTH_SHORT,
+                    GB.ERROR, e);
+        }
     }
 
     @Override
@@ -334,7 +345,7 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
                     }
                 }
 
-                if (handleAsynchronousResponse(data))
+                if (handleAsynchronousResponse(commandId, data))
                     return true;
 
                 logMessageContent(data);
@@ -350,9 +361,25 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
         return super.onCharacteristicChanged(gatt, characteristic);
     }
 
-    private boolean handleAsynchronousResponse(byte[] data) {
+    private boolean handleAsynchronousResponse(byte commandId, byte[] data) {
         // Assume data already checked for correct response code and length
+        switch (commandId) {
+            case LefunConstants.CMD_PPG_RESULT:
+                return handleAsynchronousPpgResult(data);
+        }
         return false;
+    }
+
+    private boolean handleAsynchronousPpgResult(byte[] data) {
+        try {
+            PpgResultCommand cmd = new PpgResultCommand();
+            cmd.deserialize(data);
+            handlePpgData(cmd);
+            return true;
+        } catch (IllegalArgumentException e) {
+            LOG.error("Failed to handle response", e);
+            return false;
+        }
     }
 
     public void completeInitialization() {
@@ -411,17 +438,14 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    public void handlePpgData(GetPpgDataCommand command) {
-        byte[] ppgData = command.getPpgData();
+    private void handlePpgData(int timestamp, int ppgType, byte[] ppgData) {
         int ppgData0 = ppgData[0] & 0xff;
         int ppgData1 = ppgData.length > 1 ? ppgData[1] & 0xff : 0;
 
         try (DBHandler handler = GBApplication.acquireDB()) {
             DaoSession session = handler.getDaoSession();
-            int timestamp = dateToTimestamp(command.getYear(), command.getMonth(), command.getDay(),
-                    command.getHour(), command.getMinute(), command.getSecond());
 
-            if (command.getPpgType() == LefunConstants.PPG_TYPE_HEART_RATE) {
+            if (ppgType == LefunConstants.PPG_TYPE_HEART_RATE) {
                 LefunActivitySample sample = getActivitySample(session, timestamp);
                 if (sample == null) {
                     sample = new LefunActivitySample(timestamp,
@@ -438,13 +462,28 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
             LefunBiometricSample bioSample = new LefunBiometricSample(timestamp,
                     DBHelper.getDevice(getDevice(), session).getId());
             bioSample.setUserId(DBHelper.getUser(session).getId());
-            bioSample.setType(command.getPpgType());
+            bioSample.setType(ppgType);
             bioSample.setValue1(ppgData0);
             bioSample.setValue2(ppgData1);
             session.getLefunBiometricSampleDao().insertOrReplace(bioSample);
         } catch (Exception e) {
             LOG.error("Error handling PPG data", e);
         }
+    }
+
+    public void handlePpgData(GetPpgDataCommand command) {
+        int timestamp = dateToTimestamp(command.getYear(), command.getMonth(), command.getDay(),
+                command.getHour(), command.getMinute(), command.getSecond());
+        int ppgType = command.getPpgType();
+        byte[] ppgData = command.getPpgData();
+        handlePpgData(timestamp, ppgType, ppgData);
+    }
+
+    public void handlePpgData(PpgResultCommand command) {
+        int timestamp = (int) (Calendar.getInstance().getTimeInMillis() / 1000);
+        int ppgType = command.getPpgType();
+        byte[] ppgData = command.getPpgData();
+        handlePpgData(timestamp, ppgType, ppgData);
     }
 
     public void handleSleepData(GetSleepDataCommand command) {
