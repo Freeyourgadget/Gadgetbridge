@@ -35,6 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 // Ripped from nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request
 public abstract class Request extends AbstractBTLEOperation<LefunDeviceSupport> {
     protected TransactionBuilder builder;
+    protected boolean removeAfterHandling = true;
     private Logger logger = (Logger) LoggerFactory.getLogger(getName());
 
     protected Request(LefunDeviceSupport support, TransactionBuilder builder) {
@@ -69,6 +70,10 @@ public abstract class Request extends AbstractBTLEOperation<LefunDeviceSupport> 
 
     public boolean expectsResponse() {
         return true;
+    }
+
+    public boolean shouldRemoveAfterHandling() {
+        return removeAfterHandling;
     }
 
     protected void reportFailure(String message) {

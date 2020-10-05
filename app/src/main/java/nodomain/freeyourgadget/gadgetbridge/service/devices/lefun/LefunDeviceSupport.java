@@ -283,7 +283,8 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
                         if (req.expectsResponse() && req.getCommandId() == commandId) {
                             try {
                                 req.handleResponse(data);
-                                inProgressRequests.remove(req);
+                                if (req.shouldRemoveAfterHandling())
+                                    inProgressRequests.remove(req);
                                 return true;
                             } catch (IllegalArgumentException e) {
                                 LOG.error("Failed to handle response", e);
