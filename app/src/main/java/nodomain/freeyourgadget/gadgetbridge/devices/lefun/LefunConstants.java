@@ -25,6 +25,8 @@ import static nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDevi
 public class LefunConstants {
     // BLE UUIDs
     public static final UUID UUID_SERVICE_LEFUN = UUID.fromString(String.format(BASE_UUID, "18D0"));
+    public static final UUID UUID_CHARACTERISTIC_LEFUN_WRITE = UUID.fromString(String.format(BASE_UUID, "2D01"));
+    public static final UUID UUID_CHARACTERISTIC_LEFUN_NOTIFY = UUID.fromString(String.format(BASE_UUID, "2D00"));
 
     // Coordinator constants
     public static final String ADVERTISEMENT_NAME = "Lefun";
