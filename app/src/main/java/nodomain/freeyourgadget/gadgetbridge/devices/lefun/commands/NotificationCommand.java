@@ -37,6 +37,7 @@ public class NotificationCommand extends BaseCommand {
     public static final byte EXTENDED_SERVICE_TYPE_KAKAOTALK = 6;
 
     public static final int MAX_PAYLOAD_LENGTH = 13;
+    public static final int MAX_MESSAGE_LENGTH = 254;
 
     private byte serviceType;
     private byte totalPieces;

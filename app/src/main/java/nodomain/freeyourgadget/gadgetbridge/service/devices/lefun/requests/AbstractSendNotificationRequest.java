@@ -59,20 +59,23 @@ public abstract class AbstractSendNotificationRequest extends Request {
                 .getCharacteristic(LefunConstants.UUID_CHARACTERISTIC_LEFUN_WRITE);
 
         List<NotificationCommand> commandList = new ArrayList<>();
+        int charsWritten = 0;
         for (int i = 0; i < 0xff; ++i) {
-            NotificationCommand cmd = new NotificationCommand();
-            cmd.setServiceType(notificationType);
-            cmd.setExtendedServiceType(extendedNotificationType);
-            cmd.setCurrentPiece((byte) (i + 1));
-
             int maxPayloadLength = NotificationCommand.MAX_PAYLOAD_LENGTH;
             if (reserveSpaceForExtended) maxPayloadLength -= 1;
             maxPayloadLength = Math.min(maxPayloadLength, buffer.limit() - buffer.position());
+            maxPayloadLength = Math.min(maxPayloadLength, NotificationCommand.MAX_MESSAGE_LENGTH - charsWritten);
             if (maxPayloadLength == 0 && i != 0) break;
 
             byte[] payload = new byte[maxPayloadLength];
             buffer.get(payload);
+
+            NotificationCommand cmd = new NotificationCommand();
+            cmd.setServiceType(notificationType);
+            cmd.setExtendedServiceType(extendedNotificationType);
+            cmd.setCurrentPiece((byte) (i + 1));
             cmd.setPayload(payload);
+            charsWritten += maxPayloadLength;
 
             commandList.add(cmd);
         }
