@@ -33,7 +33,7 @@ public class LefunConstants {
 
     // Commands
     public static final byte CMD_REQUEST_ID = (byte)0xab;
-    public static final byte CMD_RESPONSE_ID = 0x55;
+    public static final byte CMD_RESPONSE_ID = 0x5a;
 
     public static final int CMD_MAX_LENGTH = 20;
     // 3 header bytes plus checksum
