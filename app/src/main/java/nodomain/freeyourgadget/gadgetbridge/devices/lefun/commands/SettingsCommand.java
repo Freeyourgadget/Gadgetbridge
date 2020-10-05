@@ -50,7 +50,7 @@ public class SettingsCommand extends BaseCommand {
     }
 
     public void setOption1(byte option1) {
-        if (option1 < 0 || option1 > 24)
+        if (option1 != (byte)0xff && (option1 < 0 || option1 > 24))
             throw new IllegalArgumentException("option1 must be between 0 and 24 inclusive");
         this.option1 = option1;
     }
@@ -60,7 +60,7 @@ public class SettingsCommand extends BaseCommand {
     }
 
     public void setAmPmIndicator(byte amPmIndicator) {
-        if (amPmIndicator != AM_PM_12_HOUR && amPmIndicator != AM_PM_24_HOUR)
+        if (amPmIndicator != (byte)0xff && (amPmIndicator != AM_PM_12_HOUR && amPmIndicator != AM_PM_24_HOUR))
             throw new IllegalArgumentException("Indicator must be 12 or 24 hours");
         this.amPmIndicator = amPmIndicator;
     }
@@ -70,7 +70,7 @@ public class SettingsCommand extends BaseCommand {
     }
 
     public void setMeasurementUnit(byte measurementUnit) {
-        if (measurementUnit != MEASUREMENT_UNIT_METRIC && measurementUnit != MEASUREMENT_UNIT_IMPERIAL)
+        if (measurementUnit != (byte)0xff && (measurementUnit != MEASUREMENT_UNIT_METRIC && measurementUnit != MEASUREMENT_UNIT_IMPERIAL))
             throw new IllegalArgumentException(("Unit must be metric or imperial"));
         this.measurementUnit = measurementUnit;
     }

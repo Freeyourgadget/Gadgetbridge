@@ -976,4 +976,14 @@
         <item>7days</item>
         <item>30days</item>
     </string-array>
+
+    <string-array name="lefun_interface_language_names">
+        <item>@string/english</item>
+        <item>@string/simplified_chinese</item>
+    </string-array>
+
+    <string-array name="lefun_interface_language_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
 </resources>

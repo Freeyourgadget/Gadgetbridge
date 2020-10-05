@@ -547,6 +547,14 @@
     <string name="bip_prefs_shotcuts_summary">Choose the shortcuts on the band screen</string>
     <string name="pref_title_force_white_color_scheme">Force black on white color scheme</string>
     <string name="pref_summary_force_white_color_scheme">Useful if you your watch has dark hands</string>
+    <string name="lefun_prefs_hydration_reminder_title">Hydration reminder</string>
+    <string name="lefun_prefs_hydration_reminder_summary">The band will vibrate to remind you to drink water</string>
+    <string name="lefun_prefs_hydration_reminder_interval_title">Hydration reminder interval (in minutes)</string>
+    <string name="lefun_prefs_antilost_title">Anti-loss</string>
+    <string name="lefun_prefs_antilost_summary">The band will vibrate if the Bluetooth connection to your phone disconnects</string>
+    <string name="lefun_prefs_ampm_title">12-hour display</string>
+    <string name="lefun_prefs_ampm_summary">Display time in 12-hour format with AM/PM indicator</string>
+    <string name="lefun_interface_language_title">Interface language</string>
     <string name="automatic">Automatic</string>
     <string name="simplified_chinese">Simplified Chinese</string>
     <string name="traditional_chinese">Traditional Chinese</string>

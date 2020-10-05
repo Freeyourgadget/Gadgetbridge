@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_vibration"
+        android:key="pref_antilost_enabled"
+        android:summary="@string/lefun_prefs_antilost_summary"
+        android:title="@string/lefun_prefs_antilost_title" />
+</androidx.preference.PreferenceScreen>

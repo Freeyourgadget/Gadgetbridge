@@ -21,6 +21,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.lefun;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.widget.Toast;
 
@@ -40,22 +41,28 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import de.greenrobot.dao.query.Query;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.FeaturesCommand;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.FindPhoneCommand;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetActivityDataCommand;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetPpgDataCommand;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetSleepDataCommand;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetStepsDataCommand;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.PpgResultCommand;
+import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.SettingsCommand;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.LefunActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.LefunActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.LefunBiometricSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.LefunSleepSample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -73,16 +80,27 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.FindDeviceRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetActivityDataRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetBatteryLevelRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetEnabledFeaturesRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetFirmwareInfoRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetGeneralSettingsRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetHydrationReminderIntervalRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetPpgDataRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetSedentaryReminderIntervalRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetSleepDataRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SendCallNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SendNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SetAlarmRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SetEnabledFeaturesRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SetGeneralSettingsRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SetHydrationReminderIntervalRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SetLanguageRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SetProfileRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SetSedentaryReminderIntervalRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SetTimeRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.StartPpgRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(LefunDeviceSupport.class);
@@ -122,6 +140,9 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
             GetBatteryLevelRequest batReq = new GetBatteryLevelRequest(this, builder);
             batReq.perform();
             inProgressRequests.add(batReq);
+
+            sendUnitsSetting(builder);
+            sendUserProfile(builder);
         } catch (IOException e) {
             GB.toast(getContext(), "Failed to initialize Lefun device", Toast.LENGTH_SHORT,
                     GB.ERROR, e);
@@ -357,12 +378,266 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendConfiguration(String config) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+        switch (config) {
+            case DeviceSettingsPreferenceConst.PREF_AMPM_ENABLED: {
+                boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_AMPM_ENABLED, false);
+                byte ampmValue = enabled ? SettingsCommand.AM_PM_12_HOUR : SettingsCommand.AM_PM_24_HOUR;
+                sendGeneralSettings(null, ampmValue, (byte) 0xff);
+                break;
+            }
+            case DeviceSettingsPreferenceConst.PREF_LIFTWRIST_NOSHED: {
+                boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_LIFTWRIST_NOSHED, true);
+                FeaturesCommand features = getCurrentEnabledFeatures();
+                features.setFeature(FeaturesCommand.FEATURE_RAISE_TO_WAKE, enabled);
+                sendEnabledFeaturesSetting(features);
+                break;
+            }
+            case DeviceSettingsPreferenceConst.PREF_ANTILOST_ENABLED: {
+                boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_ANTILOST_ENABLED, true);
+                FeaturesCommand features = getCurrentEnabledFeatures();
+                features.setFeature(FeaturesCommand.FEATURE_ANTI_LOST, enabled);
+                sendEnabledFeaturesSetting(features);
+                break;
+            }
+            case DeviceSettingsPreferenceConst.PREF_LONGSIT_SWITCH: {
+                boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_LONGSIT_SWITCH, false);
+                FeaturesCommand features = getCurrentEnabledFeatures();
+                features.setFeature(FeaturesCommand.FEATURE_SEDENTARY_REMINDER, enabled);
+                sendEnabledFeaturesSetting(features);
+                break;
+            }
+            case DeviceSettingsPreferenceConst.PREF_LONGSIT_PERIOD: {
+                String periodStr = prefs.getString(DeviceSettingsPreferenceConst.PREF_LONGSIT_PERIOD, "60");
+                try {
+                    int period = Integer.parseInt(periodStr);
+                    sendSedentaryReminderIntervalSetting(period);
+                } catch (NumberFormatException e) {
+                    GB.toast(getContext(), "Invalid sedentary reminder interval value", Toast.LENGTH_SHORT,
+                            GB.ERROR, e);
+                }
+                break;
+            }
+            case DeviceSettingsPreferenceConst.PREF_HYDRATION_SWITCH: {
+                boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HYDRATION_SWITCH, false);
+                FeaturesCommand features = getCurrentEnabledFeatures();
+                features.setFeature(FeaturesCommand.FEATURE_HYDRATION_REMINDER, enabled);
+                sendEnabledFeaturesSetting(features);
+                break;
+            }
+            case DeviceSettingsPreferenceConst.PREF_HYDRATION_PERIOD: {
+                String periodStr = prefs.getString(DeviceSettingsPreferenceConst.PREF_HYDRATION_PERIOD, "60");
+                try {
+                    int period = Integer.parseInt(periodStr);
+                    sendHydrationReminderIntervalSetting(period);
+                } catch (NumberFormatException e) {
+                    GB.toast(getContext(), "Invalid sedentary reminder interval value", Toast.LENGTH_SHORT,
+                            GB.ERROR, e);
+                }
+                break;
+            }
+            case SettingsActivity.PREF_MEASUREMENT_SYSTEM: {
+                sendUnitsSetting(null);
+                break;
+            }
+            case DeviceSettingsPreferenceConst.PREF_LEFUN_INTERFACE_LANGUAGE: {
+                String value = prefs.getString(DeviceSettingsPreferenceConst.PREF_LEFUN_INTERFACE_LANGUAGE, "0");
+                int intValue = Integer.parseInt(value);
+                sendLanguageSetting((byte) intValue);
+                break;
+            }
+        }
+    }
 
+    private void sendUnitsSetting(TransactionBuilder builder) {
+        Prefs prefs = GBApplication.getPrefs();
+        String units = prefs.getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM,
+                getContext().getString(R.string.p_unit_metric));
+
+        byte lefunUnits;
+        if (getContext().getString(R.string.p_unit_metric).equals(units)) {
+            lefunUnits = SettingsCommand.MEASUREMENT_UNIT_METRIC;
+        } else {
+            lefunUnits = SettingsCommand.MEASUREMENT_UNIT_IMPERIAL;
+        }
+        sendGeneralSettings(builder, (byte) 0xff, lefunUnits);
+    }
+
+    private FeaturesCommand getCurrentEnabledFeatures() {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+        boolean raiseToWakeEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_LIFTWRIST_NOSHED, true);
+        boolean antilostEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_ANTILOST_ENABLED, true);
+        boolean sedentaryEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_LONGSIT_SWITCH, false);
+        boolean hydrationEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HYDRATION_SWITCH, false);
+
+        FeaturesCommand cmd = new FeaturesCommand();
+        cmd.setFeature(FeaturesCommand.FEATURE_RAISE_TO_WAKE, raiseToWakeEnabled);
+        cmd.setFeature(FeaturesCommand.FEATURE_ANTI_LOST, antilostEnabled);
+        cmd.setFeature(FeaturesCommand.FEATURE_SEDENTARY_REMINDER, sedentaryEnabled);
+        cmd.setFeature(FeaturesCommand.FEATURE_HYDRATION_REMINDER, hydrationEnabled);
+
+        return cmd;
+    }
+
+    private void sendGeneralSettings(TransactionBuilder builder, byte amPm, byte units) {
+        boolean givenBuilder = builder != null;
+        try {
+            if (!givenBuilder)
+                builder = performInitialized(SetGeneralSettingsRequest.class.getSimpleName());
+            SetGeneralSettingsRequest request = new SetGeneralSettingsRequest(this, builder);
+            request.setAmPm(amPm);
+            request.setUnits(units);
+            request.perform();
+            inProgressRequests.add(request);
+            if (!givenBuilder)
+                performConnected(builder.getTransaction());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Failed to set settings", Toast.LENGTH_SHORT,
+                    GB.ERROR, e);
+        }
+    }
+
+    private void sendUserProfile(TransactionBuilder builder) {
+        boolean givenBuilder = builder != null;
+        try {
+            if (!givenBuilder)
+                builder = performInitialized(SetProfileRequest.class.getSimpleName());
+            SetProfileRequest request = new SetProfileRequest(this, builder);
+            ActivityUser user = new ActivityUser();
+            request.setUser(user);
+            request.perform();
+            inProgressRequests.add(request);
+            if (!givenBuilder)
+                performConnected(builder.getTransaction());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Failed to send profile", Toast.LENGTH_SHORT,
+                    GB.ERROR, e);
+        }
+    }
+
+    private void sendEnabledFeaturesSetting(FeaturesCommand cmd) {
+        try {
+            TransactionBuilder builder = performInitialized(SetEnabledFeaturesRequest.class.getSimpleName());
+            SetEnabledFeaturesRequest request = new SetEnabledFeaturesRequest(this, builder);
+            request.setCmd(cmd);
+            request.perform();
+            inProgressRequests.add(request);
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Failed to set enabled features", Toast.LENGTH_SHORT,
+                    GB.ERROR, e);
+        }
+    }
+
+    private void sendSedentaryReminderIntervalSetting(int period) {
+        try {
+            TransactionBuilder builder = performInitialized(SetSedentaryReminderIntervalRequest.class.getSimpleName());
+            SetSedentaryReminderIntervalRequest request = new SetSedentaryReminderIntervalRequest(this, builder);
+            request.setInterval(period);
+            request.perform();
+            inProgressRequests.add(request);
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Failed to set sedentary reminder interval", Toast.LENGTH_SHORT,
+                    GB.ERROR, e);
+        }
+    }
+
+    private void sendHydrationReminderIntervalSetting(int period) {
+        try {
+            TransactionBuilder builder = performInitialized(SetHydrationReminderIntervalRequest.class.getSimpleName());
+            SetHydrationReminderIntervalRequest request = new SetHydrationReminderIntervalRequest(this, builder);
+            request.setInterval(period);
+            request.perform();
+            inProgressRequests.add(request);
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Failed to set hydration reminder interval", Toast.LENGTH_SHORT,
+                    GB.ERROR, e);
+        }
+    }
+
+    private void sendLanguageSetting(byte language) {
+        try {
+            TransactionBuilder builder = performInitialized(SetLanguageRequest.class.getSimpleName());
+            SetLanguageRequest request = new SetLanguageRequest(this, builder);
+            request.setLanguage(language);
+            request.perform();
+            inProgressRequests.add(request);
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Failed to set language", Toast.LENGTH_SHORT,
+                    GB.ERROR, e);
+        }
+    }
+
+    public void receiveGeneralSettings(int amPm, int units) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+        boolean ampmEnabled = amPm == SettingsCommand.AM_PM_12_HOUR;
+        prefs.edit()
+                .putBoolean(DeviceSettingsPreferenceConst.PREF_AMPM_ENABLED, ampmEnabled)
+                .apply();
+    }
+
+    public void receiveEnabledFeaturesSetting(FeaturesCommand cmd) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+        prefs.edit()
+                .putBoolean(DeviceSettingsPreferenceConst.PREF_LIFTWRIST_NOSHED,
+                        cmd.getFeature(FeaturesCommand.FEATURE_RAISE_TO_WAKE))
+                .putBoolean(DeviceSettingsPreferenceConst.PREF_LONGSIT_SWITCH,
+                        cmd.getFeature(FeaturesCommand.FEATURE_SEDENTARY_REMINDER))
+                .putBoolean(DeviceSettingsPreferenceConst.PREF_HYDRATION_SWITCH,
+                        cmd.getFeature(FeaturesCommand.FEATURE_HYDRATION_REMINDER))
+                .putBoolean(DeviceSettingsPreferenceConst.PREF_ANTILOST_ENABLED,
+                        cmd.getFeature(FeaturesCommand.FEATURE_ANTI_LOST))
+                .apply();
+    }
+
+    public void receiveSedentaryReminderIntervalSetting(int period) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+        prefs.edit()
+                .putString(DeviceSettingsPreferenceConst.PREF_LONGSIT_PERIOD, String.valueOf(period))
+                .apply();
+    }
+
+    public void receiveHydrationReminderIntervalSetting(int period) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+        prefs.edit()
+                .putString(DeviceSettingsPreferenceConst.PREF_HYDRATION_PERIOD, String.valueOf(period))
+                .apply();
     }
 
     @Override
     public void onReadConfiguration(String config) {
+        // Just going to read all the settings
+        try {
+            TransactionBuilder builder = performInitialized("Read settings");
 
+            GetGeneralSettingsRequest getGeneralSettingsRequest
+                    = new GetGeneralSettingsRequest(this, builder);
+            getGeneralSettingsRequest.perform();
+            inProgressRequests.add(getGeneralSettingsRequest);
+
+            GetEnabledFeaturesRequest getEnabledFeaturesRequest
+                    = new GetEnabledFeaturesRequest(this, builder);
+            getEnabledFeaturesRequest.perform();
+            inProgressRequests.add(getEnabledFeaturesRequest);
+
+            GetSedentaryReminderIntervalRequest getSedentaryReminderIntervalRequest
+                    = new GetSedentaryReminderIntervalRequest(this, builder);
+            getSedentaryReminderIntervalRequest.perform();
+            inProgressRequests.add(getSedentaryReminderIntervalRequest);
+
+            GetHydrationReminderIntervalRequest getHydrationReminderIntervalRequest
+                    = new GetHydrationReminderIntervalRequest(this, builder);
+            getHydrationReminderIntervalRequest.perform();
+            inProgressRequests.add(getHydrationReminderIntervalRequest);
+
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Failed to retrieve settings", Toast.LENGTH_SHORT,
+                    GB.ERROR, e);
+        }
     }
 
     @Override
@@ -489,6 +764,7 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
     public void completeInitialization() {
         gbDevice.setState(GBDevice.State.INITIALIZED);
         gbDevice.sendDeviceUpdateIntent(getContext());
+        onReadConfiguration("");
     }
 
     private int dateToTimestamp(byte year, byte month, byte day, byte hour, byte minute, byte second) {
