@@ -36,6 +36,8 @@ public class NotificationCommand extends BaseCommand {
     public static final byte EXTENDED_SERVICE_TYPE_LINE = 5;
     public static final byte EXTENDED_SERVICE_TYPE_KAKAOTALK = 6;
 
+    public static final int MAX_PAYLOAD_LENGTH = 13;
+
     private byte serviceType;
     private byte totalPieces;
     private byte currentPiece;
@@ -49,7 +51,7 @@ public class NotificationCommand extends BaseCommand {
     public void setServiceType(int type) {
         if (type < 0 || type > 4)
             throw new IllegalArgumentException("Invalid service type");
-        this.serviceType = (byte)(1 << type);
+        this.serviceType = (byte) (1 << type);
     }
 
     public byte getTotalPieces() {
@@ -103,8 +105,9 @@ public class NotificationCommand extends BaseCommand {
     @Override
     protected byte serializeParams(ByteBuffer params) {
         boolean hasExtendedServiceType = (serviceType & (1 << SERVICE_TYPE_EXTENDED)) != 0
-                && (extendedServiceType & 0x0f) != 0 ;
-        int maxPayloadLength = hasExtendedServiceType ? 12 : 13;
+                && (extendedServiceType & 0x0f) != 0;
+        int maxPayloadLength = MAX_PAYLOAD_LENGTH;
+        if (hasExtendedServiceType) maxPayloadLength -= 1;
 
         if (payload.length > maxPayloadLength)
             throw new IllegalStateException("Payload is too long");

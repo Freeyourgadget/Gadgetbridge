@@ -71,6 +71,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetFi
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetPpgDataRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.GetSleepDataRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.Request;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.AbstractSendNotificationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SendCallNotificationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SendNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SetAlarmRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.SetTimeRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests.StartPpgRequest;
@@ -126,7 +129,16 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
-
+        try {
+            TransactionBuilder builder = performInitialized(SetTimeRequest.class.getSimpleName());
+            SendNotificationRequest request = new SendNotificationRequest(this, builder);
+            request.setNotification(notificationSpec);
+            request.perform();
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Failed to send notification", Toast.LENGTH_SHORT,
+                    GB.ERROR, e);
+        }
     }
 
     @Override
@@ -173,7 +185,20 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetCallState(CallSpec callSpec) {
-
+        switch (callSpec.command) {
+            case CallSpec.CALL_INCOMING:
+                try {
+                    TransactionBuilder builder = performInitialized(SetTimeRequest.class.getSimpleName());
+                    SendCallNotificationRequest request = new SendCallNotificationRequest(this, builder);
+                    request.setCallNotification(callSpec);
+                    request.perform();
+                    performConnected(builder.getTransaction());
+                } catch (IOException e) {
+                    GB.toast(getContext(), "Failed to send call notification", Toast.LENGTH_SHORT,
+                            GB.ERROR, e);
+                }
+                break;
+        }
     }
 
     @Override
