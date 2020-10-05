@@ -505,7 +505,7 @@
     <string name="miband_prefs_hr_sleep_detection">Use heart rate sensor to improve sleep detection</string>
     <string name="miband_prefs_device_time_offset_hours">Device time offset in hours (for detecting sleep of shift workers)</string>
     <string name="prefs_find_phone">Find phone</string>
-    <string name="prefs_enable_find_phone">Turn on \\\'Find phone\\\'</string>
+    <string name="prefs_enable_find_phone">Turn on \'Find phone\'</string>
     <string name="prefs_find_phone_summary">Use your band to play your phone\'s ringtone.</string>
     <string name="prefs_find_phone_duration">Ring duration in seconds</string>
     <string name="miband2_prefs_dateformat">Date format</string>

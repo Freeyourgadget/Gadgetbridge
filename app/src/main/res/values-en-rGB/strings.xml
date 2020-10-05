@@ -104,7 +104,7 @@
     <string name="maximum_duration">Duration</string>
     <string name="prefs_find_phone_duration">Ring duration in seconds</string>
     <string name="prefs_find_phone_summary">Use your band to play your phone\'s ringtone.</string>
-    <string name="prefs_enable_find_phone">Turn on \\\'Find phone\\\'</string>
+    <string name="prefs_enable_find_phone">Turn on \'Find phone\'</string>
     <string name="prefs_find_phone">Find phone</string>
     <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
     <string name="prefs_wearside">Wearing left or right\?</string>
