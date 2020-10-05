@@ -42,6 +42,7 @@ import de.greenrobot.dao.query.Query;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.FindPhoneCommand;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetActivityDataCommand;
@@ -475,8 +476,9 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
         try {
             FindPhoneCommand cmd = new FindPhoneCommand();
             cmd.deserialize(data);
-            // TODO: actually pop something that makes sound
-            GB.toast("Your device is trying to find your phone", Toast.LENGTH_LONG, GB.INFO);
+            GBDeviceEventFindPhone event = new GBDeviceEventFindPhone();
+            event.event = GBDeviceEventFindPhone.Event.START;
+            evaluateGBDeviceEvent(event);
             return true;
         } catch (IllegalArgumentException e) {
             LOG.error("Failed to handle anti-loss", e);

@@ -18,6 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetBatteryLevelCommand;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -42,8 +43,11 @@ public class GetBatteryLevelRequest extends Request {
         cmd.deserialize(data);
 
         GBDevice device = getSupport().getDevice();
-        device.setBatteryLevel(cmd.getBatteryLevel());
         device.setBatteryThresholdPercent((short)15);
+
+        GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
+        batteryInfo.level = (short)((int)cmd.getBatteryLevel() & 0xff);
+        getSupport().evaluateGBDeviceEvent(batteryInfo);
 
         operationStatus = OperationStatus.FINISHED;
     }
