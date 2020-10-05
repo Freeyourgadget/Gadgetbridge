@@ -30,6 +30,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunConstants;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.LefunDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.OperationStatus;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 // Ripped from nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request
@@ -43,17 +44,23 @@ public abstract class Request extends AbstractBTLEOperation<LefunDeviceSupport> 
         this.builder = builder;
     }
 
+    public TransactionBuilder getTransactionBuilder() {
+        return builder;
+    }
+
     @Override
     protected void doPerform() throws IOException {
         BluetoothGattCharacteristic characteristic = getSupport()
                 .getCharacteristic(LefunConstants.UUID_CHARACTERISTIC_LEFUN_WRITE);
         builder.write(characteristic, createRequest());
+        if (isSelfQueue())
+            getSupport().performConnected(builder.getTransaction());
     }
 
     public abstract byte[] createRequest();
 
     public void handleResponse(byte[] data) {
-
+        operationStatus = OperationStatus.FINISHED;
     }
 
     public String getName() {
@@ -67,6 +74,10 @@ public abstract class Request extends AbstractBTLEOperation<LefunDeviceSupport> 
     }
 
     public abstract int getCommandId();
+
+    public boolean isSelfQueue() {
+        return false;
+    }
 
     public boolean expectsResponse() {
         return true;

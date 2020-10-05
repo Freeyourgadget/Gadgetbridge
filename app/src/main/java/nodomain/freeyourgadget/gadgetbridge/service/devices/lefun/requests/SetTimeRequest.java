@@ -26,6 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.BaseCommand;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.TimeCommand;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.LefunDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.OperationStatus;
 
 public class SetTimeRequest extends Request {
     public SetTimeRequest(LefunDeviceSupport support, TransactionBuilder builder) {
@@ -39,7 +40,7 @@ public class SetTimeRequest extends Request {
 
         cmd.setOp(BaseCommand.OP_SET);
         cmd.setYear((byte)(c.get(Calendar.YEAR) - 2000));
-        cmd.setMonth((byte)c.get(Calendar.MONTH));
+        cmd.setMonth((byte)(c.get(Calendar.MONTH) + 1));
         cmd.setDay((byte)c.get(Calendar.DAY_OF_MONTH));
         cmd.setHour((byte)c.get(Calendar.HOUR_OF_DAY));
         cmd.setMinute((byte)c.get(Calendar.MINUTE));
@@ -54,6 +55,8 @@ public class SetTimeRequest extends Request {
         cmd.deserialize(data);
         if (cmd.getOp() == BaseCommand.OP_SET && !cmd.isSetSuccess())
             reportFailure("Could not set time");
+
+        operationStatus = OperationStatus.FINISHED;
     }
 
     @Override

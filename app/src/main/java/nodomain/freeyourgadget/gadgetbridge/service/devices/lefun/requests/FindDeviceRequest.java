@@ -4,6 +4,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.FindDeviceCommand;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.LefunDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.OperationStatus;
 
 public class FindDeviceRequest extends Request {
     public FindDeviceRequest(LefunDeviceSupport support, TransactionBuilder builder) {
@@ -28,5 +29,7 @@ public class FindDeviceRequest extends Request {
 
         if (!cmd.isSuccess())
             reportFailure("Could not initiate find device");
+
+        operationStatus = OperationStatus.FINISHED;
     }
 }

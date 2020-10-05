@@ -23,6 +23,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetFirmwareIn
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.LefunDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.OperationStatus;
 
 public class GetFirmwareInfoRequest extends Request {
     public GetFirmwareInfoRequest(LefunDeviceSupport support, TransactionBuilder builder) {
@@ -48,6 +49,8 @@ public class GetFirmwareInfoRequest extends Request {
         device.setFirmwareVersion(String.format("%d.%d", softwareVersion >> 8, softwareVersion & 0xff));
         device.setFirmwareVersion2(String.format("%d.%d", hardwareVersion >> 8, hardwareVersion & 0xff));
         getSupport().completeInitialization();
+
+        operationStatus = OperationStatus.FINISHED;
     }
 
     @Override
