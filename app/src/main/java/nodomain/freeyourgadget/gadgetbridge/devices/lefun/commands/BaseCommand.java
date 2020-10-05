@@ -32,12 +32,12 @@ public abstract class BaseCommand {
     abstract protected byte serializeParams(ByteBuffer params);
 
     public void deserialize(byte[] response) {
-        if (response.length < LefunConstants.CMD_HEADER_LENGTH)
+        if (response.length < LefunConstants.CMD_HEADER_LENGTH || response.length < response[1])
             throw new IllegalArgumentException("Response is too short");
-        if (calculateChecksum(response, 0, response.length - 1) != response[response.length - 1])
+        if (calculateChecksum(response, 0, response[1] - 1) != response[response[1] - 1])
             throw new IllegalArgumentException("Incorrect message checksum");
         ByteBuffer buffer = ByteBuffer.wrap(response, LefunConstants.CMD_HEADER_LENGTH - 1,
-                response.length - LefunConstants.CMD_HEADER_LENGTH);
+                response[1] - LefunConstants.CMD_HEADER_LENGTH);
         buffer.order(ByteOrder.BIG_ENDIAN);
         deserializeParams(response[2], buffer);
     }
