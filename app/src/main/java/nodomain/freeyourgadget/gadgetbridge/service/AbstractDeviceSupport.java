@@ -198,6 +198,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     private void handleGBDeviceEventFindPhoneStartNotification() {
         LOG.info("Got handleGBDeviceEventFindPhoneStartNotification");
         Intent intent = new Intent(context, FindPhoneActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -212,7 +213,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                 .setContentTitle(  context.getString( R.string.find_my_phone_notification ) );
         notification.setGroup("BackgroundService");
 
-        notificationManager.notify( GB.NOTIFICATION_ID_PHONE_FIND, notification.build());
+        notificationManager.notify(GB.NOTIFICATION_ID_PHONE_FIND, notification.build());
     }
 
 
