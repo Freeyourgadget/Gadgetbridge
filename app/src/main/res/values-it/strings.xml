@@ -1041,4 +1041,6 @@
     <string name="activity_type_jump_roping">Salti alla corda</string>
     <string name="activity_type_indoor_cycling">Spinning</string>
     <string name="activity_type_swimming_openwater">Nuoto (all\'aperto)</string>
+    <string name="no">No</string>
+    <string name="km">km</string>
 </resources>
