@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fos
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,6 +32,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
 
@@ -58,6 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.parser.ActivityEntry;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.parser.ActivityFileParser;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.RequestMtuRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.SetDeviceStateRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.TimeConfigItem;
@@ -502,17 +505,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     public void setTime() {
         negotiateSymmetricKey();
 
-        long millis = System.currentTimeMillis();
-        TimeZone zone = new GregorianCalendar().getTimeZone();
-
         queueWrite(
-                new ConfigurationPutRequest(
-                        new TimeConfigItem(
-                                (int) (millis / 1000 + getDeviceSupport().getTimeOffset() * 60),
-                                (short) (millis % 1000),
-                                (short) (zone.getOffset(millis) / 60000)
-                        ),
-                        this), false
+                new ConfigurationPutRequest(this.generateTimeConfigItemNow() ,this), false
         );
     }
 

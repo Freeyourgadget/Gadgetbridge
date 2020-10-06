@@ -200,17 +200,19 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     @Override
     public void setTime() {
+        queueWrite(
+                new ConfigurationPutRequest(generateTimeConfigItemNow(), this), false
+        );
+    }
+
+    protected ConfigurationPutRequest.TimeConfigItem generateTimeConfigItemNow(){
         long millis = System.currentTimeMillis();
         TimeZone zone = new GregorianCalendar().getTimeZone();
 
-        queueWrite(
-                new ConfigurationPutRequest(
-                        new ConfigurationPutRequest.TimeConfigItem(
-                                (int) (millis / 1000 + getDeviceSupport().getTimeOffset() * 60),
-                                (short) (millis % 1000),
-                                (short) ((zone.getRawOffset() + (zone.inDaylightTime(new Date()) ? 1 : 0)) / 60000)
-                        ),
-                        this), false
+        return new ConfigurationPutRequest.TimeConfigItem(
+                (int) (millis / 1000 + getDeviceSupport().getTimeOffset() * 60),
+                (short) (millis % 1000),
+                (short) (zone.getOffset(millis) / 60000)
         );
     }
 
